@@ -1,0 +1,53 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Builds release app bundle (AAB) for the Google Play Store."
+  lane :production_build do
+    #gradle(
+    #    task: "testDebugUnitTest"
+    #)
+
+    gradle(
+        task: "clean"
+    )
+
+    gradle(
+        task: "lint",
+        build_type: "Release"
+    )
+
+    gradle(
+        task: "bundle",
+        build_type: "Release"
+    )
+  end
+
+  desc "Releases a generated AAB to Google PlayStore's Internal Testing"
+  lane :internal_release do
+    supply(
+        track: "internal",
+        aab: "app/build/outputs/bundle/release/app-release.aab",
+        release_status: "draft",
+        skip_upload_apk: true,
+        skip_upload_metadata: true,
+        skip_upload_changelogs: false,
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+    )
+  end
+end
