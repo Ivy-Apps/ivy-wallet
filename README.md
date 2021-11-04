@@ -13,6 +13,8 @@ Personal finance and spending tracker app which helps you manage your money.
 <img src="https://play-lh.googleusercontent.com/EmHhqdjylPK9K5Wh39vPFzUewNXOMNSNdVKhQze1G36mfm-ZEEqcbpzVU0bqX9MA5A=w720-h310-rw" alt="ivy-wallet-screenshot-4" width="155" height="310">
 <img src="https://play-lh.googleusercontent.com/BCvcfsvWvomB3K24ZKxRgQ2Wvj8HlP-q1gXHwD8ShXlUPFzWGNVn5bMHos2tO3z-0w=w720-h310-rw" alt="ivy-wallet-screenshot-5" width="155" height="310">
 <img src="https://play-lh.googleusercontent.com/bItT3JQsWq1iBcN7EpW4ceSgVuVzQUuIQX4zd2ZME7eXrHXEM1_vgUkeQaL56LTSqao=w720-h310-rw" alt="ivy-wallet-screenshot-6" width="155" height="310">
+<img src="https://play-lh.googleusercontent.com/FqosJyCWk4IlalUubEuwXNIeyCABavgZ4C523rfwnM7VgO0ABDT7hWvlhQIDbxO41iI=w720-h310-rw" alt="ivy-wallet-screenshot-7" width="155" height="310">
+<img src="https://play-lh.googleusercontent.com/BwrC-_rmIkmy0od5ebHh_8IvLoTV7-Ci3-M5cPQ62Q9ZeSI3CBWR8OHtajXAEOTFN24=w720-h310-rw" alt="ivy-wallet-screenshot-8" width="155" height="310">
 </div>
 
 Ivy Wallet is a free budget manager and spending tracker app that’ll help you manage your personal finances with ease.
