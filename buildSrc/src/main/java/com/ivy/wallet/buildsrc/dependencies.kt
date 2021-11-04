@@ -21,8 +21,8 @@ object Libs {
 
     object Project {
         //Version
-        const val versionName = "1.4.6-fireworks"
-        const val versionCode = 70
+        const val versionName = "1.4.7-fireworks"
+        const val versionCode = 71
 
         //Compile SDK & Build Tools
         const val compileSdkVersion = 30
