@@ -1,7 +1,6 @@
 ![Latest Release](https://img.shields.io/github/v/release/iliyangermanov/ivy-wallet)
 [![Build Lint](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/build_lint.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/build_lint.yml)
 [![Internal Release](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml)
-[![GitHub issues-closed](https://img.shields.io/github/issues-closed/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/issues?q=is%3Aissue+is%3Aclosed)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
