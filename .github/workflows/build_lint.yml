@@ -1,0 +1,66 @@
+name: Build Lint
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+
+  #Triggers when a pull request event occurs (opened, synchronize, reopened)
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout GIT
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 #Fetch all history for all branches and tags
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Setup Ruby (for Fastlane)
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Install Fastlane
+        run: bundle install
+      #----------------------------------------------------
+
+      #Security
+      - name: Validate Gradle Wrapper checksum
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Make Gradle Wrapper (gradlew) executable
+        run: chmod +x gradlew
+      #----------------------------------------------------
+
+      #Optimization
+      - name: Enable Gradle Wrapper caching (optmization)
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      #---------------------------------------------------
+
+      #Fastlane: Verifies that the project builds and that Lint checks are passing
+      - name: Fastlane build_lint (Build DEBUG + Lint DEBUG)
+        run: bundle exec fastlane build_lint
+      #--------------------------------------------------------------------------
