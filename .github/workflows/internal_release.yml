@@ -1,0 +1,108 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Internal Release
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    tags:
+      - 'v*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout GIT
+        uses: actions/checkout@v2
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Setup Ruby (for Fastlane)
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Install Fastlane
+        run: bundle install
+      #----------------------------------------------------
+
+      #Security
+      - name: Validate Gradle Wrapper checksum
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Make Gradle Wrapper (gradlew) executable
+        run: chmod +x gradlew
+      #----------------------------------------------------
+
+      #Optimization
+      - name: Enable Gradle Wrapper caching (optmization)
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      #---------------------------------------------------
+
+      #Run Unit Tests (Unit tests can be run by Fastlane)
+      #- name: Run Unit tests
+      #  working-directory: ./app
+      #  run: ./gradlew testDebugUnitTest
+      #-------------------------------------------------------------------
+
+      #Decode Secrets for production build
+      - name: Create JKS for prod signing
+        run: |
+          echo "$SIGNING_KEYSTORE_JKS" > sign.jks.b64
+          base64 -d -i sign.jks.b64 > sign.jks
+        env:
+          SIGNING_KEYSTORE_JKS: ${{ secrets.SIGNING_KEYSTORE }}
+
+      - name: Create Google Play Config file
+        run: |
+          echo "$PLAY_CONFIG_JSON" > play_config.json.b64
+          base64 -d -i play_config.json.b64 > google-play-console-user.json
+        env:
+          PLAY_CONFIG_JSON: ${{ secrets.GOOGLE_PLAY_CONSOLE_JSON }}
+
+      - name: List created files for DEBUG purposes
+        run: ls -ll
+      #--------------------------------------------------------------------------------
+
+      #Fastlane: Verify, build and release Android App Bundle as Internal Testing draft
+      - name: Fastlane production_build (test, lint, build)
+        run: bundle exec fastlane production_build
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Upload Android App Bundle to Github
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
+      - name: Fastlane internal_release (upload App Bundle + changelogs as draft)
+        run: bundle exec fastlane internal_release
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      #--------------------------------------------------------------------------

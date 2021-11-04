@@ -39,15 +39,15 @@ android {
         }
 
         create("release") {
-            val tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
-            val allFilesFromDir = File(tmpFilePath).listFiles()
+//             val tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
+//             val allFilesFromDir = File(tmpFilePath).listFiles()
 
-            if (allFilesFromDir != null) {
-                val keystoreFile = allFilesFromDir.first()
-                keystoreFile.renameTo(File("keystore/release.jks"))
-            }
+//             if (allFilesFromDir != null) {
+//                 val keystoreFile = allFilesFromDir.first()
+//                 keystoreFile.renameTo(File("keystore/release.jks"))
+//             }
 
-            storeFile = file("keystore/release.jks")
+            storeFile = file("../sign.jks")
             storePassword = System.getenv("SIGNING_STORE_PASSWORD")
             keyAlias = System.getenv("SIGNING_KEY_ALIAS")
             keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
@@ -60,7 +60,7 @@ android {
             isDebuggable = false
             isDefault = false
 
-//            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
