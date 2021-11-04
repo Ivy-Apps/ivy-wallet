@@ -1,0 +1,312 @@
+package com.ivy.wallet.ui.theme.modal
+
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.base.*
+import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.ActionsRow
+import com.ivy.wallet.ui.theme.components.CloseButton
+import java.util.*
+import kotlin.math.roundToInt
+
+private const val DURATION_BACKGROUND_BLUR = 400
+const val DURATION_MODAL_KEYBOARD = 200
+
+@Composable
+fun BoxScope.IvyModal(
+    id: UUID?,
+    visible: Boolean,
+    dismiss: () -> Unit,
+    SecondaryActions: (@Composable () -> Unit)? = null,
+    PrimaryAction: @Composable () -> Unit,
+    scrollState: ScrollState? = rememberScrollState(),
+    shiftIfKeyboardShown: Boolean = true,
+    includeActionsRowPadding: Boolean = true,
+    Content: @Composable ColumnScope.() -> Unit
+) {
+    val rootView = LocalView.current
+    var keyboardShown by remember { mutableStateOf(false) }
+
+    onScreenStart {
+        rootView.addKeyboardListener {
+            keyboardShown = it
+        }
+    }
+
+    val keyboardShownInsetDp by animateDpAsState(
+        targetValue = densityScope {
+            if (keyboardShown) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
+        },
+        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+    )
+    val navBarPadding by animateDpAsState(
+        targetValue = densityScope {
+            if (keyboardShown) 0.dp else navigationBarInsets().bottom.toDp()
+        },
+        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+    )
+    val blurAlpha by animateFloatAsState(
+        targetValue = if (visible) 1f else 0f,
+        animationSpec = tween(DURATION_BACKGROUND_BLUR),
+        visibilityThreshold = 0.01f
+    )
+    val modalPercentVisible by animateFloatAsState(
+        targetValue = if (visible) 1f else 0f,
+        animationSpec = tween(DURATION_MODAL_KEYBOARD),
+        visibilityThreshold = 0.01f
+    )
+
+    if (visible || blurAlpha > 0.01f) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(blurAlpha)
+                .background(mediumBlur())
+                .clickable(
+                    onClick = {
+                        hideKeyboard(rootView)
+                        dismiss()
+                    },
+                    enabled = visible
+                )
+                .zIndex(1000f)
+        )
+    }
+
+    if (visible || modalPercentVisible > 0.01f) {
+        var actionsRowHeight by remember { mutableStateOf(0) }
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+
+                    val height = placeable.height
+                    val y = height * (1 - modalPercentVisible)
+
+                    layout(placeable.width, height) {
+                        placeable.placeRelative(
+                            0,
+                            y.roundToInt()
+                        )
+                    }
+                }
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(top = 24.dp)
+                .drawColoredShadow(
+                    color = Black,
+                    alpha = if (IvyTheme.colors.isLight) 0.05f else 0.5f,
+                )
+                .background(IvyTheme.colors.pure, Shapes.rounded24Top)
+                .consumeClicks()
+                .thenIf(scrollState != null) {
+                    verticalScroll(scrollState!!)
+                }
+                .zIndex(1000f)
+        ) {
+            ModalBackHandling(
+                modalId = id,
+                visible = visible,
+                dismiss = dismiss
+            )
+
+            Content()
+
+            //Bottom padding
+            if (includeActionsRowPadding) {
+                Spacer(Modifier.height(densityScope { actionsRowHeight.toDp() }))
+            }
+
+            if (shiftIfKeyboardShown) {
+                Spacer(Modifier.height(keyboardShownInsetDp))
+            }
+        }
+
+        ModalActionsRow(
+            visible = visible,
+            modalPercentVisible = modalPercentVisible,
+            keyboardShownInsetDp = keyboardShownInsetDp,
+            navBarPadding = navBarPadding,
+            onHeightChanged = {
+                actionsRowHeight = it
+            },
+            onClose = {
+                hideKeyboard(rootView)
+                dismiss()
+            },
+            SecondaryActions = SecondaryActions,
+            PrimaryAction = PrimaryAction
+        )
+    }
+}
+
+@Composable
+private fun ModalBackHandling(
+    modalId: UUID?,
+    visible: Boolean,
+    dismiss: () -> Unit
+) {
+    AddModalBackHandling(
+        modalId = modalId,
+        visible = visible,
+        action = {
+            dismiss()
+        }
+    )
+}
+
+@Composable
+fun AddModalBackHandling(
+    modalId: UUID?,
+    visible: Boolean,
+    action: () -> Unit
+) {
+    val ivyContext = LocalIvyContext.current
+    DisposableEffect(visible) {
+        if (visible) {
+            val lastModalBackHandlingId = ivyContext.lastModalBackHandlerId()
+
+            if (modalId != null && modalId != lastModalBackHandlingId) {
+                ivyContext.modalBackHandling.add(
+                    IvyContext.ModalBackHandler(
+                        id = modalId,
+                        onBackPressed = {
+                            if (visible) {
+                                action()
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                    )
+                )
+            }
+        }
+
+        onDispose {
+            val lastModalBackHandlingId = ivyContext.lastModalBackHandlerId()
+            if (modalId != null && lastModalBackHandlingId == modalId) {
+                removeLastBackHandlerSafe(ivyContext)
+            }
+        }
+    }
+}
+
+private fun removeLastBackHandlerSafe(ivyContext: IvyContext) {
+    if (ivyContext.modalBackHandling.isNotEmpty()) {
+        ivyContext.modalBackHandling.pop()
+    }
+}
+
+@Composable
+fun ModalActionsRow(
+    visible: Boolean,
+    modalPercentVisible: Float,
+    keyboardShownInsetDp: Dp,
+    navBarPadding: Dp,
+
+    onHeightChanged: (Int) -> Unit,
+
+    onClose: () -> Unit,
+    SecondaryActions: (@Composable () -> Unit)? = null,
+    PrimaryAction: @Composable () -> Unit
+) {
+    if (visible || modalPercentVisible > 0.01f) {
+        val ivyContext = LocalIvyContext.current
+        ActionsRow(
+            modifier = Modifier
+                .onSizeChanged {
+                    onHeightChanged(it.height)
+                }
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+
+                    val systemOffsetBottom = keyboardShownInsetDp.toPx()
+                    val visibleHeight = placeable.height * modalPercentVisible
+                    val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
+
+                    layout(placeable.width, placeable.height) {
+                        placeable.place(
+                            0,
+                            y.roundToInt()
+                        )
+                    }
+                }
+                .gradientCutBackgroundTop(
+                    endY = 16.dp
+                )
+                .padding(top = 8.dp, bottom = 12.dp)
+                .padding(bottom = navBarPadding)
+                .zIndex(1100f)
+        ) {
+            Spacer(Modifier.width(24.dp))
+
+            CloseButton(
+                onClick = onClose
+            )
+
+            SecondaryActions?.invoke()
+
+            Spacer(Modifier.weight(1f))
+
+            PrimaryAction()
+
+            Spacer(Modifier.width(24.dp))
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewIvyModal_minimal() {
+    IvyAppPreview {
+        IvyModal(
+            id = UUID.randomUUID(),
+            visible = true,
+            PrimaryAction = {
+                ModalSave {
+
+                }
+            },
+            dismiss = {}
+        ) {
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = "My first Ivy Modal"
+            )
+
+            ModalPreviewActionRowSpacer()
+        }
+    }
+}
+
+@Composable
+fun ModalPreviewActionRowSpacer() {
+    Spacer(Modifier.height(modalPreviewActionRowHeight()))
+}
+
+@Composable
+fun modalPreviewActionRowHeight() = 80.dp

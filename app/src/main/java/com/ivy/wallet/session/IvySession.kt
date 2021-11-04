@@ -1,0 +1,51 @@
+package com.ivy.wallet.session
+
+import com.ivy.wallet.network.request.auth.AuthResponse
+import com.ivy.wallet.persistence.SharedPrefs
+import com.ivy.wallet.persistence.dao.UserDao
+import java.util.*
+
+class IvySession(
+    private val sharedPrefs: SharedPrefs,
+    private val userDao: UserDao
+) {
+    private var userId: UUID? = null
+    private var authToken: String? = null
+
+    fun loadFromCache() {
+        userId = sharedPrefs.getString(SharedPrefs.SESSION_USER_ID, null)
+            ?.let { UUID.fromString(it) }
+        authToken = sharedPrefs.getString(SharedPrefs.SESSION_AUTH_TOKEN, null)
+    }
+
+    fun getSessionToken() = authToken ?: throw NoSessionException()
+
+    fun getUserId(): UUID = userId ?: throw NoSessionException()
+
+    fun getUserIdSafe(): UUID? = userId
+
+    fun isLoggedIn(): Boolean {
+        return userId != null && authToken != null
+    }
+
+    fun initiate(authResponse: AuthResponse) {
+        val user = authResponse.user
+        userDao.save(user)
+
+        sharedPrefs.putString(SharedPrefs.SESSION_USER_ID, user.id.toString())
+        sharedPrefs.putString(SharedPrefs.SESSION_AUTH_TOKEN, authResponse.sessionToken)
+
+        userId = authResponse.user.id
+        authToken = authResponse.sessionToken
+    }
+
+    fun logout() {
+        sharedPrefs.remove(SharedPrefs.SESSION_USER_ID)
+        sharedPrefs.remove(SharedPrefs.SESSION_AUTH_TOKEN)
+
+        userId = null
+        authToken = null
+    }
+}
+
+class NoSessionException : IllegalStateException("No session.")
