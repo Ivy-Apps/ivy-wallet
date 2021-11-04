@@ -1,10 +1,8 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Internal Release
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push of version tag
   push:
     tags:
       - 'v*'

@@ -16,38 +16,51 @@
 default_platform(:android)
 
 platform :android do
-  desc "Builds release app bundle (AAB) for the Google Play Store."
-  lane :production_build do
-    #gradle(
-    #    task: "testDebugUnitTest"
-    #)
+    desc "Tries to build the project and then runs Lint checks for Debug"
+    lane :build_lint do
+        gradle(
+            task: "build",
+            build_type: "Debug"
+        )
 
-    gradle(
-        task: "clean"
-    )
+        gradle(
+            task: "lint",
+            build_type: "Debug"
+        )
+    end
 
-    gradle(
-        task: "lint",
-        build_type: "Release"
-    )
+    desc "Builds release app bundle (AAB) for the Google Play Store."
+    lane :production_build do
+        #gradle(
+        #    task: "testDebugUnitTest"
+        #)
 
-    gradle(
-        task: "bundle",
-        build_type: "Release"
-    )
-  end
+        gradle(
+            task: "clean"
+        )
 
-  desc "Releases a generated AAB to Google PlayStore's Internal Testing"
-  lane :internal_release do
-    supply(
-        track: "internal",
-        aab: "app/build/outputs/bundle/release/app-release.aab",
-        release_status: "draft",
-        skip_upload_apk: true,
-        skip_upload_metadata: true,
-        skip_upload_changelogs: false,
-        skip_upload_images: true,
-        skip_upload_screenshots: true
-    )
-  end
+        gradle(
+            task: "lint",
+            build_type: "Release"
+        )
+
+        gradle(
+            task: "bundle",
+            build_type: "Release"
+        )
+    end
+
+    desc "Releases a generated AAB to Google PlayStore's Internal Testing"
+    lane :internal_release do
+        supply(
+            track: "internal",
+            aab: "app/build/outputs/bundle/release/app-release.aab",
+            release_status: "draft",
+            skip_upload_apk: true,
+            skip_upload_metadata: true,
+            skip_upload_changelogs: false,
+            skip_upload_images: true,
+            skip_upload_screenshots: true
+        )
+    end
 end
