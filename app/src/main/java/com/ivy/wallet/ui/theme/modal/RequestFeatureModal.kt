@@ -46,6 +46,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
                     title.text,
                     body.text
                 )
+                dismiss()
             }
         }
     ) {
@@ -56,7 +57,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
         Spacer(Modifier.height(24.dp))
 
         ModalNameInput(
-            hint = "What do you want?",
+            hint = "What do you need?",
             autoFocusKeyboard = true,
             textFieldValue = title,
             setTextFieldValue = {

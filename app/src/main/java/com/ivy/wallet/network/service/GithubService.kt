@@ -3,6 +3,7 @@ package com.ivy.wallet.network.service
 import com.ivy.wallet.network.request.github.OpenIssueRequest
 import com.ivy.wallet.network.request.github.OpenIssueResponse
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface GithubService {
@@ -15,6 +16,7 @@ interface GithubService {
 
     @POST(OPEN_ISSUE_URL)
     suspend fun openIssue(
+        @Header("Accept") accept: String = "application/vnd.github.v3+json",
         @Body request: OpenIssueRequest
     ): OpenIssueResponse
 }

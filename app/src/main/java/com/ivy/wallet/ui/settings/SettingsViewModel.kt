@@ -214,7 +214,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = restClient.githubService.openIssue(
-                    OpenIssueRequest(
+                    request = OpenIssueRequest(
                         title = title,
                         body = body,
                         labels = listOf(

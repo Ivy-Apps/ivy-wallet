@@ -358,7 +358,7 @@ private fun RequestFeature(
 ) {
     SettingsPrimaryButton(
         icon = R.drawable.ic_custom_rocket_m,
-        text = "Request a feature/improvement",
+        text = "Request a feature",
         backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
         textColor = IvyTheme.colors.pureInverse
     ) {
