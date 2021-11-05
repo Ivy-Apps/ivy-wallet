@@ -37,6 +37,29 @@ $Track. $Budget. $Save
 
 [<img src="https://lh3.googleusercontent.com/qF9r3ZjtgG-qyHdmjecArtKiulz1gmwL_xl9R3_fzk6igSeoN0wYbJSKEX5d_fxJRwYZJpHbqcLB3i9atl-9dOfUl9an7U43TfZ9PtQ=s0">](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
+## Technologies
+### Core
+- Kotlin
+- Jetpack Compose (UI & navigation)
+- MVVM architecture with LiveData
+- Hilt (DI)
+- Kotlin Coroutines
+### Networking
+- Retrofit (REST API)
+- OkHttp 3 (REST client)
+- Gson (JSON serialization)
+### Local Persistence
+- Shared Prefences
+- Room DB (SQLite ORM)
+### Other
+- EventBus (cross component communication)
+- Timber (Logging)
+- Firebase Crashlytics (crashes, logging)
+### CI/CD
+- Gradle KTS
+- Fastlane (upload to Google PlayStore)
+- Github Actions (CI/CD server)
+
 ## Project Requirements
 - Java 11
 - Android Studio Arctic Fox (for easy download - [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
