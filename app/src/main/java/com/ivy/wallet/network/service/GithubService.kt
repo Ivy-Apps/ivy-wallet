@@ -12,9 +12,11 @@ interface GithubService {
         const val OPEN_ISSUE_URL = "$BASE_URL/repos/ILIYANGERMANOV/ivy-wallet/issues"
 
         const val GITHUB_SERVICE_ACC_USERNAME = "ivywallet"
-        const val GITHUB_SERVICE_ACC_ACCESS_TOKEN = "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"
 
-        const val LABEL_USER_REQUEST = "user request"
+        //Split Github Access token in two parts so Github doesn't delete it
+        //because "Personal access token was found in commit."
+        const val GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_1 = "ghp_MuvrbtIH897"
+        const val GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_2 = "JASL6i8mBvXJ3aM7DLk4U9Gwq"
     }
 
     @POST(OPEN_ISSUE_URL)

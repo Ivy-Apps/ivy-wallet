@@ -15,7 +15,6 @@ import com.ivy.wallet.network.FCMClient
 import com.ivy.wallet.network.RestClient
 import com.ivy.wallet.network.request.auth.GoogleSignInRequest
 import com.ivy.wallet.network.request.github.OpenIssueRequest
-import com.ivy.wallet.network.service.GithubService
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.UserDao
@@ -217,13 +216,16 @@ class SettingsViewModel @Inject constructor(
                     request = OpenIssueRequest(
                         title = title,
                         body = body,
-                        labels = listOf(
-                            GithubService.LABEL_USER_REQUEST
-                        )
                     )
                 )
 
-                ivyActivity.openUrlInBrowser(response.url)
+                //Returned: https://api.github.com/repos/octocat/Hello-World/issues/1347
+                //Should open: https://github.com/octocat/Hello-World/issues/1347
+                val issueUrl = response.url
+                    .replace("api.github.com", "github.com")
+                    .replace("/repos", "")
+
+                ivyActivity.openUrlInBrowser(issueUrl)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

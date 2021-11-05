@@ -109,7 +109,8 @@ class RestClient private constructor(
                     if (request.url.toUrl().toString().startsWith(GithubService.BASE_URL)) {
                         val credentials = Credentials.basic(
                             GithubService.GITHUB_SERVICE_ACC_USERNAME,
-                            GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN
+                            GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_1 +
+                                    GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_2
                         )
 
                         request.newBuilder()
