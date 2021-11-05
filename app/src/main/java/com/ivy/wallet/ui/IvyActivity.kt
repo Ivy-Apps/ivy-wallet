@@ -120,8 +120,12 @@ class IvyActivity : AppCompatActivity() {
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ivyContext.onShowDatePicker = { minDate, maxDate, onDatePicked ->
+        ivyContext.onShowDatePicker = { minDate,
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
             val picker = android.app.DatePickerDialog(this)
+
             if (minDate != null) {
                 picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
             }
@@ -135,6 +139,15 @@ class IvyActivity : AppCompatActivity() {
                 onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
             }
             picker.show()
+
+            if (initialDate != null) {
+                picker.updateDate(
+                    initialDate.year,
+                    //month-1 because LocalDate start from 1 and date picker starts from 0
+                    initialDate.monthValue - 1,
+                    initialDate.dayOfMonth
+                )
+            }
         }
 
         ivyContext.onShowTimePicker = { onTimePicked ->
@@ -429,7 +442,7 @@ class IvyActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_EMAIL, arrayOf(SUPPORT_EMAIL))
             putExtra(
                 Intent.EXTRA_SUBJECT, "Ivy Wallet Support Request #" + caseNumber +
-                    "0" + BuildConfig.VERSION_CODE
+                        "0" + BuildConfig.VERSION_CODE
             )
             putExtra(Intent.EXTRA_TEXT, "")
         }
@@ -484,13 +497,20 @@ class IvyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun openCalculatorApp() {
-        //TODO: It doesn't work better implement our own calculator
-//        val intent = Intent().apply {
-//            action = Intent.ACTION_MAIN
-//            addCategory(Intent.CATEGORY_APP_CALCULATOR)
-//        }
-//        startActivity(intent)
+    private fun openUrlInDefaultBrowser(url: String) {
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW)
+            browserIntent.data = Uri.parse(url)
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
+            Toast.makeText(
+                this,
+                "No browser app found. Visit manually: $url",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun reviewIvyWallet(dismissReviewCard: Boolean) {

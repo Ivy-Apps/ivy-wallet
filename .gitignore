@@ -44,6 +44,8 @@ captures/
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
+#misc.xml is annoying and useless
+.idea/misc.xml
 # Android Studio 3 in .gitignore file.
 .idea/caches
 .idea/modules.xml

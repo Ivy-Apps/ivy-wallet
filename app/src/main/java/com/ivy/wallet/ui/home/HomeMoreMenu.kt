@@ -3,17 +3,21 @@ package com.ivy.wallet.ui.home
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,20 +26,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Theme
-import com.ivy.wallet.ui.theme.Typo
+import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import java.util.*
 import kotlin.math.roundToInt
@@ -193,6 +196,10 @@ private fun ColumnScope.Content(
         onBufferClick = onBufferClick
     )
 
+    Spacer(Modifier.height(16.dp))
+
+    OpenSource()
+
     Spacer(Modifier.weight(1f))
 
     IvyButton(
@@ -204,6 +211,56 @@ private fun ColumnScope.Content(
     }
 
     Spacer(Modifier.height(40.dp))
+}
+
+@Composable
+private fun ColumnScope.OpenSource() {
+    val uriHandler = LocalUriHandler.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(Shapes.rounded16)
+            .background(IvyTheme.colors.pure)
+            .clickable {
+                openUrl(
+                    uriHandler = uriHandler,
+                    url = Constants.URL_IVY_WALLET_REPO
+                )
+            }
+            .padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(Modifier.width(16.dp))
+
+        IvyIcon(
+            icon = R.drawable.github_logo
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 24.dp)
+        ) {
+            Text(
+                text = "Ivy Wallet is open-source!",
+                style = Typo.body2.style(
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            Text(
+                text = Constants.URL_IVY_WALLET_REPO,
+                style = Typo.caption.style(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Blue
+                )
+            )
+        }
+
+    }
 }
 
 @Composable

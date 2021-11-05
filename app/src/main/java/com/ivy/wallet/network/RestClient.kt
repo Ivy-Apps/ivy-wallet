@@ -12,6 +12,7 @@ import com.ivy.wallet.network.error.RestError
 import com.ivy.wallet.network.service.*
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.session.NoSessionException
+import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -101,6 +102,27 @@ class RestClient private constructor(
                 response
             })
 
+            //Github Rest API interceptor (not the best solution)
+            httpClientBuilder.addInterceptor(Interceptor { chain ->
+                val request = chain.request()
+                val finalRequest =
+                    if (request.url.toUrl().toString().startsWith(GithubService.BASE_URL)) {
+                        val credentials = Credentials.basic(
+                            GithubService.GITHUB_SERVICE_ACC_USERNAME,
+                            GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_1 +
+                                    GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN_PART_2
+                        )
+
+                        request.newBuilder()
+                            .header("Authorization", credentials)
+                            .build()
+                    } else {
+                        request
+                    }
+
+                chain.proceed(request = finalRequest)
+            })
+
             trustAllSSLCertificates(httpClientBuilder)
 
             return Retrofit.Builder()
@@ -187,4 +209,5 @@ class RestClient private constructor(
     val bankIntegrationsService: BankIntegrationsService by lazy {
         retrofit.create(BankIntegrationsService::class.java)
     }
+    val githubService: GithubService by lazy { retrofit.create(GithubService::class.java) }
 }

@@ -27,6 +27,7 @@ import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -298,7 +299,7 @@ private fun DateRow(
 
         Column(
             modifier = Modifier.clickableNoIndication {
-                ivyContext.pickDate(onDatePicked)
+                ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
             }
         ) {
             val date = dateTime.toLocalDate()
@@ -337,15 +338,22 @@ private fun DateRow(
             backgroundGradient = Gradient.solid(IvyTheme.colors.pureInverse),
             tint = IvyTheme.colors.pure
         ) {
-            ivyContext.pickDate(onDatePicked)
+            ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
         }
 
         Spacer(Modifier.width(32.dp))
     }
 }
 
-private fun IvyContext.pickDate(onDatePicked: (LocalDateTime) -> Unit) {
-    datePicker {
+private fun IvyContext.pickDate(
+    initialDate: LocalDate,
+    onDatePicked: (
+        LocalDateTime
+    ) -> Unit
+) {
+    datePicker(
+        initialDate = initialDate
+    ) {
         onDatePicked(it.atTime(12, 0))
     }
 }

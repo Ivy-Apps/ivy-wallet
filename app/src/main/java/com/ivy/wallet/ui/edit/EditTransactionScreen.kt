@@ -214,7 +214,9 @@ private fun BoxWithConstraintsScope.UI(
 
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
-                ivyContext.datePicker {
+                ivyContext.datePicker(
+                    initialDate = dueDate.toLocalDate()
+                ) {
                     onDueDateChanged(it.atTime(12, 0))
                 }
             }
@@ -232,7 +234,9 @@ private fun BoxWithConstraintsScope.UI(
             dateTime = dateTime,
             dueDateTime = dueDate,
         ) {
-            ivyContext.datePicker { date ->
+            ivyContext.datePicker(
+                initialDate = dateTime?.toLocalDate(),
+            ) { date ->
                 ivyContext.timePicker { time ->
                     onSetDateTime(date.atTime(time.hour, time.minute, time.second))
                 }

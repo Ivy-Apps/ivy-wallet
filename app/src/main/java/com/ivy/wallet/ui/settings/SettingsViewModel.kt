@@ -14,6 +14,7 @@ import com.ivy.wallet.model.entity.User
 import com.ivy.wallet.network.FCMClient
 import com.ivy.wallet.network.RestClient
 import com.ivy.wallet.network.request.auth.GoogleSignInRequest
+import com.ivy.wallet.network.request.github.OpenIssueRequest
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.UserDao
@@ -201,6 +202,33 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.LOCK_APP, lockApp)
             _lockApp.value = lockApp
+        }
+    }
+
+    fun requestFeature(
+        ivyActivity: IvyActivity,
+        title: String,
+        body: String
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = restClient.githubService.openIssue(
+                    request = OpenIssueRequest(
+                        title = title,
+                        body = body,
+                    )
+                )
+
+                //Returned: https://api.github.com/repos/octocat/Hello-World/issues/1347
+                //Should open: https://github.com/octocat/Hello-World/issues/1347
+                val issueUrl = response.url
+                    .replace("api.github.com", "github.com")
+                    .replace("/repos", "")
+
+                ivyActivity.openUrlInBrowser(issueUrl)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

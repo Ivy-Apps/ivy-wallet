@@ -119,7 +119,9 @@ private fun UI(
                 iconStart = R.drawable.ic_calendar,
                 text = startDate?.toLocalDate()?.formatDateOnly() ?: "Not set",
             ) {
-                ivyContext.datePicker {
+                ivyContext.datePicker(
+                    initialDate = null
+                ) {
                     onSetStartDate(it.atStartOfDay())
                 }
             }
@@ -130,7 +132,9 @@ private fun UI(
                 iconStart = R.drawable.ic_calendar,
                 text = endDate?.toLocalDate()?.formatDateOnly() ?: "Not set",
             ) {
-                ivyContext.datePicker {
+                ivyContext.datePicker(
+                    initialDate = null
+                ) {
                     onSetEndDate(it.atStartOfDay())
                 }
             }
