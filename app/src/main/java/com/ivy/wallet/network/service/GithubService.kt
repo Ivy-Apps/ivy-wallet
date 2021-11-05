@@ -8,8 +8,11 @@ import retrofit2.http.POST
 
 interface GithubService {
     companion object {
-        private const val BASE_URL = "https://api.github.com"
+        const val BASE_URL = "https://api.github.com"
         const val OPEN_ISSUE_URL = "$BASE_URL/repos/ILIYANGERMANOV/ivy-wallet/issues"
+
+        const val GITHUB_SERVICE_ACC_USERNAME = "ivywallet"
+        const val GITHUB_SERVICE_ACC_ACCESS_TOKEN = "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"
 
         const val LABEL_USER_REQUEST = "user request"
     }

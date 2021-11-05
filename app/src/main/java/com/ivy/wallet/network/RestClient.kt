@@ -12,6 +12,7 @@ import com.ivy.wallet.network.error.RestError
 import com.ivy.wallet.network.service.*
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.session.NoSessionException
+import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -99,6 +100,26 @@ class RestClient private constructor(
                     } ?: throw NetworkError(RestError(ErrorCode.UNKNOWN, "Empty error body."))
                 }
                 response
+            })
+
+            //Github Rest API interceptor (not the best solution)
+            httpClientBuilder.addInterceptor(Interceptor { chain ->
+                val request = chain.request()
+                val finalRequest =
+                    if (request.url.toUrl().toString().startsWith(GithubService.BASE_URL)) {
+                        val credentials = Credentials.basic(
+                            GithubService.GITHUB_SERVICE_ACC_USERNAME,
+                            GithubService.GITHUB_SERVICE_ACC_ACCESS_TOKEN
+                        )
+
+                        request.newBuilder()
+                            .header("Authorization", credentials)
+                            .build()
+                    } else {
+                        request
+                    }
+
+                chain.proceed(request = finalRequest)
             })
 
             trustAllSSLCertificates(httpClientBuilder)
