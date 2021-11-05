@@ -181,9 +181,7 @@ private fun BoxWithConstraintsScope.UI(
                 onLogout = onLogout,
                 onLogin = onLogin,
             ) {
-                if (user == null) {
-                    nameModalVisible = true
-                }
+                nameModalVisible = true
             }
 
             Spacer(Modifier.height(20.dp))
@@ -479,6 +477,7 @@ private fun AccountCard(
 
         if (user != null) {
             AccountCardUser(
+                localName = nameLocalAccount,
                 user = user,
                 opSync = opSync,
                 onSync = onSync
@@ -494,6 +493,7 @@ private fun AccountCard(
 
 @Composable
 private fun AccountCardUser(
+    localName: String?,
     user: User,
     opSync: OpResult<Boolean>?,
 
@@ -520,7 +520,7 @@ private fun AccountCardUser(
         }
 
         Text(
-            text = user.names(),
+            text = localName ?: user.names(),
             style = Typo.body2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
