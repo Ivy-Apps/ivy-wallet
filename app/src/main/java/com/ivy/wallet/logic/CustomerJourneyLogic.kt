@@ -2,6 +2,7 @@ package com.ivy.wallet.logic
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.model.TransactionType
@@ -55,7 +56,8 @@ class CustomerJourneyLogic(
             buyLifetimeOfferCard(),
             makeReportCard(),
             rateUsCard_2(),
-            shareIvyWalletCard_2()
+            shareIvyWalletCard_2(),
+            ivyWalletIsOpenSource()
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardData(
@@ -81,7 +83,7 @@ class CustomerJourneyLogic(
             },
             title = "Create your first planned payment",
             description = "Automate the tracking of recurring transactions like your subscriptions, rent, salary, etc." +
-                " Stay ahead of your finances by knowing how much you have to pay/get in advance.",
+                    " Stay ahead of your finances by knowing how much you have to pay/get in advance.",
             cta = "Add planned payment",
             ctaIcon = R.drawable.ic_planned_payments,
             backgroundColor = Orange,
@@ -103,7 +105,7 @@ class CustomerJourneyLogic(
             },
             title = "Did you know?",
             description = "Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home screen. " +
-                "\n\nNote: If the \"Add widget\" button doesn't work, please add it manually from your launcher's widgets menu.",
+                    "\n\nNote: If the \"Add widget\" button doesn't work, please add it manually from your launcher's widgets menu.",
             cta = "Add widget",
             ctaIcon = R.drawable.ic_custom_atom_s,
             backgroundColor = GreenLight,
@@ -120,8 +122,8 @@ class CustomerJourneyLogic(
             },
             title = "Set a budget",
             description = "Ivy Wallet not only helps you to passively track your expenses" +
-                " but also proactively create your financial future by setting budgets" +
-                " and sticking to them.",
+                    " but also proactively create your financial future by setting budgets" +
+                    " and sticking to them.",
             cta = "Add budget",
             ctaIcon = R.drawable.ic_budget_xs,
             backgroundColor = Green2,
@@ -154,8 +156,8 @@ class CustomerJourneyLogic(
             },
             title = "Review Ivy Wallet",
             description = "Give us your feedback! Help Ivy Wallet become better and grow by writing us a review." +
-                " Compliments, ideas, and critics are all welcome!" +
-                " We do our best.\n\nCheers,\nIvy Team",
+                    " Compliments, ideas, and critics are all welcome!" +
+                    " We do our best.\n\nCheers,\nIvy Team",
             cta = "Rate us on Google Play",
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = Green,
@@ -172,7 +174,7 @@ class CustomerJourneyLogic(
             },
             title = "Share Ivy Wallet",
             description = "Help us grow so we can invest more in development and make the app better for you." +
-                " By sharing Ivy Wallet you'll make two developers happy and also help a friend to take control of their finances.",
+                    " By sharing Ivy Wallet you'll make two developers happy and also help a friend to take control of their finances.",
             cta = "Share with friends",
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Red3,
@@ -189,7 +191,7 @@ class CustomerJourneyLogic(
             },
             title = "Lifetime Premium",
             description = "We understand that owning something is better than just paying a subscription for it." +
-                " That's why we've included this special limited lifetime offer only for our best users like you.",
+                    " That's why we've included this special limited lifetime offer only for our best users like you.",
             cta = "Get Lifetime Premium",
             ctaIcon = R.drawable.ic_custom_crown_s,
             backgroundColor = Ivy,
@@ -206,8 +208,8 @@ class CustomerJourneyLogic(
             },
             title = "Did you know?",
             description = "You can generate reports to get deep insights about your income and spending." +
-                " Filter your transactions by type, time period, category, accounts, amount, keywords and more" +
-                " to gain better view on your finances.",
+                    " Filter your transactions by type, time period, category, accounts, amount, keywords and more" +
+                    " to gain better view on your finances.",
             cta = "Make a report",
             ctaIcon = R.drawable.ic_statistics_xs,
             backgroundColor = Green2,
@@ -224,9 +226,9 @@ class CustomerJourneyLogic(
             },
             title = "Review Ivy Wallet",
             description = "Want to make Ivy Wallet better? Write us a review." +
-                " That's the only way for us to develop what you want and need." +
-                " Also it help us rank higher in the PlayStore so we can spend money on the product rather than marketing." +
-                "\n\nWe do our best.\nIvy Team",
+                    " That's the only way for us to develop what you want and need." +
+                    " Also it help us rank higher in the PlayStore so we can spend money on the product rather than marketing." +
+                    "\n\nWe do our best.\nIvy Team",
             cta = "Rate us on Google Play",
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = GreenLight,
@@ -243,16 +245,34 @@ class CustomerJourneyLogic(
             },
             title = "We need your help!",
             description = "We're just a designer and a developer" +
-                " working on the app after our 9-5 jobs. Currently, we invest a lot of time and money" +
-                " to generate only losses and exhaustion." +
-                " If you want us to keep developing Ivy Wallet please share it with friends and family." +
-                "\n\nP.S. Google PlayStore reviews also helps a lot!",
+                    " working on the app after our 9-5 jobs. Currently, we invest a lot of time and money" +
+                    " to generate only losses and exhaustion." +
+                    " If you want us to keep developing Ivy Wallet please share it with friends and family." +
+                    "\n\nP.S. Google PlayStore reviews also helps a lot!",
             cta = "Share Ivy Wallet",
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Purple2,
             hasDismiss = true,
             onAction = { _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
+            }
+        )
+
+        fun ivyWalletIsOpenSource() = CustomerJourneyCardData(
+            id = "open_source",
+            condition = { trnCount, _, _ ->
+                trnCount >= 28
+            },
+            title = "Ivy Wallet is open-source!",
+            description = "Ivy Wallet's code is open and everyone can see it." +
+                    " We believe that transparency and ethics are must for every software product." +
+                    " If you like our work and want to make the app better you can contribute in our public Github repository.",
+            cta = "Contribute",
+            ctaIcon = R.drawable.github_logo,
+            backgroundColor = Blue3,
+            hasDismiss = true,
+            onAction = { _, ivyActivity ->
+                ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
             }
         )
     }
@@ -389,6 +409,19 @@ private fun PreviewShaveIvyWallet_2() {
         )
     }
 }
+
+@Preview
+@Composable
+private fun PreviewIvyWallet_isOpenSource() {
+    IvyComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
+            onCTA = { },
+            onDismiss = {}
+        )
+    }
+}
+
 
 
 
