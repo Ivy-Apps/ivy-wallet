@@ -14,6 +14,8 @@ import com.ivy.wallet.model.entity.User
 import com.ivy.wallet.network.FCMClient
 import com.ivy.wallet.network.RestClient
 import com.ivy.wallet.network.request.auth.GoogleSignInRequest
+import com.ivy.wallet.network.request.github.OpenIssueRequest
+import com.ivy.wallet.network.service.GithubService
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.UserDao
@@ -201,6 +203,30 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             sharedPrefs.putBoolean(SharedPrefs.LOCK_APP, lockApp)
             _lockApp.value = lockApp
+        }
+    }
+
+    fun requestFeature(
+        ivyActivity: IvyActivity,
+        title: String,
+        body: String
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = restClient.githubService.openIssue(
+                    OpenIssueRequest(
+                        title = title,
+                        body = body,
+                        labels = listOf(
+                            GithubService.LABEL_USER_REQUEST
+                        )
+                    )
+                )
+
+                ivyActivity.openUrlInBrowser(response.url)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

@@ -484,13 +484,20 @@ class IvyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun openCalculatorApp() {
-        //TODO: It doesn't work better implement our own calculator
-//        val intent = Intent().apply {
-//            action = Intent.ACTION_MAIN
-//            addCategory(Intent.CATEGORY_APP_CALCULATOR)
-//        }
-//        startActivity(intent)
+    private fun openUrlInDefaultBrowser(url: String) {
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW)
+            browserIntent.data = Uri.parse(url)
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
+            Toast.makeText(
+                this,
+                "No browser app found. Visit manually: $url",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun reviewIvyWallet(dismissReviewCard: Boolean) {

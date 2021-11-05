@@ -133,8 +133,8 @@ fun BoxWithConstraintsScope.BudgetModal(
         ModalNameInput(
             hint = "Budget name",
             autoFocusKeyboard = modal?.autoFocusKeyboard ?: true,
-            nameTextFieldValue = nameTextFieldValue,
-            setNameTextFieldValue = {
+            textFieldValue = nameTextFieldValue,
+            setTextFieldValue = {
                 nameTextFieldValue = it
             }
         )
@@ -190,8 +190,8 @@ fun ModalNameInput(
     hint: String,
     autoFocusKeyboard: Boolean,
 
-    nameTextFieldValue: TextFieldValue,
-    setNameTextFieldValue: (TextFieldValue) -> Unit,
+    textFieldValue: TextFieldValue,
+    setTextFieldValue: (TextFieldValue) -> Unit,
 ) {
     val nameFocus = FocusRequester()
 
@@ -207,7 +207,7 @@ fun ModalNameInput(
             .padding(start = 32.dp, end = 36.dp)
             .focusRequester(nameFocus),
         underlineModifier = Modifier.padding(start = 32.dp, end = 32.dp),
-        value = nameTextFieldValue,
+        value = textFieldValue,
         hint = hint,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -221,7 +221,7 @@ fun ModalNameInput(
             }
         ),
     ) { newValue ->
-        setNameTextFieldValue(newValue)
+        setTextFieldValue(newValue)
     }
 }
 

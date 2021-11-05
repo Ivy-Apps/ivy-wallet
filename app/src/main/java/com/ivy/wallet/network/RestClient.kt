@@ -187,4 +187,5 @@ class RestClient private constructor(
     val bankIntegrationsService: BankIntegrationsService by lazy {
         retrofit.create(BankIntegrationsService::class.java)
     }
+    val githubService: GithubService by lazy { retrofit.create(GithubService::class.java) }
 }

@@ -42,6 +42,7 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.modal.ChooseStartDateOfMonthModal
 import com.ivy.wallet.ui.theme.modal.CurrencyModal
 import com.ivy.wallet.ui.theme.modal.NameModal
+import com.ivy.wallet.ui.theme.modal.RequestFeatureModal
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -61,6 +62,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Screen.Settings) {
         viewModel.start()
     }
 
+    val ivyActivity = LocalContext.current as IvyActivity
     val context = LocalContext.current
     UI(
         user = user,
@@ -82,7 +84,14 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Screen.Settings) {
             viewModel.exportToCSV(context)
         },
         onSetLockApp = viewModel::setLockApp,
-        onSetStartDateOfMonth = viewModel::setStartDateOfMonth
+        onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
+        onRequestFeature = { title, body ->
+            viewModel.requestFeature(
+                ivyActivity = ivyActivity,
+                title = title,
+                body = body
+            )
+        }
     )
 }
 
@@ -107,11 +116,13 @@ private fun BoxWithConstraintsScope.UI(
     onLogin: () -> Unit,
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
-    onSetStartDateOfMonth: (Int) -> Unit = {}
+    onSetStartDateOfMonth: (Int) -> Unit = {},
+    onRequestFeature: (String, String) -> Unit = { _, _ -> }
 ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
+    var requestFeatureModalVisible by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -246,6 +257,12 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            RequestFeature {
+                requestFeatureModalVisible = true
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             ContactSupport()
 
             Spacer(Modifier.height(12.dp))
@@ -282,6 +299,14 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onSetStartDateOfMonth(it)
     }
+
+    RequestFeatureModal(
+        visible = requestFeatureModalVisible,
+        dismiss = {
+            requestFeatureModalVisible = false
+        },
+        onSubmit = onRequestFeature
+    )
 }
 
 @Composable
@@ -324,6 +349,20 @@ private fun StartDateOfMonth(
         )
 
         Spacer(Modifier.width(32.dp))
+    }
+}
+
+@Composable
+private fun RequestFeature(
+    onClick: () -> Unit
+) {
+    SettingsPrimaryButton(
+        icon = R.drawable.ic_custom_rocket_m,
+        text = "Request a feature/improvement",
+        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
+        textColor = IvyTheme.colors.pureInverse
+    ) {
+        onClick()
     }
 }
 
