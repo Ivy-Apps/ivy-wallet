@@ -222,13 +222,13 @@ private fun ColumnScope.OpenSource() {
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
             .background(IvyTheme.colors.pure)
-            .padding(vertical = 12.dp)
             .clickable {
                 openUrl(
                     uriHandler = uriHandler,
                     url = Constants.URL_IVY_WALLET_REPO
                 )
-            },
+            }
+            .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(Modifier.width(16.dp))
