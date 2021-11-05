@@ -132,16 +132,22 @@ class IvyContext {
     //------------------------------------------- BackStack ----------------------------------------
 
     //Activity help -------------------------------------------------------------------------------
-    lateinit var onShowDatePicker: (minDate: LocalDate?, maxDate: LocalDate?, onDatePicked: (LocalDate) -> Unit) -> Unit
+    lateinit var onShowDatePicker: (
+        minDate: LocalDate?,
+        maxDate: LocalDate?,
+        initialDate: LocalDate?,
+        onDatePicked: (LocalDate) -> Unit
+    ) -> Unit
     lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
     lateinit var onContactSupport: () -> Unit
 
     fun datePicker(
         minDate: LocalDate? = null,
         maxDate: LocalDate? = null,
+        initialDate: LocalDate?,
         onDatePicked: (LocalDate) -> Unit
     ) {
-        onShowDatePicker(minDate, maxDate, onDatePicked)
+        onShowDatePicker(minDate, maxDate, initialDate, onDatePicked)
     }
 
     fun timePicker(onTimePicked: (LocalTime) -> Unit) {

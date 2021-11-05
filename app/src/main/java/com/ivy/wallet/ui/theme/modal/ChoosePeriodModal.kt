@@ -297,7 +297,8 @@ private fun IntervalFromToDate(
                     maxDate = if (border == IntervalBorder.FROM)
                         otherEndDateTime
                             ?.toLocalDate()
-                            ?.minusDays(1) else null
+                            ?.minusDays(1) else null,
+                    initialDate = null
                 ) {
                     onSelected(it.atStartOfDay())
                 }
