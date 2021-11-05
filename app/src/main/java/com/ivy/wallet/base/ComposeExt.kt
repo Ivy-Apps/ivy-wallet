@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Density
@@ -194,3 +195,7 @@ fun Int.toDensityDp() = densityScope { toDp() }
 
 @Composable
 fun Float.toDensityDp() = densityScope { toDp() }
+
+fun openUrl(uriHandler: UriHandler, url: String) {
+    uriHandler.openUri(url)
+}

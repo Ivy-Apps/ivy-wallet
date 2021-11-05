@@ -12,6 +12,8 @@ object Constants {
     const val URL_PRIVACY_POLICY =
         "https://github.com/ILIYANGERMANOV/privacy-policies/blob/master/ivy-wallet-privacy-policy.md"
 
+    const val URL_IVY_WALLET_REPO = "https://github.com/ILIYANGERMANOV/ivy-wallet"
+
     const val URL_IVY_WALLET_GOOGLE_PLAY =
         "https://play.google.com/store/apps/details?id=com.ivy.wallet"
 

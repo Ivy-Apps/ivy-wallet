@@ -33,6 +33,7 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
@@ -159,19 +160,10 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         Spacer(Modifier.height(marginTextTop))
 
         Text(
-            modifier = Modifier.layout { measurable, constraints ->
-                val placeable = measurable.measure(constraints)
-
-                layout(placeable.width, placeable.height) {
-                    val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
-                    val xLogin = 32.dp.toPx()
-
-                    placeable.placeRelative(
-                        x = lerp(xSplash, xLogin, percentTransition).roundToInt(),
-                        y = 0
-                    )
-                }
-            },
+            modifier = Modifier.animateXCenterToLeft(
+                ivyContext = ivyContext,
+                percentTransition = percentTransition
+            ),
             text = "Ivy Wallet",
             style = Typo.h2.style(
                 color = IvyTheme.colors.pureInverse,
@@ -183,23 +175,36 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            modifier = Modifier.layout { measurable, constraints ->
-                val placeable = measurable.measure(constraints)
-
-                layout(placeable.width, placeable.height) {
-                    val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
-                    val xLogin = 32.dp.toPx()
-
-                    placeable.placeRelative(
-                        x = lerp(xSplash, xLogin, percentTransition).roundToInt(),
-                        y = 0
-                    )
-                }
-            },
+            modifier = Modifier.animateXCenterToLeft(
+                ivyContext = ivyContext,
+                percentTransition = percentTransition
+            ),
             text = "Your personal money manager",
             style = Typo.body2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
+            )
+        )
+
+        val uriHandler = LocalUriHandler.current
+        Text(
+            modifier = Modifier
+                .animateXCenterToLeft(
+                    ivyContext = ivyContext,
+                    percentTransition = percentTransition
+                )
+                .clickable {
+                    openUrl(
+                        uriHandler = uriHandler,
+                        url = Constants.URL_IVY_WALLET_REPO
+                    )
+                }
+                .padding(vertical = 8.dp)
+                .padding(end = 8.dp),
+            text = "#opensource",
+            style = Typo.caption.style(
+                color = Green,
+                fontWeight = FontWeight.Bold
             )
         )
 
@@ -210,6 +215,25 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             onLoginWithGoogle = onLoginWithGoogle,
             onSkip = onSkip
         )
+    }
+}
+
+private fun Modifier.animateXCenterToLeft(
+    ivyContext: IvyContext,
+    percentTransition: Float
+): Modifier {
+    return this.layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+
+        layout(placeable.width, placeable.height) {
+            val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
+            val xLogin = 32.dp.toPx()
+
+            placeable.placeRelative(
+                x = lerp(xSplash, xLogin, percentTransition).roundToInt(),
+                y = 0
+            )
+        }
     }
 }
 
