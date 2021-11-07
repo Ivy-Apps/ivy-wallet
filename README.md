@@ -78,7 +78,7 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - Implement and submit PRs for opened issues
 - [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
 
-## Contributors
+## [Contributors](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
 Special thanks to the people who contributed to Ivy Wallet! 
 
 I hope a lot more profile pictures are going to show up here, soon.
