@@ -184,6 +184,7 @@ dependencies {
 
     //UI
     implementation(Libs.ThirdPartyUI.lottie)
+    implementation(Libs.ThirdPartyUI.markdownText)
 
     //Java
     implementation(Libs.Java.openCSV)

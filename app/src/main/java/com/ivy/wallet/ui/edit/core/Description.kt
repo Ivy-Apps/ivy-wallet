@@ -1,12 +1,12 @@
 package com.ivy.wallet.ui.edit.core
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
@@ -16,7 +16,7 @@ import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
-import com.ivy.wallet.ui.theme.style
+import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun Description(
@@ -52,13 +52,17 @@ private fun DescriptionText(
     ) {
         Spacer(Modifier.height(12.dp))
 
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            text = description,
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
-                fontWeight = FontWeight.Medium
-            )
+        MarkdownText(
+            modifier = Modifier
+                .clickable {
+                    onClick()
+                }
+                .padding(horizontal = 24.dp),
+            markdown = description,
+            textAlign = TextAlign.Left,
+            color = IvyTheme.colors.pureInverse,
+            fontSize = Typo.body2.fontSize,
+            fontResource = R.font.raleway_medium
         )
 
         Spacer(Modifier.height(20.dp))
