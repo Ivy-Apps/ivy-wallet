@@ -79,6 +79,12 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
 
 ## Contributors
-I hope that a lot of more profile pictures are going to show up here, soon!
+Special thanks to the people who contributed to Ivy Wallet! 
 
-![GitHub Contributors Image](https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet)
+I hope a lot more profile pictures are going to show up here, soon.
+
+_Note: It takes some time for the contrib.rocks plugin to refresh._ 
+
+<a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet" />
+</a>
