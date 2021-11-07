@@ -89,6 +89,7 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in a production environment
 - You can see Android Development Best Practices in 2021 (and also help us improve our code)
 - When we merge your first PR I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on LinkedIn for Android Development and Kotlin
+- Personal recommendation on your LinkedIn profile after 10 successfully merged PRs
 
 I hope a lot more profile pictures are going to show up here, soon.
 
