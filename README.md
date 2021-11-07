@@ -78,13 +78,25 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - Implement and submit PRs for opened issues
 - [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
 
-## [Contributors](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
-Special thanks to the people who contributed to Ivy Wallet! 
+## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
+### Why to contribute?
+- You'll appear as an Ivy Wallet contributor in our public repo
+- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_
+- You'll make Ivy Wallet better
+- You can develop the features that you want yourself, the way you want them
+- You'll play around and learn cutting-edge technologies
+- When you submit us a meaningful PR and we approve it => you'll receive a **free Ivy Wallet Premium Lifetime code**
+- It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in a production environment
+- You can see Android Development Best Practices in 2021 (and also help us improve our code)
+- When we merge your first PR I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on LinkedIn for Android Development and Kotlin
 
 I hope a lot more profile pictures are going to show up here, soon.
 
-_Note: It takes some time for the contrib.rocks plugin to refresh._ 
-
+### Special thanks to:
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet" />
 </a>
+<br>
+<br>
+
+_Note: It takes some time for the [contrib.rocks](https://contrib.rocks/preview?repo=ILIYANGERMANOV%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
