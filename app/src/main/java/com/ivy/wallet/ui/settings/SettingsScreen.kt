@@ -252,6 +252,14 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 chooseStartDateOfMonthVisible = true
             }
+        }
+
+        item {
+            SettingsSectionDivider(text = "Product")
+
+            Spacer(Modifier.height(16.dp))
+
+            Roadmap()
 
             Spacer(Modifier.height(12.dp))
 
@@ -351,11 +359,27 @@ private fun StartDateOfMonth(
 }
 
 @Composable
+private fun Roadmap() {
+    val uriHandler = LocalUriHandler.current
+    SettingsPrimaryButton(
+        icon = R.drawable.ic_custom_rocket_m,
+        text = "Roadmap",
+        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
+        textColor = IvyTheme.colors.pureInverse
+    ) {
+        openUrl(
+            uriHandler = uriHandler,
+            url = Constants.URL_ROADMAP
+        )
+    }
+}
+
+@Composable
 private fun RequestFeature(
     onClick: () -> Unit
 ) {
     SettingsPrimaryButton(
-        icon = R.drawable.ic_custom_rocket_m,
+        icon = R.drawable.ic_custom_programming_m,
         text = "Request a feature",
         backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
         textColor = IvyTheme.colors.pureInverse
