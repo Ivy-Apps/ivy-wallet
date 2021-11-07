@@ -16,13 +16,11 @@ import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
-@ExperimentalFoundationApi
 @SuppressLint("SetJavaScriptEnabled")
+@ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.WebViewScreen(screen: Screen.WebViewScreen) {
-    val contributorLink = "https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors"
-
-    UI(contributorLink)
+    UI(url = screen.url)
 }
 
 @SuppressLint("SetJavaScriptEnabled")

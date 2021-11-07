@@ -140,7 +140,6 @@ class IvyContext {
     ) -> Unit
     lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
     lateinit var onContactSupport: () -> Unit
-    lateinit var onContributorsClicked: () -> Unit
 
     fun datePicker(
         minDate: LocalDate? = null,
@@ -159,9 +158,6 @@ class IvyContext {
         onContactSupport()
     }
 
-    fun openProjectContributors() {
-        onContributorsClicked()
-    }
     //Activity help -------------------------------------------------------------------------------
 
 

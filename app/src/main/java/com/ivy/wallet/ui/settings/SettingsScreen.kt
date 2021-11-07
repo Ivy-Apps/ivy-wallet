@@ -25,6 +25,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.AuthProviderType
@@ -425,7 +426,9 @@ private fun ProjectContributors(){
         icon = R.drawable.ic_custom_people_m,
         text = "Project Contributors",
     ) {
-        ivyContext.openProjectContributors()
+        ivyContext.navigateTo(
+            Screen.WebViewScreen(url = URL_IVY_CONTRIBUTORS)
+        )
     }
 }
 
