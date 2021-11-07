@@ -16,6 +16,8 @@ object Constants {
 
     const val URL_ROADMAP = "https://github.com/ILIYANGERMANOV/ivy-wallet/projects/1"
 
+    const val URL_HELP_CENTER = "https://github.com/ILIYANGERMANOV/ivy-wallet/wiki"
+
     const val URL_IVY_WALLET_GOOGLE_PLAY =
         "https://play.google.com/store/apps/details?id=com.ivy.wallet"
 
