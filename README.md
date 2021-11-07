@@ -80,6 +80,7 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 
 ## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
 ### Why to contribute?
+- It's a win-win!
 - You'll appear as an Ivy Wallet contributor in our public repo
 - You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_
 - You'll make Ivy Wallet better
@@ -91,9 +92,9 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - When we merge your first PR I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on LinkedIn for Android Development and Kotlin
 - Personal recommendation on your LinkedIn profile after 10 successfully merged PRs
 
-I hope a lot more profile pictures are going to show up here, soon.
+I hope a lot more profile pictures are going to show up here, soon!
 
-### Special thanks to:
+### Contributors Wall:
 <a href="https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ILIYANGERMANOV/ivy-wallet" />
 </a>
