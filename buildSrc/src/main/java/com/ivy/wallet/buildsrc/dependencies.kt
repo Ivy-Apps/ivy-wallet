@@ -144,7 +144,7 @@ object Libs {
 
     object Room {
         //URL: https://developer.android.com/jetpack/androidx/releases/room
-        private const val version = "2.3.0"
+        private const val version = "2.4.0-alpha03"
 
         const val roomRuntime = "androidx.room:room-runtime:$version"
         const val roomCompiler = "androidx.room:room-compiler:$version"

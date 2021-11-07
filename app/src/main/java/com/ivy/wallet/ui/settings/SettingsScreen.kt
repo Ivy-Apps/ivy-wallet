@@ -123,7 +123,6 @@ private fun BoxWithConstraintsScope.UI(
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
     var requestFeatureModalVisible by remember { mutableStateOf(false) }
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -277,7 +276,13 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            ProjectContributors()
+
+            Spacer(Modifier.height(12.dp))
+
             TCAndPrivacyPolicy()
+
+            Spacer(Modifier.height(12.dp))
         }
 
         item {
@@ -410,6 +415,17 @@ private fun ContactSupport() {
         text = "Contact support",
     ) {
         ivyContext.contactSupport()
+    }
+}
+
+@Composable
+private fun ProjectContributors(){
+    val ivyContext = LocalIvyContext.current
+    SettingsDefaultButton(
+        icon = R.drawable.ic_custom_people_m,
+        text = "Project Contributors",
+    ) {
+        ivyContext.openProjectContributors()
     }
 }
 
