@@ -179,6 +179,9 @@ object Libs {
     object ThirdPartyUI {
         //URL: https://github.com/airbnb/lottie-android
         const val lottie = "com.airbnb.android:lottie:3.7.0"
+
+        //URL: https://github.com/jeziellago/compose-markdown
+        const val markdownText = "com.github.jeziellago:compose-markdown:0.2.6"
     }
 
     object ThirdParty {

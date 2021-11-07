@@ -99,7 +99,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 }
             ),
             value = descTextFieldValue,
-            hint = "Enter text",
+            hint = "Enter any details here (supports Markdown)",
         ) {
             descTextFieldValue = it
         }
