@@ -243,7 +243,7 @@ private fun ColumnScope.OpenSource() {
                 .padding(start = 16.dp, end = 24.dp)
         ) {
             Text(
-                text = "Ivy Wallet is open-source!",
+                text = "Ivy Wallet is open-source",
                 style = Typo.body2.style(
                     fontWeight = FontWeight.ExtraBold
                 )

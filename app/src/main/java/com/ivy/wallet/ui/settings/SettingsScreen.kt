@@ -252,6 +252,18 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 chooseStartDateOfMonthVisible = true
             }
+        }
+
+        item {
+            SettingsSectionDivider(text = "Product")
+
+            Spacer(Modifier.height(16.dp))
+
+            HelpCenter()
+
+            Spacer(Modifier.height(12.dp))
+
+            Roadmap()
 
             Spacer(Modifier.height(12.dp))
 
@@ -351,14 +363,40 @@ private fun StartDateOfMonth(
 }
 
 @Composable
+private fun HelpCenter() {
+    val uriHandler = LocalUriHandler.current
+    SettingsDefaultButton(
+        icon = R.drawable.ic_custom_education_m,
+        text = "Help Center",
+    ) {
+        openUrl(
+            uriHandler = uriHandler,
+            url = Constants.URL_HELP_CENTER
+        )
+    }
+}
+
+@Composable
+private fun Roadmap() {
+    val uriHandler = LocalUriHandler.current
+    SettingsDefaultButton(
+        icon = R.drawable.ic_custom_rocket_m,
+        text = "Roadmap",
+    ) {
+        openUrl(
+            uriHandler = uriHandler,
+            url = Constants.URL_ROADMAP
+        )
+    }
+}
+
+@Composable
 private fun RequestFeature(
     onClick: () -> Unit
 ) {
-    SettingsPrimaryButton(
-        icon = R.drawable.ic_custom_rocket_m,
+    SettingsDefaultButton(
+        icon = R.drawable.ic_custom_programming_m,
         text = "Request a feature",
-        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
-        textColor = IvyTheme.colors.pureInverse
     ) {
         onClick()
     }
@@ -367,11 +405,9 @@ private fun RequestFeature(
 @Composable
 private fun ContactSupport() {
     val ivyContext = LocalIvyContext.current
-    SettingsPrimaryButton(
+    SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = "Contact support",
-        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
-        textColor = IvyTheme.colors.pureInverse
     ) {
         ivyContext.contactSupport()
     }
@@ -680,11 +716,9 @@ private fun Premium() {
 private fun ExportCSV(
     onExportToCSV: () -> Unit
 ) {
-    SettingsPrimaryButton(
+    SettingsDefaultButton(
         icon = R.drawable.ic_export_csv,
         text = "Export to CSV",
-        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
-        textColor = IvyTheme.colors.pureInverse
     ) {
         onExportToCSV()
     }
@@ -902,6 +936,22 @@ private fun SettingsSectionDivider(
             fontWeight = FontWeight.Bold
         )
     )
+}
+
+@Composable
+private fun SettingsDefaultButton(
+    @DrawableRes icon: Int,
+    text: String,
+    onClick: () -> Unit
+) {
+    SettingsPrimaryButton(
+        icon = icon,
+        text = text,
+        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
+        textColor = IvyTheme.colors.pureInverse
+    ) {
+        onClick()
+    }
 }
 
 @ExperimentalFoundationApi
