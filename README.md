@@ -100,4 +100,4 @@ I hope a lot more profile pictures are going to show up here, soon.
 <br>
 <br>
 
-_Note: It takes some time for the [contrib.rocks](https://contrib.rocks/preview?repo=ILIYANGERMANOV%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
+_Note: It may take up to 24h for the [contrib.rocks](https://contrib.rocks/preview?repo=ILIYANGERMANOV%2Fivy-wallet) plugin to update because it's refreshed once a day._ 
