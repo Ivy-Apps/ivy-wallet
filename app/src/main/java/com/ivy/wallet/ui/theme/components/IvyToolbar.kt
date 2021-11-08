@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.ui.theme.gradientCutBackgroundBottom
 
@@ -15,13 +16,15 @@ enum class BackButtonType {
 fun IvyToolbar(
     onBack: () -> Unit,
     backButtonType: BackButtonType = BackButtonType.BACK,
+    paddingTop: Dp = 16.dp,
+    paddingBottom: Dp = 16.dp,
     Content: @Composable RowScope.() -> Unit = { }
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .gradientCutBackgroundBottom(paddingBottom = 16.dp)
-            .padding(top = 16.dp),
+            .gradientCutBackgroundBottom(paddingBottom = paddingBottom)
+            .padding(top = paddingTop),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
