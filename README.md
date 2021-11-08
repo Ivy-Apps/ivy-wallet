@@ -69,14 +69,9 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 
 ## How to build?
 1. Clone the repository
-1. Open with Android Studio
-1. Everything should sync and build automatically
-
-## How to contribute?
-- Submit pull requests for bug fixes / code improvements
-- Create new issues to give us ideas and feedback
-- Implement and submit PRs for opened issues
-- [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
+2. Open with Android Studio
+3. Everything should sync and build automatically
+- _If any build problems occurr, please open a new issue including the logs._
 
 ## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
 ### Why to contribute?
@@ -91,6 +86,16 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - You can see Android Development Best Practices in 2021 (and also help us improve our code)
 - When we merge your first PR I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on LinkedIn for Android Development and Kotlin
 - Personal recommendation on your LinkedIn profile after 10 successfully merged PRs
+
+### How to contribute?
+Follow our compact [Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki/Contributors-Guide) for details.
+
+TL;DR:
+- Submit pull requests for bug fixes / code improvements
+- Implement and submit PRs for opened issues
+- Report (or fix) bugs/glitches 
+- Create new issues to give us ideas and feedback
+- [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
 
 I hope a lot more profile pictures are going to show up here, soon!
 
