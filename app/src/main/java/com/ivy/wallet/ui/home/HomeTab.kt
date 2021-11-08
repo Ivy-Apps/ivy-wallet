@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -9,7 +10,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.PointerInputChange
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
@@ -29,6 +34,7 @@ import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
+import kotlin.math.roundToInt
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -160,12 +166,28 @@ private fun BoxWithConstraintsScope.UI(
         mutableStateOf(null)
     }
     var expanded by remember { mutableStateOf(false) }
+    val offset by remember { mutableStateOf(Offset.Zero) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
+            .offset {
+                IntOffset(offset.x.roundToInt(), offset.y.roundToInt())
+            }
             .navigationBarsPadding()
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { },
+                    onDragEnd = {
+                        expanded = true
+                    },
+                    onDragCancel = { },
+                    onDrag = { _: PointerInputChange, _: Offset ->
+
+                    }
+                )
+            }
     ) {
         val ivyContext = LocalIvyContext.current
         val listState = rememberLazyListState(
