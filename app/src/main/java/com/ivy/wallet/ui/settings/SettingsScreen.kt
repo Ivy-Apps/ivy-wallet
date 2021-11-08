@@ -368,28 +368,26 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun HelpCenter() {
-    val uriHandler = LocalUriHandler.current
+    val ivyContext = LocalIvyContext.current
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = "Help Center",
     ) {
-        openUrl(
-            uriHandler = uriHandler,
-            url = Constants.URL_HELP_CENTER
+        ivyContext.navigateTo(
+            Screen.WebView(url = Constants.URL_HELP_CENTER)
         )
     }
 }
 
 @Composable
 private fun Roadmap() {
-    val uriHandler = LocalUriHandler.current
+    val ivyContext = LocalIvyContext.current
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = "Roadmap",
     ) {
-        openUrl(
-            uriHandler = uriHandler,
-            url = Constants.URL_ROADMAP
+        ivyContext.navigateTo(
+            Screen.WebView(url = Constants.URL_ROADMAP)
         )
     }
 }
@@ -418,7 +416,7 @@ private fun ContactSupport() {
 }
 
 @Composable
-private fun ProjectContributors(){
+private fun ProjectContributors() {
     val ivyContext = LocalIvyContext.current
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_people_m,
