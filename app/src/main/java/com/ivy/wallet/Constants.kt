@@ -22,4 +22,7 @@ object Constants {
         "https://play.google.com/store/apps/details?id=com.ivy.wallet"
 
     const val CATEGORY_UNSPECIFIED_NAME = "Unspecified"
+
+    const val URL_IVY_CONTRIBUTORS = "https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors"
+
 }

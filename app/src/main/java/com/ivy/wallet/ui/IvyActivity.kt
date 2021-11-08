@@ -74,6 +74,7 @@ import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -87,7 +88,6 @@ class IvyActivity : AppCompatActivity() {
 
     companion object {
         const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
-
         fun getIntent(context: Context): Intent = Intent(context, IvyActivity::class.java)
 
         fun addTransactionStart(context: Context, type: TransactionType): Intent =
@@ -169,6 +169,7 @@ class IvyActivity : AppCompatActivity() {
             contactSupport()
         }
 
+
         googleSignInContract = registerGoogleSignInContract()
         ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
             onGoogleSignInIdTokenResult = idTokenResult
@@ -246,6 +247,7 @@ class IvyActivity : AppCompatActivity() {
                     is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
                     is Screen.Report -> ReportScreen(screen = screen)
                     is Screen.Budget -> BudgetScreen(screen = screen)
+                    is Screen.WebViewScreen -> WebViewScreen(screen = screen)
                     null -> {
                     }
                 }

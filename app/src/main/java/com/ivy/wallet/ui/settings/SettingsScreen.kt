@@ -25,6 +25,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.AuthProviderType
@@ -123,7 +124,6 @@ private fun BoxWithConstraintsScope.UI(
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
     var requestFeatureModalVisible by remember { mutableStateOf(false) }
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -277,7 +277,13 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            ProjectContributors()
+
+            Spacer(Modifier.height(12.dp))
+
             TCAndPrivacyPolicy()
+
+            Spacer(Modifier.height(12.dp))
         }
 
         item {
@@ -410,6 +416,19 @@ private fun ContactSupport() {
         text = "Contact support",
     ) {
         ivyContext.contactSupport()
+    }
+}
+
+@Composable
+private fun ProjectContributors(){
+    val ivyContext = LocalIvyContext.current
+    SettingsDefaultButton(
+        icon = R.drawable.ic_custom_people_m,
+        text = "Project Contributors",
+    ) {
+        ivyContext.navigateTo(
+            Screen.WebViewScreen(url = URL_IVY_CONTRIBUTORS)
+        )
     }
 }
 
