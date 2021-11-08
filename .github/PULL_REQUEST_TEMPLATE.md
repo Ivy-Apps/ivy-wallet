@@ -3,8 +3,7 @@
 Please check if your pull request fulfills the following requirements:
 
 - [ ] The PR is submitted to the `develop` branch.
-- [ ] I've read
-  the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**.
+- [ ] I've read the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**.
 - [ ] The code builds and is tested on an actual Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
 
@@ -23,11 +22,12 @@ Please check the type of change your PR introduces:
 - [ ] Small update (fix typo, change color or something)
 - [ ] Gradle Build related changes
 - [ ] Dependencies update (updating libraries)
+- [ ] Documentation
 - [ ] Other (please describe):
 
 _Put an `x` in the boxes that apply._
 
-## Does this PR closes any GitHub Issue?
+## Does this PR closes any GitHub Issues?
 
 Check **[Ivy Wallet Issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues)**.
 
@@ -41,10 +41,4 @@ Describe with a few bullets **what's new:**
 -
 -
 
-## Does this introduce a breaking change?
-
-- [ ] Yes
-- [ ] No
-
-_This PR template style was inspired
-by [ionic-framework](https://github.com/ionic-team/ionic-framework/blob/main/.github/PULL_REQUEST_TEMPLATE.md)._
+_This PR template style was inspired by [ionic-framework](https://github.com/ionic-team/ionic-framework/blob/main/.github/PULL_REQUEST_TEMPLATE.md)._
