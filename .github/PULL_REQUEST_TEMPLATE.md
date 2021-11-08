@@ -22,11 +22,12 @@ Please check the type of change your PR introduces:
 - [ ] Small update (fix typo, change color or something)
 - [ ] Gradle Build related changes
 - [ ] Dependencies update (updating libraries)
+- [ ] Documentation
 - [ ] Other (please describe):
 
 _Put an `x` in the boxes that apply._
 
-## Does this PR closes any GitHub Issue?
+## Does this PR closes any GitHub Issues?
 
 Check **[Ivy Wallet Issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues)**.
 
