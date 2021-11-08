@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 @SuppressLint("SetJavaScriptEnabled")
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.WebViewScreen(screen: Screen.WebViewScreen) {
+fun BoxWithConstraintsScope.WebViewScreen(screen: Screen.WebView) {
     UI(url = screen.url)
 }
 

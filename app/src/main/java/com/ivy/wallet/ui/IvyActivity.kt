@@ -247,7 +247,7 @@ class IvyActivity : AppCompatActivity() {
                     is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
                     is Screen.Report -> ReportScreen(screen = screen)
                     is Screen.Budget -> BudgetScreen(screen = screen)
-                    is Screen.WebViewScreen -> WebViewScreen(screen = screen)
+                    is Screen.WebView -> WebViewScreen(screen = screen)
                     null -> {
                     }
                 }

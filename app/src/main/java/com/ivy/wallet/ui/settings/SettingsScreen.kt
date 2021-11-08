@@ -282,8 +282,6 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             TCAndPrivacyPolicy()
-
-            Spacer(Modifier.height(12.dp))
         }
 
         item {
@@ -427,7 +425,7 @@ private fun ProjectContributors(){
         text = "Project Contributors",
     ) {
         ivyContext.navigateTo(
-            Screen.WebViewScreen(url = URL_IVY_CONTRIBUTORS)
+            Screen.WebView(url = URL_IVY_CONTRIBUTORS)
         )
     }
 }
