@@ -42,7 +42,7 @@ repository.
 
 ### Tips:
 
-- Make sture that you didn't break anything with your changes.
+- Make sure that you didn't break anything with your changes.
 - Use Ivy Wallet's code style.
 - Keep it simple.
 - **"Don't walk away from complexity, run!"**
