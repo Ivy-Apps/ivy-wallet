@@ -1,0 +1,3 @@
+# Contributing to Ivy Wallet
+
+## Work in progress...
