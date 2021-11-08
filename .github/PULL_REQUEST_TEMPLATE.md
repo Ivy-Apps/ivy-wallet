@@ -3,9 +3,7 @@
 Please check if your pull request fulfills the following requirements:
 
 - [ ] The PR is submitted to the `develop` branch.
-- [ ] I've read
-  the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**
-  .
+- [ ] I've read the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**.
 - [ ] The code builds and is tested on an actual Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
 
