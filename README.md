@@ -3,8 +3,10 @@
 [![Internal Release](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
+
 Personal finance and spending tracker app which helps you manage your money.
 <div align="center">
 <img src="https://play-lh.googleusercontent.com/fxNeMm4BRWJ4ZozX5m8CSBbjZhcx0rKJM2cbiTgjKw4zxt8Pf_2BZBWp5L19R0XFdg=w720-h310-rw" alt="ivy-wallet-screenshot-1" width="155" height="310">
@@ -88,7 +90,9 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - Personal recommendation on your LinkedIn profile after 10 successfully merged PRs
 
 ### How to contribute?
-Follow our compact [Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki/Contributors-Guide) for details.
+
+Follow our compact [Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md) for
+details.
 
 TL;DR:
 - Submit pull requests for bug fixes / code improvements
