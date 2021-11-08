@@ -87,7 +87,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
                     )
                 }
             ),
-            hint = "Explain it with one sentence. (supports markdown)",
+            hint = "Explain it in one sentence. (supports markdown)",
             hintColor = Gray,
             value = body,
         ) {
