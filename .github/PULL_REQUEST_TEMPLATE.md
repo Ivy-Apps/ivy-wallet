@@ -41,5 +41,4 @@ Describe with a few bullets **what's new:**
 -
 -
 
-_This PR template style was inspired
-by [ionic-framework](https://github.com/ionic-team/ionic-framework/blob/main/.github/PULL_REQUEST_TEMPLATE.md)._
+_This PR template style was inspired by [ionic-framework](https://github.com/ionic-team/ionic-framework/blob/main/.github/PULL_REQUEST_TEMPLATE.md)._
