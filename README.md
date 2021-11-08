@@ -91,8 +91,9 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 
 ### How to contribute?
 
-Follow our compact [Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md) for
-details.
+Follow our
+compact **[Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**
+to begin.
 
 TL;DR:
 - Submit pull requests for bug fixes / code improvements
