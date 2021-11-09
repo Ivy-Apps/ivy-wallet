@@ -39,6 +39,14 @@ $Track. $Budget. $Save
 
 [<img src="https://lh3.googleusercontent.com/qF9r3ZjtgG-qyHdmjecArtKiulz1gmwL_xl9R3_fzk6igSeoN0wYbJSKEX5d_fxJRwYZJpHbqcLB3i9atl-9dOfUl9an7U43TfZ9PtQ=s0">](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
+## Design
+- **[Design System](https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System)**
+- **[Icon Pack](https://www.figma.com/file/wKAAh6pN7fZmyehHRXxewD/Icon_pack)**
+- **[Android App](https://www.figma.com/file/dz45jBNcLJYi0ehMLq7zMO/Android_APP)**
+
+_..Migration from Adobe XD to public Figma project IN PROGRESS!_
+
+
 ## [Documentation](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki)
 To understand more about Ivy Wallet and its data model please visit [Ivy Wallet Wiki](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki).
 
