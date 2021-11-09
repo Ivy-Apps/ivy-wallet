@@ -22,6 +22,7 @@ import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.validators.LineValidator
 import com.opencsv.validators.RowValidator
+import timber.log.Timber
 import java.io.StringReader
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -229,6 +230,7 @@ class CSVImporter(
             "yyyy-MM-dd HH:mm:ss",
             "yyyy/MM/dd HH:mm:ss",
             "MM/dd/yyyy HH:mm:ss",
+            "dd/MM/yyyy h:mm a"
         )
 
         for (pattern in supportedPatterns) {
@@ -278,6 +280,7 @@ class CSVImporter(
             }
         }
 
+        Timber.e("Import: Cannot parse $dateString")
         //As a fallback set all transactions 1 year before now
         return timeNowUTC()
             .minusYears(1)
