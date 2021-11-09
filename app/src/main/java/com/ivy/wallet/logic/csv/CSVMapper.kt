@@ -18,6 +18,7 @@ class CSVMapper {
         ImportType.SPENDEE -> spendee()
         ImportType.ONE_MONEY -> oneMoney()
         ImportType.KTW_MONEY_MANAGER -> ktwRowMapping()
+        ImportType.FORTUNE_CITY -> fortuneCityRowMapping()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -133,5 +134,20 @@ class CSVMapper {
         accountCurrency = 4,
         title = 5,
         account = 6
+    )
+
+
+    private fun fortuneCityRowMapping() = RowMapping(
+        account = 0,
+        category = 1,
+        amount = 2,
+        accountColor = 3,
+        date = 4,
+        title = 5,
+        /*i added this type to just make the app run
+        for me to see what i've done so far
+        it is still pretty much not what we want
+        */
+        type = 7
     )
 }
