@@ -17,6 +17,7 @@ class CSVMapper {
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()
         ImportType.ONE_MONEY -> oneMoney()
+        ImportType.KTW_MONEY_MANAGER -> ktwRowMapping()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -122,5 +123,15 @@ class CSVMapper {
         amount = 4,
         accountCurrency = 5,
         title = 9
+    )
+
+    private fun ktwRowMapping() = RowMapping(
+        date = 0,
+        type = 1,
+        category = 2,
+        amount = 3,
+        accountCurrency = 4,
+        title = 5,
+        account = 6
     )
 }

@@ -12,7 +12,8 @@ enum class ImportType {
     MONEY_MANAGER_PRASE,
     WALLET_BY_BUDGET_BAKERS,
     SPENDEE,
-    ONE_MONEY;
+    ONE_MONEY,
+    KTW_MONEY_MANAGER;
 
     fun color(): Color = when (this) {
         IVY -> Ivy
@@ -20,6 +21,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> Green
         SPENDEE -> RedLight
         ONE_MONEY -> Red3
+        KTW_MONEY_MANAGER -> Yellow
     }
 
     fun appId(): String = when (this) {
@@ -28,6 +30,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "com.droid4you.application.wallet"
         SPENDEE -> "com.cleevio.spendee"
         ONE_MONEY -> "org.pixelrush.moneyiq"
+        KTW_MONEY_MANAGER -> "com.ktwapps.walletmanager"
     }
 
     @DrawableRes
@@ -37,6 +40,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> R.drawable.wallet_by_budgetbakers_logo
         SPENDEE -> R.drawable.speende_logo_png
         ONE_MONEY -> R.drawable.one_money_logo
+        KTW_MONEY_MANAGER -> R.drawable.ktw_money_manager_logo
     }
 
     fun listName(): String = when (this) {
@@ -45,6 +49,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"
         ONE_MONEY -> "1Money"
+        KTW_MONEY_MANAGER -> "Money Manager (KTW)"
     }
 
     fun appName(): String = when (this) {
@@ -53,6 +58,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"
         ONE_MONEY -> "1Money"
+        KTW_MONEY_MANAGER -> "Money Manager (KTW)"
     }
 
     @Composable
@@ -79,6 +85,9 @@ enum class ImportType {
                 onUploadClick = onUploadClick
             )
             ONE_MONEY -> OneMoneySteps(
+                onUploadClick = onUploadClick
+            )
+            KTW_MONEY_MANAGER -> KTWMoneyManagerSteps(
                 onUploadClick = onUploadClick
             )
         }
