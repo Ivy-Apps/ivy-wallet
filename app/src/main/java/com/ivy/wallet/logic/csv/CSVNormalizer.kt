@@ -11,6 +11,7 @@ class CSVNormalizer {
             ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers(rawCSV)
             ImportType.SPENDEE -> rawCSV
             ImportType.ONE_MONEY -> rawCSV
+            ImportType.KTW_MONEY_MANAGER -> rawCSV
         }
     }
 
