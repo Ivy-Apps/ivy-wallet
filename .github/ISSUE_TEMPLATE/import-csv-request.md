@@ -27,6 +27,7 @@ Attach an exported CSV file from the app to this issue.
 - [ ] includes title, description, all attributes available in the app (optional)
 
 **Is CSV export from the app free?**
+
 - [ ] Yes
 - [ ] No
 - [ ] It depends (please describe):
@@ -34,3 +35,10 @@ Attach an exported CSV file from the app to this issue.
 _Put an `x` in the boxes that apply._
 
 - [x] Demo: Checking checkbox using `[x]`
+
+## Developer/Contributor Notes
+
+- Checkout
+  this **[Sample Commit](https://github.com/ILIYANGERMANOV/ivy-wallet/commit/323ed68343a0904ee33f226480716a30368fd646)**
+  to see how import CSV works in Ivy Wallet
+- Make sure that the imported dates of the transactions are correct
