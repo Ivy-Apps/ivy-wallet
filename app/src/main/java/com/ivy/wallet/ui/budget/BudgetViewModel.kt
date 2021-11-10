@@ -82,7 +82,7 @@ class BudgetViewModel @Inject constructor(
             _baseCurrencyCode.value = baseCurrency
 
             val startDateOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
-            val timeRange = TimePeriod.thisMonth().toRange(startDateOfMonth = startDateOfMonth)
+            val timeRange = TimePeriod.currentMonth().toRange(startDateOfMonth = startDateOfMonth)
             _timeRange.value = timeRange
 
             val transactions = ioThread {

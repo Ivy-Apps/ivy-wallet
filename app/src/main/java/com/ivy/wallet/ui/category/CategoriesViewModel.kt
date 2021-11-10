@@ -35,8 +35,9 @@ class CategoriesViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            val range =
-                TimePeriod.thisMonth().toRange(ivyContext.startDateOfMonth) //this must be monthly
+            val range = TimePeriod.currentMonth(
+                startDayOfMonth = ivyContext.startDayOfMonth
+            ).toRange(ivyContext.startDayOfMonth) //this must be monthly
 
             _currency.value = ioThread { settingsDao.findFirst().currency }!!
 

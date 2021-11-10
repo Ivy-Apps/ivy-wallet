@@ -67,8 +67,8 @@ class SettingsViewModel @Inject constructor(
 
             _nameLocalAccount.value = settings.name
 
-            ivyContext.startDateOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
-            _startDateOfMonth.value = ivyContext.startDateOfMonth
+            ivyContext.startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
+            _startDateOfMonth.value = ivyContext.startDayOfMonth
 
             _user.value = ioThread {
                 val userId = ivySession.getUserIdSafe()
@@ -145,7 +145,7 @@ class SettingsViewModel @Inject constructor(
     fun setStartDateOfMonth(startDate: Int) {
         if (startDate in 1..31) {
             sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDate)
-            ivyContext.startDateOfMonth = startDate
+            ivyContext.startDayOfMonth = startDate
             _startDateOfMonth.value = startDate
         }
     }

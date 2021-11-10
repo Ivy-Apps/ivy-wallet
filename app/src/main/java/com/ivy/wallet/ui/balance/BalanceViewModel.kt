@@ -48,7 +48,7 @@ class BalanceViewModel @Inject constructor(
             _currentBalance.value = currentBalance
 
             val plannedPaymentsAmount = ioThread {
-                plannedPaymentsLogic.plannedPaymentsAmountFor(period.toRange(ivyContext.startDateOfMonth)) //+ positive if Income > Expenses else - negative
+                plannedPaymentsLogic.plannedPaymentsAmountFor(period.toRange(ivyContext.startDayOfMonth)) //+ positive if Income > Expenses else - negative
             }
             _plannedPaymentsAmount.value = plannedPaymentsAmount
 

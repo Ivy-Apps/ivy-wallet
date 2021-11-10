@@ -107,6 +107,7 @@ class HomeViewModel @Inject constructor(
     private val _customerJourneyCards = MutableLiveData<List<CustomerJourneyCardData>>()
     val customerJourneyCards = _customerJourneyCards.asLiveData()
 
+    //TODO: Set proper default value for selected period (startDayOfMonth is hardcoded to 1
     fun start(period: TimePeriod = ivyContext.selectedPeriod) {
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
@@ -119,7 +120,7 @@ class HomeViewModel @Inject constructor(
             _accounts.value = ioThread { accountDao.findAll() }!!
 
             _period.value = period
-            val timeRange = period.toRange(ivyContext.startDateOfMonth)
+            val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
             _balance.value = ioThread { walletLogic.calculateBalance() }!!
             _bufferDiff.value = ioThread { walletLogic.calculateBufferDiff() }!!

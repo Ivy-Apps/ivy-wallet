@@ -32,10 +32,14 @@ class IvyContext {
         }
 
     //------------------------------------------ State ---------------------------------------------
-    var selectedPeriod: TimePeriod = TimePeriod.thisMonth() //original state
+    var startDayOfMonth = 1
+
+    //TODO: Set proper initial value for selected period
+    var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
+        startDayOfMonth = startDayOfMonth
+    )
     var transactionsListState: LazyListState? = null
 
-    var startDateOfMonth = 1
 
     var mainTab by mutableStateOf(MainTab.HOME)
     //------------------------------------------ State ---------------------------------------------

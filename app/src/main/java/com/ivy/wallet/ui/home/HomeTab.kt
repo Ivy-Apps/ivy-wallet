@@ -72,6 +72,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
     val customerJourneyCards by viewModel.customerJourneyCards.observeAsState(emptyList())
 
     onScreenStart {
+        //TODO: Set ivyContext.startDateOfMonth to proper value
         viewModel.start()
     }
 
@@ -371,7 +372,7 @@ fun HomeTransactionsLazyColumn(
             onPayOrGet = onPayOrGet,
             emptyStateTitle = "No transactions",
             emptyStateText = "You don't have any transactions for ${
-                period.toDisplayLong(ivyContext.startDateOfMonth)
+                period.toDisplayLong(ivyContext.startDayOfMonth)
             }.\nYou can add one by tapping the \"+\" button."
         )
     }
@@ -386,7 +387,9 @@ private fun PreviewHomeTab() {
         UI(
             theme = Theme.LIGHT,
             name = "Iliyan",
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             currencyCode = "BGN",
 
             categories = emptyList(),
