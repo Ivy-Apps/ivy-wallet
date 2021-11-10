@@ -1,7 +1,7 @@
 package com.ivy.wallet
 
 object Constants {
-    const val ENABLE_PAYWALL_ON_DEBUG = true
+    const val ENABLE_PAYWALL_ON_DEBUG = false
 
     const val FREE_ACCOUNTS = 3
     const val FREE_CATEGORIES = 12

@@ -26,11 +26,11 @@ data class TimePeriod(
             val dateNowUTC = dateNowUTC()
             val dayToday = dateNowUTC.dayOfMonth
 
-            val monthPeriodEnded = dayToday >= startDayOfMonth
-            //case startDay = 1, today = 1 => period ended, use current month
-            //case startDay = 28, today = 2 => period not ended, use previous month
+            //Examples Nov (7) = Nov (7) till Dec (6)
+            //=> new period starts if today => startDayOfMonth
+            val newPeriodStarted = dayToday >= startDayOfMonth
 
-            val periodDate = if (monthPeriodEnded) {
+            val periodDate = if (newPeriodStarted) {
                 dateNowUTC
             } else {
                 dateNowUTC.minusMonths(1)
