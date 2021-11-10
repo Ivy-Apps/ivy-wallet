@@ -144,7 +144,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setStartDateOfMonth(startDate: Int) {
         if (startDate in 1..31) {
-            ivyContext.updateStartDayOfMonth(
+            ivyContext.updateStartDayOfMonthWithPersistence(
                 sharedPrefs = sharedPrefs,
                 startDayOfMonth = startDate
             )

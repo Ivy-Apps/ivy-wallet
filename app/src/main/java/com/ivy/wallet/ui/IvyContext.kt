@@ -39,20 +39,29 @@ class IvyContext {
         return startDayOfMonth
     }
 
-    fun updateStartDayOfMonth(
+    fun updateStartDayOfMonthWithPersistence(
         sharedPrefs: SharedPrefs,
         startDayOfMonth: Int
     ) {
         sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDayOfMonth)
         this.startDayOfMonth = startDayOfMonth
+
+        //when start day of month the selected time period must be reinitialized
+        initSelectedPeriodInMemory(
+            startDayOfMonth = startDayOfMonth,
+            forceReinitialize = true
+        )
     }
 
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
         startDayOfMonth = startDayOfMonth //this is default value
     )
     private var selectedPeriodInitialized = false
-    fun initSelectedPeriodInMemory(startDayOfMonth: Int): TimePeriod {
-        if (!selectedPeriodInitialized) {
+    fun initSelectedPeriodInMemory(
+        startDayOfMonth: Int,
+        forceReinitialize: Boolean = false
+    ): TimePeriod {
+        if (!selectedPeriodInitialized || forceReinitialize) {
             selectedPeriod = TimePeriod.currentMonth(
                 startDayOfMonth = startDayOfMonth
             )
