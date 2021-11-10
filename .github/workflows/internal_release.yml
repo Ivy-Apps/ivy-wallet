@@ -92,7 +92,7 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-      - name: Upload Android App Bundle to Github
+      - name: Upload Android App Bundle to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: app-release.aab
@@ -105,8 +105,8 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       #--------------------------------------------------------------------------
-      
-      #Create Github release
+
+      #Create GitHub release
       - name: Changelog
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
