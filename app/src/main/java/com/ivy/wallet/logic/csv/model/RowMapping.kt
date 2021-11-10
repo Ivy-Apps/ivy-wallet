@@ -1,7 +1,10 @@
 package com.ivy.wallet.logic.csv.model
 
+import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.model.entity.Transaction
+
 data class RowMapping(
-    val type: Int,
+    val type: Int? = null,
     val amount: Int,
 
     val account: Int,
@@ -28,5 +31,9 @@ data class RowMapping(
 
     val title: Int?,
     val description: Int? = null,
-    val id: Int? = null
+    val id: Int? = null,
+
+    val transformTransaction: (Transaction, Category?) -> Transaction = { transaction, _ ->
+        transaction
+    }
 )
