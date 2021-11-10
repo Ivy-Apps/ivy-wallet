@@ -112,9 +112,8 @@ class HomeViewModel @Inject constructor(
     fun start() {
         viewModelScope.launch {
             val startDayOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
-            ivyContext.startDayOfMonth = startDayOfMonth
             load(
-                period = TimePeriod.currentMonth(
+                period = ivyContext.initSelectedPeriodInMemory(
                     startDayOfMonth = startDayOfMonth
                 )
             )

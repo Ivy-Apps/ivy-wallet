@@ -48,10 +48,22 @@ class IvyContext {
     }
 
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
-        startDayOfMonth = startDayOfMonth
+        startDayOfMonth = startDayOfMonth //this is default value
     )
-    var transactionsListState: LazyListState? = null
+    private var selectedPeriodInitialized = false
+    fun initSelectedPeriodInMemory(startDayOfMonth: Int): TimePeriod {
+        if (!selectedPeriodInitialized) {
+            selectedPeriod = TimePeriod.currentMonth(
+                startDayOfMonth = startDayOfMonth
+            )
+            selectedPeriodInitialized = true
+        }
 
+        return selectedPeriod
+    }
+
+
+    var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
     //------------------------------------------ State ---------------------------------------------
