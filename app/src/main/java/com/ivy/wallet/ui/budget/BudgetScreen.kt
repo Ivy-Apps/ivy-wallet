@@ -354,7 +354,9 @@ private fun NoBudgetsEmptyState(
 private fun Preview_Empty() {
     IvyAppPreview {
         UI(
-            timeRange = TimePeriod.thisMonth().toRange(1),
+            timeRange = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ).toRange(1), //preview
             baseCurrency = "BGN",
             categories = emptyList(),
             accounts = emptyList(),
@@ -372,7 +374,9 @@ private fun Preview_Empty() {
 private fun Preview_Budgets() {
     IvyAppPreview {
         UI(
-            timeRange = TimePeriod.thisMonth().toRange(1),
+            timeRange = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ).toRange(1), //preview
             baseCurrency = "BGN",
             categories = emptyList(),
             accounts = emptyList(),

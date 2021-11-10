@@ -58,7 +58,7 @@ class PieChartStatisticViewModel @Inject constructor(
         type: TransactionType
     ) {
         _period.value = period
-        val range = period.toRange(ivyContext.startDateOfMonth)
+        val range = period.toRange(ivyContext.startDayOfMonth)
         _type.value = type
 
         _selectedCategory.value = null
@@ -133,7 +133,7 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     fun onSetPeriod(period: TimePeriod) {
-        ivyContext.selectedPeriod = period
+        ivyContext.updateSelectedPeriodInMemory(period)
         load(
             period = period,
             type = type.value!!

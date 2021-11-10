@@ -39,7 +39,7 @@ data class Month(
         val incrementedPeriod = TimePeriod(
             month = fromMonthValue(incrementedMonth.monthValue)
         )
-        ivyContext.selectedPeriod = incrementedPeriod
+        ivyContext.updateSelectedPeriodInMemory(incrementedPeriod)
         return incrementedPeriod
     }
 

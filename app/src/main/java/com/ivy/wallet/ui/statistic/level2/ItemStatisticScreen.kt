@@ -340,7 +340,7 @@ private fun BoxWithConstraintsScope.UI(
                 emptyStateTitle = "No transactions",
 
                 emptyStateText = "You don't have any transactions for ${
-                    period.toDisplayLong(ivyContext.startDateOfMonth)
+                    period.toDisplayLong(ivyContext.startDayOfMonth)
                 }.\nYou can add one by scrolling down and tapping \"Add income\" or \"Add expense\" button at the top."
             )
         }
@@ -812,7 +812,9 @@ private fun Item(
 private fun Preview_empty() {
     IvyAppPreview {
         UI(
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             baseCurrency = "BGN",
             currency = "BGN",
 
@@ -842,7 +844,9 @@ private fun Preview_empty() {
 private fun Preview_crypto() {
     IvyAppPreview {
         UI(
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             baseCurrency = "BGN",
             currency = "ADA",
 

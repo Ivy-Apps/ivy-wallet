@@ -250,7 +250,9 @@ private fun ColumnScope.CloseButton() {
 private fun Preview() {
     IvyAppPreview {
         UI(
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             currency = "BGN",
             currentBalance = 9326.55,
             balanceAfterPlannedPayments = 8426.0,

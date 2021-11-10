@@ -70,7 +70,7 @@ fun PeriodSelector(
             Spacer(Modifier.width(4.dp))
 
             Text(
-                text = period.toDisplayShort(LocalIvyContext.current.startDateOfMonth),
+                text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
                 style = Typo.body2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.Bold
@@ -102,7 +102,9 @@ fun PeriodSelector(
 private fun Preview() {
     IvyComponentPreview {
         PeriodSelector(
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             onPreviousMonth = { },
             onNextMonth = { }
         ) {

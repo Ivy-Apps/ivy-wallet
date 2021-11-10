@@ -152,7 +152,7 @@ private fun HeaderStickyRow(
 
         IvyOutlinedButton(
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDateOfMonth),
+            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
         ) {
             onShowMonthModal()
         }

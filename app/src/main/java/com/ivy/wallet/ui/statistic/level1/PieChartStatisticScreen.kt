@@ -288,7 +288,7 @@ private fun Header(
 
         IvyOutlinedButton(
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDateOfMonth),
+            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
         ) {
             onShowMonthModal()
         }
@@ -440,7 +440,9 @@ private fun Preview_Expense() {
     IvyAppPreview {
         UI(
             transactionType = TransactionType.EXPENSE,
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             currency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(
@@ -489,7 +491,9 @@ private fun Preview_Income() {
     IvyAppPreview {
         UI(
             transactionType = TransactionType.INCOME,
-            period = TimePeriod.thisMonth(), //preview
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
             currency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(

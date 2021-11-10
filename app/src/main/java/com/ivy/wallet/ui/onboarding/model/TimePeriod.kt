@@ -2,6 +2,8 @@ package com.ivy.wallet.ui.onboarding.model
 
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.theme.modal.model.Month
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class TimePeriod(
     val month: Month? = null,
@@ -9,10 +11,39 @@ data class TimePeriod(
     val lastNRange: LastNTimeRange? = null,
 ) {
     companion object {
-        fun thisMonth(): TimePeriod =
-            TimePeriod(
-                month = Month.fromMonthValue(dateNowUTC().monthValue)
+        /**
+         * Examples:
+         * 1. startDateOfMonth = 1, today = Nov. 10
+         * return Nov. 1 - Nov. 30
+         *
+         * 2. startDateOfMonth = 10, today = Nov. 9
+         * return Oct. 10 - Nov. 9
+         *
+         * 3. startDateOfMonth = 10, today = Nov. 10
+         * return Nov. 10 - Dec. 9
+         */
+        fun currentMonth(startDayOfMonth: Int): TimePeriod {
+            val dateNowUTC = dateNowUTC()
+            val dayToday = dateNowUTC.dayOfMonth
+
+            //Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
+            // => new period starts if today => startDayOfMonth
+            val newPeriodStarted = dayToday >= startDayOfMonth
+
+            val periodDate = if (newPeriodStarted) {
+                //new monthly period has already started then observe it => current month
+                dateNowUTC
+            } else {
+                //new monthly period hasn't yet started then observe the ongoing one => previous month
+                dateNowUTC.minusMonths(1)
+            }
+
+            return TimePeriod(
+                month = Month.fromMonthValue(
+                    periodDate.monthValue
+                )
             )
+        }
     }
 
     fun isValid(): Boolean =
@@ -25,16 +56,10 @@ data class TimePeriod(
             month != null -> {
                 val date = month.toDate()
                 val (from, to) = if (startDateOfMonth != 1) {
-                    val from = date
-                        .withDayOfMonthSafe(startDateOfMonth)
-                        .atStartOfDay()
-
-                    val to = date.plusMonths(1)
-                        .withDayOfMonthSafe(startDateOfMonth)
-                        .minusDays(1) //e.g. correct: 14.10-13.11
-                        .atEndOfDay()
-
-                    Pair(from, to)
+                    customStartDayOfMonthPeriodRange(
+                        date = date,
+                        startDateOfMonth = startDateOfMonth
+                    )
                 } else {
                     Pair(startOfMonth(date), endOfMonth(date))
                 }
@@ -61,6 +86,25 @@ data class TimePeriod(
                 )
             }
         }
+    }
+
+    private fun customStartDayOfMonthPeriodRange(
+        date: LocalDate,
+        startDateOfMonth: Int
+    ): Pair<LocalDateTime, LocalDateTime> {
+        val from = date
+            .withDayOfMonthSafe(startDateOfMonth)
+            .atStartOfDay()
+
+        val to = date
+            .withDayOfMonthSafe(startDateOfMonth)
+            //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
+            .plusMonths(1)
+            //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
+            .minusDays(1)
+            .atEndOfDay()
+
+        return Pair(from, to)
     }
 
     fun toDisplayShort(
