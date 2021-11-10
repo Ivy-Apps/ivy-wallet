@@ -62,6 +62,10 @@ class IvyContext {
         return selectedPeriod
     }
 
+    fun updateSelectedPeriodInMemory(period: TimePeriod) {
+        selectedPeriod = period
+    }
+
 
     var transactionsListState: LazyListState? = null
 

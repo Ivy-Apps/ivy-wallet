@@ -133,7 +133,7 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     fun onSetPeriod(period: TimePeriod) {
-        ivyContext.selectedPeriod = period
+        ivyContext.updateSelectedPeriodInMemory(period)
         load(
             period = period,
             type = type.value!!

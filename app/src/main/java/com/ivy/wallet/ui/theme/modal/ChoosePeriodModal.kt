@@ -63,7 +63,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
                 enabled = period != null && period!!.isValid()
             ) {
                 if (period != null) {
-                    ivyContext.selectedPeriod = period!!
+                    ivyContext.updateSelectedPeriodInMemory(period!!)
                     dismiss()
                     onPeriodSelected(period!!)
                 }
