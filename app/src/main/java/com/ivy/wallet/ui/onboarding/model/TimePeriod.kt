@@ -88,12 +88,12 @@ data class TimePeriod(
         startDateOfMonth: Int
     ): Pair<LocalDateTime, LocalDateTime> {
         val from = date
-            .minusMonths(1)
             .withDayOfMonthSafe(startDateOfMonth)
             .atStartOfDay()
 
         val to = date
             .withDayOfMonthSafe(startDateOfMonth)
+            .plusMonths(1)
             .minusDays(1) //e.g. correct: 14.10-13.11
             .atEndOfDay()
 

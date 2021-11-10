@@ -50,7 +50,7 @@ class IvyViewModel @Inject constructor(
                     ?: if (systemDarkMode) Theme.DARK else Theme.LIGHT
                 ivyContext.switchTheme(theme)
 
-                ivyContext.startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
+                ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             }
         }
 

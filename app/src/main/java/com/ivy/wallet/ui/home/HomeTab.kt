@@ -72,7 +72,6 @@ fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
     val customerJourneyCards by viewModel.customerJourneyCards.observeAsState(emptyList())
 
     onScreenStart {
-        //TODO: Set ivyContext.startDateOfMonth to proper value
         viewModel.start()
     }
 

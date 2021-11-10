@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
@@ -33,8 +34,19 @@ class IvyContext {
 
     //------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
+    fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
+        startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
+        return startDayOfMonth
+    }
 
-    //TODO: Set proper initial value for selected period
+    fun updateStartDayOfMonth(
+        sharedPrefs: SharedPrefs,
+        startDayOfMonth: Int
+    ) {
+        sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDayOfMonth)
+        this.startDayOfMonth = startDayOfMonth
+    }
+
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
         startDayOfMonth = startDayOfMonth
     )

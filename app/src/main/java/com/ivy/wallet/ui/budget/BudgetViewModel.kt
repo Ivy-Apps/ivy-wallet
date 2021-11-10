@@ -22,6 +22,7 @@ import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.BudgetSync
+import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -39,7 +40,8 @@ class BudgetViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val budgetCreator: BudgetCreator,
-    private val budgetSync: BudgetSync
+    private val budgetSync: BudgetSync,
+    private val ivyContext: IvyContext
 ) : ViewModel() {
 
     private val _timeRange = MutableLiveData<FromToTimeRange>()
@@ -81,8 +83,10 @@ class BudgetViewModel @Inject constructor(
             val baseCurrency = settings.currency
             _baseCurrencyCode.value = baseCurrency
 
-            val startDateOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
-            val timeRange = TimePeriod.currentMonth().toRange(startDateOfMonth = startDateOfMonth)
+            val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
+            val timeRange = TimePeriod.currentMonth(
+                startDayOfMonth = startDateOfMonth
+            ).toRange(startDateOfMonth = startDateOfMonth)
             _timeRange.value = timeRange
 
             val transactions = ioThread {
