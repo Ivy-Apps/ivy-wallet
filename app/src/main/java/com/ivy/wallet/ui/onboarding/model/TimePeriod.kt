@@ -26,13 +26,15 @@ data class TimePeriod(
             val dateNowUTC = dateNowUTC()
             val dayToday = dateNowUTC.dayOfMonth
 
-            //Examples Nov (7) = Nov (7) till Dec (6)
-            //=> new period starts if today => startDayOfMonth
+            //Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
+            // => new period starts if today => startDayOfMonth
             val newPeriodStarted = dayToday >= startDayOfMonth
 
             val periodDate = if (newPeriodStarted) {
+                //new monthly period has already started then observe it => current month
                 dateNowUTC
             } else {
+                //new monthly period hasn't yet started then observe the ongoing one => previous month
                 dateNowUTC.minusMonths(1)
             }
 
@@ -54,7 +56,10 @@ data class TimePeriod(
             month != null -> {
                 val date = month.toDate()
                 val (from, to) = if (startDateOfMonth != 1) {
-                    fromToMonthlyRangeForCustomStartDate(date, startDateOfMonth)
+                    customStartDayOfMonthPeriodRange(
+                        date = date,
+                        startDateOfMonth = startDateOfMonth
+                    )
                 } else {
                     Pair(startOfMonth(date), endOfMonth(date))
                 }
@@ -83,7 +88,7 @@ data class TimePeriod(
         }
     }
 
-    private fun fromToMonthlyRangeForCustomStartDate(
+    private fun customStartDayOfMonthPeriodRange(
         date: LocalDate,
         startDateOfMonth: Int
     ): Pair<LocalDateTime, LocalDateTime> {
@@ -93,8 +98,10 @@ data class TimePeriod(
 
         val to = date
             .withDayOfMonthSafe(startDateOfMonth)
+            //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
             .plusMonths(1)
-            .minusDays(1) //e.g. correct: 14.10-13.11
+            //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
+            .minusDays(1)
             .atEndOfDay()
 
         return Pair(from, to)
