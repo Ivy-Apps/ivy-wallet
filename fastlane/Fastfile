@@ -55,7 +55,8 @@ platform :android do
         supply(
             track: "internal",
             aab: "app/build/outputs/bundle/release/app-release.aab",
-            release_status: "draft",
+            #release_status: "draft",
+            rollout: 1,
             skip_upload_apk: true,
             skip_upload_metadata: true,
             skip_upload_changelogs: false,
