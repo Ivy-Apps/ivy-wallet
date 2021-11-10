@@ -215,7 +215,7 @@ class ReportViewModel @Inject constructor(
             .filter {
                 //Filter by Time Period
 
-                val filterRange = filter.period?.toRange(ivyContext.startDateOfMonth)
+                val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
                     ?: return@filter false
 
                 (it.dateTime != null && filterRange.includes(it.dateTime)) ||

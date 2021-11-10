@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
@@ -32,10 +33,50 @@ class IvyContext {
         }
 
     //------------------------------------------ State ---------------------------------------------
-    var selectedPeriod: TimePeriod = TimePeriod.thisMonth() //original state
-    var transactionsListState: LazyListState? = null
+    var startDayOfMonth = 1
+    fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
+        startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
+        return startDayOfMonth
+    }
 
-    var startDateOfMonth = 1
+    fun updateStartDayOfMonthWithPersistence(
+        sharedPrefs: SharedPrefs,
+        startDayOfMonth: Int
+    ) {
+        sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDayOfMonth)
+        this.startDayOfMonth = startDayOfMonth
+
+        //when start day of month the selected time period must be reinitialized
+        initSelectedPeriodInMemory(
+            startDayOfMonth = startDayOfMonth,
+            forceReinitialize = true
+        )
+    }
+
+    var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
+        startDayOfMonth = startDayOfMonth //this is default value
+    )
+    private var selectedPeriodInitialized = false
+    fun initSelectedPeriodInMemory(
+        startDayOfMonth: Int,
+        forceReinitialize: Boolean = false
+    ): TimePeriod {
+        if (!selectedPeriodInitialized || forceReinitialize) {
+            selectedPeriod = TimePeriod.currentMonth(
+                startDayOfMonth = startDayOfMonth
+            )
+            selectedPeriodInitialized = true
+        }
+
+        return selectedPeriod
+    }
+
+    fun updateSelectedPeriodInMemory(period: TimePeriod) {
+        selectedPeriod = period
+    }
+
+
+    var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
     //------------------------------------------ State ---------------------------------------------

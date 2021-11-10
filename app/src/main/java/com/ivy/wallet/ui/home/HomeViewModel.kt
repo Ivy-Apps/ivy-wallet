@@ -14,6 +14,7 @@ import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -37,7 +38,8 @@ class HomeViewModel @Inject constructor(
     private val ivyContext: IvyContext,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val customerJourneyLogic: CustomerJourneyLogic
+    private val customerJourneyLogic: CustomerJourneyLogic,
+    private val sharedPrefs: SharedPrefs
 ) : ViewModel() {
 
     private val _theme = MutableLiveData<Theme>()
@@ -107,7 +109,18 @@ class HomeViewModel @Inject constructor(
     private val _customerJourneyCards = MutableLiveData<List<CustomerJourneyCardData>>()
     val customerJourneyCards = _customerJourneyCards.asLiveData()
 
-    fun start(period: TimePeriod = ivyContext.selectedPeriod) {
+    fun start() {
+        viewModelScope.launch {
+            val startDayOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
+            load(
+                period = ivyContext.initSelectedPeriodInMemory(
+                    startDayOfMonth = startDayOfMonth
+                )
+            )
+        }
+    }
+
+    private fun load(period: TimePeriod = ivyContext.selectedPeriod) {
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
 
@@ -119,7 +132,7 @@ class HomeViewModel @Inject constructor(
             _accounts.value = ioThread { accountDao.findAll() }!!
 
             _period.value = period
-            val timeRange = period.toRange(ivyContext.startDateOfMonth)
+            val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
             _balance.value = ioThread { walletLogic.calculateBalance() }!!
             _bufferDiff.value = ioThread { walletLogic.calculateBufferDiff() }!!
@@ -195,7 +208,7 @@ class HomeViewModel @Inject constructor(
                     )
                 )
             }
-            start()
+            load()
         }
     }
 
@@ -210,24 +223,24 @@ class HomeViewModel @Inject constructor(
 
                 exchangeRatesLogic.sync(baseCurrency = newCurrency)
             }
-            start()
+            load()
         }
     }
 
     fun setPeriod(period: TimePeriod) {
-        start(period = period)
+        load(period = period)
     }
 
     fun payOrGet(transaction: Transaction) {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
-                start()
+                load()
             }
         }
     }
 
     fun dismissCustomerJourneyCard(card: CustomerJourneyCardData) {
         customerJourneyLogic.dismissCard(card)
-        start()
+        load()
     }
 }

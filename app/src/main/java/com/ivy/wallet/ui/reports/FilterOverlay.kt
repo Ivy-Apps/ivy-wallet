@@ -429,7 +429,7 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(LocalIvyContext.current.startDateOfMonth)
+        text = filter?.period?.toDisplayLong(LocalIvyContext.current.startDayOfMonth)
             ?.capitalizeLocal()
             ?: "Select time range",
         paddingTop = 12.dp,

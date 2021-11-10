@@ -54,8 +54,10 @@ class AccountsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            val period = TimePeriod.thisMonth() //this must be monthly
-            val range = period.toRange(ivyContext.startDateOfMonth)
+            val period = TimePeriod.currentMonth(
+                startDayOfMonth = ivyContext.startDayOfMonth
+            ) //this must be monthly
+            val range = period.toRange(ivyContext.startDayOfMonth)
 
             val baseCurrency = ioThread { settingsDao.findFirst().currency }
             _baseCurrency.value = baseCurrency

@@ -144,7 +144,7 @@ class ItemStatisticViewModel @Inject constructor(
             accountDao.findById(accountId) ?: error("account not found")
         }
         _account.value = account
-        val range = period.value!!.toRange(ivyContext.startDateOfMonth)
+        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
 
         if (account.currency.isNotNullOrBlank()) {
             _currency.value = account.currency!!
@@ -202,7 +202,7 @@ class ItemStatisticViewModel @Inject constructor(
             categoryDao.findById(categoryId) ?: error("category not found")
         }
         _category.value = category
-        val range = period.value!!.toRange(ivyContext.startDateOfMonth)
+        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
             categoryLogic.calculateCategoryBalance(category, range)
@@ -244,7 +244,7 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     private suspend fun initForUnspecifiedCategory() {
-        val range = period.value!!.toRange(ivyContext.startDateOfMonth)
+        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
             categoryLogic.calculateUnspecifiedBalance(range)
