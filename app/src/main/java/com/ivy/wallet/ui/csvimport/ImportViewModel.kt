@@ -80,6 +80,7 @@ class ImportViewModel @Inject constructor(
                             ImportType.SPENDEE -> Charsets.UTF_8
                             ImportType.ONE_MONEY -> Charsets.UTF_8
                             ImportType.KTW_MONEY_MANAGER -> Charsets.UTF_8
+                            ImportType.FORTUNE_CITY -> Charsets.UTF_8
                         }
                     )
                     if (rawCSV == null || rawCSV.isBlank()) {

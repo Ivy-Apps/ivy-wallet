@@ -132,7 +132,11 @@ class CSVImporter(
         row: List<String>,
         rowMapping: RowMapping
     ): Transaction? {
-        val type = mapType(row.extract(rowMapping.type)) ?: return null
+        val type = mapType(
+            row = row,
+            rowMapping = rowMapping
+        ) ?: return null
+
         val toAccount = if (type == TransactionType.TRANSFER) {
             mapAccount(
                 baseCurrency = baseCurrency,
@@ -184,22 +188,33 @@ class CSVImporter(
         val id = mapId(row.extract(rowMapping.id))
 
 
-        return Transaction(
-            id = id,
-            type = type,
-            amount = amount,
-            accountId = account.id,
-            toAccountId = toAccount?.id,
-            toAmount = toAmount,
-            dateTime = dateTime,
-            dueDate = dueDate,
-            categoryId = category?.id,
-            title = title,
-            description = description
+        return rowMapping.transformTransaction(
+            Transaction(
+                id = id,
+                type = type,
+                amount = amount,
+                accountId = account.id,
+                toAccountId = toAccount?.id,
+                toAmount = toAmount,
+                dateTime = dateTime,
+                dueDate = dueDate,
+                categoryId = category?.id,
+                title = title,
+                description = description
+            ),
+            category
         )
     }
 
-    private fun mapType(type: String?): TransactionType? {
+    private fun mapType(
+        row: List<String>,
+        rowMapping: RowMapping
+    ): TransactionType? {
+        //Return Expense for intentionally set Type mapping to null
+        //Example: Fortune City
+        if (rowMapping.type == null) return TransactionType.EXPENSE
+
+        val type = row.extract(rowMapping.type)
         if (type == null || type.isBlank()) return null
 
         val normalizedType = type.toLowerCaseLocal()
@@ -230,7 +245,8 @@ class CSVImporter(
             "yyyy-MM-dd HH:mm:ss",
             "yyyy/MM/dd HH:mm:ss",
             "MM/dd/yyyy HH:mm:ss",
-            "dd/MM/yyyy h:mm a"
+            "dd/MM/yyyy h:mm a",
+            "yyyy/MM/dd HH:mm"
         )
 
         for (pattern in supportedPatterns) {

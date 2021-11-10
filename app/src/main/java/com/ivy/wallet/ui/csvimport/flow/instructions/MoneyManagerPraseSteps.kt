@@ -23,8 +23,8 @@ fun MoneyManagerPraseSteps(
     Spacer(Modifier.height(12.dp))
 
     VideoArticleRow(
-        videoUrl = null, //TODO: add
-        articleUrl = null //TODO: add
+        videoUrl = null,
+        articleUrl = null
     )
 
     Spacer(Modifier.height(24.dp))

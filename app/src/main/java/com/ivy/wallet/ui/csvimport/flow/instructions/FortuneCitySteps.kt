@@ -3,11 +3,11 @@ package com.ivy.wallet.ui.csvimport.flow.instructions
 import androidx.compose.runtime.Composable
 
 @Composable
-fun WalletByBudgetBakersSteps(
+fun FortuneCitySteps(
     onUploadClick: () -> Unit
 ) {
     DefaultImportSteps(
-        articleUrl = "https://support.budgetbakers.com/hc/en-us/articles/209753325-How-to-EXPORT-transactions-from-Wallet",
+        articleUrl = "https://fourdesire.helpshift.com/hc/en/5-fortune-city/faq/242-can-i-export-my-fortune-city-records/",
         onUploadClick = onUploadClick
     )
 }

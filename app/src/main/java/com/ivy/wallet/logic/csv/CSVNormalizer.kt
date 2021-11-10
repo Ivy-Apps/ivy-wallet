@@ -12,6 +12,7 @@ class CSVNormalizer {
             ImportType.SPENDEE -> rawCSV
             ImportType.ONE_MONEY -> rawCSV
             ImportType.KTW_MONEY_MANAGER -> rawCSV
+            ImportType.FORTUNE_CITY -> rawCSV
         }
     }
 

@@ -1,7 +1,9 @@
 package com.ivy.wallet.logic.csv
 
+import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.logic.csv.model.RowMapping
+import com.ivy.wallet.model.TransactionType
 
 class CSVMapper {
 
@@ -18,6 +20,7 @@ class CSVMapper {
         ImportType.SPENDEE -> spendee()
         ImportType.ONE_MONEY -> oneMoney()
         ImportType.KTW_MONEY_MANAGER -> ktwRowMapping()
+        ImportType.FORTUNE_CITY -> fortuneCityRowMapping()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -133,5 +136,22 @@ class CSVMapper {
         accountCurrency = 4,
         title = 5,
         account = 6
+    )
+
+
+    private fun fortuneCityRowMapping() = RowMapping(
+        account = 0,
+        category = 1,
+        amount = 2,
+        accountCurrency = 3,
+        date = 4,
+        title = 5,
+
+        transformTransaction = { transaction, category ->
+            transaction.copy(
+                type = if (category?.name?.toLowerCaseLocal() == "income")
+                    TransactionType.INCOME else TransactionType.EXPENSE
+            )
+        }
     )
 }
