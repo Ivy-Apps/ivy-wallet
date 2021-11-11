@@ -144,6 +144,9 @@ dependencies {
     //Reorder
     implementation(Libs.AndroidX.Reorder.recyclerView)
 
+    //AndroidX Other
+    implementation(Libs.AndroidX.Other.webView)
+
     //Window Insets + Image Loading
     implementation(Libs.Google.Accompanist.insets)
     implementation(Libs.Google.Accompanist.coil)
