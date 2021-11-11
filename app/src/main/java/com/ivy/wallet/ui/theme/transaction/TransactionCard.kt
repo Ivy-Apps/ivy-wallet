@@ -104,6 +104,7 @@ fun LazyItemScope.TransactionCard(
                     color = IvyTheme.colors.pureInverse
                 )
             )
+
         }
 
         Spacer(Modifier.height(16.dp))
