@@ -32,9 +32,13 @@ fun HistoryDateDivider(
     ) {
         Spacer(Modifier.width(24.dp))
 
+        val today = dateNowUTC()
+
         Column {
             Text(
-                text = date.formatLocal("MMMM dd."),
+                text = date.formatLocal(
+                    if (today.year == date.year) "MMMM dd." else "MMM dd. yyy"
+                ),
                 style = Typo.body1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -43,7 +47,20 @@ fun HistoryDateDivider(
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = date.formatLocal("EEEE"),
+                text = when (date) {
+                    today -> {
+                        "Today"
+                    }
+                    today.minusDays(1) -> {
+                        "Yesterday"
+                    }
+                    today.plusDays(1) -> {
+                        "Tomorrow"
+                    }
+                    else -> {
+                        date.formatLocal("EEEE")
+                    }
+                },
                 style = Typo.caption.style(
                     fontWeight = FontWeight.Bold
                 )
@@ -70,10 +87,38 @@ fun HistoryDateDivider(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview_Today() {
     IvyComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC(),
+            spacerTop = 32.dp,
+            baseCurrency = "BGN",
+            income = 13.50,
+            expenses = 256.13
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Yesterday() {
+    IvyComponentPreview {
+        HistoryDateDivider(
+            date = dateNowUTC().minusDays(1),
+            spacerTop = 32.dp,
+            baseCurrency = "BGN",
+            income = 13.50,
+            expenses = 256.13
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_OneYear_Ago() {
+    IvyComponentPreview {
+        HistoryDateDivider(
+            date = dateNowUTC().minusYears(1),
             spacerTop = 32.dp,
             baseCurrency = "BGN",
             income = 13.50,

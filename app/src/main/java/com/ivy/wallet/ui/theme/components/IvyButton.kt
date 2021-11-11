@@ -38,6 +38,7 @@ fun IvyButton(
     enabled: Boolean = true,
     shadowAlpha: Float = 0.15f,
     wrapContentMode: Boolean = true,
+    hasGlow: Boolean = true,
     paddingTop: Dp = 12.dp,
     paddingBottom: Dp = 14.dp, //center hack
     iconEdgePadding: Dp = 12.dp,
@@ -45,7 +46,7 @@ fun IvyButton(
 ) {
     Row(
         modifier = modifier
-            .thenIf(enabled) {
+            .thenIf(enabled && hasGlow) {
                 drawColoredShadow(
                     color = backgroundGradient.startColor,
                     borderRadius = 0.dp,

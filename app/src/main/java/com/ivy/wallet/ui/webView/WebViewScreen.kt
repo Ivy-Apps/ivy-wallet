@@ -11,9 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
@@ -47,6 +50,16 @@ private fun BoxWithConstraintsScope.UI(url: String) {
         AndroidView(
             factory = ::WebView,
             update = { webView ->
+                //Activate Dark mode if the user uses Dark theme & it's supported
+                if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                    val forceDarkMode = if (ivyContext.theme == Theme.DARK)
+                        WebSettingsCompat.FORCE_DARK_ON else WebSettingsCompat.FORCE_DARK_OFF
+                    WebSettingsCompat.setForceDark(
+                        webView.settings,
+                        forceDarkMode
+                    )
+                }
+
                 //Chrome Client is compatible with most of websites
                 webView.webChromeClient = WebChromeClient()
                 webView.settings.javaScriptEnabled = true
