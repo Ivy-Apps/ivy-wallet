@@ -55,12 +55,11 @@ fun LocalDateTime.formatNicely(
 
 fun LocalDateTime.formatNicelyWithTime(
     noWeekDay: Boolean = false,
-    pattern: String = "EEE, dd MMM 'at' HH:mm",
-    patternNoWeekDay: String = "dd MMM 'at' HH:mm",
     zone: ZoneId = ZoneOffset.systemDefault()
 ): String {
     val today = dateNowUTC()
 
+    val patternNoWeekDay = "dd MMM 'at' HH:mm"
     if (noWeekDay) {
         return this.formatLocal(patternNoWeekDay)
     }
@@ -76,7 +75,7 @@ fun LocalDateTime.formatNicelyWithTime(
             "Tomorrow, ${this.formatLocal(patternNoWeekDay, zone)}"
         }
         else -> {
-            this.formatLocal(pattern, zone)
+            this.formatLocal("EEE, dd MMM 'at' HH:mm", zone)
         }
     }
 }

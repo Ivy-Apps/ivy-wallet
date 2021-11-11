@@ -18,7 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
+import com.ivy.wallet.base.dateNowUTC
+import com.ivy.wallet.base.formatNicely
+import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -33,7 +36,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import java.time.LocalDateTime
-import java.util.*
 
 
 @Composable
@@ -72,28 +74,27 @@ fun LazyItemScope.TransactionCard(
             accounts = accounts
         )
 
-        Spacer(Modifier.height(16.dp))
 
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            text = when {
-                transaction.dueDate != null -> {
-                    "DUE ON ${transaction.dueDate.formatNicely()}".toUpperCase(Locale.getDefault())
-                }
-                transaction.dateTime != null -> {
-                    transaction.dateTime.formatNicelyWithTime().toUpperCase(Locale.getDefault())
-                }
-                else -> error("transaction without date")
-            },
-            style = Typo.numberCaption.style(
-                color = if (transaction.dueDate != null && transaction.dueDate.isAfter(timeNowUTC()))
-                    Orange else IvyTheme.colors.gray,
-                fontWeight = FontWeight.Bold
+        if (transaction.dueDate != null) {
+            Spacer(Modifier.height(12.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = "DUE ON ${transaction.dueDate.formatNicely()}".uppercase(),
+                style = Typo.numberCaption.style(
+                    color = if (transaction.dueDate.isAfter(timeNowUTC()))
+                        Orange else IvyTheme.colors.gray,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+        }
 
         if (transaction.title.isNotNullOrBlank()) {
-            Spacer(Modifier.height(8.dp))
+            Spacer(
+                Modifier.height(
+                    if (transaction.dueDate != null) 8.dp else 12.dp
+                )
+            )
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -105,7 +106,7 @@ fun LazyItemScope.TransactionCard(
             )
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(16.dp))
 
         TypeAmountCurrency(
             transactionType = transaction.type,
@@ -132,7 +133,7 @@ fun LazyItemScope.TransactionCard(
             }
         }
 
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(20.dp))
     }
 }
 
