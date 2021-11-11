@@ -92,6 +92,10 @@ object Libs {
             //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
             const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
         }
+
+        object Other {
+            const val webView = "androidx.webkit:webkit:1.4.0"
+        }
     }
 
     object Google {
