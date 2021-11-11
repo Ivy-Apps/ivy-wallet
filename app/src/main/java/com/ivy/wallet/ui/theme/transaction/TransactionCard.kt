@@ -170,6 +170,7 @@ private fun TransactionHeaderRow(
                 IvyButton(
                     text = category.name,
                     backgroundGradient = Gradient.solid(category.color.toComposeColor()),
+                    hasGlow = false,
                     iconTint = findContrastTextColor(category.color.toComposeColor()),
                     iconStart = getCustomIconIdS(
                         iconName = category.icon,
@@ -198,6 +199,7 @@ private fun TransactionHeaderRow(
             //TODO: Rework that by using dedicated component for "Account"
             IvyButton(
                 backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                hasGlow = false,
                 iconTint = IvyTheme.colors.pureInverse,
                 text = account?.name ?: "deleted",
                 iconStart = getCustomIconIdS(
