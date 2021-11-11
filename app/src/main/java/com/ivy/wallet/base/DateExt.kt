@@ -61,6 +61,7 @@ fun LocalDateTime.formatNicelyWithTime(
     val isThisYear = today.year == this.year
 
     val patternNoWeekDay = "dd MMM 'at' HH:mm"
+
     if (noWeekDay) {
         return if (isThisYear) {
             this.formatLocal(patternNoWeekDay)
