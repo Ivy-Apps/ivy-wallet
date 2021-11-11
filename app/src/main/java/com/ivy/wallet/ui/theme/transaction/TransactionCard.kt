@@ -107,7 +107,11 @@ fun LazyItemScope.TransactionCard(
 
         }
 
-        Spacer(Modifier.height(16.dp))
+        if (transaction.dueDate != null) {
+            Spacer(Modifier.height(12.dp))
+        } else {
+            Spacer(Modifier.height(16.dp))
+        }
 
         TypeAmountCurrency(
             transactionType = transaction.type,
@@ -118,12 +122,15 @@ fun LazyItemScope.TransactionCard(
 
         if (transaction.dueDate != null && transaction.dateTime == null) {
             //Pay/Get button
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(16.dp))
 
             val isExpense = transaction.type == TransactionType.EXPENSE
             IvyButton(
-                modifier = Modifier.padding(start = 20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
                 text = if (isExpense) "Pay" else "Get",
+                wrapContentMode = false,
                 backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
                 textStyle = Typo.body2.style(
                     color = if (isExpense) IvyTheme.colors.pure else White,
