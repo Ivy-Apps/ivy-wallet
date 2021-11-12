@@ -96,7 +96,7 @@ fun LocalDateTime.formatLocalTime(): String {
     return timeFormat.format(this.millis())
 }
 
-fun LocalDate.formatDateOnly(): String = this.formatLocal("dd MMM", ZoneOffset.systemDefault())
+fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.systemDefault())
 
 fun LocalDate.formatDateOnlyWithYear(): String =
     this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
@@ -149,6 +149,14 @@ fun LocalDateTime.formatLocal(
             .ofPattern(pattern)
             .withLocale(Locale.getDefault())
             .withZone(zone) //this is if you want to display the Zone in the pattern
+    )
+}
+
+fun LocalDateTime.format(
+    pattern: String
+): String {
+    return this.format(
+        DateTimeFormatter.ofPattern(pattern)
     )
 }
 

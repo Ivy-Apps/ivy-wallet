@@ -116,7 +116,10 @@ data class TimePeriod(
                     month.name
                 } else {
                     val range = toRange(startDateOfMonth)
-                    "${month.name} (${range.from?.dayOfMonth}-${range.to?.dayOfMonth})"
+                    val pattern = "MMM dd"
+                    //Don't use formatLocal() because .to is at 23:59:59 =>
+                    // it may appear as +1 day in some timeZones when converted
+                    "${range.from?.format(pattern)} - ${range.to?.format(pattern)}"
                 }
             }
             fromToRange != null -> {
