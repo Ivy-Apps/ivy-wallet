@@ -266,6 +266,32 @@ class CSVImporter(
             "M/dd/yyyy h:mm a",
             "MM/d/yyyy h:mm a",
             "MM/dd/yyyy h:mm a",
+
+            //Fortune City Date with "-" variations with 24-h
+            "d-M-yyyy HH:mm",
+            "d-MM-yyyy HH:mm",
+            "dd-M-yyyy HH:mm",
+            "dd-MM-yyyy HH:mm",
+            "M-d-yyyy HH:mm",
+            "M-dd-yyyy HH:mm",
+            "MM-d-yyyy HH:mm",
+            "MM-dd-yyyy HH:mm",
+
+            //Fortune City Date with "-" variations with 12-h (am/pm)
+            "d-M-yyyy h:mm a",
+            "d-MM-yyyy h:mm a",
+            "dd-M-yyyy h:mm a",
+            "dd-MM-yyyy h:mm a",
+            "M-d-yyyy h:mm a",
+            "M-dd-yyyy h:mm a",
+            "MM-d-yyyy h:mm a",
+            "MM-dd-yyyy h:mm a",
+
+            //More Fortune City Date formats
+            "dd-MM-yy H:mm",
+            "dd-MM-yy HH:mm",
+            "MM-dd-yy H:mm",
+            "MM-dd-yy HH:mm",
         )
 
         for (pattern in supportedPatterns) {
