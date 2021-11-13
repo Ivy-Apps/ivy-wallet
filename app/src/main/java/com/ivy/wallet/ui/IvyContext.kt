@@ -208,7 +208,7 @@ class IvyContext {
 
 
     // Billing -------------------------------------------------------------------------------------
-    var isPremium = false
+    var isPremium = if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
     // Billing -------------------------------------------------------------------------------------
 
     lateinit var googleSignIn: (idTokenResult: (String?) -> Unit) -> Unit

@@ -187,6 +187,7 @@ fun formatInt(number: Int): String {
         "#,###,###,###",
         DecimalFormatSymbols().apply {
             this.groupingSeparator = ','
+            //TODO: Support groupingSeparator localization, example CZK doesn't like ","
         }
     ).format(number)
 }
