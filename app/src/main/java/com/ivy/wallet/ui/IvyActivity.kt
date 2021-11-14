@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.text.format.DateFormat
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -24,9 +25,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -111,6 +110,8 @@ class IvyActivity : AppCompatActivity() {
 
     private lateinit var openFileContract: ActivityResultLauncher<Unit>
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
+
+    private var appLockedEnabled: Boolean = false
 
     @ExperimentalAnimationApi
     @ExperimentalFoundationApi
@@ -201,10 +202,11 @@ class IvyActivity : AppCompatActivity() {
         AddTransactionWidget.updateBroadcast(this)
 
         setContent {
-            val viewModel: IvyViewModel = viewModel()
+            val viewModel : IvyViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
             val appLocked by viewModel.appLocked.observeAsState(false)
+            val isUserInactive = ivyContext.isUserInactive
 
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
@@ -215,18 +217,33 @@ class IvyActivity : AppCompatActivity() {
                 ivyContext = ivyContext,
             ) {
                 if (appLocked) {
-                    AppLockedScreen(
-                        onShowOSBiometricsModal = {
-                            authenticateWithOSBiometricsModal(viewModel)
-                        },
-                        onContinueWithoutAuthentication = {
-                            viewModel.unlockAuthenticated(intent)
-                        }
+                    appLockedEnabled = true
+                    ivyContext.navigateTo(
+                        Screen.AppLock({
+                            authenticateWithOSBiometricsModal(
+                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
+                                    viewModel.unlockAuthenticated(intent)
+                                })
+                            )
+                        }, { viewModel.unlockAuthenticated(intent) }), false
                     )
-                    authenticateWithOSBiometricsModal(viewModel)
+                }
+
+                if (appLockedEnabled && isUserInactive.value) {
+                    ivyContext.resetUserInActiveTimer()
+                    ivyContext.navigateTo(
+                        Screen.AppLock({
+                            authenticateWithOSBiometricsModal(
+                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
+                                    ivyContext.back()
+                                })
+                            )
+                        }, { ivyContext.back() })
+                    )
                 }
 
                 when (val screen = ivyContext.currentScreen) {
+
                     is Screen.Main -> MainScreen(screen = screen)
                     is Screen.Onboarding -> OnboardingScreen(screen = screen)
                     is Screen.EditTransaction -> EditTransactionScreen(screen = screen)
@@ -248,11 +265,43 @@ class IvyActivity : AppCompatActivity() {
                     is Screen.Report -> ReportScreen(screen = screen)
                     is Screen.Budget -> BudgetScreen(screen = screen)
                     is Screen.WebView -> WebViewScreen(screen = screen)
+                    is Screen.AppLock -> {
+                        AppLockedScreen(
+                            onShowOSBiometricsModal = {
+                                screen.onShowOSBiometricsModal()
+                            },
+                            onContinueWithoutAuthentication = {
+                                screen.onContinueWithoutAuthentication()
+                            })
+                    }
                     null -> {
                     }
                 }
             }
         }
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (appLockedEnabled && !hasFocus) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE
+            )
+        } else
+            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (appLockedEnabled)
+            ivyContext.checkUserInactiveTimeStatus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (appLockedEnabled)
+            ivyContext.startUserInactiveTimeCounter()
     }
 
     @Composable
@@ -321,18 +370,27 @@ class IvyActivity : AppCompatActivity() {
                     onContinueWithoutAuthentication()
                 }
             }
-
             Spacer(Modifier.height(24.dp))
+
+            //To automatically launch the biometric screen on load of this composable
+            LaunchedEffect(true)
+            {
+                if (hasLockScreen(context)) {
+                    onShowOSBiometricsModal()
+                } else {
+                    onContinueWithoutAuthentication()
+                }
+            }
         }
     }
 
     private fun authenticateWithOSBiometricsModal(
-        viewModel: IvyViewModel
+        biometricPromptCallback: BiometricPrompt.AuthenticationCallback
     ) {
         val executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(
             this, executor,
-            viewModel.handleBiometricAuthenticationResult(intent)
+            biometricPromptCallback
         )
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()

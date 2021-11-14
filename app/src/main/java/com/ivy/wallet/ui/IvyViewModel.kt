@@ -92,11 +92,11 @@ class IvyViewModel @Inject constructor(
         return false
     }
 
-    fun handleBiometricAuthenticationResult(intent: Intent): BiometricPrompt.AuthenticationCallback {
+    fun handleBiometricAuthenticationResult(onAuthSuccess: () -> Unit): BiometricPrompt.AuthenticationCallback {
         return object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 Timber.d("Authentication succeeded!")
-                unlockAuthenticated(intent)
+                onAuthSuccess()
             }
 
             override fun onAuthenticationFailed() {
