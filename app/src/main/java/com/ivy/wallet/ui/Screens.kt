@@ -71,4 +71,9 @@ sealed class Screen {
     object Test : Screen()
 
     data class WebView(val url: String) : Screen()
+
+    data class AppLock(
+        val onShowOSBiometricsModal: () -> Unit,
+        val onContinueWithoutAuthentication: () -> Unit
+    ) : Screen()
 }

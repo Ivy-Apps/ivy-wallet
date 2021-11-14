@@ -715,9 +715,9 @@ private fun Premium() {
     val ivyContext = LocalIvyContext.current
     SettingsPrimaryButton(
         icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyContext.isPremium) "Premium" else "Buy premium",
+        text = if (ivyContext.isPremium) "Ivy Premium (owned)" else "Buy premium",
         hasShadow = true,
-        backgroundGradient = GradientOrange
+        backgroundGradient = if (ivyContext.isPremium) GradientIvy else GradientOrange
     ) {
         ivyContext.navigateTo(
             Screen.Paywall(

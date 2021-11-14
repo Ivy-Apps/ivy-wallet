@@ -2,6 +2,7 @@ package com.ivy.wallet
 
 object Constants {
     const val ENABLE_PAYWALL_ON_DEBUG = false
+    const val PREMIUM_INITIAL_VALUE_DEBUG = true
 
     const val FREE_ACCOUNTS = 3
     const val FREE_CATEGORIES = 12
@@ -26,4 +27,5 @@ object Constants {
     const val URL_IVY_CONTRIBUTORS =
         "https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-see-graph"
 
+    const val USER_INACTIVE_TIME_LIMIT = 300  //Time in seconds
 }

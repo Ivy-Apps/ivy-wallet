@@ -239,11 +239,13 @@ private fun BenefitRow(
     ) {
         Spacer(Modifier.width(24.dp))
 
+        val ivyContext = LocalIvyContext.current
         IvyIcon(
             modifier = Modifier
                 .background(
-                    GradientOrange.asHorizontalBrush(),
-                    CircleShape
+                    brush = (if (ivyContext.isPremium) GradientIvy else GradientOrange)
+                        .asHorizontalBrush(),
+                    shape = CircleShape
                 ),
             icon = R.drawable.ic_custom_crown_s,
             tint = White
