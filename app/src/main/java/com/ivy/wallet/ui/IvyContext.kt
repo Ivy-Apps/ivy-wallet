@@ -223,7 +223,7 @@ class IvyContext {
 
     // UserInactivity ------------------------------------------------------------------------------
     private val _isUserInactive = mutableStateOf(false)
-    val isUserInactive : State<Boolean> = _isUserInactive
+    val isUserInactive: State<Boolean> = _isUserInactive
 
     private val userInactiveTime = AtomicLong(0)
     private var userInactiveJob: Job? = null
@@ -234,11 +234,10 @@ class IvyContext {
     }
 
     fun startUserInactiveTimeCounter() {
-        if (userInactiveJob != null && userInactiveJob!!.isActive)
-            return
+        if (userInactiveJob != null && userInactiveJob!!.isActive) return
 
         userInactiveJob = GlobalScope.launch(Dispatchers.IO) {
-            while (userInactiveTime.get() < USER_INACTIVE_TIME_LIMIT  && userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
+            while (userInactiveTime.get() < USER_INACTIVE_TIME_LIMIT && userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
                 delay(1000)
                 userInactiveTime.incrementAndGet()
             }

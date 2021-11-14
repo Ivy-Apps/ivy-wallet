@@ -202,10 +202,11 @@ class IvyActivity : AppCompatActivity() {
         AddTransactionWidget.updateBroadcast(this)
 
         setContent {
-            val viewModel : IvyViewModel = viewModel()
+            val viewModel: IvyViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
             val appLocked by viewModel.appLocked.observeAsState(false)
+            appLockedEnabled = appLocked
             val isUserInactive = ivyContext.isUserInactive
 
             LaunchedEffect(isSystemInDarkTheme) {
@@ -217,28 +218,42 @@ class IvyActivity : AppCompatActivity() {
                 ivyContext = ivyContext,
             ) {
                 if (appLocked) {
-                    appLockedEnabled = true
                     ivyContext.navigateTo(
-                        Screen.AppLock({
-                            authenticateWithOSBiometricsModal(
-                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
-                                    viewModel.unlockAuthenticated(intent)
-                                })
-                            )
-                        }, { viewModel.unlockAuthenticated(intent) }), false
+                        Screen.AppLock(
+                            onShowOSBiometricsModal = {
+                                authenticateWithOSBiometricsModal(
+                                    viewModel.handleBiometricAuthenticationResult(
+                                        onAuthSuccess = {
+                                            viewModel.unlockAuthenticated(intent)
+                                        }
+                                    )
+                                )
+                            },
+                            onContinueWithoutAuthentication = {
+                                viewModel.unlockAuthenticated(intent)
+                            }
+                        ),
+                        allowBackStackStore = false
                     )
                 }
 
                 if (appLockedEnabled && isUserInactive.value) {
                     ivyContext.resetUserInActiveTimer()
                     ivyContext.navigateTo(
-                        Screen.AppLock({
-                            authenticateWithOSBiometricsModal(
-                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
-                                    ivyContext.back()
-                                })
-                            )
-                        }, { ivyContext.back() })
+                        Screen.AppLock(
+                            onShowOSBiometricsModal = {
+                                authenticateWithOSBiometricsModal(
+                                    viewModel.handleBiometricAuthenticationResult(
+                                        onAuthSuccess = {
+                                            ivyContext.back()
+                                        }
+                                    )
+                                )
+                            },
+                            onContinueWithoutAuthentication = {
+                                ivyContext.back()
+                            }
+                        )
                     )
                 }
 
@@ -272,7 +287,8 @@ class IvyActivity : AppCompatActivity() {
                             },
                             onContinueWithoutAuthentication = {
                                 screen.onContinueWithoutAuthentication()
-                            })
+                            }
+                        )
                     }
                     null -> {
                     }
@@ -294,14 +310,16 @@ class IvyActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (appLockedEnabled)
+        if (appLockedEnabled) {
             ivyContext.checkUserInactiveTimeStatus()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        if (appLockedEnabled)
+        if (appLockedEnabled) {
             ivyContext.startUserInactiveTimeCounter()
+        }
     }
 
     @Composable
@@ -373,8 +391,7 @@ class IvyActivity : AppCompatActivity() {
             Spacer(Modifier.height(24.dp))
 
             //To automatically launch the biometric screen on load of this composable
-            LaunchedEffect(true)
-            {
+            LaunchedEffect(true) {
                 if (hasLockScreen(context)) {
                     onShowOSBiometricsModal()
                 } else {
