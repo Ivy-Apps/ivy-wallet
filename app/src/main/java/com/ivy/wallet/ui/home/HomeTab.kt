@@ -1,8 +1,8 @@
+
 package com.ivy.wallet.ui.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -10,13 +10,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.base.verticalSwipeListener
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.TransactionHistoryItem
@@ -165,28 +165,17 @@ private fun BoxWithConstraintsScope.UI(
     }
     var expanded by remember { mutableStateOf(false) }
 
-    var headerSwipeOffset by remember { mutableStateOf(0f) }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .pointerInput(Unit) {
-                detectVerticalDragGestures(
-                    onDragEnd = {
-                        headerSwipeOffset = 0f
-                    },
-                    onVerticalDrag = { _, dragAmount ->
-                        //dragAmount: positive when scrolling down; negative when scrolling up
-                        headerSwipeOffset += dragAmount
-
-                        if (headerSwipeOffset > SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU) {
-                            expanded = true
-                        }
-                    }
-                )
-            }
+            .verticalSwipeListener(
+                sensitivity = SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                onSwipeDown = {
+                    expanded = true
+                }
+            )
     ) {
         val ivyContext = LocalIvyContext.current
         val listState = rememberLazyListState(

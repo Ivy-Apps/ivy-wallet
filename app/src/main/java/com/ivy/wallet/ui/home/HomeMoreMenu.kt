@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -16,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
@@ -45,7 +43,7 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import java.util.*
 import kotlin.math.roundToInt
 
-private const val SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU = -300
+private const val SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU = 300
 
 
 @Composable
@@ -118,8 +116,6 @@ fun BoxWithConstraintsScope.MoreMenu(
     }
 
     if (percentExpanded > 0.01f) {
-        var swipeOffset by remember { mutableStateOf(0f) }
-
         Column(
             modifier = Modifier
                 .statusBarsPadding()
@@ -127,21 +123,12 @@ fun BoxWithConstraintsScope.MoreMenu(
                 .fillMaxSize()
                 .alpha(percentExpanded)
                 .zIndex(510f)
-                .pointerInput(Unit) {
-                    detectVerticalDragGestures(
-                        onDragEnd = {
-                            swipeOffset = 0f
-                        },
-                        onVerticalDrag = { _, dragAmount ->
-                            //dragAmount: positive when scrolling down; negative when scrolling up
-                            swipeOffset += dragAmount
-
-                            if (swipeOffset < SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU) {
-                                setExpanded(false)
-                            }
-                        }
-                    )
-                }
+                .verticalSwipeListener(
+                    sensitivity = SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU,
+                    onSwipeUp = {
+                        setExpanded(false)
+                    }
+                )
         ) {
             val modalId = remember {
                 UUID.randomUUID()
