@@ -79,6 +79,11 @@ class IvyContext {
     var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
+        private set
+
+    fun selectMainTab(tab: MainTab) {
+        mainTab = tab
+    }
     //------------------------------------------ State ---------------------------------------------
 
     //------------------------------------------- BackStack ----------------------------------------

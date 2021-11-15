@@ -20,11 +20,13 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
+import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
@@ -64,12 +66,20 @@ private fun BoxWithConstraintsScope.UI(
     var reorderVisible by remember { mutableStateOf(false) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
+    val ivyContext = LocalIvyContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .horizontalSwipeListener(
+                sensitivity = 250,
+                onSwipeLeft = {
+                    ivyContext.selectMainTab(MainTab.HOME)
+                }
+            ),
     ) {
         Spacer(Modifier.height(32.dp))
 

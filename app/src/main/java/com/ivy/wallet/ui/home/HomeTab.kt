@@ -1,4 +1,3 @@
-
 package com.ivy.wallet.ui.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.verticalSwipeListener
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
@@ -26,6 +26,7 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
@@ -165,6 +166,8 @@ private fun BoxWithConstraintsScope.UI(
     }
     var expanded by remember { mutableStateOf(false) }
 
+    val ivyContext = LocalIvyContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -176,8 +179,13 @@ private fun BoxWithConstraintsScope.UI(
                     expanded = true
                 }
             )
+            .horizontalSwipeListener(
+                sensitivity = 250,
+                onSwipeRight = {
+                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                }
+            )
     ) {
-        val ivyContext = LocalIvyContext.current
         val listState = rememberLazyListState(
             initialFirstVisibleItemIndex = ivyContext.transactionsListState
                 ?.firstVisibleItemIndex ?: 0,

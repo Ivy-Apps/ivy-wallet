@@ -174,7 +174,7 @@ class HomeViewModel @Inject constructor(
                 ivyContext.navigateTo(Screen.BalanceScreen)
             } else {
                 //doesn't have transactions lead him to adjust balance
-                ivyContext.mainTab = MainTab.ACCOUNTS
+                ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 ivyContext.navigateTo(Screen.Main)
             }
         }
