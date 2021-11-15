@@ -8,9 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.base.format
-import com.ivy.wallet.base.localDecimalSeparator
-import com.ivy.wallet.base.normalizeExpression
+import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -126,10 +124,16 @@ fun BoxWithConstraintsScope.CalculatorModal(
             },
 
             onNumberPressed = {
-                expression += it
+                expression = formatExpression(
+                    expression = expression + it,
+                    currency = currency
+                )
             },
             onDecimalPoint = {
-                expression += localDecimalSeparator()
+                expression = formatExpression(
+                    expression = expression + localDecimalSeparator(),
+                    currency = currency
+                )
             },
             onBackspace = {
                 if (expression.isNotEmpty()) {
@@ -140,6 +144,33 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
         Spacer(Modifier.height(24.dp))
     }
+}
+
+private fun formatExpression(expression: String, currency: String): String {
+    var formattedExpression = expression
+
+    expression
+        .split("(", ")", "/", "*", "-", "+")
+        .ifEmpty {
+            //handle only number expression formatting
+            listOf(expression)
+        }
+        .forEach { part ->
+            val numberPart = part.amountToDoubleOrNull()
+            if (numberPart != null) {
+                val formattedPart = formatInputAmount(
+                    currency = currency,
+                    amount = part,
+                    newSymbol = ""
+                )
+
+                if (formattedPart != null) {
+                    formattedExpression = formattedExpression.replace(part, formattedPart)
+                }
+            }
+        }
+
+    return formattedExpression
 }
 
 private fun calculate(expression: String): Double? {

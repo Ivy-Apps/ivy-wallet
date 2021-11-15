@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -170,26 +169,13 @@ fun AmountInput(
                 setAmount(it)
                 firstInput = false
             } else {
-                val newlyEnteredNumberString = amount + it
-
-                val decimalPartString = newlyEnteredNumberString
-                    .split(localDecimalSeparator())
-                    .getOrNull(1)
-                val decimalCount = decimalPartString?.length ?: 0
-
-                val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
-
-                val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
-                        || decimalCount <= 2
-                if (amountDouble != null && decimalCountOkay) {
-                    val intPart = truncate(amountDouble).toInt()
-                    val decimalPartFormatted = if (decimalPartString != null) {
-                        "${localDecimalSeparator()}${decimalPartString}"
-                    } else ""
-
-                    val finalAmount = formatInt(intPart) + decimalPartFormatted
-
-                    setAmount(finalAmount)
+                val formattedAmount = formatInputAmount(
+                    currency = currency,
+                    amount = amount,
+                    newSymbol = it
+                )
+                if (formattedAmount != null) {
+                    setAmount(formattedAmount)
                 }
             }
         },

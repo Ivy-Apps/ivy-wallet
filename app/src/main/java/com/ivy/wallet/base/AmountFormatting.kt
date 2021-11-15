@@ -5,6 +5,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import kotlin.math.abs
 import kotlin.math.log10
+import kotlin.math.truncate
 
 const val MILLION = 1000000
 const val N_100K = 100000
@@ -151,4 +152,32 @@ private fun decimalPartFormattedFIAT(value: Double): String {
 fun Long.length() = when (this) {
     0L -> 1
     else -> log10(abs(toDouble())).toInt() + 1
+}
+
+fun formatInputAmount(
+    currency: String,
+    amount: String,
+    newSymbol: String
+): String? {
+    val newlyEnteredNumberString = amount + newSymbol
+
+    val decimalPartString = newlyEnteredNumberString
+        .split(localDecimalSeparator())
+        .getOrNull(1)
+    val decimalCount = decimalPartString?.length ?: 0
+
+    val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
+
+    val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
+            || decimalCount <= 2
+    if (amountDouble != null && decimalCountOkay) {
+        val intPart = truncate(amountDouble).toInt()
+        val decimalPartFormatted = if (decimalPartString != null) {
+            "${localDecimalSeparator()}${decimalPartString}"
+        } else ""
+
+        return formatInt(intPart) + decimalPartFormatted
+    }
+
+    return null
 }
