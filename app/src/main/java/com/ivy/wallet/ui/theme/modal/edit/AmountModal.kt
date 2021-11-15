@@ -27,7 +27,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
-import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.math.truncate
 
@@ -447,35 +446,6 @@ private fun circleButtonModifier(
         )
         .background(IvyTheme.colors.pure, Shapes.roundedFull)
         .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
-}
-
-fun String.amountToDoubleOrNull(): Double? {
-    return this.normalizeAmount().toDoubleOrNull()
-}
-
-fun String.amountToDouble(): Double {
-    return this.normalizeAmount().toDouble()
-}
-
-fun String.normalizeAmount(): String {
-    return this.removeGroupingSeparator()
-        .normalizeDecimalSeparator()
-}
-
-fun String.removeGroupingSeparator(): String {
-    return replace(localGroupingSeparator(), "")
-}
-
-fun String.normalizeDecimalSeparator(): String {
-    return replace(localDecimalSeparator(), ".")
-}
-
-fun localDecimalSeparator(): String {
-    return DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-}
-
-fun localGroupingSeparator(): String {
-    return DecimalFormatSymbols.getInstance().groupingSeparator.toString()
 }
 
 @Preview

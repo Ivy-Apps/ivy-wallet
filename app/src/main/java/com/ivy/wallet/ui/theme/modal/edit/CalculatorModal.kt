@@ -9,6 +9,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
+import com.ivy.wallet.base.localDecimalSeparator
+import com.ivy.wallet.base.normalizeExpression
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -117,7 +119,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 KeypadCircleButton(text = "=") {
                     val result = calculate(expression)
                     if (result != null) {
-                        expression = result.format(currency).removeGroupingSeparator()
+                        expression = result.format(currency)
                     }
                 }
             },
@@ -145,11 +147,6 @@ private fun calculate(expression: String): Double? {
     } catch (e: Exception) {
         null
     }
-}
-
-private fun String.normalizeExpression(): String {
-    return this.replace(localGroupingSeparator(), "")
-        .replace(localDecimalSeparator(), ".")
 }
 
 @Preview
