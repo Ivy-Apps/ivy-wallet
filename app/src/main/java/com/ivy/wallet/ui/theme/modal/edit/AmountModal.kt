@@ -27,6 +27,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
 import com.ivy.wallet.ui.theme.modal.modalPreviewActionRowHeight
+import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.math.truncate
 
@@ -77,7 +78,7 @@ fun BoxWithConstraintsScope.AmountModal(
                     if (amount.isEmpty()) {
                         onAmountChanged(0.0)
                     } else {
-                        onAmountChanged(amount.replace(",", "").toDouble())
+                        onAmountChanged(amount.amountToDouble())
                     }
                     dismiss()
                 } catch (e: Exception) {
@@ -169,21 +170,21 @@ fun AmountInput(
                 setAmount(it)
                 firstInput = false
             } else {
-                val newlyEnteredNumberString = amount.replace(",", "") + it
+                val newlyEnteredNumberString = amount + it
 
                 val decimalPartString = newlyEnteredNumberString
-                    .split(".")
+                    .split(localDecimalSeparator())
                     .getOrNull(1)
                 val decimalCount = decimalPartString?.length ?: 0
 
-                val amountDouble = newlyEnteredNumberString.toDoubleOrNull()
+                val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
                 val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
-                    || decimalCount <= 2
+                        || decimalCount <= 2
                 if (amountDouble != null && decimalCountOkay) {
                     val intPart = truncate(amountDouble).toInt()
                     val decimalPartFormatted = if (decimalPartString != null) {
-                        ".${decimalPartString}"
+                        "${localDecimalSeparator()}${decimalPartString}"
                     } else ""
 
                     val finalAmount = formatInt(intPart) + decimalPartFormatted
@@ -194,11 +195,12 @@ fun AmountInput(
         },
         onDecimalPoint = {
             if (firstInput) {
-                setAmount("0.")
+                setAmount("0${localDecimalSeparator()}")
                 firstInput = false
             } else {
-                val newlyEnteredString = if (amount.isEmpty()) "0." else "$amount."
-                if (newlyEnteredString.replace(",", "").toDoubleOrNull() != null) {
+                val newlyEnteredString = if (amount.isEmpty())
+                    "0${localDecimalSeparator()}" else "$amount${localDecimalSeparator()}"
+                if (newlyEnteredString.amountToDoubleOrNull() != null) {
                     setAmount(newlyEnteredString)
                 }
             }
@@ -219,19 +221,17 @@ fun AmountInput(
 }
 
 private fun formatNumber(number: String): String? {
-    val newAmountString = number.replace(",", "")
-
-    val decimalPartString = newAmountString
-        .split(".")
+    val decimalPartString = number
+        .split(localDecimalSeparator())
         .getOrNull(1)
     val newDecimalCount = decimalPartString?.length ?: 0
 
-    val amountDouble = newAmountString.toDoubleOrNull()
+    val amountDouble = number.amountToDoubleOrNull()
 
     if (newDecimalCount <= 2 && amountDouble != null) {
         val intPart = truncate(amountDouble).toInt()
         val decimalFormatted = if (decimalPartString != null) {
-            ".${decimalPartString}"
+            "${localDecimalSeparator()}${decimalPartString}"
         } else ""
 
         return formatInt(intPart) + decimalFormatted
@@ -368,7 +368,7 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        KeypadCircleButton(text = ".") {
+        KeypadCircleButton(text = localDecimalSeparator()) {
             onDecimalPoint()
         }
 
@@ -449,6 +449,35 @@ private fun circleButtonModifier(
         .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
 }
 
+fun String.amountToDoubleOrNull(): Double? {
+    return this.normalizeAmount().toDoubleOrNull()
+}
+
+fun String.amountToDouble(): Double {
+    return this.normalizeAmount().toDouble()
+}
+
+fun String.normalizeAmount(): String {
+    return this.removeGroupingSeparator()
+        .normalizeDecimalSeparator()
+}
+
+fun String.removeGroupingSeparator(): String {
+    return replace(localGroupingSeparator(), "")
+}
+
+fun String.normalizeDecimalSeparator(): String {
+    return replace(localDecimalSeparator(), ".")
+}
+
+fun localDecimalSeparator(): String {
+    return DecimalFormatSymbols.getInstance().decimalSeparator.toString()
+}
+
+fun localGroupingSeparator(): String {
+    return DecimalFormatSymbols.getInstance().groupingSeparator.toString()
+}
+
 @Preview
 @Composable
 private fun Preview() {
@@ -465,6 +494,5 @@ private fun Preview() {
 
             }
         }
-
     }
 }

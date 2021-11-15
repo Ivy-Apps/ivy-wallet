@@ -55,7 +55,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            text = if (isEmpty) "Expression (+-/*=)" else expression,
+            text = if (isEmpty) "Calculation (+-/*=)" else expression,
             style = Typo.numberH2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -117,7 +117,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 KeypadCircleButton(text = "=") {
                     val result = calculate(expression)
                     if (result != null) {
-                        expression = result.format(currency).replace(",", "")
+                        expression = result.format(currency).removeGroupingSeparator()
                     }
                 }
             },
@@ -126,7 +126,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 expression += it
             },
             onDecimalPoint = {
-                expression += "."
+                expression += localDecimalSeparator()
             },
             onBackspace = {
                 if (expression.isNotEmpty()) {
@@ -141,10 +141,15 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
 private fun calculate(expression: String): Double? {
     return try {
-        Keval.eval(expression)
+        Keval.eval(expression.normalizeExpression())
     } catch (e: Exception) {
         null
     }
+}
+
+private fun String.normalizeExpression(): String {
+    return this.replace(localGroupingSeparator(), "")
+        .replace(localDecimalSeparator(), ".")
 }
 
 @Preview

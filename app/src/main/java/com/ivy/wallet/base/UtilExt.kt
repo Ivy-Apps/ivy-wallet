@@ -5,7 +5,6 @@ import android.content.Context
 import android.icu.util.Currency
 import com.ivy.wallet.model.IvyCurrency
 import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.log10
@@ -183,13 +182,7 @@ fun shouldShortAmount(amount: Double): Boolean {
 }
 
 fun formatInt(number: Int): String {
-    return DecimalFormat(
-        "#,###,###,###",
-        DecimalFormatSymbols().apply {
-            this.groupingSeparator = ','
-            //TODO: Support groupingSeparator localization, example CZK doesn't like ","
-        }
-    ).format(number)
+    return DecimalFormat("#,###,###,###").format(number)
 }
 
 fun hasLockScreen(context: Context): Boolean {
