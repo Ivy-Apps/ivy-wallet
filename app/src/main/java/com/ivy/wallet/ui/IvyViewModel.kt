@@ -40,8 +40,8 @@ class IvyViewModel @Inject constructor(
         const val EXTRA_ADD_TRANSACTION_TYPE = "add_transaction_type_extra"
     }
 
-    private val _appLocked = MutableLiveData<Boolean>()
-    val appLocked = _appLocked.asLiveData()
+    private val _appLockedEnabled = MutableLiveData<Boolean>()
+    val appLockedEnabled = _appLockedEnabled.asLiveData()
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {
@@ -62,7 +62,7 @@ class IvyViewModel @Inject constructor(
                 if (onboardingCompleted()) {
                     val appLocked = sharedPrefs.getBoolean(SharedPrefs.LOCK_APP, false)
                     uiThread {
-                        _appLocked.value = appLocked
+                        _appLockedEnabled.value = appLocked
                     }
 
                     if (!appLocked) {
@@ -110,7 +110,7 @@ class IvyViewModel @Inject constructor(
     }
 
     fun unlockAuthenticated(intent: Intent) {
-        _appLocked.value = false
+        _appLockedEnabled.value = false
         continueNavigation(intent)
     }
 
