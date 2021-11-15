@@ -173,7 +173,7 @@ class IvyViewModel @Inject constructor(
         if (userInactiveJob != null && userInactiveJob!!.isActive) return
 
         userInactiveJob = viewModelScope.launch(Dispatchers.IO) {
-            while (userInactiveTime.get() < Constants.USER_INACTIVE_TIME_LIMIT &&
+            while (userInactiveTime.get() < Constants.USER_INACTIVITY_TIME_LIMIT &&
                 userInactiveJob != null && !userInactiveJob?.isCancelled!!
             ) {
                 delay(1000)
@@ -183,13 +183,14 @@ class IvyViewModel @Inject constructor(
             if (!isAppLocked()) {
                 lockApp()
             }
+
             cancel()
         }
     }
 
     fun checkUserInactiveTimeStatus() {
-        if (userInactiveTime.get() < Constants.USER_INACTIVE_TIME_LIMIT) {
-            if (userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
+        if (userInactiveTime.get() < Constants.USER_INACTIVITY_TIME_LIMIT) {
+            if (userInactiveJob != null && userInactiveJob?.isCancelled == false) {
                 userInactiveJob?.cancel()
                 resetUserInactiveTimer()
             }

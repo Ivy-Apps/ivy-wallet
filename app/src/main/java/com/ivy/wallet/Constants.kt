@@ -27,5 +27,5 @@ object Constants {
     const val URL_IVY_CONTRIBUTORS =
         "https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-see-graph"
 
-    const val USER_INACTIVE_TIME_LIMIT = 1  //Time in seconds
+    const val USER_INACTIVITY_TIME_LIMIT = 60  //Time in seconds
 }
