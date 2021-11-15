@@ -161,12 +161,12 @@ private fun HeaderStickyRow(
 
         IvyOutlinedButton(
             modifier = Modifier.horizontalSwipeListener(
-                sensitivity = 100,
+                sensitivity = 75,
                 onSwipeLeft = {
-                    onSelectPreviousMonth()
+                    onSelectNextMonth()
                 },
                 onSwipeRight = {
-                    onSelectNextMonth()
+                    onSelectPreviousMonth()
                 }
             ),
             iconStart = R.drawable.ic_calendar,

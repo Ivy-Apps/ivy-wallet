@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
+/**
+ * sensitivity - the lower the number, the higher the sensitivity
+ */
 fun Modifier.verticalSwipeListener(
     sensitivity: Int,
     onSwipeUp: () -> Unit = {},
@@ -55,6 +58,9 @@ fun Modifier.verticalSwipeListener(
     }
 }
 
+/**
+ * sensitivity - the lower the number, the higher the sensitivity
+ */
 fun Modifier.horizontalSwipeListener(
     sensitivity: Int,
     onSwipeLeft: () -> Unit = {},
