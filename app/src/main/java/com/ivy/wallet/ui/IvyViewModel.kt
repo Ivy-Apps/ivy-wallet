@@ -3,11 +3,11 @@ package com.ivy.wallet.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
-import com.ivy.wallet.base.asLiveData
+import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.sendToCrashlytics
 import com.ivy.wallet.base.uiThread
@@ -20,8 +20,10 @@ import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,8 +42,11 @@ class IvyViewModel @Inject constructor(
         const val EXTRA_ADD_TRANSACTION_TYPE = "add_transaction_type_extra"
     }
 
-    private val _appLockedEnabled = MutableLiveData<Boolean>()
-    val appLockedEnabled = _appLockedEnabled.asLiveData()
+    private var appLockEnabled = false
+
+    private val _appLocked = MutableStateFlow<Boolean?>(null)
+    val appLocked = _appLocked.asFlow()
+
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {
@@ -59,14 +64,12 @@ class IvyViewModel @Inject constructor(
                 ivySession.loadFromCache()
                 ivyAnalytics.loadSession()
 
-                if (onboardingCompleted()) {
-                    val appLocked = sharedPrefs.getBoolean(SharedPrefs.LOCK_APP, false)
+                if (isOnboardingCompleted()) {
+                    appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
                     uiThread {
-                        _appLockedEnabled.value = appLocked
-                    }
-
-                    if (!appLocked) {
-                        continueNavigation(intent)
+                        //initial app locked state
+                        _appLocked.value = appLockEnabled
+                        navigateOnboardedUser(intent)
                     }
                 } else {
                     ivyContext.navigateTo(Screen.Onboarding)
@@ -75,6 +78,12 @@ class IvyViewModel @Inject constructor(
         }
     }
 
+    private fun navigateOnboardedUser(intent: Intent) {
+        if (!handleSpecialStart(intent)) {
+            ivyContext.navigateTo(Screen.Main)
+            transactionReminderLogic.scheduleReminder()
+        }
+    }
 
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType = intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
@@ -92,10 +101,13 @@ class IvyViewModel @Inject constructor(
         return false
     }
 
-    fun handleBiometricAuthenticationResult(onAuthSuccess: () -> Unit): BiometricPrompt.AuthenticationCallback {
+    fun handleBiometricAuthResult(
+        onAuthSuccess: () -> Unit = {}
+    ): BiometricPrompt.AuthenticationCallback {
         return object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 Timber.d("Authentication succeeded!")
+                unlockApp()
                 onAuthSuccess()
             }
 
@@ -106,18 +118,6 @@ class IvyViewModel @Inject constructor(
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
 
             }
-        }
-    }
-
-    fun unlockAuthenticated(intent: Intent) {
-        _appLockedEnabled.value = false
-        continueNavigation(intent)
-    }
-
-    private fun continueNavigation(intent: Intent) {
-        if (!handleSpecialStart(intent)) {
-            ivyContext.navigateTo(Screen.Main)
-            transactionReminderLogic.scheduleReminder()
         }
     }
 
@@ -143,6 +143,60 @@ class IvyViewModel @Inject constructor(
         )
     }
 
-    private fun onboardingCompleted() =
-        sharedPrefs.getBoolean(SharedPrefs.ONBOARDING_COMPLETED, false)
+    private fun isOnboardingCompleted(): Boolean {
+        return sharedPrefs.getBoolean(SharedPrefs.ONBOARDING_COMPLETED, false)
+    }
+
+
+    //App Lock & UserInactivity --------------------------------------------------------------------
+    fun isAppLockEnabled(): Boolean {
+        return appLockEnabled
+    }
+
+    fun isAppLocked(): Boolean {
+        //by default we assume that the app is locked
+        return appLocked.value ?: true
+    }
+
+    fun lockApp() {
+        _appLocked.value = true
+    }
+
+    fun unlockApp() {
+        _appLocked.value = false
+    }
+
+    private val userInactiveTime = AtomicLong(0)
+    private var userInactiveJob: Job? = null
+
+    fun startUserInactiveTimeCounter() {
+        if (userInactiveJob != null && userInactiveJob!!.isActive) return
+
+        userInactiveJob = viewModelScope.launch(Dispatchers.IO) {
+            while (userInactiveTime.get() < Constants.USER_INACTIVE_TIME_LIMIT &&
+                userInactiveJob != null && !userInactiveJob?.isCancelled!!
+            ) {
+                delay(1000)
+                userInactiveTime.incrementAndGet()
+            }
+
+            if (!isAppLocked()) {
+                lockApp()
+            }
+            cancel()
+        }
+    }
+
+    fun checkUserInactiveTimeStatus() {
+        if (userInactiveTime.get() < Constants.USER_INACTIVE_TIME_LIMIT) {
+            if (userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
+                userInactiveJob?.cancel()
+                resetUserInactiveTimer()
+            }
+        }
+    }
+
+    fun resetUserInactiveTimer() {
+        userInactiveTime.set(0)
+    }
 }

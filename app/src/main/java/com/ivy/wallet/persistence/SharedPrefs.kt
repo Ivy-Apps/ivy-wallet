@@ -43,7 +43,7 @@ class SharedPrefs(appContext: Context) {
         //-------------------------------- Bank Integrations temp ----------------------------------
 
         //----------------------------- App Settings -----------------------------------------------
-        const val LOCK_APP = "lock_app"
+        const val APP_LOCK_ENABLED = "lock_app"
         const val START_DATE_OF_MONTH = "start_date_of_month"
         //----------------------------- App Settings -----------------------------------------------
 

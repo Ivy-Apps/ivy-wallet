@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.applocked
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,13 +21,13 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.base.hasLockScreen
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 
 @Composable
-fun AppLockedScreen(
-    screen: Screen.AppLock
+fun BoxWithConstraintsScope.AppLockedScreen(
+    onShowOSBiometricsModal: () -> Unit,
+    onContinueWithoutAuthentication: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -83,22 +84,34 @@ fun AppLockedScreen(
             ),
             wrapContentMode = false
         ) {
-            if (hasLockScreen(context)) {
-                screen.onShowOSBiometricsModal()
-            } else {
-                screen.onContinueWithoutAuthentication()
-            }
+            osAuthentication(
+                context = context,
+                onShowOSBiometricsModal = onShowOSBiometricsModal,
+                onContinueWithoutAuthentication = onContinueWithoutAuthentication
+            )
         }
         Spacer(Modifier.height(24.dp))
 
         //To automatically launch the biometric screen on load of this composable
         LaunchedEffect(true) {
-            if (hasLockScreen(context)) {
-                screen.onShowOSBiometricsModal()
-            } else {
-                screen.onContinueWithoutAuthentication()
-            }
+            osAuthentication(
+                context = context,
+                onShowOSBiometricsModal = onShowOSBiometricsModal,
+                onContinueWithoutAuthentication = onContinueWithoutAuthentication
+            )
         }
+    }
+}
+
+private fun osAuthentication(
+    context: Context,
+    onShowOSBiometricsModal: () -> Unit,
+    onContinueWithoutAuthentication: () -> Unit
+) {
+    if (hasLockScreen(context)) {
+        onShowOSBiometricsModal()
+    } else {
+        onContinueWithoutAuthentication()
     }
 }
 
@@ -107,10 +120,8 @@ fun AppLockedScreen(
 private fun Preview_Locked() {
     IvyAppPreview {
         AppLockedScreen(
-            Screen.AppLock(
-                onContinueWithoutAuthentication = {},
-                onShowOSBiometricsModal = {}
-            )
+            onContinueWithoutAuthentication = {},
+            onShowOSBiometricsModal = {}
         )
     }
 }
