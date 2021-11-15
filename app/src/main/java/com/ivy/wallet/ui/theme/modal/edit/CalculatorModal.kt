@@ -22,14 +22,15 @@ import java.util.*
 @Composable
 fun BoxWithConstraintsScope.CalculatorModal(
     id: UUID = UUID.randomUUID(),
+    initialAmount: Double?,
     visible: Boolean,
     currency: String,
 
     dismiss: () -> Unit,
     onCalculation: (Double) -> Unit
 ) {
-    var expression by remember(id) {
-        mutableStateOf("")
+    var expression by remember(id, initialAmount) {
+        mutableStateOf(initialAmount?.format(currency) ?: "")
     }
 
     IvyModal(
@@ -155,6 +156,7 @@ private fun Preview() {
     IvyAppPreview {
         CalculatorModal(
             visible = true,
+            initialAmount = 50.23,
             currency = "BGN",
             dismiss = { },
             onCalculation = {}

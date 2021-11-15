@@ -114,6 +114,7 @@ fun BoxWithConstraintsScope.AmountModal(
 
     CalculatorModal(
         visible = calculatorModalVisible,
+        initialAmount = amount.amountToDoubleOrNull(),
         currency = currency,
         dismiss = {
             calculatorModalVisible = false
