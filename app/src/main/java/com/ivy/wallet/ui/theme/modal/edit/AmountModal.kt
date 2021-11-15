@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -77,7 +76,7 @@ fun BoxWithConstraintsScope.AmountModal(
                     if (amount.isEmpty()) {
                         onAmountChanged(0.0)
                     } else {
-                        onAmountChanged(amount.replace(",", "").toDouble())
+                        onAmountChanged(amount.amountToDouble())
                     }
                     dismiss()
                 } catch (e: Exception) {
@@ -114,6 +113,7 @@ fun BoxWithConstraintsScope.AmountModal(
 
     CalculatorModal(
         visible = calculatorModalVisible,
+        initialAmount = amount.amountToDoubleOrNull(),
         currency = currency,
         dismiss = {
             calculatorModalVisible = false
@@ -169,36 +169,24 @@ fun AmountInput(
                 setAmount(it)
                 firstInput = false
             } else {
-                val newlyEnteredNumberString = amount.replace(",", "") + it
-
-                val decimalPartString = newlyEnteredNumberString
-                    .split(".")
-                    .getOrNull(1)
-                val decimalCount = decimalPartString?.length ?: 0
-
-                val amountDouble = newlyEnteredNumberString.toDoubleOrNull()
-
-                val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
-                    || decimalCount <= 2
-                if (amountDouble != null && decimalCountOkay) {
-                    val intPart = truncate(amountDouble).toInt()
-                    val decimalPartFormatted = if (decimalPartString != null) {
-                        ".${decimalPartString}"
-                    } else ""
-
-                    val finalAmount = formatInt(intPart) + decimalPartFormatted
-
-                    setAmount(finalAmount)
+                val formattedAmount = formatInputAmount(
+                    currency = currency,
+                    amount = amount,
+                    newSymbol = it
+                )
+                if (formattedAmount != null) {
+                    setAmount(formattedAmount)
                 }
             }
         },
         onDecimalPoint = {
             if (firstInput) {
-                setAmount("0.")
+                setAmount("0${localDecimalSeparator()}")
                 firstInput = false
             } else {
-                val newlyEnteredString = if (amount.isEmpty()) "0." else "$amount."
-                if (newlyEnteredString.replace(",", "").toDoubleOrNull() != null) {
+                val newlyEnteredString = if (amount.isEmpty())
+                    "0${localDecimalSeparator()}" else "$amount${localDecimalSeparator()}"
+                if (newlyEnteredString.amountToDoubleOrNull() != null) {
                     setAmount(newlyEnteredString)
                 }
             }
@@ -219,19 +207,17 @@ fun AmountInput(
 }
 
 private fun formatNumber(number: String): String? {
-    val newAmountString = number.replace(",", "")
-
-    val decimalPartString = newAmountString
-        .split(".")
+    val decimalPartString = number
+        .split(localDecimalSeparator())
         .getOrNull(1)
     val newDecimalCount = decimalPartString?.length ?: 0
 
-    val amountDouble = newAmountString.toDoubleOrNull()
+    val amountDouble = number.amountToDoubleOrNull()
 
     if (newDecimalCount <= 2 && amountDouble != null) {
         val intPart = truncate(amountDouble).toInt()
         val decimalFormatted = if (decimalPartString != null) {
-            ".${decimalPartString}"
+            "${localDecimalSeparator()}${decimalPartString}"
         } else ""
 
         return formatInt(intPart) + decimalFormatted
@@ -368,7 +354,7 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        KeypadCircleButton(text = ".") {
+        KeypadCircleButton(text = localDecimalSeparator()) {
             onDecimalPoint()
         }
 
@@ -465,6 +451,5 @@ private fun Preview() {
 
             }
         }
-
     }
 }

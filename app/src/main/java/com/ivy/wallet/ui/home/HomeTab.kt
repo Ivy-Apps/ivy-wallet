@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -10,13 +9,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.base.verticalSwipeListener
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.TransactionHistoryItem
@@ -26,6 +26,7 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
@@ -112,7 +113,9 @@ fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
         onSetCurrency = viewModel::setCurrency,
         onSetPeriod = viewModel::setPeriod,
         onPayOrGet = viewModel::payOrGet,
-        onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard
+        onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard,
+        onSelectNextMonth = viewModel::nextMonth,
+        onSelectPreviousMonth = viewModel::previousMonth
     )
 }
 
@@ -156,7 +159,9 @@ private fun BoxWithConstraintsScope.UI(
     onSetBuffer: (Double) -> Unit = {},
     onSetPeriod: (TimePeriod) -> Unit = {},
     onPayOrGet: (Transaction) -> Unit = {},
-    onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {}
+    onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {},
+    onSelectNextMonth: () -> Unit = {},
+    onSelectPreviousMonth: () -> Unit = {},
 ) {
     var bufferModalData: BufferModalData? by remember { mutableStateOf(null) }
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -165,30 +170,29 @@ private fun BoxWithConstraintsScope.UI(
     }
     var expanded by remember { mutableStateOf(false) }
 
-    var headerSwipeOffset by remember { mutableStateOf(0f) }
+    val ivyContext = LocalIvyContext.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .pointerInput(Unit) {
-                detectVerticalDragGestures(
-                    onDragEnd = {
-                        headerSwipeOffset = 0f
-                    },
-                    onVerticalDrag = { _, dragAmount ->
-                        //dragAmount: positive when scrolling down; negative when scrolling up
-                        headerSwipeOffset += dragAmount
-
-                        if (headerSwipeOffset > SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU) {
-                            expanded = true
-                        }
-                    }
-                )
-            }
+            .verticalSwipeListener(
+                sensitivity = SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                onSwipeDown = {
+                    expanded = true
+                }
+            )
+            .horizontalSwipeListener(
+                sensitivity = 250,
+                onSwipeLeft = {
+                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                },
+                onSwipeRight = {
+                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                }
+            )
     ) {
-        val ivyContext = LocalIvyContext.current
         val listState = rememberLazyListState(
             initialFirstVisibleItemIndex = ivyContext.transactionsListState
                 ?.firstVisibleItemIndex ?: 0,
@@ -216,7 +220,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onBalanceClick = {
                 onBalanceClick()
-            }
+            },
+            onSelectNextMonth = onSelectNextMonth,
+            onSelectPreviousMonth = onSelectPreviousMonth
         )
 
         HomeTransactionsLazyColumn(

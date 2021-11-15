@@ -16,31 +16,17 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -50,11 +36,11 @@ import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
-import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.ui.analytics.AnalyticsReport
+import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.bankintegrations.ConnectBankScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
@@ -72,7 +58,6 @@ import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,7 +96,9 @@ class IvyActivity : AppCompatActivity() {
     private lateinit var openFileContract: ActivityResultLauncher<Unit>
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
 
-    private var appLockedEnabled: Boolean = false
+
+    private val viewModel: IvyViewModel by viewModels()
+
 
     @ExperimentalAnimationApi
     @ExperimentalFoundationApi
@@ -202,11 +189,8 @@ class IvyActivity : AppCompatActivity() {
         AddTransactionWidget.updateBroadcast(this)
 
         setContent {
-            val viewModel : IvyViewModel = viewModel()
+            val viewModel: IvyViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
-
-            val appLocked by viewModel.appLocked.observeAsState(false)
-            val isUserInactive = ivyContext.isUserInactive
 
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
@@ -216,65 +200,50 @@ class IvyActivity : AppCompatActivity() {
             IvyApp(
                 ivyContext = ivyContext,
             ) {
-                if (appLocked) {
-                    appLockedEnabled = true
-                    ivyContext.navigateTo(
-                        Screen.AppLock({
-                            authenticateWithOSBiometricsModal(
-                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
-                                    viewModel.unlockAuthenticated(intent)
-                                })
-                            )
-                        }, { viewModel.unlockAuthenticated(intent) }), false
-                    )
-                }
+                val appLocked by viewModel.appLocked.collectAsState()
 
-                if (appLockedEnabled && isUserInactive.value) {
-                    ivyContext.resetUserInActiveTimer()
-                    ivyContext.navigateTo(
-                        Screen.AppLock({
-                            authenticateWithOSBiometricsModal(
-                                viewModel.handleBiometricAuthenticationResult(onAuthSuccess = {
-                                    ivyContext.back()
-                                })
-                            )
-                        }, { ivyContext.back() })
-                    )
-                }
-
-                when (val screen = ivyContext.currentScreen) {
-
-                    is Screen.Main -> MainScreen(screen = screen)
-                    is Screen.Onboarding -> OnboardingScreen(screen = screen)
-                    is Screen.EditTransaction -> EditTransactionScreen(screen = screen)
-                    is Screen.ItemStatistic -> ItemStatisticScreen(screen = screen)
-                    is Screen.PieChartStatistic -> PieChartStatisticScreen(screen = screen)
-                    is Screen.Categories -> CategoriesScreen(screen = screen)
-                    is Screen.Settings -> SettingsScreen(screen = screen)
-                    is Screen.PlannedPayments -> PlannedPaymentsScreen(screen = screen)
-                    is Screen.EditPlanned -> EditPlannedScreen(screen = screen)
-                    is Screen.BalanceScreen -> BalanceScreen(screen = screen)
-                    is Screen.Paywall -> PaywallScreen(
-                        screen = screen,
-                        activity = this@IvyActivity
-                    )
-                    is Screen.Test -> TestScreen(screen = screen)
-                    is Screen.AnalyticsReport -> AnalyticsReport(screen = screen)
-                    is Screen.Import -> ImportCSVScreen(screen = screen)
-                    is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
-                    is Screen.Report -> ReportScreen(screen = screen)
-                    is Screen.Budget -> BudgetScreen(screen = screen)
-                    is Screen.WebView -> WebViewScreen(screen = screen)
-                    is Screen.AppLock -> {
+                when (appLocked) {
+                    null -> {
+                        //display nothing
+                    }
+                    true -> {
                         AppLockedScreen(
                             onShowOSBiometricsModal = {
-                                screen.onShowOSBiometricsModal()
+                                authenticateWithOSBiometricsModal(
+                                    biometricPromptCallback = viewModel.handleBiometricAuthResult()
+                                )
                             },
                             onContinueWithoutAuthentication = {
-                                screen.onContinueWithoutAuthentication()
-                            })
+                                viewModel.unlockApp()
+                            }
+                        )
                     }
-                    null -> {
+                    false -> {
+                        when (val screen = ivyContext.currentScreen) {
+                            is Screen.Main -> MainScreen(screen = screen)
+                            is Screen.Onboarding -> OnboardingScreen(screen = screen)
+                            is Screen.EditTransaction -> EditTransactionScreen(screen = screen)
+                            is Screen.ItemStatistic -> ItemStatisticScreen(screen = screen)
+                            is Screen.PieChartStatistic -> PieChartStatisticScreen(screen = screen)
+                            is Screen.Categories -> CategoriesScreen(screen = screen)
+                            is Screen.Settings -> SettingsScreen(screen = screen)
+                            is Screen.PlannedPayments -> PlannedPaymentsScreen(screen = screen)
+                            is Screen.EditPlanned -> EditPlannedScreen(screen = screen)
+                            is Screen.BalanceScreen -> BalanceScreen(screen = screen)
+                            is Screen.Paywall -> PaywallScreen(
+                                screen = screen,
+                                activity = this@IvyActivity
+                            )
+                            is Screen.Test -> TestScreen(screen = screen)
+                            is Screen.AnalyticsReport -> AnalyticsReport(screen = screen)
+                            is Screen.Import -> ImportCSVScreen(screen = screen)
+                            is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
+                            is Screen.Report -> ReportScreen(screen = screen)
+                            is Screen.Budget -> BudgetScreen(screen = screen)
+                            is Screen.WebView -> WebViewScreen(screen = screen)
+                            null -> {
+                            }
+                        }
                     }
                 }
             }
@@ -283,105 +252,26 @@ class IvyActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (appLockedEnabled && !hasFocus) {
+        if (viewModel.isAppLockEnabled() && !hasFocus) {
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE
             )
-        } else
+        } else {
             window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (appLockedEnabled)
-            ivyContext.checkUserInactiveTimeStatus()
+        if (viewModel.isAppLockEnabled())
+            viewModel.checkUserInactiveTimeStatus()
     }
 
     override fun onPause() {
         super.onPause()
-        if (appLockedEnabled)
-            ivyContext.startUserInactiveTimeCounter()
-    }
-
-    @Composable
-    private fun AppLockedScreen(
-        onShowOSBiometricsModal: () -> Unit,
-        onContinueWithoutAuthentication: () -> Unit,
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .systemBarsPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(Modifier.height(32.dp))
-
-            Text(
-                modifier = Modifier
-                    .background(IvyTheme.colors.medium, Shapes.roundedFull)
-                    .padding(vertical = 12.dp)
-                    .padding(horizontal = 32.dp),
-                text = "APP LOCKED",
-                style = Typo.body2.style(
-                    fontWeight = FontWeight.ExtraBold,
-                )
-            )
-
-            Spacer(Modifier.weight(1f))
-
-            Image(
-                modifier = Modifier
-                    .size(width = 96.dp, height = 138.dp),
-                painter = painterResource(id = R.drawable.ic_fingerprint),
-                colorFilter = ColorFilter.tint(IvyTheme.colors.medium),
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "unlock icon"
-            )
-
-            Spacer(Modifier.weight(1f))
-
-            Text(
-                text = "Authenticate to enter the app",
-                style = Typo.body2.style(
-                    fontWeight = FontWeight.SemiBold,
-                    color = Gray
-                )
-            )
-
-            Spacer(Modifier.height(24.dp))
-
-            val context = LocalContext.current
-            IvyButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                text = "Unlock",
-                textStyle = Typo.body2.style(
-                    color = White,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                ),
-                wrapContentMode = false
-            ) {
-                if (hasLockScreen(context)) {
-                    onShowOSBiometricsModal()
-                } else {
-                    onContinueWithoutAuthentication()
-                }
-            }
-            Spacer(Modifier.height(24.dp))
-
-            //To automatically launch the biometric screen on load of this composable
-            LaunchedEffect(true)
-            {
-                if (hasLockScreen(context)) {
-                    onShowOSBiometricsModal()
-                } else {
-                    onContinueWithoutAuthentication()
-                }
-            }
-        }
+        if (viewModel.isAppLockEnabled())
+            viewModel.startUserInactiveTimeCounter()
     }
 
     private fun authenticateWithOSBiometricsModal(
@@ -408,8 +298,12 @@ class IvyActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!ivyContext.onBackPressed()) {
+        if (viewModel.isAppLocked()) {
             super.onBackPressed()
+        } else {
+            if (!ivyContext.onBackPressed()) {
+                super.onBackPressed()
+            }
         }
     }
 
@@ -601,16 +495,5 @@ class IvyActivity : AppCompatActivity() {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, AddTransactionWidget::class.java)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
-    }
-
-    @Preview
-    @Composable
-    private fun Preview_Locked() {
-        IvyAppPreview {
-            AppLockedScreen(
-                onContinueWithoutAuthentication = {},
-                onShowOSBiometricsModal = {}
-            )
-        }
     }
 }

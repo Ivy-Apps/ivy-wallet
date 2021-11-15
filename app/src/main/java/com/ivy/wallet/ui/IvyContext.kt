@@ -2,23 +2,19 @@ package com.ivy.wallet.ui
 
 import android.net.Uri
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.USER_INACTIVE_TIME_LIMIT
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.Theme
-import kotlinx.coroutines.*
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
-import java.util.concurrent.atomic.AtomicLong
 
 class IvyContext {
     var currentScreen: Screen? by mutableStateOf(null)
@@ -83,6 +79,11 @@ class IvyContext {
     var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
+        private set
+
+    fun selectMainTab(tab: MainTab) {
+        mainTab = tab
+    }
     //------------------------------------------ State ---------------------------------------------
 
     //------------------------------------------- BackStack ----------------------------------------
@@ -219,41 +220,5 @@ class IvyContext {
 
     fun switchTheme(theme: Theme) {
         this.theme = theme
-    }
-
-    // UserInactivity ------------------------------------------------------------------------------
-    private val _isUserInactive = mutableStateOf(false)
-    val isUserInactive : State<Boolean> = _isUserInactive
-
-    private val userInactiveTime = AtomicLong(0)
-    private var userInactiveJob: Job? = null
-
-    fun resetUserInActiveTimer() {
-        _isUserInactive.value = (false)
-        userInactiveTime.set(0)
-    }
-
-    fun startUserInactiveTimeCounter() {
-        if (userInactiveJob != null && userInactiveJob!!.isActive)
-            return
-
-        userInactiveJob = GlobalScope.launch(Dispatchers.IO) {
-            while (userInactiveTime.get() < USER_INACTIVE_TIME_LIMIT  && userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
-                delay(1000)
-                userInactiveTime.incrementAndGet()
-            }
-            if (!isUserInactive.value)
-                _isUserInactive.value = (true)
-            cancel()
-        }
-    }
-
-    fun checkUserInactiveTimeStatus() {
-        if (userInactiveTime.get() < USER_INACTIVE_TIME_LIMIT) {
-            if (userInactiveJob != null && !userInactiveJob?.isCancelled!!) {
-                userInactiveJob?.cancel()
-                resetUserInActiveTimer()
-            }
-        }
     }
 }
