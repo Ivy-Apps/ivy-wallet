@@ -76,7 +76,7 @@ class SettingsViewModel @Inject constructor(
             }
             _currencyCode.value = settings.currency
 
-            _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.LOCK_APP, false)
+            _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
 
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
         }
@@ -202,7 +202,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setLockApp(lockApp: Boolean) {
         viewModelScope.launch {
-            sharedPrefs.putBoolean(SharedPrefs.LOCK_APP, lockApp)
+            sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
         }
     }
