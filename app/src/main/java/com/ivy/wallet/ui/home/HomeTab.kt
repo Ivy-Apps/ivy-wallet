@@ -113,7 +113,9 @@ fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
         onSetCurrency = viewModel::setCurrency,
         onSetPeriod = viewModel::setPeriod,
         onPayOrGet = viewModel::payOrGet,
-        onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard
+        onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard,
+        onSelectNextMonth = viewModel::nextMonth,
+        onSelectPreviousMonth = viewModel::previousMonth
     )
 }
 
@@ -157,7 +159,9 @@ private fun BoxWithConstraintsScope.UI(
     onSetBuffer: (Double) -> Unit = {},
     onSetPeriod: (TimePeriod) -> Unit = {},
     onPayOrGet: (Transaction) -> Unit = {},
-    onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {}
+    onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {},
+    onSelectNextMonth: () -> Unit = {},
+    onSelectPreviousMonth: () -> Unit = {},
 ) {
     var bufferModalData: BufferModalData? by remember { mutableStateOf(null) }
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -213,7 +217,9 @@ private fun BoxWithConstraintsScope.UI(
             },
             onBalanceClick = {
                 onBalanceClick()
-            }
+            },
+            onSelectNextMonth = onSelectNextMonth,
+            onSelectPreviousMonth = onSelectPreviousMonth
         )
 
         HomeTransactionsLazyColumn(

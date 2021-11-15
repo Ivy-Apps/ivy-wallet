@@ -50,7 +50,10 @@ internal fun HomeHeader(
 
     onShowMonthModal: () -> Unit,
     onOpenMoreMenu: () -> Unit,
-    onBalanceClick: () -> Unit
+    onBalanceClick: () -> Unit,
+
+    onSelectNextMonth: () -> Unit,
+    onSelectPreviousMonth: () -> Unit,
 ) {
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
@@ -75,7 +78,10 @@ internal fun HomeHeader(
         balance = balance,
 
         onShowMonthModal = onShowMonthModal,
-        onBalanceClick = onBalanceClick
+        onBalanceClick = onBalanceClick,
+
+        onSelectNextMonth = onSelectNextMonth,
+        onSelectPreviousMonth = onSelectPreviousMonth
     )
 
     Spacer(Modifier.height(16.dp))
@@ -115,6 +121,9 @@ private fun HeaderStickyRow(
 
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
+
+    onSelectNextMonth: () -> Unit,
+    onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -151,6 +160,15 @@ private fun HeaderStickyRow(
         Spacer(Modifier.weight(1f))
 
         IvyOutlinedButton(
+            modifier = Modifier.horizontalSwipeListener(
+                sensitivity = 100,
+                onSwipeLeft = {
+                    onSelectPreviousMonth()
+                },
+                onSwipeRight = {
+                    onSelectNextMonth()
+                }
+            ),
             iconStart = R.drawable.ic_calendar,
             text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
         ) {

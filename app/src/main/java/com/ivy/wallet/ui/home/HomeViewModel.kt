@@ -243,4 +243,22 @@ class HomeViewModel @Inject constructor(
         customerJourneyLogic.dismissCard(card)
         load()
     }
+
+    fun nextMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, 1L),
+            )
+        }
+    }
+
+    fun previousMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, -1L),
+            )
+        }
+    }
 }
