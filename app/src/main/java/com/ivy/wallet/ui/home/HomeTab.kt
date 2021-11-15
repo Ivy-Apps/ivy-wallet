@@ -185,6 +185,9 @@ private fun BoxWithConstraintsScope.UI(
             )
             .horizontalSwipeListener(
                 sensitivity = 250,
+                onSwipeLeft = {
+                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                },
                 onSwipeRight = {
                     ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 }

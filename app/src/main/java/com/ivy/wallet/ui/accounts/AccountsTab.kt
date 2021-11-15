@@ -78,6 +78,9 @@ private fun BoxWithConstraintsScope.UI(
                 sensitivity = 250,
                 onSwipeLeft = {
                     ivyContext.selectMainTab(MainTab.HOME)
+                },
+                onSwipeRight = {
+                    ivyContext.selectMainTab(MainTab.HOME)
                 }
             ),
     ) {
