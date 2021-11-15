@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.base.format
+import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -20,14 +20,15 @@ import java.util.*
 @Composable
 fun BoxWithConstraintsScope.CalculatorModal(
     id: UUID = UUID.randomUUID(),
+    initialAmount: Double?,
     visible: Boolean,
     currency: String,
 
     dismiss: () -> Unit,
     onCalculation: (Double) -> Unit
 ) {
-    var expression by remember(id) {
-        mutableStateOf("")
+    var expression by remember(id, initialAmount) {
+        mutableStateOf(initialAmount?.format(currency) ?: "")
     }
 
     IvyModal(
@@ -55,7 +56,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            text = if (isEmpty) "Expression (+-/*=)" else expression,
+            text = if (isEmpty) "Calculation (+-/*=)" else expression,
             style = Typo.numberH2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -117,16 +118,22 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 KeypadCircleButton(text = "=") {
                     val result = calculate(expression)
                     if (result != null) {
-                        expression = result.format(currency).replace(",", "")
+                        expression = result.format(currency)
                     }
                 }
             },
 
             onNumberPressed = {
-                expression += it
+                expression = formatExpression(
+                    expression = expression + it,
+                    currency = currency
+                )
             },
             onDecimalPoint = {
-                expression += "."
+                expression = formatExpression(
+                    expression = expression + localDecimalSeparator(),
+                    currency = currency
+                )
             },
             onBackspace = {
                 if (expression.isNotEmpty()) {
@@ -139,9 +146,36 @@ fun BoxWithConstraintsScope.CalculatorModal(
     }
 }
 
+private fun formatExpression(expression: String, currency: String): String {
+    var formattedExpression = expression
+
+    expression
+        .split("(", ")", "/", "*", "-", "+")
+        .ifEmpty {
+            //handle only number expression formatting
+            listOf(expression)
+        }
+        .forEach { part ->
+            val numberPart = part.amountToDoubleOrNull()
+            if (numberPart != null) {
+                val formattedPart = formatInputAmount(
+                    currency = currency,
+                    amount = part,
+                    newSymbol = ""
+                )
+
+                if (formattedPart != null) {
+                    formattedExpression = formattedExpression.replace(part, formattedPart)
+                }
+            }
+        }
+
+    return formattedExpression
+}
+
 private fun calculate(expression: String): Double? {
     return try {
-        Keval.eval(expression)
+        Keval.eval(expression.normalizeExpression())
     } catch (e: Exception) {
         null
     }
@@ -153,6 +187,7 @@ private fun Preview() {
     IvyAppPreview {
         CalculatorModal(
             visible = true,
+            initialAmount = 50.23,
             currency = "BGN",
             dismiss = { },
             onCalculation = {}

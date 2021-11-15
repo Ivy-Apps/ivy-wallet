@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
     fun start(screen: Screen.Main) {
         ivyContext.onBackPressed[screen] = {
             if (ivyContext.mainTab == MainTab.ACCOUNTS) {
-                ivyContext.mainTab = MainTab.HOME
+                ivyContext.selectMainTab(MainTab.HOME)
                 true
             } else {
                 //Exiting (the backstack will close the app)
@@ -64,7 +64,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun selectTab(tab: MainTab) {
-        ivyContext.mainTab = tab
+        ivyContext.selectMainTab(tab)
     }
 
     fun createAccount(data: CreateAccountData) {

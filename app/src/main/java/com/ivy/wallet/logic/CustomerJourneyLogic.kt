@@ -72,7 +72,7 @@ class CustomerJourneyLogic(
             backgroundColor = Ivy,
             hasDismiss = false,
             onAction = { ivyContext, _ ->
-                ivyContext.mainTab = MainTab.ACCOUNTS
+                ivyContext.selectMainTab(MainTab.ACCOUNTS)
             }
         )
 

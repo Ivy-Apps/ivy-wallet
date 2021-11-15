@@ -174,7 +174,7 @@ class HomeViewModel @Inject constructor(
                 ivyContext.navigateTo(Screen.BalanceScreen)
             } else {
                 //doesn't have transactions lead him to adjust balance
-                ivyContext.mainTab = MainTab.ACCOUNTS
+                ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 ivyContext.navigateTo(Screen.Main)
             }
         }
@@ -242,5 +242,23 @@ class HomeViewModel @Inject constructor(
     fun dismissCustomerJourneyCard(card: CustomerJourneyCardData) {
         customerJourneyLogic.dismissCard(card)
         load()
+    }
+
+    fun nextMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, 1L),
+            )
+        }
+    }
+
+    fun previousMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, -1L),
+            )
+        }
     }
 }
