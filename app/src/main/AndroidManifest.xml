@@ -66,7 +66,16 @@
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/transaction_widget_info" />
+                android:resource="@xml/add_transaction_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.AddTransactionWidgetCompact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_transaction_widget_compact_info" />
         </receiver>
     </application>
 
