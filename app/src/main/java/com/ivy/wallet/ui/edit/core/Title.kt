@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit.core
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -106,11 +107,12 @@ private fun Suggestion(
 ) {
     Text(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
-            .padding(vertical = 12.dp)
+            .fillMaxWidth()
             .clickable {
                 onClick()
-            },
+            }
+            .padding(horizontal = 24.dp)
+            .padding(vertical = 12.dp),
         text = suggestion,
         style = Typo.body2.style(
             fontWeight = FontWeight.Medium

@@ -168,6 +168,11 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE title LIKE :pattern AND isDeleted = 0")
     fun findAllByTitleMatchingPattern(pattern: String): List<Transaction>
 
+    @Query("SELECT COUNT(*) FROM transactions WHERE title LIKE :pattern AND isDeleted = 0")
+    fun countByTitleMatchingPattern(
+        pattern: String,
+    ): Long
+
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) ORDER BY dateTime DESC")
     fun findAllByCategory(
         categoryId: UUID,

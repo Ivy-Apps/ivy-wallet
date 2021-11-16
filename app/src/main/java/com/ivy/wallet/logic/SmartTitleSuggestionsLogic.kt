@@ -2,6 +2,7 @@ package com.ivy.wallet.logic
 
 import com.ivy.wallet.base.capitalizeWords
 import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.util.*
 
@@ -19,9 +20,10 @@ class SmartTitleSuggestionsLogic(
         if (title != null && title.isNotEmpty()) {
             //suggest by title
             val suggestionsByTitle = transactionDao.findAllByTitleMatchingPattern("${title}%")
-                .filter { it.title.isNotNullOrBlank() }
-                .map { it.title!!.trim().capitalizeWords() }
-                .toSet()
+                .extractUniqueTitles()
+                .sortedByMostUsedFirst {
+                    transactionDao.countByTitleMatchingPattern("${it}%")
+                }
 
             suggestions.addAll(suggestionsByTitle)
         }
@@ -31,28 +33,17 @@ class SmartTitleSuggestionsLogic(
             //all titles used for the specific category
             //ordered by N times used
 
-            val categoryTitles = transactionDao
+            val suggestionsByCategory = transactionDao
                 .findAllByCategory(
                     categoryId = categoryId
                 )
-                .filter { it.title.isNotNullOrBlank() }
-                .map { it.title!!.trim().capitalizeWords() }
-                .toSet()
-
-            val titleCountMap = categoryTitles
-                .map {
-                    it to transactionDao.countByTitleMatchingPatternAndCategoryId(
+                .extractUniqueTitles()
+                .sortedByMostUsedFirst {
+                    transactionDao.countByTitleMatchingPatternAndCategoryId(
                         pattern = it,
                         categoryId = categoryId
                     )
                 }
-                .toMap()
-
-            val suggestionsByCategory = categoryTitles
-                .sortedByDescending {
-                    titleCountMap.getOrDefault(it, 0)
-                }
-                .toSet()
 
             suggestions.addAll(suggestionsByCategory)
         }
@@ -64,32 +55,43 @@ class SmartTitleSuggestionsLogic(
             //all titles used for the specific account
             //ordered by N times used
 
-            val accountTitles = transactionDao
+            val suggestionsByAccount = transactionDao
                 .findAllByAccount(
                     accountId = accountId
                 )
-                .filter { it.title.isNotNullOrBlank() }
-                .map { it.title!!.trim().capitalizeWords() }
-                .toSet()
-
-            val titleCountMap = accountTitles
-                .map {
-                    it to transactionDao.countByTitleMatchingPatternAndAccountId(
+                .extractUniqueTitles()
+                .sortedByMostUsedFirst {
+                    transactionDao.countByTitleMatchingPatternAndAccountId(
                         pattern = it,
                         accountId = accountId
                     )
                 }
-                .toMap()
-
-            val suggestionsByAccount = accountTitles
-                .sortedByDescending {
-                    titleCountMap.getOrDefault(it, 0)
-                }
-                .toSet()
 
             suggestions.addAll(suggestionsByAccount)
         }
 
         return suggestions
     }
+}
+
+private fun List<Transaction>.extractUniqueTitles(): Set<String> {
+    return this.filter { it.title.isNotNullOrBlank() }
+        .map { it.title!!.trim().capitalizeWords() }
+        .toSet()
+}
+
+private fun Set<String>.sortedByMostUsedFirst(countUses: (String) -> Long): Set<String> {
+    val titleCountMap = this
+        .map {
+            it to countUses(it)
+        }
+        .toMap()
+
+    val sortedSuggestions = this
+        .sortedByDescending {
+            titleCountMap.getOrDefault(it, 0)
+        }
+        .toSet()
+
+    return sortedSuggestions
 }
