@@ -27,7 +27,7 @@ import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.ui.theme.style
 import java.util.*
 
-private const val SUGGESTIONS_LIMIT = 10
+const val SUGGESTIONS_LIMIT = 10
 
 @Composable
 fun ColumnScope.Title(
@@ -128,7 +128,7 @@ private fun PreviewTitleWithSuggestions() {
             Title(
                 type = TransactionType.EXPENSE,
                 titleFocus = FocusRequester(),
-                initialTransactionId = UUID.randomUUID(),
+                initialTransactionId = null,
                 titleTextFieldValue = selectEndTextFieldValue(""),
                 setTitleTextFieldValue = {},
                 suggestions = setOf(

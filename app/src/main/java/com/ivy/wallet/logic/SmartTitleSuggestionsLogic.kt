@@ -4,6 +4,7 @@ import com.ivy.wallet.base.capitalizeWords
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.TransactionDao
+import com.ivy.wallet.ui.edit.core.SUGGESTIONS_LIMIT
 import java.util.*
 
 class SmartTitleSuggestionsLogic(
@@ -49,9 +50,8 @@ class SmartTitleSuggestionsLogic(
         }
 
 
-        if (suggestions.isEmpty() && accountId != null) {
+        if (suggestions.size < SUGGESTIONS_LIMIT && accountId != null) {
             //last resort, suggest by account
-
             //all titles used for the specific account
             //ordered by N times used
 
@@ -71,6 +71,8 @@ class SmartTitleSuggestionsLogic(
         }
 
         return suggestions
+            .filter { it != title }
+            .toSet()
     }
 }
 
