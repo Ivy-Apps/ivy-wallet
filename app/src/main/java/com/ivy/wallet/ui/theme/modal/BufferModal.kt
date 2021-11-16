@@ -63,7 +63,11 @@ fun BoxWithConstraintsScope.BufferModal(
         }
     }
 
+    val amountModalId = remember(modal, newBufferAmount) {
+        UUID.randomUUID()
+    }
     AmountModal(
+        id = amountModalId,
         visible = amountModalVisible,
         currency = modal?.currency ?: "",
         initialAmount = newBufferAmount,

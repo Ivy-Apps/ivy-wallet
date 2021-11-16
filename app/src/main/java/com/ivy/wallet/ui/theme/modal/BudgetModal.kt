@@ -162,7 +162,11 @@ fun BoxWithConstraintsScope.BudgetModal(
         }
     }
 
+    val amountModalId = remember(modal, amount) {
+        UUID.randomUUID()
+    }
     AmountModal(
+        id = amountModalId,
         visible = amountModalVisible,
         currency = modal?.baseCurrency ?: "",
         initialAmount = amount,
