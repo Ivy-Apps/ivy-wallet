@@ -10,7 +10,6 @@ import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.sendToCrashlytics
-import com.ivy.wallet.base.uiThread
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.logic.PaywallLogic
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
@@ -64,13 +63,12 @@ class IvyViewModel @Inject constructor(
                 ivySession.loadFromCache()
                 ivyAnalytics.loadSession()
 
+                appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+                //initial app locked state
+                _appLocked.value = appLockEnabled
+
                 if (isOnboardingCompleted()) {
-                    appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-                    uiThread {
-                        //initial app locked state
-                        _appLocked.value = appLockEnabled
-                        navigateOnboardedUser(intent)
-                    }
+                    navigateOnboardedUser(intent)
                 } else {
                     ivyContext.navigateTo(Screen.Onboarding)
                 }
