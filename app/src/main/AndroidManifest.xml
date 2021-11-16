@@ -53,20 +53,22 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
-        <!-- Fix Lint WorkManger build error -->
-        <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            android:exported="false"
-            tools:node="remove" />
-
         <receiver android:name=".widget.AddTransactionWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/transaction_widget_info" />
+                android:resource="@xml/add_transaction_widget_info" />
+        </receiver>
+
+        <receiver android:name=".widget.AddTransactionWidgetCompact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_transaction_widget_compact_info" />
         </receiver>
     </application>
 

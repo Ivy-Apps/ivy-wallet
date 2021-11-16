@@ -615,4 +615,13 @@ object AppModule {
             ivyContext = ivyContext
         )
     }
+
+    @Provides
+    fun provideSmartTitleSuggestionsLogic(
+        transactionDao: TransactionDao
+    ): SmartTitleSuggestionsLogic {
+        return SmartTitleSuggestionsLogic(
+            transactionDao = transactionDao
+        )
+    }
 }

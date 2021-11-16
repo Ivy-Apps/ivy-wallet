@@ -60,6 +60,7 @@ import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
+import com.ivy.wallet.widget.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -492,8 +493,16 @@ class IvyActivity : AppCompatActivity() {
     }
 
     fun pinAddTransactionWidget() {
+        pinWidget(AddTransactionWidget::class.java)
+    }
+
+    fun pinAddTransactionWidgetCompact() {
+        pinWidget(AddTransactionWidgetCompact::class.java)
+    }
+
+    private fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
-        val addTransactionWidget = ComponentName(this, AddTransactionWidget::class.java)
+        val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
 }
