@@ -170,7 +170,11 @@ fun BoxWithConstraintsScope.AccountModal(
         }
     }
 
+    val amountModalId = remember(modal, amount) {
+        UUID.randomUUID()
+    }
     AmountModal(
+        id = amountModalId,
         visible = amountModalVisible,
         currency = currencyCode,
         initialAmount = amount,
