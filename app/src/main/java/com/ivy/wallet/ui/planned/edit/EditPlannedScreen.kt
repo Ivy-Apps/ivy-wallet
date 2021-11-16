@@ -177,7 +177,7 @@ private fun BoxWithConstraintsScope.UI(
             setTitleTextFieldValue = {
                 titleTextFieldValue = it
             },
-            suggestions = emptySet(), //TODO: Connect with logic
+            suggestions = emptySet(), //DO NOT display title suggestions for "Planned Payments"
 
             onTitleChanged = onTitleChanged,
             onNext = {
