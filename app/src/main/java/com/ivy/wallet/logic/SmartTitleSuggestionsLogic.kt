@@ -11,6 +11,12 @@ class SmartTitleSuggestionsLogic(
     private val transactionDao: TransactionDao
 ) {
 
+    /**
+     * Suggests titles based on:
+     * - title match
+     * - most used titles for categories
+     * - if suggestions.size < SUGGESTIONS_LIMIT most used titles for accounts
+     */
     fun suggest(
         title: String?,
         categoryId: UUID?,
@@ -38,7 +44,8 @@ class SmartTitleSuggestionsLogic(
                 .findAllByCategory(
                     categoryId = categoryId
                 )
-                .extractUniqueTitles()
+                //exclude already suggested suggestions so they're ordered by priority at the end
+                .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPatternAndCategoryId(
                         pattern = it,
@@ -59,7 +66,8 @@ class SmartTitleSuggestionsLogic(
                 .findAllByAccount(
                     accountId = accountId
                 )
-                .extractUniqueTitles()
+                //exclude already suggested suggestions so they're ordered by priority at the end
+                .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPatternAndAccountId(
                         pattern = it,
@@ -76,9 +84,13 @@ class SmartTitleSuggestionsLogic(
     }
 }
 
-private fun List<Transaction>.extractUniqueTitles(): Set<String> {
-    return this.filter { it.title.isNotNullOrBlank() }
+private fun List<Transaction>.extractUniqueTitles(
+    excludeSuggestions: Set<String>? = null
+): Set<String> {
+    return this
+        .filter { it.title.isNotNullOrBlank() }
         .map { it.title!!.trim().capitalizeWords() }
+        .filter { excludeSuggestions == null || !excludeSuggestions.contains(it) }
         .toSet()
 }
 
