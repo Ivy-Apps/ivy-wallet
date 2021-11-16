@@ -111,7 +111,7 @@ class CustomerJourneyLogic(
             backgroundColor = GreenLight,
             hasDismiss = true,
             onAction = { _, ivyActivity ->
-                ivyActivity.pinAddTransactionWidget()
+                ivyActivity.pinAddTransactionWidgetCompact()
             }
         )
 
