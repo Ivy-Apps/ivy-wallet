@@ -171,11 +171,13 @@ private fun BoxWithConstraintsScope.UI(
         Title(
             type = type,
             titleFocus = titleFocus,
+            initialTransactionId = screen.plannedPaymentRuleId,
 
             titleTextFieldValue = titleTextFieldValue,
             setTitleTextFieldValue = {
                 titleTextFieldValue = it
             },
+            suggestions = emptySet(), //DO NOT display title suggestions for "Planned Payments"
 
             onTitleChanged = onTitleChanged,
             onNext = {

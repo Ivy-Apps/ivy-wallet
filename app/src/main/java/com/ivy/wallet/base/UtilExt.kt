@@ -77,6 +77,10 @@ fun String.uppercaseLocal(): String = this.toUpperCase(Locale.getDefault())
 
 fun String.capitalizeLocal(): String = this.capitalize(Locale.getDefault())
 
+fun String.capitalizeWords(): String {
+    return split(" ").joinToString(" ") { it.capitalizeLocal() }
+}
+
 fun hasLockScreen(context: Context): Boolean {
     val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     return keyguardManager.isDeviceSecure

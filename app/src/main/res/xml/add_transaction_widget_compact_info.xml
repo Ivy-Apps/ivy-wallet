@@ -1,0 +1,7 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_add_transaction"
+    android:minWidth="110dp"
+    android:minResizeWidth="40dp"
+    android:previewImage="@drawable/preview_widget_add_trn_compact"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0" />
