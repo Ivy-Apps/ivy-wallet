@@ -31,7 +31,7 @@ import kotlin.math.truncate
 
 @Composable
 fun BoxWithConstraintsScope.AmountModal(
-    id: UUID = UUID.randomUUID(),
+    id: UUID,
     visible: Boolean,
     currency: String,
     initialAmount: Double?,
@@ -443,6 +443,7 @@ private fun Preview() {
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {
             AmountModal(
+                id = UUID.randomUUID(),
                 visible = true,
                 currency = "BGN",
                 initialAmount = null,
