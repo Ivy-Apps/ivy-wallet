@@ -163,4 +163,30 @@ interface TransactionDao {
 
     @Query("SELECT COUNT(*) FROM transactions WHERE isDeleted = 0 AND dateTime IS NOT null")
     fun countHappenedTransactions(): Long
+
+    //Smart Title Suggestions
+    @Query("SELECT * FROM transactions WHERE title LIKE :pattern AND isDeleted = 0")
+    fun findAllByTitleMatchingPattern(pattern: String): List<Transaction>
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) ORDER BY dateTime DESC")
+    fun findAllByCategory(
+        categoryId: UUID,
+    ): List<Transaction>
+
+    @Query("SELECT COUNT(*) FROM transactions WHERE title LIKE :pattern AND categoryId = :categoryId AND isDeleted = 0")
+    fun countByTitleMatchingPatternAndCategoryId(
+        pattern: String,
+        categoryId: UUID
+    ): Long
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND accountId = :accountId ORDER BY dateTime DESC")
+    fun findAllByAccount(
+        accountId: UUID
+    ): List<Transaction>
+
+    @Query("SELECT COUNT(*) FROM transactions WHERE title LIKE :pattern AND accountId = :accountId AND isDeleted = 0")
+    fun countByTitleMatchingPatternAndAccountId(
+        pattern: String,
+        accountId: UUID
+    ): Long
 }

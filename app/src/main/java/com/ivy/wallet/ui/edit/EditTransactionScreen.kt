@@ -42,6 +42,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
     val initialTitle by viewModel.initialTitle.observeAsState()
+    val titleSuggestions by viewModel.titleSuggestions.collectAsState()
     val currency by viewModel.currency.observeAsState("")
     val description by viewModel.description.observeAsState()
     val dateTime by viewModel.dateTime.observeAsState()
@@ -65,6 +66,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
         transactionType = transactionType,
         baseCurrency = currency,
         initialTitle = initialTitle,
+        titleSuggestions = titleSuggestions,
         description = description,
         dateTime = dateTime,
         category = category,
@@ -105,6 +107,7 @@ private fun BoxWithConstraintsScope.UI(
     transactionType: TransactionType,
     baseCurrency: String,
     initialTitle: String?,
+    titleSuggestions: Set<String>,
     description: String?,
     category: Category?,
     dateTime: LocalDateTime?,
@@ -178,11 +181,13 @@ private fun BoxWithConstraintsScope.UI(
         Title(
             type = transactionType,
             titleFocus = titleFocus,
+            initialTransactionId = screen.initialTransactionId,
 
             titleTextFieldValue = titleTextFieldValue,
             setTitleTextFieldValue = {
                 titleTextFieldValue = it
             },
+            suggestions = titleSuggestions,
 
             onTitleChanged = onTitleChanged,
             onNext = {
@@ -429,6 +434,7 @@ private fun Preview() {
         UI(
             screen = Screen.EditTransaction(null, TransactionType.EXPENSE),
             initialTitle = "",
+            titleSuggestions = emptySet(),
             baseCurrency = "BGN",
             dateTime = timeNowLocal(),
             description = null,

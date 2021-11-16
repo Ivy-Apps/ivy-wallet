@@ -7,10 +7,7 @@ import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.event.AccountsUpdatedEvent
-import com.ivy.wallet.logic.AccountCreator
-import com.ivy.wallet.logic.CategoryCreator
-import com.ivy.wallet.logic.PaywallLogic
-import com.ivy.wallet.logic.PlannedPaymentsLogic
+import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
@@ -24,6 +21,8 @@ import com.ivy.wallet.sync.uploader.TransactionUploader
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.time.LocalDateTime
@@ -43,7 +42,8 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val paywallLogic: PaywallLogic,
-    private val plannedPaymentsLogic: PlannedPaymentsLogic
+    private val plannedPaymentsLogic: PlannedPaymentsLogic,
+    private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -51,6 +51,9 @@ class EditTransactionViewModel @Inject constructor(
 
     private val _initialTitle = MutableLiveData<String?>()
     val initialTitle = _initialTitle.asLiveData()
+
+    private val _titleSuggestions = MutableStateFlow(emptySet<String>())
+    val titleSuggestions = _titleSuggestions.asStateFlow()
 
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
@@ -182,6 +185,22 @@ class EditTransactionViewModel @Inject constructor(
         this.title = newTitle
 
         saveIfEditMode()
+
+        updateTitleSuggestions(newTitle)
+    }
+
+    private fun updateTitleSuggestions(title: String? = loadedTransaction().title) {
+        if (editMode) return //title suggestions should not be display for Edit mode
+
+        viewModelScope.launch {
+            _titleSuggestions.value = ioThread {
+                smartTitleSuggestionsLogic.suggest(
+                    title = title,
+                    categoryId = category.value?.id,
+                    accountId = account.value?.id
+                )
+            }
+        }
     }
 
     fun onDescriptionChanged(newDescription: String?) {
@@ -200,6 +219,8 @@ class EditTransactionViewModel @Inject constructor(
         _category.value = newCategory
 
         saveIfEditMode()
+
+        updateTitleSuggestions()
     }
 
     fun onAccountChanged(newAccount: Account) {
@@ -216,6 +237,8 @@ class EditTransactionViewModel @Inject constructor(
         sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
 
         saveIfEditMode()
+
+        updateTitleSuggestions()
     }
 
     fun onToAccountChanged(newAccount: Account) {
