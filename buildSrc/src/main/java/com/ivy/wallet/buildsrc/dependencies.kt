@@ -90,7 +90,7 @@ object Libs {
 
         object Reorder {
             //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
-            const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
+            const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
         object Other {
