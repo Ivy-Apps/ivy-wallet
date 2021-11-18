@@ -13,6 +13,7 @@ enum class ImportType {
     WALLET_BY_BUDGET_BAKERS,
     SPENDEE,
     ONE_MONEY,
+    BLUE_COINS,
     KTW_MONEY_MANAGER,
     FORTUNE_CITY;
 
@@ -22,6 +23,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> Green
         SPENDEE -> RedLight
         ONE_MONEY -> Red3
+        BLUE_COINS -> Blue
         KTW_MONEY_MANAGER -> Yellow
         FORTUNE_CITY -> Green2Light
     }
@@ -32,6 +34,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "com.droid4you.application.wallet"
         SPENDEE -> "com.cleevio.spendee"
         ONE_MONEY -> "org.pixelrush.moneyiq"
+        BLUE_COINS -> "com.rammigsoftware.bluecoins"
         KTW_MONEY_MANAGER -> "com.ktwapps.walletmanager"
         FORTUNE_CITY -> "com.fourdesire.fortunecity"
     }
@@ -43,6 +46,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> R.drawable.wallet_by_budgetbakers_logo
         SPENDEE -> R.drawable.speende_logo_png
         ONE_MONEY -> R.drawable.one_money_logo
+        BLUE_COINS -> R.drawable.bluecoins
         KTW_MONEY_MANAGER -> R.drawable.ktw_money_manager_logo
         FORTUNE_CITY -> R.drawable.fortune_city_app_logo
     }
@@ -53,6 +57,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"
         ONE_MONEY -> "1Money"
+        BLUE_COINS -> "Bluecoins Finance"
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
         FORTUNE_CITY -> "Fortune City"
     }
@@ -63,6 +68,7 @@ enum class ImportType {
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"
         ONE_MONEY -> "1Money"
+        BLUE_COINS -> "Bluecoins Finance"
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
         FORTUNE_CITY -> "Fortune City"
     }
@@ -91,6 +97,9 @@ enum class ImportType {
                 onUploadClick = onUploadClick
             )
             ONE_MONEY -> OneMoneySteps(
+                onUploadClick = onUploadClick
+            )
+            BLUE_COINS -> DefaultImportSteps(
                 onUploadClick = onUploadClick
             )
             KTW_MONEY_MANAGER -> KTWMoneyManagerSteps(
