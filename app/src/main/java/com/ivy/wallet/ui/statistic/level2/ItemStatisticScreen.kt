@@ -210,10 +210,7 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .thenIf(listState.firstVisibleItemIndex > 0) {
-                    //clip corners after header is gone
-                    clip(Shapes.rounded32Top)
-                }
+                .clip(Shapes.rounded32Top)
                 .background(IvyTheme.colors.pure),
             state = listState,
         ) {
