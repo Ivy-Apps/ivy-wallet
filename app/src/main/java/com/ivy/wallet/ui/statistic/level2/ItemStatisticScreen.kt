@@ -210,103 +210,100 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .clip(Shapes.rounded32Top)
+                .thenIf(listState.firstVisibleItemIndex > 0) {
+                    //clip corners after header is gone
+                    clip(Shapes.rounded32Top)
+                }
                 .background(IvyTheme.colors.pure),
             state = listState,
         ) {
 
             item {
-                Column {
-                    Header(
-                        history = history,
-                        income = income,
-                        expenses = expenses,
-                        currency = currency,
-                        baseCurrency = baseCurrency,
-                        itemColor = itemColor,
-                        account = account,
-                        category = category,
-                        balance = balance,
-                        balanceBaseCurrency = balanceBaseCurrency,
+                Header(
+                    history = history,
+                    income = income,
+                    expenses = expenses,
+                    currency = currency,
+                    baseCurrency = baseCurrency,
+                    itemColor = itemColor,
+                    account = account,
+                    category = category,
+                    balance = balance,
+                    balanceBaseCurrency = balanceBaseCurrency,
 
-                        onDelete = {
-                            deleteModalVisible = true
-                        },
-                        onEdit = {
-                            when {
-                                account != null -> {
-                                    accountModalData = AccountModalData(
-                                        account = account,
-                                        baseCurrency = currency,
-                                        balance = balance,
-                                        autoFocusKeyboard = false
-                                    )
-                                }
-                                category != null -> {
-                                    categoryModalData = CategoryModalData(
-                                        category = category,
-                                        autoFocusKeyboard = false
-                                    )
-                                }
+                    onDelete = {
+                        deleteModalVisible = true
+                    },
+                    onEdit = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    autoFocusKeyboard = false
+                                )
                             }
-                        },
-
-                        onBalanceClick = {
-                            when {
-                                account != null -> {
-                                    accountModalData = AccountModalData(
-                                        account = account,
-                                        baseCurrency = currency,
-                                        balance = balance,
-                                        adjustBalanceMode = true,
-                                        autoFocusKeyboard = false
-                                    )
-                                }
+                            category != null -> {
+                                categoryModalData = CategoryModalData(
+                                    category = category,
+                                    autoFocusKeyboard = false
+                                )
                             }
-                        },
-                        showCategoryModal = {
-                            categoryModalData = CategoryModalData(
-                                category = category,
-                                autoFocusKeyboard = false
-                            )
-                        },
-                        showAccountModal = {
-                            accountModalData = AccountModalData(
-                                account = account,
-                                baseCurrency = currency,
-                                balance = balance,
-                                adjustBalanceMode = false,
-                                autoFocusKeyboard = false
-                            )
                         }
-                    )
-                    Box(
-                        modifier = Modifier
-                            .background(itemColor)
-                            .wrapContentHeight()
-                            .wrapContentHeight()
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .height(32.dp)
-                                .fillMaxWidth()
-                                .background(IvyTheme.colors.pure, Shapes.rounded32Top)
-                        ) {
+                    },
 
+                    onBalanceClick = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    adjustBalanceMode = true,
+                                    autoFocusKeyboard = false
+                                )
+                            }
                         }
+                    },
+                    showCategoryModal = {
+                        categoryModalData = CategoryModalData(
+                            category = category,
+                            autoFocusKeyboard = false
+                        )
+                    },
+                    showAccountModal = {
+                        accountModalData = AccountModalData(
+                            account = account,
+                            baseCurrency = currency,
+                            balance = balance,
+                            adjustBalanceMode = false,
+                            autoFocusKeyboard = false
+                        )
                     }
+                )
+            }
 
-                    PeriodSelector(
-                        period = period,
-                        onPreviousMonth = onPreviousMonth,
-                        onNextMonth = onNextMonth,
-                        onShowChoosePeriodModal = {
-                            choosePeriodModal = ChoosePeriodModalData(
-                                period = period
-                            )
-                        }
-                    )
-                }
+            item {
+                //Rounded corners top effect
+                Spacer(
+                    Modifier
+                        .height(32.dp)
+                        .fillMaxWidth()
+                        .background(itemColor) //itemColor is displayed below the clip
+                        .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                )
+
+                PeriodSelector(
+                    period = period,
+                    onPreviousMonth = onPreviousMonth,
+                    onNextMonth = onNextMonth,
+                    onShowChoosePeriodModal = {
+                        choosePeriodModal = ChoosePeriodModalData(
+                            period = period
+                        )
+                    }
+                )
             }
 
             transactions(
