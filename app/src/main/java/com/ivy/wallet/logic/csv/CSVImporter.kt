@@ -243,6 +243,7 @@ class CSVImporter(
             "dd/MM/yyyy HH:mm",
             "dd/MM/yyyy HH:mm:ss",
             "yyyy-MM-dd HH:mm:ss",
+            "yyyy-dd-MM HH:mm:ss",
             "yyyy/MM/dd HH:mm:ss",
             "MM/dd/yyyy HH:mm:ss",
             "dd/MM/yyyy h:mm a",

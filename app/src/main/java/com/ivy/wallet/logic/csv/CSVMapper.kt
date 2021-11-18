@@ -15,12 +15,13 @@ class CSVMapper {
                 ivyMappingV1()
             }
         }
-        ImportType.MONEY_MANAGER_PRASE -> moneyManagerPraseMapping()
+        ImportType.MONEY_MANAGER_PRASE -> moneyManagerPrase()
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()
         ImportType.ONE_MONEY -> oneMoney()
-        ImportType.KTW_MONEY_MANAGER -> ktwRowMapping()
-        ImportType.FORTUNE_CITY -> fortuneCityRowMapping()
+        ImportType.BLUE_COINS -> blueCoins()
+        ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
+        ImportType.FORTUNE_CITY -> fortuneCity()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -69,7 +70,7 @@ class CSVMapper {
     )
 
     //Praseto - https://play.google.com/store/apps/details?id=com.realbyteapps.moneymanagerfree&hl=en&gl=US
-    private fun moneyManagerPraseMapping() = RowMapping(
+    private fun moneyManagerPrase() = RowMapping(
         type = 6,
         amount = 8,
         account = 1,
@@ -128,7 +129,7 @@ class CSVMapper {
         title = 9
     )
 
-    private fun ktwRowMapping() = RowMapping(
+    private fun ktwMoneyManager() = RowMapping(
         date = 0,
         type = 1,
         category = 2,
@@ -139,7 +140,7 @@ class CSVMapper {
     )
 
 
-    private fun fortuneCityRowMapping() = RowMapping(
+    private fun fortuneCity() = RowMapping(
         account = 0,
         category = 1,
         amount = 2,
@@ -153,5 +154,19 @@ class CSVMapper {
                     TransactionType.INCOME else TransactionType.EXPENSE
             )
         }
+    )
+
+    private fun blueCoins() = RowMapping(
+        type = 0,
+        date = 1,
+        //set time = 2
+        title = 3,
+        amount = 4,
+        accountCurrency = 5,
+        //exchangeRate = 6
+        //category group = 7
+        category = 8,
+        account = 9,
+        description = 10
     )
 }
