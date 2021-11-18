@@ -21,13 +21,14 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
 fun PeriodSelector(
+    modifier: Modifier = Modifier,
     period: TimePeriod,
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onShowChoosePeriodModal: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull),

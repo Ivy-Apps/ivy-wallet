@@ -286,24 +286,27 @@ private fun BoxWithConstraintsScope.UI(
 
             item {
                 //Rounded corners top effect
-                Spacer(
-                    Modifier
-                        .height(32.dp)
-                        .fillMaxWidth()
-                        .background(itemColor) //itemColor is displayed below the clip
-                        .background(IvyTheme.colors.pure, Shapes.rounded32Top)
-                )
+                Box {
+                    Spacer(
+                        Modifier
+                            .height(32.dp)
+                            .fillMaxWidth()
+                            .background(itemColor) //itemColor is displayed below the clip
+                            .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                    )
 
-                PeriodSelector(
-                    period = period,
-                    onPreviousMonth = onPreviousMonth,
-                    onNextMonth = onNextMonth,
-                    onShowChoosePeriodModal = {
-                        choosePeriodModal = ChoosePeriodModalData(
-                            period = period
-                        )
-                    }
-                )
+                    PeriodSelector(
+                        modifier = Modifier.padding(top = 16.dp),
+                        period = period,
+                        onPreviousMonth = onPreviousMonth,
+                        onNextMonth = onNextMonth,
+                        onShowChoosePeriodModal = {
+                            choosePeriodModal = ChoosePeriodModalData(
+                                period = period
+                            )
+                        }
+                    )
+                }
             }
 
             transactions(
