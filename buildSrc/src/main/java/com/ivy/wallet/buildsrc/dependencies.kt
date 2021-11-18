@@ -21,8 +21,8 @@ object Libs {
 
     object Project {
         //Version
-        const val versionName = "2.2.5-comet"
-        const val versionCode = 83
+        const val versionName = "2.2.6-comet"
+        const val versionCode = 84
 
         //Compile SDK & Build Tools
         const val compileSdkVersion = 30
@@ -90,7 +90,7 @@ object Libs {
 
         object Reorder {
             //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
-            const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0"
+            const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
         }
 
         object Other {

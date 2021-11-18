@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.statistic.level2
 
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,11 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
@@ -47,7 +44,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
-import kotlin.math.roundToInt
+
 
 @Composable
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: Screen.ItemStatistic) {
@@ -205,111 +202,108 @@ private fun BoxWithConstraintsScope.UI(
             .background(itemColor)
     ) {
         val listState = rememberLazyListState()
-
-        var expanded by remember { mutableStateOf(listState.firstVisibleItemIndex == 0) }
-        expanded = listState.firstVisibleItemIndex == 0
-
-        val percentExpanded by animateFloatAsState(
-            targetValue = if (expanded) 1f else 0f,
-            animationSpec = springBounceMedium()
-        )
+        val density = LocalDensity.current
 
         Spacer(Modifier.statusBarsHeight())
 
-        Header(
-            percentExpanded = percentExpanded,
-
-            history = history,
-            income = income,
-            expenses = expenses,
-            currency = currency,
-            baseCurrency = baseCurrency,
-            itemColor = itemColor,
-            account = account,
-            category = category,
-            balance = balance,
-            balanceBaseCurrency = balanceBaseCurrency,
-
-            onDelete = {
-                deleteModalVisible = true
-            },
-            onEdit = {
-                when {
-                    account != null -> {
-                        accountModalData = AccountModalData(
-                            account = account,
-                            baseCurrency = currency,
-                            balance = balance,
-                            autoFocusKeyboard = false
-                        )
-                    }
-                    category != null -> {
-                        categoryModalData = CategoryModalData(
-                            category = category,
-                            autoFocusKeyboard = false
-                        )
-                    }
-                }
-            },
-
-            onBalanceClick = {
-                when {
-                    account != null -> {
-                        accountModalData = AccountModalData(
-                            account = account,
-                            baseCurrency = currency,
-                            balance = balance,
-                            adjustBalanceMode = true,
-                            autoFocusKeyboard = false
-                        )
-                    }
-                }
-            },
-            showCategoryModal = {
-                categoryModalData = CategoryModalData(
-                    category = category,
-                    autoFocusKeyboard = false
-                )
-            },
-            showAccountModal = {
-                accountModalData = AccountModalData(
-                    account = account,
-                    baseCurrency = currency,
-                    balance = balance,
-                    adjustBalanceMode = false,
-                    autoFocusKeyboard = false
-                )
-            }
-        )
-
-        val density = LocalDensity.current
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .drawColoredShadow(
-                    color = IvyTheme.colors.mediumInverse,
-                    alpha = if (IvyTheme.colors.isLight) 0.3f else 0.2f,
-                    borderRadius = 32.dp,
-                    shadowRadius = 24.dp
-                )
                 .clip(Shapes.rounded32Top)
-                .background(IvyTheme.colors.pure, Shapes.rounded32Top),
+                .background(IvyTheme.colors.pure),
             state = listState,
         ) {
-            item {
-                Spacer(Modifier.height(16.dp))
 
-                PeriodSelector(
-                    period = period,
-                    onPreviousMonth = onPreviousMonth,
-                    onNextMonth = onNextMonth,
-                    onShowChoosePeriodModal = {
-                        choosePeriodModal = ChoosePeriodModalData(
-                            period = period
+            item {
+                Header(
+                    history = history,
+                    income = income,
+                    expenses = expenses,
+                    currency = currency,
+                    baseCurrency = baseCurrency,
+                    itemColor = itemColor,
+                    account = account,
+                    category = category,
+                    balance = balance,
+                    balanceBaseCurrency = balanceBaseCurrency,
+
+                    onDelete = {
+                        deleteModalVisible = true
+                    },
+                    onEdit = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+                            category != null -> {
+                                categoryModalData = CategoryModalData(
+                                    category = category,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+                        }
+                    },
+
+                    onBalanceClick = {
+                        when {
+                            account != null -> {
+                                accountModalData = AccountModalData(
+                                    account = account,
+                                    baseCurrency = currency,
+                                    balance = balance,
+                                    adjustBalanceMode = true,
+                                    autoFocusKeyboard = false
+                                )
+                            }
+                        }
+                    },
+                    showCategoryModal = {
+                        categoryModalData = CategoryModalData(
+                            category = category,
+                            autoFocusKeyboard = false
+                        )
+                    },
+                    showAccountModal = {
+                        accountModalData = AccountModalData(
+                            account = account,
+                            baseCurrency = currency,
+                            balance = balance,
+                            adjustBalanceMode = false,
+                            autoFocusKeyboard = false
                         )
                     }
                 )
+            }
+
+            item {
+                //Rounded corners top effect
+                Box {
+                    Spacer(
+                        Modifier
+                            .height(32.dp)
+                            .fillMaxWidth()
+                            .background(itemColor) //itemColor is displayed below the clip
+                            .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                    )
+
+                    PeriodSelector(
+                        modifier = Modifier.padding(top = 16.dp),
+                        period = period,
+                        onPreviousMonth = onPreviousMonth,
+                        onNextMonth = onNextMonth,
+                        onShowChoosePeriodModal = {
+                            choosePeriodModal = ChoosePeriodModalData(
+                                period = period
+                            )
+                        }
+                    )
+                }
             }
 
             transactions(
@@ -389,8 +383,6 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun Header(
-    percentExpanded: Float,
-
     history: List<TransactionHistoryItem>,
     currency: String,
     baseCurrency: String,
@@ -415,20 +407,7 @@ private fun Header(
     setStatusBarDarkTextCompat(darkText = !darkColor)
 
     Column(
-        modifier = Modifier
-            .layout { measurable, constraints ->
-                val placealbe = measurable.measure(constraints)
-
-                val height = placealbe.height * percentExpanded
-
-                layout(placealbe.width, height.roundToInt()) {
-                    placealbe.placeRelative(
-                        x = 0,
-                        y = -(placealbe.height * (1f - percentExpanded)).roundToInt()
-                    )
-                }
-            }
-            .alpha(percentExpanded)
+        modifier = Modifier.background(itemColor)
     ) {
         Spacer(Modifier.height(20.dp))
 
