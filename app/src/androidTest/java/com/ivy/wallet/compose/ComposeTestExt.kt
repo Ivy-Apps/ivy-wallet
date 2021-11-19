@@ -1,4 +1,4 @@
-package com.ivy.wallet
+package com.ivy.wallet.compose
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onRoot
