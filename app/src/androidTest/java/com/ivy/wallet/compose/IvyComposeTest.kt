@@ -9,6 +9,9 @@ import org.junit.Before
 import org.junit.Rule
 
 abstract class IvyComposeTest {
+    //TODO: Setup Hilt, too
+    //https://developer.android.com/training/dependency-injection/hilt-testing
+
     @get:Rule
     val composeTestRule = createAndroidComposeRule<IvyActivity>()
     // use createAndroidComposeRule<YourActivity>() if you need access to an activity
@@ -26,5 +29,7 @@ abstract class IvyComposeTest {
         idlingResource?.let {
             composeTestRule.unregisterIdlingResource(it)
         }
+
+        //TODO: Reset app state
     }
 }
