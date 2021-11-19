@@ -16,37 +16,24 @@
 default_platform(:android)
 
 platform :android do
-    desc "Run UI tests and Lint static analysis"
-    lane :ui_tests_lint do
+    desc "Run UI tests"
+    lane :ui_tests do
         gradle(
             task: "connectedDebugAndroidTest"
         )
-
-        gradle(
-            task: "lint",
-            build_type: "Debug"
-        )
     end
 
-    desc "Tries to build the project and then runs Lint checks for Debug"
-    lane :build_lint do
-        gradle(
-            task: "build",
-            build_type: "Debug"
-        )
-
+    desc "Verify that the code is release-able."
+    lane :lint_release do
+        #verify code quality for "Release" buildType
         gradle(
             task: "lint",
-            build_type: "Debug"
+            build_type: "Release"
         )
     end
 
     desc "Builds release app bundle (AAB) for the Google Play Store."
     lane :production_build do
-        #gradle(
-        #    task: "testDebugUnitTest"
-        #)
-
         gradle(
             task: "clean"
         )
@@ -74,6 +61,13 @@ platform :android do
             skip_upload_changelogs: false,
             skip_upload_images: true,
             skip_upload_screenshots: true
+        )
+    end
+
+    desc "Cleans the project"
+    lane :clean do
+        gradle(
+            task: "clean"
         )
     end
 end
