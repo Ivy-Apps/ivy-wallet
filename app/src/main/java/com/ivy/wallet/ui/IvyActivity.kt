@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
@@ -15,9 +16,9 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -60,7 +61,6 @@ import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
-import com.ivy.wallet.widget.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -73,6 +73,7 @@ class IvyActivity : AppCompatActivity() {
 
     companion object {
         const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
+
         fun getIntent(context: Context): Intent = Intent(context, IvyActivity::class.java)
 
         fun addTransactionStart(context: Context, type: TransactionType): Intent =
@@ -87,14 +88,13 @@ class IvyActivity : AppCompatActivity() {
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyLogic
 
-    private lateinit var googleSignInContract: ActivityResultLauncher<GoogleSignInClient>
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
 
-    private lateinit var createFileContract: ActivityResultLauncher<Unit>
-    private var fileName = UUID.randomUUID().toString() //random UUID is just an initial value
+    private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
 
-    private lateinit var openFileContract: ActivityResultLauncher<Unit>
+    private lateinit var openFileLauncher: ActivityResultLauncher<Unit>
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
 
 
@@ -106,86 +106,13 @@ class IvyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupActivityForResultLaunchers()
+
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
-                                        onDatePicked ->
-            val picker = android.app.DatePickerDialog(this)
-
-            if (minDate != null) {
-                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
-            }
-
-            if (maxDate != null) {
-                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
-            }
-
-            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
-                Timber.i("Date picked: $year year $month month day $dayOfMonth")
-                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
-            }
-            picker.show()
-
-            if (initialDate != null) {
-                picker.updateDate(
-                    initialDate.year,
-                    //month-1 because LocalDate start from 1 and date picker starts from 0
-                    initialDate.monthValue - 1,
-                    initialDate.dayOfMonth
-                )
-            }
-        }
-
-        ivyContext.onShowTimePicker = { onTimePicked ->
-            val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
-        }
-
-        ivyContext.onContactSupport = {
-            contactSupport()
-        }
-
-
-        googleSignInContract = registerGoogleSignInContract()
-        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
-            onGoogleSignInIdTokenResult = idTokenResult
-
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-            googleSignInContract.launch(googleSignInClient)
-        }
-
-        createFileContract = registerCreateFileContract()
-        ivyContext.createNewFile = { fileName, onFileCreatedCallback ->
-            this.fileName = fileName
-            onFileCreated = onFileCreatedCallback
-
-            createFileContract.launch(Unit)
-        }
-
-        openFileContract = registerOpenFileContract()
-        ivyContext.openFile = { onFileOpenedCallback ->
-            onFileOpened = onFileOpenedCallback
-
-            openFileContract.launch(Unit)
-        }
+        setupDatePicker()
+        setupTimePicker()
 
         AddTransactionWidget.updateBroadcast(this)
 
@@ -251,6 +178,146 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupDatePicker() {
+        ivyContext.onShowDatePicker = { minDate,
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
+            val picker = DatePickerDialog(this)
+
+            if (minDate != null) {
+                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
+            }
+
+            if (maxDate != null) {
+                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
+            }
+
+            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
+                Timber.i("Date picked: $year year $month month day $dayOfMonth")
+                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
+            }
+            picker.show()
+
+            if (initialDate != null) {
+                picker.updateDate(
+                    initialDate.year,
+                    //month-1 because LocalDate start from 1 and date picker starts from 0
+                    initialDate.monthValue - 1,
+                    initialDate.dayOfMonth
+                )
+            }
+        }
+    }
+
+    private fun setupTimePicker() {
+        ivyContext.onShowTimePicker = { onTimePicked ->
+            val nowLocal = timeNowLocal()
+            val picker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    onTimePicked(
+                        LocalTime.of(hourOfDay, minute)
+                            .convertLocalToUTC().withSecond(0)
+                    )
+                },
+                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
+            )
+            picker.show()
+        }
+    }
+
+    private fun setupActivityForResultLaunchers() {
+        googleSignInLauncher()
+
+        createFileLauncher()
+
+        openFileLauncher()
+    }
+
+    private fun googleSignInLauncher() {
+        googleSignInLauncher = activityForResultLauncher(
+            createIntent = { _, client ->
+                client.signInIntent
+            }
+        ) { _, intent ->
+            try {
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(intent)
+                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
+                val idToken = account.idToken
+                Timber.d("idToken = $idToken")
+
+                onGoogleSignInIdTokenResult(idToken)
+            } catch (e: ApiException) {
+                e.sendToCrashlytics("GOOGLE_SIGN_IN - registerGoogleSignInContract(): ApiException")
+                e.printStackTrace()
+                onGoogleSignInIdTokenResult(null)
+            }
+        }
+
+        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
+            onGoogleSignInIdTokenResult = idTokenResult
+
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
+                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
+                .build()
+            val googleSignInClient = GoogleSignIn.getClient(this, gso)
+            googleSignInLauncher.launch(googleSignInClient)
+        }
+    }
+
+    private fun createFileLauncher() {
+        createFileLauncher = activityForResultLauncher(
+            createIntent = { _, fileName ->
+                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/csv"
+                    putExtra(Intent.EXTRA_TITLE, fileName)
+
+                    // Optionally, specify a URI for the directory that should be opened in
+                    // the system file picker before your app creates the document.
+                    putExtra(
+                        DocumentsContract.EXTRA_INITIAL_URI,
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                            .toURI()
+                    )
+                }
+            }
+        ) { _, intent ->
+            intent?.data?.also {
+                onFileCreated(it)
+            }
+        }
+
+        ivyContext.createNewFile = { fileName, onFileCreatedCallback ->
+            onFileCreated = onFileCreatedCallback
+
+            createFileLauncher.launch(fileName)
+        }
+    }
+
+    private fun openFileLauncher() {
+        openFileLauncher = simpleActivityForResultLauncher(
+            intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "*/*"
+            }
+        ) { _, intent ->
+            intent?.data?.also {
+                onFileOpened(it)
+            }
+        }
+
+        ivyContext.openFile = { onFileOpenedCallback ->
+            onFileOpened = onFileOpenedCallback
+
+            openFileLauncher.launch(Unit)
+        }
+    }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (viewModel.isAppLockEnabled() && !hasFocus) {
@@ -291,7 +358,10 @@ class IvyActivity : AppCompatActivity() {
             .setSubtitle(
                 "Prove that you have access to this device to unlock the app."
             )
-            .setDeviceCredentialAllowed(true)
+            .setAllowedAuthenticators(
+                BiometricManager.Authenticators.BIOMETRIC_WEAK or
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+            )
             .setConfirmationRequired(false)
             .build()
 
@@ -308,87 +378,9 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerGoogleSignInContract(): ActivityResultLauncher<GoogleSignInClient> {
-        return registerForActivityResult(GoogleSignInContract()) { intent: Intent ->
-            try {
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(intent)
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
-                Timber.d("idToken = $idToken")
 
-                onGoogleSignInIdTokenResult(idToken)
-            } catch (e: ApiException) {
-                e.sendToCrashlytics("GOOGLE_SIGN_IN - registerGoogleSignInContract(): ApiException")
-                e.printStackTrace()
-                onGoogleSignInIdTokenResult(null)
-            }
-        }
-    }
-
-    class GoogleSignInContract : ActivityResultContract<GoogleSignInClient, Intent>() {
-        override fun createIntent(context: Context, client: GoogleSignInClient): Intent {
-            return client.signInIntent
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Intent? {
-            return intent
-        }
-    }
-
-    private fun registerCreateFileContract(): ActivityResultLauncher<Unit> {
-        return registerForActivityResult(CreateFileContract()) { intent ->
-            intent?.data?.also {
-                onFileCreated(it)
-            }
-        }
-    }
-
-    inner class CreateFileContract : ActivityResultContract<Unit, Intent>() {
-        override fun createIntent(context: Context, param: Unit): Intent {
-            return Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "application/csv"
-                putExtra(Intent.EXTRA_TITLE, fileName)
-
-                // Optionally, specify a URI for the directory that should be opened in
-                // the system file picker before your app creates the document.
-                putExtra(
-                    DocumentsContract.EXTRA_INITIAL_URI,
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        .toURI()
-                )
-            }
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Intent? {
-            return intent
-        }
-    }
-
-    private fun registerOpenFileContract(): ActivityResultLauncher<Unit> {
-        return registerForActivityResult(OpenFileContract()) { intent ->
-            intent?.data?.also {
-                onFileOpened(it)
-            }
-        }
-    }
-
-    inner class OpenFileContract : ActivityResultContract<Unit, Intent>() {
-        override fun createIntent(context: Context, input: Unit?): Intent {
-            return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "*/*"
-            }
-        }
-
-        override fun parseResult(resultCode: Int, intent: Intent?): Intent? {
-            return intent
-        }
-
-    }
-
-    private fun contactSupport() {
+    //Helpers for Compose UI
+    fun contactSupport() {
         val caseNumber: Int = Random().nextInt(100) + 100
 
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
@@ -412,8 +404,19 @@ class IvyActivity : AppCompatActivity() {
     }
 
     fun openUrlInBrowser(url: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW)
+            browserIntent.data = Uri.parse(url)
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
+            Toast.makeText(
+                this,
+                "No browser app found. Visit manually: $url",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun shareIvyWallet() {
@@ -452,22 +455,6 @@ class IvyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openUrlInDefaultBrowser(url: String) {
-        try {
-            val browserIntent = Intent(Intent.ACTION_VIEW)
-            browserIntent.data = Uri.parse(url)
-            startActivity(browserIntent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
-            Toast.makeText(
-                this,
-                "No browser app found. Visit manually: $url",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
     fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
@@ -492,15 +479,7 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
-    fun pinAddTransactionWidget() {
-        pinWidget(AddTransactionWidget::class.java)
-    }
-
-    fun pinAddTransactionWidgetCompact() {
-        pinWidget(AddTransactionWidgetCompact::class.java)
-    }
-
-    private fun <T> pinWidget(widget: Class<T>) {
+    fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
