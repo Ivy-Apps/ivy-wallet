@@ -131,13 +131,13 @@ jobs:
       #--------------------------------------------------------------------------
 
       #Create GitHub release
-      - name: Changelog
+      - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
         env:
           REPO: ${{ github.repository }}
-          
-      - name: Create Release
+
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@latest
         env:
