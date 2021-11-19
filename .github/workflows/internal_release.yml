@@ -15,7 +15,7 @@ jobs:
   internal_release:
     # The type of runner that the job will run on
     # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -95,17 +95,17 @@ jobs:
           name: lint-release-report.html
           path: app/build/reports/lint-results-release.html
 
-      - name: Run UI Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: bundle exec fastlane ui_tests
+      #- name: Run UI Tests
+      #  uses: reactivecircus/android-emulator-runner@v2
+      #  with:
+      #    api-level: 29
+      #    script: bundle exec fastlane ui_tests
 
-      - name: Upload Android Tests report to GitHub
-        uses: actions/upload-artifact@v2
-        with:
-          name: android-tests-report
-          path: app/build/reports/androidTests/connected
+      #- name: Upload Android Tests report to GitHub
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: android-tests-report
+      #    path: app/build/reports/androidTests/connected
       #--------------------------------------------------------------------------
 
       #Fastlane: Build production .aab and release it to Internal Testing
@@ -131,6 +131,7 @@ jobs:
       #--------------------------------------------------------------------------
 
       #Create GitHub release
+      # Bullrich/generate-release-changelog@master doesn't run on macos-latest
       - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
