@@ -202,6 +202,7 @@ dependencies {
 
     //UI Automation Tests
     //https://developer.android.com/jetpack/compose/testing#setup
-    androidTestImplementation(Libs.Testing.Compose.junit4)
     androidTestImplementation(Libs.Testing.Compose.composeTestRule)
+    //Debug implementation for IdlingResource access
+    debugImplementation(Libs.Testing.Compose.junit4)
 }
