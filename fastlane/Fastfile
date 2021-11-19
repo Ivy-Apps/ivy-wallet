@@ -39,11 +39,6 @@ platform :android do
         )
 
         gradle(
-            task: "lint",
-            build_type: "Release"
-        )
-
-        gradle(
             task: "bundle",
             build_type: "Release"
         )
