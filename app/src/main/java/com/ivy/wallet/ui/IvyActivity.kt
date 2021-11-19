@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
@@ -72,6 +73,7 @@ class IvyActivity : AppCompatActivity() {
 
     companion object {
         const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
+
         fun getIntent(context: Context): Intent = Intent(context, IvyActivity::class.java)
 
         fun addTransactionStart(context: Context, type: TransactionType): Intent =
@@ -109,54 +111,8 @@ class IvyActivity : AppCompatActivity() {
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
-                                        onDatePicked ->
-            val picker = android.app.DatePickerDialog(this)
-
-            if (minDate != null) {
-                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
-            }
-
-            if (maxDate != null) {
-                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
-            }
-
-            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
-                Timber.i("Date picked: $year year $month month day $dayOfMonth")
-                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
-            }
-            picker.show()
-
-            if (initialDate != null) {
-                picker.updateDate(
-                    initialDate.year,
-                    //month-1 because LocalDate start from 1 and date picker starts from 0
-                    initialDate.monthValue - 1,
-                    initialDate.dayOfMonth
-                )
-            }
-        }
-
-        ivyContext.onShowTimePicker = { onTimePicked ->
-            val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
-            )
-            picker.show()
-        }
-
-        ivyContext.onContactSupport = {
-            contactSupport()
-        }
+        setupDatePicker()
+        setupTimePicker()
 
         AddTransactionWidget.updateBroadcast(this)
 
@@ -219,6 +175,55 @@ class IvyActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setupDatePicker() {
+        ivyContext.onShowDatePicker = { minDate,
+                                        maxDate,
+                                        initialDate,
+                                        onDatePicked ->
+            val picker = DatePickerDialog(this)
+
+            if (minDate != null) {
+                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
+            }
+
+            if (maxDate != null) {
+                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
+            }
+
+            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
+                Timber.i("Date picked: $year year $month month day $dayOfMonth")
+                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
+            }
+            picker.show()
+
+            if (initialDate != null) {
+                picker.updateDate(
+                    initialDate.year,
+                    //month-1 because LocalDate start from 1 and date picker starts from 0
+                    initialDate.monthValue - 1,
+                    initialDate.dayOfMonth
+                )
+            }
+        }
+    }
+
+    private fun setupTimePicker() {
+        ivyContext.onShowTimePicker = { onTimePicked ->
+            val nowLocal = timeNowLocal()
+            val picker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    onTimePicked(
+                        LocalTime.of(hourOfDay, minute)
+                            .convertLocalToUTC().withSecond(0)
+                    )
+                },
+                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
+            )
+            picker.show()
         }
     }
 
@@ -370,7 +375,7 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
-    private fun contactSupport() {
+    fun contactSupport() {
         val caseNumber: Int = Random().nextInt(100) + 100
 
         val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
