@@ -102,6 +102,13 @@ android {
         isCheckReleaseBuilds = true
         isAbortOnError = false
     }
+
+    packagingOptions {
+        //Exclude this files so Jetpack Compose UI tests can build
+        resources.excludes.add("META-INF/AL2.0")
+        resources.excludes.add("META-INF/LGPL2.1")
+        //-------------------------------------------------------
+    }
 }
 
 dependencies {
@@ -193,17 +200,8 @@ dependencies {
     implementation(Libs.Java.openCSV)
     implementation(Libs.Java.escapeCSVString)
 
-    //Testing
-    testImplementation(Libs.Testing.junit)
-    androidTestImplementation(Libs.Testing.junit)
-    androidTestImplementation(Libs.Testing.junitExt)
-    androidTestImplementation(Libs.Testing.hilt)
-    kaptAndroidTest(Libs.Testing.hiltCompiler)
-    androidTestImplementation(Libs.Testing.work)
-    testImplementation(Libs.Testing.assertK)
-    androidTestImplementation(Libs.Testing.assertK)
-//    testImplementation(Libs.Testing.mockk)
-//    androidTestImplementation(Libs.Testing.mockkAndroid)
-    testImplementation(Libs.Testing.architectureComponents)
-    androidTestImplementation(Libs.Testing.espresso)
+    //UI Automation Tests
+    //https://developer.android.com/jetpack/compose/testing#setup
+    androidTestImplementation(Libs.Testing.Compose.junit4)
+    androidTestImplementation(Libs.Testing.Compose.composeTestRule)
 }

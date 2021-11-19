@@ -205,15 +205,15 @@ object Libs {
     }
 
     object Testing {
-        const val junit = "junit:junit:4.13.1"
-        const val junitExt = "androidx.test.ext:junit:1.1.2"
-        const val espresso = "androidx.test.espresso:espresso-core:3.3.0"
-        const val hilt = "com.google.dagger:hilt-android-testing:${Hilt.version}"
-        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Hilt.version}"
-        const val work = "androidx.work:work-testing:${AndroidX.workVersion}"
-        const val assertK = "com.willowtreeapps.assertk:assertk-jvm:0.23"
-        const val architectureComponents = "android.arch.core:core-testing:1.1.1"
-        const val mockkAndroid = "io.mockk:mockk-android:1.10.0"
-        const val mockk = "io.mockk:mockk:1.10.0"
+        object Compose {
+            //https://developer.android.com/jetpack/compose/testing#setup
+
+            // Test rules and transitive dependencies:
+            const val junit4 = "androidx.compose.ui:ui-test-junit4:${AndroidX.Compose.version}"
+
+            // Needed for createComposeRule, but not createAndroidComposeRule:
+            const val composeTestRule =
+                "androidx.compose.ui:ui-test-manifest:${AndroidX.Compose.version}"
+        }
     }
 }
