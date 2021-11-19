@@ -65,7 +65,7 @@ jobs:
       - name: Verify that the code is release-able ("lintRelease")
         run: bundle exec fastlane lint_release
 
-      - name: Upload Android Tests Report to GitHub
+      - name: Upload Lint Release report to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: lint-release-report.html
@@ -77,13 +77,9 @@ jobs:
           api-level: 29
           script: bundle exec fastlane ui_tests
 
-      - name: Upload Android Tests Report to GitHub
+      - name: Upload Android Tests report to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: android-tests-report
           path: app/build/reports/androidTests/connected
-
-      - name: Display Android Tests Report
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }} # IMPORTANT: Display Android Test Report regardless of the result
       #--------------------------------------------------------------------------
