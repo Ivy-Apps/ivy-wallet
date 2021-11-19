@@ -61,10 +61,10 @@ jobs:
       #---------------------------------------------------
 
       #Run UI tests & Lint analysis
-      - name: UI Tests & Lint analysis
+      - name: Run UI Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 29
           script: bundle exec fastlane ui_tests
 
       - name: Upload Android Tests Report to GitHub
