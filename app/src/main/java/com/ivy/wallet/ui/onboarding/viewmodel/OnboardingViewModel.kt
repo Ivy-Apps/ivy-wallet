@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.analytics.IvyAnalytics
-import com.ivy.wallet.base.OpResult
-import com.ivy.wallet.base.asLiveData
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.sendToCrashlytics
+import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -102,6 +99,8 @@ class OnboardingViewModel @Inject constructor(
 
     fun start(screen: Screen.Onboarding, isSystemDarkMode: Boolean) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             initiateSettings(isSystemDarkMode)
 
             router.initBackHandling(
@@ -113,6 +112,8 @@ class OnboardingViewModel @Inject constructor(
             )
 
             router.splashNext()
+
+            TestIdlingResource.decrement()
         }
     }
 
