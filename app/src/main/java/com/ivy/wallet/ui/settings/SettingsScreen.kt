@@ -406,12 +406,12 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val ivyContext = LocalIvyContext.current
+    val ivyActivity = LocalContext.current as IvyActivity
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = "Contact support",
     ) {
-        ivyContext.contactSupport()
+        ivyActivity.contactSupport()
     }
 }
 

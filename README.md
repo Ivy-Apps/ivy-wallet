@@ -1,5 +1,6 @@
 ![Latest Release](https://img.shields.io/github/v/release/iliyangermanov/ivy-wallet)
-[![Build Lint](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/build_lint.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/build_lint.yml)
+[![UI Tests](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/ui_tests.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/ui_tests.yml)
+[![Lint](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/lint.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/lint.yml)
 [![Internal Release](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

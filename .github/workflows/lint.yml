@@ -1,4 +1,4 @@
-name: Build Lint
+name: Lint
 
 # Controls when the workflow will run
 on:
@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_lint:
+  lint:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -60,7 +60,13 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      #Fastlane: Verifies that the project builds and that Lint checks are passing
-      - name: Fastlane build_lint (Build DEBUG + Lint DEBUG)
-        run: bundle exec fastlane build_lint
-      #--------------------------------------------------------------------------
+      #Lint
+      - name: Verify that the code is release-able ("lintRelease")
+        run: bundle exec fastlane lint_release
+
+      - name: Upload Lint Release report to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-release-report.html
+          path: app/build/reports/lint-results-release.html
+      #------------------------------------------------------------------

@@ -14,6 +14,7 @@ on:
 jobs:
   internal_release:
     # The type of runner that the job will run on
+    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -84,21 +85,44 @@ jobs:
         run: ls -ll
       #--------------------------------------------------------------------------------
 
-      #Fastlane: Verify, build and release Android App Bundle as Internal Testing draft
-      - name: Fastlane production_build (test, lint, build)
+      #Run UI tests & Lint analysis
+      - name: Verify that the code is release-able ("lintRelease")
+        run: bundle exec fastlane lint_release
+
+      - name: Upload Lint Release report to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-release-report.html
+          path: app/build/reports/lint-results-release.html
+
+      #- name: Run UI Tests
+      #  uses: reactivecircus/android-emulator-runner@v2
+      #  with:
+      #    api-level: 29
+      #    script: bundle exec fastlane ui_tests
+
+      #- name: Upload Android Tests report to GitHub
+      #  uses: actions/upload-artifact@v2
+      #  with:
+      #    name: android-tests-report
+      #    path: app/build/reports/androidTests/connected
+      #--------------------------------------------------------------------------
+
+      #Fastlane: Build production .aab and release it to Internal Testing
+      - name: Build production App Bundle
         run: bundle exec fastlane production_build
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-      - name: Upload Android App Bundle to GitHub
+      - name: Upload App Bundle to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
 
-      - name: Fastlane internal_release (upload App Bundle + changelogs as draft)
+      - name: Release App Bundle to Internal Testing
         run: bundle exec fastlane internal_release
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -107,13 +131,14 @@ jobs:
       #--------------------------------------------------------------------------
 
       #Create GitHub release
-      - name: Changelog
+      # Bullrich/generate-release-changelog@master doesn't run on macos-latest
+      - name: Prepare changelog for GitHub Release
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
         env:
           REPO: ${{ github.repository }}
-          
-      - name: Create Release
+
+      - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@latest
         env:

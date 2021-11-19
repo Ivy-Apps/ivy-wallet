@@ -186,7 +186,6 @@ class IvyContext {
         onDatePicked: (LocalDate) -> Unit
     ) -> Unit
     lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
-    lateinit var onContactSupport: () -> Unit
 
     fun datePicker(
         minDate: LocalDate? = null,
@@ -200,11 +199,6 @@ class IvyContext {
     fun timePicker(onTimePicked: (LocalTime) -> Unit) {
         onShowTimePicker(onTimePicked)
     }
-
-    fun contactSupport() {
-        onContactSupport()
-    }
-
     //Activity help -------------------------------------------------------------------------------
 
 

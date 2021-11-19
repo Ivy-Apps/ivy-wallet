@@ -14,6 +14,7 @@ import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.widget.AddTransactionWidgetCompact
 
 class CustomerJourneyLogic(
     private val transactionDao: TransactionDao,
@@ -111,7 +112,7 @@ class CustomerJourneyLogic(
             backgroundColor = GreenLight,
             hasDismiss = true,
             onAction = { _, ivyActivity ->
-                ivyActivity.pinAddTransactionWidgetCompact()
+                ivyActivity.pinWidget(AddTransactionWidgetCompact::class.java)
             }
         )
 
