@@ -15,7 +15,8 @@ on:
 jobs:
   ui_tests_lint:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
+    runs-on: macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -61,6 +62,15 @@ jobs:
       #---------------------------------------------------
 
       #Run UI tests & Lint analysis
+      - name: Verify that the code is release-able ("lintRelease")
+        run: bundle exec fastlane lint_release
+
+      - name: Upload Android Tests Report to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint-release-report.html
+          path: app/build/reports/lint-results-release.html
+
       - name: Run UI Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -76,13 +86,4 @@ jobs:
       - name: Display Android Tests Report
         uses: asadmansr/android-test-report-action@v1.2.0
         if: ${{ always() }} # IMPORTANT: Display Android Test Report regardless of the result
-
-      - name: Verify that the code is release-able ("lintRelease")
-        run: bundle exec fastlane lint_release
-
-      - name: Upload Android Tests Report to GitHub
-        uses: actions/upload-artifact@v2
-        with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
       #--------------------------------------------------------------------------
