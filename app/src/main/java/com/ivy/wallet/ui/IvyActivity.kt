@@ -18,6 +18,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -60,7 +61,6 @@ import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
-import com.ivy.wallet.widget.AddTransactionWidgetCompact
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -358,7 +358,10 @@ class IvyActivity : AppCompatActivity() {
             .setSubtitle(
                 "Prove that you have access to this device to unlock the app."
             )
-            .setDeviceCredentialAllowed(true)
+            .setAllowedAuthenticators(
+                BiometricManager.Authenticators.BIOMETRIC_WEAK or
+                        BiometricManager.Authenticators.DEVICE_CREDENTIAL
+            )
             .setConfirmationRequired(false)
             .build()
 
@@ -375,6 +378,8 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
+
+    //Helpers for Compose UI
     fun contactSupport() {
         val caseNumber: Int = Random().nextInt(100) + 100
 
@@ -399,8 +404,19 @@ class IvyActivity : AppCompatActivity() {
     }
 
     fun openUrlInBrowser(url: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(browserIntent)
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW)
+            browserIntent.data = Uri.parse(url)
+            startActivity(browserIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
+            Toast.makeText(
+                this,
+                "No browser app found. Visit manually: $url",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun shareIvyWallet() {
@@ -439,22 +455,6 @@ class IvyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openUrlInDefaultBrowser(url: String) {
-        try {
-            val browserIntent = Intent(Intent.ACTION_VIEW)
-            browserIntent.data = Uri.parse(url)
-            startActivity(browserIntent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
-            Toast.makeText(
-                this,
-                "No browser app found. Visit manually: $url",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
     fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
@@ -479,15 +479,7 @@ class IvyActivity : AppCompatActivity() {
         }
     }
 
-    fun pinAddTransactionWidget() {
-        pinWidget(AddTransactionWidget::class.java)
-    }
-
-    fun pinAddTransactionWidgetCompact() {
-        pinWidget(AddTransactionWidgetCompact::class.java)
-    }
-
-    private fun <T> pinWidget(widget: Class<T>) {
+    fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
