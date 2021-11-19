@@ -16,6 +16,18 @@
 default_platform(:android)
 
 platform :android do
+    desc "Run UI tests and Lint static analysis"
+    lane :ui_tests_lint do
+        gradle(
+            task: "connectedDebugAndroidTest"
+        )
+
+        gradle(
+            task: "lint",
+            build_type: "Debug"
+        )
+    end
+
     desc "Tries to build the project and then runs Lint checks for Debug"
     lane :build_lint do
         gradle(
