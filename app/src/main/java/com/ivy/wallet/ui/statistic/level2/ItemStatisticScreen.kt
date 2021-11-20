@@ -433,10 +433,10 @@ private fun Header(
         BalanceRow(
             modifier = Modifier
                 .padding(start = 32.dp)
+                .testTag("balance")
                 .clickableNoIndication {
                     onBalanceClick()
-                }
-                .testTag("balance"),
+                },
             textColor = contrastColor,
             currency = currency,
             balance = balance,

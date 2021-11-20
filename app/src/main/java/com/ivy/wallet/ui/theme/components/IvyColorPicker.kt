@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
+import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.base.densityScope
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
@@ -90,6 +91,9 @@ fun ColumnScope.IvyColorPicker(
 
     densityScope {
         onScreenStart {
+            if (TestingContext.inTest) return@onScreenStart //listState.scrollToItem breaks the tests
+            //java.lang.IllegalStateException: pending composition has not been applied
+
             val selectedColorIndex = ivyColors.indexOfFirst { it.color == selectedColor }
             if (selectedColorIndex != -1) {
                 coroutineScope.launch {

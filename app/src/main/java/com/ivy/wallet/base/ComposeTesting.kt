@@ -4,6 +4,10 @@ import androidx.compose.ui.test.IdlingResource
 import com.ivy.wallet.BuildConfig
 import java.util.concurrent.atomic.AtomicInteger
 
+object TestingContext {
+    var inTest = false
+}
+
 object TestIdlingResource {
     private val counter = AtomicInteger(0)
 

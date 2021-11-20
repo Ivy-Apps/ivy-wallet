@@ -36,7 +36,7 @@ object Libs {
 
     object Kotlin {
         //URL: https://kotlinlang.org/docs/releases.html#release-details
-        const val version = "1.5.30"
+        const val version = "1.5.31"
 
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
@@ -59,7 +59,7 @@ object Libs {
 
         object Compose {
             //URL: https://developer.android.com/jetpack/androidx/releases/compose
-            const val version = "1.0.3"
+            const val version = "1.0.5"
 
             const val ui = "androidx.compose.ui:ui:$version"
             const val runtime = "androidx.compose.runtime:runtime:$version"

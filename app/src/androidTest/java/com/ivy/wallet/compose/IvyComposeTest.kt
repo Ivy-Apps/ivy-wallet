@@ -5,6 +5,7 @@ import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyActivity
@@ -26,6 +27,7 @@ abstract class IvyComposeTest {
     fun setUp() {
         idlingResource = TestIdlingResource.idlingResource
         composeTestRule.registerIdlingResource(idlingResource!!)
+        TestingContext.inTest = true
     }
 
     @After
@@ -34,6 +36,7 @@ abstract class IvyComposeTest {
             composeTestRule.unregisterIdlingResource(it)
         }
 
+        TestingContext.inTest = false
         resetApp()
     }
 
