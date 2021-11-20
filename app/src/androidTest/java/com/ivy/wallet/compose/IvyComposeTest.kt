@@ -1,8 +1,12 @@
 package com.ivy.wallet.compose
 
+import android.content.Context
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.platform.app.InstrumentationRegistry
 import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.persistence.IvyRoomDatabase
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyActivity
 import org.junit.After
 import org.junit.Before
@@ -30,6 +34,24 @@ abstract class IvyComposeTest {
             composeTestRule.unregisterIdlingResource(it)
         }
 
-        //TODO: Reset app state
+        resetApp()
     }
+
+    protected fun resetApp() {
+        clearSharedPrefs()
+        deleteDatabase()
+    }
+
+    protected fun clearSharedPrefs() {
+        SharedPrefs(targetContext()).removeAll()
+    }
+
+    protected fun deleteDatabase() {
+        targetContext().deleteDatabase(IvyRoomDatabase.DB_NAME)
+    }
+
+    private fun targetContext(): Context {
+        return InstrumentationRegistry.getInstrumentation().targetContext
+    }
+
 }

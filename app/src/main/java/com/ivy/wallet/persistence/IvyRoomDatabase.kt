@@ -41,7 +41,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract fun exchangeRatesDao(): ExchangeRateDao
 
     companion object {
-        private const val DB_NAME = "ivywallet.db"
+        const val DB_NAME = "ivywallet.db"
 
         fun create(applicationContext: Context, gson: Gson): IvyRoomDatabase {
             RoomTypeConverters.gson = gson
