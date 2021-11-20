@@ -106,6 +106,8 @@ class AccountsViewModel @Inject constructor(
 
     fun reorder(newOrder: List<AccountData>) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 newOrder.mapIndexed { index, accountData ->
                     accountDao.save(
@@ -121,14 +123,20 @@ class AccountsViewModel @Inject constructor(
             ioThread {
                 accountSync.sync()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editAccount(account: Account, newBalance: Double) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.editAccount(account, newBalance) {
                 start()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

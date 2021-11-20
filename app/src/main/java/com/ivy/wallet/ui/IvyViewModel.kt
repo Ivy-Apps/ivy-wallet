@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.sendToCrashlytics
@@ -59,6 +60,8 @@ class IvyViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 ivySession.loadFromCache()
                 ivyAnalytics.loadSession()
@@ -72,7 +75,10 @@ class IvyViewModel @Inject constructor(
                 } else {
                     ivyContext.navigateTo(Screen.Onboarding)
                 }
+
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

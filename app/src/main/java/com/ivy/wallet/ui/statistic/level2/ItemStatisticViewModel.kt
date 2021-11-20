@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.statistic.level2
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.isNotNullOrBlank
@@ -109,6 +110,8 @@ class ItemStatisticViewModel @Inject constructor(
         period: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {
+        TestIdlingResource.increment()
+
         if (reset) {
             reset()
         }
@@ -137,6 +140,8 @@ class ItemStatisticViewModel @Inject constructor(
                 else -> error("no id provided")
             }
         }
+
+        TestIdlingResource.decrement()
     }
 
     private suspend fun initForAccount(accountId: UUID) {
@@ -333,6 +338,8 @@ class ItemStatisticViewModel @Inject constructor(
 
     fun delete(screen: Screen.ItemStatistic) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             when {
                 screen.accountId != null -> {
                     deleteAccount(screen.accountId)
@@ -341,6 +348,8 @@ class ItemStatisticViewModel @Inject constructor(
                     deleteCategory(screen.categoryId)
                 }
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -369,14 +378,20 @@ class ItemStatisticViewModel @Inject constructor(
 
     fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.editCategory(updatedCategory) {
                 _category.value = it
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editAccount(screen: Screen.ItemStatistic, account: Account, newBalance: Double) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.editAccount(account, newBalance) {
                 start(
                     screen = screen,
@@ -384,17 +399,23 @@ class ItemStatisticViewModel @Inject constructor(
                     reset = false
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun payOrGet(screen: Screen.ItemStatistic, transaction: Transaction) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start(
                     screen = screen,
                     reset = false
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 }

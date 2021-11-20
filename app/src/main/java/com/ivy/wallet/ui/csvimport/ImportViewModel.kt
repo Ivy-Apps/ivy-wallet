@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.csvimport
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.uiThread
@@ -68,6 +69,8 @@ class ImportViewModel @Inject constructor(
 
         ivyContext.openFile { fileUri ->
             viewModelScope.launch {
+                TestIdlingResource.increment()
+
                 _importStep.value = ImportStep.LOADING
 
                 _importResult.value = ioThread {
@@ -128,6 +131,8 @@ class ImportViewModel @Inject constructor(
                 }!!
 
                 _importStep.value = ImportStep.RESULT
+
+                TestIdlingResource.decrement()
             }
         }
     }

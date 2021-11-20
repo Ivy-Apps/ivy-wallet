@@ -23,7 +23,7 @@ object TestIdlingResource {
         }
 
         if (counter.get() < 0 && BuildConfig.DEBUG) {
-            throw IllegalStateException("TestIdlingResource counter is corrupted!")
+            throw IllegalStateException("TestIdlingResource counter is corrupted! value = ${counter.get()}")
         }
     }
 }

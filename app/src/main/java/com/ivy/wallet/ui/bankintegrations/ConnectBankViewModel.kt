@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.OpResult
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
@@ -37,6 +38,8 @@ class ConnectBankViewModel @Inject constructor(
 
     fun connectBank(ivyActivity: IvyActivity) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             try {
                 val user = ivySession.getUserIdSafe()?.let {
                     ioThread { userDao.findById(it) }
@@ -49,11 +52,14 @@ class ConnectBankViewModel @Inject constructor(
                 e.printStackTrace()
             }
 
+            TestIdlingResource.decrement()
         }
     }
 
     fun syncTransactions() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _opSyncTransactions.value = OpResult.loading()
 
             try {
@@ -67,6 +73,8 @@ class ConnectBankViewModel @Inject constructor(
                 e.printStackTrace()
                 _opSyncTransactions.value = OpResult.failure(e)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -77,7 +85,9 @@ class ConnectBankViewModel @Inject constructor(
 
     fun removeCustomer() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
             bankIntegrationsLogic.removeCustomer()
+            TestIdlingResource.decrement()
         }
     }
 }
