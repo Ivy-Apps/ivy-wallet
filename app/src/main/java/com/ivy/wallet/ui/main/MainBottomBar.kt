@@ -154,7 +154,8 @@ fun BoxWithConstraintsScope.BottomBar(
             }
             .size(FAB_BUTTON_SIZE)
             .rotate(fabRotation)
-            .zIndex(200f),
+            .zIndex(200f)
+            .testTag("fab_add"),
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,
         backgroundGradient = when (tab) {

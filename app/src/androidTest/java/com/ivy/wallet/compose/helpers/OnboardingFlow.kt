@@ -49,4 +49,12 @@ class OnboardingFlow<A : ComponentActivity>(
         composeTestRule.onNode(hasText("Hi"))
             .assertIsDisplayed()
     }
+
+    fun quickOnboarding() {
+        chooseOfflineAccount()
+        clickStartFresh()
+        setCurrency()
+        skipAccounts()
+        skipCategories()
+    }
 }

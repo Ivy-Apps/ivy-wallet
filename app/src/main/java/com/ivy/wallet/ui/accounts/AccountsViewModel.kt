@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.accounts
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
@@ -54,6 +55,8 @@ class AccountsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val period = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
             ) //this must be monthly
@@ -96,6 +99,8 @@ class AccountsViewModel @Inject constructor(
             _totalBalanceWithExcluded.value = ioThread {
                 walletLogic.calculateBalance(filterExcluded = false)
             }!!
+
+            TestIdlingResource.decrement()
         }
     }
 

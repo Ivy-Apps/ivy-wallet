@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -434,7 +435,8 @@ private fun Header(
                 .padding(start = 32.dp)
                 .clickableNoIndication {
                     onBalanceClick()
-                },
+                }
+                .testTag("balance"),
             textColor = contrastColor,
             currency = currency,
             balance = balance,
