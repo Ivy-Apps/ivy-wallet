@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -538,7 +539,8 @@ private fun RowScope.Tab(
             .weight(1f)
             .clip(Shapes.roundedFull)
             .clickable(onClick = onClick)
-            .padding(top = 12.dp, bottom = 16.dp),
+            .padding(top = 12.dp, bottom = 16.dp)
+            .testTag(name.lowercase()),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
