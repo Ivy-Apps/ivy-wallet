@@ -70,7 +70,8 @@ fun BoxWithConstraintsScope.CalculatorModal(
             ZeroRow = {
                 KeypadCircleButton(
                     text = "C",
-                    textColor = Red
+                    textColor = Red,
+                    testTag = "key_C"
                 ) {
                     expression = ""
                 }
@@ -79,6 +80,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
                 KeypadCircleButton(
                     text = "(",
+                    testTag = "key_("
                 ) {
                     expression += "("
                 }
@@ -87,6 +89,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
                 KeypadCircleButton(
                     text = ")",
+                    testTag = "key_)"
                 ) {
                     expression += ")"
                 }
@@ -95,27 +98,40 @@ fun BoxWithConstraintsScope.CalculatorModal(
 
                 KeypadCircleButton(
                     text = "/",
+                    testTag = "key_/"
                 ) {
                     expression += "/"
                 }
             },
             FirstRowExtra = {
-                KeypadCircleButton(text = "*") {
+                KeypadCircleButton(
+                    text = "*",
+                    testTag = "key_*"
+                ) {
                     expression += "*"
                 }
             },
             SecondRowExtra = {
-                KeypadCircleButton(text = "-") {
+                KeypadCircleButton(
+                    text = "-",
+                    testTag = "key_-"
+                ) {
                     expression += "-"
                 }
             },
             ThirdRowExtra = {
-                KeypadCircleButton(text = "+") {
+                KeypadCircleButton(
+                    text = "+",
+                    testTag = "key_+"
+                ) {
                     expression += "+"
                 }
             },
             FourthRowExtra = {
-                KeypadCircleButton(text = "=") {
+                KeypadCircleButton(
+                    text = "=",
+                    testTag = "key_="
+                ) {
                     val result = calculate(expression)
                     if (result != null) {
                         expression = result.format(currency)

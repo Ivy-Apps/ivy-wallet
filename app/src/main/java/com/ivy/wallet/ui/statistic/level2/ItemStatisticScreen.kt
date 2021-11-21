@@ -504,6 +504,7 @@ private fun Toolbar(
 
         val ivyContext = LocalIvyContext.current
         CircleButton(
+            modifier = Modifier.testTag("toolbar_close"),
             icon = R.drawable.ic_dismiss,
             borderColor = contrastColor,
             tint = contrastColor,

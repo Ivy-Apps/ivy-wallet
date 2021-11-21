@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -219,7 +220,8 @@ private fun CashFlowInfo(
                 .padding(horizontal = 20.dp)
                 .clickableNoIndication {
                     onBalanceClick()
-                },
+                }
+                .testTag("home_balance"),
             currency = currency,
             balance = balance,
             shortenBigNumbers = true

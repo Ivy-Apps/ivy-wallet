@@ -6,23 +6,41 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.base.localDecimalSeparator
 
 class AmountInput<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
+    fun inputNumber(number: String) {
+        for (char in number) {
+            when {
+                char in '0'..'9' -> pressNumber(char.toString().toInt())
+                char == ',' -> {
+                    //do nothing
+                }
+                char == '.' -> pressDecimalSeparator()
+            }
+        }
+
+        clickSet()
+    }
+
     fun pressNumber(number: Int) {
-        composeTestRule.onNode(hasText(number.toString()))
+        composeTestRule.onNode(hasTestTag("key_$number"))
             .performClick()
     }
 
     fun pressDel() {
-        composeTestRule.onNode(hasTestTag("del"))
+        composeTestRule.onNode(hasTestTag("key_del"))
             .performClick()
     }
 
     fun pressDecimalSeparator() {
-        composeTestRule.onNode(hasText(localDecimalSeparator()))
+        composeTestRule.onNode(hasTestTag("key_decimal_separator"))
+            .performClick()
+    }
+
+    fun clickSet() {
+        composeTestRule.onNode(hasText("Enter"))
             .performClick()
     }
 }

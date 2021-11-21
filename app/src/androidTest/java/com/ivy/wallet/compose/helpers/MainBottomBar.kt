@@ -10,6 +10,10 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 class MainBottomBar<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
+    fun clickHome() {
+        composeTestRule.onNode(hasTestTag("home"))
+            .performClick()
+    }
 
     fun clickAccounts() {
         composeTestRule.onNode(hasTestTag("accounts"))

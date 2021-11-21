@@ -1,7 +1,8 @@
-package com.ivy.wallet.compose
+package com.ivy.wallet.compose.scenario
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
+import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.MainBottomBar
 import com.ivy.wallet.compose.helpers.OnboardingFlow
 import dagger.hilt.android.testing.HiltAndroidTest
