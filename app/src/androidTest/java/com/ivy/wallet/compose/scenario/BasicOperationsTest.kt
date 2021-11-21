@@ -1,19 +1,21 @@
 package com.ivy.wallet.compose.scenario
 
-import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.AccountModal
-import com.ivy.wallet.compose.helpers.AmountInput
-import com.ivy.wallet.compose.helpers.MainBottomBar
-import com.ivy.wallet.compose.helpers.OnboardingFlow
+import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.printTree
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
 class BasicOperationsTest : IvyComposeTest() {
+
+    private val onboarding = OnboardingFlow(composeTestRule)
+    private val amountInput = AmountInput(composeTestRule)
+    private val accountModal = AccountModal(composeTestRule)
+    private val mainBottomBar = MainBottomBar(composeTestRule)
+    private val chooseCategoryModal = ChooseCategoryModal(composeTestRule)
+
 
     @Test
     fun contextLoads() {
@@ -21,11 +23,6 @@ class BasicOperationsTest : IvyComposeTest() {
 
     @Test
     fun OnboardAndAdjustBalance() {
-        val onboarding = OnboardingFlow(composeTestRule)
-        val amountInput = AmountInput(composeTestRule)
-        val accountModal = AccountModal(composeTestRule)
-        val mainBottomBar = MainBottomBar(composeTestRule)
-
         onboarding.quickOnboarding()
 
         composeTestRule.onNode(hasText("To accounts"))
@@ -40,14 +37,7 @@ class BasicOperationsTest : IvyComposeTest() {
 
         accountModal.clickBalance()
 
-        amountInput.pressNumber(1)
-        amountInput.pressNumber(0)
-        amountInput.pressNumber(2)
-        amountInput.pressNumber(5)
-        amountInput.pressDecimalSeparator()
-        amountInput.pressNumber(9)
-        amountInput.pressNumber(8)
-        amountInput.clickSet()
+        amountInput.enterNumber("1,025.98")
 
         accountModal.clickSave()
 
@@ -61,5 +51,29 @@ class BasicOperationsTest : IvyComposeTest() {
 
         composeTestRule.onNodeWithTag("home_balance")
             .assertTextEquals("USD", "1,025", ".98")
+    }
+
+    @Test
+    fun CreateIncome() {
+        onboarding.quickOnboarding()
+
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddIncome()
+
+        amountInput.enterNumber("5,000")
+
+        chooseCategoryModal.selectCategory("Investments")
+
+        composeTestRule.onNodeWithTag("input_field")
+            .performTextInput("Salary")
+
+        composeTestRule.onNodeWithText("Add")
+            .performClick()
+
+        composeTestRule.waitForIdle()
+        composeTestRule.printTree()
+
+        composeTestRule.onNodeWithTag("transaction_card")
+            .assertIsDisplayed()
     }
 }

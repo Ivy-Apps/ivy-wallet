@@ -450,6 +450,8 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
+                    if (TestingContext.inTest) return@launch //breaks UI tests
+
                     lazyState.scrollToItem(
                         index = selectedIndex, //+1 because Spacer width 24.dp
                     )

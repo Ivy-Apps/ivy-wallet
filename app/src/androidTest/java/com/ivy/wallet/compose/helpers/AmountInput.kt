@@ -10,14 +10,14 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 class AmountInput<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
-    fun inputNumber(number: String) {
+    fun enterNumber(number: String) {
         for (char in number) {
-            when {
-                char in '0'..'9' -> pressNumber(char.toString().toInt())
-                char == ',' -> {
+            when (char) {
+                in '0'..'9' -> pressNumber(char.toString().toInt())
+                ',' -> {
                     //do nothing
                 }
-                char == '.' -> pressDecimalSeparator()
+                '.' -> pressDecimalSeparator()
             }
         }
 
