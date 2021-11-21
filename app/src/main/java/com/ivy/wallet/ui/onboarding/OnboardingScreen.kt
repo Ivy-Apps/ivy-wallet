@@ -3,11 +3,16 @@ package com.ivy.wallet.ui.onboarding
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.base.OpResult
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -44,35 +49,47 @@ fun BoxWithConstraintsScope.OnboardingScreen(screen: Screen.Onboarding) {
         )
     }
 
-    UI(
-        onboardingState = state,
-        currency = currency,
-        opGoogleSignIn = opGoogleSign,
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
+    ) {
 
-        accountSuggestions = accountSuggestions,
-        accounts = accounts,
+        item {
+            UI(
+                onboardingState = state,
+                currency = currency,
+                opGoogleSignIn = opGoogleSign,
 
-        categorySuggestions = categorySuggestions,
-        categories = categories,
+                accountSuggestions = accountSuggestions,
+                accounts = accounts,
 
-        onLoginWithGoogle = viewModel::loginWithGoogle,
-        onSkip = viewModel::loginOfflineAccount,
+                categorySuggestions = categorySuggestions,
+                categories = categories,
 
-        onStartImport = viewModel::startImport,
-        onStartFresh = viewModel::startFresh,
+                onLoginWithGoogle = viewModel::loginWithGoogle,
+                onSkip = viewModel::loginOfflineAccount,
 
-        onSetCurrency = viewModel::setBaseCurrency,
+                onStartImport = viewModel::startImport,
+                onStartFresh = viewModel::startFresh,
 
-        onCreateAccount = viewModel::createAccount,
-        onEditAccount = viewModel::editAccount,
-        onAddAccountsDone = viewModel::onAddAccountsDone,
-        onAddAccountsSkip = viewModel::onAddAccountsSkip,
+                onSetCurrency = viewModel::setBaseCurrency,
 
-        onCreateCategory = viewModel::createCategory,
-        onEditCategory = viewModel::editCategory,
-        onAddCategoryDone = viewModel::onAddCategoriesDone,
-        onAddCategorySkip = viewModel::onAddCategoriesSkip
-    )
+                onCreateAccount = viewModel::createAccount,
+                onEditAccount = viewModel::editAccount,
+                onAddAccountsDone = viewModel::onAddAccountsDone,
+                onAddAccountsSkip = viewModel::onAddAccountsSkip,
+
+                onCreateCategory = viewModel::createCategory,
+                onEditCategory = viewModel::editCategory,
+                onAddCategoryDone = viewModel::onAddCategoriesDone,
+                onAddCategorySkip = viewModel::onAddCategoriesSkip
+            )
+        }
+
+    }
+
 }
 
 @ExperimentalFoundationApi
