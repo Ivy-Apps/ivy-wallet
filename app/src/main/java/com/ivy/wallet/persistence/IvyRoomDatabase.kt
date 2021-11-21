@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.google.gson.Gson
 import com.ivy.wallet.model.entity.*
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.persistence.migration.*
@@ -43,8 +42,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     companion object {
         const val DB_NAME = "ivywallet.db"
 
-        fun create(applicationContext: Context, gson: Gson): IvyRoomDatabase {
-            RoomTypeConverters.gson = gson
+        fun create(applicationContext: Context): IvyRoomDatabase {
             return Room
                 .databaseBuilder(
                     applicationContext,

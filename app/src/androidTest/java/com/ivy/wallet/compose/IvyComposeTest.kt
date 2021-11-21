@@ -1,21 +1,30 @@
 package com.ivy.wallet.compose
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.work.Configuration
+import androidx.work.impl.utils.SynchronousExecutor
+import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.IvyContext
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
+import javax.inject.Inject
 
+@HiltAndroidTest
 abstract class IvyComposeTest {
-    //TODO: Setup Hilt, too
-    //https://developer.android.com/training/dependency-injection/hilt-testing
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<IvyActivity>()
@@ -23,11 +32,25 @@ abstract class IvyComposeTest {
 
     private var idlingResource: IdlingResource? = null
 
+    @Inject
+    lateinit var ivyContext: IvyContext
+
     @Before
     fun setUp() {
+        TestIdlingResource.reset()
         idlingResource = TestIdlingResource.idlingResource
         composeTestRule.registerIdlingResource(idlingResource!!)
+
+        val config = Configuration.Builder()
+            .setMinimumLoggingLevel(Log.DEBUG)
+            .setExecutor(SynchronousExecutor())
+            .build()
+        WorkManagerTestInitHelper.initializeTestWorkManager(context(), config)
+        hiltRule.inject()
+
         TestingContext.inTest = true
+
+        resetApp()
     }
 
     @After
@@ -37,23 +60,29 @@ abstract class IvyComposeTest {
         }
 
         TestingContext.inTest = false
+
         resetApp()
     }
 
-    protected fun resetApp() {
+    private fun resetApp() {
         clearSharedPrefs()
         deleteDatabase()
+        resetIvyContext()
     }
 
-    protected fun clearSharedPrefs() {
-        SharedPrefs(targetContext()).removeAll()
+    private fun clearSharedPrefs() {
+        SharedPrefs(context()).removeAll()
     }
 
-    protected fun deleteDatabase() {
-        targetContext().deleteDatabase(IvyRoomDatabase.DB_NAME)
+    private fun deleteDatabase() {
+        IvyRoomDatabase.create(context()).reset()
     }
 
-    private fun targetContext(): Context {
+    private fun resetIvyContext() {
+        ivyContext.reset()
+    }
+
+    private fun context(): Context {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
 

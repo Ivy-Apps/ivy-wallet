@@ -1,7 +1,6 @@
 package com.ivy.wallet.persistence
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
 import com.ivy.wallet.base.epochMilliToDateTime
 import com.ivy.wallet.base.toEpochMilli
 import com.ivy.wallet.model.AuthProviderType
@@ -13,11 +12,6 @@ import java.util.*
 
 @SuppressWarnings("unused")
 class RoomTypeConverters {
-
-    companion object {
-        lateinit var gson: Gson
-    }
-
     @TypeConverter
     fun saveDate(localDateTime: LocalDateTime?): Long? = localDateTime?.toEpochMilli()
 

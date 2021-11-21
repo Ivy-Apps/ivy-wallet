@@ -30,4 +30,8 @@ object TestIdlingResource {
             throw IllegalStateException("TestIdlingResource counter is corrupted! value = ${counter.get()}")
         }
     }
+
+    fun reset() {
+        counter.set(0)
+    }
 }

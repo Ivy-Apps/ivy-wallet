@@ -4,9 +4,15 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import com.ivy.wallet.compose.helpers.MainBottomBar
 import com.ivy.wallet.compose.helpers.OnboardingFlow
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
+@HiltAndroidTest
 class OnboardingTest : IvyComposeTest() {
+
+    @Test
+    fun contextLoads() {
+    }
 
     @Test
     fun OnboardingShortestPath() {
@@ -24,6 +30,4 @@ class OnboardingTest : IvyComposeTest() {
         composeTestRule.onNode(hasText("Cash"))
             .assertIsDisplayed()
     }
-
-
 }

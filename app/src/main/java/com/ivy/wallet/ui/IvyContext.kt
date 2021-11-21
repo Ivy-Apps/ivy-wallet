@@ -215,4 +215,14 @@ class IvyContext {
     fun switchTheme(theme: Theme) {
         this.theme = theme
     }
+
+    //Testing --------------------------------------------------------------------------------------
+    fun reset() {
+        mainTab = MainTab.HOME
+        startDayOfMonth = 1
+        currentScreen = null
+        isPremium = false
+        transactionsListState = null
+        resetBackStack()
+    }
 }
