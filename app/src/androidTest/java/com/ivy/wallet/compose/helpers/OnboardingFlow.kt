@@ -11,6 +11,8 @@ class OnboardingFlow<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     fun chooseOfflineAccount() {
+        composeTestRule.waitForIdle()
+
         composeTestRule.onNode(hasText("Offline account"))
             .performClick()
 
