@@ -75,5 +75,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         settingsDao().deleteAll()
         plannedPaymentRuleDao().deleteAll()
         userDao().deleteAll()
+        budgetDao().deleteAll()
     }
 }

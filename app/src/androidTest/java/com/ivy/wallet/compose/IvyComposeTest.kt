@@ -12,6 +12,7 @@ import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
+import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyContext
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -35,22 +36,33 @@ abstract class IvyComposeTest {
     @Inject
     lateinit var ivyContext: IvyContext
 
+    @Inject
+    lateinit var ivyRoomDatabase: IvyRoomDatabase
+
+    @Inject
+    lateinit var ivySession: IvySession
+
     @Before
     fun setUp() {
+        setupTestIdling()
+        setupHiltDI()
+
+        TestingContext.inTest = true
+    }
+
+    private fun setupTestIdling() {
         TestIdlingResource.reset()
         idlingResource = TestIdlingResource.idlingResource
         composeTestRule.registerIdlingResource(idlingResource!!)
+    }
 
+    private fun setupHiltDI() {
         val config = Configuration.Builder()
             .setMinimumLoggingLevel(Log.DEBUG)
             .setExecutor(SynchronousExecutor())
             .build()
         WorkManagerTestInitHelper.initializeTestWorkManager(context(), config)
         hiltRule.inject()
-
-        TestingContext.inTest = true
-
-        resetApp()
     }
 
     @After
@@ -66,16 +78,17 @@ abstract class IvyComposeTest {
 
     private fun resetApp() {
         clearSharedPrefs()
-        deleteDatabase()
+        resetDatabase()
         resetIvyContext()
+        ivySession.logout()
     }
 
     private fun clearSharedPrefs() {
         SharedPrefs(context()).removeAll()
     }
 
-    private fun deleteDatabase() {
-        IvyRoomDatabase.create(context()).reset()
+    private fun resetDatabase() {
+        ivyRoomDatabase.reset()
     }
 
     private fun resetIvyContext() {

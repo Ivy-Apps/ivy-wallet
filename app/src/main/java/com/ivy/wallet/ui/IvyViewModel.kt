@@ -50,6 +50,8 @@ class IvyViewModel @Inject constructor(
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 val theme = settingsDao.findAll().firstOrNull()?.theme
                     ?: if (systemDarkMode) Theme.DARK else Theme.LIGHT
@@ -57,6 +59,8 @@ class IvyViewModel @Inject constructor(
 
                 ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             }
+
+            TestIdlingResource.decrement()
         }
 
         viewModelScope.launch {
