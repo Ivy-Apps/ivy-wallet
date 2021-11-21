@@ -11,6 +11,8 @@ class AmountInput<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     fun enterNumber(number: String) {
+        composeTestRule.waitForIdle()
+
         for (char in number) {
             when (char) {
                 in '0'..'9' -> pressNumber(char.toString().toInt())
