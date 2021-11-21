@@ -12,10 +12,10 @@ class HomeTab<A : ComponentActivity>(
 
     fun assertBalance(
         amount: String,
-        amountDecimalPart: String,
+        amountDecimal: String,
         currency: String = "USD"
     ) {
         composeTestRule.onNodeWithTag("home_balance")
-            .assertTextEquals(currency, amount, amountDecimalPart)
+            .assertTextEquals(currency, amount, amountDecimal)
     }
 }

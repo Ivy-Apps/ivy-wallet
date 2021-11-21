@@ -7,5 +7,5 @@ import androidx.compose.ui.test.printToLog
 const val COMPOSE_TEST_TAG = "compose_test"
 
 fun ComposeTestRule.printTree() {
-    this.onRoot(useUnmergedTree = true).printToLog(COMPOSE_TEST_TAG)
+    this.onRoot(useUnmergedTree = false).printToLog(COMPOSE_TEST_TAG)
 }

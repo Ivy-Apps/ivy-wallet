@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -213,7 +214,8 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 accounts = accounts,
                 selectedAccount = selectedAccount,
                 onSelectedAccountChanged = onSelectedAccountChanged,
-                onAddNewAccount = onAddNewAccount
+                onAddNewAccount = onAddNewAccount,
+                childrenTestTag = "amount_modal_account"
             )
         },
         amountSpacerTop = 48.dp,
@@ -408,7 +410,8 @@ private fun SheetHeader(
                 accounts = accounts,
                 selectedAccount = selectedAccount,
                 onSelectedAccountChanged = onSelectedAccountChanged,
-                onAddNewAccount = onAddNewAccount
+                onAddNewAccount = onAddNewAccount,
+                childrenTestTag = "from_account"
             )
 
             if (type == TransactionType.TRANSFER) {
@@ -429,7 +432,8 @@ private fun SheetHeader(
                     accounts = accounts,
                     selectedAccount = toAccount,
                     onSelectedAccountChanged = onToAccountChanged,
-                    onAddNewAccount = onAddNewAccount
+                    onAddNewAccount = onAddNewAccount,
+                    childrenTestTag = "to_account",
                 )
             }
         }
@@ -438,8 +442,10 @@ private fun SheetHeader(
 
 @Composable
 private fun AccountsRow(
+    modifier: Modifier = Modifier,
     accounts: List<Account>,
     selectedAccount: Account?,
+    childrenTestTag: String? = null,
     onSelectedAccountChanged: (Account) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
@@ -461,7 +467,7 @@ private fun AccountsRow(
     }
 
     LazyRow(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         state = lazyState
     ) {
@@ -472,7 +478,8 @@ private fun AccountsRow(
         itemsIndexed(accounts) { _, account ->
             Account(
                 account = account,
-                selected = selectedAccount == account
+                selected = selectedAccount == account,
+                testTag = childrenTestTag ?: "account"
             ) {
                 onSelectedAccountChanged(account)
             }
@@ -494,6 +501,7 @@ private fun AccountsRow(
 private fun Account(
     account: Account,
     selected: Boolean,
+    testTag: String,
     onClick: () -> Unit
 ) {
     val accountColor = account.color.toComposeColor()
@@ -509,7 +517,8 @@ private fun Account(
             .thenIf(selected) {
                 background(accountColor, Shapes.roundedFull)
             }
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .testTag(testTag),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))

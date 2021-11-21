@@ -36,7 +36,7 @@ class MainBottomBar<A : ComponentActivity>(
     }
 
     fun clickAddTransfer() {
-        composeTestRule.onNode(hasText("ADD EXPENSE"))
+        composeTestRule.onNode(hasText("ACCOUNT TRANSFER"))
             .performClick()
     }
 }

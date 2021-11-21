@@ -15,6 +15,7 @@ class BasicOperationsTest : IvyComposeTest() {
     private val mainBottomBar = MainBottomBar(composeTestRule)
     private val transactionFlow = TransactionFlow(composeTestRule)
     private val homeTab = HomeTab(composeTestRule)
+    private val accountsTab = AccountsTab(composeTestRule)
 
 
     @Test
@@ -54,7 +55,7 @@ class BasicOperationsTest : IvyComposeTest() {
 
         homeTab.assertBalance(
             amount = "1,025",
-            amountDecimalPart = ".98"
+            amountDecimal = ".98"
         )
     }
 
@@ -96,7 +97,44 @@ class BasicOperationsTest : IvyComposeTest() {
 
         homeTab.assertBalance(
             amount = "450",
-            amountDecimalPart = ".00"
+            amountDecimal = ".00"
         )
     }
+
+    @Test
+    fun MakeTransfer() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addIncome(
+            amount = 2000.0,
+            account = "Bank"
+        )
+
+        transactionFlow.addTransfer(
+            amount = 400.0,
+            fromAccount = "Bank",
+            toAccount = "Cash"
+        )
+
+        homeTab.assertBalance(
+            amount = "2,000",
+            amountDecimal = ".00"
+        )
+
+        mainBottomBar.clickAccounts()
+
+        accountsTab.assertAccountBalance(
+            account = "Bank",
+            balance = "1,600",
+            balanceDecimal = ".00"
+        )
+
+        accountsTab.assertAccountBalance(
+            account = "Cash",
+            balance = "400",
+            balanceDecimal = ".00"
+        )
+    }
+
+    //TODO: Test Edit transaction
 }
