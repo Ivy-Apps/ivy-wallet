@@ -6,11 +6,13 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.waitSeconds
 
 class OnboardingFlow<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     fun chooseOfflineAccount() {
+        composeTestRule.waitSeconds(1)
         composeTestRule.waitForIdle()
 
         composeTestRule.onNode(hasText("Offline account"))
