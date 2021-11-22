@@ -57,4 +57,9 @@ class OnboardingTest : IvyComposeTest() {
             currency = "BGN",
         )
     }
+
+    @Test
+    fun Onboard_with1AccountAnd1Category() {
+        onboarding.onboardWith1AccountAnd1Category()
+    }
 }
