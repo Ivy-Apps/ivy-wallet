@@ -11,6 +11,7 @@ class AccountModal<A : ComponentActivity>(
 ) {
     val ivyColorPicker = IvyColorPicker(composeTestRule)
     val chooseIconFlow = ChooseIconFlow(composeTestRule)
+    val currencyPicker = CurrencyPicker(composeTestRule)
 
     fun enterTitle(
         title: String
@@ -24,6 +25,11 @@ class AccountModal<A : ComponentActivity>(
     fun clickBalance() {
         composeTestRule
             .onNode(hasTestTag("amount_balance"))
+            .performClick()
+    }
+
+    fun chooseCurrency() {
+        composeTestRule.onNodeWithTag("account_modal_currency")
             .performClick()
     }
 

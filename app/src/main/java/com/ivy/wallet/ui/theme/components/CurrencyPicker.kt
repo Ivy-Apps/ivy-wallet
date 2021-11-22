@@ -21,6 +21,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -153,7 +154,8 @@ private fun SearchInput(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)
-                    .focusRequester(inputFocus),
+                    .focusRequester(inputFocus)
+                    .testTag("search_input"),
                 value = searchTextFieldValue,
                 onValueChange = {
                     onSetSearchTextFieldValue(it.copy(it.text.trim()))

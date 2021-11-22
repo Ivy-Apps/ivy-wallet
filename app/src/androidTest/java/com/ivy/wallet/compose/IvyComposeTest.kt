@@ -103,7 +103,7 @@ abstract class IvyComposeTest {
     }
 }
 
-fun ComposeTestRule.wait(secondsToWait: Long) {
+fun ComposeTestRule.waitSeconds(secondsToWait: Long) {
     val secondsStart = timeNowUTC().toEpochSeconds()
     this.waitUntil(timeoutMillis = (secondsToWait + 5) * 1000) {
         secondsStart - timeNowUTC().toEpochSeconds() < -secondsToWait

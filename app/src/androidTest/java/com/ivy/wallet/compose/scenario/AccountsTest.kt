@@ -1,8 +1,10 @@
 package com.ivy.wallet.compose.scenario
 
+import android.icu.util.Currency
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -28,8 +30,8 @@ class AccountsTest : IvyComposeTest() {
         onboarding.quickOnboarding()
 
         mainBottomBar.clickAccounts()
-        mainBottomBar.clickAddFAB()
 
+        mainBottomBar.clickAddFAB()
         accountModal.apply {
             enterTitle("Revolut")
             ivyColorPicker.chooseColor(Blue)
@@ -42,6 +44,36 @@ class AccountsTest : IvyComposeTest() {
             balance = "0",
             balanceDecimal = ".00",
             currency = "USD"
+        )
+    }
+
+    @Test
+    fun CreateAccount_inDifferentCurrency() {
+        onboarding.quickOnboarding()
+
+        mainBottomBar.clickAccounts()
+        mainBottomBar.clickAddFAB()
+
+        accountModal.apply {
+            enterTitle("Savings")
+            ivyColorPicker.chooseColor(Purple2)
+            chooseIconFlow.chooseIcon("atom")
+
+            chooseCurrency()
+            currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
+
+            clickBalance()
+            amountInput.enterNumber("5,000.25")
+
+            clickAdd()
+        }
+
+        accountsTab.assertAccountBalance(
+            account = "Savings",
+            balance = "5,000",
+            balanceDecimal = ".25",
+            currency = "EUR",
+            baseCurrencyEquivalent = true
         )
     }
 }
