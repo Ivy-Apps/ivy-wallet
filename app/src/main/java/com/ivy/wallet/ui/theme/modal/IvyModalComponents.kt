@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
@@ -95,10 +94,12 @@ fun <T> ModalAddSave(
 
 @Composable
 fun ModalSave(
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
+        modifier = modifier,
         text = "Save",
         iconStart = R.drawable.ic_save,
         enabled = enabled,
@@ -150,13 +151,14 @@ fun ModalNegativeButton(
 
 @Composable
 fun ModalPositiveButton(
+    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes iconStart: Int,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     IvyButton(
-        modifier = Modifier.testTag("modal_positive"),
+        modifier = modifier,
         text = text,
         backgroundGradient = GradientGreen,
         iconStart = iconStart,

@@ -7,6 +7,7 @@ import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.compose.waitSeconds
 import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Purple1
 import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Ignore
@@ -119,7 +120,40 @@ class AccountsTest : IvyComposeTest() {
         )
     }
 
-    @Ignore
+    @Test
+    fun EditAccount() {
+        onboarding.quickOnboarding()
+
+        mainBottomBar.clickAccounts()
+
+        accountsTab.clickAccount("Bank")
+        itemStatisticScreen.clickEdit()
+
+        accountModal.apply {
+            enterTitle("DSK Bank")
+            ivyColorPicker.chooseColor(Purple1)
+            chooseIconFlow.chooseIcon("star")
+
+            chooseCurrency()
+            currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
+
+            tapIncludeInBalance()
+
+            clickSave()
+        }
+
+        itemStatisticScreen.clickClose()
+
+        accountsTab.assertAccountBalance(
+            account = "DSK Bank",
+            balance = "0",
+            balanceDecimal = ".00",
+            currency = "BGN",
+            baseCurrencyEquivalent = true
+        )
+    }
+
+    @Ignore("RecyclerView reorder not working with ComposeTestRule")
     @Test
     fun ReorderAccounts() {
         //TODO: RecyclerView reorder not working

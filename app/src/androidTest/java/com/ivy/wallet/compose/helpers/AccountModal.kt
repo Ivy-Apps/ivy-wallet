@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.compose.printTree
 
 class AccountModal<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -16,10 +15,8 @@ class AccountModal<A : ComponentActivity>(
     fun enterTitle(
         title: String
     ) {
-        composeTestRule.printTree()
-
         composeTestRule.onNodeWithTag("base_input")
-            .performTextInput(title)
+            .performTextReplacement(title)
     }
 
     fun clickBalance() {
@@ -42,6 +39,11 @@ class AccountModal<A : ComponentActivity>(
     fun clickAdd() {
         composeTestRule
             .onNode(hasText("Add"))
+            .performClick()
+    }
+
+    fun tapIncludeInBalance() {
+        composeTestRule.onNodeWithText("Include in balance")
             .performClick()
     }
 }

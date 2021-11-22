@@ -20,7 +20,7 @@ class CurrencyPicker<A : ComponentActivity>(
         composeTestRule.onNodeWithText(currency.displayName)
             .performClick()
 
-        composeTestRule.onNodeWithText("Save")
+        composeTestRule.onNodeWithTag("set_currency_save")
             .performClick()
     }
 }

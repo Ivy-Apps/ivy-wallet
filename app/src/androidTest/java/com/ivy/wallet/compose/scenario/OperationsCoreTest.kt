@@ -17,7 +17,7 @@ class OperationsCoreTest : IvyComposeTest() {
     private val homeTab = HomeTab(composeTestRule)
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
-
+    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
 
     @Test
     fun contextLoads() {
@@ -30,24 +30,20 @@ class OperationsCoreTest : IvyComposeTest() {
         composeTestRule.onNode(hasText("To accounts"))
             .performClick()
 
-        composeTestRule.onNode(hasText("Cash"))
-            .performClick()
 
-        composeTestRule
-            .onNode(hasText("Edit"))
-            .performClick()
+        accountsTab.clickAccount(account = "Cash")
+        itemStatisticScreen.clickEdit()
 
         accountModal.clickBalance()
-
         amountInput.enterNumber("1,025.98")
-
         accountModal.clickSave()
 
-        composeTestRule.onNodeWithTag("balance")
-            .assertTextEquals("USD", "1,025", ".98")
-
-        composeTestRule.onNodeWithTag("toolbar_close")
-            .performClick()
+        itemStatisticScreen.assertBalance(
+            balance = "1,025",
+            balanceDecimal = ".98",
+            currency = "USD"
+        )
+        itemStatisticScreen.clickClose()
 
         mainBottomBar.clickHome()
 
