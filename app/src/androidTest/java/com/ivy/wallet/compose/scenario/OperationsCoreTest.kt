@@ -18,6 +18,7 @@ class OperationsCoreTest : IvyComposeTest() {
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
     @Test
     fun contextLoads() {
@@ -178,5 +179,36 @@ class OperationsCoreTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Delete transaction
+    @Test
+    fun DeleteTransaction() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 249.75,
+            title = "Food",
+            category = "Groceries"
+        )
+
+        homeTab.assertBalance(
+            "-249",
+            amountDecimal = ".75"
+        )
+
+        homeTab.clickTransaction(
+            amount = "249.75",
+            title = "Food",
+            category = "Groceries"
+        )
+        editTransactionScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        homeTab.assertTransactionNotExists(
+            amount = "249.75"
+        )
+
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00"
+        )
+    }
 }

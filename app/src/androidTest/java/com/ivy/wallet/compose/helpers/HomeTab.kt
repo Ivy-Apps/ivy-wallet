@@ -4,7 +4,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.compose.printTree
 
 class HomeTab<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -25,9 +24,6 @@ class HomeTab<A : ComponentActivity>(
         account: String? = null,
         category: String? = null
     ) {
-        //TODO: Implement account, category, title selectors
-        composeTestRule.printTree()
-
         var matcher = hasTestTag("transaction_card")
             .and(hasText(amount))
 
@@ -48,5 +44,14 @@ class HomeTab<A : ComponentActivity>(
             .assertHasClickAction()
             .performScrollTo()
             .performClick()
+    }
+
+    fun assertTransactionNotExists(
+        amount: String
+    ) {
+        composeTestRule.onNode(
+            hasTestTag("transaction_card")
+                .and(hasText(amount))
+        ).assertDoesNotExist()
     }
 }
