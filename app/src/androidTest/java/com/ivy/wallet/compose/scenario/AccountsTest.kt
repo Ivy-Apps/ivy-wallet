@@ -5,9 +5,11 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.waitSeconds
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
@@ -22,6 +24,7 @@ class AccountsTest : IvyComposeTest() {
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
+    private val reorderModal = ReorderModal(composeTestRule)
 
 
     @Test
@@ -116,5 +119,18 @@ class AccountsTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Reorder accounts
+    @Ignore
+    @Test
+    fun ReorderAccounts() {
+        //TODO: RecyclerView reorder not working
+        onboarding.quickOnboarding()
+        mainBottomBar.clickAccounts()
+
+        accountsTab.clickReorder()
+        reorderModal.moveToTop(
+            itemPosition = 1
+        )
+
+        composeTestRule.waitSeconds(3)
+    }
 }

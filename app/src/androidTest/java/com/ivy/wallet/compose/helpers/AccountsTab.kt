@@ -85,4 +85,9 @@ class AccountsTab<A : ComponentActivity>(
             clickAdd()
         }
     }
+
+    fun clickReorder() {
+        composeTestRule.onNodeWithTag("reorder_button")
+            .performClick()
+    }
 }

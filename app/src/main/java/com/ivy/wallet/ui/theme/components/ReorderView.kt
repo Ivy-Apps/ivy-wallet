@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -208,6 +209,7 @@ private class Adapter<T : Reorderable>(
         holder.display(
             item = data[position],
             ItemContent = ItemContent,
+            position = position
         )
     }
 
@@ -220,6 +222,7 @@ private class Adapter<T : Reorderable>(
         fun display(
             item: Any,
             ItemContent: @Composable RowScope.(Int, Any) -> Unit,
+            position: Int
         ) {
             (itemView as ComposeView).setContent {
                 Row(
@@ -230,15 +233,18 @@ private class Adapter<T : Reorderable>(
                         Spacer(Modifier.width(24.dp))
 
                         IvyIcon(
-                            modifier = Modifier.pointerInput(Unit) {
-                                detectTapGestures(
-                                    onPress = {
-                                        itemTouchHelper.startDrag(this@ItemViewHolder)
-                                    }
-                                )
-                            },
+                            modifier = Modifier
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = {
+                                            itemTouchHelper.startDrag(this@ItemViewHolder)
+                                        }
+                                    )
+                                }
+                                .testTag("reorder_drag_handle"),
                             icon = R.drawable.ic_drag_handle,
                             tint = IvyTheme.colors.gray,
+                            contentDescription = "reorder_${position}"
                         )
 
                         Spacer(Modifier.width(4.dp))
@@ -337,7 +343,8 @@ fun ReorderButton(
     onClick: () -> Unit
 ) {
     CircleButtonFilled(
-        modifier = modifier,
+        modifier = modifier
+            .testTag("reorder_button"),
         icon = R.drawable.ic_reorder,
         onClick = onClick
     )
