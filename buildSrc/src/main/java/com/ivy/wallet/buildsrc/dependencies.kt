@@ -25,8 +25,7 @@ object Libs {
         const val versionCode = 86
 
         //Compile SDK & Build Tools
-        const val compileSdkVersion = 30
-        const val buildToolsVersion = "30.0.3"
+        const val compileSdkVersion = 31
 
         //App
         const val applicationId = "com.ivy.wallet"
@@ -36,7 +35,7 @@ object Libs {
 
     object Kotlin {
         //URL: https://kotlinlang.org/docs/releases.html#release-details
-        const val version = "1.5.30"
+        const val version = "1.5.31"
 
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
@@ -52,14 +51,14 @@ object Libs {
         const val coreKtx = "androidx.core:core-ktx:1.5.0"
 
         //URL: https://developer.android.com/jetpack/androidx/releases/work
-        internal const val workVersion = "2.6.0-beta01"
+        internal const val workVersion = "2.7.1"
         const val workRuntime = "androidx.work:work-runtime-ktx:$workVersion"
 
         const val biometrics = "androidx.biometric:biometric:1.1.0"
 
         object Compose {
             //URL: https://developer.android.com/jetpack/androidx/releases/compose
-            const val version = "1.0.3"
+            const val version = "1.0.5"
 
             const val ui = "androidx.compose.ui:ui:$version"
             const val runtime = "androidx.compose.runtime:runtime:$version"
@@ -214,6 +213,15 @@ object Libs {
             // Needed for createComposeRule, but not createAndroidComposeRule:
             const val composeTestRule =
                 "androidx.compose.ui:ui-test-manifest:${AndroidX.Compose.version}"
+        }
+
+        object Hilt {
+            //https://developer.android.com/training/dependency-injection/hilt-testing
+
+            val daggerHilt = "com.google.dagger:hilt-android-testing:${Libs.Hilt.version}"
+            val kaptHilt = "com.google.dagger:hilt-android-compiler:${Libs.Hilt.version}"
+            val androidTestRunner = "androidx.test:runner:1.4.0"
+            val androidWork = "androidx.work:work-testing:${Libs.AndroidX.workVersion}"
         }
     }
 }

@@ -16,4 +16,8 @@ interface ExchangeRateDao {
         baseCurrency: String,
         currency: String
     ): ExchangeRate?
+
+    @Query("DELETE FROM exchange_rates")
+    fun deleteALl() {
+    }
 }

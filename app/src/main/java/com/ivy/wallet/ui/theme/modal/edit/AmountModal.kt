@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -354,7 +355,10 @@ fun AmountKeyboard(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        KeypadCircleButton(text = localDecimalSeparator()) {
+        KeypadCircleButton(
+            text = localDecimalSeparator(),
+            testTag = "key_decimal_separator"
+        ) {
             onDecimalPoint()
         }
 
@@ -369,7 +373,8 @@ fun AmountKeyboard(
 
         IvyIcon(
             modifier = circleButtonModifier(onClick = onBackspace)
-                .padding(all = 16.dp),
+                .padding(all = 16.dp)
+                .testTag("key_del"),
             icon = R.drawable.ic_backspace,
             tint = Red
         )
@@ -389,6 +394,7 @@ fun CircleNumberButton(
 ) {
     KeypadCircleButton(
         text = value,
+        testTag = "key_${value}",
         onClick = {
             onNumberPressed(value)
         }
@@ -399,11 +405,13 @@ fun CircleNumberButton(
 fun KeypadCircleButton(
     text: String,
     textColor: Color = IvyTheme.colors.pureInverse,
+    testTag: String,
     onClick: () -> Unit
 ) {
     Text(
         modifier = circleButtonModifier(onClick = onClick)
-            .padding(top = 10.dp),
+            .padding(top = 10.dp)
+            .testTag(testTag),
         text = text,
         style = Typo.numberH2.style(
             color = textColor,

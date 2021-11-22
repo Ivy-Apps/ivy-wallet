@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.timeNowUTC
@@ -95,6 +96,8 @@ class EditTransactionViewModel @Inject constructor(
 
     fun start(screen: Screen.EditTransaction) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             editMode = screen.initialTransactionId != null
 
             val accounts = ioThread { accountDao.findAll() }!!
@@ -121,6 +124,8 @@ class EditTransactionViewModel @Inject constructor(
             )
 
             display(loadedTransaction!!)
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -193,6 +198,8 @@ class EditTransactionViewModel @Inject constructor(
         if (editMode) return //title suggestions should not be display for Edit mode
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _titleSuggestions.value = ioThread {
                 smartTitleSuggestionsLogic.suggest(
                     title = title,
@@ -200,6 +207,8 @@ class EditTransactionViewModel @Inject constructor(
                     accountId = account.value?.id
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -224,6 +233,8 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     fun onAccountChanged(newAccount: Account) {
+        TestIdlingResource.increment()
+
         loadedTransaction = loadedTransaction().copy(
             accountId = newAccount.id
         )
@@ -239,6 +250,8 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
 
         updateTitleSuggestions()
+
+        TestIdlingResource.decrement()
     }
 
     fun onToAccountChanged(newAccount: Account) {
@@ -280,6 +293,8 @@ class EditTransactionViewModel @Inject constructor(
 
     fun onPayPlannedPayment() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             plannedPaymentsLogic.payOrGet(
                 transaction = loadedTransaction(),
                 syncTransaction = false
@@ -292,12 +307,16 @@ class EditTransactionViewModel @Inject constructor(
                     closeScreen = true
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
 
     fun delete() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 loadedTransaction?.let {
                     transactionDao.flagDeleted(it.id)
@@ -308,34 +327,48 @@ class EditTransactionViewModel @Inject constructor(
                     transactionUploader.delete(it.id)
                 }
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.createCategory(data) {
                 _categories.value = ioThread { categoryDao.findAll() }!!
 
                 //Select the newly created category
                 onCategoryChanged(it)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.editCategory(updatedCategory) {
                 _categories.value = ioThread { categoryDao.findAll() }!!
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
                 _accounts.value = ioThread { accountDao.findAll() }!!
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -353,6 +386,8 @@ class EditTransactionViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             paywallLogic.protectQuotaExceededWithPaywall(
                 onPaywallHit = {
                     ivyContext.back()
@@ -360,6 +395,8 @@ class EditTransactionViewModel @Inject constructor(
             ) {
                 saveInternal(closeScreen = closeScreen)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

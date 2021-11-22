@@ -91,7 +91,6 @@ object AppModule {
     ): IvyRoomDatabase {
         return IvyRoomDatabase.create(
             applicationContext = appContext,
-            gson = Gson()
         )
     }
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
@@ -61,7 +62,8 @@ fun IvyNameTextField(
 
             val view = LocalView.current
             BasicTextField(
-                modifier = Modifier,
+                modifier = Modifier
+                    .testTag("base_input"),
                 value = value,
                 onValueChange = onValueChanged,
                 textStyle = Typo.body1.style(
