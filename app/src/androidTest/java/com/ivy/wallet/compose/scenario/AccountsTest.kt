@@ -1,8 +1,6 @@
 package com.ivy.wallet.compose.scenario
 
 import android.icu.util.Currency
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.compose.waitSeconds
@@ -26,6 +24,7 @@ class AccountsTest : IvyComposeTest() {
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
     private val reorderModal = ReorderModal(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
 
     @Test
@@ -107,7 +106,7 @@ class AccountsTest : IvyComposeTest() {
         accountsTab.clickAccount("New Account")
 
         itemStatisticScreen.clickDelete()
-        composeTestRule.onNodeWithText("Delete").performClick()
+        deleteConfirmationModal.confirmDelete()
 
         accountsTab.assertAccountNotExists(
             account = "New Account"

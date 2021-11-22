@@ -177,4 +177,6 @@ class OperationsCoreTest : IvyComposeTest() {
             account = "Bank"
         )
     }
+
+    //TODO: Delete transaction
 }
