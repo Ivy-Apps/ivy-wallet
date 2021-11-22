@@ -7,7 +7,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class BasicOperationsTest : IvyComposeTest() {
+class OperationsCoreTest : IvyComposeTest() {
 
     private val onboarding = OnboardingFlow(composeTestRule)
     private val amountInput = AmountInput(composeTestRule)
