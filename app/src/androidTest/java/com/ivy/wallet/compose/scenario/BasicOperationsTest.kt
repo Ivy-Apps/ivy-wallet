@@ -16,6 +16,7 @@ class BasicOperationsTest : IvyComposeTest() {
     private val transactionFlow = TransactionFlow(composeTestRule)
     private val homeTab = HomeTab(composeTestRule)
     private val accountsTab = AccountsTab(composeTestRule)
+    private val editTransactionScreen = EditTransactionScreen(composeTestRule)
 
 
     @Test
@@ -136,5 +137,48 @@ class BasicOperationsTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Test Edit transaction
+    @Test
+    fun EditTransaction() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 20.48,
+            category = "Food & Drinks",
+            account = "Cash"
+        )
+
+        homeTab.clickTransaction(
+            amount = "20.48",
+            category = "Food & Drinks",
+            account = "Cash"
+        )
+
+        editTransactionScreen.apply {
+            editCategory(
+                currentCategory = "Food & Drinks",
+                newCategory = "Groceries"
+            )
+
+            editAmount(
+                newAmount = "34.55"
+            )
+
+            editAccount(
+                newAccount = "Bank"
+            )
+
+            editTitle(
+                newTitle = "For the house"
+            )
+
+            save()
+        }
+
+        homeTab.clickTransaction(
+            amount = "34.55",
+            title = "For the house",
+            category = "Groceries",
+            account = "Bank"
+        )
+    }
 }

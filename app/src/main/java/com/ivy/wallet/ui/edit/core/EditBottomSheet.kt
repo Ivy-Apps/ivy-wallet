@@ -613,9 +613,11 @@ private fun Amount(
         }
 
         BalanceRow(
-            modifier = Modifier.clickableNoIndication {
-                onShowAmountModal()
-            },
+            modifier = Modifier
+                .clickableNoIndication {
+                    onShowAmountModal()
+                }
+                .testTag("edit_amount_balance_row"),
             currency = currency,
             balance = amount,
 
