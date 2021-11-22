@@ -3,6 +3,7 @@ package com.ivy.wallet.compose
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.test.IdlingResource
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
@@ -10,6 +11,8 @@ import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.TestingContext
+import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.base.toEpochSeconds
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.session.IvySession
@@ -98,5 +101,11 @@ abstract class IvyComposeTest {
     private fun context(): Context {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
+}
 
+fun ComposeTestRule.wait(secondsToWait: Long) {
+    val secondsStart = timeNowUTC().toEpochSeconds()
+    this.waitUntil(timeoutMillis = (secondsToWait + 5) * 1000) {
+        secondsStart - timeNowUTC().toEpochSeconds() < -secondsToWait
+    }
 }

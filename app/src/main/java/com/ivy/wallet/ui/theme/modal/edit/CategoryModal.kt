@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -178,7 +179,8 @@ fun IconNameRow(
                 .background(color, CircleShape)
                 .clickable {
                     showChooseIconModal()
-                },
+                }
+                .testTag("modal_item_icon"),
             iconName = icon,
             tint = color.dynamicContrast(),
             defaultIcon = defaultIcon
