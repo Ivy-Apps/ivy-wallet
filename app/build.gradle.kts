@@ -12,7 +12,6 @@ plugins {
 
 android {
     compileSdk = Libs.Project.compileSdkVersion
-    buildToolsVersion = Libs.Project.buildToolsVersion
 
     defaultConfig {
         applicationId = Libs.Project.applicationId
@@ -21,7 +20,7 @@ android {
         versionCode = Libs.Project.versionCode
         versionName = Libs.Project.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
 
         kapt {
             arguments {
@@ -206,4 +205,12 @@ dependencies {
     //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
     //Without having this dependency "lintRelease" fails
     implementation(Libs.Testing.Compose.junit4)
+    //--------------------------------------
+
+    //Hilt Testing setup
+    androidTestImplementation(Libs.Testing.Hilt.daggerHilt)
+    kaptAndroidTest(Libs.Testing.Hilt.kaptHilt)
+    implementation(Libs.Testing.Hilt.androidTestRunner)
+    implementation(Libs.Testing.Hilt.androidWork)
+    //-------------------------------------------------------------------
 }

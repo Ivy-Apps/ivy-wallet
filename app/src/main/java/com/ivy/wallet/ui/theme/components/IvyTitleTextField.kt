@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
@@ -58,7 +59,8 @@ fun ColumnScope.IvyTitleTextField(
 
         val view = LocalView.current
         BasicTextField(
-            modifier = Modifier,
+            modifier = Modifier
+                .testTag("input_field"),
             value = value,
             onValueChange = onValueChanged,
             textStyle = Typo.h2.style(

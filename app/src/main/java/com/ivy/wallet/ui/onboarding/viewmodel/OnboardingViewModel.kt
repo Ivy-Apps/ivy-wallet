@@ -141,6 +141,8 @@ class OnboardingViewModel @Inject constructor(
             if (idToken != null) {
                 _opGoogleSignIn.value = OpResult.loading()
                 viewModelScope.launch {
+                    TestIdlingResource.increment()
+
                     try {
                         loginWithGoogleOnServer(idToken)
 
@@ -153,6 +155,8 @@ class OnboardingViewModel @Inject constructor(
                         Timber.e("Login with Google failed on Ivy server - ${e.message}")
                         _opGoogleSignIn.value = OpResult.failure(e)
                     }
+
+                    TestIdlingResource.decrement()
                 }
             } else {
                 sendToCrashlytics("GOOGLE_SIGN_IN ERROR: idToken is null!!")
@@ -185,7 +189,9 @@ class OnboardingViewModel @Inject constructor(
 
     fun loginOfflineAccount() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
             router.offlineAccountNext()
+            TestIdlingResource.decrement()
         }
     }
     //Step 1 ---------------------------------------------------------------------------------------
@@ -212,12 +218,16 @@ class OnboardingViewModel @Inject constructor(
 
     fun setBaseCurrency(baseCurrency: IvyCurrency) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             updateBaseCurrency(baseCurrency)
 
             router.setBaseCurrencyNext(
                 baseCurrency = baseCurrency,
                 accountsWithBalance = { accountsWithBalance() }
             )
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -235,18 +245,26 @@ class OnboardingViewModel @Inject constructor(
     //--------------------- Accounts ---------------------------------------------------------------
     fun editAccount(account: Account, newBalance: Double) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.editAccount(account, newBalance) {
                 _accounts.value = accountsWithBalance()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
 
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.createAccount(data) {
                 _accounts.value = accountsWithBalance()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -262,13 +280,21 @@ class OnboardingViewModel @Inject constructor(
 
     fun onAddAccountsDone() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             router.accountsNext()
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun onAddAccountsSkip() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             router.accountsSkip()
+
+            TestIdlingResource.decrement()
         }
     }
     //--------------------- Accounts ---------------------------------------------------------------
@@ -276,29 +302,45 @@ class OnboardingViewModel @Inject constructor(
     //---------------------------- Categories ------------------------------------------------------
     fun editCategory(updatedCategory: Category) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.editCategory(updatedCategory) {
                 _categories.value = ioThread { categoryDao.findAll() }!!
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.createCategory(data) {
                 _categories.value = ioThread { categoryDao.findAll() }!!
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun onAddCategoriesDone() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             router.categoriesNext(baseCurrency = currency.value)
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun onAddCategoriesSkip() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             router.categoriesSkip(baseCurrency = currency.value)
+
+            TestIdlingResource.decrement()
         }
     }
     //---------------------------- Categories ------------------------------------------------------

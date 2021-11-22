@@ -1,7 +1,12 @@
 package com.ivy.wallet.base
 
 import androidx.compose.ui.test.IdlingResource
+import com.ivy.wallet.BuildConfig
 import java.util.concurrent.atomic.AtomicInteger
+
+object TestingContext {
+    var inTest = false
+}
 
 object TestIdlingResource {
     private val counter = AtomicInteger(0)
@@ -21,8 +26,12 @@ object TestIdlingResource {
             counter.decrementAndGet()
         }
 
-        if (counter.get() < 0) {
-            throw IllegalStateException("TestIdlingResource counter is corrupted!")
+        if (counter.get() < 0 && BuildConfig.DEBUG) {
+            throw IllegalStateException("TestIdlingResource counter is corrupted! value = ${counter.get()}")
         }
+    }
+
+    fun reset() {
+        counter.set(0)
     }
 }

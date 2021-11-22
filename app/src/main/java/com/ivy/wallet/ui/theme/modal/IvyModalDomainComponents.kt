@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,9 +52,11 @@ fun ModalAmountSection(
         Spacer(Modifier.height(4.dp))
 
         BalanceRow(
-            modifier = Modifier.clickableNoIndication {
-                showAmountModal()
-            },
+            modifier = Modifier
+                .clickableNoIndication {
+                    showAmountModal()
+                }
+                .testTag("amount_balance"),
             currency = currency,
             balance = amount,
 

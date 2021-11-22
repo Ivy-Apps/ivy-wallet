@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
@@ -86,6 +87,8 @@ class EditPlannedViewModel @Inject constructor(
 
     fun start(screen: Screen.EditPlanned) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             editMode = screen.plannedPaymentRuleId != null
 
             val accounts = ioThread { accountDao.findAll() }!!
@@ -115,6 +118,8 @@ class EditPlannedViewModel @Inject constructor(
             )
 
             display(loadedRule!!)
+
+            TestIdlingResource.decrement()
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.hideKeyboard
@@ -179,7 +180,8 @@ private fun Icon(
             .clickable {
                 onClick()
             }
-            .padding(all = 8.dp),
+            .padding(all = 8.dp)
+            .testTag(icon),
         iconName = icon,
         tint = if (selected) color.dynamicContrast() else IvyTheme.colors.mediumInverse
     )

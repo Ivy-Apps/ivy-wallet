@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
@@ -155,6 +156,7 @@ fun ModalPositiveButton(
     onClick: () -> Unit,
 ) {
     IvyButton(
+        modifier = Modifier.testTag("modal_positive"),
         text = text,
         backgroundGradient = GradientGreen,
         iconStart = iconStart,

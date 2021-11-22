@@ -6,6 +6,8 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I've read the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**.
 - [ ] The code builds and is tested on an actual Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
+- [ ] I confirm that I've run `bundle exec fastlane ui_tests` and all tests are passing
+  successfully.
 
 _Put an `x` in the boxes that apply._
 
@@ -19,10 +21,11 @@ Please check the type of change your PR introduces:
 - [ ] Feature
 - [ ] Code style update (formatting, renaming)
 - [ ] Refactoring (no functional changes)
-- [ ] Small update (fix typo, change color or something)
+- [ ] Small update (fix typo, UI fine-tune, change color or something small)
 - [ ] Gradle Build related changes
 - [ ] Dependencies update (updating libraries)
 - [ ] Documentation
+- [ ] Tests (Unit, Integration, UI tests)
 - [ ] Other (please describe):
 
 _Put an `x` in the boxes that apply._

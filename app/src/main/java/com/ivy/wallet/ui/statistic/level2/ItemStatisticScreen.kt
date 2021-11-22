@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -432,6 +433,7 @@ private fun Header(
         BalanceRow(
             modifier = Modifier
                 .padding(start = 32.dp)
+                .testTag("balance")
                 .clickableNoIndication {
                     onBalanceClick()
                 },
@@ -502,6 +504,7 @@ private fun Toolbar(
 
         val ivyContext = LocalIvyContext.current
         CircleButton(
+            modifier = Modifier.testTag("toolbar_close"),
             icon = R.drawable.ic_dismiss,
             borderColor = contrastColor,
             tint = contrastColor,

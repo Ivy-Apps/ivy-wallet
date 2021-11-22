@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
@@ -44,6 +45,8 @@ class MainViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val baseCurrency = ioThread { settingsDao.findFirst().currency }
             _currency.value = baseCurrency
 
@@ -60,6 +63,8 @@ class MainViewModel @Inject constructor(
                     baseCurrency = baseCurrency
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -69,9 +74,13 @@ class MainViewModel @Inject constructor(
 
     fun createAccount(data: CreateAccountData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

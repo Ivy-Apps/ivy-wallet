@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -279,7 +280,8 @@ private fun AccountCurrency(
             .clickable {
                 onClick()
             }
-            .padding(vertical = 24.dp),
+            .padding(vertical = 24.dp)
+            .testTag("account_modal_currency"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(32.dp))

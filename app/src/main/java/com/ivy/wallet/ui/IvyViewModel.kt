@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.sendToCrashlytics
@@ -49,6 +50,8 @@ class IvyViewModel @Inject constructor(
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 val theme = settingsDao.findAll().firstOrNull()?.theme
                     ?: if (systemDarkMode) Theme.DARK else Theme.LIGHT
@@ -56,9 +59,13 @@ class IvyViewModel @Inject constructor(
 
                 ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             }
+
+            TestIdlingResource.decrement()
         }
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 ivySession.loadFromCache()
                 ivyAnalytics.loadSession()
@@ -72,7 +79,10 @@ class IvyViewModel @Inject constructor(
                 } else {
                     ivyContext.navigateTo(Screen.Onboarding)
                 }
+
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

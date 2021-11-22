@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.CustomerJourneyLogic
@@ -111,17 +112,23 @@ class HomeViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val startDayOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
             load(
                 period = ivyContext.initSelectedPeriodInMemory(
                     startDayOfMonth = startDayOfMonth
                 )
             )
+
+            TestIdlingResource.decrement()
         }
     }
 
     private fun load(period: TimePeriod = ivyContext.selectedPeriod) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val settings = ioThread { settingsDao.findFirst() }
 
             _theme.value = settings.theme
@@ -155,6 +162,8 @@ class HomeViewModel @Inject constructor(
             _history.value = ioThread { walletLogic.history(timeRange) }!!
 
             _customerJourneyCards.value = ioThread { customerJourneyLogic.loadCards() }!!
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -168,6 +177,8 @@ class HomeViewModel @Inject constructor(
 
     fun onBalanceClick() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val hasTransactions = ioThread { transactionDao.findAll_LIMIT_1().isNotEmpty() }
             if (hasTransactions) {
                 //has transactions show him "Balance" screen
@@ -177,11 +188,15 @@ class HomeViewModel @Inject constructor(
                 ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 ivyContext.navigateTo(Screen.Main)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun switchTheme() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val newSettings = ioThread {
                 val currentSettings = settingsDao.findFirst()
                 val newSettings = currentSettings.copy(
@@ -196,11 +211,15 @@ class HomeViewModel @Inject constructor(
 
             ivyContext.switchTheme(newSettings.theme)
             _theme.value = newSettings.theme
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun setBuffer(newBuffer: Double) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 settingsDao.save(
                     settingsDao.findFirst().copy(
@@ -209,11 +228,15 @@ class HomeViewModel @Inject constructor(
                 )
             }
             load()
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun setCurrency(newCurrency: String) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 settingsDao.save(
                     settingsDao.findFirst().copy(
@@ -224,6 +247,8 @@ class HomeViewModel @Inject constructor(
                 exchangeRatesLogic.sync(baseCurrency = newCurrency)
             }
             load()
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -233,9 +258,13 @@ class HomeViewModel @Inject constructor(
 
     fun payOrGet(transaction: Transaction) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 load()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

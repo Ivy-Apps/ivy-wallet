@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.test
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
@@ -27,18 +28,26 @@ class TestViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _user.value = ioThread {
                 val userId = ivySession.getUserIdSafe()
                 if (userId != null) userDao.findById(userId) else null
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun syncCategories() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 categorySync.sync()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
