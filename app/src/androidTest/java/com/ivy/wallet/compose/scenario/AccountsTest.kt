@@ -1,6 +1,8 @@
 package com.ivy.wallet.compose.scenario
 
 import android.icu.util.Currency
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.ui.theme.Blue
@@ -19,6 +21,7 @@ class AccountsTest : IvyComposeTest() {
     private val homeTab = HomeTab(composeTestRule)
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
+    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
 
 
     @Test
@@ -52,8 +55,8 @@ class AccountsTest : IvyComposeTest() {
         onboarding.quickOnboarding()
 
         mainBottomBar.clickAccounts()
-        mainBottomBar.clickAddFAB()
 
+        mainBottomBar.clickAddFAB()
         accountModal.apply {
             enterTitle("Savings")
             ivyColorPicker.chooseColor(Purple2)
@@ -76,4 +79,42 @@ class AccountsTest : IvyComposeTest() {
             baseCurrencyEquivalent = true
         )
     }
+
+    @Test
+    fun DeleteAccount() {
+        onboarding.quickOnboarding()
+
+        mainBottomBar.clickAccounts()
+
+        accountsTab.addAccount(
+            name = "New Account",
+            initialBalance = "830"
+        )
+
+        accountsTab.assertAccountBalance(
+            account = "New Account",
+            balance = "830",
+            balanceDecimal = ".00",
+            currency = "USD",
+            baseCurrencyEquivalent = false
+        )
+
+        accountsTab.clickAccount("New Account")
+
+        itemStatisticScreen.clickDelete()
+        composeTestRule.onNodeWithText("Delete").performClick()
+
+        accountsTab.assertAccountNotExists(
+            account = "New Account"
+        )
+
+        mainBottomBar.clickHome()
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00",
+            currency = "USD"
+        )
+    }
+
+    //TODO: Reorder accounts
 }
