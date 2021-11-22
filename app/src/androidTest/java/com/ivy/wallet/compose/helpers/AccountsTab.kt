@@ -74,6 +74,7 @@ class AccountsTab<A : ComponentActivity>(
             if (currency != null) {
                 chooseCurrency()
                 currencyPicker.searchAndSelect(Currency.getInstance(currency))
+                currencyPicker.modalSave()
             }
 
 

@@ -12,6 +12,7 @@ class OnboardingFlow<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     fun chooseOfflineAccount() {
+        //Wait 1 second to make sure the app state is stable
         composeTestRule.waitSeconds(1)
         composeTestRule.waitForIdle()
 

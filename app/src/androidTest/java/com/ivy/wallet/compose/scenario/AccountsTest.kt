@@ -68,6 +68,7 @@ class AccountsTest : IvyComposeTest() {
 
             chooseCurrency()
             currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
+            currencyPicker.modalSave()
 
             clickBalance()
             amountInput.enterNumber("5,000.25")
@@ -136,6 +137,7 @@ class AccountsTest : IvyComposeTest() {
 
             chooseCurrency()
             currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
+            currencyPicker.modalSave()
 
             tapIncludeInBalance()
 
