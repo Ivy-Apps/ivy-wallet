@@ -174,6 +174,60 @@ class BudgetsTests : IvyComposeTest() {
 
     @Test
     fun CreateSeveralBudgets() {
-        TODO("Implement")
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickBudgets()
+
+        //Add Global budget
+        budgetsScreen.clickAddBudget()
+        budgetModal.apply {
+            enterName("Spending")
+            enterAmount("6,000.00")
+            clickAdd()
+        }
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = "6,000.00",
+            categoryBudget = null
+        )
+        budgetsScreen.clickBudget(
+            budgetName = "Spending"
+        )
+        budgetModal.clickClose()
+
+        //Add Category budget
+        budgetsScreen.clickAddBudget()
+        budgetModal.apply {
+            enterName("Fun")
+            enterAmount("1,000.00")
+            clickCategory("Food & Drinks") //only visible categories work
+            clickAdd()
+        }
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = "6,000.00",
+            categoryBudget = "1,000.00"
+        )
+        budgetsScreen.clickBudget(
+            budgetName = "Fun"
+        )
+        budgetModal.clickClose()
+
+        //Add Multi-Category Budget
+        budgetsScreen.clickAddBudget()
+        budgetModal.apply {
+            enterName("Must")
+            enterAmount("1,750.25")
+            clickCategory("Food & Drinks")
+            clickCategory("Bills & Fees")
+            clickAdd()
+        }
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = "6,000.00",
+            categoryBudget = "2,750.25" //1,000 + 1,750.25
+        )
+        budgetsScreen.clickBudget(
+            budgetName = "Must"
+        )
+        budgetModal.clickClose()
     }
 }

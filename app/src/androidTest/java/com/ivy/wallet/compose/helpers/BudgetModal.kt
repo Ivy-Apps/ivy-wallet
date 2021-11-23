@@ -44,4 +44,9 @@ class BudgetModal<A : ComponentActivity>(
         composeTestRule.onNodeWithTag("modal_delete")
             .performClick()
     }
+
+    fun clickClose() {
+        composeTestRule.onNodeWithContentDescription("close")
+            .performClick()
+    }
 }
