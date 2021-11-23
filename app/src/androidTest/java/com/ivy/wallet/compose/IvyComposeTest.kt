@@ -9,10 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.TestingContext
-import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.base.toEpochSeconds
+import com.ivy.wallet.base.*
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.session.IvySession
@@ -107,5 +104,12 @@ fun ComposeTestRule.waitSeconds(secondsToWait: Long) {
     val secondsStart = timeNowUTC().toEpochSeconds()
     this.waitUntil(timeoutMillis = (secondsToWait + 5) * 1000) {
         secondsStart - timeNowUTC().toEpochSeconds() < -secondsToWait
+    }
+}
+
+fun ComposeTestRule.waitMillis(waitMs: Long) {
+    val startMs = timeNowUTC().toEpochMilli()
+    this.waitUntil(timeoutMillis = waitMs + 5000) {
+        startMs - timeNowUTC().toEpochMilli() < -waitMs
     }
 }
