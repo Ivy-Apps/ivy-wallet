@@ -199,4 +199,74 @@ class PlannedPaymentsTest : IvyComposeTest() {
         )
         homeTab.assertUpcomingDoesNotExist()
     }
+
+    @Test
+    fun AddSeveralPlannedPayments() {
+        onboardingFlow.quickOnboarding()
+
+        //Add recurring INCOME
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.INCOME,
+            oneTime = false,
+            amount = "5,250.33",
+            category = "Bills & Fees",
+            startDate = timeNowUTC().withDayOfMonth(1),
+            intervalN = 28,
+            intervalType = IntervalType.DAY,
+            title = "Salary"
+        )
+
+        homeTab.assertUpcomingIncome(
+            amount = "5,250.33",
+            currency = "USD"
+        )
+
+        //Add recurring EXPENSE
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = false,
+            amount = "12.99",
+            category = "Entertainment",
+            startDate = timeNowUTC().withDayOfMonth(1),
+            intervalN = 1,
+            intervalType = IntervalType.MONTH,
+            title = "Netflix"
+        )
+
+        homeTab.assertUpcomingExpense(
+            amount = "12.99",
+            currency = "USD"
+        )
+
+        //Add one-time EXPENSE
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = true,
+            amount = "2,000",
+            category = "Transport",
+            startDate = timeNowUTC().withDayOfMonth(1),
+            intervalN = null,
+            intervalType = null,
+            title = "Vacation"
+        )
+
+        homeTab.assertUpcomingExpense(
+            amount = "2,012.99", //2,000 + 12.99
+            currency = "USD"
+        )
+        homeTab.assertUpcomingIncome(
+            amount = "5,250.33",
+            currency = "USD"
+        )
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00"
+        )
+    }
 }
