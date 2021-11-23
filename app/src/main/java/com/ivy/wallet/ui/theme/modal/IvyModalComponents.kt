@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
@@ -193,7 +194,9 @@ fun ModalDelete(
     onClick: () -> Unit
 ) {
     IvyCircleButton(
-        modifier = Modifier.size(40.dp),
+        modifier = Modifier
+            .size(40.dp)
+            .testTag("modal_delete"),
         icon = R.drawable.ic_delete,
         backgroundGradient = GradientRed,
         enabled = enabled,

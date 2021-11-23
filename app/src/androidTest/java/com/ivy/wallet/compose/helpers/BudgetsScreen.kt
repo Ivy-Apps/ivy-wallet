@@ -30,6 +30,9 @@ class BudgetsScreen<A : ComponentActivity>(
             appBudget != null && categoryBudget != null -> {
                 budgetInfoNode.assertTextEquals("Budget info: $categoryBudget $currency for categories / $appBudget $currency app budget")
             }
+            appBudget == null && categoryBudget == null -> {
+                budgetInfoNode.assertDoesNotExist()
+            }
             else -> error("Unexpected case")
         }
     }
@@ -40,6 +43,13 @@ class BudgetsScreen<A : ComponentActivity>(
         composeTestRule.onNodeWithText(budgetName)
             .performScrollTo()
             .performClick()
+    }
+
+    fun assertBudgetDoesNotExist(
+        budgetName: String
+    ) {
+        composeTestRule.onNodeWithText(budgetName)
+            .assertDoesNotExist()
     }
 
 }

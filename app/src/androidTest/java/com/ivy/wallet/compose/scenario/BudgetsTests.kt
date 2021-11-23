@@ -1,10 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.BudgetModal
-import com.ivy.wallet.compose.helpers.BudgetsScreen
-import com.ivy.wallet.compose.helpers.HomeMoreMenu
-import com.ivy.wallet.compose.helpers.OnboardingFlow
+import com.ivy.wallet.compose.helpers.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -15,6 +12,7 @@ class BudgetsTests : IvyComposeTest() {
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val budgetsScreen = BudgetsScreen(composeTestRule)
     private val budgetModal = BudgetModal(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
     @Test
     fun CreateGlobalBudget() {
@@ -136,7 +134,42 @@ class BudgetsTests : IvyComposeTest() {
 
     @Test
     fun DeleteBudget() {
-        TODO("Implement")
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickBudgets()
+
+        budgetsScreen.clickAddBudget()
+
+        budgetModal.apply {
+            enterAmount("2,500")
+            clickCategory("Food & Drinks")
+            clickCategory("Bills & Fees")
+            enterName("Living (must)")
+            clickAdd()
+        }
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = null,
+            categoryBudget = "2,500.00"
+        )
+
+        budgetsScreen.clickBudget(
+            budgetName = "Living (must)"
+        )
+
+        //Delete budget
+        budgetModal.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = null,
+            categoryBudget = null
+        )
+
+        budgetsScreen.assertBudgetDoesNotExist(
+            budgetName = "Living (must)"
+        )
     }
 
     @Test
