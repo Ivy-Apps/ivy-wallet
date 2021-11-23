@@ -62,13 +62,17 @@ jobs:
       #---------------------------------------------------
 
       #Run UI tests
-      - name: Run UI Tests
+      - name: Run UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
+          target: 29
+          profile: Galaxy Nexus
+          emulator-build: 7425822 # https://github.com/ReactiveCircus/android-emulator-runner/issues/160
           script: bundle exec fastlane ui_tests
 
       - name: Upload Android Tests report to GitHub
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: android-tests-report
