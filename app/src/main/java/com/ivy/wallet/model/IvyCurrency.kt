@@ -85,6 +85,11 @@ data class IvyCurrency(
                 name = "ChainLink Token",
                 isCrypto = true
             ),
+            IvyCurrency(
+                code = "SHIB",
+                name = "Shiba Inu coin",
+                isCrypto = true
+            ),
         )
 
         fun getAvailable(): List<IvyCurrency> {
