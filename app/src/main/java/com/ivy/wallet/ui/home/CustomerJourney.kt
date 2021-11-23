@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -115,7 +116,8 @@ fun CustomerJourneyCard(
         IvyButton(
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(end = 20.dp),
+                .padding(end = 20.dp)
+                .testTag("cta_prompt_${cardData.id}"),
             text = cardData.cta,
             shadowAlpha = 0f,
             iconStart = cardData.ctaIcon,

@@ -48,11 +48,13 @@ fun ModalDynamicPrimaryAction(
 
 @Composable
 fun ModalSet(
+    modifier: Modifier = Modifier,
     label: String = "Set",
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalCheck(
+        modifier = modifier,
         label = label,
         enabled = enabled,
         onClick = onClick
@@ -61,11 +63,13 @@ fun ModalSet(
 
 @Composable
 fun ModalCheck(
+    modifier: Modifier = Modifier,
     label: String,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
+        modifier = modifier,
         text = label,
         iconStart = R.drawable.ic_check,
         enabled = enabled,

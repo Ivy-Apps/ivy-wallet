@@ -43,7 +43,7 @@ class EditTransactionScreen<A : ComponentActivity>(
         newTitle: String
     ) {
         composeTestRule.onNodeWithTag("input_field")
-            .performTextInput(newTitle)
+            .performTextReplacement(newTitle)
     }
 
     fun clickClose() {
