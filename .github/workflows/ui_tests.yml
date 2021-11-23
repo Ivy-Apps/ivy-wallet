@@ -37,11 +37,11 @@ jobs:
         with:
           ruby-version: '2.7'
 
-      - name: Install up-to-date Bundler vesrion
-        run: gem install bundler:2.2.30
+      #      - name: Install up-to-date Bundler vesrion
+      #        run: gem install bundler:2.2.30
 
-      - name: Install Fastlane
-        run: bundle install
+      #      - name: Install Fastlane
+      #        run: bundle install
       #----------------------------------------------------
 
       #Security
@@ -70,7 +70,7 @@ jobs:
         with:
           api-level: 29
           profile: pixel_3_xl
-          script: bundle exec fastlane ui_tests
+          script: fastlane ui_tests
 
       - name: Upload Android Tests report to GitHub
         if: always()
