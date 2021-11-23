@@ -19,6 +19,9 @@ class PlannedPaymentsTest : IvyComposeTest() {
     private val editPlannedScreen = EditPlannedScreen(composeTestRule)
     private val homeTab = HomeTab(composeTestRule)
     private val mainBottomBar = MainBottomBar(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
+    private val homeMoreMenu = HomeMoreMenu(composeTestRule)
+    private val plannedPaymentsScreen = PlannedPaymentsScreen(composeTestRule)
 
     @Test
     fun Onboard_CreatePlannedPaymentFromPrompt() {
@@ -47,7 +50,6 @@ class PlannedPaymentsTest : IvyComposeTest() {
         )
 
         homeTab.clickUpcoming()
-
         homeTab.clickTransaction(
             amount = "2,000.00",
             category = "Bills & Fees",
@@ -103,7 +105,98 @@ class PlannedPaymentsTest : IvyComposeTest() {
         composeTestRule.printTree(useUnmergedTree = true)
     }
 
-    //TODO: Delete planned payment
+    @Test
+    fun DeletePlannedPayment_Instance() {
+        onboardingFlow.quickOnboarding()
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
 
-    //TODO: Create planned payment from Planned payment screen
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = false,
+            amount = "650",
+            category = "Bills & Fees",
+            startDate = null,
+            intervalN = 1,
+            intervalType = IntervalType.MONTH,
+            title = "Rent"
+        )
+
+        homeTab.assertUpcomingExpense(
+            amount = "650.00",
+            currency = "USD"
+        )
+
+        homeTab.clickUpcoming()
+        homeTab.clickTransaction(
+            amount = "650.00",
+            category = "Bills & Fees",
+            title = "Rent"
+        )
+
+        editPlannedScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00"
+        )
+
+        homeTab.assertUpcomingDoesNotExist()
+
+        //Assert that the root planned payment exists
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickPlannedPayments()
+
+        plannedPaymentsScreen.clickPlannedPayment(
+            amount = "650.00"
+        )
+    }
+
+    @Test
+    fun DeletePlannedPayment_Root() {
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickPlannedPayments()
+
+        plannedPaymentsScreen.clickAddPlannedPayment()
+
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = false,
+            amount = "650",
+            category = "Bills & Fees",
+            startDate = null,
+            intervalN = 1,
+            intervalType = IntervalType.MONTH,
+            title = "Rent"
+        )
+
+        plannedPaymentsScreen.assertUpcomingExpense(
+            amount = "650.00",
+            currency = "USD"
+        )
+
+        composeTestRule.printTree()
+
+        plannedPaymentsScreen.clickPlannedPayment(
+            amount = "650.00"
+        )
+
+        editPlannedScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        plannedPaymentsScreen.assertPlannedPaymentDoesNotExist(
+            amount = "650.00"
+        )
+
+        plannedPaymentsScreen.clickClose()
+
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00"
+        )
+        homeTab.assertUpcomingDoesNotExist()
+    }
 }

@@ -75,12 +75,18 @@ class HomeTab<A : ComponentActivity>(
         ).assertTextEquals("$amount $currency")
     }
 
+    fun assertUpcomingDoesNotExist() {
+        composeTestRule.onNodeWithTag(
+            testTag = "upcoming_title",
+            useUnmergedTree = true
+        ).assertDoesNotExist()
+    }
+
     fun clickUpcoming() {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
-        )
-            .performClick()
+        ).performClick()
     }
 
     fun clickTransactionPay() {

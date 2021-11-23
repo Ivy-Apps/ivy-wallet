@@ -138,4 +138,9 @@ class EditPlannedScreen<A : ComponentActivity>(
         composeTestRule.onNodeWithText("Pay")
             .performClick()
     }
+
+    fun clickDelete() {
+        composeTestRule.onNodeWithTag("delete_button")
+            .performClick()
+    }
 }
