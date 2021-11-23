@@ -82,4 +82,13 @@ class HomeTab<A : ComponentActivity>(
         )
             .performClick()
     }
+
+    fun clickTransactionPay() {
+        composeTestRule.onNode(
+            hasText("Pay")
+                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+        )
+            .performScrollTo()
+            .performClick()
+    }
 }

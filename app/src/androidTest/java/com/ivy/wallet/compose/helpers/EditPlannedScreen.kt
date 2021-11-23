@@ -16,11 +16,11 @@ class EditPlannedScreen<A : ComponentActivity>(
 
     fun setPaymentType(type: TransactionType) {
         val nodeText = when (type) {
-            TransactionType.INCOME -> "Income"
-            TransactionType.EXPENSE -> "Expense"
+            TransactionType.INCOME -> "modal_type_${type.name}"
+            TransactionType.EXPENSE -> "modal_type_${type.name}"
             TransactionType.TRANSFER -> error("Unsupported type for planned payments")
         }
-        composeTestRule.onNodeWithText(nodeText)
+        composeTestRule.onNodeWithTag(nodeText)
             .performClick()
     }
 
@@ -131,6 +131,11 @@ class EditPlannedScreen<A : ComponentActivity>(
 
     fun clickGet() {
         composeTestRule.onNodeWithText("Get")
+            .performClick()
+    }
+
+    fun clickPay() {
+        composeTestRule.onNodeWithText("Pay")
             .performClick()
     }
 }
