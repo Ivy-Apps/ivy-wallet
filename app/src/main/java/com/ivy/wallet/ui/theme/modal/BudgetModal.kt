@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -247,7 +248,9 @@ private fun CategoriesRow(
 
     Spacer(Modifier.height(16.dp))
 
-    LazyRow {
+    LazyRow(
+        modifier = Modifier.testTag("budget_categories_row")
+    ) {
         item {
             Spacer(Modifier.width(24.dp))
         }
