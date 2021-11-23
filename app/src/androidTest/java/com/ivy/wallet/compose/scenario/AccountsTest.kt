@@ -156,7 +156,7 @@ class AccountsTest : IvyComposeTest() {
     /**
      * semiTest because no actual reordering is being gone
      */
-    @Ignore
+    @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.model.entity.Settings.getCurrency()' on a null object reference")
     @Test
     fun ReorderAccounts_semiTest() {
         onboarding.quickOnboarding()
