@@ -54,4 +54,32 @@ class HomeTab<A : ComponentActivity>(
                 .and(hasText(amount))
         ).assertDoesNotExist()
     }
+
+    fun assertUpcomingIncome(
+        amount: String,
+        currency: String
+    ) {
+        composeTestRule.onNodeWithTag(
+            testTag = "upcoming_income",
+            useUnmergedTree = true
+        ).assertTextEquals("$amount $currency")
+    }
+
+    fun assertUpcomingExpense(
+        amount: String,
+        currency: String
+    ) {
+        composeTestRule.onNodeWithTag(
+            testTag = "upcoming_expense",
+            useUnmergedTree = true
+        ).assertTextEquals("$amount $currency")
+    }
+
+    fun clickUpcoming() {
+        composeTestRule.onNodeWithTag(
+            testTag = "upcoming_title",
+            useUnmergedTree = true
+        )
+            .performClick()
+    }
 }

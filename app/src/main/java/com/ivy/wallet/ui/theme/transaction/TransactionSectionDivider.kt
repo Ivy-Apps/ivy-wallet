@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +53,7 @@ fun SectionDivider(
 
         Column {
             Text(
+                modifier = Modifier.testTag("upcoming_title"),
                 text = title,
                 style = Typo.body1.style(
                     fontWeight = FontWeight.ExtraBold,
@@ -94,6 +96,7 @@ private fun SectionDividerIncomeExpenseRow(
     ) {
         if (expenses > 0) {
             Text(
+                modifier = Modifier.testTag("upcoming_expense"),
                 text = "${expenses.format(baseCurrency)} $baseCurrency",
                 style = Typo.numberCaption.style(
                     fontWeight = FontWeight.ExtraBold,
@@ -120,6 +123,7 @@ private fun SectionDividerIncomeExpenseRow(
 
         if (income > 0) {
             Text(
+                modifier = Modifier.testTag("upcoming_income"),
                 text = "${income.format(baseCurrency)} $baseCurrency",
                 style = Typo.numberCaption.style(
                     fontWeight = FontWeight.ExtraBold,

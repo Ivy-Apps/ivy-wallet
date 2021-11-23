@@ -1,7 +1,5 @@
 package com.ivy.wallet.compose.scenario
 
-import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.base.timeNowUTC
@@ -10,7 +8,6 @@ import com.ivy.wallet.compose.helpers.EditPlannedScreen
 import com.ivy.wallet.compose.helpers.HomeTab
 import com.ivy.wallet.compose.helpers.OnboardingFlow
 import com.ivy.wallet.compose.helpers.TransactionFlow
-import com.ivy.wallet.compose.printTree
 import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.model.TransactionType
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -45,13 +42,12 @@ class PlannedPaymentsTest : IvyComposeTest() {
             title = "Salary"
         )
 
-        composeTestRule.waitForIdle()
+        homeTab.assertUpcomingIncome(
+            amount = "2,000.00",
+            currency = "USD"
+        )
 
-        composeTestRule.onNode(hasText("2,000.00 USD"))
-            .assertIsDisplayed()
-            .performClick()
-
-        composeTestRule.printTree()
+        homeTab.clickUpcoming()
 
         homeTab.clickTransaction(
             amount = "2,000.00",
