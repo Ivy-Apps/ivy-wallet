@@ -1,11 +1,8 @@
 package com.ivy.wallet.compose.helpers
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.performGesture
-import androidx.compose.ui.test.swipeUp
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 class ReorderModal<A : ComponentActivity>(
@@ -20,5 +17,10 @@ class ReorderModal<A : ComponentActivity>(
         ).performGesture {
             swipeUp()
         }
+    }
+
+    fun clickDone() {
+        composeTestRule.onNodeWithTag("reorder_done")
+            .performClick()
     }
 }

@@ -109,7 +109,8 @@ fun <T : Reorderable> BoxScope.ReorderView(
         PrimaryAction = {
             IvyCircleButton(
                 modifier = Modifier
-                    .size(48.dp),
+                    .size(48.dp)
+                    .testTag("reorder_done"),
                 backgroundGradient = GradientGreen,
                 icon = R.drawable.ic_check,
                 tint = White

@@ -8,6 +8,7 @@ import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Blue2
 import com.ivy.wallet.ui.theme.Ivy
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
@@ -15,18 +16,21 @@ class CategoriesTest : IvyComposeTest() {
     private val onboardingFlow = OnboardingFlow(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val categoryModal = CategoryModal(composeTestRule)
-    private val categoryScreen = CategoryScreen(composeTestRule)
+    private val categoryScreen = CategoriesScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
     private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
+    private val reorderModal = ReorderModal(composeTestRule)
+
+    @Test
+    fun contextLoads() {
+    }
 
     @Test
     fun CreateCategory() {
         onboardingFlow.onboardWith1AccountAnd1Category()
-
         homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickCategories()
 
-        composeTestRule.onNodeWithText("Categories")
-            .performClick()
 
         composeTestRule.onNodeWithText("Add category")
             .performClick()
@@ -46,8 +50,7 @@ class CategoriesTest : IvyComposeTest() {
     fun AddSeveralCategories() {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
-        composeTestRule.onNodeWithText("Categories")
-            .performClick()
+        homeMoreMenu.clickCategories()
 
         categoryScreen.addCategory(
             categoryName = "Entertainment"
@@ -66,8 +69,7 @@ class CategoriesTest : IvyComposeTest() {
     fun EditCategory() {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
-        composeTestRule.onNodeWithText("Categories")
-            .performClick()
+        homeMoreMenu.clickCategories()
 
         categoryScreen.clickCategory(
             categoryName = "Food & Drinks"
@@ -96,8 +98,7 @@ class CategoriesTest : IvyComposeTest() {
     fun DeleteCategory() {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
-        composeTestRule.onNodeWithText("Categories")
-            .performClick()
+        homeMoreMenu.clickCategories()
 
         categoryScreen.clickCategory(
             categoryName = "Food & Drinks"
@@ -109,5 +110,19 @@ class CategoriesTest : IvyComposeTest() {
         categoryScreen.assertCategoryNotExists(
             categoryName = "Food & Drinks"
         )
+    }
+
+    /**
+     * semiTest because no actual reordering is being gone
+     */
+    @Ignore
+    @Test
+    fun ReorderCategories_semiTest() {
+        onboardingFlow.quickOnboarding()
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickCategories()
+
+        categoryScreen.clickReorder()
+        reorderModal.clickDone()
     }
 }

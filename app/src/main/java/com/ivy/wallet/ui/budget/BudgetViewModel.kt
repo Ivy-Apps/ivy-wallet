@@ -3,10 +3,7 @@ package com.ivy.wallet.ui.budget
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.asLiveData
-import com.ivy.wallet.base.getDefaultFIATCurrency
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.BudgetCreator
 import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
@@ -67,6 +64,8 @@ class BudgetViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _categories.value = ioThread {
                 categoryDao.findAll()
             }!!
@@ -118,6 +117,8 @@ class BudgetViewModel @Inject constructor(
                     )
                 }
             }!!
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -160,31 +161,45 @@ class BudgetViewModel @Inject constructor(
 
     fun createBudget(data: CreateBudgetData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             budgetCreator.createBudget(data) {
                 start()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editBudget(budget: Budget) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             budgetCreator.editBudget(budget) {
                 start()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun deleteBudget(budget: Budget) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             budgetCreator.deleteBudget(budget) {
                 start()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
 
     fun reorder(newOrder: List<DisplayBudget>) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 newOrder.forEachIndexed { index, item ->
                     budgetDao.save(
@@ -200,6 +215,8 @@ class BudgetViewModel @Inject constructor(
             ioThread {
                 budgetSync.sync()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 }

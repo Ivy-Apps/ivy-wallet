@@ -3,7 +3,6 @@ package com.ivy.wallet.compose.scenario
 import android.icu.util.Currency
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
-import com.ivy.wallet.compose.waitSeconds
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Purple1
 import com.ivy.wallet.ui.theme.Purple2
@@ -154,18 +153,16 @@ class AccountsTest : IvyComposeTest() {
         )
     }
 
-    @Ignore("RecyclerView reorder not working with ComposeTestRule")
+    /**
+     * semiTest because no actual reordering is being gone
+     */
+    @Ignore
     @Test
-    fun ReorderAccounts() {
-        //TODO: RecyclerView reorder not working
+    fun ReorderAccounts_semiTest() {
         onboarding.quickOnboarding()
         mainBottomBar.clickAccounts()
 
         accountsTab.clickReorder()
-        reorderModal.moveToTop(
-            itemPosition = 1
-        )
-
-        composeTestRule.waitSeconds(3)
+        reorderModal.clickDone()
     }
 }

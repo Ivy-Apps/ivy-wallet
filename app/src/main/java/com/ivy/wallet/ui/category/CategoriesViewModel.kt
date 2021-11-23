@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.category
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.CategoryCreator
@@ -35,6 +36,8 @@ class CategoriesViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val range = TimePeriod.currentMonth(
                 startDayOfMonth = ivyContext.startDayOfMonth
             ).toRange(ivyContext.startDayOfMonth) //this must be monthly
@@ -62,11 +65,15 @@ class CategoriesViewModel @Inject constructor(
                         )
                     }
             }!!
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun reorder(newOrder: List<CategoryData>) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 newOrder.forEachIndexed { index, categoryData ->
                     categoryDao.save(
@@ -82,14 +89,20 @@ class CategoriesViewModel @Inject constructor(
             ioThread {
                 categorySync.sync()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             categoryCreator.createCategory(data) {
                 start()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 }

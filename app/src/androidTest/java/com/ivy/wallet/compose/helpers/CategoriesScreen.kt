@@ -6,7 +6,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
-class CategoryScreen<A : ComponentActivity>(
+class CategoriesScreen<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     private val categoryModal = CategoryModal(composeTestRule)
@@ -48,6 +48,12 @@ class CategoryScreen<A : ComponentActivity>(
     fun clickCategory(categoryName: String) {
         composeTestRule.onNode(hasText(categoryName))
             .performScrollTo()
+            .performClick()
+    }
+
+
+    fun clickReorder() {
+        composeTestRule.onNodeWithTag("reorder_button")
             .performClick()
     }
 }

@@ -25,4 +25,9 @@ class HomeMoreMenu<A : ComponentActivity>(
         composeTestRule.onNodeWithText("Budgets")
             .performClick()
     }
+
+    fun clickCategories() {
+        composeTestRule.onNodeWithText("Categories")
+            .performClick()
+    }
 }

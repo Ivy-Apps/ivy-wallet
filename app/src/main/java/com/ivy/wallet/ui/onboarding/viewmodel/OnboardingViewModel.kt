@@ -122,6 +122,8 @@ class OnboardingViewModel @Inject constructor(
         _currency.value = defaultCurrency
 
         ioThread {
+            TestIdlingResource.increment()
+
             if (settingsDao.findAll().isEmpty()) {
                 settingsDao.save(
                     Settings(
@@ -132,6 +134,8 @@ class OnboardingViewModel @Inject constructor(
                     )
                 )
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -167,6 +171,8 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private suspend fun loginWithGoogleOnServer(idToken: String) {
+        TestIdlingResource.increment()
+
         val authResponse = restClient.authService.googleSignIn(
             GoogleSignInRequest(
                 googleIdToken = idToken,
@@ -185,6 +191,8 @@ class OnboardingViewModel @Inject constructor(
         }
 
         _opGoogleSignIn.value = OpResult.success(Unit)
+
+        TestIdlingResource.decrement()
     }
 
     fun loginOfflineAccount() {
@@ -233,11 +241,15 @@ class OnboardingViewModel @Inject constructor(
 
     private suspend fun updateBaseCurrency(baseCurrency: IvyCurrency) {
         ioThread {
+            TestIdlingResource.increment()
+
             settingsDao.save(
                 settingsDao.findFirst().copy(
                     currency = baseCurrency.code
                 )
             )
+
+            TestIdlingResource.decrement()
         }
         _currency.value = baseCurrency
     }
