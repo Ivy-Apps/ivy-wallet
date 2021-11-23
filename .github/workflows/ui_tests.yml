@@ -37,6 +37,9 @@ jobs:
         with:
           ruby-version: '2.7'
 
+      - name: Install up-to-date Bundler vesrion
+        run: gem install bundler:2.2.30
+
       - name: Install Fastlane
         run: bundle install
       #----------------------------------------------------
