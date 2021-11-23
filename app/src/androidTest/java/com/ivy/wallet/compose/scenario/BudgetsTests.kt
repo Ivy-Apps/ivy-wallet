@@ -43,21 +43,95 @@ class BudgetsTests : IvyComposeTest() {
 
     @Test
     fun CreateCategoryBudget() {
-        TODO("Implement")
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickBudgets()
+
+        budgetsScreen.clickAddBudget()
+
+        budgetModal.apply {
+            enterAmount("1,000")
+            enterName("Food")
+            clickCategory("Food & Drinks")
+            clickAdd()
+        }
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = null,
+            categoryBudget = "1,000.00"
+        )
+
+        budgetsScreen.clickBudget(
+            budgetName = "Food"
+        )
     }
 
     @Test
     fun CreateMultiCategoryBudget() {
-        TODO("Implement")
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickBudgets()
+
+        budgetsScreen.clickAddBudget()
+
+        budgetModal.apply {
+            enterAmount("2,500")
+            clickCategory("Food & Drinks")
+            clickCategory("Bills & Fees")
+            enterName("Living (must)")
+            clickAdd()
+        }
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = null,
+            categoryBudget = "2,500.00"
+        )
+
+        budgetsScreen.clickBudget(
+            budgetName = "Living (must)"
+        )
     }
 
     @Test
     fun EditBudget() {
-        //amount
-        //categories
-        //name
+        onboardingFlow.quickOnboarding()
 
-        TODO("Implement")
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickBudgets()
+
+        budgetsScreen.clickAddBudget()
+
+        budgetModal.apply {
+            enterName("Spending")
+            enterAmount("6000.00")
+            clickAdd()
+        }
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = "6,000.00",
+            categoryBudget = null
+        )
+
+        budgetsScreen.clickBudget(
+            budgetName = "Spending"
+        )
+
+        //Edit budget
+        budgetModal.apply {
+            enterName("Fun")
+            enterAmount("1,200.99")
+            clickCategory("Food & Drinks")
+            clickCategory("Bills & Fees")
+            clickCategory("Bills & Fees") //de-select "Bills & Fees"
+            clickSave()
+        }
+
+        budgetsScreen.assertBudgetsInfo(
+            appBudget = null,
+            categoryBudget = "1,200.99"
+        )
     }
 
     @Test
