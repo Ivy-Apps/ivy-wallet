@@ -286,7 +286,8 @@ private fun ColumnScope.Buffer(
             .fillMaxWidth()
             .clickableNoIndication {
                 onBufferClick()
-            },
+            }
+            .testTag("savings_goal_row"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))

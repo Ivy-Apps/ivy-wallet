@@ -1,11 +1,10 @@
 package com.ivy.wallet.compose.helpers
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.printTree
 
 class HomeMoreMenu<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -29,5 +28,21 @@ class HomeMoreMenu<A : ComponentActivity>(
     fun clickCategories() {
         composeTestRule.onNodeWithText("Categories")
             .performClick()
+    }
+
+    fun clickSavingsGoal() {
+        composeTestRule.onNodeWithText("Savings goal")
+            .performClick()
+    }
+
+    fun assertSavingsGoal(
+        amount: String,
+        currency: String = "USD"
+    ) {
+        composeTestRule.printTree()
+
+        composeTestRule.onNode(
+            hasTestTag("savings_goal_row")
+        ).assertTextContains(amount)
     }
 }
