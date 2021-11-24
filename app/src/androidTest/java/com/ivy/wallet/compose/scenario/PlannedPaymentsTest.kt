@@ -178,7 +178,6 @@ class PlannedPaymentsTest : IvyComposeTest() {
             currency = "USD"
         )
 
-        composeTestRule.printTree()
 
         plannedPaymentsScreen.clickPlannedPayment(
             amount = "650.00"
