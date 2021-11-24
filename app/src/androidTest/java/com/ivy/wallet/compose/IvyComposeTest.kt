@@ -24,6 +24,7 @@ import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
 
+
 @HiltAndroidTest
 abstract class IvyComposeTest {
     @get:Rule
@@ -109,7 +110,14 @@ abstract class IvyComposeTest {
                 //reset state && retry test
                 resetApp()
 
-                composeTestRule.waitMillis(1000)
+                composeTestRule.waitMillis(500)
+
+                //Restart IvyActivity
+                val intent = composeTestRule.activity.intent
+                composeTestRule.activity.finish()
+                composeTestRule.activity.startActivity(intent)
+
+                composeTestRule.waitMillis(500)
 
                 testWithRetry(
                     attempt = attempt + 1,
