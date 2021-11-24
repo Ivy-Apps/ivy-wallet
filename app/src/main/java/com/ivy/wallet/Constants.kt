@@ -28,4 +28,6 @@ object Constants {
         "https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-see-graph"
 
     const val USER_INACTIVITY_TIME_LIMIT = 60  //Time in seconds
+
+    const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
 }

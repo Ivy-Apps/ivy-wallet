@@ -6,12 +6,37 @@ Please check if your pull request fulfills the following requirements:
 - [ ] I've read the **[Contribution Guidelines](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**.
 - [ ] The code builds and is tested on an actual Android device.
 - [ ] I confirm that I've run the code locally and everything works as expected.
-- [ ] I confirm that I've run `bundle exec fastlane ui_tests` and all tests are passing
+- [ ] I confirm that I've run Ivy Wallet's UI tests (`androidTest`) and all tests are passing
   successfully.
+
+_Important: Don't worry if you experience flaky UI tests. Just re-run the failed ones again and if they pass => it's all good!_
 
 _Put an `x` in the boxes that apply._
 
 - [x] Demo: Checking checkbox using `[x]`
+
+### How to run Ivy Wallet's UI tests (`androidTest`)
+
+**Connect Android Emulator**
+- Pixel 5 API 29+ AVD emulator _(recommended)_
+- Pixel 3XL API 29+ AVD emulator _(recommended)_
+- Large screen physical device _(might also work)_
+
+**Method 1: Android Studio UI**
+- Find `com (androidTest)` package
+- Right click
+- `Run 'Tests in 'com''`
+
+_Note: If you've checked "Compact Middle Packages" the option will appear as `com.ivy.wallet (androidTest)`._
+
+**Method 2: Gradle Wrapper**
+- `chmod +x gradlew` (Linux)
+- `./gradlew connectedDebugAndroidTest`
+
+**Method 3: Fastlane**
+- Install Ruby 2.7
+- `bundle install`
+- `bundle exec fastlane ui_tests`
 
 ## Pull Request Type
 

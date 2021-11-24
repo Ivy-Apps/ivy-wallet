@@ -37,8 +37,11 @@ jobs:
         with:
           ruby-version: '2.7'
 
-      - name: Install Fastlane
-        run: bundle install
+      #      - name: Install up-to-date Bundler vesrion
+      #        run: gem install bundler:2.2.30
+
+      #      - name: Install Fastlane
+      #        run: bundle install
       #----------------------------------------------------
 
       #Security
@@ -62,13 +65,15 @@ jobs:
       #---------------------------------------------------
 
       #Run UI tests
-      - name: Run UI Tests
+      - name: Run UI tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: bundle exec fastlane ui_tests
+          profile: pixel_3_xl
+          script: fastlane ui_tests
 
       - name: Upload Android Tests report to GitHub
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: android-tests-report

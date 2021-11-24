@@ -4,39 +4,54 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.clickWithRetry
+import com.ivy.wallet.compose.performClickWithRetry
 
 class MainBottomBar<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     fun clickHome() {
-        composeTestRule.onNode(hasTestTag("home"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasTestTag("home")),
+            maxRetries = 3
+        )
     }
 
     fun clickAccounts() {
-        composeTestRule.onNode(hasTestTag("accounts"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasTestTag("accounts")),
+            maxRetries = 3
+        )
     }
 
     fun clickAddFAB() {
-        composeTestRule.onNode(hasTestTag("fab_add"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasTestTag("fab_add")),
+            maxRetries = 3
+        )
     }
 
     fun clickAddIncome() {
-        composeTestRule.onNode(hasText("ADD INCOME"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("ADD INCOME")),
+            maxRetries = 3
+        )
     }
 
     fun clickAddExpense() {
         composeTestRule.onNode(hasText("ADD EXPENSE"))
-            .performClick()
+            .performClickWithRetry(composeTestRule)
     }
 
     fun clickAddTransfer() {
         composeTestRule.onNode(hasText("ACCOUNT TRANSFER"))
-            .performClick()
+            .performClickWithRetry(composeTestRule)
+    }
+
+    fun clickAddPlannedPayment() {
+        composeTestRule.onNodeWithText("Add planned payment")
+            .performClickWithRetry(composeTestRule)
     }
 }

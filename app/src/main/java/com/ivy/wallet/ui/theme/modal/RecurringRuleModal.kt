@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +69,7 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
         scrollState = modalScrollState,
         PrimaryAction = {
             ModalSet(
+                modifier = Modifier.testTag("recurringModalSet"),
                 enabled = validate(oneTime, intervalN, intervalType)
             ) {
                 dismiss()
@@ -332,7 +334,9 @@ private fun DateRow(
         Spacer(Modifier.weight(1f))
 
         IvyCircleButton(
-            modifier = Modifier.size(48.dp),
+            modifier = Modifier
+                .size(48.dp)
+                .testTag("recurring_modal_pick_date"),
             backgroundPadding = 4.dp,
             icon = R.drawable.ic_calendar,
             backgroundGradient = Gradient.solid(IvyTheme.colors.pureInverse),

@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
@@ -34,7 +34,6 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import kotlin.math.absoluteValue
-import kotlin.math.roundToInt
 
 
 @ExperimentalAnimationApi
@@ -46,11 +45,8 @@ internal fun HomeHeader(
     currency: String,
     balance: Double,
     bufferDiff: Double,
-    monthlyIncome: Double,
-    monthlyExpenses: Double,
 
     onShowMonthModal: () -> Unit,
-    onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
 
     onSelectNextMonth: () -> Unit,
@@ -60,12 +56,6 @@ internal fun HomeHeader(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce(
             stiffness = Spring.StiffnessLow
-        )
-    )
-    val percentExpandedAlpha by animateFloatAsState(
-        targetValue = if (expanded) 1f else 0f,
-        animationSpec = springBounce(
-            stiffness = Spring.StiffnessMedium
         )
     )
 
@@ -86,20 +76,6 @@ internal fun HomeHeader(
     )
 
     Spacer(Modifier.height(16.dp))
-
-    CashFlowInfo(
-        percentExpanded = percentExpanded,
-        percentExpandedAlpha = percentExpandedAlpha,
-        period = period,
-        currency = currency,
-        balance = balance,
-        bufferDiff = bufferDiff,
-        monthlyIncome = monthlyIncome,
-        monthlyExpenses = monthlyExpenses,
-
-        onOpenMoreMenu = onOpenMoreMenu,
-        onBalanceClick = onBalanceClick
-    )
 
     if (percentExpanded < 0.5f) {
         TransactionsDividerLine(
@@ -127,14 +103,17 @@ private fun HeaderStickyRow(
     onSelectPreviousMonth: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))
 
         Box {
             Text(
-                modifier = Modifier.alpha(percentExpanded),
+                modifier = Modifier
+                    .alpha(percentExpanded)
+                    .testTag("home_greeting_text"),
                 text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
                 style = Typo.body1.style(
                     fontWeight = FontWeight.ExtraBold,
@@ -146,7 +125,7 @@ private fun HeaderStickyRow(
             if (percentExpanded < 1f) {
                 BalanceRowMini(
                     modifier = Modifier
-                        .alpha(1f - percentExpanded)
+                        .alpha(alpha = 1f - percentExpanded)
                         .clickableNoIndication {
                             onBalanceClick()
                         },
@@ -186,9 +165,8 @@ private fun HeaderStickyRow(
 
 @ExperimentalAnimationApi
 @Composable
-private fun CashFlowInfo(
-    percentExpanded: Float,
-    percentExpandedAlpha: Float,
+fun CashFlowInfo(
+    percentExpanded: Float=1f,
     period: TimePeriod,
     currency: String,
     balance: Double,
@@ -201,19 +179,12 @@ private fun CashFlowInfo(
 ) {
     Column(
         modifier = Modifier
-            .layout { measurable, constraints ->
-                val placealbe = measurable.measure(constraints)
-
-                val height = placealbe.height * percentExpanded
-
-                layout(placealbe.width, height.roundToInt()) {
-                    placealbe.placeRelative(
-                        x = 0,
-                        y = -(placealbe.height * (1f - percentExpanded)).roundToInt()
-                    )
+            .verticalSwipeListener(
+                sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                onSwipeDown = {
+                    onOpenMoreMenu()
                 }
-            }
-            .alpha(percentExpandedAlpha)
+            )
     ) {
         BalanceRow(
             modifier = Modifier

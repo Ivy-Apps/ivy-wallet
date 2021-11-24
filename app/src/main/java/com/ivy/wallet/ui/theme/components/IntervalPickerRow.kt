@@ -108,7 +108,8 @@ private fun RowScope.IntervalTypeSelector(
                 }
                 .padding(all = 8.dp)
                 .rotate(-180f),
-            icon = R.drawable.ic_arrow_right
+            icon = R.drawable.ic_arrow_right,
+            contentDescription = "interval_type_arrow_left"
         )
 
         Spacer(Modifier.weight(1f))
@@ -138,7 +139,8 @@ private fun RowScope.IntervalTypeSelector(
                     )
                 }
                 .padding(all = 8.dp),
-            icon = R.drawable.ic_arrow_right
+            icon = R.drawable.ic_arrow_right,
+            contentDescription = "interval_type_arrow_right"
         )
 
         Spacer(Modifier.width(20.dp))

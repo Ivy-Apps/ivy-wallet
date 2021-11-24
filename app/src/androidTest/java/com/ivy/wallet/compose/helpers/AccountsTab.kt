@@ -74,6 +74,7 @@ class AccountsTab<A : ComponentActivity>(
             if (currency != null) {
                 chooseCurrency()
                 currencyPicker.searchAndSelect(Currency.getInstance(currency))
+                currencyPicker.modalSave()
             }
 
 
@@ -84,5 +85,10 @@ class AccountsTab<A : ComponentActivity>(
 
             clickAdd()
         }
+    }
+
+    fun clickReorder() {
+        composeTestRule.onNodeWithTag("reorder_button")
+            .performClick()
     }
 }

@@ -49,11 +49,13 @@ fun ModalDynamicPrimaryAction(
 
 @Composable
 fun ModalSet(
+    modifier: Modifier = Modifier,
     label: String = "Set",
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalCheck(
+        modifier = modifier,
         label = label,
         enabled = enabled,
         onClick = onClick
@@ -62,11 +64,13 @@ fun ModalSet(
 
 @Composable
 fun ModalCheck(
+    modifier: Modifier = Modifier,
     label: String,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
+        modifier = modifier,
         text = label,
         iconStart = R.drawable.ic_check,
         enabled = enabled,
@@ -95,10 +99,12 @@ fun <T> ModalAddSave(
 
 @Composable
 fun ModalSave(
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
+        modifier = modifier,
         text = "Save",
         iconStart = R.drawable.ic_save,
         enabled = enabled,
@@ -150,13 +156,14 @@ fun ModalNegativeButton(
 
 @Composable
 fun ModalPositiveButton(
+    modifier: Modifier = Modifier,
     text: String,
     @DrawableRes iconStart: Int,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     IvyButton(
-        modifier = Modifier.testTag("modal_positive"),
+        modifier = modifier,
         text = text,
         backgroundGradient = GradientGreen,
         iconStart = iconStart,
@@ -187,7 +194,9 @@ fun ModalDelete(
     onClick: () -> Unit
 ) {
     IvyCircleButton(
-        modifier = Modifier.size(40.dp),
+        modifier = Modifier
+            .size(40.dp)
+            .testTag("modal_delete"),
         icon = R.drawable.ic_delete,
         backgroundGradient = GradientRed,
         enabled = enabled,

@@ -240,6 +240,8 @@ class EditPlannedViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             try {
                 ioThread {
                     loadedRule = loadedRule().copy(
@@ -271,6 +273,8 @@ class EditPlannedViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 

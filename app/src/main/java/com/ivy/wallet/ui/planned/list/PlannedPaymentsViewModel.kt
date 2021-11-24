@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.PlannedPaymentsLogic
@@ -58,6 +59,8 @@ class PlannedPaymentsViewModel @Inject constructor(
 
     fun start(screen: Screen.PlannedPayments) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val settings = ioThread { settingsDao.findFirst() }
 
             _currency.value = settings.currency
@@ -72,6 +75,8 @@ class PlannedPaymentsViewModel @Inject constructor(
             _recurring.value = ioThread { plannedPaymentsLogic.recurring() }!!
             _recurringIncome.value = ioThread { plannedPaymentsLogic.recurringIncome() }!!
             _recurringExpenses.value = ioThread { plannedPaymentsLogic.recurringExpenses() }!!
+
+            TestIdlingResource.decrement()
         }
     }
 }

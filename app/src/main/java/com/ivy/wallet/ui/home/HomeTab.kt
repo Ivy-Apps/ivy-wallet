@@ -9,11 +9,16 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.Constants
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.verticalSwipeListener
@@ -33,7 +38,7 @@ import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
 
-private const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
+private const val SWIPE_HORIZONTAL_THRESHOLD = 250
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -169,6 +174,7 @@ private fun BoxWithConstraintsScope.UI(
         mutableStateOf(null)
     }
     var expanded by remember { mutableStateOf(false) }
+    val hideBalanceRowState = remember { mutableStateOf(false) }
 
     val ivyContext = LocalIvyContext.current
 
@@ -178,13 +184,13 @@ private fun BoxWithConstraintsScope.UI(
             .statusBarsPadding()
             .navigationBarsPadding()
             .verticalSwipeListener(
-                sensitivity = SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
+                sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
                 onSwipeDown = {
                     expanded = true
                 }
             )
             .horizontalSwipeListener(
-                sensitivity = 250,
+                sensitivity = SWIPE_HORIZONTAL_THRESHOLD,
                 onSwipeLeft = {
                     ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 },
@@ -201,22 +207,17 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = listState.firstVisibleItemIndex == 0,
+            expanded = !hideBalanceRowState.value,
             name = name,
             period = period,
             currency = currencyCode,
             balance = balance,
             bufferDiff = bufferDiff,
-            monthlyIncome = monthlyIncome,
-            monthlyExpenses = monthlyExpenses,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
                     period = period
                 )
-            },
-            onOpenMoreMenu = {
-                expanded = true
             },
             onBalanceClick = {
                 onBalanceClick()
@@ -226,6 +227,18 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeTransactionsLazyColumn(
+            hideBalanceRowState = hideBalanceRowState,
+            currency = currencyCode,
+            balance = balance,
+            bufferDiff = bufferDiff,
+            onOpenMoreMenu = {
+                expanded = true
+            },
+            onBalanceClick = {
+                onBalanceClick()
+            },
+
+
             period = period,
             listState = listState,
             baseCurrency = currencyCode,
@@ -306,8 +319,18 @@ private fun BoxWithConstraintsScope.UI(
     }
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun HomeTransactionsLazyColumn(
+    hideBalanceRowState: MutableState<Boolean>,
+    currency: String,
+    balance: Double,
+    bufferDiff: Double,
+
+    onOpenMoreMenu: () -> Unit,
+    onBalanceClick: () -> Unit,
+
+
     period: TimePeriod,
     listState: LazyListState,
 
@@ -339,11 +362,47 @@ fun HomeTransactionsLazyColumn(
 ) {
     val ivyContext = LocalIvyContext.current
 
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPostScroll(
+                consumed: Offset,
+                available: Offset,
+                source: NestedScrollSource
+            ): Offset {
+                if (listState.firstVisibleItemIndex == 0) {
+                    //To prevent unnecessary updates
+                    if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalanceRowState.value) {
+                        hideBalanceRowState.value = true
+                    } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalanceRowState.value) {
+                        hideBalanceRowState.value = false
+                    }
+                }
+                return super.onPostScroll(consumed, available, source)
+            }
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .nestedScroll(nestedScrollConnection),
         state = listState
     ) {
+
+        item {
+            CashFlowInfo(
+                period = period,
+                currency = currency,
+                balance = balance,
+                bufferDiff = bufferDiff,
+
+                monthlyIncome = monthlyIncome,
+                monthlyExpenses = monthlyExpenses,
+
+                onOpenMoreMenu = onOpenMoreMenu,
+                onBalanceClick = onBalanceClick
+            )
+        }
         item {
             Spacer(Modifier.height(16.dp))
 

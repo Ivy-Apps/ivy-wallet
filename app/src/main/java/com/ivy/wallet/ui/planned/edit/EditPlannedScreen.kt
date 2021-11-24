@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -264,7 +265,9 @@ private fun BoxWithConstraintsScope.UI(
         currency = currency,
 
         ActionButton = {
-            ModalSet {
+            ModalSet(
+                modifier = Modifier.testTag("editPlannedScreen_set")
+            ) {
                 onSave()
             }
         },

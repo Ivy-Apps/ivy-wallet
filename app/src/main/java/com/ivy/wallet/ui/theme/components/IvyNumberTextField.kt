@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
@@ -57,7 +58,8 @@ fun IvyNumberTextField(
 
         val view = LocalView.current
         BasicTextField(
-            modifier = textModifier,
+            modifier = textModifier
+                .testTag("base_number_input"),
             value = value,
             onValueChange = onValueChanged,
             textStyle = Typo.numberBody2.style(

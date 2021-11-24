@@ -17,37 +17,34 @@ class OperationsCoreTest : IvyComposeTest() {
     private val homeTab = HomeTab(composeTestRule)
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
-
+    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
     @Test
     fun contextLoads() {
     }
 
     @Test
-    fun OnboardAndAdjustBalance() {
+    fun OnboardAndAdjustBalance() = testWithRetry {
         onboarding.quickOnboarding()
 
         composeTestRule.onNode(hasText("To accounts"))
             .performClick()
 
-        composeTestRule.onNode(hasText("Cash"))
-            .performClick()
 
-        composeTestRule
-            .onNode(hasText("Edit"))
-            .performClick()
+        accountsTab.clickAccount(account = "Cash")
+        itemStatisticScreen.clickEdit()
 
         accountModal.clickBalance()
-
         amountInput.enterNumber("1,025.98")
-
         accountModal.clickSave()
 
-        composeTestRule.onNodeWithTag("balance")
-            .assertTextEquals("USD", "1,025", ".98")
-
-        composeTestRule.onNodeWithTag("toolbar_close")
-            .performClick()
+        itemStatisticScreen.assertBalance(
+            balance = "1,025",
+            balanceDecimal = ".98",
+            currency = "USD"
+        )
+        itemStatisticScreen.clickClose()
 
         mainBottomBar.clickHome()
 
@@ -61,7 +58,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateIncome() {
+    fun CreateIncome() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -75,7 +72,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun AddSeveralTransactions() {
+    fun AddSeveralTransactions() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -103,7 +100,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun MakeTransfer() {
+    fun MakeTransfer() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -138,7 +135,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditTransaction() {
+    fun EditTransaction() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(
@@ -146,6 +143,8 @@ class OperationsCoreTest : IvyComposeTest() {
             category = "Food & Drinks",
             account = "Cash"
         )
+
+        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card can't be clicked
 
         homeTab.clickTransaction(
             amount = "20.48",
@@ -179,6 +178,42 @@ class OperationsCoreTest : IvyComposeTest() {
             title = "For the house",
             category = "Groceries",
             account = "Bank"
+        )
+    }
+
+    @Test
+    fun DeleteTransaction() = testWithRetry {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 249.75,
+            title = "Food",
+            category = "Groceries"
+        )
+
+        homeTab.assertBalance(
+            "-249",
+            amountDecimal = ".75"
+        )
+
+        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card can't be clicked
+
+        homeTab.clickTransaction(
+            amount = "249.75",
+            title = "Food",
+            category = "Groceries"
+        )
+
+        editTransactionScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        homeTab.assertTransactionNotExists(
+            amount = "249.75"
+        )
+
+        homeTab.assertBalance(
+            amount = "0",
+            amountDecimal = ".00"
         )
     }
 }
