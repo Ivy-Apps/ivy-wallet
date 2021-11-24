@@ -24,21 +24,23 @@ class OnboardingTest : IvyComposeTest() {
     }
 
     @Test
-    fun OnboardingShortestPath() {
-        onboarding.chooseOfflineAccount()
-        onboarding.clickStartFresh()
-        onboarding.setCurrency()
-        onboarding.skipAccounts()
-        onboarding.skipCategories()
+    fun OnboardingShortestPath() = testWithRetry {
+        testWithRetry {
+            onboarding.chooseOfflineAccount()
+            onboarding.clickStartFresh()
+            onboarding.setCurrency()
+            onboarding.skipAccounts()
+            onboarding.skipCategories()
 
-        mainBottomBar.clickAccounts()
+            mainBottomBar.clickAccounts()
 
-        composeTestRule.onNode(hasText("Cash"))
-            .assertIsDisplayed()
+            composeTestRule.onNode(hasText("Cash"))
+                .assertIsDisplayed()
+        }
     }
 
     @Test
-    fun OnboardingOfflineAccount_andSelectCurrency() {
+    fun OnboardingOfflineAccount_andSelectCurrency() = testWithRetry {
         onboarding.chooseOfflineAccount()
         onboarding.clickStartFresh()
 
@@ -59,7 +61,7 @@ class OnboardingTest : IvyComposeTest() {
     }
 
     @Test
-    fun Onboard_with1AccountAnd1Category() {
+    fun Onboard_with1AccountAnd1Category() = testWithRetry {
         onboarding.onboardWith1AccountAnd1Category()
     }
 }

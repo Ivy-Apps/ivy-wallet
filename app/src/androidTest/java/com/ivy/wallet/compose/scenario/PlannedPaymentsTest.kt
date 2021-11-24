@@ -23,7 +23,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     private val plannedPaymentsScreen = PlannedPaymentsScreen(composeTestRule)
 
     @Test
-    fun Onboard_CreatePlannedPaymentFromPrompt() {
+    fun Onboard_CreatePlannedPaymentFromPrompt() = testWithRetry {
         onboardingFlow.quickOnboarding()
         transactionFlow.addIncome(
             amount = 100.0
@@ -65,7 +65,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateOneTimePlannedPayment_fromFAB() {
+    fun CreateOneTimePlannedPayment_fromFAB() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         //Add one transaction so the "Adjust Balance" prompt can disappear and the screen to be scrollable
@@ -111,7 +111,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeletePlannedPayment_Instance() {
+    fun DeletePlannedPayment_Instance() = testWithRetry {
         onboardingFlow.quickOnboarding()
         mainBottomBar.clickAddFAB()
         mainBottomBar.clickAddPlannedPayment()
@@ -159,7 +159,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeletePlannedPayment_Root() {
+    fun DeletePlannedPayment_Root() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeMoreMenu.clickOpenCloseArrow()
@@ -205,7 +205,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun AddSeveralPlannedPayments() {
+    fun AddSeveralPlannedPayments() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         //Add recurring INCOME

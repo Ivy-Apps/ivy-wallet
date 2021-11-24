@@ -100,6 +100,27 @@ abstract class IvyComposeTest {
     private fun context(): Context {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
+
+    protected fun testWithRetry(attempt: Int = 0, test: () -> Unit) {
+        try {
+            test()
+        } catch (e: AssertionError) {
+            if (attempt == 0) {
+                //reset state && retry test
+                resetApp()
+
+                composeTestRule.waitMillis(1000)
+
+                testWithRetry(
+                    attempt = attempt + 1,
+                    test = test
+                )
+            } else {
+                //propagate exception
+                throw e
+            }
+        }
+    }
 }
 
 fun ComposeTestRule.waitSeconds(secondsToWait: Long) {

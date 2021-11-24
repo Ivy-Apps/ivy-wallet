@@ -32,125 +32,133 @@ class AccountsTest : IvyComposeTest() {
 
     @Test
     fun CreateAccount() {
-        onboarding.quickOnboarding()
+        testWithRetry {
+            onboarding.quickOnboarding()
 
-        mainBottomBar.clickAccounts()
+            mainBottomBar.clickAccounts()
 
-        mainBottomBar.clickAddFAB()
-        accountModal.apply {
-            enterTitle("Revolut")
-            ivyColorPicker.chooseColor(Blue)
-            chooseIconFlow.chooseIcon("revolut")
-            clickAdd()
+            mainBottomBar.clickAddFAB()
+            accountModal.apply {
+                enterTitle("Revolut")
+                ivyColorPicker.chooseColor(Blue)
+                chooseIconFlow.chooseIcon("revolut")
+                clickAdd()
+            }
+
+            accountsTab.assertAccountBalance(
+                account = "Revolut",
+                balance = "0",
+                balanceDecimal = ".00",
+                currency = "USD"
+            )
         }
-
-        accountsTab.assertAccountBalance(
-            account = "Revolut",
-            balance = "0",
-            balanceDecimal = ".00",
-            currency = "USD"
-        )
     }
 
     @Test
     fun CreateAccount_inDifferentCurrency() {
-        onboarding.quickOnboarding()
+        testWithRetry {
+            onboarding.quickOnboarding()
 
-        mainBottomBar.clickAccounts()
+            mainBottomBar.clickAccounts()
 
-        mainBottomBar.clickAddFAB()
-        accountModal.apply {
-            enterTitle("Savings")
-            ivyColorPicker.chooseColor(Purple2)
-            chooseIconFlow.chooseIcon("atom")
+            mainBottomBar.clickAddFAB()
+            accountModal.apply {
+                enterTitle("Savings")
+                ivyColorPicker.chooseColor(Purple2)
+                chooseIconFlow.chooseIcon("atom")
 
-            chooseCurrency()
-            currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
-            currencyPicker.modalSave()
+                chooseCurrency()
+                currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
+                currencyPicker.modalSave()
 
-            clickBalance()
-            amountInput.enterNumber("5,000.25")
+                clickBalance()
+                amountInput.enterNumber("5,000.25")
 
-            clickAdd()
+                clickAdd()
+            }
+
+            accountsTab.assertAccountBalance(
+                account = "Savings",
+                balance = "5,000",
+                balanceDecimal = ".25",
+                currency = "EUR",
+                baseCurrencyEquivalent = true
+            )
         }
-
-        accountsTab.assertAccountBalance(
-            account = "Savings",
-            balance = "5,000",
-            balanceDecimal = ".25",
-            currency = "EUR",
-            baseCurrencyEquivalent = true
-        )
     }
 
     @Test
     fun DeleteAccount() {
-        onboarding.quickOnboarding()
+        testWithRetry {
+            onboarding.quickOnboarding()
 
-        mainBottomBar.clickAccounts()
+            mainBottomBar.clickAccounts()
 
-        accountsTab.addAccount(
-            name = "New Account",
-            initialBalance = "830"
-        )
+            accountsTab.addAccount(
+                name = "New Account",
+                initialBalance = "830"
+            )
 
-        accountsTab.assertAccountBalance(
-            account = "New Account",
-            balance = "830",
-            balanceDecimal = ".00",
-            currency = "USD",
-            baseCurrencyEquivalent = false
-        )
+            accountsTab.assertAccountBalance(
+                account = "New Account",
+                balance = "830",
+                balanceDecimal = ".00",
+                currency = "USD",
+                baseCurrencyEquivalent = false
+            )
 
-        accountsTab.clickAccount("New Account")
+            accountsTab.clickAccount("New Account")
 
-        itemStatisticScreen.clickDelete()
-        deleteConfirmationModal.confirmDelete()
+            itemStatisticScreen.clickDelete()
+            deleteConfirmationModal.confirmDelete()
 
-        accountsTab.assertAccountNotExists(
-            account = "New Account"
-        )
+            accountsTab.assertAccountNotExists(
+                account = "New Account"
+            )
 
-        mainBottomBar.clickHome()
-        homeTab.assertBalance(
-            amount = "0",
-            amountDecimal = ".00",
-            currency = "USD"
-        )
+            mainBottomBar.clickHome()
+            homeTab.assertBalance(
+                amount = "0",
+                amountDecimal = ".00",
+                currency = "USD"
+            )
+        }
     }
 
     @Test
     fun EditAccount() {
-        onboarding.quickOnboarding()
+        testWithRetry {
+            onboarding.quickOnboarding()
 
-        mainBottomBar.clickAccounts()
+            mainBottomBar.clickAccounts()
 
-        accountsTab.clickAccount("Bank")
-        itemStatisticScreen.clickEdit()
+            accountsTab.clickAccount("Bank")
+            itemStatisticScreen.clickEdit()
 
-        accountModal.apply {
-            enterTitle("DSK Bank")
-            ivyColorPicker.chooseColor(Purple1)
-            chooseIconFlow.chooseIcon("star")
+            accountModal.apply {
+                enterTitle("DSK Bank")
+                ivyColorPicker.chooseColor(Purple1)
+                chooseIconFlow.chooseIcon("star")
 
-            chooseCurrency()
-            currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
-            currencyPicker.modalSave()
+                chooseCurrency()
+                currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
+                currencyPicker.modalSave()
 
-            tapIncludeInBalance()
+                tapIncludeInBalance()
 
-            clickSave()
+                clickSave()
+            }
+
+            itemStatisticScreen.clickClose()
+
+            accountsTab.assertAccountBalance(
+                account = "DSK Bank",
+                balance = "0",
+                balanceDecimal = ".00",
+                currency = "BGN",
+                baseCurrencyEquivalent = true
+            )
         }
-
-        itemStatisticScreen.clickClose()
-
-        accountsTab.assertAccountBalance(
-            account = "DSK Bank",
-            balance = "0",
-            balanceDecimal = ".00",
-            currency = "BGN",
-            baseCurrencyEquivalent = true
-        )
     }
 
     /**
@@ -159,10 +167,12 @@ class AccountsTest : IvyComposeTest() {
     @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.model.entity.Settings.getCurrency()' on a null object reference")
     @Test
     fun ReorderAccounts_semiTest() {
-        onboarding.quickOnboarding()
-        mainBottomBar.clickAccounts()
+        testWithRetry {
+            onboarding.quickOnboarding()
+            mainBottomBar.clickAccounts()
 
-        accountsTab.clickReorder()
-        reorderModal.clickDone()
+            accountsTab.clickReorder()
+            reorderModal.clickDone()
+        }
     }
 }

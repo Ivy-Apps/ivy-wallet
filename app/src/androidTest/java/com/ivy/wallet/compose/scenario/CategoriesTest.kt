@@ -22,11 +22,11 @@ class CategoriesTest : IvyComposeTest() {
     private val reorderModal = ReorderModal(composeTestRule)
 
     @Test
-    fun contextLoads() {
+    fun contextLoads() = testWithRetry {
     }
 
     @Test
-    fun CreateCategory() {
+    fun CreateCategory() = testWithRetry {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickCategories()
@@ -47,7 +47,7 @@ class CategoriesTest : IvyComposeTest() {
     }
 
     @Test
-    fun AddSeveralCategories() {
+    fun AddSeveralCategories() = testWithRetry {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickCategories()
@@ -66,7 +66,7 @@ class CategoriesTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditCategory() {
+    fun EditCategory() = testWithRetry {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickCategories()
@@ -95,7 +95,7 @@ class CategoriesTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeleteCategory() {
+    fun DeleteCategory() = testWithRetry {
         onboardingFlow.onboardWith1AccountAnd1Category()
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickCategories()
@@ -117,7 +117,7 @@ class CategoriesTest : IvyComposeTest() {
      */
     @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.model.entity.Settings.getCurrency()' on a null object reference")
     @Test
-    fun ReorderCategories_semiTest() {
+    fun ReorderCategories_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickCategories()

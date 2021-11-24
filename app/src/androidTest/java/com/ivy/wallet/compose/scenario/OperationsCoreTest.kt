@@ -25,7 +25,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun OnboardAndAdjustBalance() {
+    fun OnboardAndAdjustBalance() = testWithRetry {
         onboarding.quickOnboarding()
 
         composeTestRule.onNode(hasText("To accounts"))
@@ -58,7 +58,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateIncome() {
+    fun CreateIncome() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -72,7 +72,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun AddSeveralTransactions() {
+    fun AddSeveralTransactions() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -100,7 +100,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun MakeTransfer() {
+    fun MakeTransfer() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -135,7 +135,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditTransaction() {
+    fun EditTransaction() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(
@@ -182,7 +182,7 @@ class OperationsCoreTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeleteTransaction() {
+    fun DeleteTransaction() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(

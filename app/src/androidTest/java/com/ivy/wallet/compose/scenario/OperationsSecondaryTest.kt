@@ -17,7 +17,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     private val nameModal = NameModal(composeTestRule)
 
     @Test
-    fun SetSavingsGoal() {
+    fun SetSavingsGoal() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeMoreMenu.clickOpenCloseArrow()
@@ -40,7 +40,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditSavingsGoal() {
+    fun EditSavingsGoal() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeMoreMenu.clickOpenCloseArrow()
@@ -68,7 +68,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
 
     @Ignore("performScrollTo() + click doesn't work")
     @Test
-    fun LockApp_semiTest() {
+    fun LockApp_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeMoreMenu.clickOpenCloseArrow()
@@ -79,7 +79,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     }
 
     @Test
-    fun SetName_LocalAccount() {
+    fun SetName_LocalAccount() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeTab.assertGreeting(
@@ -107,7 +107,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditName_LocalAccount() {
+    fun EditName_LocalAccount() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeTab.assertGreeting(
@@ -144,7 +144,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
 
     @Ignore("performScrollTo() + click doesn't work")
     @Test
-    fun SetStartDateOfMonth_semiTest() {
+    fun SetStartDateOfMonth_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
         homeMoreMenu.clickOpenCloseArrow()
