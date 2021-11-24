@@ -116,6 +116,15 @@ fun ComposeTestRule.waitMillis(waitMs: Long) {
     }
 }
 
+fun SemanticsNodeInteraction.performClickWithRetry(
+    composeTestRule: ComposeTestRule
+) {
+    composeTestRule.clickWithRetry(
+        node = this,
+        maxRetries = 3
+    )
+}
+
 fun ComposeTestRule.clickWithRetry(
     node: SemanticsNodeInteraction,
     retryAttempt: Int = 0,
