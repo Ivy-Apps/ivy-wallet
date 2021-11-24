@@ -91,7 +91,8 @@ fun CustomerJourneyCard(
                         }
                         .padding(8.dp), //enlarge click area
                     icon = R.drawable.ic_dismiss,
-                    tint = cardData.backgroundColor.dynamicContrast()
+                    tint = cardData.backgroundColor.dynamicContrast(),
+                    contentDescription = "prompt_dismiss",
                 )
 
                 Spacer(Modifier.width(20.dp))

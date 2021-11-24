@@ -75,6 +75,11 @@ class HomeTab<A : ComponentActivity>(
         ).assertTextEquals("$amount $currency")
     }
 
+    fun dismissPrompt() {
+        composeTestRule.onNodeWithContentDescription("prompt_dismiss")
+            .performClick()
+    }
+
     fun assertUpcomingDoesNotExist() {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",

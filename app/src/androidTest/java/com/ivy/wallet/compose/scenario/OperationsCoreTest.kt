@@ -144,6 +144,8 @@ class OperationsCoreTest : IvyComposeTest() {
             account = "Cash"
         )
 
+        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card isn't visible
+
         homeTab.clickTransaction(
             amount = "20.48",
             category = "Food & Drinks",

@@ -14,13 +14,19 @@ class OnboardingFlow<A : ComponentActivity>(
 ) {
     private val homeTab = HomeTab(composeTestRule)
 
-    fun chooseOfflineAccount() {
-        //Wait 1 second to make sure the app state is stable
-        composeTestRule.waitMillis(300)
-        composeTestRule.waitForIdle()
+    fun chooseOfflineAccount(retryAttempt: Int = 0) {
+        try {
+            composeTestRule.waitForIdle()
+            composeTestRule.onNode(hasText("Offline account"))
+                .assertExists()
+                .performClick()
+        } catch (e: AssertionError) {
+            composeTestRule.waitMillis(300)
 
-        composeTestRule.onNode(hasText("Offline account"))
-            .performClick()
+            if (retryAttempt < 5) {
+                chooseOfflineAccount(retryAttempt = retryAttempt + 1)
+            }
+        }
 
         composeTestRule.onNode(hasText("Import CSV file"))
             .assertIsDisplayed()
