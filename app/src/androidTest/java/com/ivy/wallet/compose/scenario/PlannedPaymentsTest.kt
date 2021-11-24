@@ -5,7 +5,6 @@ import androidx.compose.ui.test.performClick
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
-import com.ivy.wallet.compose.printTree
 import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.model.TransactionType
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -66,11 +65,19 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateOneTimePlanendPayment_fromFAB() {
+    fun CreateOneTimePlannedPayment_fromFAB() {
         onboardingFlow.quickOnboarding()
+
+        //Add one transaction so the "Adjust Balance" prompt can disappear and the screen to be scrollable
+        transactionFlow.addIncome(
+            amount = 100.0,
+            title = "Adjust Balance"
+        )
+
+        homeTab.dismissPrompt() //Dismiss "Add Planned Payment" prompt
+
         mainBottomBar.clickAddFAB()
         mainBottomBar.clickAddPlannedPayment()
-
         editPlannedScreen.addPlannedPayment(
             type = TransactionType.EXPENSE,
             oneTime = true,
@@ -83,7 +90,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
         )
 
         homeTab.assertBalance(
-            amount = "0",
+            amount = "100",
             amountDecimal = ".00"
         )
 
@@ -98,11 +105,9 @@ class PlannedPaymentsTest : IvyComposeTest() {
         composeTestRule.waitForIdle()
 
         homeTab.assertBalance(
-            amount = "-530",
+            amount = "-430", //-530.25 + 100.00 = -430.25
             amountDecimal = ".25"
         )
-
-        composeTestRule.printTree(useUnmergedTree = true)
     }
 
     @Test
