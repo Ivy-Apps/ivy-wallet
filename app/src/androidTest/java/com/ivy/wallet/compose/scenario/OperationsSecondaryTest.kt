@@ -1,10 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.HomeMoreMenu
-import com.ivy.wallet.compose.helpers.HomeTab
-import com.ivy.wallet.compose.helpers.OnboardingFlow
-import com.ivy.wallet.compose.helpers.SavingsGoalModal
+import com.ivy.wallet.compose.helpers.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -14,6 +11,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     private val homeTab = HomeTab(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val savingsGoalModal = SavingsGoalModal(composeTestRule)
+    private val settingsScreen = SettingsScreen(composeTestRule)
 
     @Test
     fun SetSavingsGoal() {
@@ -65,7 +63,18 @@ class OperationsSecondaryTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Lock app test
+    @Test
+    fun LockApp_semiTest() {
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickSettings()
+
+        settingsScreen.clickLockApp()
+        settingsScreen.clickLockApp()
+    }
+
+    //TODO: Test set name
 
     //TODO: Set start date of month test
 }

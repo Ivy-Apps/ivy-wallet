@@ -63,6 +63,8 @@ class SettingsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             val settings = ioThread { settingsDao.findFirst() }
 
             _nameLocalAccount.value = settings.name
@@ -79,11 +81,15 @@ class SettingsViewModel @Inject constructor(
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
 
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun sync() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _opSync.value = OpResult.loading()
 
             ioThread {
@@ -91,12 +97,16 @@ class SettingsViewModel @Inject constructor(
             }
 
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
+
+            TestIdlingResource.decrement()
         }
     }
 
 
     fun setName(newName: String) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 settingsDao.save(
                     settingsDao.findFirst().copy(
@@ -105,11 +115,15 @@ class SettingsViewModel @Inject constructor(
                 )
             }
             start()
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun setCurrency(newCurrency: String) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             ioThread {
                 settingsDao.save(
                     settingsDao.findFirst().copy(
@@ -120,6 +134,8 @@ class SettingsViewModel @Inject constructor(
                 exchangeRatesLogic.sync(baseCurrency = newCurrency)
             }
             start()
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -130,6 +146,8 @@ class SettingsViewModel @Inject constructor(
             }).csv"
         ) { fileUri ->
             viewModelScope.launch {
+                TestIdlingResource.increment()
+
                 exportCSVLogic.exportToFile(
                     context = context,
                     fileUri = fileUri
@@ -138,23 +156,33 @@ class SettingsViewModel @Inject constructor(
                 (context as IvyActivity).shareCSVFile(
                     fileUri = fileUri
                 )
+
+                TestIdlingResource.decrement()
             }
         }
     }
 
     fun setStartDateOfMonth(startDate: Int) {
         if (startDate in 1..31) {
+            TestIdlingResource.increment()
+
             ivyContext.updateStartDayOfMonthWithPersistence(
                 sharedPrefs = sharedPrefs,
                 startDayOfMonth = startDate
             )
             _startDateOfMonth.value = startDate
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun logout() {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             logoutLogic.logout()
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -162,6 +190,8 @@ class SettingsViewModel @Inject constructor(
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
                 viewModelScope.launch {
+                    TestIdlingResource.increment()
+
                     try {
                         val authResponse = restClient.authService.googleSignIn(
                             GoogleSignInRequest(
@@ -192,6 +222,8 @@ class SettingsViewModel @Inject constructor(
                         e.printStackTrace()
                         Timber.e("Settings - Login with Google failed on Ivy server - ${e.message}")
                     }
+
+                    TestIdlingResource.decrement()
                 }
             } else {
                 sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: idToken is null!!")
@@ -202,8 +234,12 @@ class SettingsViewModel @Inject constructor(
 
     fun setLockApp(lockApp: Boolean) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -213,6 +249,8 @@ class SettingsViewModel @Inject constructor(
         body: String
     ) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             try {
                 val response = restClient.githubService.openIssue(
                     request = OpenIssueRequest(
@@ -231,6 +269,8 @@ class SettingsViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 }

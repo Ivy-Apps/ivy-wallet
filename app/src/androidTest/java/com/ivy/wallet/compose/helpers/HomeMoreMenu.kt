@@ -45,4 +45,9 @@ class HomeMoreMenu<A : ComponentActivity>(
             hasTestTag("savings_goal_row")
         ).assertTextContains(amount)
     }
+
+    fun clickSettings() {
+        composeTestRule.onNodeWithText("Settings")
+            .performClick()
+    }
 }
