@@ -12,6 +12,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val savingsGoalModal = SavingsGoalModal(composeTestRule)
     private val settingsScreen = SettingsScreen(composeTestRule)
+    private val nameModal = NameModal(composeTestRule)
 
     @Test
     fun SetSavingsGoal() {
@@ -74,7 +75,69 @@ class OperationsSecondaryTest : IvyComposeTest() {
         settingsScreen.clickLockApp()
     }
 
-    //TODO: Test set name
+    @Test
+    fun SetName() {
+        onboardingFlow.quickOnboarding()
+
+        homeTab.assertGreeting(
+            greeting = "Hi"
+        )
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickSettings()
+
+        settingsScreen.assertLocalAccountName(
+            name = "Anonymous"
+        )
+        settingsScreen.clickProfileCard()
+        nameModal.apply {
+            enterName("Iliyan")
+            clickSave()
+        }
+        settingsScreen.assertLocalAccountName(name = "Iliyan")
+
+        settingsScreen.clickBack()
+
+        homeTab.assertGreeting(
+            greeting = "Hi Iliyan"
+        )
+    }
+
+    @Test
+    fun EditName() {
+        onboardingFlow.quickOnboarding()
+
+        homeTab.assertGreeting(
+            greeting = "Hi"
+        )
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickSettings()
+
+        settingsScreen.assertLocalAccountName(
+            name = "Anonymous"
+        )
+
+        settingsScreen.clickProfileCard()
+        nameModal.apply {
+            enterName("Iliyan")
+            clickSave()
+        }
+        settingsScreen.assertLocalAccountName(name = "Iliyan")
+
+        settingsScreen.clickProfileCard()
+        nameModal.apply {
+            enterName("John Doe")
+            clickSave()
+        }
+        settingsScreen.assertLocalAccountName(name = "John Doe")
+
+        settingsScreen.clickBack()
+
+        homeTab.assertGreeting(
+            greeting = "Hi John Doe"
+        )
+    }
 
     //TODO: Set start date of month test
 }

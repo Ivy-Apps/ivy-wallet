@@ -102,4 +102,11 @@ class HomeTab<A : ComponentActivity>(
             .performScrollTo()
             .performClick()
     }
+
+    fun assertGreeting(
+        greeting: String
+    ) {
+        composeTestRule.onNodeWithTag("home_greeting_text", useUnmergedTree = true)
+            .assertTextEquals(greeting)
+    }
 }

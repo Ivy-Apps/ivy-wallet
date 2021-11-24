@@ -111,7 +111,9 @@ private fun HeaderStickyRow(
 
         Box {
             Text(
-                modifier = Modifier.alpha(percentExpanded),
+                modifier = Modifier
+                    .alpha(percentExpanded)
+                    .testTag("home_greeting_text"),
                 text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
                 style = Typo.body1.style(
                     fontWeight = FontWeight.ExtraBold,

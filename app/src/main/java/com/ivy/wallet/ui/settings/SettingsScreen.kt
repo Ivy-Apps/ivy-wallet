@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -492,7 +493,8 @@ private fun AccountCard(
 
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("settings_profile_card"),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(Modifier.width(24.dp))
@@ -700,6 +702,7 @@ private fun AccountCardLocalAccount(
         Spacer(Modifier.width(12.dp))
 
         Text(
+            modifier = Modifier.testTag("local_account_name"),
             text = if (name != null && name.isNotBlank()) name else "Anonymous",
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold
