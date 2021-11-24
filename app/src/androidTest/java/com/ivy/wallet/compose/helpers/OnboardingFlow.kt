@@ -6,46 +6,41 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.compose.waitMillis
+import com.ivy.wallet.compose.clickWithRetry
 
 class OnboardingFlow<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     private val homeTab = HomeTab(composeTestRule)
 
-    fun chooseOfflineAccount(retryAttempt: Int = 0) {
-        try {
-            composeTestRule.waitForIdle()
-            composeTestRule.onNode(hasText("Offline account"))
-                .assertExists()
-                .performClick()
-        } catch (e: AssertionError) {
-            composeTestRule.waitMillis(300)
-
-            if (retryAttempt < 5) {
-                chooseOfflineAccount(retryAttempt = retryAttempt + 1)
-            }
-        }
+    fun chooseOfflineAccount() {
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("Offline account"))
+        )
     }
 
     fun clickStartFresh() {
-        composeTestRule.onNode(hasText("Start fresh"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("Start fresh"))
+        )
     }
 
     fun setCurrency() {
-        composeTestRule.onNode(hasText("Set"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("Set"))
+        )
     }
 
     fun skipAccounts() {
-        composeTestRule.onNode(hasText("Skip"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("Skip"))
+        )
     }
 
     fun skipCategories() {
-        composeTestRule.onNode(hasText("Skip"))
-            .performClick()
+        composeTestRule.clickWithRetry(
+            node = composeTestRule.onNode(hasText("Skip"))
+        )
     }
 
     fun quickOnboarding() {

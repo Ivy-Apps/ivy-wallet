@@ -3,8 +3,10 @@ package com.ivy.wallet.compose
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.test.IdlingResource
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
@@ -111,5 +113,30 @@ fun ComposeTestRule.waitMillis(waitMs: Long) {
     val startMs = timeNowUTC().toEpochMilli()
     this.waitUntil(timeoutMillis = waitMs + 5000) {
         startMs - timeNowUTC().toEpochMilli() < -waitMs
+    }
+}
+
+fun ComposeTestRule.clickWithRetry(
+    node: SemanticsNodeInteraction,
+    retryAttempt: Int = 0,
+    maxRetries: Int = 5,
+    waitBetweenRetriesMs: Long = 300,
+) {
+    try {
+        waitForIdle()
+        node
+            .assertExists()
+            .performClick()
+    } catch (e: AssertionError) {
+        waitMillis(waitBetweenRetriesMs)
+
+        if (retryAttempt < maxRetries) {
+            clickWithRetry(
+                node = node,
+                retryAttempt = retryAttempt + 1,
+                maxRetries = maxRetries,
+                waitBetweenRetriesMs = waitBetweenRetriesMs
+            )
+        }
     }
 }
