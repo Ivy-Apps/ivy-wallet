@@ -109,6 +109,7 @@ abstract class IvyComposeTest {
             if (attempt == 0) {
                 //reset state && retry test
                 resetApp()
+                TestIdlingResource.reset()
 
                 composeTestRule.waitMillis(500)
 
