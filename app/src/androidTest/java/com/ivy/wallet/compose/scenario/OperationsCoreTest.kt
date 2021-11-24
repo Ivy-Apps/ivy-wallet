@@ -144,7 +144,7 @@ class OperationsCoreTest : IvyComposeTest() {
             account = "Cash"
         )
 
-        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card isn't visible
+        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card can't be clicked
 
         homeTab.clickTransaction(
             amount = "20.48",
@@ -196,11 +196,14 @@ class OperationsCoreTest : IvyComposeTest() {
             amountDecimal = ".75"
         )
 
+        homeTab.dismissPrompt() //dismiss planned payments prompt because transaction card can't be clicked
+
         homeTab.clickTransaction(
             amount = "249.75",
             title = "Food",
             category = "Groceries"
         )
+
         editTransactionScreen.clickDelete()
         deleteConfirmationModal.confirmDelete()
 
