@@ -1,13 +1,13 @@
 package com.ivy.wallet.compose.scenario
 
 import android.icu.util.Currency
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Purple1
 import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
@@ -22,6 +22,8 @@ class AccountsTest : IvyComposeTest() {
     private val accountsTab = AccountsTab(composeTestRule)
     private val editTransactionScreen = EditTransactionScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
+    private val reorderModal = ReorderModal(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
 
     @Test
@@ -29,7 +31,7 @@ class AccountsTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateAccount() {
+    fun CreateAccount() = testWithRetry {
         onboarding.quickOnboarding()
 
         mainBottomBar.clickAccounts()
@@ -51,7 +53,7 @@ class AccountsTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateAccount_inDifferentCurrency() {
+    fun CreateAccount_inDifferentCurrency() = testWithRetry {
         onboarding.quickOnboarding()
 
         mainBottomBar.clickAccounts()
@@ -64,6 +66,7 @@ class AccountsTest : IvyComposeTest() {
 
             chooseCurrency()
             currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
+            currencyPicker.modalSave()
 
             clickBalance()
             amountInput.enterNumber("5,000.25")
@@ -81,7 +84,7 @@ class AccountsTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeleteAccount() {
+    fun DeleteAccount() = testWithRetry {
         onboarding.quickOnboarding()
 
         mainBottomBar.clickAccounts()
@@ -102,7 +105,7 @@ class AccountsTest : IvyComposeTest() {
         accountsTab.clickAccount("New Account")
 
         itemStatisticScreen.clickDelete()
-        composeTestRule.onNodeWithText("Delete").performClick()
+        deleteConfirmationModal.confirmDelete()
 
         accountsTab.assertAccountNotExists(
             account = "New Account"
@@ -116,5 +119,50 @@ class AccountsTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Reorder accounts
+    @Test
+    fun EditAccount() = testWithRetry {
+        onboarding.quickOnboarding()
+
+        mainBottomBar.clickAccounts()
+
+        accountsTab.clickAccount("Bank")
+        itemStatisticScreen.clickEdit()
+
+        accountModal.apply {
+            enterTitle("DSK Bank")
+            ivyColorPicker.chooseColor(Purple1)
+            chooseIconFlow.chooseIcon("star")
+
+            chooseCurrency()
+            currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
+            currencyPicker.modalSave()
+
+            tapIncludeInBalance()
+
+            clickSave()
+        }
+
+        itemStatisticScreen.clickClose()
+
+        accountsTab.assertAccountBalance(
+            account = "DSK Bank",
+            balance = "0",
+            balanceDecimal = ".00",
+            currency = "BGN",
+            baseCurrencyEquivalent = true
+        )
+    }
+
+    /**
+     * semiTest because no actual reordering is being gone
+     */
+    @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.model.entity.Settings.getCurrency()' on a null object reference")
+    @Test
+    fun ReorderAccounts_semiTest() = testWithRetry {
+        onboarding.quickOnboarding()
+        mainBottomBar.clickAccounts()
+
+        accountsTab.clickReorder()
+        reorderModal.clickDone()
+    }
 }

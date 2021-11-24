@@ -155,13 +155,14 @@ private fun BoxWithConstraintsScope.UI(
         )
     }
     val titleFocus = FocusRequester()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -188,6 +189,7 @@ private fun BoxWithConstraintsScope.UI(
                 titleTextFieldValue = it
             },
             suggestions = titleSuggestions,
+            scrollState = scrollState,
 
             onTitleChanged = onTitleChanged,
             onNext = {

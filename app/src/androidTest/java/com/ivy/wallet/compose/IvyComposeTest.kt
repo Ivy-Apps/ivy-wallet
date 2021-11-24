@@ -3,16 +3,15 @@ package com.ivy.wallet.compose
 import android.content.Context
 import android.util.Log
 import androidx.compose.ui.test.IdlingResource
+import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.TestingContext
-import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.base.toEpochSeconds
+import com.ivy.wallet.base.*
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.session.IvySession
@@ -24,6 +23,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
+
 
 @HiltAndroidTest
 abstract class IvyComposeTest {
@@ -101,11 +101,78 @@ abstract class IvyComposeTest {
     private fun context(): Context {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
+
+    protected fun testWithRetry(attempt: Int = 0, test: () -> Unit) {
+        try {
+            test()
+        } catch (e: AssertionError) {
+            if (attempt == 0) {
+                //reset state && retry test
+                resetApp()
+
+                composeTestRule.waitMillis(500)
+
+                //Restart IvyActivity
+                val intent = composeTestRule.activity.intent
+                composeTestRule.activity.finish()
+                composeTestRule.activity.startActivity(intent)
+
+                composeTestRule.waitMillis(500)
+
+                testWithRetry(
+                    attempt = attempt + 1,
+                    test = test
+                )
+            } else {
+                //propagate exception
+                throw e
+            }
+        }
+    }
 }
 
 fun ComposeTestRule.waitSeconds(secondsToWait: Long) {
     val secondsStart = timeNowUTC().toEpochSeconds()
     this.waitUntil(timeoutMillis = (secondsToWait + 5) * 1000) {
         secondsStart - timeNowUTC().toEpochSeconds() < -secondsToWait
+    }
+}
+
+fun ComposeTestRule.waitMillis(waitMs: Long) {
+    val startMs = timeNowUTC().toEpochMilli()
+    this.waitUntil(timeoutMillis = waitMs + 5000) {
+        startMs - timeNowUTC().toEpochMilli() < -waitMs
+    }
+}
+
+fun SemanticsNodeInteraction.performClickWithRetry(
+    composeTestRule: ComposeTestRule
+) {
+    composeTestRule.clickWithRetry(
+        node = this,
+        maxRetries = 3
+    )
+}
+
+fun ComposeTestRule.clickWithRetry(
+    node: SemanticsNodeInteraction,
+    retryAttempt: Int = 0,
+    maxRetries: Int = 15,
+    waitBetweenRetriesMs: Long = 100,
+) {
+    try {
+        node.assertExists()
+            .performClick()
+    } catch (e: AssertionError) {
+        if (retryAttempt < maxRetries) {
+            waitMillis(waitBetweenRetriesMs)
+
+            clickWithRetry(
+                node = node,
+                retryAttempt = retryAttempt + 1,
+                maxRetries = maxRetries,
+                waitBetweenRetriesMs = waitBetweenRetriesMs
+            )
+        }
     }
 }

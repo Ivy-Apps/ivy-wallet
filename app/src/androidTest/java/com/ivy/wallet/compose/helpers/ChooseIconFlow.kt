@@ -3,7 +3,6 @@ package com.ivy.wallet.compose.helpers
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -20,7 +19,7 @@ class ChooseIconFlow<A : ComponentActivity>(
             .performScrollTo()
             .performClick()
 
-        composeTestRule.onNodeWithText("Save")
+        composeTestRule.onNodeWithTag("choose_icon_save")
             .performClick()
     }
 }

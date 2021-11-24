@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.edit.core
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -9,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -25,6 +27,7 @@ import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.ui.theme.style
+import kotlinx.coroutines.launch
 import java.util.*
 
 const val SUGGESTIONS_LIMIT = 10
@@ -38,6 +41,7 @@ fun ColumnScope.Title(
     titleTextFieldValue: TextFieldValue,
     setTitleTextFieldValue: (TextFieldValue) -> Unit,
     suggestions: Set<String>,
+    scrollState: ScrollState? = null,
 
     onTitleChanged: (String?) -> Unit,
     onNext: () -> Unit,
@@ -70,6 +74,7 @@ fun ColumnScope.Title(
         onTitleChanged(it.text)
     }
 
+    val coroutineScope = rememberCoroutineScope()
     Suggestions(
         suggestions = suggestions,
         initialTransactionId = initialTransactionId,
@@ -77,6 +82,10 @@ fun ColumnScope.Title(
     ) { suggestion ->
         setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
         onTitleChanged(suggestion)
+
+        coroutineScope.launch {
+            scrollState?.animateScrollTo(0)
+        }
     }
 }
 

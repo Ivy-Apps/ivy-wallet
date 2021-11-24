@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -169,7 +170,8 @@ fun BoxWithConstraintsScope.MoreMenu(
             .rotate(iconRotation)
             .thenIf(expanded) {
                 zIndex(520f)
-            },
+            }
+            .testTag("home_more_menu_arrow"),
         backgroundColor = colorLerp(IvyTheme.colors.medium, IvyTheme.colors.pure, percentExpanded),
         icon = R.drawable.ic_expandarrow
     ) {
@@ -284,7 +286,8 @@ private fun ColumnScope.Buffer(
             .fillMaxWidth()
             .clickableNoIndication {
                 onBufferClick()
-            },
+            }
+            .testTag("savings_goal_row"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))

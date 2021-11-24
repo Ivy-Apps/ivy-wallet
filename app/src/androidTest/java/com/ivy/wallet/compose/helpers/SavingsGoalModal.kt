@@ -1,30 +1,28 @@
 package com.ivy.wallet.compose.helpers
 
-import android.icu.util.Currency
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
-class CurrencyPicker<A : ComponentActivity>(
+class SavingsGoalModal<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
+    private val amountInput = AmountInput(composeTestRule)
 
-    fun searchAndSelect(
-        currency: Currency,
+    fun enterAmount(
+        amount: String
     ) {
-        composeTestRule.onNodeWithTag("search_input")
-            .performTextInput(currency.currencyCode)
-
-        composeTestRule.onNodeWithText(currency.displayName)
+        composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
+
+        amountInput.enterNumber(amount)
     }
 
-    fun modalSave() {
-        composeTestRule.onNodeWithTag("set_currency_save")
+    fun clickSave() {
+        composeTestRule.onNodeWithText("Save")
             .performClick()
     }
 }
