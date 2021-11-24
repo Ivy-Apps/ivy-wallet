@@ -1,8 +1,6 @@
 package com.ivy.wallet.ui.home
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +21,6 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.springBounce
 import com.ivy.wallet.base.verticalSwipeListener
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.model.IvyCurrency
@@ -40,6 +37,8 @@ import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
+
+private const val SWIPE_HORIZONTAL_THRESHOLD = 250
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
@@ -175,8 +174,7 @@ private fun BoxWithConstraintsScope.UI(
         mutableStateOf(null)
     }
     var expanded by remember { mutableStateOf(false) }
-
-    val showHideBalanceRow = remember { mutableStateOf(false) }
+    val hideBalanceRowState = remember { mutableStateOf(false) }
 
     val ivyContext = LocalIvyContext.current
 
@@ -192,7 +190,7 @@ private fun BoxWithConstraintsScope.UI(
                 }
             )
             .horizontalSwipeListener(
-                sensitivity = Constants.SWIPE_HORIZONTAL_THRESHOLD,
+                sensitivity = SWIPE_HORIZONTAL_THRESHOLD,
                 onSwipeLeft = {
                     ivyContext.selectMainTab(MainTab.ACCOUNTS)
                 },
@@ -209,7 +207,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeHeader(
-            expanded = !showHideBalanceRow.value,
+            expanded = !hideBalanceRowState.value,
             name = name,
             period = period,
             currency = currencyCode,
@@ -229,7 +227,7 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         HomeTransactionsLazyColumn(
-            showHideBalanceRow = showHideBalanceRow,
+            hideBalanceRowState = hideBalanceRowState,
             currency = currencyCode,
             balance = balance,
             bufferDiff = bufferDiff,
@@ -324,7 +322,7 @@ private fun BoxWithConstraintsScope.UI(
 @ExperimentalAnimationApi
 @Composable
 fun HomeTransactionsLazyColumn(
-    showHideBalanceRow: MutableState<Boolean>,
+    hideBalanceRowState: MutableState<Boolean>,
     currency: String,
     balance: Double,
     bufferDiff: Double,
@@ -373,10 +371,10 @@ fun HomeTransactionsLazyColumn(
             ): Offset {
                 if (listState.firstVisibleItemIndex == 0) {
                     //To prevent unnecessary updates
-                    if (listState.firstVisibleItemScrollOffset >= 150 && !showHideBalanceRow.value) {
-                        showHideBalanceRow.value = true
-                    } else if (listState.firstVisibleItemScrollOffset < 150 && showHideBalanceRow.value) {
-                        showHideBalanceRow.value = false
+                    if (listState.firstVisibleItemScrollOffset >= 150 && !hideBalanceRowState.value) {
+                        hideBalanceRowState.value = true
+                    } else if (listState.firstVisibleItemScrollOffset < 150 && hideBalanceRowState.value) {
+                        hideBalanceRowState.value = false
                     }
                 }
                 return super.onPostScroll(consumed, available, source)
