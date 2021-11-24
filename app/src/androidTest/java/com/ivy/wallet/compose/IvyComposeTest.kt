@@ -119,18 +119,16 @@ fun ComposeTestRule.waitMillis(waitMs: Long) {
 fun ComposeTestRule.clickWithRetry(
     node: SemanticsNodeInteraction,
     retryAttempt: Int = 0,
-    maxRetries: Int = 5,
-    waitBetweenRetriesMs: Long = 300,
+    maxRetries: Int = 15,
+    waitBetweenRetriesMs: Long = 100,
 ) {
     try {
-        waitForIdle()
-        node
-            .assertExists()
+        node.assertExists()
             .performClick()
     } catch (e: AssertionError) {
-        waitMillis(waitBetweenRetriesMs)
-
         if (retryAttempt < maxRetries) {
+            waitMillis(waitBetweenRetriesMs)
+
             clickWithRetry(
                 node = node,
                 retryAttempt = retryAttempt + 1,
