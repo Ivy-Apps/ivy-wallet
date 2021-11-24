@@ -34,4 +34,12 @@ class SettingsScreen<A : ComponentActivity>(
         composeTestRule.onNodeWithTag("toolbar_back")
             .performClick()
     }
+
+    fun clickStartDateOfMonth() {
+        composeTestRule.waitForIdle()
+
+        composeTestRule.onNodeWithText("Start date of month")
+            .performScrollTo()
+            .performClick()
+    }
 }

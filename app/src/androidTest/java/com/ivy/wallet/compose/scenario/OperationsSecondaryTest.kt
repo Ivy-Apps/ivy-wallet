@@ -2,7 +2,9 @@ package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.waitSeconds
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
@@ -64,6 +66,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
         )
     }
 
+    @Ignore("performScrollTo() + click doesn't work")
     @Test
     fun LockApp_semiTest() {
         onboardingFlow.quickOnboarding()
@@ -76,7 +79,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     }
 
     @Test
-    fun SetName() {
+    fun SetName_LocalAccount() {
         onboardingFlow.quickOnboarding()
 
         homeTab.assertGreeting(
@@ -104,7 +107,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditName() {
+    fun EditName_LocalAccount() {
         onboardingFlow.quickOnboarding()
 
         homeTab.assertGreeting(
@@ -139,5 +142,17 @@ class OperationsSecondaryTest : IvyComposeTest() {
         )
     }
 
-    //TODO: Set start date of month test
+    @Ignore("performScrollTo() + click doesn't work")
+    @Test
+    fun SetStartDateOfMonth_semiTest() {
+        onboardingFlow.quickOnboarding()
+
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickSettings()
+
+        //TODO: Fix test scroll + click doesn't work
+
+        settingsScreen.clickStartDateOfMonth()
+        composeTestRule.waitSeconds(5)
+    }
 }
