@@ -1,13 +1,85 @@
 package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.base.getDefaultFIATCurrency
+import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.logic.LoanCreator
+import com.ivy.wallet.logic.model.CreateLoanData
+import com.ivy.wallet.model.entity.Loan
+import com.ivy.wallet.persistence.dao.LoanDao
+import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.sync.item.LoanSync
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoanViewModel @Inject constructor() : ViewModel() {
+class LoanViewModel @Inject constructor(
+    private val loanDao: LoanDao,
+    private val settingsDao: SettingsDao,
+    private val loanSync: LoanSync,
+    private val loanCreator: LoanCreator
+) : ViewModel() {
+
+    private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
+    val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
+
+    private val _loans = MutableStateFlow(emptyList<Loan>())
+    val loans = _loans.asStateFlow()
 
     fun start() {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
 
+            _baseCurrencyCode.value = ioThread {
+                settingsDao.findFirst().currency
+            }
+
+            _loans.value = ioThread {
+                loanDao.findAll()
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun createLoan(data: CreateLoanData) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            loanCreator.create(data) {
+                start()
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun reorder(newOrder: List<Loan>) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            ioThread {
+                newOrder.forEachIndexed { index, item ->
+                    loanDao.save(
+                        item.copy(
+                            orderNum = index.toDouble(),
+                            isSynced = false
+                        )
+                    )
+                }
+            }
+            start()
+
+            ioThread {
+                loanSync.sync()
+            }
+
+            TestIdlingResource.decrement()
+        }
     }
 }

@@ -31,7 +31,7 @@ import java.util.*
 
 @Suppress("UNCHECKED_CAST")
 @Composable
-fun <T : Reorderable> BoxScope.ReorderViewSingleType(
+fun <T : Reorderable> BoxScope.ReorderModalSingleType(
     visible: Boolean,
     id: UUID = UUID.randomUUID(),
     TitleContent: @Composable ColumnScope.() -> Unit = {
@@ -50,7 +50,7 @@ fun <T : Reorderable> BoxScope.ReorderViewSingleType(
     onReordered: ((List<T>) -> Unit)? = null,
     ItemContent: @Composable (Int, T) -> Unit
 ) {
-    ReorderView<T>(
+    ReorderModal<T>(
         visible = visible,
         id = id,
         initialItems = initialItems,
@@ -71,7 +71,7 @@ fun <T : Reorderable> BoxScope.ReorderViewSingleType(
 }
 
 @Composable
-fun <T : Reorderable> BoxScope.ReorderView(
+fun <T : Reorderable> BoxScope.ReorderModal(
     visible: Boolean,
     id: UUID = UUID.randomUUID(),
     TitleContent: @Composable ColumnScope.() -> Unit = {
