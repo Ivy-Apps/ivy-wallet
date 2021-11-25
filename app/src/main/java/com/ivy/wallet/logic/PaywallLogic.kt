@@ -67,6 +67,7 @@ class PaywallLogic(
         addCategory: Boolean = false,
         addBudget: Boolean = false,
         action: suspend () -> Unit
+    //TODO: Handle loan
     ) {
         val paywallReason = checkPaywall {
             paywallHitAddItem(
