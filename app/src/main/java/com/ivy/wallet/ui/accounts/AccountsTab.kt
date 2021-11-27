@@ -161,7 +161,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp)) //scroll hack
     }
 
-    ReorderViewSingleType(
+    ReorderModalSingleType(
         visible = reorderVisible,
         initialItems = accounts,
         dismiss = {

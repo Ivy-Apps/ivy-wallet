@@ -9,14 +9,19 @@ class IvySync(
     private val budgetSync: BudgetSync,
     private val transactionSync: TransactionSync,
     private val plannedPaymentSync: PlannedPaymentSync,
+    private val loanSync: LoanSync,
+    private val loanRecordSync: LoanRecordSync,
     private val ivySession: IvySession
 ) {
-    fun isSynced(): Boolean =
-        accountSync.isSynced() &&
-            categorySync.isSynced() &&
-            transactionSync.isSynced() &&
-            plannedPaymentSync.isSynced() &&
-            budgetSync.isSynced()
+    fun isSynced(): Boolean {
+        return accountSync.isSynced() &&
+                categorySync.isSynced() &&
+                transactionSync.isSynced() &&
+                plannedPaymentSync.isSynced() &&
+                budgetSync.isSynced() &&
+                loanSync.isSynced() &&
+                loanRecordSync.isSynced()
+    }
 
     suspend fun sync() {
         if (ivySession.isLoggedIn()) {
@@ -25,6 +30,8 @@ class IvySync(
             transactionSync.sync()
             plannedPaymentSync.sync()
             budgetSync.sync()
+            loanSync.sync()
+            loanRecordSync.sync()
         }
     }
 

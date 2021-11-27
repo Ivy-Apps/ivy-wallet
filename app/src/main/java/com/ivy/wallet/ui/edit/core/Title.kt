@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.base.keyboardVisibleState
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.ui.theme.IvyComponentPreview
@@ -77,13 +79,12 @@ fun ColumnScope.Title(
     val coroutineScope = rememberCoroutineScope()
     Suggestions(
         suggestions = suggestions,
-        initialTransactionId = initialTransactionId,
-        type = type,
     ) { suggestion ->
         setTitleTextFieldValue(selectEndTextFieldValue(suggestion))
         onTitleChanged(suggestion)
 
         coroutineScope.launch {
+            //scroll to top for better UX
             scrollState?.animateScrollTo(0)
         }
     }
@@ -92,18 +93,15 @@ fun ColumnScope.Title(
 @Composable
 private fun Suggestions(
     suggestions: Set<String>,
-    initialTransactionId: UUID?,
-    type: TransactionType,
     onClick: (String) -> Unit
 ) {
-    //Display title suggestions only when new transaction is being created
-    if (
-        initialTransactionId == null && suggestions.isNotEmpty() &&
-        type != TransactionType.TRANSFER
-    ) {
-        for (suggestion in suggestions.take(SUGGESTIONS_LIMIT)) {
-            Suggestion(suggestion = suggestion) {
-                onClick(suggestion)
+    val keyboardVisible by keyboardVisibleState()
+    if (keyboardVisible) {
+        if (suggestions.isNotEmpty()) {
+            for (suggestion in suggestions.take(SUGGESTIONS_LIMIT)) {
+                Suggestion(suggestion = suggestion) {
+                    onClick(suggestion)
+                }
             }
         }
     }

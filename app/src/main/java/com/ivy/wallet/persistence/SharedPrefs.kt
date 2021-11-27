@@ -20,6 +20,8 @@ class SharedPrefs(appContext: Context) {
         //Sync
         const val LAST_SYNC_DATE_CATEGORIES = "last_sync_date_categories"
         const val LAST_SYNC_DATE_BUDGETS = "last_sync_date_budgets"
+        const val LAST_SYNC_DATE_LOANS = "last_sync_date_loans"
+        const val LAST_SYNC_DATE_LOAN_RECORDS = "last_sync_date_loan_records"
         const val LAST_SYNC_DATE_ACCOUNTS = "last_sync_date_accounts"
         const val LAST_SYNC_DATE_TRANSACTIONS = "last_sync_date_transactions"
         const val LAST_SYNC_DATE_PLANNED_PAYMENTS = "last_sync_date_planned_payments"

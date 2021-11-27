@@ -116,6 +116,12 @@ object AppModule {
     fun provideSettingsDao(db: IvyRoomDatabase): SettingsDao = db.settingsDao()
 
     @Provides
+    fun provideLoanDao(db: IvyRoomDatabase): LoanDao = db.loanDao()
+
+    @Provides
+    fun provideLoanRecordDao(db: IvyRoomDatabase): LoanRecordDao = db.loanRecordDao()
+
+    @Provides
     fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao =
         db.plannedPaymentRuleDao()
 
@@ -227,6 +233,32 @@ object AppModule {
     }
 
     @Provides
+    fun provideLoanUploader(
+        loanDao: LoanDao,
+        restClient: RestClient,
+        ivySession: IvySession
+    ): LoanUploader {
+        return LoanUploader(
+            dao = loanDao,
+            restClient = restClient,
+            ivySession = ivySession
+        )
+    }
+
+    @Provides
+    fun provideLoanRecordUploader(
+        dao: LoanRecordDao,
+        restClient: RestClient,
+        ivySession: IvySession
+    ): LoanRecordUploader {
+        return LoanRecordUploader(
+            dao = dao,
+            restClient = restClient,
+            ivySession = ivySession
+        )
+    }
+
+    @Provides
     fun provideCategorySync(
         sharedPrefs: SharedPrefs,
         categoryDao: CategoryDao,
@@ -256,6 +288,40 @@ object AppModule {
             dao = budgetDao,
             restClient = restClient,
             uploader = budgetUploader,
+            ivySession = ivySession
+        )
+    }
+
+    @Provides
+    fun provideLoanSync(
+        sharedPrefs: SharedPrefs,
+        dao: LoanDao,
+        restClient: RestClient,
+        loanUploader: LoanUploader,
+        ivySession: IvySession
+    ): LoanSync {
+        return LoanSync(
+            sharedPrefs = sharedPrefs,
+            dao = dao,
+            restClient = restClient,
+            uploader = loanUploader,
+            ivySession = ivySession
+        )
+    }
+
+    @Provides
+    fun provideLoanRecordSync(
+        sharedPrefs: SharedPrefs,
+        dao: LoanRecordDao,
+        restClient: RestClient,
+        uploader: LoanRecordUploader,
+        ivySession: IvySession
+    ): LoanRecordSync {
+        return LoanRecordSync(
+            sharedPrefs = sharedPrefs,
+            dao = dao,
+            restClient = restClient,
+            uploader = uploader,
             ivySession = ivySession
         )
     }
@@ -328,6 +394,8 @@ object AppModule {
         transactionSync: TransactionSync,
         plannedPaymentSync: PlannedPaymentSync,
         budgetSync: BudgetSync,
+        loanSync: LoanSync,
+        loanRecordSync: LoanRecordSync,
         ivySession: IvySession
     ): IvySync {
         return IvySync(
@@ -336,6 +404,8 @@ object AppModule {
             transactionSync = transactionSync,
             plannedPaymentSync = plannedPaymentSync,
             budgetSync = budgetSync,
+            loanSync = loanSync,
+            loanRecordSync = loanRecordSync,
             ivySession = ivySession
         )
     }
@@ -515,6 +585,19 @@ object AppModule {
             paywallLogic = paywallLogic,
             budgetDao = budgetDao,
             budgetUploader = budgetUploader
+        )
+    }
+
+    @Provides
+    fun provideLoanCreator(
+        paywallLogic: PaywallLogic,
+        dao: LoanDao,
+        uploader: LoanUploader
+    ): LoanCreator {
+        return LoanCreator(
+            paywallLogic = paywallLogic,
+            dao = dao,
+            uploader = uploader
         )
     }
 

@@ -16,8 +16,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
@@ -181,8 +180,7 @@ private fun BoxWithConstraintsScope.UI(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
+            .systemBarsPadding()
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
                 onSwipeDown = {
@@ -226,7 +224,7 @@ private fun BoxWithConstraintsScope.UI(
             onSelectPreviousMonth = onSelectPreviousMonth
         )
 
-        HomeTransactionsLazyColumn(
+        HomeLazyColumn(
             hideBalanceRowState = hideBalanceRowState,
             currency = currencyCode,
             balance = balance,
@@ -321,7 +319,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @ExperimentalAnimationApi
 @Composable
-fun HomeTransactionsLazyColumn(
+fun HomeLazyColumn(
     hideBalanceRowState: MutableState<Boolean>,
     currency: String,
     balance: Double,
@@ -388,7 +386,6 @@ fun HomeTransactionsLazyColumn(
             .nestedScroll(nestedScrollConnection),
         state = listState
     ) {
-
         item {
             CashFlowInfo(
                 period = period,
