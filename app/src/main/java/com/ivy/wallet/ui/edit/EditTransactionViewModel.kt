@@ -195,8 +195,6 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun updateTitleSuggestions(title: String? = loadedTransaction().title) {
-        if (editMode) return //title suggestions should not be display for Edit mode
-
         viewModelScope.launch {
             TestIdlingResource.increment()
 
