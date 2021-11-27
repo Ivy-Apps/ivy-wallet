@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
@@ -80,9 +79,7 @@ internal fun HomeHeader(
     if (percentExpanded < 0.5f) {
         TransactionsDividerLine(
             modifier = Modifier.alpha(1f - percentExpanded),
-            paddingHorizontal = lerp(
-                24.dp, 0.dp, (1f - percentExpanded).coerceIn(0f, 1f)
-            )
+            paddingHorizontal = 0.dp
         )
     }
 }
@@ -134,7 +131,6 @@ private fun HeaderStickyRow(
                     shortenBigNumbers = true
                 )
             }
-
         }
 
         Spacer(Modifier.weight(1f))
