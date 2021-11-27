@@ -5,6 +5,7 @@ import com.ivy.wallet.base.epochMilliToDateTime
 import com.ivy.wallet.base.toEpochMilli
 import com.ivy.wallet.model.AuthProviderType
 import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.ui.theme.Theme
 import java.time.LocalDateTime
@@ -48,4 +49,10 @@ class RoomTypeConverters {
     @TypeConverter
     fun parseRecurringIntervalType(value: String?) =
         value?.let { IntervalType.valueOf(it) }
+
+    @TypeConverter
+    fun saveLoanType(value: LoanType?) = value?.name
+
+    @TypeConverter
+    fun parseLoanType(value: String?) = value?.let { LoanType.valueOf(it) }
 }

@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -13,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +33,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 val FAB_BUTTON_SIZE = 56.dp
@@ -126,7 +130,7 @@ fun BoxWithConstraintsScope.BottomBar(
     // ------------------------------------ BUTTONS--------------------------------------------------
     val fabStartX = ivyContext.screenWidth / 2 - FAB_BUTTON_SIZE.toDensityPx() / 2
     val fabStartY = ivyContext.screenHeight - navigationBarInset() -
-        30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
+            30.dp.toDensityPx() - FAB_BUTTON_SIZE.toDensityPx()
 
     TransactionButtons(
         buttonsShownPercent = buttonsShownPercent,
@@ -140,6 +144,9 @@ fun BoxWithConstraintsScope.BottomBar(
         onAddPlannedPayment = onAddPlannedPayment
     )
 
+    var dragOffset by remember {
+        mutableStateOf(Offset.Zero)
+    }
     //+ & x button
     IvyCircleButton(
         modifier = Modifier
@@ -155,6 +162,45 @@ fun BoxWithConstraintsScope.BottomBar(
             .size(FAB_BUTTON_SIZE)
             .rotate(fabRotation)
             .zIndex(200f)
+            .thenIf(tab == MainTab.HOME) {
+                pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragCancel = {
+                            dragOffset = Offset.Zero
+                        },
+                        onDragEnd = {
+                            dragOffset = Offset.Zero
+                        },
+                        onDrag = { _, dragAmount ->
+                            dragOffset += dragAmount
+
+                            val horizontalThreshold = 40
+                            val verticalThreshold = 60
+
+                            when {
+                                abs(dragOffset.x) < horizontalThreshold &&
+                                        dragOffset.y < -verticalThreshold -> {
+                                    //swipe up
+                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    onAddExpense()
+                                }
+                                dragOffset.x < -horizontalThreshold &&
+                                        dragOffset.y < -verticalThreshold -> {
+                                    //swipe up left
+                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    onAddIncome()
+                                }
+                                dragOffset.x > horizontalThreshold &&
+                                        dragOffset.y < -verticalThreshold -> {
+                                    //swipe up right
+                                    dragOffset = Offset.Zero //prevent double open of the screen
+                                    onAddTransfer()
+                                }
+                            }
+                        }
+                    )
+                }
+            }
             .testTag("fab_add"),
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,

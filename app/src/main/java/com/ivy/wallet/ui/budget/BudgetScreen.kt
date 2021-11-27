@@ -14,8 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
@@ -36,7 +35,7 @@ import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
-import com.ivy.wallet.ui.theme.components.ReorderViewSingleType
+import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.style
@@ -89,79 +88,26 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteBudget: (Budget) -> Unit = {},
     onReorder: (List<DisplayBudget>) -> Unit = {}
 ) {
-    var reorderVisible by remember { mutableStateOf(false) }
+    var reorderModalVisible by remember { mutableStateOf(false) }
     var budgetModalData: BudgetModalData? by remember { mutableStateOf(null) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
+            .systemBarsPadding()
             .verticalScroll(rememberScrollState()),
     ) {
         Spacer(Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 24.dp, end = 16.dp)
-            ) {
-                Text(
-                    text = "Budgets",
-                    style = Typo.h2.style(
-                        color = IvyTheme.colors.pureInverse,
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                )
-
-                if (timeRange != null) {
-                    Spacer(Modifier.height(4.dp))
-
-                    Text(
-                        text = timeRange.toDisplay(),
-                        style = Typo.body2.style(
-                            color = IvyTheme.colors.pureInverse,
-                            fontWeight = FontWeight.Medium
-                        )
-                    )
-                }
-
-                if (categoryBudgetsTotal > 0 || appBudgetMax > 0) {
-                    Spacer(Modifier.height(4.dp))
-
-                    val categoryBudgetText = if (categoryBudgetsTotal > 0) {
-                        "${categoryBudgetsTotal.format(baseCurrency)} $baseCurrency for categories"
-                    } else ""
-
-                    val appBudgetMaxText = if (appBudgetMax > 0) {
-                        "${appBudgetMax.format(baseCurrency)} $baseCurrency app budget"
-                    } else ""
-
-                    val hasBothBudgetTypes =
-                        categoryBudgetText.isNotBlank() && appBudgetMaxText.isNotBlank()
-                    Text(
-                        modifier = Modifier.testTag("budgets_info_text"),
-                        text = if (hasBothBudgetTypes)
-                            "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
-                        style = Typo.numberCaption.style(
-                            color = Gray,
-                            fontWeight = FontWeight.ExtraBold
-                        )
-                    )
-                }
-
+        Toolbar(
+            timeRange = timeRange,
+            baseCurrency = baseCurrency,
+            appBudgetMax = appBudgetMax,
+            categoryBudgetsTotal = categoryBudgetsTotal,
+            setReorderModalVisible = {
+                reorderModalVisible = it
             }
-
-            ReorderButton {
-                reorderVisible = true
-            }
-
-            Spacer(Modifier.width(24.dp))
-        }
+        )
 
         Spacer(Modifier.height(8.dp))
 
@@ -195,7 +141,6 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         Spacer(Modifier.height(150.dp))  //scroll hack
-
     }
 
     val ivyContext = LocalIvyContext.current
@@ -213,11 +158,11 @@ private fun BoxWithConstraintsScope.UI(
         },
     )
 
-    ReorderViewSingleType(
-        visible = reorderVisible,
+    ReorderModalSingleType(
+        visible = reorderModalVisible,
         initialItems = displayBudgets,
         dismiss = {
-            reorderVisible = false
+            reorderModalVisible = false
         },
         onReordered = onReorder
     ) { _, item ->
@@ -243,7 +188,78 @@ private fun BoxWithConstraintsScope.UI(
             budgetModalData = null
         }
     )
+}
 
+@Composable
+private fun Toolbar(
+    timeRange: FromToTimeRange?,
+    baseCurrency: String,
+    appBudgetMax: Double,
+    categoryBudgetsTotal: Double,
+
+    setReorderModalVisible: (Boolean) -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 24.dp, end = 16.dp)
+        ) {
+            Text(
+                text = "Budgets",
+                style = Typo.h2.style(
+                    color = IvyTheme.colors.pureInverse,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+            if (timeRange != null) {
+                Spacer(Modifier.height(4.dp))
+
+                Text(
+                    text = timeRange.toDisplay(),
+                    style = Typo.body2.style(
+                        color = IvyTheme.colors.pureInverse,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
+
+            if (categoryBudgetsTotal > 0 || appBudgetMax > 0) {
+                Spacer(Modifier.height(4.dp))
+
+                val categoryBudgetText = if (categoryBudgetsTotal > 0) {
+                    "${categoryBudgetsTotal.format(baseCurrency)} $baseCurrency for categories"
+                } else ""
+
+                val appBudgetMaxText = if (appBudgetMax > 0) {
+                    "${appBudgetMax.format(baseCurrency)} $baseCurrency app budget"
+                } else ""
+
+                val hasBothBudgetTypes =
+                    categoryBudgetText.isNotBlank() && appBudgetMaxText.isNotBlank()
+                Text(
+                    modifier = Modifier.testTag("budgets_info_text"),
+                    text = if (hasBothBudgetTypes)
+                        "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
+                    style = Typo.numberCaption.style(
+                        color = Gray,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+            }
+
+        }
+
+        ReorderButton {
+            setReorderModalVisible(true)
+        }
+
+        Spacer(Modifier.width(24.dp))
+    }
 }
 
 @Composable

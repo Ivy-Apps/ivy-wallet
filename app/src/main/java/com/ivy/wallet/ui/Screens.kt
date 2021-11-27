@@ -68,6 +68,8 @@ sealed class Screen {
 
     object Budget : Screen()
 
+    object Loan : Screen()
+
     object Test : Screen()
 
     data class WebView(val url: String) : Screen()

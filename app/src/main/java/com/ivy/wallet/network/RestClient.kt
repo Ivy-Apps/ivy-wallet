@@ -198,6 +198,7 @@ class RestClient private constructor(
     val categoryService: CategoryService by lazy { retrofit.create(CategoryService::class.java) }
     val accountService: AccountService by lazy { retrofit.create(AccountService::class.java) }
     val budgetService: BudgetService by lazy { retrofit.create(BudgetService::class.java) }
+    val loanService: LoanService by lazy { retrofit.create(LoanService::class.java) }
     val transactionService: TransactionService by lazy { retrofit.create(TransactionService::class.java) }
     val plannedPaymentRuleService: PlannedPaymentRuleService by lazy {
         retrofit.create(

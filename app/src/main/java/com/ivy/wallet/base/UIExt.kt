@@ -22,6 +22,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.FloatRange
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -31,6 +34,23 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
 
+
+@Composable
+fun keyboardVisibleState(): State<Boolean> {
+    val rootView = LocalView.current
+
+    val keyboardVisible = remember {
+        mutableStateOf(false)
+    }
+
+    onScreenStart {
+        rootView.addKeyboardListener {
+            keyboardVisible.value = it
+        }
+    }
+
+    return keyboardVisible
+}
 
 fun View.addKeyboardListener(keyboardCallback: (visible: Boolean) -> Unit) {
     doOnLayout {

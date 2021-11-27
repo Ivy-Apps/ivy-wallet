@@ -30,7 +30,7 @@ import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
-import com.ivy.wallet.ui.theme.components.ReorderViewSingleType
+import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
@@ -134,7 +134,7 @@ private fun BoxWithConstraintsScope.UI(
         },
     )
 
-    ReorderViewSingleType(
+    ReorderModalSingleType(
         visible = reorderVisible,
         initialItems = categories,
         dismiss = {

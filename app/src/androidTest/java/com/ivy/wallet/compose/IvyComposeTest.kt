@@ -110,7 +110,9 @@ abstract class IvyComposeTest {
                 //reset state && retry test
                 resetApp()
 
-                composeTestRule.waitMillis(500)
+                composeTestRule.waitMillis(500) //wait for ongoing operations to finish
+
+                TestIdlingResource.reset()
 
                 //Restart IvyActivity
                 val intent = composeTestRule.activity.intent
