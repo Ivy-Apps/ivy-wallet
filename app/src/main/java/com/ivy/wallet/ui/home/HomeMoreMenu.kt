@@ -429,13 +429,14 @@ private fun QuickAccess(
             ivyContext.navigateTo(Screen.Budget)
         }
 
-        MoreMenuButton(
-            icon = R.drawable.ic_custom_loan_s,
-            label = "Loans",
-            expandPadding = 11.dp
-        ) {
-            ivyContext.navigateTo(Screen.Loan)
-        }
+        //Hide "Loans" until they're ready
+//        MoreMenuButton(
+//            icon = R.drawable.ic_custom_loan_s,
+//            label = "Loans",
+//            expandPadding = 11.dp
+//        ) {
+//            ivyContext.navigateTo(Screen.Loan)
+//        }
     }
 }
 
