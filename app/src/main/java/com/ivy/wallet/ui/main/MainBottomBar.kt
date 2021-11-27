@@ -175,22 +175,25 @@ fun BoxWithConstraintsScope.BottomBar(
                             dragOffset += dragAmount
 
                             val horizontalThreshold = 40
-                            val verticalThreshold = 40
+                            val verticalThreshold = 60
 
                             when {
                                 abs(dragOffset.x) < horizontalThreshold &&
                                         dragOffset.y < -verticalThreshold -> {
                                     //swipe up
+                                    dragOffset = Offset.Zero //prevent double open of the screen
                                     onAddExpense()
                                 }
                                 dragOffset.x < -horizontalThreshold &&
                                         dragOffset.y < -verticalThreshold -> {
                                     //swipe up left
+                                    dragOffset = Offset.Zero //prevent double open of the screen
                                     onAddIncome()
                                 }
                                 dragOffset.x > horizontalThreshold &&
                                         dragOffset.y < -verticalThreshold -> {
                                     //swipe up right
+                                    dragOffset = Offset.Zero //prevent double open of the screen
                                     onAddTransfer()
                                 }
                             }
