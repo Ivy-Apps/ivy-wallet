@@ -201,11 +201,15 @@ private fun BoxWithConstraintsScope.UI(
         modifier = Modifier
             .fillMaxSize()
             .background(itemColor)
-            .horizontalSwipeListener(200, onSwipeLeft = {
-                onNextMonth()
-            }, onSwipeRight = {
-                onPreviousMonth()
-            })
+            .horizontalSwipeListener(
+                sensitivity = 150,
+                onSwipeLeft = {
+                    onNextMonth()
+                },
+                onSwipeRight = {
+                    onPreviousMonth()
+                }
+            )
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
