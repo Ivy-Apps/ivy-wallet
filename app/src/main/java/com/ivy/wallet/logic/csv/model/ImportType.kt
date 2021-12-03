@@ -15,7 +15,8 @@ enum class ImportType {
     ONE_MONEY,
     BLUE_COINS,
     KTW_MONEY_MANAGER,
-    FORTUNE_CITY;
+    FORTUNE_CITY,
+    FINANCISTO;
 
     fun color(): Color = when (this) {
         IVY -> Ivy
@@ -26,6 +27,7 @@ enum class ImportType {
         BLUE_COINS -> Blue
         KTW_MONEY_MANAGER -> Yellow
         FORTUNE_CITY -> Green2Light
+        FINANCISTO -> White
     }
 
     fun appId(): String = when (this) {
@@ -37,6 +39,7 @@ enum class ImportType {
         BLUE_COINS -> "com.rammigsoftware.bluecoins"
         KTW_MONEY_MANAGER -> "com.ktwapps.walletmanager"
         FORTUNE_CITY -> "com.fourdesire.fortunecity"
+        FINANCISTO -> "ru.orangesoftware.financisto"
     }
 
     @DrawableRes
@@ -49,6 +52,7 @@ enum class ImportType {
         BLUE_COINS -> R.drawable.bluecoins
         KTW_MONEY_MANAGER -> R.drawable.ktw_money_manager_logo
         FORTUNE_CITY -> R.drawable.fortune_city_app_logo
+        FINANCISTO -> R.drawable.financisto_logo
     }
 
     fun listName(): String = when (this) {
@@ -60,6 +64,7 @@ enum class ImportType {
         BLUE_COINS -> "Bluecoins Finance"
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
         FORTUNE_CITY -> "Fortune City"
+        FINANCISTO -> "Financisto"
     }
 
     fun appName(): String = when (this) {
@@ -71,6 +76,7 @@ enum class ImportType {
         BLUE_COINS -> "Bluecoins Finance"
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
         FORTUNE_CITY -> "Fortune City"
+        FINANCISTO -> "Financisto"
     }
 
     @Composable
@@ -106,6 +112,9 @@ enum class ImportType {
                 onUploadClick = onUploadClick
             )
             FORTUNE_CITY -> FortuneCitySteps(
+                onUploadClick = onUploadClick
+            )
+            FINANCISTO -> FinancistoSteps(
                 onUploadClick = onUploadClick
             )
         }

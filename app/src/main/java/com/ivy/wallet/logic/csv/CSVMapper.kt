@@ -4,9 +4,11 @@ import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.logic.csv.model.RowMapping
 import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.Transaction
 
 class CSVMapper {
 
+    @ExperimentalStdlibApi
     fun mapping(type: ImportType, headerRow: String?) = when (type) {
         ImportType.IVY -> {
             if (headerRow?.contains("Currency") == true) {
@@ -22,6 +24,7 @@ class CSVMapper {
         ImportType.BLUE_COINS -> blueCoins()
         ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
         ImportType.FORTUNE_CITY -> fortuneCity()
+        ImportType.FINANCISTO -> financisto()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -168,5 +171,61 @@ class CSVMapper {
         category = 8,
         account = 9,
         description = 10
+    )
+
+    @ExperimentalStdlibApi
+    private fun financisto() = RowMapping(
+        date = 0,
+        timeOnly = 1,
+        account = 2,
+        amount = 3,
+        transferAmount = 3,
+        accountCurrency = 4,
+        // original currency amount = 5
+        // original currency = 6
+        category = 7,
+        // parent transaction = 8
+        title = 9,
+        type = 10,
+        // project = 11
+        description = 12,
+
+        transformAmount = { amount, transactionType ->
+            if (amount > 0 && transactionType == TransactionType.EXPENSE) {
+                TransactionType.INCOME
+            } else {
+                transactionType
+            }
+        },
+
+        joinTransactions = { transactions  ->
+            var count = 0
+            Pair(buildList {
+                val it = transactions.listIterator()
+                while (it.hasNext()) {
+                    val t = it.next()
+                    if (t.type == TransactionType.TRANSFER && it.hasNext()) {
+                        val t2 = it.next()
+                        val new = Transaction (
+                            id = t.id,
+                            type = TransactionType.TRANSFER,
+                            amount = t.amount,
+                            accountId = t.accountId,
+                            toAccountId = t2.accountId,
+                            toAmount = t2.amount,
+                            dateTime = t.dateTime,
+                            dueDate = t.dueDate,
+                            categoryId = t.categoryId,
+                            title = t.title,
+                            description = t.description
+                        )
+                        count++
+                        add(new)
+                    } else {
+                        add(t)
+                    }
+                }
+            }, count)
+        }
     )
 }
