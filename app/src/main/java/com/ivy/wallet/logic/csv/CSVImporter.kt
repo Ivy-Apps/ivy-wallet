@@ -90,8 +90,8 @@ class CSVImporter(
 
         // Some importers require postprocessing transactions
         // Example: Financisto separates in and out transfers
-        val pair = rowMapping.joinTransactions(rows
-            .mapIndexedNotNull { index, row ->
+        val joinResult = rowMapping.joinTransactions(
+            rows.mapIndexedNotNull { index, row ->
                 val progressPercent = if (rowsCount > 0)
                     index / rowsCount.toDouble() else 0.0
                 onProgress(progressPercent / 2)
@@ -114,13 +114,11 @@ class CSVImporter(
             }
         )
 
-        val transactions = pair.first
-        // if we joined rows, don't count them twice
-        rowsCount -= pair.second
+        val transactions = joinResult.transactions
 
         for ((index, transaction) in transactions.withIndex()) {
             val progressPercent = if (rowsCount > 0)
-                index / rowsCount.toDouble() else 0.0
+                index / transactions.size.toDouble() else 0.0
             onProgress(0.5 + progressPercent / 2)
             transactionDao.save(transaction)
         }
@@ -139,7 +137,7 @@ class CSVImporter(
         row: List<String>,
         rowMapping: RowMapping
     ): Transaction? {
-        var type = mapType(
+        val type = mapType(
             row = row,
             rowMapping = rowMapping
         ) ?: return null
@@ -154,14 +152,14 @@ class CSVImporter(
                 orderNum = row.extract(rowMapping.toAccountOrderNum)?.toDoubleOrNull()
             )
         } else null
-        var amount = if (type != TransactionType.TRANSFER) {
+
+        val csvAmount = if (type != TransactionType.TRANSFER) {
             mapAmount(row.extract(rowMapping.amount))
         } else {
             mapAmount(row.extract(rowMapping.transferAmount))
         } ?: return null
-        // Sometimes only the sign of the amount indicates the type of transaction
-        type = rowMapping.transformAmount(amount, type)
-        amount = amount.absoluteValue
+        val amount = csvAmount.absoluteValue
+
         if (amount <= 0) {
             //Cannot save transactions with zero amount
             return null
@@ -172,13 +170,14 @@ class CSVImporter(
         } else null
 
 
-        val dateTime = if (rowMapping.timeOnly != null) {
-            // date and time are separated in csv, join them with space
-            mapDate(row.extract(rowMapping.date) + " " + row.extract(rowMapping.timeOnly))
-        }
-        else {
-            mapDate(row.extract(rowMapping.date))
-        }
+        val dateTime = mapDate(
+            if (rowMapping.timeOnly != null) {
+                // date and time are separated in csv, join them with space
+                row.extract(rowMapping.date) + " " + row.extract(rowMapping.timeOnly)
+            } else {
+                row.extract(rowMapping.date)
+            }
+        )
         val dueDate = mapDate(row.extract(rowMapping.dueDate))
         if (dateTime == null && dueDate == null) {
             //Cannot save transactions without any date
@@ -219,7 +218,8 @@ class CSVImporter(
                 title = title,
                 description = description
             ),
-            category
+            category,
+            csvAmount
         )
     }
 
@@ -231,8 +231,7 @@ class CSVImporter(
         //Example: Fortune City
         if (rowMapping.type == null) return TransactionType.EXPENSE
 
-        val type = row.extract(rowMapping.type)
-        if (type == null) return null
+        val type = row.extract(rowMapping.type) ?: return null
         // default is expense as some apps only declare transfers
         if (type.isBlank()) return TransactionType.EXPENSE
 

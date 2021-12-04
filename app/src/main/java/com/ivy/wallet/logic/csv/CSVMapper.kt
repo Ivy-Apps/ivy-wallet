@@ -2,6 +2,7 @@ package com.ivy.wallet.logic.csv
 
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.csv.model.ImportType
+import com.ivy.wallet.logic.csv.model.JoinResult
 import com.ivy.wallet.logic.csv.model.RowMapping
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Transaction
@@ -151,7 +152,7 @@ class CSVMapper {
         date = 4,
         title = 5,
 
-        transformTransaction = { transaction, category ->
+        transformTransaction = { transaction, category, _ ->
             transaction.copy(
                 type = if (category?.name?.toLowerCaseLocal() == "income")
                     TransactionType.INCOME else TransactionType.EXPENSE
@@ -190,42 +191,48 @@ class CSVMapper {
         // project = 11
         description = 12,
 
-        transformAmount = { amount, transactionType ->
-            if (amount > 0 && transactionType == TransactionType.EXPENSE) {
-                TransactionType.INCOME
-            } else {
-                transactionType
-            }
+        transformTransaction = { transaction, _, csvAmount ->
+            transaction.copy(
+                //Idk, never seen a sample CSV from Financisto
+                type = if (csvAmount > 0 && transaction.type == TransactionType.EXPENSE) {
+                    TransactionType.INCOME
+                } else {
+                    transaction.type
+                }
+            )
         },
 
-        joinTransactions = { transactions  ->
-            var count = 0
-            Pair(buildList {
-                val it = transactions.listIterator()
-                while (it.hasNext()) {
-                    val t = it.next()
-                    if (t.type == TransactionType.TRANSFER && it.hasNext()) {
-                        val t2 = it.next()
-                        val new = Transaction (
-                            id = t.id,
-                            type = TransactionType.TRANSFER,
-                            amount = t.amount,
-                            accountId = t.accountId,
-                            toAccountId = t2.accountId,
-                            toAmount = t2.amount,
-                            dateTime = t.dateTime,
-                            dueDate = t.dueDate,
-                            categoryId = t.categoryId,
-                            title = t.title,
-                            description = t.description
-                        )
-                        count++
-                        add(new)
-                    } else {
-                        add(t)
+        joinTransactions = { transactions ->
+            var mergedCount = 0
+            JoinResult(
+                transactions = buildList {
+                    val it = transactions.listIterator()
+                    while (it.hasNext()) {
+                        val t = it.next()
+                        if (t.type == TransactionType.TRANSFER && it.hasNext()) {
+                            val t2 = it.next()
+                            val new = Transaction(
+                                id = t.id,
+                                type = TransactionType.TRANSFER,
+                                amount = t.amount,
+                                accountId = t.accountId,
+                                toAccountId = t2.accountId,
+                                toAmount = t2.amount,
+                                dateTime = t.dateTime,
+                                dueDate = t.dueDate,
+                                categoryId = t.categoryId,
+                                title = t.title,
+                                description = t.description
+                            )
+                            mergedCount++
+                            add(new)
+                        } else {
+                            add(t)
+                        }
                     }
-                }
-            }, count)
+                },
+                mergedCount = mergedCount
+            )
         }
     )
 }
