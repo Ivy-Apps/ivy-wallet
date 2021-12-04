@@ -73,7 +73,7 @@ class CSVImporter(
 
         val rows = csvReader.readAll()
             .map { it.toList() }
-        var rowsCount = rows.size
+        val rowsCount = rows.size
 
         newCategoryColorIndex = 0
         newAccountColorIndex = 0
@@ -124,7 +124,7 @@ class CSVImporter(
         }
 
         return ImportResult(
-            rowsFound = rowsCount,
+            rowsFound = rowsCount - joinResult.mergedCount,
             transactionsImported = transactions.size,
             accountsImported = accounts.size - initialAccountsCount,
             categoriesImported = categories.size - initialCategoriesCount,
@@ -241,7 +241,9 @@ class CSVImporter(
             normalizedType.contains("income") -> TransactionType.INCOME
             normalizedType.contains("expense") -> TransactionType.EXPENSE
             normalizedType.contains("transfer") -> TransactionType.TRANSFER
-            else -> null
+            // Default to Expense because Financisto messed up its CSV Export
+            // and mixes it with another (ignored) column
+            else -> TransactionType.EXPENSE
         }
     }
 
