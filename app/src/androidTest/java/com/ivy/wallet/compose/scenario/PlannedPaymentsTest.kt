@@ -25,6 +25,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     @Test
     fun Onboard_CreatePlannedPaymentFromPrompt() = testWithRetry {
         onboardingFlow.quickOnboarding()
+
         transactionFlow.addIncome(
             amount = 100.0
         )
@@ -38,7 +39,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             amount = "2,000",
             category = "Bills & Fees",
             startDate = timeNowUTC().withDayOfMonth(1),
-            intervalN = 3,
+            intervalN = 4,
             intervalType = IntervalType.WEEK,
             title = "Salary"
         )
