@@ -15,7 +15,8 @@ class OnboardingFlow<A : ComponentActivity>(
 
     fun chooseOfflineAccount() {
         composeTestRule.clickWithRetry(
-            node = composeTestRule.onNode(hasText("Offline account"))
+            node = composeTestRule.onNode(hasText("Offline account")),
+            maxRetries = 10
         )
     }
 

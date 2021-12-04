@@ -102,16 +102,19 @@ abstract class IvyComposeTest {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
 
-    protected fun testWithRetry(attempt: Int = 0, test: () -> Unit) {
+    protected fun testWithRetry(
+        attempt: Int = 0,
+        maxAttempts: Int = 3,
+        test: () -> Unit
+    ) {
         try {
             test()
         } catch (e: AssertionError) {
-            if (attempt == 0) {
+            if (attempt < maxAttempts) {
                 //reset state && retry test
                 resetApp()
 
-                composeTestRule.waitMillis(500) //wait for ongoing operations to finish
-
+                composeTestRule.waitMillis(300) //wait for resetting app to finish
                 TestIdlingResource.reset()
 
                 //Restart IvyActivity
@@ -119,10 +122,11 @@ abstract class IvyComposeTest {
                 composeTestRule.activity.finish()
                 composeTestRule.activity.startActivity(intent)
 
-                composeTestRule.waitMillis(500)
+                composeTestRule.waitMillis(300) //wait for activity to start
 
                 testWithRetry(
                     attempt = attempt + 1,
+                    maxAttempts = maxAttempts,
                     test = test
                 )
             } else {
