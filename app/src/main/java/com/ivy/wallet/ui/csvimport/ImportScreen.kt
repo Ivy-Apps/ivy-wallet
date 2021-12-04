@@ -18,6 +18,7 @@ import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
 import com.ivy.wallet.ui.csvimport.flow.instructions.ImportInstructions
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 
+@OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
