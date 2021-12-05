@@ -3,7 +3,6 @@ package com.ivy.wallet.model.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.model.Reorderable
 import java.util.*
 
 @Entity(tableName = "loans")
@@ -20,10 +19,4 @@ data class Loan(
 
     @PrimaryKey
     val id: UUID = UUID.randomUUID()
-) : Reorderable {
-    override fun getItemOrderNum() = orderNum
-
-    override fun withNewOrderNum(newOrderNum: Double) = this.copy(
-        orderNum = newOrderNum
-    )
-}
+)

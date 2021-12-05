@@ -1,20 +1,23 @@
 package com.ivy.wallet.ui.loan
 
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.R
+import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
@@ -22,15 +25,14 @@ import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.components.ReorderButton
-import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
+import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 
 @Composable
-fun BoxWithConstraintsScope.LoanScreen(screen: Screen.Loan) {
+fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
     val viewModel: LoanViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
@@ -55,11 +57,11 @@ fun BoxWithConstraintsScope.LoanScreen(screen: Screen.Loan) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
-    loans: List<Loan>,
+    loans: List<DisplayLoan>,
 
     onCreateLoan: (CreateLoanData) -> Unit = {},
     onEditLoan: (Loan) -> Unit = {},
-    onReorder: (List<Loan>) -> Unit = {}
+    onReorder: (List<DisplayLoan>) -> Unit = {}
 ) {
     var reorderModalVisible by remember { mutableStateOf(false) }
     var loanModalData: LoanModalData? by remember { mutableStateOf(null) }
@@ -82,10 +84,10 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(8.dp))
 
         for (item in loans) {
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(16.dp))
 
             LoanItem(
-                loan = item,
+                displayLoan = item,
                 baseCurrency = baseCurrency
             ) {
                 TODO("Handle loan item click")
@@ -133,7 +135,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxWidth()
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
-            text = item.name,
+            text = item.loan.name,
             style = Typo.body1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
@@ -171,32 +173,6 @@ private fun Toolbar(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
-
-            //TODO: How much do you owe in total & how much do you have to get in total
-//            if (categoryBudgetsTotal > 0 || appBudgetMax > 0) {
-//                Spacer(Modifier.height(4.dp))
-//
-//                val categoryBudgetText = if (categoryBudgetsTotal > 0) {
-//                    "${categoryBudgetsTotal.format(baseCurrency)} $baseCurrency for categories"
-//                } else ""
-//
-//                val appBudgetMaxText = if (appBudgetMax > 0) {
-//                    "${appBudgetMax.format(baseCurrency)} $baseCurrency app budget"
-//                } else ""
-//
-//                val hasBothBudgetTypes =
-//                    categoryBudgetText.isNotBlank() && appBudgetMaxText.isNotBlank()
-//                Text(
-//                    modifier = Modifier.testTag("budgets_info_text"),
-//                    text = if (hasBothBudgetTypes)
-//                        "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
-//                    style = Typo.numberCaption.style(
-//                        color = Gray,
-//                        fontWeight = FontWeight.ExtraBold
-//                    )
-//                )
-//            }
-
         }
 
         ReorderButton {
@@ -209,11 +185,143 @@ private fun Toolbar(
 
 @Composable
 private fun LoanItem(
-    loan: Loan,
+    displayLoan: DisplayLoan,
     baseCurrency: String,
     onClick: () -> Unit
 ) {
-    //TODO: Display
+    val loan = displayLoan.loan
+    val contrastColor = findContrastTextColor(loan.color.toComposeColor())
+
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .clip(Shapes.rounded16)
+            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clickable(
+                onClick = onClick
+            )
+    ) {
+        LoanHeader(
+            loan = loan,
+            baseCurrency = baseCurrency,
+            contrastColor = contrastColor,
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        LoanInfo(
+            displayLoan = displayLoan,
+            baseCurrency = baseCurrency
+        )
+
+        Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun LoanHeader(
+    loan: Loan,
+    baseCurrency: String,
+    contrastColor: Color,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(loan.color.toComposeColor(), Shapes.rounded16Top)
+    ) {
+        Spacer(Modifier.height(16.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(Modifier.width(20.dp))
+
+            ItemIconSDefaultIcon(
+                iconName = loan.icon,
+                defaultIcon = R.drawable.ic_custom_loan_s,
+                tint = contrastColor
+            )
+
+            Spacer(Modifier.width(8.dp))
+
+            Text(
+                text = loan.name,
+                style = Typo.body1.style(
+                    color = contrastColor,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+            Spacer(Modifier.width(8.dp))
+
+            Text(
+                modifier = Modifier
+                    .align(Alignment.Bottom)
+                    .padding(bottom = 4.dp),
+                text = if (loan.type == LoanType.BORROW) "BORROWED" else "LENT",
+                style = Typo.caption.style(
+                    color = loan.color.toComposeColor().dynamicContrast()
+                )
+            )
+
+        }
+
+        Spacer(Modifier.height(4.dp))
+
+        BalanceRow(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
+            decimalPaddingTop = 7.dp,
+            spacerDecimal = 6.dp,
+            textColor = contrastColor,
+            currency = baseCurrency,
+            balance = loan.amount,
+
+            integerFontSize = 30.sp,
+            decimalFontSize = 18.sp,
+            currencyFontSize = 30.sp,
+
+            currencyUpfront = false
+        )
+
+        Spacer(Modifier.height(16.dp))
+    }
+}
+
+@Composable
+private fun ColumnScope.LoanInfo(
+    displayLoan: DisplayLoan,
+    baseCurrency: String
+) {
+    val amountPaid = displayLoan.amountPaid
+    val loanAmount = displayLoan.loan.amount
+    val percentPaid = amountPaid / loanAmount
+
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        text = "${amountPaid.format(baseCurrency)} $baseCurrency / ${loanAmount.format(baseCurrency)} $baseCurrency (${
+            percentPaid.times(
+                100
+            ).format(2)
+        }%)",
+        style = Typo.numberBody2.style(
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    )
+
+    Spacer(Modifier.height(8.dp))
+
+    ProgressBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(24.dp)
+            .padding(horizontal = 24.dp),
+        notFilledColor = IvyTheme.colors.medium,
+        percent = percentPaid
+    )
 }
 
 @Composable
@@ -266,26 +374,35 @@ private fun Preview() {
         UI(
             baseCurrency = "BGN",
             loans = listOf(
-                Loan(
-                    name = "Loan 1",
-                    icon = "rocket",
-                    color = Red.toArgb(),
-                    amount = 5000.0,
-                    type = LoanType.BORROW
+                DisplayLoan(
+                    loan = Loan(
+                        name = "Loan 1",
+                        icon = "rocket",
+                        color = Red.toArgb(),
+                        amount = 5000.0,
+                        type = LoanType.BORROW
+                    ),
+                    amountPaid = 0.0
                 ),
-                Loan(
-                    name = "Loan 2",
-                    icon = "atom",
-                    color = Orange.toArgb(),
-                    amount = 252.36,
-                    type = LoanType.BORROW
+                DisplayLoan(
+                    loan = Loan(
+                        name = "Loan 2",
+                        icon = "atom",
+                        color = Orange.toArgb(),
+                        amount = 252.36,
+                        type = LoanType.BORROW
+                    ),
+                    amountPaid = 124.23
                 ),
-                Loan(
-                    name = "Loan 3",
-                    icon = "bank",
-                    color = Blue.toArgb(),
-                    amount = 7000.0,
-                    type = LoanType.LEND
+                DisplayLoan(
+                    loan = Loan(
+                        name = "Loan 3",
+                        icon = "bank",
+                        color = Blue.toArgb(),
+                        amount = 7000.0,
+                        type = LoanType.LEND
+                    ),
+                    amountPaid = 8000.0
                 ),
             ),
 

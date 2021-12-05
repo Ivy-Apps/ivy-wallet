@@ -68,7 +68,7 @@ sealed class Screen {
 
     object Budget : Screen()
 
-    object Loan : Screen()
+    object Loans : Screen()
 
     object Test : Screen()
 

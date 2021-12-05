@@ -48,7 +48,7 @@ import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
-import com.ivy.wallet.ui.loan.LoanScreen
+import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.main.MainScreen
 import com.ivy.wallet.ui.onboarding.OnboardingScreen
 import com.ivy.wallet.ui.paywall.PaywallScreen
@@ -169,7 +169,7 @@ class IvyActivity : AppCompatActivity() {
                             is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
                             is Screen.Report -> ReportScreen(screen = screen)
                             is Screen.Budget -> BudgetScreen(screen = screen)
-                            is Screen.Loan -> LoanScreen(screen = screen)
+                            is Screen.Loans -> LoansScreen(screen = screen)
                             is Screen.WebView -> WebViewScreen(screen = screen)
                             null -> {
                             }
