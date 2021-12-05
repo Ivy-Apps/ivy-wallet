@@ -6,7 +6,6 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.ui.theme.Ivy
 
 class LoansScreen<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -20,8 +19,8 @@ class LoansScreen<A : ComponentActivity>(
 
     fun assertLoan(
         name: String,
-        amount: String,
         loanType: LoanType,
+        amount: String,
         amountDecimal: String,
         amountPaid: String,
         percentPaid: String,
@@ -55,8 +54,8 @@ class LoansScreen<A : ComponentActivity>(
     fun addLoanFlow(
         loanName: String,
         amount: String,
-        color: Color = Ivy,
-        icon: String = "account",
+        color: Color? = null,
+        icon: String? = null,
         loanType: LoanType
     ) {
         clickAddLoan()
@@ -64,8 +63,12 @@ class LoansScreen<A : ComponentActivity>(
             enterName(loanName)
             enterAmount(amount)
             selectLoanType(loanType)
-            colorPicker.chooseColor(color)
-            chooseIconFlow.chooseIcon(icon)
+            if (color != null) {
+                colorPicker.chooseColor(color)
+            }
+            if (icon != null) {
+                chooseIconFlow.chooseIcon(icon)
+            }
 
             clickAdd()
         }

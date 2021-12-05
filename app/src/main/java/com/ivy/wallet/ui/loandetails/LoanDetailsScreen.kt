@@ -470,7 +470,7 @@ private fun LoanRecordItem(
                 onClick()
             }
             .background(IvyTheme.colors.medium, Shapes.rounded16)
-            .testTag("transaction_card")
+            .testTag("loan_record_item")
     ) {
         Spacer(Modifier.height(20.dp))
 

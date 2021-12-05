@@ -16,6 +16,7 @@ class LoansTest : IvyComposeTest() {
     private val loanModal = LoanModal(composeTestRule)
     private val loanDetailsScreen = LoanDetailsScreen(composeTestRule)
     private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
+    private val loanRecordModal = LoanRecordModal(composeTestRule)
 
     @Test
     fun CreateLoan() = testWithRetry {
@@ -176,8 +177,56 @@ class LoansTest : IvyComposeTest() {
 
     //Loan records ---------------------------------------------------------------------------------
     @Test
-    fun AddLoanRecord() {
+    fun AddLoanRecord() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan 1",
+            loanType = LoanType.BORROW,
+            amount = "1,000.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan 1"
+        )
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("250.50")
+            enterNote("Връщам")
+
+            clickAdd()
+        }
+
+        loanDetailsScreen.apply {
+            assertAmountPaid(
+                amountPaid = "250.50",
+                loanAmount = "1,000.00"
+            )
+            assertPercentPaid("25.05%")
+            assertLeftToPay("749.50")
+
+            clickLoanRecord(
+                amount = "250.50",
+                note = "Връщам"
+            )
+
+            clickClose() //click outside of the modal
+            clickClose()
+        }
+
+        loansScreen.assertLoan(
+            name = "Loan 1",
+            loanType = LoanType.BORROW,
+            amount = "1,000",
+            amountDecimal = ".00",
+            amountPaid = "250.50",
+            percentPaid = "25.05"
+        )
     }
 
     @Test

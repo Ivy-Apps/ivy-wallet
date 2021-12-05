@@ -1,12 +1,10 @@
 package com.ivy.wallet.compose.helpers
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.printTree
 
 class LoanDetailsScreen<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -63,6 +61,31 @@ class LoanDetailsScreen<A : ComponentActivity>(
 
     fun clickClose() {
         composeTestRule.onNodeWithTag("toolbar_close")
+            .performClick()
+    }
+
+    fun addRecord() {
+        composeTestRule.onNodeWithText("Add record")
+            .performClick()
+    }
+
+    fun clickLoanRecord(
+        amount: String,
+        note: String? = null,
+    ) {
+        var matcher = hasTestTag("loan_record_item")
+            .and(hasAnyDescendant(hasText(amount)))
+
+        if (note != null) {
+            matcher = matcher.and(hasAnyDescendant(hasText(note)))
+        }
+
+        composeTestRule.printTree()
+
+        composeTestRule.onNode(matcher, useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assertHasClickAction()
+            .performScrollTo()
             .performClick()
     }
 }
