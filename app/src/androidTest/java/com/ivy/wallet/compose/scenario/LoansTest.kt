@@ -230,8 +230,65 @@ class LoansTest : IvyComposeTest() {
     }
 
     @Test
-    fun EditLoanRecord() {
+    fun EditLoanRecord() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan",
+            loanType = LoanType.LEND,
+            amount = "10,000.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan"
+        )
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("123.09")
+
+            clickAdd()
+        }
+
+        loanDetailsScreen.clickLoanRecord(
+            amount = "123.09"
+        )
+        loanRecordModal.apply {
+            enterNote("Cash")
+            enterAmount("5,000.00")
+
+            clickSave()
+        }
+
+        loanDetailsScreen.apply {
+            assertAmountPaid(
+                amountPaid = "5,000.00",
+                loanAmount = "10,000.00"
+            )
+            assertPercentPaid("50.00%")
+            assertLeftToPay("5,000.00")
+
+            clickLoanRecord(
+                amount = "5,000.00",
+                note = "Cash"
+            )
+
+            clickClose() //click outside of the modal
+            clickClose()
+        }
+
+        loansScreen.assertLoan(
+            name = "Loan",
+            loanType = LoanType.LEND,
+            amount = "10,000",
+            amountDecimal = ".00",
+            amountPaid = "5,000.00",
+            percentPaid = "50.00"
+        )
     }
 
     @Test
