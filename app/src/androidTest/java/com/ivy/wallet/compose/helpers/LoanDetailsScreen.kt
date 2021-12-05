@@ -56,6 +56,11 @@ class LoanDetailsScreen<A : ComponentActivity>(
             .assertTextEquals("$leftToPayAmount $currency left")
     }
 
+    fun clickDelete() {
+        composeTestRule.onNodeWithTag("delete_button")
+            .performClick()
+    }
+
     fun clickClose() {
         composeTestRule.onNodeWithTag("toolbar_close")
             .performClick()

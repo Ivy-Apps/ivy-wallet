@@ -3,10 +3,7 @@ package com.ivy.wallet.compose.scenario
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.Purple1
-import com.ivy.wallet.ui.theme.Purple2
+import com.ivy.wallet.ui.theme.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -18,6 +15,7 @@ class LoansTest : IvyComposeTest() {
     private val loansScreen = LoansScreen(composeTestRule)
     private val loanModal = LoanModal(composeTestRule)
     private val loanDetailsScreen = LoanDetailsScreen(composeTestRule)
+    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
     @Test
     fun CreateLoan() = testWithRetry {
@@ -152,8 +150,28 @@ class LoansTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeleteLoanWithNoRecrods() {
+    fun DeleteLoanWithNoRecrods() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan 1",
+            loanType = LoanType.BORROW,
+            color = Blue2,
+            icon = "pet",
+            amount = "1,250.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan 1"
+        )
+
+        loanDetailsScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        loansScreen.assertEmptyState()
     }
 
     //Loan records ---------------------------------------------------------------------------------

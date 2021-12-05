@@ -80,4 +80,9 @@ class LoansScreen<A : ComponentActivity>(
             percentPaid = "0.00"
         )
     }
+
+    fun assertEmptyState() {
+        composeTestRule.onNodeWithText("No loans")
+            .assertIsDisplayed()
+    }
 }
