@@ -115,7 +115,8 @@ private fun BoxWithConstraintsScope.UI(
                             loanModalData = LoanModalData(
                                 loan = loan,
                                 baseCurrency = baseCurrency,
-                                autoFocusKeyboard = false
+                                autoFocusKeyboard = false,
+                                autoOpenAmountModal = true
                             )
                         },
                         onDeleteLoan = {
@@ -384,7 +385,7 @@ private fun LoanInfoCard(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                text = "${leftToPay.format(2)} BGN left to pay",
+                text = "${leftToPay.format(2)} BGN left",
                 style = Typo.numberBody2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
@@ -468,7 +469,9 @@ private fun LoanRecordItem(
 
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
-            text = loanRecord.dateTime.formatNicelyWithTime().uppercase(),
+            text = loanRecord.dateTime.formatNicelyWithTime(
+                noWeekDay = false
+            ).uppercase(),
             style = Typo.numberCaption.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold

@@ -51,17 +51,15 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
 
-    val forceNonZeroBalance = true
-
     IvyModal(
         id = modal?.id,
         visible = modal != null,
         dismiss = dismiss,
-        shiftIfKeyboardShown = false,
+        shiftIfKeyboardShown = true,
         PrimaryAction = {
             ModalAddSave(
                 item = initialRecord,
-                enabled = noteTextFieldValue.text.isNotNullOrBlank() && (!forceNonZeroBalance || amount > 0)
+                enabled = amount > 0
             ) {
                 save(
                     loanRecord = initialRecord,
@@ -76,6 +74,12 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             }
         }
     ) {
+        onScreenStart {
+            if (modal?.loanRecord == null) {
+                amountModalVisible = true
+            }
+        }
+
         Spacer(Modifier.height(32.dp))
 
         Row(

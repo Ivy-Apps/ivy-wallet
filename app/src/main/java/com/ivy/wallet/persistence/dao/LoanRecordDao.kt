@@ -21,7 +21,7 @@ interface LoanRecordDao {
     @Query("SELECT * FROM loan_records WHERE id = :id")
     fun findById(id: UUID): LoanRecord?
 
-    @Query("SELECT * FROM loan_records WHERE loanId = :loanId AND isDeleted = 0")
+    @Query("SELECT * FROM loan_records WHERE loanId = :loanId AND isDeleted = 0 ORDER BY dateTime DESC")
     fun findAllByLoanId(loanId: UUID): List<LoanRecord>
 
     @Query("DELETE FROM loan_records WHERE id = :id")
