@@ -69,6 +69,8 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
         selectedCategory = selectedCategory,
 
         onSetPeriod = viewModel::onSetPeriod,
+        onSelectNextMonth = viewModel::nextMonth,
+        onSelectPreviousMonth = viewModel::previousMonth,
         onSetSelectedCategory = viewModel::setSelectedCategory
     )
 }
@@ -83,6 +85,8 @@ private fun BoxWithConstraintsScope.UI(
     categoryAmounts: List<CategoryAmount>,
     selectedCategory: SelectedCategory?,
 
+    onSelectNextMonth: () -> Unit = {},
+    onSelectPreviousMonth: () -> Unit = {},
     onSetPeriod: (TimePeriod) -> Unit = {},
     onSetSelectedCategory: (SelectedCategory?) -> Unit = {}
 ) {
@@ -119,6 +123,8 @@ private fun BoxWithConstraintsScope.UI(
                         period = period
                     )
                 },
+                onSelectNextMonth = onSelectNextMonth,
+                onSelectPreviousMonth = onSelectPreviousMonth,
 
                 onClose = {
                     ivyContext.back()
@@ -254,6 +260,8 @@ private fun Header(
 
 
     onShowMonthModal: () -> Unit,
+    onSelectNextMonth: () -> Unit,
+    onSelectPreviousMonth: () -> Unit,
 
     onClose: () -> Unit,
     onAdd: (TransactionType) -> Unit,
@@ -287,6 +295,15 @@ private fun Header(
         Spacer(Modifier.weight(1f))
 
         IvyOutlinedButton(
+            modifier = Modifier.horizontalSwipeListener(
+                sensitivity = 75,
+                onSwipeLeft = {
+                    onSelectNextMonth()
+                },
+                onSwipeRight = {
+                    onSelectPreviousMonth()
+                }
+            ),
             iconStart = R.drawable.ic_calendar,
             text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
         ) {
