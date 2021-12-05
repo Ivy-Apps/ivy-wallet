@@ -19,4 +19,8 @@ data class Loan(
 
     @PrimaryKey
     val id: UUID = UUID.randomUUID()
-)
+) {
+    fun humanReadableType(): String {
+        return if (type == LoanType.BORROW) "BORROWED" else "LENT"
+    }
+}

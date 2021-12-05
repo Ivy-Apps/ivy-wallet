@@ -83,6 +83,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
+        val ivyContext = LocalIvyContext.current
         for (item in loans) {
             Spacer(Modifier.height(16.dp))
 
@@ -90,7 +91,11 @@ private fun BoxWithConstraintsScope.UI(
                 displayLoan = item,
                 baseCurrency = baseCurrency
             ) {
-                TODO("Handle loan item click")
+                ivyContext.navigateTo(
+                    screen = Screen.LoanDetails(
+                        loanId = item.loan.id
+                    )
+                )
             }
         }
 
@@ -258,7 +263,7 @@ private fun LoanHeader(
                 modifier = Modifier
                     .align(Alignment.Bottom)
                     .padding(bottom = 4.dp),
-                text = if (loan.type == LoanType.BORROW) "BORROWED" else "LENT",
+                text = loan.humanReadableType(),
                 style = Typo.caption.style(
                     color = loan.color.toComposeColor().dynamicContrast()
                 )
@@ -312,7 +317,7 @@ private fun ColumnScope.LoanInfo(
         )
     )
 
-    Spacer(Modifier.height(8.dp))
+    Spacer(Modifier.height(12.dp))
 
     ProgressBar(
         modifier = Modifier

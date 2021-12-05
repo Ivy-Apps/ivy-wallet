@@ -70,6 +70,10 @@ sealed class Screen {
 
     object Loans : Screen()
 
+    data class LoanDetails(
+        val loanId: UUID
+    ) : Screen()
+
     object Test : Screen()
 
     data class WebView(val url: String) : Screen()

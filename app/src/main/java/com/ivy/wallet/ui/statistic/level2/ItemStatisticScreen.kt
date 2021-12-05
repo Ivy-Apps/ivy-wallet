@@ -224,7 +224,6 @@ private fun BoxWithConstraintsScope.UI(
                 .background(IvyTheme.colors.pure),
             state = listState,
         ) {
-
             item {
                 Header(
                     history = history,
@@ -421,7 +420,7 @@ private fun Header(
     ) {
         Spacer(Modifier.height(20.dp))
 
-        Toolbar(
+        ItemStatisticToolbar(
             contrastColor = contrastColor,
             onEdit = onEdit,
             onDelete = onDelete
@@ -500,7 +499,7 @@ private fun Header(
 }
 
 @Composable
-private fun Toolbar(
+fun ItemStatisticToolbar(
     contrastColor: Color,
 
     onEdit: () -> Unit,

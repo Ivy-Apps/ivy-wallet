@@ -30,6 +30,10 @@ suspend fun <T> ioThread(action: suspend () -> T): T = withContext(Dispatchers.I
     return@withContext action()
 }
 
+suspend fun <T> computationThread(action: suspend () -> T): T = withContext(Dispatchers.Default) {
+    return@withContext action()
+}
+
 suspend fun <T> uiThread(action: suspend () -> T): T = withContext(Dispatchers.Main) {
     return@withContext action()
 }
