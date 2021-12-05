@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +34,6 @@ import java.util.*
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
-    val forceNonZeroAmount: Boolean = false,
     val autoFocusKeyboard: Boolean = true,
     val id: UUID = UUID.randomUUID()
 )
@@ -74,7 +72,7 @@ fun BoxWithConstraintsScope.LoanModal(
         mutableStateOf(false)
     }
 
-    val forceNonZeroBalance = modal?.forceNonZeroAmount ?: false
+    val forceNonZeroBalance = true
 
     IvyModal(
         id = modal?.id,
@@ -165,7 +163,6 @@ fun BoxWithConstraintsScope.LoanModal(
         amount = newAmount
     }
 
-    val context = LocalContext.current
     CurrencyModal(
         title = "Choose currency",
         initialCurrency = IvyCurrency.fromCode(currencyCode),

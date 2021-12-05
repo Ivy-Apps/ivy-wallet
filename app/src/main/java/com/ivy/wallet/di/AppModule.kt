@@ -602,6 +602,19 @@ object AppModule {
     }
 
     @Provides
+    fun provideLoanRecordCreator(
+        paywallLogic: PaywallLogic,
+        dao: LoanRecordDao,
+        uploader: LoanRecordUploader
+    ): LoanRecordCreator {
+        return LoanRecordCreator(
+            paywallLogic = paywallLogic,
+            dao = dao,
+            uploader = uploader
+        )
+    }
+
+    @Provides
     fun provideAccountCreator(
         paywallLogic: PaywallLogic,
         accountDao: AccountDao,

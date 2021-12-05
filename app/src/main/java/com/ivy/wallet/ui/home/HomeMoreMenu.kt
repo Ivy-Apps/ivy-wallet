@@ -2,9 +2,7 @@ package com.ivy.wallet.ui.home
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -123,6 +121,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 .navigationBarsPadding()
                 .fillMaxSize()
                 .alpha(percentExpanded)
+                .verticalScroll(rememberScrollState())
                 .zIndex(510f)
                 .verticalSwipeListener(
                     sensitivity = SWIPE_UP_THRESHOLD_CLOSE_MORE_MENU,
