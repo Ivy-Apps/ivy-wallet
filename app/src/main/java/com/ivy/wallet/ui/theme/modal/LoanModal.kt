@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.logic.model.CreateLoanData
@@ -35,8 +35,8 @@ import java.util.*
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
-    val forceNonZeroAmount: Boolean = false,
     val autoFocusKeyboard: Boolean = true,
+    val autoOpenAmountModal: Boolean = false,
     val id: UUID = UUID.randomUUID()
 )
 
@@ -74,7 +74,6 @@ fun BoxWithConstraintsScope.LoanModal(
         mutableStateOf(false)
     }
 
-    val forceNonZeroBalance = modal?.forceNonZeroAmount ?: false
 
     IvyModal(
         id = modal?.id,
@@ -84,7 +83,7 @@ fun BoxWithConstraintsScope.LoanModal(
         PrimaryAction = {
             ModalAddSave(
                 item = modal?.loan,
-                enabled = nameTextFieldValue.text.isNotNullOrBlank() && (!forceNonZeroBalance || amount > 0)
+                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0
             ) {
                 save(
                     loan = loan,
@@ -101,6 +100,11 @@ fun BoxWithConstraintsScope.LoanModal(
             }
         }
     ) {
+        onScreenStart {
+            if (modal?.autoOpenAmountModal == true) {
+                amountModalVisible = true
+            }
+        }
 
         Spacer(Modifier.height(32.dp))
 
@@ -165,7 +169,6 @@ fun BoxWithConstraintsScope.LoanModal(
         amount = newAmount
     }
 
-    val context = LocalContext.current
     CurrencyModal(
         title = "Choose currency",
         initialCurrency = IvyCurrency.fromCode(currencyCode),
@@ -177,7 +180,7 @@ fun BoxWithConstraintsScope.LoanModal(
 
     ChooseIconModal(
         visible = chooseIconModalVisible,
-        initialIcon = icon ?: "account",
+        initialIcon = icon ?: "loan",
         color = color,
         dismiss = { chooseIconModalVisible = false }
     ) {

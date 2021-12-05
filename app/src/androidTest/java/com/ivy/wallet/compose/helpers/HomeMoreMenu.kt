@@ -50,4 +50,9 @@ class HomeMoreMenu<A : ComponentActivity>(
         composeTestRule.onNodeWithText("Settings")
             .performClick()
     }
+
+    fun clickLoans() {
+        composeTestRule.onNodeWithText("Loans")
+            .performClick()
+    }
 }

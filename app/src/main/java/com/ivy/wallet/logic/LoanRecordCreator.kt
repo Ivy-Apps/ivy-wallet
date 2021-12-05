@@ -1,37 +1,33 @@
 package com.ivy.wallet.logic
 
-import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.logic.model.CreateLoanData
-import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.persistence.dao.LoanDao
-import com.ivy.wallet.sync.uploader.LoanUploader
+import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.model.entity.LoanRecord
+import com.ivy.wallet.persistence.dao.LoanRecordDao
+import com.ivy.wallet.sync.uploader.LoanRecordUploader
+import java.util.*
 
-class LoanCreator(
+class LoanRecordCreator(
     private val paywallLogic: PaywallLogic,
-    private val dao: LoanDao,
-    private val uploader: LoanUploader
+    private val dao: LoanRecordDao,
+    private val uploader: LoanRecordUploader
 ) {
     suspend fun create(
-        data: CreateLoanData,
-        onRefreshUI: suspend (Loan) -> Unit
+        loanId: UUID,
+        data: CreateLoanRecordData,
+        onRefreshUI: suspend (LoanRecord) -> Unit
     ) {
-        val name = data.name
-        if (name.isBlank()) return
+        val note = data.note
         if (data.amount <= 0) return
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addLoan = true
-            ) {
+            paywallLogic.protectQuotaExceededWithPaywall {
                 val newItem = ioThread {
-                    val item = Loan(
-                        name = name.trim(),
+                    val item = LoanRecord(
+                        loanId = loanId,
+                        note = note?.trim(),
                         amount = data.amount,
-                        type = data.type,
-                        color = data.color.toArgb(),
-                        icon = data.icon,
-                        orderNum = dao.findMaxOrderNum() + 1,
+                        dateTime = data.dateTime,
                         isSynced = false
                     )
 
@@ -52,10 +48,9 @@ class LoanCreator(
 
 
     suspend fun edit(
-        updatedItem: Loan,
-        onRefreshUI: suspend (Loan) -> Unit
+        updatedItem: LoanRecord,
+        onRefreshUI: suspend (LoanRecord) -> Unit
     ) {
-        if (updatedItem.name.isBlank()) return
         if (updatedItem.amount <= 0.0) return
 
         try {
@@ -78,7 +73,7 @@ class LoanCreator(
     }
 
     suspend fun delete(
-        item: Loan,
+        item: LoanRecord,
         onRefreshUI: suspend () -> Unit
     ) {
         try {

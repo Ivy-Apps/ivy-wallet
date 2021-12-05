@@ -9,7 +9,7 @@ import java.util.*
 data class LoanRecord(
     val loanId: UUID,
     val amount: Double,
-    val note: String?,
+    val note: String? = null,
     val dateTime: LocalDateTime,
 
     val isSynced: Boolean = false,
