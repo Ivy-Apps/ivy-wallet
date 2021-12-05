@@ -21,8 +21,8 @@ object Libs {
 
     object Project {
         //Version
-        const val versionName = "2.2.10-comet"
-        const val versionCode = 88
+        const val versionName = "2.3.0-1P/Halley"
+        const val versionCode = 89
 
         //Compile SDK & Build Tools
         const val compileSdkVersion = 31
