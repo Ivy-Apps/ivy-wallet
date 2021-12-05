@@ -88,4 +88,9 @@ class LoanDetailsScreen<A : ComponentActivity>(
             .performScrollTo()
             .performClick()
     }
+
+    fun assertNoRecordsEmptyState() {
+        composeTestRule.onNodeWithText("No records")
+            .assertIsDisplayed()
+    }
 }

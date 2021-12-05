@@ -292,23 +292,184 @@ class LoansTest : IvyComposeTest() {
     }
 
     @Test
-    fun DeleteLoanRecord() {
+    fun DeleteLoanRecord() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan",
+            loanType = LoanType.LEND,
+            amount = "1,250.50"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan"
+        )
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("1,053.99")
+            clickAdd()
+        }
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.clickLoanRecord(
+            amount = "1,053.99"
+        )
+        loanRecordModal.apply {
+            clickDelete()
+            deleteConfirmationModal.confirmDelete()
+        }
+
+        loanDetailsScreen.apply {
+            assertAmountPaid(
+                amountPaid = "0.00",
+                loanAmount = "1,250.50"
+            )
+            assertPercentPaid("0.00%")
+            assertLeftToPay("1,250.50")
+            assertNoRecordsEmptyState()
+
+            clickClose()
+        }
+
+        loansScreen.assertLoan(
+            name = "Loan",
+            loanType = LoanType.LEND,
+            amount = "1,250",
+            amountDecimal = ".50",
+            amountPaid = "0.00",
+            percentPaid = "0.00"
+        )
     }
 
     @Test
-    fun AddSeveralLoanRecords() {
+    fun AddSeveralLoanRecords() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan",
+            loanType = LoanType.LEND,
+            amount = "1,000.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan"
+        )
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("500")
+            enterNote("Initial")
+            clickAdd()
+        }
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("249.50")
+            clickAdd()
+        }
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("250.50")
+            enterNote("Final payment")
+            clickAdd()
+        }
+
+        //---------------------------- Assertions --------------------------------------------------
+        loanDetailsScreen.apply {
+            assertLeftToPay("0.00")
+            assertPercentPaid("100.00%")
+            assertAmountPaid(
+                amountPaid = "1,000.00",
+                loanAmount = "1,000.00"
+            )
+        }
     }
 
     @Test
-    fun DeleteLoanWithRecrods() {
+    fun DeleteLoanWithRecrods() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan",
+            loanType = LoanType.LEND,
+            amount = "1,000.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan"
+        )
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("500")
+            enterNote("Initial")
+            clickAdd()
+        }
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.clickDelete()
+        deleteConfirmationModal.confirmDelete()
+
+        loansScreen.assertEmptyState()
     }
 
     //Corner cases
     @Test
-    fun OverpayLoan() {
+    fun OverpayLoan() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan",
+            loanType = LoanType.BORROW,
+            amount = "1,000.00"
+        )
+
+        loansScreen.clickLoan(
+            loanName = "Loan"
+        )
+        //-------------------- Preparation ---------------------------------------------------------
+
+        loanDetailsScreen.addRecord()
+        loanRecordModal.apply {
+            inputAmountOpenModal("2,000.50")
+            enterNote("Initial")
+            clickAdd()
+        }
+
+        //-------------------------- Assertions ----------------------------------------------------
+        loanDetailsScreen.apply {
+            assertAmountPaid(
+                amountPaid = "2,000.50",
+                loanAmount = "1,000.00"
+            )
+            assertPercentPaid("200.05%")
+            assertLeftToPay("-1,000.50")
+
+            clickClose()
+        }
+
+        loansScreen.assertLoan(
+            name = "Loan",
+            amount = "1,000",
+            amountDecimal = ".00",
+            amountPaid = "2,000.50",
+            percentPaid = "200.05",
+            loanType = LoanType.BORROW
+        )
     }
 }

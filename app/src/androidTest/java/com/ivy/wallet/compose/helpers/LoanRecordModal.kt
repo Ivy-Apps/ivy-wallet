@@ -38,4 +38,9 @@ class LoanRecordModal<A : ComponentActivity>(
         composeTestRule.onNodeWithText("Save")
             .performClick()
     }
+
+    fun clickDelete() {
+        composeTestRule.onNodeWithTag("modal_delete")
+            .performClick()
+    }
 }
