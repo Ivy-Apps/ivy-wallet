@@ -193,7 +193,7 @@ class CSVMapper {
 
         transformTransaction = { transaction, _, csvAmount ->
             transaction.copy(
-                //Idk, never seen a sample CSV from Financisto
+                // Financisto exports expenses with a negative sign and incoming as positive values
                 type = if (csvAmount > 0 && transaction.type == TransactionType.EXPENSE) {
                     TransactionType.INCOME
                 } else {

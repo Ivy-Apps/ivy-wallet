@@ -29,6 +29,7 @@ data class AnalyticsEvent(
         const val PAYWALL_EXPORT_CSV = "paywall_export_csv"
         const val PAYWALL_PREMIUM_COLOR = "paywall_premium_color"
         const val PAYWALL_BUDGETS = "paywall_budgets"
+        const val PAYWALL_LOANS = "paywall_loans"
 
         const val PAYWALL_CHOOSE_PLAN = "paywall_choose_plan"
         const val PAYWALL_CHOOSE_PLAN_MONTHLY = "paywall_choose_plan_monthly"

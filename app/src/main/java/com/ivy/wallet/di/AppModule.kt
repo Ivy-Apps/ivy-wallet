@@ -445,14 +445,16 @@ object AppModule {
         ivyContext: IvyContext,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
-        budgetDao: BudgetDao
+        budgetDao: BudgetDao,
+        loanDao: LoanDao
     ): PaywallLogic {
         return PaywallLogic(
             ivyBilling = ivyBilling,
             ivyContext = ivyContext,
             accountDao = accountDao,
             categoryDao = categoryDao,
-            budgetDao = budgetDao
+            budgetDao = budgetDao,
+            loanDao = loanDao
         )
     }
 
@@ -595,6 +597,19 @@ object AppModule {
         uploader: LoanUploader
     ): LoanCreator {
         return LoanCreator(
+            paywallLogic = paywallLogic,
+            dao = dao,
+            uploader = uploader
+        )
+    }
+
+    @Provides
+    fun provideLoanRecordCreator(
+        paywallLogic: PaywallLogic,
+        dao: LoanRecordDao,
+        uploader: LoanRecordUploader
+    ): LoanRecordCreator {
+        return LoanRecordCreator(
             paywallLogic = paywallLogic,
             dao = dao,
             uploader = uploader

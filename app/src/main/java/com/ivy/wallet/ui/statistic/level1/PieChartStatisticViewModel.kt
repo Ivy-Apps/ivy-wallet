@@ -139,4 +139,24 @@ class PieChartStatisticViewModel @Inject constructor(
             type = type.value!!
         )
     }
+
+    fun nextMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, 1L),
+                type = type.value!!
+            )
+        }
+    }
+
+    fun previousMonth() {
+        val month = period.value?.month
+        if (month != null) {
+            load(
+                period = month.incrementMonthPeriod(ivyContext, -1L),
+                type = type.value!!
+            )
+        }
+    }
 }

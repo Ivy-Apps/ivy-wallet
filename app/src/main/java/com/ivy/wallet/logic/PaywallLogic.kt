@@ -8,6 +8,7 @@ import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.paywall.PaywallReason
@@ -17,7 +18,8 @@ class PaywallLogic(
     private val ivyContext: IvyContext,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val budgetDao: BudgetDao
+    private val budgetDao: BudgetDao,
+    private val loanDao: LoanDao
 ) {
 
     suspend fun protectQuotaExceededWithPaywall(
@@ -57,6 +59,11 @@ class PaywallLogic(
                 return@ioThread PaywallReason.BUDGETS
             }
 
+            val loans = loanDao.findAll()
+            if (loans.size > Constants.FREE_LOANS) {
+                return@ioThread PaywallReason.LOANS
+            }
+
             null
         }
 
@@ -66,14 +73,15 @@ class PaywallLogic(
         addAccount: Boolean = false,
         addCategory: Boolean = false,
         addBudget: Boolean = false,
+        addLoan: Boolean = false,
         action: suspend () -> Unit
-    //TODO: Handle loan
     ) {
         val paywallReason = checkPaywall {
             paywallHitAddItem(
                 addAccount = addAccount,
                 addCategory = addCategory,
                 addBudget = addBudget,
+                addLoan = addLoan,
             )
         }
 
@@ -105,7 +113,8 @@ class PaywallLogic(
     private suspend fun paywallHitAddItem(
         addAccount: Boolean,
         addCategory: Boolean,
-        addBudget: Boolean
+        addBudget: Boolean,
+        addLoan: Boolean
     ): PaywallReason? {
         return ioThread {
             if (addAccount) {
@@ -125,9 +134,17 @@ class PaywallLogic(
 
             if (addBudget) {
                 val budgetsCount =
-                    budgetDao.findAll().size + 1 //+1 for the category being added
+                    budgetDao.findAll().size + 1 //+1 for the item being added
                 if (budgetsCount > Constants.FREE_BUDGETS) {
                     return@ioThread PaywallReason.BUDGETS
+                }
+            }
+
+            if (addLoan) {
+                val loansCount =
+                    loanDao.findAll().size + 1 //+1 for the item being added
+                if (loansCount > Constants.FREE_LOANS) {
+                    return@ioThread PaywallReason.LOANS
                 }
             }
 
