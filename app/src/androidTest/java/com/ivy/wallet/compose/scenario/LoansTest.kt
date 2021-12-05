@@ -5,6 +5,7 @@ import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.Purple1
 import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
@@ -25,7 +26,7 @@ class LoansTest : IvyComposeTest() {
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickLoans()
 
-        loansScreen.addLoan()
+        loansScreen.clickAddLoan()
         loanModal.apply {
             enterName("Loan 1")
             enterAmount("4,800.32")
@@ -54,7 +55,7 @@ class LoansTest : IvyComposeTest() {
         homeMoreMenu.clickOpenCloseArrow()
         homeMoreMenu.clickLoans()
 
-        loansScreen.addLoan()
+        loansScreen.clickAddLoan()
         loanModal.apply {
             enterName("Razer Blade")
             enterAmount("4,800")
@@ -119,8 +120,35 @@ class LoansTest : IvyComposeTest() {
     }
 
     @Test
-    fun CreateSeveralLoans() {
+    fun CreateSeveralLoans() = testWithRetry {
+        onboarding.quickOnboarding()
 
+        homeMoreMenu.clickOpenCloseArrow()
+        homeMoreMenu.clickLoans()
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan 1",
+            loanType = LoanType.BORROW,
+            color = Purple1,
+            icon = "category",
+            amount = "0.25"
+        )
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan 2",
+            loanType = LoanType.BORROW,
+            color = Blue,
+            icon = "education",
+            amount = "10,000.00"
+        )
+
+        loansScreen.addLoanFlow(
+            loanName = "Loan 3",
+            loanType = LoanType.LEND,
+            color = Purple2,
+            icon = "atom",
+            amount = "4,235.56"
+        )
     }
 
     @Test
