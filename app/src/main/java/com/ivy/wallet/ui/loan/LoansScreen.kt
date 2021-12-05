@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -203,6 +204,7 @@ private fun LoanItem(
             .fillMaxWidth()
             .clip(Shapes.rounded16)
             .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .testTag("loan_item")
             .clickable(
                 onClick = onClick
             )
