@@ -1,11 +1,8 @@
 package com.ivy.wallet.compose.helpers
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.ivy.wallet.model.LoanType
 
@@ -37,5 +34,12 @@ class LoansScreen<A : ComponentActivity>(
                 name, typeText, amount, amountDecimal, currency,
                 "$amountPaid $currency / $amount$amountDecimal $currency ($percentPaid%)"
             )
+    }
+
+    fun clickLoan(loanName: String) {
+        composeTestRule.onNode(
+            hasTestTag("loan_item")
+                .and(hasText(loanName, substring = true))
+        ).performClick()
     }
 }

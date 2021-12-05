@@ -242,7 +242,7 @@ private fun Header(
         BalanceRow(
             modifier = Modifier
                 .padding(start = 32.dp)
-                .testTag("balance")
+                .testTag("loan_amount")
                 .clickableNoIndication {
                     onAmountClick()
                 },
@@ -289,6 +289,7 @@ private fun LoanItem(
         Spacer(Modifier.width(8.dp))
 
         Text(
+            modifier = Modifier.testTag("loan_name"),
             text = loan.name,
             style = Typo.body1.style(
                 color = contrastColor,
@@ -349,7 +350,9 @@ private fun LoanInfoCard(
         Spacer(Modifier.height(12.dp))
 
         Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .testTag("amount_paid"),
             text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
             style = Typo.numberBody1.style(
                 color = contrastColor,
@@ -375,6 +378,8 @@ private fun LoanInfoCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
+                modifier = Modifier
+                    .testTag("percent_paid"),
                 text = "${percentPaid.times(100).format(2)}%",
                 style = Typo.numberBody1.style(
                     color = contrastColor,
@@ -385,7 +390,9 @@ private fun LoanInfoCard(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                text = "${leftToPay.format(2)} BGN left",
+                modifier = Modifier
+                    .testTag("left_to_pay"),
+                text = "${leftToPay.format(baseCurrency)} $baseCurrency left",
                 style = Typo.numberBody2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold

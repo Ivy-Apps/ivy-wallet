@@ -16,9 +16,9 @@ class LoanModal<A : ComponentActivity>(
     val colorPicker = IvyColorPicker(composeTestRule)
     val chooseIconFlow = ChooseIconFlow(composeTestRule)
 
-    fun enterName(budgetName: String) {
+    fun enterName(loanName: String) {
         composeTestRule.onNodeWithTag("base_input")
-            .performTextReplacement(budgetName)
+            .performTextReplacement(loanName)
     }
 
     fun selectLoanType(loanType: LoanType) {

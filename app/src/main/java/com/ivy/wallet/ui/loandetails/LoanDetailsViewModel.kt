@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.computationThread
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.LoanCreator
@@ -50,6 +51,8 @@ class LoanDetailsViewModel @Inject constructor(
 
     private fun load(loanId: UUID) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             _baseCurrency.value = ioThread {
                 settingsDao.findFirst().currency
             }
@@ -67,14 +70,20 @@ class LoanDetailsViewModel @Inject constructor(
                     it.amount
                 }
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editLoan(loan: Loan) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             loanCreator.edit(loan) {
                 load(loanId = it.id)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -82,10 +91,14 @@ class LoanDetailsViewModel @Inject constructor(
         val loan = loan.value ?: return
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             loanCreator.delete(loan) {
                 //close screen
                 ivyContext.back()
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -93,20 +106,28 @@ class LoanDetailsViewModel @Inject constructor(
         val loanId = loan.value?.id ?: return
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             loanRecordCreator.create(
                 loanId = loanId,
                 data = data
             ) {
                 load(loanId = loanId)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
     fun editLoanRecord(loanRecord: LoanRecord) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             loanRecordCreator.edit(loanRecord) {
                 load(loanId = it.loanId)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
@@ -114,9 +135,13 @@ class LoanDetailsViewModel @Inject constructor(
         val loanId = loan.value?.id ?: return
 
         viewModelScope.launch {
+            TestIdlingResource.increment()
+
             loanRecordCreator.delete(loanRecord) {
                 load(loanId = loanId)
             }
+
+            TestIdlingResource.decrement()
         }
     }
 
