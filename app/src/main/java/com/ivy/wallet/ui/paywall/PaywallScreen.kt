@@ -27,6 +27,7 @@ import com.ivy.wallet.billing.PlanType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
@@ -39,6 +40,7 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 private const val BENEFIT_TAG_ACCOUNTS = "accs"
 private const val BENEFIT_TAG_CATEGORIES = "cats"
 private const val BENEFIT_TAG_BUDGETS = "budgs"
+private const val BENEFIT_TAG_LOANS = "loans"
 
 private val BENEFITS = listOf(
     Benefit(
@@ -52,6 +54,10 @@ private val BENEFITS = listOf(
     Benefit(
         text = "Unlimited budgets",
         tag = BENEFIT_TAG_BUDGETS,
+    ),
+    Benefit(
+        text = "Unlimited loans",
+        tag = BENEFIT_TAG_LOANS,
     ),
     Benefit(
         text = "Export \"Reports\" to CSV (Google Sheets & Excel)"
@@ -75,6 +81,7 @@ fun BoxWithConstraintsScope.PaywallScreen(screen: Screen.Paywall, activity: IvyA
     val accounts by viewModel.accounts.observeAsState(emptyList())
     val categories by viewModel.categories.observeAsState(emptyList())
     val budgets by viewModel.budgets.observeAsState(emptyList())
+    val loans by viewModel.loans.observeAsState(emptyList())
 
     onScreenStart {
         viewModel.start(
@@ -91,6 +98,7 @@ fun BoxWithConstraintsScope.PaywallScreen(screen: Screen.Paywall, activity: IvyA
         accounts = accounts,
         categories = categories,
         budgets = budgets,
+        loans = loans,
 
         onPlanSelected = viewModel::onPlanSelected,
         onBuy = {
@@ -109,6 +117,7 @@ private fun BoxWithConstraintsScope.UI(
     accounts: List<Account>,
     categories: List<Category>,
     budgets: List<Budget>,
+    loans: List<Loan>,
 
     onPlanSelected: (Plan?) -> Unit = {},
     onBuy: (Plan) -> Unit,
@@ -168,6 +177,13 @@ private fun BoxWithConstraintsScope.UI(
                             usedCount = budgets.size,
                             freeCount = Constants.FREE_BUDGETS,
                             itemName = "budgets"
+                        )
+                    }
+                    BENEFIT_TAG_LOANS -> {
+                        UsageText(
+                            usedCount = loans.size,
+                            freeCount = Constants.FREE_LOANS,
+                            itemName = "loans"
                         )
                     }
                     else -> {
@@ -312,6 +328,7 @@ private fun Preview() {
             accounts = emptyList(),
             categories = emptyList(),
             budgets = emptyList(),
+            loans = emptyList(),
 
             onBuy = {}
         )

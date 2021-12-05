@@ -7,6 +7,7 @@ object Constants {
     const val FREE_ACCOUNTS = 3
     const val FREE_CATEGORIES = 12
     const val FREE_BUDGETS = 2
+    const val FREE_LOANS = 2
 
     const val URL_TC =
         "https://github.com/ILIYANGERMANOV/privacy-policies/blob/master/ivy-wallet-tc.md"

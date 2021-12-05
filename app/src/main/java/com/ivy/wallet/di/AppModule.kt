@@ -445,14 +445,16 @@ object AppModule {
         ivyContext: IvyContext,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
-        budgetDao: BudgetDao
+        budgetDao: BudgetDao,
+        loanDao: LoanDao
     ): PaywallLogic {
         return PaywallLogic(
             ivyBilling = ivyBilling,
             ivyContext = ivyContext,
             accountDao = accountDao,
             categoryDao = categoryDao,
-            budgetDao = budgetDao
+            budgetDao = budgetDao,
+            loanDao = loanDao
         )
     }
 

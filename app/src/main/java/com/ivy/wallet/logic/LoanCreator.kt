@@ -22,8 +22,7 @@ class LoanCreator(
 
         try {
             paywallLogic.protectAddWithPaywall(
-                //TODO: Handle addLoan = true
-//                addBudget = true,
+                addLoan = true
             ) {
                 val newItem = ioThread {
                     val item = Loan(

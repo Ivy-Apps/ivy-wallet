@@ -16,9 +16,11 @@ import com.ivy.wallet.model.analytics.AnalyticsEvent
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +35,8 @@ class PaywallViewModel @Inject constructor(
     private val ivyAnalytics: IvyAnalytics,
     private val categoryDao: CategoryDao,
     private val accountDao: AccountDao,
-    private val budgetDao: BudgetDao
+    private val budgetDao: BudgetDao,
+    private val loanDao: LoanDao
 ) : ViewModel() {
 
     private val _plans = MutableLiveData<List<Plan>>()
@@ -47,6 +50,9 @@ class PaywallViewModel @Inject constructor(
 
     private val _budgets = MutableLiveData<List<Budget>>()
     val budgets = _budgets.asLiveData()
+
+    private val _loans = MutableLiveData<List<Loan>>()
+    val loans = _loans.asLiveData()
 
     private val _purchasedSkus = MutableLiveData<List<String>>(emptyList())
     val purchasedSkus = _purchasedSkus.asLiveData()
@@ -87,6 +93,7 @@ class PaywallViewModel @Inject constructor(
             _categories.value = ioThread { categoryDao.findAll() }!!
             _accounts.value = ioThread { accountDao.findAll() }!!
             _budgets.value = ioThread { budgetDao.findAll() }!!
+            _loans.value = ioThread { loanDao.findAll() }!!
 
             ivyAnalytics.logEvent(
                 when (screen.paywallReason) {
@@ -95,6 +102,7 @@ class PaywallViewModel @Inject constructor(
                     PaywallReason.EXPORT_CSV -> AnalyticsEvent.PAYWALL_EXPORT_CSV
                     PaywallReason.PREMIUM_COLOR -> AnalyticsEvent.PAYWALL_PREMIUM_COLOR
                     PaywallReason.BUDGETS -> AnalyticsEvent.PAYWALL_BUDGETS
+                    PaywallReason.LOANS -> AnalyticsEvent.PAYWALL_LOANS
                     null -> AnalyticsEvent.PAYWALL_NO_REASON
                 }
             )
