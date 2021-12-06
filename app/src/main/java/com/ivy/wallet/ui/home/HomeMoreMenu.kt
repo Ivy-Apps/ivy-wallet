@@ -193,7 +193,9 @@ private fun ColumnScope.Content(
 
     val ivyContext = LocalIvyContext.current
     SearchButton {
-        //TODO: Navigate to search screen
+        ivyContext.navigateTo(
+            screen = Screen.Search
+        )
     }
 
     Spacer(Modifier.height(16.dp))
@@ -242,7 +244,10 @@ private fun SearchButton(
         Spacer(Modifier.width(12.dp))
 
         Text(
-            modifier = Modifier.padding(bottom = 14.dp, top = 12.dp),
+            modifier = Modifier.padding(
+                top = 12.dp,
+                bottom = 14.dp
+            ),
             text = "Search transactions",
             style = Typo.body2.style(
                 fontWeight = FontWeight.SemiBold,

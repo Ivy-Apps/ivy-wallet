@@ -56,6 +56,7 @@ import com.ivy.wallet.ui.paywall.PaywallScreen
 import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
+import com.ivy.wallet.ui.search.SearchScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
@@ -172,6 +173,7 @@ class IvyActivity : AppCompatActivity() {
                             is Screen.Budget -> BudgetScreen(screen = screen)
                             is Screen.Loans -> LoansScreen(screen = screen)
                             is Screen.LoanDetails -> LoanDetailsScreen(screen = screen)
+                            is Screen.Search -> SearchScreen(screen = screen)
                             is Screen.WebView -> WebViewScreen(screen = screen)
                             null -> {
                             }
