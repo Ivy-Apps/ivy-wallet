@@ -216,6 +216,25 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
+            SettingsSectionDivider(text = "App Settings")
+
+            Spacer(Modifier.height(16.dp))
+
+            LockAppSwitch(
+                lockApp = lockApp,
+                onSetLockApp = onSetLockApp
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            StartDateOfMonth(
+                startDateOfMonth = startDateOfMonth
+            ) {
+                chooseStartDateOfMonthVisible = true
+            }
+        }
+
+        item {
             SettingsSectionDivider(text = "Other")
 
             Spacer(Modifier.height(16.dp))
@@ -237,21 +256,6 @@ private fun BoxWithConstraintsScope.UI(
                 backgroundGradient = Gradient.solid(Red3)
             ) {
                 ivyActivity.shareIvyWallet()
-            }
-
-            Spacer(Modifier.height(12.dp))
-
-            LockAppSwitch(
-                lockApp = lockApp,
-                onSetLockApp = onSetLockApp
-            )
-
-            Spacer(Modifier.height(12.dp))
-
-            StartDateOfMonth(
-                startDateOfMonth = startDateOfMonth
-            ) {
-                chooseStartDateOfMonthVisible = true
             }
         }
 
