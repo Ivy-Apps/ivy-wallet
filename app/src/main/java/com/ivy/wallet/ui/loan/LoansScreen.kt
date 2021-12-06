@@ -210,7 +210,7 @@ private fun LoanItem(
             )
     ) {
         LoanHeader(
-            loan = loan,
+            displayLoan = displayLoan,
             baseCurrency = baseCurrency,
             contrastColor = contrastColor,
         )
@@ -228,10 +228,12 @@ private fun LoanItem(
 
 @Composable
 private fun LoanHeader(
-    loan: Loan,
+    displayLoan: DisplayLoan,
     baseCurrency: String,
     contrastColor: Color,
 ) {
+    val loan = displayLoan.loan
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -275,6 +277,7 @@ private fun LoanHeader(
 
         Spacer(Modifier.height(4.dp))
 
+        val leftToPay = loan.amount - displayLoan.amountPaid
         BalanceRow(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally),
@@ -282,7 +285,7 @@ private fun LoanHeader(
             spacerDecimal = 6.dp,
             textColor = contrastColor,
             currency = baseCurrency,
-            balance = loan.amount,
+            balance = leftToPay,
 
             integerFontSize = 30.sp,
             decimalFontSize = 18.sp,

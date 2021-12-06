@@ -45,8 +45,8 @@ fun LazyListScope.transactions(
     lastItemSpacer: Dp? = null,
     onPayOrGet: (Transaction) -> Unit,
     emptyStateTitle: String = "No transactions",
-
-    emptyStateText: String
+    emptyStateText: String,
+    dateDividerMarginTop: Dp? = null
 ) {
     if (upcoming.isNotEmpty()) {
         item {
@@ -134,7 +134,8 @@ fun LazyListScope.transactions(
                 is TransactionHistoryDateDivider -> {
                     HistoryDateDivider(
                         date = it.date,
-                        spacerTop = if (it == history.firstOrNull()) 24.dp else 32.dp,
+                        spacerTop = dateDividerMarginTop
+                            ?: if (it == history.firstOrNull()) 24.dp else 32.dp,
                         baseCurrency = baseCurrency,
                         income = it.income,
                         expenses = it.expenses

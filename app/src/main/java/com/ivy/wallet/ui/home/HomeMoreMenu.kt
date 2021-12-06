@@ -35,7 +35,6 @@ import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
-import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
@@ -190,7 +189,16 @@ private fun ColumnScope.Content(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit,
 ) {
-    Spacer(Modifier.height(32.dp))
+    Spacer(Modifier.height(24.dp))
+
+    val ivyContext = LocalIvyContext.current
+    SearchButton {
+        ivyContext.navigateTo(
+            screen = Screen.Search
+        )
+    }
+
+    Spacer(Modifier.height(16.dp))
 
     QuickAccess(
         theme = theme,
@@ -211,16 +219,44 @@ private fun ColumnScope.Content(
     OpenSource()
 
     Spacer(Modifier.weight(1f))
+}
 
-    IvyButton(
-        modifier = Modifier.padding(start = 24.dp),
-        text = currency,
-        iconStart = R.drawable.ic_currency
+@Composable
+private fun SearchButton(
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(Shapes.roundedFull)
+            .background(IvyTheme.colors.pure)
+            .border(1.dp, Gray, Shapes.roundedFull)
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        onCurrencyClick()
-    }
+        Spacer(Modifier.width(12.dp))
 
-    Spacer(Modifier.height(40.dp))
+        IvyIcon(icon = R.drawable.ic_search)
+
+        Spacer(Modifier.width(12.dp))
+
+        Text(
+            modifier = Modifier.padding(
+                top = 12.dp,
+                bottom = 14.dp
+            ),
+            text = "Search transactions",
+            style = Typo.body2.style(
+                fontWeight = FontWeight.SemiBold,
+                color = IvyTheme.colors.pureInverse
+            )
+        )
+
+        Spacer(Modifier.width(16.dp))
+    }
 }
 
 @Composable
@@ -341,30 +377,30 @@ private fun QuickAccess(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        Spacer(Modifier.width(4.dp))
+        Spacer(Modifier.weight(1f))
 
         MoreMenuButton(
-            icon = R.drawable.ic_settings,
+            icon = R.drawable.home_more_menu_settings,
             label = "Settings"
         ) {
             ivyContext.navigateTo(Screen.Settings)
         }
 
-        Spacer(Modifier.width(0.dp))
+        Spacer(Modifier.weight(1f))
 
         MoreMenuButton(
-            icon = R.drawable.ic_categories,
+            icon = R.drawable.home_more_menu_categories,
             label = "Categories"
         ) {
             ivyContext.navigateTo(Screen.Categories)
         }
 
-        Spacer(Modifier.width(0.dp))
+        Spacer(Modifier.weight(1f))
 
         MoreMenuButton(
             icon = when (theme) {
-                Theme.LIGHT -> R.drawable.ic_lightmode
-                Theme.DARK -> R.drawable.ic_darkmode
+                Theme.LIGHT -> R.drawable.home_more_menu_light_mode
+                Theme.DARK -> R.drawable.home_more_menu_dark_mode
             },
             label = when (theme) {
                 Theme.LIGHT -> "Light mode"
@@ -382,16 +418,16 @@ private fun QuickAccess(
             onSwitchTheme()
         }
 
-        Spacer(Modifier.width(0.dp))
+        Spacer(Modifier.weight(1f))
 
         MoreMenuButton(
-            icon = R.drawable.ic_planned_payments,
+            icon = R.drawable.home_more_menu_planned_payments,
             label = "Planned\nPayments"
         ) {
             ivyContext.navigateTo(Screen.PlannedPayments)
         }
 
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.weight(1f))
     }
 
     Spacer(Modifier.height(16.dp))
@@ -402,39 +438,44 @@ private fun QuickAccess(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.Top
     ) {
-        Spacer(Modifier.width(4.dp))
+        Spacer(Modifier.weight(1f))
 
         val context = LocalContext.current
         MoreMenuButton(
-            icon = R.drawable.ic_share,
-            label = "Share\nIvy Wallet"
+            icon = R.drawable.home_more_menu_share,
+            label = "Share Ivy"
         ) {
             (context as IvyActivity).shareIvyWallet()
         }
 
+        Spacer(Modifier.weight(1f))
+
         MoreMenuButton(
-            icon = R.drawable.ic_statistics_s,
+            icon = R.drawable.home_more_menu_reports,
             label = "Reports",
-            expandPadding = 11.dp
         ) {
             ivyContext.navigateTo(Screen.Report)
         }
 
+        Spacer(Modifier.weight(1f))
+
         MoreMenuButton(
-            icon = R.drawable.ic_budget_s,
+            icon = R.drawable.home_more_menu_budgets,
             label = "Budgets",
-            expandPadding = 11.dp
         ) {
             ivyContext.navigateTo(Screen.Budget)
         }
 
+        Spacer(Modifier.weight(1f))
+
         MoreMenuButton(
-            icon = R.drawable.ic_custom_loan_s,
+            icon = R.drawable.home_more_menu_loans,
             label = "Loans",
-            expandPadding = 11.dp
         ) {
             ivyContext.navigateTo(Screen.Loans)
         }
+
+        Spacer(Modifier.weight(1f))
     }
 }
 
@@ -445,7 +486,7 @@ private fun MoreMenuButton(
 
     backgroundColor: Color = IvyTheme.colors.pure,
     tint: Color = IvyTheme.colors.pureInverse,
-    expandPadding: Dp = 8.dp,
+    expandPadding: Dp = 14.dp,
 
     onClick: () -> Unit
 ) {

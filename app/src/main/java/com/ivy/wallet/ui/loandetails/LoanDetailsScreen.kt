@@ -169,6 +169,11 @@ private fun BoxWithConstraintsScope.UI(
                     NoLoanRecordsEmptyState()
                 }
             }
+
+            item {
+                //scroll hack
+                Spacer(Modifier.height(96.dp))
+            }
         }
     }
 
