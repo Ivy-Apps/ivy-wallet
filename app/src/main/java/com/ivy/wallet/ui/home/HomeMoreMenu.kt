@@ -438,7 +438,7 @@ private fun QuickAccess(
         val context = LocalContext.current
         MoreMenuButton(
             icon = R.drawable.home_more_menu_share,
-            label = "Share\nIvy Wallet"
+            label = "Share Ivy"
         ) {
             (context as IvyActivity).shareIvyWallet()
         }
