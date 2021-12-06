@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -178,7 +179,18 @@ private fun SearchInput(
             searchFocus.requestFocus()
         }
 
-        Spacer(Modifier.width(16.dp))
+        Spacer(Modifier.weight(1f))
+
+        IvyIcon(
+            modifier = Modifier
+                .clickable {
+                    onSetSearchQueryTextField(selectEndTextFieldValue(""))
+                }
+                .padding(all = 12.dp), //enlarge click area
+            icon = R.drawable.ic_outline_clear_24
+        )
+
+        Spacer(Modifier.width(8.dp))
     }
 }
 
