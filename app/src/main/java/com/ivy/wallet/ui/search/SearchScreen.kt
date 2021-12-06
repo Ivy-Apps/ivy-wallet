@@ -1,0 +1,208 @@
+package com.ivy.wallet.ui.search
+
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.wallet.R
+import com.ivy.wallet.base.*
+import com.ivy.wallet.model.TransactionHistoryItem
+import com.ivy.wallet.model.entity.Account
+import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
+import com.ivy.wallet.ui.theme.components.IvyBasicTextField
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.ui.theme.transaction.transactions
+
+@Composable
+fun SearchScreen(screen: Screen.Search) {
+    val viewModel: SearchViewModel = viewModel()
+
+    val transactions by viewModel.transactions.collectAsState()
+    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+
+    onScreenStart {
+        viewModel.search("")
+    }
+
+    UI(
+        transactions = transactions,
+        baseCurrency = baseCurrency,
+        categories = categories,
+        accounts = accounts,
+
+        onSearch = viewModel::search
+    )
+}
+
+@Composable
+private fun UI(
+    transactions: List<TransactionHistoryItem>,
+    baseCurrency: String,
+    categories: List<Category>,
+    accounts: List<Account>,
+
+    onSearch: (String) -> Unit = {}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
+    ) {
+        Spacer(Modifier.height(24.dp))
+
+        val listState = rememberLazyListState()
+
+        var searchQueryTextFieldValue by remember {
+            mutableStateOf(selectEndTextFieldValue(""))
+        }
+
+        SearchInput(
+            searchQueryTextFieldValue = searchQueryTextFieldValue,
+            onSetSearchQueryTextField = {
+                searchQueryTextFieldValue = it
+                onSearch(it.text)
+            }
+        )
+
+        LaunchedEffect(transactions) {
+            //scroll to top when transactions are changed
+            listState.animateScrollToItem(index = 0, scrollOffset = 0)
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        val ivyContext = LocalIvyContext.current
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            state = listState
+
+        ) {
+            transactions(
+                ivyContext = ivyContext,
+                upcoming = emptyList(),
+                upcomingExpanded = false,
+                setUpcomingExpanded = { },
+                baseCurrency = baseCurrency,
+                upcomingIncome = 0.0,
+                upcomingExpenses = 0.0,
+                categories = categories,
+                accounts = accounts,
+                listState = listState,
+                overdue = emptyList(),
+                overdueExpanded = false,
+                setOverdueExpanded = { },
+                overdueIncome = 0.0,
+                overdueExpenses = 0.0,
+                history = transactions,
+                onPayOrGet = { },
+                dateDividerMarginTop = 16.dp,
+                emptyStateTitle = "No transactions",
+                emptyStateText = "You don't have any transactions for \"${searchQueryTextFieldValue.text}\" query."
+            )
+
+            item {
+                val keyboardVisible by keyboardVisibleState()
+                val keyboardShownInsetDp by animateDpAsState(
+                    targetValue = densityScope {
+                        if (keyboardVisible) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
+                    },
+                    animationSpec = tween(DURATION_MODAL_KEYBOARD)
+                )
+
+                Spacer(Modifier.height(keyboardShownInsetDp))
+                //add keyboard height margin at bototm so the list can scroll to bottom
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchInput(
+    searchQueryTextFieldValue: TextFieldValue,
+    onSetSearchQueryTextField: (TextFieldValue) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(Shapes.roundedFull)
+            .background(IvyTheme.colors.pure)
+            .border(1.dp, Gray, Shapes.roundedFull),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        IvyIcon(icon = R.drawable.ic_search)
+
+        Spacer(Modifier.width(12.dp))
+
+        val searchFocus = FocusRequester()
+        IvyBasicTextField(
+            modifier = Modifier
+                .padding(
+                    top = 12.dp,
+                    bottom = 14.dp
+                )
+                .focusRequester(searchFocus),
+            value = searchQueryTextFieldValue,
+            hint = "Search transactions",
+            onValueChanged = {
+                onSetSearchQueryTextField(it)
+            }
+        )
+
+        onScreenStart {
+            searchFocus.requestFocus()
+        }
+
+        Spacer(Modifier.weight(1f))
+
+        IvyIcon(
+            modifier = Modifier
+                .clickable {
+                    onSetSearchQueryTextField(selectEndTextFieldValue(""))
+                }
+                .padding(all = 12.dp), //enlarge click area
+            icon = R.drawable.ic_outline_clear_24
+        )
+
+        Spacer(Modifier.width(8.dp))
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    IvyAppPreview {
+        UI(
+            transactions = emptyList(),
+            baseCurrency = "BGN",
+            categories = emptyList(),
+            accounts = emptyList()
+        )
+    }
+}
