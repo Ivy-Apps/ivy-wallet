@@ -38,8 +38,9 @@ class LoansTest : IvyComposeTest() {
 
         loansScreen.assertLoan(
             name = "Loan 1",
-            amount = "4,800",
-            amountDecimal = ".32",
+            amountLeft = "4,800",
+            amountLeftDecimal = ".32",
+            loanAmount = "4,800.32",
             loanType = LoanType.BORROW,
             currency = "USD",
             amountPaid = "0.00",
@@ -66,8 +67,9 @@ class LoansTest : IvyComposeTest() {
         }
         loansScreen.assertLoan(
             name = "Razer Blade",
-            amount = "4,800",
-            amountDecimal = ".00",
+            amountLeft = "4,800",
+            amountLeftDecimal = ".00",
+            loanAmount = "4,800.00",
             loanType = LoanType.LEND,
             currency = "USD",
             amountPaid = "0.00",
@@ -111,8 +113,9 @@ class LoansTest : IvyComposeTest() {
         loansScreen.assertLoan(
             name = "Laptop",
             loanType = LoanType.BORROW,
-            amount = "4,000",
-            amountDecimal = ".25",
+            amountLeft = "4,000",
+            amountLeftDecimal = ".25",
+            loanAmount = "4,000.25",
             amountPaid = "0.00",
             percentPaid = "0.00"
         )
@@ -222,8 +225,9 @@ class LoansTest : IvyComposeTest() {
         loansScreen.assertLoan(
             name = "Loan 1",
             loanType = LoanType.BORROW,
-            amount = "1,000",
-            amountDecimal = ".00",
+            amountLeft = "749",
+            amountLeftDecimal = ".50",
+            loanAmount = "1,000.00",
             amountPaid = "250.50",
             percentPaid = "25.05"
         )
@@ -284,8 +288,9 @@ class LoansTest : IvyComposeTest() {
         loansScreen.assertLoan(
             name = "Loan",
             loanType = LoanType.LEND,
-            amount = "10,000",
-            amountDecimal = ".00",
+            amountLeft = "5,000",
+            amountLeftDecimal = ".00",
+            loanAmount = "10,000.00",
             amountPaid = "5,000.00",
             percentPaid = "50.00"
         )
@@ -338,8 +343,9 @@ class LoansTest : IvyComposeTest() {
         loansScreen.assertLoan(
             name = "Loan",
             loanType = LoanType.LEND,
-            amount = "1,250",
-            amountDecimal = ".50",
+            amountLeft = "1,250",
+            amountLeftDecimal = ".50",
+            loanAmount = "1,250.50",
             amountPaid = "0.00",
             percentPaid = "0.00"
         )
@@ -465,9 +471,10 @@ class LoansTest : IvyComposeTest() {
 
         loansScreen.assertLoan(
             name = "Loan",
-            amount = "1,000",
-            amountDecimal = ".00",
+            amountLeft = "-1,000",
+            amountLeftDecimal = ".50",
             amountPaid = "2,000.50",
+            loanAmount = "1,000.00",
             percentPaid = "200.05",
             loanType = LoanType.BORROW
         )

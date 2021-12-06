@@ -20,8 +20,9 @@ class LoansScreen<A : ComponentActivity>(
     fun assertLoan(
         name: String,
         loanType: LoanType,
-        amount: String,
-        amountDecimal: String,
+        amountLeft: String,
+        amountLeftDecimal: String,
+        loanAmount: String,
         amountPaid: String,
         percentPaid: String,
         currency: String = "USD"
@@ -39,8 +40,8 @@ class LoansScreen<A : ComponentActivity>(
         )
             .performScrollTo()
             .assertTextEquals(
-                name, typeText, amount, amountDecimal, currency,
-                "$amountPaid $currency / $amount$amountDecimal $currency ($percentPaid%)"
+                name, typeText, amountLeft, amountLeftDecimal, currency,
+                "$amountPaid $currency / $loanAmount $currency ($percentPaid%)"
             )
     }
 
@@ -73,11 +74,14 @@ class LoansScreen<A : ComponentActivity>(
             clickAdd()
         }
 
+        val loanAmount = amount.split(".").first()
+        val loanAmountDecimal = amount.split(".").getOrNull(1)?.let { ".$it" } ?: ".00"
         assertLoan(
             name = loanName,
-            amount = amount.split(".").first(),
-            amountDecimal = amount.split(".").getOrNull(1)?.let { ".$it" } ?: ".00",
             loanType = loanType,
+            amountLeft = loanAmount,
+            amountLeftDecimal = loanAmountDecimal,
+            loanAmount = loanAmount + loanAmountDecimal,
             currency = "USD",
             amountPaid = "0.00",
             percentPaid = "0.00"

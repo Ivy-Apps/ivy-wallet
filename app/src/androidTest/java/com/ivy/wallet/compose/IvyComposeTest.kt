@@ -70,13 +70,17 @@ abstract class IvyComposeTest {
 
     @After
     fun tearDown() {
-        idlingResource?.let {
-            composeTestRule.unregisterIdlingResource(it)
-        }
+        resetTestIdling()
 
         TestingContext.inTest = false
 
         resetApp()
+    }
+
+    private fun resetTestIdling() {
+        idlingResource?.let {
+            composeTestRule.unregisterIdlingResource(it)
+        }
     }
 
     private fun resetApp() {
@@ -105,11 +109,12 @@ abstract class IvyComposeTest {
     protected fun testWithRetry(
         attempt: Int = 0,
         maxAttempts: Int = 3,
+        firstFailure: Throwable? = null,
         test: () -> Unit
     ) {
         try {
             test()
-        } catch (e: AssertionError) {
+        } catch (e: Throwable) {
             if (attempt < maxAttempts) {
                 //reset state && retry test
                 resetApp()
@@ -118,20 +123,19 @@ abstract class IvyComposeTest {
                 TestIdlingResource.reset()
 
                 //Restart IvyActivity
-                val intent = composeTestRule.activity.intent
-                composeTestRule.activity.finish()
-                composeTestRule.activity.startActivity(intent)
+                composeTestRule.activityRule.scenario.recreate()
 
                 composeTestRule.waitMillis(300) //wait for activity to start
 
                 testWithRetry(
                     attempt = attempt + 1,
                     maxAttempts = maxAttempts,
+                    firstFailure = if (attempt == 0) e else firstFailure,
                     test = test
                 )
             } else {
                 //propagate exception
-                throw e
+                throw firstFailure ?: e
             }
         }
     }
