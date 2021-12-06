@@ -118,6 +118,7 @@ private fun UI(
                 overdueExpenses = 0.0,
                 history = transactions,
                 onPayOrGet = { },
+                dateDividerMarginTop = 16.dp,
                 emptyStateTitle = "No transactions",
                 emptyStateText = "You don't have any transactions for \"${searchQueryTextFieldValue.text}\" query."
             )

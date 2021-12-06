@@ -189,7 +189,7 @@ private fun ColumnScope.Content(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit,
 ) {
-    Spacer(Modifier.height(32.dp))
+    Spacer(Modifier.height(24.dp))
 
     val ivyContext = LocalIvyContext.current
     SearchButton {
