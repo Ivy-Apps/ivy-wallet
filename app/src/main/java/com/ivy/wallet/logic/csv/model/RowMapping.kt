@@ -5,6 +5,7 @@ import com.ivy.wallet.model.entity.Transaction
 
 data class RowMapping(
     val type: Int? = null,
+    val defaultTypeToExpense: Boolean = false,
     val amount: Int,
 
     val account: Int,
@@ -14,6 +15,8 @@ data class RowMapping(
     val accountIcon: Int? = null,
 
     val date: Int,
+    val dateOnlyFormat: String? = null,
+    val dateTimeFormat: String? = null,
     val timeOnly: Int? = null,
     val dueDate: Int? = null,
 

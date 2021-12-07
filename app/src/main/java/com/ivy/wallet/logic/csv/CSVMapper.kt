@@ -21,7 +21,7 @@ class CSVMapper {
         ImportType.MONEY_MANAGER -> moneyManager()
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()
-        ImportType.MONEFY -> TODO()
+        ImportType.MONEFY -> monefy()
         ImportType.ONE_MONEY -> oneMoney()
         ImportType.BLUE_COINS -> blueCoins()
         ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
@@ -124,6 +124,26 @@ class CSVMapper {
         title = 6
     )
 
+    private fun monefy() = RowMapping(
+        date = 0,
+        dateOnlyFormat = "dd/MM/yyyy",
+        account = 1,
+        category = 2,
+        amount = 3,
+        accountCurrency = 4,
+        //converted amount = 5
+        //currency = 6
+        title = 7,
+        defaultTypeToExpense = true, //Monefy doesn't have transaction type, it uses amount +/- sign,
+
+        transformTransaction = { transaction, _, csvAmount ->
+            //Monefy doesn't have transaction type, it uses amount +/- sign
+            transaction.copy(
+                type = if (csvAmount > 0) TransactionType.INCOME else TransactionType.EXPENSE
+            )
+        }
+    )
+
     private fun oneMoney() = RowMapping(
         date = 0,
         type = 1,
@@ -189,6 +209,7 @@ class CSVMapper {
         // parent transaction = 8
         title = 9,
         type = 10,
+        defaultTypeToExpense = true,
         // project = 11
         description = 12,
 
