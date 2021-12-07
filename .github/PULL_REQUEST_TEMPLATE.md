@@ -31,27 +31,23 @@ _Put an `x` in the boxes that apply._
 
 ## Does this PR closes any GitHub Issues?
 Check **[Ivy Wallet Issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues)**.
-
 - Closes #N/A (type issue number here)
 
+
 ## What's changed?
-
 Describe with a few bullets **what's new:**
--
-
--
--
+- a
+- b
+- c
+- d
 
 ## How to run Ivy Wallet's UI tests (`androidTest`)
-
 **Connect Android Emulator**
-
 - Pixel 5 API 29+ AVD emulator _(recommended)_
 - Pixel 3XL API 29+ AVD emulator _(recommended)_
 - Large screen physical device _(might also work)_
 
 **Method 1: Android Studio UI**
-
 - Find `com (androidTest)` package
 - Right click
 - `Run 'Tests in 'com''`
@@ -60,12 +56,10 @@ _Note: If you've checked "Compact Middle Packages" the option will appear
 as `com.ivy.wallet (androidTest)`._
 
 **Method 2: Gradle Wrapper**
-
 - `chmod +x gradlew` (Linux)
 - `./gradlew connectedDebugAndroidTest`
 
 **Method 3: Fastlane**
-
 - Install Ruby 2.7
 - `bundle install`
 - `bundle exec fastlane ui_tests`
