@@ -18,9 +18,10 @@ class CSVMapper {
                 ivyMappingV1()
             }
         }
-        ImportType.MONEY_MANAGER_PRASE -> moneyManagerPrase()
+        ImportType.MONEY_MANAGER -> moneyManager()
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()
+        ImportType.MONEFY -> TODO()
         ImportType.ONE_MONEY -> oneMoney()
         ImportType.BLUE_COINS -> blueCoins()
         ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
@@ -74,7 +75,7 @@ class CSVMapper {
     )
 
     //Praseto - https://play.google.com/store/apps/details?id=com.realbyteapps.moneymanagerfree&hl=en&gl=US
-    private fun moneyManagerPrase() = RowMapping(
+    private fun moneyManager() = RowMapping(
         type = 6,
         amount = 8,
         account = 1,
