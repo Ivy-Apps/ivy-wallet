@@ -171,14 +171,18 @@ class CSVImporter(
 
 
         val dateTime = mapDate(
-            if (rowMapping.timeOnly != null) {
+            rowMapping = rowMapping,
+            dateString = if (rowMapping.timeOnly != null) {
                 // date and time are separated in csv, join them with space
                 row.extract(rowMapping.date) + " " + row.extract(rowMapping.timeOnly)
             } else {
                 row.extract(rowMapping.date)
             }
         )
-        val dueDate = mapDate(row.extract(rowMapping.dueDate))
+        val dueDate = mapDate(
+            rowMapping = rowMapping,
+            dateString = row.extract(rowMapping.dueDate)
+        )
         if (dateTime == null && dueDate == null) {
             //Cannot save transactions without any date
             return null
@@ -241,9 +245,11 @@ class CSVImporter(
             normalizedType.contains("income") -> TransactionType.INCOME
             normalizedType.contains("expense") -> TransactionType.EXPENSE
             normalizedType.contains("transfer") -> TransactionType.TRANSFER
-            // Default to Expense because Financisto messed up its CSV Export
-            // and mixes it with another (ignored) column
-            else -> TransactionType.EXPENSE
+            else -> {
+                // Default to Expense because Financisto messed up its CSV Export
+                // and mixes it with another (ignored) column
+                if (rowMapping.defaultTypeToExpense) TransactionType.EXPENSE else null
+            }
         }
     }
 
@@ -255,8 +261,27 @@ class CSVImporter(
             .toDoubleOrNull()
     }
 
-    private fun mapDate(dateString: String?): LocalDateTime? {
+    private fun mapDate(
+        rowMapping: RowMapping,
+        dateString: String?
+    ): LocalDateTime? {
         if (dateString == null || dateString.isBlank()) return null
+
+        if (rowMapping.dateOnlyFormat != null) {
+            try {
+                return dateString.parseDateOnly(rowMapping.dateOnlyFormat)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        if (rowMapping.dateTimeFormat != null) {
+            try {
+                return dateString.parseDateTime(rowMapping.dateTimeFormat)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
         val supportedPatterns = listOf(
             "dd/MM/yyyy HH:mm",
@@ -316,10 +341,7 @@ class CSVImporter(
 
         for (pattern in supportedPatterns) {
             try {
-                return LocalDateTime.parse(
-                    dateString,
-                    DateTimeFormatter.ofPattern(pattern)
-                ).convertLocalToUTC()
+                return dateString.parseDateTime(dateTimeFormat = pattern)
             } catch (e: Exception) {
             }
         }
@@ -333,11 +355,7 @@ class CSVImporter(
 
         for (pattern in supportedDateOnlyPatterns) {
             try {
-                return LocalDate.parse(
-                    dateString,
-                    DateTimeFormatter.ofPattern(pattern)
-                ).atTime(12, 0)
-                    .convertLocalToUTC()
+                return dateString.parseDateOnly(dateFormat = pattern)
             } catch (e: Exception) {
             }
         }
@@ -365,6 +383,24 @@ class CSVImporter(
         //As a fallback set all transactions 1 year before now
         return timeNowUTC()
             .minusYears(1)
+    }
+
+    private fun String.parseDateOnly(
+        dateFormat: String
+    ): LocalDateTime {
+        return LocalDate.parse(
+            this,
+            DateTimeFormatter.ofPattern(dateFormat)
+        ).atTime(12, 0).convertLocalToUTC()
+    }
+
+    private fun String.parseDateTime(
+        dateTimeFormat: String
+    ): LocalDateTime {
+        return LocalDateTime.parse(
+            this,
+            DateTimeFormatter.ofPattern(dateTimeFormat)
+        ).convertLocalToUTC()
     }
 
     private fun mapAccount(
