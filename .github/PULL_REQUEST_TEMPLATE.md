@@ -52,8 +52,7 @@ Describe with a few bullets **what's new:**
 - Right click
 - `Run 'Tests in 'com''`
 
-_Note: If you've checked "Compact Middle Packages" the option will appear
-as `com.ivy.wallet (androidTest)`._
+_Note: If you've checked "Compact Middle Packages" the option will appear as `com.ivy.wallet (androidTest)`._
 
 **Method 2: Gradle Wrapper**
 - `chmod +x gradlew` (Linux)
