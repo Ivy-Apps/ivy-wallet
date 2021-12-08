@@ -355,7 +355,7 @@ private fun Preview() {
     IvyAppPreview {
         ImportInstructions(
             hasSkip = true,
-            importType = ImportType.MONEY_MANAGER_PRASE,
+            importType = ImportType.MONEY_MANAGER,
             onSkip = {}
         ) {
 

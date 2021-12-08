@@ -167,15 +167,20 @@ private fun BoxWithConstraintsScope.UI(
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
 ) {
+    val ivyContext = LocalIvyContext.current
+
     var bufferModalData: BufferModalData? by remember { mutableStateOf(null) }
     var currencyModalVisible by remember { mutableStateOf(false) }
     var choosePeriodModal: ChoosePeriodModalData? by remember {
         mutableStateOf(null)
     }
-    var expanded by remember { mutableStateOf(false) }
+    var moreMenuExpanded by remember { mutableStateOf(ivyContext.moreMenuExpanded) }
+    val setMoreMenuExpanded = { expanded: Boolean ->
+        moreMenuExpanded = expanded
+        ivyContext.setMoreMenuExpanded(expanded)
+    }
     val hideBalanceRowState = remember { mutableStateOf(false) }
 
-    val ivyContext = LocalIvyContext.current
 
     Column(
         modifier = Modifier
@@ -184,7 +189,7 @@ private fun BoxWithConstraintsScope.UI(
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU,
                 onSwipeDown = {
-                    expanded = true
+                    setMoreMenuExpanded(true)
                 }
             )
             .horizontalSwipeListener(
@@ -230,7 +235,7 @@ private fun BoxWithConstraintsScope.UI(
             balance = balance,
             bufferDiff = bufferDiff,
             onOpenMoreMenu = {
-                expanded = true
+                setMoreMenuExpanded(true)
             },
             onBalanceClick = {
                 onBalanceClick()
@@ -267,16 +272,14 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     MoreMenu(
-        expanded = expanded,
+        expanded = moreMenuExpanded,
         theme = theme,
         balance = balance,
         currency = currencyCode,
         buffer = buffer,
         onSwitchTheme = onSwitchTheme,
 
-        setExpanded = {
-            expanded = it
-        },
+        setExpanded = setMoreMenuExpanded,
         onBufferClick = {
             bufferModalData = BufferModalData(
                 balance = balance,

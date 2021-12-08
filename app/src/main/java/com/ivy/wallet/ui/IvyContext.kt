@@ -84,6 +84,13 @@ class IvyContext {
     fun selectMainTab(tab: MainTab) {
         mainTab = tab
     }
+
+    var moreMenuExpanded = false
+        private set
+
+    fun setMoreMenuExpanded(expanded: Boolean) {
+        moreMenuExpanded = expanded
+    }
     //------------------------------------------ State ---------------------------------------------
 
     //------------------------------------------- BackStack ----------------------------------------

@@ -18,9 +18,10 @@ class CSVMapper {
                 ivyMappingV1()
             }
         }
-        ImportType.MONEY_MANAGER_PRASE -> moneyManagerPrase()
+        ImportType.MONEY_MANAGER -> moneyManager()
         ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
         ImportType.SPENDEE -> spendee()
+        ImportType.MONEFY -> monefy()
         ImportType.ONE_MONEY -> oneMoney()
         ImportType.BLUE_COINS -> blueCoins()
         ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
@@ -74,7 +75,7 @@ class CSVMapper {
     )
 
     //Praseto - https://play.google.com/store/apps/details?id=com.realbyteapps.moneymanagerfree&hl=en&gl=US
-    private fun moneyManagerPrase() = RowMapping(
+    private fun moneyManager() = RowMapping(
         type = 6,
         amount = 8,
         account = 1,
@@ -121,6 +122,26 @@ class CSVMapper {
         amount = 4,
         accountCurrency = 5,
         title = 6
+    )
+
+    private fun monefy() = RowMapping(
+        date = 0,
+        dateOnlyFormat = "dd/MM/yyyy",
+        account = 1,
+        category = 2,
+        amount = 3,
+        accountCurrency = 4,
+        //converted amount = 5
+        //currency = 6
+        title = 7,
+        defaultTypeToExpense = true, //Monefy doesn't have transaction type, it uses amount +/- sign,
+
+        transformTransaction = { transaction, _, csvAmount ->
+            //Monefy doesn't have transaction type, it uses amount +/- sign
+            transaction.copy(
+                type = if (csvAmount > 0) TransactionType.INCOME else TransactionType.EXPENSE
+            )
+        }
     )
 
     private fun oneMoney() = RowMapping(
@@ -188,6 +209,7 @@ class CSVMapper {
         // parent transaction = 8
         title = 9,
         type = 10,
+        defaultTypeToExpense = true,
         // project = 11
         description = 12,
 

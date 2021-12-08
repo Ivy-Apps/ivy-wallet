@@ -9,9 +9,10 @@ import com.ivy.wallet.ui.theme.*
 
 enum class ImportType {
     IVY,
-    MONEY_MANAGER_PRASE,
+    MONEY_MANAGER,
     WALLET_BY_BUDGET_BAKERS,
     SPENDEE,
+    MONEFY,
     ONE_MONEY,
     BLUE_COINS,
     KTW_MONEY_MANAGER,
@@ -20,9 +21,10 @@ enum class ImportType {
 
     fun color(): Color = when (this) {
         IVY -> Ivy
-        MONEY_MANAGER_PRASE -> Red
+        MONEY_MANAGER -> Red
         WALLET_BY_BUDGET_BAKERS -> Green
         SPENDEE -> RedLight
+        MONEFY -> Green
         ONE_MONEY -> Red3
         BLUE_COINS -> Blue
         KTW_MONEY_MANAGER -> Yellow
@@ -32,9 +34,10 @@ enum class ImportType {
 
     fun appId(): String = when (this) {
         IVY -> "com.ivy.wallet"
-        MONEY_MANAGER_PRASE -> "com.realbyteapps.moneymanagerfree"
+        MONEY_MANAGER -> "com.realbyteapps.moneymanagerfree"
         WALLET_BY_BUDGET_BAKERS -> "com.droid4you.application.wallet"
         SPENDEE -> "com.cleevio.spendee"
+        MONEFY -> "com.monefy.app.lite"
         ONE_MONEY -> "org.pixelrush.moneyiq"
         BLUE_COINS -> "com.rammigsoftware.bluecoins"
         KTW_MONEY_MANAGER -> "com.ktwapps.walletmanager"
@@ -44,10 +47,11 @@ enum class ImportType {
 
     @DrawableRes
     fun logo(): Int = when (this) {
-        IVY -> R.drawable.ivy_wallet_logo_import
-        MONEY_MANAGER_PRASE -> R.drawable.ic_money_manager_prase
+        IVY -> R.drawable.ivywallet_logo
+        MONEY_MANAGER -> R.drawable.moneymanager_logo
         WALLET_BY_BUDGET_BAKERS -> R.drawable.wallet_by_budgetbakers_logo
-        SPENDEE -> R.drawable.speende_logo_png
+        SPENDEE -> R.drawable.spendee_logo
+        MONEFY -> R.drawable.monefy_logo
         ONE_MONEY -> R.drawable.one_money_logo
         BLUE_COINS -> R.drawable.bluecoins
         KTW_MONEY_MANAGER -> R.drawable.ktw_money_manager_logo
@@ -57,9 +61,10 @@ enum class ImportType {
 
     fun listName(): String = when (this) {
         IVY -> "Ivy Wallet CSV"
-        MONEY_MANAGER_PRASE -> "Money Manager"
+        MONEY_MANAGER -> "Money Manager"
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"
+        MONEFY -> "Monefy"
         ONE_MONEY -> "1Money"
         BLUE_COINS -> "Bluecoins Finance"
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
@@ -69,14 +74,7 @@ enum class ImportType {
 
     fun appName(): String = when (this) {
         IVY -> "Ivy Wallet"
-        MONEY_MANAGER_PRASE -> "Money Manager"
-        WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
-        SPENDEE -> "Spendee"
-        ONE_MONEY -> "1Money"
-        BLUE_COINS -> "Bluecoins Finance"
-        KTW_MONEY_MANAGER -> "Money Manager (KTW)"
-        FORTUNE_CITY -> "Fortune City"
-        FINANCISTO -> "Financisto"
+        else -> listName()
     }
 
     @Composable
@@ -89,7 +87,7 @@ enum class ImportType {
                     onUploadClick = onUploadClick
                 )
             }
-            MONEY_MANAGER_PRASE -> {
+            MONEY_MANAGER -> {
                 MoneyManagerPraseSteps(
                     onUploadClick = onUploadClick
                 )
@@ -100,6 +98,9 @@ enum class ImportType {
                 )
             }
             SPENDEE -> SpendeeSteps(
+                onUploadClick = onUploadClick
+            )
+            MONEFY -> MonefySteps(
                 onUploadClick = onUploadClick
             )
             ONE_MONEY -> OneMoneySteps(
