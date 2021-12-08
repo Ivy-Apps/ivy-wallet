@@ -9,7 +9,7 @@ data class IvyCurrency(
     val isCrypto: Boolean
 ) {
     companion object {
-        val CRYPTO = listOf(
+        private val CRYPTO = setOf(
             IvyCurrency(
                 code = "BTC",
                 name = "Bitcoin",
@@ -88,6 +88,76 @@ data class IvyCurrency(
             IvyCurrency(
                 code = "SHIB",
                 name = "Shiba Inu coin",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "LUNA",
+                name = "Terra",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "AVAX",
+                name = "Avalanche",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "MATIC",
+                name = "Polygon",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "CRO",
+                name = "Crypto.com Coin",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "WBTC",
+                name = "Wrapped Bitcoin",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "ALGO",
+                name = "Algorand",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "XLM",
+                name = "Stellar",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "MANA",
+                name = "Decentraland",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "AXS",
+                name = "Axie Infinity",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "DAI",
+                name = "Dai",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "ICP",
+                name = "Internet Computer",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "ATOM",
+                name = "Cosmos",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "FIL",
+                name = "Filecoin",
+                isCrypto = true
+            ),
+            IvyCurrency(
+                code = "ETC",
+                name = "Ethereum Classic",
                 isCrypto = true
             ),
         )
