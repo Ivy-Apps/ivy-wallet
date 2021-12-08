@@ -15,14 +15,15 @@ _Put an `x` in the boxes that apply._
 
 ## Pull Request Type
 Please check the type of change your PR introduces:
+Please check the type of change your PR introduces:
 - [ ] Bugfix
 - [ ] Feature
-- [ ] Code style update (formatting, renaming)
-- [ ] Refactoring (no functional changes)
+- [ ] Code style update (formatting, new lines, etc.)
+- [ ] Refactoring (no functional changes, renaming)
 - [ ] Small improvement (fix typo, UI fine-tune, change color or something small)
 - [ ] Gradle Build related changes
 - [ ] Dependencies update (updating libraries)
-- [ ] Documentation
+- [ ] Documentation (clarifying comments, KDoc)
 - [ ] Tests (Unit, Integration, UI tests)
 - [ ] Other (please describe):
 
