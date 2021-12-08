@@ -37,7 +37,7 @@ import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
 
-private const val SWIPE_HORIZONTAL_THRESHOLD = 250
+private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
