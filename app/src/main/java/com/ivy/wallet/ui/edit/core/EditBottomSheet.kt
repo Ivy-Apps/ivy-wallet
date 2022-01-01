@@ -328,8 +328,7 @@ private fun TransferRowMini(
                 color = fromContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
-            paddingTop = 10.dp,
-            paddingBottom = 12.dp
+            padding = 10.dp,
         ) {
             onSetExpanded()
         }
@@ -350,8 +349,7 @@ private fun TransferRowMini(
                 color = toContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
-            paddingTop = 10.dp,
-            paddingBottom = 12.dp
+            padding = 10.dp,
         ) {
             onSetExpanded()
         }
@@ -567,7 +565,7 @@ private fun AddAccount(
         Spacer(Modifier.width(4.dp))
 
         Text(
-            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
+            modifier = Modifier.padding(vertical = 10.dp),
             text = "Add account",
             style = Typo.body2.style(
                 color = IvyTheme.colors.pureInverse,

@@ -104,7 +104,6 @@ private fun SectionDividerIncomeExpenseRow(
                 )
             )
             Text(
-                modifier = Modifier.padding(bottom = 2.dp),
                 text = " expenses",
                 style = Typo.caption.style(
                     fontWeight = FontWeight.Normal,
@@ -131,7 +130,6 @@ private fun SectionDividerIncomeExpenseRow(
                 )
             )
             Text(
-                modifier = Modifier.padding(bottom = 2.dp),
                 text = " income",
                 style = Typo.caption.style(
                     fontWeight = FontWeight.Normal,

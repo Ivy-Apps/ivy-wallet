@@ -465,10 +465,7 @@ private fun LoginButton(
         Spacer(Modifier.width(16.dp))
 
         Text(
-            modifier = Modifier.padding(
-                top = 18.dp,
-                bottom = 22.dp
-            ),
+            modifier = Modifier.padding(vertical = 20.dp),
             text = text,
             style = Typo.body2.style(
                 color = textColor,

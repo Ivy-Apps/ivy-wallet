@@ -66,7 +66,6 @@ fun IvyCheckboxWithText(
         Spacer(modifier = Modifier.width(4.dp))
 
         Text(
-            modifier = Modifier.padding(bottom = 2.dp),
             text = text,
             style = Typo.body2.style(
                 color = IvyTheme.colors.pureInverse,

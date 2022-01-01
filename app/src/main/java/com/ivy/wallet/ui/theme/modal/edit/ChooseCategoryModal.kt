@@ -200,7 +200,7 @@ private fun CategoryButton(
 
         Text(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 14.dp)
+                .padding(vertical = 12.dp)
                 .padding(
                     start = if (selected) 12.dp else 12.dp,
                     end = if (selected) 20.dp else 24.dp
@@ -246,8 +246,7 @@ fun AddNewButton(
             fontWeight = FontWeight.Bold
         ),
         iconTint = IvyTheme.colors.pureInverse,
-        paddingTop = 10.dp,
-        paddingBottom = 12.dp,
+        padding = 10.dp,
         onClick = onClick
     )
 }

@@ -245,8 +245,7 @@ private fun SearchButton(
 
         Text(
             modifier = Modifier.padding(
-                top = 12.dp,
-                bottom = 14.dp
+                vertical = 12.dp,
             ),
             text = "Search transactions",
             style = Typo.body2.style(

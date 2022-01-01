@@ -6,9 +6,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.ivy.wallet.R
+
+const val OPEN_SANS_BASELINE_SHIFT = 0.075f
+const val RALEWAY_BASELINE_SHIFT = 0.2f
 
 val OpenSans = FontFamily(
         Font(R.font.opensans_regular, FontWeight.Normal),
@@ -33,53 +37,63 @@ val Typo = IvyTypography(
         h1 = TextStyle(
                 fontFamily = RaleWay,
                 fontWeight = FontWeight.Black,
-                fontSize = 42.sp
+                fontSize = 42.sp,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
         ),
         h2 = TextStyle(
                 fontFamily = RaleWay,
                 fontWeight = FontWeight.Normal,
-                fontSize = 32.sp
+                fontSize = 32.sp,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
         ),
         body1 = TextStyle(
                 fontFamily = RaleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
         ),
         body2 = TextStyle(
                 fontFamily = RaleWay,
                 fontWeight = FontWeight.Medium,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
         ),
         caption = TextStyle(
                 fontFamily = RaleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
         ),
 
         numberH1 = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = 42.sp
+                fontSize = 42.sp,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
         numberH2 = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.Normal,
-                fontSize = 32.sp
+                fontSize = 32.sp,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
         numberBody1 = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
         numberBody2 = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
         numberCaption = TextStyle(
                 fontFamily = OpenSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
 )
 
@@ -103,9 +117,9 @@ fun TextStyle.colorAs(color: Color) = this.copy(color = color)
 fun TextStyle.style(
         color: Color = IvyTheme.colors.pureInverse,
         fontWeight: FontWeight = FontWeight.Bold,
-        textAlign: TextAlign = TextAlign.Start
+        textAlign: TextAlign = TextAlign.Start,
 ) = this.copy(
         color = color,
         fontWeight = fontWeight,
-        textAlign = textAlign
+        textAlign = textAlign,
 )
