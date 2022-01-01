@@ -530,7 +530,7 @@ private fun Account(
         Spacer(Modifier.width(4.dp))
 
         Text(
-            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
+            modifier = Modifier.padding(vertical = 10.dp),
             text = account.name,
             style = Typo.body2.style(
                 color = textColor,
