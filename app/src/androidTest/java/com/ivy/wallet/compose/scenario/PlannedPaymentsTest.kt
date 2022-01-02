@@ -39,8 +39,8 @@ class PlannedPaymentsTest : IvyComposeTest() {
             amount = "2,000",
             category = "Bills & Fees",
             startDate = timeNowUTC().withDayOfMonth(1),
-            intervalN = 4,
-            intervalType = IntervalType.WEEK,
+            intervalN = 1,
+            intervalType = IntervalType.MONTH,
             title = "Salary"
         )
 
@@ -218,7 +218,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             amount = "5,250.33",
             category = "Bills & Fees",
             startDate = timeNowUTC().withDayOfMonth(1),
-            intervalN = 28,
+            intervalN = 31,
             intervalType = IntervalType.DAY,
             title = "Salary"
         )
