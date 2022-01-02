@@ -39,8 +39,7 @@ fun IvyButton(
     shadowAlpha: Float = 0.15f,
     wrapContentMode: Boolean = true,
     hasGlow: Boolean = true,
-    paddingTop: Dp = 12.dp,
-    paddingBottom: Dp = 14.dp, //center hack
+    padding: Dp = 12.dp,
     iconEdgePadding: Dp = 12.dp,
     onClick: () -> Unit
 ) {
@@ -92,8 +91,7 @@ fun IvyButton(
 
         Text(
             modifier = Modifier.padding(
-                top = paddingTop,
-                bottom = paddingBottom
+                vertical = padding,
             ),
             text = text,
             style = textStyle

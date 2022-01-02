@@ -346,8 +346,7 @@ private fun Toolbar(
             iconTint = Green,
             textColor = Green,
             solidBackground = true,
-            paddingTop = 8.dp,
-            paddingBottom = 10.dp,
+            padding = 8.dp,
             iconStart = R.drawable.ic_export_csv
         ) {
             onExport()

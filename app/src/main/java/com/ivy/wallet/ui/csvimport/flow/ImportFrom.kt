@@ -100,7 +100,7 @@ private fun ImportOption(
             .clickable {
                 onImportFrom(importType)
             }
-            .padding(top = 24.dp, bottom = 22.dp),
+            .padding(vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))

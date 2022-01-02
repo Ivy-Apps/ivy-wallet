@@ -127,8 +127,7 @@ fun CustomerJourneyCard(
                 color = cardData.backgroundColor,
                 fontWeight = FontWeight.Bold
             ),
-            paddingTop = 8.dp,
-            paddingBottom = 10.dp,
+            padding = 8.dp,
             backgroundGradient = Gradient.solid(findContrastTextColor(cardData.backgroundColor))
         ) {
             onCTA()

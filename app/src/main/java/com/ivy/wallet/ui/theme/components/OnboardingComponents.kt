@@ -67,10 +67,7 @@ fun OnboardingButton(
         }
 
         Text(
-            modifier = Modifier.padding(
-                top = 14.dp,
-                bottom = 18.dp //center hack
-            ),
+            modifier = Modifier.padding(vertical = 16.dp),
             text = text,
             style = Typo.body2.style(
                 color = textColor,

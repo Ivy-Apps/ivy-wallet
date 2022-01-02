@@ -180,9 +180,6 @@ private fun Currency(
     textColor: Color,
 ) {
     Text(
-        modifier = Modifier.padding(
-            bottom = if (currencyFontSize == null || currencyFontSize.value > 30) 4.dp else 2.dp
-        ),
         text = currency,
         style = if (currencyFontSize == null) {
             Typo.h1.style(

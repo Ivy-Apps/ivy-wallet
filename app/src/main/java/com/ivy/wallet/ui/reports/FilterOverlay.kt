@@ -234,8 +234,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
             text = "Apply filter",
             iconStart = R.drawable.ic_filter_xs,
             backgroundGradient = GradientGreen,
-            paddingTop = 10.dp,
-            paddingBottom = 12.dp
+            padding = 10.dp,
         ) {
             if (localFilter != null) {
                 onSetFilter(localFilter!!)
@@ -432,8 +431,7 @@ private fun PeriodFilter(
         text = filter?.period?.toDisplayLong(LocalIvyContext.current.startDayOfMonth)
             ?.capitalizeLocal()
             ?: "Select time range",
-        paddingTop = 12.dp,
-        paddingBottom = 14.dp
+        padding = 12.dp,
     ) {
         onShowPeriodChooserModal()
     }
@@ -656,7 +654,7 @@ fun ListItem(
         Spacer(Modifier.width(4.dp))
 
         Text(
-            modifier = Modifier.padding(top = 10.dp, bottom = 12.dp),
+            modifier = Modifier.padding(vertical = 10.dp),
             text = text,
             style = Typo.body2.style(
                 color = textColor,
@@ -841,8 +839,7 @@ private fun Keyword(
         iconStart = R.drawable.ic_remove,
         iconTint = Red,
         borderColor = borderColor,
-        paddingTop = 10.dp,
-        paddingBottom = 12.dp
+        padding = 10.dp,
     ) {
         onClick()
     }
@@ -856,8 +853,7 @@ private fun AddKeywordButton(
     IvyOutlinedButton(
         text = text,
         iconStart = R.drawable.ic_plus,
-        paddingTop = 10.dp,
-        paddingBottom = 12.dp
+        padding = 10.dp,
     ) {
         onCLick()
     }

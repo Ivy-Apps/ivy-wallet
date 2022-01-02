@@ -204,8 +204,7 @@ private fun MonthButton(
             }
             .padding(horizontal = 24.dp)
             .padding(
-                top = 10.dp,
-                bottom = 14.dp
+                vertical = 12.dp,
             ),
         text = text,
         style = Typo.body2.style(
@@ -310,8 +309,7 @@ private fun IntervalFromToDate(
         Text(
             modifier = Modifier
                 .padding(
-                    top = 14.dp,
-                    bottom = 18.dp
+                    vertical = 16.dp,
                 ),
             text = if (border == IntervalBorder.FROM) "From" else "To",
             style = Typo.body2.style(

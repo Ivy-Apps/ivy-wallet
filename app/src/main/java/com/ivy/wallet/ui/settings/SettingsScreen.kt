@@ -883,7 +883,7 @@ private fun AccountCardButton(
 
         Text(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 12.dp),
+                .padding(vertical = 10.dp),
             text = text,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold,

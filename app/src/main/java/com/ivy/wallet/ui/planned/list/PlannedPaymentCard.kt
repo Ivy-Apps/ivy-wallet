@@ -136,8 +136,7 @@ private fun PlannedPaymentHeaderRow(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
-                    paddingTop = 8.dp,
-                    paddingBottom = 10.dp,
+                    padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
                     ivyContext.navigateTo(
@@ -161,8 +160,7 @@ private fun PlannedPaymentHeaderRow(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
-                paddingTop = 8.dp,
-                paddingBottom = 10.dp,
+                padding = 8.dp,
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {

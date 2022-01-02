@@ -28,8 +28,7 @@ fun IvyOutlinedButton(
     iconTint: Color = IvyTheme.colors.pureInverse,
     borderColor: Color = IvyTheme.colors.medium,
     textColor: Color = IvyTheme.colors.pureInverse,
-    paddingTop: Dp = 10.dp,
-    paddingBottom: Dp = 14.dp,
+    padding: Dp = 12.dp,
     onClick: () -> Unit,
 ) {
     Row(
@@ -58,7 +57,7 @@ fun IvyOutlinedButton(
         }
 
         Text(
-            modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom),
+            modifier = Modifier.padding(vertical = padding),
             text = text,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold,
@@ -79,8 +78,7 @@ fun IvyOutlinedButtonFillMaxWidth(
     iconTint: Color = IvyTheme.colors.pureInverse,
     borderColor: Color = IvyTheme.colors.medium,
     textColor: Color = IvyTheme.colors.pureInverse,
-    paddingTop: Dp = 14.dp,
-    paddingBottom: Dp = 18.dp,
+    padding: Dp = 16.dp,
     onClick: () -> Unit,
 ) {
     Row(
@@ -108,7 +106,7 @@ fun IvyOutlinedButtonFillMaxWidth(
         Spacer(Modifier.weight(1f))
 
         Text(
-            modifier = Modifier.padding(top = paddingTop, bottom = paddingBottom),
+            modifier = Modifier.padding(vertical = padding),
             text = text,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold,
