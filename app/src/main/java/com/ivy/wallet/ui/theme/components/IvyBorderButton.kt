@@ -39,8 +39,7 @@ fun IvyBorderButton(
     enabled: Boolean = true,
     wrapContentMode: Boolean = true,
 
-    paddingTop: Dp = 12.dp,
-    paddingBottom: Dp = 14.dp, //center hack
+    padding: Dp = 12.dp,
     onClick: () -> Unit
 ) {
     Row(
@@ -80,8 +79,7 @@ fun IvyBorderButton(
 
         Text(
             modifier = Modifier.padding(
-                top = paddingTop,
-                bottom = paddingBottom
+                vertical = padding,
             ),
             text = text,
             style = textStyle

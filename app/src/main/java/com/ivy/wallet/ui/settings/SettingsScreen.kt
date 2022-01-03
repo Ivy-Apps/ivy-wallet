@@ -41,10 +41,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
-import com.ivy.wallet.ui.theme.modal.ChooseStartDateOfMonthModal
-import com.ivy.wallet.ui.theme.modal.CurrencyModal
-import com.ivy.wallet.ui.theme.modal.NameModal
-import com.ivy.wallet.ui.theme.modal.RequestFeatureModal
+import com.ivy.wallet.ui.theme.modal.*
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -93,7 +90,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Screen.Settings) {
                 title = title,
                 body = body
             )
-        }
+        },
+        onDeleteAllUserData = viewModel::deleteAllUserData
     )
 }
 
@@ -119,12 +117,16 @@ private fun BoxWithConstraintsScope.UI(
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
-    onRequestFeature: (String, String) -> Unit = { _, _ -> }
+    onRequestFeature: (String, String) -> Unit = { _, _ -> },
+    onDeleteAllUserData: () -> Unit = {}
 ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
     var requestFeatureModalVisible by remember { mutableStateOf(false) }
+    var deleteAllDataModalVisible by remember { mutableStateOf(false) }
+    var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -290,6 +292,23 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
+            SettingsSectionDivider(
+                text = "Danger zone",
+                color = Red
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            SettingsPrimaryButton(
+                icon = R.drawable.ic_delete,
+                text = "Delete all user data",
+                backgroundGradient = Gradient.solid(Red)
+            ) {
+                deleteAllDataModalVisible = true
+            }
+        }
+
+        item {
             Spacer(modifier = Modifier.height(120.dp)) //last item spacer
         }
     }
@@ -325,6 +344,27 @@ private fun BoxWithConstraintsScope.UI(
             requestFeatureModalVisible = false
         },
         onSubmit = onRequestFeature
+    )
+
+    DeleteModal(
+        title = "Delete all user data?",
+        description = "WARNING! This action will delete all data for ${user?.email ?: "your account"} PERMANENTLY and you won't be able to recover it.",
+        visible = deleteAllDataModalVisible,
+        dismiss = { deleteAllDataModalVisible = false },
+        onDelete = {
+            deleteAllDataModalVisible = false
+            deleteAllDataModalFinalVisible = true
+        }
+    )
+
+    DeleteModal(
+        title = "Confirm permanent deletion for '${user?.email ?: "all of your data"}'",
+        description = "FINAL WARNING! After clicking \"Delete\" your data will be gone forever.",
+        visible = deleteAllDataModalFinalVisible,
+        dismiss = { deleteAllDataModalFinalVisible = false },
+        onDelete = {
+            onDeleteAllUserData()
+        }
     )
 }
 
@@ -883,7 +923,7 @@ private fun AccountCardButton(
 
         Text(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 12.dp),
+                .padding(vertical = 10.dp),
             text = text,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold,
@@ -946,7 +986,8 @@ private fun CurrencyButton(
 
 @Composable
 private fun SettingsSectionDivider(
-    text: String
+    text: String,
+    color: Color = Gray
 ) {
     Spacer(Modifier.height(32.dp))
 
@@ -954,7 +995,7 @@ private fun SettingsSectionDivider(
         modifier = Modifier.padding(start = 32.dp),
         text = text,
         style = Typo.body2.style(
-            color = Gray,
+            color = color,
             fontWeight = FontWeight.Bold
         )
     )

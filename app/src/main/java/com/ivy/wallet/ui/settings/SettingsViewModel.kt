@@ -273,4 +273,15 @@ class SettingsViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
+
+    fun deleteAllUserData() {
+        viewModelScope.launch {
+            try {
+                restClient.nukeService.deleteAllUserData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            logout()
+        }
+    }
 }

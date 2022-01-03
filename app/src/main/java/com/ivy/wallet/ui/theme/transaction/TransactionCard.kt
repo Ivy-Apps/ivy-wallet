@@ -181,8 +181,7 @@ private fun TransactionHeaderRow(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
-                    paddingTop = 8.dp,
-                    paddingBottom = 10.dp,
+                    padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
                     ivyContext.navigateTo(
@@ -211,8 +210,7 @@ private fun TransactionHeaderRow(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
-                paddingTop = 8.dp,
-                paddingBottom = 10.dp,
+                padding = 8.dp,
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
@@ -251,7 +249,7 @@ private fun TransferHeader(
 
         Text(
             modifier = Modifier
-                .padding(top = 8.dp, bottom = 10.dp),
+                .padding(vertical = 8.dp),
             text = account?.name ?: "null",
             style = Typo.caption.style(
                 fontWeight = FontWeight.ExtraBold,
@@ -275,7 +273,7 @@ private fun TransferHeader(
 
         Text(
             modifier = Modifier
-                .padding(top = 8.dp, bottom = 10.dp),
+                .padding(vertical = 8.dp),
             text = toAccount?.name ?: "null",
             style = Typo.caption.style(
                 fontWeight = FontWeight.ExtraBold,

@@ -152,8 +152,7 @@ fun BoxWithConstraintsScope.PlansSheet(
                             fontWeight = FontWeight.Bold
                         ),
                         iconStart = R.drawable.ic_custom_crown_s,
-                        paddingTop = 16.dp,
-                        paddingBottom = 16.dp,
+                        padding = 16.dp,
                         iconEdgePadding = 24.dp,
                     ) {
                         selectedPlan?.let {

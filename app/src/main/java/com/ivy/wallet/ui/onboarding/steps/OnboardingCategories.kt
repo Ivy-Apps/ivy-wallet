@@ -231,7 +231,7 @@ private fun CategoryCard(
         Text(
             modifier = Modifier
                 .padding(start = 16.dp, end = 24.dp)
-                .padding(top = 22.dp, bottom = 26.dp),
+                .padding(vertical = 24.dp),
             text = category.name,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold

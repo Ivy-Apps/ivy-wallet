@@ -163,10 +163,7 @@ private fun SearchInput(
         val searchFocus = FocusRequester()
         IvyBasicTextField(
             modifier = Modifier
-                .padding(
-                    top = 12.dp,
-                    bottom = 14.dp
-                )
+                .padding(vertical = 12.dp)
                 .focusRequester(searchFocus),
             value = searchQueryTextFieldValue,
             hint = "Search transactions",

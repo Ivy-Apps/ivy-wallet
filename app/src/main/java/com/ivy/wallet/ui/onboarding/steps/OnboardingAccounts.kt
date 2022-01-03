@@ -249,7 +249,7 @@ fun BuyPremiumRow(
 
         Text(
             modifier = Modifier
-                .padding(top = 10.dp, bottom = 14.dp)
+                .padding(vertical = 12.dp)
                 .padding(start = 12.dp, end = 32.dp),
             text = "Buy premium for unlimited number of $itemLabelPlural",
             style = Typo.body2.style(

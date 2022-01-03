@@ -78,7 +78,7 @@ private fun Suggestion(
         Spacer(Modifier.width(8.dp))
 
         Text(
-            modifier = Modifier.padding(top = 14.dp, bottom = 18.dp),
+            modifier = Modifier.padding(vertical = 16.dp),
             text = name,
             style = Typo.body2.style(
                 fontWeight = FontWeight.Bold
@@ -113,7 +113,7 @@ private fun AddNewButton(
         Spacer(Modifier.width(8.dp))
 
         Text(
-            modifier = Modifier.padding(top = 14.dp, bottom = 18.dp),
+            modifier = Modifier.padding(vertical = 16.dp),
             text = "Add new",
             style = Typo.body2.style(
                 color = IvyTheme.colors.pure,

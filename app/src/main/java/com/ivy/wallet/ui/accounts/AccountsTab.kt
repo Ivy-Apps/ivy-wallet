@@ -76,7 +76,7 @@ private fun BoxWithConstraintsScope.UI(
             .navigationBarsPadding()
             .verticalScroll(rememberScrollState())
             .horizontalSwipeListener(
-                sensitivity = 250,
+                sensitivity = 200,
                 onSwipeLeft = {
                     ivyContext.selectMainTab(MainTab.HOME)
                 },
