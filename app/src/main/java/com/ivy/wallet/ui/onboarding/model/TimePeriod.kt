@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.onboarding.model
 
+import android.util.Log
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.theme.modal.model.Month
 import java.time.LocalDate
@@ -7,6 +8,7 @@ import java.time.LocalDateTime
 
 data class TimePeriod(
     val month: Month? = null,
+    val year: Int? = null,
     val fromToRange: FromToTimeRange? = null,
     val lastNRange: LastNTimeRange? = null,
 ) {
@@ -54,7 +56,7 @@ data class TimePeriod(
     ): FromToTimeRange {
         return when {
             month != null -> {
-                val date = month.toDate()
+                val date = if (year!=null) month.toDate().withYear(year) else month.toDate()
                 val (from, to) = if (startDateOfMonth != 1) {
                     customStartDayOfMonthPeriodRange(
                         date = date,

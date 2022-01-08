@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
+import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.PlannedPaymentsLogic
@@ -275,18 +276,20 @@ class HomeViewModel @Inject constructor(
 
     fun nextMonth() {
         val month = period.value?.month
+        val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, 1L),
+                period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
             )
         }
     }
 
     fun previousMonth() {
         val month = period.value?.month
+        val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, -1L),
+                period = month.incrementMonthPeriod(ivyContext, -1L, year = year),
             )
         }
     }
