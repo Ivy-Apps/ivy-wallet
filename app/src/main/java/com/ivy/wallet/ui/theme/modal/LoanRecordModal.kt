@@ -179,9 +179,9 @@ private fun DateTimeRow(
             iconStart = R.drawable.ic_date
         ) {
             ivyContext.datePicker(
-                initialDate = dateTime.toLocalDate()
+                initialDate = dateTime.convertUTCtoLocal().toLocalDate()
             ) {
-                onSetDateTime(it.atTime(dateTime.toLocalTime()))
+                onSetDateTime(getTrueDate(it, dateTime.toLocalTime()))
             }
         }
 
@@ -192,7 +192,7 @@ private fun DateTimeRow(
             iconStart = R.drawable.ic_date
         ) {
             ivyContext.timePicker {
-                onSetDateTime(dateTime.toLocalDate().atTime(it))
+                onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
             }
         }
 
