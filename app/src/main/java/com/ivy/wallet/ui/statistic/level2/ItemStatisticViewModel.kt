@@ -3,10 +3,7 @@ package com.ivy.wallet.ui.statistic.level2
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.model.TransactionHistoryItem
@@ -316,10 +313,11 @@ class ItemStatisticViewModel @Inject constructor(
 
     fun nextMonth(screen: Screen.ItemStatistic) {
         val month = period.value?.month
+        val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
-                period = month.incrementMonthPeriod(ivyContext, 1L),
+                period = month.incrementMonthPeriod(ivyContext, 1L,year),
                 reset = false
             )
         }
@@ -327,10 +325,11 @@ class ItemStatisticViewModel @Inject constructor(
 
     fun previousMonth(screen: Screen.ItemStatistic) {
         val month = period.value?.month
+        val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
-                period = month.incrementMonthPeriod(ivyContext, -1L),
+                period = month.incrementMonthPeriod(ivyContext, -1L,year),
                 reset = false
             )
         }
