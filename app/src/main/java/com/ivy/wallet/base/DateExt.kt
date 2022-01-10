@@ -251,10 +251,10 @@ fun LocalDateTime.timeLeft(
 }
 
 fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay()
+    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
 
 fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay()
+    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)

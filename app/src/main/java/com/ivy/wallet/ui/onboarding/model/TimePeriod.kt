@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import android.util.Log
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.theme.modal.model.Month
 import java.time.LocalDate
@@ -43,7 +42,8 @@ data class TimePeriod(
             return TimePeriod(
                 month = Month.fromMonthValue(
                     periodDate.monthValue
-                )
+                ),
+                year = periodDate.year
             )
         }
     }
@@ -56,7 +56,7 @@ data class TimePeriod(
     ): FromToTimeRange {
         return when {
             month != null -> {
-                val date = if (year!=null) month.toDate().withYear(year) else month.toDate()
+                val date = if (year != null) month.toDate().withYear(year) else month.toDate()
                 val (from, to) = if (startDateOfMonth != 1) {
                     customStartDayOfMonthPeriodRange(
                         date = date,
@@ -97,14 +97,16 @@ data class TimePeriod(
         val from = date
             .withDayOfMonthSafe(startDateOfMonth)
             .atStartOfDay()
+            .convertLocalToUTC()
 
         val to = date
-            .withDayOfMonthSafe(startDateOfMonth)
             //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
             .plusMonths(1)
+            .withDayOfMonthSafe(startDateOfMonth)
             //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
             .minusDays(1)
             .atEndOfDay()
+            .convertLocalToUTC()
 
         return Pair(from, to)
     }
@@ -119,9 +121,7 @@ data class TimePeriod(
                 } else {
                     val range = toRange(startDateOfMonth)
                     val pattern = "MMM dd"
-                    //Don't use formatLocal() because .to is at 23:59:59 =>
-                    // it may appear as +1 day in some timeZones when converted
-                    "${range.from?.format(pattern)} - ${range.to?.format(pattern)}"
+                    "${range.from?.formatLocal(pattern)} - ${range.to?.formatLocal(pattern)}"
                 }
             }
             fromToRange != null -> {
