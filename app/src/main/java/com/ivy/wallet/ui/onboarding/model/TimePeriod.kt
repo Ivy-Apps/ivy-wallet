@@ -117,7 +117,7 @@ data class TimePeriod(
         return when {
             month != null -> {
                 if (startDateOfMonth == 1) {
-                    month.name
+                    displayMonthStartingOn1st(month = month)
                 } else {
                     val range = toRange(startDateOfMonth)
                     val pattern = "MMM dd"
@@ -140,7 +140,7 @@ data class TimePeriod(
         return when {
             month != null -> {
                 if (startDateOfMonth == 1) {
-                    month.name
+                    displayMonthStartingOn1st(month = month)
                 } else {
                     toRange(startDateOfMonth).toDisplay()
                 }
@@ -155,6 +155,17 @@ data class TimePeriod(
                 toRange(startDateOfMonth).toDisplay()
             }
         }
-
     }
+
+    private fun displayMonthStartingOn1st(month: Month): String {
+        val year = year
+        return if (year != null && dateNowUTC().year != year) {
+            //not this year
+            "${month.name}, $year"
+        } else {
+            //this year
+            month.name
+        }
+    }
+
 }
