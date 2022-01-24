@@ -73,10 +73,13 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         Spacer(Modifier.height(32.dp))
 
         ChooseMonth(
-            selectedMonth = period?.month
+            selectedMonthYear = period?.month?.let {
+                MonthYear(month = it, year = period?.year ?: dateNowUTC().year)
+            }
         ) {
             period = TimePeriod(
-                month = it
+                month = it.month,
+                year = it.year
             )
         }
 
@@ -125,36 +128,52 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
 
 @Composable
 private fun ChooseMonth(
-    selectedMonth: Month?,
-    onSelected: (Month) -> Unit,
+    selectedMonthYear: MonthYear?,
+    onSelected: (MonthYear) -> Unit,
 ) {
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Choose month",
         style = Typo.body1.style(
-            color = if (selectedMonth != null) IvyTheme.colors.pureInverse else Gray,
+            color = if (selectedMonthYear != null) IvyTheme.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
 
     Spacer(Modifier.height(24.dp))
 
-    val months = monthsList()
+    val currentYear = dateNowUTC().year
+    val months = remember(currentYear) {
+        monthsList()
+            .map {
+                MonthYear(month = it, year = currentYear - 1)
+            }
+            .plus(
+                monthsList().map { MonthYear(month = it, year = currentYear) }
+            )
+            .plus(
+                monthsList().map { MonthYear(month = it, year = currentYear + 1) }
+            )
+    }
 
     val state = rememberLazyListState()
 
     val coroutineScope = rememberCoroutineScope()
     onScreenStart {
-        if (selectedMonth != null) {
-            val selectedMonthIndex = months.indexOf(selectedMonth)
+        if (selectedMonthYear != null) {
+            val selectedMonthIndex = months.indexOf(selectedMonthYear)
             if (selectedMonthIndex != -1) {
                 coroutineScope.launch {
                     state.scrollToItem(selectedMonthIndex)
                 }
             }
         } else {
-            val currentMonthIndex = months.indexOf(fromMonthValue(dateNowUTC().monthValue))
+            val currentMonthYear = MonthYear(
+                month = fromMonthValue(dateNowUTC().monthValue),
+                year = currentYear
+            )
+            val currentMonthIndex = months.indexOf(currentMonthYear)
             if (currentMonthIndex != -1) {
                 coroutineScope.launch {
                     state.scrollToItem(currentMonthIndex)
@@ -171,15 +190,32 @@ private fun ChooseMonth(
             Spacer(Modifier.width(12.dp))
         }
 
-        items(items = months) { month ->
+        items(items = months) { monthYear ->
             MonthButton(
-                selected = month == selectedMonth,
-                text = month.name
+                selected = monthYear == selectedMonthYear,
+                text = monthYear.forDisplay(currentYear = currentYear)
             ) {
-                onSelected(month)
+                onSelected(monthYear)
             }
 
             Spacer(Modifier.width(12.dp))
+        }
+    }
+}
+
+data class MonthYear(
+    val month: Month,
+    val year: Int
+) {
+    fun forDisplay(
+        currentYear: Int
+    ): String {
+        return if (year != currentYear) {
+            //not current year
+            "${month.name}, $year"
+        } else {
+            //current year
+            month.name
         }
     }
 }
@@ -417,7 +453,7 @@ private fun AllTime(
     onSelected: (FromToTimeRange?) -> Unit,
 ) {
     val active = timeRange != null && timeRange.from == null &&
-        timeRange.to != null && timeRange.to.isAfter(timeNowUTC())
+            timeRange.to != null && timeRange.to.isAfter(timeNowUTC())
 
     Text(
         modifier = Modifier
