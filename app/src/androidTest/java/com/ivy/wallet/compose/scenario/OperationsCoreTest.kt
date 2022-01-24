@@ -1,6 +1,9 @@
 package com.ivy.wallet.compose.scenario
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -67,8 +70,13 @@ class OperationsCoreTest : IvyComposeTest() {
             category = "Investments"
         )
 
-        composeTestRule.onNodeWithTag("transaction_card")
-            .assertIsDisplayed()
+        homeTab.dismissPrompt()
+
+        homeTab.clickTransaction(
+            amount = "5,000.00",
+            title = "Salary",
+            category = "Investments"
+        )
     }
 
     @Test
