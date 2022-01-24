@@ -173,9 +173,30 @@ fun LocalTime.convertLocalToUTC(): LocalTime {
     return this.minusSeconds(offset)
 }
 
+fun LocalTime.convertUTCToLocal(): LocalTime {
+    val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
+    return this.plusSeconds(offset)
+}
+
 fun LocalDateTime.convertLocalToUTC(): LocalDateTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.minusSeconds(offset)
+}
+
+// The timepicker returns time in UTC, but the date picker returns date in LocalTimeZone
+// hence use this method to get both date & time in UTC
+fun getTrueDate(date: LocalDate, time: LocalTime, convert: Boolean = true): LocalDateTime {
+    val timeLocal = if (convert) time.convertUTCToLocal() else time
+
+    return timeNowUTC()
+        .withYear(date.year)
+        .withMonth(date.monthValue)
+        .withDayOfMonth(date.dayOfMonth)
+        .withHour(timeLocal.hour)
+        .withMinute(timeLocal.minute)
+        .withSecond(0)
+        .withNano(0)
+        .convertLocalToUTC()
 }
 
 
@@ -230,10 +251,10 @@ fun LocalDateTime.timeLeft(
 }
 
 fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay()
+    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
 
 fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay()
+    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)

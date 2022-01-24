@@ -34,10 +34,15 @@ data class Month(
             .withMonth(monthValue)
 
 
-    fun incrementMonthPeriod(ivyContext: IvyContext, increment: Long): TimePeriod {
-        val incrementedMonth = toDate().plusMonths(increment)
+    fun incrementMonthPeriod(
+        ivyContext: IvyContext,
+        increment: Long,
+        year: Int
+    ): TimePeriod {
+        val incrementedMonth = toDate().withYear(year).plusMonths(increment)
         val incrementedPeriod = TimePeriod(
-            month = fromMonthValue(incrementedMonth.monthValue)
+            month = fromMonthValue(incrementedMonth.monthValue),
+            year = incrementedMonth.year
         )
         ivyContext.updateSelectedPeriodInMemory(incrementedPeriod)
         return incrementedPeriod

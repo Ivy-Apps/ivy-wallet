@@ -15,6 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.R
+import com.ivy.wallet.base.convertUTCtoLocal
+import com.ivy.wallet.base.getTrueDate
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.timeNowLocal
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -242,10 +244,10 @@ private fun BoxWithConstraintsScope.UI(
             dueDateTime = dueDate,
         ) {
             ivyContext.datePicker(
-                initialDate = dateTime?.toLocalDate(),
+                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate(),
             ) { date ->
                 ivyContext.timePicker { time ->
-                    onSetDateTime(date.atTime(time.hour, time.minute, time.second))
+                    onSetDateTime(getTrueDate(date, time))
                 }
             }
         }
