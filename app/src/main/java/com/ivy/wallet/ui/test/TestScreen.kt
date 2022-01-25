@@ -16,6 +16,9 @@ import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.Value
+import com.ivy.wallet.ui.theme.modal.model.Month
 
 @Composable
 fun BoxWithConstraintsScope.TestScreen(screen: Screen.Test) {
@@ -54,18 +57,74 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         val ivyContext = LocalIvyContext.current
 
+        val values = listOf(
+            Value(
+                x = 0.0,
+                y = 5235.60
+            ),
+            Value(
+                x = 1.0,
+                y = 8000.0
+            ),
+            Value(
+                x = 2.0,
+                y = 15032.89
+            ),
+            Value(
+                x = 3.0,
+                y = 4123.0
+            ),
+            Value(
+                x = 4.0,
+                y = 1000.0
+            ),
+            Value(
+                x = 5.0,
+                y = -5000.0
+            ),
+            Value(
+                x = 6.0,
+                y = 3000.0
+            ),
+            Value(
+                x = 7.0,
+                y = 9000.0
+            ),
+            Value(
+                x = 8.0,
+                y = 15600.50
+            ),
+            Value(
+                x = 9.0,
+                y = 20000.0
+            ),
+            Value(
+                x = 10.0,
+                y = 0.0
+            ),
+            Value(
+                x = 11.0,
+                y = 1000.0
+            ),
+        )
+
+        IvyLineChart(
+            modifier = Modifier
+                .padding(top = 32.dp)
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            values = values,
+            xLabel = {
+                Month.monthsList()[it.toInt()].name.first().toString()
+            }
+        )
+
         if (user != null && user.testUser) {
             Spacer(Modifier.height(32.dp))
 
             IvyButton(text = "Analytics") {
                 ivyContext.navigateTo(Screen.AnalyticsReport)
             }
-
-//            Spacer(Modifier.height(24.dp))
-//
-//            IvyButton(text = "Connect bank") {
-//                ivyContext.navigateTo(Screen.ConnectBank)
-//            }
         }
     }
 

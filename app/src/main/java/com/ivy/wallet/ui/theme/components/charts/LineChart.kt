@@ -1,20 +1,23 @@
 package com.ivy.wallet.ui.theme.components.charts
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.base.format
 import com.ivy.wallet.base.lerp
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.base.toDensityDp
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.modal.model.Month
 import kotlin.math.abs
 
 data class Value(
@@ -25,7 +28,9 @@ data class Value(
 @Composable
 fun IvyLineChart(
     modifier: Modifier = Modifier,
-    values: List<Value>
+    values: List<Value>,
+    xLabel: (x: Double) -> String,
+    yLabel: (y: Double) -> String = { it.format("BGN") }
 ) {
     if (values.isEmpty()) return
 
@@ -35,9 +40,107 @@ fun IvyLineChart(
     val minY = remember(values) {
         values.minOf { it.y }
     }
-
     val chartColor = IvyTheme.colors.pureInverse
 
+    Column(
+        modifier = modifier
+    ) {
+        var yLabelWidthPx by remember {
+            mutableStateOf(0)
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            //Y values
+            Column(
+                modifier = Modifier
+                    .onSizeChanged {
+                        yLabelWidthPx = it.width
+                    }
+                    .height(300.dp)
+                    .padding(end = 8.dp)
+            ) {
+                val yValues = remember(minY, maxY) {
+                    yValues(
+                        min = minY,
+                        max = maxY
+                    )
+                }
+
+                for ((index, value) in yValues.withIndex()) {
+                    Text(
+                        text = yLabel(value),
+                        style = Typo.numberCaption
+                    )
+
+                    if (index < yValues.size - 1) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+
+            Chart(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                chartColor = chartColor,
+                maxY = maxY,
+                minY = minY,
+                values = values
+            )
+        }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        //X labels
+        Row {
+            if (yLabelWidthPx > 0) {
+                Spacer(Modifier.width(yLabelWidthPx.toDensityDp()))
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            values.forEachIndexed { index, value ->
+                Text(
+                    modifier = Modifier.width(10.dp),
+                    text = xLabel(value.x),
+                    style = Typo.body1.style(
+                        textAlign = TextAlign.Center
+                    )
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+private fun yValues(
+    min: Double,
+    max: Double
+): List<Double> {
+    val center = (min + max) / 2
+    val centerTop = (center + max) / 2
+    val centerBottom = (center + min) / 2
+
+    return listOf(
+        max,
+        centerTop,
+        center,
+        centerBottom,
+        min
+    )
+}
+
+@Composable
+private fun Chart(
+    modifier: Modifier,
+    chartColor: Color,
+    maxY: Double,
+    minY: Double,
+    values: List<Value>
+) {
     Canvas(modifier = modifier) {
         val chartWidth = size.width
         val chartHeight = size.height
@@ -48,7 +151,8 @@ fun IvyLineChart(
             color = chartColor,
             start = Offset.Zero,
             end = Offset(x = 0f, y = chartHeight),
-            strokeWidth = 4.dp.toPx()
+            strokeWidth = 4.dp.toPx(),
+            cap = StrokeCap.Round
         )
 
         //X line
@@ -56,7 +160,8 @@ fun IvyLineChart(
             color = chartColor,
             start = Offset(x = 0f, y = chartHeight),
             end = Offset(x = chartWidth, y = chartHeight),
-            strokeWidth = 4.dp.toPx()
+            strokeWidth = 4.dp.toPx(),
+            cap = StrokeCap.Round
         )
 
         drawValues(
@@ -93,7 +198,7 @@ private fun DrawScope.drawValues(
                         max = maxY,
                         min = minY,
                         value = value.y,
-                        chartHeight = chartHeight
+                        chartHeight = chartHeight - 8.dp.toPx()
                     )
                 ),
                 end = Offset(
@@ -102,11 +207,12 @@ private fun DrawScope.drawValues(
                         max = maxY,
                         min = minY,
                         value = values[index + 1].y,
-                        chartHeight = chartHeight
+                        chartHeight = chartHeight - 8.dp.toPx()
                     )
                 ),
                 color = Ivy,
-                strokeWidth = lineWidth
+                strokeWidth = lineWidth,
+                cap = StrokeCap.Butt
             )
         }
         currentX += lineDistance
@@ -190,14 +296,20 @@ private fun Preview() {
                 x = 10.0,
                 y = 0.0
             ),
+            Value(
+                x = 11.0,
+                y = 1000.0
+            ),
         )
 
         IvyLineChart(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
                 .padding(horizontal = 24.dp),
-            values = values
+            values = values,
+            xLabel = {
+                Month.monthsList()[it.toInt()].name.first().toString()
+            }
         )
     }
 }
