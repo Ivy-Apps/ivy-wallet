@@ -46,6 +46,7 @@ import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.bankintegrations.ConnectBankScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
+import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.loan.LoansScreen
@@ -166,6 +167,7 @@ class IvyActivity : AppCompatActivity() {
                                 activity = this@IvyActivity
                             )
                             is Screen.Test -> TestScreen(screen = screen)
+                            is Screen.Charts -> ChartsScreen(screen = screen)
                             is Screen.AnalyticsReport -> AnalyticsReport(screen = screen)
                             is Screen.Import -> ImportCSVScreen(screen = screen)
                             is Screen.ConnectBank -> ConnectBankScreen(screen = screen)

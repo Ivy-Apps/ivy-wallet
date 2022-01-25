@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.theme.components.charts
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -36,7 +37,8 @@ fun IvyLineChart(
     modifier: Modifier = Modifier,
     values: List<Value>,
     xLabel: (x: Double) -> String,
-    yLabel: (y: Double) -> String = { it.format("BGN") }
+    yLabel: (y: Double) -> String,
+    onTap: (valueIndex: Int) -> Unit = {}
 ) {
     if (values.isEmpty()) return
 
@@ -93,7 +95,8 @@ fun IvyLineChart(
                 chartColor = chartColor,
                 maxY = maxY,
                 minY = minY,
-                values = values
+                values = values,
+                onTap = onTap
             )
         }
 
@@ -109,7 +112,11 @@ fun IvyLineChart(
 
             values.forEachIndexed { index, value ->
                 Text(
-                    modifier = Modifier.width(10.dp),
+                    modifier = Modifier
+                        .width(10.dp)
+                        .clickable {
+                            onTap(index)
+                        },
                     text = xLabel(value.x),
                     style = Typo.body1.style(
                         textAlign = TextAlign.Center
@@ -145,7 +152,8 @@ private fun Chart(
     chartColor: Color,
     maxY: Double,
     minY: Double,
-    values: List<Value>
+    values: List<Value>,
+    onTap: (valueIndex: Int) -> Unit
 ) {
     var points by remember(values) {
         mutableStateOf(emptyList<Offset>())
@@ -158,9 +166,11 @@ private fun Chart(
                     onTap = { clickPoint ->
                         val targetPoint = points.minByOrNull {
                             clickPoint.distance(it)
-                        }
+                        } ?: return@detectTapGestures
+
                         val targetPointIndex = points.indexOf(targetPoint)
                         Timber.d("onTap: index = $targetPointIndex ($targetPoint)")
+                        onTap(targetPointIndex)
                     }
                 )
             }
@@ -358,6 +368,9 @@ private fun Preview() {
             values = values,
             xLabel = {
                 Month.monthsList()[it.toInt()].name.first().toString()
+            },
+            yLabel = {
+                it.format("BGN")
             }
         )
     }

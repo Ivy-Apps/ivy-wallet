@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.User
 import com.ivy.wallet.ui.IvyAppPreview
@@ -19,6 +20,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.Value
 import com.ivy.wallet.ui.theme.modal.model.Month
+import timber.log.Timber
 
 @Composable
 fun BoxWithConstraintsScope.TestScreen(screen: Screen.Test) {
@@ -116,6 +118,12 @@ private fun BoxWithConstraintsScope.UI(
             values = values,
             xLabel = {
                 Month.monthsList()[it.toInt()].name.first().toString()
+            },
+            yLabel = {
+                it.format("BGN")
+            },
+            onTap = {
+                Timber.i("CHART onTap: index = $it")
             }
         )
 
