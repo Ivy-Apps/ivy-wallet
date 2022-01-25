@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.home
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
@@ -254,6 +256,8 @@ private fun BoxWithConstraintsScope.UI(
             upcomingExpenses = upcomingExpenses,
             upcoming = upcoming,
 
+            moreMenuExpanded = setMoreMenuExpanded,
+
             overdueExpanded = overdueExpanded,
             setOverdueExpanded = setOverdueExpanded,
             overdueIncome = overdueIncome,
@@ -352,6 +356,8 @@ fun HomeLazyColumn(
     overdueExpenses: Double,
     overdue: List<Transaction>,
 
+    moreMenuExpanded: (Boolean) -> Unit,
+
     monthlyIncome: Double,
     monthlyExpenses: Double,
 
@@ -362,6 +368,7 @@ fun HomeLazyColumn(
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
     val ivyContext = LocalIvyContext.current
+    val doubleExpanded = remember { mutableStateOf(false) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -378,7 +385,18 @@ fun HomeLazyColumn(
                         hideBalanceRowState.value = false
                     }
                 }
+                if (listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0 && doubleExpanded.value) {
+                    moreMenuExpanded(true)
+                } else
+                    doubleExpanded.value = false
+
                 return super.onPostScroll(consumed, available, source)
+            }
+
+            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                if (consumed.y <= 30f || available.y >= 1000f)
+                    doubleExpanded.value = true
+                return super.onPostFling(consumed, available)
             }
         }
     }
