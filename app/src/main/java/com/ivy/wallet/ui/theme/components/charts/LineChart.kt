@@ -1,14 +1,17 @@
 package com.ivy.wallet.ui.theme.components.charts
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,7 +21,10 @@ import com.ivy.wallet.base.lerp
 import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
+import timber.log.Timber
 import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 data class Value(
     val x: Double,
@@ -141,7 +147,24 @@ private fun Chart(
     minY: Double,
     values: List<Value>
 ) {
-    Canvas(modifier = modifier) {
+    var points by remember(values) {
+        mutableStateOf(emptyList<Offset>())
+    }
+
+    Canvas(
+        modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { clickPoint ->
+                        val targetPoint = points.minByOrNull {
+                            clickPoint.distance(it)
+                        }
+                        val targetPointIndex = points.indexOf(targetPoint)
+                        Timber.d("onTap: index = $targetPointIndex ($targetPoint)")
+                    }
+                )
+            }
+    ) {
         val chartWidth = size.width
         val chartHeight = size.height
 
@@ -169,7 +192,10 @@ private fun Chart(
             chartHeight = chartHeight,
             maxY = maxY,
             minY = minY,
-            values = values
+            values = values,
+            onSetPoints = {
+                points = it
+            }
         )
     }
 }
@@ -179,7 +205,8 @@ private fun DrawScope.drawValues(
     chartHeight: Float,
     maxY: Double,
     minY: Double,
-    values: List<Value>
+    values: List<Value>,
+    onSetPoints: (List<Offset>) -> Unit
 ) {
     // Total number of transactions.
     val totalRecords = values.size
@@ -187,36 +214,54 @@ private fun DrawScope.drawValues(
     val lineDistance = chartWidth / (totalRecords + 1)
     // Add some kind of a "Padding" for the initial point where the line starts.
     var currentX = 0F + lineDistance
-    val lineWidth = 2.dp.toPx()
+    val lineWidth = 3.dp.toPx()
+    val marginFromX = 4.dp.toPx()
+
+    val points = mutableListOf<Offset>()
 
     values.forEachIndexed { index, value ->
         if (totalRecords >= index + 2) {
+            val startY = calculateYCoordinate(
+                max = maxY,
+                min = minY,
+                value = value.y,
+                chartHeight = chartHeight - marginFromX
+            )
+            val endY = calculateYCoordinate(
+                max = maxY,
+                min = minY,
+                value = values[index + 1].y,
+                chartHeight = chartHeight - marginFromX
+            )
+
+            val pointStart = Offset(
+                x = currentX,
+                y = startY
+            )
+            val pointEnd = Offset(
+                x = currentX + lineDistance,
+                y = endY
+            )
+
+            if (index == 0) {
+                points.add(pointStart)
+            }
+            points.add(pointEnd)
+
             drawLine(
-                start = Offset(
-                    x = currentX,
-                    y = calculateYCoordinate(
-                        max = maxY,
-                        min = minY,
-                        value = value.y,
-                        chartHeight = chartHeight - 8.dp.toPx()
-                    )
-                ),
-                end = Offset(
-                    x = currentX + lineDistance,
-                    y = calculateYCoordinate(
-                        max = maxY,
-                        min = minY,
-                        value = values[index + 1].y,
-                        chartHeight = chartHeight - 8.dp.toPx()
-                    )
-                ),
-                color = Ivy,
+                start = pointStart,
+                end = pointEnd,
+                brush = (if (startY >= endY) GradientGreen else GradientRed)
+                    .asVerticalBrush(),
                 strokeWidth = lineWidth,
-                cap = StrokeCap.Butt
+                pathEffect = PathEffect.cornerPathEffect(8.dp.toPx()),
+                cap = StrokeCap.Round
             )
         }
         currentX += lineDistance
     }
+
+    onSetPoints(points)
 }
 
 
@@ -245,6 +290,10 @@ private fun calculateYCoordinate(
     val yPercent = vAdjusted / range
 
     return lerp(0.0, chartHeight.toDouble(), 1f - yPercent).toFloat()
+}
+
+private fun Offset.distance(point2: Offset): Float {
+    return sqrt((point2.x - x).pow(2) + (point2.y - y).pow(2))
 }
 
 @Preview
