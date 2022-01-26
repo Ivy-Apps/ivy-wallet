@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.home
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -368,7 +367,7 @@ fun HomeLazyColumn(
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
     val ivyContext = LocalIvyContext.current
-    val doubleExpanded = remember { mutableStateOf(false) }
+    val doubleExpanded = remember { mutableStateOf(true) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
