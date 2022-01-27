@@ -333,7 +333,7 @@ private fun IntervalFromToDate(
                         otherEndDateTime
                             ?.toLocalDate()
                             ?.minusDays(1) else null,
-                    initialDate = null
+                    initialDate = dateTime?.toLocalDate()
                 ) {
                     onSelected(it.atStartOfDay())
                 }

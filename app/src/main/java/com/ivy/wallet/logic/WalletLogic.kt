@@ -28,7 +28,7 @@ class WalletLogic(
 
     fun calculateBalance(
         filterExcluded: Boolean = true,
-        endTime: LocalDateTime? = null
+        before: LocalDateTime? = null
     ): Double {
         val baseCurrency = settingsDao.findFirst().currency
 
@@ -38,7 +38,7 @@ class WalletLogic(
                 exchangeRatesLogic.amountBaseCurrency(
                     amount = walletAccountLogic.calculateAccountBalance(
                         account = it,
-                        endTime = endTime
+                        before = before
                     ),
                     amountCurrency = it.currency ?: baseCurrency,
                     baseCurrency = baseCurrency

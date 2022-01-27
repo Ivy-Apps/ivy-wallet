@@ -93,48 +93,43 @@ class WalletAccountLogic(
 
     fun calculateAccountBalance(
         account: Account,
-        startTime: LocalDateTime? = null,
-        endTime: LocalDateTime? = null
+        before: LocalDateTime? = null
     ): Double {
         return calculateIncomeWithTransfers(
             account = account,
-            startTime = startTime,
-            endTime = endTime
+            before = before
         ) - calculateExpensesWithTransfers(
             account = account,
-            startTime = startTime,
-            endTime = endTime
+            before = before
         )
     }
 
     private fun calculateIncomeWithTransfers(
         account: Account,
-        startTime: LocalDateTime?,
-        endTime: LocalDateTime?
+        before: LocalDateTime?
     ): Double {
         return transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, account.id)
             .filterHappenedTransactions(
-                startTime = startTime,
-                endTime = endTime
+                before = before
             )
             .sumOf { it.amount }
             .plus(
                 //transfers in
                 transactionDao.findAllTransfersToAccount(account.id)
-                    .filter { it.dateTime != null }
+                    .filterHappenedTransactions(
+                        before = before
+                    )
                     .sumOf { it.toAmount ?: it.amount }
             )
     }
 
     private fun calculateExpensesWithTransfers(
         account: Account,
-        startTime: LocalDateTime?,
-        endTime: LocalDateTime?
+        before: LocalDateTime?
     ): Double {
         return transactionDao.findAllByTypeAndAccount(TransactionType.EXPENSE, account.id)
             .filterHappenedTransactions(
-                startTime = startTime,
-                endTime = endTime
+                before = before
             )
             .sumOf { it.amount }
             .plus(
@@ -143,19 +138,19 @@ class WalletAccountLogic(
                     type = TransactionType.TRANSFER,
                     accountId = account.id
                 )
-                    .filter { it.dateTime != null }
+                    .filterHappenedTransactions(
+                        before = before
+                    )
                     .sumOf { it.amount }
             )
     }
 
     private fun List<Transaction>.filterHappenedTransactions(
-        startTime: LocalDateTime?,
-        endTime: LocalDateTime?
+        before: LocalDateTime?
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                    (startTime == null || it.dateTime.isAfter(startTime)) &&
-                    (endTime == null || it.dateTime.isBefore(endTime))
+                    (before == null || it.dateTime.isBefore(before))
         }
     }
 

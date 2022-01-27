@@ -35,12 +35,12 @@ class ChartsViewModel @Inject constructor(
             }
 
             _balanceValues.value = ioThread {
-                lastNMonths(n = 6)
+                lastNMonths(n = 12)
                     .map { month ->
                         MonthValue(
                             month = month,
                             value = walletLogic.calculateBalance(
-                                endTime = month
+                                before = month
                             )
                         )
                     }
@@ -67,7 +67,3 @@ class ChartsViewModel @Inject constructor(
     }
 }
 
-data class MonthValue(
-    val month: LocalDateTime,
-    val value: Double
-)
