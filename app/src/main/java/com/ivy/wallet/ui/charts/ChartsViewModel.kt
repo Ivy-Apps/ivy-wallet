@@ -25,7 +25,7 @@ class ChartsViewModel @Inject constructor(
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
 
-    private val _balanceValues = MutableStateFlow(emptyList<MonthValue>())
+    private val _balanceValues = MutableStateFlow(emptyList<TimeValue>())
     val balanceValues = _balanceValues.asStateFlow()
 
     fun start() {
@@ -37,8 +37,8 @@ class ChartsViewModel @Inject constructor(
             _balanceValues.value = ioThread {
                 lastNMonths(n = 12)
                     .map { month ->
-                        MonthValue(
-                            month = month,
+                        TimeValue(
+                            dateTime = month,
                             value = walletLogic.calculateBalance(
                                 before = month
                             )

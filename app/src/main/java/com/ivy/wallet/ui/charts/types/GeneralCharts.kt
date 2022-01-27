@@ -1,16 +1,17 @@
 package com.ivy.wallet.ui.charts.types
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.charts.MonthValue
 import com.ivy.wallet.ui.charts.Period
-import com.ivy.wallet.ui.theme.Typo
+import com.ivy.wallet.ui.charts.TimeValue
+import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.Value
 
@@ -18,11 +19,11 @@ import com.ivy.wallet.ui.theme.components.charts.Value
 fun GeneralCharts(
     period: Period,
     baseCurrencyCode: String,
-    balanceValues: List<MonthValue>
+    balanceValues: List<TimeValue>
 ) {
     Spacer(Modifier.height(16.dp))
 
-    var balanceTapped: MonthValue? by remember {
+    var balanceTapped: TimeValue? by remember {
         mutableStateOf(null)
     }
 
@@ -43,7 +44,7 @@ fun GeneralCharts(
             )
         },
         xLabel = {
-            balanceValues[it.toInt()].month.month.name.first().uppercase()
+            balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
         },
         yLabel = {
             it.format(baseCurrencyCode)
@@ -56,14 +57,43 @@ fun GeneralCharts(
     if (balanceTapped != null) {
         Spacer(Modifier.height(16.dp))
 
-        Text(
-            modifier = Modifier.padding(start = 32.dp),
-            text = "Balance ${balanceTapped!!.month.month.name}: ${
-                balanceTapped!!.value.format(
-                    baseCurrencyCode
-                )
-            } $baseCurrencyCode",
-            style = Typo.numberBody1
+        BalanceChartInfoCard(
+            baseCurrencyCode = baseCurrencyCode,
+            timeValue = balanceTapped!!
         )
+    }
+}
+
+@Composable
+fun BalanceChartInfoCard(
+    baseCurrencyCode: String,
+    timeValue: TimeValue
+) {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .background(Ivy, Shapes.rounded24)
+            .padding(vertical = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(24.dp))
+
+        Text(
+            text = timeValue.dateTime.month.name.lowercase().capitalizeLocal(),
+            style = Typo.body2.style(
+                color = White
+            )
+        )
+
+        Spacer(Modifier.weight(1f))
+
+        Text(
+            text = "${timeValue.value.format(baseCurrencyCode)} $baseCurrencyCode",
+            style = Typo.numberBody2.style(
+                color = White
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
     }
 }

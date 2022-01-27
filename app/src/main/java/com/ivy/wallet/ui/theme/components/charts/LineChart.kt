@@ -129,7 +129,9 @@ fun IvyLineChart(
                         },
                     text = xLabel(value.x),
                     style = Typo.body1.style(
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = if (index == tappedIndex)
+                            Ivy else IvyTheme.colors.pureInverse
                     )
                 )
 
@@ -221,10 +223,10 @@ private fun Chart(
 
         if (tappedIndex != null) {
             val tappedValue = values[tappedIndex]
-            val radius = 6.dp.toPx()
+            val radius = 8.dp.toPx()
 
             drawCircle(
-                color = Yellow,
+                color = Ivy,
                 radius = radius,
                 center = Offset(
                     x = calculateXCoordinate(

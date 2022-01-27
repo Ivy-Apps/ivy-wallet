@@ -45,7 +45,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 @Composable
 private fun UI(
     baseCurrencyCode: String,
-    balanceValues: List<MonthValue> = emptyList()
+    balanceValues: List<TimeValue> = emptyList()
 ) {
     Column(
         modifier = Modifier
