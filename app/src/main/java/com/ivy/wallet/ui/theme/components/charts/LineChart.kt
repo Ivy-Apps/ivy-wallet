@@ -16,6 +16,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.lerp
@@ -23,7 +24,6 @@ import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
-import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -35,6 +35,7 @@ data class Value(
 @Composable
 fun IvyLineChart(
     modifier: Modifier = Modifier,
+    height: Dp = 300.dp,
     values: List<Value>,
     xLabel: (x: Double) -> String,
     yLabel: (y: Double) -> String,
@@ -66,7 +67,7 @@ fun IvyLineChart(
                     .onSizeChanged {
                         yLabelWidthPx = it.width
                     }
-                    .height(300.dp)
+                    .height(height = height)
                     .padding(end = 8.dp)
             ) {
                 val yValues = remember(minY, maxY) {
@@ -91,7 +92,7 @@ fun IvyLineChart(
             Chart(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp),
+                    .height(height),
                 chartColor = chartColor,
                 maxY = maxY,
                 minY = minY,
@@ -281,23 +282,10 @@ private fun calculateYCoordinate(
     value: Double,
     chartHeight: Float
 ): Float {
-    //maxY = 0
-    //minY = chartHeight
-    /* Example:
-        min = -100
-        max = 100
-        v1 = 25
-        v2 = 100
-        v3 = -100
-
-        range = abs(min) + abs(max) //200
-        v1' = abs(min) + v          //125
-        v2' = 200
-        v3' = 0
-     */
-    val range = abs(min) + abs(max)
-    val vAdjusted = abs(min) + value
-    val yPercent = vAdjusted / range
+    //Lerp: (start + x * (end - start)) = value
+    //x * (end - start) = value - start
+    //x = (value - start) / (end - start)
+    val yPercent = (value - min) / (max - min)
 
     return lerp(0.0, chartHeight.toDouble(), 1f - yPercent).toFloat()
 }

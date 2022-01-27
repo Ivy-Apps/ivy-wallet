@@ -16,6 +16,7 @@ import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 class WalletLogic(
     private val accountDao: AccountDao,
@@ -25,14 +26,20 @@ class WalletLogic(
     private val walletAccountLogic: WalletAccountLogic
 ) {
 
-    fun calculateBalance(filterExcluded: Boolean = true): Double {
+    fun calculateBalance(
+        filterExcluded: Boolean = true,
+        endTime: LocalDateTime? = null
+    ): Double {
         val baseCurrency = settingsDao.findFirst().currency
 
         return accountDao.findAll()
             .filter { it.includeInBalance || !filterExcluded }
             .sumOf {
                 exchangeRatesLogic.amountBaseCurrency(
-                    amount = walletAccountLogic.calculateAccountBalance(it),
+                    amount = walletAccountLogic.calculateAccountBalance(
+                        account = it,
+                        endTime = endTime
+                    ),
                     amountCurrency = it.currency ?: baseCurrency,
                     baseCurrency = baseCurrency
                 )
