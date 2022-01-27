@@ -1,24 +1,29 @@
 package com.ivy.wallet.ui.charts
 
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
-import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.charts.types.AccountCharts
+import com.ivy.wallet.ui.charts.types.CategoryCharts
+import com.ivy.wallet.ui.charts.types.GeneralCharts
 import com.ivy.wallet.ui.ivyContext
-import com.ivy.wallet.ui.theme.Typo
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
-import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
-import com.ivy.wallet.ui.theme.components.charts.Value
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
@@ -47,62 +52,150 @@ private fun UI(
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        val ivyContext = ivyContext()
+        Toolbar()
 
-        IvyToolbar(
-            onBack = {
-                ivyContext.back()
-            }
-        ) {
-            Spacer(Modifier.width(32.dp))
+        Spacer(Modifier.height(8.dp))
 
-            Text(
-                text = "Charts",
-                style = Typo.h2.style(
-                    fontWeight = FontWeight.ExtraBold
-                )
-            )
+        var period by remember {
+            mutableStateOf(Period.LAST_12_MONTHS)
         }
 
-        Spacer(Modifier.height(32.dp))
-
-        var balanceTapped: MonthValue? by remember {
-            mutableStateOf(null)
-        }
-
-        IvyLineChart(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            values = balanceValues.mapIndexed { index, it ->
-                Value(
-                    x = index.toDouble(),
-                    y = it.value
-                )
-            },
-            xLabel = {
-                balanceValues[it.toInt()].month.month.name.first().uppercase()
-            },
-            yLabel = {
-                it.format(baseCurrencyCode)
-            },
-            onTap = {
-                balanceTapped = balanceValues[it]
+        Period(
+            period = period,
+            onSetPeriod = {
+                period = it
             }
         )
 
-        if (balanceTapped != null) {
-            Spacer(Modifier.height(16.dp))
+        var chartType by remember {
+            mutableStateOf(ChartType.GENERAL)
+        }
 
-            Text(
-                modifier = Modifier.padding(start = 32.dp),
-                text = "Balance ${balanceTapped!!.month.month.name}: ${
-                    balanceTapped!!.value.format(
-                        baseCurrencyCode
-                    )
-                } $baseCurrencyCode",
-                style = Typo.numberBody1
+        Spacer(Modifier.height(12.dp))
+
+        ChartsType(
+            selectedChartType = chartType,
+            onSetChartType = {
+                chartType = it
+            }
+        )
+
+        Spacer(Modifier.height(4.dp))
+
+        IvyDividerLine()
+
+        when (chartType) {
+            ChartType.GENERAL -> GeneralCharts(
+                period = period,
+                baseCurrencyCode = baseCurrencyCode,
+                balanceValues = balanceValues
+            )
+            ChartType.CATEGORY -> CategoryCharts(
+                period = period
+            )
+            ChartType.ACCOUNT -> AccountCharts(
+                period = period
             )
         }
     }
+}
+
+@Composable
+private fun Toolbar() {
+    val ivyContext = ivyContext()
+
+    IvyToolbar(
+        onBack = {
+            ivyContext.back()
+        }
+    ) {
+        Spacer(Modifier.width(32.dp))
+
+        Text(
+            text = "Charts",
+            style = Typo.h2.style(
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+    }
+}
+
+@Composable
+private fun Period(
+    period: Period,
+    onSetPeriod: (Period) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(32.dp))
+
+        Text(
+            modifier = Modifier.clickable {
+                //TODO: handle click
+            },
+            text = "Period:",
+            style = Typo.body1
+        )
+
+        Spacer(Modifier.width(12.dp))
+
+        Text(
+            modifier = Modifier
+                .clip(Shapes.roundedFull)
+                .border(1.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+                .clickable {
+                    //TODO: handle click
+                }
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            text = period.display(),
+            style = Typo.body2.style(
+                fontWeight = FontWeight.Bold
+            )
+        )
+    }
+}
+
+@Composable
+private fun ChartsType(
+    selectedChartType: ChartType,
+    onSetChartType: (ChartType) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ChartType.values().forEach {
+            ChartButton(
+                modifier = Modifier.weight(1f),
+                chartType = it,
+                selected = it == selectedChartType
+            ) {
+                onSetChartType(it)
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun ChartButton(
+    modifier: Modifier = Modifier,
+    chartType: ChartType,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Text(
+        modifier = modifier
+            .clickable {
+                onClick()
+            }
+            .padding(vertical = 12.dp),
+        text = chartType.display(),
+        style = Typo.body2.style(
+            color = if (selected) Ivy else IvyTheme.colors.pureInverse,
+            textAlign = TextAlign.Center
+        )
+    )
 }
 
 @Preview

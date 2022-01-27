@@ -51,6 +51,14 @@ fun IvyLineChart(
     }
     val chartColor = IvyTheme.colors.pureInverse
 
+    var tappedIndex: Int? by remember(values) {
+        mutableStateOf(null)
+    }
+    val onTapInternal = { valueIndex: Int ->
+        tappedIndex = valueIndex
+        onTap(valueIndex)
+    }
+
     Column(
         modifier = modifier
     ) {
@@ -97,7 +105,8 @@ fun IvyLineChart(
                 maxY = maxY,
                 minY = minY,
                 values = values,
-                onTap = onTap
+                tappedIndex = tappedIndex,
+                onTap = onTapInternal
             )
         }
 
@@ -116,7 +125,7 @@ fun IvyLineChart(
                     modifier = Modifier
                         .width(10.dp)
                         .clickable {
-                            onTap(index)
+                            onTapInternal(index)
                         },
                     text = xLabel(value.x),
                     style = Typo.body1.style(
@@ -154,6 +163,7 @@ private fun Chart(
     maxY: Double,
     minY: Double,
     values: List<Value>,
+    tappedIndex: Int?,
     onTap: (valueIndex: Int) -> Unit
 ) {
     var points by remember(values) {
@@ -208,6 +218,29 @@ private fun Chart(
                 points = it
             }
         )
+
+        if (tappedIndex != null) {
+            val tappedValue = values[tappedIndex]
+            val radius = 6.dp.toPx()
+
+            drawCircle(
+                color = Yellow,
+                radius = radius,
+                center = Offset(
+                    x = calculateXCoordinate(
+                        values = values,
+                        valueIndex = tappedIndex,
+                        chartWidth = chartWidth
+                    ),
+                    y = calculateYCoordinate(
+                        max = maxY,
+                        min = minY,
+                        value = tappedValue.y,
+                        chartHeight = chartHeight
+                    ) - 4.dp.toPx() //marginFromX
+                )
+            )
+        }
     }
 }
 
@@ -273,6 +306,17 @@ private fun DrawScope.drawValues(
     }
 
     onSetPoints(points)
+}
+
+private fun calculateXCoordinate(
+    values: List<Value>,
+    valueIndex: Int,
+    chartWidth: Float,
+): Float {
+    val totalRecords = values.size
+    val lineDistance = chartWidth / (totalRecords + 1)
+
+    return lineDistance * valueIndex + lineDistance
 }
 
 
