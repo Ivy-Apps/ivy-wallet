@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
@@ -19,11 +20,9 @@ import com.ivy.wallet.ui.charts.Period
 import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.reports.ListItem
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.asBrush
+import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
-import com.ivy.wallet.ui.theme.toComposeColor
 
 fun LazyListScope.categoryCharts(
     period: Period,
@@ -92,6 +91,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             title = "Income",
+            titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
             values = categoryIncomeValues
         )
@@ -100,6 +100,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             title = "Income count",
+            titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
             values = categoryIncomeCount
         )
@@ -109,6 +110,7 @@ fun LazyListScope.categoryCharts(
 @Composable
 private fun CategoriesChart(
     title: String,
+    titleColor: Color = IvyTheme.colors.pureInverse,
     baseCurrencyCode: String,
     values: Map<Category, List<TimeValue>>
 ) {
@@ -124,7 +126,9 @@ private fun CategoriesChart(
     Text(
         modifier = Modifier.padding(start = 24.dp),
         text = title,
-        style = Typo.body1
+        style = Typo.body1.style(
+            color = titleColor
+        )
     )
 
     Spacer(Modifier.height(16.dp))

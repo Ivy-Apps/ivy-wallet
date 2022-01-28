@@ -43,6 +43,7 @@ class ChartsViewModel @Inject constructor(
     private val _expenseValues = MutableStateFlow(emptyList<TimeValue>())
     val expenseValues = _expenseValues.asStateFlow()
 
+    // --------------------------- Category --------------------------------------------------------
     private val _categories = MutableStateFlow(emptyList<Category>())
     val categories = _categories.asStateFlow()
 
@@ -57,8 +58,9 @@ class ChartsViewModel @Inject constructor(
 
     private val _categoryIncomeCount = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
     val categoryIncomeCount = _categoryIncomeCount.asStateFlow()
+    // --------------------------- Category --------------------------------------------------------
 
-    fun start() {
+    fun start(period: Period = Period.LAST_12_MONTHS) {
         viewModelScope.launch {
             _baseCurrencyCode.value = ioThread {
                 settingsDao.findFirst().currency
