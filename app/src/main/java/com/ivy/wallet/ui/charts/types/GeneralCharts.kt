@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.charts.Period
+import com.ivy.wallet.ui.charts.ChartPeriod
 import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.theme.*
@@ -18,7 +18,7 @@ import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.redGreenGradient
 
 fun LazyListScope.generalCharts(
-    period: Period,
+    period: ChartPeriod,
     baseCurrencyCode: String,
     balanceValues: List<TimeValue>,
     incomeValues: List<TimeValue>,
@@ -50,7 +50,7 @@ fun LazyListScope.generalCharts(
                 )
             ),
             xLabel = {
-                balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
+                period.xLabel(range = balanceValues[it.toInt()].range)
             },
             yLabel = {
                 it.format(baseCurrencyCode)
@@ -94,7 +94,8 @@ fun LazyListScope.generalCharts(
             modifier = Modifier.padding(horizontal = 24.dp),
             functions = listOf(incomeFunction, expenseFunction),
             xLabel = {
-                balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
+                val range = balanceValues.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
+                period.xLabel(range)
             },
             yLabel = {
                 it.format(baseCurrencyCode)
@@ -125,7 +126,7 @@ fun BalanceChartInfoCard(
         Spacer(Modifier.width(24.dp))
 
         Text(
-            text = timeValue.dateTime.format("MMMM, yyyy"),
+            text = timeValue.range.toDisplay(),
             style = Typo.body2.style(
                 color = White
             )

@@ -1,10 +1,11 @@
 package com.ivy.wallet.ui.charts
 
+import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.theme.components.charts.Value
-import java.time.LocalDateTime
 
 data class TimeValue(
-    val dateTime: LocalDateTime,
+    val range: FromToTimeRange,
+    val period: ChartPeriod,
     val value: Double
 )
 

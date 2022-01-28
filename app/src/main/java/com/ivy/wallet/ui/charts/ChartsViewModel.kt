@@ -31,6 +31,9 @@ class ChartsViewModel @Inject constructor(
     private val walletCategoryLogic: WalletCategoryLogic
 ) : ViewModel() {
 
+    private val _period = MutableStateFlow(ChartPeriod.LAST_12_MONTHS)
+    val period = _period.asStateFlow()
+
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
@@ -60,34 +63,37 @@ class ChartsViewModel @Inject constructor(
     val categoryIncomeCount = _categoryIncomeCount.asStateFlow()
     // --------------------------- Category --------------------------------------------------------
 
-    fun start(period: Period = Period.LAST_12_MONTHS) {
+    fun start() {
         viewModelScope.launch {
             _baseCurrencyCode.value = ioThread {
                 settingsDao.findFirst().currency
             }
 
-            val lastNMonths = lastNMonths(n = 12)
+            val period = period.value
+            val periodRangesList = period.toRangesList()
 
             _balanceValues.value = ioThread {
-                lastNMonths.map { month ->
+                periodRangesList.map { range ->
                     TimeValue(
-                        dateTime = month,
+                        range = range,
+                        period = period,
                         value = walletLogic.calculateBalance(
-                            before = month
+                            before = range.to()
                         )
                     )
                 }
             }
 
             _incomeValues.value = ioThread {
-                lastNMonths.map { endOfMonthTime ->
+                periodRangesList.map { range ->
                     TimeValue(
-                        dateTime = endOfMonthTime,
+                        range = range,
+                        period = period,
                         value = walletLogic.calculateIncome(
                             walletLogic.history(
                                 range = FromToTimeRange(
-                                    from = endOfMonthTime.withDayOfMonth(1),
-                                    to = endOfMonthTime
+                                    from = range.from(),
+                                    to = range.to()
                                 )
                             ).filterIsInstance(Transaction::class.java)
                         )
@@ -96,14 +102,15 @@ class ChartsViewModel @Inject constructor(
             }
 
             _expenseValues.value = ioThread {
-                lastNMonths.map { endOfMonthTime ->
+                periodRangesList.map { range ->
                     TimeValue(
-                        dateTime = endOfMonthTime,
+                        range = range,
+                        period = period,
                         value = walletLogic.calculateExpenses(
                             walletLogic.history(
                                 range = FromToTimeRange(
-                                    from = endOfMonthTime.withDayOfMonth(1),
-                                    to = endOfMonthTime
+                                    from = range.from(),
+                                    to = range.to()
                                 )
                             ).filterIsInstance(Transaction::class.java)
                         )
@@ -118,103 +125,93 @@ class ChartsViewModel @Inject constructor(
     }
 
 
-    fun loadValuesForCategory(category: Category) {
+    fun loadValuesForCategory(
+        category: Category
+    ) {
         viewModelScope.launch {
-            val lastNMonths = lastNMonths(12)
+            val period = period.value
 
             loadCategoryExpenseValues(
-                period = lastNMonths,
+                period = period,
                 category = category
             )
 
             loadCategoryExpenseCount(
-                period = lastNMonths,
+                period = period,
                 category = category
             )
 
             loadCategoryIncomeValues(
-                period = lastNMonths,
+                period = period,
                 category = category
             )
 
             loadCategoryIncomeCount(
-                period = lastNMonths,
+                period = period,
                 category = category
             )
         }
     }
 
     private suspend fun loadCategoryExpenseValues(
-        period: List<LocalDateTime>,
+        period: ChartPeriod,
         category: Category
     ) {
         _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue = { endOfMonth ->
+            calculateValue = { range ->
                 walletCategoryLogic.calculateCategoryExpenses(
                     category = category,
-                    range = FromToTimeRange(
-                        from = endOfMonth.withDayOfMonth(1),
-                        to = endOfMonth
-                    )
+                    range = range
                 ).absoluteValue
             }
         )
     }
 
     private suspend fun loadCategoryExpenseCount(
-        period: List<LocalDateTime>,
+        period: ChartPeriod,
         category: Category
     ) {
         _categoryExpenseCount.value = categoryExpenseCount.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue = { endOfMonth ->
+            calculateValue = { range ->
                 walletCategoryLogic.historyByCategory(
                     category = category,
-                    range = FromToTimeRange(
-                        from = endOfMonth.withDayOfMonth(1),
-                        to = endOfMonth
-                    )
+                    range = range
                 ).count { it.type == TransactionType.EXPENSE }.toDouble()
             }
         )
     }
 
     private suspend fun loadCategoryIncomeValues(
-        period: List<LocalDateTime>,
+        period: ChartPeriod,
         category: Category
     ) {
         _categoryIncomeValues.value = categoryIncomeValues.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue = { endOfMonth ->
+            calculateValue = { range ->
                 walletCategoryLogic.calculateCategoryIncome(
                     category = category,
-                    range = FromToTimeRange(
-                        from = endOfMonth.withDayOfMonth(1),
-                        to = endOfMonth
-                    )
+                    range = range
                 )
             }
         )
     }
 
     private suspend fun loadCategoryIncomeCount(
-        period: List<LocalDateTime>,
+        period: ChartPeriod,
         category: Category
     ) {
         _categoryIncomeCount.value = categoryIncomeCount.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue = { endOfMonth ->
+            calculateValue = { range ->
                 walletCategoryLogic.historyByCategory(
                     category = category,
-                    range = FromToTimeRange(
-                        from = endOfMonth.withDayOfMonth(1),
-                        to = endOfMonth
-                    )
+                    range = range
                 ).count { it.type == TransactionType.INCOME }.toDouble()
             }
         )
@@ -222,15 +219,16 @@ class ChartsViewModel @Inject constructor(
 
 
     private suspend fun StateFlow<Map<Category, List<TimeValue>>>.loadCategoryValue(
-        period: List<LocalDateTime>,
+        period: ChartPeriod,
         category: Category,
-        calculateValue: (endOfMonth: LocalDateTime) -> Double
+        calculateValue: (range: FromToTimeRange) -> Double
     ): Map<Category, List<TimeValue>> {
         val values = ioThread {
-            period.map { endOfMonth ->
+            period.toRangesList().map { range ->
                 TimeValue(
-                    dateTime = endOfMonth,
-                    value = calculateValue(endOfMonth)
+                    range = range,
+                    period = period,
+                    value = calculateValue(range)
                 )
             }
         }
@@ -248,6 +246,11 @@ class ChartsViewModel @Inject constructor(
         _categoryExpenseCount.value = categoryExpenseCount.value.minus(category)
         _categoryIncomeValues.value = categoryIncomeValues.value.minus(category)
         _categoryIncomeCount.value = categoryIncomeCount.value.minus(category)
+    }
+
+    fun changePeriod(period: ChartPeriod) {
+        _period.value = period
+        start()
     }
 
     private fun lastNMonths(

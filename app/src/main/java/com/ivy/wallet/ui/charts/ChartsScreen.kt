@@ -31,6 +31,7 @@ import com.ivy.wallet.ui.theme.components.IvyToolbar
 fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     val viewModel: ChartsViewModel = viewModel()
 
+    val period by viewModel.period.collectAsState()
     val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
     val balanceValues by viewModel.balanceValues.collectAsState()
     val incomeValues by viewModel.incomeValues.collectAsState()
@@ -47,6 +48,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     }
 
     UI(
+        period = period,
         baseCurrencyCode = baseCurrencyCode,
         balanceValues = balanceValues,
         incomeValues = incomeValues,
@@ -59,12 +61,14 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
         categoryIncomeCount = categoryIncomeCount,
 
         onLoadCategory = viewModel::loadValuesForCategory,
-        onRemoveCategory = viewModel::removeCategory
+        onRemoveCategory = viewModel::removeCategory,
+        onChangePeriod = viewModel::changePeriod
     )
 }
 
 @Composable
 private fun UI(
+    period: ChartPeriod,
     baseCurrencyCode: String,
     balanceValues: List<TimeValue> = emptyList(),
     incomeValues: List<TimeValue> = emptyList(),
@@ -77,12 +81,9 @@ private fun UI(
     categoryIncomeCount: Map<Category, List<TimeValue>> = emptyMap(),
 
     onLoadCategory: (Category) -> Unit = {},
-    onRemoveCategory: (Category) -> Unit = {}
+    onRemoveCategory: (Category) -> Unit = {},
+    onChangePeriod: (ChartPeriod) -> Unit = {}
 ) {
-    var period by remember {
-        mutableStateOf(Period.LAST_12_MONTHS)
-    }
-
     var chartType by remember {
         mutableStateOf(ChartType.GENERAL)
     }
@@ -100,7 +101,7 @@ private fun UI(
             Period(
                 period = period,
                 onSetPeriod = {
-                    period = it
+                    onChangePeriod(it)
                 }
             )
 
@@ -168,9 +169,20 @@ private fun Toolbar() {
 
 @Composable
 private fun Period(
-    period: Period,
-    onSetPeriod: (Period) -> Unit
+    period: ChartPeriod,
+    onSetPeriod: (ChartPeriod) -> Unit
 ) {
+    val togglePeriod = {
+        onSetPeriod(
+            when (period) {
+                ChartPeriod.LAST_12_MONTHS -> ChartPeriod.LAST_6_MONTHS
+                ChartPeriod.LAST_6_MONTHS -> ChartPeriod.LAST_4_WEEKS
+                ChartPeriod.LAST_4_WEEKS -> ChartPeriod.LAST_7_DAYS
+                ChartPeriod.LAST_7_DAYS -> ChartPeriod.LAST_12_MONTHS
+            }
+        )
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -178,7 +190,7 @@ private fun Period(
 
         Text(
             modifier = Modifier.clickable {
-                //TODO: handle click
+                togglePeriod()
             },
             text = "Period:",
             style = Typo.body1
@@ -191,7 +203,7 @@ private fun Period(
                 .clip(Shapes.roundedFull)
                 .border(1.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
                 .clickable {
-                    //TODO: handle click
+                    togglePeriod()
                 }
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             text = period.display(),
@@ -249,6 +261,7 @@ private fun ChartButton(
 private fun Preview() {
     IvyAppPreview {
         UI(
+            period = ChartPeriod.LAST_12_MONTHS,
             baseCurrencyCode = "BGN",
         )
     }

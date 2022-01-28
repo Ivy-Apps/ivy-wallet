@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.charts.Period
+import com.ivy.wallet.ui.charts.ChartPeriod
 import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.reports.ListItem
@@ -25,7 +25,7 @@ import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
 
 fun LazyListScope.categoryCharts(
-    period: Period,
+    period: ChartPeriod,
     baseCurrencyCode: String,
     categories: List<Category>,
 
@@ -74,6 +74,7 @@ fun LazyListScope.categoryCharts(
 
     item {
         CategoriesChart(
+            period = period,
             title = "Expenses",
             baseCurrencyCode = baseCurrencyCode,
             values = categoryExpenseValues
@@ -82,6 +83,7 @@ fun LazyListScope.categoryCharts(
 
     item {
         CategoriesChart(
+            period = period,
             title = "Expenses count",
             baseCurrencyCode = baseCurrencyCode,
             values = categoryExpenseCount
@@ -90,6 +92,7 @@ fun LazyListScope.categoryCharts(
 
     item {
         CategoriesChart(
+            period = period,
             title = "Income",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
@@ -99,6 +102,7 @@ fun LazyListScope.categoryCharts(
 
     item {
         CategoriesChart(
+            period = period,
             title = "Income count",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
@@ -109,6 +113,7 @@ fun LazyListScope.categoryCharts(
 
 @Composable
 private fun CategoriesChart(
+    period: ChartPeriod,
     title: String,
     titleColor: Color = IvyTheme.colors.pureInverse,
     baseCurrencyCode: String,
@@ -137,7 +142,8 @@ private fun CategoriesChart(
         modifier = Modifier.padding(horizontal = 24.dp),
         functions = functions,
         xLabel = {
-            values.values.first()[it.toInt()].dateTime.month.name.first().uppercase()
+            val range = values.values.first().getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
+            period.xLabel(range)
         },
         yLabel = {
             it.format(baseCurrencyCode)
