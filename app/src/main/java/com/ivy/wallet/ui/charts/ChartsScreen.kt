@@ -36,7 +36,11 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     val incomeValues by viewModel.incomeValues.collectAsState()
     val expenseValues by viewModel.expenseValues.collectAsState()
     val categories by viewModel.categories.collectAsState()
-    val categoryValues by viewModel.categoryValues.collectAsState()
+
+    val categoryExpenseValues by viewModel.categoryExpenseValues.collectAsState()
+    val categoryExpenseCount by viewModel.categoryExpenseCount.collectAsState()
+    val categoryIncomeValues by viewModel.categoryIncomeValues.collectAsState()
+    val categoryIncomeCount by viewModel.categoryIncomeCount.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -48,7 +52,11 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
         incomeValues = incomeValues,
         expenseValues = expenseValues,
         categories = categories,
-        categoryValues = categoryValues,
+
+        categoryExpenseValues = categoryExpenseValues,
+        categoryExpenseCount = categoryExpenseCount,
+        categoryIncomeValues = categoryIncomeValues,
+        categoryIncomeCount = categoryIncomeCount,
 
         onLoadCategory = viewModel::loadValuesForCategory,
         onRemoveCategory = viewModel::removeCategory
@@ -62,7 +70,11 @@ private fun UI(
     incomeValues: List<TimeValue> = emptyList(),
     expenseValues: List<TimeValue> = emptyList(),
     categories: List<Category> = emptyList(),
-    categoryValues: Map<Category, List<TimeValue>> = emptyMap(),
+
+    categoryExpenseValues: Map<Category, List<TimeValue>> = emptyMap(),
+    categoryExpenseCount: Map<Category, List<TimeValue>> = emptyMap(),
+    categoryIncomeValues: Map<Category, List<TimeValue>> = emptyMap(),
+    categoryIncomeCount: Map<Category, List<TimeValue>> = emptyMap(),
 
     onLoadCategory: (Category) -> Unit = {},
     onRemoveCategory: (Category) -> Unit = {}
@@ -118,7 +130,12 @@ private fun UI(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
                 categories = categories,
-                categoryValues = categoryValues,
+
+                categoryExpenseValues = categoryExpenseValues,
+                categoryExpenseCount = categoryExpenseCount,
+                categoryIncomeValues = categoryIncomeValues,
+                categoryIncomeCount = categoryIncomeCount,
+
                 onLoadCategory = onLoadCategory,
                 onRemoveCategory = onRemoveCategory
             )

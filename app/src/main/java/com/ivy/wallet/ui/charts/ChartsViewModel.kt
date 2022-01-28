@@ -8,6 +8,7 @@ import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
+import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.CategoryDao
@@ -15,6 +16,7 @@ import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -44,8 +46,17 @@ class ChartsViewModel @Inject constructor(
     private val _categories = MutableStateFlow(emptyList<Category>())
     val categories = _categories.asStateFlow()
 
-    private val _categoryValues = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
-    val categoryValues = _categoryValues.asStateFlow()
+    private val _categoryExpenseValues = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    val categoryExpenseValues = _categoryExpenseValues.asStateFlow()
+
+    private val _categoryExpenseCount = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    val categoryExpenseCount = _categoryExpenseCount.asStateFlow()
+
+    private val _categoryIncomeValues = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    val categoryIncomeValues = _categoryIncomeValues.asStateFlow()
+
+    private val _categoryIncomeCount = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    val categoryIncomeCount = _categoryIncomeCount.asStateFlow()
 
     fun start() {
         viewModelScope.launch {
@@ -107,32 +118,134 @@ class ChartsViewModel @Inject constructor(
 
     fun loadValuesForCategory(category: Category) {
         viewModelScope.launch {
-            val values = ioThread {
-                lastNMonths(12)
-                    .map { endOfMonth ->
-                        TimeValue(
-                            dateTime = endOfMonth,
-                            value = walletCategoryLogic.calculateCategoryBalance(
-                                category = category,
-                                range = FromToTimeRange(
-                                    from = endOfMonth.withDayOfMonth(1),
-                                    to = endOfMonth
-                                )
-                            ).absoluteValue
-                        )
-                    }
-            }
+            val lastNMonths = lastNMonths(12)
 
-            _categoryValues.value = categoryValues.value.plus(
-                Pair(
-                    category, values
-                )
+            loadCategoryExpenseValues(
+                period = lastNMonths,
+                category = category
+            )
+
+            loadCategoryExpenseCount(
+                period = lastNMonths,
+                category = category
+            )
+
+            loadCategoryIncomeValues(
+                period = lastNMonths,
+                category = category
+            )
+
+            loadCategoryIncomeCount(
+                period = lastNMonths,
+                category = category
             )
         }
     }
 
+    private suspend fun loadCategoryExpenseValues(
+        period: List<LocalDateTime>,
+        category: Category
+    ) {
+        _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
+            period = period,
+            category = category,
+            calculateValue = { endOfMonth ->
+                walletCategoryLogic.calculateCategoryExpenses(
+                    category = category,
+                    range = FromToTimeRange(
+                        from = endOfMonth.withDayOfMonth(1),
+                        to = endOfMonth
+                    )
+                ).absoluteValue
+            }
+        )
+    }
+
+    private suspend fun loadCategoryExpenseCount(
+        period: List<LocalDateTime>,
+        category: Category
+    ) {
+        _categoryExpenseCount.value = categoryExpenseCount.loadCategoryValue(
+            period = period,
+            category = category,
+            calculateValue = { endOfMonth ->
+                walletCategoryLogic.historyByCategory(
+                    category = category,
+                    range = FromToTimeRange(
+                        from = endOfMonth.withDayOfMonth(1),
+                        to = endOfMonth
+                    )
+                ).count { it.type == TransactionType.EXPENSE }.toDouble()
+            }
+        )
+    }
+
+    private suspend fun loadCategoryIncomeValues(
+        period: List<LocalDateTime>,
+        category: Category
+    ) {
+        _categoryIncomeValues.value = categoryIncomeValues.loadCategoryValue(
+            period = period,
+            category = category,
+            calculateValue = { endOfMonth ->
+                walletCategoryLogic.calculateCategoryIncome(
+                    category = category,
+                    range = FromToTimeRange(
+                        from = endOfMonth.withDayOfMonth(1),
+                        to = endOfMonth
+                    )
+                )
+            }
+        )
+    }
+
+    private suspend fun loadCategoryIncomeCount(
+        period: List<LocalDateTime>,
+        category: Category
+    ) {
+        _categoryIncomeCount.value = categoryIncomeCount.loadCategoryValue(
+            period = period,
+            category = category,
+            calculateValue = { endOfMonth ->
+                walletCategoryLogic.historyByCategory(
+                    category = category,
+                    range = FromToTimeRange(
+                        from = endOfMonth.withDayOfMonth(1),
+                        to = endOfMonth
+                    )
+                ).count { it.type == TransactionType.INCOME }.toDouble()
+            }
+        )
+    }
+
+
+    private suspend fun StateFlow<Map<Category, List<TimeValue>>>.loadCategoryValue(
+        period: List<LocalDateTime>,
+        category: Category,
+        calculateValue: (endOfMonth: LocalDateTime) -> Double
+    ): Map<Category, List<TimeValue>> {
+        val values = ioThread {
+            period.map { endOfMonth ->
+                TimeValue(
+                    dateTime = endOfMonth,
+                    value = calculateValue(endOfMonth)
+                )
+            }
+        }
+
+        return this.value.plus(
+            Pair(
+                category, values
+            )
+        )
+
+    }
+
     fun removeCategory(category: Category) {
-        _categoryValues.value = categoryValues.value.minus(category)
+        _categoryExpenseValues.value = categoryExpenseValues.value.minus(category)
+        _categoryExpenseCount.value = categoryExpenseCount.value.minus(category)
+        _categoryIncomeValues.value = categoryIncomeValues.value.minus(category)
+        _categoryIncomeCount.value = categoryIncomeCount.value.minus(category)
     }
 
     private fun lastNMonths(
