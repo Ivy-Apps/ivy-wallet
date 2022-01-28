@@ -11,8 +11,10 @@ import com.ivy.wallet.base.format
 import com.ivy.wallet.ui.charts.Period
 import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.Value
+import com.ivy.wallet.ui.theme.components.charts.redGreenGradient
 
 @Composable
 fun GeneralCharts(
@@ -34,14 +36,21 @@ fun GeneralCharts(
 
     Spacer(Modifier.height(16.dp))
 
+    val values = balanceValues.mapIndexed { index, it ->
+        Value(
+            x = index.toDouble(),
+            y = it.value
+        )
+    }
+
     IvyLineChart(
         modifier = Modifier.padding(horizontal = 24.dp),
-        values = balanceValues.mapIndexed { index, it ->
-            Value(
-                x = index.toDouble(),
-                y = it.value
+        functions = listOf(
+            Function(
+                values = values,
+                color = ::redGreenGradient
             )
-        },
+        ),
         xLabel = {
             balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
         },

@@ -99,10 +99,6 @@ val Gray = Color(0xFF939199)
 val MediumWhite = Color(0xFFEFEEF0)
 
 
-
-
-
-
 val Transparent = Color(0x00000000)
 
 val GradientRed = Gradient(Red, Color(0xFFFF99AB))
@@ -112,6 +108,10 @@ val GradientOrangeDark = Gradient(OrangeDark, Color(0xFFF2CD9E))
 val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)
 val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))
 
+
+fun Color.asBrush(): Brush {
+    return Brush.horizontalGradient(colors = listOf(this))
+}
 
 fun Modifier.gradientCutBackgroundTop(
     endY: Dp = 32.dp

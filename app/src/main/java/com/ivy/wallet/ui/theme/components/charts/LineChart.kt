@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
@@ -32,26 +33,32 @@ data class Value(
     val y: Double
 )
 
+data class Function(
+    val values: List<Value>,
+    val color: (startY: Float, endY: Float) -> Brush
+)
+
 @Composable
 fun IvyLineChart(
     modifier: Modifier = Modifier,
     height: Dp = 300.dp,
-    values: List<Value>,
+    functions: List<Function>,
     xLabel: (x: Double) -> String,
     yLabel: (y: Double) -> String,
     onTap: (valueIndex: Int) -> Unit = {}
 ) {
-    if (values.isEmpty()) return
+    val allValues = functions.flatMap { it.values }
+    if (allValues.isEmpty()) return
 
-    val maxY = remember(values) {
-        values.maxOf { it.y }
+    val maxY = remember(allValues) {
+        allValues.maxOf { it.y }
     }
-    val minY = remember(values) {
-        values.minOf { it.y }
+    val minY = remember(allValues) {
+        allValues.minOf { it.y }
     }
     val chartColor = IvyTheme.colors.pureInverse
 
-    var tappedIndex: Int? by remember(values) {
+    var tappedIndex: Int? by remember(allValues) {
         mutableStateOf(null)
     }
     val onTapInternal = { valueIndex: Int ->
@@ -104,7 +111,7 @@ fun IvyLineChart(
                 chartColor = chartColor,
                 maxY = maxY,
                 minY = minY,
-                values = values,
+                functions = functions,
                 tappedIndex = tappedIndex,
                 onTap = onTapInternal
             )
@@ -120,14 +127,14 @@ fun IvyLineChart(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            values.forEachIndexed { index, value ->
+            allValues.map { it.x }.toSet().forEachIndexed { index, x ->
                 Text(
                     modifier = Modifier
                         .width(10.dp)
                         .clickable {
                             onTapInternal(index)
                         },
-                    text = xLabel(value.x),
+                    text = xLabel(x),
                     style = Typo.body1.style(
                         textAlign = TextAlign.Center,
                         color = if (index == tappedIndex)
@@ -164,11 +171,11 @@ private fun Chart(
     chartColor: Color,
     maxY: Double,
     minY: Double,
-    values: List<Value>,
+    functions: List<Function>,
     tappedIndex: Int?,
     onTap: (valueIndex: Int) -> Unit
 ) {
-    var points by remember(values) {
+    var points by remember(functions) {
         mutableStateOf(emptyList<Offset>())
     }
 
@@ -215,14 +222,15 @@ private fun Chart(
             chartHeight = chartHeight,
             maxY = maxY,
             minY = minY,
-            values = values,
+            functions = functions,
             onSetPoints = {
                 points = it
             }
         )
 
         if (tappedIndex != null) {
-            val tappedValue = values[tappedIndex]
+            //TODO: Fix
+            val tappedValue = functions[0].values[tappedIndex]
             val radius = 8.dp.toPx()
 
             drawCircle(
@@ -230,7 +238,7 @@ private fun Chart(
                 radius = radius,
                 center = Offset(
                     x = calculateXCoordinate(
-                        values = values,
+                        values = functions.first().values,
                         valueIndex = tappedIndex,
                         chartWidth = chartWidth
                     ),
@@ -251,19 +259,54 @@ private fun DrawScope.drawValues(
     chartHeight: Float,
     maxY: Double,
     minY: Double,
-    values: List<Value>,
+    functions: List<Function>,
     onSetPoints: (List<Offset>) -> Unit
 ) {
     // Total number of transactions.
-    val totalRecords = values.size
+    val totalRecords = functions.first().values.size
     // Maximum distance between dots (transactions)
     val lineDistance = chartWidth / (totalRecords + 1)
     // Add some kind of a "Padding" for the initial point where the line starts.
-    var currentX = 0F + lineDistance
     val lineWidth = 3.dp.toPx()
     val marginFromX = 4.dp.toPx()
 
     val points = mutableListOf<Offset>()
+
+    functions.forEach { function ->
+        drawFunction(
+            function = function,
+            lineDistance = lineDistance,
+            minY = minY,
+            maxY = maxY,
+            lineWidth = lineWidth,
+            marginFromX = marginFromX,
+            chartHeight = chartHeight,
+            onAddPoints = {
+                points.addAll(it)
+            }
+        )
+    }
+
+    onSetPoints(points)
+}
+
+private fun DrawScope.drawFunction(
+    function: Function,
+    lineDistance: Float,
+    minY: Double,
+    maxY: Double,
+    marginFromX: Float,
+    chartHeight: Float,
+    lineWidth: Float,
+
+    onAddPoints: (List<Offset>) -> Unit
+) {
+    val points = mutableListOf<Offset>()
+
+    var currentX = 0F + lineDistance
+    val values = function.values
+
+    val totalRecords = values.size
 
     values.forEachIndexed { index, value ->
         if (totalRecords >= index + 2) {
@@ -297,8 +340,7 @@ private fun DrawScope.drawValues(
             drawLine(
                 start = pointStart,
                 end = pointEnd,
-                brush = (if (startY >= endY) GradientGreen else GradientRed)
-                    .asVerticalBrush(),
+                brush = function.color(startY, endY),
                 strokeWidth = lineWidth,
                 pathEffect = PathEffect.cornerPathEffect(8.dp.toPx()),
                 cap = StrokeCap.Round
@@ -307,7 +349,7 @@ private fun DrawScope.drawValues(
         currentX += lineDistance
     }
 
-    onSetPoints(points)
+    onAddPoints(points)
 }
 
 private fun calculateXCoordinate(
@@ -399,7 +441,12 @@ private fun Preview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            values = values,
+            functions = listOf(
+                Function(
+                    values = values,
+                    color = ::redGreenGradient
+                )
+            ),
             xLabel = {
                 Month.monthsList()[it.toInt()].name.first().toString()
             },
@@ -408,4 +455,9 @@ private fun Preview() {
             }
         )
     }
+}
+
+fun redGreenGradient(startY: Float, endY: Float): Brush {
+    return (if (startY >= endY) GradientGreen else GradientRed)
+        .asVerticalBrush()
 }
