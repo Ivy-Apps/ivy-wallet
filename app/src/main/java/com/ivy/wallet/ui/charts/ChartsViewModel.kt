@@ -7,7 +7,9 @@ import com.ivy.wallet.base.endOfMonth
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.WalletLogic
+import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,22 +30,61 @@ class ChartsViewModel @Inject constructor(
     private val _balanceValues = MutableStateFlow(emptyList<TimeValue>())
     val balanceValues = _balanceValues.asStateFlow()
 
+    private val _incomeValues = MutableStateFlow(emptyList<TimeValue>())
+    val incomeValues = _incomeValues.asStateFlow()
+
+    private val _expenseValues = MutableStateFlow(emptyList<TimeValue>())
+    val expenseValues = _expenseValues.asStateFlow()
+
     fun start() {
         viewModelScope.launch {
             _baseCurrencyCode.value = ioThread {
                 settingsDao.findFirst().currency
             }
 
+            val lastNMonths = lastNMonths(n = 12)
+
             _balanceValues.value = ioThread {
-                lastNMonths(n = 12)
-                    .map { month ->
-                        TimeValue(
-                            dateTime = month,
-                            value = walletLogic.calculateBalance(
-                                before = month
-                            )
+                lastNMonths.map { month ->
+                    TimeValue(
+                        dateTime = month,
+                        value = walletLogic.calculateBalance(
+                            before = month
                         )
-                    }
+                    )
+                }
+            }
+
+            _incomeValues.value = ioThread {
+                lastNMonths.map { endOfMonthTime ->
+                    TimeValue(
+                        dateTime = endOfMonthTime,
+                        value = walletLogic.calculateIncome(
+                            walletLogic.history(
+                                range = FromToTimeRange(
+                                    from = endOfMonthTime.withDayOfMonth(1),
+                                    to = endOfMonthTime
+                                )
+                            ).filterIsInstance(Transaction::class.java)
+                        )
+                    )
+                }
+            }
+
+            _expenseValues.value = ioThread {
+                lastNMonths.map { endOfMonthTime ->
+                    TimeValue(
+                        dateTime = endOfMonthTime,
+                        value = walletLogic.calculateExpenses(
+                            walletLogic.history(
+                                range = FromToTimeRange(
+                                    from = endOfMonthTime.withDayOfMonth(1),
+                                    to = endOfMonthTime
+                                )
+                            ).filterIsInstance(Transaction::class.java)
+                        )
+                    )
+                }
             }
         }
     }

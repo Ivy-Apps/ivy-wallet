@@ -458,6 +458,5 @@ private fun Preview() {
 }
 
 fun redGreenGradient(startY: Float, endY: Float): Brush {
-    return (if (startY >= endY) GradientGreen else GradientRed)
-        .asVerticalBrush()
+    return if (startY >= endY) Green.asBrush() else Red.asBrush()
 }

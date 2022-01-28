@@ -110,7 +110,7 @@ val GradientIvy = Gradient(Ivy, Color(0xFFAA99FF))
 
 
 fun Color.asBrush(): Brush {
-    return Brush.horizontalGradient(colors = listOf(this))
+    return Brush.horizontalGradient(colors = listOf(this, this))
 }
 
 fun Modifier.gradientCutBackgroundTop(

@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.charts.types
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,65 +11,105 @@ import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
 import com.ivy.wallet.ui.charts.Period
 import com.ivy.wallet.ui.charts.TimeValue
+import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
-import com.ivy.wallet.ui.theme.components.charts.Value
 import com.ivy.wallet.ui.theme.components.charts.redGreenGradient
 
 @Composable
 fun GeneralCharts(
     period: Period,
     baseCurrencyCode: String,
-    balanceValues: List<TimeValue>
+    balanceValues: List<TimeValue>,
+    incomeValues: List<TimeValue>,
+    expenseValues: List<TimeValue>,
 ) {
-    Spacer(Modifier.height(16.dp))
+    LazyColumn {
+        item {
+            Spacer(Modifier.height(16.dp))
 
-    var balanceTapped: TimeValue? by remember {
-        mutableStateOf(null)
-    }
+            var balanceTapped: TimeValue? by remember {
+                mutableStateOf(null)
+            }
 
-    Text(
-        modifier = Modifier.padding(start = 24.dp),
-        text = "Balance chart",
-        style = Typo.body1
-    )
-
-    Spacer(Modifier.height(16.dp))
-
-    val values = balanceValues.mapIndexed { index, it ->
-        Value(
-            x = index.toDouble(),
-            y = it.value
-        )
-    }
-
-    IvyLineChart(
-        modifier = Modifier.padding(horizontal = 24.dp),
-        functions = listOf(
-            Function(
-                values = values,
-                color = ::redGreenGradient
+            Text(
+                modifier = Modifier.padding(start = 24.dp),
+                text = "Balance chart",
+                style = Typo.body1
             )
-        ),
-        xLabel = {
-            balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
-        },
-        yLabel = {
-            it.format(baseCurrencyCode)
-        },
-        onTap = {
-            balanceTapped = balanceValues[it]
+
+            Spacer(Modifier.height(16.dp))
+
+            val values = balanceValues.toValues()
+
+            IvyLineChart(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                functions = listOf(
+                    Function(
+                        values = values,
+                        color = ::redGreenGradient
+                    )
+                ),
+                xLabel = {
+                    balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
+                },
+                yLabel = {
+                    it.format(baseCurrencyCode)
+                },
+                onTap = {
+                    balanceTapped = balanceValues[it]
+                }
+            )
+
+            if (balanceTapped != null) {
+                Spacer(Modifier.height(16.dp))
+
+                BalanceChartInfoCard(
+                    baseCurrencyCode = baseCurrencyCode,
+                    timeValue = balanceTapped!!
+                )
+            }
         }
-    )
 
-    if (balanceTapped != null) {
-        Spacer(Modifier.height(16.dp))
+        item {
+            Spacer(Modifier.height(32.dp))
 
-        BalanceChartInfoCard(
-            baseCurrencyCode = baseCurrencyCode,
-            timeValue = balanceTapped!!
-        )
+            Text(
+                modifier = Modifier.padding(start = 24.dp),
+                text = "Income & Expense chart",
+                style = Typo.body1
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            val incomeFunction = Function(
+                values = incomeValues.toValues(),
+                color = { _, _ -> Green.asBrush() }
+            )
+            val expenseFunction = Function(
+                values = expenseValues.toValues(),
+                color = { _, _ -> Red.asBrush() }
+            )
+
+            IvyLineChart(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                functions = listOf(incomeFunction, expenseFunction),
+                xLabel = {
+                    balanceValues[it.toInt()].dateTime.month.name.first().uppercase()
+                },
+                yLabel = {
+                    it.format(baseCurrencyCode)
+                },
+                onTap = {
+                    //TODO: Implement
+                }
+            )
+        }
+
+        item {
+            Spacer(Modifier.height(196.dp)) //scroll hack
+        }
     }
 }
 

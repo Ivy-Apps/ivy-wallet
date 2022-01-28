@@ -31,6 +31,8 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 
     val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
     val balanceValues by viewModel.balanceValues.collectAsState()
+    val incomeValues by viewModel.incomeValues.collectAsState()
+    val expenseValues by viewModel.expenseValues.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -38,14 +40,18 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 
     UI(
         baseCurrencyCode = baseCurrencyCode,
-        balanceValues = balanceValues
+        balanceValues = balanceValues,
+        incomeValues = incomeValues,
+        expenseValues = expenseValues
     )
 }
 
 @Composable
 private fun UI(
     baseCurrencyCode: String,
-    balanceValues: List<TimeValue> = emptyList()
+    balanceValues: List<TimeValue> = emptyList(),
+    incomeValues: List<TimeValue> = emptyList(),
+    expenseValues: List<TimeValue> = emptyList(),
 ) {
     Column(
         modifier = Modifier
@@ -88,7 +94,9 @@ private fun UI(
             ChartType.GENERAL -> GeneralCharts(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
-                balanceValues = balanceValues
+                balanceValues = balanceValues,
+                incomeValues = incomeValues,
+                expenseValues = expenseValues
             )
             ChartType.CATEGORY -> CategoryCharts(
                 period = period
