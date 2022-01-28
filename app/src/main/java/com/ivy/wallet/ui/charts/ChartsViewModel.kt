@@ -58,7 +58,7 @@ class ChartsViewModel @Inject constructor(
             lastNMonths(
                 n = n,
                 accumulator = accumulator.plus(date),
-                date = date.minusMonths(1)
+                date = endOfMonth(date.withDayOfMonth(10).minusMonths(1).toLocalDate())
             )
         } else {
             //end recursion

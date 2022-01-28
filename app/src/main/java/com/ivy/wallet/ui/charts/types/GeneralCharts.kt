@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.format
 import com.ivy.wallet.ui.charts.Period
 import com.ivy.wallet.ui.charts.TimeValue
@@ -79,7 +78,7 @@ fun BalanceChartInfoCard(
         Spacer(Modifier.width(24.dp))
 
         Text(
-            text = timeValue.dateTime.month.name.lowercase().capitalizeLocal(),
+            text = timeValue.dateTime.format("MMMM, yyyy"),
             style = Typo.body2.style(
                 color = White
             )
