@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.charts.types.accountCharts
@@ -34,6 +35,8 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     val balanceValues by viewModel.balanceValues.collectAsState()
     val incomeValues by viewModel.incomeValues.collectAsState()
     val expenseValues by viewModel.expenseValues.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val categoryValues by viewModel.categoryValues.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -43,7 +46,12 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
         baseCurrencyCode = baseCurrencyCode,
         balanceValues = balanceValues,
         incomeValues = incomeValues,
-        expenseValues = expenseValues
+        expenseValues = expenseValues,
+        categories = categories,
+        categoryValues = categoryValues,
+
+        onLoadCategory = viewModel::loadValuesForCategory,
+        onRemoveCategory = viewModel::removeCategory
     )
 }
 
@@ -53,6 +61,11 @@ private fun UI(
     balanceValues: List<TimeValue> = emptyList(),
     incomeValues: List<TimeValue> = emptyList(),
     expenseValues: List<TimeValue> = emptyList(),
+    categories: List<Category> = emptyList(),
+    categoryValues: Map<Category, List<TimeValue>> = emptyMap(),
+
+    onLoadCategory: (Category) -> Unit = {},
+    onRemoveCategory: (Category) -> Unit = {}
 ) {
     var period by remember {
         mutableStateOf(Period.LAST_12_MONTHS)
@@ -102,7 +115,12 @@ private fun UI(
                 expenseValues = expenseValues
             )
             ChartType.CATEGORY -> categoryCharts(
-                period = period
+                period = period,
+                baseCurrencyCode = baseCurrencyCode,
+                categories = categories,
+                categoryValues = categoryValues,
+                onLoadCategory = onLoadCategory,
+                onRemoveCategory = onRemoveCategory
             )
             ChartType.ACCOUNT -> accountCharts(
                 period = period
@@ -214,7 +232,7 @@ private fun ChartButton(
 private fun Preview() {
     IvyAppPreview {
         UI(
-            baseCurrencyCode = "BGN"
+            baseCurrencyCode = "BGN",
         )
     }
 }
