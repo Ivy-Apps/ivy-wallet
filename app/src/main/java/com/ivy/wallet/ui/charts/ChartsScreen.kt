@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.charts
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,9 +18,9 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.charts.types.AccountCharts
-import com.ivy.wallet.ui.charts.types.CategoryCharts
-import com.ivy.wallet.ui.charts.types.GeneralCharts
+import com.ivy.wallet.ui.charts.types.accountCharts
+import com.ivy.wallet.ui.charts.types.categoryCharts
+import com.ivy.wallet.ui.charts.types.generalCharts
 import com.ivy.wallet.ui.ivyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -53,55 +54,57 @@ private fun UI(
     incomeValues: List<TimeValue> = emptyList(),
     expenseValues: List<TimeValue> = emptyList(),
 ) {
-    Column(
+    var period by remember {
+        mutableStateOf(Period.LAST_12_MONTHS)
+    }
+
+    var chartType by remember {
+        mutableStateOf(ChartType.GENERAL)
+    }
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        Toolbar()
+        item {
+            Toolbar()
 
-        Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(8.dp))
 
-        var period by remember {
-            mutableStateOf(Period.LAST_12_MONTHS)
+            Period(
+                period = period,
+                onSetPeriod = {
+                    period = it
+                }
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            ChartsType(
+                selectedChartType = chartType,
+                onSetChartType = {
+                    chartType = it
+                }
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            IvyDividerLine()
         }
-
-        Period(
-            period = period,
-            onSetPeriod = {
-                period = it
-            }
-        )
-
-        var chartType by remember {
-            mutableStateOf(ChartType.GENERAL)
-        }
-
-        Spacer(Modifier.height(12.dp))
-
-        ChartsType(
-            selectedChartType = chartType,
-            onSetChartType = {
-                chartType = it
-            }
-        )
-
-        Spacer(Modifier.height(4.dp))
-
-        IvyDividerLine()
 
         when (chartType) {
-            ChartType.GENERAL -> GeneralCharts(
+            ChartType.GENERAL -> generalCharts(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
                 balanceValues = balanceValues,
                 incomeValues = incomeValues,
                 expenseValues = expenseValues
             )
-            ChartType.CATEGORY -> CategoryCharts(
+            ChartType.CATEGORY -> categoryCharts(
                 period = period
             )
-            ChartType.ACCOUNT -> AccountCharts(
+            ChartType.ACCOUNT -> accountCharts(
                 period = period
             )
         }

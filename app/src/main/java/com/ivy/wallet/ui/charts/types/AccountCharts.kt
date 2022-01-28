@@ -1,9 +1,8 @@
 package com.ivy.wallet.ui.charts.types
 
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.lazy.LazyListScope
 import com.ivy.wallet.ui.charts.Period
 
-@Composable
-fun AccountCharts(period: Period) {
+fun LazyListScope.accountCharts(period: Period) {
 
 }
