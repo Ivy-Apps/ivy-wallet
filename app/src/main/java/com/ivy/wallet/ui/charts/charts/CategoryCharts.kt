@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.charts.types
+package com.ivy.wallet.ui.charts.charts
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.ChartPeriod
 import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValues
@@ -30,10 +31,10 @@ fun LazyListScope.categoryCharts(
     baseCurrencyCode: String,
     categories: List<Category>,
 
-    categoryExpenseValues: Map<Category, List<TimeValue>>,
-    categoryExpenseCount: Map<Category, List<TimeValue>>,
-    categoryIncomeValues: Map<Category, List<TimeValue>>,
-    categoryIncomeCount: Map<Category, List<TimeValue>>,
+    categoryExpenseValues: List<CategoryValues> = emptyList(),
+    categoryExpenseCount: List<CategoryValues> = emptyList(),
+    categoryIncomeValues: List<CategoryValues> = emptyList(),
+    categoryIncomeCount: List<CategoryValues> = emptyList(),
 
     onLoadCategory: (Category) -> Unit,
     onRemoveCategory: (Category) -> Unit
@@ -54,7 +55,7 @@ fun LazyListScope.categoryCharts(
                     defaultIcon = R.drawable.ic_custom_category_s,
                     text = category.name,
                     selectedColor = category.color.toComposeColor().takeIf {
-                        categoryExpenseValues.containsKey(category)
+                        categoryExpenseValues.any { it.category == category }
                     }
                 ) { selected ->
                     if (selected) {
@@ -78,7 +79,7 @@ fun LazyListScope.categoryCharts(
             period = period,
             title = "Expenses",
             baseCurrencyCode = baseCurrencyCode,
-            values = categoryExpenseValues
+            categoryValues = categoryExpenseValues
         )
     }
 
@@ -87,7 +88,7 @@ fun LazyListScope.categoryCharts(
             period = period,
             title = "Expenses count",
             baseCurrencyCode = baseCurrencyCode,
-            values = categoryExpenseCount
+            categoryValues = categoryExpenseCount
         )
     }
 
@@ -97,7 +98,7 @@ fun LazyListScope.categoryCharts(
             title = "Income",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
-            values = categoryIncomeValues
+            categoryValues = categoryIncomeValues
         )
     }
 
@@ -107,7 +108,7 @@ fun LazyListScope.categoryCharts(
             title = "Income count",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
-            values = categoryIncomeCount
+            categoryValues = categoryIncomeCount
         )
     }
 
@@ -122,14 +123,14 @@ private fun CategoriesChart(
     title: String,
     titleColor: Color = IvyTheme.colors.pureInverse,
     baseCurrencyCode: String,
-    values: Map<Category, List<TimeValue>>
+    categoryValues: List<CategoryValues>
 ) {
     Spacer(Modifier.height(48.dp))
 
-    val functions = values.map { entry ->
+    val functions = categoryValues.map { entry ->
         Function(
-            values = entry.value.toValues(),
-            color = entry.key.color.toComposeColor()
+            values = entry.values.toValues(),
+            color = entry.category.color.toComposeColor()
         )
     }
 
@@ -151,7 +152,8 @@ private fun CategoriesChart(
         modifier = Modifier.padding(horizontal = 24.dp),
         functions = functions,
         xLabel = {
-            val range = values.values.first().getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
+            val range =
+                categoryValues.first().values.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
             period.xLabel(range)
         },
         yLabel = {
@@ -172,7 +174,7 @@ private fun CategoriesChart(
             baseCurrencyCode = baseCurrencyCode,
             backgroundColor = functions[it.functionIndex].color,
             timeValue = TimeValue(
-                range = values.values.first()[it.valueIndex].range,
+                range = categoryValues[it.functionIndex].values[it.valueIndex].range,
                 period = period,
                 value = value.y
             )

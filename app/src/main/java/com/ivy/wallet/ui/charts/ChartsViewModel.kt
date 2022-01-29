@@ -50,16 +50,16 @@ class ChartsViewModel @Inject constructor(
     private val _categories = MutableStateFlow(emptyList<Category>())
     val categories = _categories.asStateFlow()
 
-    private val _categoryExpenseValues = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    private val _categoryExpenseValues = MutableStateFlow(emptyList<CategoryValues>())
     val categoryExpenseValues = _categoryExpenseValues.asStateFlow()
 
-    private val _categoryExpenseCount = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    private val _categoryExpenseCount = MutableStateFlow(emptyList<CategoryValues>())
     val categoryExpenseCount = _categoryExpenseCount.asStateFlow()
 
-    private val _categoryIncomeValues = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    private val _categoryIncomeValues = MutableStateFlow(emptyList<CategoryValues>())
     val categoryIncomeValues = _categoryIncomeValues.asStateFlow()
 
-    private val _categoryIncomeCount = MutableStateFlow(emptyMap<Category, List<TimeValue>>())
+    private val _categoryIncomeCount = MutableStateFlow(emptyList<CategoryValues>())
     val categoryIncomeCount = _categoryIncomeCount.asStateFlow()
     // --------------------------- Category --------------------------------------------------------
 
@@ -218,11 +218,11 @@ class ChartsViewModel @Inject constructor(
     }
 
 
-    private suspend fun StateFlow<Map<Category, List<TimeValue>>>.loadCategoryValue(
+    private suspend fun StateFlow<List<CategoryValues>>.loadCategoryValue(
         period: ChartPeriod,
         category: Category,
         calculateValue: (range: FromToTimeRange) -> Double
-    ): Map<Category, List<TimeValue>> {
+    ): List<CategoryValues> {
         val values = ioThread {
             period.toRangesList().map { range ->
                 TimeValue(
@@ -234,18 +234,19 @@ class ChartsViewModel @Inject constructor(
         }
 
         return this.value.plus(
-            Pair(
-                category, values
+            CategoryValues(
+                category = category,
+                values = values
             )
-        )
-
+        ).toSet().toList()
     }
 
     fun removeCategory(category: Category) {
-        _categoryExpenseValues.value = categoryExpenseValues.value.minus(category)
-        _categoryExpenseCount.value = categoryExpenseCount.value.minus(category)
-        _categoryIncomeValues.value = categoryIncomeValues.value.minus(category)
-        _categoryIncomeCount.value = categoryIncomeCount.value.minus(category)
+        _categoryExpenseValues.value =
+            categoryExpenseValues.value.filter { it.category != category }
+        _categoryExpenseCount.value = categoryExpenseCount.value.filter { it.category != category }
+        _categoryIncomeValues.value = categoryIncomeValues.value.filter { it.category != category }
+        _categoryIncomeCount.value = categoryIncomeCount.value.filter { it.category != category }
     }
 
     fun changePeriod(period: ChartPeriod) {

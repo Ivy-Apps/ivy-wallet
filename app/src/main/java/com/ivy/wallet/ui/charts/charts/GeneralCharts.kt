@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.charts.types
+package com.ivy.wallet.ui.charts.charts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

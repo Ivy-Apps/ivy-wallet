@@ -19,9 +19,9 @@ import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.charts.types.accountCharts
-import com.ivy.wallet.ui.charts.types.categoryCharts
-import com.ivy.wallet.ui.charts.types.generalCharts
+import com.ivy.wallet.ui.charts.charts.accountCharts
+import com.ivy.wallet.ui.charts.charts.categoryCharts
+import com.ivy.wallet.ui.charts.charts.generalCharts
 import com.ivy.wallet.ui.ivyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -75,10 +75,10 @@ private fun UI(
     expenseValues: List<TimeValue> = emptyList(),
     categories: List<Category> = emptyList(),
 
-    categoryExpenseValues: Map<Category, List<TimeValue>> = emptyMap(),
-    categoryExpenseCount: Map<Category, List<TimeValue>> = emptyMap(),
-    categoryIncomeValues: Map<Category, List<TimeValue>> = emptyMap(),
-    categoryIncomeCount: Map<Category, List<TimeValue>> = emptyMap(),
+    categoryExpenseValues: List<CategoryValues> = emptyList(),
+    categoryExpenseCount: List<CategoryValues> = emptyList(),
+    categoryIncomeValues: List<CategoryValues> = emptyList(),
+    categoryIncomeCount: List<CategoryValues> = emptyList(),
 
     onLoadCategory: (Category) -> Unit = {},
     onRemoveCategory: (Category) -> Unit = {},
