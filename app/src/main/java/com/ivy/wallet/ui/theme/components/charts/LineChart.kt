@@ -67,17 +67,12 @@ fun IvyLineChart(
     yLabel: (y: Double) -> String,
     onTap: (TapEvent) -> Unit = {}
 ) {
-    val allValues = remember(functions) {
-        functions.flatMap { it.values }
-    }
+    val allValues = functions.flatMap { it.values }
     if (allValues.isEmpty()) return
 
-    val maxY = remember {
-        allValues.maxOf { it.y }
-    }
-    val minY = remember {
-        allValues.minOf { it.y }
-    }
+    val maxY = allValues.maxOf { it.y }
+    val minY = allValues.minOf { it.y }
+
     val chartColor = IvyTheme.colors.pureInverse
 
     Column(
@@ -319,7 +314,10 @@ private fun DrawScope.drawTappedPoint(
     maxY: Double
 ) {
     tapEvent?.let {
-        val tappedValue = functions[it.functionIndex].values[it.valueIndex]
+        val tappedValue = functions
+            .getOrNull(it.functionIndex)?.values
+            ?.get(it.valueIndex)
+            ?: return@let
         val radius = 8.dp.toPx()
 
         drawCircle(
