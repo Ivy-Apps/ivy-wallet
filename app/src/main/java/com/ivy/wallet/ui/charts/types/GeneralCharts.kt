@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
 import com.ivy.wallet.ui.charts.ChartPeriod
@@ -63,15 +64,16 @@ fun LazyListScope.generalCharts(
         if (balanceTapped != null) {
             Spacer(Modifier.height(16.dp))
 
-            BalanceChartInfoCard(
+            ChartInfoCard(
                 baseCurrencyCode = baseCurrencyCode,
+                backgroundColor = Ivy,
                 timeValue = balanceTapped!!
             )
         }
     }
 
     item {
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(48.dp))
 
         Text(
             modifier = Modifier.padding(start = 24.dp),
@@ -112,14 +114,15 @@ fun LazyListScope.generalCharts(
 }
 
 @Composable
-fun BalanceChartInfoCard(
+fun ChartInfoCard(
     baseCurrencyCode: String,
+    backgroundColor: Color,
     timeValue: TimeValue
 ) {
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .background(Ivy, Shapes.rounded24)
+            .background(backgroundColor, Shapes.rounded24)
             .padding(vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

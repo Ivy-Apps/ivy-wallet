@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -23,6 +23,7 @@ import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.TapEvent
 
 fun LazyListScope.categoryCharts(
     period: ChartPeriod,
@@ -109,6 +110,10 @@ fun LazyListScope.categoryCharts(
             values = categoryIncomeCount
         )
     }
+
+    item {
+        Spacer(Modifier.height(196.dp)) //scroll hack
+    }
 }
 
 @Composable
@@ -119,7 +124,7 @@ private fun CategoriesChart(
     baseCurrencyCode: String,
     values: Map<Category, List<TimeValue>>
 ) {
-    Spacer(Modifier.height(32.dp))
+    Spacer(Modifier.height(48.dp))
 
     val functions = values.map { entry ->
         Function(
@@ -138,6 +143,10 @@ private fun CategoriesChart(
 
     Spacer(Modifier.height(16.dp))
 
+    var tapEvent: TapEvent? by remember {
+        mutableStateOf(null)
+    }
+
     IvyLineChart(
         modifier = Modifier.padding(horizontal = 24.dp),
         functions = functions,
@@ -149,7 +158,25 @@ private fun CategoriesChart(
             it.format(baseCurrencyCode)
         },
         onTap = {
-            //TODO: Implement
+            tapEvent = it
         }
     )
+
+    tapEvent?.let {
+        val value = functions.getOrNull(it.functionIndex)?.values?.get(it.valueIndex)
+            ?: return@let
+
+        Spacer(Modifier.height(16.dp))
+
+        ChartInfoCard(
+            baseCurrencyCode = baseCurrencyCode,
+            backgroundColor = functions[it.functionIndex].color,
+            timeValue = TimeValue(
+                range = values.values.first()[it.valueIndex].range,
+                period = period,
+                value = value.y
+            )
+        )
+
+    }
 }
