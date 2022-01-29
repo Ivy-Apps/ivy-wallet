@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,7 @@ import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
@@ -38,6 +40,8 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val loans by viewModel.loans.collectAsState()
+    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val selectedAccount by viewModel.selectedAccount.observeAsState()
 
     onScreenStart {
         viewModel.start()
@@ -46,6 +50,9 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
     UI(
         baseCurrency = baseCurrency,
         loans = loans,
+        accounts = accounts,
+        account = selectedAccount,
+        onSelectedAccount = viewModel::onAccountSelected,
 
         onCreateLoan = viewModel::createLoan,
         onEditLoan = {
@@ -57,10 +64,14 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
+    accounts: List<Account> = emptyList(),
+    account: Account? = null,
+    onSelectedAccount: (Account) -> Unit = { },
+
     baseCurrency: String,
     loans: List<DisplayLoan>,
 
-    onCreateLoan: (CreateLoanData) -> Unit = {},
+    onCreateLoan: (CreateLoanData,Account?) -> Unit = {_,_ ->},
     onEditLoan: (Loan) -> Unit = {},
     onReorder: (List<DisplayLoan>) -> Unit = {}
 ) {
@@ -150,6 +161,9 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanModal(
+        accounts = accounts,
+        selectedAccount = account,
+        onSelectedAccount = onSelectedAccount,
         modal = loanModalData,
         onCreateLoan = onCreateLoan,
         onEditLoan = onEditLoan,
@@ -416,7 +430,7 @@ private fun Preview() {
                 ),
             ),
 
-            onCreateLoan = {},
+            onCreateLoan = {_,_ ->},
             onEditLoan = {},
             onReorder = {}
         )

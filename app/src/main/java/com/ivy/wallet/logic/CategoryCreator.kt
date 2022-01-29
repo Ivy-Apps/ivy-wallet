@@ -32,7 +32,8 @@ class CategoryCreator(
                         isSynced = false
                     )
 
-                    categoryDao.save(newCategory)
+                    categoryDao.
+                    save(newCategory)
                     newCategory
                 }
 

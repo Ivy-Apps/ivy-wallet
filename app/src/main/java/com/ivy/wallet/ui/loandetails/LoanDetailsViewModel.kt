@@ -1,15 +1,19 @@
 package com.ivy.wallet.ui.loandetails
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.computationThread
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.LoanCreator
 import com.ivy.wallet.logic.LoanRecordCreator
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
+import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -26,6 +30,7 @@ import javax.inject.Inject
 class LoanDetailsViewModel @Inject constructor(
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
+    private val accountDao: AccountDao,
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
@@ -44,6 +49,14 @@ class LoanDetailsViewModel @Inject constructor(
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
+    private val _accounts = MutableLiveData<List<Account>>()
+    val accounts = _accounts.asLiveData()
+
+    init {
+        viewModelScope.launch {
+
+        }
+    }
 
     fun start(screen: Screen.LoanDetails) {
         load(loanId = screen.loanId)

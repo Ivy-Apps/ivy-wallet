@@ -179,7 +179,7 @@ private fun BoxWithConstraintsScope.UI(
 
     LoanModal(
         modal = loanModalData,
-        onCreateLoan = {
+        onCreateLoan = { _, _ ->
             //do nothing
         },
         onEditLoan = onEditLoan,
