@@ -16,6 +16,7 @@ import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.TapEvent
 
 fun LazyListScope.generalCharts(
     period: ChartPeriod,
@@ -91,10 +92,15 @@ fun LazyListScope.generalCharts(
             values = expenseValues.toValues(),
             color = Red
         )
+        val functions = listOf(incomeFunction, expenseFunction)
+
+        var tapEvent: TapEvent? by remember {
+            mutableStateOf(null)
+        }
 
         IvyLineChart(
             modifier = Modifier.padding(horizontal = 24.dp),
-            functions = listOf(incomeFunction, expenseFunction),
+            functions = functions,
             xLabel = {
                 val range = balanceValues.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
                 period.xLabel(range)
@@ -103,9 +109,20 @@ fun LazyListScope.generalCharts(
                 it.format(baseCurrencyCode)
             },
             onTap = {
-                //TODO: Implement
+                tapEvent = it
             }
         )
+
+        tapEvent?.let {
+            Spacer(Modifier.height(16.dp))
+
+            ChartInfoCard(
+                baseCurrencyCode = baseCurrencyCode,
+                backgroundColor = functions[it.functionIndex].color,
+                timeValue = if (it.functionIndex == 0)
+                    incomeValues[it.valueIndex] else expenseValues[it.valueIndex]
+            )
+        }
     }
 
     item {
