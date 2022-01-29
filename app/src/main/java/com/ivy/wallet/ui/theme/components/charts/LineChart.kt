@@ -24,6 +24,7 @@ import com.ivy.wallet.base.lerp
 import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
+import timber.log.Timber
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -242,7 +243,7 @@ private fun Chart(
     tapEvent: TapEvent?,
     onTap: (TapEvent) -> Unit
 ) {
-    var points: List<FunctionPoint> by remember(functions) {
+    var points: List<FunctionPoint> by remember {
         mutableStateOf(emptyList())
     }
 
@@ -254,6 +255,8 @@ private fun Chart(
                         val targetPoint = points.minByOrNull {
                             clickPoint.distance(it.point)
                         } ?: return@detectTapGestures
+
+                        Timber.i("points.size = ${points.size}")
 
                         onTap(
                             TapEvent(
@@ -287,7 +290,7 @@ private fun Chart(
             cap = StrokeCap.Round
         )
 
-        points = drawValues(
+        points = drawFunctions(
             chartWidth = chartWidth,
             chartHeight = chartHeight,
             maxY = maxY,
@@ -295,33 +298,51 @@ private fun Chart(
             functions = functions,
         )
 
-        tapEvent?.let {
-            val tappedValue = functions[it.functionIndex].values[it.valueIndex]
-            val radius = 8.dp.toPx()
+        drawTappedPoint(
+            functions = functions,
+            tapEvent = tapEvent,
+            chartWidth = chartWidth,
+            chartHeight = chartHeight,
+            minY = minY,
+            maxY = maxY
+        )
+    }
 
-            drawCircle(
-                color = Ivy,
-                radius = radius,
-                center = Offset(
-                    x = calculateXCoordinate(
-                        values = functions[it.functionIndex].values,
-                        valueIndex = it.valueIndex,
-                        chartWidth = chartWidth
-                    ),
-                    y = calculateYCoordinate(
-                        max = maxY,
-                        min = minY,
-                        value = tappedValue.y,
-                        chartHeight = chartHeight
-                    ) - 4.dp.toPx() //marginFromX
-                )
+}
+
+private fun DrawScope.drawTappedPoint(
+    functions: List<Function>,
+    tapEvent: TapEvent?,
+    chartWidth: Float,
+    chartHeight: Float,
+    minY: Double,
+    maxY: Double
+) {
+    tapEvent?.let {
+        val tappedValue = functions[it.functionIndex].values[it.valueIndex]
+        val radius = 8.dp.toPx()
+
+        drawCircle(
+            color = Ivy,
+            radius = radius,
+            center = Offset(
+                x = calculateXCoordinate(
+                    values = functions[it.functionIndex].values,
+                    valueIndex = it.valueIndex,
+                    chartWidth = chartWidth
+                ),
+                y = calculateYCoordinate(
+                    max = maxY,
+                    min = minY,
+                    value = tappedValue.y,
+                    chartHeight = chartHeight
+                ) - 4.dp.toPx() //marginFromX
             )
-        }
-
+        )
     }
 }
 
-private fun DrawScope.drawValues(
+private fun DrawScope.drawFunctions(
     chartWidth: Float,
     chartHeight: Float,
     maxY: Double,
