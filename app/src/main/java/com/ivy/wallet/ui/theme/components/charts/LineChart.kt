@@ -66,62 +66,47 @@ fun IvyLineChart(
     yLabel: (y: Double) -> String,
     onTap: (TapEvent) -> Unit = {}
 ) {
-    val allValues = functions.flatMap { it.values }
+    val allValues = remember(functions) {
+        functions.flatMap { it.values }
+    }
     if (allValues.isEmpty()) return
 
-    val maxY = remember(functions) {
+    val maxY = remember {
         allValues.maxOf { it.y }
     }
-    val minY = remember(functions) {
+    val minY = remember {
         allValues.minOf { it.y }
     }
     val chartColor = IvyTheme.colors.pureInverse
 
-    var tapEvent: TapEvent? by remember(functions) {
-        mutableStateOf(null)
-    }
-    val onTapInternal = { event: TapEvent ->
-        tapEvent = event
-        onTap(event)
-    }
-
     Column(
         modifier = modifier
     ) {
-        var yLabelWidthPx by remember {
+        var yLabelsWidthPx by remember {
             mutableStateOf(0)
+        }
+
+        var tapEvent: TapEvent? by remember {
+            mutableStateOf(null)
+        }
+        val onTapInternal = { event: TapEvent ->
+            tapEvent = event
+            onTap(event)
         }
 
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {
             //Y values
-            Column(
-                modifier = Modifier
-                    .onSizeChanged {
-                        yLabelWidthPx = it.width
-                    }
-                    .height(height = height)
-                    .padding(end = 8.dp)
-            ) {
-                val yValues = remember(minY, maxY) {
-                    yValues(
-                        min = minY,
-                        max = maxY
-                    )
+            YValues(
+                chartHeight = height,
+                minY = minY,
+                maxY = maxY,
+                yLabel = yLabel,
+                onSetYLabelsWidthPx = {
+                    yLabelsWidthPx = it
                 }
-
-                for ((index, value) in yValues.withIndex()) {
-                    Text(
-                        text = yLabel(value),
-                        style = Typo.numberCaption
-                    )
-
-                    if (index < yValues.size - 1) {
-                        Spacer(modifier = Modifier.weight(1f))
-                    }
-                }
-            }
+            )
 
             Chart(
                 modifier = Modifier
@@ -138,36 +123,92 @@ fun IvyLineChart(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        //X labels
-        Row {
-            if (yLabelWidthPx > 0) {
-                Spacer(Modifier.width(yLabelWidthPx.toDensityDp()))
-            }
+        XLabels(
+            functions = functions,
+            allValues = allValues,
+            yLabelsWidthPx = yLabelsWidthPx,
+            xLabel = xLabel,
+            tapEvent = tapEvent,
+            onTap = onTapInternal
+        )
+    }
+}
+
+@Composable
+private fun XLabels(
+    functions: List<Function>,
+    allValues: List<Value>,
+    yLabelsWidthPx: Int,
+    xLabel: (x: Double) -> String,
+
+    tapEvent: TapEvent?,
+    onTap: (TapEvent) -> Unit
+) {
+    Row {
+        if (yLabelsWidthPx > 0) {
+            Spacer(Modifier.width(yLabelsWidthPx.toDensityDp()))
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        allValues.map { it.x }.toSet().forEachIndexed { index, x ->
+            Text(
+                modifier = Modifier
+                    .width(10.dp)
+                    .clickable {
+                        if (functions.size == 1) {
+                            onTap(
+                                TapEvent(
+                                    functionIndex = 0,
+                                    valueIndex = x.toInt()
+                                )
+                            )
+                        }
+                    },
+                text = xLabel(x),
+                style = Typo.body1.style(
+                    textAlign = TextAlign.Center,
+                    color = if (index == tapEvent?.valueIndex)
+                        Ivy else IvyTheme.colors.pureInverse
+                )
+            )
 
             Spacer(modifier = Modifier.weight(1f))
+        }
+    }
+}
 
-            allValues.map { it.x }.toSet().forEachIndexed { index, x ->
-                Text(
-                    modifier = Modifier
-                        .width(10.dp)
-                        .clickable {
-                            if (functions.size == 1) {
-                                onTapInternal(
-                                    TapEvent(
-                                        functionIndex = 0,
-                                        valueIndex = x.toInt()
-                                    )
-                                )
-                            }
-                        },
-                    text = xLabel(x),
-                    style = Typo.body1.style(
-                        textAlign = TextAlign.Center,
-                        color = if (index == tapEvent?.valueIndex)
-                            Ivy else IvyTheme.colors.pureInverse
-                    )
-                )
+@Composable
+private fun YValues(
+    chartHeight: Dp,
+    minY: Double,
+    maxY: Double,
+    yLabel: (Double) -> String,
 
+    onSetYLabelsWidthPx: (Int) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .onSizeChanged {
+                onSetYLabelsWidthPx(it.width)
+            }
+            .height(height = chartHeight)
+            .padding(end = 8.dp)
+    ) {
+        val yValues = remember(minY, maxY) {
+            yValues(
+                min = minY,
+                max = maxY
+            )
+        }
+
+        for ((index, value) in yValues.withIndex()) {
+            Text(
+                text = yLabel(value),
+                style = Typo.numberCaption
+            )
+
+            if (index < yValues.size - 1) {
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
@@ -254,8 +295,8 @@ private fun Chart(
             functions = functions,
         )
 
-        if (tapEvent != null) {
-            val tappedValue = functions[tapEvent.functionIndex].values[tapEvent.valueIndex]
+        tapEvent?.let {
+            val tappedValue = functions[it.functionIndex].values[it.valueIndex]
             val radius = 8.dp.toPx()
 
             drawCircle(
@@ -263,8 +304,8 @@ private fun Chart(
                 radius = radius,
                 center = Offset(
                     x = calculateXCoordinate(
-                        values = functions[tapEvent.functionIndex].values,
-                        valueIndex = tapEvent.valueIndex,
+                        values = functions[it.functionIndex].values,
+                        valueIndex = it.valueIndex,
                         chartWidth = chartWidth
                     ),
                     y = calculateYCoordinate(
@@ -276,6 +317,7 @@ private fun Chart(
                 )
             )
         }
+
     }
 }
 
