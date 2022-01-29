@@ -15,7 +15,6 @@ import com.ivy.wallet.ui.charts.toValues
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
-import com.ivy.wallet.ui.theme.components.charts.redGreenGradient
 
 fun LazyListScope.generalCharts(
     period: ChartPeriod,
@@ -46,7 +45,8 @@ fun LazyListScope.generalCharts(
             functions = listOf(
                 Function(
                     values = values,
-                    color = ::redGreenGradient
+                    color = Green,
+                    colorDown = Red
                 )
             ),
             xLabel = {
@@ -56,7 +56,7 @@ fun LazyListScope.generalCharts(
                 it.format(baseCurrencyCode)
             },
             onTap = {
-                balanceTapped = balanceValues[it]
+                balanceTapped = balanceValues[it.valueIndex]
             }
         )
 
@@ -83,11 +83,11 @@ fun LazyListScope.generalCharts(
 
         val incomeFunction = Function(
             values = incomeValues.toValues(),
-            color = { _, _ -> Green.asBrush() }
+            color = Green
         )
         val expenseFunction = Function(
             values = expenseValues.toValues(),
-            color = { _, _ -> Red.asBrush() }
+            color = Red
         )
 
         IvyLineChart(

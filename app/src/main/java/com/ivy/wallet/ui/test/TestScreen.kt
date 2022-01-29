@@ -15,7 +15,6 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.asBrush
 import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.charts.Function
@@ -120,7 +119,7 @@ private fun BoxWithConstraintsScope.UI(
             functions = listOf(
                 Function(
                     values = values,
-                    color = { _, _ -> Ivy.asBrush() }
+                    color = Ivy
                 )
             ),
             xLabel = {

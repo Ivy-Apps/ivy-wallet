@@ -124,7 +124,7 @@ private fun CategoriesChart(
     val functions = values.map { entry ->
         Function(
             values = entry.value.toValues(),
-            color = { _, _ -> entry.key.color.toComposeColor().asBrush() }
+            color = entry.key.color.toComposeColor()
         )
     }
 
