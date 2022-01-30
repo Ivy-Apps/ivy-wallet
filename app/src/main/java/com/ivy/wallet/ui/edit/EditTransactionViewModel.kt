@@ -32,6 +32,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
+    private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
@@ -89,6 +90,9 @@ class EditTransactionViewModel @Inject constructor(
     private val _hasChanges = MutableLiveData(false)
     val hasChanges = _hasChanges.asLiveData()
 
+    private val _loanId: MutableLiveData<UUID?> = MutableLiveData(null)
+    val loanId = _loanId.asLiveData()
+
     private var loadedTransaction: Transaction? = null
     private var editMode = false
 
@@ -122,6 +126,10 @@ class EditTransactionViewModel @Inject constructor(
                 type = screen.type,
                 amount = 0.0,
             )
+
+            loadedTransaction?.loanId?.let {
+                _loanId.value = it
+            }
 
             display(loadedTransaction!!)
 
@@ -424,6 +432,8 @@ class EditTransactionViewModel @Inject constructor(
                     isSynced = false
                 )
 
+                updateAssociatedLoan(loadedTransaction)
+
                 transactionDao.save(loadedTransaction())
             }
 
@@ -490,4 +500,19 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
+
+
+    private suspend fun updateAssociatedLoan(loadedTransaction: Transaction?) {
+        if (loadedTransaction == null || loanId.value == null)
+            return
+
+        val loan = loanDao.findById(loanId.value!!)
+        loan?.let { fetchedLoan ->
+            val modifiedLoan = fetchedLoan.copy(
+                amount = loadedTransaction.amount,
+                name = loadedTransaction.title ?: ""
+            )
+            loanDao.save(modifiedLoan)
+        }
+    }
 }

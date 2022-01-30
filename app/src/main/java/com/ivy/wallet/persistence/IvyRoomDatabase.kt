@@ -17,7 +17,7 @@ import com.ivy.wallet.persistence.migration.*
         User::class, ExchangeRate::class, Budget::class, Loan::class,
         LoanRecord::class
     ],
-    version = 119,
+    version = 120,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -67,7 +67,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration115to116_Account_Include_In_Balance(),
                     Migration116to117_SalteEdgeIntgration(),
                     Migration117to118_Budgets(),
-                    Migration118to119_Loans()
+                    Migration118to119_Loans(),
+                    Migration119to120_Transactions()
                 )
                 .build()
         }

@@ -88,17 +88,17 @@ class LoanViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            createLoanTransaction(data, selectedAccount)
-
-            loanCreator.create(data) {
+            val uuid = loanCreator.create(data) {
                 start()
             }
+
+            createLoanTransaction(data, selectedAccount,uuid)
 
             TestIdlingResource.decrement()
         }
     }
 
-    private suspend fun createLoanTransaction(data: CreateLoanData, selectedAccount: Account?) {
+    private suspend fun createLoanTransaction(data: CreateLoanData, selectedAccount: Account?,loanId:UUID?) {
         if (selectedAccount == null)
             return
 
@@ -122,7 +122,8 @@ class LoanViewModel @Inject constructor(
             amount = data.amount,
             dateTime = timeNowUTC(),
             categoryId = category.id,
-            title = data.name + " [Loan]",
+            title = data.name,
+            loanId = loanId,
         )
 
         ioThread {

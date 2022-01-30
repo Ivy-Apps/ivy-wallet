@@ -24,6 +24,9 @@ data class Transaction(
 
     val attachmentUrl: String? = null,
 
+    //This refers to the loan id that is linked with a transaction
+    val loanId: UUID? = null,
+
     //SaltEdge integration -------
     val seTransactionId: String? = null,
     val seAutoCategoryId: UUID? = null,
