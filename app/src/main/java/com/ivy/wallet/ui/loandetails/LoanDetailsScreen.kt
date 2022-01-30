@@ -27,6 +27,7 @@ import com.ivy.wallet.logic.model.CreateLoanRecordData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.ui.IvyAppPreview
@@ -46,6 +47,9 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
     val loan by viewModel.loan.collectAsState()
     val loanRecords by viewModel.loanRecords.collectAsState()
     val amountPaid by viewModel.amountPaid.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val selectedAccount by viewModel.selectedAccount.collectAsState()
+    val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
 
     onScreenStart {
         viewModel.start(screen = screen)
@@ -56,7 +60,12 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
         loan = loan,
         loanRecords = loanRecords,
         amountPaid = amountPaid,
+        accounts = accounts,
+        selectedAccount = selectedAccount,
+        createLoanTransaction = createLoanTransaction,
 
+        onLoanTransactionChecked = viewModel::onLoanTransactionChecked,
+        onAccountSelected = viewModel::onAccountSelected,
         onEditLoan = viewModel::editLoan,
         onCreateLoanRecord = viewModel::createLoanRecord,
         onEditLoanRecord = viewModel::editLoanRecord,
@@ -72,6 +81,12 @@ private fun BoxWithConstraintsScope.UI(
     loanRecords: List<LoanRecord>,
     amountPaid: Double,
 
+    accounts: List<Account> = emptyList(),
+    selectedAccount: Account? = null,
+    createLoanTransaction: Boolean = true,
+
+    onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
+    onAccountSelected: (Account) -> Unit = {},
     onEditLoan: (Loan) -> Unit = {},
     onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {},
     onEditLoanRecord: (LoanRecord) -> Unit = {},
@@ -185,7 +200,12 @@ private fun BoxWithConstraintsScope.UI(
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
-        }
+        },
+        accounts = accounts,
+        selectedAccount = selectedAccount,
+        onSelectedAccount = onAccountSelected,
+        createLoanTransaction = createLoanTransaction,
+        onLoanTransactionChecked = onLoanTransactionChecked
     )
 
     LoanRecordModal(

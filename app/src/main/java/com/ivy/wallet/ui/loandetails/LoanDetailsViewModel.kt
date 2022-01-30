@@ -1,24 +1,23 @@
 package com.ivy.wallet.ui.loandetails
 
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.computationThread
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.logic.LoanCreator
 import com.ivy.wallet.logic.LoanRecordCreator
 import com.ivy.wallet.logic.model.CreateLoanRecordData
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.LoanDao
-import com.ivy.wallet.persistence.dao.LoanRecordDao
-import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.model.LoanType
+import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.*
+import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.sync.uploader.TransactionUploader
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,9 +27,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoanDetailsViewModel @Inject constructor(
+    private val categoryDao: CategoryDao,
+    private val transactionUploader: TransactionUploader,
+    private val transactionDao: TransactionDao,
+    private val accountDao: AccountDao,
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
-    private val accountDao: AccountDao,
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
@@ -49,14 +51,17 @@ class LoanDetailsViewModel @Inject constructor(
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
-    private val _accounts = MutableLiveData<List<Account>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.asStateFlow()
 
-    init {
-        viewModelScope.launch {
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    val selectedAccount = _selectedAccount.asStateFlow()
 
-        }
-    }
+    private var associatedTransaction: Transaction? = null
+
+    private val _createLoanTransaction = MutableStateFlow(false)
+    val createLoanTransaction = _createLoanTransaction.asStateFlow()
+
 
     fun start(screen: Screen.LoanDetails) {
         load(loanId = screen.loanId)
@@ -84,6 +89,24 @@ class LoanDetailsViewModel @Inject constructor(
                 }
             }
 
+            _createLoanTransaction.value = false
+
+            _accounts.value = ioThread {
+                accountDao.findAll()
+            }!!
+
+            associatedTransaction = ioThread {
+                transactionDao.findLoanTransaction(loanId = loan.value!!.id)
+            }
+
+            associatedTransaction?.let {
+                val account = ioThread {
+                    accountDao.findById(it.accountId)
+                }!!
+                _selectedAccount.value = account
+                _createLoanTransaction.value = true
+            }
+
             TestIdlingResource.decrement()
         }
     }
@@ -95,6 +118,8 @@ class LoanDetailsViewModel @Inject constructor(
             loanCreator.edit(loan) {
                 load(loanId = it.id)
             }
+
+            updateAssociatedTransaction(loan)
 
             TestIdlingResource.decrement()
         }
@@ -110,6 +135,8 @@ class LoanDetailsViewModel @Inject constructor(
                 //close screen
                 ivyContext.back()
             }
+
+            deleteTransaction()
 
             TestIdlingResource.decrement()
         }
@@ -158,4 +185,86 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
+
+    private suspend fun updateAssociatedTransaction(loan: Loan) {
+        if (createLoanTransaction.value && associatedTransaction != null) {
+            val updatedTransaction = associatedTransaction!!.copy(
+                accountId = selectedAccount.value?.id ?: associatedTransaction!!.accountId,
+                title = loan.name,
+                amount = loan.amount,
+                type = if (loan.type == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
+            )
+            ioThread {
+                transactionDao.save(updatedTransaction)
+            }
+        } else if (createLoanTransaction.value && associatedTransaction == null) {
+            createLoanTransaction(data = loan, selectedAccount = selectedAccount.value)
+        } else {
+            deleteTransaction()
+        }
+    }
+
+    fun onAccountSelected(account: Account) {
+        _selectedAccount.value = account
+    }
+
+    fun onLoanTransactionChecked(boolean: Boolean) {
+        _createLoanTransaction.value = boolean
+        if (_createLoanTransaction.value && associatedTransaction == null && _accounts.value.isNotEmpty()) {
+            _selectedAccount.value = accounts.value[0]
+        }
+    }
+
+    private suspend fun createLoanTransaction(
+        data: Loan,
+        selectedAccount: Account?,
+    ) {
+        if (selectedAccount == null)
+            return
+
+        var loanCategoryExistence = false
+
+        val transType =
+            if (data.type == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
+
+        val categoryList = ioThread {
+            categoryDao.findAll().filter { category ->
+                return@filter category.name.lowercase(Locale.ENGLISH).contains("loan")
+            }
+        }
+
+        val category = if (categoryList.isEmpty()) {
+            loanCategoryExistence = true
+            Category("Loans", color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(), icon = "loan")
+        } else
+            categoryList.first()
+
+        val transaction = Transaction(
+            accountId = selectedAccount.id,
+            type = transType,
+            amount = data.amount,
+            dateTime = timeNowUTC(),
+            categoryId = category.id,
+            title = data.name,
+            loanId = data.id,
+        )
+
+        ioThread {
+            if (loanCategoryExistence)
+                categoryDao.save(category)
+            transactionDao.save(transaction)
+        }
+    }
+
+    private suspend fun deleteTransaction() {
+        ioThread {
+            associatedTransaction?.let {
+                transactionDao.flagDeleted(it.id)
+            }
+
+            associatedTransaction?.let {
+                transactionUploader.delete(it.id)
+            }
+        }
+    }
 }

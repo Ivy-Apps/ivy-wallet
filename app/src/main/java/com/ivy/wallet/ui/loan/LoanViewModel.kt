@@ -52,6 +52,9 @@ class LoanViewModel @Inject constructor(
     private val _selectedAccount = MutableLiveData<Account>()
     val selectedAccount = _selectedAccount.asLiveData()
 
+    private val _createLoanTransaction = MutableStateFlow(false)
+    val createLoanTransaction = _createLoanTransaction.asStateFlow()
+
     fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -92,13 +95,17 @@ class LoanViewModel @Inject constructor(
                 start()
             }
 
-            createLoanTransaction(data, selectedAccount,uuid)
+            createLoanTransaction(data, selectedAccount, uuid)
 
             TestIdlingResource.decrement()
         }
     }
 
-    private suspend fun createLoanTransaction(data: CreateLoanData, selectedAccount: Account?,loanId:UUID?) {
+    private suspend fun createLoanTransaction(
+        data: CreateLoanData,
+        selectedAccount: Account?,
+        loanId: UUID?
+    ) {
         if (selectedAccount == null)
             return
 
@@ -173,5 +180,9 @@ class LoanViewModel @Inject constructor(
 
             TestIdlingResource.decrement()
         }
+    }
+
+    fun onLoanTransactionChecked(boolean: Boolean) {
+        _createLoanTransaction.value = boolean
     }
 }

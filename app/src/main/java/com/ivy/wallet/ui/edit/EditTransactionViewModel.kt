@@ -12,6 +12,7 @@ import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
+import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -510,7 +511,8 @@ class EditTransactionViewModel @Inject constructor(
         loan?.let { fetchedLoan ->
             val modifiedLoan = fetchedLoan.copy(
                 amount = loadedTransaction.amount,
-                name = loadedTransaction.title ?: ""
+                name = loadedTransaction.title ?: "",
+                type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND
             )
             loanDao.save(modifiedLoan)
         }

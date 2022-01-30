@@ -52,6 +52,8 @@ fun BoxWithConstraintsScope.LoanModal(
     selectedAccount: Account? = null,
     onSelectedAccount: (Account) -> Unit = {},
     onCreateAccount: (CreateAccountData) -> Unit = {},
+    createLoanTransaction: Boolean = true,
+    onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
 
     modal: LoanModalData?,
     onCreateLoan: (CreateLoanData, Account?) -> Unit,
@@ -84,10 +86,13 @@ fun BoxWithConstraintsScope.LoanModal(
     }
 
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-    var checkedIn by remember { mutableStateOf(true) }
-    val accountToPass2: State<Account?> =
-        produceState(initialValue = selectedAccount, key1 = checkedIn, key2 = selectedAccount) {
-            if (checkedIn)
+    val accountToPass: State<Account?> =
+        produceState(
+            initialValue = selectedAccount,
+            key1 = createLoanTransaction,
+            key2 = selectedAccount
+        ) {
+            if (createLoanTransaction)
                 this.value = selectedAccount
             else
                 this.value = null
@@ -111,7 +116,7 @@ fun BoxWithConstraintsScope.LoanModal(
                     color = color,
                     icon = icon,
                     amount = amount,
-                    selectedAccount = accountToPass2.value,
+                    selectedAccount = accountToPass.value,
 
                     onCreateLoan = onCreateLoan,
                     onEditLoan = onEditLoan,
@@ -165,7 +170,7 @@ fun BoxWithConstraintsScope.LoanModal(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (checkedIn) {
+        if (createLoanTransaction) {
             Text(
                 modifier = Modifier.padding(horizontal = 32.dp),
                 text = "Associated Account",
@@ -199,9 +204,9 @@ fun BoxWithConstraintsScope.LoanModal(
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
             text = "Create a Main Transaction",
-            checked = checkedIn
+            checked = createLoanTransaction
         ) {
-            checkedIn = it
+            onLoanTransactionChecked(it)
         }
 
         Spacer(modifier = Modifier.height(24.dp))

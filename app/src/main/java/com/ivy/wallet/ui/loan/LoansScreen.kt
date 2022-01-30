@@ -42,6 +42,7 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
     val loans by viewModel.loans.collectAsState()
     val accounts by viewModel.accounts.observeAsState(emptyList())
     val selectedAccount by viewModel.selectedAccount.observeAsState()
+    val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -52,8 +53,10 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
         loans = loans,
         accounts = accounts,
         account = selectedAccount,
-        onSelectedAccount = viewModel::onAccountSelected,
+        createLoanTransaction = createLoanTransaction,
 
+        onLoanTransactionChecked = viewModel::onLoanTransactionChecked,
+        onSelectedAccount = viewModel::onAccountSelected,
         onCreateLoan = viewModel::createLoan,
         onEditLoan = {
             //do nothing, it shouldn't be done from that screen
@@ -70,8 +73,10 @@ private fun BoxWithConstraintsScope.UI(
 
     baseCurrency: String,
     loans: List<DisplayLoan>,
+    createLoanTransaction: Boolean = true,
 
-    onCreateLoan: (CreateLoanData,Account?) -> Unit = {_,_ ->},
+    onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
+    onCreateLoan: (CreateLoanData, Account?) -> Unit = { _, _ -> },
     onEditLoan: (Loan) -> Unit = {},
     onReorder: (List<DisplayLoan>) -> Unit = {}
 ) {
@@ -169,7 +174,9 @@ private fun BoxWithConstraintsScope.UI(
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
-        }
+        },
+        createLoanTransaction = createLoanTransaction,
+        onLoanTransactionChecked = onLoanTransactionChecked
     )
 }
 
@@ -430,7 +437,7 @@ private fun Preview() {
                 ),
             ),
 
-            onCreateLoan = {_,_ ->},
+            onCreateLoan = { _, _ -> },
             onEditLoan = {},
             onReorder = {}
         )
