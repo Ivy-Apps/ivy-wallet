@@ -195,9 +195,13 @@ dependencies {
     implementation(Libs.ThirdPartyUI.lottie)
     implementation(Libs.ThirdPartyUI.markdownText)
 
-    //Java
+    //Import & Export CSV
     implementation(Libs.Java.openCSV)
     implementation(Libs.Java.escapeCSVString)
+
+    //Functional Programming
+    implementation(platform(Libs.Arrow.bom))
+    implementation(Libs.Arrow.core)
 
     //UI Automation Tests
     //https://developer.android.com/jetpack/compose/testing#setup

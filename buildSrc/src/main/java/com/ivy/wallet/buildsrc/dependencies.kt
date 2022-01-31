@@ -224,4 +224,10 @@ object Libs {
             val androidWork = "androidx.work:work-testing:${Libs.AndroidX.workVersion}"
         }
     }
+
+    object Arrow {
+        //Functional programming with Kotlin
+        val bom = "io.arrow-kt:arrow-stack:1.0.1"
+        val core = "io.arrow-kt:arrow-core"
+    }
 }
