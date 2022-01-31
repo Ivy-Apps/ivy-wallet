@@ -2,8 +2,6 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.base.endOfMonth
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.logic.WalletCategoryLogic
@@ -19,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -252,24 +249,11 @@ class ChartsViewModel @Inject constructor(
     fun changePeriod(period: ChartPeriod) {
         _period.value = period
         start()
-    }
 
-    private fun lastNMonths(
-        n: Int,
-        accumulator: List<LocalDateTime> = emptyList(),
-        date: LocalDateTime = endOfMonth(dateNowUTC())
-    ): List<LocalDateTime> {
-        return if (accumulator.size < n) {
-            //recurse
-            lastNMonths(
-                n = n,
-                accumulator = accumulator.plus(date),
-                date = endOfMonth(date.withDayOfMonth(10).minusMonths(1).toLocalDate())
-            )
-        } else {
-            //end recursion
-            accumulator.reversed()
-        }
+        //Re-load categories
+        val loadedCategories = categoryExpenseValues.value.map { it.category }
+        loadedCategories.forEach { removeCategory(it) }
+        loadedCategories.forEach { loadValuesForCategory(it) }
     }
 }
 
