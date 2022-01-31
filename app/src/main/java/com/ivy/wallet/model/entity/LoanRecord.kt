@@ -11,6 +11,7 @@ data class LoanRecord(
     val amount: Double,
     val note: String? = null,
     val dateTime: LocalDateTime,
+    val interest:Boolean = false,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,

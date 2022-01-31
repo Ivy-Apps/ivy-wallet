@@ -68,7 +68,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration116to117_SalteEdgeIntgration(),
                     Migration117to118_Budgets(),
                     Migration118to119_Loans(),
-                    Migration119to120_Transactions()
+                    Migration119to120_LoanTransactions(),
                 )
                 .build()
         }
