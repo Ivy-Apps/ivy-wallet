@@ -49,6 +49,7 @@ fun LazyListScope.categoryCharts(
                 Spacer(Modifier.width(24.dp))
             }
 
+
             items(items = categories) { category ->
                 ListItem(
                     icon = category.icon,
@@ -79,7 +80,8 @@ fun LazyListScope.categoryCharts(
             period = period,
             title = "Expenses",
             baseCurrencyCode = baseCurrencyCode,
-            categoryValues = categoryExpenseValues
+            categoryValues = categoryExpenseValues,
+            countChart = false
         )
     }
 
@@ -88,7 +90,8 @@ fun LazyListScope.categoryCharts(
             period = period,
             title = "Expenses count",
             baseCurrencyCode = baseCurrencyCode,
-            categoryValues = categoryExpenseCount
+            categoryValues = categoryExpenseCount,
+            countChart = true
         )
     }
 
@@ -98,7 +101,8 @@ fun LazyListScope.categoryCharts(
             title = "Income",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
-            categoryValues = categoryIncomeValues
+            categoryValues = categoryIncomeValues,
+            countChart = false
         )
     }
 
@@ -108,7 +112,8 @@ fun LazyListScope.categoryCharts(
             title = "Income count",
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
-            categoryValues = categoryIncomeCount
+            categoryValues = categoryIncomeCount,
+            countChart = true
         )
     }
 
@@ -123,7 +128,8 @@ private fun CategoriesChart(
     title: String,
     titleColor: Color = IvyTheme.colors.pureInverse,
     baseCurrencyCode: String,
-    categoryValues: List<CategoryValues>
+    categoryValues: List<CategoryValues>,
+    countChart: Boolean,
 ) {
     Spacer(Modifier.height(48.dp))
 
@@ -177,7 +183,8 @@ private fun CategoriesChart(
                 range = categoryValues[it.functionIndex].values[it.valueIndex].range,
                 period = period,
                 value = value.y
-            )
+            ),
+            formatValueAsCount = countChart
         )
 
     }

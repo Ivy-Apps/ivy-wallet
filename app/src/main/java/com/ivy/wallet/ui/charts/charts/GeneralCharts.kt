@@ -134,7 +134,8 @@ fun LazyListScope.generalCharts(
 fun ChartInfoCard(
     baseCurrencyCode: String,
     backgroundColor: Color,
-    timeValue: TimeValue
+    timeValue: TimeValue,
+    formatValueAsCount: Boolean = false,
 ) {
     Row(
         modifier = Modifier
@@ -155,7 +156,11 @@ fun ChartInfoCard(
         Spacer(Modifier.weight(1f))
 
         Text(
-            text = "${timeValue.value.format(baseCurrencyCode)} $baseCurrencyCode",
+            text = if (formatValueAsCount) {
+                timeValue.value.toInt().toString()
+            } else {
+                "${timeValue.value.format(baseCurrencyCode)} $baseCurrencyCode"
+            },
             style = Typo.numberBody2.style(
                 color = White
             )
