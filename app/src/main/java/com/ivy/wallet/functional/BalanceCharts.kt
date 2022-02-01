@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.charts
+package com.ivy.wallet.functional
 
 import arrow.core.None
 import arrow.core.Option
@@ -9,6 +9,7 @@ import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.ExchangeRate
 import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.ui.charts.ChartPeriod
 import java.time.LocalDateTime
 import java.util.*
 
