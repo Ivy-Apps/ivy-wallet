@@ -47,6 +47,10 @@ suspend fun exchange(
     toCurrencyCode: Option<String>,
     retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): Option<BigDecimal> = option {
+    if (fromAmount == BigDecimal.ZERO) {
+        return@option BigDecimal.ZERO
+    }
+
     val fromCurrency = fromCurrencyCode.bind()
     val toCurrency = toCurrencyCode.bind()
 

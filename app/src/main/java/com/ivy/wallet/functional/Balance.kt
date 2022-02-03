@@ -1,8 +1,8 @@
 package com.ivy.wallet.functional
 
-import arrow.core.*
-import arrow.typeclasses.Semigroup
+import arrow.core.toOption
 import com.ivy.wallet.functional.account.calculateAccountBalance
+import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
@@ -18,11 +18,11 @@ suspend fun calculateBalance(
     baseCurrencyCode: String?,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
-): Validated<List<CurrencyConversionError>, BigDecimal> {
-    return accountDao.findAll()
+): Uncertain<List<CurrencyConversionError>, BigDecimal> {
+    val result = accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
         .map {
-            Pair(
+            val result = Pair(
                 first = it,
                 second = calculateAccountBalance(
                     transactionDao = transactionDao,
@@ -30,27 +30,43 @@ suspend fun calculateBalance(
                     range = range
                 )
             )
+            Timber.i("'${it.name}' account has ${result.second}")
+            result
         }.sumInBaseCurrency(
             exchangeRateDao = exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode,
         )
+    Timber.i("!! Total balance is ${result.value} $baseCurrencyCode")
+    return result
 }
 
 private suspend fun List<Pair<Account, BigDecimal>>.sumInBaseCurrency(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: String?,
-): Validated<List<CurrencyConversionError>, BigDecimal> {
-    return traverseValidated(Semigroup.nonEmptyList()) { (account, accountBalance) ->
-        Timber.i("Account ${account.name} has $accountBalance")
-        exchangeToBaseCurrency(
+): Uncertain<List<CurrencyConversionError>, BigDecimal> {
+    var result = Uncertain(emptyList<CurrencyConversionError>(), BigDecimal.ZERO)
+
+    this.forEach { (account, accountBalance) ->
+        val balanceInBaseCurrency = exchangeToBaseCurrency(
             exchangeRateDao = exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode.toOption(),
             fromCurrencyCode = account.currency.toOption(),
             fromAmount = accountBalance
-        ).orNull()?.validNel() ?: CurrencyConversionError(account = account).invalidNel()
-    }.map { balancesInBaseCurrency ->
-        balancesInBaseCurrency.sumOf { it }
+        ).orNull()
+
+        result = Uncertain(
+            error = if (balanceInBaseCurrency == null) {
+                //append error if balance can't be converted
+                result.error.plus(CurrencyConversionError(account = account))
+            } else result.error,
+            value = balanceInBaseCurrency?.let {
+                //sum balance only if it can be converted
+                result.value + it
+            } ?: result.value
+        )
     }
+
+    return result
 }
 
 data class CurrencyConversionError(val account: Account)

@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.orNull
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.functional.calculateBalance
@@ -91,7 +90,7 @@ class ChartsViewModel @Inject constructor(
                             exchangeRateDao = exchangeRateDao,
                             baseCurrencyCode = baseCurrencyCode.value,
                             range = ClosedTimeRange.to(range.to())
-                        ).orNull()?.toDouble() ?: 0.0
+                        ).value.toDouble()
                     )
                 }
             }

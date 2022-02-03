@@ -58,18 +58,18 @@ fun calculateAccountValues(
     accountTransactions: List<FPTransaction>,
     valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
 ): NonEmptyList<BigDecimal> {
-    var sum = NonEmptyList.fromListUnsafe(
+    var valueFunctionSums = NonEmptyList.fromListUnsafe(
         List(valueFunctions.size) { BigDecimal.ZERO }
     )
 
-    accountTransactions.map { transaction ->
-        sum = NonEmptyList.fromListUnsafe(
-            sum.mapIndexed { index, sumValue ->
+    accountTransactions.forEach { transaction ->
+        valueFunctionSums = NonEmptyList.fromListUnsafe(
+            valueFunctionSums.mapIndexed { index, sumValue ->
                 val valueFunction = valueFunctions[index]
                 sumValue.plus(valueFunction(transaction, accountId))
             }
         )
     }
 
-    return sum
+    return valueFunctionSums
 }

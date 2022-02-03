@@ -27,7 +27,7 @@ fun balanceValueFunction(
     } else {
         //potential transfer to account?
         toAccountId.orNull()?.takeIf { it == accountId } ?: return BigDecimal.ZERO
-        toAmount.orNull() ?: BigDecimal.ZERO
+        toAmount.orNull() ?: amount
     }
 }
 
