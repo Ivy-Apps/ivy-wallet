@@ -3,7 +3,6 @@ package com.ivy.wallet.functional.account
 import arrow.core.nonEmptyListOf
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.persistence.dao.TransactionDao
-import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
 
@@ -13,7 +12,7 @@ suspend fun calculateAccountBalance(
     accountId: UUID,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
 ): BigDecimal {
-    val accountBalance = calculateAccountValues(
+    return calculateAccountValues(
         transactionDao = transactionDao,
         accountId = accountId,
         range = range,
@@ -21,8 +20,6 @@ suspend fun calculateAccountBalance(
             ::balanceValueFunction
         )
     ).head
-    Timber.i("Account with id $accountId has $accountBalance.")
-    return accountBalance
 }
 
 data class AccountStats(

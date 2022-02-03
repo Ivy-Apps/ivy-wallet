@@ -8,7 +8,6 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
-import timber.log.Timber
 import java.math.BigDecimal
 
 suspend fun calculateBalance(
@@ -22,7 +21,7 @@ suspend fun calculateBalance(
     val result = accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
         .map {
-            val result = Pair(
+            Pair(
                 first = it,
                 second = calculateAccountBalance(
                     transactionDao = transactionDao,
@@ -30,13 +29,11 @@ suspend fun calculateBalance(
                     range = range
                 )
             )
-            Timber.i("'${it.name}' account has ${result.second}")
-            result
         }.sumInBaseCurrency(
             exchangeRateDao = exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode,
         )
-    Timber.i("!! Total balance is ${result.value} $baseCurrencyCode")
+
     return result
 }
 

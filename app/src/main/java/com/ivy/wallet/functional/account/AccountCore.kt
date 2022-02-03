@@ -66,7 +66,7 @@ fun calculateAccountValues(
         valueFunctionSums = NonEmptyList.fromListUnsafe(
             valueFunctionSums.mapIndexed { index, sumValue ->
                 val valueFunction = valueFunctions[index]
-                sumValue.plus(valueFunction(transaction, accountId))
+                sumValue + valueFunction(transaction, accountId)
             }
         )
     }
