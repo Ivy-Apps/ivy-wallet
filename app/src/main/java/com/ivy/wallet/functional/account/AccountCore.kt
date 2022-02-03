@@ -1,22 +1,19 @@
-package com.ivy.wallet.functional
+package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
-import com.ivy.wallet.base.beginningOfIvyTime
-import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.data.toFPTransaction
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
-import java.time.LocalDateTime
 import java.util.*
 
 
 suspend fun calculateAccountValues(
     transactionDao: TransactionDao,
     accountId: UUID,
-    fromDate: LocalDateTime = beginningOfIvyTime(),
-    toDate: LocalDateTime = timeNowUTC(),
+    range: ClosedTimeRange,
     valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
 ): NonEmptyList<BigDecimal> {
     return calculateAccountValues(
@@ -24,15 +21,15 @@ suspend fun calculateAccountValues(
         retrieveAccountTransactions = {
             transactionDao.findAllByAccountAndBetween(
                 accountId = accountId,
-                startDate = fromDate,
-                endDate = toDate
+                startDate = range.from,
+                endDate = range.to
             )
         },
         retrieveToAccountTransfers = {
             transactionDao.findAllToAccountAndBetween(
                 toAccountId = accountId,
-                startDate = fromDate,
-                endDate = toDate
+                startDate = range.from,
+                endDate = range.to
             )
         },
         valueFunctions = valueFunctions

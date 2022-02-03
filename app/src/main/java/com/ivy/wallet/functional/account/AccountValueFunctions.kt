@@ -1,33 +1,9 @@
-package com.ivy.wallet.functional
+package com.ivy.wallet.functional.account
 
-import arrow.core.nonEmptyListOf
-import com.ivy.wallet.base.beginningOfIvyTime
-import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
-import java.time.LocalDateTime
 import java.util.*
-
-
-suspend fun calculateAccountBalance(
-    transactionDao: TransactionDao,
-    accountId: UUID,
-    fromDate: LocalDateTime = beginningOfIvyTime(),
-    toDate: LocalDateTime = timeNowUTC(),
-): BigDecimal {
-    return calculateAccountValues(
-        transactionDao = transactionDao,
-        accountId = accountId,
-        fromDate = fromDate,
-        toDate = toDate,
-        valueFunctions = nonEmptyListOf(
-            ::balanceValueFunction
-        )
-    ).head
-}
-
 
 fun balanceValueFunction(
     fpTransaction: FPTransaction,
@@ -53,4 +29,36 @@ fun balanceValueFunction(
         toAccountId.orNull()?.takeIf { it == accountId } ?: return BigDecimal.ZERO
         toAmount.orNull() ?: BigDecimal.ZERO
     }
+}
+
+fun incomeValueFunction(
+    fpTransaction: FPTransaction,
+    accountId: UUID
+): BigDecimal = with(fpTransaction) {
+    if (this.accountId == accountId && type == TransactionType.INCOME)
+        amount else BigDecimal.ZERO
+}
+
+fun expenseValueFunction(
+    fpTransaction: FPTransaction,
+    accountId: UUID
+): BigDecimal = with(fpTransaction) {
+    if (this.accountId == accountId && type == TransactionType.EXPENSE)
+        amount else BigDecimal.ZERO
+}
+
+fun incomeCountValueFunction(
+    fpTransaction: FPTransaction,
+    accountId: UUID
+): BigDecimal = with(fpTransaction) {
+    if (this.accountId == accountId && type == TransactionType.INCOME)
+        BigDecimal.ONE else BigDecimal.ZERO
+}
+
+fun expenseCountValueFunction(
+    fpTransaction: FPTransaction,
+    accountId: UUID
+): BigDecimal = with(fpTransaction) {
+    if (this.accountId == accountId && type == TransactionType.EXPENSE)
+        BigDecimal.ONE else BigDecimal.ZERO
 }
