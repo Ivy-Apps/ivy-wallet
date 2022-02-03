@@ -13,5 +13,10 @@ data class ClosedTimeRange(
             from = beginningOfIvyTime(),
             to = timeNowUTC()
         )
+
+        fun to(to: LocalDateTime): ClosedTimeRange = ClosedTimeRange(
+            from = beginningOfIvyTime(),
+            to = to
+        )
     }
 }
