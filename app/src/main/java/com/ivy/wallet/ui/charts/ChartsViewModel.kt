@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.functional.calculateWalletBalance
 import com.ivy.wallet.functional.data.ClosedTimeRange
+import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.model.TransactionType

@@ -2,6 +2,7 @@ package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
 import com.ivy.wallet.functional.core.mapIndexedNel
+import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.data.toFPTransaction
@@ -59,9 +60,7 @@ fun calculateAccountValues(
     accountTransactions: List<FPTransaction>,
     valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
 ): NonEmptyList<BigDecimal> {
-    var valueFunctionSums = NonEmptyList.fromListUnsafe(
-        List(valueFunctions.size) { BigDecimal.ZERO }
-    )
+    var valueFunctionSums = nonEmptyListOfZeros(n = valueFunctions.size)
 
     accountTransactions.forEach { transaction ->
         valueFunctionSums = valueFunctionSums.mapIndexedNel { index, sumValue ->

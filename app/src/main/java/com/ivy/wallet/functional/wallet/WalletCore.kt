@@ -1,16 +1,16 @@
-package com.ivy.wallet.functional
+package com.ivy.wallet.functional.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
-import arrow.core.nonEmptyListOf
 import arrow.core.toOption
-import com.ivy.wallet.functional.account.balanceValueFunction
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.core.mapIndexedNel
+import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
 import com.ivy.wallet.functional.data.FPTransaction
+import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
@@ -18,32 +18,6 @@ import java.math.BigDecimal
 import java.util.*
 
 typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
-
-suspend fun calculateWalletBalance(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
-    baseCurrencyCode: String,
-    filterExcluded: Boolean = true,
-    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-): Uncertain<List<CurrencyConvError>, BigDecimal> {
-    val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
-        baseCurrencyCode = baseCurrencyCode,
-        filterExcluded = filterExcluded,
-        range = range,
-        valueFunctions = nonEmptyListOf(
-            ::balanceValueFunction
-        )
-    )
-
-    return Uncertain(
-        error = uncertainValues.error,
-        value = uncertainValues.value.head
-    )
-}
 
 suspend fun calculateWalletValues(
     accountDao: AccountDao,
@@ -88,19 +62,17 @@ suspend fun calculateWalletValues(
                     List(accountValues.size) { BigDecimal.ZERO }
                 )
             )
-        }.sumUncertainValues(
+        }.sumUncertainWalletValues(
             valuesN = valueFunctions.size
         )
 }
 
-private fun Iterable<UncertainWalletValues>.sumUncertainValues(
+private fun Iterable<UncertainWalletValues>.sumUncertainWalletValues(
     valuesN: Int
-): Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>> {
+): UncertainWalletValues {
     var sum = Uncertain(
         error = emptyList<CurrencyConvError>(),
-        value = NonEmptyList.fromListUnsafe(
-            List(valuesN) { BigDecimal.ZERO }
-        )
+        value = nonEmptyListOfZeros(n = valuesN)
     )
 
     this.forEach { accountUncertain ->
