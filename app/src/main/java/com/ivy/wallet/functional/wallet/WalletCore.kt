@@ -5,11 +5,11 @@ import arrow.core.Some
 import arrow.core.toOption
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
+import com.ivy.wallet.functional.core.ValueFunction
 import com.ivy.wallet.functional.core.mapIndexedNel
 import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
-import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
@@ -28,7 +28,7 @@ suspend fun calculateWalletValues(
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-    valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
+    valueFunctions: NonEmptyList<ValueFunction<UUID>>
 ): UncertainWalletValues {
     val uncertainWalletValues = accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
