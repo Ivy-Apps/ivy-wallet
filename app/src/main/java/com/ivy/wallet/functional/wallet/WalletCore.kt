@@ -3,9 +3,9 @@ package com.ivy.wallet.functional.wallet
 import arrow.core.NonEmptyList
 import arrow.core.Some
 import arrow.core.toOption
+import com.ivy.wallet.functional.account.AccountValueFunction
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
-import com.ivy.wallet.functional.core.ValueFunction
 import com.ivy.wallet.functional.core.mapIndexedNel
 import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.ClosedTimeRange
@@ -16,7 +16,6 @@ import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
-import java.util.*
 
 typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
 typealias AccountValuesPair = Pair<Account, NonEmptyList<BigDecimal>>
@@ -28,7 +27,7 @@ suspend fun calculateWalletValues(
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-    valueFunctions: NonEmptyList<ValueFunction<UUID>>
+    valueFunctions: NonEmptyList<AccountValueFunction>
 ): UncertainWalletValues {
     val uncertainWalletValues = accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }

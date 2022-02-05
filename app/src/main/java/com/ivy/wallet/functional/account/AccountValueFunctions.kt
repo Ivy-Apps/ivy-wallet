@@ -1,9 +1,12 @@
 package com.ivy.wallet.functional.account
 
+import com.ivy.wallet.functional.core.ValueFunction
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.model.TransactionType
 import java.math.BigDecimal
 import java.util.*
+
+typealias AccountValueFunction = ValueFunction<UUID>
 
 object AccountValueFunctions {
     fun balance(

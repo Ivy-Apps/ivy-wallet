@@ -1,7 +1,6 @@
 package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
-import com.ivy.wallet.functional.core.ValueFunction
 import com.ivy.wallet.functional.core.calculateValueFunctionsSum
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.toFPTransaction
@@ -15,7 +14,7 @@ suspend fun calculateAccountValues(
     transactionDao: TransactionDao,
     accountId: UUID,
     range: ClosedTimeRange,
-    valueFunctions: NonEmptyList<ValueFunction<UUID>>
+    valueFunctions: NonEmptyList<AccountValueFunction>
 ): NonEmptyList<BigDecimal> {
     return calculateAccountValues(
         accountId = accountId,
@@ -41,7 +40,7 @@ suspend fun calculateAccountValues(
     accountId: UUID,
     retrieveAccountTransactions: suspend (UUID) -> List<Transaction>,
     retrieveToAccountTransfers: suspend (UUID) -> List<Transaction>,
-    valueFunctions: NonEmptyList<ValueFunction<UUID>>
+    valueFunctions: NonEmptyList<AccountValueFunction>
 ): NonEmptyList<BigDecimal> {
     val accountTrns = retrieveAccountTransactions(accountId)
         .plus(retrieveToAccountTransfers(accountId))
