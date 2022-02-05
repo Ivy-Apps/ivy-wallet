@@ -48,26 +48,29 @@ suspend fun calculateAccountValues(
         .plus(retrieveToAccountTransfers(accountId))
         .map { it.toFPTransaction() }
 
-    return calculateAccountValues(
+    return sumAccountValues(
         accountId = accountId,
-        accountTransactions = accountTransactions,
+        accountTrns = accountTransactions,
         valueFunctions = valueFunctions
     )
 }
 
-fun calculateAccountValues(
+tailrec fun sumAccountValues(
     accountId: UUID,
-    accountTransactions: List<FPTransaction>,
-    valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
+    accountTrns: List<FPTransaction>,
+    valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>,
+    sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
 ): NonEmptyList<BigDecimal> {
-    var valueFunctionSums = nonEmptyListOfZeros(n = valueFunctions.size)
-
-    accountTransactions.forEach { transaction ->
-        valueFunctionSums = valueFunctionSums.mapIndexedNel { index, sumValue ->
-            val valueFunction = valueFunctions[index]
-            sumValue + valueFunction(transaction, accountId)
-        }
-    }
-
-    return valueFunctionSums
+    return if (accountTrns.isEmpty())
+        sum
+    else
+        sumAccountValues(
+            accountId = accountId,
+            accountTrns = accountTrns.drop(1),
+            valueFunctions = valueFunctions,
+            sum = sum.mapIndexedNel { index, sumValue ->
+                val valueFunction = valueFunctions[index]
+                sumValue + valueFunction(accountTrns.first(), accountId)
+            }
+        )
 }
