@@ -1,6 +1,7 @@
 package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
+import com.ivy.wallet.functional.core.mapIndexedNel
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.data.toFPTransaction
@@ -63,12 +64,10 @@ fun calculateAccountValues(
     )
 
     accountTransactions.forEach { transaction ->
-        valueFunctionSums = NonEmptyList.fromListUnsafe(
-            valueFunctionSums.mapIndexed { index, sumValue ->
-                val valueFunction = valueFunctions[index]
-                sumValue + valueFunction(transaction, accountId)
-            }
-        )
+        valueFunctionSums = valueFunctionSums.mapIndexedNel { index, sumValue ->
+            val valueFunction = valueFunctions[index]
+            sumValue + valueFunction(transaction, accountId)
+        }
     }
 
     return valueFunctionSums

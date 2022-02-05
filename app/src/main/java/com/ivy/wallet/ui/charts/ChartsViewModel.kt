@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.functional.calculateBalance
+import com.ivy.wallet.functional.calculateWalletBalance
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
@@ -84,7 +84,7 @@ class ChartsViewModel @Inject constructor(
                     TimeValue(
                         range = range,
                         period = period,
-                        value = calculateBalance(
+                        value = calculateWalletBalance(
                             accountDao = accountDao,
                             transactionDao = transactionDao,
                             exchangeRateDao = exchangeRateDao,
