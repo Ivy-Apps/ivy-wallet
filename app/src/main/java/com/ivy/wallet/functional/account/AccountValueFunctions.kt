@@ -20,14 +20,14 @@ fun balanceValueFunction(
                     amount.negate()
                 } else {
                     //transfer to self
-                    toAmount.orNull()?.minus(amount) ?: BigDecimal.ZERO
+                    toAmount.minus(amount)
                 }
             }
         }
     } else {
         //potential transfer to account?
         toAccountId.orNull()?.takeIf { it == accountId } ?: return BigDecimal.ZERO
-        toAmount.orNull() ?: amount
+        toAmount
     }
 }
 

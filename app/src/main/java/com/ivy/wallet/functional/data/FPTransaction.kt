@@ -15,7 +15,7 @@ data class FPTransaction(
     val categoryId: Option<UUID>,
     val amount: BigDecimal,
     val toAccountId: Option<UUID>,
-    val toAmount: Option<BigDecimal>,
+    val toAmount: BigDecimal,
     val dateTime: Option<LocalDateTime>,
 
     val title: Option<String>,
@@ -31,7 +31,7 @@ fun Transaction.toFPTransaction(): FPTransaction =
         type = type,
         amount = amount.toBigDecimal(),
         toAccountId = toAccountId.toOption(),
-        toAmount = toAmount?.toBigDecimal().toOption(),
+        toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
         title = title.toOption(),
         description = description.toOption(),
         dateTime = dateTime.toOption(),
