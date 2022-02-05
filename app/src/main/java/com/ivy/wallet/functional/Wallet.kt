@@ -1,6 +1,7 @@
 package com.ivy.wallet.functional
 
 import arrow.core.NonEmptyList
+import arrow.core.Some
 import arrow.core.nonEmptyListOf
 import arrow.core.toOption
 import com.ivy.wallet.functional.account.balanceValueFunction
@@ -15,6 +16,8 @@ import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 import java.util.*
+
+typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
 
 suspend fun calculateWalletBalance(
     accountDao: AccountDao,
@@ -50,7 +53,7 @@ suspend fun calculateWalletValues(
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
     valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
-): Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>> {
+): UncertainWalletValues {
     return accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
         .map {
@@ -80,17 +83,17 @@ suspend fun calculateWalletValues(
                     listOf(CurrencyConvError(account = account)) else emptyList(),
                 value = if (!hasError) {
                     //if there is no error all values must be Some()
-                    valuesInBaseCurrency.map { it.orNull()!! }
+                    valuesInBaseCurrency.map { (it as Some).value }
                 } else NonEmptyList.fromListUnsafe(
                     List(accountValues.size) { BigDecimal.ZERO }
                 )
             )
-        }.sum(
+        }.sumUncertainValues(
             valuesN = valueFunctions.size
         )
 }
 
-private fun Iterable<Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>>.sum(
+private fun Iterable<UncertainWalletValues>.sumUncertainValues(
     valuesN: Int
 ): Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>> {
     var sum = Uncertain(
