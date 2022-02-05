@@ -59,7 +59,7 @@ object CategoryValueFunctions {
         } else BigDecimal.ZERO
     }
 
-    fun incomeCount(
+    suspend fun incomeCount(
         fpTransaction: FPTransaction,
         arg: Argument,
     ): BigDecimal = with(fpTransaction) {
@@ -71,9 +71,9 @@ object CategoryValueFunctions {
         } else BigDecimal.ZERO
     }
 
-    fun expenseCount(
-        arg: Argument,
+    suspend fun expenseCount(
         fpTransaction: FPTransaction,
+        arg: Argument,
     ): BigDecimal = with(fpTransaction) {
         if (this.categoryId.orNull() == arg.categoryId) {
             when (type) {

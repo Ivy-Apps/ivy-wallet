@@ -100,7 +100,6 @@ private tailrec fun sumUncertainWalletValues(
                         value.plus(uncertainValues.value[index])
                     }
                 } else sum.value //no need to sum it, if it's uncertain (it'll be all ZEROs)
-
             )
         )
     }
