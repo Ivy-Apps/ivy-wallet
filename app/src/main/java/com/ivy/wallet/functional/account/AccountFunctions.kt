@@ -17,7 +17,7 @@ suspend fun calculateAccountBalance(
         accountId = accountId,
         range = range,
         valueFunctions = nonEmptyListOf(
-            ::balanceValueFunction
+            AccountValueFunctions::balance
         )
     ).head
 }
@@ -40,11 +40,11 @@ suspend fun calculateAccountStats(
         accountId = accountId,
         range = range,
         valueFunctions = nonEmptyListOf(
-            ::balanceValueFunction,
-            ::incomeValueFunction,
-            ::expenseValueFunction,
-            ::incomeCountValueFunction,
-            ::expenseCountValueFunction
+            AccountValueFunctions::balance,
+            AccountValueFunctions::income,
+            AccountValueFunctions::expense,
+            AccountValueFunctions::incomeCount,
+            AccountValueFunctions::expenseCount
         )
     )
 

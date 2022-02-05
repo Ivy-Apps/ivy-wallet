@@ -1,8 +1,7 @@
 package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
-import com.ivy.wallet.functional.core.mapIndexedNel
-import com.ivy.wallet.functional.core.nonEmptyListOfZeros
+import com.ivy.wallet.functional.core.calculateValueFunctionsSum
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.data.toFPTransaction
@@ -44,33 +43,13 @@ suspend fun calculateAccountValues(
     retrieveToAccountTransfers: suspend (UUID) -> List<Transaction>,
     valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>
 ): NonEmptyList<BigDecimal> {
-    val accountTransactions = retrieveAccountTransactions(accountId)
+    val accountTrns = retrieveAccountTransactions(accountId)
         .plus(retrieveToAccountTransfers(accountId))
         .map { it.toFPTransaction() }
 
-    return sumAccountValues(
-        accountId = accountId,
-        accountTrns = accountTransactions,
+    return calculateValueFunctionsSum(
+        valueFunctionArgument = accountId,
+        transactions = accountTrns,
         valueFunctions = valueFunctions
     )
-}
-
-tailrec fun sumAccountValues(
-    accountId: UUID,
-    accountTrns: List<FPTransaction>,
-    valueFunctions: NonEmptyList<(FPTransaction, accountId: UUID) -> BigDecimal>,
-    sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
-): NonEmptyList<BigDecimal> {
-    return if (accountTrns.isEmpty())
-        sum
-    else
-        sumAccountValues(
-            accountId = accountId,
-            accountTrns = accountTrns.drop(1),
-            valueFunctions = valueFunctions,
-            sum = sum.mapIndexedNel { index, sumValue ->
-                val valueFunction = valueFunctions[index]
-                sumValue + valueFunction(accountTrns.first(), accountId)
-            }
-        )
 }

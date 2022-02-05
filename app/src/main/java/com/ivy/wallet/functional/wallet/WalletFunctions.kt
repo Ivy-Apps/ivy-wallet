@@ -1,9 +1,7 @@
 package com.ivy.wallet.functional.wallet
 
 import arrow.core.nonEmptyListOf
-import com.ivy.wallet.functional.account.balanceValueFunction
-import com.ivy.wallet.functional.account.expenseValueFunction
-import com.ivy.wallet.functional.account.incomeValueFunction
+import com.ivy.wallet.functional.account.AccountValueFunctions
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
@@ -28,7 +26,7 @@ suspend fun calculateWalletBalance(
         filterExcluded = filterExcluded,
         range = range,
         valueFunctions = nonEmptyListOf(
-            ::balanceValueFunction
+            AccountValueFunctions::balance
         )
     )
 
@@ -54,8 +52,8 @@ suspend fun calculateWalletIncomeExpense(
         filterExcluded = filterExcluded,
         range = range,
         valueFunctions = nonEmptyListOf(
-            ::incomeValueFunction,
-            ::expenseValueFunction
+            AccountValueFunctions::income,
+            AccountValueFunctions::expense
         )
     )
 
