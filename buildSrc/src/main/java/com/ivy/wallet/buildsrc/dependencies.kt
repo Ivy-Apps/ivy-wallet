@@ -229,5 +229,7 @@ object Libs {
         //Functional programming with Kotlin
         val bom = "io.arrow-kt:arrow-stack:1.0.1"
         val core = "io.arrow-kt:arrow-core"
+        val fxCoroutines = "io.arrow-kt:arrow-fx-coroutines"
+        val fxStm = "io.arrow-kt:arrow-fx-stm"
     }
 }

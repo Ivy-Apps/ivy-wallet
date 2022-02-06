@@ -202,6 +202,8 @@ dependencies {
     //Functional Programming
     implementation(platform(Libs.Arrow.bom))
     implementation(Libs.Arrow.core)
+    implementation(Libs.Arrow.fxCoroutines)
+    implementation(Libs.Arrow.fxStm)
 
     //UI Automation Tests
     //https://developer.android.com/jetpack/compose/testing#setup
