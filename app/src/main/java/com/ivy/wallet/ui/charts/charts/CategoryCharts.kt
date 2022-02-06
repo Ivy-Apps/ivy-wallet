@@ -18,7 +18,6 @@ import com.ivy.wallet.base.format
 import com.ivy.wallet.functional.charts.ChartPeriod
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.charts.CategoryValues
-import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
@@ -177,16 +176,16 @@ private fun CategoriesChart(
 
         Spacer(Modifier.height(16.dp))
 
-        ChartInfoCard(
-            baseCurrencyCode = baseCurrencyCode,
-            backgroundColor = functions[it.functionIndex].color,
-            timeValue = TimeValue(
-                range = categoryValues[it.functionIndex].values[it.valueIndex].range,
-                period = period,
-                value = value.y
-            ),
-            formatValueAsCount = countChart
-        )
+//        ChartInfoCard(
+//            baseCurrencyCode = baseCurrencyCode,
+//            backgroundColor = functions[it.functionIndex].color,
+//            chartPoint = TimeValue(
+//                range = categoryValues[it.functionIndex].values[it.valueIndex].range,
+//                period = period,
+//                value = value.y
+//            ),
+//            formatValueAsCount = countChart
+//        )
 
     }
 }

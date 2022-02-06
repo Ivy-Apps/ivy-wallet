@@ -17,13 +17,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.ChartPoint
+import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.charts.charts.accountCharts
-import com.ivy.wallet.ui.charts.charts.categoryCharts
-import com.ivy.wallet.ui.charts.charts.generalCharts
+import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.ivyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -72,7 +71,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 private fun UI(
     period: ChartPeriod,
     baseCurrencyCode: String,
-    balanceChart: List<ChartPoint> = emptyList(),
+    balanceChart: List<SingleChartPoint> = emptyList(),
     incomeValues: List<TimeValue> = emptyList(),
     expenseValues: List<TimeValue> = emptyList(),
     categories: List<Category> = emptyList(),
@@ -87,7 +86,7 @@ private fun UI(
     onChangePeriod: (ChartPeriod) -> Unit = {}
 ) {
     var chartType by remember {
-        mutableStateOf(ChartType.GENERAL)
+        mutableStateOf(ChartType.WALLET)
     }
 
     LazyColumn(
@@ -122,26 +121,30 @@ private fun UI(
         }
 
         when (chartType) {
-            ChartType.GENERAL -> generalCharts(
+            ChartType.WALLET -> walletCharts(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
                 balanceChart = balanceChart,
                 incomeValues = incomeValues,
                 expenseValues = expenseValues
             )
-            ChartType.CATEGORY -> categoryCharts(
-                period = period,
-                baseCurrencyCode = baseCurrencyCode,
-                categories = categories,
+            ChartType.CATEGORY -> {
+                TODO()
 
-                categoryExpenseValues = categoryExpenseValues,
-                categoryExpenseCount = categoryExpenseCount,
-                categoryIncomeValues = categoryIncomeValues,
-                categoryIncomeCount = categoryIncomeCount,
-
-                onLoadCategory = onLoadCategory,
-                onRemoveCategory = onRemoveCategory
-            )
+//                categoryCharts(
+//                    period = period,
+//                    baseCurrencyCode = baseCurrencyCode,
+//                    categories = categories,
+//
+//                    categoryExpenseValues = categoryExpenseValues,
+//                    categoryExpenseCount = categoryExpenseCount,
+//                    categoryIncomeValues = categoryIncomeValues,
+//                    categoryIncomeCount = categoryIncomeCount,
+//
+//                    onLoadCategory = onLoadCategory,
+//                    onRemoveCategory = onRemoveCategory
+//                )
+            }
             ChartType.ACCOUNT -> accountCharts(
                 period = period
             )

@@ -1,11 +1,11 @@
 package com.ivy.wallet.ui.charts
 
 enum class ChartType {
-    GENERAL, CATEGORY, ACCOUNT;
+    WALLET, CATEGORY, ACCOUNT;
 
     fun display(): String {
         return when (this) {
-            GENERAL -> "General"
+            WALLET -> "Wallet"
             CATEGORY -> "Categories"
             ACCOUNT -> "Accounts"
         }

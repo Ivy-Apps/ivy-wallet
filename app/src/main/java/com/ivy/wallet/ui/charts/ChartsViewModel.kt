@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.ChartPoint
+import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.functional.charts.balanceChart
+import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.model.TransactionType
@@ -39,7 +40,7 @@ class ChartsViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _balanceChart = MutableStateFlow(emptyList<ChartPoint>())
+    private val _balanceChart = MutableStateFlow(emptyList<SingleChartPoint>())
     val balanceChart = _balanceChart.asStateFlow()
 
     private val _incomeValues = MutableStateFlow(emptyList<TimeValue>())
@@ -72,60 +73,27 @@ class ChartsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            _baseCurrencyCode.value = ioThread {
-                settingsDao.findFirst().currency
-            }
+            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
 
             val period = period.value
 
-            _balanceChart.value = ioThread {
-                balanceChart(
-                    accountDao = accountDao,
-                    transactionDao = transactionDao,
-                    exchangeRateDao = exchangeRateDao,
-                    baseCurrencyCode = baseCurrencyCode.value,
-                    period = period
-                )
-            }
+            _balanceChart.value = generateBalanceChart(period)
 
-//            _incomeValues.value = ioThread {
-//                periodRangesList.map { range ->
-//                    TimeValue(
-//                        range = range,
-//                        period = period,
-//                        value = walletLogic.calculateIncome(
-//                            walletLogic.history(
-//                                range = FromToTimeRange(
-//                                    from = range.from(),
-//                                    to = range.to()
-//                                )
-//                            ).filterIsInstance(Transaction::class.java)
-//                        )
-//                    )
-//                }
-//            }
-//
-//            _expenseValues.value = ioThread {
-//                periodRangesList.map { range ->
-//                    TimeValue(
-//                        range = range,
-//                        period = period,
-//                        value = walletLogic.calculateExpenses(
-//                            walletLogic.history(
-//                                range = FromToTimeRange(
-//                                    from = range.from(),
-//                                    to = range.to()
-//                                )
-//                            ).filterIsInstance(Transaction::class.java)
-//                        )
-//                    )
-//                }
-//            }
 
             _categories.value = ioThread {
                 categoryDao.findAll()
             }
         }
+    }
+
+    private suspend fun generateBalanceChart(period: ChartPeriod) = ioThread {
+        balanceChart(
+            accountDao = accountDao,
+            transactionDao = transactionDao,
+            exchangeRateDao = exchangeRateDao,
+            baseCurrencyCode = baseCurrencyCode.value,
+            period = period
+        )
     }
 
 

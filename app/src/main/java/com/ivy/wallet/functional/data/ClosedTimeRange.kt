@@ -2,6 +2,7 @@ package com.ivy.wallet.functional.data
 
 import com.ivy.wallet.base.beginningOfIvyTime
 import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import java.time.LocalDateTime
 
 data class ClosedTimeRange(
@@ -19,4 +20,9 @@ data class ClosedTimeRange(
             to = to
         )
     }
+
+    fun toFromToRange(): FromToTimeRange = FromToTimeRange(
+        from = from,
+        to = to
+    )
 }

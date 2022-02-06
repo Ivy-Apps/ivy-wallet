@@ -7,8 +7,15 @@ import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
+import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
+
+suspend fun baseCurrencyCode(
+    settingsDao: SettingsDao
+): String {
+    return settingsDao.findFirst().currency
+}
 
 suspend fun calculateWalletBalance(
     accountDao: AccountDao,

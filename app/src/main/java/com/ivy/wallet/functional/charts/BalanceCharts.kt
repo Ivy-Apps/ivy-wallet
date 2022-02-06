@@ -14,10 +14,12 @@ data class ToRange(
     val to: LocalDateTime
 )
 
-data class ChartPoint(
+data class ChartPoint<V>(
     val range: ClosedTimeRange,
-    val value: BigDecimal
+    val value: V
 )
+
+typealias SingleChartPoint = ChartPoint<BigDecimal>
 
 suspend fun balanceChart(
     accountDao: AccountDao,
@@ -25,7 +27,7 @@ suspend fun balanceChart(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: String,
     period: ChartPeriod
-): List<ChartPoint> {
+): List<SingleChartPoint> {
     val orderedPeriod = period.toRangesList().sortedBy {
         it.to.toEpochSeconds()
     }
@@ -48,8 +50,8 @@ suspend fun balanceChart(
 tailrec suspend fun generateBalanceChart(
     orderedPeriod: List<ToRange>,
     calculateWalletBalance: suspend (range: ClosedTimeRange) -> BigDecimal,
-    accumulator: List<ChartPoint> = emptyList()
-): List<ChartPoint> {
+    accumulator: List<SingleChartPoint> = emptyList()
+): List<SingleChartPoint> {
     return if (orderedPeriod.isEmpty()) accumulator else {
         //recurse
         val toDateTime = orderedPeriod.first().to
