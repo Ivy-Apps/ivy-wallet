@@ -77,3 +77,33 @@ data class IncomeExpense(
     val income: BigDecimal,
     val expense: BigDecimal
 )
+
+
+suspend fun calculateWalletIncomeExpenseCount(
+    accountDao: AccountDao,
+    transactionDao: TransactionDao,
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    range: ClosedTimeRange,
+): Uncertain<List<CurrencyConvError>, Pair<BigDecimal, BigDecimal>> {
+    val uncertainValues = calculateWalletValues(
+        accountDao = accountDao,
+        transactionDao = transactionDao,
+        exchangeRateDao = exchangeRateDao,
+        baseCurrencyCode = baseCurrencyCode,
+        filterExcluded = filterExcluded,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            AccountValueFunctions::incomeCount,
+            AccountValueFunctions::expenseCount
+        )
+    )
+
+    return Uncertain(
+        error = uncertainValues.error,
+        value = Pair(
+            uncertainValues.value[0], uncertainValues.value[1]
+        )
+    )
+}

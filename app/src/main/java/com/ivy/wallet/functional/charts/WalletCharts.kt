@@ -6,6 +6,7 @@ import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.wallet.IncomeExpense
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
+import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpenseCount
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
@@ -15,14 +16,6 @@ import java.time.LocalDateTime
 data class ToRange(
     val to: LocalDateTime
 )
-
-data class ChartPoint<V>(
-    val range: ClosedTimeRange,
-    val value: V
-)
-
-typealias SingleChartPoint = ChartPoint<BigDecimal>
-typealias IncomeExpenseChartPoint = ChartPoint<IncomeExpense>
 
 suspend fun balanceChart(
     accountDao: AccountDao,
@@ -99,6 +92,7 @@ suspend fun incomeExpenseChart(
                 exchangeRateDao = exchangeRateDao,
                 baseCurrencyCode = baseCurrencyCode,
                 range = range,
+                filterExcluded = true
             ).value
         }
     )
@@ -127,4 +121,50 @@ tailrec suspend fun generateIncomeExpenseChart(
 }
 
 
+suspend fun incomeExpenseCountChart(
+    accountDao: AccountDao,
+    transactionDao: TransactionDao,
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    period: ChartPeriod
+): List<PairChartPoint> {
+    val orderedPeriod = period.toRangesList().sortedBy {
+        it.to.toEpochSeconds()
+    }
 
+    return generateIncomeExpenseCountChart(
+        orderedPeriod = orderedPeriod,
+        calculateWalletIncomeExpenseCount = { range ->
+            calculateWalletIncomeExpenseCount(
+                accountDao = accountDao,
+                transactionDao = transactionDao,
+                exchangeRateDao = exchangeRateDao,
+                baseCurrencyCode = baseCurrencyCode,
+                range = range,
+                filterExcluded = true
+            ).value
+        }
+    )
+}
+
+tailrec suspend fun generateIncomeExpenseCountChart(
+    orderedPeriod: List<ClosedTimeRange>,
+    calculateWalletIncomeExpenseCount: suspend (range: ClosedTimeRange) -> Pair<BigDecimal, BigDecimal>,
+    accumulator: List<PairChartPoint> = emptyList()
+): List<PairChartPoint> {
+    return if (orderedPeriod.isEmpty()) accumulator else {
+        //recurse
+        val range = orderedPeriod.first()
+
+        val chartPoint = ChartPoint(
+            range = range,
+            value = calculateWalletIncomeExpenseCount(range)
+        )
+
+        generateIncomeExpenseCountChart(
+            orderedPeriod = orderedPeriod.drop(1),
+            calculateWalletIncomeExpenseCount = calculateWalletIncomeExpenseCount,
+            accumulator = accumulator.plus(chartPoint)
+        )
+    }
+}
