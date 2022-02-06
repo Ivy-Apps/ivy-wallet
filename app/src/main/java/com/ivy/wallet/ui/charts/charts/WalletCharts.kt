@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
 import com.ivy.wallet.functional.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
-import com.ivy.wallet.ui.charts.TimeValue
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
@@ -22,8 +22,7 @@ fun LazyListScope.walletCharts(
     period: ChartPeriod,
     baseCurrencyCode: String,
     balanceChart: List<SingleChartPoint>,
-    incomeValues: List<TimeValue>,
-    expenseValues: List<TimeValue>,
+    incomeExpenseChart: List<IncomeExpenseChartPoint>
 ) {
     item {
         Spacer(Modifier.height(32.dp))

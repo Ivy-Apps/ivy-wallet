@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.SingleChartPoint
-import com.ivy.wallet.functional.charts.balanceChart
+import com.ivy.wallet.functional.charts.*
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
@@ -40,14 +38,14 @@ class ChartsViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
+    // ----------------------------------- Wallet --------------------------------------------------
     private val _balanceChart = MutableStateFlow(emptyList<SingleChartPoint>())
     val balanceChart = _balanceChart.asStateFlow()
 
-    private val _incomeValues = MutableStateFlow(emptyList<TimeValue>())
-    val incomeValues = _incomeValues.asStateFlow()
+    private val _incomeExpenseChart = MutableStateFlow(emptyList<IncomeExpenseChartPoint>())
+    val incomeExpenseChart = _incomeExpenseChart
+    // ----------------------------------- Wallet --------------------------------------------------
 
-    private val _expenseValues = MutableStateFlow(emptyList<TimeValue>())
-    val expenseValues = _expenseValues.asStateFlow()
 
     // --------------------------- Category --------------------------------------------------------
     private val _categories = MutableStateFlow(emptyList<Category>())
@@ -75,19 +73,27 @@ class ChartsViewModel @Inject constructor(
         viewModelScope.launch {
             _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
 
-            val period = period.value
-
-            _balanceChart.value = generateBalanceChart(period)
-
-
-            _categories.value = ioThread {
-                categoryDao.findAll()
-            }
+            walletCharts(period = period.value)
         }
+    }
+
+    private suspend fun walletCharts(period: ChartPeriod) {
+        _balanceChart.value = generateBalanceChart(period)
+        _incomeExpenseChart.value = generateIncomeExpenseChart(period)
     }
 
     private suspend fun generateBalanceChart(period: ChartPeriod) = ioThread {
         balanceChart(
+            accountDao = accountDao,
+            transactionDao = transactionDao,
+            exchangeRateDao = exchangeRateDao,
+            baseCurrencyCode = baseCurrencyCode.value,
+            period = period
+        )
+    }
+
+    private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
+        incomeExpenseChart(
             accountDao = accountDao,
             transactionDao = transactionDao,
             exchangeRateDao = exchangeRateDao,

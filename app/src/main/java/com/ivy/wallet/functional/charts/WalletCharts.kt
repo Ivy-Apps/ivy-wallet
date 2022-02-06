@@ -3,7 +3,9 @@ package com.ivy.wallet.functional.charts
 import com.ivy.wallet.base.beginningOfIvyTime
 import com.ivy.wallet.base.toEpochSeconds
 import com.ivy.wallet.functional.data.ClosedTimeRange
+import com.ivy.wallet.functional.wallet.IncomeExpense
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
+import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.TransactionDao
@@ -20,6 +22,7 @@ data class ChartPoint<V>(
 )
 
 typealias SingleChartPoint = ChartPoint<BigDecimal>
+typealias IncomeExpenseChartPoint = ChartPoint<IncomeExpense>
 
 suspend fun balanceChart(
     accountDao: AccountDao,
@@ -74,3 +77,54 @@ tailrec suspend fun generateBalanceChart(
         )
     }
 }
+
+
+suspend fun incomeExpenseChart(
+    accountDao: AccountDao,
+    transactionDao: TransactionDao,
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    period: ChartPeriod
+): List<IncomeExpenseChartPoint> {
+    val orderedPeriod = period.toRangesList().sortedBy {
+        it.to.toEpochSeconds()
+    }
+
+    return generateIncomeExpenseChart(
+        orderedPeriod = orderedPeriod,
+        calculateWalletIncomeExpense = { range ->
+            calculateWalletIncomeExpense(
+                accountDao = accountDao,
+                transactionDao = transactionDao,
+                exchangeRateDao = exchangeRateDao,
+                baseCurrencyCode = baseCurrencyCode,
+                range = range,
+            ).value
+        }
+    )
+}
+
+tailrec suspend fun generateIncomeExpenseChart(
+    orderedPeriod: List<ClosedTimeRange>,
+    calculateWalletIncomeExpense: suspend (range: ClosedTimeRange) -> IncomeExpense,
+    accumulator: List<IncomeExpenseChartPoint> = emptyList()
+): List<IncomeExpenseChartPoint> {
+    return if (orderedPeriod.isEmpty()) accumulator else {
+        //recurse
+        val range = orderedPeriod.first()
+
+        val chartPoint = ChartPoint(
+            range = range,
+            value = calculateWalletIncomeExpense(range)
+        )
+
+        generateIncomeExpenseChart(
+            orderedPeriod = orderedPeriod.drop(1),
+            calculateWalletIncomeExpense = calculateWalletIncomeExpense,
+            accumulator = accumulator.plus(chartPoint)
+        )
+    }
+}
+
+
+

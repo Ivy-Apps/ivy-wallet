@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.functional.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
@@ -34,9 +35,10 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 
     val period by viewModel.period.collectAsState()
     val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
+
     val balanceChart by viewModel.balanceChart.collectAsState()
-    val incomeValues by viewModel.incomeValues.collectAsState()
-    val expenseValues by viewModel.expenseValues.collectAsState()
+    val incomeExpenseChart by viewModel.incomeExpenseChart.collectAsState()
+
     val categories by viewModel.categories.collectAsState()
 
     val categoryExpenseValues by viewModel.categoryExpenseValues.collectAsState()
@@ -51,9 +53,10 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     UI(
         period = period,
         baseCurrencyCode = baseCurrencyCode,
+
         balanceChart = balanceChart,
-        incomeValues = incomeValues,
-        expenseValues = expenseValues,
+        incomeExpenseChart = incomeExpenseChart,
+
         categories = categories,
 
         categoryExpenseValues = categoryExpenseValues,
@@ -71,9 +74,10 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 private fun UI(
     period: ChartPeriod,
     baseCurrencyCode: String,
+
     balanceChart: List<SingleChartPoint> = emptyList(),
-    incomeValues: List<TimeValue> = emptyList(),
-    expenseValues: List<TimeValue> = emptyList(),
+    incomeExpenseChart: List<IncomeExpenseChartPoint> = emptyList(),
+
     categories: List<Category> = emptyList(),
 
     categoryExpenseValues: List<CategoryValues> = emptyList(),
@@ -125,8 +129,7 @@ private fun UI(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
                 balanceChart = balanceChart,
-                incomeValues = incomeValues,
-                expenseValues = expenseValues
+                incomeExpenseChart = incomeExpenseChart
             )
             ChartType.CATEGORY -> {
                 TODO()

@@ -49,7 +49,7 @@ suspend fun calculateWalletIncomeExpense(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
-    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+    range: ClosedTimeRange,
 ): Uncertain<List<CurrencyConvError>, IncomeExpense> {
     val uncertainValues = calculateWalletValues(
         accountDao = accountDao,
