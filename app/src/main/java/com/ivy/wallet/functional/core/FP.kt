@@ -10,11 +10,11 @@ annotation class Pure
 @MustBeDocumented
 annotation class Total
 
-
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
 @MustBeDocumented
 annotation class Partial(val inCaseOf: String = "")
+
 
 infix fun <A, B, C> ((A) -> B).compose(fn2: (B) -> C): (A) -> C = { a ->
     val b = this(a)
@@ -27,6 +27,3 @@ infix fun <A, B, C> ((B) -> C).after(fn1: (A) -> B): (A) -> C = { a ->
     val c = this(b)
     c
 }
-
-@Partial(inCaseOf = "b = 0")
-fun divider(a: Double, b: Double) = a / b
