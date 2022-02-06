@@ -10,9 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.ChartPoint
 import com.ivy.wallet.ui.charts.TimeValue
-import com.ivy.wallet.ui.charts.toValues
+import com.ivy.wallet.ui.charts.toValue
+import com.ivy.wallet.ui.charts.toValues2
+import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
 import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
@@ -21,14 +24,14 @@ import com.ivy.wallet.ui.theme.components.charts.TapEvent
 fun LazyListScope.generalCharts(
     period: ChartPeriod,
     baseCurrencyCode: String,
-    balanceValues: List<TimeValue>,
+    balanceChart: List<ChartPoint>,
     incomeValues: List<TimeValue>,
     expenseValues: List<TimeValue>,
 ) {
     item {
         Spacer(Modifier.height(16.dp))
 
-        var balanceTapped: TimeValue? by remember {
+        var balanceTapped: ChartPoint? by remember {
             mutableStateOf(null)
         }
 
@@ -40,7 +43,7 @@ fun LazyListScope.generalCharts(
 
         Spacer(Modifier.height(16.dp))
 
-        val values = balanceValues.toValues()
+        val values = balanceChart.toValues2()
 
         IvyLineChart(
             modifier = Modifier.padding(horizontal = 24.dp),
@@ -52,13 +55,13 @@ fun LazyListScope.generalCharts(
                 )
             ),
             xLabel = {
-                period.xLabel(range = balanceValues[it.toInt()].range)
+                period.xLabel(range = balanceChart[it.toInt()].range)
             },
             yLabel = {
                 it.format(baseCurrencyCode)
             },
             onTap = {
-                balanceTapped = balanceValues[it.valueIndex]
+                balanceTapped = balanceChart[it.valueIndex]
             }
         )
 
@@ -68,7 +71,18 @@ fun LazyListScope.generalCharts(
             ChartInfoCard(
                 baseCurrencyCode = baseCurrencyCode,
                 backgroundColor = Ivy,
-                timeValue = balanceTapped!!
+                timeValue = balanceTapped!!.let {
+                    TimeValue(
+                        range = it.range.let {
+                            FromToTimeRange(
+                                from = it.from,
+                                to = it.to
+                            )
+                        },
+                        period = period,
+                        value = it.value.toDouble()
+                    )
+                }
             )
         }
     }
@@ -85,11 +99,11 @@ fun LazyListScope.generalCharts(
         Spacer(Modifier.height(16.dp))
 
         val incomeFunction = Function(
-            values = incomeValues.toValues(),
+            values = incomeValues.toValue(),
             color = Green
         )
         val expenseFunction = Function(
-            values = expenseValues.toValues(),
+            values = expenseValues.toValue(),
             color = Red
         )
         val functions = listOf(incomeFunction, expenseFunction)
@@ -102,7 +116,7 @@ fun LazyListScope.generalCharts(
             modifier = Modifier.padding(horizontal = 24.dp),
             functions = functions,
             xLabel = {
-                val range = balanceValues.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
+                val range = balanceChart.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
                 period.xLabel(range)
             },
             yLabel = {

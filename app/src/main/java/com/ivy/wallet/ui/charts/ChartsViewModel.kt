@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.functional.wallet.calculateWalletBalance
+import com.ivy.wallet.functional.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.ChartPoint
+import com.ivy.wallet.functional.charts.balanceChart
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,8 +39,8 @@ class ChartsViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _balanceValues = MutableStateFlow(emptyList<TimeValue>())
-    val balanceValues = _balanceValues.asStateFlow()
+    private val _balanceChart = MutableStateFlow(emptyList<ChartPoint>())
+    val balanceChart = _balanceChart.asStateFlow()
 
     private val _incomeValues = MutableStateFlow(emptyList<TimeValue>())
     val incomeValues = _incomeValues.asStateFlow()
@@ -77,57 +77,50 @@ class ChartsViewModel @Inject constructor(
             }
 
             val period = period.value
-            val periodRangesList = period.toRangesList()
 
-            _balanceValues.value = ioThread {
-                periodRangesList.map { range ->
-                    TimeValue(
-                        range = range,
-                        period = period,
-                        value = calculateWalletBalance(
-                            accountDao = accountDao,
-                            transactionDao = transactionDao,
-                            exchangeRateDao = exchangeRateDao,
-                            baseCurrencyCode = baseCurrencyCode.value,
-                            range = ClosedTimeRange.to(range.to())
-                        ).value.toDouble()
-                    )
-                }
+            _balanceChart.value = ioThread {
+                balanceChart(
+                    accountDao = accountDao,
+                    transactionDao = transactionDao,
+                    exchangeRateDao = exchangeRateDao,
+                    baseCurrencyCode = baseCurrencyCode.value,
+                    period = period
+                )
             }
 
-            _incomeValues.value = ioThread {
-                periodRangesList.map { range ->
-                    TimeValue(
-                        range = range,
-                        period = period,
-                        value = walletLogic.calculateIncome(
-                            walletLogic.history(
-                                range = FromToTimeRange(
-                                    from = range.from(),
-                                    to = range.to()
-                                )
-                            ).filterIsInstance(Transaction::class.java)
-                        )
-                    )
-                }
-            }
-
-            _expenseValues.value = ioThread {
-                periodRangesList.map { range ->
-                    TimeValue(
-                        range = range,
-                        period = period,
-                        value = walletLogic.calculateExpenses(
-                            walletLogic.history(
-                                range = FromToTimeRange(
-                                    from = range.from(),
-                                    to = range.to()
-                                )
-                            ).filterIsInstance(Transaction::class.java)
-                        )
-                    )
-                }
-            }
+//            _incomeValues.value = ioThread {
+//                periodRangesList.map { range ->
+//                    TimeValue(
+//                        range = range,
+//                        period = period,
+//                        value = walletLogic.calculateIncome(
+//                            walletLogic.history(
+//                                range = FromToTimeRange(
+//                                    from = range.from(),
+//                                    to = range.to()
+//                                )
+//                            ).filterIsInstance(Transaction::class.java)
+//                        )
+//                    )
+//                }
+//            }
+//
+//            _expenseValues.value = ioThread {
+//                periodRangesList.map { range ->
+//                    TimeValue(
+//                        range = range,
+//                        period = period,
+//                        value = walletLogic.calculateExpenses(
+//                            walletLogic.history(
+//                                range = FromToTimeRange(
+//                                    from = range.from(),
+//                                    to = range.to()
+//                                )
+//                            ).filterIsInstance(Transaction::class.java)
+//                        )
+//                    )
+//                }
+//            }
 
             _categories.value = ioThread {
                 categoryDao.findAll()
@@ -234,22 +227,23 @@ class ChartsViewModel @Inject constructor(
         category: Category,
         calculateValue: (range: FromToTimeRange) -> Double
     ): List<CategoryValues> {
-        val values = ioThread {
-            period.toRangesList().map { range ->
-                TimeValue(
-                    range = range,
-                    period = period,
-                    value = calculateValue(range)
-                )
-            }
-        }
-
-        return this.value.plus(
-            CategoryValues(
-                category = category,
-                values = values
-            )
-        ).toSet().toList()
+        TODO()
+//        val values = ioThread {
+//            period.toRangesList().map { range ->
+//                TimeValue(
+//                    range = range,
+//                    period = period,
+//                    value = calculateValue(range)
+//                )
+//            }
+//        }
+//
+//        return this.value.plus(
+//            CategoryValues(
+//                category = category,
+//                values = values
+//            )
+//        ).toSet().toList()
     }
 
     fun removeCategory(category: Category) {

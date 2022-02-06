@@ -1,10 +1,10 @@
-package com.ivy.wallet.ui.charts
+package com.ivy.wallet.functional.charts
 
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.endOfDayNowUTC
 import com.ivy.wallet.base.endOfMonth
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.functional.data.ClosedTimeRange
 import java.time.LocalDateTime
 
 enum class ChartPeriod {
@@ -22,7 +22,7 @@ enum class ChartPeriod {
         }
     }
 
-    fun toRangesList(): List<FromToTimeRange> {
+    fun toRangesList(): List<ClosedTimeRange> {
         return when (this) {
             LAST_12_MONTHS -> lastNMonths(n = 12)
             LAST_6_MONTHS -> lastNMonths(n = 6)
@@ -31,17 +31,17 @@ enum class ChartPeriod {
         }
     }
 
-    private fun lastNMonths(
+    private tailrec fun lastNMonths(
         n: Int,
-        accumulator: List<FromToTimeRange> = emptyList(),
+        accumulator: List<ClosedTimeRange> = emptyList(),
         endOfMonth: LocalDateTime = endOfMonth(dateNowUTC())
-    ): List<FromToTimeRange> {
+    ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
             //recurse
             lastNMonths(
                 n = n,
                 accumulator = accumulator.plus(
-                    FromToTimeRange(
+                    ClosedTimeRange(
                         from = endOfMonth.withDayOfMonth(1),
                         to = endOfMonth
                     )
@@ -58,17 +58,17 @@ enum class ChartPeriod {
         }
     }
 
-    private fun lastNWeeks(
+    private tailrec fun lastNWeeks(
         n: Int,
-        accumulator: List<FromToTimeRange> = emptyList(),
+        accumulator: List<ClosedTimeRange> = emptyList(),
         endOfDay: LocalDateTime = endOfDayNowUTC()
-    ): List<FromToTimeRange> {
+    ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
             //recurse
             lastNWeeks(
                 n = n,
                 accumulator = accumulator.plus(
-                    FromToTimeRange(
+                    ClosedTimeRange(
                         from = endOfDay.minusDays(7).toLocalDate().atStartOfDay(),
                         to = endOfDay
                     )
@@ -83,15 +83,15 @@ enum class ChartPeriod {
 
     private fun lastNDays(
         n: Int,
-        accumulator: List<FromToTimeRange> = emptyList(),
+        accumulator: List<ClosedTimeRange> = emptyList(),
         endOfDay: LocalDateTime = endOfDayNowUTC()
-    ): List<FromToTimeRange> {
+    ): List<ClosedTimeRange> {
         return if (accumulator.size < n) {
             //recurse
             lastNDays(
                 n = n,
                 accumulator = accumulator.plus(
-                    FromToTimeRange(
+                    ClosedTimeRange(
                         from = endOfDay.toLocalDate().atStartOfDay(),
                         to = endOfDay
                     )
@@ -104,19 +104,19 @@ enum class ChartPeriod {
         }
     }
 
-    fun xLabel(range: FromToTimeRange): String {
+    fun xLabel(range: ClosedTimeRange): String {
         return when (this) {
             LAST_12_MONTHS -> {
-                range.to().monthLetter()
+                range.to.monthLetter()
             }
             LAST_6_MONTHS -> {
-                range.to().monthLetter()
+                range.to.monthLetter()
             }
             LAST_4_WEEKS -> {
-                range.to().monthLetter() + range.to().format("dd")
+                range.to.monthLetter() + range.to.format("dd")
             }
             LAST_7_DAYS -> {
-                range.to().monthLetter() + range.to().format("dd")
+                range.to.monthLetter() + range.to.format("dd")
             }
         }
     }

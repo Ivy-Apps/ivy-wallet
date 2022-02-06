@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.functional.charts.ChartPeriod
+import com.ivy.wallet.functional.charts.ChartPoint
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Screen
@@ -33,7 +35,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 
     val period by viewModel.period.collectAsState()
     val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
-    val balanceValues by viewModel.balanceValues.collectAsState()
+    val balanceChart by viewModel.balanceChart.collectAsState()
     val incomeValues by viewModel.incomeValues.collectAsState()
     val expenseValues by viewModel.expenseValues.collectAsState()
     val categories by viewModel.categories.collectAsState()
@@ -50,7 +52,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
     UI(
         period = period,
         baseCurrencyCode = baseCurrencyCode,
-        balanceValues = balanceValues,
+        balanceChart = balanceChart,
         incomeValues = incomeValues,
         expenseValues = expenseValues,
         categories = categories,
@@ -70,7 +72,7 @@ fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
 private fun UI(
     period: ChartPeriod,
     baseCurrencyCode: String,
-    balanceValues: List<TimeValue> = emptyList(),
+    balanceChart: List<ChartPoint> = emptyList(),
     incomeValues: List<TimeValue> = emptyList(),
     expenseValues: List<TimeValue> = emptyList(),
     categories: List<Category> = emptyList(),
@@ -123,7 +125,7 @@ private fun UI(
             ChartType.GENERAL -> generalCharts(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
-                balanceValues = balanceValues,
+                balanceChart = balanceChart,
                 incomeValues = incomeValues,
                 expenseValues = expenseValues
             )
