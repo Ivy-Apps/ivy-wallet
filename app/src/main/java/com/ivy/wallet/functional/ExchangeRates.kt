@@ -5,10 +5,13 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
 import arrow.core.toOption
+import com.ivy.wallet.functional.core.Pure
+import com.ivy.wallet.functional.core.Total
 import com.ivy.wallet.model.entity.ExchangeRate
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 
+@Total
 suspend fun exchangeToBaseCurrency(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: Option<String>,
@@ -24,6 +27,7 @@ suspend fun exchangeToBaseCurrency(
     )
 }
 
+@Total
 suspend fun exchange(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: Option<String>,
@@ -40,6 +44,7 @@ suspend fun exchange(
     )
 }
 
+@Total
 suspend fun exchange(
     baseCurrencyCode: Option<String>,
     fromCurrencyCode: Option<String>,
@@ -115,6 +120,7 @@ suspend fun exchange(
     }
 }
 
+@Total
 suspend fun validExchangeRate(
     baseCurrency: String,
     toCurrency: String,
@@ -126,6 +132,7 @@ suspend fun validExchangeRate(
         .validateRate().bind()
 }
 
+@Pure
 fun ExchangeRate.validateRate(): Option<BigDecimal> {
     //exchange rate which <= 0 is invalid!
     return if (rate > 0) return Some(rate.toBigDecimal()) else None

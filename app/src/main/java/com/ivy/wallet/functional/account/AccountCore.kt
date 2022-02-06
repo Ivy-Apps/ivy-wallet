@@ -1,6 +1,7 @@
 package com.ivy.wallet.functional.account
 
 import arrow.core.NonEmptyList
+import com.ivy.wallet.functional.core.Total
 import com.ivy.wallet.functional.core.calculateValueFunctionsSum
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.toFPTransaction
@@ -9,7 +10,7 @@ import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 import java.util.*
 
-
+@Total
 suspend fun calculateAccountValues(
     transactionDao: TransactionDao,
     accountId: UUID,
@@ -36,6 +37,7 @@ suspend fun calculateAccountValues(
     )
 }
 
+@Total
 suspend fun calculateAccountValues(
     accountId: UUID,
     retrieveAccountTransactions: suspend (UUID) -> List<Transaction>,
