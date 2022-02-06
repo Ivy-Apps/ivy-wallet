@@ -219,4 +219,9 @@ dependencies {
     implementation(Libs.Testing.Hilt.androidTestRunner)
     implementation(Libs.Testing.Hilt.androidWork)
     //-------------------------------------------------------------------
+
+    //Property-based testing
+    testImplementation(Libs.Testing.PropertyBasedTesting.kotest)
+    testImplementation(Libs.Testing.PropertyBasedTesting.kotestArrow)
+    //-------------------------------------------------------------------
 }

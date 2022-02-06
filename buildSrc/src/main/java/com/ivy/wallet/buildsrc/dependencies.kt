@@ -223,11 +223,18 @@ object Libs {
             val androidTestRunner = "androidx.test:runner:1.4.0"
             val androidWork = "androidx.work:work-testing:${Libs.AndroidX.workVersion}"
         }
+
+        object PropertyBasedTesting {
+            val kotest = "io.kotest:kotest-property:5.1.0"
+            val kotestArrow = "io.kotest.extensions:kotest-property-arrow:${Arrow.version}"
+        }
     }
 
     object Arrow {
         //Functional programming with Kotlin
-        val bom = "io.arrow-kt:arrow-stack:1.0.1"
+        val version = "1.0.1"
+
+        val bom = "io.arrow-kt:arrow-stack:$version"
         val core = "io.arrow-kt:arrow-core"
         val fxCoroutines = "io.arrow-kt:arrow-fx-coroutines"
         val fxStm = "io.arrow-kt:arrow-fx-stm"
