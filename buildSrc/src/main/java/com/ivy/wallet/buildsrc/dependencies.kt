@@ -19,6 +19,20 @@ package com.ivy.wallet.buildsrc
 
 const val composeVersion = "1.0.5"
 
+object Project {
+    //Version
+    const val versionName = "2.3.4-halley"
+    const val versionCode = 94
+
+    //Compile SDK & Build Tools
+    const val compileSdkVersion = 31
+
+    //App
+    const val applicationId = "com.ivy.wallet"
+    const val minSdk = 28
+    const val targetSdk = 30
+}
+
 fun DependencyScope.dependencies() {
     dep(::classpath, "com.android.tools.build:gradle:7.0.0")
     dep(::plugin, "com.android.application")
@@ -231,18 +245,4 @@ fun DependencyScope.dependencies() {
         dep(::implementation, "io.arrow-kt:arrow-fx-coroutines")
         dep(::implementation, "io.arrow-kt:arrow-fx-stm")
     }
-}
-
-object Project {
-    //Version
-    const val versionName = "2.3.4-halley"
-    const val versionCode = 94
-
-    //Compile SDK & Build Tools
-    const val compileSdkVersion = 31
-
-    //App
-    const val applicationId = "com.ivy.wallet"
-    const val minSdk = 28
-    const val targetSdk = 30
 }
