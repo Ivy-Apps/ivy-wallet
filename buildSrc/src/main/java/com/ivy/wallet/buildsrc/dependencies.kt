@@ -16,8 +16,15 @@
 
 package com.ivy.wallet.buildsrc
 
+
+const val composeVersion = "1.0.5"
+
 fun DependencyScope.dependencies() {
     dep(::classpath, "com.android.tools.build:gradle:7.0.0")
+    dep(::plugin, "com.android.application")
+    dep(::plugin, "kotlin-android")
+    dep(::plugin, "kotlin-kapt")
+    dep(::plugin, "org.jetbrains.kotlin.android")
 
     val workVersion = "2.7.1"
     val arrowVersion = "1.0.1"
@@ -31,7 +38,7 @@ fun DependencyScope.dependencies() {
     }
 
 
-    group("Compose", version = "1.0.5") {
+    group("Compose", version = composeVersion) {
         //URL: https://developer.android.com/jetpack/androidx/releases/compose
         dep(::implementation, "androidx.compose.ui:ui:$version")
         dep(::implementation, "androidx.compose.foundation:foundation:$version")
@@ -56,8 +63,9 @@ fun DependencyScope.dependencies() {
         group("Testing", version = version) {
             //https://developer.android.com/jetpack/compose/testing#setup
 
-            // Test rules and transitive dependencies:
-            dep(::testImplementation, "androidx.compose.ui:ui-test-junit4:$version")
+            //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
+            //Without having this dependency "lintRelease" fails
+            dep(::implementation, "androidx.compose.ui:ui-test-junit4:$version")
 
             // Needed for createComposeRule, but not createAndroidComposeRule:
             dep(::androidTestImplementation, "androidx.compose.ui:ui-test-manifest:$version")
@@ -66,6 +74,8 @@ fun DependencyScope.dependencies() {
 
 
     group("Google") {
+        dep(::plugin, "com.google.gms.google-services")
+
         //URL: https://developers.google.com/android/guides/google-services-plugin
         dep(::classpath, "com.google.gms:google-services:4.3.10")
 
@@ -83,6 +93,7 @@ fun DependencyScope.dependencies() {
 
     group("Firebase") {
         dep(::classpath, "com.google.firebase:firebase-crashlytics-gradle:2.4.1")
+        dep(::plugin, "com.google.firebase.crashlytics")
         dep(::implementation, "com.google.firebase:firebase-crashlytics:17.3.0")
         dep(::implementation, "com.google.firebase:firebase-analytics:18.0.0")
         dep(::implementation, "com.google.firebase:firebase-messaging:21.0.0")
@@ -92,6 +103,8 @@ fun DependencyScope.dependencies() {
         //URL: https://developer.android.com/training/dependency-injection/hilt-android
         val hiltVersion = "2.37"
         val versionX = "1.0.0-alpha03"
+
+        dep(::plugin, "dagger.hilt.android.plugin")
 
         dep(::classpath, "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
         dep(::implementation, "com.google.dagger:hilt-android:$hiltVersion")

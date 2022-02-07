@@ -13,15 +13,6 @@ buildscript {
         for (dep in deps) {
             classpath(dep.value)
         }
-
-        classpath(com.ivy.wallet.buildsrc.Libs.Google.playServicesPlugin)
-
-        classpath(com.ivy.wallet.buildsrc.Libs.androidGradlePlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Kotlin.gradlePlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Kotlin.androidExtensions)
-
-        classpath(com.ivy.wallet.buildsrc.Libs.Google.Firebase.crashlyticsPlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Hilt.hiltPlugin)
     }
 }
 
