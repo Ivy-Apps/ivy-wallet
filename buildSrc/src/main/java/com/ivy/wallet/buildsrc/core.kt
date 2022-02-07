@@ -35,7 +35,7 @@ fun DependencyScope.group(
     }
 }
 
-fun DependencyScope.dependency(
+fun DependencyScope.dep(
     type: () -> DependencyType,
     value: String
 ) {
@@ -52,6 +52,7 @@ fun testImplementation() = DependencyType.TEST_IMPLEMENTATION
 fun androidTestImplementation() = DependencyType.ANDROID_TEST_IMPLEMENTATION
 fun kaptAndroidTest() = DependencyType.KAPT_ANDROID_TEST
 fun plugin() = DependencyType.PLUGIN_ID
+fun platformBom() = DependencyType.PLATFORM_BOM
 
 data class WrappedDependency(
     val type: DependencyType,
@@ -65,5 +66,6 @@ enum class DependencyType {
     TEST_IMPLEMENTATION,
     ANDROID_TEST_IMPLEMENTATION,
     KAPT_ANDROID_TEST,
-    PLUGIN_ID
+    PLUGIN_ID,
+    PLATFORM_BOM
 }

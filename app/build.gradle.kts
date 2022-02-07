@@ -1,3 +1,4 @@
+import com.ivy.wallet.buildsrc.DependencyType
 import com.ivy.wallet.buildsrc.Libs
 import com.ivy.wallet.buildsrc.allDeps
 
@@ -244,26 +245,29 @@ fun DependencyHandlerScope.appDeps() {
 
     deps.forEach { dep ->
         when (dep.type) {
-            com.ivy.wallet.buildsrc.DependencyType.CLASSPATH -> {
+            DependencyType.CLASSPATH -> {
                 //do nothing
             }
-            com.ivy.wallet.buildsrc.DependencyType.IMPLEMENTATION -> {
+            DependencyType.IMPLEMENTATION -> {
                 implementation(dep.value)
             }
-            com.ivy.wallet.buildsrc.DependencyType.KAPT -> {
+            DependencyType.KAPT -> {
                 kapt(dep.value)
             }
-            com.ivy.wallet.buildsrc.DependencyType.TEST_IMPLEMENTATION -> {
+            DependencyType.TEST_IMPLEMENTATION -> {
                 testImplementation(dep.value)
             }
-            com.ivy.wallet.buildsrc.DependencyType.ANDROID_TEST_IMPLEMENTATION -> {
+            DependencyType.ANDROID_TEST_IMPLEMENTATION -> {
                 androidTestImplementation(dep.value)
             }
-            com.ivy.wallet.buildsrc.DependencyType.KAPT_ANDROID_TEST -> {
+            DependencyType.KAPT_ANDROID_TEST -> {
                 kaptAndroidTest(dep.value)
             }
-            com.ivy.wallet.buildsrc.DependencyType.PLUGIN_ID -> {
+            DependencyType.PLUGIN_ID -> {
                 //do nothing
+            }
+            DependencyType.PLATFORM_BOM -> {
+                implementation(platform(dep.value))
             }
         }
     }
