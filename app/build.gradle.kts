@@ -1,4 +1,5 @@
 import com.ivy.wallet.buildsrc.Libs
+import com.ivy.wallet.buildsrc.allDeps
 
 plugins {
     id("com.android.application")
@@ -8,7 +9,17 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
+
+    //must have full full qualifier else won't build
+    val plugins = com.ivy.wallet.buildsrc.allDeps()
+        .filter { it.type == com.ivy.wallet.buildsrc.DependencyType.PLUGIN_ID }
+
+    plugins.forEach { plugin ->
+        id(plugin.value)
+    }
 }
+
+
 
 android {
     compileSdk = Libs.Project.compileSdkVersion
@@ -111,6 +122,8 @@ android {
 }
 
 dependencies {
+    appDeps()
+
     //Core
     implementation(Libs.Kotlin.stdlib)
     implementation(Libs.Coroutines.android)
@@ -224,4 +237,42 @@ dependencies {
     testImplementation(Libs.Testing.PropertyBasedTesting.kotest)
     testImplementation(Libs.Testing.PropertyBasedTesting.kotestArrow)
     //-------------------------------------------------------------------
+}
+
+fun DependencyHandlerScope.appDeps() {
+    val deps = allDeps()
+
+    deps.forEach { dep ->
+        when (dep.type) {
+            com.ivy.wallet.buildsrc.DependencyType.CLASSPATH -> {
+                //do nothing
+            }
+            com.ivy.wallet.buildsrc.DependencyType.IMPLEMENTATION -> {
+                implementation(dep.value)
+            }
+            com.ivy.wallet.buildsrc.DependencyType.KAPT -> {
+                kapt(dep.value)
+            }
+            com.ivy.wallet.buildsrc.DependencyType.TEST_IMPLEMENTATION -> {
+                testImplementation(dep.value)
+            }
+            com.ivy.wallet.buildsrc.DependencyType.ANDROID_TEST_IMPLEMENTATION -> {
+                androidTestImplementation(dep.value)
+            }
+            com.ivy.wallet.buildsrc.DependencyType.KAPT_ANDROID_TEST -> {
+                kaptAndroidTest(dep.value)
+            }
+            com.ivy.wallet.buildsrc.DependencyType.PLUGIN_ID -> {
+                //do nothing
+            }
+        }
+    }
+}
+
+fun PluginDependenciesSpecScope.plugins() {
+    val plugins = allDeps().filter { it.type == com.ivy.wallet.buildsrc.DependencyType.PLUGIN_ID }
+
+    plugins.forEach { plugin ->
+        id(plugin.value)
+    }
 }

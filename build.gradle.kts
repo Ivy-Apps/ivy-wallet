@@ -1,3 +1,4 @@
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
@@ -6,6 +7,13 @@ buildscript {
     }
 
     dependencies {
+        val deps = com.ivy.wallet.buildsrc.allDeps()
+            .filter { it.type == com.ivy.wallet.buildsrc.DependencyType.CLASSPATH }
+
+        for (dep in deps) {
+            classpath(dep.value)
+        }
+
         classpath(com.ivy.wallet.buildsrc.Libs.Google.playServicesPlugin)
 
         classpath(com.ivy.wallet.buildsrc.Libs.androidGradlePlugin)
