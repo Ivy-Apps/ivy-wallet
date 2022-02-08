@@ -89,7 +89,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.composeVersion
+        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
     }
 
     lint {

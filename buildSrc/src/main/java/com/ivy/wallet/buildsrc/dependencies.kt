@@ -17,8 +17,6 @@
 package com.ivy.wallet.buildsrc
 
 
-const val composeVersion = "1.0.5"
-
 object Project {
     //Version
     const val versionName = "2.3.4-halley"
@@ -33,6 +31,10 @@ object Project {
     const val targetSdk = 30
 }
 
+object GlobalVersions {
+    const val compose = "1.0.5"
+}
+
 fun DependencyScope.dependencies() {
     dep(::classpath, "com.android.tools.build:gradle:7.0.0")
     dep(::plugin, "com.android.application")
@@ -40,7 +42,6 @@ fun DependencyScope.dependencies() {
     dep(::plugin, "kotlin-kapt")
     dep(::plugin, "org.jetbrains.kotlin.android")
 
-    val workVersion = "2.7.1"
     val arrowVersion = "1.0.1"
 
 
@@ -52,7 +53,7 @@ fun DependencyScope.dependencies() {
     }
 
 
-    group("Compose", version = composeVersion) {
+    group("Compose", version = GlobalVersions.compose) {
         //URL: https://developer.android.com/jetpack/androidx/releases/compose
         dep(::implementation, "androidx.compose.ui:ui:$version")
         dep(::implementation, "androidx.compose.foundation:foundation:$version")
@@ -138,7 +139,6 @@ fun DependencyScope.dependencies() {
             dep(::androidTestImplementation, "com.google.dagger:hilt-android-testing:$version")
             dep(::kaptAndroidTest, "com.google.dagger:hilt-android-compiler:$version")
             dep(::implementation, "androidx.test:runner:1.4.0")
-            dep(::implementation, "androidx.work:work-testing:$workVersion")
         }
     }
 
@@ -184,7 +184,9 @@ fun DependencyScope.dependencies() {
         dep(::implementation, "androidx.core:core-ktx:1.5.0")
 
         //URL: https://developer.android.com/jetpack/androidx/releases/work
+        val workVersion = "2.7.1"
         dep(::implementation, "androidx.work:work-runtime-ktx:$workVersion")
+        dep(::implementation, "androidx.work:work-testing:$workVersion")
 
         dep(::implementation, "androidx.biometric:biometric:1.1.0")
 
