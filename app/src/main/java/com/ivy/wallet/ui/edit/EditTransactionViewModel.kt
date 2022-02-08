@@ -33,6 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
+    private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
@@ -91,8 +92,8 @@ class EditTransactionViewModel @Inject constructor(
     private val _hasChanges = MutableLiveData(false)
     val hasChanges = _hasChanges.asLiveData()
 
-    private val _loanId: MutableLiveData<UUID?> = MutableLiveData(null)
-    val loanId = _loanId.asLiveData()
+    private val _isLoan: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoan = _isLoan.asLiveData()
 
     private var loadedTransaction: Transaction? = null
     private var editMode = false
@@ -128,8 +129,8 @@ class EditTransactionViewModel @Inject constructor(
                 amount = 0.0,
             )
 
-            loadedTransaction?.loanId?.let {
-                _loanId.value = it
+            loadedTransaction?.let {
+                _isLoan.value = (it.loanId != null) || (it.loanRecordId != null)
             }
 
             display(loadedTransaction!!)
@@ -433,7 +434,8 @@ class EditTransactionViewModel @Inject constructor(
                     isSynced = false
                 )
 
-                updateAssociatedLoan(loadedTransaction)
+                if (isLoan.value == true)
+                    updateAssociatedLoan(loadedTransaction)
 
                 transactionDao.save(loadedTransaction())
             }
@@ -504,17 +506,29 @@ class EditTransactionViewModel @Inject constructor(
 
 
     private suspend fun updateAssociatedLoan(loadedTransaction: Transaction?) {
-        if (loadedTransaction == null || loanId.value == null)
+        if (loadedTransaction == null || isLoan.value == false)
             return
 
-        val loan = loanDao.findById(loanId.value!!)
-        loan?.let { fetchedLoan ->
-            val modifiedLoan = fetchedLoan.copy(
-                amount = loadedTransaction.amount,
-                name = loadedTransaction.title ?: "",
-                type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND
-            )
-            loanDao.save(modifiedLoan)
+        if (loadedTransaction.loanId != null) {
+            val loan = loanDao.findById(loadedTransaction.loanId)
+            loan?.let { fetchedLoan ->
+                val modifiedLoan = fetchedLoan.copy(
+                    amount = loadedTransaction.amount,
+                    name = loadedTransaction.title ?: "",
+                    type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND
+                )
+                loanDao.save(modifiedLoan)
+            }
+        } else if (loadedTransaction.loanRecordId != null) {
+            val loanRecord = loanRecordDao.findById(loadedTransaction.loanRecordId)
+            loanRecord?.let { fetchedRecord ->
+                val modifiedLoanRecord = fetchedRecord.copy(
+                    amount = loadedTransaction.amount,
+                    note = loadedTransaction.title,
+                    dateTime = loadedTransaction.dateTime ?: fetchedRecord.dateTime
+                )
+                loanRecordDao.save(modifiedLoanRecord)
+            }
         }
     }
 }

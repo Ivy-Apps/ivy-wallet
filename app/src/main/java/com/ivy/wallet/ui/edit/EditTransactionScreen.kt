@@ -36,7 +36,6 @@ import com.ivy.wallet.ui.theme.modal.ModalCheck
 import com.ivy.wallet.ui.theme.modal.ModalSave
 import com.ivy.wallet.ui.theme.modal.edit.*
 import java.time.LocalDateTime
-import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
@@ -54,7 +53,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
     val toAccount by viewModel.toAccount.observeAsState()
     val dueDate by viewModel.dueDate.observeAsState()
     val amount by viewModel.amount.observeAsState(0.0)
-    val loanId by viewModel.loanId.observeAsState()
+    val isLoan by viewModel.isLoan.observeAsState(false)
 
     val categories by viewModel.categories.observeAsState(emptyList())
     val accounts by viewModel.accounts.observeAsState(emptyList())
@@ -78,7 +77,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
         toAccount = toAccount,
         dueDate = dueDate,
         amount = amount,
-        loanId = loanId,
+        isLoan = isLoan,
 
         categories = categories,
         accounts = accounts,
@@ -120,7 +119,7 @@ private fun BoxWithConstraintsScope.UI(
     toAccount: Account?,
     dueDate: LocalDateTime?,
     amount: Double,
-    loanId: UUID? = null,
+    isLoan: Boolean = false,
 
     categories: List<Category>,
     accounts: List<Account>,
@@ -216,7 +215,7 @@ private fun BoxWithConstraintsScope.UI(
             Category(
                 category = category,
                 onChooseCategory = {
-                    if (loanId == null)
+                    if (!isLoan)
                         chooseCategoryModalVisible = true
                 }
             )

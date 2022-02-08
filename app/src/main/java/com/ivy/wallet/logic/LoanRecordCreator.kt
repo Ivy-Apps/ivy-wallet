@@ -16,34 +16,38 @@ class LoanRecordCreator(
         loanId: UUID,
         data: CreateLoanRecordData,
         onRefreshUI: suspend (LoanRecord) -> Unit
-    ) {
+    ): UUID? {
         val note = data.note
-        if (data.amount <= 0) return
+        if (data.amount <= 0) return null
 
         try {
+            var newItem: LoanRecord? = null
             paywallLogic.protectQuotaExceededWithPaywall {
-                val newItem = ioThread {
+                newItem = ioThread {
                     val item = LoanRecord(
                         loanId = loanId,
                         note = note?.trim(),
                         amount = data.amount,
                         dateTime = data.dateTime,
-                        isSynced = false
+                        isSynced = false,
+                        interest = data.interest
                     )
 
                     dao.save(item)
                     item
                 }
 
-                onRefreshUI(newItem)
+                onRefreshUI(newItem!!)
 
                 ioThread {
-                    uploader.sync(newItem)
+                    uploader.sync(newItem!!)
                 }
             }
+            return newItem?.id
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        return null
     }
 
 

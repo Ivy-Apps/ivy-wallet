@@ -48,8 +48,11 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
     val loanRecords by viewModel.loanRecords.collectAsState()
     val amountPaid by viewModel.amountPaid.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
-    val selectedAccount by viewModel.selectedAccount.collectAsState()
+    val selectedLoanAccount by viewModel.selectedLoanAccount.collectAsState()
+    val selectedLoanRecordAccount by viewModel.selectedLoanRecordAccount.collectAsState()
     val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
+    val createLoanRecordTransaction by viewModel.createLoanRecordTransaction.collectAsState()
+    val loanRecordInterest by viewModel.loanInterest.collectAsState()
 
     onScreenStart {
         viewModel.start(screen = screen)
@@ -61,16 +64,24 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
         loanRecords = loanRecords,
         amountPaid = amountPaid,
         accounts = accounts,
-        selectedAccount = selectedAccount,
-        createLoanTransaction = createLoanTransaction,
+        selectedLoanAccount = selectedLoanAccount,
+        selectedLoanRecordAccount = selectedLoanRecordAccount,
 
+        createLoanTransaction = createLoanTransaction,
+        createLoanRecordTransaction = createLoanRecordTransaction,
+        loanRecordInterest = loanRecordInterest,
+
+        onLoanRecordInterestClicked = viewModel::onLoanInterestClicked,
+        onLoanRecordTransactionChecked = viewModel::onLoanRecordTransactionChecked,
         onLoanTransactionChecked = viewModel::onLoanTransactionChecked,
-        onAccountSelected = viewModel::onAccountSelected,
+        onLoanAccountSelected = viewModel::onLoanAccountSelected,
+        onLoanRecordAccountSelected = viewModel::onLoanRecordAccountSelected,
         onEditLoan = viewModel::editLoan,
         onCreateLoanRecord = viewModel::createLoanRecord,
         onEditLoanRecord = viewModel::editLoanRecord,
         onDeleteLoanRecord = viewModel::deleteLoanRecord,
-        onDeleteLoan = viewModel::deleteLoan
+        onDeleteLoan = viewModel::deleteLoan,
+        onLoanRecordClicked = viewModel::onLoanRecordClicked
     )
 }
 
@@ -82,16 +93,23 @@ private fun BoxWithConstraintsScope.UI(
     amountPaid: Double,
 
     accounts: List<Account> = emptyList(),
-    selectedAccount: Account? = null,
+    selectedLoanAccount: Account? = null,
+    selectedLoanRecordAccount: Account? = null,
     createLoanTransaction: Boolean = true,
+    createLoanRecordTransaction: Boolean = true,
+    loanRecordInterest: Boolean = true,
 
+    onLoanRecordInterestClicked: (Boolean) -> Unit = { _ -> },
+    onLoanRecordTransactionChecked: (Boolean) -> Unit = { _ -> },
     onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
-    onAccountSelected: (Account) -> Unit = {},
+    onLoanAccountSelected: (Account) -> Unit = {},
+    onLoanRecordAccountSelected: (Account) -> Unit = {},
     onEditLoan: (Loan) -> Unit = {},
     onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {},
     onEditLoanRecord: (LoanRecord) -> Unit = {},
     onDeleteLoanRecord: (LoanRecord) -> Unit = {},
-    onDeleteLoan: () -> Unit = {}
+    onDeleteLoan: () -> Unit = {},
+    onLoanRecordClicked: (UUID, Boolean) -> Unit = { _, _ -> }
 ) {
     val itemColor = loan?.color?.toComposeColor() ?: Gray
 
@@ -175,6 +193,7 @@ private fun BoxWithConstraintsScope.UI(
                             loanRecord = loanRecord,
                             baseCurrency = baseCurrency
                         )
+                        onLoanRecordClicked(loanRecord.id, loanRecord.interest)
                     }
                 )
             }
@@ -202,8 +221,8 @@ private fun BoxWithConstraintsScope.UI(
             loanModalData = null
         },
         accounts = accounts,
-        selectedAccount = selectedAccount,
-        onSelectedAccount = onAccountSelected,
+        selectedAccount = selectedLoanAccount,
+        onSelectedAccount = onLoanAccountSelected,
         createLoanTransaction = createLoanTransaction,
         onLoanTransactionChecked = onLoanTransactionChecked
     )
@@ -213,9 +232,16 @@ private fun BoxWithConstraintsScope.UI(
         onCreate = onCreateLoanRecord,
         onEdit = onEditLoanRecord,
         onDelete = onDeleteLoanRecord,
+        accounts = accounts,
+        selectedAccount = selectedLoanRecordAccount,
+        onSelectedAccount = onLoanRecordAccountSelected,
+        createLoanRecordTransaction = createLoanRecordTransaction,
         dismiss = {
             loanRecordModalData = null
-        }
+        },
+        onLoanRecordTransactionChecked = onLoanRecordTransactionChecked,
+        onLoanRecordInterestChecked = onLoanRecordInterestClicked,
+        loanRecordInterest = loanRecordInterest
     )
     DeleteModal(
         visible = deleteModalVisible,

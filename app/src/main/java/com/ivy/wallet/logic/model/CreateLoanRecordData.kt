@@ -6,4 +6,5 @@ data class CreateLoanRecordData(
     val note: String?,
     val amount: Double,
     val dateTime: LocalDateTime,
+    val interest: Boolean = false
 )

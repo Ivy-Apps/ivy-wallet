@@ -199,4 +199,9 @@ interface TransactionDao {
     fun findLoanTransaction(
        loanId:UUID
     ): Transaction?
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanRecordId = :loanId")
+    fun findLoanRecordTransaction(
+        loanId:UUID
+    ): Transaction?
 }
