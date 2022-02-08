@@ -129,7 +129,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             updateAssociatedTransaction(
                 createTransaction = createLoanTransaction.value,
-                id = loan.id,
+                loanId = loan.id,
                 amount = loan.amount,
                 loanType = loan.type,
                 selectedAccount = selectedLoanAccount.value,
@@ -178,15 +178,28 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             if (createLoanRecordTransaction.value && loanRecordUUID != null) {
-                createMainTransaction(
+
+                updateAssociatedTransaction(
+                    createTransaction = createLoanRecordTransaction.value,
                     loanType = localLoan.type,
                     amount = data.amount,
                     title = data.note,
                     time = data.dateTime,
-                    id = loanRecordUUID,
-                    selectedAccount = selectedLoanAccount.value,
-                    isLoanRecord = true
+                    loanRecordId = loanRecordUUID,
+                    loanId = loan.value!!.id,
+                    selectedAccount = selectedLoanRecordAccount.value,
+                    isLoanRecord = true,
                 )
+//                createMainTransaction(
+//                    loanType = localLoan.type,
+//                    amount = data.amount,
+//                    title = data.note,
+//                    time = data.dateTime,
+//                    loanRecordId = loanRecordUUID,
+//                    loanId = loan.value!!.id,
+//                    selectedAccount = selectedLoanAccount.value,
+//                    isLoanRecord = true
+//                )
             }
 
             TestIdlingResource.decrement()
@@ -205,7 +218,8 @@ class LoanDetailsViewModel @Inject constructor(
                 val transaction = transactionDao.findLoanRecordTransaction(loanRecord.id)
                 updateAssociatedTransaction(
                     createTransaction = createLoanRecordTransaction.value,
-                    id = loanRecord.id,
+                    loanRecordId = loanRecord.id,
+                    loanId = loan.value!!.id,
                     amount = loanRecord.amount,
                     loanType = loan.value!!.type,
                     selectedAccount = selectedLoanAccount.value,
@@ -239,7 +253,8 @@ class LoanDetailsViewModel @Inject constructor(
 
     private suspend fun updateAssociatedTransaction(
         createTransaction: Boolean,
-        id: UUID,
+        loanRecordId: UUID? = null,
+        loanId: UUID,
         amount: Double,
         loanType: LoanType,
         selectedAccount: Account?,
@@ -249,11 +264,13 @@ class LoanDetailsViewModel @Inject constructor(
         isLoanRecord: Boolean = false,
         transaction: Transaction? = null,
     ) {
-
+        if (isLoanRecord && loanRecordId == null)
+            return
 
         if (createTransaction && transaction != null) {
             createMainTransaction(
-                id = id,
+                loanRecordId = loanRecordId,
+                loanId = loanId,
                 amount = amount,
                 loanType = loanType,
                 selectedAccount = selectedAccount,
@@ -265,7 +282,8 @@ class LoanDetailsViewModel @Inject constructor(
             )
         } else if (createTransaction && transaction == null) {
             createMainTransaction(
-                id = id,
+                loanRecordId = loanRecordId,
+                loanId = loanId,
                 amount = amount,
                 loanType = loanType,
                 selectedAccount = selectedAccount,
@@ -311,9 +329,10 @@ class LoanDetailsViewModel @Inject constructor(
     }
 
     private suspend fun createMainTransaction(
-        id: UUID,
+        loanRecordId: UUID? = null,
         amount: Double,
         loanType: LoanType,
+        loanId: UUID,
         selectedAccount: Account?,
         title: String? = null,
         categoryId: UUID? = null,
@@ -354,8 +373,8 @@ class LoanDetailsViewModel @Inject constructor(
             categoryId
 
         val modifiedTransaction: Transaction = transaction?.copy(
-            loanId = if (!isLoanRecord) id else null,
-            loanRecordId = if (isLoanRecord) id else null,
+            loanId = loanId,
+            loanRecordId = if (isLoanRecord) loanRecordId else null,
             amount = amount,
             type = transType,
             accountId = selectedAccount.id,
@@ -370,8 +389,8 @@ class LoanDetailsViewModel @Inject constructor(
                 dateTime = time,
                 categoryId = transCategoryId,
                 title = title,
-                loanId = if (!isLoanRecord) id else null,
-                loanRecordId = if (isLoanRecord) id else null
+                loanId = loanId,
+                loanRecordId = if (isLoanRecord) loanRecordId else null
             )
 
         ioThread {

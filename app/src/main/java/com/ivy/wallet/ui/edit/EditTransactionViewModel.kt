@@ -509,7 +509,7 @@ class EditTransactionViewModel @Inject constructor(
         if (loadedTransaction == null || isLoan.value == false)
             return
 
-        if (loadedTransaction.loanId != null) {
+        if (loadedTransaction.loanId != null && loadedTransaction.loanRecordId == null) {
             val loan = loanDao.findById(loadedTransaction.loanId)
             loan?.let { fetchedLoan ->
                 val modifiedLoan = fetchedLoan.copy(
@@ -519,7 +519,7 @@ class EditTransactionViewModel @Inject constructor(
                 )
                 loanDao.save(modifiedLoan)
             }
-        } else if (loadedTransaction.loanRecordId != null) {
+        } else if (loadedTransaction.loanRecordId != null && loadedTransaction.loanId != null) {
             val loanRecord = loanRecordDao.findById(loadedTransaction.loanRecordId)
             loanRecord?.let { fetchedRecord ->
                 val modifiedLoanRecord = fetchedRecord.copy(
