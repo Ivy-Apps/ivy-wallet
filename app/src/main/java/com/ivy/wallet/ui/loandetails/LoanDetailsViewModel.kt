@@ -153,11 +153,12 @@ class LoanDetailsViewModel @Inject constructor(
                 //close screen
                 ivyContext.back()
             }
-
-            associatedTransaction?.let {
-                deleteTransaction(it)
+            ioThread {
+                val transactions = transactionDao.findAllByLoanId(loanId = loan.id)
+                transactions.forEach { trans ->
+                    deleteTransaction(trans)
+                }
             }
-
             TestIdlingResource.decrement()
         }
     }
@@ -178,7 +179,6 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             if (createLoanRecordTransaction.value && loanRecordUUID != null) {
-
                 updateAssociatedTransaction(
                     createTransaction = createLoanRecordTransaction.value,
                     loanType = localLoan.type,
@@ -190,16 +190,6 @@ class LoanDetailsViewModel @Inject constructor(
                     selectedAccount = selectedLoanRecordAccount.value,
                     isLoanRecord = true,
                 )
-//                createMainTransaction(
-//                    loanType = localLoan.type,
-//                    amount = data.amount,
-//                    title = data.note,
-//                    time = data.dateTime,
-//                    loanRecordId = loanRecordUUID,
-//                    loanId = loan.value!!.id,
-//                    selectedAccount = selectedLoanAccount.value,
-//                    isLoanRecord = true
-//                )
             }
 
             TestIdlingResource.decrement()
@@ -243,7 +233,7 @@ class LoanDetailsViewModel @Inject constructor(
                 load(loanId = loanId)
             }
             ioThread {
-                val transaction = transactionDao.findLoanRecordTransaction(loanRecord.loanId)
+                val transaction = transactionDao.findLoanRecordTransaction(loanRecord.id)
                 deleteTransaction(transaction)
             }
             TestIdlingResource.decrement()
