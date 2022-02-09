@@ -16,6 +16,8 @@
 
 package com.ivy.wallet.buildsrc
 
+import org.gradle.api.artifacts.dsl.DependencyHandler
+
 
 object Project {
     //Version
@@ -35,216 +37,281 @@ object GlobalVersions {
     const val compose = "1.0.5"
 }
 
-fun DependencyScope.dependencies() {
-    dep(::classpath, "com.android.tools.build:gradle:7.0.0")
-    dep(::plugin, "com.android.application")
-    dep(::plugin, "kotlin-android")
-    dep(::plugin, "kotlin-kapt")
-    dep(::plugin, "org.jetbrains.kotlin.android")
+/**
+ * @param kotlinVersion must also be updated in buildSrc gradle
+ */
+fun DependencyHandler.appModuleDependencies(
+    kotlinVersion: String = "1.5.31"
+) {
+    Kotlin(version = kotlinVersion)
+    Coroutines(version = "1.5.0")
+    FunctionalProgramming(
+        arrowVersion = "1.0.1",
+        kotestVersion = "5.1.0",
+        kotlinVersion = kotlinVersion
+    )
 
-    val arrowVersion = "1.0.1"
+    Compose(version = GlobalVersions.compose)
 
+    Google()
+    Firebase()
 
-    group("Kotlin", version = "1.5.31") {
-        //URL: https://kotlinlang.org/docs/releases.html#release-details
-        dep(::implementation, "org.jetbrains.kotlin:kotlin-stdlib:$version")
-        dep(::classpath, "org.jetbrains.kotlin:kotlin-gradle-plugin:$version")
-        dep(::classpath, "org.jetbrains.kotlin:kotlin-android-extensions:$version")
-    }
+    Hilt(
+        hiltVersion = "2.37",
+        versionX = "1.0.0-alpha03"
+    )
+    RoomDB(version = "2.4.0-alpha03")
 
+    Networking(retrofitVersion = "2.9.0")
 
-    group("Compose", version = GlobalVersions.compose) {
-        //URL: https://developer.android.com/jetpack/androidx/releases/compose
-        dep(::implementation, "androidx.compose.ui:ui:$version")
-        dep(::implementation, "androidx.compose.foundation:foundation:$version")
-        dep(::implementation, "androidx.compose.animation:animation:$version")
-        dep(::implementation, "androidx.compose.material:material:$version")
-        dep(::implementation, "androidx.compose.material:material-icons-extended:$version")
-        dep(::implementation, "androidx.compose.runtime:runtime-livedata:$version")
-        dep(::implementation, "androidx.compose.ui:ui-tooling:$version")
+    Lifecycle(version = "2.3.1")
+    AndroidX()
 
-        //URL: https://developer.android.com/jetpack/androidx/releases/activity
-        dep(::implementation, "androidx.activity:activity-compose:1.3.0-alpha07")
-
-        //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
-        dep(::implementation, "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
-
-        group("Accompanist", version = "0.15.0") {
-            //URL: https://github.com/google/accompanist
-            dep(::implementation, "com.google.accompanist:accompanist-coil:$version")
-            dep(::implementation, "com.google.accompanist:accompanist-insets:$version")
-        }
-
-        group("Testing", version = version) {
-            //https://developer.android.com/jetpack/compose/testing#setup
-
-            //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
-            //Without having this dependency "lintRelease" fails
-            dep(::implementation, "androidx.compose.ui:ui-test-junit4:$version")
-
-            // Needed for createComposeRule, but not createAndroidComposeRule:
-            dep(::androidTestImplementation, "androidx.compose.ui:ui-test-manifest:$version")
-        }
-    }
+    ThirdParty()
+}
 
 
-    group("Google") {
-        dep(::plugin, "com.google.gms.google-services")
-
-        //URL: https://developers.google.com/android/guides/google-services-plugin
-        dep(::classpath, "com.google.gms:google-services:4.3.10")
-
-        //URL: https://mvnrepository.com/artifact/com.google.android.gms/play-services-auth
-        dep(::implementation, "com.google.android.gms:play-services-auth:19.2.0")
-
-        //URL: https://developer.android.com/google/play/billing/getting-ready
-        dep(::implementation, "com.android.billingclient:billing-ktx:4.0.0")
-
-        //In-App Reviews SDK
-        dep(::implementation, "com.google.android.play:core:1.10.0")
-        dep(::implementation, "com.google.android.play:core-ktx:1.8.1")
-    }
+//---------------------------------------------------------------------------------
 
 
-    group("Firebase") {
-        dep(::classpath, "com.google.firebase:firebase-crashlytics-gradle:2.4.1")
-        dep(::plugin, "com.google.firebase.crashlytics")
-        dep(::implementation, "com.google.firebase:firebase-crashlytics:17.3.0")
-        dep(::implementation, "com.google.firebase:firebase-analytics:18.0.0")
-        dep(::implementation, "com.google.firebase:firebase-messaging:21.0.0")
-    }
+/**
+ * Kotlin STD lib
+ * https://kotlinlang.org/docs/releases.html#release-details
+ */
+fun DependencyHandler.Kotlin(version: String) {
+    //URL: https://kotlinlang.org/docs/releases.html#release-details
+    //WARNING: Version is also updated from buildSrc
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$version")
+}
 
-    group("Hilt") {
-        //URL: https://developer.android.com/training/dependency-injection/hilt-android
-        val hiltVersion = "2.37"
-        val versionX = "1.0.0-alpha03"
+fun DependencyHandler.Compose(version: String) {
+    //URL: https://developer.android.com/jetpack/androidx/releases/compose
+    implementation("androidx.compose.ui:ui:$version")
+    implementation("androidx.compose.foundation:foundation:$version")
+    implementation("androidx.compose.animation:animation:$version")
+    implementation("androidx.compose.material:material:$version")
+    implementation("androidx.compose.material:material-icons-extended:$version")
+    implementation("androidx.compose.runtime:runtime-livedata:$version")
+    implementation("androidx.compose.ui:ui-tooling:$version")
 
-        dep(::plugin, "dagger.hilt.android.plugin")
+    //URL: https://developer.android.com/jetpack/androidx/releases/activity
+    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
 
-        dep(::classpath, "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
-        dep(::implementation, "com.google.dagger:hilt-android:$hiltVersion")
-        dep(::kapt, "com.google.dagger:hilt-android-compiler:$hiltVersion")
+    //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
 
+    Accompanist(version = "0.15.0")
 
-        //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
-        dep(::implementation, "androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
-        dep(::kapt, "androidx.hilt:hilt-compiler:$versionX")
+    ComposeTesting(version = version)
+}
 
-        //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
-        dep(::implementation, "androidx.hilt:hilt-work:$versionX")
+/**
+ *  Compose Window Insets + extras
+ *  https://github.com/google/accompanist
+ */
+fun DependencyHandler.Accompanist(version: String) {
+    implementation("com.google.accompanist:accompanist-coil:$version")
+    implementation("com.google.accompanist:accompanist-insets:$version")
+}
 
-        group("Testing", version = hiltVersion) {
-            //https://developer.android.com/training/dependency-injection/hilt-testing
+/**
+ * Required for running Compose UI tests
+ * https://developer.android.com/jetpack/compose/testing#setup
+ */
+fun DependencyHandler.ComposeTesting(version: String) {
+    //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
+    //Without having this dependency "lintRelease" fails
+    implementation("androidx.compose.ui:ui-test-junit4:$version")
 
-            dep(::androidTestImplementation, "com.google.dagger:hilt-android-testing:$version")
-            dep(::kaptAndroidTest, "com.google.dagger:hilt-android-compiler:$version")
-            dep(::implementation, "androidx.test:runner:1.4.0")
-        }
-    }
+    // Needed for createComposeRule, but not createAndroidComposeRule:
+    androidTestImplementation("androidx.compose.ui:ui-test-manifest:$version")
+}
 
+fun DependencyHandler.Google() {
+    //URL: https://mvnrepository.com/artifact/com.google.android.gms/play-services-auth
+    implementation("com.google.android.gms:play-services-auth:19.2.0")
 
-    group("Room", version = "2.4.0-alpha03") {
-        //URL: https://developer.android.com/jetpack/androidx/releases/room
-        dep(::implementation, "androidx.room:room-runtime:$version")
-        dep(::kapt, "androidx.room:room-compiler:$version")
-        dep(::implementation, "androidx.room:room-ktx:$version")
-    }
+    //URL: https://developer.android.com/google/play/billing/getting-ready
+    implementation("com.android.billingclient:billing-ktx:4.0.0")
 
+    //In-App Reviews SDK
+    implementation("com.google.android.play:core:1.10.0")
+    implementation("com.google.android.play:core-ktx:1.8.1")
+}
 
-    group("REST") {
-        //URL: https://github.com/square/retrofit
-        val retrofitVersion = "2.9.0"
-        dep(::implementation, "com.squareup.retrofit2:retrofit:$retrofitVersion")
-        dep(::implementation, "com.squareup.retrofit2:converter-gson:$retrofitVersion")
+fun DependencyHandler.Firebase() {
+    implementation("com.google.firebase:firebase-crashlytics:17.3.0")
+    implementation("com.google.firebase:firebase-analytics:18.0.0")
+    implementation("com.google.firebase:firebase-messaging:21.0.0")
+}
 
-        //URL: https://github.com/google/gson
-        dep(::implementation, "com.google.code.gson:gson:2.8.7")
+/**
+ * Hilt DI
+ * https://developer.android.com/training/dependency-injection/hilt-android
+ */
+fun DependencyHandler.Hilt(
+    hiltVersion: String = "2.37",
+    versionX: String = "1.0.0-alpha03"
+) {
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
+    //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
+    kapt("androidx.hilt:hilt-compiler:$versionX")
 
-        //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
-        dep(::implementation, "com.squareup.okhttp3:logging-interceptor:4.9.1")
-    }
+    //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
+    implementation("androidx.hilt:hilt-work:$versionX")
 
+    HiltTesting(version = hiltVersion)
+}
 
-    group("Lifecycle", version = "2.3.1") {
-        //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
-        dep(::implementation, "androidx.lifecycle:lifecycle-livedata-ktx:$version")
-        dep(::implementation, "androidx.lifecycle:lifecycle-viewmodel-ktx:$version")
-        dep(::implementation, "androidx.lifecycle:lifecycle-viewmodel-savedstate:$version")
-        dep(::implementation, "androidx.lifecycle:lifecycle-runtime-ktx:$version")
-        dep(::kapt, "androidx.lifecycle:lifecycle-compiler:$version")
-    }
+fun DependencyHandler.HiltTesting(
+    version: String
+) {
+    androidTestImplementation("com.google.dagger:hilt-android-testing:$version")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$version")
+    implementation("androidx.test:runner:1.4.0")
+}
 
-    group("AndroidX") {
-        //https://developer.android.com/jetpack/androidx/releases/appcompat
-        dep(::implementation, "androidx.appcompat:appcompat:1.3.0")
-        dep(::implementation, "androidx.constraintlayout:constraintlayout:2.0.4")
+/**
+ * https://developer.android.com/jetpack/androidx/releases/room
+ */
+fun DependencyHandler.RoomDB(
+    version: String = "2.4.0-alpha03"
+) {
+    implementation("androidx.room:room-runtime:$version")
+    kapt("androidx.room:room-compiler:$version")
+    implementation("androidx.room:room-ktx:$version")
+}
 
-        //URL: https://developer.android.com/jetpack/androidx/releases/core
-        dep(::implementation, "androidx.core:core-ktx:1.5.0")
+/**
+ * REST
+ */
+fun DependencyHandler.Networking(
+    retrofitVersion: String = "2.9.0"
+) {
+    //URL: https://github.com/square/retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
-        //URL: https://developer.android.com/jetpack/androidx/releases/work
-        val workVersion = "2.7.1"
-        dep(::implementation, "androidx.work:work-runtime-ktx:$workVersion")
-        dep(::implementation, "androidx.work:work-testing:$workVersion")
-
-        dep(::implementation, "androidx.biometric:biometric:1.1.0")
-
-        //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
-        dep(::implementation, "androidx.recyclerview:recyclerview:1.2.1")
-
-        dep(::implementation, "androidx.webkit:webkit:1.4.0")
-    }
-
-
-    group("Coroutines", version = "1.5.0") {
-        //URL: https://github.com/Kotlin/kotlinx.coroutines
-        dep(::implementation, "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
-        dep(::implementation, "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
-
-        //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
-        dep(::implementation, "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.3")
-    }
-
-
-    group("Third Party") {
-        //URL: https://github.com/airbnb/lottie-android
-        dep(::implementation, "com.airbnb.android:lottie:3.7.0")
-
-        //URL: https://github.com/jeziellago/compose-markdown
-        dep(::implementation, "com.github.jeziellago:compose-markdown:0.2.6")
-
-        //URL: https://github.com/JakeWharton/timber/releases
-        dep(::implementation, "com.jakewharton.timber:timber:4.7.1")
-
-        //URL: https://github.com/greenrobot/EventBus/releases
-        dep(::implementation, "org.greenrobot:eventbus:3.2.0")
-
-        //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
-        dep(::implementation, "com.notkamui.libs:keval:0.7.5")
-    }
-
-
-    group("Java") {
-        dep(::implementation, "com.opencsv:opencsv:5.5")
-        dep(::implementation, "org.apache.commons:commons-lang3:3.12.0")
-    }
-
-
-    group("Property-based Testing") {
-        dep(::testImplementation, "io.kotest:kotest-property:5.1.0")
-        dep(
-            ::testImplementation,
-            "io.kotest.extensions:kotest-property-arrow:$arrowVersion"
-        )
-    }
+    //URL: https://github.com/google/gson
+    implementation("com.google.code.gson:gson:2.8.7")
 
 
-    group("Arrow", version = arrowVersion) {
-        //Functional programming with Kotlin
-        dep(::platformBom, "io.arrow-kt:arrow-stack:$version")
-        dep(::implementation, "io.arrow-kt:arrow-core")
-        dep(::implementation, "io.arrow-kt:arrow-fx-coroutines")
-        dep(::implementation, "io.arrow-kt:arrow-fx-stm")
-    }
+    //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+}
+
+/**
+ * Jetpack Compose Lifecycle
+ * https://developer.android.com/jetpack/androidx/releases/lifecycle
+ */
+fun DependencyHandler.Lifecycle(
+    version: String = "2.3.1"
+) {
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$version")
+    kapt("androidx.lifecycle:lifecycle-compiler:$version")
+}
+
+fun DependencyHandler.AndroidX() {
+    //https://developer.android.com/jetpack/androidx/releases/appcompat
+    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
+    //URL: https://developer.android.com/jetpack/androidx/releases/core
+    implementation("androidx.core:core-ktx:1.5.0")
+
+    //URL: https://developer.android.com/jetpack/androidx/releases/work
+    val workVersion = "2.7.1"
+    implementation("androidx.work:work-runtime-ktx:$workVersion")
+    implementation("androidx.work:work-testing:$workVersion")
+
+    implementation("androidx.biometric:biometric:1.1.0")
+
+    //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+
+    implementation("androidx.webkit:webkit:1.4.0")
+}
+
+fun DependencyHandler.Coroutines(
+    version: String = "1.5.0"
+) {
+    //URL: https://github.com/Kotlin/kotlinx.coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
+
+    //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.3")
+}
+
+fun DependencyHandler.ThirdParty() {
+    //URL: https://github.com/airbnb/lottie-android
+    implementation("com.airbnb.android:lottie:3.7.0")
+
+    //URL: https://github.com/jeziellago/compose-markdown
+    implementation("com.github.jeziellago:compose-markdown:0.2.6")
+
+    //URL: https://github.com/JakeWharton/timber/releases
+    implementation("com.jakewharton.timber:timber:4.7.1")
+
+    //URL: https://github.com/greenrobot/EventBus/releases
+    implementation("org.greenrobot:eventbus:3.2.0")
+
+    //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
+    implementation("com.notkamui.libs:keval:0.7.5")
+
+    implementation("com.opencsv:opencsv:5.5")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+}
+
+fun DependencyHandler.FunctionalProgramming(
+    arrowVersion: String = "1.0.1",
+    kotestVersion: String = "5.1.0",
+    kotlinVersion: String
+) {
+    Arrow(version = arrowVersion)
+
+    Kotest(
+        version = kotestVersion,
+        arrowVersion = arrowVersion,
+        kotlinVersion = kotlinVersion
+    )
+}
+
+/**
+ * Functional Programming with Kotlin
+ */
+fun DependencyHandler.Arrow(
+    version: String
+) {
+    implementation(platform("io.arrow-kt:arrow-stack:$version"))
+    implementation("io.arrow-kt:arrow-core")
+    implementation("io.arrow-kt:arrow-fx-coroutines")
+    implementation("io.arrow-kt:arrow-fx-stm")
+}
+
+/**
+ * Kotlin Property-based testing
+ */
+fun DependencyHandler.Kotest(
+    version: String,
+    arrowVersion: String,
+    kotlinVersion: String
+) {
+    //junit5 is required!
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("io.kotest:kotest-runner-junit5:$version")
+    testImplementation("io.kotest:kotest-assertions-core:$version")
+    testImplementation("io.kotest:kotest-property:$version")
+
+    //otherwise Kotest doesn't work...
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+
+
+    testImplementation("io.kotest.extensions:kotest-property-arrow:$arrowVersion")
 }

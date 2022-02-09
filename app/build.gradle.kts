@@ -1,17 +1,15 @@
-import com.ivy.wallet.buildsrc.DependencyType
 import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.allDeps
+import com.ivy.wallet.buildsrc.appModuleDependencies
 
 plugins {
-    //must have full full qualifier else won't build
-    val plugins = com.ivy.wallet.buildsrc.allDeps()
-        .filter { it.type == com.ivy.wallet.buildsrc.DependencyType.PLUGIN_ID }
-
-    plugins.forEach { plugin ->
-        id(plugin.value)
-    }
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("org.jetbrains.kotlin.android")
+    id("dagger.hilt.android.plugin")
 }
-
 
 android {
     compileSdk = Project.compileSdkVersion
@@ -103,41 +101,15 @@ android {
         resources.excludes.add("META-INF/LGPL2.1")
         //-------------------------------------------------------
     }
+
+    testOptions {
+        unitTests.all {
+            //Required by Kotest
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
-    appDeps()
-}
-
-fun DependencyHandlerScope.appDeps() {
-    val deps = allDeps()
-
-    deps.forEach { dep ->
-        when (dep.type) {
-            DependencyType.CLASSPATH -> {
-                //do nothing
-            }
-            DependencyType.IMPLEMENTATION -> {
-                implementation(dep.value)
-            }
-            DependencyType.KAPT -> {
-                kapt(dep.value)
-            }
-            DependencyType.TEST_IMPLEMENTATION -> {
-                testImplementation(dep.value)
-            }
-            DependencyType.ANDROID_TEST_IMPLEMENTATION -> {
-                androidTestImplementation(dep.value)
-            }
-            DependencyType.KAPT_ANDROID_TEST -> {
-                kaptAndroidTest(dep.value)
-            }
-            DependencyType.PLUGIN_ID -> {
-                //do nothing
-            }
-            DependencyType.PLATFORM_BOM -> {
-                implementation(platform(dep.value))
-            }
-        }
-    }
+    appModuleDependencies()
 }

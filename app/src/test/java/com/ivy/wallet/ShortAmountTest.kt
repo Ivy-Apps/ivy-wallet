@@ -3,7 +3,7 @@ package com.ivy.wallet
 import com.ivy.wallet.base.hasSignificantDecimalPart
 import com.ivy.wallet.base.shortenAmount
 import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
