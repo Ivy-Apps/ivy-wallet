@@ -1,5 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.model.LoanType
@@ -218,7 +220,9 @@ class LoansTest : IvyComposeTest() {
                 note = "Връщам"
             )
 
-            clickClose() //click outside of the modal
+            composeTestRule.onNodeWithTag("modal_close_button")
+                .performClick()
+
             clickClose()
         }
 

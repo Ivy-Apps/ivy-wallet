@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -81,6 +82,7 @@ fun BoxScope.IvyModal(
                 .fillMaxSize()
                 .alpha(blurAlpha)
                 .background(mediumBlur())
+                .testTag("modal_outside_blur")
                 .clickable(
                     onClick = {
                         hideKeyboard(rootView)
@@ -263,6 +265,7 @@ fun ModalActionsRow(
             Spacer(Modifier.width(24.dp))
 
             CloseButton(
+                modifier = Modifier.testTag("modal_close_button"),
                 onClick = onClose
             )
 

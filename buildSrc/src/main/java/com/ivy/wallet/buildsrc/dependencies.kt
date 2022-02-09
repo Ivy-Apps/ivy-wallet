@@ -57,7 +57,7 @@ fun DependencyHandler.appModuleDependencies(
     Firebase()
 
     Hilt(
-        hiltVersion = "2.37",
+        hiltVersion = "2.38.1",
         versionX = "1.0.0"
     )
     RoomDB(version = "2.4.0-alpha03")
@@ -150,8 +150,8 @@ fun DependencyHandler.Firebase() {
  * https://developer.android.com/training/dependency-injection/hilt-android
  */
 fun DependencyHandler.Hilt(
-    hiltVersion: String = "2.37",
-    versionX: String = "1.0.0-alpha03"
+    hiltVersion: String,
+    versionX: String
 ) {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")

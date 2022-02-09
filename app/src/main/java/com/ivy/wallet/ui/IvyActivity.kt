@@ -106,8 +106,10 @@ class IvyActivity : AppCompatActivity() {
     private val viewModel: IvyViewModel by viewModels()
 
 
-    @ExperimentalAnimationApi
-    @ExperimentalFoundationApi
+    @OptIn(
+        ExperimentalAnimationApi::class,
+        ExperimentalFoundationApi::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
