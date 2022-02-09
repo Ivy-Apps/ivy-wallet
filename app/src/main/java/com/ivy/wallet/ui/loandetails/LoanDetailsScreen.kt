@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -380,6 +381,9 @@ private fun LoanInfoCard(
     val backgroundColor = if (isDarkColor(loan.color))
         MediumBlack.copy(alpha = 0.9f) else MediumWhite.copy(alpha = 0.9f)
 
+    val lineColor = if (isDarkColor(loan.color))
+        MediumWhite.copy(alpha = 0.9f) else MediumBlack.copy(alpha = 0.9f)
+
     val contrastColor = findContrastTextColor(backgroundColor)
 
     val percentPaid = amountPaid / loan.amount
@@ -460,7 +464,7 @@ private fun LoanInfoCard(
             )
         }
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(8.dp))
 
         ProgressBar(
             modifier = Modifier
@@ -472,7 +476,17 @@ private fun LoanInfoCard(
         )
 
         if (loanAmountPaid != 0.0) {
-            Spacer(Modifier.height(12.dp))
+
+            //Spacer(Modifier.height(12.dp))
+
+            Divider(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(lineColor)
+            )
+
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -522,7 +536,7 @@ private fun LoanInfoCard(
                     .height(24.dp)
                     .padding(horizontal = 24.dp),
                 notFilledColor = IvyTheme.colors.pure,
-                percent = percentPaid
+                percent = loanPercentPaid
             )
         }
 
