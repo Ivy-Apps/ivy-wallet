@@ -9,16 +9,6 @@ plugins {
     id("com.github.ben-manes.versions") version "0.39.0"
 }
 
-//allprojects {
-//    repositories {
-//        google()
-//        mavenCentral()
-//        jcenter()
-//        maven(url = "https://maven.google.com")
-//        maven(url = "https://jitpack.io")
-//    }
-//}
-
 tasks {
     register("clean", Delete::class) {
         delete(rootProject.buildDir)

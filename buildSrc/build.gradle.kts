@@ -17,11 +17,12 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:7.0.4")
+    //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
+    implementation("com.android.tools.build:gradle:7.1.1")
 
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
 
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.37")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.40.5")
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
     implementation("com.google.gms:google-services:4.3.10")

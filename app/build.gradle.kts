@@ -91,8 +91,8 @@ android {
     }
 
     lint {
-        isCheckReleaseBuilds = true
-        isAbortOnError = false
+//        isCheckReleaseBuilds = true
+//        isAbortOnError = false
     }
 
     packagingOptions {

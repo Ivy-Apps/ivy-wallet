@@ -34,14 +34,14 @@ object Project {
 }
 
 object GlobalVersions {
-    const val compose = "1.0.5"
+    const val compose = "1.1.0"
 }
 
 /**
  * @param kotlinVersion must also be updated in buildSrc gradle
  */
 fun DependencyHandler.appModuleDependencies(
-    kotlinVersion: String = "1.5.31"
+    kotlinVersion: String = "1.6.10"
 ) {
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
@@ -58,7 +58,7 @@ fun DependencyHandler.appModuleDependencies(
 
     Hilt(
         hiltVersion = "2.37",
-        versionX = "1.0.0-alpha03"
+        versionX = "1.0.0"
     )
     RoomDB(version = "2.4.0-alpha03")
 
@@ -95,7 +95,7 @@ fun DependencyHandler.Compose(version: String) {
     implementation("androidx.compose.ui:ui-tooling:$version")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/activity
-    implementation("androidx.activity:activity-compose:1.3.0-alpha07")
+    implementation("androidx.activity:activity-compose:1.4.0")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
@@ -157,7 +157,7 @@ fun DependencyHandler.Hilt(
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
+//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
     kapt("androidx.hilt:hilt-compiler:$versionX")
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
@@ -219,11 +219,10 @@ fun DependencyHandler.Lifecycle(
 
 fun DependencyHandler.AndroidX() {
     //https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.appcompat:appcompat:1.4.1")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/core
-    implementation("androidx.core:core-ktx:1.5.0")
+    implementation("androidx.core:core-ktx:1.7.0")
 
     //URL: https://developer.android.com/jetpack/androidx/releases/work
     val workVersion = "2.7.1"
@@ -239,14 +238,14 @@ fun DependencyHandler.AndroidX() {
 }
 
 fun DependencyHandler.Coroutines(
-    version: String = "1.5.0"
+    version: String = "1.6.0"
 ) {
     //URL: https://github.com/Kotlin/kotlinx.coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
 
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
 }
 
 fun DependencyHandler.ThirdParty() {
@@ -263,7 +262,7 @@ fun DependencyHandler.ThirdParty() {
     implementation("org.greenrobot:eventbus:3.2.0")
 
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
-    implementation("com.notkamui.libs:keval:0.7.5")
+    implementation("com.notkamui.libs:keval:0.8.0")
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")

@@ -28,8 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
@@ -213,15 +211,6 @@ fun post(run: () -> Unit) {
 fun showKeyboard(context: Context) {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}
-
-
-//Legacy
-fun ConstraintLayout.align(constrain: ConstraintSet.() -> Unit) {
-    val set = ConstraintSet()
-    set.clone(this)
-    set.constrain()
-    set.applyTo(this)
 }
 
 fun View.setMargin(

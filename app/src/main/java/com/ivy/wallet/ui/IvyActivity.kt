@@ -23,8 +23,9 @@ import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -62,7 +63,6 @@ import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
-import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,6 +71,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class IvyActivity : AppCompatActivity() {
