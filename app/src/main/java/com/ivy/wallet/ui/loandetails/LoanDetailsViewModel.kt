@@ -52,6 +52,9 @@ class LoanDetailsViewModel @Inject constructor(
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
+    private val _loanAmountPaid = MutableStateFlow(0.0)
+    val loanAmountPaid = _loanAmountPaid.asStateFlow()
+
     private val _accounts = MutableStateFlow<List<Account>>(emptyList())
     val accounts = _accounts.asStateFlow()
 
@@ -94,7 +97,13 @@ class LoanDetailsViewModel @Inject constructor(
 
             _amountPaid.value = computationThread {
                 loanRecords.value.sumOf {
-                    it.amount
+                    if (!it.interest) it.amount else 0.0
+                }
+            }
+
+            _loanAmountPaid.value = computationThread {
+                loanRecords.value.sumOf {
+                    if (it.interest) it.amount else 0.0
                 }
             }
 

@@ -47,6 +47,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
     val loan by viewModel.loan.collectAsState()
     val loanRecords by viewModel.loanRecords.collectAsState()
     val amountPaid by viewModel.amountPaid.collectAsState()
+    val loanAmountPaid by viewModel.loanAmountPaid.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
     val selectedLoanAccount by viewModel.selectedLoanAccount.collectAsState()
     val selectedLoanRecordAccount by viewModel.selectedLoanRecordAccount.collectAsState()
@@ -63,6 +64,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
         loan = loan,
         loanRecords = loanRecords,
         amountPaid = amountPaid,
+        loanAmountPaid = loanAmountPaid,
         accounts = accounts,
         selectedLoanAccount = selectedLoanAccount,
         selectedLoanRecordAccount = selectedLoanRecordAccount,
@@ -91,6 +93,7 @@ private fun BoxWithConstraintsScope.UI(
     loan: Loan?,
     loanRecords: List<LoanRecord>,
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
 
     accounts: List<Account> = emptyList(),
     selectedLoanAccount: Account? = null,
@@ -143,6 +146,7 @@ private fun BoxWithConstraintsScope.UI(
                         loan = loan,
                         baseCurrency = baseCurrency,
                         amountPaid = amountPaid,
+                        loanAmountPaid = loanAmountPaid,
                         itemColor = itemColor,
                         onAmountClick = {
                             loanModalData = LoanModalData(
@@ -258,6 +262,7 @@ private fun Header(
     loan: Loan,
     baseCurrency: String,
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
     itemColor: Color,
 
     onAmountClick: () -> Unit,
@@ -309,6 +314,7 @@ private fun Header(
             loan = loan,
             baseCurrency = baseCurrency,
             amountPaid = amountPaid,
+            loanAmountPaid = loanAmountPaid,
             onAddRecord = onAddRecord
         )
 
@@ -367,6 +373,7 @@ private fun LoanInfoCard(
     loan: Loan,
     baseCurrency: String,
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
 
     onAddRecord: () -> Unit
 ) {
@@ -376,6 +383,8 @@ private fun LoanInfoCard(
     val contrastColor = findContrastTextColor(backgroundColor)
 
     val percentPaid = amountPaid / loan.amount
+
+    val loanPercentPaid = loanAmountPaid / loan.amount
 
     Column(
         modifier = Modifier
@@ -461,6 +470,61 @@ private fun LoanInfoCard(
             notFilledColor = IvyTheme.colors.pure,
             percent = percentPaid
         )
+
+        if (loanAmountPaid != 0.0) {
+            Spacer(Modifier.height(12.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = "Loan Interest",
+                style = Typo.caption.style(
+                    color = contrastColor,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .testTag("loan_interest_percent_paid"),
+                    text = "${loanPercentPaid.times(100).format(2)}%",
+                    style = Typo.numberBody1.style(
+                        color = contrastColor,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                Text(
+                    modifier = Modifier
+                        .testTag("interest_paid"),
+                    text = "${loanAmountPaid.format(baseCurrency)} $baseCurrency paid",
+                    style = Typo.numberBody2.style(
+                        color = Gray,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            ProgressBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp)
+                    .padding(horizontal = 24.dp),
+                notFilledColor = IvyTheme.colors.pure,
+                percent = percentPaid
+            )
+        }
 
         Spacer(Modifier.height(24.dp))
 
