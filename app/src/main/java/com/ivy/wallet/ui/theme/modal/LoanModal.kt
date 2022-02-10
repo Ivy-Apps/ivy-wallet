@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -54,7 +55,9 @@ fun BoxWithConstraintsScope.LoanModal(
     onCreateAccount: (CreateAccountData) -> Unit = {},
     createLoanTransaction: Boolean = true,
     onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
+    onBaseCurrencyChanged: (String) -> Unit = {},
 
+    baseCurrencyCode: String,
     modal: LoanModalData?,
     onCreateLoan: (CreateLoanData, Account?) -> Unit,
     onEditLoan: (Loan) -> Unit,
@@ -76,8 +79,9 @@ fun BoxWithConstraintsScope.LoanModal(
     var icon by remember(modal) {
         mutableStateOf(loan?.icon)
     }
-    var currencyCode by remember(modal) {
-        mutableStateOf(modal?.baseCurrency ?: "")
+    var currencyCode by remember(selectedAccount, modal) {
+        Log.d("GGGG", "New Acc " + selectedAccount?.currency)
+        mutableStateOf(modal?.baseCurrency ?:selectedAccount?.currency ?: "")
     }
     var amountModalVisible by remember { mutableStateOf(false) }
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -107,7 +111,7 @@ fun BoxWithConstraintsScope.LoanModal(
         PrimaryAction = {
             ModalAddSave(
                 item = modal?.loan,
-                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0
+                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTransaction && selectedAccount != null) || !createLoanTransaction)
             ) {
                 save(
                     loan = loan,
@@ -213,7 +217,7 @@ fun BoxWithConstraintsScope.LoanModal(
 
         ModalAmountSection(
             label = "ENTER LOAN AMOUNT",
-            currency = currencyCode,
+            currency = baseCurrencyCode,
             amount = amount,
             amountPaddingTop = 40.dp,
             amountPaddingBottom = 40.dp,
@@ -228,7 +232,7 @@ fun BoxWithConstraintsScope.LoanModal(
     AmountModal(
         id = amountModalId,
         visible = amountModalVisible,
-        currency = currencyCode,
+        currency = baseCurrencyCode,
         initialAmount = amount,
         dismiss = { amountModalVisible = false }
     ) { newAmount ->
@@ -237,11 +241,11 @@ fun BoxWithConstraintsScope.LoanModal(
 
     CurrencyModal(
         title = "Choose currency",
-        initialCurrency = IvyCurrency.fromCode(currencyCode),
+        initialCurrency = IvyCurrency.fromCode(baseCurrencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
     ) {
-        currencyCode = it
+        onBaseCurrencyChanged(it)
     }
 
     AccountModal(
@@ -525,6 +529,7 @@ private fun Preview() {
                 loan = null,
                 baseCurrency = "BGN",
             ),
+            baseCurrencyCode = "BGN",
             onCreateLoan = { _, _ -> },
             onEditLoan = { }
         ) {

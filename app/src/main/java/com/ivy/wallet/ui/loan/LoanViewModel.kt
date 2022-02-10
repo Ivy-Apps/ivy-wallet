@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.loan
 
+import android.util.Log
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.item.LoanSync
 import com.ivy.wallet.ui.loan.data.DisplayLoan
@@ -29,6 +31,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoanViewModel @Inject constructor(
+    private val sharedPrefs: SharedPrefs,
     private val categoryDao: CategoryDao,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
@@ -70,7 +73,7 @@ class LoanViewModel @Inject constructor(
                             loan = loan,
                             amountPaid = loanRecordDao.findAllByLoanId(loanId = loan.id)
                                 .sumOf { loanRecord ->
-                                    loanRecord.amount
+                                    if (!loanRecord.interest) loanRecord.amount else 0.0
                                 }
                         )
                     }
@@ -84,7 +87,10 @@ class LoanViewModel @Inject constructor(
     private suspend fun initialiseAccounts() {
         val accounts = ioThread { accountDao.findAll() }!!
         _accounts.value = accounts
-        _selectedAccount.value = accounts[0]
+        _selectedAccount.value = defaultAccountId(accounts)
+        _selectedAccount.value?.let {
+            _baseCurrencyCode.value = it.currency ?: baseCurrencyCode.value
+        }
     }
 
     fun createLoan(data: CreateLoanData, selectedAccount: Account? = null) {
@@ -117,8 +123,9 @@ class LoanViewModel @Inject constructor(
                 return@filter category.name.lowercase(Locale.ENGLISH).contains("loan")
             }
         }
-
+        var loanCategoryExistence = false
         val category = if (categoryList.isEmpty()) {
+            loanCategoryExistence = true
             Category("Loans", color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(), icon = "loan")
         } else
             categoryList.first()
@@ -134,14 +141,19 @@ class LoanViewModel @Inject constructor(
         )
 
         ioThread {
-            categoryDao.save(category)
+            if (loanCategoryExistence)
+                categoryDao.save(category)
             transactionDao.save(transaction)
         }
     }
 
     fun onAccountSelected(account: Account) {
         viewModelScope.launch {
+
             _selectedAccount.value = account
+            _baseCurrencyCode.value = selectedAccount.value?.currency ?: getDefaultFIATCurrency().currencyCode
+
+            Log.d("GGGG", _baseCurrencyCode.value)
         }
     }
 
@@ -184,5 +196,23 @@ class LoanViewModel @Inject constructor(
 
     fun onLoanTransactionChecked(boolean: Boolean) {
         _createLoanTransaction.value = boolean
+    }
+
+    private suspend fun defaultAccountId(
+        accounts: List<Account>,
+    ): Account? {
+
+        val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
+            ?.let { UUID.fromString(it) }
+
+        lastSelectedId?.let { uuid ->
+            return accounts.find { it.id == uuid }
+        }
+
+        return null
+    }
+
+    fun onBaseCurrencyChanged(currencyCode :String){
+        _baseCurrencyCode.value = currencyCode
     }
 }

@@ -55,6 +55,7 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
         account = selectedAccount,
         createLoanTransaction = createLoanTransaction,
 
+        onBaseCurrencyChanged = viewModel::onBaseCurrencyChanged,
         onLoanTransactionChecked = viewModel::onLoanTransactionChecked,
         onSelectedAccount = viewModel::onAccountSelected,
         onCreateLoan = viewModel::createLoan,
@@ -75,6 +76,8 @@ private fun BoxWithConstraintsScope.UI(
     loans: List<DisplayLoan>,
     createLoanTransaction: Boolean = true,
 
+    onBaseCurrencyChanged: (String) -> Unit = {},
+    onLoanModalDismissed: () -> Unit = {},
     onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
     onCreateLoan: (CreateLoanData, Account?) -> Unit = { _, _ -> },
     onEditLoan: (Loan) -> Unit = {},
@@ -174,9 +177,12 @@ private fun BoxWithConstraintsScope.UI(
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
+
         },
+        baseCurrencyCode = baseCurrency,
         createLoanTransaction = createLoanTransaction,
-        onLoanTransactionChecked = onLoanTransactionChecked
+        onLoanTransactionChecked = onLoanTransactionChecked,
+        onBaseCurrencyChanged = onBaseCurrencyChanged
     )
 }
 

@@ -3,10 +3,7 @@ package com.ivy.wallet.ui.loandetails
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.computationThread
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.LoanCreator
 import com.ivy.wallet.logic.LoanRecordCreator
 import com.ivy.wallet.logic.model.CreateLoanRecordData
@@ -19,6 +16,7 @@ import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -43,6 +41,11 @@ class LoanDetailsViewModel @Inject constructor(
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.asStateFlow()
 
+    private val _selectedAccountBaseCurrency = MutableStateFlow("")
+    val selectedAccountBaseCurrency = _selectedAccountBaseCurrency.asStateFlow()
+
+    private var originalAccount: Account? = null
+
     private val _loan = MutableStateFlow<Loan?>(null)
     val loan = _loan.asStateFlow()
 
@@ -52,11 +55,11 @@ class LoanDetailsViewModel @Inject constructor(
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
-    private val _loanAmountPaid = MutableStateFlow(0.0)
-    val loanAmountPaid = _loanAmountPaid.asStateFlow()
-
     private val _accounts = MutableStateFlow<List<Account>>(emptyList())
     val accounts = _accounts.asStateFlow()
+
+    private val _loanAmountPaid = MutableStateFlow(0.0)
+    val loanAmountPaid = _loanAmountPaid.asStateFlow()
 
     private val _selectedLoanAccount = MutableStateFlow<Account?>(null)
     val selectedLoanAccount = _selectedLoanAccount.asStateFlow()
@@ -120,6 +123,10 @@ class LoanDetailsViewModel @Inject constructor(
             associatedTransaction?.let { trans ->
                 _selectedLoanAccount.value = accounts.value.find { account ->
                     trans.accountId == account.id
+                }
+                _selectedLoanAccount.value?.let { account ->
+                    _baseCurrency.value = account.currency ?: baseCurrency.value
+                    originalAccount = account
                 }
                 _createLoanTransaction.value = true
             }
@@ -298,10 +305,15 @@ class LoanDetailsViewModel @Inject constructor(
     }
 
     private fun changeAccount(account: Account, isLoan: Boolean = true) {
-        if (isLoan)
+        if (isLoan) {
             _selectedLoanAccount.value = account
-        else
+            _baseCurrency.value =
+                _selectedLoanAccount.value?.currency ?: getDefaultFIATCurrency().currencyCode
+        } else {
             _selectedLoanRecordAccount.value = account
+            _baseCurrency.value =
+                _selectedLoanRecordAccount.value?.currency ?: getDefaultFIATCurrency().currencyCode
+        }
     }
 
     fun onLoanAccountSelected(account: Account) {
@@ -318,9 +330,6 @@ class LoanDetailsViewModel @Inject constructor(
 
     fun onLoanTransactionChecked(boolean: Boolean) {
         _createLoanTransaction.value = boolean
-        if (_createLoanTransaction.value && associatedTransaction == null && _accounts.value.isNotEmpty()) {
-            _selectedLoanAccount.value = accounts.value[0]
-        }
     }
 
     fun onLoanRecordTransactionChecked(boolean: Boolean) {
@@ -414,7 +423,8 @@ class LoanDetailsViewModel @Inject constructor(
     }
 
     fun onLoanRecordClicked(uuid: UUID, isLoanInterest: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
+            _loanInterest.value = isLoanInterest
             val transaction = ioThread {
                 transactionDao.findLoanRecordTransaction(uuid)
             }
@@ -425,8 +435,16 @@ class LoanDetailsViewModel @Inject constructor(
                     account.id == trans.accountId
                 }
 
+            } ?: run {
+                _createLoanRecordTransaction.value = false
             }
-            _loanInterest.value = isLoanInterest
+
         }
+    }
+
+    fun onLoanModalDismissed() {
+        _selectedLoanAccount.value = originalAccount
+        _selectedLoanRecordAccount.value = originalAccount
+        _baseCurrency.value = originalAccount?.currency ?: getDefaultFIATCurrency().currencyCode
     }
 }

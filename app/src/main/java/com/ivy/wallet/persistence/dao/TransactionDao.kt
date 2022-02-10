@@ -200,9 +200,9 @@ interface TransactionDao {
         loanId: UUID
     ): Transaction?
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanRecordId = :loanId")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanRecordId = :loanRecordId")
     fun findLoanRecordTransaction(
-        loanId: UUID
+        loanRecordId: UUID
     ): Transaction?
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanId = :loanId")

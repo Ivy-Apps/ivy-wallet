@@ -84,7 +84,8 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
         onEditLoanRecord = viewModel::editLoanRecord,
         onDeleteLoanRecord = viewModel::deleteLoanRecord,
         onDeleteLoan = viewModel::deleteLoan,
-        onLoanRecordClicked = viewModel::onLoanRecordClicked
+        onLoanRecordClicked = viewModel::onLoanRecordClicked,
+        onLoanModalDismissed = viewModel::onLoanModalDismissed
     )
 }
 
@@ -103,7 +104,8 @@ private fun BoxWithConstraintsScope.UI(
     createLoanRecordTransaction: Boolean = true,
     loanRecordInterest: Boolean = true,
 
-    onLoanRecordInterestClicked: (Boolean) -> Unit = { _ -> },
+    onLoanModalDismissed : () -> Unit ={},
+     onLoanRecordInterestClicked: (Boolean) -> Unit = { _ -> },
     onLoanRecordTransactionChecked: (Boolean) -> Unit = { _ -> },
     onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
     onLoanAccountSelected: (Account) -> Unit = {},
@@ -224,7 +226,9 @@ private fun BoxWithConstraintsScope.UI(
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
+            onLoanModalDismissed()
         },
+        baseCurrencyCode = baseCurrency,
         accounts = accounts,
         selectedAccount = selectedLoanAccount,
         onSelectedAccount = onLoanAccountSelected,
