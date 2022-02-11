@@ -502,7 +502,8 @@ private fun Offset.distance(point2: Offset): Float {
     return sqrt((point2.x - x).pow(2) + (point2.y - y).pow(2))
 }
 
-@Preview
+
+//@Preview
 @Composable
 private fun Preview() {
     IvyComponentPreview {
@@ -660,7 +661,7 @@ private fun IvyChart(
         val cellSize = 24.dp.toPx()
         val offsetTop = cellSize * 3
         val offsetBottom = cellSize
-        val offsetLeft = cellSize
+        val offsetLeft = cellSize * 2
 
         val chartWidth = size.width
         val chartHeight = size.height
@@ -737,31 +738,37 @@ private fun DrawScope.grid(
 private fun verticalLineXS(
     chartWidth: Float,
     cellSize: Float,
-): List<Float> {
-    return sideLinePoints(sideSize = chartWidth, cellSize = cellSize)
-}
-
-private fun horizontalLineYS(
-    chartHeight: Float,
-    cellSize: Float,
-): List<Float> {
-    return sideLinePoints(sideSize = chartHeight, cellSize = cellSize)
-}
-
-private tailrec fun sideLinePoints(
-    sideSize: Float,
-    cellSize: Float,
-    accumulator: List<Float> = emptyList()
+    accumulator: List<Float> = emptyList(),
 ): List<Float> {
     val last = accumulator.lastOrNull()
-    return if (cellSize >= sideSize || (last != null && last >= sideSize)) {
-        return accumulator
+    return if (cellSize >= chartWidth || (last != null && last >= chartWidth)) {
+        accumulator
     } else {
         //recurse
         val next = (last ?: 0f) + cellSize
 
-        sideLinePoints(
-            sideSize = sideSize,
+        verticalLineXS(
+            chartWidth = chartWidth,
+            cellSize = cellSize,
+            accumulator = accumulator + next
+        )
+    }
+}
+
+private tailrec fun horizontalLineYS(
+    chartHeight: Float,
+    cellSize: Float,
+    accumulator: List<Float> = emptyList()
+): List<Float> {
+    val last = accumulator.lastOrNull()
+    return if (cellSize >= chartHeight || (last != null && last <= 0)) {
+        accumulator
+    } else {
+        //recurse
+        val next = (last ?: chartHeight) - cellSize
+
+        horizontalLineYS(
+            chartHeight = chartHeight,
             cellSize = cellSize,
             accumulator = accumulator + next
         )
