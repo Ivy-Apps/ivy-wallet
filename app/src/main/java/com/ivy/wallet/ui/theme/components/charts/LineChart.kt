@@ -28,6 +28,7 @@ import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
+import java.text.DecimalFormat
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -700,6 +701,16 @@ private fun IvyChart(
             xLabel = xLabel
         )
 
+        drawYValues(
+            chartHeight = chartHeight,
+            offsetBottom = offsetBottom,
+            offsetTop = offsetTop,
+            cellSize = cellSize,
+            maxY = maxY,
+            minY = minY,
+            yLabel = yLabel
+        )
+
         grid(
             chartWidth = chartWidth,
             chartHeight = chartHeight,
@@ -746,9 +757,41 @@ fun DrawScope.drawTitle(
 fun DrawScope.drawYValues(
     minY: Double,
     maxY: Double,
+    offsetTop: Float,
+    chartHeight: Float,
+    offsetBottom: Float,
+    yLabel: (y: Double) -> String,
     cellSize: Float
 ) {
-    //TODO:
+    val yValues = yValues(
+        min = minY,
+        max = maxY
+    )
+
+    val coordsMinY = chartHeight - offsetBottom
+    val coordsMaxY = offsetTop
+
+    val centerY = (coordsMinY + coordsMaxY) / 2
+    val centerTopY = (centerY + coordsMaxY) / 2
+    val centerBottomY = (centerY + coordsMinY) / 2
+
+    val yCoords = listOf(
+        coordsMaxY,
+        centerTopY,
+        centerY,
+        centerBottomY,
+        coordsMinY
+    )
+
+    for ((index, value) in yValues.withIndex()) {
+        drawText(
+            text = yLabel(value),
+            x = cellSize,
+            y = yCoords[index],
+            textColor = Gray,
+            textSize = 12.sp
+        )
+    }
 }
 
 fun DrawScope.drawXLabelsNew(
@@ -767,7 +810,7 @@ fun DrawScope.drawXLabelsNew(
             x = offsetLeft + (index * lineDistance),
             y = chartHeight - cellSize / 2f,
             textSize = 12.sp,
-            color = textColor
+            textColor = textColor
         )
     }
 }
@@ -776,13 +819,13 @@ fun DrawScope.drawText(
     text: String,
     x: Float,
     y: Float,
-    color: Color = Gray,
+    textColor: Color = Gray,
     textSize: TextUnit,
 ) {
     val textPaint = TextPaint()
     textPaint.isAntiAlias = true
     textPaint.textSize = textSize.toPx()
-    textPaint.color = color.toArgb()
+    textPaint.color = textColor.toArgb()
 
     val textWidth = textPaint.measureText(text).toInt()
 
@@ -948,7 +991,7 @@ private fun Preview_IvyChart() {
                 Month.monthsList()[it.toInt()].name.first().toString()
             },
             yLabel = {
-                it.format("BGN")
+                DecimalFormat("#,###").format(it)
             }
         )
     }
