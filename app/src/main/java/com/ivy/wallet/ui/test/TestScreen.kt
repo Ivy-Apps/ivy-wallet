@@ -18,7 +18,7 @@ import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.charts.Function
-import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.LineChart
 import com.ivy.wallet.ui.theme.components.charts.Value
 import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
@@ -111,7 +111,7 @@ private fun BoxWithConstraintsScope.UI(
             ),
         )
 
-        IvyLineChart(
+        LineChart(
             modifier = Modifier
                 .padding(top = 32.dp)
                 .fillMaxWidth()

@@ -1,14 +1,15 @@
 package com.ivy.wallet.ui.theme.components.charts
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
@@ -59,7 +60,7 @@ data class FunctionPoint(
 )
 
 @Composable
-fun IvyLineChart(
+fun LineChart(
     modifier: Modifier = Modifier,
     height: Dp = 300.dp,
     functions: List<Function>,
@@ -288,6 +289,7 @@ private fun Chart(
         points = drawFunctions(
             chartWidth = chartWidth,
             chartHeight = chartHeight,
+            cellSize = 24.dp.toPx(),
             maxY = maxY,
             minY = minY,
             functions = functions,
@@ -333,8 +335,10 @@ private fun DrawScope.drawTappedPoint(
                     max = maxY,
                     min = minY,
                     value = tappedValue.y,
-                    chartHeight = chartHeight
-                ) - 4.dp.toPx() //marginFromX
+                    chartHeight = chartHeight,
+                    offsetTop = 0f, //TODO: Fix
+                    offsetBottom = 0f //TODO: Fix
+                ) - 4.dp.toPx() //marginFromX //TODO: FIX
             )
         )
     }
@@ -343,6 +347,10 @@ private fun DrawScope.drawTappedPoint(
 private fun DrawScope.drawFunctions(
     chartWidth: Float,
     chartHeight: Float,
+    offsetLeft: Float = 0f,
+    offsetTop: Float = 0f,
+    offsetBottom: Float = 0f,
+    cellSize: Float,
     maxY: Double,
     minY: Double,
     functions: List<Function>,
@@ -360,12 +368,15 @@ private fun DrawScope.drawFunctions(
         drawFunction(
             function = function,
             functionIndex = index,
-            lineDistance = lineDistance,
             minY = minY,
             maxY = maxY,
+            cellSize = cellSize,
+            lineDistance = lineDistance,
             lineWidth = lineWidth,
-            marginFromX = marginFromX,
             chartHeight = chartHeight,
+            offsetLeft = offsetLeft,
+            offsetTop = offsetTop,
+            offsetBottom = offsetBottom
         )
     }
 }
@@ -373,21 +384,23 @@ private fun DrawScope.drawFunctions(
 private fun DrawScope.drawFunction(
     function: Function,
     functionIndex: Int,
-    lineDistance: Float,
     minY: Double,
     maxY: Double,
-    marginFromX: Float,
     chartHeight: Float,
+    cellSize: Float,
+    lineDistance: Float,
     lineWidth: Float,
+    offsetLeft: Float,
+    offsetTop: Float,
+    offsetBottom: Float,
 ): List<FunctionPoint> {
     val points = mutableListOf<FunctionPoint>()
 
-    var currentX = 0f
+    var currentX = offsetLeft
     val values = function.values
     val totalRecords = values.size
 
     values.forEachIndexed { index, value ->
-        currentX += lineDistance
         if (totalRecords >= index + 2) {
             val valueStart = value.y
             val valueEnd = values[index + 1].y
@@ -398,7 +411,9 @@ private fun DrawScope.drawFunction(
                     max = maxY,
                     min = minY,
                     value = valueStart,
-                    chartHeight = chartHeight - marginFromX
+                    chartHeight = chartHeight,
+                    offsetTop = offsetTop,
+                    offsetBottom = offsetBottom
                 )
             )
             val pointEnd = Offset(
@@ -407,7 +422,9 @@ private fun DrawScope.drawFunction(
                     max = maxY,
                     min = minY,
                     value = valueEnd,
-                    chartHeight = chartHeight - marginFromX
+                    chartHeight = chartHeight,
+                    offsetTop = offsetTop,
+                    offsetBottom = offsetBottom
                 )
             )
 
@@ -441,6 +458,8 @@ private fun DrawScope.drawFunction(
                 cap = StrokeCap.Round
             )
         }
+
+        currentX += lineDistance
     }
 
     return points
@@ -463,14 +482,20 @@ private fun calculateYCoordinate(
     max: Double,
     min: Double,
     value: Double,
-    chartHeight: Float
+    chartHeight: Float,
+    offsetTop: Float,
+    offsetBottom: Float
 ): Float {
     //Lerp: (start + x * (end - start)) = value
     //x * (end - start) = value - start
     //x = (value - start) / (end - start)
     val yPercent = (value - min) / (max - min)
 
-    return lerp(0.0, chartHeight.toDouble(), 1f - yPercent).toFloat()
+    return lerp(
+        start = offsetTop.toDouble(),
+        end = (chartHeight - offsetBottom).toDouble(),
+        fraction = 1f - yPercent
+    ).toFloat()
 }
 
 private fun Offset.distance(point2: Offset): Float {
@@ -532,7 +557,7 @@ private fun Preview() {
             ),
         )
 
-        IvyLineChart(
+        LineChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
@@ -552,6 +577,270 @@ private fun Preview() {
     }
 }
 
-fun redGreenGradient(startY: Float, endY: Float): Brush {
-    return if (startY >= endY) Green.asBrush() else Red.asBrush()
+// --------------------------------------- NEW ----------------------------------------------------
+@Composable
+fun IvyLineChart(
+    modifier: Modifier = Modifier,
+    height: Dp = 300.dp,
+    functions: List<Function>,
+    xLabel: (x: Double) -> String,
+    yLabel: (y: Double) -> String,
+    onTap: (TapEvent) -> Unit = {}
+) {
+    val allValues = functions.flatMap { it.values }
+    if (allValues.isEmpty()) return
+
+    val maxY = allValues.maxOf { it.y }
+    val minY = allValues.minOf { it.y }
+
+    val chartColor = IvyTheme.colors.pureInverse
+
+    var yLabelsWidthPx by remember {
+        mutableStateOf(0)
+    }
+
+    var tapEvent: TapEvent? by remember {
+        mutableStateOf(null)
+    }
+    val onTapInternal = { event: TapEvent ->
+        tapEvent = event
+        onTap(event)
+    }
+
+    IvyChart(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height)
+            .clip(Shapes.rounded24)
+            .border(2.dp, Gray, Shapes.rounded24),
+        chartColor = chartColor,
+        maxY = maxY,
+        minY = minY,
+        functions = functions,
+        tapEvent = tapEvent,
+        onTap = onTapInternal
+    )
+}
+
+@Composable
+private fun IvyChart(
+    modifier: Modifier,
+    chartColor: Color,
+    maxY: Double,
+    minY: Double,
+    functions: List<Function>,
+    tapEvent: TapEvent?,
+    onTap: (TapEvent) -> Unit
+) {
+    var points: List<FunctionPoint> by remember {
+        mutableStateOf(emptyList())
+    }
+
+    Canvas(
+        modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { clickPoint ->
+                        val targetPoint = points.minByOrNull {
+                            clickPoint.distance(it.point)
+                        } ?: return@detectTapGestures
+
+                        Timber.i("points.size = ${points.size}")
+
+                        onTap(
+                            TapEvent(
+                                functionIndex = targetPoint.functionIndex,
+                                valueIndex = targetPoint.valueIndex
+                            )
+                        )
+                    }
+                )
+            }
+    ) {
+        val cellSize = 24.dp.toPx()
+        val offsetTop = cellSize * 3
+        val offsetBottom = cellSize
+        val offsetLeft = cellSize
+
+        val chartWidth = size.width
+        val chartHeight = size.height
+
+        grid(
+            chartWidth = chartWidth,
+            chartHeight = chartHeight,
+            cellSize = cellSize
+        )
+
+        points = drawFunctions(
+            chartWidth = chartWidth,
+            chartHeight = chartHeight,
+            maxY = maxY,
+            minY = minY,
+            cellSize = cellSize,
+            offsetLeft = offsetLeft,
+            offsetTop = offsetTop,
+            offsetBottom = offsetBottom,
+            functions = functions,
+        )
+
+        drawTappedPoint(
+            functions = functions,
+            tapEvent = tapEvent,
+            chartWidth = chartWidth,
+            chartHeight = chartHeight,
+            minY = minY,
+            maxY = maxY
+        )
+    }
+}
+
+private fun DrawScope.grid(
+    chartWidth: Float,
+    chartHeight: Float,
+    cellSize: Float //24.dp
+) {
+    verticalLineXS(
+        chartWidth = chartWidth,
+        cellSize = cellSize
+    ).forEach { x ->
+        drawLine(
+            color = Gray,
+            start = Offset(
+                x = x,
+                y = 0f
+            ),
+            end = Offset(
+                x = x,
+                y = chartHeight
+            )
+        )
+    }
+
+    horizontalLineYS(
+        chartHeight = chartHeight,
+        cellSize = cellSize
+    ).forEach { y ->
+        drawLine(
+            color = Gray,
+            start = Offset(
+                x = 0f,
+                y = y
+            ),
+            end = Offset(
+                x = chartWidth,
+                y = y
+            )
+        )
+    }
+}
+
+private fun verticalLineXS(
+    chartWidth: Float,
+    cellSize: Float,
+): List<Float> {
+    return sideLinePoints(sideSize = chartWidth, cellSize = cellSize)
+}
+
+private fun horizontalLineYS(
+    chartHeight: Float,
+    cellSize: Float,
+): List<Float> {
+    return sideLinePoints(sideSize = chartHeight, cellSize = cellSize)
+}
+
+private tailrec fun sideLinePoints(
+    sideSize: Float,
+    cellSize: Float,
+    accumulator: List<Float> = emptyList()
+): List<Float> {
+    val last = accumulator.lastOrNull()
+    return if (cellSize >= sideSize || (last != null && last >= sideSize)) {
+        return accumulator
+    } else {
+        //recurse
+        val next = (last ?: 0f) + cellSize
+
+        sideLinePoints(
+            sideSize = sideSize,
+            cellSize = cellSize,
+            accumulator = accumulator + next
+        )
+    }
+}
+
+
+@Preview
+@Composable
+private fun Preview_IvyChart() {
+    IvyComponentPreview {
+        val values = listOf(
+            Value(
+                x = 0.0,
+                y = 5235.60
+            ),
+            Value(
+                x = 1.0,
+                y = 8000.0
+            ),
+            Value(
+                x = 2.0,
+                y = 15032.89
+            ),
+            Value(
+                x = 3.0,
+                y = 4123.0
+            ),
+            Value(
+                x = 4.0,
+                y = 1000.0
+            ),
+            Value(
+                x = 5.0,
+                y = -5000.0
+            ),
+            Value(
+                x = 6.0,
+                y = 3000.0
+            ),
+            Value(
+                x = 7.0,
+                y = 9000.0
+            ),
+            Value(
+                x = 8.0,
+                y = 15600.50
+            ),
+            Value(
+                x = 9.0,
+                y = 20000.0
+            ),
+            Value(
+                x = 10.0,
+                y = 0.0
+            ),
+            Value(
+                x = 11.0,
+                y = 1000.0
+            ),
+        )
+
+        IvyLineChart(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            height = 400.dp,
+            functions = listOf(
+                Function(
+                    values = values,
+                    color = Green
+                )
+            ),
+            xLabel = {
+                Month.monthsList()[it.toInt()].name.first().toString()
+            },
+            yLabel = {
+                it.format("BGN")
+            }
+        )
+    }
 }
