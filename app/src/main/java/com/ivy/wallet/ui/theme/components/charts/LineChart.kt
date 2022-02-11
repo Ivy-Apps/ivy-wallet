@@ -673,6 +673,7 @@ private fun IvyChart(
         val offsetTop = cellSize * 3
         val offsetBottom = cellSize
         val offsetLeft = cellSize * 2
+        val offsetRight = cellSize
 
         val chartWidth = size.width
         val chartHeight = size.height
@@ -680,7 +681,7 @@ private fun IvyChart(
         // Total number of transactions.
         val totalRecords = functions.first().values.size
         // Maximum distance between dots (transactions)
-        val lineDistance = chartWidth / (totalRecords + 1)
+        val lineDistance = (chartWidth - offsetRight) / (totalRecords + 1)
 
         drawTitle(
             title = title,
@@ -691,6 +692,7 @@ private fun IvyChart(
         drawXLabelsNew(
             cellSize = cellSize,
             offsetLeft = offsetLeft,
+            offsetRight = offsetRight,
             lineDistance = lineDistance,
             chartHeight = chartHeight,
             allValues = allValues,
@@ -752,6 +754,7 @@ fun DrawScope.drawYValues(
 fun DrawScope.drawXLabelsNew(
     cellSize: Float,
     offsetLeft: Float,
+    offsetRight: Float,
     lineDistance: Float,
     chartHeight: Float,
     allValues: List<Value>,
