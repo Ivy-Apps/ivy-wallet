@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.components.charts
 
+import android.text.TextPaint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,16 +11,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.lerp
 import com.ivy.wallet.base.toDensityDp
@@ -28,6 +30,7 @@ import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
 import kotlin.math.pow
 import kotlin.math.sqrt
+
 
 data class Value(
     val x: Double,
@@ -286,14 +289,14 @@ private fun Chart(
             cap = StrokeCap.Round
         )
 
-        points = drawFunctions(
-            chartWidth = chartWidth,
-            chartHeight = chartHeight,
-            cellSize = 24.dp.toPx(),
-            maxY = maxY,
-            minY = minY,
-            functions = functions,
-        )
+//        points = drawFunctions(
+//            chartWidth = chartWidth,
+//            chartHeight = chartHeight,
+//            cellSize = 24.dp.toPx(),
+//            maxY = maxY,
+//            minY = minY,
+//            functions = functions,
+//        )
 
         drawTappedPoint(
             functions = functions,
@@ -346,6 +349,7 @@ private fun DrawScope.drawTappedPoint(
 
 private fun DrawScope.drawFunctions(
     chartWidth: Float,
+    lineDistance: Float,
     chartHeight: Float,
     offsetLeft: Float = 0f,
     offsetTop: Float = 0f,
@@ -355,10 +359,6 @@ private fun DrawScope.drawFunctions(
     minY: Double,
     functions: List<Function>,
 ): List<FunctionPoint> {
-    // Total number of transactions.
-    val totalRecords = functions.first().values.size
-    // Maximum distance between dots (transactions)
-    val lineDistance = chartWidth / (totalRecords + 1)
     // Add some kind of a "Padding" for the initial point where the line starts.
     val lineWidth = 3.dp.toPx()
     val marginFromX = 4.dp.toPx()
@@ -584,6 +584,7 @@ fun IvyLineChart(
     modifier: Modifier = Modifier,
     height: Dp = 300.dp,
     functions: List<Function>,
+    title: String,
     xLabel: (x: Double) -> String,
     yLabel: (y: Double) -> String,
     onTap: (TapEvent) -> Unit = {}
@@ -614,9 +615,13 @@ fun IvyLineChart(
             .height(height)
             .clip(Shapes.rounded24)
             .border(2.dp, Gray, Shapes.rounded24),
+        title = title,
+        allValues = allValues,
         chartColor = chartColor,
         maxY = maxY,
         minY = minY,
+        xLabel = xLabel,
+        yLabel = yLabel,
         functions = functions,
         tapEvent = tapEvent,
         onTap = onTapInternal
@@ -626,7 +631,11 @@ fun IvyLineChart(
 @Composable
 private fun IvyChart(
     modifier: Modifier,
+    title: String,
+    allValues: List<Value>,
     chartColor: Color,
+    xLabel: (x: Double) -> String,
+    yLabel: (y: Double) -> String,
     maxY: Double,
     minY: Double,
     functions: List<Function>,
@@ -636,6 +645,8 @@ private fun IvyChart(
     var points: List<FunctionPoint> by remember {
         mutableStateOf(emptyList())
     }
+
+    val xLabelColor = IvyTheme.colors.pureInverse
 
     Canvas(
         modifier = modifier
@@ -666,6 +677,27 @@ private fun IvyChart(
         val chartWidth = size.width
         val chartHeight = size.height
 
+        // Total number of transactions.
+        val totalRecords = functions.first().values.size
+        // Maximum distance between dots (transactions)
+        val lineDistance = chartWidth / (totalRecords + 1)
+
+        drawTitle(
+            title = title,
+            cellSize = cellSize,
+            chartWidth = chartWidth
+        )
+
+        drawXLabelsNew(
+            cellSize = cellSize,
+            offsetLeft = offsetLeft,
+            lineDistance = lineDistance,
+            chartHeight = chartHeight,
+            allValues = allValues,
+            textColor = xLabelColor,
+            xLabel = xLabel
+        )
+
         grid(
             chartWidth = chartWidth,
             chartHeight = chartHeight,
@@ -682,6 +714,7 @@ private fun IvyChart(
             offsetTop = offsetTop,
             offsetBottom = offsetBottom,
             functions = functions,
+            lineDistance = lineDistance
         )
 
         drawTappedPoint(
@@ -691,6 +724,71 @@ private fun IvyChart(
             chartHeight = chartHeight,
             minY = minY,
             maxY = maxY
+        )
+    }
+}
+
+fun DrawScope.drawTitle(
+    title: String,
+    cellSize: Float,
+    chartWidth: Float
+) {
+    drawText(
+        text = title,
+        x = chartWidth / 2f,
+        y = cellSize + 4.dp.toPx(),
+        textSize = 16.sp
+    )
+}
+
+fun DrawScope.drawYValues(
+    minY: Double,
+    maxY: Double,
+    cellSize: Float
+) {
+    //TODO:
+}
+
+fun DrawScope.drawXLabelsNew(
+    cellSize: Float,
+    offsetLeft: Float,
+    lineDistance: Float,
+    chartHeight: Float,
+    allValues: List<Value>,
+    xLabel: (x: Double) -> String,
+    textColor: Color
+) {
+    allValues.map { it.x }.toSet().forEachIndexed { index, x ->
+        drawText(
+            text = xLabel(x),
+            x = offsetLeft + (index * lineDistance),
+            y = chartHeight - cellSize / 2f,
+            textSize = 12.sp,
+            color = textColor
+        )
+    }
+}
+
+fun DrawScope.drawText(
+    text: String,
+    x: Float,
+    y: Float,
+    color: Color = Gray,
+    textSize: TextUnit,
+) {
+    val textPaint = TextPaint()
+    textPaint.isAntiAlias = true
+    textPaint.textSize = textSize.toPx()
+    textPaint.color = color.toArgb()
+
+    val textWidth = textPaint.measureText(text).toInt()
+
+    drawIntoCanvas {
+        it.nativeCanvas.drawText(
+            text,
+            x - textWidth / 2f,
+            y,
+            textPaint
         )
     }
 }
@@ -835,6 +933,7 @@ private fun Preview_IvyChart() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
+            title = "EXPENSES LAST 12 MONTHS",
             height = 400.dp,
             functions = listOf(
                 Function(
