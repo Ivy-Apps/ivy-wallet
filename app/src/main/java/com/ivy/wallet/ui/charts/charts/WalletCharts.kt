@@ -16,7 +16,8 @@ import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.charts.Function
-import com.ivy.wallet.ui.theme.components.charts.LineChart
+import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import java.text.DecimalFormat
 
 fun LazyListScope.walletCharts(
     period: ChartPeriod,
@@ -111,8 +112,10 @@ fun BalanceChart(
 
     val values = balanceChart.toValues2()
 
-    LineChart(
-        modifier = Modifier.padding(horizontal = 24.dp),
+    IvyLineChart(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        height = 400.dp,
+        title = "BALANCE ${period.display().uppercase()}",
         functions = listOf(
             Function(
                 values = values,
@@ -124,7 +127,7 @@ fun BalanceChart(
             period.xLabel(range = balanceChart[it.toInt()].range)
         },
         yLabel = {
-            it.format(baseCurrencyCode)
+            DecimalFormat("#,###").format(it)
         },
         onTap = {
             tappedPoint = balanceChart[it.valueIndex]
