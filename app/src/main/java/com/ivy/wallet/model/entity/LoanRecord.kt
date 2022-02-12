@@ -12,6 +12,7 @@ data class LoanRecord(
     val note: String? = null,
     val dateTime: LocalDateTime,
     val interest:Boolean = false,
+    val accountId : UUID? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,

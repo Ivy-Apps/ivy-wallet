@@ -16,7 +16,7 @@ class LoanCreator(
     suspend fun create(
         data: CreateLoanData,
         onRefreshUI: suspend (Loan) -> Unit
-    ) :UUID? {
+    ): UUID? {
         val name = data.name
         if (name.isBlank()) return null
         if (data.amount <= 0) return null
@@ -35,7 +35,8 @@ class LoanCreator(
                         color = data.color.toArgb(),
                         icon = data.icon,
                         orderNum = dao.findMaxOrderNum() + 1,
-                        isSynced = false
+                        isSynced = false,
+                        accountId = data.account?.id
                     )
                     loanId = item.id
                     dao.save(item)

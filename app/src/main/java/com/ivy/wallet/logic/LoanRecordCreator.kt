@@ -30,7 +30,8 @@ class LoanRecordCreator(
                         amount = data.amount,
                         dateTime = data.dateTime,
                         isSynced = false,
-                        interest = data.interest
+                        interest = data.interest,
+                        accountId = data.account?.id
                     )
 
                     dao.save(item)

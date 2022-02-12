@@ -40,6 +40,9 @@ import java.util.*
 data class LoanRecordModalData(
     val loanRecord: LoanRecord?,
     val baseCurrency: String,
+    val selectedAccount: Account? = null,
+    val createLoanRecordTransaction: Boolean = false,
+    val isLoanInterest: Boolean = false,
     val id: UUID = UUID.randomUUID()
 )
 
@@ -47,16 +50,10 @@ data class LoanRecordModalData(
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
     accounts: List<Account> = emptyList(),
-    loanRecordInterest: Boolean = false,
-    selectedAccount: Account? = null,
-    onSelectedAccount: (Account) -> Unit = {},
     onCreateAccount: (CreateAccountData) -> Unit = {},
-    createLoanRecordTransaction: Boolean = true,
-    onLoanRecordTransactionChecked: (Boolean) -> Unit = { _ -> },
-    onLoanRecordInterestChecked: (Boolean) -> Unit = { _ -> },
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord) -> Unit,
+    onEdit: (LoanRecord, Boolean) -> Unit,
     onDelete: (LoanRecord) -> Unit,
     dismiss: () -> Unit
 ) {
@@ -64,7 +61,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var noteTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(initialRecord?.note))
     }
-    val currencyCode by remember(modal) {
+    var currencyCode by remember(modal) {
         mutableStateOf(modal?.baseCurrency ?: "")
     }
     var amount by remember(modal) {
@@ -73,7 +70,15 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var dateTime by remember(modal) {
         mutableStateOf(modal?.loanRecord?.dateTime ?: timeNowUTC())
     }
-
+    var selectedAcc by remember(modal) {
+        mutableStateOf(modal?.selectedAccount)
+    }
+    var createLoanRecordTrans by remember(modal) {
+        mutableStateOf(modal?.createLoanRecordTransaction ?: false)
+    }
+    var loanInterest by remember(modal) {
+        mutableStateOf(modal?.isLoanInterest ?: false)
+    }
 
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
@@ -87,18 +92,21 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         PrimaryAction = {
             ModalAddSave(
                 item = initialRecord,
-                enabled = amount > 0 && ((createLoanRecordTransaction && selectedAccount != null) || !createLoanRecordTransaction)
+                enabled = amount > 0 && selectedAcc != null
+                //enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
             ) {
                 save(
                     loanRecord = initialRecord,
                     noteTextFieldValue = noteTextFieldValue,
                     amount = amount,
                     dateTime = dateTime,
-                    loanRecordInterest = loanRecordInterest,
+                    loanRecordInterest = loanInterest,
+                    selectedAccount = selectedAcc,
+                    createLoanRecordTransaction = createLoanRecordTrans,
 
                     onCreate = onCreate,
                     onEdit = onEdit,
-                    dismiss = dismiss
+                    dismiss = dismiss,
                 )
             }
         }
@@ -151,58 +159,56 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
         Spacer(Modifier.height(24.dp))
 
-        if (createLoanRecordTransaction) {
-            Text(
-                modifier = Modifier.padding(horizontal = 32.dp),
-                text = "Associated Account",
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = "Associated Account",
+            style = Typo.body2.style(
+                color = IvyTheme.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        AccountsRow(
+            accounts = accounts,
+            selectedAccount = selectedAcc,
+            onSelectedAccountChanged = {
+                selectedAcc = it
+                currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
+            },
+            onAddNewAccount = {
+                accountModalData = AccountModalData(
+                    account = null,
+                    baseCurrency = selectedAcc?.currency ?: "USD",
+                    balance = 0.0
                 )
-            )
-
-            Spacer(Modifier.height(16.dp))
-
-            AccountsRow(
-                accounts = accounts,
-                selectedAccount = selectedAccount,
-                onSelectedAccountChanged = onSelectedAccount,
-                onAddNewAccount = {
-                    accountModalData = AccountModalData(
-                        account = null,
-                        baseCurrency = selectedAccount?.currency ?: "USD",
-                        balance = 0.0
-                    )
-                },
-                childrenTestTag = "amount_modal_account"
-            )
-
-            Spacer(Modifier.height(16.dp))
-        }
+            },
+            childrenTestTag = "amount_modal_account"
+        )
+        Spacer(Modifier.height(16.dp))
 
         IvyCheckboxWithText(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
             text = "Create a Main Transaction",
-            checked = createLoanRecordTransaction
+            checked = createLoanRecordTrans
         ) {
-            onLoanRecordTransactionChecked(it)
+            createLoanRecordTrans = it
         }
-
-        //Spacer(Modifier.height(.dp))
 
         IvyCheckboxWithText(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
             text = "Mark as Interest",
-            checked = loanRecordInterest
+            checked = loanInterest
         ) {
-            onLoanRecordInterestChecked(it)
+            loanInterest = it
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         ModalAmountSection(
             label = "ENTER RECORD AMOUNT",
@@ -214,7 +220,6 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             amountModalVisible = true
         }
     }
-
 
     val amountModalId = remember(modal, amount) {
         UUID.randomUUID()
@@ -297,9 +302,11 @@ private fun save(
     amount: Double,
     dateTime: LocalDateTime,
     loanRecordInterest: Boolean = false,
+    createLoanRecordTransaction: Boolean = false,
+    selectedAccount: Account? = null,
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord) -> Unit,
+    onEdit: (LoanRecord, Boolean) -> Unit,
     dismiss: () -> Unit
 ) {
     if (loanRecord != null) {
@@ -308,8 +315,10 @@ private fun save(
                 note = noteTextFieldValue.text.trim(),
                 amount = amount,
                 dateTime = dateTime,
-                interest = loanRecordInterest
-            )
+                interest = loanRecordInterest,
+                accountId = selectedAccount?.id
+            ),
+            createLoanRecordTransaction
         )
     } else {
         onCreate(
@@ -317,7 +326,9 @@ private fun save(
                 note = noteTextFieldValue.text.trim(),
                 amount = amount,
                 dateTime = dateTime,
-                interest = loanRecordInterest
+                interest = loanRecordInterest,
+                account = selectedAccount,
+                createLoanRecordTransaction = createLoanRecordTransaction
             )
         )
     }
@@ -477,7 +488,7 @@ private fun Preview() {
                 baseCurrency = "BGN"
             ),
             onCreate = {},
-            onEdit = {},
+            onEdit = { _, _ -> },
             onDelete = {}
         ) {
 

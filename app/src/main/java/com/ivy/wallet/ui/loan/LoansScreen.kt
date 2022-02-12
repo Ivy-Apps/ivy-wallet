@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,7 +19,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
+import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Account
@@ -40,9 +41,7 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val loans by viewModel.loans.collectAsState()
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-    val selectedAccount by viewModel.selectedAccount.observeAsState()
-    val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -52,35 +51,25 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
         baseCurrency = baseCurrency,
         loans = loans,
         accounts = accounts,
-        account = selectedAccount,
-        createLoanTransaction = createLoanTransaction,
 
-        onBaseCurrencyChanged = viewModel::onBaseCurrencyChanged,
-        onLoanTransactionChecked = viewModel::onLoanTransactionChecked,
-        onSelectedAccount = viewModel::onAccountSelected,
         onCreateLoan = viewModel::createLoan,
-        onEditLoan = {
+        onEditLoan = { _, _ ->
             //do nothing, it shouldn't be done from that screen
         },
-        onReorder = viewModel::reorder
+        onReorder = viewModel::reorder,
+        onCreateAccount = viewModel::createAccount
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    accounts: List<Account> = emptyList(),
-    account: Account? = null,
-    onSelectedAccount: (Account) -> Unit = { },
-
     baseCurrency: String,
     loans: List<DisplayLoan>,
-    createLoanTransaction: Boolean = true,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
 
-    onBaseCurrencyChanged: (String) -> Unit = {},
-    onLoanModalDismissed: () -> Unit = {},
-    onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
-    onCreateLoan: (CreateLoanData, Account?) -> Unit = { _, _ -> },
-    onEditLoan: (Loan) -> Unit = {},
+    onCreateLoan: (CreateLoanData) -> Unit = {},
+    onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
     onReorder: (List<DisplayLoan>) -> Unit = {}
 ) {
     var reorderModalVisible by remember { mutableStateOf(false) }
@@ -170,19 +159,13 @@ private fun BoxWithConstraintsScope.UI(
 
     LoanModal(
         accounts = accounts,
-        selectedAccount = account,
-        onSelectedAccount = onSelectedAccount,
+        onCreateAccount = onCreateAccount,
         modal = loanModalData,
         onCreateLoan = onCreateLoan,
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
-
         },
-        baseCurrencyCode = baseCurrency,
-        createLoanTransaction = createLoanTransaction,
-        onLoanTransactionChecked = onLoanTransactionChecked,
-        onBaseCurrencyChanged = onBaseCurrencyChanged
     )
 }
 
@@ -311,7 +294,7 @@ private fun LoanHeader(
             decimalPaddingTop = 7.dp,
             spacerDecimal = 6.dp,
             textColor = contrastColor,
-            currency = baseCurrency,
+            currency = displayLoan.currencyCode ?: getDefaultFIATCurrency().currencyCode,
             balance = leftToPay,
 
             integerFontSize = 30.sp,
@@ -333,12 +316,13 @@ private fun ColumnScope.LoanInfo(
     val amountPaid = displayLoan.amountPaid
     val loanAmount = displayLoan.loan.amount
     val percentPaid = amountPaid / loanAmount
+    val currCode = displayLoan.currencyCode ?: baseCurrency
 
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        text = "${amountPaid.format(baseCurrency)} $baseCurrency / ${loanAmount.format(baseCurrency)} $baseCurrency (${
+        text = "${amountPaid.format(currCode)} $currCode / ${loanAmount.format(currCode)} $currCode (${
             percentPaid.times(
                 100
             ).format(2)
@@ -443,8 +427,8 @@ private fun Preview() {
                 ),
             ),
 
-            onCreateLoan = { _, _ -> },
-            onEditLoan = {},
+            onCreateLoan = {},
+            onEditLoan = { _, _ -> },
             onReorder = {}
         )
     }

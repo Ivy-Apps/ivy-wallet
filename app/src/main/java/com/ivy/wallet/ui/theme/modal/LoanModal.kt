@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.theme.modal
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -42,25 +41,21 @@ import java.util.*
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
+    val selectedAccount: Account? = null,
     val autoFocusKeyboard: Boolean = true,
     val autoOpenAmountModal: Boolean = false,
+    val createLoanTransaction: Boolean = false,
     val id: UUID = UUID.randomUUID()
 )
 
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
     accounts: List<Account> = emptyList(),
-    selectedAccount: Account? = null,
-    onSelectedAccount: (Account) -> Unit = {},
     onCreateAccount: (CreateAccountData) -> Unit = {},
-    createLoanTransaction: Boolean = true,
-    onLoanTransactionChecked: (Boolean) -> Unit = { _ -> },
-    onBaseCurrencyChanged: (String) -> Unit = {},
 
-    baseCurrencyCode: String,
     modal: LoanModalData?,
-    onCreateLoan: (CreateLoanData, Account?) -> Unit,
-    onEditLoan: (Loan) -> Unit,
+    onCreateLoan: (CreateLoanData) -> Unit,
+    onEditLoan: (Loan, Boolean) -> Unit,
     dismiss: () -> Unit,
 ) {
     val loan = modal?.loan
@@ -79,10 +74,18 @@ fun BoxWithConstraintsScope.LoanModal(
     var icon by remember(modal) {
         mutableStateOf(loan?.icon)
     }
-    var currencyCode by remember(selectedAccount, modal) {
-        Log.d("GGGG", "New Acc " + selectedAccount?.currency)
-        mutableStateOf(modal?.baseCurrency ?:selectedAccount?.currency ?: "")
+    var currencyCode by remember(modal) {
+        mutableStateOf(modal?.baseCurrency ?: "")
     }
+
+    var selectedAcc by remember(modal) {
+        mutableStateOf(modal?.selectedAccount)
+    }
+
+    var createLoanTrans by remember(modal) {
+        mutableStateOf(modal?.createLoanTransaction ?: false)
+    }
+
     var amountModalVisible by remember { mutableStateOf(false) }
     var currencyModalVisible by remember { mutableStateOf(false) }
     var chooseIconModalVisible by remember(modal) {
@@ -90,17 +93,6 @@ fun BoxWithConstraintsScope.LoanModal(
     }
 
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-    val accountToPass: State<Account?> =
-        produceState(
-            initialValue = selectedAccount,
-            key1 = createLoanTransaction,
-            key2 = selectedAccount
-        ) {
-            if (createLoanTransaction)
-                this.value = selectedAccount
-            else
-                this.value = null
-        }
 
 
     IvyModal(
@@ -111,7 +103,8 @@ fun BoxWithConstraintsScope.LoanModal(
         PrimaryAction = {
             ModalAddSave(
                 item = modal?.loan,
-                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTransaction && selectedAccount != null) || !createLoanTransaction)
+                //enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTrans && selectedAcc != null) || !createLoanTrans)
+                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
                 save(
                     loan = loan,
@@ -120,7 +113,8 @@ fun BoxWithConstraintsScope.LoanModal(
                     color = color,
                     icon = icon,
                     amount = amount,
-                    selectedAccount = accountToPass.value,
+                    selectedAccount = selectedAcc,
+                    createLoanTransaction = createLoanTrans,
 
                     onCreateLoan = onCreateLoan,
                     onEditLoan = onEditLoan,
@@ -174,50 +168,51 @@ fun BoxWithConstraintsScope.LoanModal(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (createLoanTransaction) {
-            Text(
-                modifier = Modifier.padding(horizontal = 32.dp),
-                text = "Associated Account",
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = "Associated Account",
+            style = Typo.body2.style(
+                color = IvyTheme.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        AccountsRow(
+            accounts = accounts,
+            selectedAccount = selectedAcc,
+            onSelectedAccountChanged = {
+                selectedAcc = it
+                currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
+            },
+            onAddNewAccount = {
+                accountModalData = AccountModalData(
+                    account = null,
+                    baseCurrency = selectedAcc?.currency ?: "USD",
+                    balance = 0.0
                 )
-            )
+            },
+            childrenTestTag = "amount_modal_account"
+        )
 
-            Spacer(Modifier.height(16.dp))
-
-            AccountsRow(
-                accounts = accounts,
-                selectedAccount = selectedAccount,
-                onSelectedAccountChanged = onSelectedAccount,
-                onAddNewAccount = {
-                    accountModalData = AccountModalData(
-                        account = null,
-                        baseCurrency = selectedAccount?.currency ?: "USD",
-                        balance = 0.0
-                    )
-                },
-                childrenTestTag = "amount_modal_account"
-            )
-
-            Spacer(Modifier.height(16.dp))
-        }
+        Spacer(Modifier.height(16.dp))
 
         IvyCheckboxWithText(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
             text = "Create a Main Transaction",
-            checked = createLoanTransaction
+            checked = createLoanTrans
         ) {
-            onLoanTransactionChecked(it)
+            createLoanTrans = it
         }
 
         Spacer(modifier = Modifier.height(24.dp))
 
         ModalAmountSection(
             label = "ENTER LOAN AMOUNT",
-            currency = baseCurrencyCode,
+            currency = currencyCode,
             amount = amount,
             amountPaddingTop = 40.dp,
             amountPaddingBottom = 40.dp,
@@ -232,7 +227,7 @@ fun BoxWithConstraintsScope.LoanModal(
     AmountModal(
         id = amountModalId,
         visible = amountModalVisible,
-        currency = baseCurrencyCode,
+        currency = currencyCode,
         initialAmount = amount,
         dismiss = { amountModalVisible = false }
     ) { newAmount ->
@@ -241,11 +236,11 @@ fun BoxWithConstraintsScope.LoanModal(
 
     CurrencyModal(
         title = "Choose currency",
-        initialCurrency = IvyCurrency.fromCode(baseCurrencyCode),
+        initialCurrency = IvyCurrency.fromCode(currencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
     ) {
-        onBaseCurrencyChanged(it)
+        currencyCode = it
     }
 
     AccountModal(
@@ -488,9 +483,10 @@ private fun save(
     icon: String?,
     amount: Double,
     selectedAccount: Account? = null,
+    createLoanTransaction: Boolean = false,
 
-    onCreateLoan: (CreateLoanData, Account?) -> Unit,
-    onEditLoan: (Loan) -> Unit,
+    onCreateLoan: (CreateLoanData) -> Unit,
+    onEditLoan: (Loan, Boolean) -> Unit,
     dismiss: () -> Unit
 ) {
     if (loan != null) {
@@ -500,8 +496,10 @@ private fun save(
                 type = type,
                 amount = amount,
                 color = color.toArgb(),
-                icon = icon
-            )
+                icon = icon,
+                accountId = selectedAccount?.id
+            ),
+            createLoanTransaction
         )
     } else {
         onCreateLoan(
@@ -511,8 +509,9 @@ private fun save(
                 amount = amount,
                 color = color,
                 icon = icon,
-            ),
-            selectedAccount
+                account = selectedAccount,
+                createLoanTransaction = createLoanTransaction
+            )
         )
     }
 
@@ -529,9 +528,8 @@ private fun Preview() {
                 loan = null,
                 baseCurrency = "BGN",
             ),
-            baseCurrencyCode = "BGN",
-            onCreateLoan = { _, _ -> },
-            onEditLoan = { }
+            onCreateLoan = { },
+            onEditLoan = { _, _ -> }
         ) {
 
         }

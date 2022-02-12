@@ -92,8 +92,11 @@ class EditTransactionViewModel @Inject constructor(
     private val _hasChanges = MutableLiveData(false)
     val hasChanges = _hasChanges.asLiveData()
 
-    private val _isLoan: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoan = _isLoan.asLiveData()
+    private val _isLoanRecord: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isLoanRecord = _isLoanRecord.asLiveData()
+
+    private val _loanCaption: MutableStateFlow<String?> = MutableStateFlow(null)
+    val loanCaption = _loanCaption.asStateFlow()
 
     private var loadedTransaction: Transaction? = null
     private var editMode = false
@@ -130,12 +133,26 @@ class EditTransactionViewModel @Inject constructor(
             )
 
             loadedTransaction?.let {
-                _isLoan.value = (it.loanId != null) || (it.loanRecordId != null)
+                _loanCaption.value = getLoanCaption(it)
+                _isLoanRecord.value = it.loanRecordId != null
             }
 
             display(loadedTransaction!!)
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    private suspend fun getLoanCaption(trans: Transaction): String? {
+        if (trans.loanId == null)
+            return null
+
+        val loan = ioThread { loanDao.findById(trans.loanId) }
+        val isLoanRecord = trans.loanRecordId != null
+
+        return loan?.let { lo ->
+            if (isLoanRecord) "* This transaction is associated with a Loan Record of Loan : ${lo.name}"
+            else "* This transaction is associated with Loan : ${lo.name}"
         }
     }
 
@@ -430,11 +447,10 @@ class EditTransactionViewModel @Inject constructor(
                         else -> loadedTransaction().dateTime
                     },
                     categoryId = category.value?.id,
-
                     isSynced = false
                 )
 
-                if (isLoan.value == true)
+                if (loadedTransaction?.loanId != null)
                     updateAssociatedLoan(loadedTransaction)
 
                 transactionDao.save(loadedTransaction())
@@ -504,9 +520,8 @@ class EditTransactionViewModel @Inject constructor(
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
 
-
     private suspend fun updateAssociatedLoan(loadedTransaction: Transaction?) {
-        if (loadedTransaction == null || isLoan.value == false)
+        if (loadedTransaction == null)
             return
 
         if (loadedTransaction.loanId != null && loadedTransaction.loanRecordId == null) {
@@ -515,9 +530,12 @@ class EditTransactionViewModel @Inject constructor(
                 val modifiedLoan = fetchedLoan.copy(
                     amount = loadedTransaction.amount,
                     name = loadedTransaction.title ?: "",
-                    type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND
+                    type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
+                    accountId = loadedTransaction.accountId
                 )
-                loanDao.save(modifiedLoan)
+                ioThread {
+                    loanDao.save(modifiedLoan)
+                }
             }
         } else if (loadedTransaction.loanRecordId != null && loadedTransaction.loanId != null) {
             val loanRecord = loanRecordDao.findById(loadedTransaction.loanRecordId)
@@ -525,7 +543,8 @@ class EditTransactionViewModel @Inject constructor(
                 val modifiedLoanRecord = fetchedRecord.copy(
                     amount = loadedTransaction.amount,
                     note = loadedTransaction.title,
-                    dateTime = loadedTransaction.dateTime ?: fetchedRecord.dateTime
+                    dateTime = loadedTransaction.dateTime ?: fetchedRecord.dateTime,
+                    accountId = loadedTransaction.accountId
                 )
                 loanRecordDao.save(modifiedLoanRecord)
             }
