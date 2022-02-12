@@ -64,6 +64,7 @@ class LoansScreen<A : ComponentActivity>(
             enterName(loanName)
             enterAmount(amount)
             selectLoanType(loanType)
+            selectDefaultLoanAccount()
             if (color != null) {
                 colorPicker.chooseColor(color)
             }

@@ -32,6 +32,7 @@ class LoansTest : IvyComposeTest() {
             selectLoanType(LoanType.BORROW)
             colorPicker.chooseColor(Purple2)
             chooseIconFlow.chooseIcon("education")
+            accountsTab.clickAccount(account = "Cash")
 
             clickAdd()
         }
@@ -62,6 +63,7 @@ class LoansTest : IvyComposeTest() {
             selectLoanType(LoanType.LEND)
             colorPicker.chooseColor(Blue)
             chooseIconFlow.chooseIcon("star")
+            selectDefaultLoanAccount()
 
             clickAdd()
         }
