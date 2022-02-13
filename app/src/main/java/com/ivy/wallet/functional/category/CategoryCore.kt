@@ -23,15 +23,15 @@ suspend fun calculateCategoryValues(
             exchangeRateDao = walletDAOs.exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode
         ),
-        retrieveCategoryTransactions = {
-            if (it == null) {
+        retrieveCategoryTransactions = { forCategoryId ->
+            if (forCategoryId == null) {
                 walletDAOs.transactionDao.findAllUnspecifiedAndBetween(
                     startDate = range.from,
                     endDate = range.to
                 )
             } else {
                 walletDAOs.transactionDao.findAllByCategoryAndBetween(
-                    categoryId = it,
+                    categoryId = forCategoryId,
                     startDate = range.from,
                     endDate = range.to
                 )

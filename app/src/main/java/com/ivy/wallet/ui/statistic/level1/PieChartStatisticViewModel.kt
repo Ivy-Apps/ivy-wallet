@@ -10,7 +10,6 @@ import com.ivy.wallet.functional.category.calculateCategoryIncome
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.calculateWalletExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncome
-import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -29,7 +28,6 @@ class PieChartStatisticViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val categoryLogic: WalletCategoryLogic,
     private val ivyContext: IvyContext
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
@@ -96,15 +94,16 @@ class PieChartStatisticViewModel @Inject constructor(
 
             _categoryAmounts.value = ioThread {
                 categoryDao.findAll()
-                    .map {
+                    .plus(null) //for unspecified
+                    .map { category ->
                         CategoryAmount(
-                            category = it,
+                            category = category,
                             amount = when (type) {
                                 TransactionType.INCOME -> {
                                     calculateCategoryIncome(
                                         walletDAOs = walletDAOs,
                                         baseCurrencyCode = baseCurrencyCode.value,
-                                        categoryId = it.id,
+                                        categoryId = category?.id,
                                         range = range.toCloseTimeRange()
                                     ).toDouble()
                                 }
@@ -112,7 +111,7 @@ class PieChartStatisticViewModel @Inject constructor(
                                     calculateCategoryExpense(
                                         walletDAOs = walletDAOs,
                                         baseCurrencyCode = baseCurrencyCode.value,
-                                        categoryId = it.id,
+                                        categoryId = category?.id,
                                         range = range.toCloseTimeRange()
                                     ).toDouble()
                                 }
@@ -120,21 +119,6 @@ class PieChartStatisticViewModel @Inject constructor(
                             }
                         )
                     }
-                    .plus(
-                        //Unspecified
-                        CategoryAmount(
-                            category = null,
-                            amount = when (type) {
-                                TransactionType.INCOME -> categoryLogic.calculateUnspecifiedIncome(
-                                    range = range
-                                )
-                                TransactionType.EXPENSE -> categoryLogic.calculateUnspecifiedExpenses(
-                                    range = range
-                                )
-                                else -> error("not supported transactionType - $type")
-                            }
-                        )
-                    )
                     .sortedByDescending { it.amount }
             }
         }
