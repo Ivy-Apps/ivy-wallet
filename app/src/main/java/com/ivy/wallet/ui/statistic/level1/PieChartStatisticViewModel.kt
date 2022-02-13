@@ -2,9 +2,9 @@ package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.functional.wallet.calculateWalletExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncome
 import com.ivy.wallet.logic.WalletCategoryLogic
@@ -31,22 +31,22 @@ class PieChartStatisticViewModel @Inject constructor(
     private val ivyContext: IvyContext
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
-    val period = _period.asFlow()
+    val period = _period.readOnly()
 
     private val _type = MutableStateFlow(TransactionType.EXPENSE)
-    val type = _type.asFlow()
+    val type = _type.readOnly()
 
     private val _baseCurrencyCode = MutableStateFlow("")
-    val baseCurrencyCode = _baseCurrencyCode.asFlow()
+    val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
     private val _totalAmount = MutableStateFlow(0.0)
-    val totalAmount = _totalAmount.asFlow()
+    val totalAmount = _totalAmount.readOnly()
 
     private val _categoryAmounts = MutableStateFlow<List<CategoryAmount>>(emptyList())
-    val categoryAmounts = _categoryAmounts.asFlow()
+    val categoryAmounts = _categoryAmounts.readOnly()
 
     private val _selectedCategory = MutableStateFlow<SelectedCategory?>(null)
-    val selectedCategory = _selectedCategory.asFlow()
+    val selectedCategory = _selectedCategory.readOnly()
 
     fun start(
         screen: Screen.PieChartStatistic

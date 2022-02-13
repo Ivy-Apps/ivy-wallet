@@ -3,9 +3,9 @@ package com.ivy.wallet.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.functional.wallet.walletBufferDiff
@@ -47,71 +47,71 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _theme = MutableStateFlow(Theme.LIGHT)
-    val theme = _theme.asFlow()
+    val theme = _theme.readOnly()
 
     private val _name = MutableStateFlow("")
-    val name = _name.asFlow()
+    val name = _name.readOnly()
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
-    val period = _period.asFlow()
+    val period = _period.readOnly()
 
     private val _baseCurrencyCode = MutableStateFlow("")
-    val baseCurrencyCode = _baseCurrencyCode.asFlow()
+    val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
     private val _categories = MutableStateFlow<List<Category>>(emptyList())
-    val categories = _categories.asFlow()
+    val categories = _categories.readOnly()
 
     private val _accounts = MutableStateFlow<List<Account>>(emptyList())
-    val accounts = _accounts.asFlow()
+    val accounts = _accounts.readOnly()
 
     private val _balance = MutableStateFlow(0.0)
-    val balance = _balance.asFlow()
+    val balance = _balance.readOnly()
 
     private val _buffer = MutableStateFlow(0.0)
-    val buffer = _buffer.asFlow()
+    val buffer = _buffer.readOnly()
 
     private val _bufferDiff = MutableStateFlow(0.0)
-    val bufferDiff = _bufferDiff.asFlow()
+    val bufferDiff = _bufferDiff.readOnly()
 
     private val _monthlyIncome = MutableStateFlow(0.0)
-    val monthlyIncome = _monthlyIncome.asFlow()
+    val monthlyIncome = _monthlyIncome.readOnly()
 
     private val _monthlyExpenses = MutableStateFlow(0.0)
-    val monthlyExpenses = _monthlyExpenses.asFlow()
+    val monthlyExpenses = _monthlyExpenses.readOnly()
 
     //Upcoming
     private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
-    val upcoming = _upcoming.asFlow()
+    val upcoming = _upcoming.readOnly()
 
     private val _upcomingIncome = MutableStateFlow(0.0)
-    val upcomingIncome = _upcomingIncome.asFlow()
+    val upcomingIncome = _upcomingIncome.readOnly()
 
     private val _upcomingExpenses = MutableStateFlow(0.0)
-    val upcomingExpenses = _upcomingExpenses.asFlow()
+    val upcomingExpenses = _upcomingExpenses.readOnly()
 
     private val _upcomingExpanded = MutableStateFlow(false)
-    val upcomingExpanded = _upcomingExpanded.asFlow()
+    val upcomingExpanded = _upcomingExpanded.readOnly()
 
     //Overdue
     private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
-    val overdue = _overdue.asFlow()
+    val overdue = _overdue.readOnly()
 
     private val _overdueIncome = MutableStateFlow<Double>(0.0)
-    val overdueIncome = _overdueIncome.asFlow()
+    val overdueIncome = _overdueIncome.readOnly()
 
     private val _overdueExpenses = MutableStateFlow<Double>(0.0)
-    val overdueExpenses = _overdueExpenses.asFlow()
+    val overdueExpenses = _overdueExpenses.readOnly()
 
     private val _overdueExpanded = MutableStateFlow(true)
-    val overdueExpanded = _overdueExpanded.asFlow()
+    val overdueExpanded = _overdueExpanded.readOnly()
 
     //History
     private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
-    val history = _history.asFlow()
+    val history = _history.readOnly()
 
     //Customer Journey
     private val _customerJourneyCards = MutableStateFlow<List<CustomerJourneyCardData>>(emptyList())
-    val customerJourneyCards = _customerJourneyCards.asFlow()
+    val customerJourneyCards = _customerJourneyCards.readOnly()
 
     fun start() {
         viewModelScope.launch {
