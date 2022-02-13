@@ -28,6 +28,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
+import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
@@ -439,11 +440,18 @@ private fun QuickAccess(
         Spacer(Modifier.weight(1f))
 
         val context = LocalContext.current
+//        MoreMenuButton(
+//            icon = R.drawable.home_more_menu_reports,
+//            label = "Charts"
+//        ) {
+//            ivyContext.navigateTo(Screen.Charts)
+//        }
+
         MoreMenuButton(
-            icon = R.drawable.home_more_menu_reports,
-            label = "Charts"
+            icon = R.drawable.home_more_menu_share,
+            label = "Share Ivy"
         ) {
-            ivyContext.navigateTo(Screen.Charts)
+            (context as IvyActivity).shareIvyWallet()
         }
 
         Spacer(Modifier.weight(1f))
