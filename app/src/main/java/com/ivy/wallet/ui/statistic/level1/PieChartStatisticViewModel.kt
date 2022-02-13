@@ -1,20 +1,21 @@
 package com.ivy.wallet.ui.statistic.level1
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.asLiveData
+import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.functional.wallet.calculateWalletExpense
+import com.ivy.wallet.functional.wallet.calculateWalletIncome
 import com.ivy.wallet.logic.WalletCategoryLogic
-import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.persistence.dao.CategoryDao
-import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -22,28 +23,30 @@ import kotlin.math.absoluteValue
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val walletLogic: WalletLogic,
+    private val accountDao: AccountDao,
+    private val transactionDao: TransactionDao,
+    private val exchangeRateDao: ExchangeRateDao,
     private val settingsDao: SettingsDao,
     private val categoryLogic: WalletCategoryLogic,
     private val ivyContext: IvyContext
 ) : ViewModel() {
-    private val _period = MutableLiveData<TimePeriod>()
-    val period = _period.asLiveData()
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    val period = _period.asFlow()
 
-    private val _type = MutableLiveData<TransactionType>()
-    val type = _type.asLiveData()
+    private val _type = MutableStateFlow(TransactionType.EXPENSE)
+    val type = _type.asFlow()
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    private val _baseCurrencyCode = MutableStateFlow("")
+    val baseCurrencyCode = _baseCurrencyCode.asFlow()
 
-    private val _totalAmount = MutableLiveData<Double>()
-    val totalAmount = _totalAmount.asLiveData()
+    private val _totalAmount = MutableStateFlow(0.0)
+    val totalAmount = _totalAmount.asFlow()
 
-    private val _categoryAmounts = MutableLiveData<List<CategoryAmount>>()
-    val categoryAmounts = _categoryAmounts.asLiveData()
+    private val _categoryAmounts = MutableStateFlow<List<CategoryAmount>>(emptyList())
+    val categoryAmounts = _categoryAmounts.asFlow()
 
-    private val _selectedCategory = MutableLiveData<SelectedCategory?>()
-    val selectedCategory = _selectedCategory.asLiveData()
+    private val _selectedCategory = MutableStateFlow<SelectedCategory?>(null)
+    val selectedCategory = _selectedCategory.asFlow()
 
     fun start(
         screen: Screen.PieChartStatistic
@@ -67,12 +70,28 @@ class PieChartStatisticViewModel @Inject constructor(
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
 
-            _currency.value = settings.currency
+            _baseCurrencyCode.value = settings.currency
 
             _totalAmount.value = ioThread {
                 when (type) {
-                    TransactionType.INCOME -> walletLogic.calculateIncome(range)
-                    TransactionType.EXPENSE -> walletLogic.calculateExpenses(range)
+                    TransactionType.INCOME -> {
+                        calculateWalletIncome(
+                            accountDao = accountDao,
+                            transactionDao = transactionDao,
+                            exchangeRateDao = exchangeRateDao,
+                            baseCurrencyCode = baseCurrencyCode.value,
+                            range = range.toCloseTimeRange()
+                        ).value.toDouble()
+                    }
+                    TransactionType.EXPENSE -> {
+                        calculateWalletExpense(
+                            accountDao = accountDao,
+                            transactionDao = transactionDao,
+                            exchangeRateDao = exchangeRateDao,
+                            baseCurrencyCode = baseCurrencyCode.value,
+                            range = range.toCloseTimeRange()
+                        ).value.toDouble()
+                    }
                     else -> error("not supported transactionType - $type")
                 }
             }.absoluteValue

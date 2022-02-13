@@ -7,6 +7,7 @@ import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
+import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.functional.wallet.walletBufferDiff
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.PlannedPaymentsLogic
@@ -23,6 +24,7 @@ import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,10 +162,17 @@ class HomeViewModel @Inject constructor(
             }
 
 
-            _monthlyIncome.value = ioThread { walletLogic.calculateIncome(timeRange) }!!
-            _monthlyExpenses.value = ioThread {
-                walletLogic.calculateExpenses(timeRange)
-            }!!
+            val incomeExpense = ioThread {
+                calculateWalletIncomeExpense(
+                    accountDao = accountDao,
+                    transactionDao = transactionDao,
+                    exchangeRateDao = exchangeRateDao,
+                    baseCurrencyCode = baseCurrencyCode.value,
+                    range = timeRange.toCloseTimeRange()
+                ).value
+            }
+            _monthlyIncome.value = incomeExpense.income.toDouble()
+            _monthlyExpenses.value = incomeExpense.expense.toDouble()
 
             _upcomingIncome.value = ioThread { walletLogic.calculateUpcomingIncome(timeRange) }!!
             _upcomingExpenses.value =

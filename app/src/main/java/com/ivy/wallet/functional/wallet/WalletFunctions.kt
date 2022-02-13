@@ -19,7 +19,6 @@ fun walletBufferDiff(
     return balance - settings.bufferAmount.toBigDecimal()
 }
 
-
 suspend fun baseCurrencyCode(
     settingsDao: SettingsDao
 ): String {
@@ -43,6 +42,58 @@ suspend fun calculateWalletBalance(
         range = range,
         valueFunctions = nonEmptyListOf(
             AccountValueFunctions::balance
+        )
+    )
+
+    return Uncertain(
+        error = uncertainValues.error,
+        value = uncertainValues.value.head
+    )
+}
+
+suspend fun calculateWalletIncome(
+    accountDao: AccountDao,
+    transactionDao: TransactionDao,
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+): Uncertain<List<CurrencyConvError>, BigDecimal> {
+    val uncertainValues = calculateWalletValues(
+        accountDao = accountDao,
+        transactionDao = transactionDao,
+        exchangeRateDao = exchangeRateDao,
+        baseCurrencyCode = baseCurrencyCode,
+        filterExcluded = filterExcluded,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            AccountValueFunctions::income
+        )
+    )
+
+    return Uncertain(
+        error = uncertainValues.error,
+        value = uncertainValues.value.head
+    )
+}
+
+suspend fun calculateWalletExpense(
+    accountDao: AccountDao,
+    transactionDao: TransactionDao,
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+): Uncertain<List<CurrencyConvError>, BigDecimal> {
+    val uncertainValues = calculateWalletValues(
+        accountDao = accountDao,
+        transactionDao = transactionDao,
+        exchangeRateDao = exchangeRateDao,
+        baseCurrencyCode = baseCurrencyCode,
+        filterExcluded = filterExcluded,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            AccountValueFunctions::expense
         )
     )
 
@@ -86,7 +137,6 @@ data class IncomeExpense(
     val income: BigDecimal,
     val expense: BigDecimal
 )
-
 
 suspend fun calculateWalletIncomeExpenseCount(
     accountDao: AccountDao,

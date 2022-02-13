@@ -279,6 +279,8 @@ fun LocalDate.atEndOfDay(): LocalDateTime =
  */
 fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
 
+fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
+
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()
     return this.withDayOfMonth(

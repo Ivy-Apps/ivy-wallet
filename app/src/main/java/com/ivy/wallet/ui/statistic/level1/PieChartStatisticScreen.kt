@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -49,12 +48,12 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
 
     val ivyContext = LocalIvyContext.current
 
-    val type by viewModel.type.observeAsState(TransactionType.EXPENSE)
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currency by viewModel.currency.observeAsState("")
-    val totalAmount by viewModel.totalAmount.observeAsState(0.0)
-    val categoryAmounts by viewModel.categoryAmounts.observeAsState(emptyList())
-    val selectedCategory by viewModel.selectedCategory.observeAsState()
+    val type by viewModel.type.collectAsState()
+    val period by viewModel.period.collectAsState()
+    val currency by viewModel.baseCurrencyCode.collectAsState()
+    val totalAmount by viewModel.totalAmount.collectAsState()
+    val categoryAmounts by viewModel.categoryAmounts.collectAsState()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
 
     onScreenStart {
         viewModel.start(screen)
