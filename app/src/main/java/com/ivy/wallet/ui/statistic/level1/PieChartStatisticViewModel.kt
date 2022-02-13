@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.functional.category.calculateCategoryExpense
+import com.ivy.wallet.functional.category.calculateCategoryIncome
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.calculateWalletExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncome
@@ -93,20 +95,27 @@ class PieChartStatisticViewModel @Inject constructor(
             }.absoluteValue
 
             _categoryAmounts.value = ioThread {
-                categoryDao
-                    .findAll()
+                categoryDao.findAll()
                     .map {
                         CategoryAmount(
                             category = it,
                             amount = when (type) {
-                                TransactionType.INCOME -> categoryLogic.calculateCategoryIncome(
-                                    category = it,
-                                    range = range
-                                )
-                                TransactionType.EXPENSE -> categoryLogic.calculateCategoryExpenses(
-                                    category = it,
-                                    range = range
-                                )
+                                TransactionType.INCOME -> {
+                                    calculateCategoryIncome(
+                                        walletDAOs = walletDAOs,
+                                        baseCurrencyCode = baseCurrencyCode.value,
+                                        categoryId = it.id,
+                                        range = range.toCloseTimeRange()
+                                    ).toDouble()
+                                }
+                                TransactionType.EXPENSE -> {
+                                    calculateCategoryExpense(
+                                        walletDAOs = walletDAOs,
+                                        baseCurrencyCode = baseCurrencyCode.value,
+                                        categoryId = it.id,
+                                        range = range.toCloseTimeRange()
+                                    ).toDouble()
+                                }
                                 else -> error("not supported transactionType - $type")
                             }
                         )

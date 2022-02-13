@@ -2,24 +2,18 @@ package com.ivy.wallet.functional.category
 
 import arrow.core.nonEmptyListOf
 import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.persistence.dao.TransactionDao
+import com.ivy.wallet.functional.data.WalletDAOs
 import java.math.BigDecimal
 import java.util.*
 
 suspend fun calculateCategoryBalance(
-    transactionDao: TransactionDao,
-    accountDao: AccountDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     categoryId: UUID?,
     range: ClosedTimeRange,
 ): BigDecimal {
     return calculateCategoryValues(
-        transactionDao = transactionDao,
-        accountDao = accountDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         categoryId = categoryId,
         range = range,
@@ -38,17 +32,13 @@ data class CategoryStats(
 )
 
 suspend fun calculateCategoryStats(
-    transactionDao: TransactionDao,
-    accountDao: AccountDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     categoryId: UUID?,
     range: ClosedTimeRange,
 ): CategoryStats {
     val values = calculateCategoryValues(
-        transactionDao = transactionDao,
-        accountDao = accountDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         categoryId = categoryId,
         range = range,
@@ -70,4 +60,38 @@ suspend fun calculateCategoryStats(
         incomeCount = values[2],
         expenseCount = values[3]
     )
+}
+
+suspend fun calculateCategoryIncome(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    categoryId: UUID?,
+    range: ClosedTimeRange,
+): BigDecimal {
+    return calculateCategoryValues(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        categoryId = categoryId,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            CategoryValueFunctions::income
+        )
+    ).head
+}
+
+suspend fun calculateCategoryExpense(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    categoryId: UUID?,
+    range: ClosedTimeRange,
+): BigDecimal {
+    return calculateCategoryValues(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        categoryId = categoryId,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            CategoryValueFunctions::expense
+        )
+    ).head
 }

@@ -3,18 +3,14 @@ package com.ivy.wallet.functional.category
 import arrow.core.NonEmptyList
 import com.ivy.wallet.functional.core.calculateValueFunctionsSumSuspend
 import com.ivy.wallet.functional.data.ClosedTimeRange
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.data.toFPTransaction
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 import java.util.*
 
 suspend fun calculateCategoryValues(
-    transactionDao: TransactionDao,
-    accountDao: AccountDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     categoryId: UUID?,
     range: ClosedTimeRange,
@@ -23,18 +19,18 @@ suspend fun calculateCategoryValues(
     return calculateCategoryValues(
         argument = CategoryValueFunctions.Argument(
             categoryId = categoryId,
-            accounts = accountDao.findAll(),
-            exchangeRateDao = exchangeRateDao,
+            accounts = walletDAOs.accountDao.findAll(),
+            exchangeRateDao = walletDAOs.exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode
         ),
         retrieveCategoryTransactions = {
             if (it == null) {
-                transactionDao.findAllUnspecifiedAndBetween(
+                walletDAOs.transactionDao.findAllUnspecifiedAndBetween(
                     startDate = range.from,
                     endDate = range.to
                 )
             } else {
-                transactionDao.findAllByCategoryAndBetween(
+                walletDAOs.transactionDao.findAllByCategoryAndBetween(
                     categoryId = it,
                     startDate = range.from,
                     endDate = range.to
