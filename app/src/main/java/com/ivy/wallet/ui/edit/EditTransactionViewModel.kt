@@ -447,8 +447,8 @@ class EditTransactionViewModel @Inject constructor(
         amount: Double
     ): Double? {
         if (transactionType.value != TransactionType.TRANSFER) return null
-        val toCurrency = toAccount.value?.currency ?: return null
-        val fromCurrency = account.value?.currency ?: return null
+        val toCurrency = toAccount.value?.currency ?: baseCurrency()
+        val fromCurrency = account.value?.currency ?: baseCurrency()
 
         return exchangeRatesLogic.convertAmount(
             baseCurrency = baseCurrency(),
