@@ -141,8 +141,5 @@ suspend fun calculateWalletIncomeExpenseCount(
     )
 }
 
-//TODO: history(range)
-//TODO: overdue(range)
-//TODO: upcoming(range0
 //TODO: upcomingIncomeExpense
 //TODO: overdueIncomeExpense
