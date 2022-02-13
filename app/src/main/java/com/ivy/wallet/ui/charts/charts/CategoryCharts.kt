@@ -22,9 +22,9 @@ import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.charts.Function
-import com.ivy.wallet.ui.theme.components.charts.LineChart
-import com.ivy.wallet.ui.theme.components.charts.TapEvent
+import com.ivy.wallet.ui.theme.components.charts.linechart.Function
+import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.linechart.TapEvent
 
 fun LazyListScope.categoryCharts(
     period: ChartPeriod,
@@ -154,12 +154,13 @@ private fun CategoriesChart(
         mutableStateOf(null)
     }
 
-    LineChart(
+    IvyLineChart(
         modifier = Modifier.padding(horizontal = 24.dp),
+        title = "",
         functions = functions,
         xLabel = {
             val range =
-                categoryValues.first().values.getOrNull(it.toInt())?.range ?: return@LineChart ""
+                categoryValues.first().values.getOrNull(it.toInt())?.range ?: return@IvyLineChart ""
             period.xLabel(range.toCloseTimeRangeUnsafe())
         },
         yLabel = {

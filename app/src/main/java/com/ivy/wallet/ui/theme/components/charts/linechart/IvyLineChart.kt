@@ -1,12 +1,12 @@
-package com.ivy.wallet.ui.theme.components.charts
+package com.ivy.wallet.ui.theme.components.charts.linechart
 
 import android.text.TextPaint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,16 +15,12 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.wallet.base.format
 import com.ivy.wallet.base.lerp
-import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
@@ -63,159 +59,6 @@ data class FunctionPoint(
     val point: Offset
 )
 
-@Composable
-fun LineChart(
-    modifier: Modifier = Modifier,
-    height: Dp = 300.dp,
-    functions: List<Function>,
-    xLabel: (x: Double) -> String,
-    yLabel: (y: Double) -> String,
-    onTap: (TapEvent) -> Unit = {}
-) {
-    val allValues = functions.flatMap { it.values }
-    if (allValues.isEmpty()) return
-
-    val maxY = allValues.maxOf { it.y }
-    val minY = allValues.minOf { it.y }
-
-    val chartColor = IvyTheme.colors.pureInverse
-
-    Column(
-        modifier = modifier
-    ) {
-        var yLabelsWidthPx by remember {
-            mutableStateOf(0)
-        }
-
-        var tapEvent: TapEvent? by remember {
-            mutableStateOf(null)
-        }
-        val onTapInternal = { event: TapEvent ->
-            tapEvent = event
-            onTap(event)
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            //Y values
-            YValues(
-                chartHeight = height,
-                minY = minY,
-                maxY = maxY,
-                yLabel = yLabel,
-                onSetYLabelsWidthPx = {
-                    yLabelsWidthPx = it
-                }
-            )
-
-            Chart(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(height),
-                chartColor = chartColor,
-                maxY = maxY,
-                minY = minY,
-                functions = functions,
-                tapEvent = tapEvent,
-                onTap = onTapInternal
-            )
-        }
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        XLabels(
-            functions = functions,
-            allValues = allValues,
-            yLabelsWidthPx = yLabelsWidthPx,
-            xLabel = xLabel,
-            tapEvent = tapEvent,
-            onTap = onTapInternal
-        )
-    }
-}
-
-@Composable
-private fun XLabels(
-    functions: List<Function>,
-    allValues: List<Value>,
-    yLabelsWidthPx: Int,
-    xLabel: (x: Double) -> String,
-
-    tapEvent: TapEvent?,
-    onTap: (TapEvent) -> Unit
-) {
-    Row {
-        if (yLabelsWidthPx > 0) {
-            Spacer(Modifier.width(yLabelsWidthPx.toDensityDp()))
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        allValues.map { it.x }.toSet().forEachIndexed { index, x ->
-            Text(
-                modifier = Modifier
-                    .width(10.dp)
-                    .clickable {
-                        if (functions.size == 1) {
-                            onTap(
-                                TapEvent(
-                                    functionIndex = 0,
-                                    valueIndex = x.toInt()
-                                )
-                            )
-                        }
-                    },
-                text = xLabel(x),
-                style = Typo.body1.style(
-                    textAlign = TextAlign.Center,
-                    color = if (index == tapEvent?.valueIndex)
-                        Ivy else IvyTheme.colors.pureInverse
-                )
-            )
-
-            Spacer(modifier = Modifier.weight(1f))
-        }
-    }
-}
-
-@Composable
-private fun YValues(
-    chartHeight: Dp,
-    minY: Double,
-    maxY: Double,
-    yLabel: (Double) -> String,
-
-    onSetYLabelsWidthPx: (Int) -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .onSizeChanged {
-                onSetYLabelsWidthPx(it.width)
-            }
-            .height(height = chartHeight)
-            .padding(end = 8.dp)
-    ) {
-        val yValues = remember(minY, maxY) {
-            yValues(
-                min = minY,
-                max = maxY
-            )
-        }
-
-        for ((index, value) in yValues.withIndex()) {
-            Text(
-                text = yLabel(value),
-                style = Typo.numberCaption
-            )
-
-            if (index < yValues.size - 1) {
-                Spacer(modifier = Modifier.weight(1f))
-            }
-        }
-    }
-}
-
 private fun yValues(
     min: Double,
     max: Double
@@ -233,83 +76,6 @@ private fun yValues(
     )
 }
 
-@Composable
-private fun Chart(
-    modifier: Modifier,
-    chartColor: Color,
-    maxY: Double,
-    minY: Double,
-    functions: List<Function>,
-    tapEvent: TapEvent?,
-    onTap: (TapEvent) -> Unit
-) {
-    var points: List<FunctionPoint> by remember {
-        mutableStateOf(emptyList())
-    }
-
-    Canvas(
-        modifier = modifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { clickPoint ->
-                        val targetPoint = points.minByOrNull {
-                            clickPoint.distance(it.point)
-                        } ?: return@detectTapGestures
-
-                        Timber.i("points.size = ${points.size}")
-
-                        onTap(
-                            TapEvent(
-                                functionIndex = targetPoint.functionIndex,
-                                valueIndex = targetPoint.valueIndex
-                            )
-                        )
-                    }
-                )
-            }
-    ) {
-        val chartWidth = size.width
-        val chartHeight = size.height
-
-        //draw chart coordinate system
-        //Y line
-        drawLine(
-            color = chartColor,
-            start = Offset.Zero,
-            end = Offset(x = 0f, y = chartHeight),
-            strokeWidth = 4.dp.toPx(),
-            cap = StrokeCap.Round
-        )
-
-        //X line
-        drawLine(
-            color = chartColor,
-            start = Offset(x = 0f, y = chartHeight),
-            end = Offset(x = chartWidth, y = chartHeight),
-            strokeWidth = 4.dp.toPx(),
-            cap = StrokeCap.Round
-        )
-
-//        points = drawFunctions(
-//            chartWidth = chartWidth,
-//            chartHeight = chartHeight,
-//            cellSize = 24.dp.toPx(),
-//            maxY = maxY,
-//            minY = minY,
-//            functions = functions,
-//        )
-
-        drawTappedPoint(
-            functions = functions,
-            tapEvent = tapEvent,
-            chartWidth = chartWidth,
-            chartHeight = chartHeight,
-            minY = minY,
-            maxY = maxY
-        )
-    }
-
-}
 
 private fun DrawScope.drawTappedPoint(
     functions: List<Function>,
@@ -504,82 +270,6 @@ private fun Offset.distance(point2: Offset): Float {
 }
 
 
-//@Preview
-@Composable
-private fun Preview() {
-    IvyComponentPreview {
-        val values = listOf(
-            Value(
-                x = 0.0,
-                y = 5235.60
-            ),
-            Value(
-                x = 1.0,
-                y = 8000.0
-            ),
-            Value(
-                x = 2.0,
-                y = 15032.89
-            ),
-            Value(
-                x = 3.0,
-                y = 4123.0
-            ),
-            Value(
-                x = 4.0,
-                y = 1000.0
-            ),
-            Value(
-                x = 5.0,
-                y = -5000.0
-            ),
-            Value(
-                x = 6.0,
-                y = 3000.0
-            ),
-            Value(
-                x = 7.0,
-                y = 9000.0
-            ),
-            Value(
-                x = 8.0,
-                y = 15600.50
-            ),
-            Value(
-                x = 9.0,
-                y = 20000.0
-            ),
-            Value(
-                x = 10.0,
-                y = 0.0
-            ),
-            Value(
-                x = 11.0,
-                y = 1000.0
-            ),
-        )
-
-        LineChart(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            functions = listOf(
-                Function(
-                    values = values,
-                    color = Green
-                )
-            ),
-            xLabel = {
-                Month.monthsList()[it.toInt()].name.first().toString()
-            },
-            yLabel = {
-                it.format("BGN")
-            }
-        )
-    }
-}
-
-// --------------------------------------- NEW ----------------------------------------------------
 @Composable
 fun IvyLineChart(
     modifier: Modifier = Modifier,
@@ -595,12 +285,6 @@ fun IvyLineChart(
 
     val maxY = allValues.maxOf { it.y }
     val minY = allValues.minOf { it.y }
-
-    val chartColor = IvyTheme.colors.pureInverse
-
-    var yLabelsWidthPx by remember {
-        mutableStateOf(0)
-    }
 
     var tapEvent: TapEvent? by remember {
         mutableStateOf(null)
@@ -618,11 +302,10 @@ fun IvyLineChart(
             .border(2.dp, Gray, Shapes.rounded24),
         title = title,
         allValues = allValues,
-        chartColor = chartColor,
-        maxY = maxY,
-        minY = minY,
         xLabel = xLabel,
         yLabel = yLabel,
+        maxY = maxY,
+        minY = minY,
         functions = functions,
         tapEvent = tapEvent,
         onTap = onTapInternal
@@ -634,7 +317,6 @@ private fun IvyChart(
     modifier: Modifier,
     title: String,
     allValues: List<Value>,
-    chartColor: Color,
     xLabel: (x: Double) -> String,
     yLabel: (y: Double) -> String,
     maxY: Double,
@@ -670,19 +352,21 @@ private fun IvyChart(
                 )
             }
     ) {
-        val cellSize = 24.dp.toPx()
-        val offsetTop = cellSize * 3
-        val offsetBottom = cellSize
-        val offsetLeft = cellSize * 2
-        val offsetRight = cellSize
-
         val chartWidth = size.width
         val chartHeight = size.height
 
-        // Total number of transactions.
+        val offsetCellsLeft = 2
+        val offsetCellsRight = 1
+
         val totalRecords = functions.first().values.size
-        // Maximum distance between dots (transactions)
-        val lineDistance = (chartWidth - offsetRight) / (totalRecords + 1)
+        val xDistance = chartWidth / (totalRecords + offsetCellsLeft + offsetCellsRight)
+
+
+        val cellSize = xDistance
+        val offsetTop = cellSize * 3
+        val offsetBottom = cellSize
+
+
 
         drawTitle(
             title = title,
@@ -690,11 +374,11 @@ private fun IvyChart(
             chartWidth = chartWidth
         )
 
-        drawXLabelsNew(
+        drawXLabels(
             cellSize = cellSize,
-            offsetLeft = offsetLeft,
-            offsetRight = offsetRight,
-            lineDistance = lineDistance,
+            offsetLeft = offsetCellsLeft * cellSize,
+            offsetRight = offsetCellsRight * cellSize,
+            lineDistance = xDistance,
             chartHeight = chartHeight,
             allValues = allValues,
             textColor = xLabelColor,
@@ -723,11 +407,11 @@ private fun IvyChart(
             maxY = maxY,
             minY = minY,
             cellSize = cellSize,
-            offsetLeft = offsetLeft,
+            offsetLeft = offsetCellsLeft * cellSize,
             offsetTop = offsetTop,
             offsetBottom = offsetBottom,
             functions = functions,
-            lineDistance = lineDistance
+            lineDistance = xDistance
         )
 
         drawTappedPoint(
@@ -794,7 +478,7 @@ fun DrawScope.drawYValues(
     }
 }
 
-fun DrawScope.drawXLabelsNew(
+fun DrawScope.drawXLabels(
     cellSize: Float,
     offsetLeft: Float,
     offsetRight: Float,

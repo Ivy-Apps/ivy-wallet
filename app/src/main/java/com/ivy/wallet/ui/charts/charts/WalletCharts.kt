@@ -15,8 +15,8 @@ import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.charts.Function
-import com.ivy.wallet.ui.theme.components.charts.IvyLineChart
+import com.ivy.wallet.ui.theme.components.charts.linechart.Function
+import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
 import java.text.DecimalFormat
 
 fun LazyListScope.walletCharts(
