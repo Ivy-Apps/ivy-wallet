@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.base.sendToCrashlytics
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.logic.PaywallLogic
@@ -45,7 +45,7 @@ class IvyViewModel @Inject constructor(
     private var appLockEnabled = false
 
     private val _appLocked = MutableStateFlow<Boolean?>(null)
-    val appLocked = _appLocked.asFlow()
+    val appLocked = _appLocked.readOnly()
 
 
     fun start(systemDarkMode: Boolean, intent: Intent) {

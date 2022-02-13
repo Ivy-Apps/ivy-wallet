@@ -54,4 +54,9 @@ fun IvyAppPreview(
     )
 }
 
+@Composable
+fun ivyContext(): IvyContext {
+    return LocalIvyContext.current
+}
+
 

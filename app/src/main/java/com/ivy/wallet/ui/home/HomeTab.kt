@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -48,34 +47,34 @@ fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
 
     val ivyContext = LocalIvyContext.current
 
-    val theme by viewModel.theme.observeAsState(Theme.LIGHT)
-    val name by viewModel.name.observeAsState("")
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currencyCode by viewModel.currencyCode.observeAsState("")
+    val theme by viewModel.theme.collectAsState()
+    val name by viewModel.name.collectAsState()
+    val period by viewModel.period.collectAsState()
+    val currencyCode by viewModel.baseCurrencyCode.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
 
-    val balance by viewModel.balance.observeAsState(0.0)
-    val buffer by viewModel.buffer.observeAsState(0.0)
-    val bufferDiff by viewModel.bufferDiff.observeAsState(0.0)
-    val monthlyIncome by viewModel.monthlyIncome.observeAsState(0.0)
-    val monthlyExpenses by viewModel.monthlyExpenses.observeAsState(0.0)
+    val balance by viewModel.balance.collectAsState()
+    val buffer by viewModel.buffer.collectAsState()
+    val bufferDiff by viewModel.bufferDiff.collectAsState()
+    val monthlyIncome by viewModel.monthlyIncome.collectAsState()
+    val monthlyExpenses by viewModel.monthlyExpenses.collectAsState()
 
-    val upcomingExpanded by viewModel.upcomingExpanded.observeAsState(true)
-    val upcomingIncome by viewModel.upcomingIncome.observeAsState(0.0)
-    val upcomingExpenses by viewModel.upcomingExpenses.observeAsState(0.0)
-    val upcoming by viewModel.upcoming.observeAsState(emptyList())
+    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
+    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
+    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
+    val upcoming by viewModel.upcoming.collectAsState()
 
-    val overdueExpanded by viewModel.overdueExpanded.observeAsState(true)
-    val overdueIncome by viewModel.overdueIncome.observeAsState(0.0)
-    val overdueExpenses by viewModel.overdueExpenses.observeAsState(0.0)
-    val overdue by viewModel.overdue.observeAsState(emptyList())
+    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
+    val overdueIncome by viewModel.overdueIncome.collectAsState()
+    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
+    val overdue by viewModel.overdue.collectAsState()
 
-    val history by viewModel.history.observeAsState(emptyList())
+    val history by viewModel.history.collectAsState()
 
     //Customer Journey
-    val customerJourneyCards by viewModel.customerJourneyCards.observeAsState(emptyList())
+    val customerJourneyCards by viewModel.customerJourneyCards.collectAsState()
 
     onScreenStart {
         viewModel.start()

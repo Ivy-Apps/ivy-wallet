@@ -60,12 +60,6 @@ private fun BoxWithConstraintsScope.UI(
             IvyButton(text = "Analytics") {
                 ivyContext.navigateTo(Screen.AnalyticsReport)
             }
-
-//            Spacer(Modifier.height(24.dp))
-//
-//            IvyButton(text = "Connect bank") {
-//                ivyContext.navigateTo(Screen.ConnectBank)
-//            }
         }
     }
 

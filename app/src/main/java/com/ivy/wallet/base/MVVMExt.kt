@@ -13,7 +13,7 @@ fun <T> MutableLiveData<T>.asLiveData(): LiveData<T> {
     return this
 }
 
-fun <T> MutableStateFlow<T>.asFlow(): StateFlow<T> {
+fun <T> MutableStateFlow<T>.readOnly(): StateFlow<T> {
     return this
 }
 

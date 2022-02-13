@@ -1,51 +1,57 @@
 package com.ivy.wallet.ui.balance
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.wallet.baseCurrencyCode
+import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.logic.PlannedPaymentsLogic
-import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BalanceViewModel @Inject constructor(
+    private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
-    private val walletLogic: WalletLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val ivyContext: IvyContext
 ) : ViewModel() {
 
-    private val _period = MutableLiveData<TimePeriod>()
-    val period = _period.asLiveData()
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    val period = _period.readOnly()
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    private val _baseCurrencyCode = MutableStateFlow("")
+    val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
-    private val _currentBalance = MutableLiveData<Double>()
-    val currentBalance = _currentBalance.asLiveData()
+    private val _currentBalance = MutableStateFlow(0.0)
+    val currentBalance = _currentBalance.readOnly()
 
-    private val _plannedPaymentsAmount = MutableLiveData<Double>()
-    val plannedPaymentsAmount = _plannedPaymentsAmount.asLiveData()
+    private val _plannedPaymentsAmount = MutableStateFlow(0.0)
+    val plannedPaymentsAmount = _plannedPaymentsAmount.readOnly()
 
-    private val _balanceAfterPlannedPayments = MutableLiveData<Double>()
-    val balanceAfterPlannedPayments = _balanceAfterPlannedPayments.asLiveData()
+    private val _balanceAfterPlannedPayments = MutableStateFlow(0.0)
+    val balanceAfterPlannedPayments = _balanceAfterPlannedPayments.readOnly()
 
     fun start(period: TimePeriod = ivyContext.selectedPeriod) {
         viewModelScope.launch {
-            val settings = ioThread { settingsDao.findFirst() }
-            _currency.value = settings.currency
+            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
 
             _period.value = period
 
-            val currentBalance = ioThread { walletLogic.calculateBalance() }!!
+            val currentBalance = ioThread {
+                calculateWalletBalance(
+                    walletDAOs = walletDAOs,
+                    baseCurrencyCode = baseCurrencyCode.value
+                ).value.toDouble()
+            }
             _currentBalance.value = currentBalance
 
             val plannedPaymentsAmount = ioThread {
@@ -62,8 +68,8 @@ class BalanceViewModel @Inject constructor(
     }
 
     fun nextMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
@@ -72,8 +78,8 @@ class BalanceViewModel @Inject constructor(
     }
 
     fun previousMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year = year),
