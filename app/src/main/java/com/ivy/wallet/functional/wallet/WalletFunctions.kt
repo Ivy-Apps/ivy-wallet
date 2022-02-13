@@ -5,11 +5,20 @@ import com.ivy.wallet.functional.account.AccountValueFunctions
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
+import com.ivy.wallet.model.entity.Settings
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
+
+fun walletBufferDiff(
+    settings: Settings,
+    balance: BigDecimal
+): BigDecimal {
+    return balance - settings.bufferAmount.toBigDecimal()
+}
+
 
 suspend fun baseCurrencyCode(
     settingsDao: SettingsDao

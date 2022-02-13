@@ -1,12 +1,13 @@
 package com.ivy.wallet.ui.home
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
+import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.functional.wallet.calculateWalletBalance
+import com.ivy.wallet.functional.wallet.walletBufferDiff
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.PlannedPaymentsLogic
 import com.ivy.wallet.logic.WalletLogic
@@ -17,16 +18,14 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.CategoryDao
-import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.persistence.dao.TransactionDao
+import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +35,7 @@ class HomeViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
+    private val exchangeRateDao: ExchangeRateDao,
     private val walletLogic: WalletLogic,
     private val ivyContext: IvyContext,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -44,72 +44,72 @@ class HomeViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs
 ) : ViewModel() {
 
-    private val _theme = MutableLiveData<Theme>()
-    val theme = _theme.asLiveData()
+    private val _theme = MutableStateFlow(Theme.LIGHT)
+    val theme = _theme.asFlow()
 
-    private val _name = MutableLiveData<String>()
-    val name = _name.asLiveData()
+    private val _name = MutableStateFlow("")
+    val name = _name.asFlow()
 
-    private val _period = MutableLiveData<TimePeriod>()
-    val period = _period.asLiveData()
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    val period = _period.asFlow()
 
-    private val _currencyCode = MutableLiveData<String>()
-    val currencyCode = _currencyCode.asLiveData()
+    private val _baseCurrencyCode = MutableStateFlow("")
+    val baseCurrencyCode = _baseCurrencyCode.asFlow()
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories = _categories.asLiveData()
+    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    val categories = _categories.asFlow()
 
-    private val _accounts = MutableLiveData<List<Account>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.asFlow()
 
-    private val _balance = MutableLiveData<Double>()
-    val balance = _balance.asLiveData()
+    private val _balance = MutableStateFlow(0.0)
+    val balance = _balance.asFlow()
 
-    private val _buffer = MutableLiveData<Double>()
-    val buffer = _buffer.asLiveData()
+    private val _buffer = MutableStateFlow(0.0)
+    val buffer = _buffer.asFlow()
 
-    private val _bufferDiff = MutableLiveData<Double>()
-    val bufferDiff = _bufferDiff.asLiveData()
+    private val _bufferDiff = MutableStateFlow(0.0)
+    val bufferDiff = _bufferDiff.asFlow()
 
-    private val _monthlyIncome = MutableLiveData<Double>()
-    val monthlyIncome = _monthlyIncome.asLiveData()
+    private val _monthlyIncome = MutableStateFlow(0.0)
+    val monthlyIncome = _monthlyIncome.asFlow()
 
-    private val _monthlyExpenses = MutableLiveData<Double>()
-    val monthlyExpenses = _monthlyExpenses.asLiveData()
+    private val _monthlyExpenses = MutableStateFlow(0.0)
+    val monthlyExpenses = _monthlyExpenses.asFlow()
 
     //Upcoming
-    private val _upcoming = MutableLiveData<List<Transaction>>()
-    val upcoming = _upcoming.asLiveData()
+    private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
+    val upcoming = _upcoming.asFlow()
 
-    private val _upcomingIncome = MutableLiveData<Double>()
-    val upcomingIncome = _upcomingIncome.asLiveData()
+    private val _upcomingIncome = MutableStateFlow(0.0)
+    val upcomingIncome = _upcomingIncome.asFlow()
 
-    private val _upcomingExpenses = MutableLiveData<Double>()
-    val upcomingExpenses = _upcomingExpenses.asLiveData()
+    private val _upcomingExpenses = MutableStateFlow(0.0)
+    val upcomingExpenses = _upcomingExpenses.asFlow()
 
-    private val _upcomingExpanded = MutableLiveData(false)
-    val upcomingExpanded = _upcomingExpanded.asLiveData()
+    private val _upcomingExpanded = MutableStateFlow(false)
+    val upcomingExpanded = _upcomingExpanded.asFlow()
 
     //Overdue
-    private val _overdue = MutableLiveData<List<Transaction>>()
-    val overdue = _overdue.asLiveData()
+    private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
+    val overdue = _overdue.asFlow()
 
-    private val _overdueIncome = MutableLiveData<Double>()
-    val overdueIncome = _overdueIncome.asLiveData()
+    private val _overdueIncome = MutableStateFlow<Double>(0.0)
+    val overdueIncome = _overdueIncome.asFlow()
 
-    private val _overdueExpenses = MutableLiveData<Double>()
-    val overdueExpenses = _overdueExpenses.asLiveData()
+    private val _overdueExpenses = MutableStateFlow<Double>(0.0)
+    val overdueExpenses = _overdueExpenses.asFlow()
 
-    private val _overdueExpanded = MutableLiveData(true)
-    val overdueExpanded = _overdueExpanded.asLiveData()
+    private val _overdueExpanded = MutableStateFlow(true)
+    val overdueExpanded = _overdueExpanded.asFlow()
 
     //History
-    private val _history = MutableLiveData<List<TransactionHistoryItem>>()
-    val history = _history.asLiveData()
+    private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
+    val history = _history.asFlow()
 
     //Customer Journey
-    private val _customerJourneyCards = MutableLiveData<List<CustomerJourneyCardData>>()
-    val customerJourneyCards = _customerJourneyCards.asLiveData()
+    private val _customerJourneyCards = MutableStateFlow<List<CustomerJourneyCardData>>(emptyList())
+    val customerJourneyCards = _customerJourneyCards.asFlow()
 
     fun start() {
         viewModelScope.launch {
@@ -134,7 +134,7 @@ class HomeViewModel @Inject constructor(
 
             _theme.value = settings.theme
             _name.value = settings.name
-            _currencyCode.value = settings.currency
+            _baseCurrencyCode.value = settings.currency
 
             _categories.value = ioThread { categoryDao.findAll() }!!
             _accounts.value = ioThread { accountDao.findAll() }!!
@@ -142,9 +142,23 @@ class HomeViewModel @Inject constructor(
             _period.value = period
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
-            _balance.value = ioThread { walletLogic.calculateBalance() }!!
-            _bufferDiff.value = ioThread { walletLogic.calculateBufferDiff() }!!
-            _buffer.value = ioThread { settings.bufferAmount }!!
+            _balance.value = ioThread {
+                calculateWalletBalance(
+                    accountDao = accountDao,
+                    transactionDao = transactionDao,
+                    exchangeRateDao = exchangeRateDao,
+                    baseCurrencyCode = settings.currency
+                ).value.toDouble()
+            }
+
+            _buffer.value = settings.bufferAmount
+            _bufferDiff.value = ioThread {
+                walletBufferDiff(
+                    settings = settings,
+                    balance = balance.value.toBigDecimal()
+                ).toDouble()
+            }
+
 
             _monthlyIncome.value = ioThread { walletLogic.calculateIncome(timeRange) }!!
             _monthlyExpenses.value = ioThread {
