@@ -3,8 +3,8 @@ package com.ivy.wallet.functional.charts
 import com.ivy.wallet.base.beginningOfIvyTime
 import com.ivy.wallet.base.toEpochSeconds
 import com.ivy.wallet.functional.data.ClosedTimeRange
+import com.ivy.wallet.functional.data.IncomeExpensePair
 import com.ivy.wallet.functional.data.WalletDAOs
-import com.ivy.wallet.functional.wallet.IncomeExpensePair
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpenseCount

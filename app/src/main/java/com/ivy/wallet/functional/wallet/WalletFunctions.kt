@@ -5,6 +5,7 @@ import com.ivy.wallet.functional.account.AccountValueFunctions
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
+import com.ivy.wallet.functional.data.IncomeExpensePair
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.model.entity.Settings
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -114,11 +115,6 @@ suspend fun calculateWalletIncomeExpense(
         )
     )
 }
-
-data class IncomeExpensePair(
-    val income: BigDecimal,
-    val expense: BigDecimal
-)
 
 suspend fun calculateWalletIncomeExpenseCount(
     walletDAOs: WalletDAOs,

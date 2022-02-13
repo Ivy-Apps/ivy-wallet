@@ -1,7 +1,7 @@
 package com.ivy.wallet.functional.charts
 
 import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.functional.wallet.IncomeExpensePair
+import com.ivy.wallet.functional.data.IncomeExpensePair
 import java.math.BigDecimal
 
 data class ChartPoint<V>(

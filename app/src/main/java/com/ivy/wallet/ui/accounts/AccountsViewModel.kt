@@ -1,23 +1,28 @@
 package com.ivy.wallet.ui.accounts
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.toOption
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.event.AccountsUpdatedEvent
+import com.ivy.wallet.functional.account.calculateAccountBalance
+import com.ivy.wallet.functional.account.calculateAccountIncomeExpense
+import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.exchangeToBaseCurrency
+import com.ivy.wallet.functional.wallet.baseCurrencyCode
+import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.logic.AccountCreator
-import com.ivy.wallet.logic.WalletAccountLogic
-import com.ivy.wallet.logic.WalletLogic
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.AccountSync
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -25,12 +30,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
+    private val walletDAOs: WalletDAOs,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
-    private val walletLogic: WalletLogic,
-    private val accountLogic: WalletAccountLogic,
     private val accountSync: AccountSync,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyContext,
 ) : ViewModel() {
@@ -44,14 +47,14 @@ class AccountsViewModel @Inject constructor(
         EventBus.getDefault().register(this)
     }
 
-    private val _baseCurrency = MutableLiveData<String>()
-    val baseCurrency = _baseCurrency.asLiveData()
+    private val _baseCurrencyCode = MutableStateFlow("")
+    val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
-    private val _accounts = MutableLiveData<List<AccountData>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = MutableStateFlow<List<AccountData>>(emptyList())
+    val accounts = _accounts.readOnly()
 
-    private val _totalBalanceWithExcluded = MutableLiveData<Double>()
-    val totalBalanceWithExcluded = _totalBalanceWithExcluded.asLiveData()
+    private val _totalBalanceWithExcluded = MutableStateFlow(0.0)
+    val totalBalanceWithExcluded = _totalBalanceWithExcluded.readOnly()
 
     fun start() {
         viewModelScope.launch {
@@ -62,43 +65,50 @@ class AccountsViewModel @Inject constructor(
             ) //this must be monthly
             val range = period.toRange(ivyContext.startDayOfMonth)
 
-            val baseCurrency = ioThread { settingsDao.findFirst().currency }
-            _baseCurrency.value = baseCurrency
+            val baseCurrencyCode = ioThread { baseCurrencyCode(settingsDao) }
+            _baseCurrencyCode.value = baseCurrencyCode
 
             _accounts.value = ioThread {
-                accountDao
-                    .findAll()
+                accountDao.findAll()
                     .map {
-                        val balance = accountLogic.calculateAccountBalance(it)
-                        val balanceBaseCurrency = if (it.currency != baseCurrency) {
-                            exchangeRatesLogic.amountBaseCurrency(
-                                amount = balance,
-                                amountCurrency = it.currency ?: baseCurrency,
-                                baseCurrency = baseCurrency
-                            )
+                        val balance = calculateAccountBalance(
+                            transactionDao = walletDAOs.transactionDao,
+                            accountId = it.id
+                        )
+                        val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
+                            exchangeToBaseCurrency(
+                                exchangeRateDao = walletDAOs.exchangeRateDao,
+                                baseCurrencyCode = baseCurrencyCode.toOption(),
+                                fromCurrencyCode = (it.currency ?: baseCurrencyCode).toOption(),
+                                fromAmount = balance
+                            ).orNull()?.toDouble()
                         } else {
                             null
                         }
 
+                        val incomeExpensePair = calculateAccountIncomeExpense(
+                            transactionDao = walletDAOs.transactionDao,
+                            accountId = it.id,
+                            range = range.toCloseTimeRange()
+                        )
+
                         AccountData(
                             account = it,
-                            balance = balance,
+                            balance = balance.toDouble(),
                             balanceBaseCurrency = balanceBaseCurrency,
-                            monthlyIncome = accountLogic.calculateAccountIncome(
-                                account = it,
-                                range = range
-                            ),
-                            monthlyExpenses = accountLogic.calculateAccountExpenses(
-                                account = it,
-                                range = range
-                            ),
+                            monthlyIncome = incomeExpensePair.income.toDouble(),
+                            monthlyExpenses = incomeExpensePair.expense.toDouble(),
                         )
                     }
-            }!!
+            }
 
             _totalBalanceWithExcluded.value = ioThread {
-                walletLogic.calculateBalance(filterExcluded = false)
-            }!!
+                calculateWalletBalance(
+                    walletDAOs = walletDAOs,
+                    baseCurrencyCode = baseCurrencyCode,
+                    filterExcluded = false
+                ).value.toDouble()
+            }
 
             TestIdlingResource.decrement()
         }

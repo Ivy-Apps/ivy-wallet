@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,9 +36,9 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 fun BoxWithConstraintsScope.AccountsTab(screen: Screen.Main) {
     val viewModel: AccountsViewModel = viewModel()
 
-    val baseCurrency by viewModel.baseCurrency.observeAsState("")
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-    val totalBalanceWithExcluded by viewModel.totalBalanceWithExcluded.observeAsState()
+    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val totalBalanceWithExcluded by viewModel.totalBalanceWithExcluded.collectAsState()
 
     onScreenStart {
         viewModel.start()
