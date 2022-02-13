@@ -106,6 +106,7 @@ private fun BoxWithConstraintsScope.UI(
     var loanRecordModalData: LoanRecordModalData? by remember {
         mutableStateOf(null)
     }
+    var waitModalVisible by remember(loan) { mutableStateOf(false) }
 
 
     Column(
@@ -217,6 +218,9 @@ private fun BoxWithConstraintsScope.UI(
         },
         onCreateAccount = onCreateAccount,
         accounts = accounts,
+        onPerformCalculations = {
+            waitModalVisible = true
+        }
     )
 
     LoanRecordModal(
@@ -239,6 +243,12 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onDeleteLoan()
     }
+
+    ConfirmationModal(
+        title = "Confirm Account Change",
+        description = "Please wait, re-calculating all loan records",
+        visible = waitModalVisible
+    )
 }
 
 @Composable
@@ -467,7 +477,6 @@ private fun LoanInfoCard(
                     .fillMaxWidth()
                     .background(lineColor)
             )
-
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),

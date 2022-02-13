@@ -200,19 +200,11 @@ class LoanViewModel @Inject constructor(
 
     private suspend fun calculateAmountPaid(loan: Loan): Double {
         val loanRecords = ioThread { loanRecordDao.findAllByLoanId(loanId = loan.id) }
-        val mainAccountCurrencyCode =
-            findCurrencyCode(accounts.value, loan.accountId)
-
         var amount = 0.0
 
         loanRecords.forEach { loanRecord ->
             if (!loanRecord.interest) {
-                val convertedAmount = exchangeRatesLogic.convertAmount(
-                    baseCurrency = defaultCurrencyCode,
-                    amount = loanRecord.amount,
-                    fromCurrency = findCurrencyCode(accounts.value, loanRecord.accountId),
-                    toCurrency = mainAccountCurrencyCode
-                )
+                val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
                 amount += convertedAmount
             }
         }

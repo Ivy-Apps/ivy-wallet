@@ -31,7 +31,8 @@ class LoanRecordCreator(
                         dateTime = data.dateTime,
                         isSynced = false,
                         interest = data.interest,
-                        accountId = data.account?.id
+                        accountId = data.account?.id,
+                        convertedAmount = data.convertedAmount
                     )
 
                     dao.save(item)

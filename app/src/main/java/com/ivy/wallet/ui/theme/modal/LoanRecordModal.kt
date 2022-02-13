@@ -83,6 +83,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
+    var accountChangeModal by remember { mutableStateOf(false) }
 
     IvyModal(
         id = modal?.id,
@@ -95,19 +96,23 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                 enabled = amount > 0 && selectedAcc != null
                 //enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
             ) {
-                save(
-                    loanRecord = initialRecord,
-                    noteTextFieldValue = noteTextFieldValue,
-                    amount = amount,
-                    dateTime = dateTime,
-                    loanRecordInterest = loanInterest,
-                    selectedAccount = selectedAcc,
-                    createLoanRecordTransaction = createLoanRecordTrans,
+                accountChangeModal =
+                    modal?.selectedAccount != null && modal.selectedAccount.currency != selectedAcc?.currency
 
-                    onCreate = onCreate,
-                    onEdit = onEdit,
-                    dismiss = dismiss,
-                )
+                if (!accountChangeModal)
+                    save(
+                        loanRecord = initialRecord,
+                        noteTextFieldValue = noteTextFieldValue,
+                        amount = amount,
+                        dateTime = dateTime,
+                        loanRecordInterest = loanInterest,
+                        selectedAccount = selectedAcc,
+                        createLoanRecordTransaction = createLoanRecordTrans,
+
+                        onCreate = onCreate,
+                        onEdit = onEdit,
+                        dismiss = dismiss,
+                    )
             }
         }
     ) {
@@ -255,6 +260,35 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             accountModalData = null
         }
     )
+
+    DeleteModal(
+        visible = accountChangeModal,
+        title = "Confirm Account Change",
+        description = "Note: You are trying to change the account associated with the loan record with an account of different currency" +
+                "\nThe amount will be re-calculated based on today's exchanges rates ",
+        buttonText = "Confirm",
+        iconStart = R.drawable.ic_agreed,
+        dismiss = {
+            selectedAcc = modal?.selectedAccount ?: selectedAcc
+            deleteModalVisible = false
+        }
+    ) {
+        save(
+            loanRecord = initialRecord,
+            noteTextFieldValue = noteTextFieldValue,
+            amount = amount,
+            dateTime = dateTime,
+            loanRecordInterest = loanInterest,
+            selectedAccount = selectedAcc,
+            createLoanRecordTransaction = createLoanRecordTrans,
+
+            onCreate = onCreate,
+            onEdit = onEdit,
+            dismiss = dismiss,
+        )
+
+        accountChangeModal = false
+    }
 }
 
 @Composable

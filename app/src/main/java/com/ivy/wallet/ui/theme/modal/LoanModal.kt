@@ -56,6 +56,7 @@ fun BoxWithConstraintsScope.LoanModal(
     modal: LoanModalData?,
     onCreateLoan: (CreateLoanData) -> Unit,
     onEditLoan: (Loan, Boolean) -> Unit,
+    onPerformCalculations: () -> Unit = {},
     dismiss: () -> Unit,
 ) {
     val loan = modal?.loan
@@ -86,6 +87,7 @@ fun BoxWithConstraintsScope.LoanModal(
         mutableStateOf(modal?.createLoanTransaction ?: false)
     }
 
+    var accountChangeModal by remember { mutableStateOf(false) }
     var amountModalVisible by remember { mutableStateOf(false) }
     var currencyModalVisible by remember { mutableStateOf(false) }
     var chooseIconModalVisible by remember(modal) {
@@ -106,20 +108,25 @@ fun BoxWithConstraintsScope.LoanModal(
                 //enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTrans && selectedAcc != null) || !createLoanTrans)
                 enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
-                save(
-                    loan = loan,
-                    nameTextFieldValue = nameTextFieldValue,
-                    type = type,
-                    color = color,
-                    icon = icon,
-                    amount = amount,
-                    selectedAccount = selectedAcc,
-                    createLoanTransaction = createLoanTrans,
+                accountChangeModal =
+                    modal?.selectedAccount != null && modal.selectedAccount.currency != selectedAcc?.currency
 
-                    onCreateLoan = onCreateLoan,
-                    onEditLoan = onEditLoan,
-                    dismiss = dismiss
-                )
+                if (!accountChangeModal) {
+                    save(
+                        loan = loan,
+                        nameTextFieldValue = nameTextFieldValue,
+                        type = type,
+                        color = color,
+                        icon = icon,
+                        amount = amount,
+                        selectedAccount = selectedAcc,
+                        createLoanTransaction = createLoanTrans,
+
+                        onCreateLoan = onCreateLoan,
+                        onEditLoan = onEditLoan,
+                        dismiss = dismiss
+                    )
+                }
             }
         }
     ) {
@@ -259,6 +266,36 @@ fun BoxWithConstraintsScope.LoanModal(
         dismiss = { chooseIconModalVisible = false }
     ) {
         icon = it
+    }
+
+    DeleteModal(
+        visible = accountChangeModal,
+        title = "Confirm Account Change",
+        description = "Note: You are trying to change the account associated with the loan with an account of different currency, " +
+                "\nAll the loan records will be re-calculated based on today's exchanges rates ",
+        buttonText = "Confirm",
+        iconStart = R.drawable.ic_agreed,
+        dismiss = {
+            selectedAcc = modal?.selectedAccount ?: selectedAcc
+            accountChangeModal = false
+        }
+    ) {
+        onPerformCalculations()
+        save(
+            loan = loan,
+            nameTextFieldValue = nameTextFieldValue,
+            type = type,
+            color = color,
+            icon = icon,
+            amount = amount,
+            selectedAccount = selectedAcc,
+            createLoanTransaction = createLoanTrans,
+
+            onCreateLoan = onCreateLoan,
+            onEditLoan = onEditLoan,
+            dismiss = dismiss
+        )
+        accountChangeModal = false
     }
 }
 

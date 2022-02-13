@@ -9,5 +9,6 @@ data class CreateLoanRecordData(
     val dateTime: LocalDateTime,
     val interest: Boolean = false,
     val account: Account? = null,
-    val createLoanRecordTransaction: Boolean = false
+    val createLoanRecordTransaction: Boolean = false,
+    val convertedAmount: Double? = null
 )

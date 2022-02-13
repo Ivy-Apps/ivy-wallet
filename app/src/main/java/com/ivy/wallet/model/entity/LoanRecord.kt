@@ -13,6 +13,8 @@ data class LoanRecord(
     val dateTime: LocalDateTime,
     val interest:Boolean = false,
     val accountId : UUID? = null,
+    //This is used store the converted amount for currencies which are different from the loan account currency
+    val convertedAmount :Double? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,

@@ -24,6 +24,7 @@ import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -141,12 +142,7 @@ class LoanDetailsViewModel @Inject constructor(
                 var amtPaid = 0.0
                 var loanInterestAmtPaid = 0.0
                 displayLoanRecords.value.forEach {
-                    val convertedAmount = exchangeRatesLogic.convertAmount(
-                        baseCurrency = defaultCurrencyCode,
-                        amount = it.loanRecord.amount,
-                        fromCurrency = it.account?.currency ?: defaultCurrencyCode,
-                        toCurrency = _selectedLoanAccount.value?.currency ?: defaultCurrencyCode
-                    )
+                    val convertedAmount = it.loanRecord.convertedAmount ?: it.loanRecord.amount
                     if (!it.loanRecord.interest) {
                         amtPaid += convertedAmount
                     } else
@@ -175,6 +171,10 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
+            if (loan.accountId != _loan.value?.accountId) {
+                recalculateLoanRecords(loanId = loan.id, newAccountId = loan.accountId)
+            }
+
             loanCreator.edit(loan) {
                 load(loanId = it.id)
             }
@@ -191,7 +191,34 @@ class LoanDetailsViewModel @Inject constructor(
                 time = associatedTransaction?.dateTime
             )
 
+
+
             TestIdlingResource.decrement()
+        }
+    }
+
+    private suspend fun recalculateLoanRecords(
+        newAccountId: UUID? = null,
+        loanId: UUID
+    ) {
+
+        val newCurrency = findAccount(accounts.value, newAccountId)?.currency ?: defaultCurrencyCode
+
+        val loanRecords = ioThread {
+            _displayLoanRecords.value.map { it.loanRecord }.map { loanRecord ->
+                val convertedAmount: Double? = if (loanRecord.accountId == newAccountId) null else
+                    exchangeRatesLogic.convertAmount(
+                        baseCurrency = defaultCurrencyCode,
+                        amount = loanRecord.amount,
+                        fromCurrency = findAccount(_accounts.value, loanRecord.accountId)?.currency
+                            ?: defaultCurrencyCode,
+                        toCurrency = newCurrency
+                    )
+                loanRecord.copy(convertedAmount = convertedAmount)
+            }
+        }
+        ioThread {
+            loanRecordDao.save(loanRecords)
         }
     }
 
@@ -223,9 +250,23 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
+            val modifiedData = ioThread {
+                if (data.account?.currency != baseCurrency.value)
+                    data.copy(
+                        convertedAmount = exchangeRatesLogic.convertAmount(
+                            baseCurrency = defaultCurrencyCode,
+                            amount = data.amount,
+                            fromCurrency = data.account?.currency ?: defaultCurrencyCode,
+                            toCurrency = baseCurrency.value
+                        )
+                    )
+                else
+                    data
+            }
+
             val loanRecordUUID = loanRecordCreator.create(
                 loanId = loanId,
-                data = data
+                data = modifiedData
             ) {
                 load(loanId = loanId)
             }
@@ -252,7 +293,23 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            loanRecordCreator.edit(loanRecord) {
+            val loanRecordAccount = findAccount(_accounts.value, loanRecord.accountId)
+
+            val modifiedLoanRecord = ioThread {
+                if (baseCurrency.value != loanRecordAccount?.currency) {
+                    loanRecord.copy(
+                        convertedAmount = exchangeRatesLogic.convertAmount(
+                            defaultCurrencyCode,
+                            loanRecord.amount,
+                            loanRecordAccount?.currency ?: defaultCurrencyCode,
+                            baseCurrency.value
+                        )
+                    )
+                } else
+                    loanRecord.copy(convertedAmount = null)
+            }
+
+            loanRecordCreator.edit(modifiedLoanRecord) {
                 load(loanId = it.loanId)
             }
 
