@@ -10,32 +10,29 @@ import com.ivy.wallet.functional.core.mapIndexedNel
 import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 
 typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
 typealias AccountValuesPair = Pair<Account, NonEmptyList<BigDecimal>>
 
 suspend fun calculateWalletValues(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
     valueFunctions: NonEmptyList<AccountValueFunction>
 ): UncertainWalletValues {
-    val uncertainWalletValues = accountDao.findAll()
+    val uncertainWalletValues = walletDAOs.accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
         .map { account ->
             Pair(
                 first = account,
                 second = calculateAccountValues(
-                    transactionDao = transactionDao,
+                    transactionDao = walletDAOs.transactionDao,
                     accountId = account.id,
                     range = range,
                     valueFunctions = valueFunctions
@@ -43,7 +40,7 @@ suspend fun calculateWalletValues(
             )
         }
         .convertValuesInBaseCurrency(
-            exchangeRateDao = exchangeRateDao,
+            exchangeRateDao = walletDAOs.exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode
         )
 

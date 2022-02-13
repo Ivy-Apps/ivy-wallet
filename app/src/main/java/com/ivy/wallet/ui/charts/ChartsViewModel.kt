@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.functional.charts.*
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.WalletCategoryLogic
-import com.ivy.wallet.logic.WalletLogic
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,11 +23,7 @@ import kotlin.math.absoluteValue
 
 @HiltViewModel
 class ChartsViewModel @Inject constructor(
-    private val accountDao: AccountDao,
-    private val transactionDao: TransactionDao,
-    private val exchangeRateDao: ExchangeRateDao,
-
-    private val walletLogic: WalletLogic,
+    private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
     private val categoryDao: CategoryDao,
     private val walletCategoryLogic: WalletCategoryLogic
@@ -84,9 +81,7 @@ class ChartsViewModel @Inject constructor(
 
     private suspend fun generateBalanceChart(period: ChartPeriod) = ioThread {
         balanceChart(
-            accountDao = accountDao,
-            transactionDao = transactionDao,
-            exchangeRateDao = exchangeRateDao,
+            walletDAOs = walletDAOs,
             baseCurrencyCode = baseCurrencyCode.value,
             period = period
         )
@@ -94,9 +89,7 @@ class ChartsViewModel @Inject constructor(
 
     private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
         incomeExpenseChart(
-            accountDao = accountDao,
-            transactionDao = transactionDao,
-            exchangeRateDao = exchangeRateDao,
+            walletDAOs = walletDAOs,
             baseCurrencyCode = baseCurrencyCode.value,
             period = period
         )

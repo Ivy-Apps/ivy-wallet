@@ -3,13 +3,11 @@ package com.ivy.wallet.functional.charts
 import com.ivy.wallet.base.beginningOfIvyTime
 import com.ivy.wallet.base.toEpochSeconds
 import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.functional.wallet.IncomeExpense
+import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.wallet.IncomeExpensePair
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpenseCount
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.ExchangeRateDao
-import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -18,9 +16,7 @@ data class ToRange(
 )
 
 suspend fun balanceChart(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     period: ChartPeriod
 ): List<SingleChartPoint> {
@@ -32,9 +28,7 @@ suspend fun balanceChart(
         orderedPeriod = orderedPeriod.map { ToRange(it.to) },
         calculateWalletBalance = { range ->
             calculateWalletBalance(
-                accountDao = accountDao,
-                transactionDao = transactionDao,
-                exchangeRateDao = exchangeRateDao,
+                walletDAOs = walletDAOs,
                 baseCurrencyCode = baseCurrencyCode,
                 filterExcluded = true,
                 range = range
@@ -73,9 +67,7 @@ tailrec suspend fun generateBalanceChart(
 
 
 suspend fun incomeExpenseChart(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     period: ChartPeriod
 ): List<IncomeExpenseChartPoint> {
@@ -87,9 +79,7 @@ suspend fun incomeExpenseChart(
         orderedPeriod = orderedPeriod,
         calculateWalletIncomeExpense = { range ->
             calculateWalletIncomeExpense(
-                accountDao = accountDao,
-                transactionDao = transactionDao,
-                exchangeRateDao = exchangeRateDao,
+                walletDAOs = walletDAOs,
                 baseCurrencyCode = baseCurrencyCode,
                 range = range,
                 filterExcluded = true
@@ -100,7 +90,7 @@ suspend fun incomeExpenseChart(
 
 tailrec suspend fun generateIncomeExpenseChart(
     orderedPeriod: List<ClosedTimeRange>,
-    calculateWalletIncomeExpense: suspend (range: ClosedTimeRange) -> IncomeExpense,
+    calculateWalletIncomeExpense: suspend (range: ClosedTimeRange) -> IncomeExpensePair,
     accumulator: List<IncomeExpenseChartPoint> = emptyList()
 ): List<IncomeExpenseChartPoint> {
     return if (orderedPeriod.isEmpty()) accumulator else {
@@ -122,9 +112,7 @@ tailrec suspend fun generateIncomeExpenseChart(
 
 
 suspend fun incomeExpenseCountChart(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     period: ChartPeriod
 ): List<PairChartPoint> {
@@ -136,9 +124,7 @@ suspend fun incomeExpenseCountChart(
         orderedPeriod = orderedPeriod,
         calculateWalletIncomeExpenseCount = { range ->
             calculateWalletIncomeExpenseCount(
-                accountDao = accountDao,
-                transactionDao = transactionDao,
-                exchangeRateDao = exchangeRateDao,
+                walletDAOs = walletDAOs,
                 baseCurrencyCode = baseCurrencyCode,
                 range = range,
                 filterExcluded = true

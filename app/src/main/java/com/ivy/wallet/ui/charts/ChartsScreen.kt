@@ -129,7 +129,6 @@ private fun UI(
                 period = period,
                 baseCurrencyCode = baseCurrencyCode,
                 balanceChart = balanceChart,
-                incomeExpenseChart = incomeExpenseChart
             )
             ChartType.CATEGORY -> {
                 TODO()

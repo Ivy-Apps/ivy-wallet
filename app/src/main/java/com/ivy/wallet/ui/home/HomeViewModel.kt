@@ -6,6 +6,7 @@ import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.functional.wallet.walletBufferDiff
@@ -19,7 +20,8 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.MainTab
@@ -33,11 +35,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val accountDao: AccountDao,
-    private val transactionDao: TransactionDao,
-    private val categoryDao: CategoryDao,
+    private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
-    private val exchangeRateDao: ExchangeRateDao,
+    private val categoryDao: CategoryDao,
     private val walletLogic: WalletLogic,
     private val ivyContext: IvyContext,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -138,17 +138,15 @@ class HomeViewModel @Inject constructor(
             _name.value = settings.name
             _baseCurrencyCode.value = settings.currency
 
-            _categories.value = ioThread { categoryDao.findAll() }!!
-            _accounts.value = ioThread { accountDao.findAll() }!!
+            _categories.value = ioThread { categoryDao.findAll() }
+            _accounts.value = ioThread { walletDAOs.accountDao.findAll() }
 
             _period.value = period
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
             _balance.value = ioThread {
                 calculateWalletBalance(
-                    accountDao = accountDao,
-                    transactionDao = transactionDao,
-                    exchangeRateDao = exchangeRateDao,
+                    walletDAOs = walletDAOs,
                     baseCurrencyCode = settings.currency
                 ).value.toDouble()
             }
@@ -162,30 +160,28 @@ class HomeViewModel @Inject constructor(
             }
 
 
-            val incomeExpense = ioThread {
+            val incomeExpensePair = ioThread {
                 calculateWalletIncomeExpense(
-                    accountDao = accountDao,
-                    transactionDao = transactionDao,
-                    exchangeRateDao = exchangeRateDao,
+                    walletDAOs = walletDAOs,
                     baseCurrencyCode = baseCurrencyCode.value,
                     range = timeRange.toCloseTimeRange()
                 ).value
             }
-            _monthlyIncome.value = incomeExpense.income.toDouble()
-            _monthlyExpenses.value = incomeExpense.expense.toDouble()
+            _monthlyIncome.value = incomeExpensePair.income.toDouble()
+            _monthlyExpenses.value = incomeExpensePair.expense.toDouble()
 
-            _upcomingIncome.value = ioThread { walletLogic.calculateUpcomingIncome(timeRange) }!!
+            _upcomingIncome.value = ioThread { walletLogic.calculateUpcomingIncome(timeRange) }
             _upcomingExpenses.value =
-                ioThread { walletLogic.calculateUpcomingExpenses(timeRange) }!!
-            _upcoming.value = ioThread { walletLogic.upcomingTransactions(timeRange) }!!
+                ioThread { walletLogic.calculateUpcomingExpenses(timeRange) }
+            _upcoming.value = ioThread { walletLogic.upcomingTransactions(timeRange) }
 
-            _overdueIncome.value = ioThread { walletLogic.calculateOverdueIncome(timeRange) }!!
-            _overdueExpenses.value = ioThread { walletLogic.calculateOverdueExpenses(timeRange) }!!
-            _overdue.value = ioThread { walletLogic.overdueTransactions(timeRange) }!!
+            _overdueIncome.value = ioThread { walletLogic.calculateOverdueIncome(timeRange) }
+            _overdueExpenses.value = ioThread { walletLogic.calculateOverdueExpenses(timeRange) }
+            _overdue.value = ioThread { walletLogic.overdueTransactions(timeRange) }
 
-            _history.value = ioThread { walletLogic.history(timeRange) }!!
+            _history.value = ioThread { walletLogic.history(timeRange) }
 
-            _customerJourneyCards.value = ioThread { customerJourneyLogic.loadCards() }!!
+            _customerJourneyCards.value = ioThread { customerJourneyLogic.loadCards() }
 
             TestIdlingResource.decrement()
         }
@@ -203,7 +199,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val hasTransactions = ioThread { transactionDao.findAll_LIMIT_1().isNotEmpty() }
+            val hasTransactions = ioThread {
+                walletDAOs.transactionDao.findAll_LIMIT_1().isNotEmpty()
+            }
             if (hasTransactions) {
                 //has transactions show him "Balance" screen
                 ivyContext.navigateTo(Screen.BalanceScreen)
@@ -298,8 +296,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun nextMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
@@ -308,8 +306,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun previousMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year = year),

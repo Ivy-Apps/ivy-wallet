@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.calculateWalletExpense
 import com.ivy.wallet.functional.wallet.calculateWalletIncome
 import com.ivy.wallet.logic.WalletCategoryLogic
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -22,10 +24,8 @@ import kotlin.math.absoluteValue
 
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
+    private val walletDAOs: WalletDAOs,
     private val categoryDao: CategoryDao,
-    private val accountDao: AccountDao,
-    private val transactionDao: TransactionDao,
-    private val exchangeRateDao: ExchangeRateDao,
     private val settingsDao: SettingsDao,
     private val categoryLogic: WalletCategoryLogic,
     private val ivyContext: IvyContext
@@ -76,18 +76,14 @@ class PieChartStatisticViewModel @Inject constructor(
                 when (type) {
                     TransactionType.INCOME -> {
                         calculateWalletIncome(
-                            accountDao = accountDao,
-                            transactionDao = transactionDao,
-                            exchangeRateDao = exchangeRateDao,
+                            walletDAOs = walletDAOs,
                             baseCurrencyCode = baseCurrencyCode.value,
                             range = range.toCloseTimeRange()
                         ).value.toDouble()
                     }
                     TransactionType.EXPENSE -> {
                         calculateWalletExpense(
-                            accountDao = accountDao,
-                            transactionDao = transactionDao,
-                            exchangeRateDao = exchangeRateDao,
+                            walletDAOs = walletDAOs,
                             baseCurrencyCode = baseCurrencyCode.value,
                             range = range.toCloseTimeRange()
                         ).value.toDouble()
@@ -131,14 +127,14 @@ class PieChartStatisticViewModel @Inject constructor(
                         )
                     )
                     .sortedByDescending { it.amount }
-            }!!
+            }
         }
     }
 
     fun setSelectedCategory(selectedCategory: SelectedCategory?) {
         _selectedCategory.value = selectedCategory
 
-        val categoryAmounts = _categoryAmounts.value ?: return
+        val categoryAmounts = _categoryAmounts.value
         _categoryAmounts.value = if (selectedCategory != null) {
             categoryAmounts
                 .sortedByDescending { it.amount }
@@ -156,28 +152,28 @@ class PieChartStatisticViewModel @Inject constructor(
         ivyContext.updateSelectedPeriodInMemory(period)
         load(
             period = period,
-            type = type.value!!
+            type = type.value
         )
     }
 
     fun nextMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, 1L,year),
-                type = type.value!!
+                period = month.incrementMonthPeriod(ivyContext, 1L, year),
+                type = type.value
             )
         }
     }
 
     fun previousMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, -1L,year),
-                type = type.value!!
+                period = month.incrementMonthPeriod(ivyContext, -1L, year),
+                type = type.value
             )
         }
     }

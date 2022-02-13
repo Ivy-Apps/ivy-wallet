@@ -5,11 +5,9 @@ import com.ivy.wallet.functional.account.AccountValueFunctions
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.CurrencyConvError
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.model.entity.Settings
-import com.ivy.wallet.persistence.dao.AccountDao
-import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.persistence.dao.TransactionDao
 import java.math.BigDecimal
 
 fun walletBufferDiff(
@@ -26,17 +24,13 @@ suspend fun baseCurrencyCode(
 }
 
 suspend fun calculateWalletBalance(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
 ): Uncertain<List<CurrencyConvError>, BigDecimal> {
     val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
         range = range,
@@ -52,17 +46,13 @@ suspend fun calculateWalletBalance(
 }
 
 suspend fun calculateWalletIncome(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
 ): Uncertain<List<CurrencyConvError>, BigDecimal> {
     val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
         range = range,
@@ -78,17 +68,13 @@ suspend fun calculateWalletIncome(
 }
 
 suspend fun calculateWalletExpense(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
 ): Uncertain<List<CurrencyConvError>, BigDecimal> {
     val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
         range = range,
@@ -104,17 +90,13 @@ suspend fun calculateWalletExpense(
 }
 
 suspend fun calculateWalletIncomeExpense(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange,
-): Uncertain<List<CurrencyConvError>, IncomeExpense> {
+): Uncertain<List<CurrencyConvError>, IncomeExpensePair> {
     val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
         range = range,
@@ -126,30 +108,26 @@ suspend fun calculateWalletIncomeExpense(
 
     return Uncertain(
         error = uncertainValues.error,
-        value = IncomeExpense(
+        value = IncomeExpensePair(
             income = uncertainValues.value[0],
             expense = uncertainValues.value[1]
         )
     )
 }
 
-data class IncomeExpense(
+data class IncomeExpensePair(
     val income: BigDecimal,
     val expense: BigDecimal
 )
 
 suspend fun calculateWalletIncomeExpenseCount(
-    accountDao: AccountDao,
-    transactionDao: TransactionDao,
-    exchangeRateDao: ExchangeRateDao,
+    walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange,
 ): Uncertain<List<CurrencyConvError>, Pair<BigDecimal, BigDecimal>> {
     val uncertainValues = calculateWalletValues(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        exchangeRateDao = exchangeRateDao,
+        walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
         range = range,

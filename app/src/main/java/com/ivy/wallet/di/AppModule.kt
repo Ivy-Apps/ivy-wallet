@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeAccountMapper
@@ -719,6 +720,19 @@ object AppModule {
     ): SmartTitleSuggestionsLogic {
         return SmartTitleSuggestionsLogic(
             transactionDao = transactionDao
+        )
+    }
+
+    @Provides
+    fun provideWalletDAOs(
+        accountDao: AccountDao,
+        transactionDao: TransactionDao,
+        exchangeRateDao: ExchangeRateDao
+    ): WalletDAOs {
+        return WalletDAOs(
+            accountDao = accountDao,
+            transactionDao = transactionDao,
+            exchangeRateDao = exchangeRateDao
         )
     }
 }
