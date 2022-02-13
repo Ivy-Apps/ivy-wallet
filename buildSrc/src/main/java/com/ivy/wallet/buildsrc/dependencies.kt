@@ -17,6 +17,7 @@
 package com.ivy.wallet.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.project
 
 
 object Project {
@@ -35,14 +36,17 @@ object Project {
 
 object GlobalVersions {
     const val compose = "1.1.0"
+    const val kotlinVersion = "1.6.10"
 }
 
 /**
  * @param kotlinVersion must also be updated in buildSrc gradle
  */
 fun DependencyHandler.appModuleDependencies(
-    kotlinVersion: String = "1.6.10"
+    kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
+    implementation(project(":ivy-design"))
+
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
     FunctionalProgramming(
@@ -68,6 +72,23 @@ fun DependencyHandler.appModuleDependencies(
     AndroidX()
 
     ThirdParty()
+}
+
+fun DependencyHandler.ivyDesignModuleDependencies(
+    kotlinVersion: String = GlobalVersions.kotlinVersion
+) {
+    Kotlin(version = kotlinVersion)
+    Coroutines(version = "1.5.0")
+    FunctionalProgramming(
+        arrowVersion = "1.0.1",
+        kotestVersion = "5.1.0",
+        kotlinVersion = kotlinVersion
+    )
+
+    Compose(version = GlobalVersions.compose)
+
+    AndroidX()
+    Lifecycle(version = "2.3.1")
 }
 
 

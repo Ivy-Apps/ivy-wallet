@@ -132,13 +132,11 @@ object AppModule {
         transactionDao: TransactionDao,
         settingsDao: SettingsDao,
         exchangeRatesLogic: ExchangeRatesLogic,
-        walletAccountLogic: WalletAccountLogic
     ): WalletLogic = WalletLogic(
         accountDao = accountDao,
         transactionDao = transactionDao,
         settingsDao = settingsDao,
         exchangeRatesLogic = exchangeRatesLogic,
-        walletAccountLogic = walletAccountLogic
     )
 
     @Provides
