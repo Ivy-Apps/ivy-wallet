@@ -18,6 +18,9 @@ data class FPTransaction(
     val toAmount: BigDecimal,
     val dateTime: Option<LocalDateTime>,
 
+    val loanId: Option<UUID>,
+    val loanRecordId:Option<UUID>,
+
     val title: Option<String>,
     val description: Option<String>,
     val dueDate: Option<LocalDateTime>,
@@ -37,5 +40,7 @@ fun Transaction.toFPTransaction(): FPTransaction =
         dateTime = dateTime.toOption(),
         categoryId = categoryId.toOption(),
         dueDate = dueDate.toOption(),
-        recurringRuleId = recurringRuleId.toOption()
+        recurringRuleId = recurringRuleId.toOption(),
+        loanId = loanId.toOption(),
+        loanRecordId = loanRecordId.toOption()
     )
