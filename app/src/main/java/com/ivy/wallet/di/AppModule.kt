@@ -721,4 +721,44 @@ object AppModule {
             transactionDao = transactionDao
         )
     }
+
+    @Provides
+    fun loanTransactionsLogic(
+        categoryDao: CategoryDao,
+        transactionUploader: TransactionUploader,
+        transactionDao: TransactionDao,
+        ivyContext: IvyContext,
+        loanDao: LoanDao,
+        loanRecordDao: LoanRecordDao,
+        exchangeRatesLogic: ExchangeRatesLogic,
+        settingsDao: SettingsDao,
+        accountDao: AccountDao
+    ): LoanTransactionsLogic {
+
+        val loan = GeneralLoanTransactionsLogic.LoanSealedClass(
+            categoryDao = categoryDao,
+            transactionUploader = transactionUploader,
+            transactionDao = transactionDao,
+            ivyContext = ivyContext,
+            loanDao = loanDao,
+            loanRecordDao = loanRecordDao,
+            settingsDao = settingsDao,
+            accountsDao = accountDao,
+            exchangeRatesLogic = exchangeRatesLogic
+        )
+
+        val loanRecord = GeneralLoanTransactionsLogic.LoanRecordSealedClass(
+            categoryDao = categoryDao,
+            transactionUploader = transactionUploader,
+            transactionDao = transactionDao,
+            ivyContext = ivyContext,
+            loanDao = loanDao,
+            loanRecordDao = loanRecordDao,
+            settingsDao = settingsDao,
+            accountsDao = accountDao,
+            exchangeRatesLogic = exchangeRatesLogic
+        )
+
+        return LoanTransactionsLogic(Loan = loan, LoanRecord = loanRecord)
+    }
 }

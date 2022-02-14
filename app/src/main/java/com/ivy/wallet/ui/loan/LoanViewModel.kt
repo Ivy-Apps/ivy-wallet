@@ -1,28 +1,27 @@
 package com.ivy.wallet.ui.loan
 
-import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.*
+import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.base.asLiveData
+import com.ivy.wallet.base.getDefaultFIATCurrency
+import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.AccountCreator
 import com.ivy.wallet.logic.LoanCreator
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
-import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.persistence.dao.AccountDao
+import com.ivy.wallet.persistence.dao.LoanDao
+import com.ivy.wallet.persistence.dao.LoanRecordDao
+import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.LoanSync
-import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.loan.data.DisplayLoan
-import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,17 +33,14 @@ import javax.inject.Inject
 @HiltViewModel
 class LoanViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val categoryDao: CategoryDao,
-    private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val settingsDao: SettingsDao,
     private val loanSync: LoanSync,
     private val loanCreator: LoanCreator,
-    private val ivyContext: IvyContext
+    private val loanTransactionsLogic: LoanTransactionsLogic
 ) : ViewModel() {
 
     private var defaultCurrencyCode = ""
@@ -105,37 +101,11 @@ class LoanViewModel @Inject constructor(
                 start()
             }
 
-            createLoanTransaction(data, data.account, uuid)
+            uuid?.let {
+                loanTransactionsLogic.Loan.createAssociatedLoanTransaction(data = data, loanId = it)
+            }
 
             TestIdlingResource.decrement()
-        }
-    }
-
-    private suspend fun createLoanTransaction(
-        data: CreateLoanData,
-        selectedAccount: Account?,
-        loanId: UUID?
-    ) {
-        if (selectedAccount == null || !data.createLoanTransaction)
-            return
-
-        val transType =
-            if (data.type == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
-
-        val categoryId = getCategoryId()
-
-        val transaction = Transaction(
-            accountId = selectedAccount.id,
-            type = transType,
-            amount = data.amount,
-            dateTime = timeNowUTC(),
-            categoryId = categoryId,
-            title = data.name,
-            loanId = loanId,
-        )
-
-        ioThread {
-            transactionDao.save(transaction)
         }
     }
 
@@ -210,36 +180,5 @@ class LoanViewModel @Inject constructor(
         }
 
         return amount
-    }
-
-    private suspend fun getCategoryId(existingCategoryId: UUID? = null): UUID? {
-        if (existingCategoryId != null)
-            return existingCategoryId
-
-        val categoryList = ioThread {
-            categoryDao.findAll()
-        }
-
-        var addCategoryToDb = false
-
-        val loanCategory = categoryList.find { category ->
-            category.name.lowercase(Locale.ENGLISH).contains("loan")
-        } ?: if (ivyContext.isPremium || categoryList.size < 12) {
-            addCategoryToDb = true
-            Category(
-                "Loans",
-                color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
-                icon = "loan"
-            )
-        } else null
-
-        if (addCategoryToDb)
-            ioThread {
-                loanCategory?.let {
-                    categoryDao.save(it)
-                }
-            }
-
-        return loanCategory?.id
     }
 }

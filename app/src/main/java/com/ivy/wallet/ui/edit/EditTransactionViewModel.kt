@@ -47,7 +47,8 @@ class EditTransactionViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val paywallLogic: PaywallLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic
+    private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
+    private val loanTransactionsLogic: LoanTransactionsLogic
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -451,7 +452,7 @@ class EditTransactionViewModel @Inject constructor(
                 )
 
                 if (loadedTransaction?.loanId != null)
-                    updateAssociatedLoan(loadedTransaction)
+                    loanTransactionsLogic.updateAssociatedLoanData(loadedTransaction!!.copy())
 
                 transactionDao.save(loadedTransaction())
             }
@@ -519,35 +520,4 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
-
-    private suspend fun updateAssociatedLoan(loadedTransaction: Transaction?) {
-        if (loadedTransaction == null)
-            return
-
-        if (loadedTransaction.loanId != null && loadedTransaction.loanRecordId == null) {
-            val loan = loanDao.findById(loadedTransaction.loanId)
-            loan?.let { fetchedLoan ->
-                val modifiedLoan = fetchedLoan.copy(
-                    amount = loadedTransaction.amount,
-                    name = loadedTransaction.title ?: "",
-                    type = if (loadedTransaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
-                    accountId = loadedTransaction.accountId
-                )
-                ioThread {
-                    loanDao.save(modifiedLoan)
-                }
-            }
-        } else if (loadedTransaction.loanRecordId != null && loadedTransaction.loanId != null) {
-            val loanRecord = loanRecordDao.findById(loadedTransaction.loanRecordId)
-            loanRecord?.let { fetchedRecord ->
-                val modifiedLoanRecord = fetchedRecord.copy(
-                    amount = loadedTransaction.amount,
-                    note = loadedTransaction.title,
-                    dateTime = loadedTransaction.dateTime ?: fetchedRecord.dateTime,
-                    accountId = loadedTransaction.accountId
-                )
-                loanRecordDao.save(modifiedLoanRecord)
-            }
-        }
-    }
 }
