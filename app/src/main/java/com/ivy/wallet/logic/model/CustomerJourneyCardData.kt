@@ -2,6 +2,7 @@ package com.ivy.wallet.logic.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletCtx
 
@@ -17,5 +18,5 @@ data class CustomerJourneyCardData(
     val hasDismiss: Boolean = true,
 
     val backgroundColor: Color,
-    val onAction: (IvyWalletCtx, IvyActivity) -> Unit
+    val onAction: (Navigation, IvyWalletCtx, IvyActivity) -> Unit
 )

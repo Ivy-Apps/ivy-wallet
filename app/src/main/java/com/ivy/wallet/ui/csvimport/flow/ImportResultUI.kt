@@ -8,10 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.base.format
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -30,11 +30,11 @@ fun ImportResultUI(
     ) {
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         BackButton(
             modifier = Modifier.padding(start = 20.dp)
         ) {
-            ivyContext.onBackPressed()
+            nav.onBackPressed()
         }
 
         Spacer(Modifier.height(24.dp))

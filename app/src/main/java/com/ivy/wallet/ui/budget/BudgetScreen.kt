@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
@@ -23,9 +24,8 @@ import com.ivy.wallet.logic.model.CreateBudgetData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.BudgetScreen
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -42,7 +42,7 @@ import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
-fun BoxWithConstraintsScope.BudgetScreen(screen: Screen.Budget) {
+fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
     val viewModel: BudgetViewModel = viewModel()
 
     val timeRange by viewModel.timeRange.observeAsState()
@@ -143,7 +143,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     BudgetBottomBar(
         onAdd = {
             budgetModalData = BudgetModalData(
@@ -154,7 +154,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 

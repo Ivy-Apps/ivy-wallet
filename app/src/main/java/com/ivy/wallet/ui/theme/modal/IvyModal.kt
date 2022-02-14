@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
@@ -184,14 +185,14 @@ fun AddModalBackHandling(
     visible: Boolean,
     action: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     DisposableEffect(visible) {
         if (visible) {
-            val lastModalBackHandlingId = ivyContext.lastModalBackHandlerId()
+            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
 
             if (modalId != null && modalId != lastModalBackHandlingId) {
-                ivyContext.modalBackHandling.add(
-                    IvyWalletCtx.ModalBackHandler(
+                nav.modalBackHandling.add(
+                    Navigation.ModalBackHandler(
                         id = modalId,
                         onBackPressed = {
                             if (visible) {
@@ -207,17 +208,17 @@ fun AddModalBackHandling(
         }
 
         onDispose {
-            val lastModalBackHandlingId = ivyContext.lastModalBackHandlerId()
+            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
             if (modalId != null && lastModalBackHandlingId == modalId) {
-                removeLastBackHandlerSafe(ivyContext)
+                removeLastBackHandlerSafe(nav)
             }
         }
     }
 }
 
-private fun removeLastBackHandlerSafe(ivyContext: IvyWalletCtx) {
-    if (ivyContext.modalBackHandling.isNotEmpty()) {
-        ivyContext.modalBackHandling.pop()
+private fun removeLastBackHandlerSafe(nav: Navigation) {
+    if (nav.modalBackHandling.isNotEmpty()) {
+        nav.modalBackHandling.pop()
     }
 }
 
@@ -235,7 +236,7 @@ fun ModalActionsRow(
     PrimaryAction: @Composable () -> Unit
 ) {
     if (visible || modalPercentVisible > 0.01f) {
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
         ActionsRow(
             modifier = Modifier
                 .onSizeChanged {

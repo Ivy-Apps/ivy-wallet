@@ -29,7 +29,7 @@ import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.base.toDensityPx
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import timber.log.Timber
@@ -181,7 +181,7 @@ private fun SwipeToAgree(
     agreedText: String,
     onAgreed: (Boolean) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val maxOffsetX = ivyContext.screenWidth - 80.dp.toDensityPx() - 72.dp.toDensityPx()
     var offsetX by remember { mutableStateOf(0f) }

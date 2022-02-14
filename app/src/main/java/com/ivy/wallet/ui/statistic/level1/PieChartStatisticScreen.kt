@@ -25,13 +25,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -42,11 +41,11 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: Screen.PieChartStatistic
+    screen: PieChartStatistic
 ) {
     val viewModel: PieChartStatisticViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val type by viewModel.type.collectAsState()
     val period by viewModel.period.collectAsState()
@@ -100,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce()
     )
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     LazyColumn(
         modifier = Modifier
@@ -126,11 +125,11 @@ private fun BoxWithConstraintsScope.UI(
                 onSelectPreviousMonth = onSelectPreviousMonth,
 
                 onClose = {
-                    ivyContext.back()
+                    nav.back()
                 },
                 onAdd = { trnType ->
-                    ivyContext.navigateTo(
-                        Screen.EditTransaction(
+                    nav.navigateTo(
+                        EditTransaction(
                             initialTransactionId = null,
                             type = trnType
                         )
@@ -211,8 +210,8 @@ private fun BoxWithConstraintsScope.UI(
 
                     selectedCategory = selectedCategory
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             categoryId = item.category?.id,
                             unspecifiedCategory = item.category == null
                         )
@@ -304,7 +303,7 @@ private fun Header(
                 }
             ),
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
+            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
         ) {
             onShowMonthModal()
         }

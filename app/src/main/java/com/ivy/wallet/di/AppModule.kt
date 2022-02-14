@@ -3,6 +3,7 @@ package com.ivy.wallet.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.functional.data.WalletDAOs
@@ -43,6 +44,12 @@ object AppModule {
     @Singleton
     fun provideIvyContext(): IvyWalletCtx {
         return IvyWalletCtx()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNavigation(): Navigation {
+        return Navigation()
     }
 
     @Provides
@@ -442,6 +449,7 @@ object AppModule {
     fun providepaywallLogic(
         ivyBilling: IvyBilling,
         ivyContext: IvyWalletCtx,
+        navigation: Navigation,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
         budgetDao: BudgetDao,
@@ -450,6 +458,7 @@ object AppModule {
         return PaywallLogic(
             ivyBilling = ivyBilling,
             ivyContext = ivyContext,
+            navigation = navigation,
             accountDao = accountDao,
             categoryDao = categoryDao,
             budgetDao = budgetDao,
@@ -637,13 +646,13 @@ object AppModule {
         ivyRoomDatabase: IvyRoomDatabase,
         ivySession: IvySession,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyWalletCtx
+        navigation: Navigation
     ): LogoutLogic {
         return LogoutLogic(
             ivyDb = ivyRoomDatabase,
             ivySession = ivySession,
             sharedPrefs = sharedPrefs,
-            ivyContext = ivyContext
+            navigation = navigation
         )
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.PlannedPaymentsLogic
 import com.ivy.wallet.logic.WalletLogic
@@ -34,6 +35,7 @@ class ReportViewModel @Inject constructor(
     private val walletLogic: WalletLogic,
     private val transactionDao: TransactionDao,
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -345,7 +347,10 @@ class ReportViewModel @Inject constructor(
     }
 
     fun export(context: Context) {
-        ivyContext.protectWithPaywall(PaywallReason.EXPORT_CSV) {
+        ivyContext.protectWithPaywall(
+            paywallReason = PaywallReason.EXPORT_CSV,
+            navigation = nav
+        ) {
             val filter = _filter.value ?: return@protectWithPaywall
             if (!filter.validate()) return@protectWithPaywall
             val accounts = _accounts.value ?: return@protectWithPaywall

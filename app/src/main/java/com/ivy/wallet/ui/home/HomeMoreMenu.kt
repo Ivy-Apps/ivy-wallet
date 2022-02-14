@@ -25,14 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -59,7 +57,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
@@ -192,10 +190,10 @@ private fun ColumnScope.Content(
 ) {
     Spacer(Modifier.height(24.dp))
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SearchButton {
-        ivyContext.navigateTo(
-            screen = Screen.Search
+        nav.navigateTo(
+            screen = Search
         )
     }
 
@@ -363,7 +361,7 @@ private fun QuickAccess(
     theme: Theme,
     onSwitchTheme: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     Text(
         modifier = Modifier.padding(start = 24.dp),
@@ -383,7 +381,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_settings,
             label = "Settings"
         ) {
-            ivyContext.navigateTo(Screen.Settings)
+            nav.navigateTo(Settings)
         }
 
         Spacer(Modifier.weight(1f))
@@ -392,7 +390,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_categories,
             label = "Categories"
         ) {
-            ivyContext.navigateTo(Screen.Categories)
+            nav.navigateTo(Categories)
         }
 
         Spacer(Modifier.weight(1f))
@@ -424,7 +422,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_planned_payments,
             label = "Planned\nPayments"
         ) {
-            ivyContext.navigateTo(Screen.PlannedPayments)
+            nav.navigateTo(PlannedPayments)
         }
 
         Spacer(Modifier.weight(1f))
@@ -461,7 +459,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_reports,
             label = "Reports",
         ) {
-            ivyContext.navigateTo(Screen.Report)
+            nav.navigateTo(Report)
         }
 
         Spacer(Modifier.weight(1f))
@@ -470,7 +468,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_budgets,
             label = "Budgets",
         ) {
-            ivyContext.navigateTo(Screen.Budget)
+            nav.navigateTo(BudgetScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -479,7 +477,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_loans,
             label = "Loans",
         ) {
-            ivyContext.navigateTo(Screen.Loans)
+            nav.navigateTo(Loans)
         }
 
         Spacer(Modifier.weight(1f))

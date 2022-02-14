@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.computationThread
 import com.ivy.wallet.base.ioThread
@@ -14,7 +15,7 @@ import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.LoanDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +30,8 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation
 ) : ViewModel() {
 
     private val _baseCurrency = MutableStateFlow("")
@@ -45,7 +47,7 @@ class LoanDetailsViewModel @Inject constructor(
     val amountPaid = _amountPaid.asStateFlow()
 
 
-    fun start(screen: Screen.LoanDetails) {
+    fun start(screen: LoanDetails) {
         load(loanId = screen.loanId)
     }
 
@@ -95,7 +97,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             loanCreator.delete(loan) {
                 //close screen
-                ivyContext.back()
+                nav.back()
             }
 
             TestIdlingResource.decrement()

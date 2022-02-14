@@ -15,9 +15,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.wallet.base.OpResult
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.ui.ConnectBank
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -25,7 +25,7 @@ import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.style
 
 @Composable
-fun BoxWithConstraintsScope.ConnectBankScreen(screen: Screen.ConnectBank) {
+fun BoxWithConstraintsScope.ConnectBankScreen(screen: ConnectBank) {
     val viewModel: ConnectBankViewModel = viewModel()
 
     val opSyncTransactions by viewModel.opSyncTransactions.observeAsState()

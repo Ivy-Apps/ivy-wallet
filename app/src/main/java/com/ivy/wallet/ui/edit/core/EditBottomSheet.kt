@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.ivyContext
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -63,7 +63,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     onToAccountChanged: (Account) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyContext()
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
 
@@ -238,7 +238,7 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyContext()
 
     ActionsRow(
         modifier = Modifier

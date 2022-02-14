@@ -12,7 +12,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateLoanRecordData
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.time.LocalDateTime
@@ -166,7 +166,7 @@ private fun DateTimeRow(
     dateTime: LocalDateTime,
     onSetDateTime: (LocalDateTime) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     Row(
         modifier = Modifier.fillMaxWidth(),

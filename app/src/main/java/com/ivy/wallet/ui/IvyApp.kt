@@ -6,15 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.ui.theme.IvyTheme
 
 
-val LocalIvyContext = compositionLocalOf<IvyWalletCtx> { error("No LocalIvyContext") }
+//val LocalIvyContext = compositionLocalOf<IvyWalletCtx> { error("No LocalIvyContext") }
 
 @Composable
 fun IvyApp(
@@ -22,7 +22,7 @@ fun IvyApp(
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     CompositionLocalProvider(
-        LocalIvyContext provides ivyContext,
+//        LocalIvyContext provides ivyContext,
     ) {
         IvyTheme(theme = ivyContext.theme) {
             Surface(modifier = Modifier.fillMaxSize()) {
@@ -55,8 +55,8 @@ fun IvyAppPreview(
 }
 
 @Composable
-fun ivyContext(): IvyWalletCtx {
-    return LocalIvyContext.current
+fun ivyWalletCtx(): IvyWalletCtx {
+    return ivyContext() as IvyWalletCtx
 }
 
 

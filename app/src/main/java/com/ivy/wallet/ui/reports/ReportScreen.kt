@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.onScreenStart
@@ -27,8 +28,8 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Report
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -38,7 +39,7 @@ import com.ivy.wallet.ui.theme.transaction.transactions
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen(
-    screen: Screen.Report
+    screen: Report
 ) {
     val viewModel: ReportViewModel = viewModel()
 
@@ -133,7 +134,8 @@ private fun BoxWithConstraintsScope.UI(
     onSetFilter: (ReportFilter?) -> Unit = {},
     onExport: () -> Unit = {},
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val listState = rememberLazyListState()
 
     var filterOverlayVisible by remember {
@@ -223,6 +225,7 @@ private fun BoxWithConstraintsScope.UI(
         if (filter != null) {
             transactions(
                 ivyContext = ivyContext,
+                nav = nav,
                 baseCurrency = baseCurrency,
 
                 upcomingIncome = upcomingIncome,
@@ -331,11 +334,11 @@ private fun Toolbar(
     onExport: () -> Unit,
     onFilter: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     IvyToolbar(
         backButtonType = BackButtonType.CLOSE,
         onBack = {
-            ivyContext.back()
+            nav.back()
         }
     ) {
         Spacer(Modifier.weight(1f))

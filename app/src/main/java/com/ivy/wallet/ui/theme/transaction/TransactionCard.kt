@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatNicely
@@ -27,9 +28,8 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -152,7 +152,7 @@ private fun TransactionHeaderRow(
     categories: List<Category>,
     accounts: List<Account>
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     if (transaction.type == TransactionType.TRANSFER) {
         TransferHeader(
@@ -184,8 +184,8 @@ private fun TransactionHeaderRow(
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -214,8 +214,8 @@ private fun TransactionHeaderRow(
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = account.id,
                             categoryId = null
                         )

@@ -18,13 +18,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.Categories
+import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.balancePrefix
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -36,7 +37,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
-fun BoxWithConstraintsScope.CategoriesScreen(screen: Screen.Categories) {
+fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -101,7 +102,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         for (categoryData in categories) {
             CategoryCard(
                 currency = currency,
@@ -110,8 +111,8 @@ private fun BoxWithConstraintsScope.UI(
                     reorderVisible = true
                 }
             ) {
-                ivyContext.navigateTo(
-                    Screen.ItemStatistic(
+                nav.navigateTo(
+                    ItemStatistic(
                         accountId = null,
                         categoryId = categoryData.category.id
                     )
@@ -122,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     CategoriesBottomBar(
         onAddCategory = {
             categoryModalData = CategoryModalData(
@@ -130,7 +131,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 

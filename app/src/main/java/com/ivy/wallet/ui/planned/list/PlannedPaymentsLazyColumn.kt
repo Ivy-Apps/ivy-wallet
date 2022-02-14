@@ -11,13 +11,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Typo
@@ -45,7 +45,7 @@ fun PlannedPaymentsLazyColumn(
     recurringIncome: Double,
     recurringExpenses: Double,
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     var oneTimeExpanded by remember { mutableStateOf(true) }
     var recurringExpanded by remember { mutableStateOf(true) }
 
@@ -60,7 +60,7 @@ fun PlannedPaymentsLazyColumn(
         }
 
         plannedPaymentItems(
-            ivyContext = ivyContext,
+            nav = nav,
             currency = currency,
             categories = categories,
             accounts = accounts,
@@ -86,7 +86,7 @@ fun PlannedPaymentsLazyColumn(
 }
 
 private fun LazyListScope.plannedPaymentItems(
-    ivyContext: IvyWalletCtx,
+    nav: Navigation,
     currency: String,
     categories: List<Category>,
     accounts: List<Account>,
@@ -128,7 +128,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -160,7 +160,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -182,12 +182,12 @@ private fun LazyListScope.plannedPaymentItems(
 }
 
 private fun onPlannedPaymentClick(
-    ivyContext: IvyWalletCtx,
+    nav: Navigation,
     listState: LazyListState,
     rule: PlannedPaymentRule
 ) {
-    ivyContext.navigateTo(
-        Screen.EditPlanned(
+    nav.navigateTo(
+        EditPlanned(
             plannedPaymentRuleId = rule.id,
             type = rule.type
         )

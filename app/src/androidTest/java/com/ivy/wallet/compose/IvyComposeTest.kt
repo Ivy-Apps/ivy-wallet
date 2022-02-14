@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
@@ -38,6 +39,9 @@ abstract class IvyComposeTest {
 
     @Inject
     lateinit var ivyContext: IvyWalletCtx
+
+    @Inject
+    lateinit var navigation: Navigation
 
     @Inject
     lateinit var ivyRoomDatabase: IvyRoomDatabase
@@ -100,6 +104,7 @@ abstract class IvyComposeTest {
 
     private fun resetIvyContext() {
         ivyContext.reset()
+        navigation.reset()
     }
 
     private fun context(): Context {

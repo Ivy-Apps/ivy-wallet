@@ -24,6 +24,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
@@ -32,10 +33,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.model.AuthProviderType
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.entity.User
-import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -46,7 +44,7 @@ import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: Screen.Settings) {
+fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val viewModel: SettingsViewModel = viewModel()
 
     val user by viewModel.user.observeAsState()
@@ -134,15 +132,15 @@ private fun BoxWithConstraintsScope.UI(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             IvyToolbar(
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
             ) {
                 Spacer(Modifier.weight(1f))
 
                 Text(
                     modifier = Modifier.clickableNoIndication {
-                        ivyContext.navigateTo(Screen.Test)
+                        nav.navigateTo(Test)
                     },
                     text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                     style = Typo.numberCaption.style(
@@ -197,7 +195,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             ExportCSV {
                 onExportToCSV()
             }
@@ -209,8 +207,8 @@ private fun BoxWithConstraintsScope.UI(
                 text = "Import CSV",
                 backgroundGradient = GradientGreen
             ) {
-                ivyContext.navigateTo(
-                    Screen.Import(
+                nav.navigateTo(
+                    Import(
                         launchedFromOnboarding = false
                     )
                 )
@@ -413,26 +411,26 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun HelpCenter() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = "Help Center",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = Constants.URL_HELP_CENTER)
+        nav.navigateTo(
+            IvyWebView(url = Constants.URL_HELP_CENTER)
         )
     }
 }
 
 @Composable
 private fun Roadmap() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = "Roadmap",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = Constants.URL_ROADMAP)
+        nav.navigateTo(
+            IvyWebView(url = Constants.URL_ROADMAP)
         )
     }
 }
@@ -462,13 +460,13 @@ private fun ContactSupport() {
 
 @Composable
 private fun ProjectContributors() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_people_m,
         text = "Project Contributors",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = URL_IVY_CONTRIBUTORS)
+        nav.navigateTo(
+            IvyWebView(url = URL_IVY_CONTRIBUTORS)
         )
     }
 }
@@ -759,15 +757,15 @@ private fun AccountCardLocalAccount(
 
 @Composable
 private fun Premium() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsPrimaryButton(
         icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyContext.isPremium) "Ivy Premium (owned)" else "Buy premium",
+        text = if (ivyWalletCtx().isPremium) "Ivy Premium (owned)" else "Buy premium",
         hasShadow = true,
-        backgroundGradient = if (ivyContext.isPremium) GradientIvy else GradientOrange
+        backgroundGradient = if (ivyWalletCtx().isPremium) GradientIvy else GradientOrange
     ) {
-        ivyContext.navigateTo(
-            Screen.Paywall(
+        nav.navigateTo(
+            Paywall(
                 paywallReason = null
             )
         )

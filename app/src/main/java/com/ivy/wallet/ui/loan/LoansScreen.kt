@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
@@ -24,8 +25,8 @@ import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.Loans
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -33,7 +34,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
+fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     val viewModel: LoanViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
@@ -84,7 +85,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         for (item in loans) {
             Spacer(Modifier.height(16.dp))
 
@@ -92,8 +93,8 @@ private fun BoxWithConstraintsScope.UI(
                 displayLoan = item,
                 baseCurrency = baseCurrency
             ) {
-                ivyContext.navigateTo(
-                    screen = Screen.LoanDetails(
+                nav.navigateTo(
+                    screen = LoanDetails(
                         loanId = item.loan.id
                     )
                 )
@@ -115,7 +116,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     LoanBottomBar(
         onAdd = {
             loanModalData = LoanModalData(
@@ -124,7 +125,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 

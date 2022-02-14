@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
@@ -23,9 +24,8 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
+import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -107,7 +107,7 @@ private fun PlannedPaymentHeaderRow(
     categories: List<Category>,
     accounts: List<Account>
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     if (plannedPayment.type != TransactionType.TRANSFER) {
         Row(
@@ -139,8 +139,8 @@ private fun PlannedPaymentHeaderRow(
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -164,8 +164,8 @@ private fun PlannedPaymentHeaderRow(
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = account.id,
                             categoryId = null
                         )

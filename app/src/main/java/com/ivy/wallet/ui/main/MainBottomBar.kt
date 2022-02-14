@@ -26,7 +26,7 @@ import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -51,7 +51,7 @@ fun BoxWithConstraintsScope.BottomBar(
 
     showAddAccountModal: () -> Unit,
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -241,7 +241,7 @@ private fun TransactionButtons(
     onAddTransfer: () -> Unit,
     onAddPlannedPayment: () -> Unit,
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val bH = 48.dp
     val bV = 20.dp //24.dp

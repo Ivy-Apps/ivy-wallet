@@ -13,12 +13,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -28,7 +29,8 @@ fun CustomerJourney(
     customerJourneyCards: List<CustomerJourneyCardData>,
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val ivyActivity = LocalContext.current as IvyActivity
 
     if (customerJourneyCards.isNotEmpty()) {
@@ -44,7 +46,7 @@ fun CustomerJourney(
                 onDismiss(card)
             }
         ) {
-            card.onAction(ivyContext, ivyActivity)
+            card.onAction(nav, ivyContext, ivyActivity)
         }
     }
 }

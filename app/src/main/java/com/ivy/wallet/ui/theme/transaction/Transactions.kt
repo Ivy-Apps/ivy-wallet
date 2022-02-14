@@ -13,20 +13,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.model.TransactionHistoryDateDivider
 import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.absoluteValue
 
 fun LazyListScope.transactions(
     ivyContext: IvyWalletCtx,
+    nav: Navigation,
     upcoming: List<Transaction>,
     upcomingExpanded: Boolean,
     setUpcomingExpanded: (Boolean) -> Unit,
@@ -71,7 +73,7 @@ fun LazyListScope.transactions(
                     onPayOrGet = onPayOrGet
                 ) { trn ->
                     onTransactionClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         transaction = trn
                     )
@@ -103,7 +105,7 @@ fun LazyListScope.transactions(
                     onPayOrGet = onPayOrGet
                 ) { trn ->
                     onTransactionClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         transaction = trn
                     )
@@ -124,7 +126,7 @@ fun LazyListScope.transactions(
                         onPayOrGet = onPayOrGet
                     ) { trn ->
                         onTransactionClick(
-                            ivyContext = ivyContext,
+                            nav = nav,
                             listState = listState,
                             transaction = trn
                         )
@@ -171,12 +173,12 @@ fun LazyListScope.transactions(
 }
 
 private fun onTransactionClick(
-    ivyContext: IvyWalletCtx,
+    nav: Navigation,
     listState: LazyListState,
     transaction: Transaction
 ) {
-    ivyContext.navigateTo(
-        Screen.EditTransaction(
+    nav.navigateTo(
+        EditTransaction(
             initialTransactionId = transaction.id,
             type = transaction.type
         )

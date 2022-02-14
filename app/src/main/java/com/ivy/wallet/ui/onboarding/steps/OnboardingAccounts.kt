@@ -17,14 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -62,10 +62,10 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             OnboardingToolbar(
                 hasSkip = accounts.isEmpty(),
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
         }
@@ -223,8 +223,7 @@ fun PremiumInfo(
 fun BuyPremiumRow(
     itemLabelPlural: String,
 ) {
-    val ivyContext = LocalIvyContext.current
-
+    val nav = navigation()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -232,8 +231,8 @@ fun BuyPremiumRow(
             .clip(Shapes.rounded16)
             .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
             .clickable {
-                ivyContext.navigateTo(
-                    Screen.Paywall(
+                nav.navigateTo(
+                    Paywall(
                         paywallReason = PaywallReason.ACCOUNTS
                     )
                 )

@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ivy.design.IvyContext
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.persistence.SharedPrefs
@@ -14,12 +15,8 @@ import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import java.time.LocalDate
 import java.time.LocalTime
-import java.util.*
 
 class IvyWalletCtx : IvyContext() {
-    var currentScreen: Screen? by mutableStateOf(null)
-        private set
-
     //------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
     fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
@@ -81,97 +78,23 @@ class IvyWalletCtx : IvyContext() {
     }
     //------------------------------------------ State ---------------------------------------------
 
-    //------------------------------------------- BackStack ----------------------------------------
-    private val backStack: Stack<Screen> = Stack()
-
-    private var lastScreen: Screen? = null
-
-    var modalBackHandling: Stack<ModalBackHandler> = Stack()
-
-    data class ModalBackHandler(
-        val id: UUID,
-        val onBackPressed: () -> Boolean
-    )
-
-    fun protectWithPaywall(paywallReason: PaywallReason, action: () -> Unit) {
+    //------------------------------------------- Navigation ----------------------------------------
+    fun protectWithPaywall(
+        paywallReason: PaywallReason,
+        navigation: Navigation,
+        action: () -> Unit
+    ) {
         if (isPremium || (BuildConfig.DEBUG && !Constants.ENABLE_PAYWALL_ON_DEBUG)) {
             action()
         } else {
-            navigateTo(
-                Screen.Paywall(
+            navigation.navigateTo(
+                screen = Paywall(
                     paywallReason = paywallReason
                 )
             )
         }
     }
-
-    fun lastModalBackHandlerId(): UUID? {
-        return if (modalBackHandling.isEmpty()) {
-            null
-        } else {
-            modalBackHandling.peek().id
-        }
-    }
-
-    var onBackPressed: MutableMap<Screen, () -> Boolean> = mutableMapOf()
-
-
-    fun navigateTo(screen: Screen, allowBackStackStore: Boolean = true) {
-        if (lastScreen != null && allowBackStackStore) {
-            backStack.push(lastScreen)
-        }
-        switchScreen(screen, allowBackStackStore)
-    }
-
-    fun resetBackStack() {
-        while (!backStackEmpty()) {
-            popBackStack()
-        }
-        lastScreen = null
-    }
-
-    fun backStackEmpty() = backStack.empty()
-
-    fun popBackStackSafe() {
-        if (!backStackEmpty()) {
-            popBackStack()
-        }
-    }
-
-    private fun popBackStack() {
-        backStack.pop()
-    }
-
-    fun onBackPressed(): Boolean {
-        if (modalBackHandling.isNotEmpty()) {
-            return modalBackHandling.peek().onBackPressed()
-        }
-        val specialHandling = onBackPressed.getOrDefault(currentScreen, { false }).invoke()
-        return specialHandling || back()
-    }
-
-    fun back(): Boolean {
-        if (!backStack.empty()) {
-            switchScreen(backStack.pop())
-            return true
-        }
-        return false
-    }
-
-    fun lastBackstackScreen(): Screen? {
-        return if (!backStackEmpty()) {
-            backStack.peek()
-        } else {
-            null
-        }
-    }
-
-    private fun switchScreen(screen: Screen, allowBackStackStore: Boolean = true) {
-        this.currentScreen = screen
-        if (allowBackStackStore)
-            lastScreen = screen
-    }
-    //------------------------------------------- BackStack ----------------------------------------
+    //------------------------------------------- Navigation ----------------------------------------
 
     //Activity help -------------------------------------------------------------------------------
     lateinit var onShowDatePicker: (
@@ -211,9 +134,7 @@ class IvyWalletCtx : IvyContext() {
     fun reset() {
         mainTab = MainTab.HOME
         startDayOfMonth = 1
-        currentScreen = null
         isPremium = false
         transactionsListState = null
-        resetBackStack()
     }
 }

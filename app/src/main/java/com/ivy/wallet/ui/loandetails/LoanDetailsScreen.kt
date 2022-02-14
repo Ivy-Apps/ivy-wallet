@@ -30,7 +30,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -39,7 +39,7 @@ import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
+fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
     val viewModel: LoanDetailsViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()

@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.statistic.level2
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
@@ -13,8 +14,8 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.AccountUploader
 import com.ivy.wallet.sync.uploader.CategoryUploader
+import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,
     private val accountLogic: WalletAccountLogic,
@@ -103,7 +105,7 @@ class ItemStatisticViewModel @Inject constructor(
     val category = _category.asLiveData()
 
     fun start(
-        screen: Screen.ItemStatistic,
+        screen: ItemStatistic,
         period: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {
@@ -301,7 +303,7 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     fun setPeriod(
-        screen: Screen.ItemStatistic,
+        screen: ItemStatistic,
         period: TimePeriod
     ) {
         start(
@@ -311,31 +313,31 @@ class ItemStatisticViewModel @Inject constructor(
         )
     }
 
-    fun nextMonth(screen: Screen.ItemStatistic) {
+    fun nextMonth(screen: ItemStatistic) {
         val month = period.value?.month
         val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
-                period = month.incrementMonthPeriod(ivyContext, 1L,year),
+                period = month.incrementMonthPeriod(ivyContext, 1L, year),
                 reset = false
             )
         }
     }
 
-    fun previousMonth(screen: Screen.ItemStatistic) {
+    fun previousMonth(screen: ItemStatistic) {
         val month = period.value?.month
         val year = period.value?.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
-                period = month.incrementMonthPeriod(ivyContext, -1L,year),
+                period = month.incrementMonthPeriod(ivyContext, -1L, year),
                 reset = false
             )
         }
     }
 
-    fun delete(screen: Screen.ItemStatistic) {
+    fun delete(screen: ItemStatistic) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -358,7 +360,7 @@ class ItemStatisticViewModel @Inject constructor(
             plannedPaymentRuleDao.flagDeletedByAccountId(accountId = accountId)
             accountDao.flagDeleted(accountId)
 
-            ivyContext.back()
+            nav.back()
 
             //the server deletes transactions + planned payments for the account
             accountUploader.delete(accountId)
@@ -369,7 +371,7 @@ class ItemStatisticViewModel @Inject constructor(
         ioThread {
             categoryDao.flagDeleted(categoryId)
 
-            ivyContext.back()
+            nav.back()
 
             categoryUploader.delete(categoryId)
         }
@@ -387,7 +389,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun editAccount(screen: Screen.ItemStatistic, account: Account, newBalance: Double) {
+    fun editAccount(screen: ItemStatistic, account: Account, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -403,7 +405,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun payOrGet(screen: Screen.ItemStatistic, transaction: Transaction) {
+    fun payOrGet(screen: ItemStatistic, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

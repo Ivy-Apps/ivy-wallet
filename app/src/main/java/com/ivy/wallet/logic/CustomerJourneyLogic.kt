@@ -9,8 +9,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
@@ -72,7 +71,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_account_s,
             backgroundColor = Ivy,
             hasDismiss = false,
-            onAction = { ivyContext, _ ->
+            onAction = { _, ivyContext, _ ->
                 ivyContext.selectMainTab(MainTab.ACCOUNTS)
             }
         )
@@ -89,9 +88,9 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_planned_payments,
             backgroundColor = Orange,
             hasDismiss = true,
-            onAction = { ivyContext, _ ->
-                ivyContext.navigateTo(
-                    Screen.EditPlanned(
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(
+                    EditPlanned(
                         type = TransactionType.EXPENSE,
                         plannedPaymentRuleId = null
                     )
@@ -105,13 +104,13 @@ class CustomerJourneyLogic(
                 trnCount >= 3
             },
             title = "Did you know?",
-            description = "Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home screen. " +
+            description = "Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home  " +
                     "\n\nNote: If the \"Add widget\" button doesn't work, please add it manually from your launcher's widgets menu.",
             cta = "Add widget",
             ctaIcon = R.drawable.ic_custom_atom_s,
             backgroundColor = GreenLight,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.pinWidget(AddTransactionWidgetCompact::class.java)
             }
         )
@@ -129,8 +128,8 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_budget_xs,
             backgroundColor = Green2,
             hasDismiss = true,
-            onAction = { ivyContext, _ ->
-                ivyContext.navigateTo(Screen.Budget)
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(BudgetScreen)
             }
         )
 
@@ -145,8 +144,8 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_bills_s,
             backgroundColor = Red,
             hasDismiss = true,
-            onAction = { ivyContext, _ ->
-                ivyContext.navigateTo(Screen.PieChartStatistic(type = TransactionType.EXPENSE))
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(PieChartStatistic(type = TransactionType.EXPENSE))
             }
         )
 
@@ -163,7 +162,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = Green,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.reviewIvyWallet(dismissReviewCard = true)
             }
         )
@@ -180,7 +179,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Red3,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
             }
         )
@@ -197,8 +196,8 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_crown_s,
             backgroundColor = Ivy,
             hasDismiss = true,
-            onAction = { ivyContext, _ ->
-                ivyContext.navigateTo(Screen.Paywall(paywallReason = null))
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(Paywall(paywallReason = null))
             }
         )
 
@@ -215,8 +214,8 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_statistics_xs,
             backgroundColor = Green2,
             hasDismiss = true,
-            onAction = { ivyContext, _ ->
-                ivyContext.navigateTo(Screen.Report)
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(Report)
             }
         )
 
@@ -234,7 +233,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = GreenLight,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.reviewIvyWallet(dismissReviewCard = true)
             }
         )
@@ -254,7 +253,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Purple2,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
             }
         )
@@ -272,7 +271,7 @@ class CustomerJourneyLogic(
             ctaIcon = R.drawable.github_logo,
             backgroundColor = Blue3,
             hasDismiss = true,
-            onAction = { _, ivyActivity ->
+            onAction = { _, _, ivyActivity ->
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
             }
         )

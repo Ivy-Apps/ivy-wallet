@@ -21,7 +21,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
@@ -297,7 +297,7 @@ private fun DateRow(
     ) {
         Spacer(Modifier.width(32.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
 
         Column(
             modifier = Modifier.clickableNoIndication {

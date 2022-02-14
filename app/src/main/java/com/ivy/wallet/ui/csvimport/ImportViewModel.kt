@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.csvimport
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
@@ -13,8 +14,8 @@ import com.ivy.wallet.logic.csv.CSVNormalizer
 import com.ivy.wallet.logic.csv.IvyFileReader
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
+import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class ImportViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
@@ -42,8 +44,8 @@ class ImportViewModel @Inject constructor(
     private val _importResult = MutableLiveData<ImportResult>()
     val importResult = _importResult.asLiveData()
 
-    fun start(screen: Screen.Import) {
-        ivyContext.onBackPressed[screen] = {
+    fun start(screen: Import) {
+        nav.onBackPressed[screen] = {
             when (importStep.value) {
                 ImportStep.IMPORT_FROM -> false
                 ImportStep.INSTRUCTIONS -> {
@@ -143,19 +145,19 @@ class ImportViewModel @Inject constructor(
     }
 
     fun skip(
-        screen: Screen.Import,
+        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {
             onboardingViewModel.importSkip()
         }
 
-        ivyContext.back()
+        nav.back()
         resetState()
     }
 
     fun finish(
-        screen: Screen.Import,
+        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {
@@ -165,7 +167,7 @@ class ImportViewModel @Inject constructor(
             )
         }
 
-        ivyContext.back()
+        nav.back()
         resetState()
     }
 

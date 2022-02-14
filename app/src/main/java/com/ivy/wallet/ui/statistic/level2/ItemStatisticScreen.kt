@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
@@ -30,10 +31,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.balancePrefix
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -49,10 +47,11 @@ import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: Screen.ItemStatistic) {
+fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val viewModel: ItemStatisticViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
 
     val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
     val baseCurrency by viewModel.baseCurrency.observeAsState("")
@@ -85,7 +84,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: Screen.ItemStatistic) {
     onScreenStart {
         viewModel.start(screen)
 
-        ivyContext.onBackPressed[screen] = {
+        nav.onBackPressed[screen] = {
             setStatusBarDarkTextCompat(
                 view = view,
                 darkText = ivyContext.theme == Theme.LIGHT
@@ -189,7 +188,8 @@ private fun BoxWithConstraintsScope.UI(
     onDelete: () -> Unit,
     onPayOrGet: (Transaction) -> Unit = {}
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
@@ -318,6 +318,7 @@ private fun BoxWithConstraintsScope.UI(
 
             transactions(
                 ivyContext = ivyContext,
+                nav = nav,
                 upcoming = upcoming,
                 upcomingExpanded = upcomingExpanded,
                 setUpcomingExpanded = setUpcomingExpanded,
@@ -474,7 +475,7 @@ private fun Header(
 
         Spacer(Modifier.height(20.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         IncomeExpensesCards(
             history = history,
             currency = currency,
@@ -485,8 +486,8 @@ private fun Header(
 
             itemColor = itemColor
         ) { trnType ->
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = trnType,
                     accountId = account?.id,
@@ -511,7 +512,7 @@ fun ItemStatisticToolbar(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         CircleButton(
             modifier = Modifier.testTag("toolbar_close"),
             icon = R.drawable.ic_dismiss,
@@ -519,7 +520,7 @@ fun ItemStatisticToolbar(
             tint = contrastColor,
             backgroundColor = Transparent
         ) {
-            ivyContext.back()
+            nav.back()
         }
 
         Spacer(Modifier.weight(1f))

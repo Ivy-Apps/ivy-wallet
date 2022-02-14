@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
@@ -14,7 +15,7 @@ import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Main
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,
@@ -33,8 +35,8 @@ class MainViewModel @Inject constructor(
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    fun start(screen: Screen.Main) {
-        ivyContext.onBackPressed[screen] = {
+    fun start(screen: Main) {
+        nav.onBackPressed[screen] = {
             if (ivyContext.mainTab == MainTab.ACCOUNTS) {
                 ivyContext.selectMainTab(MainTab.HOME)
                 true

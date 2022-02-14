@@ -14,16 +14,17 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWebView
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @SuppressLint("SetJavaScriptEnabled")
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.WebViewScreen(screen: Screen.WebView) {
+fun BoxWithConstraintsScope.WebViewScreen(screen: IvyWebView) {
     UI(url = screen.url)
 }
 
@@ -36,9 +37,10 @@ private fun BoxWithConstraintsScope.UI(url: String) {
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
+        val nav = navigation()
         IvyToolbar(
-            onBack = { ivyContext.onBackPressed() },
+            onBack = { nav.onBackPressed() },
             backButtonType = BackButtonType.CLOSE,
             paddingTop = 8.dp,
             paddingBottom = 8.dp

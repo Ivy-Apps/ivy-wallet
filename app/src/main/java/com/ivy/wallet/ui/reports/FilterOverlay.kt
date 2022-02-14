@@ -28,7 +28,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -155,7 +155,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            val ivyContext = LocalIvyContext.current
+            val ivyContext = ivyWalletCtx()
             PeriodFilter(
                 filter = localFilter,
                 onShowPeriodChooserModal = {
@@ -428,7 +428,7 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(LocalIvyContext.current.startDayOfMonth)
+        text = filter?.period?.toDisplayLong(ivyWalletCtx().startDayOfMonth)
             ?.capitalizeLocal()
             ?: "Select time range",
         padding = 12.dp,

@@ -15,22 +15,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.functional.charts.ChartPeriod
 import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.Charts
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
-import com.ivy.wallet.ui.ivyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @Composable
-fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
+fun BoxWithConstraintsScope.ChartsScreen(screen: Charts) {
     val viewModel: ChartsViewModel = viewModel()
 
     val period by viewModel.period.collectAsState()
@@ -156,11 +156,11 @@ private fun UI(
 
 @Composable
 private fun Toolbar() {
-    val ivyContext = ivyContext()
+    val nav = navigation()
 
     IvyToolbar(
         onBack = {
-            ivyContext.back()
+            nav.back()
         }
     ) {
         Spacer(Modifier.width(32.dp))

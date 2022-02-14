@@ -17,9 +17,8 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.analytics.model.Health
 import com.ivy.wallet.ui.analytics.model.KPIs
 import com.ivy.wallet.ui.analytics.model.OnboardingReport
@@ -28,6 +27,7 @@ import com.ivy.wallet.ui.analytics.tab.HealthTab
 import com.ivy.wallet.ui.analytics.tab.KPIsTab
 import com.ivy.wallet.ui.analytics.tab.OnboardingReportTab
 import com.ivy.wallet.ui.analytics.tab.UserStatsTab
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -35,7 +35,7 @@ import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import java.time.LocalDateTime
 
 @Composable
-fun BoxWithConstraintsScope.AnalyticsReport(screen: Screen.AnalyticsReport) {
+fun BoxWithConstraintsScope.AnalyticsReport(screen: AnalyticsReport) {
     val viewModel: AnalyticsReportViewModel = viewModel()
 
     val selectedTab by viewModel.selectedTab.observeAsState(AnalyticsTab.KPIs)
@@ -114,7 +114,7 @@ private fun UI(
 
             Spacer(Modifier.width(16.dp))
 
-            val ivyContext = LocalIvyContext.current
+            val ivyContext = ivyWalletCtx()
             IvyOutlinedButton(
                 iconStart = R.drawable.ic_calendar,
                 text = startDate?.toLocalDate()?.formatDateOnly() ?: "Not set",

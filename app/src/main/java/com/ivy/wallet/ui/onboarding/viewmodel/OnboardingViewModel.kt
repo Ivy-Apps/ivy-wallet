@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.*
@@ -25,7 +26,7 @@ import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val restClient: RestClient,
@@ -86,6 +88,7 @@ class OnboardingViewModel @Inject constructor(
         _categorySuggestions = _categorySuggestions,
 
         ivyContext = ivyContext,
+        nav = nav,
         ivyAnalytics = ivyAnalytics,
         exchangeRatesLogic = exchangeRatesLogic,
         accountDao = accountDao,
@@ -97,7 +100,7 @@ class OnboardingViewModel @Inject constructor(
         logoutLogic = logoutLogic
     )
 
-    fun start(screen: Screen.Onboarding, isSystemDarkMode: Boolean) {
+    fun start(screen: Onboarding, isSystemDarkMode: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

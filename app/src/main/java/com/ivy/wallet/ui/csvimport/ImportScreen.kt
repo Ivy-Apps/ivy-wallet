@@ -10,8 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
+import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.csvimport.flow.ImportFrom
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
@@ -21,7 +21,7 @@ import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
+fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
     val viewModel: ImportViewModel = viewModel()
 
     val importStep by viewModel.importStep.observeAsState(ImportStep.IMPORT_FROM)
@@ -62,7 +62,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.Import,
+    screen: Import,
 
     importStep: ImportStep,
     importType: ImportType?,
@@ -111,7 +111,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun Preview() {
     IvyAppPreview {
         UI(
-            screen = Screen.Import(launchedFromOnboarding = true),
+            screen = Import(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,
             importType = null,
             importProgressPercent = 0,

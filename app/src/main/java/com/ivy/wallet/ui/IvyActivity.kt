@@ -23,6 +23,8 @@ import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,6 +38,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.design.IvyContext
+import com.ivy.design.api.IvyUI
+import com.ivy.design.api.NavigationRoot
+import com.ivy.design.api.systems.IvyWalletDesign
+import com.ivy.design.navigation.Navigation
+import com.ivy.design.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.*
@@ -91,6 +99,9 @@ class IvyActivity : AppCompatActivity() {
     lateinit var ivyContext: IvyWalletCtx
 
     @Inject
+    lateinit var navigation: Navigation
+
+    @Inject
     lateinit var customerJourneyLogic: CustomerJourneyLogic
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
@@ -132,59 +143,77 @@ class IvyActivity : AppCompatActivity() {
                 viewModel.initBilling(this@IvyActivity)
             }
 
-            IvyApp(
-                ivyContext = ivyContext,
-            ) {
-                val appLocked by viewModel.appLocked.collectAsState()
-
-                when (appLocked) {
-                    null -> {
-                        //display nothing
-                    }
-                    true -> {
-                        AppLockedScreen(
-                            onShowOSBiometricsModal = {
-                                authenticateWithOSBiometricsModal(
-                                    biometricPromptCallback = viewModel.handleBiometricAuthResult()
-                                )
-                            },
-                            onContinueWithoutAuthentication = {
-                                viewModel.unlockApp()
-                            }
-                        )
-                    }
-                    false -> {
-                        when (val screen = ivyContext.currentScreen) {
-                            is Screen.Main -> MainScreen(screen = screen)
-                            is Screen.Onboarding -> OnboardingScreen(screen = screen)
-                            is Screen.EditTransaction -> EditTransactionScreen(screen = screen)
-                            is Screen.ItemStatistic -> ItemStatisticScreen(screen = screen)
-                            is Screen.PieChartStatistic -> PieChartStatisticScreen(screen = screen)
-                            is Screen.Categories -> CategoriesScreen(screen = screen)
-                            is Screen.Settings -> SettingsScreen(screen = screen)
-                            is Screen.PlannedPayments -> PlannedPaymentsScreen(screen = screen)
-                            is Screen.EditPlanned -> EditPlannedScreen(screen = screen)
-                            is Screen.BalanceScreen -> BalanceScreen(screen = screen)
-                            is Screen.Paywall -> PaywallScreen(
-                                screen = screen,
-                                activity = this@IvyActivity
-                            )
-                            is Screen.Test -> TestScreen(screen = screen)
-                            is Screen.Charts -> ChartsScreen(screen = screen)
-                            is Screen.AnalyticsReport -> AnalyticsReport(screen = screen)
-                            is Screen.Import -> ImportCSVScreen(screen = screen)
-                            is Screen.ConnectBank -> ConnectBankScreen(screen = screen)
-                            is Screen.Report -> ReportScreen(screen = screen)
-                            is Screen.Budget -> BudgetScreen(screen = screen)
-                            is Screen.Loans -> LoansScreen(screen = screen)
-                            is Screen.LoanDetails -> LoanDetailsScreen(screen = screen)
-                            is Screen.Search -> SearchScreen(screen = screen)
-                            is Screen.WebView -> WebViewScreen(screen = screen)
-                            null -> {
-                            }
-                        }
-                    }
+            IvyUI(
+                design = object : IvyWalletDesign() {
+                    override fun context(): IvyContext = ivyContext
                 }
+            ) {
+                UI(viewModel)
+            }
+        }
+    }
+
+    @ExperimentalFoundationApi
+    @ExperimentalAnimationApi
+    @Composable
+    private fun BoxWithConstraintsScope.UI(viewModel: IvyViewModel) {
+        val appLocked by viewModel.appLocked.collectAsState()
+
+        when (appLocked) {
+            null -> {
+                //display nothing
+            }
+            true -> {
+                AppLockedScreen(
+                    onShowOSBiometricsModal = {
+                        authenticateWithOSBiometricsModal(
+                            biometricPromptCallback = viewModel.handleBiometricAuthResult()
+                        )
+                    },
+                    onContinueWithoutAuthentication = {
+                        viewModel.unlockApp()
+                    }
+                )
+            }
+            false -> {
+                NavigationRoot(navigation = navigation) { screen ->
+                    Screens(screen)
+                }
+            }
+        }
+    }
+
+    @ExperimentalFoundationApi
+    @ExperimentalAnimationApi
+    @Composable
+    private fun BoxWithConstraintsScope.Screens(screen: Screen?) {
+        when (screen) {
+            is Main -> MainScreen(screen = screen)
+            is Onboarding -> OnboardingScreen(screen = screen)
+            is EditTransaction -> EditTransactionScreen(screen = screen)
+            is ItemStatistic -> ItemStatisticScreen(screen = screen)
+            is PieChartStatistic -> PieChartStatisticScreen(screen = screen)
+            is Categories -> CategoriesScreen(screen = screen)
+            is Settings -> SettingsScreen(screen = screen)
+            is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
+            is EditPlanned -> EditPlannedScreen(screen = screen)
+            is BalanceScreen -> BalanceScreen(screen = screen)
+            is Paywall -> PaywallScreen(
+                screen = screen,
+                activity = this@IvyActivity
+            )
+            is Test -> TestScreen(screen = screen)
+            is Charts -> ChartsScreen(screen = screen)
+            is AnalyticsReport -> AnalyticsReport(screen = screen)
+            is Import -> ImportCSVScreen(screen = screen)
+            is ConnectBank -> ConnectBankScreen(screen = screen)
+            is Report -> ReportScreen(screen = screen)
+            is BudgetScreen -> BudgetScreen(screen = screen)
+            is Loans -> LoansScreen(screen = screen)
+            is LoanDetails -> LoanDetailsScreen(screen = screen)
+            is Search -> SearchScreen(screen = screen)
+            is IvyWebView -> WebViewScreen(screen = screen)
+            null -> {
             }
         }
     }
@@ -383,7 +412,7 @@ class IvyActivity : AppCompatActivity() {
         if (viewModel.isAppLocked()) {
             super.onBackPressed()
         } else {
-            if (!ivyContext.onBackPressed()) {
+            if (!navigation.onBackPressed()) {
                 super.onBackPressed()
             }
         }

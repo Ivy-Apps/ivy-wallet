@@ -19,14 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Search
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Shapes
@@ -36,7 +37,7 @@ import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
 import com.ivy.wallet.ui.theme.transaction.transactions
 
 @Composable
-fun SearchScreen(screen: Screen.Search) {
+fun SearchScreen(screen: Search) {
     val viewModel: SearchViewModel = viewModel()
 
     val transactions by viewModel.transactions.collectAsState()
@@ -95,7 +96,9 @@ private fun UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
+        val nav = navigation()
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState
@@ -103,6 +106,7 @@ private fun UI(
         ) {
             transactions(
                 ivyContext = ivyContext,
+                nav = nav,
                 upcoming = emptyList(),
                 upcomingExpanded = false,
                 setUpcomingExpanded = { },

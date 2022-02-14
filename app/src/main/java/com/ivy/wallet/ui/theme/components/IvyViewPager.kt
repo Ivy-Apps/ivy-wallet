@@ -29,7 +29,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
 import com.ivy.wallet.base.densityScope
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.roundToInt
@@ -43,7 +43,7 @@ fun IvyPager(
 ) {
     val coroutineScope = rememberCoroutineScope()
     var dragDistance by remember { mutableStateOf(0f) }
-    val screenWidth = LocalIvyContext.current.screenWidth
+    val screenWidth = ivyWalletCtx().screenWidth
 
     Layout(
         modifier = Modifier

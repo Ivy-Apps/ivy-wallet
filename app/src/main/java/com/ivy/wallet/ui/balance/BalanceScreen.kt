@@ -14,12 +14,12 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
@@ -31,7 +31,7 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 
 @Composable
-fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
+fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
     val viewModel: BalanceViewModel = viewModel()
 
     val period by viewModel.period.collectAsState()
@@ -225,7 +225,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
 @Composable
 private fun ColumnScope.CloseButton() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     IvyCircleButton(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -238,7 +238,7 @@ private fun ColumnScope.CloseButton() {
         hasShadow = false,
         tint = White
     ) {
-        ivyContext.back()
+        nav.back()
     }
 }
 

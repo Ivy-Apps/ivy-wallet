@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
@@ -22,8 +23,9 @@ import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.sync.uploader.TransactionUploader
+import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Main
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,6 +42,7 @@ class EditTransactionViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -97,7 +100,7 @@ class EditTransactionViewModel @Inject constructor(
 
     var title: String? = null
 
-    fun start(screen: Screen.EditTransaction) {
+    fun start(screen: EditTransaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -133,7 +136,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun defaultAccountId(
-        screen: Screen.EditTransaction,
+        screen: EditTransaction,
         accounts: List<Account>,
     ): UUID {
         if (screen.accountId != null) {
@@ -391,7 +394,7 @@ class EditTransactionViewModel @Inject constructor(
 
             paywallLogic.protectQuotaExceededWithPaywall(
                 onPaywallHit = {
-                    ivyContext.back()
+                    nav.back()
                 }
             ) {
                 saveInternal(closeScreen = closeScreen)
@@ -462,11 +465,11 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun closeScreen() {
-        if (ivyContext.backStackEmpty()) {
-            ivyContext.resetBackStack()
-            ivyContext.navigateTo(Screen.Main)
+        if (nav.backStackEmpty()) {
+            nav.resetBackStack()
+            nav.navigateTo(Main)
         } else {
-            ivyContext.back()
+            nav.back()
         }
     }
 

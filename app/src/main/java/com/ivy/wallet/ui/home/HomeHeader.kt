@@ -18,12 +18,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.PieChartStatistic
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -146,7 +147,7 @@ private fun HeaderStickyRow(
                 }
             ),
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
+            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
         ) {
             onShowMonthModal()
         }
@@ -162,7 +163,7 @@ private fun HeaderStickyRow(
 @ExperimentalAnimationApi
 @Composable
 fun CashFlowInfo(
-    percentExpanded: Float=1f,
+    percentExpanded: Float = 1f,
     period: TimePeriod,
     currency: String,
     balance: Double,
@@ -240,7 +241,7 @@ private fun IncomeExpenses(
     ) {
         Spacer(Modifier.width(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
 
         HeaderCard(
             percentVisible = percentExpanded,
@@ -251,8 +252,8 @@ private fun IncomeExpenses(
             currency = currency,
             amount = monthlyIncome
         ) {
-            ivyContext.navigateTo(
-                Screen.PieChartStatistic(
+            nav.navigateTo(
+                PieChartStatistic(
                     type = TransactionType.INCOME,
                 )
             )
@@ -269,8 +270,8 @@ private fun IncomeExpenses(
             currency = currency,
             amount = monthlyExpenses.absoluteValue
         ) {
-            ivyContext.navigateTo(
-                Screen.PieChartStatistic(
+            nav.navigateTo(
+                PieChartStatistic(
                     type = TransactionType.EXPENSE,
                 )
             )

@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
@@ -23,8 +24,9 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
@@ -40,6 +42,7 @@ class HomeViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val walletLogic: WalletLogic,
     private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
@@ -204,11 +207,11 @@ class HomeViewModel @Inject constructor(
             }
             if (hasTransactions) {
                 //has transactions show him "Balance" screen
-                ivyContext.navigateTo(Screen.BalanceScreen)
+                nav.navigateTo(BalanceScreen)
             } else {
                 //doesn't have transactions lead him to adjust balance
                 ivyContext.selectMainTab(MainTab.ACCOUNTS)
-                ivyContext.navigateTo(Screen.Main)
+                nav.navigateTo(Main)
             }
 
             TestIdlingResource.decrement()
