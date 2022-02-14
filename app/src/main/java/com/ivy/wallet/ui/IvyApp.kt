@@ -10,15 +10,15 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Theme
 
 
-val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext") }
+val LocalIvyContext = compositionLocalOf<IvyWalletCtx> { error("No LocalIvyContext") }
 
 @Composable
 fun IvyApp(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     CompositionLocalProvider(
@@ -46,7 +46,7 @@ fun IvyAppPreview(
     theme: Theme = Theme.LIGHT,
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
-    val ivyContext = IvyContext()
+    val ivyContext = IvyWalletCtx()
     ivyContext.switchTheme(theme = theme)
     IvyApp(
         ivyContext = ivyContext,
@@ -55,7 +55,7 @@ fun IvyAppPreview(
 }
 
 @Composable
-fun ivyContext(): IvyContext {
+fun ivyContext(): IvyWalletCtx {
     return LocalIvyContext.current
 }
 

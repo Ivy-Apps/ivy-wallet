@@ -13,7 +13,7 @@ import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +29,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
 
     private val _baseCurrency = MutableStateFlow("")

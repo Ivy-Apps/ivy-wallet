@@ -9,13 +9,13 @@ import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.LoanDao
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.paywall.PaywallReason
 
 class PaywallLogic(
     private val ivyBilling: IvyBilling,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val budgetDao: BudgetDao,

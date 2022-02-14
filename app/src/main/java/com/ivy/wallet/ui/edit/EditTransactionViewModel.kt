@@ -17,9 +17,12 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.*
+import com.ivy.wallet.persistence.dao.AccountDao
+import com.ivy.wallet.persistence.dao.CategoryDao
+import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.sync.uploader.TransactionUploader
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +39,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,
     private val exchangeRatesLogic: ExchangeRatesLogic,

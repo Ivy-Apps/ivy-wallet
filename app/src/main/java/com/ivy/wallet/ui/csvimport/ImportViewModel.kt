@@ -13,19 +13,18 @@ import com.ivy.wallet.logic.csv.CSVNormalizer
 import com.ivy.wallet.logic.csv.IvyFileReader
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,

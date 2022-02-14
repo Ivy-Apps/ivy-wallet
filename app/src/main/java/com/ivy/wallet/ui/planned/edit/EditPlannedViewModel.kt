@@ -7,7 +7,9 @@ import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
-import com.ivy.wallet.logic.*
+import com.ivy.wallet.logic.AccountCreator
+import com.ivy.wallet.logic.CategoryCreator
+import com.ivy.wallet.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.IntervalType
@@ -18,7 +20,7 @@ import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.item.TransactionSync
 import com.ivy.wallet.sync.uploader.PlannedPaymentRuleUploader
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,7 +34,7 @@ class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader,

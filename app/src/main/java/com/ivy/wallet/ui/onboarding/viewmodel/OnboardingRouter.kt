@@ -17,7 +17,7 @@ import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.sync.IvySync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
@@ -33,7 +33,7 @@ class OnboardingRouter(
     private val _categories: MutableLiveData<List<Category>>,
     private val _categorySuggestions: MutableLiveData<List<CreateCategoryData>>,
 
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val ivyAnalytics: IvyAnalytics,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,

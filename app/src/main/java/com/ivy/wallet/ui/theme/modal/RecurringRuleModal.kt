@@ -20,7 +20,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
@@ -349,7 +349,7 @@ private fun DateRow(
     }
 }
 
-private fun IvyContext.pickDate(
+private fun IvyWalletCtx.pickDate(
     initialDate: LocalDate,
     onDatePicked: (
         LocalDateTime

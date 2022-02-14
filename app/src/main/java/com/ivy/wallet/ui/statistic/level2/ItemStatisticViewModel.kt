@@ -13,7 +13,7 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.AccountUploader
 import com.ivy.wallet.sync.uploader.CategoryUploader
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,
     private val accountLogic: WalletAccountLogic,

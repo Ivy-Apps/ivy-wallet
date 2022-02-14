@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.base.setStatusBarDarkTextCompat
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -122,8 +123,4 @@ fun adaptIvyColors(theme: Theme): IvyColors {
                 isLight = false
         )
     }
-}
-
-enum class Theme {
-    LIGHT, DARK
 }

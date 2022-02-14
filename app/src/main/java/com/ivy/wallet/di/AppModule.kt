@@ -27,7 +27,7 @@ import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.sync.item.*
 import com.ivy.wallet.sync.uploader.*
 import com.ivy.wallet.system.notification.NotificationService
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,8 +41,8 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideIvyContext(): IvyContext {
-        return IvyContext()
+    fun provideIvyContext(): IvyWalletCtx {
+        return IvyWalletCtx()
     }
 
     @Provides
@@ -441,7 +441,7 @@ object AppModule {
     @Singleton
     fun providepaywallLogic(
         ivyBilling: IvyBilling,
-        ivyContext: IvyContext,
+        ivyContext: IvyWalletCtx,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
         budgetDao: BudgetDao,
@@ -637,7 +637,7 @@ object AppModule {
         ivyRoomDatabase: IvyRoomDatabase,
         ivySession: IvySession,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        ivyContext: IvyWalletCtx
     ): LogoutLogic {
         return LogoutLogic(
             ivyDb = ivyRoomDatabase,
@@ -702,7 +702,7 @@ object AppModule {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        ivyContext: IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,

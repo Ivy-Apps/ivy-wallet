@@ -9,7 +9,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
@@ -20,7 +20,7 @@ class CustomerJourneyLogic(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) {
 
     fun loadCards(): List<CustomerJourneyCardData> {

@@ -15,7 +15,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.Gray
@@ -86,7 +86,7 @@ fun PlannedPaymentsLazyColumn(
 }
 
 private fun LazyListScope.plannedPaymentItems(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     currency: String,
     categories: List<Category>,
     accounts: List<Account>,
@@ -182,7 +182,7 @@ private fun LazyListScope.plannedPaymentItems(
 }
 
 private fun onPlannedPaymentClick(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     listState: LazyListState,
     rule: PlannedPaymentRule
 ) {

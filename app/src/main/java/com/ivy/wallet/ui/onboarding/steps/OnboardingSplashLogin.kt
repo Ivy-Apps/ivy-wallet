@@ -33,7 +33,7 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
@@ -219,7 +219,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 }
 
 private fun Modifier.animateXCenterToLeft(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     percentTransition: Float
 ): Modifier {
     return this.layout { measurable, constraints ->

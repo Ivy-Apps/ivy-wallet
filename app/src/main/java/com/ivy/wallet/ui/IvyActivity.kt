@@ -88,7 +88,7 @@ class IvyActivity : AppCompatActivity() {
     }
 
     @Inject
-    lateinit var ivyContext: IvyContext
+    lateinit var ivyContext: IvyWalletCtx
 
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyLogic

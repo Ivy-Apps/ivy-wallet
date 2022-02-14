@@ -10,7 +10,7 @@ import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.logic.PlannedPaymentsLogic
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ class BalanceViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)

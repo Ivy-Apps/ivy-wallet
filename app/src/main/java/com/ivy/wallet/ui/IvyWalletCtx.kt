@@ -5,32 +5,20 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ivy.design.IvyContext
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
-import com.ivy.wallet.ui.theme.Theme
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
-class IvyContext {
+class IvyWalletCtx : IvyContext() {
     var currentScreen: Screen? by mutableStateOf(null)
         private set
-
-    var theme: Theme by mutableStateOf(Theme.LIGHT)
-        private set
-
-    var screenWidth: Int = -1
-        get() {
-            return if (field > 0) field else throw IllegalStateException("screenWidth not initialized")
-        }
-    var screenHeight: Int = -1
-        get() {
-            return if (field > 0) field else throw IllegalStateException("screenHeight not initialized")
-        }
 
     //------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
@@ -218,10 +206,6 @@ class IvyContext {
     lateinit var createNewFile: (fileName: String, onCreated: (Uri) -> Unit) -> Unit
 
     lateinit var openFile: (onOpened: (Uri) -> Unit) -> Unit
-
-    fun switchTheme(theme: Theme) {
-        this.theme = theme
-    }
 
     //Testing --------------------------------------------------------------------------------------
     fun reset() {

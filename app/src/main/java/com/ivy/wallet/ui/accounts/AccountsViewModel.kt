@@ -18,7 +18,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.AccountSync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +35,7 @@ class AccountsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
 ) : ViewModel() {
 
     @Subscribe

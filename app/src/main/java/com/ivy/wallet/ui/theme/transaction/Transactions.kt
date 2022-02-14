@@ -19,14 +19,14 @@ import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.absoluteValue
 
 fun LazyListScope.transactions(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     upcoming: List<Transaction>,
     upcomingExpanded: Boolean,
     setUpcomingExpanded: (Boolean) -> Unit,
@@ -171,7 +171,7 @@ fun LazyListScope.transactions(
 }
 
 private fun onTransactionClick(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     listState: LazyListState,
     transaction: Transaction
 ) {

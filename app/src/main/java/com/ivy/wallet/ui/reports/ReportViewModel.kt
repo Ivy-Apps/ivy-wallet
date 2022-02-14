@@ -20,7 +20,7 @@ import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +33,7 @@ class ReportViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val walletLogic: WalletLogic,
     private val transactionDao: TransactionDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,

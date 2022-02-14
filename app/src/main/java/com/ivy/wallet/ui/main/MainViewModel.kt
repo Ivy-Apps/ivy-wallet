@@ -13,7 +13,7 @@ import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.IvySync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,

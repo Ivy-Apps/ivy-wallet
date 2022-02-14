@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
@@ -22,12 +23,11 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
-import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val categoryDao: CategoryDao,
     private val walletLogic: WalletLogic,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
@@ -96,10 +96,10 @@ class HomeViewModel @Inject constructor(
     private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
     val overdue = _overdue.readOnly()
 
-    private val _overdueIncome = MutableStateFlow<Double>(0.0)
+    private val _overdueIncome = MutableStateFlow(0.0)
     val overdueIncome = _overdueIncome.readOnly()
 
-    private val _overdueExpenses = MutableStateFlow<Double>(0.0)
+    private val _overdueExpenses = MutableStateFlow(0.0)
     val overdueExpenses = _overdueExpenses.readOnly()
 
     private val _overdueExpanded = MutableStateFlow(true)

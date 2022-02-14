@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.TestIdlingResource
@@ -18,7 +19,6 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.session.IvySession
-import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IvyViewModel @Inject constructor(
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,

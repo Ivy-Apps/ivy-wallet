@@ -21,7 +21,7 @@ import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ActionsRow
@@ -191,7 +191,7 @@ fun AddModalBackHandling(
 
             if (modalId != null && modalId != lastModalBackHandlingId) {
                 ivyContext.modalBackHandling.add(
-                    IvyContext.ModalBackHandler(
+                    IvyWalletCtx.ModalBackHandler(
                         id = modalId,
                         onBackPressed = {
                             if (visible) {
@@ -215,7 +215,7 @@ fun AddModalBackHandling(
     }
 }
 
-private fun removeLastBackHandlerSafe(ivyContext: IvyContext) {
+private fun removeLastBackHandlerSafe(ivyContext: IvyWalletCtx) {
     if (ivyContext.modalBackHandling.isNotEmpty()) {
         ivyContext.modalBackHandling.pop()
     }

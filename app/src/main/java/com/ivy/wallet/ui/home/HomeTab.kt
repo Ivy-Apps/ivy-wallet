@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
@@ -32,7 +33,6 @@ import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions

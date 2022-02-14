@@ -14,9 +14,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 

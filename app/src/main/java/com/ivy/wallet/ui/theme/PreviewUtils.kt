@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.ui.IvyAppPreview
 
 
 @Composable
 fun IvyComponentPreview(theme: Theme = Theme.LIGHT, content: @Composable BoxScope.() -> Unit) {
-    IvyAppPreview {
+    IvyAppPreview(
+        theme = theme
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
