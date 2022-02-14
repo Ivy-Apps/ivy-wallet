@@ -236,7 +236,7 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             loanRecordUUID?.let {
-                loanTransactionsLogic.LoanRecord.createAssociatedLoanTransaction(
+                loanTransactionsLogic.LoanRecord.createAssociatedLoanRecordTransaction(
                     data = modifiedData,
                     loan = localLoan,
                     loanRecordId = it
@@ -273,7 +273,7 @@ class LoanDetailsViewModel @Inject constructor(
                 load(loanId = it.loanId)
             }
 
-            loanTransactionsLogic.LoanRecord.editAssociatedLoanTransaction(
+            loanTransactionsLogic.LoanRecord.editAssociatedLoanRecordTransaction(
                 loan = localLoan,
                 createLoanRecordTransaction = createLoanRecordTransaction,
                 loanRecord = loanRecord,

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.edit
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +23,9 @@ import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.TransactionUploader
 import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -33,7 +36,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
-    private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
@@ -93,11 +95,14 @@ class EditTransactionViewModel @Inject constructor(
     private val _hasChanges = MutableLiveData(false)
     val hasChanges = _hasChanges.asLiveData()
 
-    private val _isLoanRecord: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isLoanRecord = _isLoanRecord.asLiveData()
+    private val _displayLoanHelper: MutableStateFlow<EditTransactionDisplayLoan> =
+        MutableStateFlow(EditTransactionDisplayLoan())
+    val displayLoanHelper = _displayLoanHelper.asStateFlow()
 
-    private val _loanCaption: MutableStateFlow<String?> = MutableStateFlow(null)
-    val loanCaption = _loanCaption.asStateFlow()
+    //This is used to when the transaction is associated with a loan or loan record,
+    // used to indicate the background updating of loan/loanRecord data
+    private val _backgroundProcessingStarted = MutableStateFlow(false)
+    val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
 
     private var loadedTransaction: Transaction? = null
     private var editMode = false
@@ -133,28 +138,40 @@ class EditTransactionViewModel @Inject constructor(
                 amount = 0.0,
             )
 
-            loadedTransaction?.let {
-                _loanCaption.value = getLoanCaption(it)
-                _isLoanRecord.value = it.loanRecordId != null
-            }
-
             display(loadedTransaction!!)
 
             TestIdlingResource.decrement()
         }
     }
 
-    private suspend fun getLoanCaption(trans: Transaction): String? {
+    private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
         if (trans.loanId == null)
-            return null
+            return EditTransactionDisplayLoan()
 
-        val loan = ioThread { loanDao.findById(trans.loanId) }
+        val loan =
+            ioThread { loanDao.findById(trans.loanId) } ?: return EditTransactionDisplayLoan()
         val isLoanRecord = trans.loanRecordId != null
 
-        return loan?.let { lo ->
-            if (isLoanRecord) "* This transaction is associated with a Loan Record of Loan : ${lo.name}"
-            else "* This transaction is associated with Loan : ${lo.name}"
+        val loanWarningDescription = if (isLoanRecord)
+            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
+                    "You are trying to change the account associated with the loan record to an account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+        else {
+            "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
+                    "of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
         }
+
+        val loanCaption =
+            if (isLoanRecord) "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+            else "* This transaction is associated with Loan : ${loan.name}"
+
+        return EditTransactionDisplayLoan(
+            isLoan = true,
+            isLoanRecord = isLoanRecord,
+            loanCaption = loanCaption,
+            loanWarningDescription = loanWarningDescription
+        )
     }
 
     private suspend fun defaultAccountId(
@@ -194,6 +211,8 @@ class EditTransactionViewModel @Inject constructor(
         _amount.value = transaction.amount
 
         updateCurrency(account = selectedAccount)
+
+        _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
 
     private suspend fun updateCurrency(account: Account) {
@@ -451,8 +470,16 @@ class EditTransactionViewModel @Inject constructor(
                     isSynced = false
                 )
 
-                if (loadedTransaction?.loanId != null)
-                    loanTransactionsLogic.updateAssociatedLoanData(loadedTransaction!!.copy())
+                if (loadedTransaction?.loanId != null) {
+                    loanTransactionsLogic.updateAssociatedLoanData(
+                        loadedTransaction!!.copy(),
+                        onBackgroundProcessingStart = {
+                            _backgroundProcessingStarted.value = true
+                        },
+                        onBackgroundProcessingEnd = {
+                            _backgroundProcessingStarted.value = false
+                        })
+                }
 
                 transactionDao.save(loadedTransaction())
             }
