@@ -79,4 +79,6 @@ sealed class Screen {
     object Test : Screen()
 
     data class WebView(val url: String) : Screen()
+
+    object Charts : Screen()
 }

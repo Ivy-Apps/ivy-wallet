@@ -32,11 +32,22 @@ fun LocalDateTime.toEpochMilli(): Long = millis()
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
 fun LocalDateTime.formatNicely(
-    pattern: String = "EEE, dd MMM",
-    patternNoWeekDay: String = "dd MMM",
+    noWeekDay: Boolean = false,
     zone: ZoneId = ZoneOffset.systemDefault()
 ): String {
     val today = dateNowUTC()
+    val isThisYear = today.year == this.year
+
+    val patternNoWeekDay = "dd MMM"
+
+    if (noWeekDay) {
+        return if (isThisYear) {
+            this.formatLocal(patternNoWeekDay)
+        } else {
+            this.formatLocal("dd MMM, yyyy")
+        }
+    }
+
     return when (this.toLocalDate()) {
         today -> {
             "Today, ${this.formatLocal(patternNoWeekDay, zone)}"
@@ -48,7 +59,11 @@ fun LocalDateTime.formatNicely(
             "Tomorrow, ${this.formatLocal(patternNoWeekDay, zone)}"
         }
         else -> {
-            this.formatLocal(pattern, zone)
+            if (isThisYear) {
+                this.formatLocal("EEE, dd MMM", zone)
+            } else {
+                this.formatLocal("dd MMM, yyyy", zone)
+            }
         }
     }
 }
@@ -263,6 +278,8 @@ fun LocalDate.atEndOfDay(): LocalDateTime =
  * +1 day so things won't fck up with Long overflow
  */
 fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
+
+fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()

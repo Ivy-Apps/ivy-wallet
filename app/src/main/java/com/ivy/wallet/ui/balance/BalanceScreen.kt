@@ -3,7 +3,6 @@ package com.ivy.wallet.ui.balance
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -35,13 +34,11 @@ import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
     val viewModel: BalanceViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
-
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currency by viewModel.currency.observeAsState("")
-    val currentBalance by viewModel.currentBalance.observeAsState(0.0)
-    val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.observeAsState(0.0)
-    val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.observeAsState(0.0)
+    val period by viewModel.period.collectAsState()
+    val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
+    val currentBalance by viewModel.currentBalance.collectAsState()
+    val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.collectAsState()
+    val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -49,7 +46,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
 
     UI(
         period = period,
-        currency = currency,
+        baseCurrencyCode = baseCurrencyCode,
         currentBalance = currentBalance,
         plannedPaymentsAmount = plannedPaymentsAmount,
         balanceAfterPlannedPayments = balanceAfterPlannedPayments,
@@ -64,7 +61,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
 private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
 
-    currency: String,
+    baseCurrencyCode: String,
     currentBalance: Double,
     plannedPaymentsAmount: Double,
     balanceAfterPlannedPayments: Double,
@@ -97,7 +94,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         CurrentBalance(
-            currency = currency,
+            currency = baseCurrencyCode,
             currentBalance = currentBalance
         )
 
@@ -111,7 +108,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(40.dp))
 
         BalanceAfterPlannedPayments(
-            currency = currency,
+            currency = baseCurrencyCode,
             currentBalance = currentBalance,
             plannedPaymentsAmount = plannedPaymentsAmount,
             balanceAfterPlannedPayments = balanceAfterPlannedPayments
@@ -253,7 +250,7 @@ private fun Preview() {
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
-            currency = "BGN",
+            baseCurrencyCode = "BGN",
             currentBalance = 9326.55,
             balanceAfterPlannedPayments = 8426.0,
             plannedPaymentsAmount = -900.55,

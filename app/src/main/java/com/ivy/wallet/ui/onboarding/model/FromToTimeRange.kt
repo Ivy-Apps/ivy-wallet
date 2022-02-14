@@ -1,9 +1,7 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.base.formatDateOnly
-import com.ivy.wallet.base.startOfDayNowUTC
-import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.base.*
+import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.model.entity.Transaction
 import java.time.LocalDateTime
 
@@ -66,4 +64,18 @@ fun Iterable<Transaction>.filterOverdue(): List<Transaction> {
         //make sure that it's in the past
         it.dueDate != null && it.dueDate.isBefore(todayStartOfDayUTC)
     }
+}
+
+fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
+    return ClosedTimeRange(
+        from = from(),
+        to = to()
+    )
+}
+
+fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
+    return ClosedTimeRange(
+        from = from ?: beginningOfIvyTime(),
+        to = to ?: toIvyFutureTime()
+    )
 }

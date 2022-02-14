@@ -23,8 +23,9 @@ import androidx.biometric.BiometricPrompt
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,6 +47,7 @@ import com.ivy.wallet.ui.balance.BalanceScreen
 import com.ivy.wallet.ui.bankintegrations.ConnectBankScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
+import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.loan.LoansScreen
@@ -61,7 +63,6 @@ import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
-import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.webView.WebViewScreen
 import com.ivy.wallet.widget.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +71,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class IvyActivity : AppCompatActivity() {
@@ -104,8 +106,10 @@ class IvyActivity : AppCompatActivity() {
     private val viewModel: IvyViewModel by viewModels()
 
 
-    @ExperimentalAnimationApi
-    @ExperimentalFoundationApi
+    @OptIn(
+        ExperimentalAnimationApi::class,
+        ExperimentalFoundationApi::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -166,6 +170,7 @@ class IvyActivity : AppCompatActivity() {
                                 activity = this@IvyActivity
                             )
                             is Screen.Test -> TestScreen(screen = screen)
+                            is Screen.Charts -> ChartsScreen(screen = screen)
                             is Screen.AnalyticsReport -> AnalyticsReport(screen = screen)
                             is Screen.Import -> ImportCSVScreen(screen = screen)
                             is Screen.ConnectBank -> ConnectBankScreen(screen = screen)

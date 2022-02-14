@@ -1,22 +1,39 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
+plugins {
+    id("android-reporting")
+    // Run with:
+    // ./gradlew dependencyUpdates // Simple report in the console
+    // ./gradlew dependencyUpdates -DoutputFormatter=html,json,xml // Report in console & generate files accordingly
+    id("com.github.ben-manes.versions") version "0.39.0"
+}
+
+tasks {
+    register("clean", Delete::class) {
+        delete(rootProject.buildDir)
     }
 
-    dependencies {
-        classpath(com.ivy.wallet.buildsrc.Libs.Google.playServicesPlugin)
-
-        classpath(com.ivy.wallet.buildsrc.Libs.androidGradlePlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Kotlin.gradlePlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Kotlin.androidExtensions)
-
-        classpath(com.ivy.wallet.buildsrc.Libs.Google.Firebase.crashlyticsPlugin)
-        classpath(com.ivy.wallet.buildsrc.Libs.Hilt.hiltPlugin)
+    withType<DependencyUpdatesTask> {
+        rejectVersionIf {
+            isNonStable(candidate.version)
+        }
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+// Any of parameter of this task can be passed on or changed when running the gradle task as parameter
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    outputFormatter = "html"
+    outputDir = "build/reports/dependencyUpdates"
+    reportfileName = "report"
+}
+
+// https://github.com/ben-manes/gradle-versions-plugin#rejectversionsif-and-componentselection
+// This has been tested thoroughly by community
+fun isNonStable(version: String): Boolean {
+    val stableKeyword =
+        listOf("RELEASE", "FINAL", "GA", "RC").any { version.toUpperCase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }

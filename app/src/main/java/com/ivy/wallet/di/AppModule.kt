@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeAccountMapper
@@ -131,13 +132,11 @@ object AppModule {
         transactionDao: TransactionDao,
         settingsDao: SettingsDao,
         exchangeRatesLogic: ExchangeRatesLogic,
-        walletAccountLogic: WalletAccountLogic
     ): WalletLogic = WalletLogic(
         accountDao = accountDao,
         transactionDao = transactionDao,
         settingsDao = settingsDao,
         exchangeRatesLogic = exchangeRatesLogic,
-        walletAccountLogic = walletAccountLogic
     )
 
     @Provides
@@ -760,5 +759,18 @@ object AppModule {
         )
 
         return LoanTransactionsLogic(Loan = loan, LoanRecord = loanRecord)
+    }
+
+    @Provides
+    fun provideWalletDAOs(
+        accountDao: AccountDao,
+        transactionDao: TransactionDao,
+        exchangeRateDao: ExchangeRateDao
+    ): WalletDAOs {
+        return WalletDAOs(
+            accountDao = accountDao,
+            transactionDao = transactionDao,
+            exchangeRateDao = exchangeRateDao
+        )
     }
 }
