@@ -38,10 +38,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.NavigationRoot
-import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.BuildConfig
@@ -144,9 +142,7 @@ class IvyActivity : AppCompatActivity() {
             }
 
             IvyUI(
-                design = object : IvyWalletDesign() {
-                    override fun context(): IvyContext = ivyContext
-                }
+                design = appDesign(ivyContext)
             ) {
                 UI(viewModel)
             }

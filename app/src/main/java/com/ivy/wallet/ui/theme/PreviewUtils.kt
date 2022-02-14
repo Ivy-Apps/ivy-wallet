@@ -12,7 +12,10 @@ import com.ivy.wallet.ui.IvyAppPreview
 
 
 @Composable
-fun IvyComponentPreview(theme: Theme = Theme.LIGHT, content: @Composable BoxScope.() -> Unit) {
+fun IvyComponentPreview(
+    theme: Theme = Theme.LIGHT,
+    Content: @Composable BoxScope.() -> Unit
+) {
     IvyAppPreview(
         theme = theme
     ) {
@@ -22,7 +25,7 @@ fun IvyComponentPreview(theme: Theme = Theme.LIGHT, content: @Composable BoxScop
                 .background(IvyTheme.colors.pure),
             contentAlignment = Alignment.Center
         ) {
-            content()
+            Content()
         }
     }
 }
