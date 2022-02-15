@@ -14,6 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.CustomerJourneyLogic
@@ -79,7 +81,7 @@ fun CustomerJourneyCard(
                     .weight(1f)
                     .padding(start = 24.dp, end = 16.dp),
                 text = cardData.title,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = findContrastTextColor(cardData.backgroundColor)
                 )
@@ -108,7 +110,7 @@ fun CustomerJourneyCard(
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 32.dp),
             text = cardData.description,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Medium,
                 color = findContrastTextColor(cardData.backgroundColor)
             )
@@ -125,7 +127,7 @@ fun CustomerJourneyCard(
             shadowAlpha = 0f,
             iconStart = cardData.ctaIcon,
             iconTint = cardData.backgroundColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = cardData.backgroundColor,
                 fontWeight = FontWeight.Bold
             ),

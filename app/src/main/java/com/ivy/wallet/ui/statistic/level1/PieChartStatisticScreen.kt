@@ -26,6 +26,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
@@ -144,7 +146,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = if (transactionType == TransactionType.EXPENSE) "Expenses" else "Income",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -403,7 +405,7 @@ private fun CategoryAmountCard(
                         .weight(1f)
                         .padding(end = 16.dp),
                     text = category?.name ?: "Unspecified",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start
@@ -441,7 +443,7 @@ private fun PercentText(
 ) {
     Text(
         text = if (totalAmount != 0.0) "${((amount / totalAmount) * 100).format(2)}%" else "0%",
-        style = Typo.numberBody2.style(
+        style = UI.typo.nB2.style(
             color = if (selectedState) contrastColor else IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.Normal
         )

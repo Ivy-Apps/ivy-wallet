@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
@@ -73,7 +75,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Add categories",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.Black
                     )
                 )
@@ -121,7 +123,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Suggestions",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -233,7 +235,7 @@ private fun CategoryCard(
                 .padding(start = 16.dp, end = 24.dp)
                 .padding(vertical = 24.dp),
             text = category.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )

@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.isNotNullOrBlank
@@ -116,7 +118,7 @@ private fun RowScope.IntervalTypeSelector(
 
         Text(
             text = intervalType.forDisplay(intervalN).capitalizeLocal(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )

@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
@@ -31,14 +33,12 @@ import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
@@ -172,7 +172,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.budget.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
@@ -210,7 +210,7 @@ private fun Toolbar(
         ) {
             Text(
                 text = "Budgets",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -221,7 +221,7 @@ private fun Toolbar(
 
                 Text(
                     text = timeRange.toDisplay(),
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         color = IvyTheme.colors.pureInverse,
                         fontWeight = FontWeight.Medium
                     )
@@ -245,7 +245,7 @@ private fun Toolbar(
                     modifier = Modifier.testTag("budgets_info_text"),
                     text = if (hasBothBudgetTypes)
                         "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
-                    style = Typo.numberCaption.style(
+                    style = UI.typo.nC.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -284,7 +284,7 @@ private fun BudgetItem(
         ) {
             Text(
                 text = displayBudget.budget.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -294,7 +294,7 @@ private fun BudgetItem(
 
             Text(
                 text = Budget.type(displayBudget.budget.parseCategoryIds().size),
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray
                 )
             )
@@ -344,7 +344,7 @@ private fun NoBudgetsEmptyState(
 
         Text(
             text = emptyStateTitle,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -355,7 +355,7 @@ private fun NoBudgetsEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = emptyStateText,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

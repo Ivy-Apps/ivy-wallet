@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.model.entity.Account
@@ -20,9 +22,7 @@ import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.transaction.SectionDivider
 import kotlin.math.absoluteValue
 
@@ -213,7 +213,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
 
         Text(
             text = "No planned payments",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -223,7 +223,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
 
         Text(
             text = "You don't have any planed payments.\nPress the '⚡' bottom at the bottom to add one.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

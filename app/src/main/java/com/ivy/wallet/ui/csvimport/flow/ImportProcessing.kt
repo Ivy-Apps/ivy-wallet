@@ -10,8 +10,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 
 @Composable
@@ -28,7 +33,7 @@ fun ImportProcessing(
 
         Text(
             text = "Please wait",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black
             )
         )
@@ -37,7 +42,7 @@ fun ImportProcessing(
 
         Text(
             text = "${progressPercent}%",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold
             )
@@ -53,7 +58,7 @@ fun ImportProcessing(
 
         Text(
             text = "Importing the CSV file",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )

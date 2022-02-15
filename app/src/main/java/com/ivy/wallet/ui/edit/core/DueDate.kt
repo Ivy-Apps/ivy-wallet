@@ -11,10 +11,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
 
@@ -54,7 +58,7 @@ private fun DueDateCard(
 
         Text(
             text = "Planned for",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -64,7 +68,7 @@ private fun DueDateCard(
 
         Text(
             text = dueDate.toLocalDate().formatDateOnly(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )

@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateLoanRecordData
@@ -296,7 +298,7 @@ private fun LoanItem(
         Text(
             modifier = Modifier.testTag("loan_name"),
             text = loan.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -309,7 +311,7 @@ private fun LoanItem(
                 .align(Alignment.Bottom)
                 .padding(bottom = 12.dp),
             text = loan.humanReadableType(),
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = loan.color.toComposeColor().dynamicContrast()
             )
         )
@@ -346,7 +348,7 @@ private fun LoanInfoCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = "Paid",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -359,7 +361,7 @@ private fun LoanInfoCard(
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
             text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -367,7 +369,7 @@ private fun LoanInfoCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = IvyCurrency.fromCode(baseCurrency)?.name ?: "",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -386,7 +388,7 @@ private fun LoanInfoCard(
                 modifier = Modifier
                     .testTag("percent_paid"),
                 text = "${percentPaid.times(100).format(2)}%",
-                style = Typo.numberBody1.style(
+                style = UI.typo.nB1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -398,7 +400,7 @@ private fun LoanInfoCard(
                 modifier = Modifier
                     .testTag("left_to_pay"),
                 text = "${leftToPay.format(baseCurrency)} $baseCurrency left",
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -426,7 +428,7 @@ private fun LoanInfoCard(
             text = "Add record",
             shadowAlpha = 0.1f,
             backgroundGradient = Gradient.solid(contrastColor),
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = findContrastTextColor(contrastColor),
                 fontWeight = FontWeight.Bold
             ),
@@ -484,7 +486,7 @@ private fun LoanRecordItem(
             text = loanRecord.dateTime.formatNicelyWithTime(
                 noWeekDay = false
             ).uppercase(),
-            style = Typo.numberCaption.style(
+            style = UI.typo.nC.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold
             )
@@ -498,7 +500,7 @@ private fun LoanRecordItem(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = loanRecord.note!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -535,7 +537,7 @@ private fun NoLoanRecordsEmptyState() {
 
         Text(
             text = "No records",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -546,7 +548,7 @@ private fun NoLoanRecordsEmptyState() {
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "You don't have any records for this loan. Tap \"Add record\" to create one.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

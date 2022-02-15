@@ -22,6 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
@@ -633,7 +635,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = title,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -644,7 +646,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = amount.format(currencyCode),
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -652,7 +654,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = IvyCurrency.fromCode(currencyCode)?.name ?: "",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -663,7 +665,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = transactionCount.toString(),
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -671,7 +673,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = "transactions",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -689,7 +691,7 @@ private fun RowScope.HeaderCard(
                 text = addButtonText,
                 shadowAlpha = 0.1f,
                 backgroundGradient = Gradient.solid(addButtonBackground),
-                textStyle = Typo.body2.style(
+                textStyle = UI.typo.b2.style(
                     color = findContrastTextColor(addButtonBackground),
                     fontWeight = FontWeight.Bold
                 ),
@@ -740,7 +742,7 @@ private fun Item(
 
                 Text(
                     text = account.name,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -754,7 +756,7 @@ private fun Item(
                             .align(Alignment.Bottom)
                             .padding(bottom = 12.dp),
                         text = "(excluded)",
-                        style = Typo.caption.style(
+                        style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()
                         )
                     )
@@ -771,7 +773,7 @@ private fun Item(
 
                 Text(
                     text = category.name,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -789,7 +791,7 @@ private fun Item(
 
                 Text(
                     text = Constants.CATEGORY_UNSPECIFIED_NAME,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )

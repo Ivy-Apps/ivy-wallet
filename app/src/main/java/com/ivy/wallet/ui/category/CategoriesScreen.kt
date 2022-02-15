@@ -19,6 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateCategoryData
@@ -84,7 +86,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Text(
                 text = "Categories",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -149,7 +151,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.category.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = item.category.color.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
@@ -285,7 +287,7 @@ private fun LabelAmount(
     ) {
         Text(
             text = label,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -337,7 +339,7 @@ private fun CategoryHeader(
 
             Text(
                 text = category.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )

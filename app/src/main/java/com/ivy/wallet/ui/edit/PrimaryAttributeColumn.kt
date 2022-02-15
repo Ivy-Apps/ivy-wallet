@@ -11,9 +11,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -44,7 +48,7 @@ fun PrimaryAttributeColumn(
 
             Text(
                 text = title,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -78,7 +82,7 @@ private fun PreviewPrimaryAttributeColumn() {
                         "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
                         "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
                         "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.Medium
                 )

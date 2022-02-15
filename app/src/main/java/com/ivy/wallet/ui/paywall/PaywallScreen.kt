@@ -19,6 +19,8 @@ import com.android.billingclient.api.SkuDetails
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.onScreenStart
@@ -148,7 +150,7 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier
                     .padding(start = 32.dp),
                 text = "Get premium",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -232,7 +234,7 @@ private fun UsageText(
 
         Text(
             text = "You have ${usedCount}/$freeCount free $itemName.",
-            style = Typo.numberCaption.style(
+            style = UI.typo.nC.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = when {
                     usedPercent >= 1f -> Red
@@ -280,7 +282,7 @@ private fun BenefitRow(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = benefit.text,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.Bold
                 )
             )

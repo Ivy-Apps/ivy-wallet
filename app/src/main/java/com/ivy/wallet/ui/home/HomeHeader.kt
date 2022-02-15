@@ -19,6 +19,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
@@ -113,7 +115,7 @@ private fun HeaderStickyRow(
                     .alpha(percentExpanded)
                     .testTag("home_greeting_text"),
                 text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -215,7 +217,7 @@ fun CashFlowInfo(
                     start = 24.dp
                 ),
                 text = "Cashflow: ${if (cashflow > 0) "+" else ""}${cashflow.format(currency)} $currency",
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = if (cashflow < 0) Gray else Green
                 )
             )
@@ -320,7 +322,7 @@ private fun RowScope.HeaderCard(
 
             Text(
                 text = label,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )

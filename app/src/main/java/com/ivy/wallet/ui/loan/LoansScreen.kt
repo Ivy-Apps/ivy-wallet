@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
@@ -143,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.loan.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
@@ -175,7 +177,7 @@ private fun Toolbar(
         ) {
             Text(
                 text = "Loans",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -257,7 +259,7 @@ private fun LoanHeader(
 
             Text(
                 text = loan.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -269,7 +271,7 @@ private fun LoanHeader(
                     .align(Alignment.Bottom)
                     .padding(bottom = 4.dp),
                 text = loan.humanReadableType(),
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = loan.color.toComposeColor().dynamicContrast()
                 )
             )
@@ -317,7 +319,7 @@ private fun ColumnScope.LoanInfo(
                 100
             ).format(2)
         }%)",
-        style = Typo.numberBody2.style(
+        style = UI.typo.nB2.style(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -356,7 +358,7 @@ private fun NoLoansEmptyState(
 
         Text(
             text = emptyStateTitle,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -367,7 +369,7 @@ private fun NoLoansEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = emptyStateText,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

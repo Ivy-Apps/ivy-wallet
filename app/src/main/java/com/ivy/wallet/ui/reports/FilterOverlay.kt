@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.springBounce
@@ -120,7 +122,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         start = 32.dp
                     ),
                     text = "Filter",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -135,7 +137,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         }
                         .padding(all = 4.dp), //expand click area
                     text = "Clear filter",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.Bold,
                         color = Color.Gray
                     )
@@ -606,7 +608,7 @@ private fun ListFilterTitle(
                 }
                 .padding(all = 4.dp), //expand click area
             text = if (itemsSelected > 0) "Clear all" else "Select all",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray
             )
@@ -656,7 +658,7 @@ fun ListItem(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -696,7 +698,7 @@ private fun AmountFilter(
         ) {
             Text(
                 text = "From",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -717,7 +719,7 @@ private fun AmountFilter(
         ) {
             Text(
                 text = "To",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -751,7 +753,7 @@ private fun KeywordsFilter(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = "INCLUDES",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -791,7 +793,7 @@ private fun KeywordsFilter(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = "EXCLUDES",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -882,7 +884,7 @@ private fun FilterTitleText(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = text,
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
             color = if (active) IvyTheme.colors.pureInverse else inactiveColor
         )

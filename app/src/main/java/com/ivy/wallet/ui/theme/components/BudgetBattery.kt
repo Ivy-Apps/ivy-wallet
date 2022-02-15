@@ -13,6 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.thenIf
@@ -107,7 +109,7 @@ fun BudgetBattery(
                     }
                     else -> "Budget exceeded by"
                 },
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -125,7 +127,7 @@ fun BudgetBattery(
 
             Text(
                 text = "${expenses.format(currency)}/${budget.format(currency)} $currency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = captionTextColor
                 )

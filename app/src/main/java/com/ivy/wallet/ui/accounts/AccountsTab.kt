@@ -18,6 +18,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
@@ -97,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
             Column {
                 Text(
                     text = "Accounts",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = IvyTheme.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -112,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
                                 baseCurrency
                             )
                         }",
-                        style = Typo.numberBody2.style(
+                        style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
                         )
@@ -176,7 +178,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.account.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = item.account.color.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
@@ -274,7 +276,7 @@ private fun AccountHeader(
 
             Text(
                 text = account.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -288,7 +290,7 @@ private fun AccountHeader(
                         .align(Alignment.Bottom)
                         .padding(bottom = 4.dp),
                     text = "(excluded)",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         color = account.color.toComposeColor().dynamicContrast()
                     )
                 )

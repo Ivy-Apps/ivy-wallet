@@ -14,9 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.White
 import java.util.*
 
 @Composable
@@ -199,7 +203,7 @@ private fun NumberView(
     ) {
         Text(
             text = number.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = if (selected) White else IvyTheme.colors.pureInverse,
                 textAlign = TextAlign.Center

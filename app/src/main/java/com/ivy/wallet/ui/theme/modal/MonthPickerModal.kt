@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
@@ -123,7 +125,7 @@ private fun MonthButton(
             }
             .padding(horizontal = 40.dp, vertical = 12.dp),
         text = month.name,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected)
                 findContrastTextColor(monthColor) else IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.SemiBold

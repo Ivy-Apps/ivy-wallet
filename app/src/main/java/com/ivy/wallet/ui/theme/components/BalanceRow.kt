@@ -15,13 +15,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.decimalPartFormatted
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 import java.text.DecimalFormat
 import kotlin.math.truncate
 
@@ -126,12 +126,12 @@ fun BalanceRow(
             text = if (balanceAmountPrefix != null)
                 "$balanceAmountPrefix$integerPartFormatted" else integerPartFormatted,
             style = if (integerFontSize == null) {
-                Typo.numberH1.style(
+                UI.typo.nH1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
                 )
             } else {
-                Typo.numberH1.style(
+                UI.typo.nH1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
                 ).copy(fontSize = integerFontSize)
@@ -147,12 +147,12 @@ fun BalanceRow(
                     .padding(top = decimalPaddingTop),
                 text = decimalPartFormatted(currency, balance),
                 style = if (decimalFontSize == null) {
-                    Typo.numberBody1.style(
+                    UI.typo.nB1.style(
                         fontWeight = FontWeight.Bold,
                         color = textColor
                     )
                 } else {
-                    Typo.numberBody1.style(
+                    UI.typo.nB1.style(
                         fontWeight = FontWeight.Bold,
                         color = textColor
                     ).copy(fontSize = decimalFontSize)
@@ -182,12 +182,12 @@ private fun Currency(
     Text(
         text = currency,
         style = if (currencyFontSize == null) {
-            Typo.h1.style(
+            UI.typo.h1.style(
                 fontWeight = FontWeight.Light,
                 color = textColor
             )
         } else {
-            Typo.h1.style(
+            UI.typo.h1.style(
                 fontWeight = FontWeight.Light,
                 color = textColor
             ).copy(fontSize = currencyFontSize)

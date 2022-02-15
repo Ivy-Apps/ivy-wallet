@@ -21,6 +21,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.onScreenStart
@@ -240,7 +242,7 @@ private fun CategoriesRow(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = Budget.type(budgetCategoryIds.size),
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
             color = IvyTheme.colors.pureInverse
         )

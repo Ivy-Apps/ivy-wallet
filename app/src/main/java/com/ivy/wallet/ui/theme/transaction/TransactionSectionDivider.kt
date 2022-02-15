@@ -13,11 +13,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.springBounce
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyDividerDot
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -55,7 +60,7 @@ fun SectionDivider(
             Text(
                 modifier = Modifier.testTag("upcoming_title"),
                 text = title,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = titleColor
                 )
@@ -98,14 +103,14 @@ private fun SectionDividerIncomeExpenseRow(
             Text(
                 modifier = Modifier.testTag("upcoming_expense"),
                 text = "${expenses.format(baseCurrency)} $baseCurrency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )
             )
             Text(
                 text = " expenses",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -124,14 +129,14 @@ private fun SectionDividerIncomeExpenseRow(
             Text(
                 modifier = Modifier.testTag("upcoming_income"),
                 text = "${income.format(baseCurrency)} $baseCurrency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.green
                 )
             )
             Text(
                 text = " income",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
                     color = IvyTheme.colors.pureInverse
                 )

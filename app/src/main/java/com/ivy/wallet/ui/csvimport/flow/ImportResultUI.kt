@@ -9,6 +9,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.IvyAppPreview
@@ -44,7 +46,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (importSuccess) "Success" else "Failure",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black,
                 color = if (importSuccess) IvyTheme.colors.pureInverse else Red
             )
@@ -55,7 +57,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Imported",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Green,
                 fontWeight = FontWeight.Black
             )
@@ -68,7 +70,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${successPercent.format(2)}%",
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal
             )
         )
@@ -76,7 +78,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${result.transactionsImported} transactions",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -87,7 +89,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${result.accountsImported} accounts",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -98,7 +100,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${result.categoriesImported} categories",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -117,7 +119,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Failed",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 fontWeight = FontWeight.Black,
                 color = Red
             )
@@ -128,7 +130,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${(100 - successPercent).format(2)}%",
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal
             )
         )
@@ -136,7 +138,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${result.rowsFound - result.transactionsImported} rows from CSV file not recognized",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )

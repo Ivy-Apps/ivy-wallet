@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
@@ -77,7 +79,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Add accounts",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.Black
                     )
                 )
@@ -129,7 +131,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Suggestions",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -205,7 +207,7 @@ fun PremiumInfo(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (itemsCount == 0) "Up to $freeItemsCount free $itemLabelPlural" else "$freeItemsLeft $itemLabelPlural left",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (freeItemsLeft > 2) Green else Orange
             )
@@ -251,7 +253,7 @@ fun BuyPremiumRow(
                 .padding(vertical = 12.dp)
                 .padding(start = 12.dp, end = 32.dp),
             text = "Buy premium for unlimited number of $itemLabelPlural",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Red
             )
@@ -315,7 +317,7 @@ private fun AccountCard(
         Column {
             Text(
                 text = account.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = dynamicContrast
                 )

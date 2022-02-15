@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.base.densityScope
@@ -61,7 +63,7 @@ fun ColumnScope.IvyColorPicker(
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Choose color",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )

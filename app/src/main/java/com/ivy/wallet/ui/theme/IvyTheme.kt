@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
+import com.ivy.design.l0_system.IvyTypography
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.setStatusBarDarkTextCompat
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -35,7 +37,7 @@ fun IvyTheme(
     ) {
         MaterialTheme(
             colors = adaptTheme(ivyColors),
-            typography = adaptTypography(Typo),
+            typography = adaptTypography(UI.typo),
             shapes = adaptShapes(Shapes),
             content = content
         )
@@ -70,11 +72,11 @@ fun adaptShapes(shapes: IvyShapes): Shapes {
 
 fun adaptTypography(typography: IvyTypography) : Typography {
         return Typography(
-                h1 = typography.h1,
-                h2 = typography.h2,
-                body1 = typography.body1,
-                body2 = typography.body2,
-                caption = typography.caption
+            h1 = typography.h1,
+            h2 = typography.h2,
+            body1 = typography.b1,
+            body2 = typography.b2,
+            caption = typography.c
         )
 }
 

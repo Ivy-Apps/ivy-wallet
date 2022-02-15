@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.model.IntervalType
@@ -27,8 +29,6 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.PlannedPayments
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
@@ -83,7 +83,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 24.dp),
                 text = "Planned payments",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )

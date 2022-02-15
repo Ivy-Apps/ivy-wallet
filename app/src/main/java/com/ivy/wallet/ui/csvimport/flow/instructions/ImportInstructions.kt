@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.csv.model.ImportType
@@ -65,7 +67,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "How to import",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -75,7 +77,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "open",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = Gray,
                     fontWeight = Bold
                 )
@@ -100,7 +102,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Steps",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -221,7 +223,7 @@ fun InstructionButton(
         Column {
             Text(
                 text = caption,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray,
                     fontWeight = Bold
                 )
@@ -231,7 +233,7 @@ fun InstructionButton(
 
             Text(
                 text = text,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = Bold
                 )
             )
@@ -281,7 +283,7 @@ fun StepTitle(
                 .size(24.dp)
                 .background(IvyTheme.colors.medium, CircleShape),
             text = number.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = Bold,
                 textAlign = TextAlign.Center
             )
@@ -292,7 +294,7 @@ fun StepTitle(
                 .weight(1f)
                 .padding(start = 8.dp, end = 32.dp),
             text = title,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = Bold
             )
         )
@@ -304,7 +306,7 @@ fun StepTitle(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = description,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = Bold,
                 color = Gray
             )
@@ -341,7 +343,7 @@ private fun App(
 
         Text(
             text = importType.appName(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = Bold
             )
         )

@@ -20,6 +20,8 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.onScreenStart
@@ -155,7 +157,7 @@ private fun BoxWithConstraintsScope.UI(
         ) {
             Text(
                 text = "Generating report...",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = Orange
                 )
@@ -183,7 +185,7 @@ private fun BoxWithConstraintsScope.UI(
                     start = 32.dp
                 ),
                 text = "Reports",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -298,7 +300,7 @@ private fun NoFilterEmptyState(
 
         Text(
             text = "No Filter",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -309,7 +311,7 @@ private fun NoFilterEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "To generate a report you must first set a valid filter.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

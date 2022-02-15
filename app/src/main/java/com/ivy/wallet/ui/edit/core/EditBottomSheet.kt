@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.ivyContext
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
@@ -202,7 +204,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Account",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -324,7 +326,7 @@ private fun TransferRowMini(
             iconStart = R.drawable.ic_accounts,
             backgroundGradient = Gradient.solid(fromColor),
             iconTint = fromContrastColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = fromContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
@@ -345,7 +347,7 @@ private fun TransferRowMini(
             iconStart = R.drawable.ic_accounts,
             backgroundGradient = Gradient.solid(toColor),
             iconTint = toContrastColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = toContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
@@ -396,7 +398,7 @@ private fun SheetHeader(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = label,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -418,7 +420,7 @@ private fun SheetHeader(
                 Text(
                     modifier = Modifier.padding(start = 32.dp),
                     text = "To",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = IvyTheme.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -532,7 +534,7 @@ private fun Account(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = account.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -567,7 +569,7 @@ private fun AddAccount(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = "Add account",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -675,7 +677,7 @@ private fun LabelAccountMini(
     ) {
         Text(
             text = label,
-            style = Typo.numberCaption.style(
+            style = UI.typo.nC.style(
                 color = IvyTheme.colors.mediumInverse,
                 fontWeight = FontWeight.Medium
             )
@@ -685,7 +687,7 @@ private fun LabelAccountMini(
 
         Text(
             text = account?.name?.toUpperCase(Locale.getDefault()) ?: "",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )

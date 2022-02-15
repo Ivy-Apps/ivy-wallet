@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.R
@@ -12,6 +13,11 @@ import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 
 abstract class IvyWalletDesign : IvyDesign {
+    companion object {
+        const val OPEN_SANS_BASELINE_SHIFT = 0.075f
+        const val RALEWAY_BASELINE_SHIFT = 0.2f
+    }
+
 
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
@@ -43,53 +49,63 @@ abstract class IvyWalletDesign : IvyDesign {
             override val h1 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Black,
-                fontSize = h1
+                fontSize = h1,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val h2 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = h2
+                fontSize = h2,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val b1 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Bold,
-                fontSize = b1
+                fontSize = b1,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val b2 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Medium,
-                fontSize = b2
+                fontSize = b2,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val c = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = c
+                fontSize = c,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
 
             override val nH1 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = h1
+                fontSize = h1,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nH2 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = h2
+                fontSize = h2,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nB1 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = b1
+                fontSize = b1,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nB2 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Normal,
-                fontSize = b2
+                fontSize = b2,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nC = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = c
+                fontSize = c,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
         }
     }

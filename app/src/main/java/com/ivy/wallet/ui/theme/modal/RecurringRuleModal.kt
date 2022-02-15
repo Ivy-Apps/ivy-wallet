@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
@@ -189,7 +191,7 @@ private fun RowScope.TimesSelectorButton(
             }
             .padding(vertical = 8.dp),
         text = label,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected) White else Gray,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -229,7 +231,7 @@ private fun MultipleTimes(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Starts on",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
@@ -253,7 +255,7 @@ private fun MultipleTimes(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Repeats every",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold,
             color = IvyTheme.colors.pureInverse
         )
@@ -311,7 +313,7 @@ private fun DateRow(
                 text = closeDay ?: date.formatNicely(
                     pattern = "EEEE, dd MMM"
                 ),
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Normal,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -322,7 +324,7 @@ private fun DateRow(
 
                 Text(
                     text = date.formatDateWeekDayLong(),
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.SemiBold,
                         color = Gray
                     )

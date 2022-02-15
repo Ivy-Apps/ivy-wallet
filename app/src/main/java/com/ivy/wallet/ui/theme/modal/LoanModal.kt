@@ -15,6 +15,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.onScreenStart
@@ -196,7 +198,7 @@ private fun ColumnScope.LoanTypePicker(
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Loan type",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
@@ -252,7 +254,7 @@ private fun RowScope.SelectorButton(
             }
             .padding(vertical = 8.dp),
         text = label,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected) White else Gray,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center

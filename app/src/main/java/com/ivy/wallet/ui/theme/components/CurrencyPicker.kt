@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IvyCurrency
@@ -143,7 +145,7 @@ private fun SearchInput(
                 //Hint
                 Text(
                     text = "Search (USD, EUR, GBP, BTC, etc)",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -160,7 +162,7 @@ private fun SearchInput(
                 onValueChange = {
                     onSetSearchTextFieldValue(it.copy(it.text.trim()))
                 },
-                textStyle = Typo.body2.style(
+                textStyle = UI.typo.b2.style(
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start
                 ),
@@ -203,7 +205,7 @@ private fun SelectedCurrencyCard(
         Column {
             Text(
                 text = currency.name,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = White,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -213,7 +215,7 @@ private fun SelectedCurrencyCard(
 
             Text(
                 text = currency.code,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = White,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -229,7 +231,7 @@ private fun SelectedCurrencyCard(
 
         Text(
             text = if (preselected) "Pre-selected" else "Selected",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = White,
                 fontWeight = FontWeight.SemiBold
             )
@@ -338,7 +340,7 @@ private fun CurrencyItemCard(
 
         Text(
             text = currency.code,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = if (selected) White else IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -348,7 +350,7 @@ private fun CurrencyItemCard(
 
         Text(
             text = currency.name.take(20),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = if (selected) White else IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
@@ -370,7 +372,7 @@ private fun LetterDividerItem(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = letterDivider.letter,
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.SemiBold
         )

@@ -15,16 +15,16 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
-import com.ivy.wallet.ui.theme.style
 import java.util.*
 
 @Composable
@@ -64,7 +64,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
             modifier = Modifier
                 .padding(start = 32.dp),
             text = "Description",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )

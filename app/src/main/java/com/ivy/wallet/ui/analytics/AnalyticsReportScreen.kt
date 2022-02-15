@@ -13,6 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.colorAs
 import com.ivy.wallet.R
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatDateOnly
@@ -28,11 +30,15 @@ import com.ivy.wallet.ui.analytics.tab.KPIsTab
 import com.ivy.wallet.ui.analytics.tab.OnboardingReportTab
 import com.ivy.wallet.ui.analytics.tab.UserStatsTab
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import java.time.LocalDateTime
+
 
 @Composable
 fun BoxWithConstraintsScope.AnalyticsReport(screen: AnalyticsReport) {
@@ -179,7 +185,7 @@ private fun UI(
         ) {
             Text(
                 text = "Loading...",
-                style = Typo.h2.colorAs(Orange)
+                style = UI.typo.h2.colorAs(Orange)
             )
         } else {
             Content(

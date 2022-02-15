@@ -13,8 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.colorAs
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.findContrastTextColor
+
 
 @Composable
 fun DataCircle(
@@ -32,7 +37,7 @@ fun DataCircle(
                 .background(circleColor, CircleShape)
                 .padding(all = 24.dp),
             text = count.toString(),
-            style = Typo.numberH1.style(
+            style = UI.typo.nH1.style(
                 color = findContrastTextColor(circleColor),
                 textAlign = TextAlign.Center
             )
@@ -42,7 +47,7 @@ fun DataCircle(
 
         Text(
             text = metric,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 textAlign = TextAlign.Center
             )
         )
@@ -52,7 +57,7 @@ fun DataCircle(
 
             Text(
                 text = "${(count / parentCount.toDouble()).times(100).format(2)}%",
-                style = Typo.numberBody2.colorAs(IvyTheme.colors.mediumInverse)
+                style = UI.typo.nB2.colorAs(IvyTheme.colors.mediumInverse)
             )
         }
 
@@ -61,7 +66,7 @@ fun DataCircle(
 
             Text(
                 text = "AVG ${avgCount.format(2)}",
-                style = Typo.numberCaption.colorAs(IvyTheme.colors.mediumInverse)
+                style = UI.typo.nC.colorAs(IvyTheme.colors.mediumInverse)
             )
         }
     }

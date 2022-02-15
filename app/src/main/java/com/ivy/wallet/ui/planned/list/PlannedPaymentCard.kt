@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
@@ -81,7 +83,7 @@ fun LazyItemScope.PlannedPaymentCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = plannedPayment.title!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -132,7 +134,7 @@ private fun PlannedPaymentHeaderRow(
                     iconStart = getCustomIconIdS(category.icon, R.drawable.ic_custom_category_s),
                     text = category.name,
                     backgroundGradient = Gradient.solid(category.color.toComposeColor()),
-                    textStyle = Typo.caption.style(
+                    textStyle = UI.typo.c.style(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
@@ -156,7 +158,7 @@ private fun PlannedPaymentHeaderRow(
                 text = account?.name ?: "deleted",
                 iconTint = IvyTheme.colors.pureInverse,
                 iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
-                textStyle = Typo.caption.style(
+                textStyle = UI.typo.c.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
@@ -192,7 +194,7 @@ private fun RuleTextRow(
         if (oneTime) {
             Text(
                 text = "PLANNED FOR ",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -201,7 +203,7 @@ private fun RuleTextRow(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = startDate?.toLocalDate()?.formatDateOnlyWithYear()?.uppercaseLocal()
                     ?: "null",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -210,7 +212,7 @@ private fun RuleTextRow(
             val startDateFormatted = startDate?.toLocalDate()?.formatDateOnly()?.uppercaseLocal()
             Text(
                 text = "STARTS $startDateFormatted ",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -219,7 +221,7 @@ private fun RuleTextRow(
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = "REPEATS EVERY $intervalN $intervalTypeFormatted",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )

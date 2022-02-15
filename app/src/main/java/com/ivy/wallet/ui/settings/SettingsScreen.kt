@@ -25,6 +25,8 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
@@ -143,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
                         nav.navigateTo(Test)
                     },
                     text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                    style = Typo.numberCaption.style(
+                    style = UI.typo.nC.style(
                         color = IvyTheme.colors.gray,
                         fontWeight = FontWeight.Bold
                     )
@@ -160,7 +162,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Settings",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -389,7 +391,7 @@ private fun StartDateOfMonth(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Start date of month",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
@@ -399,7 +401,7 @@ private fun StartDateOfMonth(
 
         Text(
             text = startDateOfMonth.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -493,7 +495,7 @@ private fun LockAppSwitch(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Lock app",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
@@ -543,7 +545,7 @@ private fun AccountCard(
 
             Text(
                 text = "ACCOUNT",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
                     color = IvyTheme.colors.gray
                 )
@@ -616,7 +618,7 @@ private fun AccountCardUser(
 
         Text(
             text = localName ?: user.names(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -640,7 +642,7 @@ private fun AccountCardUser(
 
         Text(
             text = user.email,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -667,7 +669,7 @@ private fun AccountCardUser(
 
                 Text(
                     text = "Syncing...",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
                     )
@@ -693,7 +695,7 @@ private fun AccountCardUser(
 
                     Text(
                         text = "Data synced to cloud",
-                        style = Typo.body2.style(
+                        style = UI.typo.b2.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = Green
                         )
@@ -746,7 +748,7 @@ private fun AccountCardLocalAccount(
         Text(
             modifier = Modifier.testTag("local_account_name"),
             text = if (name != null && name.isNotBlank()) name else "Anonymous",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -805,7 +807,7 @@ private fun TCAndPrivacyPolicy() {
                 }
                 .padding(vertical = 14.dp),
             text = "Terms & Conditions",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse,
                 textAlign = TextAlign.Center
@@ -824,7 +826,7 @@ private fun TCAndPrivacyPolicy() {
                 }
                 .padding(vertical = 14.dp),
             text = "Privacy Policy",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse,
                 textAlign = TextAlign.Center
@@ -861,7 +863,7 @@ private fun SettingsPrimaryButton(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.Bold
             )
@@ -923,7 +925,7 @@ private fun AccountCardButton(
             modifier = Modifier
                 .padding(vertical = 10.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -958,7 +960,7 @@ private fun CurrencyButton(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Set currency",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
@@ -968,7 +970,7 @@ private fun CurrencyButton(
 
         Text(
             text = currency,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -992,7 +994,7 @@ private fun SettingsSectionDivider(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = color,
             fontWeight = FontWeight.Bold
         )

@@ -9,10 +9,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.formatLocal
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.IvyComponentPreview
 import java.time.LocalDate
 
 @Composable
@@ -39,7 +43,7 @@ fun HistoryDateDivider(
                 text = date.formatLocal(
                     if (today.year == date.year) "MMMM dd." else "MMM dd. yyy"
                 ),
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -61,7 +65,7 @@ fun HistoryDateDivider(
                         date.formatLocal("EEEE")
                     }
                 },
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -73,7 +77,7 @@ fun HistoryDateDivider(
         val cashflow = income - expenses
         Text(
             text = "${cashflow.format(baseCurrency)} $baseCurrency",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (cashflow > 0) Green else Gray
             )

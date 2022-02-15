@@ -21,11 +21,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.numberBetween
 import com.ivy.wallet.base.swap
 import com.ivy.wallet.model.Reorderable
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import java.util.*
 
@@ -38,7 +42,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
         Text(
             modifier = Modifier.padding(start = 32.dp),
             text = "Reorder",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 IvyTheme.colors.pureInverse,
                 FontWeight.ExtraBold
             )
@@ -78,7 +82,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
         Text(
             modifier = Modifier.padding(start = 32.dp),
             text = "Reorder",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 IvyTheme.colors.pureInverse,
                 FontWeight.ExtraBold
             )

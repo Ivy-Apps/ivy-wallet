@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun AmountCurrencyB2Row(
@@ -25,7 +25,7 @@ fun AmountCurrencyB2Row(
     ) {
         Text(
             text = amount.format(currency),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = amountFontWeight,
                 color = textColor
             )
@@ -33,7 +33,7 @@ fun AmountCurrencyB2Row(
 
         Text(
             text = " $currency",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
             )
@@ -73,7 +73,7 @@ fun AmountCurrencyB1(
 
     Text(
         text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
-        style = Typo.numberBody1.style(
+        style = UI.typo.nB1.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -81,7 +81,7 @@ fun AmountCurrencyB1(
 
     Text(
         text = " $currency",
-        style = Typo.numberBody1.style(
+        style = UI.typo.nB1.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -96,7 +96,7 @@ fun AmountCurrencyH1(
 ) {
     Text(
         text = amount.format(currency),
-        style = Typo.numberH1.style(
+        style = UI.typo.nH1.style(
             fontWeight = FontWeight.Bold,
             color = textColor
         )
@@ -104,7 +104,7 @@ fun AmountCurrencyH1(
 
     Text(
         text = " $currency",
-        style = Typo.numberH2.style(
+        style = UI.typo.nH2.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -122,7 +122,7 @@ fun AmountCurrencyH2Row(
     ) {
         Text(
             text = amount.format(currency),
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
@@ -130,7 +130,7 @@ fun AmountCurrencyH2Row(
 
         Text(
             text = " $currency",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
             )
@@ -147,7 +147,7 @@ fun AmountCurrencyCaption(
 ) {
     Text(
         text = amount.format(currency),
-        style = Typo.numberCaption.style(
+        style = UI.typo.nC.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -155,7 +155,7 @@ fun AmountCurrencyCaption(
 
     Text(
         text = " $currency",
-        style = Typo.numberCaption.style(
+        style = UI.typo.nC.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )

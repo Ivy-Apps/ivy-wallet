@@ -17,12 +17,12 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun IvyNameTextField(
@@ -52,7 +52,7 @@ fun IvyNameTextField(
                 Text(
                     modifier = Modifier,
                     text = hint!!,
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         color = IvyTheme.colors.gray,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Start
@@ -66,7 +66,7 @@ fun IvyNameTextField(
                     .testTag("base_input"),
                 value = value,
                 onValueChange = onValueChanged,
-                textStyle = Typo.body1.style(
+                textStyle = UI.typo.b1.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.Start

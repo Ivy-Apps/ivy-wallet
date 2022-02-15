@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
 import com.ivy.wallet.functional.charts.ChartPeriod
 import com.ivy.wallet.functional.charts.SingleChartPoint
@@ -103,7 +105,7 @@ fun BalanceChart(
     Text(
         modifier = Modifier.padding(start = 24.dp),
         text = "Balance chart",
-        style = Typo.body1
+        style = UI.typo.b1
     )
 
     Spacer(Modifier.height(16.dp))
@@ -161,7 +163,7 @@ fun ChartInfoCard(
 
         Text(
             text = chartPoint.range.toFromToRange().toDisplay(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = White
             )
         )
@@ -174,7 +176,7 @@ fun ChartInfoCard(
             } else {
                 "${chartPoint.value.toDouble().format(baseCurrencyCode)} $baseCurrencyCode"
             },
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 color = White
             )
         )

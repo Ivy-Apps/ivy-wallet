@@ -27,11 +27,16 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -247,7 +252,7 @@ private fun SearchButton(
                 vertical = 12.dp,
             ),
             text = "Search transactions",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -288,7 +293,7 @@ private fun ColumnScope.OpenSource() {
         ) {
             Text(
                 text = "Ivy Wallet is open-source",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -297,7 +302,7 @@ private fun ColumnScope.OpenSource() {
 
             Text(
                 text = Constants.URL_IVY_WALLET_REPO,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = Blue
                 )
@@ -327,7 +332,7 @@ private fun ColumnScope.Buffer(
 
         Text(
             text = "Savings goal",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -515,7 +520,7 @@ private fun MoreMenuButton(
                     onClick()
                 },
             text = label,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center

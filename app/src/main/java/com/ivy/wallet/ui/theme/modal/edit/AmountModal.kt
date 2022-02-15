@@ -19,10 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Black
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
@@ -138,7 +143,7 @@ fun AmountCurrency(
 
         Text(
             text = if (amount.isBlank()) "0" else amount,
-            style = Typo.numberH1.style(
+            style = UI.typo.nH1.style(
                 fontWeight = FontWeight.Bold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -146,7 +151,7 @@ fun AmountCurrency(
 
         Text(
             text = " $currency",
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal,
                 color = IvyTheme.colors.pureInverse
             )
@@ -413,7 +418,7 @@ fun KeypadCircleButton(
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
-        style = Typo.numberH2.style(
+        style = UI.typo.nH2.style(
             color = textColor,
             fontWeight = FontWeight.Bold
         ).copy(

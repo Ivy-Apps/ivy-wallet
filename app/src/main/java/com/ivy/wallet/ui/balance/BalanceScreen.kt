@@ -15,6 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
@@ -140,7 +142,7 @@ private fun ColumnScope.CurrentBalance(
     Text(
         modifier = Modifier.align(Alignment.CenterHorizontally),
         text = "CURRENT BALANCE",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -166,7 +168,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
         modifier = Modifier
             .padding(horizontal = 32.dp),
         text = "BALANCE AFTER PLANNED PAYMENTS",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = Orange,
             fontWeight = FontWeight.ExtraBold
         )
@@ -201,7 +203,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             Text(
                 text = "${currentBalance.format(2)} $currency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.Normal
                 )
@@ -212,7 +214,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
                 text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )

@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
@@ -47,7 +49,7 @@ fun OnboardingType(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Import CSV file",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black
             )
         )
@@ -57,7 +59,7 @@ fun OnboardingType(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "from Ivy or another app",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -83,7 +85,7 @@ fun OnboardingType(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Importing a backup file from another can take up to 5 min. You can always import your data later if you want to.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )

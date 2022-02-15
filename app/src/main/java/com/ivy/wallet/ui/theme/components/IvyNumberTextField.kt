@@ -16,12 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun IvyNumberTextField(
@@ -48,7 +48,7 @@ fun IvyNumberTextField(
                 modifier = textModifier,
                 text = hint!!,
                 textAlign = TextAlign.Start,
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = hintColor,
                     fontWeight = fontWeight,
                     textAlign = TextAlign.Center
@@ -62,7 +62,7 @@ fun IvyNumberTextField(
                 .testTag("base_number_input"),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = Typo.numberBody2.style(
+            textStyle = UI.typo.nB2.style(
                 color = textColor,
                 fontWeight = fontWeight,
                 textAlign = TextAlign.Center

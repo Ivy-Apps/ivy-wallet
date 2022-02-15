@@ -9,12 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.edit.PrimaryAttributeColumn
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
@@ -61,7 +61,7 @@ private fun DescriptionText(
             markdown = description,
             textAlign = TextAlign.Left,
             color = IvyTheme.colors.pureInverse,
-            fontSize = Typo.body2.fontSize,
+            fontSize = UI.typo.b2.fontSize,
             fontResource = R.font.raleway_medium
         )
 

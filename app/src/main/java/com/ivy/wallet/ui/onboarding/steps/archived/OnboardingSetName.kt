@@ -22,15 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyOutlinedTextField
 import com.ivy.wallet.ui.theme.components.OnboardingButton
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun OnboardingSetName(
@@ -77,7 +77,7 @@ fun OnboardingSetName(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Enter your name\nto personalize your\nwallet",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )

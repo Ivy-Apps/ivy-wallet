@@ -10,10 +10,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Shapes
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
@@ -96,7 +96,7 @@ private fun LabelAmountColumn(
     ) {
         Text(
             text = label,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )

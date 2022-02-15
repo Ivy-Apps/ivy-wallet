@@ -18,10 +18,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.hasLockScreen
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.theme.Shapes
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 
 @Composable
@@ -43,7 +48,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
                 .padding(vertical = 12.dp)
                 .padding(horizontal = 32.dp),
             text = "APP LOCKED",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
             )
         )
@@ -63,7 +68,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
 
         Text(
             text = "Authenticate to enter the app",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
                 color = Gray
             )
@@ -77,7 +82,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             text = "Unlock",
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = White,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center

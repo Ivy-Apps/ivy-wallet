@@ -17,6 +17,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.hideKeyboard
@@ -206,7 +208,7 @@ private fun CategoryButton(
                     end = if (selected) 20.dp else 24.dp
                 ),
             text = category.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = if (selected)
                     findContrastTextColor(categoryColor) else IvyTheme.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
@@ -241,7 +243,7 @@ fun AddNewButton(
         text = "Add new",
         backgroundGradient = Gradient.solid(IvyTheme.colors.mediumInverse),
         iconStart = R.drawable.ic_plus,
-        textStyle = Typo.body2.style(
+        textStyle = UI.typo.b2.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.Bold
         ),

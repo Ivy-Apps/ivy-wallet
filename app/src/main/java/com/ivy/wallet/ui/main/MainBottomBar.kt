@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -370,7 +372,7 @@ private fun AddIncomeButton(
             }
             .zIndex(200f),
         text = "ADD INCOME",
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -456,7 +458,7 @@ private fun AddExpenseButton(
             }
             .zIndex(200f),
         text = "ADD EXPENSE",
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -542,7 +544,7 @@ private fun AddTransferButton(
             }
             .zIndex(200f),
         text = "ACCOUNT TRANSFER",
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = IvyTheme.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -601,7 +603,7 @@ private fun RowScope.Tab(
 
             Text(
                 text = name,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Bold,
                     color = selectedColor
                 )

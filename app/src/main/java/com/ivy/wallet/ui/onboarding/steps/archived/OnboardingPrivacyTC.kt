@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
@@ -63,7 +65,7 @@ fun OnboardingPrivacyTC(
         Text(
             modifier = Modifier.padding(start = 32.dp),
             text = "Privacy and\ndata collection",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -134,7 +136,7 @@ private fun LongText() {
             end = 48.dp
         ),
         text = "Track your income, expenses and budget with Ivy.\n\nIntuitive UI, recurring and planned payments, manage multiple accounts, organize transactions in categories, meaningful statistics, export to CSV and so much more.",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.Medium
         )
     )
@@ -168,7 +170,7 @@ private fun TextLink(
 
             },
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = ivy1,
             fontWeight = FontWeight.Medium
         )
@@ -215,7 +217,7 @@ private fun SwipeToAgree(
                     .padding(start = 32.dp) //24+8=32.dp
                     .width(164.dp),
                 text = agreedText,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Green,
                     fontWeight = FontWeight.Bold
                 )
@@ -228,7 +230,7 @@ private fun SwipeToAgree(
                     .padding(start = 100.dp)
                     .width(164.dp),
                 text = swipeToAgreeText,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray,
                     fontWeight = FontWeight.Medium
                 )

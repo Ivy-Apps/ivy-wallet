@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
@@ -135,7 +137,7 @@ private fun ChooseMonth(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Choose month",
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             color = if (selectedMonthYear != null) IvyTheme.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -243,7 +245,7 @@ private fun MonthButton(
                 vertical = 12.dp,
             ),
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.Bold,
             color = if (selected) White else Gray
         )
@@ -259,7 +261,7 @@ private fun FromToRange(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or custom range",
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             color = if (timeRange != null) IvyTheme.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -348,7 +350,7 @@ private fun IntervalFromToDate(
                     vertical = 16.dp,
                 ),
             text = if (border == IntervalBorder.FROM) "From" else "To",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = if (dateTime != null) Green else IvyTheme.colors.pureInverse
             )
@@ -362,7 +364,7 @@ private fun IntervalFromToDate(
 
         Text(
             text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: "Add date",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (dateTime != null) IvyTheme.colors.pureInverse else Gray
             )
@@ -413,7 +415,7 @@ private fun LastNPeriod(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or in the last",
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             color = if (lastNTimeRange != null) IvyTheme.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -459,7 +461,7 @@ private fun AllTime(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or all time",
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             color = if (active) IvyTheme.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )

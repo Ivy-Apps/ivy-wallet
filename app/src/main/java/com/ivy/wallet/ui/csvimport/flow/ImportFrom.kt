@@ -18,15 +18,15 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Shapes
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.style
 
 @ExperimentalFoundationApi
 @Composable
@@ -60,7 +60,7 @@ fun BoxWithConstraintsScope.ImportFrom(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Import from",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -114,7 +114,7 @@ private fun ImportOption(
         Text(
             modifier = Modifier.padding(start = 16.dp, end = 32.dp),
             text = importType.listName(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = IvyTheme.colors.pureInverse
             )

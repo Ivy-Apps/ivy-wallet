@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.navigationBarInset
 import com.ivy.wallet.base.toDensityDp
@@ -48,7 +50,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
             iconStart = R.drawable.ic_plus,
             text = if (isIncome) "Add income" else "Add expense",
             backgroundGradient = if (isIncome) GradientGreen else Gradient.solid(IvyTheme.colors.pureInverse),
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = if (isIncome) White else IvyTheme.colors.pure,
                 fontWeight = FontWeight.ExtraBold
             ),

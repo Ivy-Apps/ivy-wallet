@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatNicely
@@ -82,7 +84,7 @@ fun LazyItemScope.TransactionCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = "DUE ON ${transaction.dueDate.formatNicely()}".uppercase(),
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = if (transaction.dueDate.isAfter(timeNowUTC()))
                         Orange else IvyTheme.colors.gray,
                     fontWeight = FontWeight.Bold
@@ -100,7 +102,7 @@ fun LazyItemScope.TransactionCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = transaction.title!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = IvyTheme.colors.pureInverse
                 )
@@ -133,7 +135,7 @@ fun LazyItemScope.TransactionCard(
                 text = if (isExpense) "Pay" else "Get",
                 wrapContentMode = false,
                 backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
-                textStyle = Typo.body2.style(
+                textStyle = UI.typo.b2.style(
                     color = if (isExpense) IvyTheme.colors.pure else White,
                     fontWeight = FontWeight.Bold
                 )
@@ -177,7 +179,7 @@ private fun TransactionHeaderRow(
                         iconName = category.icon,
                         defaultIcon = R.drawable.ic_custom_category_s
                     ),
-                    textStyle = Typo.caption.style(
+                    textStyle = UI.typo.c.style(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
@@ -206,7 +208,7 @@ private fun TransactionHeaderRow(
                     iconName = account?.icon,
                     defaultIcon = R.drawable.ic_custom_account_s
                 ),
-                textStyle = Typo.caption.style(
+                textStyle = UI.typo.c.style(
                     color = IvyTheme.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
@@ -251,7 +253,7 @@ private fun TransferHeader(
             modifier = Modifier
                 .padding(vertical = 8.dp),
             text = account?.name ?: "null",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )
@@ -275,7 +277,7 @@ private fun TransferHeader(
             modifier = Modifier
                 .padding(vertical = 8.dp),
             text = toAccount?.name ?: "null",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = IvyTheme.colors.pureInverse
             )

@@ -22,13 +22,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.keyboardVisibleState
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
-import com.ivy.wallet.ui.theme.style
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -121,7 +121,7 @@ private fun Suggestion(
             .padding(horizontal = 24.dp)
             .padding(vertical = 12.dp),
         text = suggestion,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.Medium
         )
     )

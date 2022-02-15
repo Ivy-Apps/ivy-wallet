@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.functional.charts.ChartPeriod
@@ -21,10 +23,12 @@ import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
 import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.linechart.TapEvent
+import com.ivy.wallet.ui.theme.toComposeColor
 
 fun LazyListScope.categoryCharts(
     period: ChartPeriod,
@@ -143,7 +147,7 @@ private fun CategoriesChart(
     Text(
         modifier = Modifier.padding(start = 24.dp),
         text = title,
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             color = titleColor
         )
     )

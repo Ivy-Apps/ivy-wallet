@@ -18,12 +18,12 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun IvyDescriptionTextField(
@@ -50,7 +50,7 @@ fun IvyDescriptionTextField(
                 modifier = textModifier,
                 text = hint!!,
                 textAlign = TextAlign.Start,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = hintColor,
                     fontWeight = fontWeight,
                     textAlign = TextAlign.Start
@@ -63,7 +63,7 @@ fun IvyDescriptionTextField(
             modifier = textModifier,
             value = value,
             onValueChange = onValueChanged,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = fontWeight,
                 textAlign = TextAlign.Start
