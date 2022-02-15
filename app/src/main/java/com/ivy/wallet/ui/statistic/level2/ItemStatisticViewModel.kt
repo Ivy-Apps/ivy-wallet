@@ -1,10 +1,15 @@
 package com.ivy.wallet.ui.statistic.level2
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.toOption
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
+import com.ivy.wallet.functional.account.calculateAccountBalance
+import com.ivy.wallet.functional.account.calculateAccountIncomeExpense
+import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.exchangeToBaseCurrency
+import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.model.TransactionHistoryItem
@@ -17,14 +22,18 @@ import com.ivy.wallet.sync.uploader.CategoryUploader
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class ItemStatisticViewModel @Inject constructor(
+    private val walletDAOs: WalletDAOs,
     private val accountDao: AccountDao,
+    private val exchangeRateDao: ExchangeRateDao,
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
@@ -41,70 +50,68 @@ class ItemStatisticViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic
 ) : ViewModel() {
 
-    //TODO: Migrate this screen business logic to FP
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    val period = _period.readOnly()
 
-    private val _period = MutableLiveData<TimePeriod>()
-    val period = _period.asLiveData()
+    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    val categories = _categories.readOnly()
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories = _categories.asLiveData()
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.readOnly()
 
-    private val _accounts = MutableLiveData<List<Account>>()
-    val accounts = _accounts.asLiveData()
+    private val _baseCurrency = MutableStateFlow("")
+    val baseCurrency = _baseCurrency.readOnly()
 
-    private val _baseCurrency = MutableLiveData<String>()
-    val baseCurrency = _baseCurrency.asLiveData()
+    private val _currency = MutableStateFlow("")
+    val currency = _currency.readOnly()
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    private val _balance = MutableStateFlow(0.0)
+    val balance = _balance.readOnly()
 
-    private val _balance = MutableLiveData<Double>()
-    val balance = _balance.asLiveData()
+    private val _balanceBaseCurrency = MutableStateFlow<Double?>(null)
+    val balanceBaseCurrency = _balanceBaseCurrency.readOnly()
 
-    private val _balanceBaseCurrency = MutableLiveData<Double?>()
-    val balanceBaseCurrency = _balanceBaseCurrency.asLiveData()
+    private val _income = MutableStateFlow(0.0)
+    val income = _income.readOnly()
 
-    private val _income = MutableLiveData<Double>()
-    val income = _income.asLiveData()
-
-    private val _expenses = MutableLiveData<Double>()
-    val expenses = _expenses.asLiveData()
+    private val _expenses = MutableStateFlow(0.0)
+    val expenses = _expenses.readOnly()
 
     //Upcoming
-    private val _upcoming = MutableLiveData<List<Transaction>>()
-    val upcoming = _upcoming.asLiveData()
+    private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
+    val upcoming = _upcoming.readOnly()
 
-    private val _upcomingIncome = MutableLiveData<Double>()
-    val upcomingIncome = _upcomingIncome.asLiveData()
+    private val _upcomingIncome = MutableStateFlow(0.0)
+    val upcomingIncome = _upcomingIncome.readOnly()
 
-    private val _upcomingExpenses = MutableLiveData<Double>()
-    val upcomingExpenses = _upcomingExpenses.asLiveData()
+    private val _upcomingExpenses = MutableStateFlow(0.0)
+    val upcomingExpenses = _upcomingExpenses.readOnly()
 
-    private val _upcomingExpanded = MutableLiveData(false)
-    val upcomingExpanded = _upcomingExpanded.asLiveData()
+    private val _upcomingExpanded = MutableStateFlow(false)
+    val upcomingExpanded = _upcomingExpanded.readOnly()
 
     //Overdue
-    private val _overdue = MutableLiveData<List<Transaction>>()
-    val overdue = _overdue.asLiveData()
+    private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
+    val overdue = _overdue.readOnly()
 
-    private val _overdueIncome = MutableLiveData<Double>()
-    val overdueIncome = _overdueIncome.asLiveData()
+    private val _overdueIncome = MutableStateFlow(0.0)
+    val overdueIncome = _overdueIncome.readOnly()
 
-    private val _overdueExpenses = MutableLiveData<Double>()
-    val overdueExpenses = _overdueExpenses.asLiveData()
+    private val _overdueExpenses = MutableStateFlow(0.0)
+    val overdueExpenses = _overdueExpenses.readOnly()
 
-    private val _overdueExpanded = MutableLiveData(true)
-    val overdueExpanded = _overdueExpanded.asLiveData()
+    private val _overdueExpanded = MutableStateFlow(true)
+    val overdueExpanded = _overdueExpanded.readOnly()
 
     //History
-    private val _history = MutableLiveData<List<TransactionHistoryItem>>()
-    val history = _history.asLiveData()
+    private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
+    val history = _history.readOnly()
 
-    private val _account = MutableLiveData<Account?>()
-    val account = _account.asLiveData()
+    private val _account = MutableStateFlow<Account?>(null)
+    val account = _account.readOnly()
 
-    private val _category = MutableLiveData<Category?>()
-    val category = _category.asLiveData()
+    private val _category = MutableStateFlow<Category?>(null)
+    val category = _category.readOnly()
 
     fun start(
         screen: ItemStatistic,
@@ -120,13 +127,12 @@ class ItemStatisticViewModel @Inject constructor(
         viewModelScope.launch {
             _period.value = period ?: ivyContext.selectedPeriod
 
-
-            val baseCurrency = ioThread { settingsDao.findFirst().currency }
+            val baseCurrency = ioThread { baseCurrencyCode(settingsDao) }
             _baseCurrency.value = baseCurrency
             _currency.value = baseCurrency
 
-            _categories.value = ioThread { categoryDao.findAll() }!!
-            _accounts.value = ioThread { accountDao.findAll() }!!
+            _categories.value = ioThread { categoryDao.findAll() }
+            _accounts.value = ioThread { accountDao.findAll() }
 
             when {
                 screen.accountId != null -> {
@@ -150,57 +156,66 @@ class ItemStatisticViewModel @Inject constructor(
             accountDao.findById(accountId) ?: error("account not found")
         }
         _account.value = account
-        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
+        val range = period.value.toRange(ivyContext.startDayOfMonth)
 
         if (account.currency.isNotNullOrBlank()) {
             _currency.value = account.currency!!
         }
 
-        val balance = ioThread { accountLogic.calculateAccountBalance(account) }
+        val balance = ioThread {
+            calculateAccountBalance(
+                transactionDao = walletDAOs.transactionDao,
+                accountId = accountId,
+                range = range.toCloseTimeRange()
+            ).toDouble()
+        }
         _balance.value = balance
         if (baseCurrency.value != currency.value) {
             _balanceBaseCurrency.value = ioThread {
-                exchangeRatesLogic.amountBaseCurrency(
-                    amount = balance,
-                    amountCurrency = currency.value ?: "",
-                    baseCurrency = baseCurrency.value ?: ""
-                )
+                exchangeToBaseCurrency(
+                    exchangeRateDao = exchangeRateDao,
+                    baseCurrencyCode = baseCurrency.value.toOption(),
+                    fromCurrencyCode = currency.value.toOption(),
+                    fromAmount = balance.toBigDecimal()
+                ).orNull()?.toDouble()
             }
         }
 
-        _income.value = ioThread {
-            accountLogic.calculateAccountIncome(account, range)
-        }!!
-
-        _expenses.value = ioThread {
-            accountLogic.calculateAccountExpenses(account, range)
-        }!!
+        val incomeExpensePair = ioThread {
+            calculateAccountIncomeExpense(
+                transactionDao = transactionDao,
+                accountId = accountId,
+                range = range.toCloseTimeRange()
+            )
+        }
+        _income.value = incomeExpensePair.income.toDouble()
+        _expenses.value = incomeExpensePair.expense.toDouble()
 
         _history.value = ioThread {
             accountLogic.historyForAccount(account, range)
-        }!!
+        }
 
         //Upcoming
         _upcomingIncome.value = ioThread {
             accountLogic.calculateUpcomingIncome(account, range)
-        }!!
+        }
 
         _upcomingExpenses.value = ioThread {
             accountLogic.calculateUpcomingExpenses(account, range)
-        }!!
+        }
 
-        _upcoming.value = ioThread { accountLogic.upcoming(account, range) }!!
+        _upcoming.value = ioThread { accountLogic.upcoming(account, range) }
 
         //Overdue
         _overdueIncome.value = ioThread {
             accountLogic.calculateOverdueIncome(account, range)
-        }!!
+        }
 
         _overdueExpenses.value = ioThread {
             accountLogic.calculateOverdueExpenses(account, range)
-        }!!
+        }
 
-        _overdue.value = ioThread { accountLogic.overdue(account, range) }!!
+        _overdue.value = ioThread { accountLogic.overdue(account, range) }
     }
 
     private suspend fun initForCategory(categoryId: UUID) {
@@ -208,87 +223,89 @@ class ItemStatisticViewModel @Inject constructor(
             categoryDao.findById(categoryId) ?: error("category not found")
         }
         _category.value = category
-        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
+        val range = period.value.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
             categoryLogic.calculateCategoryBalance(category, range)
-        }!!
+        }
 
         _income.value = ioThread {
             categoryLogic.calculateCategoryIncome(category, range)
-        }!!
+        }
 
         _expenses.value = ioThread {
             categoryLogic.calculateCategoryExpenses(category, range)
-        }!!
+        }
 
         _history.value = ioThread {
             categoryLogic.historyByCategoryWithDateDividers(category, range)
-        }!!
+        }
 
         //Upcoming
+        //TODO: Rework Upcoming to FP
         _upcomingIncome.value = ioThread {
             categoryLogic.calculateUpcomingIncomeByCategory(category, range)
-        }!!
+        }
 
         _upcomingExpenses.value = ioThread {
             categoryLogic.calculateUpcomingExpensesByCategory(category, range)
-        }!!
+        }
 
-        _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }!!
+        _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
 
         //Overdue
+        //TODO: Rework Overdue to FP
         _overdueIncome.value = ioThread {
             categoryLogic.calculateOverdueIncomeByCategory(category, range)
-        }!!
+        }
 
         _overdueExpenses.value = ioThread {
             categoryLogic.calculateOverdueExpensesByCategory(category, range)
-        }!!
+        }
 
-        _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }!!
+        _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }
     }
 
     private suspend fun initForUnspecifiedCategory() {
-        val range = period.value!!.toRange(ivyContext.startDayOfMonth)
+        val range = period.value.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
             categoryLogic.calculateUnspecifiedBalance(range)
-        }!!
+        }
 
         _income.value = ioThread {
             categoryLogic.calculateUnspecifiedIncome(range)
-        }!!
+        }
 
         _expenses.value = ioThread {
             categoryLogic.calculateUnspecifiedExpenses(range)
-        }!!
+        }
 
         _history.value = ioThread {
             categoryLogic.historyUnspecified(range)
-        }!!
+        }
 
         //Upcoming
         _upcomingIncome.value = ioThread {
             categoryLogic.calculateUpcomingIncomeUnspecified(range)
-        }!!
+        }
 
         _upcomingExpenses.value = ioThread {
             categoryLogic.calculateUpcomingExpensesUnspecified(range)
-        }!!
+        }
 
-        _upcoming.value = ioThread { categoryLogic.upcomingUnspecified(range) }!!
+        _upcoming.value = ioThread { categoryLogic.upcomingUnspecified(range) }
 
         //Overdue
         _overdueIncome.value = ioThread {
             categoryLogic.calculateOverdueIncomeUnspecified(range)
-        }!!
+        }
 
         _overdueExpenses.value = ioThread {
             categoryLogic.calculateOverdueExpensesUnspecified(range)
-        }!!
+        }
 
-        _overdue.value = ioThread { categoryLogic.overdueUnspecified(range) }!!
+        _overdue.value = ioThread { categoryLogic.overdueUnspecified(range) }
     }
 
     private fun reset() {
@@ -316,8 +333,8 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     fun nextMonth(screen: ItemStatistic) {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
@@ -328,8 +345,8 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     fun previousMonth(screen: ItemStatistic) {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
                 screen = screen,
@@ -398,7 +415,7 @@ class ItemStatisticViewModel @Inject constructor(
             accountCreator.editAccount(account, newBalance) {
                 start(
                     screen = screen,
-                    period = period.value ?: ivyContext.selectedPeriod,
+                    period = period.value,
                     reset = false
                 )
             }

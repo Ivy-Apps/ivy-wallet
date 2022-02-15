@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,32 +54,32 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
 
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val baseCurrency by viewModel.baseCurrency.observeAsState("")
-    val currency by viewModel.currency.observeAsState("")
+    val period by viewModel.period.collectAsState()
+    val baseCurrency by viewModel.baseCurrency.collectAsState()
+    val currency by viewModel.currency.collectAsState()
 
-    val account by viewModel.account.observeAsState()
-    val category by viewModel.category.observeAsState()
+    val account by viewModel.account.collectAsState()
+    val category by viewModel.category.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
 
-    val balance by viewModel.balance.observeAsState(0.0)
-    val balanceBaseCurrency by viewModel.balanceBaseCurrency.observeAsState()
-    val income by viewModel.income.observeAsState(0.0)
-    val expenses by viewModel.expenses.observeAsState(0.0)
+    val balance by viewModel.balance.collectAsState()
+    val balanceBaseCurrency by viewModel.balanceBaseCurrency.collectAsState()
+    val income by viewModel.income.collectAsState()
+    val expenses by viewModel.expenses.collectAsState()
 
-    val history by viewModel.history.observeAsState(emptyList())
+    val history by viewModel.history.collectAsState()
 
-    val upcoming by viewModel.upcoming.observeAsState(emptyList())
-    val upcomingExpanded by viewModel.upcomingExpanded.observeAsState(true)
-    val upcomingIncome by viewModel.upcomingIncome.observeAsState(0.0)
-    val upcomingExpenses by viewModel.upcomingExpenses.observeAsState(0.0)
+    val upcoming by viewModel.upcoming.collectAsState()
+    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
+    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
+    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
 
-    val overdue by viewModel.overdue.observeAsState(emptyList())
-    val overdueExpanded by viewModel.overdueExpanded.observeAsState(true)
-    val overdueIncome by viewModel.overdueIncome.observeAsState(0.0)
-    val overdueExpenses by viewModel.overdueExpenses.observeAsState(0.0)
+    val overdue by viewModel.overdue.collectAsState()
+    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
+    val overdueIncome by viewModel.overdueIncome.collectAsState()
+    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
 
     val view = LocalView.current
     onScreenStart {
