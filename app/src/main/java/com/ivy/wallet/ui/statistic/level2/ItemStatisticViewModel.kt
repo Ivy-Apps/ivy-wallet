@@ -41,6 +41,8 @@ class ItemStatisticViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic
 ) : ViewModel() {
 
+    //TODO: Migrate this screen business logic to FP
+
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
