@@ -26,7 +26,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
@@ -198,7 +198,7 @@ private fun SearchInput(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             transactions = emptyList(),
             baseCurrency = "BGN",

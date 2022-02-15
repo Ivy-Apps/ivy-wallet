@@ -17,7 +17,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.navigationBarInset
 import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
@@ -69,7 +69,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PieChartStatisticBottomBar(
             type = TransactionType.INCOME,
             bottomInset = 16.dp,

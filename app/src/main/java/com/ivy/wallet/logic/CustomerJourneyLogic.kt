@@ -281,7 +281,7 @@ class CustomerJourneyLogic(
 @Preview
 @Composable
 private fun PreviewAdjustBalanceCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },
@@ -293,7 +293,7 @@ private fun PreviewAdjustBalanceCard() {
 @Preview
 @Composable
 private fun PreviewAddPlannedPaymentCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addPlannedPaymentCard(),
             onCTA = { },
@@ -305,7 +305,7 @@ private fun PreviewAddPlannedPaymentCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_pinAddTransactionWidgetCard(),
             onCTA = { },
@@ -317,7 +317,7 @@ private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
 @Preview
 @Composable
 private fun PreviewAddBudgetCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addBudgetCard(),
             onCTA = { },
@@ -329,7 +329,7 @@ private fun PreviewAddBudgetCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_ExpensesPieChart() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_expensesPieChart(),
             onCTA = { },
@@ -341,7 +341,7 @@ private fun PreviewDidYouKnow_ExpensesPieChart() {
 @Preview
 @Composable
 private fun PreviewRateUsCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard(),
             onCTA = { },
@@ -353,7 +353,7 @@ private fun PreviewRateUsCard() {
 @Preview
 @Composable
 private fun PreviewShareIvyWallet() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard(),
             onCTA = { },
@@ -365,7 +365,7 @@ private fun PreviewShareIvyWallet() {
 @Preview
 @Composable
 private fun PreviewBuyLifetimeOffer() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.buyLifetimeOfferCard(),
             onCTA = { },
@@ -377,7 +377,7 @@ private fun PreviewBuyLifetimeOffer() {
 @Preview
 @Composable
 private fun PreviewMakeReport() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.makeReportCard(),
             onCTA = { },
@@ -389,7 +389,7 @@ private fun PreviewMakeReport() {
 @Preview
 @Composable
 private fun PreviewRateUs_2() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard_2(),
             onCTA = { },
@@ -401,7 +401,7 @@ private fun PreviewRateUs_2() {
 @Preview
 @Composable
 private fun PreviewShaveIvyWallet_2() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard_2(),
             onCTA = { },
@@ -413,7 +413,7 @@ private fun PreviewShaveIvyWallet_2() {
 @Preview
 @Composable
 private fun PreviewIvyWallet_isOpenSource() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
             onCTA = { },

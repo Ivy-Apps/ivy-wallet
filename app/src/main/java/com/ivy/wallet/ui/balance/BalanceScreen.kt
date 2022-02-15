@@ -21,7 +21,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.ui.BalanceScreen
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gradient
@@ -250,7 +250,7 @@ private fun ColumnScope.CloseButton() {
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

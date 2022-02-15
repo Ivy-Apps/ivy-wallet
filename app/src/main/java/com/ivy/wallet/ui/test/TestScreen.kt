@@ -12,7 +12,7 @@ import com.ivy.design.api.navigation
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.User
 import com.ivy.wallet.ui.AnalyticsReport
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Test
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -76,7 +76,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = null,
 

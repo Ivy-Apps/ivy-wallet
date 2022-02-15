@@ -23,7 +23,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
 
@@ -314,7 +314,7 @@ private fun AccountCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         AccountModal(
             modal = AccountModalData(
                 account = null,

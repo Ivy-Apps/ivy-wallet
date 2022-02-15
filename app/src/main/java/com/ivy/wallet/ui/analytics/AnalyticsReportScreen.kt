@@ -20,7 +20,7 @@ import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.ui.AnalyticsReport
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.analytics.model.Health
 import com.ivy.wallet.ui.analytics.model.KPIs
 import com.ivy.wallet.ui.analytics.model.OnboardingReport
@@ -297,7 +297,7 @@ private fun ColumnScope.Content(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             selectedTab = AnalyticsTab.KPIs,
             startDate = dateNowUTC().atStartOfDay(),

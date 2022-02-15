@@ -18,7 +18,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
 import kotlin.math.abs
@@ -140,7 +140,7 @@ fun BudgetBattery(
 @Preview
 @Composable
 private fun Preview_budget_0() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -161,7 +161,7 @@ private fun Preview_budget_0() {
 @Preview
 @Composable
 private fun Preview_expenses_0() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -182,7 +182,7 @@ private fun Preview_expenses_0() {
 @Preview
 @Composable
 private fun Preview_spent_very_low() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -203,7 +203,7 @@ private fun Preview_spent_very_low() {
 @Preview
 @Composable
 private fun Preview_buffer_25() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -224,7 +224,7 @@ private fun Preview_buffer_25() {
 @Preview
 @Composable
 private fun Preview_buffer_50() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -245,7 +245,7 @@ private fun Preview_buffer_50() {
 @Preview
 @Composable
 private fun Preview_buffer_75() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -266,7 +266,7 @@ private fun Preview_buffer_75() {
 @Preview
 @Composable
 private fun Preview_buffer_90() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -287,7 +287,7 @@ private fun Preview_buffer_90() {
 @Preview
 @Composable
 private fun Preview_buffer_100() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -308,7 +308,7 @@ private fun Preview_buffer_100() {
 @Preview
 @Composable
 private fun Preview_buffer_125() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -329,7 +329,7 @@ private fun Preview_buffer_125() {
 @Preview
 @Composable
 private fun Preview_expenses_negative() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()

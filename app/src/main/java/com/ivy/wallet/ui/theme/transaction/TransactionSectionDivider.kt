@@ -19,7 +19,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.springBounce
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
@@ -148,7 +148,7 @@ private fun SectionDividerIncomeExpenseRow(
 @Preview
 @Composable
 private fun Preview_Income_Expenses() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",
@@ -165,7 +165,7 @@ private fun Preview_Income_Expenses() {
 @Preview
 @Composable
 private fun Preview_Expenses() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Overdue",
@@ -182,7 +182,7 @@ private fun Preview_Expenses() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",

@@ -27,7 +27,7 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.balancePrefix
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -374,7 +374,7 @@ private fun CategoryHeader(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             currency = "BGN",
             categories = listOf(

@@ -15,7 +15,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.setStatusBarDarkTextCompat
 import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientIvy
 
 import com.ivy.wallet.ui.theme.White
@@ -107,7 +107,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingSetCurrency(
             preselectedCurrency = IvyCurrency.getDefault()
         ) {

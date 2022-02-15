@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.toLowerCaseLocal
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 @Composable
@@ -202,7 +202,7 @@ fun getCustomIconId(
 @Preview
 @Composable
 private fun Preview_L() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconL(iconName = "dna")
     }
 }
@@ -210,7 +210,7 @@ private fun Preview_L() {
 @Preview
 @Composable
 private fun Preview_M() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconM(iconName = "document")
     }
 }
@@ -218,7 +218,7 @@ private fun Preview_M() {
 @Preview
 @Composable
 private fun Preview_S() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconS(iconName = "fooddrink")
     }
 }

@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.formatNicelyWithTime
 import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -79,7 +79,7 @@ fun TransactionDateTime(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         TransactionDateTime(
             dateTime = timeNowUTC(),
             dueDateTime = null

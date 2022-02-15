@@ -35,7 +35,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -698,7 +698,7 @@ private fun LabelAccountMini(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
@@ -737,7 +737,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
 

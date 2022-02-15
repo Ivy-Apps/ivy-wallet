@@ -31,7 +31,7 @@ import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.*
@@ -562,7 +562,7 @@ private fun NoLoanRecordsEmptyState() {
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(
@@ -580,7 +580,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Records() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(

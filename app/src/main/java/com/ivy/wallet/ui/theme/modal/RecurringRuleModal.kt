@@ -21,8 +21,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -371,7 +371,7 @@ private fun IvyWalletCtx.pickDate(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyAppPreview {
+    IvyWalletPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
 
             RecurringRuleModal(
@@ -391,7 +391,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_multipleTimes() {
-    IvyAppPreview {
+    IvyWalletPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
             RecurringRuleModal(
                 modal = RecurringRuleModalData(

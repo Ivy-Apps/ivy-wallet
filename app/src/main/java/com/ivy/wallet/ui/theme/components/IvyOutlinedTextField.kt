@@ -28,7 +28,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 
@@ -110,7 +110,7 @@ fun IvyOutlinedTextField(
 @Preview
 @Composable
 private fun PreviewOutlineTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue(),

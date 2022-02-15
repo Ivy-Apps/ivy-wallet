@@ -1021,7 +1021,7 @@ private fun SettingsDefaultButton(
 @Preview
 @Composable
 private fun Preview_synced() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1048,7 +1048,7 @@ private fun Preview_synced() {
 @Preview
 @Composable
 private fun Preview_notSynced() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1075,7 +1075,7 @@ private fun Preview_notSynced() {
 @Preview
 @Composable
 private fun Preview_loading() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1102,7 +1102,7 @@ private fun Preview_loading() {
 @Preview
 @Composable
 private fun Preview_localAccount() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = null,
             nameLocalAccount = "Iliyan",

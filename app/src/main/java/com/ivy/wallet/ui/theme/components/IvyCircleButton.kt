@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.GradientRed
@@ -67,7 +67,7 @@ fun IvyCircleButton(
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Enabled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,
@@ -81,7 +81,7 @@ private fun PreviewIvyCircleButton_Enabled() {
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Disabled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,

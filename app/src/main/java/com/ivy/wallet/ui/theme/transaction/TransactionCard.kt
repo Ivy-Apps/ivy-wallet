@@ -31,7 +31,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.ui.ItemStatistic
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -380,7 +380,7 @@ private data class AmountTypeStyle(
 @Preview
 @Composable
 private fun PreviewUpcomingExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash")
             val food = Category(name = "Food")
@@ -411,7 +411,7 @@ private fun PreviewUpcomingExpense() {
 @Preview
 @Composable
 private fun PreviewOverdueExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(name = "Rent", color = Green.toArgb())
@@ -442,7 +442,7 @@ private fun PreviewOverdueExpense() {
 @Preview
 @Composable
 private fun PreviewNormalExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(
@@ -475,7 +475,7 @@ private fun PreviewNormalExpense() {
 @Preview
 @Composable
 private fun PreviewIncome() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "DSK Bank", color = Green.toArgb())
             val category = Category(name = "Salary", color = GreenDark.toArgb())
@@ -505,7 +505,7 @@ private fun PreviewIncome() {
 @Preview
 @Composable
 private fun PreviewTransfer() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = Account(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")

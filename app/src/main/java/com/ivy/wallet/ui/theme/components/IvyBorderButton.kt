@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 
 
@@ -150,7 +150,7 @@ private fun IconEnd(
 @Preview
 @Composable
 private fun PreviewIvyBorderButton() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBorderButton(
             text = "New label",
             iconStart = R.drawable.ic_label_hashtag

@@ -26,7 +26,7 @@ import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
@@ -305,7 +305,7 @@ private fun save(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LoanModal(
             modal = LoanModalData(
                 loan = null,

@@ -30,7 +30,7 @@ import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.base.toDensityPx
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
@@ -278,7 +278,7 @@ private fun SwipeToAgree(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingPrivacyTC(
             onAccepted = {
 

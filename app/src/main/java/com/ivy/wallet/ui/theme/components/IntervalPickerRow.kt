@@ -21,7 +21,7 @@ import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
@@ -155,7 +155,7 @@ private fun RowScope.IntervalTypeSelector(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IntervalPickerRow(
             intervalN = 1,
             intervalType = IntervalType.WEEK,

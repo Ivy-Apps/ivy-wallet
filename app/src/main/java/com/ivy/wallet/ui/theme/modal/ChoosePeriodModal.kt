@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.LastNTimeRange
@@ -490,7 +490,7 @@ private fun AllTime(
 @Preview
 @Composable
 private fun Preview_MonthSelected() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -507,7 +507,7 @@ private fun Preview_MonthSelected() {
 @Preview
 @Composable
 private fun Preview_FromTo() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -527,7 +527,7 @@ private fun Preview_FromTo() {
 @Preview
 @Composable
 private fun Preview_LastN() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(

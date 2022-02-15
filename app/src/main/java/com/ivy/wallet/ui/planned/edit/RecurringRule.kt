@@ -18,7 +18,7 @@ import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.uppercaseLocal
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 import com.ivy.wallet.ui.theme.Orange
 
@@ -133,7 +133,7 @@ private fun RecurringRuleCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         RecurringRule(
             startDate = null,
             intervalN = null,
@@ -147,7 +147,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Repeat() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         RecurringRule(
             startDate = timeNowUTC(),
             intervalN = 1,
@@ -161,7 +161,7 @@ private fun Preview_Repeat() {
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         RecurringRule(
             startDate = timeNowUTC().plusDays(5),
             intervalN = null,

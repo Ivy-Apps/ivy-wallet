@@ -28,7 +28,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -248,7 +248,7 @@ private fun CategoryCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -314,7 +314,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Categories() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -386,7 +386,7 @@ private fun Preview_Categories() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(

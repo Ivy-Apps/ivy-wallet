@@ -29,7 +29,7 @@ import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Report
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
@@ -374,7 +374,7 @@ private fun Toolbar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
@@ -419,7 +419,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_NO_FILTER() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")

@@ -26,7 +26,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 @Composable
@@ -118,7 +118,7 @@ fun IvyChecklistTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -133,7 +133,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .background(UI.colors.red)

@@ -24,7 +24,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 
@@ -96,7 +96,7 @@ fun OnboardingButton(
 @Preview
 @Composable
 private fun PreviewOnboardingTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue("iliyan.germanov971@gmail.com"),
@@ -109,7 +109,7 @@ private fun PreviewOnboardingTextField() {
 @Preview
 @Composable
 private fun PreviewOnboardingButton() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         OnboardingButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)

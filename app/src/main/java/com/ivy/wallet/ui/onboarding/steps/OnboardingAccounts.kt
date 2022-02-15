@@ -25,7 +25,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
@@ -339,7 +339,7 @@ private fun AccountCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -375,7 +375,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Accounts() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -420,7 +420,7 @@ private fun Preview_Accounts() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,

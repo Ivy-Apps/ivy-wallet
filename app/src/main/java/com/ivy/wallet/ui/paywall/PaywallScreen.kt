@@ -32,7 +32,7 @@ import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
@@ -302,7 +302,7 @@ data class Benefit(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             plans = listOf(
                 Plan(

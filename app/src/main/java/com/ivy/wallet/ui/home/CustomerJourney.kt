@@ -21,7 +21,7 @@ import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -147,7 +147,7 @@ fun CustomerJourneyCard(
 @Preview
 @Composable
 private fun PreviewCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },

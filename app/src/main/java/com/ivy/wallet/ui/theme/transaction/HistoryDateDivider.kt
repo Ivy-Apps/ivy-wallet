@@ -14,7 +14,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.formatLocal
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import java.time.LocalDate
@@ -92,7 +92,7 @@ fun HistoryDateDivider(
 @Preview
 @Composable
 private fun Preview_Today() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC(),
             spacerTop = 32.dp,
@@ -106,7 +106,7 @@ private fun Preview_Today() {
 @Preview
 @Composable
 private fun Preview_Yesterday() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusDays(1),
             spacerTop = 32.dp,
@@ -120,7 +120,7 @@ private fun Preview_Yesterday() {
 @Preview
 @Composable
 private fun Preview_OneYear_Ago() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusYears(1),
             spacerTop = 32.dp,

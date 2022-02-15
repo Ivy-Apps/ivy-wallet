@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import java.util.*
@@ -79,7 +79,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         AddKeywordModal(
             visible = true,
             keyword = "",

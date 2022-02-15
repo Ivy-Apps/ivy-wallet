@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 
 import com.ivy.wallet.ui.theme.Red
@@ -204,7 +204,7 @@ private fun calculate(expression: String): Double? {
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         CalculatorModal(
             visible = true,
             initialAmount = 50.23,

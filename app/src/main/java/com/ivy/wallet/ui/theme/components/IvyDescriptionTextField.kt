@@ -22,7 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 @Composable
@@ -90,7 +90,7 @@ fun IvyDescriptionTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -105,7 +105,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .background(UI.colors.red)

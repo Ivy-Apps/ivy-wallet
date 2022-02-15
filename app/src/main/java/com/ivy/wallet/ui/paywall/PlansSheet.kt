@@ -25,7 +25,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.billing.Plan
 import com.ivy.wallet.billing.PlanType
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
@@ -449,7 +449,7 @@ private fun BoxWithConstraintsScope.BottomBar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PlansSheet(
             plans = listOf(
                 Plan(
@@ -481,7 +481,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Shitty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PlansSheet(
             plans = listOf(
                 Plan(

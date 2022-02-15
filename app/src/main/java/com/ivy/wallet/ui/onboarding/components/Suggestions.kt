@@ -18,7 +18,7 @@ import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -135,7 +135,7 @@ private class AddNew
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Suggestions(
             suggestions = listOf(
                 Account("Cash"),

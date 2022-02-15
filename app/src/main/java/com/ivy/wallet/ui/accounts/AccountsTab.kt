@@ -27,7 +27,7 @@ import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.ItemStatistic
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
@@ -340,7 +340,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             accounts = listOf(

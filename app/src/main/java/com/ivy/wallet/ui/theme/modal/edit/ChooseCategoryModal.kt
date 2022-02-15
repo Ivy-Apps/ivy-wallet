@@ -25,7 +25,7 @@ import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
@@ -259,7 +259,7 @@ private class AddNewCategory
 @Preview
 @Composable
 private fun PreviewChooseCategoryModal() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val categories = mutableListOf(
             Category("Test", color = Ivy.toArgb()),
             Category("Second", color = Orange.toArgb()),

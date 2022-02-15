@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Green
 
 
@@ -134,7 +134,7 @@ fun IvyOutlinedButtonFillMaxWidth(
 @Preview
 @Composable
 private fun Preview_FillMaxWidth() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedButtonFillMaxWidth(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "Import backup file",

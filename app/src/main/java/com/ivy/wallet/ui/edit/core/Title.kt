@@ -27,7 +27,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.keyboardVisibleState
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import kotlinx.coroutines.launch
 import java.util.*
@@ -130,7 +130,7 @@ private fun Suggestion(
 @Preview
 @Composable
 private fun PreviewTitleWithSuggestions() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column {
             Title(
                 type = TransactionType.EXPENSE,

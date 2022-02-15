@@ -24,7 +24,7 @@ import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.Charts
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy
@@ -270,7 +270,7 @@ private fun ChartButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = ChartPeriod.LAST_12_MONTHS,
             baseCurrencyCode = "BGN",

@@ -11,7 +11,7 @@ import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.ui.Import
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.csvimport.flow.ImportFrom
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
@@ -109,7 +109,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             screen = Import(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,

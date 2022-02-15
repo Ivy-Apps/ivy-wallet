@@ -454,7 +454,7 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             transactionType = TransactionType.EXPENSE,
             period = TimePeriod.currentMonth(
@@ -505,7 +505,7 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             transactionType = TransactionType.INCOME,
             period = TimePeriod.currentMonth(

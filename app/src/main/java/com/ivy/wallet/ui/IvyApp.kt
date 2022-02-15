@@ -29,11 +29,11 @@ fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
 }
 
 @Composable
-fun IvyComponentPreview(
+fun IvyWalletComponentPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxScope.() -> Unit
 ) {
-    IvyAppPreview(
+    IvyWalletPreview(
         theme = theme
     ) {
         Box(
@@ -48,7 +48,7 @@ fun IvyComponentPreview(
 }
 
 @Composable
-fun IvyAppPreview(
+fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {

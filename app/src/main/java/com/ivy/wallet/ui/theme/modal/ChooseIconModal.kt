@@ -20,7 +20,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconS
 import com.ivy.wallet.ui.theme.dynamicContrast
@@ -191,7 +191,7 @@ private fun Icon(
 @Preview
 @Composable
 private fun ChooseIconModal() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChooseIconModal(
             visible = true,
             initialIcon = "gift",

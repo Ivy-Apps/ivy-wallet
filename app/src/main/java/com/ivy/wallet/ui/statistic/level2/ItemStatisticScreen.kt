@@ -804,7 +804,7 @@ private fun Item(
 @Preview
 @Composable
 private fun Preview_empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -836,7 +836,7 @@ private fun Preview_empty() {
 @Preview
 @Composable
 private fun Preview_crypto() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 @Composable
@@ -95,7 +95,7 @@ fun IvyNameTextField(
 @Preview
 @Composable
 private fun PreviewIvyNameTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column(
             verticalArrangement = Arrangement.Center
         ) {

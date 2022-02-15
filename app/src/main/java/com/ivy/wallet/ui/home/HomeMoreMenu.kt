@@ -532,7 +532,7 @@ private fun MoreMenuButton(
 @Preview
 @Composable
 private fun Preview_Expanded() {
-    IvyAppPreview {
+    IvyWalletPreview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -552,7 +552,7 @@ private fun Preview_Expanded() {
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(

@@ -11,7 +11,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateLoanRecordData
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
@@ -234,7 +234,7 @@ private fun save(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

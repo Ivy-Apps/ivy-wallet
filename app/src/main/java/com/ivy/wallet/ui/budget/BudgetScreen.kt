@@ -27,7 +27,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.BudgetScreen
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -370,7 +370,7 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -390,7 +390,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1

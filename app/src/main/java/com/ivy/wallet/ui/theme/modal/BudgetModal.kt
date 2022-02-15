@@ -31,7 +31,7 @@ import com.ivy.wallet.logic.model.CreateBudgetData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple1Dark
@@ -288,7 +288,7 @@ private fun CategoriesRow(
 @Preview
 @Composable
 private fun Preview_create() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(
@@ -314,7 +314,7 @@ private fun Preview_create() {
 @Preview
 @Composable
 private fun Preview_edit() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(

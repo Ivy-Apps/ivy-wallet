@@ -25,7 +25,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PlannedPayments
 
 import com.ivy.wallet.ui.theme.Orange
@@ -122,7 +122,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val account = Account(name = "Cash")
         val food = Category(name = "Food")
         val shisha = Category(name = "Shisha", color = Orange.toArgb())

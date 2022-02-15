@@ -20,7 +20,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -118,7 +118,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
 @Preview
 @Composable
 private fun PreviewDescriptionModal_emptyText() {
-    IvyAppPreview {
+    IvyWalletPreview {
         DescriptionModal(
             visible = true,
             description = "",

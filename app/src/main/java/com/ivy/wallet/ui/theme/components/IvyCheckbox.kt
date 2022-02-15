@@ -18,7 +18,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 
@@ -79,7 +79,7 @@ fun IvyCheckboxWithText(
 @Preview
 @Composable
 private fun PreviewIvyCheckboxWithText() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCheckboxWithText(
             text = "Default category",
             checked = false,

@@ -20,7 +20,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.decimalPartFormatted
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 import java.text.DecimalFormat
 import kotlin.math.truncate
@@ -198,7 +198,7 @@ private fun Currency(
 @Preview
 @Composable
 private fun Preview_Default() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -211,7 +211,7 @@ private fun Preview_Default() {
 @Preview
 @Composable
 private fun Preview_Medium() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         BalanceRowMedium(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -224,7 +224,7 @@ private fun Preview_Medium() {
 @Preview
 @Composable
 private fun Preview_Mini() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         BalanceRowMini(
             textColor = UI.colors.pureInverse,
             currency = "BGN",

@@ -26,7 +26,7 @@ import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.Loans
 import com.ivy.wallet.ui.loan.data.DisplayLoan
@@ -383,7 +383,7 @@ private fun NoLoansEmptyState(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loans = listOf(

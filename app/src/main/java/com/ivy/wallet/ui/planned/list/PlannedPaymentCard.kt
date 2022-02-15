@@ -27,7 +27,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.ItemStatistic
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -239,7 +239,7 @@ private fun RuleTextRow(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash")
             val food = Category(name = "Food")
@@ -273,7 +273,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_recurring() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut")
             val shisha = Category(name = "Shisha", color = Orange.toArgb())
@@ -307,7 +307,7 @@ private fun Preview_recurring() {
 @Preview
 @Composable
 private fun Preview_recurringError() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut")
             val shisha = Category(name = "Shisha", color = Orange.toArgb())

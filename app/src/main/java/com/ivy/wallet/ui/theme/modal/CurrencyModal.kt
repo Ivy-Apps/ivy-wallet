@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import java.util.*
@@ -93,7 +93,7 @@ fun BoxWithConstraintsScope.CurrencyModal(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         CurrencyModal(
             title = "Set currency",
             initialCurrency = null,

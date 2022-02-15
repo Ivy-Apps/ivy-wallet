@@ -23,7 +23,7 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Black
 
@@ -289,7 +289,7 @@ fun ModalActionsRow(
 @Preview
 @Composable
 private fun PreviewIvyModal_minimal() {
-    IvyAppPreview {
+    IvyWalletPreview {
         IvyModal(
             id = UUID.randomUUID(),
             visible = true,

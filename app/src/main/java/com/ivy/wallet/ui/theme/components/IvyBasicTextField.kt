@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 
 
 @Composable
@@ -85,7 +85,7 @@ fun IvyBasicTextField(
 @Preview
 @Composable
 private fun Preview_Hint() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue(""),
             hint = "Search transactions",
@@ -97,7 +97,7 @@ private fun Preview_Hint() {
 @Preview
 @Composable
 private fun Preview_Filled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue("sfds"),
             hint = "Okay",
