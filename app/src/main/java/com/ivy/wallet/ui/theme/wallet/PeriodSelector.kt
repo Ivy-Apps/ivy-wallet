@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.wallet
 
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,11 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-
-
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable

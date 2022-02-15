@@ -19,7 +19,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.springBounce
-import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.IvyComponentPreview
 
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red

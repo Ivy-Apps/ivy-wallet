@@ -20,7 +20,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.decimalPartFormatted
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
-import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.IvyComponentPreview
 
 import java.text.DecimalFormat
 import kotlin.math.truncate

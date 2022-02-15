@@ -21,9 +21,9 @@ import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.dynamicContrast

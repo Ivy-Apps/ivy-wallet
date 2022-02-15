@@ -21,9 +21,9 @@ import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.White
 
 @Composable

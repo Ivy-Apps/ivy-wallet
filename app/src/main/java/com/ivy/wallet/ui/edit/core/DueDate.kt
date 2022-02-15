@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.IvyComponentPreview
 
 
 import com.ivy.wallet.ui.theme.components.IvyIcon

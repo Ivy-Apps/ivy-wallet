@@ -28,7 +28,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.IvyComponentPreview
 
 
 

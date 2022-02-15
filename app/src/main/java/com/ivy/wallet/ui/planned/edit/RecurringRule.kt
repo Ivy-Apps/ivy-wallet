@@ -18,7 +18,7 @@ import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.uppercaseLocal
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.IvyComponentPreview
 
 import com.ivy.wallet.ui.theme.Orange
 

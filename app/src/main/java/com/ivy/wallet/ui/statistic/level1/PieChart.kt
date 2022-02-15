@@ -27,6 +27,7 @@ import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.toEpochMilli
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import timber.log.Timber

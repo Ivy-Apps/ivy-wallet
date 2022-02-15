@@ -14,9 +14,9 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.formatLocal
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.IvyComponentPreview
 import java.time.LocalDate
 
 @Composable

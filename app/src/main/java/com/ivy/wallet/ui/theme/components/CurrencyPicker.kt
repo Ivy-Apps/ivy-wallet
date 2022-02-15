@@ -36,7 +36,11 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyComponentPreview
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
 import java.util.*
 

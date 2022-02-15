@@ -26,6 +26,7 @@ import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.base.densityScope
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
+import com.ivy.wallet.ui.IvyComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.*
