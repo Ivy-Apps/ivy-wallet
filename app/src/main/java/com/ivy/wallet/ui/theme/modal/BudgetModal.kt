@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.colorAs
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
@@ -340,5 +341,21 @@ private fun Preview_edit() {
         ) {
 
         }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewTest() {
+    IvyAppPreview {
+//        val ivyContext = ivyWalletCtx()
+        Text(
+            text = "Hello, world! x2",
+            style = UI.typo.h1.colorAs(UI.colors.pureInverse)
+        )
+        Text(
+            text = "Hello, world! x2",
+            style = UI.typo.b1.colorAs(UI.colors.red1)
+        )
     }
 }

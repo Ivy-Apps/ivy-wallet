@@ -167,13 +167,13 @@ abstract class IvyWalletDesign : IvyDesign {
             override val r2Top = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
             override val r2Bot = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
 
-            override val r3 = RoundedCornerShape(16.dp)
-            override val r3Top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-            override val r3Bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+            override val r3 = RoundedCornerShape(20.dp)
+            override val r3Top = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+            override val r3Bot = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
 
-            override val r4 = RoundedCornerShape(8.dp)
-            override val r4Top = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
-            override val r4Bot = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
+            override val r4 = RoundedCornerShape(16.dp)
+            override val r4Top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+            override val r4Bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
         }
     }
 }
