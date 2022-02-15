@@ -18,7 +18,7 @@ import com.ivy.wallet.base.formatNicelyWithTime
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
 
@@ -36,8 +36,8 @@ fun TransactionDateTime(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .clip(Shapes.rounded16)
-                .background(UI.colors.medium, Shapes.rounded16)
+                .clip(UI.shapes.r4)
+                .background(UI.colors.medium, UI.shapes.r4)
                 .clickable {
                     onEditDateTime()
                 }

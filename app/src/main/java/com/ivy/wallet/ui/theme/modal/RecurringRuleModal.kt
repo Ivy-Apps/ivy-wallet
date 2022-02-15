@@ -24,7 +24,10 @@ import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -147,7 +150,7 @@ private fun TimesSelector(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(UI.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, UI.shapes.r2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -181,13 +184,13 @@ private fun RowScope.TimesSelectorButton(
     Text(
         modifier = Modifier
             .weight(1f)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable {
                 onClick()
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.roundedFull)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
             }
             .padding(vertical = 8.dp),
         text = label,

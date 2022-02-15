@@ -17,7 +17,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -32,8 +32,8 @@ fun PrimaryAttributeColumn(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickableNoIndication(onClick = onClick),
     ) {
         Spacer(modifier = Modifier.height(12.dp))

@@ -211,8 +211,8 @@ private fun CategoryCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(UI.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onClick()
             },

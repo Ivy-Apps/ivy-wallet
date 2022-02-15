@@ -81,7 +81,7 @@ fun BoxWithConstraintsScope.PlansSheet(
                 borderRadius = 24.dp,
                 shadowRadius = 24.dp
             )
-            .background(UI.colors.pure, Shapes.rounded24Top)
+            .background(UI.colors.pure, UI.shapes.r2Top)
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
             .consumeClicks()
@@ -306,15 +306,15 @@ private fun ColumnScope.PlanCard(
             .thenIf(selectedPlan == plan) {
                 drawColoredShadow(Green)
             }
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .thenIf(!purchased && selectedPlan != plan) {
-                border(2.dp, UI.colors.medium, Shapes.rounded16)
+                border(2.dp, UI.colors.medium, UI.shapes.r4)
             }
             .thenIf(selectedPlan == plan) {
-                background(GradientGreen.asHorizontalBrush(), Shapes.rounded16)
+                background(GradientGreen.asHorizontalBrush(), UI.shapes.r4)
             }
             .thenIf(purchased) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.rounded16)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.r4)
             }
             .clickable {
                 onClick()

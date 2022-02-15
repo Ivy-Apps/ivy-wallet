@@ -12,8 +12,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-
-import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
@@ -58,7 +56,7 @@ fun IncomeExpensesRow(
             modifier = Modifier
                 .width(2.dp)
                 .height(48.dp)
-                .background(dividerColor, Shapes.roundedFull)
+                .background(dividerColor, UI.shapes.rFull)
         )
 
         if (center) {

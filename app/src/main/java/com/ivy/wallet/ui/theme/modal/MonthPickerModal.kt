@@ -21,7 +21,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.model.Month
@@ -113,17 +113,17 @@ private fun MonthButton(
             .thenIf(selected) {
                 drawColoredShadow(monthColor)
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(onClick = onClick)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
                 background(
                     brush = Gradient
                         .solid(monthColor)
                         .asHorizontalBrush(),
-                    Shapes.roundedFull
+                    UI.shapes.rFull
                 )
             }
             .padding(horizontal = 40.dp, vertical = 12.dp),

@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.Shapes
+
 
 
 @Composable
@@ -33,7 +33,7 @@ fun IvyDividerLineRounded(
         modifier = modifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(UI.colors.medium, Shapes.roundedFull)
+            .background(UI.colors.medium, UI.shapes.rFull)
     )
 }
 

@@ -24,7 +24,7 @@ import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -95,8 +95,8 @@ private fun ImportOption(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(UI.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onImportFrom(importType)
             }

@@ -58,13 +58,13 @@ fun LazyItemScope.TransactionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 if (accounts.find { it.id == transaction.accountId } != null) {
                     onClick(transaction)
                 }
             }
-            .background(UI.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("transaction_card")
     ) {
         val transactionCurrency = accounts.find { it.id == transaction.accountId }?.currency
@@ -236,7 +236,7 @@ private fun TransferHeader(
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
-            .background(UI.colors.pure, Shapes.roundedFull),
+            .background(UI.colors.pure, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))

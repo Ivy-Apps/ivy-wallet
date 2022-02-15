@@ -27,7 +27,10 @@ import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
@@ -209,7 +212,7 @@ private fun ColumnScope.LoanTypePicker(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(UI.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, UI.shapes.r2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -243,13 +246,13 @@ private fun RowScope.SelectorButton(
     Text(
         modifier = Modifier
             .weight(1f)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable {
                 onClick()
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.roundedFull)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
             }
             .padding(vertical = 8.dp),
         text = label,

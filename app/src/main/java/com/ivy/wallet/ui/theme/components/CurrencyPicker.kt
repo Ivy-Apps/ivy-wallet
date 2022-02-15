@@ -121,8 +121,8 @@ private fun SearchInput(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.roundedFull)
-            .border(2.dp, UI.colors.mediumInverse, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.mediumInverse, UI.shapes.rFull)
             .clickable {
                 inputFocus.requestFocus()
             },
@@ -192,10 +192,10 @@ private fun SelectedCurrencyCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded20)
+            .clip(UI.shapes.r3)
             .background(
                 brush = (if (preselected) GradientGreen else GradientIvy).asHorizontalBrush(),
-                shape = Shapes.rounded20
+                shape = UI.shapes.r3
             )
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -325,10 +325,10 @@ private fun CurrencyItemCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(
                 color = if (selected) Ivy else UI.colors.medium,
-                shape = Shapes.rounded16
+                shape = UI.shapes.r4
             )
             .clickable {
                 onClick()

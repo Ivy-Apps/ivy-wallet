@@ -19,7 +19,10 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.ModalTitle
@@ -132,10 +135,10 @@ private fun TransactionTypeButton(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(
                 brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(UI.colors.medium),
-                shape = Shapes.rounded16
+                shape = UI.shapes.r4
             )
             .clickable {
                 onClick()

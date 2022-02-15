@@ -102,7 +102,7 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .clip(Shapes.rounded32Top)
+                .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure),
             state = listState,
         ) {
@@ -148,7 +148,7 @@ private fun BoxWithConstraintsScope.UI(
                         .height(32.dp)
                         .fillMaxWidth()
                         .background(itemColor) //itemColor is displayed below the clip
-                        .background(UI.colors.pure, Shapes.rounded32Top)
+                        .background(UI.colors.pure, UI.shapes.r1Top)
                 )
             }
 
@@ -341,7 +341,7 @@ private fun LoanInfoCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, Shapes.rounded24),
+            .background(backgroundColor, UI.shapes.r2),
     ) {
         Spacer(Modifier.height(24.dp))
 
@@ -472,11 +472,11 @@ private fun LoanRecordItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 onClick()
             }
-            .background(UI.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("loan_record_item")
     ) {
         Spacer(Modifier.height(20.dp))

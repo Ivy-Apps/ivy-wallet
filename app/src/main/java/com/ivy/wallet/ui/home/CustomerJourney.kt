@@ -22,9 +22,12 @@ import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.IvyComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.ui.theme.findContrastTextColor
 
 @Composable
 fun CustomerJourney(
@@ -65,8 +68,8 @@ fun CustomerJourneyCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .drawColoredShadow(cardData.backgroundColor)
-            .background(cardData.backgroundColor, Shapes.rounded20)
-            .clip(Shapes.rounded20)
+            .background(cardData.backgroundColor, UI.shapes.r3)
+            .clip(UI.shapes.r3)
             .clickable {
                 onCTA()
             }

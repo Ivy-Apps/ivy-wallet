@@ -22,7 +22,7 @@ import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun IvyOutlinedButton(
@@ -38,13 +38,13 @@ fun IvyOutlinedButton(
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, Shapes.roundedFull)
+            .border(2.dp, borderColor, UI.shapes.rFull)
             .thenIf(solidBackground) {
-                background(UI.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, UI.shapes.rFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -89,13 +89,13 @@ fun IvyOutlinedButtonFillMaxWidth(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, Shapes.roundedFull)
+            .border(2.dp, borderColor, UI.shapes.rFull)
             .thenIf(solidBackground) {
-                background(UI.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, UI.shapes.rFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -27,7 +27,7 @@ import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun OnboardingButton(
@@ -51,11 +51,11 @@ fun OnboardingButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled)
                     backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         contentAlignment = Alignment.Center

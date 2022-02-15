@@ -527,8 +527,8 @@ private fun AccountCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded24)
-            .background(UI.colors.medium, Shapes.rounded24)
+            .clip(UI.shapes.r2)
+            .background(UI.colors.medium, UI.shapes.r2)
             .clickable {
                 onCardClick()
             }
@@ -800,8 +800,8 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(Shapes.roundedFull)
-                .border(2.dp, UI.colors.medium, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_TC)
                 }
@@ -819,8 +819,8 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(Shapes.roundedFull)
-                .border(2.dp, UI.colors.medium, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
                 }
@@ -885,8 +885,8 @@ private fun SettingsButtonRow(
                 drawColoredShadow(color = backgroundGradient.startColor)
             }
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .background(backgroundGradient.asHorizontalBrush(), Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
             .thenIf(onClick != null) {
                 clickable {
                     onClick?.invoke()
@@ -906,8 +906,8 @@ private fun AccountCardButton(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .background(UI.colors.pure, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.pure, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -944,8 +944,8 @@ private fun CurrencyButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .border(2.dp, UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable {
                 onClick()
             },

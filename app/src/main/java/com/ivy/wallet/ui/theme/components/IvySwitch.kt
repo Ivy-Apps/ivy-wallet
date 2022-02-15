@@ -13,11 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.springBounce
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun IvySwitch(
@@ -33,8 +34,8 @@ fun IvySwitch(
     Row(
         modifier = modifier
             .width(40.dp)
-            .clip(Shapes.roundedFull)
-            .border(2.dp, color, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, color, UI.shapes.rFull)
             .clickable {
                 onEnabledChange(!enabled)
             }

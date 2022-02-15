@@ -21,7 +21,7 @@ import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
@@ -82,8 +82,8 @@ private fun RecurringRuleCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .background(UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.r4)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically

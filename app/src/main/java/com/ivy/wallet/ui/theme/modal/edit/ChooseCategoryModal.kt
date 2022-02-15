@@ -174,7 +174,7 @@ private fun CategoryButton(
             .thenIf(selected) {
                 drawColoredShadow(categoryColor)
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
@@ -182,10 +182,10 @@ private fun CategoryButton(
             .border(
                 width = 2.dp,
                 color = if (selected) UI.colors.pureInverse else UI.colors.medium,
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .thenIf(selected) {
-                background(categoryColor, Shapes.roundedFull)
+                background(categoryColor, UI.shapes.rFull)
             }
             .testTag("choose_category_button"),
         verticalAlignment = Alignment.CenterVertically

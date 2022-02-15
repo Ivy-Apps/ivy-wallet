@@ -223,7 +223,7 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .clip(Shapes.rounded32Top)
+                .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure),
             state = listState,
         ) {
@@ -301,7 +301,7 @@ private fun BoxWithConstraintsScope.UI(
                             .height(32.dp)
                             .fillMaxWidth()
                             .background(itemColor) //itemColor is displayed below the clip
-                            .background(UI.colors.pure, Shapes.rounded32Top)
+                            .background(UI.colors.pure, UI.shapes.r1Top)
                     )
 
                     PeriodSelector(
@@ -628,7 +628,7 @@ private fun RowScope.HeaderCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, Shapes.rounded24),
+            .background(backgroundColor, UI.shapes.r2),
     ) {
         Spacer(Modifier.height(24.dp))
 

@@ -28,10 +28,13 @@ import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import java.time.LocalDateTime
 
@@ -49,13 +52,13 @@ fun LazyItemScope.PlannedPaymentCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 if (accounts.find { it.id == plannedPayment.accountId } != null) {
                     onClick(plannedPayment)
                 }
             }
-            .background(UI.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("planned_payment_card")
     ) {
         val currency = accounts.find { it.id == plannedPayment.accountId }?.currency ?: baseCurrency

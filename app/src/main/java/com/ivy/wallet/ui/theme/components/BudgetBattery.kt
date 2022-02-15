@@ -63,7 +63,7 @@ fun BudgetBattery(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(backgroundNotFilled)
             .drawBehind {
                 drawRect(

@@ -20,7 +20,7 @@ import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -35,7 +35,7 @@ fun PeriodSelector(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .border(2.dp, UI.colors.medium, Shapes.roundedFull),
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -60,7 +60,7 @@ fun PeriodSelector(
             modifier = Modifier
                 .height(48.dp)
                 .defaultMinSize(minWidth = 48.dp)
-                .clip(Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
                 .clickable {
                     onShowChoosePeriodModal()
                 },

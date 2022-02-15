@@ -111,7 +111,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 borderRadius = 24.dp,
                 shadowRadius = 24.dp
             )
-            .background(UI.colors.pure, Shapes.rounded24Top)
+            .background(UI.colors.pure, UI.shapes.r2Top)
             .consumeClicks()
     ) {
         //Accounts label
@@ -510,12 +510,12 @@ private fun Account(
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
-                background(accountColor, Shapes.roundedFull)
+                background(accountColor, UI.shapes.rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -552,8 +552,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .border(2.dp, UI.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {

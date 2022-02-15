@@ -15,7 +15,10 @@ import com.ivy.wallet.base.format
 import com.ivy.wallet.functional.charts.ChartPeriod
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
 import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
 import java.text.DecimalFormat
@@ -155,7 +158,7 @@ fun ChartInfoCard(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .background(backgroundColor, Shapes.rounded24)
+            .background(backgroundColor, UI.shapes.r2)
             .padding(vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

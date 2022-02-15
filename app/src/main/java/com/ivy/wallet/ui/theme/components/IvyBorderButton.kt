@@ -27,7 +27,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun IvyBorderButton(
@@ -49,12 +49,12 @@ fun IvyBorderButton(
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .border(
                 width = 2.dp,
                 brush = if (enabled)
                     backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically

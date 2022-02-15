@@ -15,7 +15,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @Composable
@@ -31,7 +31,7 @@ fun OnboardingToolbar(
 
             Text(
                 modifier = Modifier
-                    .clip(Shapes.roundedFull)
+                    .clip(UI.shapes.rFull)
                     .clickable {
                         onSkip()
                     }

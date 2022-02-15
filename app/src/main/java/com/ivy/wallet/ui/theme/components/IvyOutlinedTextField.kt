@@ -30,7 +30,7 @@ import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun IvyOutlinedTextField(
@@ -52,14 +52,14 @@ fun IvyOutlinedTextField(
 
     Box(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .border(
                 width = 2.dp,
                 color = if (isEmpty) emptyBorderColor else backgroundColor,
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .thenIf(validateInput(value)) {
-                background(backgroundColor.copy(alpha = 0.1f), Shapes.roundedFull)
+                background(backgroundColor.copy(alpha = 0.1f), UI.shapes.rFull)
             },
         contentAlignment = Alignment.Center
     ) {

@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun AddPrimaryAttributeButton(
@@ -29,8 +29,8 @@ fun AddPrimaryAttributeButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .background(UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.r4)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically

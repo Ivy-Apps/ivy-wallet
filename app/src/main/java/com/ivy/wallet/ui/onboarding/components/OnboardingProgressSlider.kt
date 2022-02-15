@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun OnboardingProgressSlider(
@@ -48,6 +48,6 @@ private fun Line(
     Spacer(
         modifier = Modifier
             .size(width = width, height = 4.dp)
-            .background(color, Shapes.roundedFull)
+            .background(color, UI.shapes.rFull)
     )
 }

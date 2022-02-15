@@ -36,7 +36,7 @@ import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -233,9 +233,9 @@ private fun SearchButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(UI.colors.pure)
-            .border(1.dp, Gray, Shapes.roundedFull)
+            .border(1.dp, Gray, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -269,7 +269,7 @@ private fun ColumnScope.OpenSource() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(UI.colors.pure)
             .clickable {
                 openUrl(

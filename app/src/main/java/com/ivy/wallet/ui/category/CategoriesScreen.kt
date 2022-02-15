@@ -185,8 +185,8 @@ private fun CategoryCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable(
                 onClick = onClick
             )
@@ -249,7 +249,7 @@ fun AddedSpent(
             modifier = Modifier
                 .width(2.dp)
                 .height(48.dp)
-                .background(dividerColor, Shapes.roundedFull)
+                .background(dividerColor, UI.shapes.rFull)
         )
 
         if (center) {
@@ -320,7 +320,7 @@ private fun CategoryHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(category.color.toComposeColor(), Shapes.rounded16Top)
+            .background(category.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 

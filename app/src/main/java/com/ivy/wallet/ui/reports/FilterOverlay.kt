@@ -631,12 +631,12 @@ fun ListItem(
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(selectedColor == null) {
-                border(2.dp, UI.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selectedColor != null) {
-                background(selectedColor!!, Shapes.roundedFull)
+                background(selectedColor!!, UI.shapes.rFull)
             }
             .clickable(
                 onClick = {

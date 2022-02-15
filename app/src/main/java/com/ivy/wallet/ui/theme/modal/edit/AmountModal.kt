@@ -27,7 +27,7 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Black
 
 import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
@@ -444,8 +444,8 @@ private fun circleButtonModifier(
         .clickable(
             onClick = onClick
         )
-        .background(UI.colors.pure, Shapes.roundedFull)
-        .border(2.dp, UI.colors.medium, Shapes.roundedFull)
+        .background(UI.colors.pure, UI.shapes.rFull)
+        .border(2.dp, UI.colors.medium, UI.shapes.rFull)
 }
 
 @Preview

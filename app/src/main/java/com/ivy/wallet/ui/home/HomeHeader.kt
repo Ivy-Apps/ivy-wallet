@@ -300,7 +300,7 @@ private fun RowScope.HeaderCard(
             .thenIf(percentVisible == 1f) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(backgroundGradient.asHorizontalBrush())
             .clickable(
                 onClick = onClick

@@ -232,10 +232,10 @@ private fun MonthButton(
     val background = if (selected) GradientIvy else Gradient.solid(UI.colors.medium)
     Text(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = background.asHorizontalBrush(),
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable {
                 onClick()
@@ -323,8 +323,8 @@ private fun IntervalFromToDate(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .clip(Shapes.roundedFull)
-            .border(2.dp, UI.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable {
                 ivyContext.datePicker(
                     minDate = if (border == IntervalBorder.TO)

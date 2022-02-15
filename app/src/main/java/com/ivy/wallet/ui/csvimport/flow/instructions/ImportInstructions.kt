@@ -32,7 +32,7 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -203,8 +203,8 @@ fun InstructionButton(
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.rounded20)
-            .background(UI.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onClick()
             }

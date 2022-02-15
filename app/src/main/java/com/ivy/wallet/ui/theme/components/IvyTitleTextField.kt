@@ -24,7 +24,7 @@ import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 
 @Composable
 fun ColumnScope.IvyTitleTextField(
@@ -90,7 +90,7 @@ fun ColumnScope.IvyTitleTextField(
         modifier = dividerModifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(UI.colors.medium, Shapes.roundedFull),
+            .background(UI.colors.medium, UI.shapes.rFull),
     )
 }
 

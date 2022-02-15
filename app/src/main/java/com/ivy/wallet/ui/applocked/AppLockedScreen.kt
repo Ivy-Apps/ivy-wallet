@@ -25,7 +25,7 @@ import com.ivy.wallet.base.hasLockScreen
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Gray
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 
@@ -44,7 +44,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
 
         Text(
             modifier = Modifier
-                .background(UI.colors.medium, Shapes.roundedFull)
+                .background(UI.colors.medium, UI.shapes.rFull)
                 .padding(vertical = 12.dp)
                 .padding(horizontal = 32.dp),
             text = "APP LOCKED",

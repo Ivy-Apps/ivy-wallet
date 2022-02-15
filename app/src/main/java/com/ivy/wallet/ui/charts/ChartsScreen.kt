@@ -29,7 +29,7 @@ import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
@@ -211,8 +211,8 @@ private fun Period(
 
         Text(
             modifier = Modifier
-                .clip(Shapes.roundedFull)
-                .border(1.dp, UI.colors.mediumInverse, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(1.dp, UI.colors.mediumInverse, UI.shapes.rFull)
                 .clickable {
                     togglePeriod()
                 }

@@ -374,8 +374,8 @@ private fun CategoryAmountCard(
             .thenIf(selectedState) {
                 drawColoredShadow(backgroundColor)
             }
-            .clip(Shapes.rounded20)
-            .background(backgroundColor, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(backgroundColor, UI.shapes.r3)
             .clickable {
                 onClick()
             }

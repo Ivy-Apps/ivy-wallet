@@ -26,7 +26,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Black
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
@@ -126,7 +126,7 @@ fun BoxScope.IvyModal(
                     color = Black,
                     alpha = if (UI.colors.isLight) 0.05f else 0.5f,
                 )
-                .background(UI.colors.pure, Shapes.rounded24Top)
+                .background(UI.colors.pure, UI.shapes.r2Top)
                 .consumeClicks()
                 .thenIf(scrollState != null) {
                     verticalScroll(scrollState!!)

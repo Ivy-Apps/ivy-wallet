@@ -450,8 +450,8 @@ private fun LoginButton(
             .thenIf(hasShadow) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(Shapes.rounded16)
-            .background(backgroundGradient.asHorizontalBrush(), Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
             .clickable {
                 onClick()
             },

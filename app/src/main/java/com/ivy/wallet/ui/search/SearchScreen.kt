@@ -30,7 +30,7 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -153,9 +153,9 @@ private fun SearchInput(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(UI.colors.pure)
-            .border(1.dp, Gray, Shapes.roundedFull),
+            .border(1.dp, Gray, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))

@@ -16,7 +16,7 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 
 @Composable
@@ -82,7 +82,7 @@ private fun ProgressBar(
             .fillMaxWidth()
             .height(32.dp)
             .padding(horizontal = 24.dp)
-            .background(UI.colors.medium, Shapes.roundedFull),
+            .background(UI.colors.medium, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (progressPercent > 0) {
@@ -90,7 +90,7 @@ private fun ProgressBar(
                 modifier = Modifier
                     .weight(progressPercent.toFloat())
                     .height(32.dp)
-                    .background(GradientGreen.asHorizontalBrush(), Shapes.roundedFull),
+                    .background(GradientGreen.asHorizontalBrush(), UI.shapes.rFull),
             )
         }
 

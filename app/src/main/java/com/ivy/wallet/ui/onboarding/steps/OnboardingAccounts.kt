@@ -230,8 +230,8 @@ fun BuyPremiumRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .border(2.dp, UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable {
                 nav.navigateTo(
                     Paywall(
@@ -294,8 +294,8 @@ private fun AccountCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(accountColor, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(accountColor, UI.shapes.r3)
             .clickable {
                 onClick()
             },

@@ -20,7 +20,7 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.theme.IvyComponentPreview
 
-import com.ivy.wallet.ui.theme.Shapes
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 
@@ -68,8 +68,8 @@ private fun Suggestion(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .background(UI.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.medium, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -100,8 +100,8 @@ private fun AddNewButton(
     Row(
         modifier = Modifier
             .drawColoredShadow(color = UI.colors.mediumInverse)
-            .clip(Shapes.roundedFull)
-            .background(UI.colors.mediumInverse, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.mediumInverse, UI.shapes.rFull)
             .clickable {
                 onClick()
             },

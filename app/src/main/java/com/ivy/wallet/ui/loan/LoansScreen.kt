@@ -205,8 +205,8 @@ private fun LoanItem(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, UI.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .testTag("loan_item")
             .clickable(
                 onClick = onClick
@@ -240,7 +240,7 @@ private fun LoanHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(loan.color.toComposeColor(), Shapes.rounded16Top)
+            .background(loan.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 

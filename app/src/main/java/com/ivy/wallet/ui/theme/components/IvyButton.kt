@@ -57,11 +57,11 @@ fun IvyButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled)
                     backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically
