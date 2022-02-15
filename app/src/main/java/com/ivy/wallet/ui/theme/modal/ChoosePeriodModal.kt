@@ -138,7 +138,7 @@ private fun ChooseMonth(
             .padding(start = 32.dp),
         text = "Choose month",
         style = UI.typo.b1.style(
-            color = if (selectedMonthYear != null) IvyTheme.colors.pureInverse else Gray,
+            color = if (selectedMonthYear != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -229,7 +229,7 @@ private fun MonthButton(
     text: String,
     onClick: () -> Unit
 ) {
-    val background = if (selected) GradientIvy else Gradient.solid(IvyTheme.colors.medium)
+    val background = if (selected) GradientIvy else Gradient.solid(UI.colors.medium)
     Text(
         modifier = modifier
             .clip(Shapes.roundedFull)
@@ -262,7 +262,7 @@ private fun FromToRange(
             .padding(start = 32.dp),
         text = "or custom range",
         style = UI.typo.b1.style(
-            color = if (timeRange != null) IvyTheme.colors.pureInverse else Gray,
+            color = if (timeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -324,7 +324,7 @@ private fun IntervalFromToDate(
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
             .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+            .border(2.dp, UI.colors.medium, Shapes.roundedFull)
             .clickable {
                 ivyContext.datePicker(
                     minDate = if (border == IntervalBorder.TO)
@@ -352,7 +352,7 @@ private fun IntervalFromToDate(
             text = if (border == IntervalBorder.FROM) "From" else "To",
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (dateTime != null) Green else IvyTheme.colors.pureInverse
+                color = if (dateTime != null) Green else UI.colors.pureInverse
             )
         )
 
@@ -366,7 +366,7 @@ private fun IntervalFromToDate(
             text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: "Add date",
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
-                color = if (dateTime != null) IvyTheme.colors.pureInverse else Gray
+                color = if (dateTime != null) UI.colors.pureInverse else Gray
             )
         )
 
@@ -416,7 +416,7 @@ private fun LastNPeriod(
             .padding(start = 32.dp),
         text = "or in the last",
         style = UI.typo.b1.style(
-            color = if (lastNTimeRange != null) IvyTheme.colors.pureInverse else Gray,
+            color = if (lastNTimeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -462,7 +462,7 @@ private fun AllTime(
             .padding(start = 32.dp),
         text = "or all time",
         style = UI.typo.b1.style(
-            color = if (active) IvyTheme.colors.pureInverse else Gray,
+            color = if (active) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )

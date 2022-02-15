@@ -48,7 +48,7 @@ fun ImportResultUI(
             text = if (importSuccess) "Success" else "Failure",
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black,
-                color = if (importSuccess) IvyTheme.colors.pureInverse else Red
+                color = if (importSuccess) UI.colors.pureInverse else Red
             )
         )
 

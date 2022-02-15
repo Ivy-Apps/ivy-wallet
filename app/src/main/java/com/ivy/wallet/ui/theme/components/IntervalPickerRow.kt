@@ -47,13 +47,13 @@ fun IntervalPickerRow(
                 .background(
                     brush = if (validInput)
                         GradientIvy.asHorizontalBrush() else Gradient
-                        .solid(IvyTheme.colors.medium)
+                        .solid(UI.colors.medium)
                         .asHorizontalBrush(),
                     shape = Shapes.roundedFull
                 )
                 .padding(vertical = 12.dp),
             value = interNTextFieldValue,
-            textColor = if (validInput) White else IvyTheme.colors.pureInverse,
+            textColor = if (validInput) White else UI.colors.pureInverse,
             hint = "0"
         ) {
             if (it.text != interNTextFieldValue.text) {
@@ -89,7 +89,7 @@ private fun RowScope.IntervalTypeSelector(
     Row(
         modifier = Modifier
             .weight(1f)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull),
+            .border(2.dp, UI.colors.medium, Shapes.roundedFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -119,7 +119,7 @@ private fun RowScope.IntervalTypeSelector(
         Text(
             text = intervalType.forDisplay(intervalN).capitalizeLocal(),
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )

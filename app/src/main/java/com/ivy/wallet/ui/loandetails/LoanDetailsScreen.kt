@@ -103,7 +103,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .padding(top = 16.dp)
                 .clip(Shapes.rounded32Top)
-                .background(IvyTheme.colors.pure),
+                .background(UI.colors.pure),
             state = listState,
         ) {
             item {
@@ -148,7 +148,7 @@ private fun BoxWithConstraintsScope.UI(
                         .height(32.dp)
                         .fillMaxWidth()
                         .background(itemColor) //itemColor is displayed below the clip
-                        .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                        .background(UI.colors.pure, Shapes.rounded32Top)
                 )
             }
 
@@ -414,7 +414,7 @@ private fun LoanInfoCard(
                 .fillMaxWidth()
                 .height(24.dp)
                 .padding(horizontal = 24.dp),
-            notFilledColor = IvyTheme.colors.pure,
+            notFilledColor = UI.colors.pure,
             percent = percentPaid
         )
 
@@ -476,7 +476,7 @@ private fun LoanRecordItem(
             .clickable {
                 onClick()
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .testTag("loan_record_item")
     ) {
         Spacer(Modifier.height(20.dp))
@@ -502,7 +502,7 @@ private fun LoanRecordItem(
                 text = loanRecord.note!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }

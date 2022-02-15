@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.IvyAppPreview
 
 
@@ -22,7 +23,7 @@ fun IvyComponentPreview(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.pure),
+                .background(UI.colors.pure),
             contentAlignment = Alignment.Center
         ) {
             Content()

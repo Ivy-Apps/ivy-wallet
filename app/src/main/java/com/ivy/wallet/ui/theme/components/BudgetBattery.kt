@@ -28,7 +28,7 @@ fun BudgetBattery(
     currency: String,
     expenses: Double,
     budget: Double,
-    backgroundNotFilled: Color = IvyTheme.colors.pure,
+    backgroundNotFilled: Color = UI.colors.pure,
     onClick: (() -> Unit)? = null,
 ) {
     if (budget == 0.0) return
@@ -36,7 +36,7 @@ fun BudgetBattery(
 
     val textColor = when {
         percentSpent <= 0.30 -> {
-            IvyTheme.colors.pureInverse
+            UI.colors.pureInverse
         }
         percentSpent <= 0.50 -> {
             White
@@ -49,7 +49,7 @@ fun BudgetBattery(
 
     val captionTextColor = when {
         percentSpent <= 0.30 -> {
-            IvyTheme.colors.mediumInverse
+            UI.colors.mediumInverse
         }
         percentSpent <= 0.50 -> {
             White
@@ -143,7 +143,7 @@ private fun Preview_budget_0() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -164,7 +164,7 @@ private fun Preview_expenses_0() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -185,7 +185,7 @@ private fun Preview_spent_very_low() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -206,7 +206,7 @@ private fun Preview_buffer_25() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -227,7 +227,7 @@ private fun Preview_buffer_50() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -248,7 +248,7 @@ private fun Preview_buffer_75() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -269,7 +269,7 @@ private fun Preview_buffer_90() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -290,7 +290,7 @@ private fun Preview_buffer_100() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -311,7 +311,7 @@ private fun Preview_buffer_125() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -332,7 +332,7 @@ private fun Preview_expenses_negative() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(

@@ -87,7 +87,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 text = "Categories",
                 style = UI.typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -186,7 +186,7 @@ private fun CategoryCard(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .border(2.dp, UI.colors.medium, Shapes.rounded16)
             .clickable(
                 onClick = onClick
             )
@@ -212,8 +212,8 @@ private fun CategoryCard(
 @Composable
 fun AddedSpent(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    dividerColor: Color = IvyTheme.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
+    dividerColor: Color = UI.colors.medium,
     monthlyIncome: Double,
     monthlyExpenses: Double,
     currency: String,

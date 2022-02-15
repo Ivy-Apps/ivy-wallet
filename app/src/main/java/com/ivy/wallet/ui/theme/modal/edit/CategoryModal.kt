@@ -32,11 +32,11 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.ui.theme.modal.ChooseIconModal
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalAddSave
 import com.ivy.wallet.ui.theme.modal.ModalTitle

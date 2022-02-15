@@ -22,14 +22,14 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun IvyNameTextField(
     modifier: Modifier = Modifier,
     underlineModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -53,7 +53,7 @@ fun IvyNameTextField(
                     modifier = Modifier,
                     text = hint!!,
                     style = UI.typo.b2.style(
-                        color = IvyTheme.colors.gray,
+                        color = UI.colors.gray,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Start
                     ),
@@ -72,7 +72,7 @@ fun IvyNameTextField(
                     textAlign = TextAlign.Start
                 ),
                 singleLine = false,
-                cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colors.pureInverse),
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions ?: KeyboardActions(

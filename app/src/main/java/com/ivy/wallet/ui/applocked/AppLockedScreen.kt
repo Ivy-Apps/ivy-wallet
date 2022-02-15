@@ -24,7 +24,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.hasLockScreen
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -44,7 +44,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
 
         Text(
             modifier = Modifier
-                .background(IvyTheme.colors.medium, Shapes.roundedFull)
+                .background(UI.colors.medium, Shapes.roundedFull)
                 .padding(vertical = 12.dp)
                 .padding(horizontal = 32.dp),
             text = "APP LOCKED",
@@ -59,7 +59,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
             modifier = Modifier
                 .size(width = 96.dp, height = 138.dp),
             painter = painterResource(id = R.drawable.ic_fingerprint),
-            colorFilter = ColorFilter.tint(IvyTheme.colors.medium),
+            colorFilter = ColorFilter.tint(UI.colors.medium),
             contentScale = ContentScale.FillBounds,
             contentDescription = "unlock icon"
         )

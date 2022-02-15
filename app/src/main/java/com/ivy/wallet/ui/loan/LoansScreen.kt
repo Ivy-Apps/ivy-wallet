@@ -146,7 +146,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(vertical = 8.dp),
             text = item.loan.name,
             style = UI.typo.b1.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -178,7 +178,7 @@ private fun Toolbar(
             Text(
                 text = "Loans",
                 style = UI.typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -206,7 +206,7 @@ private fun LoanItem(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .border(2.dp, UI.colors.medium, Shapes.rounded16)
             .testTag("loan_item")
             .clickable(
                 onClick = onClick
@@ -332,7 +332,7 @@ private fun ColumnScope.LoanInfo(
             .fillMaxWidth()
             .height(24.dp)
             .padding(horizontal = 24.dp),
-        notFilledColor = IvyTheme.colors.medium,
+        notFilledColor = UI.colors.medium,
         percent = percentPaid
     )
 }

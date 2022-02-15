@@ -26,7 +26,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -34,13 +34,13 @@ fun IvyBorderButton(
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = UI.typo.b2.style(
-        color = IvyTheme.colors.pureInverse,
+        color = UI.colors.pureInverse,
         fontWeight = FontWeight.Bold
     ),
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.mediumInverse),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.mediumInverse),
     @DrawableRes iconStart: Int? = null,
     @DrawableRes iconEnd: Int? = null,
-    iconTint: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
     enabled: Boolean = true,
     wrapContentMode: Boolean = true,
 
@@ -53,7 +53,7 @@ fun IvyBorderButton(
             .border(
                 width = 2.dp,
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.gray),
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
                 shape = Shapes.roundedFull
             )
             .clickable(onClick = onClick, enabled = enabled),

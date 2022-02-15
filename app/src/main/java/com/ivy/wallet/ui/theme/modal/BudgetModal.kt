@@ -33,9 +33,12 @@ import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.reports.ListItem
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Purple1Dark
+import com.ivy.wallet.ui.theme.Red3Light
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
+import com.ivy.wallet.ui.theme.toComposeColor
 import java.util.*
 
 data class BudgetModalData(
@@ -244,7 +247,7 @@ private fun CategoriesRow(
         text = Budget.type(budgetCategoryIds.size),
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = IvyTheme.colors.pureInverse
+            color = UI.colors.pureInverse
         )
     )
 

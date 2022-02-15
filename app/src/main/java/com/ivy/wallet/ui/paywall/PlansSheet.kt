@@ -76,12 +76,12 @@ fun BoxWithConstraintsScope.PlansSheet(
                 onPlansSheetHeightChanged(it.height)
             }
             .drawColoredShadow(
-                color = IvyTheme.colors.mediumInverse,
-                alpha = if (IvyTheme.colors.isLight) 0.3f else 0.2f,
+                color = UI.colors.mediumInverse,
+                alpha = if (UI.colors.isLight) 0.3f else 0.2f,
                 borderRadius = 24.dp,
                 shadowRadius = 24.dp
             )
-            .background(IvyTheme.colors.pure, Shapes.rounded24Top)
+            .background(UI.colors.pure, Shapes.rounded24Top)
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
             .consumeClicks()
@@ -308,7 +308,7 @@ private fun ColumnScope.PlanCard(
             }
             .clip(Shapes.rounded16)
             .thenIf(!purchased && selectedPlan != plan) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+                border(2.dp, UI.colors.medium, Shapes.rounded16)
             }
             .thenIf(selectedPlan == plan) {
                 background(GradientGreen.asHorizontalBrush(), Shapes.rounded16)
@@ -325,7 +325,7 @@ private fun ColumnScope.PlanCard(
         Spacer(Modifier.width(24.dp))
 
         val textColor = if (purchased || selectedPlan == plan)
-            White else IvyTheme.colors.pureInverse
+            White else UI.colors.pureInverse
 
         Column {
             Text(

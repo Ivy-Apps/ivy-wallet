@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.densityScope
 
 
@@ -120,7 +121,7 @@ fun Modifier.gradientCutBackgroundTop(
         brush = Brush.verticalGradient(
             colors = listOf(
                 Transparent,
-                IvyTheme.colors.pure,
+                UI.colors.pure,
             ),
             endY = densityScope {
                 endY.toPx()
@@ -135,7 +136,7 @@ fun Modifier.gradientCutBackgroundBottom(
     background(
         brush = Brush.verticalGradient(
             colors = listOf(
-                IvyTheme.colors.pure,
+                UI.colors.pure,
                 Transparent
             ),
         )
@@ -143,13 +144,13 @@ fun Modifier.gradientCutBackgroundBottom(
 }
 
 @Composable
-fun pureBlur() = IvyTheme.colors.pure.copy(alpha = 0.95f)
+fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
 
 @Composable
-fun mediumBlur() = IvyTheme.colors.medium.copy(alpha = 0.95f)
+fun mediumBlur() = UI.colors.medium.copy(alpha = 0.95f)
 
 @Composable
-fun gradientExpenses() = Gradient(IvyTheme.colors.pureInverse, IvyTheme.colors.gray)
+fun gradientExpenses() = Gradient(UI.colors.pureInverse, UI.colors.gray)
 
 data class IvyColors(
     val pure: Color,
@@ -187,7 +188,7 @@ data class Gradient(
         fun solid(color: Color) = Gradient(color, color)
 
         @Composable
-        fun black() = Gradient(IvyTheme.colors.gray, IvyTheme.colors.pureInverse)
+        fun black() = Gradient(UI.colors.gray, UI.colors.pureInverse)
     }
 
     fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(startColor, endColor))

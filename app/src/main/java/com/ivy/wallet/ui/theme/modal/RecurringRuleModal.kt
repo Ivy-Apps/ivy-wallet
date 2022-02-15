@@ -147,7 +147,7 @@ private fun TimesSelector(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(IvyTheme.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, Shapes.rounded24),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -232,7 +232,7 @@ private fun MultipleTimes(
             .padding(start = 32.dp),
         text = "Starts on",
         style = UI.typo.b2.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -257,7 +257,7 @@ private fun MultipleTimes(
         text = "Repeats every",
         style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold,
-            color = IvyTheme.colors.pureInverse
+            color = UI.colors.pureInverse
         )
     )
 
@@ -315,7 +315,7 @@ private fun DateRow(
                 ),
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.Normal,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -341,8 +341,8 @@ private fun DateRow(
                 .testTag("recurring_modal_pick_date"),
             backgroundPadding = 4.dp,
             icon = R.drawable.ic_calendar,
-            backgroundGradient = Gradient.solid(IvyTheme.colors.pureInverse),
-            tint = IvyTheme.colors.pure
+            backgroundGradient = Gradient.solid(UI.colors.pureInverse),
+            tint = UI.colors.pure
         ) {
             ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
         }

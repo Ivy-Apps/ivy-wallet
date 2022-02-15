@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 
 @Composable
@@ -41,7 +41,7 @@ fun IvyCheckbox(
             id = if (checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
         ),
         contentDescription = null,
-        tint = if (checked) Color.Unspecified else IvyTheme.colors.gray
+        tint = if (checked) Color.Unspecified else UI.colors.gray
     )
 }
 
@@ -69,7 +69,7 @@ fun IvyCheckboxWithText(
         Text(
             text = text,
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )

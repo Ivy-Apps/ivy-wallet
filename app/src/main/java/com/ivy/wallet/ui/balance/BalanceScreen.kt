@@ -24,7 +24,10 @@ import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -204,7 +207,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             Text(
                 text = "${currentBalance.format(2)} $currency",
                 style = UI.typo.nC.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Normal
                 )
             )
@@ -215,7 +218,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             Text(
                 text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
                 style = UI.typo.nC.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )

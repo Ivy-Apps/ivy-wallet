@@ -12,10 +12,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.*
+
 
 @Composable
 fun IvyCircleButton(
@@ -46,7 +48,7 @@ fun IvyCircleButton(
                     if (horizontalGradient)
                         backgroundGradient.asHorizontalBrush() else backgroundGradient.asVerticalBrush()
                 } else {
-                    SolidColor(IvyTheme.colors.gray)
+                    SolidColor(UI.colors.gray)
                 },
                 shape = Shapes.roundedFull
             )

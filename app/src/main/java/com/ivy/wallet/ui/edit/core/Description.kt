@@ -14,7 +14,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.edit.PrimaryAttributeColumn
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
@@ -60,7 +60,7 @@ private fun DescriptionText(
                 .padding(horizontal = 24.dp),
             markdown = description,
             textAlign = TextAlign.Left,
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontSize = UI.typo.b2.fontSize,
             fontResource = R.font.raleway_medium
         )

@@ -32,7 +32,7 @@ import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
@@ -173,7 +173,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(vertical = 8.dp),
             text = item.budget.name,
             style = UI.typo.b1.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -211,7 +211,7 @@ private fun Toolbar(
             Text(
                 text = "Budgets",
                 style = UI.typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -222,7 +222,7 @@ private fun Toolbar(
                 Text(
                     text = timeRange.toDisplay(),
                     style = UI.typo.b2.style(
-                        color = IvyTheme.colors.pureInverse,
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.Medium
                     )
                 )
@@ -285,7 +285,7 @@ private fun BudgetItem(
             Text(
                 text = displayBudget.budget.name,
                 style = UI.typo.b1.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -317,7 +317,7 @@ private fun BudgetItem(
         currency = baseCurrency,
         expenses = displayBudget.spentAmount,
         budget = displayBudget.budget.amount,
-        backgroundNotFilled = IvyTheme.colors.medium
+        backgroundNotFilled = UI.colors.medium
     ) {
         onClick()
     }

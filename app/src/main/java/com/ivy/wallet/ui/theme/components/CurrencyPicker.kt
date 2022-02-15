@@ -122,7 +122,7 @@ private fun SearchInput(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+            .border(2.dp, UI.colors.mediumInverse, Shapes.roundedFull)
             .clickable {
                 inputFocus.requestFocus()
             },
@@ -167,7 +167,7 @@ private fun SearchInput(
                     textAlign = TextAlign.Start
                 ),
                 singleLine = true,
-                cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colors.pureInverse),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         hideKeyboard(view)
@@ -327,7 +327,7 @@ private fun CurrencyItemCard(
             .fillMaxWidth()
             .clip(Shapes.rounded16)
             .background(
-                color = if (selected) Ivy else IvyTheme.colors.medium,
+                color = if (selected) Ivy else UI.colors.medium,
                 shape = Shapes.rounded16
             )
             .clickable {
@@ -341,7 +341,7 @@ private fun CurrencyItemCard(
         Text(
             text = currency.code,
             style = UI.typo.b1.style(
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+                color = if (selected) White else UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -351,7 +351,7 @@ private fun CurrencyItemCard(
         Text(
             text = currency.name.take(20),
             style = UI.typo.b2.style(
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+                color = if (selected) White else UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -373,7 +373,7 @@ private fun LetterDividerItem(
         modifier = Modifier.padding(start = 32.dp),
         text = letterDivider.letter,
         style = UI.typo.c.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.SemiBold
         )
     )

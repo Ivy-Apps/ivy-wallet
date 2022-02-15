@@ -326,7 +326,7 @@ private fun Header(
                 icon = R.drawable.ic_plus,
                 backgroundGradient = backgroundGradient,
                 tint = if (transactionType == TransactionType.EXPENSE)
-                    IvyTheme.colors.pure else White
+                    UI.colors.pure else White
             ) {
                 onAdd(transactionType)
             }
@@ -361,7 +361,7 @@ private fun CategoryAmountCard(
         }
         else -> false
     }
-    val backgroundColor = if (selectedState) categoryColor else IvyTheme.colors.medium
+    val backgroundColor = if (selectedState) categoryColor else UI.colors.medium
 
     val textColor = findContrastTextColor(
         backgroundColor = backgroundColor
@@ -444,7 +444,7 @@ private fun PercentText(
     Text(
         text = if (totalAmount != 0.0) "${((amount / totalAmount) * 100).format(2)}%" else "0%",
         style = UI.typo.nB2.style(
-            color = if (selectedState) contrastColor else IvyTheme.colors.pureInverse,
+            color = if (selectedState) contrastColor else UI.colors.pureInverse,
             fontWeight = FontWeight.Normal
         )
     )

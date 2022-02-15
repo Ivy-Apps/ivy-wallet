@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -31,7 +31,7 @@ fun ColumnScope.IvyTitleTextField(
     modifier: Modifier = Modifier,
     dividerModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -54,7 +54,7 @@ fun ColumnScope.IvyTitleTextField(
                 modifier = Modifier,
                 text = hint!!,
                 style = UI.typo.h2.style(
-                    color = IvyTheme.colors.gray,
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Start
                 ),
@@ -73,7 +73,7 @@ fun ColumnScope.IvyTitleTextField(
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(
@@ -90,7 +90,7 @@ fun ColumnScope.IvyTitleTextField(
         modifier = dividerModifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(IvyTheme.colors.medium, Shapes.roundedFull),
+            .background(UI.colors.medium, Shapes.roundedFull),
     )
 }
 

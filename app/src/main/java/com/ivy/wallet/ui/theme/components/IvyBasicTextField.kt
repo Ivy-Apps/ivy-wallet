@@ -22,13 +22,13 @@ import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun IvyBasicTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -51,7 +51,7 @@ fun IvyBasicTextField(
                 modifier = Modifier,
                 text = hint!!,
                 style = UI.typo.b2.style(
-                    color = IvyTheme.colors.gray,
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Start
                 ),
@@ -66,11 +66,11 @@ fun IvyBasicTextField(
             onValueChange = onValueChanged,
             textStyle = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(

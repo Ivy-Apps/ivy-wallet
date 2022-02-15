@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.lerp
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.modal.model.Month
@@ -329,7 +330,7 @@ private fun IvyChart(
         mutableStateOf(emptyList())
     }
 
-    val xLabelColor = IvyTheme.colors.pureInverse
+    val xLabelColor = UI.colors.pureInverse
 
     Canvas(
         modifier = modifier

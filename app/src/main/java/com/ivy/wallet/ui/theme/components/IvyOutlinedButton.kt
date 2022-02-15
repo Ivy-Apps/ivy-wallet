@@ -21,7 +21,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -30,9 +30,9 @@ fun IvyOutlinedButton(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = IvyTheme.colors.pureInverse,
-    borderColor: Color = IvyTheme.colors.medium,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
+    borderColor: Color = UI.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
     padding: Dp = 12.dp,
     onClick: () -> Unit,
 ) {
@@ -44,7 +44,7 @@ fun IvyOutlinedButton(
             )
             .border(2.dp, borderColor, Shapes.roundedFull)
             .thenIf(solidBackground) {
-                background(IvyTheme.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, Shapes.roundedFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -80,9 +80,9 @@ fun IvyOutlinedButtonFillMaxWidth(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = IvyTheme.colors.pureInverse,
-    borderColor: Color = IvyTheme.colors.medium,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
+    borderColor: Color = UI.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
     padding: Dp = 16.dp,
     onClick: () -> Unit,
 ) {
@@ -95,7 +95,7 @@ fun IvyOutlinedButtonFillMaxWidth(
             )
             .border(2.dp, borderColor, Shapes.roundedFull)
             .thenIf(solidBackground) {
-                background(IvyTheme.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, Shapes.roundedFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

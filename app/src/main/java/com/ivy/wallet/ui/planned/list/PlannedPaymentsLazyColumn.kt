@@ -21,7 +21,7 @@ import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.transaction.SectionDivider
 import kotlin.math.absoluteValue
@@ -112,7 +112,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
                 title = "One time payments",
-                titleColor = IvyTheme.colors.pureInverse,
+                titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = oneTimeIncome,
                 expenses = oneTimeExpenses.absoluteValue
@@ -144,7 +144,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = recurringExpanded,
                 setExpanded = setRecurringExpanded,
                 title = "Recurring payments",
-                titleColor = IvyTheme.colors.pureInverse,
+                titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = recurringIncome,
                 expenses = recurringExpenses.absoluteValue

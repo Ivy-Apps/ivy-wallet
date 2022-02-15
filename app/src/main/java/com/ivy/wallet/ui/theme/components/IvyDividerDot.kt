@@ -8,15 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun IvyDividerDot() {
     Spacer(
         modifier = Modifier
             .size(4.dp)
-            .background(IvyTheme.colors.mediumInverse, CircleShape)
+            .background(UI.colors.mediumInverse, CircleShape)
     )
 }
 

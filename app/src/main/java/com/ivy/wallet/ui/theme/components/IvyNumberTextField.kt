@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun IvyNumberTextField(
@@ -30,7 +30,7 @@ fun IvyNumberTextField(
     value: TextFieldValue,
     hint: String?,
     fontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hintColor: Color = Color.Gray,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions? = null,
@@ -68,7 +68,7 @@ fun IvyNumberTextField(
                 textAlign = TextAlign.Center
             ),
             singleLine = true,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions ?: KeyboardOptions(
                 capitalization = KeyboardCapitalization.Characters,

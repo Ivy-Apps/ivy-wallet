@@ -21,14 +21,14 @@ import com.ivy.wallet.base.decimalPartFormatted
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import java.text.DecimalFormat
 import kotlin.math.truncate
 
 @Composable
 fun BalanceRowMedium(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     currency: String,
     balance: Double,
     balanceAmountPrefix: String? = null,
@@ -57,7 +57,7 @@ fun BalanceRowMedium(
 @Composable
 fun BalanceRowMini(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     currency: String,
     balance: Double,
     balanceAmountPrefix: String? = null,
@@ -89,7 +89,7 @@ fun BalanceRow(
     currency: String,
     balance: Double,
 
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     decimalPaddingTop: Dp = 12.dp,
     spacerCurrency: Dp = 12.dp,
     spacerDecimal: Dp = 8.dp,
@@ -200,7 +200,7 @@ private fun Currency(
 private fun Preview_Default() {
     IvyComponentPreview {
         BalanceRow(
-            textColor = IvyTheme.colors.pureInverse,
+            textColor = UI.colors.pureInverse,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null
@@ -213,7 +213,7 @@ private fun Preview_Default() {
 private fun Preview_Medium() {
     IvyComponentPreview {
         BalanceRowMedium(
-            textColor = IvyTheme.colors.pureInverse,
+            textColor = UI.colors.pureInverse,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null
@@ -226,7 +226,7 @@ private fun Preview_Medium() {
 private fun Preview_Mini() {
     IvyComponentPreview {
         BalanceRowMini(
-            textColor = IvyTheme.colors.pureInverse,
+            textColor = UI.colors.pureInverse,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null

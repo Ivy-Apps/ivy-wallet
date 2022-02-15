@@ -78,8 +78,8 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
         TransactionTypeButton(
             transactionType = TransactionType.EXPENSE,
             selected = transactionType == TransactionType.EXPENSE,
-            selectedGradient = Gradient(IvyTheme.colors.pureInverse, IvyTheme.colors.gray),
-            textSelectedColor = IvyTheme.colors.pure
+            selectedGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            textSelectedColor = UI.colors.pure
         ) {
             transactionType = TransactionType.EXPENSE
             save(
@@ -134,7 +134,7 @@ private fun TransactionTypeButton(
             .fillMaxWidth()
             .clip(Shapes.rounded16)
             .background(
-                brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.medium),
+                brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(UI.colors.medium),
                 shape = Shapes.rounded16
             )
             .clickable {
@@ -146,7 +146,7 @@ private fun TransactionTypeButton(
     ) {
         Spacer(Modifier.width(16.dp))
 
-        val textColor = if (selected) textSelectedColor else IvyTheme.colors.pureInverse
+        val textColor = if (selected) textSelectedColor else UI.colors.pureInverse
 
         IvyIcon(
             icon = when (transactionType) {

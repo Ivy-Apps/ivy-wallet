@@ -26,9 +26,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Shapes
-import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.modal.*
@@ -280,7 +278,7 @@ private fun AccountCurrency(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .clip(Shapes.rounded16)
             .clickable {
                 onClick()

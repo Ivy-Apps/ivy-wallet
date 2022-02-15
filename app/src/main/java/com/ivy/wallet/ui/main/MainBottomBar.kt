@@ -121,7 +121,7 @@ fun BoxWithConstraintsScope.BottomBar(
             modifier = Modifier
                 .fillMaxSize()
                 .offset(y = expandedBackgroundOffset)
-                .background(IvyTheme.colors.pure.copy(alpha = 0.95f))
+                .background(UI.colors.pure.copy(alpha = 0.95f))
                 .clickableNoIndication {
                     //consume click, do nothing
                 }
@@ -208,7 +208,7 @@ fun BoxWithConstraintsScope.BottomBar(
         icon = R.drawable.ic_add,
         backgroundGradient = when (tab) {
             MainTab.HOME -> {
-                if (!expanded) GradientIvy else Gradient.solid(IvyTheme.colors.gray)
+                if (!expanded) GradientIvy else Gradient.solid(UI.colors.gray)
             }
             MainTab.ACCOUNTS -> {
                 GradientGreen
@@ -373,7 +373,7 @@ private fun AddIncomeButton(
             .zIndex(200f),
         text = "ADD INCOME",
         style = UI.typo.c.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -459,7 +459,7 @@ private fun AddExpenseButton(
             .zIndex(200f),
         text = "ADD EXPENSE",
         style = UI.typo.c.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -545,7 +545,7 @@ private fun AddTransferButton(
             .zIndex(200f),
         text = "ACCOUNT TRANSFER",
         style = UI.typo.c.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -595,7 +595,7 @@ private fun RowScope.Tab(
     ) {
         IvyIcon(
             icon = icon,
-            tint = if (selected) selectedColor else IvyTheme.colors.pureInverse
+            tint = if (selected) selectedColor else UI.colors.pureInverse
         )
 
         if (selected) {

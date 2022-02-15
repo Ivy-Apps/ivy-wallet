@@ -12,12 +12,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.*
+
 
 @Composable
 fun ProgressBar(
     modifier: Modifier = Modifier,
-    notFilledColor: Color = IvyTheme.colors.pure,
+    notFilledColor: Color = UI.colors.pure,
     positiveProgress: Boolean = true,
     percent: Double
 ) {

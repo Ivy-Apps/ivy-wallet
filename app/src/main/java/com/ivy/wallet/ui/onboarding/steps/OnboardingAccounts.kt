@@ -231,7 +231,7 @@ fun BuyPremiumRow(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .border(2.dp, UI.colors.medium, Shapes.rounded16)
             .clickable {
                 nav.navigateTo(
                     Paywall(

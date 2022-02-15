@@ -13,7 +13,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
@@ -64,7 +64,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = if (isEmpty) Gray else IvyTheme.colors.pureInverse
+                color = if (isEmpty) Gray else UI.colors.pureInverse
             )
         )
 

@@ -55,7 +55,7 @@ fun LazyItemScope.PlannedPaymentCard(
                     onClick(plannedPayment)
                 }
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .testTag("planned_payment_card")
     ) {
         val currency = accounts.find { it.id == plannedPayment.accountId }?.currency ?: baseCurrency
@@ -85,7 +85,7 @@ fun LazyItemScope.PlannedPaymentCard(
                 text = plannedPayment.title!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }
@@ -119,9 +119,9 @@ private fun PlannedPaymentHeaderRow(
 
             IvyIcon(
                 modifier = Modifier
-                    .background(IvyTheme.colors.pure, CircleShape),
+                    .background(UI.colors.pure, CircleShape),
                 icon = R.drawable.ic_planned_payments,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(12.dp))
@@ -154,12 +154,12 @@ private fun PlannedPaymentHeaderRow(
 
             val account = accounts.find { it.id == plannedPayment.accountId }
             IvyButton(
-                backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                backgroundGradient = Gradient.solid(UI.colors.pure),
                 text = account?.name ?: "deleted",
-                iconTint = IvyTheme.colors.pureInverse,
+                iconTint = UI.colors.pureInverse,
                 iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
                 textStyle = UI.typo.c.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 padding = 8.dp,

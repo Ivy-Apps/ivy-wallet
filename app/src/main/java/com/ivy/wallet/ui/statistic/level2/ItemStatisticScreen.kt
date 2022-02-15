@@ -224,7 +224,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .padding(top = 16.dp)
                 .clip(Shapes.rounded32Top)
-                .background(IvyTheme.colors.pure),
+                .background(UI.colors.pure),
             state = listState,
         ) {
             item {
@@ -301,7 +301,7 @@ private fun BoxWithConstraintsScope.UI(
                             .height(32.dp)
                             .fillMaxWidth()
                             .background(itemColor) //itemColor is displayed below the clip
-                            .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                            .background(UI.colors.pure, Shapes.rounded32Top)
                     )
 
                     PeriodSelector(

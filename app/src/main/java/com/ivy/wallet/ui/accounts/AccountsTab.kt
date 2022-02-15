@@ -100,7 +100,7 @@ private fun BoxWithConstraintsScope.UI(
                 Text(
                     text = "Accounts",
                     style = UI.typo.b1.style(
-                        color = IvyTheme.colors.pureInverse,
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -213,7 +213,7 @@ private fun AccountCard(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .border(2.dp, UI.colors.medium, Shapes.rounded16)
             .clickable(
                 onClick = onClick
             )

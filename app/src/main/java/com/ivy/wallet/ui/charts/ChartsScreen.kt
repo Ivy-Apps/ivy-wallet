@@ -28,7 +28,7 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
@@ -212,7 +212,7 @@ private fun Period(
         Text(
             modifier = Modifier
                 .clip(Shapes.roundedFull)
-                .border(1.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+                .border(1.dp, UI.colors.mediumInverse, Shapes.roundedFull)
                 .clickable {
                     togglePeriod()
                 }
@@ -261,7 +261,7 @@ private fun ChartButton(
             .padding(vertical = 12.dp),
         text = chartType.display(),
         style = UI.typo.b2.style(
-            color = if (selected) Ivy else IvyTheme.colors.pureInverse,
+            color = if (selected) Ivy else UI.colors.pureInverse,
             textAlign = TextAlign.Center
         )
     )

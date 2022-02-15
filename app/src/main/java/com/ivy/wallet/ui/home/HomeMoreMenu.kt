@@ -35,7 +35,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -86,7 +86,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     )
 
     //Background
-    val colorMedium = IvyTheme.colors.medium
+    val colorMedium = UI.colors.medium
     if (percentExpanded > 0.01f) {
         Canvas(
             modifier = Modifier
@@ -174,7 +174,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 zIndex(520f)
             }
             .testTag("home_more_menu_arrow"),
-        backgroundColor = colorLerp(IvyTheme.colors.medium, IvyTheme.colors.pure, percentExpanded),
+        backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
         icon = R.drawable.ic_expandarrow
     ) {
         setExpanded(!expanded)
@@ -234,7 +234,7 @@ private fun SearchButton(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.pure)
+            .background(UI.colors.pure)
             .border(1.dp, Gray, Shapes.roundedFull)
             .clickable {
                 onClick()
@@ -254,7 +254,7 @@ private fun SearchButton(
             text = "Search transactions",
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -270,7 +270,7 @@ private fun ColumnScope.OpenSource() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.pure)
+            .background(UI.colors.pure)
             .clickable {
                 openUrl(
                     uriHandler = uriHandler,
@@ -333,7 +333,7 @@ private fun ColumnScope.Buffer(
         Text(
             text = "Savings goal",
             style = UI.typo.b1.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -410,12 +410,12 @@ private fun QuickAccess(
                 Theme.DARK -> "Dark mode"
             },
             backgroundColor = when (theme) {
-                Theme.LIGHT -> IvyTheme.colors.pure
-                Theme.DARK -> IvyTheme.colors.pureInverse
+                Theme.LIGHT -> UI.colors.pure
+                Theme.DARK -> UI.colors.pureInverse
             },
             tint = when (theme) {
-                Theme.LIGHT -> IvyTheme.colors.pureInverse
-                Theme.DARK -> IvyTheme.colors.pure
+                Theme.LIGHT -> UI.colors.pureInverse
+                Theme.DARK -> UI.colors.pure
             }
         ) {
             onSwitchTheme()
@@ -494,8 +494,8 @@ private fun MoreMenuButton(
     @DrawableRes icon: Int,
     label: String,
 
-    backgroundColor: Color = IvyTheme.colors.pure,
-    tint: Color = IvyTheme.colors.pureInverse,
+    backgroundColor: Color = UI.colors.pure,
+    tint: Color = UI.colors.pureInverse,
     expandPadding: Dp = 14.dp,
 
     onClick: () -> Unit
@@ -521,7 +521,7 @@ private fun MoreMenuButton(
                 },
             text = label,
             style = UI.typo.c.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center
             )

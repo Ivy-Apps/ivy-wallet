@@ -212,7 +212,7 @@ private fun CategoryCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded20)
-            .background(IvyTheme.colors.medium, Shapes.rounded20)
+            .background(UI.colors.medium, Shapes.rounded20)
             .clickable {
                 onClick()
             },

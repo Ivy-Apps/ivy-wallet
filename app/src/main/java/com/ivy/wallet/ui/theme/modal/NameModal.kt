@@ -14,7 +14,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import java.util.*
 
@@ -46,7 +46,7 @@ fun BoxWithConstraintsScope.NameModal(
             text = "Edit name",
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 

@@ -10,7 +10,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.theme.Gradient
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
@@ -30,7 +30,7 @@ fun Category(
         IvyBorderButton(
             modifier = Modifier.padding(start = 24.dp),
             iconStart = R.drawable.ic_plus,
-            iconTint = IvyTheme.colors.pureInverse,
+            iconTint = UI.colors.pureInverse,
             text = "Add category"
         ) {
             onChooseCategory()

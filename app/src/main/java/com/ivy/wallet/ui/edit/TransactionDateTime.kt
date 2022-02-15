@@ -17,7 +17,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.formatNicelyWithTime
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
@@ -37,7 +37,7 @@ fun TransactionDateTime(
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
                 .clip(Shapes.rounded16)
-                .background(IvyTheme.colors.medium, Shapes.rounded16)
+                .background(UI.colors.medium, Shapes.rounded16)
                 .clickable {
                     onEditDateTime()
                 }
@@ -53,7 +53,7 @@ fun TransactionDateTime(
             Text(
                 text = "Created on",
                 style = UI.typo.b2.style(
-                    color = IvyTheme.colors.gray,
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -66,7 +66,7 @@ fun TransactionDateTime(
                     noWeekDay = true
                 ),
                 style = UI.typo.nB2.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )

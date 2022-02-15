@@ -148,7 +148,7 @@ private fun TextLink(
     url: String,
 ) {
     val context = LocalContext.current
-    val ivy1 = IvyTheme.colors.ivy1
+    val ivy1 = UI.colors.primary1
 
     Text(
         modifier = Modifier
@@ -203,7 +203,7 @@ private fun SwipeToAgree(
             )
             .border(
                 width = 2.dp,
-                color = if (agreed) Green else IvyTheme.colors.medium,
+                color = if (agreed) Green else UI.colors.medium,
                 shape = Shapes.rounded16
             )
             .padding(

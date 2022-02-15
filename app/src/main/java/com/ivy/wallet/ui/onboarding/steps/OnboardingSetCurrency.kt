@@ -17,7 +17,7 @@ import com.ivy.wallet.base.setStatusBarDarkTextCompat
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
@@ -29,7 +29,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
     preselectedCurrency: IvyCurrency,
     onSetCurrency: (IvyCurrency) -> Unit
 ) {
-    setStatusBarDarkTextCompat(darkText = IvyTheme.colors.isLight)
+    setStatusBarDarkTextCompat(darkText = UI.colors.isLight)
 
     var currency by remember { mutableStateOf(preselectedCurrency) }
 

@@ -64,7 +64,7 @@ fun ColumnScope.IvyColorPicker(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Choose color",
         style = UI.typo.b2.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -188,7 +188,7 @@ private fun ColorItem(
 private fun PreviewIvyColorPicker() {
     IvyComponentPreview {
         Column {
-            IvyColorPicker(selectedColor = IvyTheme.colors.ivy) {
+            IvyColorPicker(selectedColor = UI.colors.primary) {
 
             }
         }

@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.White
 import java.util.*
 
@@ -192,7 +192,7 @@ private fun NumberView(
     Box(modifier = Modifier
         .size(48.dp)
         .clip(CircleShape)
-        .border(2.dp, if (selected) Ivy else IvyTheme.colors.medium, CircleShape)
+        .border(2.dp, if (selected) Ivy else UI.colors.medium, CircleShape)
         .thenIf(selected) {
             background(Ivy, CircleShape)
         }
@@ -205,7 +205,7 @@ private fun NumberView(
             text = number.toString(),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+                color = if (selected) White else UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )

@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.findContrastTextColor
 
 
@@ -57,7 +57,7 @@ fun DataCircle(
 
             Text(
                 text = "${(count / parentCount.toDouble()).times(100).format(2)}%",
-                style = UI.typo.nB2.colorAs(IvyTheme.colors.mediumInverse)
+                style = UI.typo.nB2.colorAs(UI.colors.mediumInverse)
             )
         }
 
@@ -66,7 +66,7 @@ fun DataCircle(
 
             Text(
                 text = "AVG ${avgCount.format(2)}",
-                style = UI.typo.nC.colorAs(IvyTheme.colors.mediumInverse)
+                style = UI.typo.nC.colorAs(UI.colors.mediumInverse)
             )
         }
     }

@@ -17,9 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun <T> WrapContentRow(
@@ -91,7 +92,7 @@ private fun PreviewWrapContentRow() {
         WrapContentRow(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 24.dp)
-                .background(IvyTheme.colors.red),
+                .background(UI.colors.red),
             items = listOf(
                 Category("Todo"),
                 Category("Ivy"),
@@ -106,12 +107,12 @@ private fun PreviewWrapContentRow() {
             Text(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
-                    .background(IvyTheme.colors.medium, RoundedCornerShape(8.dp))
+                    .background(UI.colors.medium, RoundedCornerShape(8.dp))
                     .clickable(onClick = { })
                     .padding(horizontal = 20.dp, vertical = 12.dp),
                 text = it.name,
                 style = TextStyle(
-                    color = IvyTheme.colors.mediumInverse,
+                    color = UI.colors.mediumInverse,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
                 )

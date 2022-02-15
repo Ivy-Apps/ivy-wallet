@@ -17,7 +17,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.formatDateOnly
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
@@ -45,7 +45,7 @@ private fun DueDateCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -60,7 +60,7 @@ private fun DueDateCard(
             text = "Planned for",
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 

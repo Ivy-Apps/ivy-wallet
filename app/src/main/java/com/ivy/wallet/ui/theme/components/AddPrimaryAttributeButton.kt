@@ -16,7 +16,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -30,7 +30,7 @@ fun AddPrimaryAttributeButton(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -44,7 +44,7 @@ fun AddPrimaryAttributeButton(
         Text(
             text = text,
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )

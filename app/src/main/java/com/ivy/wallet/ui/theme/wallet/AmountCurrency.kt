@@ -11,14 +11,14 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun AmountCurrencyB2Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -46,7 +46,7 @@ fun AmountCurrencyB1Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -66,7 +66,7 @@ fun AmountCurrencyB1(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     shortenBigNumbers: Boolean = false
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
@@ -92,7 +92,7 @@ fun AmountCurrencyB1(
 fun AmountCurrencyH1(
     amount: Double,
     currency: String,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Text(
         text = amount.format(currency),
@@ -115,7 +115,7 @@ fun AmountCurrencyH1(
 fun AmountCurrencyH2Row(
     amount: Double,
     currency: String,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -143,7 +143,7 @@ fun AmountCurrencyCaption(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Text(
         text = amount.format(currency),

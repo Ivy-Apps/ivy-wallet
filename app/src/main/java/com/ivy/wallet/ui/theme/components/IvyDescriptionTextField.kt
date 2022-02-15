@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 
 @Composable
 fun IvyDescriptionTextField(
@@ -32,8 +32,8 @@ fun IvyDescriptionTextField(
     value: TextFieldValue,
     hint: String?,
     fontWeight: FontWeight = FontWeight.Medium,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    hintColor: Color = IvyTheme.colors.mediumInverse,
+    textColor: Color = UI.colors.pureInverse,
+    hintColor: Color = UI.colors.mediumInverse,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions? = KeyboardOptions.Default,
     keyboardActions: KeyboardActions? = KeyboardActions.Default,
@@ -69,7 +69,7 @@ fun IvyDescriptionTextField(
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions ?: KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
@@ -94,7 +94,7 @@ private fun PreviewIvyTextField() {
         IvyDescriptionTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .background(IvyTheme.colors.red)
+                .background(UI.colors.red)
                 .padding(horizontal = 24.dp),
             value = TextFieldValue(),
             hint = "Hint",
@@ -108,7 +108,7 @@ private fun PreviewIvyTextField_longText() {
     IvyComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
-                .background(IvyTheme.colors.red)
+                .background(UI.colors.red)
                 .padding(horizontal = 24.dp),
             value = TextFieldValue("Cur habitio favere? Sunt navises promissio grandis, primus accolaes. Yes, there is chaos, it contacts with light."),
             hint = "Hint",

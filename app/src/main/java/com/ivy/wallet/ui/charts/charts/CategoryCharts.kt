@@ -24,7 +24,7 @@ import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
 import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.linechart.TapEvent
@@ -130,7 +130,7 @@ fun LazyListScope.categoryCharts(
 private fun CategoriesChart(
     period: ChartPeriod,
     title: String,
-    titleColor: Color = IvyTheme.colors.pureInverse,
+    titleColor: Color = UI.colors.pureInverse,
     baseCurrencyCode: String,
     categoryValues: List<CategoryValues>,
     countChart: Boolean,

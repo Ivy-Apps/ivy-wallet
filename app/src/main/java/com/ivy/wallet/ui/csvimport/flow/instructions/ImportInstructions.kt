@@ -30,7 +30,10 @@ import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Shapes
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -201,7 +204,7 @@ fun InstructionButton(
     Row(
         modifier = modifier
             .clip(Shapes.rounded20)
-            .background(IvyTheme.colors.medium, Shapes.rounded20)
+            .background(UI.colors.medium, Shapes.rounded20)
             .clickable {
                 onClick()
             }
@@ -212,7 +215,7 @@ fun InstructionButton(
 
         if (icon != null) {
             IvyIcon(
-                modifier = Modifier.background(IvyTheme.colors.pure, CircleShape),
+                modifier = Modifier.background(UI.colors.pure, CircleShape),
                 icon = icon,
                 tint = Color.Unspecified
             )
@@ -281,7 +284,7 @@ fun StepTitle(
         Text(
             modifier = Modifier
                 .size(24.dp)
-                .background(IvyTheme.colors.medium, CircleShape),
+                .background(UI.colors.medium, CircleShape),
             text = number.toString(),
             style = UI.typo.nB2.style(
                 fontWeight = Bold,

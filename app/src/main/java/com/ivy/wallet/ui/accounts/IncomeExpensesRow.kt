@@ -12,15 +12,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
 fun IncomeExpensesRow(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    dividerColor: Color = IvyTheme.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
+    dividerColor: Color = UI.colors.medium,
     incomeLabel: String = "INCOME",
     income: Double,
     expensesLabel: String = "EXPENSES",

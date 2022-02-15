@@ -19,7 +19,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
@@ -35,7 +35,7 @@ fun PeriodSelector(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull),
+            .border(2.dp, UI.colors.medium, Shapes.roundedFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -69,7 +69,7 @@ fun PeriodSelector(
         ) {
             IvyIcon(
                 icon = R.drawable.ic_calendar,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(4.dp))
@@ -77,7 +77,7 @@ fun PeriodSelector(
             Text(
                 text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
                 style = UI.typo.b2.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Bold
                 )
             )

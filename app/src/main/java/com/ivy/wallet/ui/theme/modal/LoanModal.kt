@@ -28,7 +28,6 @@ import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
@@ -199,7 +198,7 @@ private fun ColumnScope.LoanTypePicker(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Loan type",
         style = UI.typo.b2.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -210,7 +209,7 @@ private fun ColumnScope.LoanTypePicker(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(IvyTheme.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, Shapes.rounded24),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))

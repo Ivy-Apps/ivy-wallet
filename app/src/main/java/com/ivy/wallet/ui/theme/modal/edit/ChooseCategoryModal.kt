@@ -181,7 +181,7 @@ private fun CategoryButton(
             )
             .border(
                 width = 2.dp,
-                color = if (selected) IvyTheme.colors.pureInverse else IvyTheme.colors.medium,
+                color = if (selected) UI.colors.pureInverse else UI.colors.medium,
                 shape = Shapes.roundedFull
             )
             .thenIf(selected) {
@@ -210,7 +210,7 @@ private fun CategoryButton(
             text = category.name,
             style = UI.typo.b2.style(
                 color = if (selected)
-                    findContrastTextColor(categoryColor) else IvyTheme.colors.pureInverse,
+                    findContrastTextColor(categoryColor) else UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -241,13 +241,13 @@ fun AddNewButton(
     IvyBorderButton(
         modifier = modifier,
         text = "Add new",
-        backgroundGradient = Gradient.solid(IvyTheme.colors.mediumInverse),
+        backgroundGradient = Gradient.solid(UI.colors.mediumInverse),
         iconStart = R.drawable.ic_plus,
         textStyle = UI.typo.b2.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.Bold
         ),
-        iconTint = IvyTheme.colors.pureInverse,
+        iconTint = UI.colors.pureInverse,
         padding = 10.dp,
         onClick = onClick
     )

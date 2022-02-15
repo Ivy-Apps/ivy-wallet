@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionHistoryItem
@@ -29,7 +30,6 @@ import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -154,7 +154,7 @@ private fun SearchInput(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.pure)
+            .background(UI.colors.pure)
             .border(1.dp, Gray, Shapes.roundedFull),
         verticalAlignment = Alignment.CenterVertically
     ) {

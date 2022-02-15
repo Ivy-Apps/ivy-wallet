@@ -25,7 +25,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.theme.Black
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -69,7 +69,7 @@ fun BoxWithConstraintsScope.AmountModal(
                     })
                     .padding(all = 4.dp),
                 icon = R.drawable.ic_custom_calculator_m,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(16.dp))
@@ -145,7 +145,7 @@ fun AmountCurrency(
             text = if (amount.isBlank()) "0" else amount,
             style = UI.typo.nH1.style(
                 fontWeight = FontWeight.Bold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -153,7 +153,7 @@ fun AmountCurrency(
             text = " $currency",
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -409,7 +409,7 @@ fun CircleNumberButton(
 @Composable
 fun KeypadCircleButton(
     text: String,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     testTag: String,
     onClick: () -> Unit
 ) {
@@ -437,15 +437,15 @@ private fun circleButtonModifier(
         .size(size)
         .drawColoredShadow(
             color = Black,
-            alpha = if (IvyTheme.colors.isLight) 0.05f else 0.5f,
+            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
             borderRadius = 32.dp
         )
         .clip(CircleShape)
         .clickable(
             onClick = onClick
         )
-        .background(IvyTheme.colors.pure, Shapes.roundedFull)
-        .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+        .background(UI.colors.pure, Shapes.roundedFull)
+        .border(2.dp, UI.colors.medium, Shapes.roundedFull)
 }
 
 @Preview

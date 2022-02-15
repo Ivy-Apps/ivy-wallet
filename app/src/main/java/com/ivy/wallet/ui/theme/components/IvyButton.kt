@@ -60,7 +60,7 @@ fun IvyButton(
             .clip(Shapes.roundedFull)
             .background(
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.gray),
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
                 shape = Shapes.roundedFull
             )
             .clickable(onClick = onClick, enabled = enabled),

@@ -64,7 +64,7 @@ fun LazyItemScope.TransactionCard(
                     onClick(transaction)
                 }
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .testTag("transaction_card")
     ) {
         val transactionCurrency = accounts.find { it.id == transaction.accountId }?.currency
@@ -86,7 +86,7 @@ fun LazyItemScope.TransactionCard(
                 text = "DUE ON ${transaction.dueDate.formatNicely()}".uppercase(),
                 style = UI.typo.nC.style(
                     color = if (transaction.dueDate.isAfter(timeNowUTC()))
-                        Orange else IvyTheme.colors.gray,
+                        Orange else UI.colors.gray,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -104,7 +104,7 @@ fun LazyItemScope.TransactionCard(
                 text = transaction.title!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -136,7 +136,7 @@ fun LazyItemScope.TransactionCard(
                 wrapContentMode = false,
                 backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
                 textStyle = UI.typo.b2.style(
-                    color = if (isExpense) IvyTheme.colors.pure else White,
+                    color = if (isExpense) UI.colors.pure else White,
                     fontWeight = FontWeight.Bold
                 )
             ) {
@@ -200,16 +200,16 @@ private fun TransactionHeaderRow(
             val account = accounts.find { it.id == transaction.accountId }
             //TODO: Rework that by using dedicated component for "Account"
             IvyButton(
-                backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                backgroundGradient = Gradient.solid(UI.colors.pure),
                 hasGlow = false,
-                iconTint = IvyTheme.colors.pureInverse,
+                iconTint = UI.colors.pureInverse,
                 text = account?.name ?: "deleted",
                 iconStart = getCustomIconIdS(
                     iconName = account?.icon,
                     defaultIcon = R.drawable.ic_custom_account_s
                 ),
                 textStyle = UI.typo.c.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 padding = 8.dp,
@@ -236,7 +236,7 @@ private fun TransferHeader(
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
-            .background(IvyTheme.colors.pure, Shapes.roundedFull),
+            .background(UI.colors.pure, Shapes.roundedFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -255,7 +255,7 @@ private fun TransferHeader(
             text = account?.name ?: "null",
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -279,7 +279,7 @@ private fun TransferHeader(
             text = toAccount?.name ?: "null",
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -335,7 +335,7 @@ fun TypeAmountCurrency(
                             icon = R.drawable.ic_expense,
                             gradient = Gradient.black(),
                             iconTint = White,
-                            textColor = IvyTheme.colors.pureInverse
+                            textColor = UI.colors.pureInverse
                         )
                     }
                 }

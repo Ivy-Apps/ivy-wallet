@@ -27,7 +27,7 @@ import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.PlannedPayments
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Orange
 
 @Composable
@@ -85,7 +85,7 @@ private fun BoxWithConstraintsScope.UI(
                 text = "Planned payments",
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 

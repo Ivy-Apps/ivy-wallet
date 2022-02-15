@@ -117,7 +117,7 @@ private fun HeaderStickyRow(
                 text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -266,8 +266,8 @@ private fun IncomeExpenses(
         HeaderCard(
             percentVisible = percentExpanded,
             icon = R.drawable.ic_expense,
-            backgroundGradient = Gradient(IvyTheme.colors.pureInverse, IvyTheme.colors.gray),
-            textColor = IvyTheme.colors.pure,
+            backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            textColor = UI.colors.pure,
             label = "Expenses",
             currency = currency,
             amount = monthlyExpenses.absoluteValue

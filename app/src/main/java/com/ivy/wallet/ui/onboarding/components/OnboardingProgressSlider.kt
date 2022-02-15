@@ -11,7 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.design.l0_system.UI
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -29,7 +30,7 @@ fun OnboardingProgressSlider(
             val selected = selectedStep == i
             Line(
                 width = if (selected) 48.dp else 24.dp,
-                color = if (selected) selectedColor else IvyTheme.colors.medium
+                color = if (selected) selectedColor else UI.colors.medium
             )
 
             if (i < stepsCount - 1) {

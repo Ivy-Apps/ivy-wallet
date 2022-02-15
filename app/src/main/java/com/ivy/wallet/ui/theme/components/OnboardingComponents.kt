@@ -24,7 +24,10 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.IvyComponentPreview
+import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
 fun OnboardingButton(
@@ -51,7 +54,7 @@ fun OnboardingButton(
             .clip(Shapes.roundedFull)
             .background(
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.gray),
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
                 shape = Shapes.roundedFull
             )
             .clickable(onClick = onClick, enabled = enabled),
@@ -114,7 +117,7 @@ private fun PreviewOnboardingButton() {
             text = "Login",
             backgroundGradient = GradientIvy,
             hasNext = true,
-            textColor = IvyTheme.colors.pure,
+            textColor = UI.colors.pure,
             iconStart = null,
             enabled = false,
             onClick = { }

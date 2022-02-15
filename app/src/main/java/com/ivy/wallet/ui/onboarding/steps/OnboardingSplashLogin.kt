@@ -125,7 +125,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(IvyTheme.colors.pure)
+            .background(UI.colors.pure)
             .systemBarsPadding()
             .navigationBarsPadding()
     ) {
@@ -168,7 +168,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             ),
             text = "Ivy Wallet",
             style = UI.typo.h2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -183,7 +183,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             ),
             text = "Your personal money manager",
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -289,8 +289,8 @@ private fun LoginSection(
             LoginButton(
                 icon = R.drawable.ic_local_account,
                 text = "Offline account",
-                textColor = IvyTheme.colors.pureInverse,
-                backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
+                textColor = UI.colors.pureInverse,
+                backgroundGradient = Gradient.solid(UI.colors.medium),
                 hasShadow = false
             ) {
                 onSkip()
@@ -334,7 +334,7 @@ private fun LoginWithGoogleExplanation() {
             Text(
                 text = "Recommended (and it's free)",
                 style = UI.typo.c.style(
-                    color = IvyTheme.colors.pureInverse,
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium
                 )
             )
@@ -420,7 +420,7 @@ private fun PrivacyPolicyAndTC() {
             .padding(horizontal = 32.dp),
         text = annotatedString,
         style = UI.typo.c.style(
-            color = IvyTheme.colors.pureInverse,
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         ),

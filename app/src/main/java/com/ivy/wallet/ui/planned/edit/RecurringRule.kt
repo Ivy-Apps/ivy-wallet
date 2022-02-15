@@ -19,7 +19,7 @@ import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.uppercaseLocal
 import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
@@ -83,7 +83,7 @@ private fun RecurringRuleCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, Shapes.rounded16)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -99,7 +99,7 @@ private fun RecurringRuleCard(
                 text = if (oneTime) "Planned for" else "Planned start at",
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 

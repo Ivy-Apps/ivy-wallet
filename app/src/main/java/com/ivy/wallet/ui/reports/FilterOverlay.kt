@@ -97,7 +97,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         )
                     }
                 }
-                .background(IvyTheme.colors.pure)
+                .background(UI.colors.pure)
                 .systemBarsPadding()
                 .verticalScroll(rememberScrollState()),
         ) {
@@ -627,13 +627,13 @@ fun ListItem(
     onClick: (selected: Boolean) -> Unit
 ) {
     val textColor =
-        if (selectedColor != null) findContrastTextColor(selectedColor) else IvyTheme.colors.pureInverse
+        if (selectedColor != null) findContrastTextColor(selectedColor) else UI.colors.pureInverse
 
     Row(
         modifier = Modifier
             .clip(Shapes.roundedFull)
             .thenIf(selectedColor == null) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, Shapes.roundedFull)
             }
             .thenIf(selectedColor != null) {
                 background(selectedColor!!, Shapes.roundedFull)
@@ -769,7 +769,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = IvyTheme.colors.pureInverse
+                    borderColor = UI.colors.pureInverse
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -809,7 +809,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = IvyTheme.colors.pureInverse
+                    borderColor = UI.colors.pureInverse
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -886,7 +886,7 @@ private fun FilterTitleText(
         text = text,
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = if (active) IvyTheme.colors.pureInverse else inactiveColor
+            color = if (active) UI.colors.pureInverse else inactiveColor
         )
     )
 }

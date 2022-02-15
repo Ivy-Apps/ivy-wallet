@@ -19,7 +19,7 @@ import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
@@ -69,7 +69,7 @@ private fun Suggestion(
     Row(
         modifier = Modifier
             .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.medium, Shapes.roundedFull)
+            .background(UI.colors.medium, Shapes.roundedFull)
             .clickable {
                 onClick()
             },
@@ -99,9 +99,9 @@ private fun AddNewButton(
 ) {
     Row(
         modifier = Modifier
-            .drawColoredShadow(color = IvyTheme.colors.mediumInverse)
+            .drawColoredShadow(color = UI.colors.mediumInverse)
             .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+            .background(UI.colors.mediumInverse, Shapes.roundedFull)
             .clickable {
                 onClick()
             },
@@ -111,7 +111,7 @@ private fun AddNewButton(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = IvyTheme.colors.pure,
+            tint = UI.colors.pure,
         )
 
         Spacer(Modifier.width(8.dp))
@@ -120,7 +120,7 @@ private fun AddNewButton(
             modifier = Modifier.padding(vertical = 16.dp),
             text = "Add new",
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pure,
+                color = UI.colors.pure,
                 fontWeight = FontWeight.Bold
             )
         )

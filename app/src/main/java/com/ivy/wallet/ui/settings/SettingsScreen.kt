@@ -146,7 +146,7 @@ private fun BoxWithConstraintsScope.UI(
                     },
                     text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
                     style = UI.typo.nC.style(
-                        color = IvyTheme.colors.gray,
+                        color = UI.colors.gray,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -383,7 +383,7 @@ private fun StartDateOfMonth(
                 .size(48.dp)
                 .padding(all = 4.dp),
             icon = R.drawable.ic_custom_calendar_m,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(8.dp))
@@ -392,7 +392,7 @@ private fun StartDateOfMonth(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Start date of month",
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -403,7 +403,7 @@ private fun StartDateOfMonth(
             text = startDateOfMonth.toString(),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -487,7 +487,7 @@ private fun LockAppSwitch(
 
         IvyIcon(
             icon = R.drawable.ic_custom_fingerprint_m,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(8.dp))
@@ -496,7 +496,7 @@ private fun LockAppSwitch(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Lock app",
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -528,7 +528,7 @@ private fun AccountCard(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .clip(Shapes.rounded24)
-            .background(IvyTheme.colors.medium, Shapes.rounded24)
+            .background(UI.colors.medium, Shapes.rounded24)
             .clickable {
                 onCardClick()
             }
@@ -547,7 +547,7 @@ private fun AccountCard(
                 text = "ACCOUNT",
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
-                    color = IvyTheme.colors.gray
+                    color = UI.colors.gray
                 )
             )
 
@@ -620,7 +620,7 @@ private fun AccountCardUser(
             text = localName ?: user.names(),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -644,7 +644,7 @@ private fun AccountCardUser(
             text = user.email,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -801,7 +801,7 @@ private fun TCAndPrivacyPolicy() {
             modifier = Modifier
                 .weight(1f)
                 .clip(Shapes.roundedFull)
-                .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                .border(2.dp, UI.colors.medium, Shapes.roundedFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_TC)
                 }
@@ -809,7 +809,7 @@ private fun TCAndPrivacyPolicy() {
             text = "Terms & Conditions",
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )
@@ -820,7 +820,7 @@ private fun TCAndPrivacyPolicy() {
             modifier = Modifier
                 .weight(1f)
                 .clip(Shapes.roundedFull)
-                .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                .border(2.dp, UI.colors.medium, Shapes.roundedFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
                 }
@@ -828,7 +828,7 @@ private fun TCAndPrivacyPolicy() {
             text = "Privacy Policy",
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )
@@ -842,7 +842,7 @@ private fun SettingsPrimaryButton(
     @DrawableRes icon: Int,
     text: String,
     hasShadow: Boolean = false,
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.medium),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     onClick: () -> Unit
 ) {
@@ -874,7 +874,7 @@ private fun SettingsPrimaryButton(
 @Composable
 private fun SettingsButtonRow(
     hasShadow: Boolean = false,
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.medium),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     onClick: (() -> Unit)?,
     Content: @Composable RowScope.() -> Unit
 ) {
@@ -907,7 +907,7 @@ private fun AccountCardButton(
     Row(
         modifier = Modifier
             .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.pure, Shapes.roundedFull)
+            .background(UI.colors.pure, Shapes.roundedFull)
             .clickable {
                 onClick()
             },
@@ -927,7 +927,7 @@ private fun AccountCardButton(
             text = text,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -945,7 +945,7 @@ private fun CurrencyButton(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .border(2.dp, UI.colors.medium, Shapes.rounded16)
             .clickable {
                 onClick()
             },
@@ -961,7 +961,7 @@ private fun CurrencyButton(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Set currency",
             style = UI.typo.b2.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -971,7 +971,7 @@ private fun CurrencyButton(
         Text(
             text = currency,
             style = UI.typo.b1.style(
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -1010,8 +1010,8 @@ private fun SettingsDefaultButton(
     SettingsPrimaryButton(
         icon = icon,
         text = text,
-        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
-        textColor = IvyTheme.colors.pureInverse
+        backgroundGradient = Gradient.solid(UI.colors.medium),
+        textColor = UI.colors.pureInverse
     ) {
         onClick()
     }

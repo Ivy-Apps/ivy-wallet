@@ -29,7 +29,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Shapes
 
 @Composable
@@ -37,11 +37,11 @@ fun IvyOutlinedTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
     hint: String?,
-    hintColor: Color = IvyTheme.colors.gray,
-    backgroundColor: Color = IvyTheme.colors.ivy,
-    emptyBorderColor: Color = IvyTheme.colors.gray,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    cursorColor: Color = IvyTheme.colors.pureInverse,
+    hintColor: Color = UI.colors.gray,
+    backgroundColor: Color = UI.colors.primary,
+    emptyBorderColor: Color = UI.colors.gray,
+    textColor: Color = UI.colors.pureInverse,
+    cursorColor: Color = UI.colors.pureInverse,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,

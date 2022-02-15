@@ -20,7 +20,7 @@ import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.springBounce
 import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyDividerDot
@@ -105,14 +105,14 @@ private fun SectionDividerIncomeExpenseRow(
                 text = "${expenses.format(baseCurrency)} $baseCurrency",
                 style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
             Text(
                 text = " expenses",
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }
@@ -131,14 +131,14 @@ private fun SectionDividerIncomeExpenseRow(
                 text = "${income.format(baseCurrency)} $baseCurrency",
                 style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.green
+                    color = UI.colors.green
                 )
             )
             Text(
                 text = " income",
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }

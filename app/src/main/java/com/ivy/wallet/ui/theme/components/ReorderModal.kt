@@ -28,7 +28,7 @@ import com.ivy.wallet.base.numberBetween
 import com.ivy.wallet.base.swap
 import com.ivy.wallet.model.Reorderable
 import com.ivy.wallet.ui.theme.GradientGreen
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import java.util.*
@@ -43,7 +43,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
             modifier = Modifier.padding(start = 32.dp),
             text = "Reorder",
             style = UI.typo.b1.style(
-                IvyTheme.colors.pureInverse,
+                UI.colors.pureInverse,
                 FontWeight.ExtraBold
             )
         )
@@ -83,7 +83,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
             modifier = Modifier.padding(start = 32.dp),
             text = "Reorder",
             style = UI.typo.b1.style(
-                IvyTheme.colors.pureInverse,
+                UI.colors.pureInverse,
                 FontWeight.ExtraBold
             )
         )
@@ -134,7 +134,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
 
         Spacer(Modifier.height(24.dp))
 
-        val colorMedium = IvyTheme.colors.medium
+        val colorMedium = UI.colors.medium
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
@@ -248,7 +248,7 @@ private class Adapter<T : Reorderable>(
                                 }
                                 .testTag("reorder_drag_handle"),
                             icon = R.drawable.ic_drag_handle,
-                            tint = IvyTheme.colors.gray,
+                            tint = UI.colors.gray,
                             contentDescription = "reorder_${position}"
                         )
 

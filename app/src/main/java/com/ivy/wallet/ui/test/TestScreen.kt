@@ -15,8 +15,8 @@ import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyAppPreview
 import com.ivy.wallet.ui.Test
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.components.ChooseIconModal
 import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.ui.theme.modal.ChooseIconModal
 
 @Composable
 fun BoxWithConstraintsScope.TestScreen(screen: Test) {

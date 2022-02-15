@@ -10,12 +10,13 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.design.l0_system.UI
+
 
 @Composable
 fun ActionsRow(
     modifier: Modifier = Modifier,
-    lineColor: Color = IvyTheme.colors.medium,
+    lineColor: Color = UI.colors.medium,
     Content: @Composable RowScope.() -> Unit
 ) {
     Row(

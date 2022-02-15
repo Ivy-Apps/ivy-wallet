@@ -195,7 +195,7 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp),
-                textColor = IvyTheme.colors.pureInverse,
+                textColor = UI.colors.pureInverse,
                 currency = baseCurrency,
                 balance = balance,
                 balanceAmountPrefix = when {
@@ -212,7 +212,7 @@ private fun BoxWithConstraintsScope.UI(
                 income = income,
                 expenses = expenses,
                 hasAddButtons = false,
-                itemColor = IvyTheme.colors.pure
+                itemColor = UI.colors.pure
             )
 
             Spacer(Modifier.height(32.dp))
