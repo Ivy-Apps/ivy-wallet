@@ -5,6 +5,7 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
 import arrow.core.toOption
+import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.functional.core.Pure
 import com.ivy.wallet.functional.core.Total
 import com.ivy.wallet.model.entity.ExchangeRate
@@ -14,8 +15,8 @@ import java.math.BigDecimal
 @Total
 suspend fun exchangeToBaseCurrency(
     exchangeRateDao: ExchangeRateDao,
-    baseCurrencyCode: Option<String>,
-    fromCurrencyCode: Option<String>,
+    baseCurrencyCode: String,
+    fromCurrencyCode: String,
     fromAmount: BigDecimal,
 ): Option<BigDecimal> {
     return exchange(
@@ -30,10 +31,10 @@ suspend fun exchangeToBaseCurrency(
 @Total
 suspend fun exchange(
     exchangeRateDao: ExchangeRateDao,
-    baseCurrencyCode: Option<String>,
-    fromCurrencyCode: Option<String>,
+    baseCurrencyCode: String,
+    fromCurrencyCode: String,
     fromAmount: BigDecimal,
-    toCurrencyCode: Option<String>,
+    toCurrencyCode: String,
 ): Option<BigDecimal> {
     return exchange(
         baseCurrencyCode = baseCurrencyCode,
@@ -46,24 +47,24 @@ suspend fun exchange(
 
 @Total
 suspend fun exchange(
-    baseCurrencyCode: Option<String>,
-    fromCurrencyCode: Option<String>,
+    baseCurrencyCode: String,
+    fromCurrencyCode: String,
     fromAmount: BigDecimal,
-    toCurrencyCode: Option<String>,
+    toCurrencyCode: String,
     retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): Option<BigDecimal> = option {
     if (fromAmount == BigDecimal.ZERO) {
         return@option BigDecimal.ZERO
     }
 
-    val fromCurrency = fromCurrencyCode.bind()
-    val toCurrency = toCurrencyCode.bind()
+    val fromCurrency = fromCurrencyCode.validateCurrency().bind()
+    val toCurrency = toCurrencyCode.validateCurrency().bind()
 
     if (fromCurrency == toCurrency) {
         return@option fromAmount
     }
 
-    when (val baseCurrency = baseCurrencyCode.bind()) {
+    when (val baseCurrency = baseCurrencyCode.validateCurrency().bind()) {
         fromCurrency -> {
             //exchange from base currency to other currency
             //we need the rate from baseCurrency to toCurrency
@@ -118,6 +119,11 @@ suspend fun exchange(
             amountBaseCurrency * rateBaseTo
         }
     }
+}
+
+@Pure
+private fun String.validateCurrency(): Option<String> {
+    return if (this.isNotNullOrBlank()) return Some(this) else None
 }
 
 @Total

@@ -2,7 +2,6 @@ package com.ivy.wallet.functional.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
-import arrow.core.toOption
 import com.ivy.wallet.functional.account.AccountValueFunction
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
@@ -55,8 +54,8 @@ private suspend fun Iterable<AccountValuesPair>.convertValuesInBaseCurrency(
         val valuesInBaseCurrency = values.map {
             exchangeToBaseCurrency(
                 exchangeRateDao = exchangeRateDao,
-                baseCurrencyCode = baseCurrencyCode.toOption(),
-                fromCurrencyCode = account.currencyCode.toOption(),
+                baseCurrencyCode = baseCurrencyCode,
+                fromCurrencyCode = account.currencyCode,
                 fromAmount = it
             )
         }

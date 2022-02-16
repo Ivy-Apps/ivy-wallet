@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.toOption
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.readOnly
@@ -78,8 +77,8 @@ class AccountsViewModel @Inject constructor(
                         val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
                             exchangeToBaseCurrency(
                                 exchangeRateDao = walletDAOs.exchangeRateDao,
-                                baseCurrencyCode = baseCurrencyCode.toOption(),
-                                fromCurrencyCode = (it.currency ?: baseCurrencyCode).toOption(),
+                                baseCurrencyCode = baseCurrencyCode,
+                                fromCurrencyCode = it.currency ?: baseCurrencyCode,
                                 fromAmount = balance
                             ).orNull()?.toDouble()
                         } else {

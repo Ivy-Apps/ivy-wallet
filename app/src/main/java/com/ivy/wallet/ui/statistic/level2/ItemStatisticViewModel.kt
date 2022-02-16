@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.statistic.level2
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.toOption
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.functional.account.calculateAccountBalance
@@ -174,8 +173,8 @@ class ItemStatisticViewModel @Inject constructor(
             _balanceBaseCurrency.value = ioThread {
                 exchangeToBaseCurrency(
                     exchangeRateDao = exchangeRateDao,
-                    baseCurrencyCode = baseCurrency.value.toOption(),
-                    fromCurrencyCode = currency.value.toOption(),
+                    baseCurrencyCode = baseCurrency.value,
+                    fromCurrencyCode = currency.value,
                     fromAmount = balance.toBigDecimal()
                 ).orNull()?.toDouble()
             }
