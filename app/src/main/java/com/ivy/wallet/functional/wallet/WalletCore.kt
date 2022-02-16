@@ -59,7 +59,7 @@ private suspend fun Iterable<AccountValuesPair>.convertValuesInBaseCurrency(
             exchangeToBaseCurrency(
                 exchangeRateDao = exchangeRateDao,
                 baseCurrencyCode = baseCurrencyCode.toOption(),
-                fromCurrencyCode = account.currency.toOption(),
+                fromCurrencyCode = (account.currency ?: baseCurrencyCode).toOption(),
                 fromAmount = it
             )
         }
