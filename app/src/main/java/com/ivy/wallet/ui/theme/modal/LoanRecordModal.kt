@@ -21,6 +21,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.ui.IvyAppPreview
@@ -40,6 +41,7 @@ import java.util.*
 data class LoanRecordModalData(
     val loanRecord: LoanRecord?,
     val baseCurrency: String,
+    val loanAccountCurrencyCode: String? = null,
     val selectedAccount: Account? = null,
     val createLoanRecordTransaction: Boolean = false,
     val isLoanInterest: Boolean = false,
@@ -53,7 +55,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     onCreateAccount: (CreateAccountData) -> Unit = {},
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord, Boolean) -> Unit,
+    onEdit: (EditLoanRecordData) -> Unit,
     onDelete: (LoanRecord) -> Unit,
     dismiss: () -> Unit
 ) {
@@ -79,11 +81,17 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var loanInterest by remember(modal) {
         mutableStateOf(modal?.isLoanInterest ?: false)
     }
+    var reCalculate by remember(modal) {
+        mutableStateOf(false)
+    }
+    var reCalculateVisible by remember(modal) {
+        mutableStateOf(modal?.loanAccountCurrencyCode != null && modal.loanAccountCurrencyCode != modal.baseCurrency)
+    }
 
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-    var accountChangeModal by remember { mutableStateOf(false) }
+    var accountChangeConformationModal by remember { mutableStateOf(false) }
 
     IvyModal(
         id = modal?.id,
@@ -96,10 +104,11 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                 enabled = amount > 0 && selectedAcc != null
                 //enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
             ) {
-                accountChangeModal =
-                    modal?.selectedAccount != null && modal.selectedAccount.currency != selectedAcc?.currency
+                accountChangeConformationModal =
+                    initialRecord != null && modal.selectedAccount != null
+                            && modal.selectedAccount.currency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
-                if (!accountChangeModal)
+                if (!accountChangeConformationModal)
                     save(
                         loanRecord = initialRecord,
                         noteTextFieldValue = noteTextFieldValue,
@@ -108,6 +117,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                         loanRecordInterest = loanInterest,
                         selectedAccount = selectedAcc,
                         createLoanRecordTransaction = createLoanRecordTrans,
+                        reCalculateAmount = reCalculate,
 
                         onCreate = onCreate,
                         onEdit = onEdit,
@@ -179,8 +189,15 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             accounts = accounts,
             selectedAccount = selectedAcc,
             onSelectedAccountChanged = {
-                selectedAcc = it
                 currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
+
+                reCalculateVisible =
+                    initialRecord != null && selectedAcc != null && currencyCode != modal?.loanAccountCurrencyCode
+                //Unchecks the Recalculate Option if Recalculate Checkbox is not visible
+                reCalculate = !reCalculateVisible
+
+                selectedAcc = it
+
             },
             onAddNewAccount = {
                 accountModalData = AccountModalData(
@@ -213,6 +230,18 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             loanInterest = it
         }
 
+        if (reCalculateVisible) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .align(Alignment.Start),
+                text = "Recalculate Amount with today's Currency exchange Rates",
+                checked = reCalculate
+            ) {
+                reCalculate = it
+            }
+        }
+
         Spacer(modifier = Modifier.height(16.dp))
 
         ModalAmountSection(
@@ -222,7 +251,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             amountPaddingTop = 40.dp,
             amountPaddingBottom = 40.dp,
         ) {
-            amountModalVisible = true
+
         }
     }
 
@@ -262,7 +291,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     )
 
     DeleteModal(
-        visible = accountChangeModal,
+        visible = accountChangeConformationModal,
         title = "Confirm Account Change",
         description = "Note: You are trying to change the account associated with the loan record with an account of different currency" +
                 "\nThe amount will be re-calculated based on today's exchanges rates ",
@@ -270,7 +299,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             selectedAcc = modal?.selectedAccount ?: selectedAcc
-            deleteModalVisible = false
+            accountChangeConformationModal = false
         }
     ) {
         save(
@@ -281,13 +310,14 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             loanRecordInterest = loanInterest,
             selectedAccount = selectedAcc,
             createLoanRecordTransaction = createLoanRecordTrans,
+            reCalculateAmount = reCalculate,
 
             onCreate = onCreate,
             onEdit = onEdit,
             dismiss = dismiss,
         )
 
-        accountChangeModal = false
+        accountChangeConformationModal = false
     }
 }
 
@@ -338,21 +368,26 @@ private fun save(
     loanRecordInterest: Boolean = false,
     createLoanRecordTransaction: Boolean = false,
     selectedAccount: Account? = null,
+    reCalculateAmount: Boolean = false,
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord, Boolean) -> Unit,
+    onEdit: (EditLoanRecordData) -> Unit,
     dismiss: () -> Unit
 ) {
     if (loanRecord != null) {
+        val record = loanRecord.copy(
+            note = noteTextFieldValue.text.trim(),
+            amount = amount,
+            dateTime = dateTime,
+            interest = loanRecordInterest,
+            accountId = selectedAccount?.id
+        )
         onEdit(
-            loanRecord.copy(
-                note = noteTextFieldValue.text.trim(),
-                amount = amount,
-                dateTime = dateTime,
-                interest = loanRecordInterest,
-                accountId = selectedAccount?.id
-            ),
-            createLoanRecordTransaction
+            EditLoanRecordData(
+                loanRecord = record,
+                createLoanRecordTransaction = createLoanRecordTransaction,
+                reCalculateLoanAmount = reCalculateAmount
+            )
         )
     } else {
         onCreate(
@@ -522,7 +557,7 @@ private fun Preview() {
                 baseCurrency = "BGN"
             ),
             onCreate = {},
-            onEdit = { _, _ -> },
+            onEdit = {},
             onDelete = {}
         ) {
 

@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.loandetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
@@ -13,6 +14,7 @@ import com.ivy.wallet.logic.LoanTransactionsLogic
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
@@ -126,7 +128,8 @@ class LoanDetailsViewModel @Inject constructor(
                             it,
                             account = account,
                             loanRecordTransaction = trans != null,
-                            currencyCode = account?.currency ?: defaultCurrencyCode
+                            loanRecordCurrencyCode = account?.currency ?: defaultCurrencyCode,
+                            loanCurrencyCode = selectedLoanAccount.value?.currency ?: defaultCurrencyCode
                         )
                     }
             }
@@ -247,27 +250,26 @@ class LoanDetailsViewModel @Inject constructor(
         }
     }
 
-    fun editLoanRecord(loanRecord: LoanRecord, createLoanRecordTransaction: Boolean = false) {
+    fun editLoanRecord(editLoanRecordData: EditLoanRecordData) {
         viewModelScope.launch {
+            val loanRecord = editLoanRecordData.loanRecord
             TestIdlingResource.increment()
 
             val localLoan: Loan = _loan.value ?: return@launch
 
-            val loanRecordAccount = findAccount(_accounts.value, loanRecord.accountId)
+            val convertedAmount =
+                loanTransactionsLogic.LoanRecord.getConvertedAmount(
+                    loanRecord = editLoanRecordData.loanRecord,
+                    loan = localLoan,
+                    accounts = accounts.value,
+                    reCalculateLoanAmount = editLoanRecordData.reCalculateLoanAmount,
+                    defaultCurrencyCode = defaultCurrencyCode
+                )
 
-            val modifiedLoanRecord = ioThread {
-                if (baseCurrency.value != loanRecordAccount?.currency) {
-                    loanRecord.copy(
-                        convertedAmount = exchangeRatesLogic.convertAmount(
-                            defaultCurrencyCode,
-                            loanRecord.amount,
-                            loanRecordAccount?.currency ?: defaultCurrencyCode,
-                            baseCurrency.value
-                        )
-                    )
-                } else
-                    loanRecord.copy(convertedAmount = null)
-            }
+            Log.d("GGGG", "" + convertedAmount)
+
+            val modifiedLoanRecord =
+                editLoanRecordData.loanRecord.copy(convertedAmount = convertedAmount)
 
             loanRecordCreator.edit(modifiedLoanRecord) {
                 load(loanId = it.loanId)
@@ -275,7 +277,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             loanTransactionsLogic.LoanRecord.editAssociatedLoanRecordTransaction(
                 loan = localLoan,
-                createLoanRecordTransaction = createLoanRecordTransaction,
+                createLoanRecordTransaction = editLoanRecordData.createLoanRecordTransaction,
                 loanRecord = loanRecord,
             )
 

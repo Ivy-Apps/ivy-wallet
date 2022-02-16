@@ -1,5 +1,6 @@
 package com.ivy.wallet.logic
 
+import android.util.Log
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.base.computationThread
 import com.ivy.wallet.base.ioThread
@@ -291,6 +292,49 @@ sealed class GeneralLoanTransactionsLogic(
                         loanRecordDao.save(it)
                     }
                 }
+            }
+        }
+
+        suspend fun getConvertedAmount(
+            loanRecord: LoanRecord,
+            loan: Loan? = null,
+            accounts: List<Account>? = null,
+            reCalculateLoanAmount: Boolean = false,
+            defaultCurrencyCode: String? = null
+        ): Double? {
+            return computationThread {
+                val localLoan = loan ?: ioThread { loanDao.findById(loanRecord.loanId) }
+                ?: return@computationThread null
+
+                val accountsList = accounts ?: ioThread { accountsDao.findAll() }
+
+                val oldLoanRecord = ioThread { loanRecordDao.findById(loanRecord.id) }
+
+                val defaultCurrency = defaultCurrencyCode ?: baseCurrency()
+
+                val newCurrency =
+                    findAccount(accountsList, loanRecord.accountId)?.currency ?: defaultCurrency
+                val loanCurrency =
+                    findAccount(accountsList, localLoan.accountId)?.currency ?: defaultCurrency
+
+                val newConverted: Double? = when {
+                    newCurrency == loanCurrency -> null
+                    oldLoanRecord?.convertedAmount == null || reCalculateLoanAmount -> {
+                        ioThread {
+                            exchangeRatesLogic.convertAmount(
+                                defaultCurrency,
+                                loanRecord.amount,
+                                newCurrency,
+                                loanCurrency
+                            )
+                        }
+                    }
+                    oldLoanRecord.amount == loanRecord.amount -> oldLoanRecord.convertedAmount
+                    else -> null
+                }
+
+
+                newConverted
             }
         }
     }

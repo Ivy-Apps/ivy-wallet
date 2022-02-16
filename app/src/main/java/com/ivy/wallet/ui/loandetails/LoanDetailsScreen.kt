@@ -26,6 +26,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
@@ -95,7 +96,7 @@ private fun BoxWithConstraintsScope.UI(
     onCreateAccount: (CreateAccountData) -> Unit = {},
     onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
     onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {},
-    onEditLoanRecord: (LoanRecord, Boolean) -> Unit = { _, _ -> },
+    onEditLoanRecord: (EditLoanRecordData) -> Unit = {},
     onDeleteLoanRecord: (LoanRecord) -> Unit = {},
     onDeleteLoan: () -> Unit = {},
 ) {
@@ -185,10 +186,11 @@ private fun BoxWithConstraintsScope.UI(
                     onClick = { displayLoanRecord ->
                         loanRecordModalData = LoanRecordModalData(
                             loanRecord = displayLoanRecord.loanRecord,
-                            baseCurrency = displayLoanRecord.currencyCode,
+                            baseCurrency = displayLoanRecord.loanRecordCurrencyCode,
                             selectedAccount = displayLoanRecord.account,
                             createLoanRecordTransaction = displayLoanRecord.loanRecordTransaction,
-                            isLoanInterest = displayLoanRecord.loanRecord.interest
+                            isLoanInterest = displayLoanRecord.loanRecord.interest,
+                            loanAccountCurrencyCode = displayLoanRecord.loanCurrencyCode
                         )
                     }
                 )
@@ -565,8 +567,9 @@ fun LazyListScope.loanRecords(
         LoanRecordItem(
             loan = loan,
             loanRecord = displayLoanRecord.loanRecord,
-            baseCurrency = displayLoanRecord.currencyCode,
-            account = displayLoanRecord.account
+            baseCurrency = displayLoanRecord.loanRecordCurrencyCode,
+            account = displayLoanRecord.account,
+            loanBaseCurrency = displayLoanRecord.loanCurrencyCode
         ) {
             onClick(displayLoanRecord)
         }
@@ -580,6 +583,7 @@ private fun LoanRecordItem(
     loan: Loan,
     loanRecord: LoanRecord,
     baseCurrency: String,
+    loanBaseCurrency: String = "",
     account: Account? = null,
     onClick: () -> Unit
 ) {
@@ -666,10 +670,6 @@ private fun LoanRecordItem(
         )
 
         if (loanRecord.note.isNotNullOrBlank()) {
-//            Spacer(
-//                Modifier.height(8.dp)
-//            )
-
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 text = loanRecord.note!!,
@@ -690,7 +690,18 @@ private fun LoanRecordItem(
             amount = loanRecord.amount
         )
 
-        Spacer(Modifier.height(20.dp))
+        if (loanRecord.convertedAmount != null) {
+            Text(
+                modifier = Modifier.padding(start = 72.dp),
+                text = loanRecord.convertedAmount.format(baseCurrency) + " $loanBaseCurrency",
+                style = Typo.numberBody2.style(
+                    color = Gray,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
     }
 }
 
