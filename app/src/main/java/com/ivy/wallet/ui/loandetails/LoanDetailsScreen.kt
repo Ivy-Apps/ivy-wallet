@@ -87,7 +87,6 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
 private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     loan: Loan?,
-    loanRecords: List<LoanRecord> = emptyList(),
     displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
@@ -138,6 +137,7 @@ private fun BoxWithConstraintsScope.UI(
                         amountPaid = amountPaid,
                         loanAmountPaid = loanAmountPaid,
                         itemColor = itemColor,
+                        selectedLoanAccount = selectedLoanAccount,
                         onAmountClick = {
                             loanModalData = LoanModalData(
                                 loan = loan,
@@ -263,6 +263,7 @@ private fun Header(
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
     itemColor: Color,
+    selectedLoanAccount: Account? = null,
 
     onAmountClick: () -> Unit,
     onEditLoan: () -> Unit,
@@ -314,6 +315,7 @@ private fun Header(
             baseCurrency = baseCurrency,
             amountPaid = amountPaid,
             loanAmountPaid = loanAmountPaid,
+            selectedLoanAccount = selectedLoanAccount,
             onAddRecord = onAddRecord
         )
 
@@ -373,20 +375,17 @@ private fun LoanInfoCard(
     baseCurrency: String,
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
+    selectedLoanAccount: Account? = null,
 
     onAddRecord: () -> Unit
 ) {
     val backgroundColor = if (isDarkColor(loan.color))
         MediumBlack.copy(alpha = 0.9f) else MediumWhite.copy(alpha = 0.9f)
 
-    val lineColor = if (isDarkColor(loan.color))
-        MediumWhite.copy(alpha = 0.9f) else MediumBlack.copy(alpha = 0.9f)
-
     val contrastColor = findContrastTextColor(backgroundColor)
-
     val percentPaid = amountPaid / loan.amount
-
     val loanPercentPaid = loanAmountPaid / loan.amount
+    val nav = navigation()
 
     Column(
         modifier = Modifier
@@ -398,18 +397,49 @@ private fun LoanInfoCard(
             )
             .background(backgroundColor, UI.shapes.r2),
     ) {
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            text = "Paid",
-            style = UI.typo.c.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                modifier = Modifier.padding(top = 8.dp, start = 24.dp),
+                text = "Paid",
+                style = UI.typo.c.style(
+                    color = contrastColor,
+                    fontWeight = FontWeight.ExtraBold
+                )
             )
-        )
+            if (selectedLoanAccount != null)
+                IvyButton(
+                    modifier = Modifier.padding(end = 16.dp, top = 12.dp),
+                    backgroundGradient = Gradient.solid(loan.color.toComposeColor()),
+                    hasGlow = false,
+                    iconTint = contrastColor,
+                    text = selectedLoanAccount.name,
+                    iconStart = getCustomIconIdS(
+                        iconName = selectedLoanAccount.icon,
+                        defaultIcon = R.drawable.ic_custom_account_s
+                    ),
+                    textStyle = UI.typo.c.style(
+                        color = contrastColor,
+                        fontWeight = FontWeight.ExtraBold
+                    ),
+                    padding = 8.dp,
+                    iconEdgePadding = 10.dp
+                ) {
+                    nav.navigateTo(
+                        ItemStatistic(
+                            accountId = selectedLoanAccount.id,
+                            categoryId = null
+                        )
+                    )
+                }
+        }
 
-        Spacer(Modifier.height(12.dp))
+        //Support UI for Old Versions where
+        if (selectedLoanAccount == null)
+            Spacer(Modifier.height(12.dp))
 
         Text(
             modifier = Modifier
@@ -480,7 +510,7 @@ private fun LoanInfoCard(
                     .padding(horizontal = 24.dp, vertical = 16.dp)
                     .height(1.dp)
                     .fillMaxWidth()
-                    .background(lineColor)
+                    .background(contrastColor)
             )
 
             Text(
@@ -759,7 +789,6 @@ private fun Preview_Empty() {
                 color = Red.toArgb(),
                 type = LoanType.LEND
             ),
-            loanRecords = emptyList(),
             amountPaid = 0.0
         )
     }
