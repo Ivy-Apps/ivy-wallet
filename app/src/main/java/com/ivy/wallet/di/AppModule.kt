@@ -13,6 +13,10 @@ import com.ivy.wallet.logic.bankintegrations.SaltEdgeCategoryMapper
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeTransactionMapper
 import com.ivy.wallet.logic.csv.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.loantrasactions.LTLoanMapper
+import com.ivy.wallet.logic.loantrasactions.LTLoanRecordMapper
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsCore
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.network.ErrorCodeTypeAdapter
 import com.ivy.wallet.network.FCMClient
@@ -722,46 +726,6 @@ object AppModule {
     }
 
     @Provides
-    fun loanTransactionsLogic(
-        categoryDao: CategoryDao,
-        transactionUploader: TransactionUploader,
-        transactionDao: TransactionDao,
-        ivyContext: IvyContext,
-        loanDao: LoanDao,
-        loanRecordDao: LoanRecordDao,
-        exchangeRatesLogic: ExchangeRatesLogic,
-        settingsDao: SettingsDao,
-        accountDao: AccountDao
-    ): LoanTransactionsLogic {
-
-        val loan = GeneralLoanTransactionsLogic.LoanSealedClass(
-            categoryDao = categoryDao,
-            transactionUploader = transactionUploader,
-            transactionDao = transactionDao,
-            ivyContext = ivyContext,
-            loanDao = loanDao,
-            loanRecordDao = loanRecordDao,
-            settingsDao = settingsDao,
-            accountsDao = accountDao,
-            exchangeRatesLogic = exchangeRatesLogic
-        )
-
-        val loanRecord = GeneralLoanTransactionsLogic.LoanRecordSealedClass(
-            categoryDao = categoryDao,
-            transactionUploader = transactionUploader,
-            transactionDao = transactionDao,
-            ivyContext = ivyContext,
-            loanDao = loanDao,
-            loanRecordDao = loanRecordDao,
-            settingsDao = settingsDao,
-            accountsDao = accountDao,
-            exchangeRatesLogic = exchangeRatesLogic
-        )
-
-        return LoanTransactionsLogic(Loan = loan, LoanRecord = loanRecord)
-    }
-
-    @Provides
     fun provideWalletDAOs(
         accountDao: AccountDao,
         transactionDao: TransactionDao,
@@ -771,6 +735,40 @@ object AppModule {
             accountDao = accountDao,
             transactionDao = transactionDao,
             exchangeRateDao = exchangeRateDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun loanTransactionsCore(
+        categoryDao: CategoryDao,
+        transactionUploader: TransactionUploader,
+        transactionDao: TransactionDao,
+        ivyContext: IvyContext,
+        loanDao: LoanDao,
+        loanRecordDao: LoanRecordDao,
+        exchangeRatesLogic: ExchangeRatesLogic,
+        settingsDao: SettingsDao,
+        accountDao: AccountDao
+    ): LoanTransactionsCore {
+        return LoanTransactionsCore(
+            categoryDao = categoryDao,
+            transactionUploader = transactionUploader,
+            transactionDao = transactionDao,
+            ivyContext = ivyContext,
+            loanDao = loanDao,
+            loanRecordDao = loanRecordDao,
+            settingsDao = settingsDao,
+            accountsDao = accountDao,
+            exchangeRatesLogic = exchangeRatesLogic
+        )
+    }
+
+    @Provides
+    fun loanTransactionsLogic(loanTransactionsCore: LoanTransactionsCore): LoanTransactionsLogic {
+        return LoanTransactionsLogic(
+            Loan = LTLoanMapper(ltCore = loanTransactionsCore),
+            LoanRecord = LTLoanRecordMapper(ltCore = loanTransactionsCore)
         )
     }
 }

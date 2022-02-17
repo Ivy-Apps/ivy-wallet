@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.edit
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,9 +10,9 @@ import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -25,7 +24,6 @@ import com.ivy.wallet.ui.IvyContext
 import com.ivy.wallet.ui.Screen
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

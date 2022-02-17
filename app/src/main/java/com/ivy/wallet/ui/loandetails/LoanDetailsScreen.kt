@@ -692,7 +692,7 @@ private fun LoanRecordItem(
 
         if (loanRecord.convertedAmount != null) {
             Text(
-                modifier = Modifier.padding(start = 72.dp),
+                modifier = Modifier.padding(start = 68.dp),
                 text = loanRecord.convertedAmount.format(baseCurrency) + " $loanBaseCurrency",
                 style = Typo.numberBody2.style(
                     color = Gray,

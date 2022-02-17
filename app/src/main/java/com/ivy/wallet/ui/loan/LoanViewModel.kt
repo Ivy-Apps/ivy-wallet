@@ -10,7 +10,7 @@ import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.AccountCreator
 import com.ivy.wallet.logic.LoanCreator
-import com.ivy.wallet.logic.LoanTransactionsLogic
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.entity.Account

@@ -192,7 +192,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                 currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
 
                 reCalculateVisible =
-                    initialRecord != null && selectedAcc != null && currencyCode != modal?.loanAccountCurrencyCode
+                    initialRecord?.convertedAmount != null && selectedAcc != null && currencyCode == modal.baseCurrency
                 //Unchecks the Recalculate Option if Recalculate Checkbox is not visible
                 reCalculate = !reCalculateVisible
 
@@ -251,7 +251,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             amountPaddingTop = 40.dp,
             amountPaddingBottom = 40.dp,
         ) {
-
+            amountModalVisible = true
         }
     }
 
@@ -278,6 +278,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             onDelete(initialRecord)
         }
         deleteModalVisible = false
+        reCalculate = false
         dismiss()
     }
 

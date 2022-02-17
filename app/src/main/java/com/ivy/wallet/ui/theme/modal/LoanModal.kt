@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.modal
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -109,7 +110,8 @@ fun BoxWithConstraintsScope.LoanModal(
                 enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
                 accountChangeModal =
-                    modal?.selectedAccount != null && modal.selectedAccount.currency != selectedAcc?.currency
+                    modal?.selectedAccount != null && currencyCode != (modal.selectedAccount.currency
+                        ?: modal.baseCurrency)
 
                 if (!accountChangeModal) {
                     save(
