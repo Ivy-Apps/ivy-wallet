@@ -7,7 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.design.l0_system.UI
+
 
 @Composable
 fun TransactionsDividerLine(
@@ -18,7 +19,7 @@ fun TransactionsDividerLine(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = paddingHorizontal),
-        color = IvyTheme.colors.medium,
+        color = UI.colors.medium,
         thickness = 2.dp
     )
 }

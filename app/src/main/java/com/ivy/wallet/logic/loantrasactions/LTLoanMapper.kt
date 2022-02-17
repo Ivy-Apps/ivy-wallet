@@ -8,9 +8,6 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.persistence.dao.*
-import com.ivy.wallet.sync.uploader.TransactionUploader
-import com.ivy.wallet.ui.IvyContext
 import java.util.*
 
 class LTLoanMapper(

@@ -14,6 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.model.IntervalType
@@ -21,16 +24,14 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.PlannedPayments
+
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 
 @Composable
-fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: Screen.PlannedPayments) {
+fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
     val viewModel: PlannedPaymentsViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -82,9 +83,9 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 24.dp),
                 text = "Planned payments",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -102,14 +103,14 @@ private fun BoxWithConstraintsScope.UI(
         recurringExpenses = recurringExpenses
     )
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     PlannedPaymentsBottomBar(
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
         onAdd = {
-            ivyContext.navigateTo(
-                Screen.EditPlanned(
+            nav.navigateTo(
+                EditPlanned(
                     type = TransactionType.EXPENSE,
                     plannedPaymentRuleId = null
                 )
@@ -121,7 +122,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val account = Account(name = "Cash")
         val food = Category(name = "Food")
         val shisha = Category(name = "Shisha", color = Orange.toArgb())

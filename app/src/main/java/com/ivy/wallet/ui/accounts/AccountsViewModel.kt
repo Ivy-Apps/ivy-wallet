@@ -2,7 +2,6 @@ package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.toOption
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.readOnly
@@ -18,7 +17,7 @@ import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.AccountSync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +34,7 @@ class AccountsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
 ) : ViewModel() {
 
     @Subscribe
@@ -78,8 +77,8 @@ class AccountsViewModel @Inject constructor(
                         val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
                             exchangeToBaseCurrency(
                                 exchangeRateDao = walletDAOs.exchangeRateDao,
-                                baseCurrencyCode = baseCurrencyCode.toOption(),
-                                fromCurrencyCode = (it.currency ?: baseCurrencyCode).toOption(),
+                                baseCurrencyCode = baseCurrencyCode,
+                                fromCurrencyCode = it.currency ?: baseCurrencyCode,
                                 fromAmount = balance
                             ).orNull()?.toDouble()
                         } else {

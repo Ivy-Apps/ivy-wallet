@@ -1,62 +1,63 @@
 package com.ivy.wallet.ui
 
-import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import com.google.accompanist.insets.ProvideWindowInsets
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Theme
+import com.ivy.design.IvyContext
+import com.ivy.design.api.IvyDesign
+import com.ivy.design.api.NavigationRoot
+import com.ivy.design.api.ivyContext
+import com.ivy.design.api.systems.IvyWalletDesign
+import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.navigation.Navigation
+import com.ivy.design.utils.IvyPreview
 
-
-val LocalIvyContext = compositionLocalOf<IvyContext> { error("No LocalIvyContext") }
 
 @Composable
-fun IvyApp(
-    ivyContext: IvyContext,
-    content: @Composable BoxWithConstraintsScope.() -> Unit
-) {
-    CompositionLocalProvider(
-        LocalIvyContext provides ivyContext,
-    ) {
-        IvyTheme(theme = ivyContext.theme) {
-            Surface(modifier = Modifier.fillMaxSize()) {
-                ProvideWindowInsets {
-                    BoxWithConstraints {
-                        ivyContext.screenWidth = with(LocalDensity.current) { maxWidth.roundToPx() }
-                        ivyContext.screenHeight =
-                            with(LocalDensity.current) { maxHeight.roundToPx() }
+fun ivyWalletCtx(): IvyWalletCtx {
+    return ivyContext() as IvyWalletCtx
+}
 
-                        content()
-                    }
-                }
-            }
+fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
+    override fun context(): IvyContext = context
+}
+
+@Composable
+fun IvyWalletComponentPreview(
+    theme: Theme = Theme.LIGHT,
+    Content: @Composable BoxScope.() -> Unit
+) {
+    IvyWalletPreview(
+        theme = theme
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(UI.colors.pure),
+            contentAlignment = Alignment.Center
+        ) {
+            Content()
         }
     }
-
 }
 
 @Composable
-fun IvyAppPreview(
+fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
-    content: @Composable BoxWithConstraintsScope.() -> Unit
+    Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
-    val ivyContext = IvyContext()
-    ivyContext.switchTheme(theme = theme)
-    IvyApp(
-        ivyContext = ivyContext,
-        content = content
-    )
+    IvyPreview(
+        theme = theme,
+        design = appDesign(IvyWalletCtx()),
+    ) {
+        NavigationRoot(navigation = Navigation()) {
+            Content()
+        }
+    }
 }
-
-@Composable
-fun ivyContext(): IvyContext {
-    return LocalIvyContext.current
-}
-
-

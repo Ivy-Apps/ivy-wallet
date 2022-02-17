@@ -12,13 +12,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
+import com.ivy.wallet.ui.IvyWalletPreview
+
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
-import com.ivy.wallet.ui.theme.style
 import java.util.*
 
 @Composable
@@ -47,9 +47,9 @@ fun BoxWithConstraintsScope.AddKeywordModal(
         Text(
             modifier = Modifier.padding(start = 32.dp),
             text = "Add keyword",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -79,7 +79,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         AddKeywordModal(
             visible = true,
             keyword = "",

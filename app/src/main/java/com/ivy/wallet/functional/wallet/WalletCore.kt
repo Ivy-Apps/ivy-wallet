@@ -2,22 +2,18 @@ package com.ivy.wallet.functional.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
-import arrow.core.toOption
 import com.ivy.wallet.functional.account.AccountValueFunction
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
 import com.ivy.wallet.functional.core.mapIndexedNel
 import com.ivy.wallet.functional.core.nonEmptyListOfZeros
-import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.functional.data.CurrencyConvError
-import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.data.*
 import com.ivy.wallet.functional.exchangeToBaseCurrency
-import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 
 typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
-typealias AccountValuesPair = Pair<Account, NonEmptyList<BigDecimal>>
+typealias AccountValuesPair = Pair<FPAccount, NonEmptyList<BigDecimal>>
 
 suspend fun calculateWalletValues(
     walletDAOs: WalletDAOs,
@@ -30,7 +26,7 @@ suspend fun calculateWalletValues(
         .filter { !filterExcluded || it.includeInBalance }
         .map { account ->
             Pair(
-                first = account,
+                first = account.toFPAccount(baseCurrencyCode),
                 second = calculateAccountValues(
                     transactionDao = walletDAOs.transactionDao,
                     accountId = account.id,
@@ -58,8 +54,8 @@ private suspend fun Iterable<AccountValuesPair>.convertValuesInBaseCurrency(
         val valuesInBaseCurrency = values.map {
             exchangeToBaseCurrency(
                 exchangeRateDao = exchangeRateDao,
-                baseCurrencyCode = baseCurrencyCode.toOption(),
-                fromCurrencyCode = account.currency.toOption(),
+                baseCurrencyCode = baseCurrencyCode,
+                fromCurrencyCode = account.currencyCode,
                 fromAmount = it
             )
         }

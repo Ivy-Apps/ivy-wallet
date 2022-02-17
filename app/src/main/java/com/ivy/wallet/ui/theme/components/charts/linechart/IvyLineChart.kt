@@ -20,8 +20,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.lerp
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.modal.model.Month
 import timber.log.Timber
 import java.text.DecimalFormat
@@ -298,8 +302,8 @@ fun IvyLineChart(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .clip(Shapes.rounded24)
-            .border(2.dp, Gray, Shapes.rounded24),
+            .clip(UI.shapes.r2)
+            .border(2.dp, Gray, UI.shapes.r2),
         title = title,
         allValues = allValues,
         xLabel = xLabel,
@@ -329,7 +333,7 @@ private fun IvyChart(
         mutableStateOf(emptyList())
     }
 
-    val xLabelColor = IvyTheme.colors.pureInverse
+    val xLabelColor = UI.colors.pureInverse
 
     Canvas(
         modifier = modifier
@@ -607,7 +611,7 @@ private tailrec fun horizontalLineYS(
 @Preview
 @Composable
 private fun Preview_IvyChart() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         val values = listOf(
             Value(
                 x = 0.0,

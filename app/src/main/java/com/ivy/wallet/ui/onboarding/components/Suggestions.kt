@@ -11,12 +11,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 
@@ -64,8 +68,8 @@ private fun Suggestion(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.medium, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -80,7 +84,7 @@ private fun Suggestion(
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             text = name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -95,9 +99,9 @@ private fun AddNewButton(
 ) {
     Row(
         modifier = Modifier
-            .drawColoredShadow(color = IvyTheme.colors.mediumInverse)
-            .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+            .drawColoredShadow(color = UI.colors.mediumInverse)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.mediumInverse, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -107,7 +111,7 @@ private fun AddNewButton(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = IvyTheme.colors.pure,
+            tint = UI.colors.pure,
         )
 
         Spacer(Modifier.width(8.dp))
@@ -115,8 +119,8 @@ private fun AddNewButton(
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             text = "Add new",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pure,
+            style = UI.typo.b2.style(
+                color = UI.colors.pure,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -131,7 +135,7 @@ private class AddNew
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Suggestions(
             suggestions = listOf(
                 Account("Cash"),

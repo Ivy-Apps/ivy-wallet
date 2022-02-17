@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.theme.modal
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,6 +20,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -29,9 +30,12 @@ import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.*
+import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
+import com.ivy.wallet.ui.theme.components.IvyColorPicker
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
@@ -180,8 +184,8 @@ fun BoxWithConstraintsScope.LoanModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Associated Account",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -367,16 +371,16 @@ private fun Account(
 ) {
     val accountColor = account.color.toComposeColor()
     val textColor =
-        if (selected) findContrastTextColor(accountColor) else IvyTheme.colors.pureInverse
+        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
-                background(accountColor, Shapes.roundedFull)
+                background(accountColor, UI.shapes.rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -395,7 +399,7 @@ private fun Account(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = account.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -413,8 +417,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -422,7 +426,7 @@ private fun AddAccount(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(4.dp))
@@ -430,8 +434,8 @@ private fun AddAccount(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = "Add account",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -450,8 +454,8 @@ private fun ColumnScope.LoanTypePicker(
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Loan type",
-        style = Typo.body2.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.b2.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -462,7 +466,7 @@ private fun ColumnScope.LoanTypePicker(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(IvyTheme.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, UI.shapes.r2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -496,17 +500,17 @@ private fun RowScope.SelectorButton(
     Text(
         modifier = Modifier
             .weight(1f)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable {
                 onClick()
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.roundedFull)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
             }
             .padding(vertical = 8.dp),
         text = label,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected) White else Gray,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -561,7 +565,7 @@ private fun save(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LoanModal(
             modal = LoanModalData(
                 loan = null,

@@ -8,9 +8,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Gray
+
+import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.ModalTitle
@@ -57,10 +61,10 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = if (isEmpty) "Calculation (+-/*=)" else expression,
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = if (isEmpty) Gray else IvyTheme.colors.pureInverse
+                color = if (isEmpty) Gray else UI.colors.pureInverse
             )
         )
 
@@ -200,7 +204,7 @@ private fun calculate(expression: String): Double? {
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         CalculatorModal(
             visible = true,
             initialAmount = 50.23,

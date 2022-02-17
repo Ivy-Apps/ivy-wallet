@@ -2,18 +2,16 @@ package com.ivy.wallet.ui.theme.modal
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.wallet.ui.theme.Red
 import java.util.*
 
 @Composable
@@ -22,8 +20,8 @@ fun BoxWithConstraintsScope.ConfirmationModal(
     title: String,
     description: String,
     visible: Boolean,
-    color: Color = IvyTheme.colors.orange,
-    dismiss: () -> Unit ={},
+    color: Color = UI.colors.orange,
+    dismiss: () -> Unit = {},
 ) {
     IvyModal(
         id = id,
@@ -36,7 +34,7 @@ fun BoxWithConstraintsScope.ConfirmationModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = title,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Red,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -47,8 +45,8 @@ fun BoxWithConstraintsScope.ConfirmationModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = description,
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Medium
             )
         )
@@ -61,7 +59,7 @@ fun BoxWithConstraintsScope.ConfirmationModal(
                 .padding(horizontal = 32.dp)
                 .height(8.dp)
                 .clip(
-                    Shapes.roundedFull
+                    UI.shapes.rFull
                 ),
             color = color
         )

@@ -18,16 +18,20 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 
 @Composable
 fun ColumnScope.IvyTitleTextField(
     modifier: Modifier = Modifier,
     dividerModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -49,8 +53,8 @@ fun ColumnScope.IvyTitleTextField(
             Text(
                 modifier = Modifier,
                 text = hint!!,
-                style = Typo.h2.style(
-                    color = IvyTheme.colors.gray,
+                style = UI.typo.h2.style(
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Start
                 ),
@@ -63,13 +67,13 @@ fun ColumnScope.IvyTitleTextField(
                 .testTag("input_field"),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = Typo.h2.style(
+            textStyle = UI.typo.h2.style(
                 color = textColor,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(
@@ -86,7 +90,7 @@ fun ColumnScope.IvyTitleTextField(
         modifier = dividerModifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(IvyTheme.colors.medium, Shapes.roundedFull),
+            .background(UI.colors.medium, UI.shapes.rFull),
     )
 }
 
@@ -94,7 +98,7 @@ fun ColumnScope.IvyTitleTextField(
 @Preview
 @Composable
 private fun PreviewIvyTitleTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column(
             verticalArrangement = Arrangement.Center
         ) {

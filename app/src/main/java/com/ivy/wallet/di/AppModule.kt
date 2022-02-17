@@ -3,6 +3,7 @@ package com.ivy.wallet.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.functional.data.WalletDAOs
@@ -31,7 +32,7 @@ import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.sync.item.*
 import com.ivy.wallet.sync.uploader.*
 import com.ivy.wallet.system.notification.NotificationService
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,8 +46,14 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideIvyContext(): IvyContext {
-        return IvyContext()
+    fun provideIvyContext(): IvyWalletCtx {
+        return IvyWalletCtx()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNavigation(): Navigation {
+        return Navigation()
     }
 
     @Provides
@@ -445,7 +452,8 @@ object AppModule {
     @Singleton
     fun providepaywallLogic(
         ivyBilling: IvyBilling,
-        ivyContext: IvyContext,
+        ivyContext: IvyWalletCtx,
+        navigation: Navigation,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
         budgetDao: BudgetDao,
@@ -454,6 +462,7 @@ object AppModule {
         return PaywallLogic(
             ivyBilling = ivyBilling,
             ivyContext = ivyContext,
+            navigation = navigation,
             accountDao = accountDao,
             categoryDao = categoryDao,
             budgetDao = budgetDao,
@@ -641,13 +650,13 @@ object AppModule {
         ivyRoomDatabase: IvyRoomDatabase,
         ivySession: IvySession,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        navigation: Navigation
     ): LogoutLogic {
         return LogoutLogic(
             ivyDb = ivyRoomDatabase,
             ivySession = ivySession,
             sharedPrefs = sharedPrefs,
-            ivyContext = ivyContext
+            navigation = navigation
         )
     }
 
@@ -706,7 +715,7 @@ object AppModule {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        ivyContext: IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -744,7 +753,7 @@ object AppModule {
         categoryDao: CategoryDao,
         transactionUploader: TransactionUploader,
         transactionDao: TransactionDao,
-        ivyContext: IvyContext,
+        ivyContext: IvyWalletCtx,
         loanDao: LoanDao,
         loanRecordDao: LoanRecordDao,
         exchangeRatesLogic: ExchangeRatesLogic,

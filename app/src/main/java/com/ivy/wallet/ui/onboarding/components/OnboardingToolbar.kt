@@ -11,7 +11,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.*
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @Composable
@@ -27,13 +30,13 @@ fun OnboardingToolbar(
 
             Text(
                 modifier = Modifier
-                    .clip(Shapes.roundedFull)
+                    .clip(UI.shapes.rFull)
                     .clickable {
                         onSkip()
                     }
                     .padding(all = 16.dp), //enlarge click area
                 text = "Skip",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = Gray,
                     fontWeight = FontWeight.Bold
                 )
@@ -47,7 +50,7 @@ fun OnboardingToolbar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         OnboardingToolbar(
             hasSkip = true, onBack = {}
         ) {

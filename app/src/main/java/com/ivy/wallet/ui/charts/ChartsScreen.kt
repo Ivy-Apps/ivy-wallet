@@ -15,22 +15,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.functional.charts.ChartPeriod
 import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.functional.charts.SingleChartPoint
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Charts
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
-import com.ivy.wallet.ui.ivyContext
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Ivy
+
+
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @Composable
-fun BoxWithConstraintsScope.ChartsScreen(screen: Screen.Charts) {
+fun BoxWithConstraintsScope.ChartsScreen(screen: Charts) {
     val viewModel: ChartsViewModel = viewModel()
 
     val period by viewModel.period.collectAsState()
@@ -156,18 +160,18 @@ private fun UI(
 
 @Composable
 private fun Toolbar() {
-    val ivyContext = ivyContext()
+    val nav = navigation()
 
     IvyToolbar(
         onBack = {
-            ivyContext.back()
+            nav.back()
         }
     ) {
         Spacer(Modifier.width(32.dp))
 
         Text(
             text = "Charts",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -200,21 +204,21 @@ private fun Period(
                 togglePeriod()
             },
             text = "Period:",
-            style = Typo.body1
+            style = UI.typo.b1
         )
 
         Spacer(Modifier.width(12.dp))
 
         Text(
             modifier = Modifier
-                .clip(Shapes.roundedFull)
-                .border(1.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(1.dp, UI.colors.mediumInverse, UI.shapes.rFull)
                 .clickable {
                     togglePeriod()
                 }
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             text = period.display(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -256,8 +260,8 @@ private fun ChartButton(
             }
             .padding(vertical = 12.dp),
         text = chartType.display(),
-        style = Typo.body2.style(
-            color = if (selected) Ivy else IvyTheme.colors.pureInverse,
+        style = UI.typo.b2.style(
+            color = if (selected) Ivy else UI.colors.pureInverse,
             textAlign = TextAlign.Center
         )
     )
@@ -266,7 +270,7 @@ private fun ChartButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = ChartPeriod.LAST_12_MONTHS,
             baseCurrencyCode = "BGN",

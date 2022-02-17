@@ -17,14 +17,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -62,10 +64,10 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             OnboardingToolbar(
                 hasSkip = accounts.isEmpty(),
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
         }
@@ -77,7 +79,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Add accounts",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.Black
                     )
                 )
@@ -129,7 +131,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Suggestions",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -205,7 +207,7 @@ fun PremiumInfo(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (itemsCount == 0) "Up to $freeItemsCount free $itemLabelPlural" else "$freeItemsLeft $itemLabelPlural left",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (freeItemsLeft > 2) Green else Orange
             )
@@ -223,17 +225,16 @@ fun PremiumInfo(
 fun BuyPremiumRow(
     itemLabelPlural: String,
 ) {
-    val ivyContext = LocalIvyContext.current
-
+    val nav = navigation()
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable {
-                ivyContext.navigateTo(
-                    Screen.Paywall(
+                nav.navigateTo(
+                    Paywall(
                         paywallReason = PaywallReason.ACCOUNTS
                     )
                 )
@@ -252,7 +253,7 @@ fun BuyPremiumRow(
                 .padding(vertical = 12.dp)
                 .padding(start = 12.dp, end = 32.dp),
             text = "Buy premium for unlimited number of $itemLabelPlural",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Red
             )
@@ -293,8 +294,8 @@ private fun AccountCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(accountColor, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(accountColor, UI.shapes.r3)
             .clickable {
                 onClick()
             },
@@ -316,7 +317,7 @@ private fun AccountCard(
         Column {
             Text(
                 text = account.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = dynamicContrast
                 )
@@ -338,7 +339,7 @@ private fun AccountCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -374,7 +375,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Accounts() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,
@@ -419,7 +420,7 @@ private fun Preview_Accounts() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency,

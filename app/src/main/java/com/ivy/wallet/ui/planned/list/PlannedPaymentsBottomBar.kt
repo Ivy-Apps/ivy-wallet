@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
 import com.ivy.wallet.base.navigationBarInset
 import com.ivy.wallet.base.toDensityDp
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
@@ -55,7 +55,7 @@ fun BoxWithConstraintsScope.PlannedPaymentsBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PlannedPaymentsBottomBar(
             bottomInset = 16.dp,
             onAdd = {},

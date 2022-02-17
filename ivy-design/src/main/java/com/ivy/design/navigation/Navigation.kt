@@ -59,7 +59,7 @@ class Navigation {
         if (modalBackHandling.isNotEmpty()) {
             return modalBackHandling.peek().onBackPressed()
         }
-        val specialHandling = onBackPressed.getOrDefault(currentScreen, { false }).invoke()
+        val specialHandling = onBackPressed.getOrDefault(currentScreen) { false }.invoke()
         return specialHandling || back()
     }
 
@@ -82,5 +82,10 @@ class Navigation {
     private fun switchScreen(screen: Screen) {
         this.currentScreen = screen
         lastScreen = screen
+    }
+
+    fun reset() {
+        currentScreen = null
+        resetBackStack()
     }
 }

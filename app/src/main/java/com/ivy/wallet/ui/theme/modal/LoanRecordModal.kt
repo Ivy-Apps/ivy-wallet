@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -24,12 +26,12 @@ import com.ivy.wallet.logic.model.CreateLoanRecordData
 import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -177,8 +179,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "Associated Account",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -327,7 +329,7 @@ private fun DateTimeRow(
     dateTime: LocalDateTime,
     onSetDateTime: (LocalDateTime) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -472,16 +474,16 @@ private fun Account(
 ) {
     val accountColor = account.color.toComposeColor()
     val textColor =
-        if (selected) findContrastTextColor(accountColor) else IvyTheme.colors.pureInverse
+        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
-                background(accountColor, Shapes.roundedFull)
+                background(accountColor, UI.shapes.rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -500,7 +502,7 @@ private fun Account(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = account.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -518,8 +520,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -527,7 +529,7 @@ private fun AddAccount(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(4.dp))
@@ -535,8 +537,8 @@ private fun AddAccount(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = "Add account",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -551,7 +553,7 @@ private fun AddAccount(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

@@ -5,6 +5,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.R
@@ -12,6 +13,11 @@ import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 
 abstract class IvyWalletDesign : IvyDesign {
+    companion object {
+        const val OPEN_SANS_BASELINE_SHIFT = 0.075f
+        const val RALEWAY_BASELINE_SHIFT = 0.2f
+    }
+
 
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
@@ -43,53 +49,63 @@ abstract class IvyWalletDesign : IvyDesign {
             override val h1 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Black,
-                fontSize = h1
+                fontSize = h1,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val h2 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = h2
+                fontSize = h2,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val b1 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Bold,
-                fontSize = b1
+                fontSize = b1,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val b2 = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.Medium,
-                fontSize = b2
+                fontSize = b2,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
             override val c = TextStyle(
                 fontFamily = raleWay,
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = c
+                fontSize = c,
+                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
             )
 
             override val nH1 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = h1
+                fontSize = h1,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nH2 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = h2
+                fontSize = h2,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nB1 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = b1
+                fontSize = b1,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nB2 = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Normal,
-                fontSize = b2
+                fontSize = b2,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
             override val nC = TextStyle(
                 fontFamily = openSans,
                 fontWeight = FontWeight.Bold,
-                fontSize = c
+                fontSize = c,
+                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
             )
         }
     }
@@ -144,20 +160,20 @@ abstract class IvyWalletDesign : IvyDesign {
     override fun shapes(): IvyShapes {
         return object : IvyShapes() {
             override val r1 = RoundedCornerShape(32.dp)
-            override val r1top = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
-            override val r1bot = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+            override val r1Top = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
+            override val r1Bot = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
 
             override val r2 = RoundedCornerShape(24.dp)
-            override val r2top = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-            override val r2bot = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+            override val r2Top = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+            override val r2Bot = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
 
-            override val r3 = RoundedCornerShape(16.dp)
-            override val r3top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-            override val r3bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+            override val r3 = RoundedCornerShape(20.dp)
+            override val r3Top = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+            override val r3Bot = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
 
-            override val r4 = RoundedCornerShape(8.dp)
-            override val r4top = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)
-            override val r4bot = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
+            override val r4 = RoundedCornerShape(16.dp)
+            override val r4Top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+            override val r4Bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
         }
     }
 }

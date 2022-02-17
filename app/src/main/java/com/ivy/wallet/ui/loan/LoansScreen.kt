@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.getDefaultFIATCurrency
@@ -26,9 +29,9 @@ import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.Loans
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -36,7 +39,7 @@ import com.ivy.wallet.ui.theme.modal.LoanModal
 import com.ivy.wallet.ui.theme.modal.LoanModalData
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
+fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     val viewModel: LoanViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
@@ -92,7 +95,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(8.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         for (item in loans) {
             Spacer(Modifier.height(16.dp))
 
@@ -100,8 +103,8 @@ private fun BoxWithConstraintsScope.UI(
                 displayLoan = item,
                 baseCurrency = baseCurrency
             ) {
-                ivyContext.navigateTo(
-                    screen = Screen.LoanDetails(
+                nav.navigateTo(
+                    screen = LoanDetails(
                         loanId = item.loan.id
                     )
                 )
@@ -123,7 +126,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     LoanBottomBar(
         onAdd = {
             loanModalData = LoanModalData(
@@ -132,7 +135,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 
@@ -150,8 +153,8 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.loan.name,
-            style = Typo.body1.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -184,8 +187,8 @@ private fun Toolbar(
         ) {
             Text(
                 text = "Loans",
-                style = Typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.h2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -212,8 +215,8 @@ private fun LoanItem(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .testTag("loan_item")
             .clickable(
                 onClick = onClick
@@ -247,7 +250,7 @@ private fun LoanHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(loan.color.toComposeColor(), Shapes.rounded16Top)
+            .background(loan.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -266,7 +269,7 @@ private fun LoanHeader(
 
             Text(
                 text = loan.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -278,7 +281,7 @@ private fun LoanHeader(
                     .align(Alignment.Bottom)
                     .padding(bottom = 4.dp),
                 text = loan.humanReadableType(),
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = loan.color.toComposeColor().dynamicContrast()
                 )
             )
@@ -327,7 +330,7 @@ private fun ColumnScope.LoanInfo(
                 100
             ).format(2)
         }%)",
-        style = Typo.numberBody2.style(
+        style = UI.typo.nB2.style(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -340,7 +343,7 @@ private fun ColumnScope.LoanInfo(
             .fillMaxWidth()
             .height(24.dp)
             .padding(horizontal = 24.dp),
-        notFilledColor = IvyTheme.colors.medium,
+        notFilledColor = UI.colors.medium,
         percent = percentPaid
     )
 }
@@ -366,7 +369,7 @@ private fun NoLoansEmptyState(
 
         Text(
             text = emptyStateTitle,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -377,7 +380,7 @@ private fun NoLoansEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = emptyStateText,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -391,7 +394,7 @@ private fun NoLoansEmptyState(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loans = listOf(

@@ -22,6 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -33,9 +36,9 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.*
@@ -45,7 +48,7 @@ import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.LoanDetailsScreen(screen: Screen.LoanDetails) {
+fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
     val viewModel: LoanDetailsViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()
@@ -123,8 +126,8 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .clip(Shapes.rounded32Top)
-                .background(IvyTheme.colors.pure),
+                .clip(UI.shapes.r1Top)
+                .background(UI.colors.pure),
             state = listState,
         ) {
             item {
@@ -175,7 +178,7 @@ private fun BoxWithConstraintsScope.UI(
                         .height(32.dp)
                         .fillMaxWidth()
                         .background(itemColor) //itemColor is displayed below the clip
-                        .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                        .background(UI.colors.pure, UI.shapes.r1Top)
                 )
             }
 
@@ -344,7 +347,7 @@ private fun LoanItem(
         Text(
             modifier = Modifier.testTag("loan_name"),
             text = loan.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -357,7 +360,7 @@ private fun LoanItem(
                 .align(Alignment.Bottom)
                 .padding(bottom = 12.dp),
             text = loan.humanReadableType(),
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = loan.color.toComposeColor().dynamicContrast()
             )
         )
@@ -393,14 +396,14 @@ private fun LoanInfoCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, Shapes.rounded24),
+            .background(backgroundColor, UI.shapes.r2),
     ) {
         Spacer(Modifier.height(24.dp))
 
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = "Paid",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -413,7 +416,7 @@ private fun LoanInfoCard(
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
             text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -421,7 +424,7 @@ private fun LoanInfoCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = IvyCurrency.fromCode(baseCurrency)?.name ?: "",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -440,7 +443,7 @@ private fun LoanInfoCard(
                 modifier = Modifier
                     .testTag("percent_paid"),
                 text = "${percentPaid.times(100).format(2)}%",
-                style = Typo.numberBody1.style(
+                style = UI.typo.nB1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -452,7 +455,7 @@ private fun LoanInfoCard(
                 modifier = Modifier
                     .testTag("left_to_pay"),
                 text = "${leftToPay.format(baseCurrency)} $baseCurrency left",
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -466,7 +469,7 @@ private fun LoanInfoCard(
                 .fillMaxWidth()
                 .height(24.dp)
                 .padding(horizontal = 24.dp),
-            notFilledColor = IvyTheme.colors.pure,
+            notFilledColor = UI.colors.pure,
             percent = percentPaid
         )
 
@@ -483,7 +486,7 @@ private fun LoanInfoCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = "Loan Interest",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -501,7 +504,7 @@ private fun LoanInfoCard(
                     modifier = Modifier
                         .testTag("loan_interest_percent_paid"),
                     text = "${loanPercentPaid.times(100).format(2)}%",
-                    style = Typo.numberBody1.style(
+                    style = UI.typo.nB1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -513,7 +516,7 @@ private fun LoanInfoCard(
                     modifier = Modifier
                         .testTag("interest_paid"),
                     text = "${loanAmountPaid.format(baseCurrency)} $baseCurrency paid",
-                    style = Typo.numberBody2.style(
+                    style = UI.typo.nB2.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -527,7 +530,7 @@ private fun LoanInfoCard(
                     .fillMaxWidth()
                     .height(24.dp)
                     .padding(horizontal = 24.dp),
-                notFilledColor = IvyTheme.colors.pure,
+                notFilledColor = UI.colors.pure,
                 percent = loanPercentPaid
             )
         }
@@ -542,7 +545,7 @@ private fun LoanInfoCard(
             text = "Add record",
             shadowAlpha = 0.1f,
             backgroundGradient = Gradient.solid(contrastColor),
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = findContrastTextColor(contrastColor),
                 fontWeight = FontWeight.Bold
             ),
@@ -587,16 +590,16 @@ private fun LoanRecordItem(
     account: Account? = null,
     onClick: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 onClick()
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("loan_record_item")
     ) {
 
@@ -604,23 +607,23 @@ private fun LoanRecordItem(
             Row(Modifier.padding(16.dp)) {
                 if (account != null) {
                     IvyButton(
-                        backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                        backgroundGradient = Gradient.solid(UI.colors.pure),
                         hasGlow = false,
-                        iconTint = IvyTheme.colors.pureInverse,
+                        iconTint = UI.colors.pureInverse,
                         text = account.name,
                         iconStart = getCustomIconIdS(
                             iconName = account.icon,
                             defaultIcon = R.drawable.ic_custom_account_s
                         ),
-                        textStyle = Typo.caption.style(
-                            color = IvyTheme.colors.pureInverse,
+                        textStyle = UI.typo.c.style(
+                            color = UI.colors.pureInverse,
                             fontWeight = FontWeight.ExtraBold
                         ),
                         padding = 8.dp,
                         iconEdgePadding = 10.dp
                     ) {
-                        ivyContext.navigateTo(
-                            Screen.ItemStatistic(
+                        nav.navigateTo(
+                            ItemStatistic(
                                 accountId = account.id,
                                 categoryId = null
                             )
@@ -643,7 +646,7 @@ private fun LoanRecordItem(
                             iconName = "currency",
                             defaultIcon = R.drawable.ic_currency
                         ),
-                        textStyle = Typo.caption.style(
+                        textStyle = UI.typo.c.style(
                             color = textIconColor,
                             fontWeight = FontWeight.ExtraBold
                         ),
@@ -663,7 +666,7 @@ private fun LoanRecordItem(
             text = loanRecord.dateTime.formatNicelyWithTime(
                 noWeekDay = false
             ).uppercase(),
-            style = Typo.numberCaption.style(
+            style = UI.typo.nC.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold
             )
@@ -673,9 +676,9 @@ private fun LoanRecordItem(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 text = loanRecord.note!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }
@@ -694,7 +697,7 @@ private fun LoanRecordItem(
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = loanRecord.convertedAmount.format(baseCurrency) + " $loanBaseCurrency",
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
                 )
@@ -722,7 +725,7 @@ private fun NoLoanRecordsEmptyState() {
 
         Text(
             text = "No records",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -733,7 +736,7 @@ private fun NoLoanRecordsEmptyState() {
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "You don't have any records for this loan. Tap \"Add record\" to create one.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -747,7 +750,7 @@ private fun NoLoanRecordsEmptyState() {
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(
@@ -765,7 +768,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Records() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(

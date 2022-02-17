@@ -13,8 +13,8 @@ import com.ivy.wallet.functional.wallet.calculateWalletIncome
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
@@ -49,7 +49,7 @@ class PieChartStatisticViewModel @Inject constructor(
     val selectedCategory = _selectedCategory.readOnly()
 
     fun start(
-        screen: Screen.PieChartStatistic
+        screen: PieChartStatistic
     ) {
         load(
             period = ivyContext.selectedPeriod,

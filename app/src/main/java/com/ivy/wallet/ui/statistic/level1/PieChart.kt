@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.convertDpToPixel
 import com.ivy.wallet.base.drawColoredShadow
@@ -26,6 +27,7 @@ import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.toEpochMilli
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import timber.log.Timber
@@ -53,15 +55,15 @@ fun PieChart(
                 .size((PIE_CHART_RADIUS_DP * 2).dp)
                 .drawColoredShadow(
                     color = Black,
-                    alpha = if (IvyTheme.colors.isLight) 0.05f else 0.5f,
+                    alpha = if (UI.colors.isLight) 0.05f else 0.5f,
                     offsetY = 32.dp,
                     shadowRadius = 48.dp
                 )
                 .clip(CircleShape)
                 .background(
                     brush = Gradient(
-                        IvyTheme.colors.medium,
-                        IvyTheme.colors.pure
+                        UI.colors.medium,
+                        UI.colors.pure
                     ).asVerticalBrush(),
                     shape = CircleShape
                 )
@@ -82,7 +84,7 @@ fun PieChart(
             modifier = Modifier
                 .size(100.dp)
                 .clip(CircleShape)
-                .background(IvyTheme.colors.medium)
+                .background(UI.colors.medium)
                 .padding(all = 20.dp),
             icon = if (type == TransactionType.INCOME) R.drawable.ic_income else R.drawable.ic_expense,
             tint = Gray
@@ -261,7 +263,7 @@ private class PieChartView(context: Context) : View(context) {
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column(
             Modifier.fillMaxSize()
         ) {

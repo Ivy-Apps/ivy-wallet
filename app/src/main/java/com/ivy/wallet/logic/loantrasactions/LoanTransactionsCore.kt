@@ -10,7 +10,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.*
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.TransactionUploader
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +22,7 @@ class LoanTransactionsCore(
     private val categoryDao: CategoryDao,
     private val transactionUploader: TransactionUploader,
     private val transactionDao: TransactionDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,

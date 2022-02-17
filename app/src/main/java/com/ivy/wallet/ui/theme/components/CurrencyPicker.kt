@@ -31,10 +31,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
 import java.util.*
 
@@ -119,8 +125,8 @@ private fun SearchInput(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.mediumInverse, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.mediumInverse, UI.shapes.rFull)
             .clickable {
                 inputFocus.requestFocus()
             },
@@ -143,7 +149,7 @@ private fun SearchInput(
                 //Hint
                 Text(
                     text = "Search (USD, EUR, GBP, BTC, etc)",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -160,12 +166,12 @@ private fun SearchInput(
                 onValueChange = {
                     onSetSearchTextFieldValue(it.copy(it.text.trim()))
                 },
-                textStyle = Typo.body2.style(
+                textStyle = UI.typo.b2.style(
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start
                 ),
                 singleLine = true,
-                cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colors.pureInverse),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         hideKeyboard(view)
@@ -190,10 +196,10 @@ private fun SelectedCurrencyCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded20)
+            .clip(UI.shapes.r3)
             .background(
                 brush = (if (preselected) GradientGreen else GradientIvy).asHorizontalBrush(),
-                shape = Shapes.rounded20
+                shape = UI.shapes.r3
             )
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -203,7 +209,7 @@ private fun SelectedCurrencyCard(
         Column {
             Text(
                 text = currency.name,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = White,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -213,7 +219,7 @@ private fun SelectedCurrencyCard(
 
             Text(
                 text = currency.code,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = White,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -229,7 +235,7 @@ private fun SelectedCurrencyCard(
 
         Text(
             text = if (preselected) "Pre-selected" else "Selected",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = White,
                 fontWeight = FontWeight.SemiBold
             )
@@ -323,10 +329,10 @@ private fun CurrencyItemCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(
-                color = if (selected) Ivy else IvyTheme.colors.medium,
-                shape = Shapes.rounded16
+                color = if (selected) Ivy else UI.colors.medium,
+                shape = UI.shapes.r4
             )
             .clickable {
                 onClick()
@@ -338,8 +344,8 @@ private fun CurrencyItemCard(
 
         Text(
             text = currency.code,
-            style = Typo.body1.style(
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = if (selected) White else UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -348,8 +354,8 @@ private fun CurrencyItemCard(
 
         Text(
             text = currency.name.take(20),
-            style = Typo.body2.style(
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = if (selected) White else UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -370,8 +376,8 @@ private fun LetterDividerItem(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = letterDivider.letter,
-        style = Typo.caption.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.c.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.SemiBold
         )
     )
@@ -382,7 +388,7 @@ private fun LetterDividerItem(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CurrencyPicker(
             initialSelectedCurrency = null,
             includeKeyboardShownInsetSpacer = true

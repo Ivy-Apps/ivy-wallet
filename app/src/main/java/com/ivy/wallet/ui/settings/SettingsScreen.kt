@@ -24,6 +24,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
@@ -32,10 +35,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.model.AuthProviderType
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.entity.User
-import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -46,7 +46,7 @@ import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: Screen.Settings) {
+fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val viewModel: SettingsViewModel = viewModel()
 
     val user by viewModel.user.observeAsState()
@@ -134,19 +134,19 @@ private fun BoxWithConstraintsScope.UI(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             IvyToolbar(
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
             ) {
                 Spacer(Modifier.weight(1f))
 
                 Text(
                     modifier = Modifier.clickableNoIndication {
-                        ivyContext.navigateTo(Screen.Test)
+                        nav.navigateTo(Test)
                     },
                     text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-                    style = Typo.numberCaption.style(
-                        color = IvyTheme.colors.gray,
+                    style = UI.typo.nC.style(
+                        color = UI.colors.gray,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -162,7 +162,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Settings",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -197,7 +197,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             ExportCSV {
                 onExportToCSV()
             }
@@ -209,8 +209,8 @@ private fun BoxWithConstraintsScope.UI(
                 text = "Import CSV",
                 backgroundGradient = GradientGreen
             ) {
-                ivyContext.navigateTo(
-                    Screen.Import(
+                nav.navigateTo(
+                    Import(
                         launchedFromOnboarding = false
                     )
                 )
@@ -383,7 +383,7 @@ private fun StartDateOfMonth(
                 .size(48.dp)
                 .padding(all = 4.dp),
             icon = R.drawable.ic_custom_calendar_m,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(8.dp))
@@ -391,8 +391,8 @@ private fun StartDateOfMonth(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Start date of month",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -401,9 +401,9 @@ private fun StartDateOfMonth(
 
         Text(
             text = startDateOfMonth.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -413,26 +413,26 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun HelpCenter() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = "Help Center",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = Constants.URL_HELP_CENTER)
+        nav.navigateTo(
+            IvyWebView(url = Constants.URL_HELP_CENTER)
         )
     }
 }
 
 @Composable
 private fun Roadmap() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = "Roadmap",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = Constants.URL_ROADMAP)
+        nav.navigateTo(
+            IvyWebView(url = Constants.URL_ROADMAP)
         )
     }
 }
@@ -462,13 +462,13 @@ private fun ContactSupport() {
 
 @Composable
 private fun ProjectContributors() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_people_m,
         text = "Project Contributors",
     ) {
-        ivyContext.navigateTo(
-            Screen.WebView(url = URL_IVY_CONTRIBUTORS)
+        nav.navigateTo(
+            IvyWebView(url = URL_IVY_CONTRIBUTORS)
         )
     }
 }
@@ -487,7 +487,7 @@ private fun LockAppSwitch(
 
         IvyIcon(
             icon = R.drawable.ic_custom_fingerprint_m,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(8.dp))
@@ -495,8 +495,8 @@ private fun LockAppSwitch(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Lock app",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -527,8 +527,8 @@ private fun AccountCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded24)
-            .background(IvyTheme.colors.medium, Shapes.rounded24)
+            .clip(UI.shapes.r2)
+            .background(UI.colors.medium, UI.shapes.r2)
             .clickable {
                 onCardClick()
             }
@@ -545,9 +545,9 @@ private fun AccountCard(
 
             Text(
                 text = "ACCOUNT",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
-                    color = IvyTheme.colors.gray
+                    color = UI.colors.gray
                 )
             )
 
@@ -618,9 +618,9 @@ private fun AccountCardUser(
 
         Text(
             text = localName ?: user.names(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -642,9 +642,9 @@ private fun AccountCardUser(
 
         Text(
             text = user.email,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -669,7 +669,7 @@ private fun AccountCardUser(
 
                 Text(
                     text = "Syncing...",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
                     )
@@ -695,7 +695,7 @@ private fun AccountCardUser(
 
                     Text(
                         text = "Data synced to cloud",
-                        style = Typo.body2.style(
+                        style = UI.typo.b2.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = Green
                         )
@@ -748,7 +748,7 @@ private fun AccountCardLocalAccount(
         Text(
             modifier = Modifier.testTag("local_account_name"),
             text = if (name != null && name.isNotBlank()) name else "Anonymous",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -759,15 +759,15 @@ private fun AccountCardLocalAccount(
 
 @Composable
 private fun Premium() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SettingsPrimaryButton(
         icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyContext.isPremium) "Ivy Premium (owned)" else "Buy premium",
+        text = if (ivyWalletCtx().isPremium) "Ivy Premium (owned)" else "Buy premium",
         hasShadow = true,
-        backgroundGradient = if (ivyContext.isPremium) GradientIvy else GradientOrange
+        backgroundGradient = if (ivyWalletCtx().isPremium) GradientIvy else GradientOrange
     ) {
-        ivyContext.navigateTo(
-            Screen.Paywall(
+        nav.navigateTo(
+            Paywall(
                 paywallReason = null
             )
         )
@@ -800,16 +800,16 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(Shapes.roundedFull)
-                .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_TC)
                 }
                 .padding(vertical = 14.dp),
             text = "Terms & Conditions",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )
@@ -819,16 +819,16 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(Shapes.roundedFull)
-                .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
+                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
                 .clickable {
                     uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
                 }
                 .padding(vertical = 14.dp),
             text = "Privacy Policy",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )
@@ -842,7 +842,7 @@ private fun SettingsPrimaryButton(
     @DrawableRes icon: Int,
     text: String,
     hasShadow: Boolean = false,
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.medium),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
     onClick: () -> Unit
 ) {
@@ -863,7 +863,7 @@ private fun SettingsPrimaryButton(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.Bold
             )
@@ -874,7 +874,7 @@ private fun SettingsPrimaryButton(
 @Composable
 private fun SettingsButtonRow(
     hasShadow: Boolean = false,
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.medium),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     onClick: (() -> Unit)?,
     Content: @Composable RowScope.() -> Unit
 ) {
@@ -885,8 +885,8 @@ private fun SettingsButtonRow(
                 drawColoredShadow(color = backgroundGradient.startColor)
             }
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .background(backgroundGradient.asHorizontalBrush(), Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
             .thenIf(onClick != null) {
                 clickable {
                     onClick?.invoke()
@@ -906,8 +906,8 @@ private fun AccountCardButton(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.pure, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.pure, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -925,9 +925,9 @@ private fun AccountCardButton(
             modifier = Modifier
                 .padding(vertical = 10.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -944,8 +944,8 @@ private fun CurrencyButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable {
                 onClick()
             },
@@ -960,8 +960,8 @@ private fun CurrencyButton(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = "Set currency",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -970,8 +970,8 @@ private fun CurrencyButton(
 
         Text(
             text = currency,
-            style = Typo.body1.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -994,7 +994,7 @@ private fun SettingsSectionDivider(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = color,
             fontWeight = FontWeight.Bold
         )
@@ -1010,8 +1010,8 @@ private fun SettingsDefaultButton(
     SettingsPrimaryButton(
         icon = icon,
         text = text,
-        backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
-        textColor = IvyTheme.colors.pureInverse
+        backgroundGradient = Gradient.solid(UI.colors.medium),
+        textColor = UI.colors.pureInverse
     ) {
         onClick()
     }
@@ -1021,7 +1021,7 @@ private fun SettingsDefaultButton(
 @Preview
 @Composable
 private fun Preview_synced() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1048,7 +1048,7 @@ private fun Preview_synced() {
 @Preview
 @Composable
 private fun Preview_notSynced() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1075,7 +1075,7 @@ private fun Preview_notSynced() {
 @Preview
 @Composable
 private fun Preview_loading() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = User(
                 email = "iliyan.germanov971@gmail.com",
@@ -1102,7 +1102,7 @@ private fun Preview_loading() {
 @Preview
 @Composable
 private fun Preview_localAccount() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             user = null,
             nameLocalAccount = "Iliyan",

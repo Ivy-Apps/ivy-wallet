@@ -20,13 +20,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -51,7 +53,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
 ) {
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -61,7 +63,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
         stickyHeader {
             OnboardingToolbar(
                 hasSkip = categories.isEmpty(),
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
         }
@@ -73,7 +75,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Add categories",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.Black
                     )
                 )
@@ -121,7 +123,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
                     text = "Suggestions",
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -209,8 +211,8 @@ private fun CategoryCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(IvyTheme.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onClick()
             },
@@ -233,7 +235,7 @@ private fun CategoryCard(
                 .padding(start = 16.dp, end = 24.dp)
                 .padding(vertical = 24.dp),
             text = category.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -246,7 +248,7 @@ private fun CategoryCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -312,7 +314,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Categories() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -384,7 +386,7 @@ private fun Preview_Categories() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(

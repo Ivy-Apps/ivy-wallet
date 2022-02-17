@@ -22,8 +22,8 @@ import com.ivy.wallet.model.IntervalType
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
@@ -35,7 +35,7 @@ import java.time.LocalDateTime
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditPlannedScreen(screen: Screen.EditPlanned) {
+fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
     val viewModel: EditPlannedViewModel = viewModel()
 
     val startDate by viewModel.startDate.observeAsState()
@@ -98,7 +98,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: Screen.EditPlanned) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.EditPlanned,
+    screen: EditPlanned,
 
     startDate: LocalDateTime?,
     intervalN: Int?,
@@ -429,9 +429,9 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
-            screen = Screen.EditPlanned(null, TransactionType.EXPENSE),
+            screen = EditPlanned(null, TransactionType.EXPENSE),
             oneTime = false,
             startDate = null,
             intervalN = null,

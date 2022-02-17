@@ -25,7 +25,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.design.api.navigation
 import com.ivy.wallet.ui.theme.Gradient
 
 fun Modifier.horizontalGradientBackground(
@@ -129,7 +129,7 @@ fun onScreenStart(
     cleanUp: () -> Unit = {},
     start: () -> Unit
 ) {
-    DisposableEffect(LocalIvyContext.current.currentScreen) {
+    DisposableEffect(navigation().currentScreen) {
         start()
         onDispose { cleanUp() }
     }

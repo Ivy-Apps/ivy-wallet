@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.edit
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,9 +14,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import arrow.core.valid
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -25,23 +24,23 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.EditTransaction
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.modal.edit.*
-import com.ivy.wallet.ui.theme.style
 import java.time.LocalDateTime
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction) {
+fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
     val viewModel: EditTransactionViewModel = viewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
@@ -111,7 +110,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.EditTransaction,
+    screen: EditTransaction,
     transactionType: TransactionType,
     baseCurrency: String,
     initialTitle: String?,
@@ -229,8 +228,8 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = loanData.loanCaption,
-                style = Typo.numberBody2.style(
-                    color = IvyTheme.colors.mediumInverse,
+                style = UI.typo.nB2.style(
+                    color = UI.colors.mediumInverse,
                     fontWeight = FontWeight.Normal
                 )
             )
@@ -249,7 +248,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(32.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
 
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
@@ -285,13 +284,14 @@ private fun BoxWithConstraintsScope.UI(
         if (dueDate == null && transactionType != TransactionType.TRANSFER && dateTime == null) {
             Spacer(Modifier.height(12.dp))
 
+            val nav = navigation()
             AddPrimaryAttributeButton(
                 icon = R.drawable.ic_planned_payments,
                 text = "Add planned date of payment",
                 onClick = {
-                    ivyContext.back()
-                    ivyContext.navigateTo(
-                        Screen.EditPlanned(
+                    nav.back()
+                    nav.navigateTo(
+                        EditPlanned(
                             plannedPaymentRuleId = null,
                             type = transactionType,
                             amount = amount,
@@ -491,9 +491,9 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
-            screen = Screen.EditTransaction(null, TransactionType.EXPENSE),
+            screen = EditTransaction(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = emptySet(),
             baseCurrency = "BGN",

@@ -24,20 +24,24 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 
 @Composable
 fun IvyOutlinedTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
     hint: String?,
-    hintColor: Color = IvyTheme.colors.gray,
-    backgroundColor: Color = IvyTheme.colors.ivy,
-    emptyBorderColor: Color = IvyTheme.colors.gray,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    cursorColor: Color = IvyTheme.colors.pureInverse,
+    hintColor: Color = UI.colors.gray,
+    backgroundColor: Color = UI.colors.primary,
+    emptyBorderColor: Color = UI.colors.gray,
+    textColor: Color = UI.colors.pureInverse,
+    cursorColor: Color = UI.colors.pureInverse,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -48,14 +52,14 @@ fun IvyOutlinedTextField(
 
     Box(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .border(
                 width = 2.dp,
                 color = if (isEmpty) emptyBorderColor else backgroundColor,
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .thenIf(validateInput(value)) {
-                background(backgroundColor.copy(alpha = 0.1f), Shapes.roundedFull)
+                background(backgroundColor.copy(alpha = 0.1f), UI.shapes.rFull)
             },
         contentAlignment = Alignment.Center
     ) {
@@ -71,7 +75,7 @@ fun IvyOutlinedTextField(
                     .padding(vertical = 16.dp),
                 text = hint!!,
                 textAlign = TextAlign.Center,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = hintColor,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -88,7 +92,7 @@ fun IvyOutlinedTextField(
                 .padding(vertical = 16.dp, horizontal = 24.dp),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -106,7 +110,7 @@ fun IvyOutlinedTextField(
 @Preview
 @Composable
 private fun PreviewOutlineTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue(),
