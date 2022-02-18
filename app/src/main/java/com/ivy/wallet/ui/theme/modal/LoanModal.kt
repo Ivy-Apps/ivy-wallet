@@ -114,7 +114,7 @@ fun BoxWithConstraintsScope.LoanModal(
                 enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
                 accountChangeModal =
-                    modal?.selectedAccount != null && currencyCode != (modal.selectedAccount.currency
+                    loan != null && modal.selectedAccount != null && currencyCode != (modal.selectedAccount.currency
                         ?: modal.baseCurrency)
 
                 if (!accountChangeModal) {

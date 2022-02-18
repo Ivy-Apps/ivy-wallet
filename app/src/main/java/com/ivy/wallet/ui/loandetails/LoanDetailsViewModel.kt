@@ -10,7 +10,6 @@ import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.AccountCreator
 import com.ivy.wallet.logic.LoanCreator
 import com.ivy.wallet.logic.LoanRecordCreator
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
@@ -20,12 +19,9 @@ import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.dao.*
-import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
-import com.ivy.wallet.persistence.dao.LoanDao
-import com.ivy.wallet.persistence.dao.LoanRecordDao
-import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,30 +32,24 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoanDetailsViewModel @Inject constructor(
-    private val transactionDao: TransactionDao,
-    private val accountDao: AccountDao,
-    private val accountCreator: AccountCreator,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val loanTransactionsLogic: LoanTransactionsLogic,
     private val ivyContext: IvyWalletCtx,
+    private val transactionDao: TransactionDao,
+    private val accountDao: AccountDao,
+    private val accountCreator: AccountCreator,
+    private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation
 ) : ViewModel() {
-
-    private var defaultCurrencyCode = ""
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.asStateFlow()
 
     private val _loan = MutableStateFlow<Loan?>(null)
     val loan = _loan.asStateFlow()
-
-    private val _loanRecords = MutableStateFlow(emptyList<LoanRecord>())
-    val loanRecords = _loanRecords.asStateFlow()
 
     private val _displayLoanRecords = MutableStateFlow(emptyList<DisplayLoanRecord>())
     val displayLoanRecords = _displayLoanRecords.asStateFlow()
@@ -70,8 +60,8 @@ class LoanDetailsViewModel @Inject constructor(
     private val _accounts = MutableStateFlow<List<Account>>(emptyList())
     val accounts = _accounts.asStateFlow()
 
-    private val _loanAmountPaid = MutableStateFlow(0.0)
-    val loanAmountPaid = _loanAmountPaid.asStateFlow()
+    private val _loanInterestAmountPaid = MutableStateFlow(0.0)
+    val loanAmountPaid = _loanInterestAmountPaid.asStateFlow()
 
     private val _selectedLoanAccount = MutableStateFlow<Account?>(null)
     val selectedLoanAccount = _selectedLoanAccount.asStateFlow()
@@ -81,6 +71,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val _createLoanTransaction = MutableStateFlow(false)
     val createLoanTransaction = _createLoanTransaction.asStateFlow()
 
+    private var defaultCurrencyCode = ""
 
     fun start(screen: LoanDetails) {
         load(loanId = screen.loanId)
@@ -92,9 +83,9 @@ class LoanDetailsViewModel @Inject constructor(
 
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
+            }.also {
+                _baseCurrency.value = it
             }
-
-            _baseCurrency.value = defaultCurrencyCode
 
             _accounts.value = ioThread {
                 accountDao.findAll()
@@ -126,7 +117,7 @@ class LoanDetailsViewModel @Inject constructor(
                         val account = findAccount(
                             accounts = accounts.value,
                             accountId = it.accountId,
-                        ) ?: findAccount(accounts.value, trans?.accountId)
+                        )
 
                         DisplayLoanRecord(
                             it,
@@ -141,7 +132,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             computationThread {
                 //Using a local variable to calculate the amount and then reassigning to
-                // the global variable to reduce the amount of compose re-draws
+                // the State variable to reduce the amount of compose re-draws
                 var amtPaid = 0.0
                 var loanInterestAmtPaid = 0.0
                 displayLoanRecords.value.forEach {
@@ -153,7 +144,7 @@ class LoanDetailsViewModel @Inject constructor(
                 }
 
                 _amountPaid.value = amtPaid
-                _loanAmountPaid.value = loanInterestAmtPaid
+                _loanInterestAmountPaid.value = loanInterestAmtPaid
             }
 
             associatedTransaction = ioThread {
@@ -176,8 +167,9 @@ class LoanDetailsViewModel @Inject constructor(
 
             _loan.value?.let {
                 loanTransactionsLogic.Loan.recalculateLoanRecords(
-                    oldLoan = it,
-                    newLoan = loan
+                    oldLoanAccountId = it.accountId,
+                    newLoanAccountId = loan.accountId,
+                    loanId = loan.id
                 )
             }
 
@@ -201,12 +193,12 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
+            loanTransactionsLogic.Loan.deleteAssociatedLoanTransactions(loan.id)
+
             loanCreator.delete(loan) {
                 //close screen
                 nav.back()
             }
-
-            loanTransactionsLogic.Loan.deleteAssociatedLoanTransactions(loan.id)
 
             TestIdlingResource.decrement()
         }
@@ -220,19 +212,12 @@ class LoanDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val modifiedData = ioThread {
-                if (data.account?.currency != baseCurrency.value)
-                    data.copy(
-                        convertedAmount = exchangeRatesLogic.convertAmount(
-                            baseCurrency = defaultCurrencyCode,
-                            amount = data.amount,
-                            fromCurrency = data.account?.currency ?: defaultCurrencyCode,
-                            toCurrency = baseCurrency.value
-                        )
-                    )
-                else
-                    data
-            }
+            val modifiedData = data.copy(
+                convertedAmount = loanTransactionsLogic.LoanRecord.calculateConvertedAmount(
+                    data = data,
+                    loanAccountId = localLoan.accountId
+                )
+            )
 
             val loanRecordUUID = loanRecordCreator.create(
                 loanId = loanId,
@@ -255,30 +240,31 @@ class LoanDetailsViewModel @Inject constructor(
 
     fun editLoanRecord(editLoanRecordData: EditLoanRecordData) {
         viewModelScope.launch {
-            val loanRecord = editLoanRecordData.loanRecord
+            val loanRecord = editLoanRecordData.newLoanRecord
             TestIdlingResource.increment()
 
             val localLoan: Loan = _loan.value ?: return@launch
 
             val convertedAmount =
                 loanTransactionsLogic.LoanRecord.calculateConvertedAmount(
-                    loan = localLoan,
-                    loanRecord = editLoanRecordData.loanRecord,
+                    loanAccountId = localLoan.accountId,
+                    newLoanRecord = editLoanRecordData.newLoanRecord,
+                    oldLoanRecord = editLoanRecordData.originalLoanRecord,
                     reCalculateLoanAmount = editLoanRecordData.reCalculateLoanAmount
                 )
 
             val modifiedLoanRecord =
-                editLoanRecordData.loanRecord.copy(convertedAmount = convertedAmount)
-
-            loanRecordCreator.edit(modifiedLoanRecord) {
-                load(loanId = it.loanId)
-            }
+                editLoanRecordData.newLoanRecord.copy(convertedAmount = convertedAmount)
 
             loanTransactionsLogic.LoanRecord.editAssociatedLoanRecordTransaction(
                 loan = localLoan,
                 createLoanRecordTransaction = editLoanRecordData.createLoanRecordTransaction,
                 loanRecord = loanRecord,
             )
+
+            loanRecordCreator.edit(modifiedLoanRecord) {
+                load(loanId = it.loanId)
+            }
 
             TestIdlingResource.decrement()
         }

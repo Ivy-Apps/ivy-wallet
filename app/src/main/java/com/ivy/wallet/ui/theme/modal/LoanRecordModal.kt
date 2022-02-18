@@ -26,16 +26,17 @@ import com.ivy.wallet.logic.model.CreateLoanRecordData
 import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
+import com.ivy.wallet.ui.theme.toComposeColor
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.*
@@ -108,7 +109,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             ) {
                 accountChangeConformationModal =
                     initialRecord != null && modal.selectedAccount != null
-                            && modal.selectedAccount.currency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
+                            && modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
                 if (!accountChangeConformationModal)
                     save(
@@ -387,9 +388,10 @@ private fun save(
         )
         onEdit(
             EditLoanRecordData(
-                loanRecord = record,
+                newLoanRecord = record,
+                originalLoanRecord = loanRecord,
                 createLoanRecordTransaction = createLoanRecordTransaction,
-                reCalculateLoanAmount = reCalculateAmount
+                reCalculateLoanAmount = reCalculateAmount,
             )
         )
     } else {

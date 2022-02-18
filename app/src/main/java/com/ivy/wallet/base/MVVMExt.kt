@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +30,11 @@ fun Fragment.stringArg(key: String): String? {
 suspend fun <T> ioThread(action: suspend () -> T): T = withContext(Dispatchers.IO) {
     return@withContext action()
 }
+
+suspend fun <T> scopedIOThread(action: suspend (scope: CoroutineScope) -> T): T =
+    withContext(Dispatchers.IO) {
+        return@withContext action(this)
+    }
 
 suspend fun <T> computationThread(action: suspend () -> T): T = withContext(Dispatchers.Default) {
     return@withContext action()

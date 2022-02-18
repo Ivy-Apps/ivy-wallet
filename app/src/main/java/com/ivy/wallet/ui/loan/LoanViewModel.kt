@@ -1,10 +1,8 @@
 package com.ivy.wallet.ui.loan
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
@@ -32,18 +30,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoanViewModel @Inject constructor(
-    private val sharedPrefs: SharedPrefs,
-    private val accountDao: AccountDao,
-    private val accountCreator: AccountCreator,
     private val loanDao: LoanDao,
     private val loanRecordDao: LoanRecordDao,
     private val settingsDao: SettingsDao,
     private val loanSync: LoanSync,
     private val loanCreator: LoanCreator,
+    private val sharedPrefs: SharedPrefs,
+    private val accountDao: AccountDao,
+    private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic
 ) : ViewModel() {
-
-    private var defaultCurrencyCode = ""
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
@@ -54,8 +50,10 @@ class LoanViewModel @Inject constructor(
     private val _accounts = MutableStateFlow<List<Account>>(emptyList())
     val accounts = _accounts.asStateFlow()
 
-    private val _selectedAccount = MutableLiveData<Account>()
-    val selectedAccount = _selectedAccount.asLiveData()
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    val selectedAccount = _selectedAccount.asStateFlow()
+
+    private var defaultCurrencyCode = ""
 
     fun start() {
         viewModelScope.launch {
@@ -63,9 +61,9 @@ class LoanViewModel @Inject constructor(
 
             defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
+            }.also {
+                _baseCurrencyCode.value = it
             }
-
-            _baseCurrencyCode.value = defaultCurrencyCode
 
             initialiseAccounts()
 
@@ -109,19 +107,6 @@ class LoanViewModel @Inject constructor(
         }
     }
 
-    fun createAccount(data: CreateAccountData) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
-                _accounts.value = ioThread { accountDao.findAll() }!!
-            }
-
-            TestIdlingResource.decrement()
-        }
-    }
-
     fun reorder(newOrder: List<DisplayLoan>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
@@ -140,6 +125,19 @@ class LoanViewModel @Inject constructor(
 
             ioThread {
                 loanSync.sync()
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun createAccount(data: CreateAccountData) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            accountCreator.createAccount(data) {
+                EventBus.getDefault().post(AccountsUpdatedEvent())
+                _accounts.value = ioThread { accountDao.findAll() }!!
             }
 
             TestIdlingResource.decrement()

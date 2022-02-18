@@ -21,10 +21,10 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.TransactionUploader
-import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -100,13 +100,16 @@ class EditTransactionViewModel @Inject constructor(
         MutableStateFlow(EditTransactionDisplayLoan())
     val displayLoanHelper = _displayLoanHelper.asStateFlow()
 
-    //This is used to when the transaction is associated with a loan or loan record,
+    //This is used to when the transaction is associated with a loan/loan record,
     // used to indicate the background updating of loan/loanRecord data
     private val _backgroundProcessingStarted = MutableStateFlow(false)
     val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
 
     private var loadedTransaction: Transaction? = null
     private var editMode = false
+
+    //Used for optimising in updating all loan/loanRecords
+    private var accountsChanged = false
 
     var title: String? = null
 
@@ -289,6 +292,8 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             updateCurrency(account = newAccount)
         }
+
+        accountsChanged = true
 
         //update last selected account
         sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
@@ -479,7 +484,12 @@ class EditTransactionViewModel @Inject constructor(
                         },
                         onBackgroundProcessingEnd = {
                             _backgroundProcessingStarted.value = false
-                        })
+                        },
+                        accountsChanged = accountsChanged
+                    )
+
+                    //Reset Counter
+                    accountsChanged = false
                 }
 
                 transactionDao.save(loadedTransaction())

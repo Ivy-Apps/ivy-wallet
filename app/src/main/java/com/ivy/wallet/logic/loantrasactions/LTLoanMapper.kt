@@ -1,13 +1,16 @@
 package com.ivy.wallet.logic.loantrasactions
 
 import com.ivy.wallet.base.computationThread
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.base.scopedIOThread
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
 import com.ivy.wallet.model.entity.Transaction
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import java.util.*
 
 class LTLoanMapper(
@@ -48,27 +51,27 @@ class LTLoanMapper(
         }
     }
 
-
     suspend fun deleteAssociatedLoanTransactions(loanId: UUID) {
         ltCore.deleteAssociatedTransactions(loanId = loanId)
     }
 
     suspend fun recalculateLoanRecords(
-        oldLoan: Loan,
-        newLoan: Loan
+        oldLoanAccountId: UUID?,
+        newLoanAccountId: UUID?,
+        loanId: UUID
     ) {
         val accounts = ltCore.fetchAccounts()
-
         computationThread {
-            val oldLoanAccount = ltCore.findAccount(accounts, oldLoan.accountId)
-            val newLoanAccount = ltCore.findAccount(accounts, newLoan.accountId)
 
-            if (oldLoan.accountId == newLoan.accountId || oldLoanAccount?.currency == newLoanAccount?.currency)
+            if (oldLoanAccountId == newLoanAccountId || oldLoanAccountId.fetchAssociatedCurrencyCode(
+                    accounts
+                ) == newLoanAccountId.fetchAssociatedCurrencyCode(accounts)
+            )
                 return@computationThread
 
-            val newLoanRecords = ltCore.calculateLoanRecords(
-                loanId = newLoan.id,
-                newAccountId = newLoan.accountId,
+            val newLoanRecords = calculateLoanRecords(
+                loanId = loanId,
+                newAccountId = newLoanAccountId,
             )
 
             ltCore.saveLoanRecords(newLoanRecords)
@@ -79,6 +82,7 @@ class LTLoanMapper(
         transaction: Transaction?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
+        accountsChanged: Boolean = true
     ) {
         computationThread {
             transaction?.loanId ?: return@computationThread
@@ -86,21 +90,53 @@ class LTLoanMapper(
             onBackgroundProcessingStart()
 
             val loan = ltCore.fetchLoan(transaction.loanId) ?: return@computationThread
-            val newLoanRecords: List<LoanRecord> = ltCore.calculateLoanRecords(
-                loanId = transaction.loanId,
-                newAccountId = transaction.accountId
-            )
+
+            if (accountsChanged) {
+                val newLoanRecords: List<LoanRecord> = calculateLoanRecords(
+                    loanId = transaction.loanId,
+                    newAccountId = transaction.accountId
+                )
+                ltCore.saveLoanRecords(newLoanRecords)
+            }
 
             val modifiedLoan = loan.copy(
                 amount = transaction.amount,
-                name = transaction.title ?: loan.name,
+                name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title,
                 type = if (transaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )
 
-            ltCore.saveLoanRecords(newLoanRecords)
             ltCore.saveLoan(modifiedLoan)
         }
         onBackgroundProcessingEnd()
+    }
+
+    private suspend fun calculateLoanRecords(
+        newAccountId: UUID?,
+        loanId: UUID
+    ): List<LoanRecord> {
+        return scopedIOThread { scope ->
+            val loanRecords =
+                ltCore.fetchAllLoanRecords(loanId = loanId).map { loanRecord ->
+                    scope.async {
+                        val convertedAmount: Double? =
+                            ltCore.computeConvertedAmount(
+                                oldLoanRecordAccountId = loanRecord.accountId,
+                                oldLonRecordConvertedAmount = loanRecord.convertedAmount,
+                                oldLoanRecordAmount = loanRecord.amount,
+                                newLoanRecordAccountID = loanRecord.accountId,
+                                newLoanRecordAmount = loanRecord.amount,
+                                loanAccountId = newAccountId,
+                                accounts = ltCore.fetchAccounts(),
+                            )
+                        loanRecord.copy(convertedAmount = convertedAmount)
+                    }
+                }.awaitAll()
+            loanRecords
+        }
+    }
+
+    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<Account>): String {
+        return ltCore.findAccount(accountsList, this)?.currency ?: ltCore.baseCurrency()
     }
 }

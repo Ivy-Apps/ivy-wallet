@@ -45,6 +45,7 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val loans by viewModel.loans.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
+    val selectedAccount by viewModel.selectedAccount.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -54,6 +55,7 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
         baseCurrency = baseCurrency,
         loans = loans,
         accounts = accounts,
+        selectedAccount = selectedAccount,
 
         onCreateLoan = viewModel::createLoan,
         onEditLoan = { _, _ ->
@@ -70,6 +72,7 @@ private fun BoxWithConstraintsScope.UI(
     loans: List<DisplayLoan>,
     accounts: List<Account> = emptyList(),
     onCreateAccount: (CreateAccountData) -> Unit = {},
+    selectedAccount: Account? = null,
 
     onCreateLoan: (CreateLoanData) -> Unit = {},
     onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
@@ -131,7 +134,8 @@ private fun BoxWithConstraintsScope.UI(
         onAdd = {
             loanModalData = LoanModalData(
                 loan = null,
-                baseCurrency = baseCurrency
+                baseCurrency = baseCurrency,
+                selectedAccount = selectedAccount
             )
         },
         onClose = {

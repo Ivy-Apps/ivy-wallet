@@ -37,7 +37,7 @@ class LoanTransactionsCore(
         }
     }
 
-     suspend fun deleteAssociatedTransactions(
+    suspend fun deleteAssociatedTransactions(
         loanId: UUID? = null,
         loanRecordId: UUID? = null
     ) {
@@ -55,7 +55,7 @@ class LoanTransactionsCore(
         }
     }
 
-     fun findAccount(
+    fun findAccount(
         accounts: List<Account>,
         accountId: UUID?,
     ): Account? {
@@ -66,11 +66,11 @@ class LoanTransactionsCore(
         }
     }
 
-     suspend fun baseCurrency(): String =
+    suspend fun baseCurrency(): String =
         ioThread { baseCurrencyCode ?: settingsDao.findFirst().currency }
 
 
-     suspend fun updateAssociatedTransaction(
+    suspend fun updateAssociatedTransaction(
         createTransaction: Boolean,
         loanRecordId: UUID? = null,
         loanId: UUID,
@@ -208,43 +208,23 @@ class LoanTransactionsCore(
         return loanCategory?.id
     }
 
-     suspend fun calculateLoanRecords(
-        newAccountId: UUID?,
-        loanId: UUID
-    ): List<LoanRecord> {
-        return ioThread {
-            val loanRecords =
-                loanRecordDao.findAllByLoanId(loanId).map { loanRecord ->
-                    val convertedAmount: Double? =
-                        computeConvertedAmount(
-                            newAmount = loanRecord.amount,
-                            loanAccountId = newAccountId,
-                            loanRecordId = loanRecord.id,
-                            loanRecordAccountId = loanRecord.accountId
-                        )
-                    loanRecord.copy(convertedAmount = convertedAmount)
-                }
-            loanRecords
-        }
-    }
-
-     suspend fun computeConvertedAmount(
-        newAmount: Double,
+    suspend fun computeConvertedAmount(
+        oldLoanRecordAccountId: UUID?,
+        oldLonRecordConvertedAmount: Double?,
+        oldLoanRecordAmount: Double,
+        newLoanRecordAccountID: UUID?,
+        newLoanRecordAmount: Double,
         loanAccountId: UUID?,
-        loanRecordId: UUID,
-        loanRecordAccountId: UUID?,
+        accounts: List<Account>,
         reCalculateLoanAmount: Boolean = false,
     ): Double? {
         return computationThread {
 
-            val accounts = fetchAccounts()
-            val oldLoanRecord = fetchLoanRecord(loanRecordId)
-
             val newLoanRecordCurrency =
-                loanRecordAccountId.fetchAssociatedCurrencyCode(accountsList = accounts)
+                newLoanRecordAccountID.fetchAssociatedCurrencyCode(accountsList = accounts)
 
             val oldLoanRecordCurrency =
-                oldLoanRecord?.accountId.fetchAssociatedCurrencyCode(accountsList = accounts)
+                oldLoanRecordAccountId.fetchAssociatedCurrencyCode(accountsList = accounts)
 
             val loanCurrency = loanAccountId.fetchAssociatedCurrencyCode(accountsList = accounts)
 
@@ -255,23 +235,24 @@ class LoanTransactionsCore(
                     null
                 }
 
-                reCalculateLoanAmount || loanRecordCurrenciesChanged || oldLoanRecord?.convertedAmount == null || newLoanRecordCurrency != loanCurrency -> {
+                reCalculateLoanAmount || loanRecordCurrenciesChanged
+                        || oldLonRecordConvertedAmount == null -> {
                     ioThread {
                         exchangeRatesLogic.convertAmount(
                             baseCurrency = baseCurrency(),
-                            amount = newAmount,
+                            amount = newLoanRecordAmount,
                             fromCurrency = newLoanRecordCurrency,
                             toCurrency = loanCurrency
                         )
                     }
                 }
 
-                oldLoanRecord.amount != newAmount -> {
-                    newAmount * (oldLoanRecord.convertedAmount / oldLoanRecord.amount)
+                oldLoanRecordAmount != newLoanRecordAmount -> {
+                    newLoanRecordAmount * (oldLonRecordConvertedAmount / oldLoanRecordAmount)
                 }
 
                 else -> {
-                    oldLoanRecord.convertedAmount
+                    oldLonRecordConvertedAmount
                 }
             }
             newConverted
@@ -282,27 +263,31 @@ class LoanTransactionsCore(
         return findAccount(accountsList, this)?.currency ?: baseCurrency()
     }
 
-     suspend fun fetchAccounts() = ioThread {
+    suspend fun fetchAccounts() = ioThread {
         accountsDao.findAll()
     }
 
-     suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {
+    suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {
         loanRecordDao.save(loanRecords)
     }
 
-     suspend fun saveLoanRecords(loanRecord: LoanRecord) = ioThread {
+    suspend fun saveLoanRecords(loanRecord: LoanRecord) = ioThread {
         loanRecordDao.save(loanRecord)
     }
 
-     suspend fun saveLoan(loan: Loan) = ioThread {
+    suspend fun saveLoan(loan: Loan) = ioThread {
         loanDao.save(loan)
     }
 
-     suspend fun fetchLoanRecord(loanRecordId: UUID) = ioThread {
+    suspend fun fetchLoanRecord(loanRecordId: UUID) = ioThread {
         loanRecordDao.findById(loanRecordId)
     }
 
-     suspend fun fetchLoan(loanId: UUID) = ioThread {
+    suspend fun fetchAllLoanRecords(loanId: UUID) = ioThread {
+        loanRecordDao.findAllByLoanId(loanId)
+    }
+
+    suspend fun fetchLoan(loanId: UUID) = ioThread {
         loanDao.findById(loanId)
     }
 

@@ -70,13 +70,15 @@ class LTLoanRecordMapper(
                 ltCore.fetchLoanRecord(transaction.loanRecordId) ?: return@computationThread
             val loan = ltCore.fetchLoan(transaction.loanId) ?: return@computationThread
 
-            val convertedAmount =
-                ltCore.computeConvertedAmount(
-                    newAmount = transaction.amount,
-                    loanAccountId = loan.accountId,
-                    loanRecordId = loanRecord.id,
-                    loanRecordAccountId = loanRecord.accountId
-                )
+            val convertedAmount = ltCore.computeConvertedAmount(
+                oldLoanRecordAccountId = loanRecord.accountId,
+                oldLonRecordConvertedAmount = loanRecord.convertedAmount,
+                oldLoanRecordAmount = loanRecord.amount,
+                newLoanRecordAccountID = transaction.accountId,
+                newLoanRecordAmount = transaction.amount,
+                loanAccountId = loan.accountId,
+                accounts = ltCore.fetchAccounts()
+            )
 
             val modifiedLoanRecord = loanRecord.copy(
                 amount = transaction.amount,
@@ -91,15 +93,35 @@ class LTLoanRecordMapper(
     }
 
     suspend fun calculateConvertedAmount(
-        loan: Loan,
-        loanRecord: LoanRecord,
+        loanAccountId: UUID?,
+        newLoanRecord: LoanRecord,
+        oldLoanRecord: LoanRecord,
         reCalculateLoanAmount: Boolean = false,
-    ): Double? =
-        ltCore.computeConvertedAmount(
-            newAmount = loanRecord.amount,
-            loanAccountId = loan.accountId,
-            loanRecordId = loanRecord.id,
-            loanRecordAccountId = loanRecord.accountId,
+    ): Double? {
+        return ltCore.computeConvertedAmount(
+            oldLoanRecordAccountId = oldLoanRecord.accountId,
+            oldLonRecordConvertedAmount = oldLoanRecord.convertedAmount,
+            oldLoanRecordAmount = oldLoanRecord.amount,
+            newLoanRecordAccountID = newLoanRecord.accountId,
+            newLoanRecordAmount = newLoanRecord.amount,
+            loanAccountId = loanAccountId,
+            accounts = ltCore.fetchAccounts(),
             reCalculateLoanAmount = reCalculateLoanAmount
         )
+    }
+
+    suspend fun calculateConvertedAmount(
+        data: CreateLoanRecordData,
+        loanAccountId: UUID?,
+    ): Double? {
+        return ltCore.computeConvertedAmount(
+            oldLoanRecordAccountId = null,
+            oldLonRecordConvertedAmount = null,
+            oldLoanRecordAmount = 0.0,
+            newLoanRecordAccountID = data.account?.id,
+            newLoanRecordAmount = data.amount,
+            loanAccountId = loanAccountId,
+            accounts = ltCore.fetchAccounts(),
+        )
+    }
 }

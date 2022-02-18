@@ -11,6 +11,7 @@ data class LoanTransactionsLogic(
         transaction: Transaction?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
+        accountsChanged: Boolean = true
     ) {
         computationThread {
 
@@ -21,7 +22,8 @@ data class LoanTransactionsLogic(
                 Loan.updateAssociatedLoan(
                     transaction = transaction,
                     onBackgroundProcessingStart = onBackgroundProcessingStart,
-                    onBackgroundProcessingEnd = onBackgroundProcessingEnd
+                    onBackgroundProcessingEnd = onBackgroundProcessingEnd,
+                    accountsChanged = accountsChanged
                 )
             } else if (transaction.loanId != null && transaction.loanRecordId != null) {
                 LoanRecord.updateAssociatedLoanRecord(
