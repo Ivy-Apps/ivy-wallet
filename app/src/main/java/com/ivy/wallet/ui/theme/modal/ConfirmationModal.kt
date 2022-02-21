@@ -1,44 +1,33 @@
 package com.ivy.wallet.ui.theme.modal
 
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
-
 import com.ivy.wallet.ui.theme.Red
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.DeleteModal(
+fun BoxWithConstraintsScope.ConfirmationModal(
     id: UUID = UUID.randomUUID(),
     title: String,
     description: String,
     visible: Boolean,
-    buttonText: String = "Delete",
-    iconStart: Int = R.drawable.ic_delete,
-    dismiss: () -> Unit,
-    onDelete: () -> Unit,
+    color: Color = UI.colors.orange,
+    dismiss: () -> Unit = {},
 ) {
     IvyModal(
         id = id,
         visible = visible,
         dismiss = dismiss,
-        PrimaryAction = {
-            ModalNegativeButton(
-                text = buttonText,
-                iconStart = iconStart
-            ) {
-                onDelete()
-            }
-        }
+        PrimaryAction = {}
     ) {
         Spacer(Modifier.height(32.dp))
 
@@ -60,6 +49,19 @@ fun BoxWithConstraintsScope.DeleteModal(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Medium
             )
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp)
+                .height(8.dp)
+                .clip(
+                    UI.shapes.rFull
+                ),
+            color = color
         )
 
         Spacer(Modifier.height(48.dp))

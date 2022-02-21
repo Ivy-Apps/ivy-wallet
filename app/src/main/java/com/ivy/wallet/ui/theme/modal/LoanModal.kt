@@ -1,8 +1,12 @@
 package com.ivy.wallet.ui.theme.modal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -18,37 +23,45 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.base.thenIf
+import com.ivy.wallet.base.*
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.theme.GradientIvy
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
+import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.modal.edit.AccountModal
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
+import kotlinx.coroutines.launch
 import java.util.*
 
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
+    val selectedAccount: Account? = null,
     val autoFocusKeyboard: Boolean = true,
     val autoOpenAmountModal: Boolean = false,
+    val createLoanTransaction: Boolean = false,
     val id: UUID = UUID.randomUUID()
 )
 
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
+
     modal: LoanModalData?,
     onCreateLoan: (CreateLoanData) -> Unit,
-    onEditLoan: (Loan) -> Unit,
+    onEditLoan: (Loan, Boolean) -> Unit,
+    onPerformCalculations: () -> Unit = {},
     dismiss: () -> Unit,
 ) {
     val loan = modal?.loan
@@ -71,12 +84,22 @@ fun BoxWithConstraintsScope.LoanModal(
         mutableStateOf(modal?.baseCurrency ?: "")
     }
 
+    var selectedAcc by remember(modal) {
+        mutableStateOf(modal?.selectedAccount)
+    }
 
+    var createLoanTrans by remember(modal) {
+        mutableStateOf(modal?.createLoanTransaction ?: false)
+    }
+
+    var accountChangeModal by remember { mutableStateOf(false) }
     var amountModalVisible by remember { mutableStateOf(false) }
     var currencyModalVisible by remember { mutableStateOf(false) }
     var chooseIconModalVisible by remember(modal) {
         mutableStateOf(false)
     }
+
+    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
 
     IvyModal(
@@ -87,20 +110,29 @@ fun BoxWithConstraintsScope.LoanModal(
         PrimaryAction = {
             ModalAddSave(
                 item = modal?.loan,
-                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0
+                //enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && ((createLoanTrans && selectedAcc != null) || !createLoanTrans)
+                enabled = nameTextFieldValue.text.isNotNullOrBlank() && amount > 0 && selectedAcc != null
             ) {
-                save(
-                    loan = loan,
-                    nameTextFieldValue = nameTextFieldValue,
-                    type = type,
-                    color = color,
-                    icon = icon,
-                    amount = amount,
+                accountChangeModal =
+                    loan != null && modal.selectedAccount != null && currencyCode != (modal.selectedAccount.currency
+                        ?: modal.baseCurrency)
 
-                    onCreateLoan = onCreateLoan,
-                    onEditLoan = onEditLoan,
-                    dismiss = dismiss
-                )
+                if (!accountChangeModal) {
+                    save(
+                        loan = loan,
+                        nameTextFieldValue = nameTextFieldValue,
+                        type = type,
+                        color = color,
+                        icon = icon,
+                        amount = amount,
+                        selectedAccount = selectedAcc,
+                        createLoanTransaction = createLoanTrans,
+
+                        onCreateLoan = onCreateLoan,
+                        onEditLoan = onEditLoan,
+                        dismiss = dismiss
+                    )
+                }
             }
         }
     ) {
@@ -147,7 +179,49 @@ fun BoxWithConstraintsScope.LoanModal(
             onColorSelected = { color = it }
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = "Associated Account",
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        AccountsRow(
+            accounts = accounts,
+            selectedAccount = selectedAcc,
+            onSelectedAccountChanged = {
+                selectedAcc = it
+                currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
+            },
+            onAddNewAccount = {
+                accountModalData = AccountModalData(
+                    account = null,
+                    baseCurrency = selectedAcc?.currency ?: "USD",
+                    balance = 0.0
+                )
+            },
+            childrenTestTag = "amount_modal_account"
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        IvyCheckboxWithText(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .align(Alignment.Start),
+            text = "Create a Main Transaction",
+            checked = createLoanTrans
+        ) {
+            createLoanTrans = it
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         ModalAmountSection(
             label = "ENTER LOAN AMOUNT",
@@ -182,6 +256,15 @@ fun BoxWithConstraintsScope.LoanModal(
         currencyCode = it
     }
 
+    AccountModal(
+        modal = accountModalData,
+        onCreateAccount = onCreateAccount,
+        onEditAccount = { _, _ -> },
+        dismiss = {
+            accountModalData = null
+        }
+    )
+
     ChooseIconModal(
         visible = chooseIconModalVisible,
         initialIcon = icon ?: "loan",
@@ -190,6 +273,177 @@ fun BoxWithConstraintsScope.LoanModal(
     ) {
         icon = it
     }
+
+    DeleteModal(
+        visible = accountChangeModal,
+        title = "Confirm Account Change",
+        description = "Note: You are trying to change the account associated with the loan with an account of different currency, " +
+                "\nAll the loan records will be re-calculated based on today's exchanges rates ",
+        buttonText = "Confirm",
+        iconStart = R.drawable.ic_agreed,
+        dismiss = {
+            selectedAcc = modal?.selectedAccount ?: selectedAcc
+            accountChangeModal = false
+        }
+    ) {
+        onPerformCalculations()
+        save(
+            loan = loan,
+            nameTextFieldValue = nameTextFieldValue,
+            type = type,
+            color = color,
+            icon = icon,
+            amount = amount,
+            selectedAccount = selectedAcc,
+            createLoanTransaction = createLoanTrans,
+
+            onCreateLoan = onCreateLoan,
+            onEditLoan = onEditLoan,
+            dismiss = dismiss
+        )
+        accountChangeModal = false
+    }
+}
+
+@Composable
+private fun AccountsRow(
+    modifier: Modifier = Modifier,
+    accounts: List<Account>,
+    selectedAccount: Account?,
+    childrenTestTag: String? = null,
+    onSelectedAccountChanged: (Account) -> Unit,
+    onAddNewAccount: () -> Unit
+) {
+    val lazyState = rememberLazyListState()
+
+    LaunchedEffect(accounts, selectedAccount) {
+        if (selectedAccount != null) {
+            val selectedIndex = accounts.indexOf(selectedAccount)
+            if (selectedIndex != -1) {
+                launch {
+                    if (TestingContext.inTest) return@launch //breaks UI tests
+
+                    lazyState.scrollToItem(
+                        index = selectedIndex, //+1 because Spacer width 24.dp
+                    )
+                }
+            }
+        }
+    }
+
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        state = lazyState
+    ) {
+        item {
+            Spacer(Modifier.width(24.dp))
+        }
+
+        itemsIndexed(accounts) { _, account ->
+            Account(
+                account = account,
+                selected = selectedAccount == account,
+                testTag = childrenTestTag ?: "account"
+            ) {
+                onSelectedAccountChanged(account)
+            }
+        }
+
+        item {
+            AddAccount {
+                onAddNewAccount()
+            }
+        }
+
+        item {
+            Spacer(Modifier.width(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun Account(
+    account: Account,
+    selected: Boolean,
+    testTag: String,
+    onClick: () -> Unit
+) {
+    val accountColor = account.color.toComposeColor()
+    val textColor =
+        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
+
+    Row(
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .thenIf(!selected) {
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            }
+            .thenIf(selected) {
+                background(accountColor, UI.shapes.rFull)
+            }
+            .clickable(onClick = onClick)
+            .testTag(testTag),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        ItemIconSDefaultIcon(
+            iconName = account.icon,
+            defaultIcon = R.drawable.ic_custom_account_s,
+            tint = textColor
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = account.name,
+            style = UI.typo.b2.style(
+                color = textColor,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
+    }
+
+    Spacer(Modifier.width(8.dp))
+}
+
+@Composable
+private fun AddAccount(
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        IvyIcon(
+            icon = R.drawable.ic_plus,
+            tint = UI.colors.pureInverse
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = "Add account",
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
+    }
+
+    Spacer(Modifier.width(8.dp))
 }
 
 @Composable
@@ -271,9 +525,11 @@ private fun save(
     color: Color,
     icon: String?,
     amount: Double,
+    selectedAccount: Account? = null,
+    createLoanTransaction: Boolean = false,
 
     onCreateLoan: (CreateLoanData) -> Unit,
-    onEditLoan: (Loan) -> Unit,
+    onEditLoan: (Loan, Boolean) -> Unit,
     dismiss: () -> Unit
 ) {
     if (loan != null) {
@@ -283,8 +539,10 @@ private fun save(
                 type = type,
                 amount = amount,
                 color = color.toArgb(),
-                icon = icon
-            )
+                icon = icon,
+                accountId = selectedAccount?.id
+            ),
+            createLoanTransaction
         )
     } else {
         onCreateLoan(
@@ -294,6 +552,8 @@ private fun save(
                 amount = amount,
                 color = color,
                 icon = icon,
+                account = selectedAccount,
+                createLoanTransaction = createLoanTransaction
             )
         )
     }
@@ -312,7 +572,7 @@ private fun Preview() {
                 baseCurrency = "BGN",
             ),
             onCreateLoan = { },
-            onEditLoan = { }
+            onEditLoan = { _, _ -> }
         ) {
 
         }

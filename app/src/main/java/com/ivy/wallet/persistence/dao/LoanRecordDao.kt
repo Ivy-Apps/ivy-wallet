@@ -12,6 +12,9 @@ interface LoanRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: LoanRecord)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<LoanRecord>)
+
     @Query("SELECT * FROM loan_records WHERE isDeleted = 0 ORDER BY dateTime DESC")
     fun findAll(): List<LoanRecord>
 

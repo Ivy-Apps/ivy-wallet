@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,18 +22,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.logic.model.EditLoanRecordData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.model.entity.LoanRecord
+import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -46,8 +53,12 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()
     val loan by viewModel.loan.collectAsState()
-    val loanRecords by viewModel.loanRecords.collectAsState()
+    val displayLoanRecords by viewModel.displayLoanRecords.collectAsState()
     val amountPaid by viewModel.amountPaid.collectAsState()
+    val loanAmountPaid by viewModel.loanAmountPaid.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val selectedLoanAccount by viewModel.selectedLoanAccount.collectAsState()
+    val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
 
     onScreenStart {
         viewModel.start(screen = screen)
@@ -56,14 +67,19 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
     UI(
         baseCurrency = baseCurrency,
         loan = loan,
-        loanRecords = loanRecords,
+        displayLoanRecords = displayLoanRecords,
         amountPaid = amountPaid,
+        loanAmountPaid = loanAmountPaid,
+        accounts = accounts,
+        selectedLoanAccount = selectedLoanAccount,
+        createLoanTransaction = createLoanTransaction,
 
         onEditLoan = viewModel::editLoan,
         onCreateLoanRecord = viewModel::createLoanRecord,
         onEditLoanRecord = viewModel::editLoanRecord,
         onDeleteLoanRecord = viewModel::deleteLoanRecord,
-        onDeleteLoan = viewModel::deleteLoan
+        onDeleteLoan = viewModel::deleteLoan,
+        onCreateAccount = viewModel::createAccount
     )
 }
 
@@ -71,14 +87,20 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
 private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     loan: Loan?,
-    loanRecords: List<LoanRecord>,
+    displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
 
-    onEditLoan: (Loan) -> Unit = {},
+    accounts: List<Account> = emptyList(),
+    selectedLoanAccount: Account? = null,
+    createLoanTransaction: Boolean = false,
+
+    onCreateAccount: (CreateAccountData) -> Unit = {},
+    onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
     onCreateLoanRecord: (CreateLoanRecordData) -> Unit = {},
-    onEditLoanRecord: (LoanRecord) -> Unit = {},
+    onEditLoanRecord: (EditLoanRecordData) -> Unit = {},
     onDeleteLoanRecord: (LoanRecord) -> Unit = {},
-    onDeleteLoan: () -> Unit = {}
+    onDeleteLoan: () -> Unit = {},
 ) {
     val itemColor = loan?.color?.toComposeColor() ?: Gray
 
@@ -87,6 +109,7 @@ private fun BoxWithConstraintsScope.UI(
     var loanRecordModalData: LoanRecordModalData? by remember {
         mutableStateOf(null)
     }
+    var waitModalVisible by remember(loan) { mutableStateOf(false) }
 
 
     Column(
@@ -112,13 +135,17 @@ private fun BoxWithConstraintsScope.UI(
                         loan = loan,
                         baseCurrency = baseCurrency,
                         amountPaid = amountPaid,
+                        loanAmountPaid = loanAmountPaid,
                         itemColor = itemColor,
+                        selectedLoanAccount = selectedLoanAccount,
                         onAmountClick = {
                             loanModalData = LoanModalData(
                                 loan = loan,
                                 baseCurrency = baseCurrency,
                                 autoFocusKeyboard = false,
-                                autoOpenAmountModal = true
+                                autoOpenAmountModal = true,
+                                selectedAccount = selectedLoanAccount,
+                                createLoanTransaction = createLoanTransaction
                             )
                         },
                         onDeleteLoan = {
@@ -128,13 +155,16 @@ private fun BoxWithConstraintsScope.UI(
                             loanModalData = LoanModalData(
                                 loan = loan,
                                 baseCurrency = baseCurrency,
-                                autoFocusKeyboard = false
+                                autoFocusKeyboard = false,
+                                selectedAccount = selectedLoanAccount,
+                                createLoanTransaction = createLoanTransaction
                             )
                         },
                         onAddRecord = {
                             loanRecordModalData = LoanRecordModalData(
                                 loanRecord = null,
-                                baseCurrency = baseCurrency
+                                baseCurrency = baseCurrency,
+                                selectedAccount = selectedLoanAccount
                             )
                         }
                     )
@@ -155,18 +185,21 @@ private fun BoxWithConstraintsScope.UI(
             if (loan != null) {
                 loanRecords(
                     loan = loan,
-                    loanRecords = loanRecords,
-                    baseCurrency = baseCurrency,
-                    onClick = { loanRecord ->
+                    displayLoanRecords = displayLoanRecords,
+                    onClick = { displayLoanRecord ->
                         loanRecordModalData = LoanRecordModalData(
-                            loanRecord = loanRecord,
-                            baseCurrency = baseCurrency
+                            loanRecord = displayLoanRecord.loanRecord,
+                            baseCurrency = displayLoanRecord.loanRecordCurrencyCode,
+                            selectedAccount = displayLoanRecord.account,
+                            createLoanRecordTransaction = displayLoanRecord.loanRecordTransaction,
+                            isLoanInterest = displayLoanRecord.loanRecord.interest,
+                            loanAccountCurrencyCode = displayLoanRecord.loanCurrencyCode
                         )
                     }
                 )
             }
 
-            if (loanRecords.isEmpty()) {
+            if (displayLoanRecords.isEmpty()) {
                 item {
                     NoLoanRecordsEmptyState()
                 }
@@ -187,6 +220,11 @@ private fun BoxWithConstraintsScope.UI(
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
+        },
+        onCreateAccount = onCreateAccount,
+        accounts = accounts,
+        onPerformCalculations = {
+            waitModalVisible = true
         }
     )
 
@@ -195,10 +233,13 @@ private fun BoxWithConstraintsScope.UI(
         onCreate = onCreateLoanRecord,
         onEdit = onEditLoanRecord,
         onDelete = onDeleteLoanRecord,
+        accounts = accounts,
         dismiss = {
             loanRecordModalData = null
-        }
+        },
+        onCreateAccount = onCreateAccount
     )
+
     DeleteModal(
         visible = deleteModalVisible,
         title = "Confirm deletion",
@@ -207,6 +248,12 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onDeleteLoan()
     }
+
+    ConfirmationModal(
+        title = "Confirm Account Change",
+        description = "Please wait, re-calculating all loan records",
+        visible = waitModalVisible
+    )
 }
 
 @Composable
@@ -214,7 +261,9 @@ private fun Header(
     loan: Loan,
     baseCurrency: String,
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
     itemColor: Color,
+    selectedLoanAccount: Account? = null,
 
     onAmountClick: () -> Unit,
     onEditLoan: () -> Unit,
@@ -265,6 +314,8 @@ private fun Header(
             loan = loan,
             baseCurrency = baseCurrency,
             amountPaid = amountPaid,
+            loanAmountPaid = loanAmountPaid,
+            selectedLoanAccount = selectedLoanAccount,
             onAddRecord = onAddRecord
         )
 
@@ -323,6 +374,8 @@ private fun LoanInfoCard(
     loan: Loan,
     baseCurrency: String,
     amountPaid: Double,
+    loanAmountPaid: Double = 0.0,
+    selectedLoanAccount: Account? = null,
 
     onAddRecord: () -> Unit
 ) {
@@ -330,8 +383,9 @@ private fun LoanInfoCard(
         MediumBlack.copy(alpha = 0.9f) else MediumWhite.copy(alpha = 0.9f)
 
     val contrastColor = findContrastTextColor(backgroundColor)
-
     val percentPaid = amountPaid / loan.amount
+    val loanPercentPaid = loanAmountPaid / loan.amount
+    val nav = navigation()
 
     Column(
         modifier = Modifier
@@ -343,18 +397,49 @@ private fun LoanInfoCard(
             )
             .background(backgroundColor, UI.shapes.r2),
     ) {
-        Spacer(Modifier.height(24.dp))
-
-        Text(
-            modifier = Modifier.padding(horizontal = 24.dp),
-            text = "Paid",
-            style = UI.typo.c.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                modifier = Modifier.padding(top = 8.dp, start = 24.dp),
+                text = "Paid",
+                style = UI.typo.c.style(
+                    color = contrastColor,
+                    fontWeight = FontWeight.ExtraBold
+                )
             )
-        )
+            if (selectedLoanAccount != null)
+                IvyButton(
+                    modifier = Modifier.padding(end = 16.dp, top = 12.dp),
+                    backgroundGradient = Gradient.solid(loan.color.toComposeColor()),
+                    hasGlow = false,
+                    iconTint = contrastColor,
+                    text = selectedLoanAccount.name,
+                    iconStart = getCustomIconIdS(
+                        iconName = selectedLoanAccount.icon,
+                        defaultIcon = R.drawable.ic_custom_account_s
+                    ),
+                    textStyle = UI.typo.c.style(
+                        color = contrastColor,
+                        fontWeight = FontWeight.ExtraBold
+                    ),
+                    padding = 8.dp,
+                    iconEdgePadding = 10.dp
+                ) {
+                    nav.navigateTo(
+                        ItemStatistic(
+                            accountId = selectedLoanAccount.id,
+                            categoryId = null
+                        )
+                    )
+                }
+        }
 
-        Spacer(Modifier.height(12.dp))
+        //Support UI for Old Versions where
+        if (selectedLoanAccount == null)
+            Spacer(Modifier.height(12.dp))
 
         Text(
             modifier = Modifier
@@ -407,7 +492,7 @@ private fun LoanInfoCard(
             )
         }
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(8.dp))
 
         ProgressBar(
             modifier = Modifier
@@ -417,6 +502,68 @@ private fun LoanInfoCard(
             notFilledColor = UI.colors.pure,
             percent = percentPaid
         )
+
+        if (loanAmountPaid != 0.0) {
+
+            Divider(
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(contrastColor)
+            )
+
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = "Loan Interest",
+                style = UI.typo.c.style(
+                    color = contrastColor,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .testTag("loan_interest_percent_paid"),
+                    text = "${loanPercentPaid.times(100).format(2)}%",
+                    style = UI.typo.nB1.style(
+                        color = contrastColor,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                Text(
+                    modifier = Modifier
+                        .testTag("interest_paid"),
+                    text = "${loanAmountPaid.format(baseCurrency)} $baseCurrency paid",
+                    style = UI.typo.nB2.style(
+                        color = Gray,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            ProgressBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(24.dp)
+                    .padding(horizontal = 24.dp),
+                notFilledColor = UI.colors.pure,
+                percent = loanPercentPaid
+            )
+        }
 
         Spacer(Modifier.height(24.dp))
 
@@ -442,19 +589,22 @@ private fun LoanInfoCard(
 }
 
 fun LazyListScope.loanRecords(
+    loanRecords: List<LoanRecord> = emptyList(),
+    baseCurrency: String = "",
     loan: Loan,
-    loanRecords: List<LoanRecord>,
-    baseCurrency: String,
+    displayLoanRecords: List<DisplayLoanRecord> = emptyList(),
 
-    onClick: (LoanRecord) -> Unit
+    onClick: (DisplayLoanRecord) -> Unit
 ) {
-    items(items = loanRecords) { loanRecord ->
+    items(items = displayLoanRecords) { displayLoanRecord ->
         LoanRecordItem(
             loan = loan,
-            loanRecord = loanRecord,
-            baseCurrency = baseCurrency
+            loanRecord = displayLoanRecord.loanRecord,
+            baseCurrency = displayLoanRecord.loanRecordCurrencyCode,
+            account = displayLoanRecord.account,
+            loanBaseCurrency = displayLoanRecord.loanCurrencyCode
         ) {
-            onClick(loanRecord)
+            onClick(displayLoanRecord)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -466,8 +616,11 @@ private fun LoanRecordItem(
     loan: Loan,
     loanRecord: LoanRecord,
     baseCurrency: String,
+    loanBaseCurrency: String = "",
+    account: Account? = null,
     onClick: () -> Unit
 ) {
+    val nav = navigation()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -479,7 +632,64 @@ private fun LoanRecordItem(
             .background(UI.colors.medium, UI.shapes.r4)
             .testTag("loan_record_item")
     ) {
-        Spacer(Modifier.height(20.dp))
+
+        if (account != null || loanRecord.interest) {
+            Row(Modifier.padding(16.dp)) {
+                if (account != null) {
+                    IvyButton(
+                        backgroundGradient = Gradient.solid(UI.colors.pure),
+                        hasGlow = false,
+                        iconTint = UI.colors.pureInverse,
+                        text = account.name,
+                        iconStart = getCustomIconIdS(
+                            iconName = account.icon,
+                            defaultIcon = R.drawable.ic_custom_account_s
+                        ),
+                        textStyle = UI.typo.c.style(
+                            color = UI.colors.pureInverse,
+                            fontWeight = FontWeight.ExtraBold
+                        ),
+                        padding = 8.dp,
+                        iconEdgePadding = 10.dp
+                    ) {
+                        nav.navigateTo(
+                            ItemStatistic(
+                                accountId = account.id,
+                                categoryId = null
+                            )
+                        )
+                    }
+                }
+
+                if (loanRecord.interest) {
+                    //Spacer(modifier = Modifier.width(8.dp))
+
+                    val textIconColor = if (isDarkColor(loan.color)) MediumWhite else MediumBlack
+
+                    IvyButton(
+                        modifier = Modifier.padding(start = 8.dp),
+                        backgroundGradient = Gradient.solid(loan.color.toComposeColor()),
+                        hasGlow = false,
+                        iconTint = textIconColor,
+                        text = "Interest",
+                        iconStart = getCustomIconIdS(
+                            iconName = "currency",
+                            defaultIcon = R.drawable.ic_currency
+                        ),
+                        textStyle = UI.typo.c.style(
+                            color = textIconColor,
+                            fontWeight = FontWeight.ExtraBold
+                        ),
+                        padding = 8.dp,
+                        iconEdgePadding = 10.dp
+                    ) {
+                        //do Nothing
+                    }
+                }
+            }
+        } else {
+            Spacer(Modifier.height(20.dp))
+        }
 
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
@@ -493,12 +703,8 @@ private fun LoanRecordItem(
         )
 
         if (loanRecord.note.isNotNullOrBlank()) {
-            Spacer(
-                Modifier.height(12.dp)
-            )
-
             Text(
-                modifier = Modifier.padding(horizontal = 24.dp),
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                 text = loanRecord.note!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
@@ -507,7 +713,8 @@ private fun LoanRecordItem(
             )
         }
 
-        Spacer(Modifier.height(16.dp))
+        if (loanRecord.note.isNullOrEmpty())
+            Spacer(Modifier.height(16.dp))
 
         TypeAmountCurrency(
             transactionType = if (loan.type == LoanType.LEND) TransactionType.INCOME else TransactionType.EXPENSE,
@@ -516,7 +723,18 @@ private fun LoanRecordItem(
             amount = loanRecord.amount
         )
 
-        Spacer(Modifier.height(20.dp))
+        if (loanRecord.convertedAmount != null) {
+            Text(
+                modifier = Modifier.padding(start = 68.dp),
+                text = loanRecord.convertedAmount.format(baseCurrency) + " $loanBaseCurrency",
+                style = UI.typo.nB2.style(
+                    color = Gray,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
     }
 }
 
@@ -571,7 +789,6 @@ private fun Preview_Empty() {
                 color = Red.toArgb(),
                 type = LoanType.LEND
             ),
-            loanRecords = emptyList(),
             amountPaid = 0.0
         )
     }
@@ -589,23 +806,29 @@ private fun Preview_Records() {
                 color = Red.toArgb(),
                 type = LoanType.LEND
             ),
-            loanRecords = listOf(
-                LoanRecord(
-                    amount = 123.45,
-                    dateTime = timeNowUTC().minusDays(1),
-                    note = "Cash",
-                    loanId = UUID.randomUUID()
+            displayLoanRecords = listOf(
+                DisplayLoanRecord(
+                    LoanRecord(
+                        amount = 123.45,
+                        dateTime = timeNowUTC().minusDays(1),
+                        note = "Cash",
+                        loanId = UUID.randomUUID()
+                    )
                 ),
-                LoanRecord(
-                    amount = 0.50,
-                    dateTime = timeNowUTC().minusYears(1),
-                    loanId = UUID.randomUUID()
+                DisplayLoanRecord(
+                    LoanRecord(
+                        amount = 0.50,
+                        dateTime = timeNowUTC().minusYears(1),
+                        loanId = UUID.randomUUID()
+                    )
                 ),
-                LoanRecord(
-                    amount = 1000.00,
-                    dateTime = timeNowUTC().minusMonths(1),
-                    note = "Revolut",
-                    loanId = UUID.randomUUID()
+                DisplayLoanRecord(
+                    LoanRecord(
+                        amount = 1000.00,
+                        dateTime = timeNowUTC().minusMonths(1),
+                        note = "Revolut",
+                        loanId = UUID.randomUUID()
+                    )
                 ),
             ),
             amountPaid = 3821.00

@@ -13,6 +13,7 @@ data class Loan(
     val color: Int = 0,
     val icon: String? = null,
     val orderNum: Double = 0.0,
+    val accountId: UUID? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,

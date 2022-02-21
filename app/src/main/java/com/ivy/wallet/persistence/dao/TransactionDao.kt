@@ -194,4 +194,19 @@ interface TransactionDao {
         pattern: String,
         accountId: UUID
     ): Long
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanId = :loanId AND loanRecordId IS NULL")
+    fun findLoanTransaction(
+        loanId: UUID
+    ): Transaction?
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanRecordId = :loanRecordId")
+    fun findLoanRecordTransaction(
+        loanRecordId: UUID
+    ): Transaction?
+
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND loanId = :loanId")
+    fun findAllByLoanId(
+        loanId: UUID
+    ): List<Transaction>
 }

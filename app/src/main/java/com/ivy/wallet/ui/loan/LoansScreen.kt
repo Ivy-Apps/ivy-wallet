@@ -22,9 +22,12 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
+import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
@@ -41,6 +44,8 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
 
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val loans by viewModel.loans.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val selectedAccount by viewModel.selectedAccount.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -49,12 +54,15 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     UI(
         baseCurrency = baseCurrency,
         loans = loans,
+        accounts = accounts,
+        selectedAccount = selectedAccount,
 
         onCreateLoan = viewModel::createLoan,
-        onEditLoan = {
+        onEditLoan = { _, _ ->
             //do nothing, it shouldn't be done from that screen
         },
-        onReorder = viewModel::reorder
+        onReorder = viewModel::reorder,
+        onCreateAccount = viewModel::createAccount
     )
 }
 
@@ -62,9 +70,12 @@ fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
 private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     loans: List<DisplayLoan>,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
+    selectedAccount: Account? = null,
 
     onCreateLoan: (CreateLoanData) -> Unit = {},
-    onEditLoan: (Loan) -> Unit = {},
+    onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
     onReorder: (List<DisplayLoan>) -> Unit = {}
 ) {
     var reorderModalVisible by remember { mutableStateOf(false) }
@@ -123,7 +134,8 @@ private fun BoxWithConstraintsScope.UI(
         onAdd = {
             loanModalData = LoanModalData(
                 loan = null,
-                baseCurrency = baseCurrency
+                baseCurrency = baseCurrency,
+                selectedAccount = selectedAccount
             )
         },
         onClose = {
@@ -153,12 +165,14 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanModal(
+        accounts = accounts,
+        onCreateAccount = onCreateAccount,
         modal = loanModalData,
         onCreateLoan = onCreateLoan,
         onEditLoan = onEditLoan,
         dismiss = {
             loanModalData = null
-        }
+        },
     )
 }
 
@@ -287,7 +301,7 @@ private fun LoanHeader(
             decimalPaddingTop = 7.dp,
             spacerDecimal = 6.dp,
             textColor = contrastColor,
-            currency = baseCurrency,
+            currency = displayLoan.currencyCode ?: getDefaultFIATCurrency().currencyCode,
             balance = leftToPay,
 
             integerFontSize = 30.sp,
@@ -309,12 +323,13 @@ private fun ColumnScope.LoanInfo(
     val amountPaid = displayLoan.amountPaid
     val loanAmount = displayLoan.loan.amount
     val percentPaid = amountPaid / loanAmount
+    val currCode = displayLoan.currencyCode ?: baseCurrency
 
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        text = "${amountPaid.format(baseCurrency)} $baseCurrency / ${loanAmount.format(baseCurrency)} $baseCurrency (${
+        text = "${amountPaid.format(currCode)} $currCode / ${loanAmount.format(currCode)} $currCode (${
             percentPaid.times(
                 100
             ).format(2)
@@ -420,7 +435,7 @@ private fun Preview() {
             ),
 
             onCreateLoan = {},
-            onEditLoan = {},
+            onEditLoan = { _, _ -> },
             onReorder = {}
         )
     }

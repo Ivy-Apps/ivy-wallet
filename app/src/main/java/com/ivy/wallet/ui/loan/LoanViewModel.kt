@@ -5,8 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.event.AccountsUpdatedEvent
+import com.ivy.wallet.logic.AccountCreator
 import com.ivy.wallet.logic.LoanCreator
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanData
+import com.ivy.wallet.model.entity.Account
+import com.ivy.wallet.model.entity.Loan
+import com.ivy.wallet.persistence.SharedPrefs
+import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -16,6 +24,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +34,11 @@ class LoanViewModel @Inject constructor(
     private val loanRecordDao: LoanRecordDao,
     private val settingsDao: SettingsDao,
     private val loanSync: LoanSync,
-    private val loanCreator: LoanCreator
+    private val loanCreator: LoanCreator,
+    private val sharedPrefs: SharedPrefs,
+    private val accountDao: AccountDao,
+    private val accountCreator: AccountCreator,
+    private val loanTransactionsLogic: LoanTransactionsLogic
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
@@ -33,23 +47,33 @@ class LoanViewModel @Inject constructor(
     private val _loans = MutableStateFlow(emptyList<DisplayLoan>())
     val loans = _loans.asStateFlow()
 
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.asStateFlow()
+
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    val selectedAccount = _selectedAccount.asStateFlow()
+
+    private var defaultCurrencyCode = ""
+
     fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            _baseCurrencyCode.value = ioThread {
+            defaultCurrencyCode = ioThread {
                 settingsDao.findFirst().currency
+            }.also {
+                _baseCurrencyCode.value = it
             }
+
+            initialiseAccounts()
 
             _loans.value = ioThread {
                 loanDao.findAll()
                     .map { loan ->
                         DisplayLoan(
                             loan = loan,
-                            amountPaid = loanRecordDao.findAllByLoanId(loanId = loan.id)
-                                .sumOf { loanRecord ->
-                                    loanRecord.amount
-                                }
+                            amountPaid = calculateAmountPaid(loan),
+                            currencyCode = findCurrencyCode(accounts.value, loan.accountId)
                         )
                     }
             }
@@ -58,12 +82,25 @@ class LoanViewModel @Inject constructor(
         }
     }
 
+    private suspend fun initialiseAccounts() {
+        val accounts = ioThread { accountDao.findAll() }
+        _accounts.value = accounts
+        _selectedAccount.value = defaultAccountId(accounts)
+        _selectedAccount.value?.let {
+            _baseCurrencyCode.value = it.currency ?: defaultCurrencyCode
+        }
+    }
+
     fun createLoan(data: CreateLoanData) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            loanCreator.create(data) {
+            val uuid = loanCreator.create(data) {
                 start()
+            }
+
+            uuid?.let {
+                loanTransactionsLogic.Loan.createAssociatedLoanTransaction(data = data, loanId = it)
             }
 
             TestIdlingResource.decrement()
@@ -92,5 +129,54 @@ class LoanViewModel @Inject constructor(
 
             TestIdlingResource.decrement()
         }
+    }
+
+    fun createAccount(data: CreateAccountData) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            accountCreator.createAccount(data) {
+                EventBus.getDefault().post(AccountsUpdatedEvent())
+                _accounts.value = ioThread { accountDao.findAll() }!!
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    private fun defaultAccountId(
+        accounts: List<Account>,
+    ): Account? {
+
+        val lastSelectedId =
+            sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)?.let {
+                UUID.fromString(it)
+            }
+
+        lastSelectedId?.let { uuid ->
+            return accounts.find { it.id == uuid }
+        } ?: run {
+            return if (accounts.isNotEmpty()) accounts[0] else null
+        }
+    }
+
+    private fun findCurrencyCode(accounts: List<Account>, accountId: UUID?): String {
+        return accountId?.let {
+            accounts.find { account -> account.id == it }?.currency
+        } ?: defaultCurrencyCode
+    }
+
+    private suspend fun calculateAmountPaid(loan: Loan): Double {
+        val loanRecords = ioThread { loanRecordDao.findAllByLoanId(loanId = loan.id) }
+        var amount = 0.0
+
+        loanRecords.forEach { loanRecord ->
+            if (!loanRecord.interest) {
+                val convertedAmount = loanRecord.convertedAmount ?: loanRecord.amount
+                amount += convertedAmount
+            }
+        }
+
+        return amount
     }
 }
