@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.loan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.TestIdlingResource
+import com.ivy.wallet.base.format
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
@@ -20,8 +21,11 @@ import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.LoanSync
 import com.ivy.wallet.ui.loan.data.DisplayLoan
+import com.ivy.wallet.ui.theme.modal.LoanModalData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -55,8 +59,11 @@ class LoanViewModel @Inject constructor(
 
     private var defaultCurrencyCode = ""
 
+    private val _state = MutableStateFlow(LoanScreenState())
+    val state: StateFlow<LoanScreenState> = _state
+
     fun start() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             TestIdlingResource.increment()
 
             defaultCurrencyCode = ioThread {
@@ -70,13 +77,34 @@ class LoanViewModel @Inject constructor(
             _loans.value = ioThread {
                 loanDao.findAll()
                     .map { loan ->
+                        val amountPaid = calculateAmountPaid(loan)
+                        val loanAmount = loan.amount
+                        val percentPaid = amountPaid / loanAmount
+                        val currCode = findCurrencyCode(accounts.value, loan.accountId)
+
                         DisplayLoan(
                             loan = loan,
-                            amountPaid = calculateAmountPaid(loan),
-                            currencyCode = findCurrencyCode(accounts.value, loan.accountId)
+                            amountPaid = amountPaid,
+                            currencyCode = currCode,
+                            formattedDisplayText = "${amountPaid.format(currCode)} $currCode / ${
+                                loanAmount.format(
+                                    currCode
+                                )
+                            } $currCode (${
+                                percentPaid.times(
+                                    100
+                                ).format(2)
+                            }%)",
+                            percentPaid = percentPaid
                         )
                     }
             }
+            _state.value = LoanScreenState(
+                baseCurrency = defaultCurrencyCode,
+                loans = _loans.value,
+                accounts = accounts.value,
+                selectedAccount = selectedAccount.value
+            )
 
             TestIdlingResource.decrement()
         }
@@ -138,6 +166,7 @@ class LoanViewModel @Inject constructor(
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
                 _accounts.value = ioThread { accountDao.findAll() }!!
+                _state.value = state.value.copy(accounts = _accounts.value)
             }
 
             TestIdlingResource.decrement()
@@ -179,4 +208,59 @@ class LoanViewModel @Inject constructor(
 
         return amount
     }
+
+    fun onEvent(event: LoanScreenEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is LoanScreenEvent.OnLoanCreate -> {
+                    createLoan(event.createLoanData)
+                }
+                is LoanScreenEvent.OnAddLoan -> {
+                    _state.value = _state.value.copy(
+                        loanModalData = LoanModalData(
+                            loan = null,
+                            baseCurrency = baseCurrencyCode.value,
+                            selectedAccount = selectedAccount.value
+                        )
+                    )
+                }
+                is LoanScreenEvent.OnLoanModalDismiss -> {
+                    _state.value = _state.value.copy(
+                        loanModalData = null
+                    )
+                }
+                is LoanScreenEvent.OnReOrderModalShow -> {
+                    _state.value = _state.value.copy(
+                        reorderModalVisible = event.show
+                    )
+                }
+                is LoanScreenEvent.OnReordered -> {
+                    _state.value = _state.value.copy(
+                        loans = event.reorderedList
+                    )
+                }
+                is LoanScreenEvent.OnCreateAccount -> {
+                    createAccount(event.accountData)
+                }
+            }
+        }
+    }
+}
+
+data class LoanScreenState(
+    val baseCurrency: String = "",
+    val loans: List<DisplayLoan> = emptyList(),
+    val accounts: List<Account> = emptyList(),
+    val selectedAccount: Account? = null,
+    val loanModalData: LoanModalData? = null,
+    val reorderModalVisible: Boolean = false
+)
+
+sealed class LoanScreenEvent {
+    data class OnLoanCreate(val createLoanData: CreateLoanData) : LoanScreenEvent()
+    data class OnReordered(val reorderedList: List<DisplayLoan>) : LoanScreenEvent()
+    data class OnCreateAccount(val accountData: CreateAccountData) : LoanScreenEvent()
+    data class OnReOrderModalShow(val show: Boolean) : LoanScreenEvent()
+    object OnAddLoan : LoanScreenEvent()
+    object OnLoanModalDismiss : LoanScreenEvent()
 }

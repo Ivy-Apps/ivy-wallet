@@ -3,7 +3,9 @@ package com.ivy.wallet.ui.loan
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,13 +23,9 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.format
 import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
@@ -36,51 +34,29 @@ import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.LoanModal
-import com.ivy.wallet.ui.theme.modal.LoanModalData
 
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     val viewModel: LoanViewModel = viewModel()
 
-    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
-    val loans by viewModel.loans.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-    val selectedAccount by viewModel.selectedAccount.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
     UI(
-        baseCurrency = baseCurrency,
-        loans = loans,
-        accounts = accounts,
-        selectedAccount = selectedAccount,
-
-        onCreateLoan = viewModel::createLoan,
-        onEditLoan = { _, _ ->
-            //do nothing, it shouldn't be done from that screen
-        },
-        onReorder = viewModel::reorder,
-        onCreateAccount = viewModel::createAccount
+        onEventHandler = viewModel::onEvent,
+        state = state
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    baseCurrency: String,
-    loans: List<DisplayLoan>,
-    accounts: List<Account> = emptyList(),
-    onCreateAccount: (CreateAccountData) -> Unit = {},
-    selectedAccount: Account? = null,
-
-    onCreateLoan: (CreateLoanData) -> Unit = {},
-    onEditLoan: (Loan, Boolean) -> Unit = { _, _ -> },
-    onReorder: (List<DisplayLoan>) -> Unit = {}
+    onEventHandler: (LoanScreenEvent) -> Unit = {},
+    state: LoanScreenState = LoanScreenState()
 ) {
-    var reorderModalVisible by remember { mutableStateOf(false) }
-    var loanModalData: LoanModalData? by remember { mutableStateOf(null) }
-
+    val nav = navigation()
 
     Column(
         modifier = Modifier
@@ -92,19 +68,17 @@ private fun BoxWithConstraintsScope.UI(
 
         Toolbar(
             setReorderModalVisible = {
-                reorderModalVisible = it
+                onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it))
             }
         )
 
         Spacer(Modifier.height(8.dp))
 
-        val nav = navigation()
-        for (item in loans) {
+        for (item in state.loans) {
             Spacer(Modifier.height(16.dp))
 
             LoanItem(
-                displayLoan = item,
-                baseCurrency = baseCurrency
+                displayLoan = item
             ) {
                 nav.navigateTo(
                     screen = LoanDetails(
@@ -114,7 +88,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        if (loans.isEmpty()) {
+        if (state.loans.isEmpty()) {
             Spacer(Modifier.weight(1f))
 
             NoLoansEmptyState(
@@ -129,14 +103,10 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val nav = navigation()
+
     LoanBottomBar(
         onAdd = {
-            loanModalData = LoanModalData(
-                loan = null,
-                baseCurrency = baseCurrency,
-                selectedAccount = selectedAccount
-            )
+            onEventHandler.invoke(LoanScreenEvent.OnAddLoan)
         },
         onClose = {
             nav.back()
@@ -144,12 +114,14 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ReorderModalSingleType(
-        visible = reorderModalVisible,
-        initialItems = loans,
+        visible = state.reorderModalVisible,
+        initialItems = state.loans,
         dismiss = {
-            reorderModalVisible = false
+            onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = false))
         },
-        onReordered = onReorder
+        onReordered = {
+            onEventHandler.invoke(LoanScreenEvent.OnReordered(reorderedList = it))
+        }
     ) { _, item ->
         Text(
             modifier = Modifier
@@ -165,13 +137,17 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     LoanModal(
-        accounts = accounts,
-        onCreateAccount = onCreateAccount,
-        modal = loanModalData,
-        onCreateLoan = onCreateLoan,
-        onEditLoan = onEditLoan,
+        accounts = state.accounts,
+        onCreateAccount = {
+            onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
+        },
+        modal = state.loanModalData,
+        onCreateLoan = {
+            onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
+        },
+        onEditLoan = { _, _ -> },
         dismiss = {
-            loanModalData = null
+            onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
         },
     )
 }
@@ -209,7 +185,6 @@ private fun Toolbar(
 @Composable
 private fun LoanItem(
     displayLoan: DisplayLoan,
-    baseCurrency: String,
     onClick: () -> Unit
 ) {
     val loan = displayLoan.loan
@@ -228,15 +203,13 @@ private fun LoanItem(
     ) {
         LoanHeader(
             displayLoan = displayLoan,
-            baseCurrency = baseCurrency,
             contrastColor = contrastColor,
         )
 
         Spacer(Modifier.height(12.dp))
 
         LoanInfo(
-            displayLoan = displayLoan,
-            baseCurrency = baseCurrency
+            displayLoan = displayLoan
         )
 
         Spacer(Modifier.height(24.dp))
@@ -246,7 +219,6 @@ private fun LoanItem(
 @Composable
 private fun LoanHeader(
     displayLoan: DisplayLoan,
-    baseCurrency: String,
     contrastColor: Color,
 ) {
     val loan = displayLoan.loan
@@ -317,23 +289,14 @@ private fun LoanHeader(
 
 @Composable
 private fun ColumnScope.LoanInfo(
-    displayLoan: DisplayLoan,
-    baseCurrency: String
+    displayLoan: DisplayLoan
 ) {
-    val amountPaid = displayLoan.amountPaid
-    val loanAmount = displayLoan.loan.amount
-    val percentPaid = amountPaid / loanAmount
-    val currCode = displayLoan.currencyCode ?: baseCurrency
 
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        text = "${amountPaid.format(currCode)} $currCode / ${loanAmount.format(currCode)} $currCode (${
-            percentPaid.times(
-                100
-            ).format(2)
-        }%)",
+        text = displayLoan.formattedDisplayText,
         style = UI.typo.nB2.style(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -348,7 +311,7 @@ private fun ColumnScope.LoanInfo(
             .height(24.dp)
             .padding(horizontal = 24.dp),
         notFilledColor = UI.colors.medium,
-        percent = percentPaid
+        percent = displayLoan.percentPaid
     )
 }
 
@@ -398,45 +361,46 @@ private fun NoLoansEmptyState(
 @Preview
 @Composable
 private fun Preview() {
+    val state = LoanScreenState(
+        loans = listOf(
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 1",
+                    icon = "rocket",
+                    color = Red.toArgb(),
+                    amount = 5000.0,
+                    type = LoanType.BORROW
+                ),
+                amountPaid = 0.0,
+                percentPaid = 0.4
+            ),
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 2",
+                    icon = "atom",
+                    color = Orange.toArgb(),
+                    amount = 252.36,
+                    type = LoanType.BORROW
+                ),
+                amountPaid = 124.23,
+                percentPaid = 0.2
+            ),
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 3",
+                    icon = "bank",
+                    color = Blue.toArgb(),
+                    amount = 7000.0,
+                    type = LoanType.LEND
+                ),
+                amountPaid = 8000.0,
+                percentPaid = 0.8
+            )
+        )
+    )
     IvyWalletPreview {
         UI(
-            baseCurrency = "BGN",
-            loans = listOf(
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 1",
-                        icon = "rocket",
-                        color = Red.toArgb(),
-                        amount = 5000.0,
-                        type = LoanType.BORROW
-                    ),
-                    amountPaid = 0.0
-                ),
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 2",
-                        icon = "atom",
-                        color = Orange.toArgb(),
-                        amount = 252.36,
-                        type = LoanType.BORROW
-                    ),
-                    amountPaid = 124.23
-                ),
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 3",
-                        icon = "bank",
-                        color = Blue.toArgb(),
-                        amount = 7000.0,
-                        type = LoanType.LEND
-                    ),
-                    amountPaid = 8000.0
-                ),
-            ),
-
-            onCreateLoan = {},
-            onEditLoan = { _, _ -> },
-            onReorder = {}
+            state = state
         )
     }
 }

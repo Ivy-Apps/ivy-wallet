@@ -7,7 +7,9 @@ import com.ivy.wallet.model.entity.Loan
 data class DisplayLoan(
     val loan: Loan,
     val amountPaid: Double,
-    val currencyCode: String? = getDefaultFIATCurrency().currencyCode
+    val currencyCode: String? = getDefaultFIATCurrency().currencyCode,
+    val formattedDisplayText: String = "",
+    val percentPaid: Double = 0.0
 ) : Reorderable {
     override fun getItemOrderNum(): Double {
         return loan.orderNum
