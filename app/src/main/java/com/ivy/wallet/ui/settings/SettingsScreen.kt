@@ -53,6 +53,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val opSync by viewModel.opSync.observeAsState()
     val currencyCode by viewModel.currencyCode.observeAsState("")
     val lockApp by viewModel.lockApp.observeAsState(false)
+    val showNotifications by viewModel.showNotifications.collectAsState()
     val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
@@ -68,6 +69,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         currencyCode = currencyCode,
         opSync = opSync,
         lockApp = lockApp,
+        showNotifications = showNotifications,
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
@@ -83,6 +85,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
             viewModel.exportToCSV(context)
         },
         onSetLockApp = viewModel::setLockApp,
+        onSetShowNotifications = viewModel::setShowNotifications,
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
         onRequestFeature = { title, body ->
             viewModel.requestFeature(
@@ -103,6 +106,7 @@ private fun BoxWithConstraintsScope.UI(
     opSync: OpResult<Boolean>?,
 
     lockApp: Boolean,
+    showNotifications: Boolean = true,
 
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
@@ -116,6 +120,7 @@ private fun BoxWithConstraintsScope.UI(
     onLogin: () -> Unit,
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
+    onSetShowNotifications: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onRequestFeature: (String, String) -> Unit = { _, _ -> },
     onDeleteAllUserData: () -> Unit = {}
@@ -222,9 +227,20 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            LockAppSwitch(
+            AppSwitch(
                 lockApp = lockApp,
-                onSetLockApp = onSetLockApp
+                onSetLockApp = onSetLockApp,
+                text = "Lock app",
+                icon = R.drawable.ic_custom_fingerprint_m
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            AppSwitch(
+                lockApp = showNotifications,
+                onSetLockApp = onSetShowNotifications,
+                text = "Show notifications",
+                icon = R.drawable.ic_notification_m
             )
 
             Spacer(Modifier.height(12.dp))
@@ -474,9 +490,11 @@ private fun ProjectContributors() {
 }
 
 @Composable
-private fun LockAppSwitch(
+private fun AppSwitch(
     lockApp: Boolean,
-    onSetLockApp: (Boolean) -> Unit
+    onSetLockApp: (Boolean) -> Unit,
+    text: String,
+    icon: Int
 ) {
     SettingsButtonRow(
         onClick = {
@@ -486,7 +504,7 @@ private fun LockAppSwitch(
         Spacer(Modifier.width(16.dp))
 
         IvyIcon(
-            icon = R.drawable.ic_custom_fingerprint_m,
+            icon = icon,
             tint = UI.colors.pureInverse
         )
 
@@ -494,7 +512,7 @@ private fun LockAppSwitch(
 
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
-            text = "Lock app",
+            text = text,
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold

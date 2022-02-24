@@ -47,6 +47,7 @@ class SharedPrefs(appContext: Context) {
         //----------------------------- App Settings -----------------------------------------------
         const val APP_LOCK_ENABLED = "lock_app"
         const val START_DATE_OF_MONTH = "start_date_of_month"
+        const val SHOW_NOTIFICATIONS = "show_notifications"
         //----------------------------- App Settings -----------------------------------------------
 
         //-------------------------------- Customer Journey ----------------------------------------

@@ -8,6 +8,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.ivy.wallet.base.atEndOfDay
 import com.ivy.wallet.base.dateNowUTC
+import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.system.notification.IvyNotificationChannel
 import com.ivy.wallet.system.notification.NotificationService
@@ -21,7 +22,8 @@ import kotlinx.coroutines.withContext
 class TransactionReminderWorker @AssistedInject constructor(
     @Assisted appContext: Context, @Assisted params: WorkerParameters,
     private val transactionDao: TransactionDao,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
+    private val sharedPrefs: SharedPrefs,
 ) : CoroutineWorker(appContext, params) {
 
     companion object {
@@ -35,7 +37,10 @@ class TransactionReminderWorker @AssistedInject constructor(
             endDate = dateNowUTC().atEndOfDay()
         )
 
-        if (transactionsToday.size < MINIMUM_TRANSACTIONS_PER_DAY) {
+        val showNotifications = fetchShowNotifications()
+
+        //Double check is needed because the user can switch off notifications in settings after it has been scheduled to show notifications for the next day
+        if (transactionsToday.size < MINIMUM_TRANSACTIONS_PER_DAY && showNotifications) {
             //Have less than 1 two transactions today, remind them
 
             val notification = notificationService
@@ -68,5 +73,6 @@ class TransactionReminderWorker @AssistedInject constructor(
             "Have you recorded your transactions today? \uD83C\uDFC1",
         ).shuffled().first()
 
-
+    private fun fetchShowNotifications(): Boolean =
+        sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 }
