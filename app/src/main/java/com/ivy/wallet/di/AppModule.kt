@@ -506,10 +506,12 @@ object AppModule {
 
     @Provides
     fun provideTransactionReminderLogic(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
+        sharedPrefs: SharedPrefs,
     ): TransactionReminderLogic {
         return TransactionReminderLogic(
-            appContext = appContext
+            appContext = appContext,
+            sharedPrefs = sharedPrefs
         )
     }
 

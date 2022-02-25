@@ -6,10 +6,12 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ivy.wallet.base.timeNowLocal
 import com.ivy.wallet.base.toEpochSeconds
+import com.ivy.wallet.persistence.SharedPrefs
 import java.util.concurrent.TimeUnit
 
 class TransactionReminderLogic(
-    private val appContext: Context
+    private val appContext: Context,
+    private val sharedPrefs: SharedPrefs,
 ) {
     companion object {
         private const val UNIQUE_WORK_NAME_V1 = "transaction_reminder_work"
@@ -30,6 +32,9 @@ class TransactionReminderLogic(
     }
 
     fun scheduleReminder() {
+        if (!fetchShowNotifications())
+            return
+
         val timeNowLocal = timeNowLocal()
         val today8PM = timeNowLocal()
             .withHour(20)
@@ -56,4 +61,7 @@ class TransactionReminderLogic(
                 workBuilder.build()
             )
     }
+
+    private fun fetchShowNotifications(): Boolean =
+        sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 }
