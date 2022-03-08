@@ -192,9 +192,8 @@ private fun BoxWithConstraintsScope.UI(
                 nameModalVisible = true
             }
 
-            Spacer(Modifier.height(20.dp))
-
-            Premium()
+//            Spacer(Modifier.height(20.dp))
+//            Premium()
         }
 
         item {

@@ -121,7 +121,7 @@ class IvyWalletCtx : IvyContext() {
 
 
     // Billing -------------------------------------------------------------------------------------
-    var isPremium = if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
+    var isPremium = true //if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
     // Billing -------------------------------------------------------------------------------------
 
     lateinit var googleSignIn: (idTokenResult: (String?) -> Unit) -> Unit
@@ -134,7 +134,7 @@ class IvyWalletCtx : IvyContext() {
     fun reset() {
         mainTab = MainTab.HOME
         startDayOfMonth = 1
-        isPremium = false
+        isPremium = true
         transactionsListState = null
     }
 }

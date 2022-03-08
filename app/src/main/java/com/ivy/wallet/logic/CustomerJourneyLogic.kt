@@ -53,7 +53,7 @@ class CustomerJourneyLogic(
             didYouKnow_expensesPieChart(),
             rateUsCard(),
             shareIvyWalletCard(),
-            buyLifetimeOfferCard(),
+//            buyLifetimeOfferCard(),
             makeReportCard(),
             rateUsCard_2(),
             shareIvyWalletCard_2(),
