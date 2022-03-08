@@ -158,7 +158,7 @@ fun BoxWithConstraintsScope.AccountModal(
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .align(Alignment.Start),
-                    text = "Include in balance",
+                    text = "Include account",
                     checked = includeInBalance
                 ) {
                     includeInBalance = it
