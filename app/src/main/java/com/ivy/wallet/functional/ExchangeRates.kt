@@ -19,6 +19,21 @@ suspend fun exchangeToBaseCurrency(
     fromCurrencyCode: String,
     fromAmount: BigDecimal,
 ): Option<BigDecimal> {
+    return exchangeToBaseCurrency(
+        exchangeRateDao = exchangeRateDao,
+        baseCurrencyCode = baseCurrencyCode,
+        fromCurrencyCode = fromCurrencyCode.toOption(),
+        fromAmount = fromAmount
+    )
+}
+
+@Total
+suspend fun exchangeToBaseCurrency(
+    exchangeRateDao: ExchangeRateDao,
+    baseCurrencyCode: String,
+    fromCurrencyCode: Option<String>,
+    fromAmount: BigDecimal,
+): Option<BigDecimal> {
     return exchange(
         exchangeRateDao = exchangeRateDao,
         baseCurrencyCode = baseCurrencyCode,
@@ -32,7 +47,7 @@ suspend fun exchangeToBaseCurrency(
 suspend fun exchange(
     exchangeRateDao: ExchangeRateDao,
     baseCurrencyCode: String,
-    fromCurrencyCode: String,
+    fromCurrencyCode: Option<String>,
     fromAmount: BigDecimal,
     toCurrencyCode: String,
 ): Option<BigDecimal> {
@@ -48,7 +63,7 @@ suspend fun exchange(
 @Total
 suspend fun exchange(
     baseCurrencyCode: String,
-    fromCurrencyCode: String,
+    fromCurrencyCode: Option<String>,
     fromAmount: BigDecimal,
     toCurrencyCode: String,
     retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
@@ -57,7 +72,7 @@ suspend fun exchange(
         return@option BigDecimal.ZERO
     }
 
-    val fromCurrency = fromCurrencyCode.validateCurrency().bind()
+    val fromCurrency = fromCurrencyCode.bind().validateCurrency().bind()
     val toCurrency = toCurrencyCode.validateCurrency().bind()
 
     if (fromCurrency == toCurrency) {
