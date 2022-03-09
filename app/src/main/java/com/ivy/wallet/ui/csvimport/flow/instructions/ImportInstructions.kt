@@ -247,11 +247,12 @@ fun InstructionButton(
 @Composable
 fun UploadFileStep(
     stepNumber: Int,
+    text: String = "Upload CSV file",
     onUploadClick: () -> Unit
 ) {
     StepTitle(
         number = stepNumber,
-        title = "Upload CSV file"
+        title = text
     )
 
     Spacer(Modifier.height(16.dp))
@@ -260,7 +261,7 @@ fun UploadFileStep(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        text = "Upload CSV file",
+        text = text,
         textColor = White,
         backgroundGradient = GradientIvy,
         hasNext = false,

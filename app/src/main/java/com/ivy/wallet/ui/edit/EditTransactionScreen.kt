@@ -468,7 +468,7 @@ private fun BoxWithConstraintsScope.UI(
         accountChangeModal = false
     }
 
-    ConfirmationModal(
+    ProgressModal(
         title = "Confirm Account Change",
         description = "Please wait, re-calculating all loan records",
         visible = waitModalVisible

@@ -14,6 +14,9 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: Transaction)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<Transaction>)
+
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 ORDER BY dateTime DESC, dueDate ASC")
     fun findAll(): List<Transaction>
 

@@ -19,6 +19,7 @@ import com.ivy.wallet.logic.loantrasactions.LTLoanRecordMapper
 import com.ivy.wallet.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.logic.zip.ExportZipLogic
 import com.ivy.wallet.network.ErrorCodeTypeAdapter
 import com.ivy.wallet.network.FCMClient
 import com.ivy.wallet.network.LocalDateTimeTypeAdapter
@@ -780,6 +781,31 @@ object AppModule {
         return LoanTransactionsLogic(
             Loan = LTLoanMapper(ltCore = loanTransactionsCore),
             LoanRecord = LTLoanRecordMapper(ltCore = loanTransactionsCore)
+        )
+    }
+
+    @Provides
+    fun providesExportZipLogic(
+        accountDao: AccountDao,
+        budgetDao: BudgetDao,
+        categoryDao: CategoryDao,
+        loanRecordDao: LoanRecordDao,
+        loanDao: LoanDao,
+        plannedPaymentRuleDao: PlannedPaymentRuleDao,
+        settingsDao: SettingsDao,
+        transactionDao: TransactionDao,
+        sharedPrefs: SharedPrefs
+    ): ExportZipLogic {
+        return ExportZipLogic(
+            accountDao,
+            budgetDao,
+            categoryDao,
+            loanRecordDao,
+            loanDao,
+            plannedPaymentRuleDao,
+            settingsDao,
+            transactionDao,
+            sharedPrefs
         )
     }
 }

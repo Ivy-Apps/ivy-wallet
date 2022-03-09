@@ -12,6 +12,9 @@ interface PlannedPaymentRuleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: PlannedPaymentRule)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<PlannedPaymentRule>)
+
     @Query("SELECT * FROM planned_payment_rules WHERE isDeleted = 0 ORDER BY amount DESC, startDate ASC")
     fun findAll(): List<PlannedPaymentRule>
 
