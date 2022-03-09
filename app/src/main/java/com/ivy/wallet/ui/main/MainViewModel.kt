@@ -9,7 +9,6 @@ import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.AccountCreator
-import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.persistence.dao.SettingsDao
@@ -29,7 +28,6 @@ class MainViewModel @Inject constructor(
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,
-    private val bankIntegrationsLogic: BankIntegrationsLogic
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()

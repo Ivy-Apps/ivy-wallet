@@ -1,6 +1,7 @@
 package com.ivy.wallet.functional.category
 
 import arrow.core.Option
+import arrow.core.toOption
 import com.ivy.wallet.functional.core.SuspendValueFunction
 import com.ivy.wallet.functional.data.FPTransaction
 import com.ivy.wallet.functional.exchangeToBaseCurrency
@@ -100,7 +101,7 @@ object CategoryValueFunctions {
             exchangeRateDao = argument.exchangeRateDao,
             baseCurrencyCode = argument.baseCurrencyCode,
             fromAmount = this,
-            fromCurrencyCode = argument.accounts.find { it.id == accountId }?.currency ?: ""
+            fromCurrencyCode = argument.accounts.find { it.id == accountId }?.currency.toOption()
         )
     }
 }

@@ -332,7 +332,7 @@ private fun LoginWithGoogleExplanation() {
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = "Recommended (and it's free)",
+                text = "Data integrity and protection aren't guaranteed!",
                 style = UI.typo.c.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium

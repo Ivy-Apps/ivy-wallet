@@ -27,6 +27,7 @@ import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -84,11 +85,11 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                     )
                 )
 
-                PremiumInfo(
-                    itemLabelPlural = "accounts",
-                    itemsCount = accounts.size,
-                    freeItemsCount = Constants.FREE_ACCOUNTS
-                )
+//                PremiumInfo(
+//                    itemLabelPlural = "accounts",
+//                    itemsCount = accounts.size,
+//                    freeItemsCount = Constants.FREE_ACCOUNTS
+//                )
 
                 if (accounts.isEmpty()) {
                     Spacer(Modifier.height(16.dp))
@@ -212,7 +213,7 @@ fun PremiumInfo(
                 color = if (freeItemsLeft > 2) Green else Orange
             )
         )
-    } else {
+    } else if(!ivyWalletCtx().isPremium) {
         Spacer(Modifier.height(24.dp))
 
         BuyPremiumRow(

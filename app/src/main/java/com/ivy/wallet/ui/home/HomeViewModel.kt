@@ -11,6 +11,7 @@ import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.wallet.calculateWalletBalance
 import com.ivy.wallet.functional.wallet.calculateWalletIncomeExpense
+import com.ivy.wallet.functional.wallet.historyWithDateDividers
 import com.ivy.wallet.functional.wallet.walletBufferDiff
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.PlannedPaymentsLogic
@@ -185,7 +186,13 @@ class HomeViewModel @Inject constructor(
             _overdueExpenses.value = ioThread { walletLogic.calculateOverdueExpenses(timeRange) }
             _overdue.value = ioThread { walletLogic.overdueTransactions(timeRange) }
 
-            _history.value = ioThread { walletLogic.history(timeRange) }
+            _history.value = ioThread {
+                historyWithDateDividers(
+                    walletDAOs = walletDAOs,
+                    baseCurrencyCode = baseCurrencyCode.value,
+                    range = timeRange.toCloseTimeRange()
+                )
+            }
 
             _customerJourneyCards.value = ioThread { customerJourneyLogic.loadCards() }
 

@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.statistic.level2
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.toOption
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.functional.account.calculateAccountBalance
@@ -10,7 +11,6 @@ import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.*
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -46,7 +46,6 @@ class ItemStatisticViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val exchangeRatesLogic: ExchangeRatesLogic
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
@@ -174,7 +173,7 @@ class ItemStatisticViewModel @Inject constructor(
                 exchangeToBaseCurrency(
                     exchangeRateDao = exchangeRateDao,
                     baseCurrencyCode = baseCurrency.value,
-                    fromCurrencyCode = currency.value,
+                    fromCurrencyCode = currency.value.toOption(),
                     fromAmount = balance.toBigDecimal()
                 ).orNull()?.toDouble()
             }
