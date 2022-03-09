@@ -491,6 +491,17 @@ class IvyActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun shareZipFile(fileUri: Uri) {
+        val intent = Intent.createChooser(
+            Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, fileUri)
+                type = "application/zip"
+            }, null
+        )
+        startActivity(intent)
+    }
+
     fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()

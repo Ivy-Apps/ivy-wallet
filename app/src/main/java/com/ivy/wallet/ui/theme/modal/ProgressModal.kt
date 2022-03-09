@@ -15,7 +15,7 @@ import com.ivy.wallet.ui.theme.Red
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.ConfirmationModal(
+fun BoxWithConstraintsScope.ProgressModal(
     id: UUID = UUID.randomUUID(),
     title: String,
     description: String,
