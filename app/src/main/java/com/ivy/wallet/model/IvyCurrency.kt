@@ -107,7 +107,7 @@ data class IvyCurrency(
             ),
             IvyCurrency(
                 code = "CRO",
-                name = "Crypto.com Coin",
+                name = "Cronos",
                 isCrypto = true
             ),
             IvyCurrency(
