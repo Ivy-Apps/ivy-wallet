@@ -164,7 +164,6 @@ class ItemStatisticViewModel @Inject constructor(
             calculateAccountBalance(
                 transactionDao = walletDAOs.transactionDao,
                 accountId = accountId,
-                range = range.toCloseTimeRange()
             ).toDouble()
         }
         _balance.value = balance
