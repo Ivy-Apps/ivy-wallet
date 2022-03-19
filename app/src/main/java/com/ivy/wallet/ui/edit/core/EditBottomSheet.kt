@@ -54,6 +54,8 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     toAccount: Account?,
     amount: Double,
     currency: String,
+    convertedAmount: Double? = null,
+    convertedAmountCurrencyCode: String? = null,
 
     amountModalShown: Boolean,
     setAmountModalShown: (Boolean) -> Unit,
@@ -97,6 +99,13 @@ fun BoxWithConstraintsScope.EditBottomSheet(
         animationSpec = springBounce()
     )
     val percentCollapsed = 1f - percentExpanded
+
+    val showConvertedAmountText by remember(convertedAmount) {
+        if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
+            mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
+        else
+            mutableStateOf(null)
+    }
 
     Column(
         modifier = Modifier
@@ -161,6 +170,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             currency = currency,
             label = label,
             account = selectedAccount,
+            showConvertedAmountText = showConvertedAmountText,
             percentExpanded = percentExpanded,
             onShowAmountModal = {
                 setAmountModalShown(true)
@@ -168,7 +178,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             onAccountMiniClick = {
                 hideKeyboard(rootView)
                 internalExpanded = true
-            }
+            },
         )
 
         val lastSpacer = lerp(20f, 8f, percentCollapsed)
@@ -597,6 +607,7 @@ private fun Amount(
     percentExpanded: Float,
     label: String,
     account: Account?,
+    showConvertedAmountText: String? = null,
     onShowAmountModal: () -> Unit,
     onAccountMiniClick: () -> Unit,
 ) {
@@ -620,26 +631,37 @@ private fun Amount(
             )
         }
 
-        BalanceRow(
-            modifier = Modifier
-                .clickableNoIndication {
-                    onShowAmountModal()
-                }
-                .testTag("edit_amount_balance_row"),
-            currency = currency,
-            balance = amount,
+        Column() {
+            BalanceRow(
+                modifier = Modifier
+                    .clickableNoIndication {
+                        onShowAmountModal()
+                    }
+                    .testTag("edit_amount_balance_row"),
+                currency = currency,
+                balance = amount,
 
-            decimalPaddingTop = currencyPaddingTop.dp,
-            spacerDecimal = spacerInteger.dp,
-            spacerCurrency = 8.dp,
+                decimalPaddingTop = currencyPaddingTop.dp,
+                spacerDecimal = spacerInteger.dp,
+                spacerCurrency = 8.dp,
 
 
-            integerFontSize = integerFontSize.sp,
-            decimalFontSize = 18.sp,
-            currencyFontSize = currencyFontSize.sp,
+                integerFontSize = integerFontSize.sp,
+                decimalFontSize = 18.sp,
+                currencyFontSize = currencyFontSize.sp,
 
-            currencyUpfront = false
-        )
+                currencyUpfront = false
+            )
+            if (showConvertedAmountText != null) {
+                Text(
+                    text = showConvertedAmountText,
+                    style = UI.typo.nB2.style(
+                        color = UI.colors.pureInverse,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            }
+        }
 
         Spacer(Modifier.weight(1f))
 

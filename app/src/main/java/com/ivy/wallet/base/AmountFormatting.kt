@@ -157,7 +157,8 @@ fun Long.length() = when (this) {
 fun formatInputAmount(
     currency: String,
     amount: String,
-    newSymbol: String
+    newSymbol: String,
+    decimalCountMax:Int = 2,
 ): String? {
     val newlyEnteredNumberString = amount + newSymbol
 
@@ -169,7 +170,7 @@ fun formatInputAmount(
     val amountDouble = newlyEnteredNumberString.amountToDoubleOrNull()
 
     val decimalCountOkay = IvyCurrency.fromCode(currency)?.isCrypto == true
-            || decimalCount <= 2
+            || decimalCount <= decimalCountMax
     if (amountDouble != null && decimalCountOkay) {
         val intPart = truncate(amountDouble).toInt()
         val decimalPartFormatted = if (decimalPartString != null) {
