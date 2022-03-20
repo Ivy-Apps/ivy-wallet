@@ -6,6 +6,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -110,6 +113,13 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 shadowRadius = 24.dp
             )
             .background(IvyTheme.colors.pure, Shapes.rounded24Top)
+            .scrollable(
+                orientation = Orientation.Vertical,
+                state = rememberScrollableState { delta ->
+                    internalExpanded = delta < 0f
+                    delta
+                }
+            )
             .consumeClicks()
     ) {
         //Accounts label
