@@ -133,6 +133,7 @@ fun DependencyHandler.Compose(version: String) {
 fun DependencyHandler.Accompanist(version: String) {
     implementation("com.google.accompanist:accompanist-coil:$version")
     implementation("com.google.accompanist:accompanist-insets:$version")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha")
 }
 
 /**
