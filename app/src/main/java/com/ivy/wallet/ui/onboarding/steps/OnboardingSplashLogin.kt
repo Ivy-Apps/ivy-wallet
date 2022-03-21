@@ -8,7 +8,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -124,6 +126,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         modifier = Modifier
             .fillMaxSize()
             .background(IvyTheme.colors.pure)
+            .verticalScroll(rememberScrollState())
             .systemBarsPadding()
             .navigationBarsPadding()
     ) {
