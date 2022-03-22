@@ -83,8 +83,11 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSync = viewModel::sync,
         onLogout = viewModel::logout,
         onLogin = viewModel::login,
-        onExportData = {
+        onBackupData = {
             viewModel.exportToZip(context)
+        },
+        onExportToCSV = {
+            viewModel.exportToCSV(context)
         },
         onSetLockApp = viewModel::setLockApp,
         onSetShowNotifications = viewModel::setShowNotifications,
@@ -121,7 +124,8 @@ private fun BoxWithConstraintsScope.UI(
     onSync: () -> Unit,
     onLogout: () -> Unit,
     onLogin: () -> Unit,
-    onExportData: () -> Unit = {},
+    onBackupData: () -> Unit = {},
+    onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetShowNotifications: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
@@ -206,7 +210,16 @@ private fun BoxWithConstraintsScope.UI(
 
             val nav = navigation()
             ExportCSV {
-                onExportData()
+                onExportToCSV()
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            SettingsDefaultButton(
+                icon = R.drawable.ic_export_csv,
+                text = "Backup Data",
+            ) {
+                onBackupData()
             }
 
             Spacer(Modifier.height(12.dp))
@@ -806,7 +819,7 @@ private fun ExportCSV(
 ) {
     SettingsDefaultButton(
         icon = R.drawable.ic_export_csv,
-        text = "Export Data",
+        text = "Export to CSV",
     ) {
         onExportToCSV()
     }
