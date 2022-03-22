@@ -1,35 +1,64 @@
 package com.ivy.wallet.ui.theme.modal
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
+import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateLoanRecordData
+import com.ivy.wallet.logic.model.EditLoanRecordData
+import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.LoanRecord
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
+import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.modal.edit.AccountModal
+import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
+import com.ivy.wallet.ui.theme.toComposeColor
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.*
 
 data class LoanRecordModalData(
     val loanRecord: LoanRecord?,
     val baseCurrency: String,
+    val loanAccountCurrencyCode: String? = null,
+    val selectedAccount: Account? = null,
+    val createLoanRecordTransaction: Boolean = false,
+    val isLoanInterest: Boolean = false,
     val id: UUID = UUID.randomUUID()
 )
 
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
+    accounts: List<Account> = emptyList(),
+    onCreateAccount: (CreateAccountData) -> Unit = {},
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord) -> Unit,
+    onEdit: (EditLoanRecordData) -> Unit,
     onDelete: (LoanRecord) -> Unit,
     dismiss: () -> Unit
 ) {
@@ -37,7 +66,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var noteTextFieldValue by remember(modal) {
         mutableStateOf(selectEndTextFieldValue(initialRecord?.note))
     }
-    val currencyCode by remember(modal) {
+    var currencyCode by remember(modal) {
         mutableStateOf(modal?.baseCurrency ?: "")
     }
     var amount by remember(modal) {
@@ -46,10 +75,26 @@ fun BoxWithConstraintsScope.LoanRecordModal(
     var dateTime by remember(modal) {
         mutableStateOf(modal?.loanRecord?.dateTime ?: timeNowUTC())
     }
-
+    var selectedAcc by remember(modal) {
+        mutableStateOf(modal?.selectedAccount)
+    }
+    var createLoanRecordTrans by remember(modal) {
+        mutableStateOf(modal?.createLoanRecordTransaction ?: false)
+    }
+    var loanInterest by remember(modal) {
+        mutableStateOf(modal?.isLoanInterest ?: false)
+    }
+    var reCalculate by remember(modal) {
+        mutableStateOf(false)
+    }
+    var reCalculateVisible by remember(modal) {
+        mutableStateOf(modal?.loanAccountCurrencyCode != null && modal.loanAccountCurrencyCode != modal.baseCurrency)
+    }
 
     var amountModalVisible by remember { mutableStateOf(false) }
     var deleteModalVisible by remember(modal) { mutableStateOf(false) }
+    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
+    var accountChangeConformationModal by remember { mutableStateOf(false) }
 
     IvyModal(
         id = modal?.id,
@@ -59,18 +104,28 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         PrimaryAction = {
             ModalAddSave(
                 item = initialRecord,
-                enabled = amount > 0
+                enabled = amount > 0 && selectedAcc != null
+                //enabled = amount > 0 && ((createLoanRecordTrans && selectedAcc != null) || !createLoanRecordTrans)
             ) {
-                save(
-                    loanRecord = initialRecord,
-                    noteTextFieldValue = noteTextFieldValue,
-                    amount = amount,
-                    dateTime = dateTime,
+                accountChangeConformationModal =
+                    initialRecord != null && modal.selectedAccount != null
+                            && modal.baseCurrency != currencyCode && currencyCode != modal.loanAccountCurrencyCode
 
-                    onCreate = onCreate,
-                    onEdit = onEdit,
-                    dismiss = dismiss
-                )
+                if (!accountChangeConformationModal)
+                    save(
+                        loanRecord = initialRecord,
+                        noteTextFieldValue = noteTextFieldValue,
+                        amount = amount,
+                        dateTime = dateTime,
+                        loanRecordInterest = loanInterest,
+                        selectedAccount = selectedAcc,
+                        createLoanRecordTransaction = createLoanRecordTrans,
+                        reCalculateAmount = reCalculate,
+
+                        onCreate = onCreate,
+                        onEdit = onEdit,
+                        dismiss = dismiss,
+                    )
             }
         }
     ) {
@@ -120,7 +175,77 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             }
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(Modifier.height(24.dp))
+
+        Text(
+            modifier = Modifier.padding(horizontal = 32.dp),
+            text = "Associated Account",
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.height(16.dp))
+
+        AccountsRow(
+            accounts = accounts,
+            selectedAccount = selectedAcc,
+            onSelectedAccountChanged = {
+                currencyCode = it.currency ?: getDefaultFIATCurrency().currencyCode
+
+                reCalculateVisible =
+                    initialRecord?.convertedAmount != null && selectedAcc != null && currencyCode == modal.baseCurrency
+                //Unchecks the Recalculate Option if Recalculate Checkbox is not visible
+                reCalculate = !reCalculateVisible
+
+                selectedAcc = it
+
+            },
+            onAddNewAccount = {
+                accountModalData = AccountModalData(
+                    account = null,
+                    baseCurrency = selectedAcc?.currency ?: "USD",
+                    balance = 0.0
+                )
+            },
+            childrenTestTag = "amount_modal_account"
+        )
+        Spacer(Modifier.height(16.dp))
+
+        IvyCheckboxWithText(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .align(Alignment.Start),
+            text = "Create a Main Transaction",
+            checked = createLoanRecordTrans
+        ) {
+            createLoanRecordTrans = it
+        }
+
+        IvyCheckboxWithText(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .align(Alignment.Start),
+            text = "Mark as Interest",
+            checked = loanInterest
+        ) {
+            loanInterest = it
+        }
+
+        if (reCalculateVisible) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 8.dp)
+                    .align(Alignment.Start),
+                text = "Recalculate Amount with today's Currency exchange Rates",
+                checked = reCalculate
+            ) {
+                reCalculate = it
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         ModalAmountSection(
             label = "ENTER RECORD AMOUNT",
@@ -132,7 +257,6 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             amountModalVisible = true
         }
     }
-
 
     val amountModalId = remember(modal, amount) {
         UUID.randomUUID()
@@ -157,7 +281,47 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             onDelete(initialRecord)
         }
         deleteModalVisible = false
+        reCalculate = false
         dismiss()
+    }
+
+    AccountModal(
+        modal = accountModalData,
+        onCreateAccount = onCreateAccount,
+        onEditAccount = { _, _ -> },
+        dismiss = {
+            accountModalData = null
+        }
+    )
+
+    DeleteModal(
+        visible = accountChangeConformationModal,
+        title = "Confirm Account Change",
+        description = "Note: You are trying to change the account associated with the loan record with an account of different currency" +
+                "\nThe amount will be re-calculated based on today's exchanges rates ",
+        buttonText = "Confirm",
+        iconStart = R.drawable.ic_agreed,
+        dismiss = {
+            selectedAcc = modal?.selectedAccount ?: selectedAcc
+            accountChangeConformationModal = false
+        }
+    ) {
+        save(
+            loanRecord = initialRecord,
+            noteTextFieldValue = noteTextFieldValue,
+            amount = amount,
+            dateTime = dateTime,
+            loanRecordInterest = loanInterest,
+            selectedAccount = selectedAcc,
+            createLoanRecordTransaction = createLoanRecordTrans,
+            reCalculateAmount = reCalculate,
+
+            onCreate = onCreate,
+            onEdit = onEdit,
+            dismiss = dismiss,
+        )
+
+        accountChangeConformationModal = false
     }
 }
 
@@ -166,7 +330,7 @@ private fun DateTimeRow(
     dateTime: LocalDateTime,
     onSetDateTime: (LocalDateTime) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -205,17 +369,29 @@ private fun save(
     noteTextFieldValue: TextFieldValue,
     amount: Double,
     dateTime: LocalDateTime,
+    loanRecordInterest: Boolean = false,
+    createLoanRecordTransaction: Boolean = false,
+    selectedAccount: Account? = null,
+    reCalculateAmount: Boolean = false,
 
     onCreate: (CreateLoanRecordData) -> Unit,
-    onEdit: (LoanRecord) -> Unit,
+    onEdit: (EditLoanRecordData) -> Unit,
     dismiss: () -> Unit
 ) {
     if (loanRecord != null) {
+        val record = loanRecord.copy(
+            note = noteTextFieldValue.text.trim(),
+            amount = amount,
+            dateTime = dateTime,
+            interest = loanRecordInterest,
+            accountId = selectedAccount?.id
+        )
         onEdit(
-            loanRecord.copy(
-                note = noteTextFieldValue.text.trim(),
-                amount = amount,
-                dateTime = dateTime,
+            EditLoanRecordData(
+                newLoanRecord = record,
+                originalLoanRecord = loanRecord,
+                createLoanRecordTransaction = createLoanRecordTransaction,
+                reCalculateLoanAmount = reCalculateAmount,
             )
         )
     } else {
@@ -224,6 +400,9 @@ private fun save(
                 note = noteTextFieldValue.text.trim(),
                 amount = amount,
                 dateTime = dateTime,
+                interest = loanRecordInterest,
+                account = selectedAccount,
+                createLoanRecordTransaction = createLoanRecordTransaction
             )
         )
     }
@@ -231,10 +410,152 @@ private fun save(
     dismiss()
 }
 
+@Composable
+private fun AccountsRow(
+    modifier: Modifier = Modifier,
+    accounts: List<Account>,
+    selectedAccount: Account?,
+    childrenTestTag: String? = null,
+    onSelectedAccountChanged: (Account) -> Unit,
+    onAddNewAccount: () -> Unit
+) {
+    val lazyState = rememberLazyListState()
+
+    LaunchedEffect(accounts, selectedAccount) {
+        if (selectedAccount != null) {
+            val selectedIndex = accounts.indexOf(selectedAccount)
+            if (selectedIndex != -1) {
+                launch {
+                    if (TestingContext.inTest) return@launch //breaks UI tests
+
+                    lazyState.scrollToItem(
+                        index = selectedIndex, //+1 because Spacer width 24.dp
+                    )
+                }
+            }
+        }
+    }
+
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        state = lazyState
+    ) {
+        item {
+            Spacer(Modifier.width(24.dp))
+        }
+
+        itemsIndexed(accounts) { _, account ->
+            Account(
+                account = account,
+                selected = selectedAccount == account,
+                testTag = childrenTestTag ?: "account"
+            ) {
+                onSelectedAccountChanged(account)
+            }
+        }
+
+        item {
+            AddAccount {
+                onAddNewAccount()
+            }
+        }
+
+        item {
+            Spacer(Modifier.width(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun Account(
+    account: Account,
+    selected: Boolean,
+    testTag: String,
+    onClick: () -> Unit
+) {
+    val accountColor = account.color.toComposeColor()
+    val textColor =
+        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
+
+    Row(
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .thenIf(!selected) {
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            }
+            .thenIf(selected) {
+                background(accountColor, UI.shapes.rFull)
+            }
+            .clickable(onClick = onClick)
+            .testTag(testTag),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        ItemIconSDefaultIcon(
+            iconName = account.icon,
+            defaultIcon = R.drawable.ic_custom_account_s,
+            tint = textColor
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = account.name,
+            style = UI.typo.b2.style(
+                color = textColor,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
+    }
+
+    Spacer(Modifier.width(8.dp))
+}
+
+@Composable
+private fun AddAccount(
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(12.dp))
+
+        IvyIcon(
+            icon = R.drawable.ic_plus,
+            tint = UI.colors.pureInverse
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            modifier = Modifier.padding(vertical = 10.dp),
+            text = "Add account",
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        Spacer(Modifier.width(24.dp))
+    }
+
+    Spacer(Modifier.width(8.dp))
+}
+
+
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

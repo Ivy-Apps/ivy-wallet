@@ -10,15 +10,16 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.base.toLowerCaseLocal
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
 
 @Composable
 fun ItemIconL(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -34,7 +35,7 @@ fun ItemIconL(
 fun ItemIconMDefaultIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     @DrawableRes defaultIcon: Int
 ) {
     ItemIconM(
@@ -56,7 +57,7 @@ fun ItemIconMDefaultIcon(
 fun ItemIconM(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -72,7 +73,7 @@ fun ItemIconM(
 fun ItemIconSDefaultIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     @DrawableRes defaultIcon: Int
 ) {
     ItemIconS(
@@ -94,7 +95,7 @@ fun ItemIconSDefaultIcon(
 fun ItemIconS(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -111,7 +112,7 @@ private fun ItemIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
     size: String,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     Default: (@Composable () -> Unit)? = null
 ) {
     val context = LocalContext.current
@@ -201,7 +202,7 @@ fun getCustomIconId(
 @Preview
 @Composable
 private fun Preview_L() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconL(iconName = "dna")
     }
 }
@@ -209,7 +210,7 @@ private fun Preview_L() {
 @Preview
 @Composable
 private fun Preview_M() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconM(iconName = "document")
     }
 }
@@ -217,7 +218,7 @@ private fun Preview_M() {
 @Preview
 @Composable
 private fun Preview_S() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         ItemIconS(iconName = "fooddrink")
     }
 }

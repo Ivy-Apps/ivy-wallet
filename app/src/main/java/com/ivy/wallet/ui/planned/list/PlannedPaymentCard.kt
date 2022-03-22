@@ -16,6 +16,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
@@ -23,13 +26,15 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
+import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import java.time.LocalDateTime
 
@@ -47,13 +52,13 @@ fun LazyItemScope.PlannedPaymentCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 if (accounts.find { it.id == plannedPayment.accountId } != null) {
                     onClick(plannedPayment)
                 }
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("planned_payment_card")
     ) {
         val currency = accounts.find { it.id == plannedPayment.accountId }?.currency ?: baseCurrency
@@ -81,9 +86,9 @@ fun LazyItemScope.PlannedPaymentCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = plannedPayment.title!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
         }
@@ -107,7 +112,7 @@ private fun PlannedPaymentHeaderRow(
     categories: List<Category>,
     accounts: List<Account>
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     if (plannedPayment.type != TransactionType.TRANSFER) {
         Row(
@@ -117,9 +122,9 @@ private fun PlannedPaymentHeaderRow(
 
             IvyIcon(
                 modifier = Modifier
-                    .background(IvyTheme.colors.pure, CircleShape),
+                    .background(UI.colors.pure, CircleShape),
                 icon = R.drawable.ic_planned_payments,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(12.dp))
@@ -132,15 +137,15 @@ private fun PlannedPaymentHeaderRow(
                     iconStart = getCustomIconIdS(category.icon, R.drawable.ic_custom_category_s),
                     text = category.name,
                     backgroundGradient = Gradient.solid(category.color.toComposeColor()),
-                    textStyle = Typo.caption.style(
+                    textStyle = UI.typo.c.style(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -152,20 +157,20 @@ private fun PlannedPaymentHeaderRow(
 
             val account = accounts.find { it.id == plannedPayment.accountId }
             IvyButton(
-                backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                backgroundGradient = Gradient.solid(UI.colors.pure),
                 text = account?.name ?: "deleted",
-                iconTint = IvyTheme.colors.pureInverse,
+                iconTint = UI.colors.pureInverse,
                 iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
-                textStyle = Typo.caption.style(
-                    color = IvyTheme.colors.pureInverse,
+                textStyle = UI.typo.c.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 padding = 8.dp,
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = account.id,
                             categoryId = null
                         )
@@ -192,7 +197,7 @@ private fun RuleTextRow(
         if (oneTime) {
             Text(
                 text = "PLANNED FOR ",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -201,7 +206,7 @@ private fun RuleTextRow(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = startDate?.toLocalDate()?.formatDateOnlyWithYear()?.uppercaseLocal()
                     ?: "null",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -210,7 +215,7 @@ private fun RuleTextRow(
             val startDateFormatted = startDate?.toLocalDate()?.formatDateOnly()?.uppercaseLocal()
             Text(
                 text = "STARTS $startDateFormatted ",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -219,7 +224,7 @@ private fun RuleTextRow(
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = "REPEATS EVERY $intervalN $intervalTypeFormatted",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -234,7 +239,7 @@ private fun RuleTextRow(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash")
             val food = Category(name = "Food")
@@ -268,7 +273,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_recurring() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut")
             val shisha = Category(name = "Shisha", color = Orange.toArgb())
@@ -302,7 +307,7 @@ private fun Preview_recurring() {
 @Preview
 @Composable
 private fun Preview_recurringError() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = Account(name = "Revolut")
             val shisha = Category(name = "Shisha", color = Orange.toArgb())

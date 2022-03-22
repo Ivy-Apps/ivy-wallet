@@ -12,8 +12,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 
 @Composable
 fun AddPrimaryAttributeButton(
@@ -25,8 +29,8 @@ fun AddPrimaryAttributeButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.r4)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -39,8 +43,8 @@ fun AddPrimaryAttributeButton(
 
         Text(
             text = text,
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -50,7 +54,7 @@ fun AddPrimaryAttributeButton(
 @Preview
 @Composable
 private fun PreviewAddPrimaryAttributeButton() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         AddPrimaryAttributeButton(
             icon = R.drawable.ic_description,
             text = "Add description"

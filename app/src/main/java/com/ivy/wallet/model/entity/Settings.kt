@@ -2,7 +2,7 @@ package com.ivy.wallet.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.wallet.ui.theme.Theme
+import com.ivy.design.l0_system.Theme
 import java.util.*
 
 @Entity(tableName = "settings")

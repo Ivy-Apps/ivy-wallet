@@ -10,11 +10,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.setStatusBarDarkTextCompat
 import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.GradientIvy
+
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
@@ -25,7 +29,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
     preselectedCurrency: IvyCurrency,
     onSetCurrency: (IvyCurrency) -> Unit
 ) {
-    setStatusBarDarkTextCompat(darkText = IvyTheme.colors.isLight)
+    setStatusBarDarkTextCompat(darkText = UI.colors.isLight)
 
     var currency by remember { mutableStateOf(preselectedCurrency) }
 
@@ -41,11 +45,11 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
             mutableStateOf(false)
         }
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         BackButton(
             modifier = Modifier.padding(start = 20.dp)
         ) {
-            ivyContext.onBackPressed()
+            nav.onBackPressed()
         }
 
         if (!keyboardVisible) {
@@ -54,7 +58,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
             Text(
                 modifier = Modifier.padding(horizontal = 32.dp),
                 text = "Set currency",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -103,7 +107,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingSetCurrency(
             preselectedCurrency = IvyCurrency.getDefault()
         ) {

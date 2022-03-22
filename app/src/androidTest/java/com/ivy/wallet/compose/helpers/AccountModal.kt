@@ -43,7 +43,7 @@ class AccountModal<A : ComponentActivity>(
     }
 
     fun tapIncludeInBalance() {
-        composeTestRule.onNodeWithText("Include in balance")
+        composeTestRule.onNodeWithText("Include account")
             .performClick()
     }
 }

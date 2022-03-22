@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
@@ -10,6 +11,7 @@ import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.TransactionType
@@ -19,8 +21,10 @@ import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.uploader.TransactionUploader
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditTransaction
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,11 +36,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
+    private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -44,7 +50,8 @@ class EditTransactionViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val paywallLogic: PaywallLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic
+    private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
+    private val loanTransactionsLogic: LoanTransactionsLogic
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -89,12 +96,24 @@ class EditTransactionViewModel @Inject constructor(
     private val _hasChanges = MutableLiveData(false)
     val hasChanges = _hasChanges.asLiveData()
 
+    private val _displayLoanHelper: MutableStateFlow<EditTransactionDisplayLoan> =
+        MutableStateFlow(EditTransactionDisplayLoan())
+    val displayLoanHelper = _displayLoanHelper.asStateFlow()
+
+    //This is used to when the transaction is associated with a loan/loan record,
+    // used to indicate the background updating of loan/loanRecord data
+    private val _backgroundProcessingStarted = MutableStateFlow(false)
+    val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
+
     private var loadedTransaction: Transaction? = null
     private var editMode = false
 
+    //Used for optimising in updating all loan/loanRecords
+    private var accountsChanged = false
+
     var title: String? = null
 
-    fun start(screen: Screen.EditTransaction) {
+    fun start(screen: EditTransaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -129,8 +148,38 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
+        if (trans.loanId == null)
+            return EditTransactionDisplayLoan()
+
+        val loan =
+            ioThread { loanDao.findById(trans.loanId) } ?: return EditTransactionDisplayLoan()
+        val isLoanRecord = trans.loanRecordId != null
+
+        val loanWarningDescription = if (isLoanRecord)
+            "Note: This transaction is associated with a Loan Record of Loan : ${loan.name}\n" +
+                    "You are trying to change the account associated with the loan record to an account of different currency" +
+                    "\n The Loan Record will be re-calculated based on today's currency exchanges rates"
+        else {
+            "Note: You are trying to change the account associated with the loan: ${loan.name} with an account " +
+                    "of different currency, " +
+                    "\nAll the loan records will be re-calculated based on today's currency exchanges rates "
+        }
+
+        val loanCaption =
+            if (isLoanRecord) "* This transaction is associated with a Loan Record of Loan : ${loan.name}"
+            else "* This transaction is associated with Loan : ${loan.name}"
+
+        return EditTransactionDisplayLoan(
+            isLoan = true,
+            isLoanRecord = isLoanRecord,
+            loanCaption = loanCaption,
+            loanWarningDescription = loanWarningDescription
+        )
+    }
+
     private suspend fun defaultAccountId(
-        screen: Screen.EditTransaction,
+        screen: EditTransaction,
         accounts: List<Account>,
     ): UUID {
         if (screen.accountId != null) {
@@ -166,6 +215,8 @@ class EditTransactionViewModel @Inject constructor(
         _amount.value = transaction.amount
 
         updateCurrency(account = selectedAccount)
+
+        _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
 
     private suspend fun updateCurrency(account: Account) {
@@ -241,6 +292,8 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             updateCurrency(account = newAccount)
         }
+
+        accountsChanged = true
 
         //update last selected account
         sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
@@ -388,7 +441,7 @@ class EditTransactionViewModel @Inject constructor(
 
             paywallLogic.protectQuotaExceededWithPaywall(
                 onPaywallHit = {
-                    ivyContext.back()
+                    nav.back()
                 }
             ) {
                 saveInternal(closeScreen = closeScreen)
@@ -420,9 +473,24 @@ class EditTransactionViewModel @Inject constructor(
                         else -> loadedTransaction().dateTime
                     },
                     categoryId = category.value?.id,
-
                     isSynced = false
                 )
+
+                if (loadedTransaction?.loanId != null) {
+                    loanTransactionsLogic.updateAssociatedLoanData(
+                        loadedTransaction!!.copy(),
+                        onBackgroundProcessingStart = {
+                            _backgroundProcessingStarted.value = true
+                        },
+                        onBackgroundProcessingEnd = {
+                            _backgroundProcessingStarted.value = false
+                        },
+                        accountsChanged = accountsChanged
+                    )
+
+                    //Reset Counter
+                    accountsChanged = false
+                }
 
                 transactionDao.save(loadedTransaction())
             }
@@ -447,8 +515,8 @@ class EditTransactionViewModel @Inject constructor(
         amount: Double
     ): Double? {
         if (transactionType.value != TransactionType.TRANSFER) return null
-        val toCurrency = toAccount.value?.currency ?: return null
-        val fromCurrency = account.value?.currency ?: return null
+        val toCurrency = toAccount.value?.currency ?: baseCurrency()
+        val fromCurrency = account.value?.currency ?: baseCurrency()
 
         return exchangeRatesLogic.convertAmount(
             baseCurrency = baseCurrency(),
@@ -459,11 +527,11 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun closeScreen() {
-        if (ivyContext.backStackEmpty()) {
-            ivyContext.resetBackStack()
-            ivyContext.navigateTo(Screen.Main)
+        if (nav.backStackEmpty()) {
+            nav.resetBackStack()
+            nav.navigateTo(Main)
         } else {
-            ivyContext.back()
+            nav.back()
         }
     }
 

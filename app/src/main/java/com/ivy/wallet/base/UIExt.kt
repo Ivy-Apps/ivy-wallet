@@ -28,8 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import kotlin.math.roundToInt
@@ -141,7 +139,11 @@ fun lerp(start: Int, end: Int, @FloatRange(from = 0.0, to = 1.0) fraction: Float
 }
 
 fun lerp(start: Float, end: Float, @FloatRange(from = 0.0, to = 1.0) fraction: Float): Float {
-    return (start + fraction * (end - start));
+    return (start + fraction * (end - start))
+}
+
+fun lerp(start: Double, end: Double, @FloatRange(from = 0.0, to = 1.0) fraction: Double): Double {
+    return (start + fraction * (end - start))
 }
 
 fun colorLerp(start: Color, end: Color, fraction: Float): Color {
@@ -209,15 +211,6 @@ fun post(run: () -> Unit) {
 fun showKeyboard(context: Context) {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}
-
-
-//Legacy
-fun ConstraintLayout.align(constrain: ConstraintSet.() -> Unit) {
-    val set = ConstraintSet()
-    set.clone(this)
-    set.constrain()
-    set.applyTo(this)
 }
 
 fun View.setMargin(

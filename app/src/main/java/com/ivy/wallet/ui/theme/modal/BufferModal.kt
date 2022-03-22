@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.util.*
+
 
 data class BufferModalData(
     val balance: Double,
@@ -49,7 +50,7 @@ fun BoxWithConstraintsScope.BufferModal(
             buffer = newBufferAmount,
             balance = modal?.balance ?: 0.0,
             currency = modal?.currency ?: "",
-            backgroundNotFilled = IvyTheme.colors.medium,
+            backgroundNotFilled = UI.colors.medium,
         )
 
         Spacer(Modifier.height(24.dp))

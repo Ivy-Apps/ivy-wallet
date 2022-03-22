@@ -3,8 +3,10 @@ package com.ivy.wallet.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
+import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeAccountMapper
@@ -12,7 +14,12 @@ import com.ivy.wallet.logic.bankintegrations.SaltEdgeCategoryMapper
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeTransactionMapper
 import com.ivy.wallet.logic.csv.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.loantrasactions.LTLoanMapper
+import com.ivy.wallet.logic.loantrasactions.LTLoanRecordMapper
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsCore
+import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.logic.zip.ExportZipLogic
 import com.ivy.wallet.network.ErrorCodeTypeAdapter
 import com.ivy.wallet.network.FCMClient
 import com.ivy.wallet.network.LocalDateTimeTypeAdapter
@@ -26,7 +33,7 @@ import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.sync.item.*
 import com.ivy.wallet.sync.uploader.*
 import com.ivy.wallet.system.notification.NotificationService
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,8 +47,14 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideIvyContext(): IvyContext {
-        return IvyContext()
+    fun provideIvyContext(): IvyWalletCtx {
+        return IvyWalletCtx()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNavigation(): Navigation {
+        return Navigation()
     }
 
     @Provides
@@ -131,13 +144,11 @@ object AppModule {
         transactionDao: TransactionDao,
         settingsDao: SettingsDao,
         exchangeRatesLogic: ExchangeRatesLogic,
-        walletAccountLogic: WalletAccountLogic
     ): WalletLogic = WalletLogic(
         accountDao = accountDao,
         transactionDao = transactionDao,
         settingsDao = settingsDao,
         exchangeRatesLogic = exchangeRatesLogic,
-        walletAccountLogic = walletAccountLogic
     )
 
     @Provides
@@ -442,7 +453,8 @@ object AppModule {
     @Singleton
     fun providepaywallLogic(
         ivyBilling: IvyBilling,
-        ivyContext: IvyContext,
+        ivyContext: IvyWalletCtx,
+        navigation: Navigation,
         accountDao: AccountDao,
         categoryDao: CategoryDao,
         budgetDao: BudgetDao,
@@ -451,6 +463,7 @@ object AppModule {
         return PaywallLogic(
             ivyBilling = ivyBilling,
             ivyContext = ivyContext,
+            navigation = navigation,
             accountDao = accountDao,
             categoryDao = categoryDao,
             budgetDao = budgetDao,
@@ -494,10 +507,12 @@ object AppModule {
 
     @Provides
     fun provideTransactionReminderLogic(
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
+        sharedPrefs: SharedPrefs,
     ): TransactionReminderLogic {
         return TransactionReminderLogic(
-            appContext = appContext
+            appContext = appContext,
+            sharedPrefs = sharedPrefs
         )
     }
 
@@ -638,13 +653,13 @@ object AppModule {
         ivyRoomDatabase: IvyRoomDatabase,
         ivySession: IvySession,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        navigation: Navigation
     ): LogoutLogic {
         return LogoutLogic(
             ivyDb = ivyRoomDatabase,
             ivySession = ivySession,
             sharedPrefs = sharedPrefs,
-            ivyContext = ivyContext
+            navigation = navigation
         )
     }
 
@@ -703,7 +718,7 @@ object AppModule {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyContext
+        ivyContext: IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -719,6 +734,78 @@ object AppModule {
     ): SmartTitleSuggestionsLogic {
         return SmartTitleSuggestionsLogic(
             transactionDao = transactionDao
+        )
+    }
+
+    @Provides
+    fun provideWalletDAOs(
+        accountDao: AccountDao,
+        transactionDao: TransactionDao,
+        exchangeRateDao: ExchangeRateDao
+    ): WalletDAOs {
+        return WalletDAOs(
+            accountDao = accountDao,
+            transactionDao = transactionDao,
+            exchangeRateDao = exchangeRateDao
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun loanTransactionsCore(
+        categoryDao: CategoryDao,
+        transactionUploader: TransactionUploader,
+        transactionDao: TransactionDao,
+        ivyContext: IvyWalletCtx,
+        loanDao: LoanDao,
+        loanRecordDao: LoanRecordDao,
+        exchangeRatesLogic: ExchangeRatesLogic,
+        settingsDao: SettingsDao,
+        accountDao: AccountDao
+    ): LoanTransactionsCore {
+        return LoanTransactionsCore(
+            categoryDao = categoryDao,
+            transactionUploader = transactionUploader,
+            transactionDao = transactionDao,
+            ivyContext = ivyContext,
+            loanDao = loanDao,
+            loanRecordDao = loanRecordDao,
+            settingsDao = settingsDao,
+            accountsDao = accountDao,
+            exchangeRatesLogic = exchangeRatesLogic
+        )
+    }
+
+    @Provides
+    fun loanTransactionsLogic(loanTransactionsCore: LoanTransactionsCore): LoanTransactionsLogic {
+        return LoanTransactionsLogic(
+            Loan = LTLoanMapper(ltCore = loanTransactionsCore),
+            LoanRecord = LTLoanRecordMapper(ltCore = loanTransactionsCore)
+        )
+    }
+
+    @Provides
+    fun providesExportZipLogic(
+        accountDao: AccountDao,
+        budgetDao: BudgetDao,
+        categoryDao: CategoryDao,
+        loanRecordDao: LoanRecordDao,
+        loanDao: LoanDao,
+        plannedPaymentRuleDao: PlannedPaymentRuleDao,
+        settingsDao: SettingsDao,
+        transactionDao: TransactionDao,
+        sharedPrefs: SharedPrefs
+    ): ExportZipLogic {
+        return ExportZipLogic(
+            accountDao,
+            budgetDao,
+            categoryDao,
+            loanRecordDao,
+            loanDao,
+            plannedPaymentRuleDao,
+            settingsDao,
+            transactionDao,
+            sharedPrefs
         )
     }
 }

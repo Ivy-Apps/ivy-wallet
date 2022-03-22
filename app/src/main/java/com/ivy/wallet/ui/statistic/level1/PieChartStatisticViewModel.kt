@@ -1,52 +1,55 @@
 package com.ivy.wallet.ui.statistic.level1
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.logic.WalletCategoryLogic
-import com.ivy.wallet.logic.WalletLogic
+import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.functional.category.calculateCategoryExpense
+import com.ivy.wallet.functional.category.calculateCategoryIncome
+import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.functional.wallet.calculateWalletExpense
+import com.ivy.wallet.functional.wallet.calculateWalletIncome
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
+    private val walletDAOs: WalletDAOs,
     private val categoryDao: CategoryDao,
-    private val walletLogic: WalletLogic,
     private val settingsDao: SettingsDao,
-    private val categoryLogic: WalletCategoryLogic,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
-    private val _period = MutableLiveData<TimePeriod>()
-    val period = _period.asLiveData()
+    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
+    val period = _period.readOnly()
 
-    private val _type = MutableLiveData<TransactionType>()
-    val type = _type.asLiveData()
+    private val _type = MutableStateFlow(TransactionType.EXPENSE)
+    val type = _type.readOnly()
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    private val _baseCurrencyCode = MutableStateFlow("")
+    val baseCurrencyCode = _baseCurrencyCode.readOnly()
 
-    private val _totalAmount = MutableLiveData<Double>()
-    val totalAmount = _totalAmount.asLiveData()
+    private val _totalAmount = MutableStateFlow(0.0)
+    val totalAmount = _totalAmount.readOnly()
 
-    private val _categoryAmounts = MutableLiveData<List<CategoryAmount>>()
-    val categoryAmounts = _categoryAmounts.asLiveData()
+    private val _categoryAmounts = MutableStateFlow<List<CategoryAmount>>(emptyList())
+    val categoryAmounts = _categoryAmounts.readOnly()
 
-    private val _selectedCategory = MutableLiveData<SelectedCategory?>()
-    val selectedCategory = _selectedCategory.asLiveData()
+    private val _selectedCategory = MutableStateFlow<SelectedCategory?>(null)
+    val selectedCategory = _selectedCategory.readOnly()
 
     fun start(
-        screen: Screen.PieChartStatistic
+        screen: PieChartStatistic
     ) {
         load(
             period = ivyContext.selectedPeriod,
@@ -67,59 +70,64 @@ class PieChartStatisticViewModel @Inject constructor(
         viewModelScope.launch {
             val settings = ioThread { settingsDao.findFirst() }
 
-            _currency.value = settings.currency
+            _baseCurrencyCode.value = settings.currency
 
             _totalAmount.value = ioThread {
                 when (type) {
-                    TransactionType.INCOME -> walletLogic.calculateIncome(range)
-                    TransactionType.EXPENSE -> walletLogic.calculateExpenses(range)
+                    TransactionType.INCOME -> {
+                        calculateWalletIncome(
+                            walletDAOs = walletDAOs,
+                            baseCurrencyCode = baseCurrencyCode.value,
+                            range = range.toCloseTimeRange()
+                        ).value.toDouble()
+                    }
+                    TransactionType.EXPENSE -> {
+                        calculateWalletExpense(
+                            walletDAOs = walletDAOs,
+                            baseCurrencyCode = baseCurrencyCode.value,
+                            range = range.toCloseTimeRange()
+                        ).value.toDouble()
+                    }
                     else -> error("not supported transactionType - $type")
                 }
             }.absoluteValue
 
             _categoryAmounts.value = ioThread {
-                categoryDao
-                    .findAll()
-                    .map {
+                categoryDao.findAll()
+                    .plus(null) //for unspecified
+                    .map { category ->
                         CategoryAmount(
-                            category = it,
+                            category = category,
                             amount = when (type) {
-                                TransactionType.INCOME -> categoryLogic.calculateCategoryIncome(
-                                    category = it,
-                                    range = range
-                                )
-                                TransactionType.EXPENSE -> categoryLogic.calculateCategoryExpenses(
-                                    category = it,
-                                    range = range
-                                )
+                                TransactionType.INCOME -> {
+                                    calculateCategoryIncome(
+                                        walletDAOs = walletDAOs,
+                                        baseCurrencyCode = baseCurrencyCode.value,
+                                        categoryId = category?.id,
+                                        range = range.toCloseTimeRange()
+                                    ).toDouble()
+                                }
+                                TransactionType.EXPENSE -> {
+                                    calculateCategoryExpense(
+                                        walletDAOs = walletDAOs,
+                                        baseCurrencyCode = baseCurrencyCode.value,
+                                        categoryId = category?.id,
+                                        range = range.toCloseTimeRange()
+                                    ).toDouble()
+                                }
                                 else -> error("not supported transactionType - $type")
                             }
                         )
                     }
-                    .plus(
-                        //Unspecified
-                        CategoryAmount(
-                            category = null,
-                            amount = when (type) {
-                                TransactionType.INCOME -> categoryLogic.calculateUnspecifiedIncome(
-                                    range = range
-                                )
-                                TransactionType.EXPENSE -> categoryLogic.calculateUnspecifiedExpenses(
-                                    range = range
-                                )
-                                else -> error("not supported transactionType - $type")
-                            }
-                        )
-                    )
                     .sortedByDescending { it.amount }
-            }!!
+            }
         }
     }
 
     fun setSelectedCategory(selectedCategory: SelectedCategory?) {
         _selectedCategory.value = selectedCategory
 
-        val categoryAmounts = _categoryAmounts.value ?: return
+        val categoryAmounts = _categoryAmounts.value
         _categoryAmounts.value = if (selectedCategory != null) {
             categoryAmounts
                 .sortedByDescending { it.amount }
@@ -137,28 +145,28 @@ class PieChartStatisticViewModel @Inject constructor(
         ivyContext.updateSelectedPeriodInMemory(period)
         load(
             period = period,
-            type = type.value!!
+            type = type.value
         )
     }
 
     fun nextMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, 1L,year),
-                type = type.value!!
+                period = month.incrementMonthPeriod(ivyContext, 1L, year),
+                type = type.value
             )
         }
     }
 
     fun previousMonth() {
-        val month = period.value?.month
-        val year = period.value?.year ?: dateNowUTC().year
+        val month = period.value.month
+        val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             load(
-                period = month.incrementMonthPeriod(ivyContext, -1L,year),
-                type = type.value!!
+                period = month.incrementMonthPeriod(ivyContext, -1L, year),
+                type = type.value
             )
         }
     }

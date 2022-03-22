@@ -1,5 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
 import com.ivy.wallet.model.LoanType
@@ -32,6 +34,7 @@ class LoansTest : IvyComposeTest() {
             selectLoanType(LoanType.BORROW)
             colorPicker.chooseColor(Purple2)
             chooseIconFlow.chooseIcon("education")
+            accountsTab.clickAccount(account = "Cash")
 
             clickAdd()
         }
@@ -62,6 +65,7 @@ class LoansTest : IvyComposeTest() {
             selectLoanType(LoanType.LEND)
             colorPicker.chooseColor(Blue)
             chooseIconFlow.chooseIcon("star")
+            selectDefaultLoanAccount()
 
             clickAdd()
         }
@@ -218,7 +222,9 @@ class LoansTest : IvyComposeTest() {
                 note = "Връщам"
             )
 
-            clickClose() //click outside of the modal
+            composeTestRule.onNodeWithTag("modal_close_button")
+                .performClick()
+
             clickClose()
         }
 

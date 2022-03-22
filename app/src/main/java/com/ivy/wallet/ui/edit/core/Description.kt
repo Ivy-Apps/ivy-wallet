@@ -9,12 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.isNotNullOrBlank
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.edit.PrimaryAttributeColumn
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
@@ -60,8 +59,8 @@ private fun DescriptionText(
                 .padding(horizontal = 24.dp),
             markdown = description,
             textAlign = TextAlign.Left,
-            color = IvyTheme.colors.pureInverse,
-            fontSize = Typo.body2.fontSize,
+            color = UI.colors.pureInverse,
+            fontSize = UI.typo.b2.fontSize,
             fontResource = R.font.raleway_medium
         )
 
@@ -72,7 +71,7 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun PreviewDescription_Empty() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Description(
             description = null,
             onAddDescription = {}
@@ -85,7 +84,7 @@ private fun PreviewDescription_Empty() {
 @Preview
 @Composable
 private fun PreviewDescription_withText() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Description(
             description = "This is my sample description.",
             onAddDescription = {}

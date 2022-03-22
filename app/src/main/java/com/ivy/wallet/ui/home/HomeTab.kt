@@ -7,16 +7,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
@@ -27,12 +29,11 @@ import com.ivy.wallet.model.TransactionHistoryItem
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.Theme
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
@@ -42,39 +43,39 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.HomeTab(screen: Screen.Main) {
+fun BoxWithConstraintsScope.HomeTab(screen: Main) {
     val viewModel: HomeViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
-    val theme by viewModel.theme.observeAsState(Theme.LIGHT)
-    val name by viewModel.name.observeAsState("")
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currencyCode by viewModel.currencyCode.observeAsState("")
+    val theme by viewModel.theme.collectAsState()
+    val name by viewModel.name.collectAsState()
+    val period by viewModel.period.collectAsState()
+    val currencyCode by viewModel.baseCurrencyCode.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
 
-    val balance by viewModel.balance.observeAsState(0.0)
-    val buffer by viewModel.buffer.observeAsState(0.0)
-    val bufferDiff by viewModel.bufferDiff.observeAsState(0.0)
-    val monthlyIncome by viewModel.monthlyIncome.observeAsState(0.0)
-    val monthlyExpenses by viewModel.monthlyExpenses.observeAsState(0.0)
+    val balance by viewModel.balance.collectAsState()
+    val buffer by viewModel.buffer.collectAsState()
+    val bufferDiff by viewModel.bufferDiff.collectAsState()
+    val monthlyIncome by viewModel.monthlyIncome.collectAsState()
+    val monthlyExpenses by viewModel.monthlyExpenses.collectAsState()
 
-    val upcomingExpanded by viewModel.upcomingExpanded.observeAsState(true)
-    val upcomingIncome by viewModel.upcomingIncome.observeAsState(0.0)
-    val upcomingExpenses by viewModel.upcomingExpenses.observeAsState(0.0)
-    val upcoming by viewModel.upcoming.observeAsState(emptyList())
+    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
+    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
+    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
+    val upcoming by viewModel.upcoming.collectAsState()
 
-    val overdueExpanded by viewModel.overdueExpanded.observeAsState(true)
-    val overdueIncome by viewModel.overdueIncome.observeAsState(0.0)
-    val overdueExpenses by viewModel.overdueExpenses.observeAsState(0.0)
-    val overdue by viewModel.overdue.observeAsState(emptyList())
+    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
+    val overdueIncome by viewModel.overdueIncome.collectAsState()
+    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
+    val overdue by viewModel.overdue.collectAsState()
 
-    val history by viewModel.history.observeAsState(emptyList())
+    val history by viewModel.history.collectAsState()
 
     //Customer Journey
-    val customerJourneyCards by viewModel.customerJourneyCards.observeAsState(emptyList())
+    val customerJourneyCards by viewModel.customerJourneyCards.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -167,7 +168,7 @@ private fun BoxWithConstraintsScope.UI(
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     var bufferModalData: BufferModalData? by remember { mutableStateOf(null) }
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -253,6 +254,8 @@ private fun BoxWithConstraintsScope.UI(
             upcomingIncome = upcomingIncome,
             upcomingExpenses = upcomingExpenses,
             upcoming = upcoming,
+
+            moreMenuExpanded = setMoreMenuExpanded,
 
             overdueExpanded = overdueExpanded,
             setOverdueExpanded = setOverdueExpanded,
@@ -352,6 +355,8 @@ fun HomeLazyColumn(
     overdueExpenses: Double,
     overdue: List<Transaction>,
 
+    moreMenuExpanded: (Boolean) -> Unit,
+
     monthlyIncome: Double,
     monthlyExpenses: Double,
 
@@ -361,7 +366,9 @@ fun HomeLazyColumn(
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
+    val doubleExpanded = remember { mutableStateOf(true) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -378,7 +385,18 @@ fun HomeLazyColumn(
                         hideBalanceRowState.value = false
                     }
                 }
+                if (listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0 && doubleExpanded.value) {
+                    moreMenuExpanded(true)
+                } else
+                    doubleExpanded.value = false
+
                 return super.onPostScroll(consumed, available, source)
+            }
+
+            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                if (consumed.y <= 30f || available.y >= 1000f)
+                    doubleExpanded.value = true
+                return super.onPostFling(consumed, available)
             }
         }
     }
@@ -418,6 +436,7 @@ fun HomeLazyColumn(
 
         transactions(
             ivyContext = ivyContext,
+            nav = nav,
             upcoming = upcoming,
             upcomingExpanded = upcomingExpanded,
             setUpcomingExpanded = setUpcomingExpanded,
@@ -447,7 +466,7 @@ fun HomeLazyColumn(
 @Preview
 @Composable
 private fun PreviewHomeTab() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             theme = Theme.LIGHT,
             name = "Iliyan",

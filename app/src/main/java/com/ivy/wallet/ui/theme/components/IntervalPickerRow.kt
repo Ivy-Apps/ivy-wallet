@@ -14,12 +14,17 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.White
 
 @Composable
 fun IntervalPickerRow(
@@ -45,13 +50,13 @@ fun IntervalPickerRow(
                 .background(
                     brush = if (validInput)
                         GradientIvy.asHorizontalBrush() else Gradient
-                        .solid(IvyTheme.colors.medium)
+                        .solid(UI.colors.medium)
                         .asHorizontalBrush(),
-                    shape = Shapes.roundedFull
+                    shape = UI.shapes.rFull
                 )
                 .padding(vertical = 12.dp),
             value = interNTextFieldValue,
-            textColor = if (validInput) White else IvyTheme.colors.pureInverse,
+            textColor = if (validInput) White else UI.colors.pureInverse,
             hint = "0"
         ) {
             if (it.text != interNTextFieldValue.text) {
@@ -87,7 +92,7 @@ private fun RowScope.IntervalTypeSelector(
     Row(
         modifier = Modifier
             .weight(1f)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull),
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -116,8 +121,8 @@ private fun RowScope.IntervalTypeSelector(
 
         Text(
             text = intervalType.forDisplay(intervalN).capitalizeLocal(),
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -150,7 +155,7 @@ private fun RowScope.IntervalTypeSelector(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IntervalPickerRow(
             intervalN = 1,
             intervalType = IntervalType.WEEK,

@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.OpResult
 import com.ivy.wallet.base.ioThread
@@ -17,8 +18,10 @@ import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.sync.IvySync
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Import
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +36,8 @@ class OnboardingRouter(
     private val _categories: MutableLiveData<List<Category>>,
     private val _categorySuggestions: MutableLiveData<List<CreateCategoryData>>,
 
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val ivyAnalytics: IvyAnalytics,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,
@@ -48,11 +52,11 @@ class OnboardingRouter(
     var isLoginCache = false
 
     fun initBackHandling(
-        screen: Screen.Onboarding,
+        screen: Onboarding,
         viewModelScope: CoroutineScope,
         restartOnboarding: () -> Unit
     ) {
-        ivyContext.onBackPressed[screen] = {
+        nav.onBackPressed[screen] = {
             when (_state.value) {
                 OnboardingState.SPLASH -> {
                     //do nothing, consume back
@@ -145,8 +149,8 @@ class OnboardingRouter(
 
     //------------------------------------- Step 2 - Choose path -----------------------------------
     fun startImport() {
-        ivyContext.navigateTo(
-            Screen.Import(
+        nav.navigateTo(
+            Import(
                 launchedFromOnboarding = true
             )
         )
@@ -276,8 +280,8 @@ class OnboardingRouter(
     }
 
     private fun navigateOutOfOnboarding() {
-        ivyContext.resetBackStack()
-        ivyContext.navigateTo(Screen.Main)
+        nav.resetBackStack()
+        nav.navigateTo(Main)
     }
     //-------------------------------------- Routes ------------------------------------------------
 }

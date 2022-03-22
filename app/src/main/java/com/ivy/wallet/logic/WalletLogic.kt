@@ -22,55 +22,7 @@ class WalletLogic(
     private val transactionDao: TransactionDao,
     private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val walletAccountLogic: WalletAccountLogic
 ) {
-
-    fun calculateBalance(filterExcluded: Boolean = true): Double {
-        val baseCurrency = settingsDao.findFirst().currency
-
-        return accountDao.findAll()
-            .filter { it.includeInBalance || !filterExcluded }
-            .sumOf {
-                exchangeRatesLogic.amountBaseCurrency(
-                    amount = walletAccountLogic.calculateAccountBalance(it),
-                    amountCurrency = it.currency ?: baseCurrency,
-                    baseCurrency = baseCurrency
-                )
-            }
-    }
-
-    fun calculateBufferDiff(): Double = calculateBalance() - bufferAmount()
-
-    fun bufferAmount() = settingsDao.findFirst().bufferAmount
-
-    fun calculateIncome(range: FromToTimeRange): Double {
-        return transactionDao
-            .findAllBetweenAndType(
-                startDate = range.from(),
-                endDate = range.to(),
-                type = TransactionType.INCOME
-            )
-            .sumInBaseCurrency(
-                exchangeRatesLogic = exchangeRatesLogic,
-                settingsDao = settingsDao,
-                accountDao = accountDao
-            )
-    }
-
-    fun calculateExpenses(range: FromToTimeRange): Double {
-        return transactionDao
-            .findAllBetweenAndType(
-                startDate = range.from(),
-                endDate = range.to(),
-                type = TransactionType.EXPENSE
-            )
-            .sumInBaseCurrency(
-                exchangeRatesLogic = exchangeRatesLogic,
-                settingsDao = settingsDao,
-                accountDao = accountDao
-            )
-    }
-
     fun history(range: FromToTimeRange): List<TransactionHistoryItem> {
         return transactionDao.findAllBetween(
             startDate = range.from(),

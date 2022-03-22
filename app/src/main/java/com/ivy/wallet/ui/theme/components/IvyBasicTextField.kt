@@ -16,20 +16,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
 
 @Composable
 fun IvyBasicTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -51,8 +50,8 @@ fun IvyBasicTextField(
             Text(
                 modifier = Modifier,
                 text = hint!!,
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.gray,
+                style = UI.typo.b2.style(
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Start
                 ),
@@ -65,13 +64,13 @@ fun IvyBasicTextField(
                 .testTag("base_input"),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = IvyTheme.colors.pureInverse,
+                color = UI.colors.pureInverse,
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colors.pureInverse),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(
@@ -86,7 +85,7 @@ fun IvyBasicTextField(
 @Preview
 @Composable
 private fun Preview_Hint() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue(""),
             hint = "Search transactions",
@@ -98,7 +97,7 @@ private fun Preview_Hint() {
 @Preview
 @Composable
 private fun Preview_Filled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue("sfds"),
             hint = "Okay",

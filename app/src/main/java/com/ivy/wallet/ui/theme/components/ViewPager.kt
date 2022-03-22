@@ -16,7 +16,8 @@
 
 package com.ivy.wallet.ui.theme.components
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
@@ -32,7 +33,7 @@ import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
 import com.ivy.wallet.base.densityScope
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.ivyWalletCtx
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -53,7 +54,7 @@ fun Pager(
     var pageSize by remember { mutableStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
 
-    val screenWidth = LocalIvyContext.current.screenWidth
+    val screenWidth = ivyWalletCtx().screenWidth
 
     Layout(
         content = {

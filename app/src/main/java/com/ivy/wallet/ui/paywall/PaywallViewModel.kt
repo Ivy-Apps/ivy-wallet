@@ -22,7 +22,7 @@ import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Paywall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -63,7 +63,7 @@ class PaywallViewModel @Inject constructor(
     private val activePurchases = mutableListOf<Purchase>()
 
     fun start(
-        screen: Screen.Paywall,
+        screen: Paywall,
         activity: IvyActivity
     ) {
         _paywallReason.value = screen.paywallReason

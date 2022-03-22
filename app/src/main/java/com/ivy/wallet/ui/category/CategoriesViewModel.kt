@@ -12,7 +12,7 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.CategorySync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class CategoriesViewModel @Inject constructor(
     private val categoryLogic: WalletCategoryLogic,
     private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()

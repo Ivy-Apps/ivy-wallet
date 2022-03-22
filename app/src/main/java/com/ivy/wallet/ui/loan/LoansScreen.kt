@@ -3,7 +3,9 @@ package com.ivy.wallet.ui.loan
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,56 +19,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.format
+import com.ivy.wallet.base.getDefaultFIATCurrency
 import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.LoanType
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.Loans
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.LoanModal
-import com.ivy.wallet.ui.theme.modal.LoanModalData
 
 @Composable
-fun BoxWithConstraintsScope.LoansScreen(screen: Screen.Loans) {
+fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {
     val viewModel: LoanViewModel = viewModel()
 
-    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
-    val loans by viewModel.loans.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
     UI(
-        baseCurrency = baseCurrency,
-        loans = loans,
-
-        onCreateLoan = viewModel::createLoan,
-        onEditLoan = {
-            //do nothing, it shouldn't be done from that screen
-        },
-        onReorder = viewModel::reorder
+        onEventHandler = viewModel::onEvent,
+        state = state
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    baseCurrency: String,
-    loans: List<DisplayLoan>,
-
-    onCreateLoan: (CreateLoanData) -> Unit = {},
-    onEditLoan: (Loan) -> Unit = {},
-    onReorder: (List<DisplayLoan>) -> Unit = {}
+    onEventHandler: (LoanScreenEvent) -> Unit = {},
+    state: LoanScreenState = LoanScreenState()
 ) {
-    var reorderModalVisible by remember { mutableStateOf(false) }
-    var loanModalData: LoanModalData? by remember { mutableStateOf(null) }
-
+    val nav = navigation()
 
     Column(
         modifier = Modifier
@@ -78,29 +68,27 @@ private fun BoxWithConstraintsScope.UI(
 
         Toolbar(
             setReorderModalVisible = {
-                reorderModalVisible = it
+                onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = it))
             }
         )
 
         Spacer(Modifier.height(8.dp))
 
-        val ivyContext = LocalIvyContext.current
-        for (item in loans) {
+        for (item in state.loans) {
             Spacer(Modifier.height(16.dp))
 
             LoanItem(
-                displayLoan = item,
-                baseCurrency = baseCurrency
+                displayLoan = item
             ) {
-                ivyContext.navigateTo(
-                    screen = Screen.LoanDetails(
+                nav.navigateTo(
+                    screen = LoanDetails(
                         loanId = item.loan.id
                     )
                 )
             }
         }
 
-        if (loans.isEmpty()) {
+        if (state.loans.isEmpty()) {
             Spacer(Modifier.weight(1f))
 
             NoLoansEmptyState(
@@ -115,26 +103,25 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+
     LoanBottomBar(
         onAdd = {
-            loanModalData = LoanModalData(
-                loan = null,
-                baseCurrency = baseCurrency
-            )
+            onEventHandler.invoke(LoanScreenEvent.OnAddLoan)
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 
     ReorderModalSingleType(
-        visible = reorderModalVisible,
-        initialItems = loans,
+        visible = state.reorderModalVisible,
+        initialItems = state.loans,
         dismiss = {
-            reorderModalVisible = false
+            onEventHandler.invoke(LoanScreenEvent.OnReOrderModalShow(show = false))
         },
-        onReordered = onReorder
+        onReordered = {
+            onEventHandler.invoke(LoanScreenEvent.OnReordered(reorderedList = it))
+        }
     ) { _, item ->
         Text(
             modifier = Modifier
@@ -142,20 +129,26 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.loan.name,
-            style = Typo.body1.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
     }
 
     LoanModal(
-        modal = loanModalData,
-        onCreateLoan = onCreateLoan,
-        onEditLoan = onEditLoan,
+        accounts = state.accounts,
+        onCreateAccount = {
+            onEventHandler.invoke(LoanScreenEvent.OnCreateAccount(accountData = it))
+        },
+        modal = state.loanModalData,
+        onCreateLoan = {
+            onEventHandler.invoke(LoanScreenEvent.OnLoanCreate(createLoanData = it))
+        },
+        onEditLoan = { _, _ -> },
         dismiss = {
-            loanModalData = null
-        }
+            onEventHandler.invoke(LoanScreenEvent.OnLoanModalDismiss)
+        },
     )
 }
 
@@ -174,8 +167,8 @@ private fun Toolbar(
         ) {
             Text(
                 text = "Loans",
-                style = Typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.h2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -192,7 +185,6 @@ private fun Toolbar(
 @Composable
 private fun LoanItem(
     displayLoan: DisplayLoan,
-    baseCurrency: String,
     onClick: () -> Unit
 ) {
     val loan = displayLoan.loan
@@ -202,8 +194,8 @@ private fun LoanItem(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .testTag("loan_item")
             .clickable(
                 onClick = onClick
@@ -211,15 +203,13 @@ private fun LoanItem(
     ) {
         LoanHeader(
             displayLoan = displayLoan,
-            baseCurrency = baseCurrency,
             contrastColor = contrastColor,
         )
 
         Spacer(Modifier.height(12.dp))
 
         LoanInfo(
-            displayLoan = displayLoan,
-            baseCurrency = baseCurrency
+            displayLoan = displayLoan
         )
 
         Spacer(Modifier.height(24.dp))
@@ -229,7 +219,6 @@ private fun LoanItem(
 @Composable
 private fun LoanHeader(
     displayLoan: DisplayLoan,
-    baseCurrency: String,
     contrastColor: Color,
 ) {
     val loan = displayLoan.loan
@@ -237,7 +226,7 @@ private fun LoanHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(loan.color.toComposeColor(), Shapes.rounded16Top)
+            .background(loan.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -256,7 +245,7 @@ private fun LoanHeader(
 
             Text(
                 text = loan.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -268,7 +257,7 @@ private fun LoanHeader(
                     .align(Alignment.Bottom)
                     .padding(bottom = 4.dp),
                 text = loan.humanReadableType(),
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = loan.color.toComposeColor().dynamicContrast()
                 )
             )
@@ -284,7 +273,7 @@ private fun LoanHeader(
             decimalPaddingTop = 7.dp,
             spacerDecimal = 6.dp,
             textColor = contrastColor,
-            currency = baseCurrency,
+            currency = displayLoan.currencyCode ?: getDefaultFIATCurrency().currencyCode,
             balance = leftToPay,
 
             integerFontSize = 30.sp,
@@ -300,23 +289,15 @@ private fun LoanHeader(
 
 @Composable
 private fun ColumnScope.LoanInfo(
-    displayLoan: DisplayLoan,
-    baseCurrency: String
+    displayLoan: DisplayLoan
 ) {
-    val amountPaid = displayLoan.amountPaid
-    val loanAmount = displayLoan.loan.amount
-    val percentPaid = amountPaid / loanAmount
 
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
-        text = "${amountPaid.format(baseCurrency)} $baseCurrency / ${loanAmount.format(baseCurrency)} $baseCurrency (${
-            percentPaid.times(
-                100
-            ).format(2)
-        }%)",
-        style = Typo.numberBody2.style(
+        text = displayLoan.formattedDisplayText,
+        style = UI.typo.nB2.style(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
@@ -329,8 +310,8 @@ private fun ColumnScope.LoanInfo(
             .fillMaxWidth()
             .height(24.dp)
             .padding(horizontal = 24.dp),
-        notFilledColor = IvyTheme.colors.medium,
-        percent = percentPaid
+        notFilledColor = UI.colors.medium,
+        percent = displayLoan.percentPaid
     )
 }
 
@@ -355,7 +336,7 @@ private fun NoLoansEmptyState(
 
         Text(
             text = emptyStateTitle,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -366,7 +347,7 @@ private fun NoLoansEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = emptyStateText,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -380,45 +361,46 @@ private fun NoLoansEmptyState(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
-        UI(
-            baseCurrency = "BGN",
-            loans = listOf(
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 1",
-                        icon = "rocket",
-                        color = Red.toArgb(),
-                        amount = 5000.0,
-                        type = LoanType.BORROW
-                    ),
-                    amountPaid = 0.0
+    val state = LoanScreenState(
+        loans = listOf(
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 1",
+                    icon = "rocket",
+                    color = Red.toArgb(),
+                    amount = 5000.0,
+                    type = LoanType.BORROW
                 ),
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 2",
-                        icon = "atom",
-                        color = Orange.toArgb(),
-                        amount = 252.36,
-                        type = LoanType.BORROW
-                    ),
-                    amountPaid = 124.23
-                ),
-                DisplayLoan(
-                    loan = Loan(
-                        name = "Loan 3",
-                        icon = "bank",
-                        color = Blue.toArgb(),
-                        amount = 7000.0,
-                        type = LoanType.LEND
-                    ),
-                    amountPaid = 8000.0
-                ),
+                amountPaid = 0.0,
+                percentPaid = 0.4
             ),
-
-            onCreateLoan = {},
-            onEditLoan = {},
-            onReorder = {}
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 2",
+                    icon = "atom",
+                    color = Orange.toArgb(),
+                    amount = 252.36,
+                    type = LoanType.BORROW
+                ),
+                amountPaid = 124.23,
+                percentPaid = 0.2
+            ),
+            DisplayLoan(
+                loan = Loan(
+                    name = "Loan 3",
+                    icon = "bank",
+                    color = Blue.toArgb(),
+                    amount = 7000.0,
+                    type = LoanType.LEND
+                ),
+                amountPaid = 8000.0,
+                percentPaid = 0.8
+            )
+        )
+    )
+    IvyWalletPreview {
+        UI(
+            state = state
         )
     }
 }

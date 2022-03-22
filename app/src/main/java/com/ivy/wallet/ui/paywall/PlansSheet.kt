@@ -19,11 +19,13 @@ import androidx.compose.ui.zIndex
 import com.android.billingclient.api.SkuDetails
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.billing.Plan
 import com.ivy.wallet.billing.PlanType
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
@@ -74,12 +76,12 @@ fun BoxWithConstraintsScope.PlansSheet(
                 onPlansSheetHeightChanged(it.height)
             }
             .drawColoredShadow(
-                color = IvyTheme.colors.mediumInverse,
-                alpha = if (IvyTheme.colors.isLight) 0.3f else 0.2f,
+                color = UI.colors.mediumInverse,
+                alpha = if (UI.colors.isLight) 0.3f else 0.2f,
                 borderRadius = 24.dp,
                 shadowRadius = 24.dp
             )
-            .background(IvyTheme.colors.pure, Shapes.rounded24Top)
+            .background(UI.colors.pure, UI.shapes.r2Top)
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
             .consumeClicks()
@@ -93,7 +95,7 @@ fun BoxWithConstraintsScope.PlansSheet(
         Text(
             modifier = Modifier.padding(start = 32.dp, end = 32.dp),
             text = "All plans include a one-time free trial period so you can try Ivy Premium for free.",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -147,7 +149,7 @@ fun BoxWithConstraintsScope.PlansSheet(
                         } else {
                             "Try ${selectedPlan?.freePeriod()}".toUpperCaseLocal()
                         },
-                        textStyle = Typo.numberBody2.style(
+                        textStyle = UI.typo.nB2.style(
                             color = White,
                             fontWeight = FontWeight.Bold
                         ),
@@ -183,7 +185,7 @@ private fun LongNoticeText(
         modifier = Modifier
             .padding(horizontal = 32.dp),
         text = "Notice",
-        style = Typo.numberBody2.style(
+        style = UI.typo.nB2.style(
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -224,7 +226,7 @@ private fun LongNoticeText(
         modifier = Modifier
             .padding(horizontal = 32.dp),
         text = longText,
-        style = Typo.numberBody2.style(
+        style = UI.typo.nB2.style(
             fontWeight = FontWeight.Medium
         )
     )
@@ -304,15 +306,15 @@ private fun ColumnScope.PlanCard(
             .thenIf(selectedPlan == plan) {
                 drawColoredShadow(Green)
             }
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .thenIf(!purchased && selectedPlan != plan) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+                border(2.dp, UI.colors.medium, UI.shapes.r4)
             }
             .thenIf(selectedPlan == plan) {
-                background(GradientGreen.asHorizontalBrush(), Shapes.rounded16)
+                background(GradientGreen.asHorizontalBrush(), UI.shapes.r4)
             }
             .thenIf(purchased) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.rounded16)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.r4)
             }
             .clickable {
                 onClick()
@@ -323,7 +325,7 @@ private fun ColumnScope.PlanCard(
         Spacer(Modifier.width(24.dp))
 
         val textColor = if (purchased || selectedPlan == plan)
-            White else IvyTheme.colors.pureInverse
+            White else UI.colors.pureInverse
 
         Column {
             Text(
@@ -333,7 +335,7 @@ private fun ColumnScope.PlanCard(
                     PlanType.YEARLY -> "Yearly"
                     PlanType.LIFETIME -> "Lifetime"
                 },
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -344,7 +346,7 @@ private fun ColumnScope.PlanCard(
 
                 Text(
                     text = "Active",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         color = textColor
                     )
                 )
@@ -368,7 +370,7 @@ private fun ColumnScope.PlanCard(
                     PlanType.YEARLY -> "${plan.price}/year"
                     PlanType.LIFETIME -> plan.price
                 },
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     fontWeight = FontWeight.Bold,
                     color = textColor,
                     textAlign = TextAlign.End
@@ -388,7 +390,7 @@ private fun ColumnScope.PlanCard(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = "Save ${savePercentage}%",
-                        style = Typo.numberCaption.style(
+                        style = UI.typo.nC.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = if (selectedPlan == plan) White else Green,
                             textAlign = TextAlign.End
@@ -401,7 +403,7 @@ private fun ColumnScope.PlanCard(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Pay once",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = textColor,
                         textAlign = TextAlign.End
@@ -447,7 +449,7 @@ private fun BoxWithConstraintsScope.BottomBar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PlansSheet(
             plans = listOf(
                 Plan(
@@ -479,7 +481,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Shitty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         PlansSheet(
             plans = listOf(
                 Plan(

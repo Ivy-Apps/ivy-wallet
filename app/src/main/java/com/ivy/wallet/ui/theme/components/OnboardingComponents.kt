@@ -19,10 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+
 
 @Composable
 fun OnboardingButton(
@@ -46,11 +51,11 @@ fun OnboardingButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.gray),
-                shape = Shapes.roundedFull
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         contentAlignment = Alignment.Center
@@ -69,7 +74,7 @@ fun OnboardingButton(
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.Bold
             )
@@ -91,7 +96,7 @@ fun OnboardingButton(
 @Preview
 @Composable
 private fun PreviewOnboardingTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue("iliyan.germanov971@gmail.com"),
@@ -104,7 +109,7 @@ private fun PreviewOnboardingTextField() {
 @Preview
 @Composable
 private fun PreviewOnboardingButton() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         OnboardingButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -112,7 +117,7 @@ private fun PreviewOnboardingButton() {
             text = "Login",
             backgroundGradient = GradientIvy,
             hasNext = true,
-            textColor = IvyTheme.colors.pure,
+            textColor = UI.colors.pure,
             iconStart = null,
             enabled = false,
             onClick = { }

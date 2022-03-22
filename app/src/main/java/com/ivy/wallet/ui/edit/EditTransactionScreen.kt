@@ -4,42 +4,43 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.base.convertUTCtoLocal
-import com.ivy.wallet.base.getTrueDate
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.timeNowLocal
+import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.EditTransaction
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
-import com.ivy.wallet.ui.theme.modal.DeleteModal
-import com.ivy.wallet.ui.theme.modal.ModalAdd
-import com.ivy.wallet.ui.theme.modal.ModalCheck
-import com.ivy.wallet.ui.theme.modal.ModalSave
+import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.modal.edit.*
 import java.time.LocalDateTime
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction) {
+fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
     val viewModel: EditTransactionViewModel = viewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
@@ -53,6 +54,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
     val toAccount by viewModel.toAccount.observeAsState()
     val dueDate by viewModel.dueDate.observeAsState()
     val amount by viewModel.amount.observeAsState(0.0)
+    val loanData by viewModel.displayLoanHelper.collectAsState()
+    val backgroundProcessing by viewModel.backgroundProcessingStarted.collectAsState()
 
     val categories by viewModel.categories.observeAsState(emptyList())
     val accounts by viewModel.accounts.observeAsState(emptyList())
@@ -76,6 +79,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
         toAccount = toAccount,
         dueDate = dueDate,
         amount = amount,
+        loanData = loanData,
+        backgroundProcessing = backgroundProcessing,
 
         categories = categories,
         accounts = accounts,
@@ -105,7 +110,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: Screen.EditTransaction
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.EditTransaction,
+    screen: EditTransaction,
     transactionType: TransactionType,
     baseCurrency: String,
     initialTitle: String?,
@@ -117,6 +122,8 @@ private fun BoxWithConstraintsScope.UI(
     toAccount: Account?,
     dueDate: LocalDateTime?,
     amount: Double,
+    loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
+    backgroundProcessing: Boolean = false,
 
     categories: List<Category>,
     accounts: List<Account>,
@@ -148,6 +155,13 @@ private fun BoxWithConstraintsScope.UI(
     var deleteTrnModalVisible by remember { mutableStateOf(false) }
     var changeTransactionTypeModalVisible by remember { mutableStateOf(false) }
     var amountModalShown by remember { mutableStateOf(false) }
+    var accountChangeModal by remember { mutableStateOf(false) }
+    val waitModalVisible by remember(backgroundProcessing) {
+        mutableStateOf(backgroundProcessing)
+    }
+    var selectedAcc by remember(account) {
+        mutableStateOf(account)
+    }
 
     var titleTextFieldValue by remember(initialTitle) {
         mutableStateOf(
@@ -169,7 +183,9 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(16.dp))
 
         Toolbar(
-            type = transactionType,
+            //Setting the transaction type to TransactionType.TRANSFER for transactions associated
+            // with loan record to hide the ChangeTransactionType Button
+            type = if (loanData.isLoanRecord) TransactionType.TRANSFER else transactionType,
             initialTransactionId = screen.initialTransactionId,
             onDeleteTrnModal = {
                 deleteTrnModalVisible = true
@@ -206,6 +222,19 @@ private fun BoxWithConstraintsScope.UI(
             }
         )
 
+        if (loanData.loanCaption != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                text = loanData.loanCaption,
+                style = UI.typo.nB2.style(
+                    color = UI.colors.mediumInverse,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
+
         if (transactionType != TransactionType.TRANSFER) {
             Spacer(Modifier.height(32.dp))
 
@@ -219,7 +248,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(32.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
 
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
@@ -255,13 +284,14 @@ private fun BoxWithConstraintsScope.UI(
         if (dueDate == null && transactionType != TransactionType.TRANSFER && dateTime == null) {
             Spacer(Modifier.height(12.dp))
 
+            val nav = navigation()
             AddPrimaryAttributeButton(
                 icon = R.drawable.ic_planned_payments,
                 text = "Add planned date of payment",
                 onClick = {
-                    ivyContext.back()
-                    ivyContext.navigateTo(
-                        Screen.EditPlanned(
+                    nav.back()
+                    nav.navigateTo(
+                        EditPlanned(
                             plannedPaymentRuleId = null,
                             type = transactionType,
                             amount = amount,
@@ -337,7 +367,13 @@ private fun BoxWithConstraintsScope.UI(
                 titleFocus.requestFocus()
             }
         },
-        onSelectedAccountChanged = onAccountChanged,
+        onSelectedAccountChanged = {
+            if (loanData.isLoan && account?.currency != it.currency) {
+                selectedAcc = it
+                accountChangeModal = true
+            } else
+                onAccountChanged(it)
+        },
         onToAccountChanged = onToAccountChanged,
         onAddNewAccount = {
             accountModalData = AccountModalData(
@@ -416,6 +452,27 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onSetTransactionType(it)
     }
+
+    DeleteModal(
+        visible = accountChangeModal,
+        title = "Confirm Account Change",
+        description = "Note: You are trying to change the account associated with the loan with an account of different currency, " +
+                "\nAll the loan records will be re-calculated based on today's exchanges rates ",
+        buttonText = "Confirm",
+        iconStart = R.drawable.ic_agreed,
+        dismiss = {
+            accountChangeModal = false
+        }
+    ) {
+        selectedAcc?.let { onAccountChanged(it) }
+        accountChangeModal = false
+    }
+
+    ProgressModal(
+        title = "Confirm Account Change",
+        description = "Please wait, re-calculating all loan records",
+        visible = waitModalVisible
+    )
 }
 
 private fun shouldFocusCategory(
@@ -434,9 +491,9 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
-            screen = Screen.EditTransaction(null, TransactionType.EXPENSE),
+            screen = EditTransaction(null, TransactionType.EXPENSE),
             initialTitle = "",
             titleSuggestions = emptySet(),
             baseCurrency = "BGN",

@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.IvyTheme
+
 import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
 import java.util.*
 
 @Composable
@@ -22,6 +22,8 @@ fun BoxWithConstraintsScope.DeleteModal(
     title: String,
     description: String,
     visible: Boolean,
+    buttonText: String = "Delete",
+    iconStart: Int = R.drawable.ic_delete,
     dismiss: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -31,8 +33,8 @@ fun BoxWithConstraintsScope.DeleteModal(
         dismiss = dismiss,
         PrimaryAction = {
             ModalNegativeButton(
-                text = "Delete",
-                iconStart = R.drawable.ic_delete
+                text = buttonText,
+                iconStart = iconStart
             ) {
                 onDelete()
             }
@@ -43,7 +45,7 @@ fun BoxWithConstraintsScope.DeleteModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = title,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Red,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -54,8 +56,8 @@ fun BoxWithConstraintsScope.DeleteModal(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = description,
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Medium
             )
         )

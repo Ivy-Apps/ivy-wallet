@@ -18,13 +18,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Categories
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.balancePrefix
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -36,7 +39,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
-fun BoxWithConstraintsScope.CategoriesScreen(screen: Screen.Categories) {
+fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -83,8 +86,8 @@ private fun BoxWithConstraintsScope.UI(
 
             Text(
                 text = "Categories",
-                style = Typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.h2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -101,7 +104,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         for (categoryData in categories) {
             CategoryCard(
                 currency = currency,
@@ -110,8 +113,8 @@ private fun BoxWithConstraintsScope.UI(
                     reorderVisible = true
                 }
             ) {
-                ivyContext.navigateTo(
-                    Screen.ItemStatistic(
+                nav.navigateTo(
+                    ItemStatistic(
                         accountId = null,
                         categoryId = categoryData.category.id
                     )
@@ -122,7 +125,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     CategoriesBottomBar(
         onAddCategory = {
             categoryModalData = CategoryModalData(
@@ -130,7 +133,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 
@@ -148,7 +151,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.category.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = item.category.color.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
@@ -182,8 +185,8 @@ private fun CategoryCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable(
                 onClick = onClick
             )
@@ -209,8 +212,8 @@ private fun CategoryCard(
 @Composable
 fun AddedSpent(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    dividerColor: Color = IvyTheme.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
+    dividerColor: Color = UI.colors.medium,
     monthlyIncome: Double,
     monthlyExpenses: Double,
     currency: String,
@@ -246,7 +249,7 @@ fun AddedSpent(
             modifier = Modifier
                 .width(2.dp)
                 .height(48.dp)
-                .background(dividerColor, Shapes.roundedFull)
+                .background(dividerColor, UI.shapes.rFull)
         )
 
         if (center) {
@@ -284,7 +287,7 @@ private fun LabelAmount(
     ) {
         Text(
             text = label,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -317,7 +320,7 @@ private fun CategoryHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(category.color.toComposeColor(), Shapes.rounded16Top)
+            .background(category.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -336,7 +339,7 @@ private fun CategoryHeader(
 
             Text(
                 text = category.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -371,7 +374,7 @@ private fun CategoryHeader(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             currency = "BGN",
             categories = listOf(

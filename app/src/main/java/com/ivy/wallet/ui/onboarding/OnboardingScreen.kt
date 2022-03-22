@@ -15,15 +15,15 @@ import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.onboarding.steps.*
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.OnboardingScreen(screen: Screen.Onboarding) {
+fun BoxWithConstraintsScope.OnboardingScreen(screen: Onboarding) {
     val viewModel: OnboardingViewModel = viewModel()
 
     val state by viewModel.state.observeAsState(OnboardingState.SPLASH)
@@ -160,7 +160,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewOnboarding() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             accountSuggestions = listOf(),
             accounts = listOf(),

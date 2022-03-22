@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.l0_system.Theme
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asFlow
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.base.readOnly
 import com.ivy.wallet.base.sendToCrashlytics
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.logic.PaywallLogic
@@ -18,7 +20,6 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.session.IvySession
-import com.ivy.wallet.ui.theme.Theme
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +29,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IvyViewModel @Inject constructor(
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
@@ -45,7 +47,7 @@ class IvyViewModel @Inject constructor(
     private var appLockEnabled = false
 
     private val _appLocked = MutableStateFlow<Boolean?>(null)
-    val appLocked = _appLocked.asFlow()
+    val appLocked = _appLocked.readOnly()
 
 
     fun start(systemDarkMode: Boolean, intent: Intent) {
@@ -77,7 +79,7 @@ class IvyViewModel @Inject constructor(
                 if (isOnboardingCompleted()) {
                     navigateOnboardedUser(intent)
                 } else {
-                    ivyContext.navigateTo(Screen.Onboarding)
+                    nav.navigateTo(Onboarding)
                 }
 
             }
@@ -88,7 +90,7 @@ class IvyViewModel @Inject constructor(
 
     private fun navigateOnboardedUser(intent: Intent) {
         if (!handleSpecialStart(intent)) {
-            ivyContext.navigateTo(Screen.Main)
+            nav.navigateTo(Main)
             transactionReminderLogic.scheduleReminder()
         }
     }
@@ -96,8 +98,8 @@ class IvyViewModel @Inject constructor(
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType = intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
         if (addTrnType != null) {
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = addTrnType
                 )

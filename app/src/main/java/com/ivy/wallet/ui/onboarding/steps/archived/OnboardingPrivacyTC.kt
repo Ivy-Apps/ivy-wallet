@@ -22,15 +22,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.base.toDensityPx
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import timber.log.Timber
 
@@ -63,7 +68,7 @@ fun OnboardingPrivacyTC(
         Text(
             modifier = Modifier.padding(start = 32.dp),
             text = "Privacy and\ndata collection",
-            style = Typo.h2.style(
+            style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -134,7 +139,7 @@ private fun LongText() {
             end = 48.dp
         ),
         text = "Track your income, expenses and budget with Ivy.\n\nIntuitive UI, recurring and planned payments, manage multiple accounts, organize transactions in categories, meaningful statistics, export to CSV and so much more.",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.Medium
         )
     )
@@ -146,7 +151,7 @@ private fun TextLink(
     url: String,
 ) {
     val context = LocalContext.current
-    val ivy1 = IvyTheme.colors.ivy1
+    val ivy1 = UI.colors.primary1
 
     Text(
         modifier = Modifier
@@ -168,7 +173,7 @@ private fun TextLink(
 
             },
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = ivy1,
             fontWeight = FontWeight.Medium
         )
@@ -181,7 +186,7 @@ private fun SwipeToAgree(
     agreedText: String,
     onAgreed: (Boolean) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val maxOffsetX = ivyContext.screenWidth - 80.dp.toDensityPx() - 72.dp.toDensityPx()
     var offsetX by remember { mutableStateOf(0f) }
@@ -201,8 +206,8 @@ private fun SwipeToAgree(
             )
             .border(
                 width = 2.dp,
-                color = if (agreed) Green else IvyTheme.colors.medium,
-                shape = Shapes.rounded16
+                color = if (agreed) Green else UI.colors.medium,
+                shape = UI.shapes.r4
             )
             .padding(
                 vertical = 8.dp
@@ -215,7 +220,7 @@ private fun SwipeToAgree(
                     .padding(start = 32.dp) //24+8=32.dp
                     .width(164.dp),
                 text = agreedText,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Green,
                     fontWeight = FontWeight.Bold
                 )
@@ -228,7 +233,7 @@ private fun SwipeToAgree(
                     .padding(start = 100.dp)
                     .width(164.dp),
                 text = swipeToAgreeText,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray,
                     fontWeight = FontWeight.Medium
                 )
@@ -240,7 +245,7 @@ private fun SwipeToAgree(
                 .padding(start = 8.dp)
                 .offset(x = offsetX.toDensityDp())
                 .drawColoredShadow(color = Green)
-                .background(GradientGreen.asHorizontalBrush(), Shapes.rounded16)
+                .background(GradientGreen.asHorizontalBrush(), UI.shapes.r4)
                 .pointerInput(onAgreed) {
                     detectHorizontalDragGestures(
                         onDragCancel = {
@@ -273,7 +278,7 @@ private fun SwipeToAgree(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingPrivacyTC(
             onAccepted = {
 

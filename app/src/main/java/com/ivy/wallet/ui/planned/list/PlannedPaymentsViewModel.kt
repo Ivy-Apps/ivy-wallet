@@ -14,7 +14,7 @@ import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.PlannedPayments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,7 +57,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _recurringExpenses = MutableLiveData<Double>()
     val recurringExpenses = _recurringExpenses.asLiveData()
 
-    fun start(screen: Screen.PlannedPayments) {
+    fun start(screen: PlannedPayments) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

@@ -12,6 +12,7 @@ import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
+import java.time.LocalDateTime
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
@@ -90,28 +91,46 @@ class WalletAccountLogic(
             )
     }
 
-    fun calculateAccountBalance(account: Account): Double {
-        return calculateAccountAllTimeIncome(account) - calculateAccountAllTimeExpenses(account)
+    fun calculateAccountBalance(
+        account: Account,
+        before: LocalDateTime? = null
+    ): Double {
+        return calculateIncomeWithTransfers(
+            account = account,
+            before = before
+        ) - calculateExpensesWithTransfers(
+            account = account,
+            before = before
+        )
     }
 
-    private fun calculateAccountAllTimeIncome(account: Account): Double {
+    private fun calculateIncomeWithTransfers(
+        account: Account,
+        before: LocalDateTime?
+    ): Double {
         return transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, account.id)
-            .filter { it.dateTime != null }
+            .filterHappenedTransactions(
+                before = before
+            )
             .sumOf { it.amount }
             .plus(
                 //transfers in
                 transactionDao.findAllTransfersToAccount(account.id)
-                    .filter { it.dateTime != null }
+                    .filterHappenedTransactions(
+                        before = before
+                    )
                     .sumOf { it.toAmount ?: it.amount }
             )
     }
 
-    private fun calculateAccountAllTimeExpenses(account: Account): Double {
-        return transactionDao.findAllByTypeAndAccount(
-            TransactionType.EXPENSE,
-            account.id
-        )
-            .filter { it.dateTime != null }
+    private fun calculateExpensesWithTransfers(
+        account: Account,
+        before: LocalDateTime?
+    ): Double {
+        return transactionDao.findAllByTypeAndAccount(TransactionType.EXPENSE, account.id)
+            .filterHappenedTransactions(
+                before = before
+            )
             .sumOf { it.amount }
             .plus(
                 //transfer out
@@ -119,9 +138,20 @@ class WalletAccountLogic(
                     type = TransactionType.TRANSFER,
                     accountId = account.id
                 )
-                    .filter { it.dateTime != null }
+                    .filterHappenedTransactions(
+                        before = before
+                    )
                     .sumOf { it.amount }
             )
+    }
+
+    private fun List<Transaction>.filterHappenedTransactions(
+        before: LocalDateTime?
+    ): List<Transaction> {
+        return this.filter {
+            it.dateTime != null &&
+                    (before == null || it.dateTime.isBefore(before))
+        }
     }
 
     fun calculateAccountIncome(account: Account, range: FromToTimeRange): Double =
