@@ -15,9 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Green
+
 
 @Composable
 fun IvyOutlinedButton(
@@ -25,21 +29,21 @@ fun IvyOutlinedButton(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = IvyTheme.colors.pureInverse,
-    borderColor: Color = IvyTheme.colors.medium,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
+    borderColor: Color = UI.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
     padding: Dp = 12.dp,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, Shapes.roundedFull)
+            .border(2.dp, borderColor, UI.shapes.rFull)
             .thenIf(solidBackground) {
-                background(IvyTheme.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, UI.shapes.rFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -59,7 +63,7 @@ fun IvyOutlinedButton(
         Text(
             modifier = Modifier.padding(vertical = padding),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
@@ -75,22 +79,22 @@ fun IvyOutlinedButtonFillMaxWidth(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = IvyTheme.colors.pureInverse,
-    borderColor: Color = IvyTheme.colors.medium,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
+    borderColor: Color = UI.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
     padding: Dp = 16.dp,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, Shapes.roundedFull)
+            .border(2.dp, borderColor, UI.shapes.rFull)
             .thenIf(solidBackground) {
-                background(IvyTheme.colors.pure, Shapes.roundedFull)
+                background(UI.colors.pure, UI.shapes.rFull)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -108,7 +112,7 @@ fun IvyOutlinedButtonFillMaxWidth(
         Text(
             modifier = Modifier.padding(vertical = padding),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
@@ -130,7 +134,7 @@ fun IvyOutlinedButtonFillMaxWidth(
 @Preview
 @Composable
 private fun Preview_FillMaxWidth() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyOutlinedButtonFillMaxWidth(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "Import backup file",

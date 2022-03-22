@@ -11,10 +11,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.formatNicelyWithTime
 import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import java.time.LocalDateTime
 
@@ -32,8 +36,8 @@ fun TransactionDateTime(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .clip(Shapes.rounded16)
-                .background(IvyTheme.colors.medium, Shapes.rounded16)
+                .clip(UI.shapes.r4)
+                .background(UI.colors.medium, UI.shapes.r4)
                 .clickable {
                     onEditDateTime()
                 }
@@ -48,8 +52,8 @@ fun TransactionDateTime(
 
             Text(
                 text = "Created on",
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.gray,
+                style = UI.typo.b2.style(
+                    color = UI.colors.gray,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -61,8 +65,8 @@ fun TransactionDateTime(
                 text = (dateTime ?: timeNowUTC()).formatNicelyWithTime(
                     noWeekDay = true
                 ),
-                style = Typo.numberBody2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.nB2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -75,7 +79,7 @@ fun TransactionDateTime(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         TransactionDateTime(
             dateTime = timeNowUTC(),
             dueDateTime = null

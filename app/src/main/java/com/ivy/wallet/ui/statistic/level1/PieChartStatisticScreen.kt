@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -26,13 +25,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -43,18 +43,18 @@ import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: Screen.PieChartStatistic
+    screen: PieChartStatistic
 ) {
     val viewModel: PieChartStatisticViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
-    val type by viewModel.type.observeAsState(TransactionType.EXPENSE)
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currency by viewModel.currency.observeAsState("")
-    val totalAmount by viewModel.totalAmount.observeAsState(0.0)
-    val categoryAmounts by viewModel.categoryAmounts.observeAsState(emptyList())
-    val selectedCategory by viewModel.selectedCategory.observeAsState()
+    val type by viewModel.type.collectAsState()
+    val period by viewModel.period.collectAsState()
+    val currency by viewModel.baseCurrencyCode.collectAsState()
+    val totalAmount by viewModel.totalAmount.collectAsState()
+    val categoryAmounts by viewModel.categoryAmounts.collectAsState()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
 
     onScreenStart {
         viewModel.start(screen)
@@ -101,7 +101,7 @@ private fun BoxWithConstraintsScope.UI(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce()
     )
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     LazyColumn(
         modifier = Modifier
@@ -127,11 +127,11 @@ private fun BoxWithConstraintsScope.UI(
                 onSelectPreviousMonth = onSelectPreviousMonth,
 
                 onClose = {
-                    ivyContext.back()
+                    nav.back()
                 },
                 onAdd = { trnType ->
-                    ivyContext.navigateTo(
-                        Screen.EditTransaction(
+                    nav.navigateTo(
+                        EditTransaction(
                             initialTransactionId = null,
                             type = trnType
                         )
@@ -146,7 +146,7 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = if (transactionType == TransactionType.EXPENSE) "Expenses" else "Income",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -212,8 +212,8 @@ private fun BoxWithConstraintsScope.UI(
 
                     selectedCategory = selectedCategory
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             categoryId = item.category?.id,
                             unspecifiedCategory = item.category == null
                         )
@@ -305,7 +305,7 @@ private fun Header(
                 }
             ),
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
+            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
         ) {
             onShowMonthModal()
         }
@@ -326,7 +326,7 @@ private fun Header(
                 icon = R.drawable.ic_plus,
                 backgroundGradient = backgroundGradient,
                 tint = if (transactionType == TransactionType.EXPENSE)
-                    IvyTheme.colors.pure else White
+                    UI.colors.pure else White
             ) {
                 onAdd(transactionType)
             }
@@ -361,7 +361,7 @@ private fun CategoryAmountCard(
         }
         else -> false
     }
-    val backgroundColor = if (selectedState) categoryColor else IvyTheme.colors.medium
+    val backgroundColor = if (selectedState) categoryColor else UI.colors.medium
 
     val textColor = findContrastTextColor(
         backgroundColor = backgroundColor
@@ -374,8 +374,8 @@ private fun CategoryAmountCard(
             .thenIf(selectedState) {
                 drawColoredShadow(backgroundColor)
             }
-            .clip(Shapes.rounded20)
-            .background(backgroundColor, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(backgroundColor, UI.shapes.r3)
             .clickable {
                 onClick()
             }
@@ -405,7 +405,7 @@ private fun CategoryAmountCard(
                         .weight(1f)
                         .padding(end = 16.dp),
                     text = category?.name ?: "Unspecified",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start
@@ -443,8 +443,8 @@ private fun PercentText(
 ) {
     Text(
         text = if (totalAmount != 0.0) "${((amount / totalAmount) * 100).format(2)}%" else "0%",
-        style = Typo.numberBody2.style(
-            color = if (selectedState) contrastColor else IvyTheme.colors.pureInverse,
+        style = UI.typo.nB2.style(
+            color = if (selectedState) contrastColor else UI.colors.pureInverse,
             fontWeight = FontWeight.Normal
         )
     )
@@ -454,7 +454,7 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             transactionType = TransactionType.EXPENSE,
             period = TimePeriod.currentMonth(
@@ -505,7 +505,7 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             transactionType = TransactionType.INCOME,
             period = TimePeriod.currentMonth(

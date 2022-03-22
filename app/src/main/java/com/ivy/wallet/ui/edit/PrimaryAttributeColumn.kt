@@ -11,9 +11,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -28,8 +32,8 @@ fun PrimaryAttributeColumn(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickableNoIndication(onClick = onClick),
     ) {
         Spacer(modifier = Modifier.height(12.dp))
@@ -44,8 +48,8 @@ fun PrimaryAttributeColumn(
 
             Text(
                 text = title,
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -60,7 +64,7 @@ fun PrimaryAttributeColumn(
 @Preview
 @Composable
 private fun PreviewPrimaryAttributeColumn() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         PrimaryAttributeColumn(
             icon = R.drawable.ic_description,
             title = "Description",
@@ -78,8 +82,8 @@ private fun PreviewPrimaryAttributeColumn() {
                         "Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.\n" +
                         "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
                         "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium
                 )
             )

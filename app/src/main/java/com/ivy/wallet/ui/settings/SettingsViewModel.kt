@@ -21,8 +21,10 @@ import com.ivy.wallet.persistence.dao.UserDao
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +34,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivySession: IvySession,
     private val userDao: UserDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,
@@ -58,6 +60,9 @@ class SettingsViewModel @Inject constructor(
     private val _lockApp = MutableLiveData<Boolean>()
     val lockApp = _lockApp.asLiveData()
 
+    private val _showNotifications = MutableStateFlow(true)
+    val showNotifications = _showNotifications.asStateFlow()
+
     private val _startDateOfMonth = MutableLiveData<Int>()
     val startDateOfMonth = _startDateOfMonth
 
@@ -79,6 +84,8 @@ class SettingsViewModel @Inject constructor(
             _currencyCode.value = settings.currency
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+
+            _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
 
@@ -238,6 +245,17 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun setShowNotifications(showNotifications: Boolean) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, showNotifications)
+            _showNotifications.value = showNotifications
 
             TestIdlingResource.decrement()
         }

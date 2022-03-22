@@ -16,13 +16,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -145,7 +150,7 @@ private fun TimesSelector(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .background(IvyTheme.colors.medium, Shapes.rounded24),
+            .background(UI.colors.medium, UI.shapes.r2),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -179,17 +184,17 @@ private fun RowScope.TimesSelectorButton(
     Text(
         modifier = Modifier
             .weight(1f)
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable {
                 onClick()
             }
             .padding(vertical = 8.dp)
             .thenIf(selected) {
-                background(GradientIvy.asHorizontalBrush(), Shapes.roundedFull)
+                background(GradientIvy.asHorizontalBrush(), UI.shapes.rFull)
             }
             .padding(vertical = 8.dp),
         text = label,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected) White else Gray,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
@@ -229,8 +234,8 @@ private fun MultipleTimes(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Starts on",
-        style = Typo.body2.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.b2.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -253,9 +258,9 @@ private fun MultipleTimes(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Repeats every",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold,
-            color = IvyTheme.colors.pureInverse
+            color = UI.colors.pureInverse
         )
     )
 
@@ -297,7 +302,7 @@ private fun DateRow(
     ) {
         Spacer(Modifier.width(32.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
 
         Column(
             modifier = Modifier.clickableNoIndication {
@@ -311,9 +316,9 @@ private fun DateRow(
                 text = closeDay ?: date.formatNicely(
                     pattern = "EEEE, dd MMM"
                 ),
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Normal,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -322,7 +327,7 @@ private fun DateRow(
 
                 Text(
                     text = date.formatDateWeekDayLong(),
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.SemiBold,
                         color = Gray
                     )
@@ -339,8 +344,8 @@ private fun DateRow(
                 .testTag("recurring_modal_pick_date"),
             backgroundPadding = 4.dp,
             icon = R.drawable.ic_calendar,
-            backgroundGradient = Gradient.solid(IvyTheme.colors.pureInverse),
-            tint = IvyTheme.colors.pure
+            backgroundGradient = Gradient.solid(UI.colors.pureInverse),
+            tint = UI.colors.pure
         ) {
             ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
         }
@@ -349,7 +354,7 @@ private fun DateRow(
     }
 }
 
-private fun IvyContext.pickDate(
+private fun IvyWalletCtx.pickDate(
     initialDate: LocalDate,
     onDatePicked: (
         LocalDateTime
@@ -366,7 +371,7 @@ private fun IvyContext.pickDate(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyAppPreview {
+    IvyWalletPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
 
             RecurringRuleModal(
@@ -386,7 +391,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_multipleTimes() {
-    IvyAppPreview {
+    IvyWalletPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
             RecurringRuleModal(
                 modal = RecurringRuleModalData(

@@ -3,7 +3,6 @@ package com.ivy.wallet.ui.balance
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -15,15 +14,20 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.BalanceScreen
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -32,16 +36,14 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 
 @Composable
-fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
+fun BoxWithConstraintsScope.BalanceScreen(screen: BalanceScreen) {
     val viewModel: BalanceViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
-
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val currency by viewModel.currency.observeAsState("")
-    val currentBalance by viewModel.currentBalance.observeAsState(0.0)
-    val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.observeAsState(0.0)
-    val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.observeAsState(0.0)
+    val period by viewModel.period.collectAsState()
+    val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()
+    val currentBalance by viewModel.currentBalance.collectAsState()
+    val plannedPaymentsAmount by viewModel.plannedPaymentsAmount.collectAsState()
+    val balanceAfterPlannedPayments by viewModel.balanceAfterPlannedPayments.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -49,7 +51,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
 
     UI(
         period = period,
-        currency = currency,
+        baseCurrencyCode = baseCurrencyCode,
         currentBalance = currentBalance,
         plannedPaymentsAmount = plannedPaymentsAmount,
         balanceAfterPlannedPayments = balanceAfterPlannedPayments,
@@ -64,7 +66,7 @@ fun BoxWithConstraintsScope.BalanceScreen(screen: Screen.BalanceScreen) {
 private fun BoxWithConstraintsScope.UI(
     period: TimePeriod,
 
-    currency: String,
+    baseCurrencyCode: String,
     currentBalance: Double,
     plannedPaymentsAmount: Double,
     balanceAfterPlannedPayments: Double,
@@ -97,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(32.dp))
 
         CurrentBalance(
-            currency = currency,
+            currency = baseCurrencyCode,
             currentBalance = currentBalance
         )
 
@@ -111,7 +113,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(40.dp))
 
         BalanceAfterPlannedPayments(
-            currency = currency,
+            currency = baseCurrencyCode,
             currentBalance = currentBalance,
             plannedPaymentsAmount = plannedPaymentsAmount,
             balanceAfterPlannedPayments = balanceAfterPlannedPayments
@@ -143,7 +145,7 @@ private fun ColumnScope.CurrentBalance(
     Text(
         modifier = Modifier.align(Alignment.CenterHorizontally),
         text = "CURRENT BALANCE",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -169,7 +171,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
         modifier = Modifier
             .padding(horizontal = 32.dp),
         text = "BALANCE AFTER PLANNED PAYMENTS",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = Orange,
             fontWeight = FontWeight.ExtraBold
         )
@@ -204,8 +206,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             Text(
                 text = "${currentBalance.format(2)} $currency",
-                style = Typo.numberCaption.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.nC.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Normal
                 )
             )
@@ -215,8 +217,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
                 text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
-                style = Typo.numberCaption.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.nC.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -228,7 +230,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
 @Composable
 private fun ColumnScope.CloseButton() {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     IvyCircleButton(
         modifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -241,19 +243,19 @@ private fun ColumnScope.CloseButton() {
         hasShadow = false,
         tint = White
     ) {
-        ivyContext.back()
+        nav.back()
     }
 }
 
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
-            currency = "BGN",
+            baseCurrencyCode = "BGN",
             currentBalance = 9326.55,
             balanceAfterPlannedPayments = 8426.0,
             plannedPaymentsAmount = -900.55,

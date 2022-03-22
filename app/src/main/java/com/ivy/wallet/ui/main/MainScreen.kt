@@ -7,12 +7,11 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.design.api.navigation
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.accounts.AccountsTab
 import com.ivy.wallet.ui.home.HomeTab
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
@@ -21,7 +20,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen(screen: Screen.Main) {
+fun BoxWithConstraintsScope.MainScreen(screen: Main) {
     val viewModel: MainViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -30,11 +29,11 @@ fun BoxWithConstraintsScope.MainScreen(screen: Screen.Main) {
         viewModel.start(screen)
     }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
     UI(
         screen = screen,
         tab = ivyContext.mainTab,
-        currency = currency,
+        baseCurrency = currency,
         selectTab = viewModel::selectTab,
         onCreateAccount = viewModel::createAccount
     )
@@ -44,10 +43,10 @@ fun BoxWithConstraintsScope.MainScreen(screen: Screen.Main) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.Main,
+    screen: Main,
     tab: MainTab,
 
-    currency: String,
+    baseCurrency: String,
 
     selectTab: (MainTab) -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
@@ -59,38 +58,38 @@ private fun BoxWithConstraintsScope.UI(
 
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     BottomBar(
         tab = tab,
         selectTab = selectTab,
 
         onAddIncome = {
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = TransactionType.INCOME
                 )
             )
         },
         onAddExpense = {
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = TransactionType.EXPENSE
                 )
             )
         },
         onAddTransfer = {
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = TransactionType.TRANSFER
                 )
             )
         },
         onAddPlannedPayment = {
-            ivyContext.navigateTo(
-                Screen.EditPlanned(
+            nav.navigateTo(
+                EditPlanned(
                     type = TransactionType.EXPENSE,
                     plannedPaymentRuleId = null
                 )
@@ -101,7 +100,7 @@ private fun BoxWithConstraintsScope.UI(
             accountModalData = AccountModalData(
                 account = null,
                 balance = 0.0,
-                baseCurrency = currency
+                baseCurrency = baseCurrency
             )
         }
     )
@@ -121,11 +120,11 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewMainScreen() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
-            screen = Screen.Main,
+            screen = Main,
             tab = MainTab.HOME,
-            currency = "BGN",
+            baseCurrency = "BGN",
             selectTab = {},
             onCreateAccount = { }
         )

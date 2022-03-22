@@ -13,9 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.thenIf
+import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB2Row
 import kotlin.math.abs
@@ -26,7 +29,7 @@ fun BudgetBattery(
     currency: String,
     expenses: Double,
     budget: Double,
-    backgroundNotFilled: Color = IvyTheme.colors.pure,
+    backgroundNotFilled: Color = UI.colors.pure,
     onClick: (() -> Unit)? = null,
 ) {
     if (budget == 0.0) return
@@ -34,7 +37,7 @@ fun BudgetBattery(
 
     val textColor = when {
         percentSpent <= 0.30 -> {
-            IvyTheme.colors.pureInverse
+            UI.colors.pureInverse
         }
         percentSpent <= 0.50 -> {
             White
@@ -47,7 +50,7 @@ fun BudgetBattery(
 
     val captionTextColor = when {
         percentSpent <= 0.30 -> {
-            IvyTheme.colors.mediumInverse
+            UI.colors.mediumInverse
         }
         percentSpent <= 0.50 -> {
             White
@@ -61,7 +64,7 @@ fun BudgetBattery(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(backgroundNotFilled)
             .drawBehind {
                 drawRect(
@@ -107,7 +110,7 @@ fun BudgetBattery(
                     }
                     else -> "Budget exceeded by"
                 },
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -125,7 +128,7 @@ fun BudgetBattery(
 
             Text(
                 text = "${expenses.format(currency)}/${budget.format(currency)} $currency",
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = captionTextColor
                 )
@@ -137,11 +140,11 @@ fun BudgetBattery(
 @Preview
 @Composable
 private fun Preview_budget_0() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -158,11 +161,11 @@ private fun Preview_budget_0() {
 @Preview
 @Composable
 private fun Preview_expenses_0() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -179,11 +182,11 @@ private fun Preview_expenses_0() {
 @Preview
 @Composable
 private fun Preview_spent_very_low() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -200,11 +203,11 @@ private fun Preview_spent_very_low() {
 @Preview
 @Composable
 private fun Preview_buffer_25() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -221,11 +224,11 @@ private fun Preview_buffer_25() {
 @Preview
 @Composable
 private fun Preview_buffer_50() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -242,11 +245,11 @@ private fun Preview_buffer_50() {
 @Preview
 @Composable
 private fun Preview_buffer_75() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -263,11 +266,11 @@ private fun Preview_buffer_75() {
 @Preview
 @Composable
 private fun Preview_buffer_90() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -284,11 +287,11 @@ private fun Preview_buffer_90() {
 @Preview
 @Composable
 private fun Preview_buffer_100() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -305,11 +308,11 @@ private fun Preview_buffer_100() {
 @Preview
 @Composable
 private fun Preview_buffer_125() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(
@@ -326,11 +329,11 @@ private fun Preview_buffer_125() {
 @Preview
 @Composable
 private fun Preview_expenses_negative() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(IvyTheme.colors.medium),
+                .background(UI.colors.medium),
             contentAlignment = Alignment.Center
         ) {
             BudgetBattery(

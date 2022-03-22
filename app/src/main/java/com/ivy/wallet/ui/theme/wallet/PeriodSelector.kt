@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.theme.wallet
 
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,10 +14,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -31,7 +34,7 @@ fun PeriodSelector(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull),
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -56,7 +59,7 @@ fun PeriodSelector(
             modifier = Modifier
                 .height(48.dp)
                 .defaultMinSize(minWidth = 48.dp)
-                .clip(Shapes.roundedFull)
+                .clip(UI.shapes.rFull)
                 .clickable {
                     onShowChoosePeriodModal()
                 },
@@ -65,15 +68,15 @@ fun PeriodSelector(
         ) {
             IvyIcon(
                 icon = R.drawable.ic_calendar,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(4.dp))
 
             Text(
-                text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
-                style = Typo.body2.style(
-                    color = IvyTheme.colors.pureInverse,
+                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -101,7 +104,7 @@ fun PeriodSelector(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         PeriodSelector(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

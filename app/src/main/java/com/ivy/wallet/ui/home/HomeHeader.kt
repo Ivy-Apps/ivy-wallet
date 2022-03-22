@@ -18,12 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.PieChartStatistic
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -112,9 +115,9 @@ private fun HeaderStickyRow(
                     .alpha(percentExpanded)
                     .testTag("home_greeting_text"),
                 text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -146,7 +149,7 @@ private fun HeaderStickyRow(
                 }
             ),
             iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(LocalIvyContext.current.startDayOfMonth),
+            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
         ) {
             onShowMonthModal()
         }
@@ -162,7 +165,7 @@ private fun HeaderStickyRow(
 @ExperimentalAnimationApi
 @Composable
 fun CashFlowInfo(
-    percentExpanded: Float=1f,
+    percentExpanded: Float = 1f,
     period: TimePeriod,
     currency: String,
     balance: Double,
@@ -214,7 +217,7 @@ fun CashFlowInfo(
                     start = 24.dp
                 ),
                 text = "Cashflow: ${if (cashflow > 0) "+" else ""}${cashflow.format(currency)} $currency",
-                style = Typo.numberBody2.style(
+                style = UI.typo.nB2.style(
                     color = if (cashflow < 0) Gray else Green
                 )
             )
@@ -240,7 +243,7 @@ private fun IncomeExpenses(
     ) {
         Spacer(Modifier.width(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
 
         HeaderCard(
             percentVisible = percentExpanded,
@@ -251,8 +254,8 @@ private fun IncomeExpenses(
             currency = currency,
             amount = monthlyIncome
         ) {
-            ivyContext.navigateTo(
-                Screen.PieChartStatistic(
+            nav.navigateTo(
+                PieChartStatistic(
                     type = TransactionType.INCOME,
                 )
             )
@@ -263,14 +266,14 @@ private fun IncomeExpenses(
         HeaderCard(
             percentVisible = percentExpanded,
             icon = R.drawable.ic_expense,
-            backgroundGradient = Gradient(IvyTheme.colors.pureInverse, IvyTheme.colors.gray),
-            textColor = IvyTheme.colors.pure,
+            backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            textColor = UI.colors.pure,
             label = "Expenses",
             currency = currency,
             amount = monthlyExpenses.absoluteValue
         ) {
-            ivyContext.navigateTo(
-                Screen.PieChartStatistic(
+            nav.navigateTo(
+                PieChartStatistic(
                     type = TransactionType.EXPENSE,
                 )
             )
@@ -297,7 +300,7 @@ private fun RowScope.HeaderCard(
             .thenIf(percentVisible == 1f) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(backgroundGradient.asHorizontalBrush())
             .clickable(
                 onClick = onClick
@@ -319,7 +322,7 @@ private fun RowScope.HeaderCard(
 
             Text(
                 text = label,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold
                 )

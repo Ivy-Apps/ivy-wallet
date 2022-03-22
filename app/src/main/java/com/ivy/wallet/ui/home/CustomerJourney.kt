@@ -13,22 +13,29 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.CustomerJourneyLogic
 import com.ivy.wallet.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.ivyWalletCtx
+import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.ui.theme.findContrastTextColor
 
 @Composable
 fun CustomerJourney(
     customerJourneyCards: List<CustomerJourneyCardData>,
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val ivyActivity = LocalContext.current as IvyActivity
 
     if (customerJourneyCards.isNotEmpty()) {
@@ -44,7 +51,7 @@ fun CustomerJourney(
                 onDismiss(card)
             }
         ) {
-            card.onAction(ivyContext, ivyActivity)
+            card.onAction(nav, ivyContext, ivyActivity)
         }
     }
 }
@@ -61,8 +68,8 @@ fun CustomerJourneyCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .drawColoredShadow(cardData.backgroundColor)
-            .background(cardData.backgroundColor, Shapes.rounded20)
-            .clip(Shapes.rounded20)
+            .background(cardData.backgroundColor, UI.shapes.r3)
+            .clip(UI.shapes.r3)
             .clickable {
                 onCTA()
             }
@@ -77,7 +84,7 @@ fun CustomerJourneyCard(
                     .weight(1f)
                     .padding(start = 24.dp, end = 16.dp),
                 text = cardData.title,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = findContrastTextColor(cardData.backgroundColor)
                 )
@@ -106,7 +113,7 @@ fun CustomerJourneyCard(
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 32.dp),
             text = cardData.description,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Medium,
                 color = findContrastTextColor(cardData.backgroundColor)
             )
@@ -123,7 +130,7 @@ fun CustomerJourneyCard(
             shadowAlpha = 0f,
             iconStart = cardData.ctaIcon,
             iconTint = cardData.backgroundColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = cardData.backgroundColor,
                 fontWeight = FontWeight.Bold
             ),
@@ -140,7 +147,7 @@ fun CustomerJourneyCard(
 @Preview
 @Composable
 private fun PreviewCard() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },

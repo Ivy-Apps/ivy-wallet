@@ -1,6 +1,7 @@
 package com.ivy.wallet.logic
 
 import com.android.billingclient.api.Purchase
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.base.ioThread
@@ -9,13 +10,14 @@ import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.LoanDao
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.paywall.PaywallReason
 
 class PaywallLogic(
     private val ivyBilling: IvyBilling,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val navigation: Navigation,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val budgetDao: BudgetDao,
@@ -32,8 +34,8 @@ class PaywallLogic(
 
         if (paywallReason != null) {
             onPaywallHit()
-            ivyContext.navigateTo(
-                Screen.Paywall(
+            navigation.navigateTo(
+                Paywall(
                     paywallReason = paywallReason
                 )
             )
@@ -86,8 +88,8 @@ class PaywallLogic(
         }
 
         if (paywallReason != null) {
-            ivyContext.navigateTo(
-                Screen.Paywall(
+            navigation.navigateTo(
+                Paywall(
                     paywallReason = paywallReason
                 )
             )

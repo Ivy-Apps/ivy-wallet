@@ -6,13 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.ivy.wallet.ui.theme.IvyTheme
+import com.ivy.design.l0_system.UI
+
 
 @Composable
 fun IvyIcon(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    tint: Color = IvyTheme.colors.pureInverse,
+    tint: Color = UI.colors.pureInverse,
     contentDescription: String = "icon"
 ) {
     Icon(

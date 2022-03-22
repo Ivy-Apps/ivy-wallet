@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.theme.modal.model
 
 import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import java.time.LocalDate
 
@@ -35,7 +35,7 @@ data class Month(
 
 
     fun incrementMonthPeriod(
-        ivyContext: IvyContext,
+        ivyContext: IvyWalletCtx,
         increment: Long,
         year: Int
     ): TimePeriod {

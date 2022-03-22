@@ -15,6 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
@@ -23,26 +26,23 @@ import com.ivy.wallet.logic.model.CreateBudgetData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.BudgetScreen
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
+
 import com.ivy.wallet.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
-fun BoxWithConstraintsScope.BudgetScreen(screen: Screen.Budget) {
+fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
     val viewModel: BudgetViewModel = viewModel()
 
     val timeRange by viewModel.timeRange.observeAsState()
@@ -143,7 +143,7 @@ private fun BoxWithConstraintsScope.UI(
         Spacer(Modifier.height(150.dp))  //scroll hack
     }
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     BudgetBottomBar(
         onAdd = {
             budgetModalData = BudgetModalData(
@@ -154,7 +154,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            ivyContext.back()
+            nav.back()
         },
     )
 
@@ -172,8 +172,8 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.budget.name,
-            style = Typo.body1.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -210,8 +210,8 @@ private fun Toolbar(
         ) {
             Text(
                 text = "Budgets",
-                style = Typo.h2.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.h2.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -221,8 +221,8 @@ private fun Toolbar(
 
                 Text(
                     text = timeRange.toDisplay(),
-                    style = Typo.body2.style(
-                        color = IvyTheme.colors.pureInverse,
+                    style = UI.typo.b2.style(
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.Medium
                     )
                 )
@@ -245,7 +245,7 @@ private fun Toolbar(
                     modifier = Modifier.testTag("budgets_info_text"),
                     text = if (hasBothBudgetTypes)
                         "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
-                    style = Typo.numberCaption.style(
+                    style = UI.typo.nC.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -284,8 +284,8 @@ private fun BudgetItem(
         ) {
             Text(
                 text = displayBudget.budget.name,
-                style = Typo.body1.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.b1.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -294,7 +294,7 @@ private fun BudgetItem(
 
             Text(
                 text = Budget.type(displayBudget.budget.parseCategoryIds().size),
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray
                 )
             )
@@ -317,7 +317,7 @@ private fun BudgetItem(
         currency = baseCurrency,
         expenses = displayBudget.spentAmount,
         budget = displayBudget.budget.amount,
-        backgroundNotFilled = IvyTheme.colors.medium
+        backgroundNotFilled = UI.colors.medium
     ) {
         onClick()
     }
@@ -344,7 +344,7 @@ private fun NoBudgetsEmptyState(
 
         Text(
             text = emptyStateTitle,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -355,7 +355,7 @@ private fun NoBudgetsEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = emptyStateText,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -370,7 +370,7 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -390,7 +390,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1

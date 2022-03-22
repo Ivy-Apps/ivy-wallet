@@ -6,26 +6,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.shortenAmount
 import com.ivy.wallet.base.shouldShortAmount
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
+
 
 @Composable
 fun AmountCurrencyB2Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = amount.format(currency),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = amountFontWeight,
                 color = textColor
             )
@@ -33,7 +33,7 @@ fun AmountCurrencyB2Row(
 
         Text(
             text = " $currency",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
             )
@@ -46,7 +46,7 @@ fun AmountCurrencyB1Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -66,14 +66,14 @@ fun AmountCurrencyB1(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     shortenBigNumbers: Boolean = false
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
 
     Text(
         text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
-        style = Typo.numberBody1.style(
+        style = UI.typo.nB1.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -81,7 +81,7 @@ fun AmountCurrencyB1(
 
     Text(
         text = " $currency",
-        style = Typo.numberBody1.style(
+        style = UI.typo.nB1.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -92,11 +92,11 @@ fun AmountCurrencyB1(
 fun AmountCurrencyH1(
     amount: Double,
     currency: String,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Text(
         text = amount.format(currency),
-        style = Typo.numberH1.style(
+        style = UI.typo.nH1.style(
             fontWeight = FontWeight.Bold,
             color = textColor
         )
@@ -104,7 +104,7 @@ fun AmountCurrencyH1(
 
     Text(
         text = " $currency",
-        style = Typo.numberH2.style(
+        style = UI.typo.nH2.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -115,14 +115,14 @@ fun AmountCurrencyH1(
 fun AmountCurrencyH2Row(
     amount: Double,
     currency: String,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = amount.format(currency),
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
@@ -130,7 +130,7 @@ fun AmountCurrencyH2Row(
 
         Text(
             text = " $currency",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
             )
@@ -143,11 +143,11 @@ fun AmountCurrencyCaption(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = IvyTheme.colors.pureInverse
+    textColor: Color = UI.colors.pureInverse
 ) {
     Text(
         text = amount.format(currency),
-        style = Typo.numberCaption.style(
+        style = UI.typo.nC.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -155,7 +155,7 @@ fun AmountCurrencyCaption(
 
     Text(
         text = " $currency",
-        style = Typo.numberCaption.style(
+        style = UI.typo.nC.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )

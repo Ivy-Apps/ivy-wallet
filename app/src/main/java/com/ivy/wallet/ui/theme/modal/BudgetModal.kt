@@ -21,6 +21,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.base.onScreenStart
@@ -29,11 +31,14 @@ import com.ivy.wallet.logic.model.CreateBudgetData
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.reports.ListItem
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Purple1Dark
+import com.ivy.wallet.ui.theme.Red3Light
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
+import com.ivy.wallet.ui.theme.toComposeColor
 import java.util.*
 
 data class BudgetModalData(
@@ -240,9 +245,9 @@ private fun CategoriesRow(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = Budget.type(budgetCategoryIds.size),
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = IvyTheme.colors.pureInverse
+            color = UI.colors.pureInverse
         )
     )
 
@@ -283,7 +288,7 @@ private fun CategoriesRow(
 @Preview
 @Composable
 private fun Preview_create() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(
@@ -309,7 +314,7 @@ private fun Preview_create() {
 @Preview
 @Composable
 private fun Preview_edit() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(

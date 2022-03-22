@@ -19,10 +19,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Black
+
+import com.ivy.wallet.ui.theme.Red
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalPositiveButton
@@ -64,7 +69,7 @@ fun BoxWithConstraintsScope.AmountModal(
                     })
                     .padding(all = 4.dp),
                 icon = R.drawable.ic_custom_calculator_m,
-                tint = IvyTheme.colors.pureInverse
+                tint = UI.colors.pureInverse
             )
 
             Spacer(Modifier.width(16.dp))
@@ -138,17 +143,17 @@ fun AmountCurrency(
 
         Text(
             text = if (amount.isBlank()) "0" else amount,
-            style = Typo.numberH1.style(
+            style = UI.typo.nH1.style(
                 fontWeight = FontWeight.Bold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
         Text(
             text = " $currency",
-            style = Typo.numberH2.style(
+            style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -404,7 +409,7 @@ fun CircleNumberButton(
 @Composable
 fun KeypadCircleButton(
     text: String,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     testTag: String,
     onClick: () -> Unit
 ) {
@@ -413,7 +418,7 @@ fun KeypadCircleButton(
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
-        style = Typo.numberH2.style(
+        style = UI.typo.nH2.style(
             color = textColor,
             fontWeight = FontWeight.Bold
         ).copy(
@@ -432,21 +437,21 @@ private fun circleButtonModifier(
         .size(size)
         .drawColoredShadow(
             color = Black,
-            alpha = if (IvyTheme.colors.isLight) 0.05f else 0.5f,
+            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
             borderRadius = 32.dp
         )
         .clip(CircleShape)
         .clickable(
             onClick = onClick
         )
-        .background(IvyTheme.colors.pure, Shapes.roundedFull)
-        .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+        .background(UI.colors.pure, UI.shapes.rFull)
+        .border(2.dp, UI.colors.medium, UI.shapes.rFull)
 }
 
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         BoxWithConstraints(
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {

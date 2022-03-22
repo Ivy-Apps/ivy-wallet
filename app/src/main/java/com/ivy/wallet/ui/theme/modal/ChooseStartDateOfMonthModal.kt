@@ -14,9 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Ivy
+
+import com.ivy.wallet.ui.theme.White
 import java.util.*
 
 @Composable
@@ -188,7 +192,7 @@ private fun NumberView(
     Box(modifier = Modifier
         .size(48.dp)
         .clip(CircleShape)
-        .border(2.dp, if (selected) Ivy else IvyTheme.colors.medium, CircleShape)
+        .border(2.dp, if (selected) Ivy else UI.colors.medium, CircleShape)
         .thenIf(selected) {
             background(Ivy, CircleShape)
         }
@@ -199,9 +203,9 @@ private fun NumberView(
     ) {
         Text(
             text = number.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (selected) White else IvyTheme.colors.pureInverse,
+                color = if (selected) White else UI.colors.pureInverse,
                 textAlign = TextAlign.Center
             )
         )
@@ -211,7 +215,7 @@ private fun NumberView(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChooseStartDateOfMonthModal(
             visible = true,
             selectedStartDateOfMonth = 1,

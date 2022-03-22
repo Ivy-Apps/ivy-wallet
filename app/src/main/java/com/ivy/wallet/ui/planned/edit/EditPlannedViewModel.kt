@@ -3,11 +3,14 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.event.AccountsUpdatedEvent
-import com.ivy.wallet.logic.*
+import com.ivy.wallet.logic.AccountCreator
+import com.ivy.wallet.logic.CategoryCreator
+import com.ivy.wallet.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
 import com.ivy.wallet.model.IntervalType
@@ -18,8 +21,8 @@ import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.persistence.dao.*
 import com.ivy.wallet.sync.item.TransactionSync
 import com.ivy.wallet.sync.uploader.PlannedPaymentRuleUploader
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -32,7 +35,8 @@ class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader,
@@ -85,7 +89,7 @@ class EditPlannedViewModel @Inject constructor(
 
     var title: String? = null
 
-    fun start(screen: Screen.EditPlanned) {
+    fun start(screen: EditPlanned) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -93,7 +97,7 @@ class EditPlannedViewModel @Inject constructor(
 
             val accounts = ioThread { accountDao.findAll() }!!
             if (accounts.isEmpty()) {
-                ivyContext.back()
+                nav.back()
                 return@launch
             }
             _accounts.value = accounts
@@ -263,7 +267,7 @@ class EditPlannedViewModel @Inject constructor(
                 }
 
                 if (closeScreen) {
-                    ivyContext.back()
+                    nav.back()
 
                     ioThread {
                         plannedPaymentRuleUploader.sync(loadedRule())
@@ -310,7 +314,7 @@ class EditPlannedViewModel @Inject constructor(
                         recurringRuleId = it.id
                     )
                 }
-                ivyContext.back()
+                nav.back()
 
                 loadedRule?.let {
                     plannedPaymentRuleUploader.delete(it.id)

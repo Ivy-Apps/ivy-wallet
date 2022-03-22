@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.capitalizeLocal
 import com.ivy.wallet.base.springBounce
@@ -27,8 +29,8 @@ import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -95,7 +97,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         )
                     }
                 }
-                .background(IvyTheme.colors.pure)
+                .background(UI.colors.pure)
                 .systemBarsPadding()
                 .verticalScroll(rememberScrollState()),
         ) {
@@ -120,7 +122,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         start = 32.dp
                     ),
                     text = "Filter",
-                    style = Typo.h2.style(
+                    style = UI.typo.h2.style(
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -135,7 +137,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                         }
                         .padding(all = 4.dp), //expand click area
                     text = "Clear filter",
-                    style = Typo.body2.style(
+                    style = UI.typo.b2.style(
                         fontWeight = FontWeight.Bold,
                         color = Color.Gray
                     )
@@ -155,7 +157,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            val ivyContext = LocalIvyContext.current
+            val ivyContext = ivyWalletCtx()
             PeriodFilter(
                 filter = localFilter,
                 onShowPeriodChooserModal = {
@@ -428,7 +430,7 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(LocalIvyContext.current.startDayOfMonth)
+        text = filter?.period?.toDisplayLong(ivyWalletCtx().startDayOfMonth)
             ?.capitalizeLocal()
             ?: "Select time range",
         padding = 12.dp,
@@ -606,7 +608,7 @@ private fun ListFilterTitle(
                 }
                 .padding(all = 4.dp), //expand click area
             text = if (itemsSelected > 0) "Clear all" else "Select all",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray
             )
@@ -625,16 +627,16 @@ fun ListItem(
     onClick: (selected: Boolean) -> Unit
 ) {
     val textColor =
-        if (selectedColor != null) findContrastTextColor(selectedColor) else IvyTheme.colors.pureInverse
+        if (selectedColor != null) findContrastTextColor(selectedColor) else UI.colors.pureInverse
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(selectedColor == null) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selectedColor != null) {
-                background(selectedColor!!, Shapes.roundedFull)
+                background(selectedColor!!, UI.shapes.rFull)
             }
             .clickable(
                 onClick = {
@@ -656,7 +658,7 @@ fun ListItem(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -696,7 +698,7 @@ private fun AmountFilter(
         ) {
             Text(
                 text = "From",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -717,7 +719,7 @@ private fun AmountFilter(
         ) {
             Text(
                 text = "To",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -751,7 +753,7 @@ private fun KeywordsFilter(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = "INCLUDES",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -767,7 +769,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = IvyTheme.colors.pureInverse
+                    borderColor = UI.colors.pureInverse
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -791,7 +793,7 @@ private fun KeywordsFilter(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = "EXCLUDES",
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -807,7 +809,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = IvyTheme.colors.pureInverse
+                    borderColor = UI.colors.pureInverse
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -882,9 +884,9 @@ private fun FilterTitleText(
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = text,
-        style = Typo.body1.style(
+        style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = if (active) IvyTheme.colors.pureInverse else inactiveColor
+            color = if (active) UI.colors.pureInverse else inactiveColor
         )
     )
 }
@@ -892,7 +894,7 @@ private fun FilterTitleText(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")

@@ -14,12 +14,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
+
 
 @Composable
 fun IvyCheckbox(
@@ -40,7 +41,7 @@ fun IvyCheckbox(
             id = if (checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
         ),
         contentDescription = null,
-        tint = if (checked) Color.Unspecified else IvyTheme.colors.gray
+        tint = if (checked) Color.Unspecified else UI.colors.gray
     )
 }
 
@@ -67,8 +68,8 @@ fun IvyCheckboxWithText(
 
         Text(
             text = text,
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -78,7 +79,7 @@ fun IvyCheckboxWithText(
 @Preview
 @Composable
 private fun PreviewIvyCheckboxWithText() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCheckboxWithText(
             text = "Default category",
             checked = false,

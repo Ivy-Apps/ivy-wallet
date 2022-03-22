@@ -15,6 +15,7 @@ class LoanModal<A : ComponentActivity>(
     private val amountInput = AmountInput(composeTestRule)
     val colorPicker = IvyColorPicker(composeTestRule)
     val chooseIconFlow = ChooseIconFlow(composeTestRule)
+    val accountsTab = AccountsTab(composeTestRule)
 
     fun enterName(loanName: String) {
         composeTestRule.onNodeWithTag("base_input")
@@ -49,5 +50,9 @@ class LoanModal<A : ComponentActivity>(
     fun clickSave() {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+    }
+
+    fun selectDefaultLoanAccount(){
+        accountsTab.clickAccount(account = "Cash")
     }
 }

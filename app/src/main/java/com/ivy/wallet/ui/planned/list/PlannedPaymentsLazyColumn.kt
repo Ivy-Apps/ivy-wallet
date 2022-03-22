@@ -11,18 +11,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
+
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.style
 import com.ivy.wallet.ui.theme.transaction.SectionDivider
 import kotlin.math.absoluteValue
 
@@ -45,7 +45,7 @@ fun PlannedPaymentsLazyColumn(
     recurringIncome: Double,
     recurringExpenses: Double,
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     var oneTimeExpanded by remember { mutableStateOf(true) }
     var recurringExpanded by remember { mutableStateOf(true) }
 
@@ -60,7 +60,7 @@ fun PlannedPaymentsLazyColumn(
         }
 
         plannedPaymentItems(
-            ivyContext = ivyContext,
+            nav = nav,
             currency = currency,
             categories = categories,
             accounts = accounts,
@@ -86,7 +86,7 @@ fun PlannedPaymentsLazyColumn(
 }
 
 private fun LazyListScope.plannedPaymentItems(
-    ivyContext: IvyContext,
+    nav: Navigation,
     currency: String,
     categories: List<Category>,
     accounts: List<Account>,
@@ -112,7 +112,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
                 title = "One time payments",
-                titleColor = IvyTheme.colors.pureInverse,
+                titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = oneTimeIncome,
                 expenses = oneTimeExpenses.absoluteValue
@@ -128,7 +128,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -144,7 +144,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = recurringExpanded,
                 setExpanded = setRecurringExpanded,
                 title = "Recurring payments",
-                titleColor = IvyTheme.colors.pureInverse,
+                titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = recurringIncome,
                 expenses = recurringExpenses.absoluteValue
@@ -160,7 +160,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        ivyContext = ivyContext,
+                        nav = nav,
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -182,12 +182,12 @@ private fun LazyListScope.plannedPaymentItems(
 }
 
 private fun onPlannedPaymentClick(
-    ivyContext: IvyContext,
+    nav: Navigation,
     listState: LazyListState,
     rule: PlannedPaymentRule
 ) {
-    ivyContext.navigateTo(
-        Screen.EditPlanned(
+    nav.navigateTo(
+        EditPlanned(
             plannedPaymentRuleId = rule.id,
             type = rule.type
         )
@@ -213,7 +213,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
 
         Text(
             text = "No planned payments",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -223,7 +223,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
 
         Text(
             text = "You don't have any planed payments.\nPress the '⚡' bottom at the bottom to add one.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center

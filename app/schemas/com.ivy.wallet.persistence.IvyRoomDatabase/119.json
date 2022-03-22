@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 119,
-    "identityHash": "fbb187f9d958937150cda0aadc6e649d",
+    "identityHash": "9d13a3b687158704e0dce736e6b0e8dd",
     "entities": [
       {
         "tableName": "accounts",
@@ -80,7 +80,7 @@
       },
       {
         "tableName": "transactions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` TEXT NOT NULL, `type` TEXT NOT NULL, `amount` REAL NOT NULL, `toAccountId` TEXT, `toAmount` REAL, `title` TEXT, `description` TEXT, `dateTime` INTEGER, `categoryId` TEXT, `dueDate` INTEGER, `recurringRuleId` TEXT, `attachmentUrl` TEXT, `seTransactionId` TEXT, `seAutoCategoryId` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` TEXT NOT NULL, `type` TEXT NOT NULL, `amount` REAL NOT NULL, `toAccountId` TEXT, `toAmount` REAL, `title` TEXT, `description` TEXT, `dateTime` INTEGER, `categoryId` TEXT, `dueDate` INTEGER, `recurringRuleId` TEXT, `attachmentUrl` TEXT, `loanId` TEXT, `seTransactionId` TEXT, `seAutoCategoryId` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "accountId",
@@ -151,6 +151,12 @@
           {
             "fieldPath": "attachmentUrl",
             "columnName": "attachmentUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "loanId",
+            "columnName": "loanId",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -751,7 +757,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fbb187f9d958937150cda0aadc6e649d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d13a3b687158704e0dce736e6b0e8dd')"
     ]
   }
 }

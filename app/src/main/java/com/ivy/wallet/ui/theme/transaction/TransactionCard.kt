@@ -18,6 +18,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.dateNowUTC
 import com.ivy.wallet.base.formatNicely
@@ -27,9 +30,8 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -56,13 +58,13 @@ fun LazyItemScope.TransactionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .clickable {
                 if (accounts.find { it.id == transaction.accountId } != null) {
                     onClick(transaction)
                 }
             }
-            .background(IvyTheme.colors.medium, Shapes.rounded16)
+            .background(UI.colors.medium, UI.shapes.r4)
             .testTag("transaction_card")
     ) {
         val transactionCurrency = accounts.find { it.id == transaction.accountId }?.currency
@@ -82,9 +84,9 @@ fun LazyItemScope.TransactionCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = "DUE ON ${transaction.dueDate.formatNicely()}".uppercase(),
-                style = Typo.numberCaption.style(
+                style = UI.typo.nC.style(
                     color = if (transaction.dueDate.isAfter(timeNowUTC()))
-                        Orange else IvyTheme.colors.gray,
+                        Orange else UI.colors.gray,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -100,9 +102,9 @@ fun LazyItemScope.TransactionCard(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = transaction.title!!,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = IvyTheme.colors.pureInverse
+                    color = UI.colors.pureInverse
                 )
             )
 
@@ -133,8 +135,8 @@ fun LazyItemScope.TransactionCard(
                 text = if (isExpense) "Pay" else "Get",
                 wrapContentMode = false,
                 backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
-                textStyle = Typo.body2.style(
-                    color = if (isExpense) IvyTheme.colors.pure else White,
+                textStyle = UI.typo.b2.style(
+                    color = if (isExpense) UI.colors.pure else White,
                     fontWeight = FontWeight.Bold
                 )
             ) {
@@ -152,7 +154,7 @@ private fun TransactionHeaderRow(
     categories: List<Category>,
     accounts: List<Account>
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     if (transaction.type == TransactionType.TRANSFER) {
         TransferHeader(
@@ -177,15 +179,15 @@ private fun TransactionHeaderRow(
                         iconName = category.icon,
                         defaultIcon = R.drawable.ic_custom_category_s
                     ),
-                    textStyle = Typo.caption.style(
+                    textStyle = UI.typo.c.style(
                         color = findContrastTextColor(category.color.toComposeColor()),
                         fontWeight = FontWeight.ExtraBold
                     ),
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = null,
                             categoryId = category.id
                         )
@@ -198,24 +200,24 @@ private fun TransactionHeaderRow(
             val account = accounts.find { it.id == transaction.accountId }
             //TODO: Rework that by using dedicated component for "Account"
             IvyButton(
-                backgroundGradient = Gradient.solid(IvyTheme.colors.pure),
+                backgroundGradient = Gradient.solid(UI.colors.pure),
                 hasGlow = false,
-                iconTint = IvyTheme.colors.pureInverse,
+                iconTint = UI.colors.pureInverse,
                 text = account?.name ?: "deleted",
                 iconStart = getCustomIconIdS(
                     iconName = account?.icon,
                     defaultIcon = R.drawable.ic_custom_account_s
                 ),
-                textStyle = Typo.caption.style(
-                    color = IvyTheme.colors.pureInverse,
+                textStyle = UI.typo.c.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 padding = 8.dp,
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = account.id,
                             categoryId = null
                         )
@@ -234,7 +236,7 @@ private fun TransferHeader(
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
-            .background(IvyTheme.colors.pure, Shapes.roundedFull),
+            .background(UI.colors.pure, UI.shapes.rFull),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -251,9 +253,9 @@ private fun TransferHeader(
             modifier = Modifier
                 .padding(vertical = 8.dp),
             text = account?.name ?: "null",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -275,9 +277,9 @@ private fun TransferHeader(
             modifier = Modifier
                 .padding(vertical = 8.dp),
             text = toAccount?.name ?: "null",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -333,7 +335,7 @@ fun TypeAmountCurrency(
                             icon = R.drawable.ic_expense,
                             gradient = Gradient.black(),
                             iconTint = White,
-                            textColor = IvyTheme.colors.pureInverse
+                            textColor = UI.colors.pureInverse
                         )
                     }
                 }
@@ -378,7 +380,7 @@ private data class AmountTypeStyle(
 @Preview
 @Composable
 private fun PreviewUpcomingExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash")
             val food = Category(name = "Food")
@@ -409,7 +411,7 @@ private fun PreviewUpcomingExpense() {
 @Preview
 @Composable
 private fun PreviewOverdueExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(name = "Rent", color = Green.toArgb())
@@ -440,7 +442,7 @@ private fun PreviewOverdueExpense() {
 @Preview
 @Composable
 private fun PreviewNormalExpense() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "Cash", color = Green.toArgb())
             val food = Category(
@@ -473,7 +475,7 @@ private fun PreviewNormalExpense() {
 @Preview
 @Composable
 private fun PreviewIncome() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = Account(name = "DSK Bank", color = Green.toArgb())
             val category = Category(name = "Salary", color = GreenDark.toArgb())
@@ -503,7 +505,7 @@ private fun PreviewIncome() {
 @Preview
 @Composable
 private fun PreviewTransfer() {
-    IvyAppPreview {
+    IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = Account(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")

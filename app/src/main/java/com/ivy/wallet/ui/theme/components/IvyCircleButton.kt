@@ -12,10 +12,16 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.GradientRed
+import com.ivy.wallet.ui.theme.White
+
 
 @Composable
 fun IvyCircleButton(
@@ -40,15 +46,15 @@ fun IvyCircleButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled) {
                     if (horizontalGradient)
                         backgroundGradient.asHorizontalBrush() else backgroundGradient.asVerticalBrush()
                 } else {
-                    SolidColor(IvyTheme.colors.gray)
+                    SolidColor(UI.colors.gray)
                 },
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled)
             .padding(all = backgroundPadding),
@@ -61,7 +67,7 @@ fun IvyCircleButton(
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Enabled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,
@@ -75,7 +81,7 @@ private fun PreviewIvyCircleButton_Enabled() {
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Disabled() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,
