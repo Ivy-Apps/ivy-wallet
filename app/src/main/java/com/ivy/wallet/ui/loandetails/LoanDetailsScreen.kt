@@ -249,7 +249,7 @@ private fun BoxWithConstraintsScope.UI(
         onDeleteLoan()
     }
 
-    ConfirmationModal(
+    ProgressModal(
         title = "Confirm Account Change",
         description = "Please wait, re-calculating all loan records",
         visible = waitModalVisible

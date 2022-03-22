@@ -12,6 +12,9 @@ interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: Account)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<Account>)
+
     @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
     fun findAll(): List<Account>
 

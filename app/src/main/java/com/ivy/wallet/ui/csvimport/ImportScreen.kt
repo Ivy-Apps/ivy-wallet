@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.wallet.base.onScreenStart
@@ -34,6 +35,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
     onScreenStart {
         viewModel.start(screen)
     }
+    val context = LocalContext.current
 
     UI(
         screen = screen,
@@ -43,7 +45,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
         importResult = importResult,
 
         onChooseImportType = viewModel::setImportType,
-        onUploadCSVFile = viewModel::uploadFile,
+        onUploadCSVFile = { viewModel.uploadFile(context) },
         onSkip = {
             viewModel.skip(
                 screen = screen,
