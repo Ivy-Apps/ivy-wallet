@@ -6,9 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -31,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
@@ -113,11 +111,13 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 shadowRadius = 24.dp
             )
             .background(IvyTheme.colors.pure, Shapes.rounded24Top)
-            .scrollable(
-                orientation = Orientation.Vertical,
-                state = rememberScrollableState { delta ->
-                    internalExpanded = delta < 0f
-                    delta
+            .verticalSwipeListener(
+                sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
+                onSwipeUp = {
+                    internalExpanded = true
+                },
+                onSwipeDown = {
+                    internalExpanded = false
                 }
             )
             .consumeClicks()
