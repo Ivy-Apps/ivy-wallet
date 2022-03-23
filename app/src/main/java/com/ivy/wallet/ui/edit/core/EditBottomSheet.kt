@@ -31,6 +31,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
@@ -112,6 +113,15 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 shadowRadius = 24.dp
             )
             .background(UI.colors.pure, UI.shapes.r2Top)
+            .verticalSwipeListener(
+                sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
+                onSwipeUp = {
+                    internalExpanded = true
+                },
+                onSwipeDown = {
+                    internalExpanded = false
+                }
+            )
             .consumeClicks()
     ) {
         //Accounts label
