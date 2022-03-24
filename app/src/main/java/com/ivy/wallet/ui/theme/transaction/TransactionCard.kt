@@ -22,10 +22,7 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.base.formatNicely
-import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -68,6 +65,9 @@ fun LazyItemScope.TransactionCard(
             .testTag("transaction_card")
     ) {
         val transactionCurrency = accounts.find { it.id == transaction.accountId }?.currency
+            ?: baseCurrency
+
+        val toAccountCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
             ?: baseCurrency
 
         Spacer(Modifier.height(20.dp))
@@ -122,6 +122,17 @@ fun LazyItemScope.TransactionCard(
             currency = transactionCurrency,
             amount = transaction.amount
         )
+
+        if (transaction.type == TransactionType.TRANSFER && transaction.toAmount != null && toAccountCurrency != transactionCurrency) {
+            Text(
+                modifier = Modifier.padding(start = 68.dp),
+                text = transaction.toAmount.format(2) + " $toAccountCurrency",
+                style = UI.typo.nB2.style(
+                    color = Gray,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
 
         if (transaction.dueDate != null && transaction.dateTime == null) {
             //Pay/Get button
