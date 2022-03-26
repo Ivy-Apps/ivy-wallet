@@ -241,7 +241,8 @@ class HomeViewModel @Inject constructor(
                 val newSettings = currentSettings.copy(
                     theme = when (currentSettings.theme) {
                         Theme.LIGHT -> Theme.DARK
-                        Theme.DARK -> Theme.LIGHT
+                        Theme.DARK -> Theme.AUTO
+                        Theme.AUTO -> Theme.LIGHT
                     }
                 )
                 settingsDao.save(newSettings)
