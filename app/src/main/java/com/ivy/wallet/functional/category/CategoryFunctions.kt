@@ -79,6 +79,25 @@ suspend fun calculateCategoryIncome(
     ).head
 }
 
+suspend fun calculateCategoryIncomeWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    categoryId: UUID?,
+    accountIdFilterList: List<UUID>,
+    range: ClosedTimeRange,
+): BigDecimal {
+    return calculateCategoryValuesWithAccountFilters(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        categoryId = categoryId,
+        range = range,
+        accountIdFilterSet = accountIdFilterList.toHashSet(),
+        valueFunctions = nonEmptyListOf(
+            CategoryValueFunctions::income
+        )
+    ).head
+}
+
 suspend fun calculateCategoryExpense(
     walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
@@ -90,6 +109,25 @@ suspend fun calculateCategoryExpense(
         baseCurrencyCode = baseCurrencyCode,
         categoryId = categoryId,
         range = range,
+        valueFunctions = nonEmptyListOf(
+            CategoryValueFunctions::expense
+        )
+    ).head
+}
+
+suspend fun calculateCategoryExpenseWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    categoryId: UUID?,
+    accountIdList: List<UUID> = emptyList(),
+    range: ClosedTimeRange,
+): BigDecimal {
+    return calculateCategoryValuesWithAccountFilters(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        categoryId = categoryId,
+        range = range,
+        accountIdFilterSet = accountIdList.toHashSet(),
         valueFunctions = nonEmptyListOf(
             CategoryValueFunctions::expense
         )

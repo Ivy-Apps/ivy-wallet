@@ -2,6 +2,7 @@ package com.ivy.wallet.ui
 
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.model.entity.Transaction
 import com.ivy.wallet.ui.paywall.PaywallReason
 import java.util.*
 
@@ -22,11 +23,16 @@ data class ItemStatistic(
     val accountId: UUID? = null,
     val categoryId: UUID? = null,
     val unspecifiedCategory: Boolean? = false,
-    val transactionType: TransactionType? = null
+    val transactionType: TransactionType? = null,
+    val accountIdFilterList: List<UUID> = emptyList(),
+    val transactions: List<Transaction> = emptyList()
 ) : Screen
 
 data class PieChartStatistic(
     val type: TransactionType,
+    val filterExcluded: Boolean = true,
+    val accountList: List<UUID> = emptyList(),
+    val transactions: List<Transaction> = emptyList()
 ) : Screen
 
 data class EditPlanned(

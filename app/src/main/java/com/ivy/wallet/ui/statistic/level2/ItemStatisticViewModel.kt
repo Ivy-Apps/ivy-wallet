@@ -12,6 +12,7 @@ import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.model.TransactionHistoryItem
+import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
@@ -111,6 +112,9 @@ class ItemStatisticViewModel @Inject constructor(
     private val _category = MutableStateFlow<Category?>(null)
     val category = _category.readOnly()
 
+    private val _initWithTransactions = MutableStateFlow(false)
+    val initWithTransactions = _initWithTransactions.readOnly()
+
     fun start(
         screen: ItemStatistic,
         period: TimePeriod? = ivyContext.selectedPeriod,
@@ -131,13 +135,21 @@ class ItemStatisticViewModel @Inject constructor(
 
             _categories.value = ioThread { categoryDao.findAll() }
             _accounts.value = ioThread { accountDao.findAll() }
+            _initWithTransactions.value = false
 
             when {
                 screen.accountId != null -> {
                     initForAccount(screen.accountId)
                 }
-                screen.categoryId != null -> {
-                    initForCategory(screen.categoryId)
+                screen.categoryId != null && screen.transactions.isEmpty() -> {
+                    initForCategory(screen.categoryId, screen.accountIdFilterList)
+                }
+                screen.categoryId != null && screen.transactions.isNotEmpty() -> {
+                    initForCategoryWithTransactions(
+                        screen.categoryId,
+                        screen.accountIdFilterList,
+                        screen.transactions
+                    )
                 }
                 screen.unspecifiedCategory == true -> {
                     initForUnspecifiedCategory()
@@ -163,7 +175,7 @@ class ItemStatisticViewModel @Inject constructor(
         val balance = ioThread {
             calculateAccountBalance(
                 transactionDao = walletDAOs.transactionDao,
-                accountId = accountId,
+                accountId = accountId
             ).toDouble()
         }
         _balance.value = balance
@@ -215,7 +227,8 @@ class ItemStatisticViewModel @Inject constructor(
         _overdue.value = ioThread { accountLogic.overdue(account, range) }
     }
 
-    private suspend fun initForCategory(categoryId: UUID) {
+    private suspend fun initForCategory(categoryId: UUID, accountFilterList: List<UUID>) {
+        val accountFilterSet = accountFilterList.toSet()
         val category = ioThread {
             categoryDao.findById(categoryId) ?: error("category not found")
         }
@@ -223,19 +236,23 @@ class ItemStatisticViewModel @Inject constructor(
         val range = period.value.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
-            categoryLogic.calculateCategoryBalance(category, range)
+            categoryLogic.calculateCategoryBalance(category, range, accountFilterSet)
         }
 
         _income.value = ioThread {
-            categoryLogic.calculateCategoryIncome(category, range)
+            categoryLogic.calculateCategoryIncome(category, range, accountFilterSet)
         }
 
         _expenses.value = ioThread {
-            categoryLogic.calculateCategoryExpenses(category, range)
+            categoryLogic.calculateCategoryExpenses(category, range, accountFilterSet)
         }
 
         _history.value = ioThread {
-            categoryLogic.historyByCategoryWithDateDividers(category, range)
+            categoryLogic.historyByCategoryAccountWithDateDividers(
+                category,
+                range,
+                accountFilterSet = accountFilterList.toSet(),
+            )
         }
 
         //Upcoming
@@ -261,6 +278,91 @@ class ItemStatisticViewModel @Inject constructor(
         }
 
         _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }
+    }
+
+    private suspend fun initForCategoryWithTransactions(
+        categoryId: UUID,
+        accountFilterList: List<UUID>,
+        transactions: List<Transaction>
+    ) {
+        computationThread {
+            _initWithTransactions.value = true
+
+            val trans = transactions.filter {
+                it.type != TransactionType.TRANSFER && it.categoryId == categoryId
+            }
+
+            val accountFilterSet = accountFilterList.toSet()
+            val category = ioThread {
+                categoryDao.findById(categoryId) ?: error("category not found")
+            }
+            _category.value = category
+            val range = period.value.toRange(ivyContext.startDayOfMonth)
+
+            val incomeTrans = transactions.filter {
+                it.categoryId == categoryId && it.type == TransactionType.INCOME
+            }
+
+            val expenseTrans = transactions.filter {
+                it.categoryId == categoryId && it.type == TransactionType.EXPENSE
+            }
+
+            _balance.value = ioThread {
+                categoryLogic.calculateCategoryBalance(
+                    category,
+                    range,
+                    accountFilterSet,
+                    transactions = trans
+                )
+            }
+
+            _income.value = ioThread {
+                categoryLogic.calculateCategoryIncome(
+                    incomeTransaction = incomeTrans,
+                    accountFilterSet = accountFilterSet
+                )
+            }
+
+            _expenses.value = ioThread {
+                categoryLogic.calculateCategoryExpenses(
+                    expenseTransactions = expenseTrans,
+                    accountFilterSet = accountFilterSet
+                )
+            }
+
+            _history.value = ioThread {
+                categoryLogic.historyByCategoryAccountWithDateDividers(
+                    category,
+                    range,
+                    accountFilterSet = accountFilterList.toSet(),
+                    transactions = trans
+                )
+            }
+
+            //Upcoming
+            //TODO: Rework Upcoming to FP
+            _upcomingIncome.value = ioThread {
+                categoryLogic.calculateUpcomingIncomeByCategory(category, range)
+            }
+
+            _upcomingExpenses.value = ioThread {
+                categoryLogic.calculateUpcomingExpensesByCategory(category, range)
+            }
+
+            _upcoming.value = ioThread { categoryLogic.upcomingByCategory(category, range) }
+
+            //Overdue
+            //TODO: Rework Overdue to FP
+            _overdueIncome.value = ioThread {
+                categoryLogic.calculateOverdueIncomeByCategory(category, range)
+            }
+
+            _overdueExpenses.value = ioThread {
+                categoryLogic.calculateOverdueExpensesByCategory(category, range)
+            }
+
+            _overdue.value = ioThread { categoryLogic.overdueByCategory(category, range) }
+        }
     }
 
     private suspend fun initForUnspecifiedCategory() {

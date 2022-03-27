@@ -10,6 +10,7 @@ import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.model.entity.Settings
 import com.ivy.wallet.persistence.dao.SettingsDao
 import java.math.BigDecimal
+import java.util.*
 
 fun walletBufferDiff(
     settings: Settings,
@@ -68,6 +69,30 @@ suspend fun calculateWalletIncome(
     )
 }
 
+suspend fun calculateWalletIncomeWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    accountIdFilterList: List<UUID>,
+    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+): Uncertain<List<CurrencyConvError>, BigDecimal> {
+    val uncertainValues = calculateWalletValuesWithAccountFilters(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        filterExcluded = filterExcluded,
+        accountIdFilterList = accountIdFilterList,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            AccountValueFunctions::income
+        )
+    )
+
+    return Uncertain(
+        error = uncertainValues.error,
+        value = uncertainValues.value.head
+    )
+}
+
 suspend fun calculateWalletExpense(
     walletDAOs: WalletDAOs,
     baseCurrencyCode: String,
@@ -78,6 +103,30 @@ suspend fun calculateWalletExpense(
         walletDAOs = walletDAOs,
         baseCurrencyCode = baseCurrencyCode,
         filterExcluded = filterExcluded,
+        range = range,
+        valueFunctions = nonEmptyListOf(
+            AccountValueFunctions::expense
+        )
+    )
+
+    return Uncertain(
+        error = uncertainValues.error,
+        value = uncertainValues.value.head
+    )
+}
+
+suspend fun calculateWalletExpenseWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    accountIdFilterList: List<UUID>,
+    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+): Uncertain<List<CurrencyConvError>, BigDecimal> {
+    val uncertainValues = calculateWalletValuesWithAccountFilters(
+        walletDAOs = walletDAOs,
+        baseCurrencyCode = baseCurrencyCode,
+        filterExcluded = filterExcluded,
+        accountIdFilterList = accountIdFilterList,
         range = range,
         valueFunctions = nonEmptyListOf(
             AccountValueFunctions::expense
