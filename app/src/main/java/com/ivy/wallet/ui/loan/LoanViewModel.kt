@@ -235,6 +235,7 @@ class LoanViewModel @Inject constructor(
                     )
                 }
                 is LoanScreenEvent.OnReordered -> {
+                    reorder(event.reorderedList)
                     _state.value = _state.value.copy(
                         loans = event.reorderedList
                     )
