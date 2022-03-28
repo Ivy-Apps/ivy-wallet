@@ -28,13 +28,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -66,7 +68,6 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     onToAccountChanged: (Account) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
 
@@ -114,12 +115,12 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .statusBarsPadding()
             .padding(top = 24.dp)
             .drawColoredShadow(
-                color = IvyTheme.colors.mediumInverse,
-                alpha = if (IvyTheme.colors.isLight) 0.3f else 0.2f,
+                color = UI.colors.mediumInverse,
+                alpha = if (UI.colors.isLight) 0.3f else 0.2f,
                 borderRadius = 24.dp,
                 shadowRadius = 24.dp
             )
-            .background(IvyTheme.colors.pure, Shapes.rounded24Top)
+            .background(UI.colors.pure, UI.shapes.r2Top)
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
                 onSwipeUp = {
@@ -222,8 +223,8 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Account",
-                style = Typo.body1.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.b1.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -258,7 +259,7 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     ActionsRow(
         modifier = Modifier
@@ -282,7 +283,7 @@ private fun BottomBar(
 //            .gradientCutBackground()
             .padding(bottom = 12.dp)
             .padding(bottom = navBarPadding),
-        lineColor = IvyTheme.colors.medium
+        lineColor = UI.colors.medium
     ) {
         Spacer(Modifier.width(24.dp))
 
@@ -344,7 +345,7 @@ private fun TransferRowMini(
             iconStart = R.drawable.ic_accounts,
             backgroundGradient = Gradient.solid(fromColor),
             iconTint = fromContrastColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = fromContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
@@ -355,7 +356,7 @@ private fun TransferRowMini(
 
         IvyIcon(
             icon = R.drawable.ic_arrow_right,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         val toColor = toAccount?.color?.toComposeColor() ?: Ivy
@@ -365,7 +366,7 @@ private fun TransferRowMini(
             iconStart = R.drawable.ic_accounts,
             backgroundGradient = Gradient.solid(toColor),
             iconTint = toContrastColor,
-            textStyle = Typo.body2.style(
+            textStyle = UI.typo.b2.style(
                 color = toContrastColor,
                 fontWeight = FontWeight.ExtraBold
             ),
@@ -416,8 +417,8 @@ private fun SheetHeader(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = label,
-                style = Typo.body1.style(
-                    color = IvyTheme.colors.pureInverse,
+                style = UI.typo.b1.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -438,8 +439,8 @@ private fun SheetHeader(
                 Text(
                     modifier = Modifier.padding(start = 32.dp),
                     text = "To",
-                    style = Typo.body1.style(
-                        color = IvyTheme.colors.pureInverse,
+                    style = UI.typo.b1.style(
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -524,16 +525,16 @@ private fun Account(
 ) {
     val accountColor = account.color.toComposeColor()
     val textColor =
-        if (selected) findContrastTextColor(accountColor) else IvyTheme.colors.pureInverse
+        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
 
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .thenIf(!selected) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
-                background(accountColor, Shapes.roundedFull)
+                background(accountColor, UI.shapes.rFull)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -552,7 +553,7 @@ private fun Account(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = account.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -570,8 +571,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -579,7 +580,7 @@ private fun AddAccount(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = IvyTheme.colors.pureInverse
+            tint = UI.colors.pureInverse
         )
 
         Spacer(Modifier.width(4.dp))
@@ -587,8 +588,8 @@ private fun AddAccount(
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
             text = "Add account",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -707,8 +708,8 @@ private fun LabelAccountMini(
     ) {
         Text(
             text = label,
-            style = Typo.numberCaption.style(
-                color = IvyTheme.colors.mediumInverse,
+            style = UI.typo.nC.style(
+                color = UI.colors.mediumInverse,
                 fontWeight = FontWeight.Medium
             )
         )
@@ -717,8 +718,8 @@ private fun LabelAccountMini(
 
         Text(
             text = account?.name?.toUpperCase(Locale.getDefault()) ?: "",
-            style = Typo.numberBody2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.nB2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -728,7 +729,7 @@ private fun LabelAccountMini(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
@@ -767,7 +768,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
 
