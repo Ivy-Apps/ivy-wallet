@@ -124,6 +124,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
                 onSwipeUp = {
+                    hideKeyboard(rootView)
                     internalExpanded = true
                 },
                 onSwipeDown = {
