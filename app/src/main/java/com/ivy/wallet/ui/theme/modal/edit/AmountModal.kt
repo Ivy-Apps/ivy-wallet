@@ -41,6 +41,7 @@ fun BoxWithConstraintsScope.AmountModal(
     visible: Boolean,
     currency: String,
     initialAmount: Double?,
+    decimalCountMax: Int = 2,
     Header: (@Composable () -> Unit)? = null,
     amountSpacerTop: Dp = 64.dp,
     dismiss: () -> Unit,
@@ -48,7 +49,12 @@ fun BoxWithConstraintsScope.AmountModal(
 ) {
     var amount by remember(id) {
         mutableStateOf(
-            initialAmount?.takeIf { it != 0.0 }?.format(currency) ?: ""
+            if (currency.isNotEmpty())
+                initialAmount?.takeIf { it != 0.0 }?.format(currency)
+                    ?: ""
+            else
+                initialAmount?.takeIf { it != 0.0 }?.format(decimalCountMax)
+                    ?: ""
         )
     }
 
@@ -109,6 +115,7 @@ fun BoxWithConstraintsScope.AmountModal(
 
         AmountInput(
             currency = currency,
+            decimalCountMax = decimalCountMax,
             amount = amount
         ) {
             amount = it
@@ -125,7 +132,7 @@ fun BoxWithConstraintsScope.AmountModal(
             calculatorModalVisible = false
         },
         onCalculation = {
-            amount = it.format(currency)
+            amount = if (currency.isNotEmpty()) it.format(currency) else it.format(decimalCountMax)
         }
     )
 }
@@ -165,8 +172,10 @@ fun AmountCurrency(
 fun AmountInput(
     currency: String,
     amount: String,
-    setAmount: (String) -> Unit
-) {
+    decimalCountMax: Int = 2,
+    setAmount: (String) -> Unit,
+
+    ) {
     var firstInput by remember { mutableStateOf(true) }
 
     AmountKeyboard(
@@ -178,7 +187,8 @@ fun AmountInput(
                 val formattedAmount = formatInputAmount(
                     currency = currency,
                     amount = amount,
-                    newSymbol = it
+                    newSymbol = it,
+                    decimalCountMax = decimalCountMax
                 )
                 if (formattedAmount != null) {
                     setAmount(formattedAmount)

@@ -12,6 +12,9 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: Category)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<Category>)
+
     @Query("SELECT * FROM categories WHERE isDeleted = 0 ORDER BY orderNum ASC")
     fun findAll(): List<Category>
 

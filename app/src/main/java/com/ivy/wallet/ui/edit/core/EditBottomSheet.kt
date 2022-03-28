@@ -28,14 +28,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
-import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -55,6 +56,8 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     toAccount: Account?,
     amount: Double,
     currency: String,
+    convertedAmount: Double? = null,
+    convertedAmountCurrencyCode: String? = null,
 
     amountModalShown: Boolean,
     setAmountModalShown: (Boolean) -> Unit,
@@ -65,7 +68,6 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     onToAccountChanged: (Account) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
-    val ivyContext = ivyContext()
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
 
@@ -99,6 +101,13 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     )
     val percentCollapsed = 1f - percentExpanded
 
+    val showConvertedAmountText by remember(convertedAmount) {
+        if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
+            mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
+        else
+            mutableStateOf(null)
+    }
+
     Column(
         modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -112,6 +121,16 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 shadowRadius = 24.dp
             )
             .background(UI.colors.pure, UI.shapes.r2Top)
+            .verticalSwipeListener(
+                sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
+                onSwipeUp = {
+                    hideKeyboard(rootView)
+                    internalExpanded = true
+                },
+                onSwipeDown = {
+                    internalExpanded = false
+                }
+            )
             .consumeClicks()
     ) {
         //Accounts label
@@ -153,6 +172,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             currency = currency,
             label = label,
             account = selectedAccount,
+            showConvertedAmountText = showConvertedAmountText,
             percentExpanded = percentExpanded,
             onShowAmountModal = {
                 setAmountModalShown(true)
@@ -160,7 +180,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             onAccountMiniClick = {
                 hideKeyboard(rootView)
                 internalExpanded = true
-            }
+            },
         )
 
         val lastSpacer = lerp(20f, 8f, percentCollapsed)
@@ -240,7 +260,7 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = ivyContext()
+    val ivyContext = ivyWalletCtx()
 
     ActionsRow(
         modifier = Modifier
@@ -589,6 +609,7 @@ private fun Amount(
     percentExpanded: Float,
     label: String,
     account: Account?,
+    showConvertedAmountText: String? = null,
     onShowAmountModal: () -> Unit,
     onAccountMiniClick: () -> Unit,
 ) {
@@ -612,26 +633,37 @@ private fun Amount(
             )
         }
 
-        BalanceRow(
-            modifier = Modifier
-                .clickableNoIndication {
-                    onShowAmountModal()
-                }
-                .testTag("edit_amount_balance_row"),
-            currency = currency,
-            balance = amount,
+        Column() {
+            BalanceRow(
+                modifier = Modifier
+                    .clickableNoIndication {
+                        onShowAmountModal()
+                    }
+                    .testTag("edit_amount_balance_row"),
+                currency = currency,
+                balance = amount,
 
-            decimalPaddingTop = currencyPaddingTop.dp,
-            spacerDecimal = spacerInteger.dp,
-            spacerCurrency = 8.dp,
+                decimalPaddingTop = currencyPaddingTop.dp,
+                spacerDecimal = spacerInteger.dp,
+                spacerCurrency = 8.dp,
 
 
-            integerFontSize = integerFontSize.sp,
-            decimalFontSize = 18.sp,
-            currencyFontSize = currencyFontSize.sp,
+                integerFontSize = integerFontSize.sp,
+                decimalFontSize = 18.sp,
+                currencyFontSize = currencyFontSize.sp,
 
-            currencyUpfront = false
-        )
+                currencyUpfront = false
+            )
+            if (showConvertedAmountText != null) {
+                Text(
+                    text = showConvertedAmountText,
+                    style = UI.typo.nB2.style(
+                        color = UI.colors.pureInverse,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            }
+        }
 
         Spacer(Modifier.weight(1f))
 

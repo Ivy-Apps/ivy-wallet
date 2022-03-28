@@ -12,6 +12,9 @@ interface BudgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: Budget)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<Budget>)
+
     @Query("SELECT * FROM budgets WHERE isDeleted = 0 ORDER BY orderId ASC")
     fun findAll(): List<Budget>
 

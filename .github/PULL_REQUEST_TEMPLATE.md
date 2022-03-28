@@ -15,7 +15,7 @@ _Put an `x` in the boxes that apply._
 
 ## Pull Request Type
 Please check the type of change your PR introduces:
-Please check the type of change your PR introduces:
+
 - [ ] Bugfix
 - [ ] Feature
 - [ ] Code style update (formatting, new lines, etc.)

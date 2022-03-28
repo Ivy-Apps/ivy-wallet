@@ -1,5 +1,6 @@
 package com.ivy.design.l0_system
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
@@ -38,7 +39,7 @@ fun IvyTheme(
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {
-    val colors = design.colors(theme)
+    val colors = design.colors(theme, isSystemInDarkTheme())
     val typography = design.typography()
     val shapes = design.shapes()
 

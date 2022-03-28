@@ -60,7 +60,7 @@ enum class ImportType {
     }
 
     fun listName(): String = when (this) {
-        IVY -> "Ivy Wallet CSV"
+        IVY -> "Ivy Wallet"
         MONEY_MANAGER -> "Money Manager"
         WALLET_BY_BUDGET_BAKERS -> "Wallet by BudgetBakers"
         SPENDEE -> "Spendee"

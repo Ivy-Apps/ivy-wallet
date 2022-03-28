@@ -4,16 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.timeNowUTC
+import com.ivy.wallet.base.*
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.model.CreateAccountData
 import com.ivy.wallet.logic.model.CreateCategoryData
+import com.ivy.wallet.model.CustomExchangeRateState
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
@@ -105,6 +103,9 @@ class EditTransactionViewModel @Inject constructor(
     private val _backgroundProcessingStarted = MutableStateFlow(false)
     val backgroundProcessingStarted = _backgroundProcessingStarted.asStateFlow()
 
+    private val _customExchangeRateState = MutableStateFlow(CustomExchangeRateState())
+    val customExchangeRateState = _customExchangeRateState.asStateFlow()
+
     private var loadedTransaction: Transaction? = null
     private var editMode = false
 
@@ -112,12 +113,15 @@ class EditTransactionViewModel @Inject constructor(
     private var accountsChanged = false
 
     var title: String? = null
+    private lateinit var baseUserCurrency: String
 
     fun start(screen: EditTransaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             editMode = screen.initialTransactionId != null
+
+            baseUserCurrency = baseCurrency()
 
             val accounts = ioThread { accountDao.findAll() }!!
             if (accounts.isEmpty()) {
@@ -216,6 +220,22 @@ class EditTransactionViewModel @Inject constructor(
 
         updateCurrency(account = selectedAccount)
 
+        transaction.toAmount?.let {
+            val exchangeRate = it / transaction.amount
+            val toAccountCurrency =
+                _accounts.value?.find { acc -> acc.id == transaction.toAccountId }?.currency
+            _customExchangeRateState.value =
+                _customExchangeRateState.value.copy(
+                    showCard = toAccountCurrency != account.value?.currency,
+                    exchangeRate = exchangeRate,
+                    convertedAmount = it,
+                    toCurrencyCode = toAccountCurrency,
+                    fromCurrencyCode = currency.value
+                )
+        } ?: let {
+            _customExchangeRateState.value = CustomExchangeRateState()
+        }
+
         _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
 
@@ -226,12 +246,15 @@ class EditTransactionViewModel @Inject constructor(
     private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
 
     fun onAmountChanged(newAmount: Double) {
-        loadedTransaction = loadedTransaction().copy(
-            amount = newAmount
-        )
-        _amount.value = newAmount
+        viewModelScope.launch {
+            loadedTransaction = loadedTransaction().copy(
+                amount = newAmount
+            )
+            _amount.value = newAmount
+            updateCustomExchangeRateState(amt = newAmount)
 
-        saveIfEditMode()
+            saveIfEditMode()
+        }
     }
 
     fun onTitleChanged(newTitle: String?) {
@@ -282,36 +305,43 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     fun onAccountChanged(newAccount: Account) {
-        TestIdlingResource.increment()
-
-        loadedTransaction = loadedTransaction().copy(
-            accountId = newAccount.id
-        )
-        _account.value = newAccount
-
         viewModelScope.launch {
-            updateCurrency(account = newAccount)
+            TestIdlingResource.increment()
+
+            loadedTransaction = loadedTransaction().copy(
+                accountId = newAccount.id
+            )
+            _account.value = newAccount
+
+            updateCustomExchangeRateState(fromAccount = newAccount)
+
+            viewModelScope.launch {
+                updateCurrency(account = newAccount)
+            }
+
+            accountsChanged = true
+
+            //update last selected account
+            sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
+
+            saveIfEditMode()
+
+            updateTitleSuggestions()
+
+            TestIdlingResource.decrement()
         }
-
-        accountsChanged = true
-
-        //update last selected account
-        sharedPrefs.putString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, newAccount.id.toString())
-
-        saveIfEditMode()
-
-        updateTitleSuggestions()
-
-        TestIdlingResource.decrement()
     }
 
     fun onToAccountChanged(newAccount: Account) {
-        loadedTransaction = loadedTransaction().copy(
-            toAccountId = newAccount.id
-        )
-        _toAccount.value = newAccount
+        viewModelScope.launch {
+            loadedTransaction = loadedTransaction().copy(
+                toAccountId = newAccount.id
+            )
+            _toAccount.value = newAccount
+            updateCustomExchangeRateState(toAccount = newAccount)
 
-        saveIfEditMode()
+            saveIfEditMode()
+        }
     }
 
     fun onDueDateChanged(newDueDate: LocalDateTime?) {
@@ -459,7 +489,7 @@ class EditTransactionViewModel @Inject constructor(
                 loadedTransaction = loadedTransaction().copy(
                     accountId = account.value?.id ?: error("no accountId"),
                     toAccountId = toAccount.value?.id,
-                    toAmount = transferToAmount(amount = amount),
+                    toAmount = _customExchangeRateState.value.convertedAmount,
                     title = title?.trim(),
                     description = description.value?.trim(),
                     amount = amount,
@@ -558,4 +588,60 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun loadedTransaction() = loadedTransaction ?: error("Loaded transaction is null")
+
+    private suspend fun updateCustomExchangeRateState(
+        toAccount: Account? = null,
+        fromAccount: Account? = null,
+        amt: Double? = null,
+        exchangeRate: Double? = null
+    ) {
+        computationThread {
+
+            val toAcc = toAccount ?: _toAccount.value
+            val fromAcc = fromAccount ?: _account.value
+
+            val toAccCurrencyCode = toAcc?.currency ?: baseUserCurrency
+            val fromAccCurrencyCode = fromAcc?.currency ?: baseUserCurrency
+
+            if (toAcc == null || fromAcc == null || (toAccCurrencyCode == fromAccCurrencyCode)) {
+                _customExchangeRateState.value = CustomExchangeRateState()
+                return@computationThread
+            }
+
+            val exRate = exchangeRate
+                ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode
+                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode
+                )
+                    customExchangeRateState.value.exchangeRate
+                else
+                    exchangeRatesLogic.convertAmount(
+                        baseCurrency = baseUserCurrency,
+                        amount = 1.0,
+                        fromCurrency = fromAccCurrencyCode,
+                        toCurrency = toAccCurrencyCode
+                    )
+
+
+            val amount = amt ?: _amount.value ?: 0.0
+
+            val customTransferExchangeRateState = CustomExchangeRateState(
+                showCard = true,
+                toCurrencyCode = toAccCurrencyCode,
+                fromCurrencyCode = fromAccCurrencyCode,
+                exchangeRate = exRate,
+                convertedAmount = exRate * amount
+            )
+
+            _customExchangeRateState.value = customTransferExchangeRateState
+            uiThread {
+                saveIfEditMode()
+            }
+        }
+    }
+
+    fun updateExchangeRate(exRate: Double) {
+        viewModelScope.launch {
+            updateCustomExchangeRateState(exchangeRate = exRate)
+        }
+    }
 }

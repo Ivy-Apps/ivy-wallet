@@ -55,6 +55,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val lockApp by viewModel.lockApp.observeAsState(false)
     val showNotifications by viewModel.showNotifications.collectAsState()
     val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
+    val progressState by viewModel.progressState.collectAsState()
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
 
@@ -70,6 +71,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         opSync = opSync,
         lockApp = lockApp,
         showNotifications = showNotifications,
+        progressState = progressState,
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
@@ -81,6 +83,9 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSync = viewModel::sync,
         onLogout = viewModel::logout,
         onLogin = viewModel::login,
+        onBackupData = {
+            viewModel.exportToZip(context)
+        },
         onExportToCSV = {
             viewModel.exportToCSV(context)
         },
@@ -107,6 +112,7 @@ private fun BoxWithConstraintsScope.UI(
 
     lockApp: Boolean,
     showNotifications: Boolean = true,
+    progressState: Boolean = false,
 
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
@@ -118,6 +124,7 @@ private fun BoxWithConstraintsScope.UI(
     onSync: () -> Unit,
     onLogout: () -> Unit,
     onLogin: () -> Unit,
+    onBackupData: () -> Unit = {},
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetShowNotifications: (Boolean) -> Unit = {},
@@ -208,9 +215,18 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
+            SettingsDefaultButton(
+                icon = R.drawable.ic_export_csv,
+                text = "Backup Data",
+            ) {
+                onBackupData()
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             SettingsPrimaryButton(
                 icon = R.drawable.ic_export_csv,
-                text = "Import CSV",
+                text = "Import Data",
                 backgroundGradient = GradientGreen
             ) {
                 nav.navigateTo(
@@ -380,6 +396,12 @@ private fun BoxWithConstraintsScope.UI(
         onDelete = {
             onDeleteAllUserData()
         }
+    )
+
+    ProgressModal(
+        title = "Exporting Data",
+        description = "Please wait, exporting data",
+        visible = progressState
     )
 }
 

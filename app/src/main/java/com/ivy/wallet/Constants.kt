@@ -31,4 +31,6 @@ object Constants {
     const val USER_INACTIVITY_TIME_LIMIT = 60  //Time in seconds
 
     const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
+
+    const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 }

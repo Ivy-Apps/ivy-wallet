@@ -110,7 +110,7 @@ abstract class IvyWalletDesign : IvyDesign {
         }
     }
 
-    override fun colors(theme: Theme): IvyColors {
+    override fun colors(theme: Theme, isDarkModeEnabled: Boolean): IvyColors {
         return when (theme) {
             Theme.LIGHT -> object : IvyColors {
                 override val pure = White
@@ -154,6 +154,7 @@ abstract class IvyWalletDesign : IvyDesign {
 
                 override val isLight = false
             }
+            Theme.AUTO -> if(isDarkModeEnabled) colors(Theme.DARK,true) else colors(Theme.LIGHT,false)
         }
     }
 

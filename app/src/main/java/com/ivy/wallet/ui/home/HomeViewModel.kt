@@ -139,6 +139,10 @@ class HomeViewModel @Inject constructor(
             val settings = ioThread { settingsDao.findFirst() }
 
             _theme.value = settings.theme
+
+            //This method is used to restore the theme when user imports locally backed up data
+            loadNewTheme()
+
             _name.value = settings.name
             _baseCurrencyCode.value = settings.currency
 
@@ -162,7 +166,6 @@ class HomeViewModel @Inject constructor(
                     balance = balance.value.toBigDecimal()
                 ).toDouble()
             }
-
 
             val incomeExpensePair = ioThread {
                 calculateWalletIncomeExpense(
@@ -195,6 +198,10 @@ class HomeViewModel @Inject constructor(
 
             TestIdlingResource.decrement()
         }
+    }
+
+    private fun loadNewTheme() {
+        ivyContext.switchTheme(_theme.value)
     }
 
     fun setUpcomingExpanded(expanded: Boolean) {
@@ -234,7 +241,8 @@ class HomeViewModel @Inject constructor(
                 val newSettings = currentSettings.copy(
                     theme = when (currentSettings.theme) {
                         Theme.LIGHT -> Theme.DARK
-                        Theme.DARK -> Theme.LIGHT
+                        Theme.DARK -> Theme.AUTO
+                        Theme.AUTO -> Theme.LIGHT
                     }
                 )
                 settingsDao.save(newSettings)
