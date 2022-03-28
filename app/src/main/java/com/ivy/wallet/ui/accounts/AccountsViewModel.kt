@@ -2,12 +2,11 @@ package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.readOnly
+import com.ivy.wallet.base.*
 import com.ivy.wallet.event.AccountsUpdatedEvent
 import com.ivy.wallet.functional.account.calculateAccountBalance
 import com.ivy.wallet.functional.account.calculateAccountIncomeExpense
+import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
@@ -72,7 +71,8 @@ class AccountsViewModel @Inject constructor(
                     .map {
                         val balance = calculateAccountBalance(
                             transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id
+                            accountId = it.id,
+                            range = ClosedTimeRange(beginningOfIvyTime(), toIvyFutureTime())
                         )
                         val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
                             exchangeToBaseCurrency(

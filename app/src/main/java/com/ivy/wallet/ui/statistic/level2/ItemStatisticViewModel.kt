@@ -7,6 +7,7 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.functional.account.calculateAccountBalance
 import com.ivy.wallet.functional.account.calculateAccountIncomeExpense
+import com.ivy.wallet.functional.data.ClosedTimeRange
 import com.ivy.wallet.functional.data.WalletDAOs
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.functional.wallet.baseCurrencyCode
@@ -164,6 +165,7 @@ class ItemStatisticViewModel @Inject constructor(
             calculateAccountBalance(
                 transactionDao = walletDAOs.transactionDao,
                 accountId = accountId,
+                range = ClosedTimeRange(beginningOfIvyTime(), toIvyFutureTime())
             ).toDouble()
         }
         _balance.value = balance
