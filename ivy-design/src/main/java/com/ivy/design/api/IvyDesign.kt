@@ -11,7 +11,7 @@ interface IvyDesign {
 
     fun typography(): IvyTypography
 
-    fun colors(theme: Theme): IvyColors
+    fun colors(theme: Theme,isDarkModeEnabled: Boolean): IvyColors
 
     fun shapes(): IvyShapes
 }

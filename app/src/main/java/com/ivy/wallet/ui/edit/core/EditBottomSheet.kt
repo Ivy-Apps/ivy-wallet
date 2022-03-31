@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.statusBarsPadding
-import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
@@ -37,6 +36,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
@@ -68,7 +68,6 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     onToAccountChanged: (Account) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
-    val ivyContext = ivyContext()
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
 
@@ -125,6 +124,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
                 onSwipeUp = {
+                    hideKeyboard(rootView)
                     internalExpanded = true
                 },
                 onSwipeDown = {
@@ -260,7 +260,7 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = ivyContext()
+    val ivyContext = ivyWalletCtx()
 
     ActionsRow(
         modifier = Modifier
