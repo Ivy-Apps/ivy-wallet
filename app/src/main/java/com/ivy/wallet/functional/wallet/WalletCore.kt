@@ -2,6 +2,7 @@ package com.ivy.wallet.functional.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
+import com.ivy.wallet.base.scopedIOThread
 import com.ivy.wallet.functional.account.AccountValueFunction
 import com.ivy.wallet.functional.account.calculateAccountValues
 import com.ivy.wallet.functional.core.Uncertain
@@ -10,7 +11,10 @@ import com.ivy.wallet.functional.core.nonEmptyListOfZeros
 import com.ivy.wallet.functional.data.*
 import com.ivy.wallet.functional.exchangeToBaseCurrency
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import java.math.BigDecimal
+import java.util.*
 
 typealias UncertainWalletValues = Uncertain<List<CurrencyConvError>, NonEmptyList<BigDecimal>>
 typealias AccountValuesPair = Pair<FPAccount, NonEmptyList<BigDecimal>>
@@ -23,6 +27,51 @@ suspend fun calculateWalletValues(
     valueFunctions: NonEmptyList<AccountValueFunction>
 ): UncertainWalletValues {
     val uncertainWalletValues = walletDAOs.accountDao.findAll()
+        .filter { !filterExcluded || it.includeInBalance }
+        .map { account ->
+            Pair(
+                first = account.toFPAccount(baseCurrencyCode),
+                second = calculateAccountValues(
+                    transactionDao = walletDAOs.transactionDao,
+                    accountId = account.id,
+                    range = range,
+                    valueFunctions = valueFunctions
+                )
+            )
+        }
+        .convertValuesInBaseCurrency(
+            exchangeRateDao = walletDAOs.exchangeRateDao,
+            baseCurrencyCode = baseCurrencyCode
+        )
+
+    return sumUncertainWalletValues(
+        valueN = valueFunctions.size,
+        uncertainWalletValues = uncertainWalletValues
+    )
+}
+
+suspend fun calculateWalletValuesWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    filterExcluded: Boolean = true,
+    accountIdFilterList: List<UUID>,
+    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+    valueFunctions: NonEmptyList<AccountValueFunction>
+): UncertainWalletValues {
+
+    val accounts = scopedIOThread { scope ->
+        if (accountIdFilterList.isNotEmpty())
+            accountIdFilterList.map { accId ->
+                scope.async {
+                    walletDAOs.accountDao.findById(accId)
+                }
+            }.awaitAll().filterNotNull()
+        else {
+            walletDAOs.accountDao.findAll()
+        }
+    }
+
+    val uncertainWalletValues = accounts
         .filter { !filterExcluded || it.includeInBalance }
         .map { account ->
             Pair(

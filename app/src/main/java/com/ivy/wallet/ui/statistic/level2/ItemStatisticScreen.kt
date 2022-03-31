@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.statistic.level2
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -81,6 +82,8 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val overdueIncome by viewModel.overdueIncome.collectAsState()
     val overdueExpenses by viewModel.overdueExpenses.collectAsState()
 
+    val initWithTransactions by viewModel.initWithTransactions.collectAsState()
+
     val view = LocalView.current
     onScreenStart {
         viewModel.start(screen)
@@ -109,6 +112,8 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         balanceBaseCurrency = balanceBaseCurrency,
         income = income,
         expenses = expenses,
+
+        initWithTransactions = initWithTransactions,
 
         history = history,
 
@@ -167,6 +172,8 @@ private fun BoxWithConstraintsScope.UI(
     income: Double,
     expenses: Double,
 
+    initWithTransactions: Boolean = false,
+
     history: List<TransactionHistoryItem>,
 
     upcomingExpanded: Boolean = true,
@@ -203,15 +210,19 @@ private fun BoxWithConstraintsScope.UI(
         modifier = Modifier
             .fillMaxSize()
             .background(itemColor)
-            .horizontalSwipeListener(
-                sensitivity = 150,
-                onSwipeLeft = {
-                    onNextMonth()
-                },
-                onSwipeRight = {
-                    onPreviousMonth()
-                }
-            )
+            .thenIf(!initWithTransactions)
+            {
+                horizontalSwipeListener(
+                    sensitivity = 150,
+                    onSwipeLeft = {
+                        onNextMonth()
+                    },
+                    onSwipeRight = {
+                        onPreviousMonth()
+                    }
+                )
+            }
+
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
@@ -306,12 +317,13 @@ private fun BoxWithConstraintsScope.UI(
                     PeriodSelector(
                         modifier = Modifier.padding(top = 16.dp),
                         period = period,
-                        onPreviousMonth = onPreviousMonth,
-                        onNextMonth = onNextMonth,
+                        onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
+                        onNextMonth = { if (!initWithTransactions) onNextMonth() },
                         onShowChoosePeriodModal = {
-                            choosePeriodModal = ChoosePeriodModalData(
-                                period = period
-                            )
+                            if (!initWithTransactions)
+                                choosePeriodModal = ChoosePeriodModalData(
+                                    period = period
+                                )
                         }
                     )
                 }
@@ -485,7 +497,29 @@ private fun Header(
 
             hasAddButtons = true,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            incomeHeaderCardClicked = {
+                if (account != null) {
+                    nav.navigateTo(
+                        PieChartStatistic(
+                            type = TransactionType.INCOME,
+                            accountList = listOf(account.id),
+                            filterExcluded = false
+                        )
+                    )
+                }
+            },
+            expenseHeaderCardClicked = {
+                if (account != null) {
+                    nav.navigateTo(
+                        PieChartStatistic(
+                            type = TransactionType.EXPENSE,
+                            accountList = listOf(account.id),
+                            filterExcluded = false
+                        )
+                    )
+                }
+            }
         ) { trnType ->
             nav.navigateTo(
                 EditTransaction(
@@ -557,6 +591,8 @@ fun IncomeExpensesCards(
     hasAddButtons: Boolean,
     itemColor: Color,
 
+    incomeHeaderCardClicked: () -> Unit = {},
+    expenseHeaderCardClicked: () -> Unit = {},
     onAddTransaction: (TransactionType) -> Unit = {},
 ) {
     Row(
@@ -575,7 +611,8 @@ fun IncomeExpensesCards(
             addButtonText = if (hasAddButtons) "Add income" else null,
             isIncome = true,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            onHeaderCardClicked = { incomeHeaderCardClicked() }
         ) {
             onAddTransaction(TransactionType.INCOME)
         }
@@ -592,7 +629,8 @@ fun IncomeExpensesCards(
             addButtonText = if (hasAddButtons) "Add expense" else null,
             isIncome = false,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            onHeaderCardClicked = { expenseHeaderCardClicked() }
         ) {
             onAddTransaction(TransactionType.EXPENSE)
         }
@@ -613,6 +651,7 @@ private fun RowScope.HeaderCard(
 
     itemColor: Color,
 
+    onHeaderCardClicked: () -> Unit = {},
     onAddClick: () -> Unit
 ) {
     val backgroundColor = if (isDarkColor(itemColor))
@@ -627,7 +666,8 @@ private fun RowScope.HeaderCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, UI.shapes.r2),
+            .background(backgroundColor, UI.shapes.r2)
+            .clickable { onHeaderCardClicked() },
     ) {
         Spacer(Modifier.height(24.dp))
 

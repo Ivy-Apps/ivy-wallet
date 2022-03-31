@@ -42,6 +42,49 @@ suspend fun calculateCategoryValues(
     )
 }
 
+suspend fun calculateCategoryValuesWithAccountFilters(
+    walletDAOs: WalletDAOs,
+    baseCurrencyCode: String,
+    categoryId: UUID?,
+    range: ClosedTimeRange,
+    accountIdFilterSet: Set<UUID>,
+    valueFunctions: NonEmptyList<CategoryValueFunction>
+): NonEmptyList<BigDecimal> {
+    return calculateCategoryValues(
+        argument = CategoryValueFunctions.Argument(
+            categoryId = categoryId,
+            accounts = walletDAOs.accountDao.findAll(),
+            exchangeRateDao = walletDAOs.exchangeRateDao,
+            baseCurrencyCode = baseCurrencyCode
+        ),
+        retrieveCategoryTransactions = { forCategoryId ->
+            if (forCategoryId == null) {
+                walletDAOs.transactionDao.findAllUnspecifiedAndBetween(
+                    startDate = range.from,
+                    endDate = range.to
+                ).filter {
+                    if (accountIdFilterSet.isNotEmpty())
+                        accountIdFilterSet.contains(it.accountId)
+                    else
+                        true
+                }
+            } else {
+                walletDAOs.transactionDao.findAllByCategoryAndBetween(
+                    categoryId = forCategoryId,
+                    startDate = range.from,
+                    endDate = range.to
+                ).filter {
+                    if (accountIdFilterSet.isNotEmpty())
+                        accountIdFilterSet.contains(it.accountId)
+                    else
+                        true
+                }
+            }
+        },
+        valueFunctions = valueFunctions
+    )
+}
+
 suspend fun calculateCategoryValues(
     argument: CategoryValueFunctions.Argument,
     retrieveCategoryTransactions: suspend (UUID?) -> List<Transaction>,
