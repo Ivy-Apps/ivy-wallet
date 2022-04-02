@@ -14,11 +14,13 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
 import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.LastNTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -50,7 +52,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         mutableStateOf(modal?.period)
     }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
     val modalScrollState = rememberScrollState()
 
     IvyModal(
@@ -135,8 +137,8 @@ private fun ChooseMonth(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "Choose month",
-        style = Typo.body1.style(
-            color = if (selectedMonthYear != null) IvyTheme.colors.pureInverse else Gray,
+        style = UI.typo.b1.style(
+            color = if (selectedMonthYear != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -227,13 +229,13 @@ private fun MonthButton(
     text: String,
     onClick: () -> Unit
 ) {
-    val background = if (selected) GradientIvy else Gradient.solid(IvyTheme.colors.medium)
+    val background = if (selected) GradientIvy else Gradient.solid(UI.colors.medium)
     Text(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .background(
                 brush = background.asHorizontalBrush(),
-                shape = Shapes.roundedFull
+                shape = UI.shapes.rFull
             )
             .clickable {
                 onClick()
@@ -243,7 +245,7 @@ private fun MonthButton(
                 vertical = 12.dp,
             ),
         text = text,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             fontWeight = FontWeight.Bold,
             color = if (selected) White else Gray
         )
@@ -259,8 +261,8 @@ private fun FromToRange(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or custom range",
-        style = Typo.body1.style(
-            color = if (timeRange != null) IvyTheme.colors.pureInverse else Gray,
+        style = UI.typo.b1.style(
+            color = if (timeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -315,14 +317,14 @@ private fun IntervalFromToDate(
     otherEndDateTime: LocalDateTime?,
     onSelected: (LocalDateTime?) -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     Row(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .clip(Shapes.roundedFull)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable {
                 ivyContext.datePicker(
                     minDate = if (border == IntervalBorder.TO)
@@ -333,7 +335,7 @@ private fun IntervalFromToDate(
                         otherEndDateTime
                             ?.toLocalDate()
                             ?.minusDays(1) else null,
-                    initialDate = null
+                    initialDate = dateTime?.toLocalDate()
                 ) {
                     onSelected(it.atStartOfDay())
                 }
@@ -348,9 +350,9 @@ private fun IntervalFromToDate(
                     vertical = 16.dp,
                 ),
             text = if (border == IntervalBorder.FROM) "From" else "To",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (dateTime != null) Green else IvyTheme.colors.pureInverse
+                color = if (dateTime != null) Green else UI.colors.pureInverse
             )
         )
 
@@ -362,9 +364,9 @@ private fun IntervalFromToDate(
 
         Text(
             text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: "Add date",
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
-                color = if (dateTime != null) IvyTheme.colors.pureInverse else Gray
+                color = if (dateTime != null) UI.colors.pureInverse else Gray
             )
         )
 
@@ -413,8 +415,8 @@ private fun LastNPeriod(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or in the last",
-        style = Typo.body1.style(
-            color = if (lastNTimeRange != null) IvyTheme.colors.pureInverse else Gray,
+        style = UI.typo.b1.style(
+            color = if (lastNTimeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -459,8 +461,8 @@ private fun AllTime(
         modifier = Modifier
             .padding(start = 32.dp),
         text = "or all time",
-        style = Typo.body1.style(
-            color = if (active) IvyTheme.colors.pureInverse else Gray,
+        style = UI.typo.b1.style(
+            color = if (active) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -488,7 +490,7 @@ private fun AllTime(
 @Preview
 @Composable
 private fun Preview_MonthSelected() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -505,7 +507,7 @@ private fun Preview_MonthSelected() {
 @Preview
 @Composable
 private fun Preview_FromTo() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -525,7 +527,7 @@ private fun Preview_FromTo() {
 @Preview
 @Composable
 private fun Preview_LastN() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(

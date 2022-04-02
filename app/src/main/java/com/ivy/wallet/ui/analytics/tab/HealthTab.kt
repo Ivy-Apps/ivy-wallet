@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.analytics.DataCircle
 import com.ivy.wallet.ui.analytics.model.Health
 import com.ivy.wallet.ui.theme.Ivy
@@ -74,7 +74,7 @@ fun ColumnScope.HealthTab(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         Column(Modifier.fillMaxSize()) {
             HealthTab(
                 onboardedUsers = 1024,

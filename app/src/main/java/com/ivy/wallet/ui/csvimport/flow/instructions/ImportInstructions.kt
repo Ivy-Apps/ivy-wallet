@@ -21,14 +21,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.Gray
+
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -50,10 +55,10 @@ fun BoxWithConstraintsScope.ImportInstructions(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             OnboardingToolbar(
                 hasSkip = hasSkip,
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
             //onboarding toolbar include paddingBottom 16.dp
@@ -65,7 +70,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "How to import",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -75,7 +80,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "open",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = Gray,
                     fontWeight = Bold
                 )
@@ -100,7 +105,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Steps",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -198,8 +203,8 @@ fun InstructionButton(
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.rounded20)
-            .background(IvyTheme.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onClick()
             }
@@ -210,7 +215,7 @@ fun InstructionButton(
 
         if (icon != null) {
             IvyIcon(
-                modifier = Modifier.background(IvyTheme.colors.pure, CircleShape),
+                modifier = Modifier.background(UI.colors.pure, CircleShape),
                 icon = icon,
                 tint = Color.Unspecified
             )
@@ -221,7 +226,7 @@ fun InstructionButton(
         Column {
             Text(
                 text = caption,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Gray,
                     fontWeight = Bold
                 )
@@ -231,7 +236,7 @@ fun InstructionButton(
 
             Text(
                 text = text,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = Bold
                 )
             )
@@ -242,11 +247,12 @@ fun InstructionButton(
 @Composable
 fun UploadFileStep(
     stepNumber: Int,
+    text: String = "Upload CSV file",
     onUploadClick: () -> Unit
 ) {
     StepTitle(
         number = stepNumber,
-        title = "Upload CSV file"
+        title = text
     )
 
     Spacer(Modifier.height(16.dp))
@@ -255,7 +261,7 @@ fun UploadFileStep(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        text = "Upload CSV file",
+        text = text,
         textColor = White,
         backgroundGradient = GradientIvy,
         hasNext = false,
@@ -279,9 +285,9 @@ fun StepTitle(
         Text(
             modifier = Modifier
                 .size(24.dp)
-                .background(IvyTheme.colors.medium, CircleShape),
+                .background(UI.colors.medium, CircleShape),
             text = number.toString(),
-            style = Typo.numberBody2.style(
+            style = UI.typo.nB2.style(
                 fontWeight = Bold,
                 textAlign = TextAlign.Center
             )
@@ -292,7 +298,7 @@ fun StepTitle(
                 .weight(1f)
                 .padding(start = 8.dp, end = 32.dp),
             text = title,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = Bold
             )
         )
@@ -304,7 +310,7 @@ fun StepTitle(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = description,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 fontWeight = Bold,
                 color = Gray
             )
@@ -341,7 +347,7 @@ private fun App(
 
         Text(
             text = importType.appName(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = Bold
             )
         )
@@ -352,7 +358,7 @@ private fun App(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ImportInstructions(
             hasSkip = true,
             importType = ImportType.MONEY_MANAGER,

@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.Import
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.csvimport.flow.ImportFrom
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
@@ -21,7 +22,7 @@ import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
+fun BoxWithConstraintsScope.ImportCSVScreen(screen: Import) {
     val viewModel: ImportViewModel = viewModel()
 
     val importStep by viewModel.importStep.observeAsState(ImportStep.IMPORT_FROM)
@@ -34,6 +35,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
     onScreenStart {
         viewModel.start(screen)
     }
+    val context = LocalContext.current
 
     UI(
         screen = screen,
@@ -43,7 +45,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
         importResult = importResult,
 
         onChooseImportType = viewModel::setImportType,
-        onUploadCSVFile = viewModel::uploadFile,
+        onUploadCSVFile = { viewModel.uploadFile(context) },
         onSkip = {
             viewModel.skip(
                 screen = screen,
@@ -62,7 +64,7 @@ fun BoxWithConstraintsScope.ImportCSVScreen(screen: Screen.Import) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Screen.Import,
+    screen: Import,
 
     importStep: ImportStep,
     importType: ImportType?,
@@ -109,9 +111,9 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
-            screen = Screen.Import(launchedFromOnboarding = true),
+            screen = Import(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,
             importType = null,
             importProgressPercent = 0,

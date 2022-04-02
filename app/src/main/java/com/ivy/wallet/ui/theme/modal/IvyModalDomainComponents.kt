@@ -13,12 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
+
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.wallet.ui.theme.style
 
 @Composable
 fun ModalAmountSection(
@@ -43,8 +43,8 @@ fun ModalAmountSection(
 
         Text(
             text = label,
-            style = Typo.caption.style(
-                color = IvyTheme.colors.gray,
+            style = UI.typo.c.style(
+                color = UI.colors.gray,
                 fontWeight = FontWeight.ExtraBold
             )
         )

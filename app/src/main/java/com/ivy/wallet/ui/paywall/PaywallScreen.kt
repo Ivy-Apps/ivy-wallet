@@ -18,6 +18,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.billingclient.api.SkuDetails
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.onScreenStart
@@ -29,9 +32,9 @@ import com.ivy.wallet.model.entity.Budget
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -72,7 +75,7 @@ private val BENEFITS = listOf(
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.PaywallScreen(screen: Screen.Paywall, activity: IvyActivity) {
+fun BoxWithConstraintsScope.PaywallScreen(screen: Paywall, activity: IvyActivity) {
     val viewModel: PaywallViewModel = viewModel()
 
     val plans by viewModel.plans.observeAsState(emptyList())
@@ -131,11 +134,11 @@ private fun BoxWithConstraintsScope.UI(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
 
             IvyToolbar(
                 backButtonType = BackButtonType.CLOSE,
-                onBack = { ivyContext.onBackPressed() }
+                onBack = { nav.onBackPressed() }
             )
         }
 
@@ -147,7 +150,7 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier
                     .padding(start = 32.dp),
                 text = "Get premium",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -222,7 +225,7 @@ private fun UsageText(
 
     itemName: String
 ) {
-    val isPremium = LocalIvyContext.current.isPremium
+    val isPremium = ivyWalletCtx().isPremium
 
     if (!isPremium) {
         Spacer(Modifier.height(4.dp))
@@ -231,7 +234,7 @@ private fun UsageText(
 
         Text(
             text = "You have ${usedCount}/$freeCount free $itemName.",
-            style = Typo.numberCaption.style(
+            style = UI.typo.nC.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = when {
                     usedPercent >= 1f -> Red
@@ -255,7 +258,7 @@ private fun BenefitRow(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val ivyContext = ivyWalletCtx()
         IvyIcon(
             modifier = Modifier
                 .background(
@@ -279,7 +282,7 @@ private fun BenefitRow(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = benefit.text,
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -299,7 +302,7 @@ data class Benefit(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             plans = listOf(
                 Plan(

@@ -17,19 +17,19 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.ui.theme.IvyComponentPreview
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+
 
 @Composable
 fun IvyNameTextField(
     modifier: Modifier = Modifier,
     underlineModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = IvyTheme.colors.pureInverse,
+    textColor: Color = UI.colors.pureInverse,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -52,8 +52,8 @@ fun IvyNameTextField(
                 Text(
                     modifier = Modifier,
                     text = hint!!,
-                    style = Typo.body2.style(
-                        color = IvyTheme.colors.gray,
+                    style = UI.typo.b2.style(
+                        color = UI.colors.gray,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Start
                     ),
@@ -66,13 +66,13 @@ fun IvyNameTextField(
                     .testTag("base_input"),
                 value = value,
                 onValueChange = onValueChanged,
-                textStyle = Typo.body1.style(
+                textStyle = UI.typo.b1.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.Start
                 ),
                 singleLine = false,
-                cursorBrush = SolidColor(IvyTheme.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colors.pureInverse),
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions ?: KeyboardActions(
@@ -95,7 +95,7 @@ fun IvyNameTextField(
 @Preview
 @Composable
 private fun PreviewIvyNameTextField() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column(
             verticalArrangement = Arrangement.Center
         ) {

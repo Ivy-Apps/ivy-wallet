@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.PlannedPaymentsLogic
 import com.ivy.wallet.logic.WalletLogic
@@ -20,11 +21,13 @@ import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +36,8 @@ class ReportViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val walletLogic: WalletLogic,
     private val transactionDao: TransactionDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -97,6 +101,12 @@ class ReportViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading = _loading.asLiveData()
 
+    private val _accountFilterList = MutableStateFlow<List<UUID>>(emptyList())
+    val accountFilterList = _accountFilterList.readOnly()
+
+    private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
+    val transactions = _transactions.readOnly()
+
     fun start() {
         viewModelScope.launch {
             val baseCurrency = ioThread { settingsDao.findFirst().currency }
@@ -139,6 +149,8 @@ class ReportViewModel @Inject constructor(
                     .filter { it.dateTime != null }
                     .sortedByDescending { it.dateTime }
             }
+
+            _transactions.value = history
             _history.value = ioThread {
                 history.withDateDividers(
                     exchangeRatesLogic = exchangeRatesLogic,
@@ -196,6 +208,10 @@ class ReportViewModel @Inject constructor(
                 walletLogic.calculateExpenses(overdue)
             }!!
 
+            _accountFilterList.value = computationThread {
+                filter.accounts.map { it.id }
+            }
+
             _loading.value = false
         }
     }
@@ -219,7 +235,7 @@ class ReportViewModel @Inject constructor(
                     ?: return@filter false
 
                 (it.dateTime != null && filterRange.includes(it.dateTime)) ||
-                    (it.dueDate != null && filterRange.includes(it.dueDate))
+                        (it.dueDate != null && filterRange.includes(it.dueDate))
             }
             .filter { trn ->
                 //Filter by Accounts
@@ -227,7 +243,7 @@ class ReportViewModel @Inject constructor(
                 val filterAccountIds = filter.accounts.map { it.id }
 
                 filterAccountIds.contains(trn.accountId) || //Transfers Out
-                    (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) //Transfers In
+                        (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) //Transfers In
             }
             .filter { trn ->
                 //Filter by Categories
@@ -246,7 +262,7 @@ class ReportViewModel @Inject constructor(
                 )
 
                 (filter.minAmount == null || trnAmountBaseCurrency >= filter.minAmount) &&
-                    (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
+                        (filter.maxAmount == null || trnAmountBaseCurrency <= filter.maxAmount)
             }
             .filter {
                 //Filter by Included Keywords
@@ -316,7 +332,7 @@ class ReportViewModel @Inject constructor(
         val transfersIn = history
             .filter {
                 it.type == TransactionType.TRANSFER &&
-                    it.toAccountId != null && includedAccountsIds.contains(it.toAccountId)
+                        it.toAccountId != null && includedAccountsIds.contains(it.toAccountId)
             }
             .sumOf { trn ->
                 exchangeRatesLogic.toAmountBaseCurrency(
@@ -330,7 +346,7 @@ class ReportViewModel @Inject constructor(
         val transfersOut = history
             .filter {
                 it.type == TransactionType.TRANSFER &&
-                    includedAccountsIds.contains(it.accountId)
+                        includedAccountsIds.contains(it.accountId)
             }
             .sumOf { trn ->
                 exchangeRatesLogic.amountBaseCurrency(
@@ -345,7 +361,10 @@ class ReportViewModel @Inject constructor(
     }
 
     fun export(context: Context) {
-        ivyContext.protectWithPaywall(PaywallReason.EXPORT_CSV) {
+        ivyContext.protectWithPaywall(
+            paywallReason = PaywallReason.EXPORT_CSV,
+            navigation = nav
+        ) {
             val filter = _filter.value ?: return@protectWithPaywall
             if (!filter.validate()) return@protectWithPaywall
             val accounts = _accounts.value ?: return@protectWithPaywall

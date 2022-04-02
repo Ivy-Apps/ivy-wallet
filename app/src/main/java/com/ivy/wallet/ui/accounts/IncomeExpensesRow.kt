@@ -10,17 +10,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Shapes
-import com.ivy.wallet.ui.theme.Typo
-import com.ivy.wallet.ui.theme.style
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 
 @Composable
 fun IncomeExpensesRow(
     modifier: Modifier = Modifier,
-    textColor: Color = IvyTheme.colors.pureInverse,
-    dividerColor: Color = IvyTheme.colors.medium,
+    textColor: Color = UI.colors.pureInverse,
+    dividerColor: Color = UI.colors.medium,
     incomeLabel: String = "INCOME",
     income: Double,
     expensesLabel: String = "EXPENSES",
@@ -58,7 +56,7 @@ fun IncomeExpensesRow(
             modifier = Modifier
                 .width(2.dp)
                 .height(48.dp)
-                .background(dividerColor, Shapes.roundedFull)
+                .background(dividerColor, UI.shapes.rFull)
         )
 
         if (center) {
@@ -96,7 +94,7 @@ private fun LabelAmountColumn(
     ) {
         Text(
             text = label,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )

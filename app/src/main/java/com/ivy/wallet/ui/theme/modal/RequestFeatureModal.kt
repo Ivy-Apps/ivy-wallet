@@ -12,7 +12,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import java.util.*
@@ -101,7 +101,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         RequestFeatureModal(
             visible = true,
             dismiss = {},

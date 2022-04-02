@@ -31,12 +31,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -82,7 +84,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         }
     }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val spacerTop by transition.animateDp(
         transitionSpec = {
@@ -168,8 +170,8 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 percentTransition = percentTransition
             ),
             text = "Ivy Wallet",
-            style = Typo.h2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.h2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -183,8 +185,8 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 percentTransition = percentTransition
             ),
             text = "Your personal money manager",
-            style = Typo.body2.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b2.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -205,7 +207,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 .padding(vertical = 8.dp)
                 .padding(end = 8.dp),
             text = "#opensource",
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = Green,
                 fontWeight = FontWeight.Bold
             )
@@ -222,7 +224,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 }
 
 private fun Modifier.animateXCenterToLeft(
-    ivyContext: IvyContext,
+    ivyContext: IvyWalletCtx,
     percentTransition: Float
 ): Modifier {
     return this.layout { measurable, constraints ->
@@ -290,8 +292,8 @@ private fun LoginSection(
             LoginButton(
                 icon = R.drawable.ic_local_account,
                 text = "Offline account",
-                textColor = IvyTheme.colors.pureInverse,
-                backgroundGradient = Gradient.solid(IvyTheme.colors.medium),
+                textColor = UI.colors.pureInverse,
+                backgroundGradient = Gradient.solid(UI.colors.medium),
                 hasShadow = false
             ) {
                 onSkip()
@@ -324,7 +326,7 @@ private fun LoginWithGoogleExplanation() {
         Column {
             Text(
                 text = "SYNC YOUR DATA ON THE IVY CLOUD",
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     color = Green,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -333,9 +335,9 @@ private fun LoginWithGoogleExplanation() {
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = "Recommended (and it's free)",
-                style = Typo.caption.style(
-                    color = IvyTheme.colors.pureInverse,
+                text = "Data integrity and protection aren't guaranteed!",
+                style = UI.typo.c.style(
+                    color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium
                 )
             )
@@ -348,7 +350,7 @@ private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp),
         text = "OR ENTER WITH OFFLINE ACCOUNT",
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
         )
@@ -359,7 +361,7 @@ private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
         text = "Your data will be saved locally (only on your phone) and won't be synced with the cloud. You risk losing it if you uninstall the app or change your device. You can always activate sync later if you decide to.",
-        style = Typo.caption.style(
+        style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium
         )
@@ -420,8 +422,8 @@ private fun PrivacyPolicyAndTC() {
             .fillMaxWidth()
             .padding(horizontal = 32.dp),
         text = annotatedString,
-        style = Typo.caption.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.c.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         ),
@@ -451,8 +453,8 @@ private fun LoginButton(
             .thenIf(hasShadow) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(Shapes.rounded16)
-            .background(backgroundGradient.asHorizontalBrush(), Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
             .clickable {
                 onClick()
             },
@@ -470,7 +472,7 @@ private fun LoginButton(
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
             text = text,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = textColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -483,7 +485,7 @@ private fun LoginButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         OnboardingSplashLogin(
             onboardingState = OnboardingState.SPLASH,
             opGoogleSignIn = null,

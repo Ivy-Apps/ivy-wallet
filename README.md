@@ -1,4 +1,4 @@
-![Latest Release](https://img.shields.io/github/v/release/iliyangermanov/ivy-wallet)
+[![Latest Release](https://img.shields.io/github/v/release/iliyangermanov/ivy-wallet)](https://github.com/ILIYANGERMANOV/ivy-wallet/releases)
 [![Lint](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/lint.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/lint.yml)
 [![Internal Release](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml/badge.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/actions/workflows/internal_release.yml)
 

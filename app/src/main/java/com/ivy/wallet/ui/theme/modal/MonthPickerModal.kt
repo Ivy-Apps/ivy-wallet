@@ -15,10 +15,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Ivy
+
 import com.ivy.wallet.ui.theme.components.WrapContentRow
+import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
 import java.time.LocalDate
@@ -108,24 +113,24 @@ private fun MonthButton(
             .thenIf(selected) {
                 drawColoredShadow(monthColor)
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .clickable(onClick = onClick)
             .thenIf(!selected) {
-                border(2.dp, IvyTheme.colors.medium, Shapes.roundedFull)
+                border(2.dp, UI.colors.medium, UI.shapes.rFull)
             }
             .thenIf(selected) {
                 background(
                     brush = Gradient
                         .solid(monthColor)
                         .asHorizontalBrush(),
-                    Shapes.roundedFull
+                    UI.shapes.rFull
                 )
             }
             .padding(horizontal = 40.dp, vertical = 12.dp),
         text = month.name,
-        style = Typo.body2.style(
+        style = UI.typo.b2.style(
             color = if (selected)
-                findContrastTextColor(monthColor) else IvyTheme.colors.pureInverse,
+                findContrastTextColor(monthColor) else UI.colors.pureInverse,
             fontWeight = FontWeight.SemiBold
         )
     )
@@ -134,7 +139,7 @@ private fun MonthButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         MonthPickerModal(
             initialDate = dateNowUTC(),
             visible = true,

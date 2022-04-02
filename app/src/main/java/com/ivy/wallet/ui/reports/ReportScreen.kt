@@ -19,26 +19,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.TransactionHistoryItem
+import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.PieChartStatistic
+import com.ivy.wallet.ui.Report
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
+import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen(
-    screen: Screen.Report
+    screen: Report
 ) {
     val viewModel: ReportViewModel = viewModel()
 
@@ -64,6 +70,9 @@ fun BoxWithConstraintsScope.ReportScreen(
     val filter by viewModel.filter.observeAsState()
     val loading by viewModel.loading.observeAsState(false)
 
+    val accountFilters by viewModel.accountFilterList.collectAsState()
+    val transactions by viewModel.transactions.collectAsState()
+
     onScreenStart {
         viewModel.start()
     }
@@ -83,6 +92,8 @@ fun BoxWithConstraintsScope.ReportScreen(
         overdue = overdue,
         categories = categories,
         accounts = accounts,
+        accountFilters = accountFilters,
+        transactions = transactions,
 
         upcomingExpanded = upcomingExpanded,
         overdueExpanded = overdueExpanded,
@@ -119,6 +130,8 @@ private fun BoxWithConstraintsScope.UI(
 
     categories: List<Category>,
     accounts: List<Account>,
+    accountFilters: List<UUID> = emptyList(),
+    transactions: List<Transaction> = emptyList(),
 
     upcomingExpanded: Boolean,
     overdueExpanded: Boolean,
@@ -133,7 +146,8 @@ private fun BoxWithConstraintsScope.UI(
     onSetFilter: (ReportFilter?) -> Unit = {},
     onExport: () -> Unit = {},
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val listState = rememberLazyListState()
 
     var filterOverlayVisible by remember {
@@ -153,7 +167,7 @@ private fun BoxWithConstraintsScope.UI(
         ) {
             Text(
                 text = "Generating report...",
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = Orange
                 )
@@ -181,7 +195,7 @@ private fun BoxWithConstraintsScope.UI(
                     start = 32.dp
                 ),
                 text = "Reports",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -191,7 +205,7 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp),
-                textColor = IvyTheme.colors.pureInverse,
+                textColor = UI.colors.pureInverse,
                 currency = baseCurrency,
                 balance = balance,
                 balanceAmountPrefix = when {
@@ -208,7 +222,27 @@ private fun BoxWithConstraintsScope.UI(
                 income = income,
                 expenses = expenses,
                 hasAddButtons = false,
-                itemColor = IvyTheme.colors.pure
+                itemColor = UI.colors.pure,
+                incomeHeaderCardClicked = {
+                    if (transactions.isNotEmpty())
+                        nav.navigateTo(
+                            PieChartStatistic(
+                                type = TransactionType.INCOME,
+                                transactions = transactions,
+                                accountList = accountFilters
+                            )
+                        )
+                },
+                expenseHeaderCardClicked = {
+                    if (transactions.isNotEmpty())
+                        nav.navigateTo(
+                            PieChartStatistic(
+                                type = TransactionType.EXPENSE,
+                                transactions = transactions,
+                                accountList = accountFilters
+                            )
+                        )
+                }
             )
 
             Spacer(Modifier.height(32.dp))
@@ -223,6 +257,7 @@ private fun BoxWithConstraintsScope.UI(
         if (filter != null) {
             transactions(
                 ivyContext = ivyContext,
+                nav = nav,
                 baseCurrency = baseCurrency,
 
                 upcomingIncome = upcomingIncome,
@@ -295,7 +330,7 @@ private fun NoFilterEmptyState(
 
         Text(
             text = "No Filter",
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -306,7 +341,7 @@ private fun NoFilterEmptyState(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "To generate a report you must first set a valid filter.",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
@@ -331,11 +366,11 @@ private fun Toolbar(
     onExport: () -> Unit,
     onFilter: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     IvyToolbar(
         backButtonType = BackButtonType.CLOSE,
         onBack = {
-            ivyContext.back()
+            nav.back()
         }
     ) {
         Spacer(Modifier.weight(1f))
@@ -369,7 +404,7 @@ private fun Toolbar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
@@ -414,7 +449,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_NO_FILTER() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")

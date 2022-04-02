@@ -18,12 +18,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.TestingContext
 import com.ivy.wallet.base.densityScope
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.*
 import kotlinx.coroutines.launch
@@ -60,8 +64,8 @@ fun ColumnScope.IvyColorPicker(
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Choose color",
-        style = Typo.body2.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.b2.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -107,7 +111,9 @@ fun ColumnScope.IvyColorPicker(
         }
     }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val navigation = navigation()
+
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
@@ -123,7 +129,10 @@ fun ColumnScope.IvyColorPicker(
                 selectedColor = selectedColor,
                 onSelected = {
                     if (it.premium) {
-                        ivyContext.protectWithPaywall(PaywallReason.PREMIUM_COLOR) {
+                        ivyContext.protectWithPaywall(
+                            paywallReason = PaywallReason.PREMIUM_COLOR,
+                            navigation = navigation
+                        ) {
                             onColorSelected(it.color)
                         }
                     } else {
@@ -149,7 +158,7 @@ private fun ColorItem(
         Spacer(Modifier.width(24.dp))
     }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
     Box(
         modifier = Modifier
             .clip(CircleShape)
@@ -178,9 +187,9 @@ private fun ColorItem(
 @Preview
 @Composable
 private fun PreviewIvyColorPicker() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         Column {
-            IvyColorPicker(selectedColor = IvyTheme.colors.ivy) {
+            IvyColorPicker(selectedColor = UI.colors.primary) {
 
             }
         }

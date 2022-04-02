@@ -6,6 +6,7 @@ import com.ivy.wallet.logic.model.CreateLoanData
 import com.ivy.wallet.model.entity.Loan
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.sync.uploader.LoanUploader
+import java.util.*
 
 class LoanCreator(
     private val paywallLogic: PaywallLogic,
@@ -15,10 +16,12 @@ class LoanCreator(
     suspend fun create(
         data: CreateLoanData,
         onRefreshUI: suspend (Loan) -> Unit
-    ) {
+    ): UUID? {
         val name = data.name
-        if (name.isBlank()) return
-        if (data.amount <= 0) return
+        if (name.isBlank()) return null
+        if (data.amount <= 0) return null
+
+        var loanId: UUID? = null
 
         try {
             paywallLogic.protectAddWithPaywall(
@@ -32,9 +35,10 @@ class LoanCreator(
                         color = data.color.toArgb(),
                         icon = data.icon,
                         orderNum = dao.findMaxOrderNum() + 1,
-                        isSynced = false
+                        isSynced = false,
+                        accountId = data.account?.id
                     )
-
+                    loanId = item.id
                     dao.save(item)
                     item
                 }
@@ -48,6 +52,8 @@ class LoanCreator(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
+        return loanId
     }
 
 

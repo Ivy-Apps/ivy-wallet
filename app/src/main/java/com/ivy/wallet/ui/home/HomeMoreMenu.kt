@@ -25,14 +25,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
-import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Gray
+
+
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -58,7 +62,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
@@ -82,7 +86,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     )
 
     //Background
-    val colorMedium = IvyTheme.colors.medium
+    val colorMedium = UI.colors.medium
     if (percentExpanded > 0.01f) {
         Canvas(
             modifier = Modifier
@@ -170,7 +174,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 zIndex(520f)
             }
             .testTag("home_more_menu_arrow"),
-        backgroundColor = colorLerp(IvyTheme.colors.medium, IvyTheme.colors.pure, percentExpanded),
+        backgroundColor = colorLerp(UI.colors.medium, UI.colors.pure, percentExpanded),
         icon = R.drawable.ic_expandarrow
     ) {
         setExpanded(!expanded)
@@ -191,10 +195,10 @@ private fun ColumnScope.Content(
 ) {
     Spacer(Modifier.height(24.dp))
 
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
     SearchButton {
-        ivyContext.navigateTo(
-            screen = Screen.Search
+        nav.navigateTo(
+            screen = Search
         )
     }
 
@@ -229,9 +233,9 @@ private fun SearchButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.roundedFull)
-            .background(IvyTheme.colors.pure)
-            .border(1.dp, Gray, Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.pure)
+            .border(1.dp, Gray, UI.shapes.rFull)
             .clickable {
                 onClick()
             },
@@ -248,9 +252,9 @@ private fun SearchButton(
                 vertical = 12.dp,
             ),
             text = "Search transactions",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
 
@@ -265,8 +269,8 @@ private fun ColumnScope.OpenSource() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded16)
-            .background(IvyTheme.colors.pure)
+            .clip(UI.shapes.r4)
+            .background(UI.colors.pure)
             .clickable {
                 openUrl(
                     uriHandler = uriHandler,
@@ -289,7 +293,7 @@ private fun ColumnScope.OpenSource() {
         ) {
             Text(
                 text = "Ivy Wallet is open-source",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -298,7 +302,7 @@ private fun ColumnScope.OpenSource() {
 
             Text(
                 text = Constants.URL_IVY_WALLET_REPO,
-                style = Typo.caption.style(
+                style = UI.typo.c.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = Blue
                 )
@@ -328,8 +332,8 @@ private fun ColumnScope.Buffer(
 
         Text(
             text = "Savings goal",
-            style = Typo.body1.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.b1.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -362,7 +366,7 @@ private fun QuickAccess(
     theme: Theme,
     onSwitchTheme: () -> Unit
 ) {
-    val ivyContext = LocalIvyContext.current
+    val nav = navigation()
 
     Text(
         modifier = Modifier.padding(start = 24.dp),
@@ -382,7 +386,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_settings,
             label = "Settings"
         ) {
-            ivyContext.navigateTo(Screen.Settings)
+            nav.navigateTo(Settings)
         }
 
         Spacer(Modifier.weight(1f))
@@ -391,7 +395,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_categories,
             label = "Categories"
         ) {
-            ivyContext.navigateTo(Screen.Categories)
+            nav.navigateTo(Categories)
         }
 
         Spacer(Modifier.weight(1f))
@@ -400,18 +404,22 @@ private fun QuickAccess(
             icon = when (theme) {
                 Theme.LIGHT -> R.drawable.home_more_menu_light_mode
                 Theme.DARK -> R.drawable.home_more_menu_dark_mode
+                Theme.AUTO -> R.drawable.home_more_menu_auto_mode
             },
             label = when (theme) {
                 Theme.LIGHT -> "Light mode"
                 Theme.DARK -> "Dark mode"
+                Theme.AUTO -> "Auto mode"
             },
             backgroundColor = when (theme) {
-                Theme.LIGHT -> IvyTheme.colors.pure
-                Theme.DARK -> IvyTheme.colors.pureInverse
+                Theme.LIGHT -> UI.colors.pure
+                Theme.DARK -> UI.colors.pureInverse
+                Theme.AUTO -> UI.colors.pure
             },
             tint = when (theme) {
-                Theme.LIGHT -> IvyTheme.colors.pureInverse
-                Theme.DARK -> IvyTheme.colors.pure
+                Theme.LIGHT -> UI.colors.pureInverse
+                Theme.DARK -> UI.colors.pure
+                Theme.AUTO -> UI.colors.pureInverse
             }
         ) {
             onSwitchTheme()
@@ -423,7 +431,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_planned_payments,
             label = "Planned\nPayments"
         ) {
-            ivyContext.navigateTo(Screen.PlannedPayments)
+            nav.navigateTo(PlannedPayments)
         }
 
         Spacer(Modifier.weight(1f))
@@ -440,6 +448,13 @@ private fun QuickAccess(
         Spacer(Modifier.weight(1f))
 
         val context = LocalContext.current
+//        MoreMenuButton(
+//            icon = R.drawable.home_more_menu_reports,
+//            label = "Charts"
+//        ) {
+//            ivyContext.navigateTo(Screen.Charts)
+//        }
+
         MoreMenuButton(
             icon = R.drawable.home_more_menu_share,
             label = "Share Ivy"
@@ -453,7 +468,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_reports,
             label = "Reports",
         ) {
-            ivyContext.navigateTo(Screen.Report)
+            nav.navigateTo(Report)
         }
 
         Spacer(Modifier.weight(1f))
@@ -462,7 +477,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_budgets,
             label = "Budgets",
         ) {
-            ivyContext.navigateTo(Screen.Budget)
+            nav.navigateTo(BudgetScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -471,7 +486,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_loans,
             label = "Loans",
         ) {
-            ivyContext.navigateTo(Screen.Loans)
+            nav.navigateTo(Loans)
         }
 
         Spacer(Modifier.weight(1f))
@@ -483,8 +498,8 @@ private fun MoreMenuButton(
     @DrawableRes icon: Int,
     label: String,
 
-    backgroundColor: Color = IvyTheme.colors.pure,
-    tint: Color = IvyTheme.colors.pureInverse,
+    backgroundColor: Color = UI.colors.pure,
+    tint: Color = UI.colors.pureInverse,
     expandPadding: Dp = 14.dp,
 
     onClick: () -> Unit
@@ -509,8 +524,8 @@ private fun MoreMenuButton(
                     onClick()
                 },
             text = label,
-            style = Typo.caption.style(
-                color = IvyTheme.colors.pureInverse,
+            style = UI.typo.c.style(
+                color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center
             )
@@ -521,7 +536,7 @@ private fun MoreMenuButton(
 @Preview
 @Composable
 private fun Preview_Expanded() {
-    IvyAppPreview {
+    IvyWalletPreview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -541,7 +556,7 @@ private fun Preview_Expanded() {
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(

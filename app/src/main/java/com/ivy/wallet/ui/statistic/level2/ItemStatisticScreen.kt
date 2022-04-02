@@ -1,12 +1,12 @@
 package com.ivy.wallet.ui.statistic.level2
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,6 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.Theme
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.base.*
@@ -29,10 +33,7 @@ import com.ivy.wallet.model.TransactionType
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
-import com.ivy.wallet.ui.balancePrefix
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -48,43 +49,46 @@ import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: Screen.ItemStatistic) {
+fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val viewModel: ItemStatisticViewModel = viewModel()
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
 
-    val period by viewModel.period.observeAsState(ivyContext.selectedPeriod)
-    val baseCurrency by viewModel.baseCurrency.observeAsState("")
-    val currency by viewModel.currency.observeAsState("")
+    val period by viewModel.period.collectAsState()
+    val baseCurrency by viewModel.baseCurrency.collectAsState()
+    val currency by viewModel.currency.collectAsState()
 
-    val account by viewModel.account.observeAsState()
-    val category by viewModel.category.observeAsState()
+    val account by viewModel.account.collectAsState()
+    val category by viewModel.category.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
 
-    val balance by viewModel.balance.observeAsState(0.0)
-    val balanceBaseCurrency by viewModel.balanceBaseCurrency.observeAsState()
-    val income by viewModel.income.observeAsState(0.0)
-    val expenses by viewModel.expenses.observeAsState(0.0)
+    val balance by viewModel.balance.collectAsState()
+    val balanceBaseCurrency by viewModel.balanceBaseCurrency.collectAsState()
+    val income by viewModel.income.collectAsState()
+    val expenses by viewModel.expenses.collectAsState()
 
-    val history by viewModel.history.observeAsState(emptyList())
+    val history by viewModel.history.collectAsState()
 
-    val upcoming by viewModel.upcoming.observeAsState(emptyList())
-    val upcomingExpanded by viewModel.upcomingExpanded.observeAsState(true)
-    val upcomingIncome by viewModel.upcomingIncome.observeAsState(0.0)
-    val upcomingExpenses by viewModel.upcomingExpenses.observeAsState(0.0)
+    val upcoming by viewModel.upcoming.collectAsState()
+    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
+    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
+    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
 
-    val overdue by viewModel.overdue.observeAsState(emptyList())
-    val overdueExpanded by viewModel.overdueExpanded.observeAsState(true)
-    val overdueIncome by viewModel.overdueIncome.observeAsState(0.0)
-    val overdueExpenses by viewModel.overdueExpenses.observeAsState(0.0)
+    val overdue by viewModel.overdue.collectAsState()
+    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
+    val overdueIncome by viewModel.overdueIncome.collectAsState()
+    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
+
+    val initWithTransactions by viewModel.initWithTransactions.collectAsState()
 
     val view = LocalView.current
     onScreenStart {
         viewModel.start(screen)
 
-        ivyContext.onBackPressed[screen] = {
+        nav.onBackPressed[screen] = {
             setStatusBarDarkTextCompat(
                 view = view,
                 darkText = ivyContext.theme == Theme.LIGHT
@@ -108,6 +112,8 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: Screen.ItemStatistic) {
         balanceBaseCurrency = balanceBaseCurrency,
         income = income,
         expenses = expenses,
+
+        initWithTransactions = initWithTransactions,
 
         history = history,
 
@@ -166,6 +172,8 @@ private fun BoxWithConstraintsScope.UI(
     income: Double,
     expenses: Double,
 
+    initWithTransactions: Boolean = false,
+
     history: List<TransactionHistoryItem>,
 
     upcomingExpanded: Boolean = true,
@@ -188,7 +196,8 @@ private fun BoxWithConstraintsScope.UI(
     onDelete: () -> Unit,
     onPayOrGet: (Transaction) -> Unit = {}
 ) {
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
+    val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
@@ -201,15 +210,19 @@ private fun BoxWithConstraintsScope.UI(
         modifier = Modifier
             .fillMaxSize()
             .background(itemColor)
-            .horizontalSwipeListener(
-                sensitivity = 150,
-                onSwipeLeft = {
-                    onNextMonth()
-                },
-                onSwipeRight = {
-                    onPreviousMonth()
-                }
-            )
+            .thenIf(!initWithTransactions)
+            {
+                horizontalSwipeListener(
+                    sensitivity = 150,
+                    onSwipeLeft = {
+                        onNextMonth()
+                    },
+                    onSwipeRight = {
+                        onPreviousMonth()
+                    }
+                )
+            }
+
     ) {
         val listState = rememberLazyListState()
         val density = LocalDensity.current
@@ -220,8 +233,8 @@ private fun BoxWithConstraintsScope.UI(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 16.dp)
-                .clip(Shapes.rounded32Top)
-                .background(IvyTheme.colors.pure),
+                .clip(UI.shapes.r1Top)
+                .background(UI.colors.pure),
             state = listState,
         ) {
             item {
@@ -298,18 +311,19 @@ private fun BoxWithConstraintsScope.UI(
                             .height(32.dp)
                             .fillMaxWidth()
                             .background(itemColor) //itemColor is displayed below the clip
-                            .background(IvyTheme.colors.pure, Shapes.rounded32Top)
+                            .background(UI.colors.pure, UI.shapes.r1Top)
                     )
 
                     PeriodSelector(
                         modifier = Modifier.padding(top = 16.dp),
                         period = period,
-                        onPreviousMonth = onPreviousMonth,
-                        onNextMonth = onNextMonth,
+                        onPreviousMonth = { if (!initWithTransactions) onPreviousMonth() },
+                        onNextMonth = { if (!initWithTransactions) onNextMonth() },
                         onShowChoosePeriodModal = {
-                            choosePeriodModal = ChoosePeriodModalData(
-                                period = period
-                            )
+                            if (!initWithTransactions)
+                                choosePeriodModal = ChoosePeriodModalData(
+                                    period = period
+                                )
                         }
                     )
                 }
@@ -317,6 +331,7 @@ private fun BoxWithConstraintsScope.UI(
 
             transactions(
                 ivyContext = ivyContext,
+                nav = nav,
                 upcoming = upcoming,
                 upcomingExpanded = upcomingExpanded,
                 setUpcomingExpanded = setUpcomingExpanded,
@@ -473,7 +488,7 @@ private fun Header(
 
         Spacer(Modifier.height(20.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         IncomeExpensesCards(
             history = history,
             currency = currency,
@@ -482,10 +497,32 @@ private fun Header(
 
             hasAddButtons = true,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            incomeHeaderCardClicked = {
+                if (account != null) {
+                    nav.navigateTo(
+                        PieChartStatistic(
+                            type = TransactionType.INCOME,
+                            accountList = listOf(account.id),
+                            filterExcluded = false
+                        )
+                    )
+                }
+            },
+            expenseHeaderCardClicked = {
+                if (account != null) {
+                    nav.navigateTo(
+                        PieChartStatistic(
+                            type = TransactionType.EXPENSE,
+                            accountList = listOf(account.id),
+                            filterExcluded = false
+                        )
+                    )
+                }
+            }
         ) { trnType ->
-            ivyContext.navigateTo(
-                Screen.EditTransaction(
+            nav.navigateTo(
+                EditTransaction(
                     initialTransactionId = null,
                     type = trnType,
                     accountId = account?.id,
@@ -510,7 +547,7 @@ fun ItemStatisticToolbar(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         CircleButton(
             modifier = Modifier.testTag("toolbar_close"),
             icon = R.drawable.ic_dismiss,
@@ -518,7 +555,7 @@ fun ItemStatisticToolbar(
             tint = contrastColor,
             backgroundColor = Transparent
         ) {
-            ivyContext.back()
+            nav.back()
         }
 
         Spacer(Modifier.weight(1f))
@@ -554,6 +591,8 @@ fun IncomeExpensesCards(
     hasAddButtons: Boolean,
     itemColor: Color,
 
+    incomeHeaderCardClicked: () -> Unit = {},
+    expenseHeaderCardClicked: () -> Unit = {},
     onAddTransaction: (TransactionType) -> Unit = {},
 ) {
     Row(
@@ -572,7 +611,8 @@ fun IncomeExpensesCards(
             addButtonText = if (hasAddButtons) "Add income" else null,
             isIncome = true,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            onHeaderCardClicked = { incomeHeaderCardClicked() }
         ) {
             onAddTransaction(TransactionType.INCOME)
         }
@@ -589,7 +629,8 @@ fun IncomeExpensesCards(
             addButtonText = if (hasAddButtons) "Add expense" else null,
             isIncome = false,
 
-            itemColor = itemColor
+            itemColor = itemColor,
+            onHeaderCardClicked = { expenseHeaderCardClicked() }
         ) {
             onAddTransaction(TransactionType.EXPENSE)
         }
@@ -610,6 +651,7 @@ private fun RowScope.HeaderCard(
 
     itemColor: Color,
 
+    onHeaderCardClicked: () -> Unit = {},
     onAddClick: () -> Unit
 ) {
     val backgroundColor = if (isDarkColor(itemColor))
@@ -624,14 +666,15 @@ private fun RowScope.HeaderCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, Shapes.rounded24),
+            .background(backgroundColor, UI.shapes.r2)
+            .clickable { onHeaderCardClicked() },
     ) {
         Spacer(Modifier.height(24.dp))
 
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = title,
-            style = Typo.caption.style(
+            style = UI.typo.c.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -642,7 +685,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = amount.format(currencyCode),
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -650,7 +693,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = IvyCurrency.fromCode(currencyCode)?.name ?: "",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -661,7 +704,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = transactionCount.toString(),
-            style = Typo.numberBody1.style(
+            style = UI.typo.nB1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -669,7 +712,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = "transactions",
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = contrastColor,
                 fontWeight = FontWeight.Normal
             )
@@ -687,7 +730,7 @@ private fun RowScope.HeaderCard(
                 text = addButtonText,
                 shadowAlpha = 0.1f,
                 backgroundGradient = Gradient.solid(addButtonBackground),
-                textStyle = Typo.body2.style(
+                textStyle = UI.typo.b2.style(
                     color = findContrastTextColor(addButtonBackground),
                     fontWeight = FontWeight.Bold
                 ),
@@ -738,7 +781,7 @@ private fun Item(
 
                 Text(
                     text = account.name,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -752,7 +795,7 @@ private fun Item(
                             .align(Alignment.Bottom)
                             .padding(bottom = 12.dp),
                         text = "(excluded)",
-                        style = Typo.caption.style(
+                        style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()
                         )
                     )
@@ -769,7 +812,7 @@ private fun Item(
 
                 Text(
                     text = category.name,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -787,7 +830,7 @@ private fun Item(
 
                 Text(
                     text = Constants.CATEGORY_UNSPECIFIED_NAME,
-                    style = Typo.body1.style(
+                    style = UI.typo.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -800,7 +843,7 @@ private fun Item(
 @Preview
 @Composable
 private fun Preview_empty() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -832,7 +875,7 @@ private fun Preview_empty() {
 @Preview
 @Composable
 private fun Preview_crypto() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

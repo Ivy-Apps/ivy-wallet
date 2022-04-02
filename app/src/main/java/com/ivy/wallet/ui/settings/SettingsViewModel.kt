@@ -9,6 +9,7 @@ import com.ivy.wallet.base.*
 import com.ivy.wallet.logic.LogoutLogic
 import com.ivy.wallet.logic.csv.ExportCSVLogic
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.logic.zip.ExportZipLogic
 import com.ivy.wallet.model.analytics.AnalyticsEvent
 import com.ivy.wallet.model.entity.User
 import com.ivy.wallet.network.FCMClient
@@ -21,8 +22,11 @@ import com.ivy.wallet.persistence.dao.UserDao
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.sync.IvySync
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +36,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivySession: IvySession,
     private val userDao: UserDao,
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,
@@ -40,7 +44,8 @@ class SettingsViewModel @Inject constructor(
     private val ivyAnalytics: IvyAnalytics,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val logoutLogic: LogoutLogic,
-    private val sharedPrefs: SharedPrefs
+    private val sharedPrefs: SharedPrefs,
+    private val exportZipLogic: ExportZipLogic
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -57,6 +62,12 @@ class SettingsViewModel @Inject constructor(
 
     private val _lockApp = MutableLiveData<Boolean>()
     val lockApp = _lockApp.asLiveData()
+
+    private val _showNotifications = MutableStateFlow(true)
+    val showNotifications = _showNotifications.asStateFlow()
+
+    private val _progressState = MutableStateFlow(false)
+    val progressState = _progressState.asStateFlow()
 
     private val _startDateOfMonth = MutableLiveData<Int>()
     val startDateOfMonth = _startDateOfMonth
@@ -79,6 +90,8 @@ class SettingsViewModel @Inject constructor(
             _currencyCode.value = settings.currency
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+
+            _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
 
@@ -162,6 +175,31 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun exportToZip(context: Context) {
+        ivyContext.createNewFile(
+            "Ivy Wallet (${
+                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+            }).zip"
+        ) { fileUri ->
+            viewModelScope.launch(Dispatchers.IO) {
+                TestIdlingResource.increment()
+
+                _progressState.value = true
+                exportZipLogic.exportToFile(context = context, zipFileUri = fileUri)
+                _progressState.value = false
+
+                uiThread {
+                    (context as IvyActivity).shareZipFile(
+                        fileUri = fileUri
+                    )
+                }
+
+                TestIdlingResource.decrement()
+            }
+        }
+    }
+
+
     fun setStartDateOfMonth(startDate: Int) {
         if (startDate in 1..31) {
             TestIdlingResource.increment()
@@ -238,6 +276,17 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun setShowNotifications(showNotifications: Boolean) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, showNotifications)
+            _showNotifications.value = showNotifications
 
             TestIdlingResource.decrement()
         }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,15 +17,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.clickableNoIndication
 import com.ivy.wallet.base.format
 import com.ivy.wallet.base.horizontalSwipeListener
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.ItemStatistic
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -34,12 +37,12 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 
 @Composable
-fun BoxWithConstraintsScope.AccountsTab(screen: Screen.Main) {
+fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
     val viewModel: AccountsViewModel = viewModel()
 
-    val baseCurrency by viewModel.baseCurrency.observeAsState("")
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-    val totalBalanceWithExcluded by viewModel.totalBalanceWithExcluded.observeAsState()
+    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val totalBalanceWithExcluded by viewModel.totalBalanceWithExcluded.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -67,7 +70,7 @@ private fun BoxWithConstraintsScope.UI(
     var reorderVisible by remember { mutableStateOf(false) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
-    val ivyContext = LocalIvyContext.current
+    val ivyContext = ivyWalletCtx()
 
     Column(
         modifier = Modifier
@@ -96,8 +99,8 @@ private fun BoxWithConstraintsScope.UI(
             Column {
                 Text(
                     text = "Accounts",
-                    style = Typo.body1.style(
-                        color = IvyTheme.colors.pureInverse,
+                    style = UI.typo.b1.style(
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -111,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
                                 baseCurrency
                             )
                         }",
-                        style = Typo.numberBody2.style(
+                        style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
                         )
@@ -132,14 +135,14 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         for (accountData in accounts) {
             AccountCard(
                 baseCurrency = baseCurrency,
                 accountData = accountData,
                 onBalanceClick = {
-                    ivyContext.navigateTo(
-                        Screen.ItemStatistic(
+                    nav.navigateTo(
+                        ItemStatistic(
                             accountId = accountData.account.id,
                             categoryId = null
                         )
@@ -149,8 +152,8 @@ private fun BoxWithConstraintsScope.UI(
                     reorderVisible = true
                 }
             ) {
-                ivyContext.navigateTo(
-                    Screen.ItemStatistic(
+                nav.navigateTo(
+                    ItemStatistic(
                         accountId = accountData.account.id,
                         categoryId = null
                     )
@@ -175,7 +178,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(end = 24.dp)
                 .padding(vertical = 8.dp),
             text = item.account.name,
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = item.account.color.toComposeColor(),
                 fontWeight = FontWeight.Bold
             )
@@ -209,8 +212,8 @@ private fun AccountCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
-            .border(2.dp, IvyTheme.colors.medium, Shapes.rounded16)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable(
                 onClick = onClick
             )
@@ -254,7 +257,7 @@ private fun AccountHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(account.color.toComposeColor(), Shapes.rounded16Top)
+            .background(account.color.toComposeColor(), UI.shapes.r4Top)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -273,7 +276,7 @@ private fun AccountHeader(
 
             Text(
                 text = account.name,
-                style = Typo.body1.style(
+                style = UI.typo.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -287,7 +290,7 @@ private fun AccountHeader(
                         .align(Alignment.Bottom)
                         .padding(bottom = 4.dp),
                     text = "(excluded)",
-                    style = Typo.caption.style(
+                    style = UI.typo.c.style(
                         color = account.color.toComposeColor().dynamicContrast()
                     )
                 )
@@ -337,7 +340,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             accounts = listOf(

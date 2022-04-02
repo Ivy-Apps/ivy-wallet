@@ -9,8 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.GradientRed
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
@@ -212,8 +217,8 @@ fun ModalTitle(
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = text,
-        style = Typo.body1.style(
-            color = IvyTheme.colors.pureInverse,
+        style = UI.typo.b1.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
         )
     )

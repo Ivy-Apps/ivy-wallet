@@ -17,16 +17,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.api.navigation
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.LocalIvyContext
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
-import com.ivy.wallet.ui.theme.IvyTheme
-import com.ivy.wallet.ui.theme.Shapes
-import com.ivy.wallet.ui.theme.Typo
+
+
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.style
 
 @ExperimentalFoundationApi
 @Composable
@@ -45,10 +45,10 @@ fun BoxWithConstraintsScope.ImportFrom(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val ivyContext = LocalIvyContext.current
+            val nav = navigation()
             OnboardingToolbar(
                 hasSkip = hasSkip,
-                onBack = { ivyContext.onBackPressed() },
+                onBack = { nav.onBackPressed() },
                 onSkip = onSkip
             )
             //onboarding toolbar include paddingBottom 16.dp
@@ -60,7 +60,7 @@ fun BoxWithConstraintsScope.ImportFrom(
             Text(
                 modifier = Modifier.padding(start = 32.dp),
                 text = "Import from",
-                style = Typo.h2.style(
+                style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
             )
@@ -95,8 +95,8 @@ private fun ImportOption(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(Shapes.rounded20)
-            .background(IvyTheme.colors.medium, Shapes.rounded20)
+            .clip(UI.shapes.r3)
+            .background(UI.colors.medium, UI.shapes.r3)
             .clickable {
                 onImportFrom(importType)
             }
@@ -114,9 +114,9 @@ private fun ImportOption(
         Text(
             modifier = Modifier.padding(start = 16.dp, end = 32.dp),
             text = importType.listName(),
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = IvyTheme.colors.pureInverse
+                color = UI.colors.pureInverse
             )
         )
     }
@@ -128,7 +128,7 @@ private fun ImportOption(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ImportFrom(
             hasSkip = true,
         )

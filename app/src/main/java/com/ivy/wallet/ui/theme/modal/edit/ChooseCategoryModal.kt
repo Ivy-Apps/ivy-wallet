@@ -17,13 +17,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.base.drawColoredShadow
 import com.ivy.wallet.base.hideKeyboard
 import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.ui.IvyAppPreview
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
@@ -172,18 +174,18 @@ private fun CategoryButton(
             .thenIf(selected) {
                 drawColoredShadow(categoryColor)
             }
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
             )
             .border(
                 width = 2.dp,
-                color = if (selected) IvyTheme.colors.pureInverse else IvyTheme.colors.medium,
-                shape = Shapes.roundedFull
+                color = if (selected) UI.colors.pureInverse else UI.colors.medium,
+                shape = UI.shapes.rFull
             )
             .thenIf(selected) {
-                background(categoryColor, Shapes.roundedFull)
+                background(categoryColor, UI.shapes.rFull)
             }
             .testTag("choose_category_button"),
         verticalAlignment = Alignment.CenterVertically
@@ -206,9 +208,9 @@ private fun CategoryButton(
                     end = if (selected) 20.dp else 24.dp
                 ),
             text = category.name,
-            style = Typo.body2.style(
+            style = UI.typo.b2.style(
                 color = if (selected)
-                    findContrastTextColor(categoryColor) else IvyTheme.colors.pureInverse,
+                    findContrastTextColor(categoryColor) else UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -239,13 +241,13 @@ fun AddNewButton(
     IvyBorderButton(
         modifier = modifier,
         text = "Add new",
-        backgroundGradient = Gradient.solid(IvyTheme.colors.mediumInverse),
+        backgroundGradient = Gradient.solid(UI.colors.mediumInverse),
         iconStart = R.drawable.ic_plus,
-        textStyle = Typo.body2.style(
-            color = IvyTheme.colors.pureInverse,
+        textStyle = UI.typo.b2.style(
+            color = UI.colors.pureInverse,
             fontWeight = FontWeight.Bold
         ),
-        iconTint = IvyTheme.colors.pureInverse,
+        iconTint = UI.colors.pureInverse,
         padding = 10.dp,
         onClick = onClick
     )
@@ -257,7 +259,7 @@ private class AddNewCategory
 @Preview
 @Composable
 private fun PreviewChooseCategoryModal() {
-    IvyAppPreview {
+    IvyWalletPreview {
         val categories = mutableListOf(
             Category("Test", color = Ivy.toArgb()),
             Category("Second", color = Orange.toArgb()),

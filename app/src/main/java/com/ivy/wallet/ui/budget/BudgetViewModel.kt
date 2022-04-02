@@ -19,7 +19,7 @@ import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.persistence.dao.SettingsDao
 import com.ivy.wallet.sync.item.BudgetSync
-import com.ivy.wallet.ui.IvyContext
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -38,7 +38,7 @@ class BudgetViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val budgetCreator: BudgetCreator,
     private val budgetSync: BudgetSync,
-    private val ivyContext: IvyContext
+    private val ivyContext: IvyWalletCtx
 ) : ViewModel() {
 
     private val _timeRange = MutableLiveData<FromToTimeRange>()

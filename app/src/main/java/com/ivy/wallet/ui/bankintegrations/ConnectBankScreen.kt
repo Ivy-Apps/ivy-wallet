@@ -13,19 +13,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.base.OpResult
 import com.ivy.wallet.base.onScreenStart
+import com.ivy.wallet.ui.ConnectBank
 import com.ivy.wallet.ui.IvyActivity
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Typo
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
-import com.ivy.wallet.ui.theme.style
 
 @Composable
-fun BoxWithConstraintsScope.ConnectBankScreen(screen: Screen.ConnectBank) {
+fun BoxWithConstraintsScope.ConnectBankScreen(screen: ConnectBank) {
     val viewModel: ConnectBankViewModel = viewModel()
 
     val opSyncTransactions by viewModel.opSyncTransactions.observeAsState()
@@ -84,7 +84,7 @@ private fun UI(
 
             Text(
                 text = "Syncing transactions...",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -120,7 +120,7 @@ private fun UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         UI(
             opSyncTransactions = null,
             bankSyncEnabled = true,

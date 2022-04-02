@@ -12,6 +12,7 @@ import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
+import java.util.*
 
 class WalletCategoryLogic(
     private val accountDao: AccountDao,
@@ -20,11 +21,21 @@ class WalletCategoryLogic(
     private val transactionDao: TransactionDao
 ) {
 
-    fun calculateCategoryBalance(category: Category, range: FromToTimeRange): Double {
+    fun calculateCategoryBalance(
+        category: Category,
+        range: FromToTimeRange,
+        accountFilterSet: Set<UUID> = emptySet(),
+        transactions: List<Transaction> = emptyList()
+    ): Double {
         val baseCurrency = settingsDao.findFirst().currency
         val accounts = accountDao.findAll()
 
-        return historyByCategory(category, range = range)
+        return historyByCategory(
+            category,
+            range = range,
+            accountFilterSet = accountFilterSet,
+            transactions = transactions
+        )
             .sumOf {
                 val amount = exchangeRatesLogic.amountBaseCurrency(
                     transaction = it,
@@ -40,7 +51,11 @@ class WalletCategoryLogic(
             }
     }
 
-    fun calculateCategoryIncome(category: Category, range: FromToTimeRange): Double {
+    fun calculateCategoryIncome(
+        category: Category,
+        range: FromToTimeRange,
+        accountFilterSet: Set<UUID> = emptySet(),
+    ): Double {
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
                 categoryId = category.id,
@@ -48,6 +63,9 @@ class WalletCategoryLogic(
                 startDate = range.from(),
                 endDate = range.to()
             )
+            .filter {
+                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+            }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -55,7 +73,26 @@ class WalletCategoryLogic(
             )
     }
 
-    fun calculateCategoryExpenses(category: Category, range: FromToTimeRange): Double {
+    fun calculateCategoryIncome(
+        incomeTransaction: List<Transaction>,
+        accountFilterSet: Set<UUID> = emptySet()
+    ): Double {
+        return incomeTransaction
+            .filter {
+                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+            }
+            .sumInBaseCurrency(
+                exchangeRatesLogic = exchangeRatesLogic,
+                settingsDao = settingsDao,
+                accountDao = accountDao
+            )
+    }
+
+    fun calculateCategoryExpenses(
+        category: Category,
+        range: FromToTimeRange,
+        accountFilterSet: Set<UUID> = emptySet(),
+    ): Double {
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
                 categoryId = category.id,
@@ -63,6 +100,25 @@ class WalletCategoryLogic(
                 startDate = range.from(),
                 endDate = range.to()
             )
+            .filter {
+                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+            }
+            .sumInBaseCurrency(
+                exchangeRatesLogic = exchangeRatesLogic,
+                settingsDao = settingsDao,
+                accountDao = accountDao
+            )
+    }
+
+
+    fun calculateCategoryExpenses(
+        expenseTransactions: List<Transaction>,
+        accountFilterSet: Set<UUID> = emptySet()
+    ): Double {
+        return expenseTransactions
+            .filter {
+                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+            }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -114,13 +170,42 @@ class WalletCategoryLogic(
             )
     }
 
-    fun historyByCategory(category: Category, range: FromToTimeRange): List<Transaction> {
-        return transactionDao
-            .findAllByCategoryAndBetween(
-                categoryId = category.id,
-                startDate = range.from(),
-                endDate = range.to()
+    fun historyByCategoryAccountWithDateDividers(
+        category: Category,
+        range: FromToTimeRange,
+        accountFilterSet: Set<UUID>,
+        transactions: List<Transaction> = emptyList()
+    ): List<TransactionHistoryItem> {
+        return historyByCategory(category, range, transactions = transactions)
+            .filter {
+                accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+            }
+            .withDateDividers(
+                exchangeRatesLogic = exchangeRatesLogic,
+                settingsDao = settingsDao,
+                accountDao = accountDao
             )
+    }
+
+    fun historyByCategory(
+        category: Category,
+        range: FromToTimeRange,
+        accountFilterSet: Set<UUID> = emptySet(),
+        transactions: List<Transaction> = emptyList()
+    ): List<Transaction> {
+
+        val trans = transactions.ifEmpty {
+            transactionDao
+                .findAllByCategoryAndBetween(
+                    categoryId = category.id,
+                    startDate = range.from(),
+                    endDate = range.to()
+                )
+        }
+
+        return trans.filter {
+            accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
+        }
     }
 
     fun historyUnspecified(range: FromToTimeRange): List<TransactionHistoryItem> {

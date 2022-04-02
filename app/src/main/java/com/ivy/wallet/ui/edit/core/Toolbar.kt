@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ivy.design.api.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.LocalIvyContext
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
@@ -28,9 +28,9 @@ fun Toolbar(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val ivyContext = LocalIvyContext.current
+        val nav = navigation()
         CloseButton {
-            ivyContext.back()
+            nav.back()
         }
 
         Spacer(Modifier.weight(1f))

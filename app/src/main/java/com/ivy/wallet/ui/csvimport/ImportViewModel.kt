@@ -1,8 +1,11 @@
 package com.ivy.wallet.ui.csvimport
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.base.TestIdlingResource
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
@@ -13,23 +16,25 @@ import com.ivy.wallet.logic.csv.CSVNormalizer
 import com.ivy.wallet.logic.csv.IvyFileReader
 import com.ivy.wallet.logic.csv.model.ImportResult
 import com.ivy.wallet.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyContext
-import com.ivy.wallet.ui.Screen
+import com.ivy.wallet.logic.zip.ExportZipLogic
+import com.ivy.wallet.ui.Import
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: IvyContext,
+    private val ivyContext: IvyWalletCtx,
+    private val nav: Navigation,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
-    private val csvImporter: CSVImporter
+    private val csvImporter: CSVImporter,
+    private val exportZipLogic: ExportZipLogic
 ) : ViewModel() {
     private val _importStep = MutableLiveData<ImportStep>()
     val importStep = _importStep.asLiveData()
@@ -43,8 +48,8 @@ class ImportViewModel @Inject constructor(
     private val _importResult = MutableLiveData<ImportResult>()
     val importResult = _importResult.asLiveData()
 
-    fun start(screen: Screen.Import) {
-        ivyContext.onBackPressed[screen] = {
+    fun start(screen: Import) {
+        nav.onBackPressed[screen] = {
             when (importStep.value) {
                 ImportStep.IMPORT_FROM -> false
                 ImportStep.INSTRUCTIONS -> {
@@ -65,7 +70,7 @@ class ImportViewModel @Inject constructor(
     }
 
     @ExperimentalStdlibApi
-    fun uploadFile() {
+    fun uploadFile(context: Context) {
         val importType = importType.value ?: return
 
         ivyContext.openFile { fileUri ->
@@ -74,66 +79,83 @@ class ImportViewModel @Inject constructor(
 
                 _importStep.value = ImportStep.LOADING
 
-                _importResult.value = ioThread {
-                    val rawCSV = fileReader.read(
-                        uri = fileUri,
-                        charset = when (importType) {
-                            ImportType.IVY -> Charsets.UTF_16
-                            else -> Charsets.UTF_8
-                        }
-                    )
-                    if (rawCSV == null || rawCSV.isBlank()) {
-                        return@ioThread ImportResult(
-                            rowsFound = 0,
-                            transactionsImported = 0,
-                            accountsImported = 0,
-                            categoriesImported = 0,
-                            failedRows = emptyList()
-                        )
-                    }
-
-                    val normalizedCSV = csvNormalizer.normalize(
-                        rawCSV = rawCSV,
-                        importType = importType
-                    )
-
-                    val mapping = csvMapper.mapping(
-                        type = importType,
-                        headerRow = normalizedCSV.split("\n").getOrNull(0)
-                    )
-
-                    return@ioThread try {
-                        val result = csvImporter.import(
-                            csv = normalizedCSV,
-                            rowMapping = mapping,
-                            onProgress = { progressPercent ->
-                                uiThread {
-                                    _importProgressPercent.value =
-                                        (progressPercent * 100).roundToInt()
-                                }
+                _importResult.value = if (hasCSVExtension(fileUri))
+                    restoreCSVFile(fileUri = fileUri, importType = importType)
+                else {
+                    exportZipLogic.import(
+                        context = context,
+                        zipFileUri = fileUri,
+                        onProgress = { progressPercent ->
+                            uiThread {
+                                _importProgressPercent.value =
+                                    (progressPercent * 100).roundToInt()
                             }
-                        )
-
-                        if (result.failedRows.isNotEmpty()) {
-                            Timber.e("Import failed rows: ${result.failedRows}")
-                        }
-
-                        result
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        ImportResult(
-                            rowsFound = 0,
-                            transactionsImported = 0,
-                            accountsImported = 0,
-                            categoriesImported = 0,
-                            failedRows = emptyList()
-                        )
-                    }
-                }!!
+                        })
+                }
 
                 _importStep.value = ImportStep.RESULT
 
                 TestIdlingResource.decrement()
+            }
+        }
+    }
+
+    @ExperimentalStdlibApi
+    private suspend fun restoreCSVFile(fileUri: Uri, importType: ImportType): ImportResult {
+        return ioThread {
+            val rawCSV = fileReader.read(
+                uri = fileUri,
+                charset = when (importType) {
+                    ImportType.IVY -> Charsets.UTF_16
+                    else -> Charsets.UTF_8
+                }
+            )
+            if (rawCSV == null || rawCSV.isBlank()) {
+                return@ioThread ImportResult(
+                    rowsFound = 0,
+                    transactionsImported = 0,
+                    accountsImported = 0,
+                    categoriesImported = 0,
+                    failedRows = emptyList()
+                )
+            }
+
+            val normalizedCSV = csvNormalizer.normalize(
+                rawCSV = rawCSV,
+                importType = importType
+            )
+
+            val mapping = csvMapper.mapping(
+                type = importType,
+                headerRow = normalizedCSV.split("\n").getOrNull(0)
+            )
+
+            return@ioThread try {
+                val result = csvImporter.import(
+                    csv = normalizedCSV,
+                    rowMapping = mapping,
+                    onProgress = { progressPercent ->
+                        uiThread {
+                            _importProgressPercent.value =
+                                (progressPercent * 100).roundToInt()
+                        }
+                    }
+                )
+
+                if (result.failedRows.isNotEmpty()) {
+                    Timber.e("Import failed rows: ${result.failedRows}")
+                }
+
+                result
+            } catch (e: Exception) {
+                e.printStackTrace()
+                ImportResult(
+                    rowsFound = 0,
+                    transactionsImported = 0,
+                    accountsImported = 0,
+                    categoriesImported = 0,
+                    failedRows = emptyList()
+                )
             }
         }
     }
@@ -144,19 +166,19 @@ class ImportViewModel @Inject constructor(
     }
 
     fun skip(
-        screen: Screen.Import,
+        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {
             onboardingViewModel.importSkip()
         }
 
-        ivyContext.back()
+        nav.back()
         resetState()
     }
 
     fun finish(
-        screen: Screen.Import,
+        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
         if (screen.launchedFromOnboarding) {
@@ -166,11 +188,18 @@ class ImportViewModel @Inject constructor(
             )
         }
 
-        ivyContext.back()
+        nav.back()
         resetState()
     }
 
     private fun resetState() {
         _importStep.value = ImportStep.IMPORT_FROM
+    }
+
+    private fun hasCSVExtension(fileUri: Uri): Boolean {
+        var ex = fileUri.toString()
+        ex = ex.substring(ex.lastIndexOf("."))
+
+        return ex.equals(".csv", ignoreCase = true)
     }
 }

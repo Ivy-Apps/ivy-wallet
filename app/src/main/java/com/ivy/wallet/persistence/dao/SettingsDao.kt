@@ -12,6 +12,9 @@ interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(value: Settings)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(value: List<Settings>)
+
     @Query("SELECT * FROM settings LIMIT 1")
     fun findFirst(): Settings
 

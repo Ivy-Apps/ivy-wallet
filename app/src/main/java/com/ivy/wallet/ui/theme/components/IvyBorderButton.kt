@@ -21,21 +21,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Gradient
+
 
 @Composable
 fun IvyBorderButton(
     modifier: Modifier = Modifier,
     text: String,
-    textStyle: TextStyle = Typo.body2.style(
-        color = IvyTheme.colors.pureInverse,
+    textStyle: TextStyle = UI.typo.b2.style(
+        color = UI.colors.pureInverse,
         fontWeight = FontWeight.Bold
     ),
-    backgroundGradient: Gradient = Gradient.solid(IvyTheme.colors.mediumInverse),
+    backgroundGradient: Gradient = Gradient.solid(UI.colors.mediumInverse),
     @DrawableRes iconStart: Int? = null,
     @DrawableRes iconEnd: Int? = null,
-    iconTint: Color = IvyTheme.colors.pureInverse,
+    iconTint: Color = UI.colors.pureInverse,
     enabled: Boolean = true,
     wrapContentMode: Boolean = true,
 
@@ -44,12 +48,12 @@ fun IvyBorderButton(
 ) {
     Row(
         modifier = modifier
-            .clip(Shapes.roundedFull)
+            .clip(UI.shapes.rFull)
             .border(
                 width = 2.dp,
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.gray),
-                shape = Shapes.roundedFull
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically
@@ -146,7 +150,7 @@ private fun IconEnd(
 @Preview
 @Composable
 private fun PreviewIvyBorderButton() {
-    IvyComponentPreview {
+    IvyWalletComponentPreview {
         IvyBorderButton(
             text = "New label",
             iconStart = R.drawable.ic_label_hashtag

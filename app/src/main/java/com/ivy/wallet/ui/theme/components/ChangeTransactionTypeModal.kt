@@ -14,10 +14,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.ui.IvyAppPreview
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.GradientGreen
+import com.ivy.wallet.ui.theme.GradientIvy
+import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.ModalTitle
@@ -76,8 +81,8 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
         TransactionTypeButton(
             transactionType = TransactionType.EXPENSE,
             selected = transactionType == TransactionType.EXPENSE,
-            selectedGradient = Gradient(IvyTheme.colors.pureInverse, IvyTheme.colors.gray),
-            textSelectedColor = IvyTheme.colors.pure
+            selectedGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            textSelectedColor = UI.colors.pure
         ) {
             transactionType = TransactionType.EXPENSE
             save(
@@ -130,10 +135,10 @@ private fun TransactionTypeButton(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(Shapes.rounded16)
+            .clip(UI.shapes.r4)
             .background(
-                brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(IvyTheme.colors.medium),
-                shape = Shapes.rounded16
+                brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(UI.colors.medium),
+                shape = UI.shapes.r4
             )
             .clickable {
                 onClick()
@@ -144,7 +149,7 @@ private fun TransactionTypeButton(
     ) {
         Spacer(Modifier.width(16.dp))
 
-        val textColor = if (selected) textSelectedColor else IvyTheme.colors.pureInverse
+        val textColor = if (selected) textSelectedColor else UI.colors.pureInverse
 
         IvyIcon(
             icon = when (transactionType) {
@@ -163,7 +168,7 @@ private fun TransactionTypeButton(
                 TransactionType.EXPENSE -> "Expense"
                 TransactionType.TRANSFER -> "Transfer"
             },
-            style = Typo.body1.style(
+            style = UI.typo.b1.style(
                 color = textColor
             )
         )
@@ -178,7 +183,7 @@ private fun TransactionTypeButton(
 
             Text(
                 text = "Selected",
-                style = Typo.body2.style(
+                style = UI.typo.b2.style(
                     fontWeight = FontWeight.SemiBold,
                     color = textSelectedColor
                 )
@@ -192,7 +197,7 @@ private fun TransactionTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyAppPreview {
+    IvyWalletPreview {
         ChangeTransactionTypeModal(
             includeTransferType = true,
             visible = true,
