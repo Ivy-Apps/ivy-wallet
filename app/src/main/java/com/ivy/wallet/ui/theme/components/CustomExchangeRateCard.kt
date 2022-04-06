@@ -26,7 +26,8 @@ fun CustomExchangeRateCard(
     fromCurrencyCode: String,
     toCurrencyCode: String,
     exchangeRate: Double,
-    onClick: () -> Unit,
+    onRefresh: () -> Unit = {},
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -36,17 +37,18 @@ fun CustomExchangeRateCard(
             .background(UI.colors.medium, UI.shapes.r4)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Spacer(Modifier.width(16.dp))
 
         IvyIcon(icon = R.drawable.ic_currency)
 
         Spacer(Modifier.width(8.dp))
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(1f)
         ) {
             Text(
                 text = title,
@@ -85,6 +87,13 @@ fun CustomExchangeRateCard(
                 )
             }
         }
+        IvyIcon(
+            icon = R.drawable.ic_refresh,
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .clickable {
+                    onRefresh()
+                })
     }
 }
 

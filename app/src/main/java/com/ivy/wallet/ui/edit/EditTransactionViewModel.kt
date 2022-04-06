@@ -593,10 +593,10 @@ class EditTransactionViewModel @Inject constructor(
         toAccount: Account? = null,
         fromAccount: Account? = null,
         amt: Double? = null,
-        exchangeRate: Double? = null
+        exchangeRate: Double? = null,
+        resetRate: Boolean = false
     ) {
         computationThread {
-
             val toAcc = toAccount ?: _toAccount.value
             val fromAcc = fromAccount ?: _account.value
 
@@ -610,7 +610,7 @@ class EditTransactionViewModel @Inject constructor(
 
             val exRate = exchangeRate
                 ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode
-                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode
+                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
                 )
                     customExchangeRateState.value.exchangeRate
                 else
@@ -639,9 +639,9 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun updateExchangeRate(exRate: Double) {
+    fun updateExchangeRate(exRate: Double?) {
         viewModelScope.launch {
-            updateCustomExchangeRateState(exchangeRate = exRate)
+            updateCustomExchangeRateState(exchangeRate = exRate, resetRate = exRate == null)
         }
     }
 }

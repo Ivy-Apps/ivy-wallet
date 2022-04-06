@@ -162,7 +162,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
-    onExchangeRateChanged: (Double) -> Unit = { }
+    onExchangeRateChanged: (Double?) -> Unit = { }
 ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
@@ -179,6 +179,11 @@ private fun BoxWithConstraintsScope.UI(
     var selectedAcc by remember(account) {
         mutableStateOf(account)
     }
+
+    val amountModalId =
+        remember(screen.initialTransactionId, customExchangeRateState.exchangeRate) {
+            UUID.randomUUID()
+        }
 
     var titleTextFieldValue by remember(initialTitle) {
         mutableStateOf(
@@ -312,6 +317,10 @@ private fun BoxWithConstraintsScope.UI(
                 fromCurrencyCode = baseCurrency,
                 toCurrencyCode = customExchangeRateState.toCurrencyCode ?: baseCurrency,
                 exchangeRate = customExchangeRateState.exchangeRate,
+                onRefresh = {
+                    //Set exchangeRate to null to reset
+                    onExchangeRateChanged(null)
+                },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
                     customExchangeRatePosition = coordinates.positionInParent().y * 0.3f
                 }
@@ -516,7 +525,7 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     AmountModal(
-        id = UUID.randomUUID(),
+        id = amountModalId,
         visible = exchangeRateAmountModalShown,
         currency = "",
         initialAmount = customExchangeRateState.exchangeRate,
