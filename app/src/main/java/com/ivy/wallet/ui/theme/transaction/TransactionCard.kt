@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
@@ -108,6 +109,24 @@ fun LazyItemScope.TransactionCard(
                 )
             )
 
+        }
+
+        if (transaction.description.isNotNullOrBlank()){
+            Spacer(
+                Modifier.height(
+                    if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
+                )
+            )
+
+            Text(text = transaction.description!!,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                style = UI.typo.nC.style(
+                    color = UI.colors.gray,
+                    fontWeight = FontWeight.Bold
+                ),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
         }
 
         if (transaction.dueDate != null) {
