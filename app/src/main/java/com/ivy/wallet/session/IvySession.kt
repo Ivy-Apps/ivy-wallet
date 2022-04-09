@@ -1,6 +1,6 @@
 package com.ivy.wallet.session
 
-import com.ivy.wallet.network.request.auth.AuthResponse
+import com.ivy.wallet.io.network.request.auth.AuthResponse
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.UserDao
 import java.util.*

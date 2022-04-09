@@ -1,9 +1,9 @@
 package com.ivy.wallet.sync.uploader
 
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.planned.DeletePlannedPaymentRuleRequest
+import com.ivy.wallet.io.network.request.planned.UpdatePlannedPaymentRuleRequest
 import com.ivy.wallet.model.entity.PlannedPaymentRule
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.planned.DeletePlannedPaymentRuleRequest
-import com.ivy.wallet.network.request.planned.UpdatePlannedPaymentRuleRequest
 import com.ivy.wallet.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.session.IvySession
 import timber.log.Timber

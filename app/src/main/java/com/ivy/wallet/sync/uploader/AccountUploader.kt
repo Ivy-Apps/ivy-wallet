@@ -1,9 +1,9 @@
 package com.ivy.wallet.sync.uploader
 
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.account.DeleteAccountRequest
+import com.ivy.wallet.io.network.request.account.UpdateAccountRequest
 import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.account.DeleteAccountRequest
-import com.ivy.wallet.network.request.account.UpdateAccountRequest
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.TransactionDao
 import com.ivy.wallet.session.IvySession

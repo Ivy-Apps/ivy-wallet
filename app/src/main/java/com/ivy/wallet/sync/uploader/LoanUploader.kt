@@ -1,9 +1,9 @@
 package com.ivy.wallet.sync.uploader
 
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.loan.DeleteLoanRequest
+import com.ivy.wallet.io.network.request.loan.UpdateLoanRequest
 import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.loan.DeleteLoanRequest
-import com.ivy.wallet.network.request.loan.UpdateLoanRequest
 import com.ivy.wallet.persistence.dao.LoanDao
 import com.ivy.wallet.session.IvySession
 import timber.log.Timber

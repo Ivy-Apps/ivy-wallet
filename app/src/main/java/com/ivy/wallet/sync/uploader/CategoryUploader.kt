@@ -1,9 +1,9 @@
 package com.ivy.wallet.sync.uploader
 
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.category.DeleteWalletCategoryRequest
+import com.ivy.wallet.io.network.request.category.UpdateWalletCategoryRequest
 import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.category.DeleteWalletCategoryRequest
-import com.ivy.wallet.network.request.category.UpdateWalletCategoryRequest
 import com.ivy.wallet.persistence.dao.CategoryDao
 import com.ivy.wallet.session.IvySession
 import timber.log.Timber

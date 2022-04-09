@@ -1,9 +1,9 @@
 package com.ivy.wallet.logic.bankintegrations
 
+import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.model.bankintegrations.SEAccount
 import com.ivy.wallet.model.bankintegrations.SEConnection
 import com.ivy.wallet.model.bankintegrations.SETransaction
-import com.ivy.wallet.network.RestClient
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.session.IvySession
 import com.ivy.wallet.ui.IvyActivity

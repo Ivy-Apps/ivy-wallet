@@ -1,9 +1,9 @@
 package com.ivy.wallet.sync.uploader
 
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.budget.CrupdateBudgetRequest
+import com.ivy.wallet.io.network.request.budget.DeleteBudgetRequest
 import com.ivy.wallet.model.entity.Budget
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.budget.CrupdateBudgetRequest
-import com.ivy.wallet.network.request.budget.DeleteBudgetRequest
 import com.ivy.wallet.persistence.dao.BudgetDao
 import com.ivy.wallet.session.IvySession
 import timber.log.Timber

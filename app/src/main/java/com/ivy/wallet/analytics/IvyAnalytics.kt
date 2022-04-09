@@ -2,9 +2,9 @@ package com.ivy.wallet.analytics
 
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.base.ioThread
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.analytics.LogEventRequest
 import com.ivy.wallet.model.analytics.AnalyticsEvent
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.analytics.LogEventRequest
 import com.ivy.wallet.persistence.SharedPrefs
 import java.util.*
 

@@ -1,12 +1,12 @@
 package com.ivy.wallet.logic.currency
 
 import com.ivy.wallet.base.sendToCrashlytics
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.ExchangeRate
 import com.ivy.wallet.model.entity.PlannedPaymentRule
 import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.service.CoinbaseService
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.persistence.dao.SettingsDao

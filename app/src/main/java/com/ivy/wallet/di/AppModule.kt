@@ -7,6 +7,11 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.billing.IvyBilling
 import com.ivy.wallet.functional.data.WalletDAOs
+import com.ivy.wallet.io.network.ErrorCodeTypeAdapter
+import com.ivy.wallet.io.network.FCMClient
+import com.ivy.wallet.io.network.LocalDateTimeTypeAdapter
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.error.ErrorCode
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.logic.bankintegrations.SaltEdgeAccountMapper
@@ -20,11 +25,6 @@ import com.ivy.wallet.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.logic.zip.ExportZipLogic
-import com.ivy.wallet.network.ErrorCodeTypeAdapter
-import com.ivy.wallet.network.FCMClient
-import com.ivy.wallet.network.LocalDateTimeTypeAdapter
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.error.ErrorCode
 import com.ivy.wallet.persistence.IvyRoomDatabase
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.*

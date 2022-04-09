@@ -2,7 +2,7 @@ package com.ivy.wallet.sync.item
 
 import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.base.toEpochSeconds
-import com.ivy.wallet.network.RestClient
+import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.LoanRecordDao
 import com.ivy.wallet.session.IvySession

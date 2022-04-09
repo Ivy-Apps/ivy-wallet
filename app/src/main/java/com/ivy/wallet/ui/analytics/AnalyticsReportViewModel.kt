@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.base.asLiveData
 import com.ivy.wallet.base.ioThread
 import com.ivy.wallet.base.toEpochSeconds
+import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.model.analytics.AnalyticsEvent
-import com.ivy.wallet.network.RestClient
 import com.ivy.wallet.ui.analytics.model.Health
 import com.ivy.wallet.ui.analytics.model.KPIs
 import com.ivy.wallet.ui.analytics.model.OnboardingReport

@@ -7,6 +7,9 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.analytics.IvyAnalytics
 import com.ivy.wallet.base.*
+import com.ivy.wallet.io.network.FCMClient
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
 import com.ivy.wallet.logic.*
 import com.ivy.wallet.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.logic.model.CreateAccountData
@@ -16,9 +19,6 @@ import com.ivy.wallet.model.IvyCurrency
 import com.ivy.wallet.model.entity.Account
 import com.ivy.wallet.model.entity.Category
 import com.ivy.wallet.model.entity.Settings
-import com.ivy.wallet.network.FCMClient
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.auth.GoogleSignInRequest
 import com.ivy.wallet.persistence.SharedPrefs
 import com.ivy.wallet.persistence.dao.AccountDao
 import com.ivy.wallet.persistence.dao.CategoryDao
