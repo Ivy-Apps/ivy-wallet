@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.domain.action.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
 import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.domain.fp.wallet.historyWithDateDividers
 import com.ivy.wallet.domain.fp.wallet.walletBufferDiff
@@ -47,7 +47,8 @@ class HomeViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
-    private val sharedPrefs: SharedPrefs
+    private val sharedPrefs: SharedPrefs,
+    private val calcWalletBalanceAct: CalcWalletBalanceAct
 ) : ViewModel() {
 
     private val _theme = MutableStateFlow(Theme.LIGHT)
@@ -152,12 +153,7 @@ class HomeViewModel @Inject constructor(
             _period.value = period
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
-            _balance.value = ioThread {
-                calculateWalletBalance(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = settings.currency
-                ).value.toDouble()
-            }
+            _balance.value = calcWalletBalanceAct(settings.currency).toDouble()
 
             _buffer.value = settings.bufferAmount
             _bufferDiff.value = ioThread {
