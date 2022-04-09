@@ -4,8 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.wallet.domain.data.TransactionType
 import java.time.LocalDateTime
 
 class EditPlannedScreen<A : ComponentActivity>(

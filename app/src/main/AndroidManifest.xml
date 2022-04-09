@@ -53,7 +53,7 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
-        <receiver android:name=".widget.AddTransactionWidget">
+        <receiver android:name=".ui.widget.AddTransactionWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -62,7 +62,7 @@
                 android:resource="@xml/add_transaction_widget_info" />
         </receiver>
 
-        <receiver android:name=".widget.AddTransactionWidgetCompact">
+        <receiver android:name=".ui.widget.AddTransactionWidgetCompact">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

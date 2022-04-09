@@ -16,19 +16,18 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.format
-import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.fp.charts.ChartPeriod
 import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
-
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
 import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
 import com.ivy.wallet.ui.theme.components.charts.linechart.TapEvent
 import com.ivy.wallet.ui.theme.toComposeColor
+import com.ivy.wallet.utils.format
 
 fun LazyListScope.categoryCharts(
     period: ChartPeriod,

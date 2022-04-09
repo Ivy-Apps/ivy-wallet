@@ -23,12 +23,9 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.capitalizeLocal
-import com.ivy.wallet.base.springBounce
-import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
@@ -39,6 +36,9 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
+import com.ivy.wallet.utils.capitalizeLocal
+import com.ivy.wallet.utils.springBounce
+import com.ivy.wallet.utils.thenIf
 import java.util.*
 import kotlin.math.roundToInt
 

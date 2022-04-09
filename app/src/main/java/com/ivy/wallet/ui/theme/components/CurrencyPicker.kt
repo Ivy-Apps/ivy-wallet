@@ -34,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.IvyCurrency
+import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.utils.*
 import java.util.*
 
 @Composable

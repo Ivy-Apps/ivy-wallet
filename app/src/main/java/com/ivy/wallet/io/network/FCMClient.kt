@@ -1,7 +1,7 @@
 package com.ivy.wallet.io.network
 
 import com.google.firebase.messaging.FirebaseMessaging
-import com.ivy.wallet.persistence.SharedPrefs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import kotlinx.coroutines.tasks.await
 
 class FCMClient(private val sharedPrefs: SharedPrefs) {

@@ -15,13 +15,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
@@ -31,6 +30,7 @@ import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.RecurringRuleModal
 import com.ivy.wallet.ui.theme.modal.RecurringRuleModalData
 import com.ivy.wallet.ui.theme.modal.edit.*
+import com.ivy.wallet.utils.onScreenStart
 import java.time.LocalDateTime
 
 @ExperimentalFoundationApi

@@ -23,13 +23,12 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateLoanData
-import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Loan
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.domain.data.LoanType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.logic.model.CreateLoanData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -40,6 +39,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
+import com.ivy.wallet.utils.*
 import kotlinx.coroutines.launch
 import java.util.*
 

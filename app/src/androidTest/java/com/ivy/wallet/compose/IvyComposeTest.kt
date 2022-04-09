@@ -12,12 +12,12 @@ import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.base.*
-import com.ivy.wallet.persistence.IvyRoomDatabase
-import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.session.IvySession
+import com.ivy.wallet.io.network.IvySession
+import com.ivy.wallet.io.persistence.IvyRoomDatabase
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.utils.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.After

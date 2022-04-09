@@ -10,8 +10,6 @@ import com.ivy.wallet.io.network.error.ErrorCode
 import com.ivy.wallet.io.network.error.NetworkError
 import com.ivy.wallet.io.network.error.RestError
 import com.ivy.wallet.io.network.service.*
-import com.ivy.wallet.session.IvySession
-import com.ivy.wallet.session.NoSessionException
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

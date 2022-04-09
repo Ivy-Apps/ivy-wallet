@@ -44,9 +44,8 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
-import com.ivy.wallet.base.*
-import com.ivy.wallet.logic.CustomerJourneyLogic
-import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
@@ -70,7 +69,8 @@ import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.webView.WebViewScreen
-import com.ivy.wallet.widget.AddTransactionWidget
+import com.ivy.wallet.ui.widget.AddTransactionWidget
+import com.ivy.wallet.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate

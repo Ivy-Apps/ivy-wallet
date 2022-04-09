@@ -9,7 +9,7 @@ import com.ivy.design.IvyContext
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
-import com.ivy.wallet.persistence.SharedPrefs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason

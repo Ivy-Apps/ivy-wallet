@@ -26,9 +26,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.drawColoredShadow
-import com.ivy.wallet.base.toDensityDp
-import com.ivy.wallet.base.toDensityPx
 import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -37,6 +34,9 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.toDensityDp
+import com.ivy.wallet.utils.toDensityPx
 import timber.log.Timber
 
 @Composable

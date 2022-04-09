@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.base.hideKeyboard
-import com.ivy.wallet.base.isNotNullOrBlank
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.isNotNullOrBlank
 
 
 @Composable

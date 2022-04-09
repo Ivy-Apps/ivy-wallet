@@ -4,7 +4,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
-import com.ivy.wallet.model.LoanType
+import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.ui.theme.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test

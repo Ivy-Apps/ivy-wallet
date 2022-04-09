@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.accounts
 
-import com.ivy.wallet.model.Reorderable
-import com.ivy.wallet.model.entity.Account
+import com.ivy.wallet.domain.data.Reorderable
+import com.ivy.wallet.domain.data.entity.Account
 
 data class AccountData(
     val account: Account,

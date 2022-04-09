@@ -22,13 +22,11 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.balancePrefix
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -37,6 +35,8 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.wallet.utils.balancePrefix
+import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {

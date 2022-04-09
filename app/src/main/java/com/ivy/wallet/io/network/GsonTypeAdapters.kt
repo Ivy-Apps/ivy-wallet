@@ -3,9 +3,9 @@ package com.ivy.wallet.io.network
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import com.ivy.wallet.base.epochSecondToDateTime
-import com.ivy.wallet.base.toEpochSeconds
 import com.ivy.wallet.io.network.error.ErrorCode
+import com.ivy.wallet.utils.epochSecondToDateTime
+import com.ivy.wallet.utils.toEpochSeconds
 import java.time.LocalDateTime
 
 class LocalDateTimeTypeAdapter : TypeAdapter<LocalDateTime>() {

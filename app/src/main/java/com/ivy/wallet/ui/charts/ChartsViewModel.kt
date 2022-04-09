@@ -2,17 +2,17 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.getDefaultFIATCurrency
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.functional.charts.*
-import com.ivy.wallet.functional.data.WalletDAOs
-import com.ivy.wallet.functional.wallet.baseCurrencyCode
-import com.ivy.wallet.logic.WalletCategoryLogic
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.persistence.dao.CategoryDao
-import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.fp.charts.*
+import com.ivy.wallet.domain.fp.data.WalletDAOs
+import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
+import com.ivy.wallet.domain.logic.WalletCategoryLogic
+import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.utils.getDefaultFIATCurrency
+import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

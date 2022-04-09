@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.edit
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,12 +15,10 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.formatNicelyWithTime
-import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.ui.IvyWalletComponentPreview
-
-
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.utils.formatNicelyWithTime
+import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
 
 @Composable

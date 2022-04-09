@@ -33,7 +33,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -41,6 +40,7 @@ import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.utils.*
 import kotlin.math.roundToInt
 
 @Composable

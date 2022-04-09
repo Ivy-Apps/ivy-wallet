@@ -16,9 +16,6 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
 import com.ivy.wallet.R
-import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.base.formatDateOnly
-import com.ivy.wallet.base.onScreenStart
 import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.analytics.model.Health
@@ -37,6 +34,9 @@ import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton
+import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.formatDateOnly
+import com.ivy.wallet.utils.onScreenStart
 import java.time.LocalDateTime
 
 

@@ -14,16 +14,14 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.formatDateOnly
-import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.base.uppercaseLocal
-import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.ui.IvyWalletComponentPreview
-
 import com.ivy.wallet.ui.theme.Orange
-
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.utils.formatDateOnly
+import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.wallet.utils.uppercaseLocal
 import java.time.LocalDateTime
 
 @Composable

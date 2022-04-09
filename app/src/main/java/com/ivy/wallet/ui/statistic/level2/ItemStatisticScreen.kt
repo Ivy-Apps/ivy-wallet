@@ -26,13 +26,12 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.model.TransactionHistoryItem
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.domain.data.TransactionHistoryItem
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
@@ -46,6 +45,7 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
+import com.ivy.wallet.utils.*
 
 
 @Composable

@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.theme.modal.model.Month
+import com.ivy.wallet.utils.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 

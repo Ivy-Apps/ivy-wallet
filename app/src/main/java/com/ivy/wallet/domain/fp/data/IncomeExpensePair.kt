@@ -1,0 +1,8 @@
+package com.ivy.wallet.domain.fp.data
+
+import java.math.BigDecimal
+
+data class IncomeExpensePair(
+    val income: BigDecimal,
+    val expense: BigDecimal
+)

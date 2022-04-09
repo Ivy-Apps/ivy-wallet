@@ -18,10 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.hideKeyboard
-import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.selectEndTextFieldValue
 
 
 @Composable

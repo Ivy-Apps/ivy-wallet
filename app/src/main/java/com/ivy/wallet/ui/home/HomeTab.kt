@@ -20,15 +20,12 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
-import com.ivy.wallet.base.horizontalSwipeListener
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.verticalSwipeListener
-import com.ivy.wallet.logic.model.CustomerJourneyCardData
-import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.model.TransactionHistoryItem
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.domain.data.TransactionHistoryItem
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -37,6 +34,9 @@ import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
+import com.ivy.wallet.utils.horizontalSwipeListener
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.verticalSwipeListener
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 

@@ -8,14 +8,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.api.navigation
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.logic.model.CreateAccountData
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.accounts.AccountsTab
 import com.ivy.wallet.ui.home.HomeTab
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.utils.onScreenStart
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi

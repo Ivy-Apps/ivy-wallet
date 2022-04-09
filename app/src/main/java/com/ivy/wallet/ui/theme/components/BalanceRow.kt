@@ -17,11 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.decimalPartFormatted
-import com.ivy.wallet.base.shortenAmount
-import com.ivy.wallet.base.shouldShortAmount
 import com.ivy.wallet.ui.IvyWalletComponentPreview
-
+import com.ivy.wallet.utils.decimalPartFormatted
+import com.ivy.wallet.utils.shortenAmount
+import com.ivy.wallet.utils.shouldShortAmount
 import java.text.DecimalFormat
 import kotlin.math.truncate
 

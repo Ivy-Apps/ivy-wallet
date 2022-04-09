@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.applocked
 
+
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,13 +22,11 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.hasLockScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
-
-
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
+import com.ivy.wallet.utils.hasLockScreen
 
 @Composable
 fun BoxWithConstraintsScope.AppLockedScreen(

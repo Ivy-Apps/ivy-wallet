@@ -115,7 +115,7 @@ class CategoriesTest : IvyComposeTest() {
     /**
      * semiTest because no actual reordering is being gone
      */
-    @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.model.entity.Settings.getCurrency()' on a null object reference")
+    @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.domain.Settings.getCurrency()' on a null object reference")
     @Test
     fun ReorderCategories_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()

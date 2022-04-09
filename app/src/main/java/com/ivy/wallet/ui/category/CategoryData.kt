@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.category
 
-import com.ivy.wallet.model.Reorderable
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.Reorderable
+import com.ivy.wallet.domain.data.entity.Category
 
 data class CategoryData(
     val category: Category,

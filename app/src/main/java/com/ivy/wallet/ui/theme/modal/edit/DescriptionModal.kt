@@ -17,14 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.selectEndTextFieldValue
 import com.ivy.wallet.ui.IvyWalletPreview
-
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
 
 @Composable

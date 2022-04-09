@@ -16,9 +16,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.PlannedPaymentRule
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
 
