@@ -19,3 +19,20 @@ abstract class Action<in I, out O> {
             return@withContext action()
         }
 }
+
+infix fun <A, B, C> Action<B, C>.after(act1: Action<A, B>): Action<A, C> = object : Action<A, C>() {
+    override suspend fun A.willDo(): C {
+        val b = act1(this@willDo) //A -> B
+        return this@after(b) //B -> C
+    }
+}
+
+///**
+// * Action composition example
+// */
+//suspend fun example(
+//    calcWalletBalance: CalcWalletBalanceAct,
+//    getBaseCurrency: GetBaseCurrencyAct
+//): BigDecimal {
+//    return (calcWalletBalance after getBaseCurrency)(Unit)
+//}
