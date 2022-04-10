@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 @HiltViewModel
-class IvyViewModel @Inject constructor(
+class RootViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val ivyAnalytics: IvyAnalytics,

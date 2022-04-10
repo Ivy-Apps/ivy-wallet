@@ -80,16 +80,16 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class IvyActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity() {
 
     companion object {
         const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
 
-        fun getIntent(context: Context): Intent = Intent(context, IvyActivity::class.java)
+        fun getIntent(context: Context): Intent = Intent(context, RootActivity::class.java)
 
         fun addTransactionStart(context: Context, type: TransactionType): Intent =
-            Intent(context, IvyActivity::class.java).apply {
-                putExtra(IvyViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
+            Intent(context, RootActivity::class.java).apply {
+                putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
             }
     }
 
@@ -112,7 +112,7 @@ class IvyActivity : AppCompatActivity() {
     private lateinit var onFileOpened: (fileUri: Uri) -> Unit
 
 
-    private val viewModel: IvyViewModel by viewModels()
+    private val viewModel: RootViewModel by viewModels()
 
 
     @OptIn(
@@ -133,12 +133,12 @@ class IvyActivity : AppCompatActivity() {
         AddTransactionWidget.updateBroadcast(this)
 
         setContent {
-            val viewModel: IvyViewModel = viewModel()
+            val viewModel: RootViewModel = viewModel()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
             LaunchedEffect(isSystemInDarkTheme) {
                 viewModel.start(isSystemInDarkTheme, intent)
-                viewModel.initBilling(this@IvyActivity)
+                viewModel.initBilling(this@RootActivity)
             }
 
             IvyUI(
@@ -152,7 +152,7 @@ class IvyActivity : AppCompatActivity() {
     @ExperimentalFoundationApi
     @ExperimentalAnimationApi
     @Composable
-    private fun BoxWithConstraintsScope.UI(viewModel: IvyViewModel) {
+    private fun BoxWithConstraintsScope.UI(viewModel: RootViewModel) {
         val appLocked by viewModel.appLocked.collectAsState()
 
         when (appLocked) {
@@ -196,7 +196,7 @@ class IvyActivity : AppCompatActivity() {
             is BalanceScreen -> BalanceScreen(screen = screen)
             is Paywall -> PaywallScreen(
                 screen = screen,
-                activity = this@IvyActivity
+                activity = this@RootActivity
             )
             is Test -> TestScreen(screen = screen)
             is Charts -> ChartsScreen(screen = screen)

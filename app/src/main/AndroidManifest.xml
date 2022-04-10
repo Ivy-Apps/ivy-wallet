@@ -38,7 +38,7 @@
         tools:ignore="LockedOrientationActivity">
 
         <activity
-            android:name=".ui.IvyActivity"
+            android:name=".ui.RootActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>

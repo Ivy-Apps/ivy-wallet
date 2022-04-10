@@ -8,7 +8,7 @@ import com.ivy.wallet.domain.sync.IvySync
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.UserDao
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.asLiveData
@@ -36,7 +36,7 @@ class ConnectBankViewModel @Inject constructor(
         _bankSyncEnabled.value = sharedPrefs.getBoolean(SharedPrefs.ENABLE_BANK_SYNC, false)
     }
 
-    fun connectBank(ivyActivity: IvyActivity) {
+    fun connectBank(rootActivity: RootActivity) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -46,7 +46,7 @@ class ConnectBankViewModel @Inject constructor(
                 }
 
                 if (user != null) {
-                    bankIntegrationsLogic.connect(ivyActivity)
+                    bankIntegrationsLogic.connect(rootActivity)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -16,8 +16,8 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.ConnectBank
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -35,14 +35,14 @@ fun BoxWithConstraintsScope.ConnectBankScreen(screen: ConnectBank) {
         viewModel.start()
     }
 
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     UI(
         opSyncTransactions = opSyncTransactions,
         bankSyncEnabled = bankSyncEnabled,
 
         onConnect = {
             viewModel.connectBank(
-                ivyActivity = ivyActivity
+                rootActivity = ivyActivity
             )
         },
         onFetchTransactions = viewModel::syncTransactions,

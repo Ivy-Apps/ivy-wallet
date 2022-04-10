@@ -20,8 +20,8 @@ import com.ivy.wallet.io.network.request.github.OpenIssueRequest
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -166,7 +166,7 @@ class SettingsViewModel @Inject constructor(
                     fileUri = fileUri
                 )
 
-                (context as IvyActivity).shareCSVFile(
+                (context as RootActivity).shareCSVFile(
                     fileUri = fileUri
                 )
 
@@ -189,7 +189,7 @@ class SettingsViewModel @Inject constructor(
                 _progressState.value = false
 
                 uiThread {
-                    (context as IvyActivity).shareZipFile(
+                    (context as RootActivity).shareZipFile(
                         fileUri = fileUri
                     )
                 }
@@ -293,7 +293,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun requestFeature(
-        ivyActivity: IvyActivity,
+        rootActivity: RootActivity,
         title: String,
         body: String
     ) {
@@ -314,7 +314,7 @@ class SettingsViewModel @Inject constructor(
                     .replace("api.github.com", "github.com")
                     .replace("/repos", "")
 
-                ivyActivity.openUrlInBrowser(issueUrl)
+                rootActivity.openUrlInBrowser(issueUrl)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

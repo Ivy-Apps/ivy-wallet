@@ -18,8 +18,8 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
@@ -64,7 +64,7 @@ class PaywallViewModel @Inject constructor(
 
     fun start(
         screen: Paywall,
-        activity: IvyActivity
+        activity: RootActivity
     ) {
         _paywallReason.value = screen.paywallReason
 
@@ -142,7 +142,7 @@ class PaywallViewModel @Inject constructor(
         }
     }
 
-    fun buy(activity: IvyActivity, plan: Plan) {
+    fun buy(activity: RootActivity, plan: Plan) {
         ivyBilling.buy(
             activity = activity,
             skuToBuy = plan.skuDetails,

@@ -19,8 +19,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -36,7 +36,7 @@ fun CustomerJourney(
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
 
     if (customerJourneyCards.isNotEmpty()) {
         Spacer(Modifier.height(12.dp))

@@ -63,7 +63,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         viewModel.start()
     }
 
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     val context = LocalContext.current
     UI(
         user = user,
@@ -94,7 +94,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
         onRequestFeature = { title, body ->
             viewModel.requestFeature(
-                ivyActivity = ivyActivity,
+                rootActivity = ivyActivity,
                 title = title,
                 body = body
             )
@@ -272,7 +272,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val ivyActivity = LocalContext.current as IvyActivity
+            val ivyActivity = LocalContext.current as RootActivity
             SettingsPrimaryButton(
                 icon = R.drawable.ic_custom_star_m,
                 text = "Rate us on Google Play",
@@ -488,7 +488,7 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = "Contact support",

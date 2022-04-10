@@ -458,7 +458,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_share,
             label = "Share Ivy"
         ) {
-            (context as IvyActivity).shareIvyWallet()
+            (context as RootActivity).shareIvyWallet()
         }
 
         Spacer(Modifier.weight(1f))

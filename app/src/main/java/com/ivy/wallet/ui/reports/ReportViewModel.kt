@@ -19,8 +19,8 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.utils.*
@@ -390,7 +390,7 @@ class ReportViewModel @Inject constructor(
                         }
                     )
 
-                    (context as IvyActivity).shareCSVFile(
+                    (context as RootActivity).shareCSVFile(
                         fileUri = fileUri
                     )
 

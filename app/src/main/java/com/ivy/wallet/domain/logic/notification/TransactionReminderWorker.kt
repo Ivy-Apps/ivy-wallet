@@ -10,7 +10,7 @@ import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.atEndOfDay
 import com.ivy.wallet.utils.dateNowUTC
 import dagger.assisted.Assisted
@@ -54,7 +54,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                     PendingIntent.getActivity(
                         applicationContext,
                         1,
-                        IvyActivity.getIntent(applicationContext),
+                        RootActivity.getIntent(applicationContext),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
                                 or PendingIntent.FLAG_IMMUTABLE
                     )

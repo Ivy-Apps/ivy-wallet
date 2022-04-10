@@ -29,9 +29,9 @@ import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Budget
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.ui.IvyActivity
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButtonType
@@ -75,7 +75,7 @@ private val BENEFITS = listOf(
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.PaywallScreen(screen: Paywall, activity: IvyActivity) {
+fun BoxWithConstraintsScope.PaywallScreen(screen: Paywall, activity: RootActivity) {
     val viewModel: PaywallViewModel = viewModel()
 
     val plans by viewModel.plans.observeAsState(emptyList())

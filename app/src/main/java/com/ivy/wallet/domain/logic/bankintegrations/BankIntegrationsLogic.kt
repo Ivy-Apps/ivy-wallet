@@ -6,7 +6,7 @@ import com.ivy.wallet.domain.data.bankintegrations.SETransaction
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.RootActivity
 
 class BankIntegrationsLogic(
     restClient: RestClient,
@@ -17,10 +17,10 @@ class BankIntegrationsLogic(
     private val bankIntegrationsService = restClient.bankIntegrationsService
 
     suspend fun connect(
-        ivyActivity: IvyActivity
+        rootActivity: RootActivity
     ) {
         val response = bankIntegrationsService.connectSession()
-        ivyActivity.openUrlInBrowser(response.connectUrl)
+        rootActivity.openUrlInBrowser(response.connectUrl)
     }
 
     suspend fun fetchConnections(): List<SEConnection> {

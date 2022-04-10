@@ -7,7 +7,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.RootActivity
 
 class AddTransactionWidgetClick {
     companion object {
@@ -21,7 +21,7 @@ class AddTransactionWidgetClick {
         when (intent.action) {
             ACTION_ADD_INCOME -> {
                 context.startActivity(
-                    IvyActivity.addTransactionStart(
+                    RootActivity.addTransactionStart(
                         context = context,
                         type = TransactionType.INCOME
                     ).apply {
@@ -31,7 +31,7 @@ class AddTransactionWidgetClick {
             }
             ACTION_ADD_EXPENSE -> {
                 context.startActivity(
-                    IvyActivity.addTransactionStart(
+                    RootActivity.addTransactionStart(
                         context = context,
                         type = TransactionType.EXPENSE
                     ).apply {
@@ -41,7 +41,7 @@ class AddTransactionWidgetClick {
             }
             ACTION_ADD_TRANSFER -> {
                 context.startActivity(
-                    IvyActivity.addTransactionStart(
+                    RootActivity.addTransactionStart(
                         context = context,
                         type = TransactionType.TRANSFER
                     ).apply {
