@@ -10,14 +10,14 @@ import com.ivy.design.utils.keyboardHeightState
 import com.ivy.design.utils.keyboardHeightStateAnimated
 
 @Composable
-fun SpacerV(
+fun SpacerVer(
     height: Dp
 ) {
     Spacer(Modifier.height(height))
 }
 
 @Composable
-fun SpacerH(
+fun SpacerHor(
     width: Dp
 ) {
     Spacer(Modifier.width(width))
@@ -45,9 +45,9 @@ fun SpacerKeyboardHeight(
         val heightAnimated by keyboardHeightStateAnimated(
             animationSpec = animation
         )
-        SpacerV(height = heightAnimated)
+        SpacerVer(height = heightAnimated)
     } else {
         val height by keyboardHeightState()
-        SpacerV(height = height)
+        SpacerVer(height = height)
     }
 }

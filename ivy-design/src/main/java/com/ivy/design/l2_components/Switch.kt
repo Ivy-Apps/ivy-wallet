@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.SpacerH
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.utils.IvyComponentPreview
 import com.ivy.design.utils.springBounce
@@ -52,7 +52,7 @@ fun Switch(
             animationSpec = animationMove
         )
 
-        SpacerH(width = 4.dp)
+        SpacerHor(width = 4.dp)
 
         if (weightStart > 0) {
             SpacerWeight(weight = weightStart)
@@ -70,7 +70,7 @@ fun Switch(
             SpacerWeight(weight = weightEnd)
         }
 
-        SpacerH(width = 4.dp)
+        SpacerHor(width = 4.dp)
     }
 }
 
