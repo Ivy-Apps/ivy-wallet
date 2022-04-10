@@ -17,6 +17,7 @@ import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.timeNowUTC
 
+@Deprecated("Migrate to FP Style")
 class PlannedPaymentsLogic(
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val transactionDao: TransactionDao,

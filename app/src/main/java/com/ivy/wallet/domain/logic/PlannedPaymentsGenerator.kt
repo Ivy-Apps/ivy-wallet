@@ -5,6 +5,7 @@ import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import java.time.LocalDateTime
 
+@Deprecated("Migrate to FP Style")
 class PlannedPaymentsGenerator(
     private val transactionDao: TransactionDao
 ) {

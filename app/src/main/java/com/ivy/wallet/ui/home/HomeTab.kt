@@ -46,71 +46,42 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 fun BoxWithConstraintsScope.HomeTab(screen: Main) {
     val viewModel: HomeViewModel = viewModel()
 
-    val ivyContext = ivyWalletCtx()
-
-    val theme by viewModel.theme.collectAsState()
-    val name by viewModel.name.collectAsState()
-    val period by viewModel.period.collectAsState()
-    val currencyCode by viewModel.baseCurrencyCode.collectAsState()
-
-    val categories by viewModel.categories.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-
-    val balance by viewModel.balance.collectAsState()
-    val buffer by viewModel.buffer.collectAsState()
-    val bufferDiff by viewModel.bufferDiff.collectAsState()
-    val monthlyIncome by viewModel.monthlyIncome.collectAsState()
-    val monthlyExpenses by viewModel.monthlyExpenses.collectAsState()
-
-    val upcomingExpanded by viewModel.upcomingExpanded.collectAsState()
-    val upcomingIncome by viewModel.upcomingIncome.collectAsState()
-    val upcomingExpenses by viewModel.upcomingExpenses.collectAsState()
-    val upcoming by viewModel.upcoming.collectAsState()
-
-    val overdueExpanded by viewModel.overdueExpanded.collectAsState()
-    val overdueIncome by viewModel.overdueIncome.collectAsState()
-    val overdueExpenses by viewModel.overdueExpenses.collectAsState()
-    val overdue by viewModel.overdue.collectAsState()
-
-    val history by viewModel.history.collectAsState()
-
-    //Customer Journey
-    val customerJourneyCards by viewModel.customerJourneyCards.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
     UI(
-        theme = theme,
-        name = name,
-        period = period,
-        currencyCode = currencyCode,
+        theme = state.theme,
+        name = state.name,
+        period = state.period,
+        currencyCode = state.baseCurrencyCode,
 
-        categories = categories,
-        accounts = accounts,
+        categories = state.categories,
+        accounts = state.accounts,
 
-        balance = balance,
-        bufferDiff = bufferDiff,
-        buffer = buffer,
-        monthlyIncome = monthlyIncome,
-        monthlyExpenses = monthlyExpenses,
+        balance = state.balance.toDouble(),
+        bufferDiff = state.bufferDiff.toDouble(),
+        buffer = state.buffer.toDouble(),
+        monthlyIncome = state.monthly.income.toDouble(),
+        monthlyExpenses = state.monthly.expense.toDouble(),
 
-        upcomingExpanded = upcomingExpanded,
+        upcomingExpanded = state.upcomingExpanded,
         setUpcomingExpanded = viewModel::setUpcomingExpanded,
-        upcomingIncome = upcomingIncome,
-        upcomingExpenses = upcomingExpenses,
-        upcoming = upcoming,
+        upcomingIncome = state.upcoming.income.toDouble(),
+        upcomingExpenses = state.upcoming.expense.toDouble(),
+        upcoming = state.upcomingTrns,
 
-        overdueExpanded = overdueExpanded,
+        overdueExpanded = state.overdueExpanded,
         setOverdueExpanded = viewModel::setOverdueExpanded,
-        overdueIncome = overdueIncome,
-        overdueExpenses = overdueExpenses,
-        overdue = overdue,
+        overdueIncome = state.overdue.income.toDouble(),
+        overdueExpenses = state.overdue.expense.toDouble(),
+        overdue = state.overdueTrns,
 
-        history = history,
+        history = state.history,
 
-        customerJourneyCards = customerJourneyCards,
+        customerJourneyCards = state.customerJourneyCards,
 
         onBalanceClick = viewModel::onBalanceClick,
         onSwitchTheme = viewModel::switchTheme,

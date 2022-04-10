@@ -7,6 +7,7 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.utils.ioThread
 
+@Deprecated("Migrate to FP Style & Actions")
 class LogoutLogic(
     private val ivyDb: IvyRoomDatabase,
     private val ivySession: IvySession,

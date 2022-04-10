@@ -17,6 +17,7 @@ import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.time.LocalDate
 
+@Deprecated("Migrate to FP Style")
 class WalletLogic(
     private val accountDao: AccountDao,
     private val transactionDao: TransactionDao,
@@ -83,6 +84,7 @@ class WalletLogic(
     }
 }
 
+@Deprecated("Migrate to FP Style")
 fun List<Transaction>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,

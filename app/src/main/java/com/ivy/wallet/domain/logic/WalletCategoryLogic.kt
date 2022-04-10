@@ -14,6 +14,7 @@ import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import java.util.*
 
+@Deprecated("Migrate to FP Style")
 class WalletCategoryLogic(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,

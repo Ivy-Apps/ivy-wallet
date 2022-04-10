@@ -7,6 +7,7 @@ import com.ivy.wallet.utils.capitalizeWords
 import com.ivy.wallet.utils.isNotNullOrBlank
 import java.util.*
 
+@Deprecated("Migrate to FP Style")
 class SmartTitleSuggestionsLogic(
     private val transactionDao: TransactionDao
 ) {

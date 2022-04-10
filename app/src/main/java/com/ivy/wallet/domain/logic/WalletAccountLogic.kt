@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
+@Deprecated("Migrate to FP Style")
 class WalletAccountLogic(
     private val transactionDao: TransactionDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,

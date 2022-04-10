@@ -10,6 +10,7 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.theme.*
 
+@Deprecated("Migrate to FP Style")
 class PreloadDataLogic(
     private val accountsDao: AccountDao,
     private val categoryDao: CategoryDao

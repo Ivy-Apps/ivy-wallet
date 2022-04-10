@@ -4,18 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.domain.action.CalcOverdueAct
+import com.ivy.wallet.domain.action.CalcUpcomingAct
 import com.ivy.wallet.domain.action.CalcWalletBalanceAct
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.action.HistoryWithDateDivAct
 import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense
-import com.ivy.wallet.domain.fp.wallet.historyWithDateDividers
 import com.ivy.wallet.domain.fp.wallet.walletBufferDiff
 import com.ivy.wallet.domain.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.logic.WalletLogic
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -41,82 +39,19 @@ class HomeViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
     private val categoryDao: CategoryDao,
-    private val walletLogic: WalletLogic,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
     private val sharedPrefs: SharedPrefs,
-    private val calcWalletBalanceAct: CalcWalletBalanceAct
+    private val calcWalletBalanceAct: CalcWalletBalanceAct,
+    private val calcUpcomingAct: CalcUpcomingAct,
+    private val calcOverdueAct: CalcOverdueAct,
+    private val historyWithDateDivAct: HistoryWithDateDivAct
 ) : ViewModel() {
-
-    private val _theme = MutableStateFlow(Theme.LIGHT)
-    val theme = _theme.readOnly()
-
-    private val _name = MutableStateFlow("")
-    val name = _name.readOnly()
-
-    private val _period = MutableStateFlow(ivyContext.selectedPeriod)
-    val period = _period.readOnly()
-
-    private val _baseCurrencyCode = MutableStateFlow("")
-    val baseCurrencyCode = _baseCurrencyCode.readOnly()
-
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
-    val categories = _categories.readOnly()
-
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
-    val accounts = _accounts.readOnly()
-
-    private val _balance = MutableStateFlow(0.0)
-    val balance = _balance.readOnly()
-
-    private val _buffer = MutableStateFlow(0.0)
-    val buffer = _buffer.readOnly()
-
-    private val _bufferDiff = MutableStateFlow(0.0)
-    val bufferDiff = _bufferDiff.readOnly()
-
-    private val _monthlyIncome = MutableStateFlow(0.0)
-    val monthlyIncome = _monthlyIncome.readOnly()
-
-    private val _monthlyExpenses = MutableStateFlow(0.0)
-    val monthlyExpenses = _monthlyExpenses.readOnly()
-
-    //Upcoming
-    private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
-    val upcoming = _upcoming.readOnly()
-
-    private val _upcomingIncome = MutableStateFlow(0.0)
-    val upcomingIncome = _upcomingIncome.readOnly()
-
-    private val _upcomingExpenses = MutableStateFlow(0.0)
-    val upcomingExpenses = _upcomingExpenses.readOnly()
-
-    private val _upcomingExpanded = MutableStateFlow(false)
-    val upcomingExpanded = _upcomingExpanded.readOnly()
-
-    //Overdue
-    private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
-    val overdue = _overdue.readOnly()
-
-    private val _overdueIncome = MutableStateFlow(0.0)
-    val overdueIncome = _overdueIncome.readOnly()
-
-    private val _overdueExpenses = MutableStateFlow(0.0)
-    val overdueExpenses = _overdueExpenses.readOnly()
-
-    private val _overdueExpanded = MutableStateFlow(true)
-    val overdueExpanded = _overdueExpanded.readOnly()
-
-    //History
-    private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
-    val history = _history.readOnly()
-
-    //Customer Journey
-    private val _customerJourneyCards = MutableStateFlow<List<CustomerJourneyCardData>>(emptyList())
-    val customerJourneyCards = _customerJourneyCards.readOnly()
+    private val _state = MutableStateFlow(HomeState.initial(ivyContext))
+    val state = _state.readOnly()
 
     fun start() {
         viewModelScope.launch {
@@ -139,73 +74,120 @@ class HomeViewModel @Inject constructor(
 
             val settings = ioThread { settingsDao.findFirst() }
 
-            _theme.value = settings.theme
-
-            //This method is used to restore the theme when user imports locally backed up data
-            loadNewTheme()
-
-            _name.value = settings.name
-            _baseCurrencyCode.value = settings.currency
-
-            _categories.value = ioThread { categoryDao.findAll() }
-            _accounts.value = ioThread { walletDAOs.accountDao.findAll() }
-
-            _period.value = period
-            val timeRange = period.toRange(ivyContext.startDayOfMonth)
-
-            _balance.value = calcWalletBalanceAct(settings.currency).toDouble()
-
-            _buffer.value = settings.bufferAmount
-            _bufferDiff.value = ioThread {
-                walletBufferDiff(
-                    settings = settings,
-                    balance = balance.value.toBigDecimal()
-                ).toDouble()
-            }
-
-            val incomeExpensePair = ioThread {
-                calculateWalletIncomeExpense(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = baseCurrencyCode.value,
-                    range = timeRange.toCloseTimeRange()
-                ).value
-            }
-            _monthlyIncome.value = incomeExpensePair.income.toDouble()
-            _monthlyExpenses.value = incomeExpensePair.expense.toDouble()
-
-            _upcomingIncome.value = ioThread { walletLogic.calculateUpcomingIncome(timeRange) }
-            _upcomingExpenses.value =
-                ioThread { walletLogic.calculateUpcomingExpenses(timeRange) }
-            _upcoming.value = ioThread { walletLogic.upcomingTransactions(timeRange) }
-
-            _overdueIncome.value = ioThread { walletLogic.calculateOverdueIncome(timeRange) }
-            _overdueExpenses.value = ioThread { walletLogic.calculateOverdueExpenses(timeRange) }
-            _overdue.value = ioThread { walletLogic.overdueTransactions(timeRange) }
-
-            _history.value = ioThread {
-                historyWithDateDividers(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = baseCurrencyCode.value,
-                    range = timeRange.toCloseTimeRange()
+            updateState {
+                it.copy(
+                    theme = settings.theme,
+                    name = settings.name,
+                    baseCurrencyCode = settings.currency,
+                    period = period
                 )
             }
 
-            _customerJourneyCards.value = ioThread { customerJourneyLogic.loadCards() }
+            //This method is used to restore the theme when user imports locally backed up data
+            loadNewTheme(settings.theme)
+
+            updateState {
+                it.copy(
+                    categories = ioThread { categoryDao.findAll() },
+                    accounts = ioThread { walletDAOs.accountDao.findAll() }
+                )
+            }
+
+            val timeRange = period.toRange(ivyContext.startDayOfMonth)
+
+            updateState {
+                it.copy(
+                    balance = calcWalletBalanceAct(settings.currency)
+                )
+            }
+
+            updateState {
+                it.copy(
+                    buffer = settings.bufferAmount.toBigDecimal(),
+                    bufferDiff = ioThread {
+                        walletBufferDiff(
+                            settings = settings,
+                            balance = state.value.balance
+                        )
+                    }
+                )
+            }
+
+            updateState {
+                it.copy(
+                    monthly = ioThread {
+                        calculateWalletIncomeExpense(
+                            walletDAOs = walletDAOs,
+                            baseCurrencyCode = state.value.baseCurrencyCode,
+                            range = timeRange.toCloseTimeRange()
+                        ).value
+                    }
+                )
+            }
+
+            updateState {
+                val result = calcUpcomingAct(timeRange)
+                it.copy(
+                    upcoming = result.upcoming,
+                    upcomingTrns = result.upcomingTrns
+                )
+            }
+
+            updateState {
+                val result = calcOverdueAct(timeRange)
+                it.copy(
+                    overdue = result.overdue,
+                    overdueTrns = result.overdueTrns
+                )
+            }
+
+            updateState {
+                it.copy(
+                    history = historyWithDateDivAct(
+                        HistoryWithDateDivAct.Input(
+                            timeRange = timeRange.toCloseTimeRange(),
+                            baseCurrencyCode = state.value.baseCurrencyCode
+                        )
+                    )
+                )
+            }
+
+            updateState {
+                it.copy(
+                    customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
+                )
+            }
 
             TestIdlingResource.decrement()
         }
     }
 
-    private fun loadNewTheme() {
-        ivyContext.switchTheme(_theme.value)
+    private suspend fun updateState(update: suspend (HomeState) -> HomeState) {
+        _state.value = update(state.value)
+    }
+
+    private fun loadNewTheme(theme: Theme) {
+        ivyContext.switchTheme(theme = theme)
     }
 
     fun setUpcomingExpanded(expanded: Boolean) {
-        _upcomingExpanded.value = expanded
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    upcomingExpanded = expanded
+                )
+            }
+        }
     }
 
     fun setOverdueExpanded(expanded: Boolean) {
-        _overdueExpanded.value = expanded
+        viewModelScope.launch {
+            updateState {
+                it.copy(
+                    overdueExpanded = expanded
+                )
+            }
+        }
     }
 
     fun onBalanceClick() {
@@ -246,7 +228,11 @@ class HomeViewModel @Inject constructor(
             }
 
             ivyContext.switchTheme(newSettings.theme)
-            _theme.value = newSettings.theme
+            updateState {
+                it.copy(
+                    theme = newSettings.theme
+                )
+            }
 
             TestIdlingResource.decrement()
         }
@@ -310,8 +296,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun nextMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val month = state.value.period.month
+        val year = state.value.period.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
@@ -320,8 +306,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun previousMonth() {
-        val month = period.value.month
-        val year = period.value.year ?: dateNowUTC().year
+        val month = state.value.period.month
+        val year = state.value.period.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year = year),

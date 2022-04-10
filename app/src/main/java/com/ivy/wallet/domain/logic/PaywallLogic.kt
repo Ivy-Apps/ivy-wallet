@@ -14,6 +14,7 @@ import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.utils.ioThread
 
+@Deprecated("Migrate to FP Style & Actions")
 class PaywallLogic(
     private val ivyBilling: IvyBilling,
     private val ivyContext: IvyWalletCtx,
