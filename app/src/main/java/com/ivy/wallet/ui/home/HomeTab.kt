@@ -46,7 +46,7 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 fun BoxWithConstraintsScope.HomeTab(screen: Main) {
     val viewModel: HomeViewModel = viewModel()
 
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state().collectAsState()
 
     onScreenStart {
         viewModel.start()

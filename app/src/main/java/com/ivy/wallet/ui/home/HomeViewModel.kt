@@ -1,9 +1,9 @@
 package com.ivy.wallet.ui.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
+import com.ivy.design.viewmodel.IvyViewModel
 import com.ivy.wallet.domain.action.CalcOverdueAct
 import com.ivy.wallet.domain.action.CalcUpcomingAct
 import com.ivy.wallet.domain.action.CalcWalletBalanceAct
@@ -28,7 +28,6 @@ import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -48,10 +47,11 @@ class HomeViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val calcUpcomingAct: CalcUpcomingAct,
     private val calcOverdueAct: CalcOverdueAct,
-    private val historyWithDateDivAct: HistoryWithDateDivAct
-) : ViewModel() {
-    private val _state = MutableStateFlow(HomeState.initial(ivyContext))
-    val state = _state.readOnly()
+    private val historyWithDateDivAct: HistoryWithDateDivAct,
+) : IvyViewModel<HomeState>() {
+    override val mutableState: MutableStateFlow<HomeState> = MutableStateFlow(
+        HomeState.initial(ivyWalletCtx = ivyContext)
+    )
 
     fun start() {
         viewModelScope.launch {
@@ -107,7 +107,7 @@ class HomeViewModel @Inject constructor(
                     bufferDiff = ioThread {
                         walletBufferDiff(
                             settings = settings,
-                            balance = state.value.balance
+                            balance = stateVal().balance
                         )
                     }
                 )
@@ -118,7 +118,7 @@ class HomeViewModel @Inject constructor(
                     monthly = ioThread {
                         calculateWalletIncomeExpense(
                             walletDAOs = walletDAOs,
-                            baseCurrencyCode = state.value.baseCurrencyCode,
+                            baseCurrencyCode = stateVal().baseCurrencyCode,
                             range = timeRange.toCloseTimeRange()
                         ).value
                     }
@@ -146,7 +146,7 @@ class HomeViewModel @Inject constructor(
                     history = historyWithDateDivAct(
                         HistoryWithDateDivAct.Input(
                             timeRange = timeRange.toCloseTimeRange(),
-                            baseCurrencyCode = state.value.baseCurrencyCode
+                            baseCurrencyCode = stateVal().baseCurrencyCode
                         )
                     )
                 )
@@ -162,32 +162,16 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateState(update: suspend (HomeState) -> HomeState) {
-        _state.value = update(state.value)
-    }
-
     private fun loadNewTheme(theme: Theme) {
         ivyContext.switchTheme(theme = theme)
     }
 
     fun setUpcomingExpanded(expanded: Boolean) {
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    upcomingExpanded = expanded
-                )
-            }
-        }
+        updateStateNonBlocking { it.copy(upcomingExpanded = expanded) }
     }
 
     fun setOverdueExpanded(expanded: Boolean) {
-        viewModelScope.launch {
-            updateState {
-                it.copy(
-                    overdueExpanded = expanded
-                )
-            }
-        }
+        updateStateNonBlocking { it.copy(overdueExpanded = expanded) }
     }
 
     fun onBalanceClick() {
@@ -296,8 +280,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun nextMonth() {
-        val month = state.value.period.month
-        val year = state.value.period.year ?: dateNowUTC().year
+        val month = stateVal().period.month
+        val year = stateVal().period.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year = year),
@@ -306,8 +290,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun previousMonth() {
-        val month = state.value.period.month
-        val year = state.value.period.year ?: dateNowUTC().year
+        val month = stateVal().period.month
+        val year = stateVal().period.year ?: dateNowUTC().year
         if (month != null) {
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year = year),
