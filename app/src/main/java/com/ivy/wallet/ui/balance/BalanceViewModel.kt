@@ -2,16 +2,16 @@ package com.ivy.wallet.ui.balance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.dateNowUTC
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.base.readOnly
-import com.ivy.wallet.functional.data.WalletDAOs
-import com.ivy.wallet.functional.wallet.baseCurrencyCode
-import com.ivy.wallet.functional.wallet.calculateWalletBalance
-import com.ivy.wallet.logic.PlannedPaymentsLogic
-import com.ivy.wallet.persistence.dao.SettingsDao
+import com.ivy.wallet.domain.fp.data.WalletDAOs
+import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
+import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
+import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
+import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
+import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

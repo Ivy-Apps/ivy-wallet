@@ -23,10 +23,8 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.getDefaultFIATCurrency
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.model.LoanType
-import com.ivy.wallet.model.entity.Loan
+import com.ivy.wallet.domain.data.LoanType
+import com.ivy.wallet.domain.data.entity.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.Loans
@@ -34,6 +32,8 @@ import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.LoanModal
+import com.ivy.wallet.utils.getDefaultFIATCurrency
+import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.LoansScreen(screen: Loans) {

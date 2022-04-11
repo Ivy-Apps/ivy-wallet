@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
 
 data class LastNTimeRange(

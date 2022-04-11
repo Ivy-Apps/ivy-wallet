@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.loan.data
 
-import com.ivy.wallet.base.getDefaultFIATCurrency
-import com.ivy.wallet.model.Reorderable
-import com.ivy.wallet.model.entity.Loan
+import com.ivy.wallet.domain.data.Reorderable
+import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.utils.getDefaultFIATCurrency
 
 data class DisplayLoan(
     val loan: Loan,

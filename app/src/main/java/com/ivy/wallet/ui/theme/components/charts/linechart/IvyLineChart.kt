@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.l0_system.UI
-import com.ivy.wallet.base.lerp
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.modal.model.Month
+import com.ivy.wallet.utils.lerp
 import timber.log.Timber
 import java.text.DecimalFormat
 import kotlin.math.pow

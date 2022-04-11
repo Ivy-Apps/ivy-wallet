@@ -29,9 +29,9 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
@@ -39,6 +39,8 @@ import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
+import com.ivy.wallet.utils.*
+import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
@@ -55,6 +57,9 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
     val totalAmount by viewModel.totalAmount.collectAsState()
     val categoryAmounts by viewModel.categoryAmounts.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
+    val accountIdList by viewModel.accountIdFilterList.collectAsState()
+    val showCloseButtonOnly by viewModel.showCloseButtonOnly.collectAsState()
+    val transactions by viewModel.transaction.collectAsState()
 
     onScreenStart {
         viewModel.start(screen)
@@ -67,6 +72,9 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
         totalAmount = totalAmount,
         categoryAmounts = categoryAmounts,
         selectedCategory = selectedCategory,
+        accountIdFilterList = accountIdList,
+        showCloseButtonOnly = showCloseButtonOnly,
+        transactions = transactions,
 
         onSetPeriod = viewModel::onSetPeriod,
         onSelectNextMonth = viewModel::nextMonth,
@@ -84,6 +92,9 @@ private fun BoxWithConstraintsScope.UI(
     totalAmount: Double,
     categoryAmounts: List<CategoryAmount>,
     selectedCategory: SelectedCategory?,
+    accountIdFilterList: List<UUID> = emptyList(),
+    showCloseButtonOnly: Boolean = false,
+    transactions: List<Transaction> = emptyList(),
 
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
@@ -125,6 +136,7 @@ private fun BoxWithConstraintsScope.UI(
                 },
                 onSelectNextMonth = onSelectNextMonth,
                 onSelectPreviousMonth = onSelectPreviousMonth,
+                showCloseButtonOnly = showCloseButtonOnly,
 
                 onClose = {
                     nav.back()
@@ -210,13 +222,24 @@ private fun BoxWithConstraintsScope.UI(
                     currency = currency,
                     totalAmount = totalAmount,
 
+
                     selectedCategory = selectedCategory
                 ) {
                     nav.navigateTo(
-                        ItemStatistic(
-                            categoryId = item.category?.id,
-                            unspecifiedCategory = item.category == null
-                        )
+                        if (transactions.isEmpty())
+                            ItemStatistic(
+                                categoryId = item.category?.id,
+                                unspecifiedCategory = item.category == null,
+                                accountIdFilterList = accountIdFilterList
+                            )
+                        else {
+                            ItemStatistic(
+                                categoryId = item.category?.id,
+                                unspecifiedCategory = item.category == null,
+                                accountIdFilterList = accountIdFilterList,
+                                transactions = transactions
+                            )
+                        }
                     )
                 }
             }
@@ -257,6 +280,7 @@ private fun Header(
 
     currency: String,
     amount: Double,
+    showCloseButtonOnly: Boolean = false,
 
 
     onShowMonthModal: () -> Unit,
@@ -292,47 +316,50 @@ private fun Header(
             )
         }
 
-        Spacer(Modifier.weight(1f))
+        if (!showCloseButtonOnly) {
+            Spacer(Modifier.weight(1f))
 
-        IvyOutlinedButton(
-            modifier = Modifier.horizontalSwipeListener(
-                sensitivity = 75,
-                onSwipeLeft = {
-                    onSelectNextMonth()
-                },
-                onSwipeRight = {
-                    onSelectPreviousMonth()
-                }
-            ),
-            iconStart = R.drawable.ic_calendar,
-            text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
-        ) {
-            onShowMonthModal()
-        }
-
-        if (percentExpanded > 0f) {
-            Spacer(Modifier.width(12.dp))
-
-            val backgroundGradient = if (transactionType == TransactionType.EXPENSE)
-                gradientExpenses() else GradientGreen
-            CircleButtonFilledGradient(
-                modifier = Modifier
-                    .thenIf(percentExpanded == 1f) {
-                        drawColoredShadow(backgroundGradient.startColor)
+            IvyOutlinedButton(
+                modifier = Modifier.horizontalSwipeListener(
+                    sensitivity = 75,
+                    onSwipeLeft = {
+                        onSelectNextMonth()
+                    },
+                    onSwipeRight = {
+                        onSelectPreviousMonth()
                     }
-                    .alpha(percentExpanded)
-                    .size(lerp(1, 40, percentExpanded).dp),
-                iconPadding = 4.dp,
-                icon = R.drawable.ic_plus,
-                backgroundGradient = backgroundGradient,
-                tint = if (transactionType == TransactionType.EXPENSE)
-                    UI.colors.pure else White
+                ),
+                iconStart = R.drawable.ic_calendar,
+                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
             ) {
-                onAdd(transactionType)
+                onShowMonthModal()
             }
+
+            if (percentExpanded > 0f) {
+                Spacer(Modifier.width(12.dp))
+
+                val backgroundGradient = if (transactionType == TransactionType.EXPENSE)
+                    gradientExpenses() else GradientGreen
+                CircleButtonFilledGradient(
+                    modifier = Modifier
+                        .thenIf(percentExpanded == 1f) {
+                            drawColoredShadow(backgroundGradient.startColor)
+                        }
+                        .alpha(percentExpanded)
+                        .size(lerp(1, 40, percentExpanded).dp),
+                    iconPadding = 4.dp,
+                    icon = R.drawable.ic_plus,
+                    backgroundGradient = backgroundGradient,
+                    tint = if (transactionType == TransactionType.EXPENSE)
+                        UI.colors.pure else White
+                ) {
+                    onAdd(transactionType)
+                }
+            }
+
+            Spacer(Modifier.width(20.dp))
         }
 
-        Spacer(Modifier.width(20.dp))
     }
 }
 

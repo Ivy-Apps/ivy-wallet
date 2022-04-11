@@ -25,19 +25,18 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.drawColoredShadow
-import com.ivy.wallet.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.domain.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
-
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.OnboardingButton
+import com.ivy.wallet.utils.drawColoredShadow
 
 @ExperimentalFoundationApi
 @Composable
@@ -134,7 +133,7 @@ fun VideoArticleRow(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val ivyActivity = LocalContext.current as IvyActivity
+        val ivyActivity = LocalContext.current as RootActivity
 
         Spacer(Modifier.width(16.dp))
 
@@ -323,7 +322,7 @@ fun StepTitle(
 private fun App(
     importType: ImportType
 ) {
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
 
     Row(
         modifier = Modifier

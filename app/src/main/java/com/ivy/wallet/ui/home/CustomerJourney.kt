@@ -17,17 +17,17 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.drawColoredShadow
-import com.ivy.wallet.logic.CustomerJourneyLogic
-import com.ivy.wallet.logic.model.CustomerJourneyCardData
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.domain.logic.CustomerJourneyLogic
+import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.utils.drawColoredShadow
 
 @Composable
 fun CustomerJourney(
@@ -36,7 +36,7 @@ fun CustomerJourney(
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
 
     if (customerJourneyCards.isNotEmpty()) {
         Spacer(Modifier.height(12.dp))

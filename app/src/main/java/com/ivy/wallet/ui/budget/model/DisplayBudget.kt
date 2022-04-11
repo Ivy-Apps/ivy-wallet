@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.budget.model
 
-import com.ivy.wallet.model.Reorderable
-import com.ivy.wallet.model.entity.Budget
+import com.ivy.wallet.domain.data.Reorderable
+import com.ivy.wallet.domain.data.entity.Budget
 
 data class DisplayBudget(
     val budget: Budget,

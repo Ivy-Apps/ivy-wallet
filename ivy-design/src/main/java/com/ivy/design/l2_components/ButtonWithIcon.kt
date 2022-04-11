@@ -22,7 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyIcon
-import com.ivy.design.l1_buildingBlocks.SpacerH
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.background
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
@@ -70,7 +70,7 @@ fun Button(
                 tint = if (iconLeft != null) iconTint else Transparent
             )
 
-            SpacerH(width = iconPadding)
+            SpacerHor(width = iconPadding)
         }
 
         Text(
@@ -79,7 +79,7 @@ fun Button(
         )
 
         if (mode != Mode.WRAP_CONTENT || iconRight != null) {
-            SpacerH(width = iconPadding)
+            SpacerHor(width = iconPadding)
 
             IvyIcon(
                 icon = icon,

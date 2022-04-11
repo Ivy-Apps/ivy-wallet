@@ -8,18 +8,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.wallet.base.OpResult
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.onboarding.steps.*
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.onScreenStart
 
 @ExperimentalFoundationApi
 @Composable

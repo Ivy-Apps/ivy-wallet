@@ -22,15 +22,14 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Black
-
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
 import com.ivy.wallet.ui.theme.mediumBlur
+import com.ivy.wallet.utils.*
 import java.util.*
 import kotlin.math.roundToInt
 

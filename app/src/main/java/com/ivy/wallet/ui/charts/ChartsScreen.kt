@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.charts
 
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,20 +19,18 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.IncomeExpenseChartPoint
-import com.ivy.wallet.functional.charts.SingleChartPoint
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.fp.charts.IncomeExpenseChartPoint
+import com.ivy.wallet.domain.fp.charts.SingleChartPoint
 import com.ivy.wallet.ui.Charts
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy
-
-
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.components.IvyToolbar
+import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.ChartsScreen(screen: Charts) {

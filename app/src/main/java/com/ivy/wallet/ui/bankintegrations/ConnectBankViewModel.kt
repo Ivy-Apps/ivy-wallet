@@ -3,16 +3,16 @@ package com.ivy.wallet.ui.bankintegrations
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.base.OpResult
-import com.ivy.wallet.base.TestIdlingResource
-import com.ivy.wallet.base.asLiveData
-import com.ivy.wallet.base.ioThread
-import com.ivy.wallet.logic.bankintegrations.BankIntegrationsLogic
-import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.UserDao
-import com.ivy.wallet.session.IvySession
-import com.ivy.wallet.sync.IvySync
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.domain.logic.bankintegrations.BankIntegrationsLogic
+import com.ivy.wallet.domain.sync.IvySync
+import com.ivy.wallet.io.network.IvySession
+import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.wallet.io.persistence.dao.UserDao
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.TestIdlingResource
+import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,7 +36,7 @@ class ConnectBankViewModel @Inject constructor(
         _bankSyncEnabled.value = sharedPrefs.getBoolean(SharedPrefs.ENABLE_BANK_SYNC, false)
     }
 
-    fun connectBank(ivyActivity: IvyActivity) {
+    fun connectBank(rootActivity: RootActivity) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -46,7 +46,7 @@ class ConnectBankViewModel @Inject constructor(
                 }
 
                 if (user != null) {
-                    bankIntegrationsLogic.connect(ivyActivity)
+                    bankIntegrationsLogic.connect(rootActivity)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

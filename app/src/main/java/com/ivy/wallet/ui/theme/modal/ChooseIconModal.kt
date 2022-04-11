@@ -17,13 +17,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.wallet.base.hideKeyboard
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconS
 import com.ivy.wallet.ui.theme.dynamicContrast
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
 import java.util.*
 
 

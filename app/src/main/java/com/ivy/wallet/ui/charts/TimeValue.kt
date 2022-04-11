@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.charts
 
-import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.SingleChartPoint
+import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.fp.charts.SingleChartPoint
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.theme.components.charts.linechart.Value
 

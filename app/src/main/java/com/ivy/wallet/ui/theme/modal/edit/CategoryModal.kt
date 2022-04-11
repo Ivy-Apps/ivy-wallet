@@ -24,12 +24,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
-import com.ivy.wallet.base.hideKeyboard
-import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -40,6 +36,10 @@ import com.ivy.wallet.ui.theme.modal.ChooseIconModal
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalAddSave
 import com.ivy.wallet.ui.theme.modal.ModalTitle
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
 
 data class CategoryModalData(

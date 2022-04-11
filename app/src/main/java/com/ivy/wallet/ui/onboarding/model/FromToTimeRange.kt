@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.base.*
-import com.ivy.wallet.functional.data.ClosedTimeRange
-import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.fp.data.ClosedTimeRange
+import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
 
 data class FromToTimeRange(

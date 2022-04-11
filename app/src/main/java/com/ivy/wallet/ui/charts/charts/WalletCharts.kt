@@ -11,9 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.format
-import com.ivy.wallet.functional.charts.ChartPeriod
-import com.ivy.wallet.functional.charts.SingleChartPoint
+import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.fp.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
@@ -21,6 +20,7 @@ import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.charts.linechart.Function
 import com.ivy.wallet.ui.theme.components.charts.linechart.IvyLineChart
+import com.ivy.wallet.utils.format
 import java.text.DecimalFormat
 
 fun LazyListScope.walletCharts(

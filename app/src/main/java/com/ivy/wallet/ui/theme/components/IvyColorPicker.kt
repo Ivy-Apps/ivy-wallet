@@ -22,14 +22,14 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.TestingContext
-import com.ivy.wallet.base.densityScope
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.thenIf
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.utils.TestingContext
+import com.ivy.wallet.utils.densityScope
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
 import kotlinx.coroutines.launch
 
 val IVY_COLOR_PICKER_COLORS_FREE = listOf(

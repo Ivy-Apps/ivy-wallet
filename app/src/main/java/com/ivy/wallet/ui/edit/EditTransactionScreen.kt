@@ -22,16 +22,12 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.convertUTCtoLocal
-import com.ivy.wallet.base.getTrueDate
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.timeNowLocal
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.CustomExchangeRateState
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.CustomExchangeRateState
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -43,6 +39,10 @@ import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.components.CustomExchangeRateCard
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.modal.edit.*
+import com.ivy.wallet.utils.convertUTCtoLocal
+import com.ivy.wallet.utils.getTrueDate
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.timeNowLocal
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt
@@ -162,7 +162,7 @@ private fun BoxWithConstraintsScope.UI(
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
     onDelete: () -> Unit,
     onCreateAccount: (CreateAccountData) -> Unit,
-    onExchangeRateChanged: (Double) -> Unit = { }
+    onExchangeRateChanged: (Double?) -> Unit = { }
 ) {
     var chooseCategoryModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
@@ -179,6 +179,11 @@ private fun BoxWithConstraintsScope.UI(
     var selectedAcc by remember(account) {
         mutableStateOf(account)
     }
+
+    val amountModalId =
+        remember(screen.initialTransactionId, customExchangeRateState.exchangeRate) {
+            UUID.randomUUID()
+        }
 
     var titleTextFieldValue by remember(initialTitle) {
         mutableStateOf(
@@ -312,6 +317,10 @@ private fun BoxWithConstraintsScope.UI(
                 fromCurrencyCode = baseCurrency,
                 toCurrencyCode = customExchangeRateState.toCurrencyCode ?: baseCurrency,
                 exchangeRate = customExchangeRateState.exchangeRate,
+                onRefresh = {
+                    //Set exchangeRate to null to reset
+                    onExchangeRateChanged(null)
+                },
                 modifier = Modifier.onGloballyPositioned { coordinates ->
                     customExchangeRatePosition = coordinates.positionInParent().y * 0.3f
                 }
@@ -516,7 +525,7 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     AmountModal(
-        id = UUID.randomUUID(),
+        id = amountModalId,
         visible = exchangeRateAmountModalShown,
         currency = "",
         initialAmount = customExchangeRateState.exchangeRate,

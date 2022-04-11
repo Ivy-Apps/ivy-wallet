@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.home
 
+
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -31,17 +32,15 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gray
-
-
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.wallet.utils.*
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -459,7 +458,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_share,
             label = "Share Ivy"
         ) {
-            (context as IvyActivity).shareIvyWallet()
+            (context as RootActivity).shareIvyWallet()
         }
 
         Spacer(Modifier.weight(1f))

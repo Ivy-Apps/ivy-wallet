@@ -4,25 +4,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.base.*
-import com.ivy.wallet.event.AccountsUpdatedEvent
-import com.ivy.wallet.logic.*
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.CustomExchangeRateState
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Transaction
-import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.*
-import com.ivy.wallet.sync.uploader.TransactionUploader
+import com.ivy.wallet.domain.data.CustomExchangeRateState
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.event.AccountsUpdatedEvent
+import com.ivy.wallet.domain.logic.*
+import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.sync.uploader.TransactionUploader
+import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
+import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -593,10 +593,10 @@ class EditTransactionViewModel @Inject constructor(
         toAccount: Account? = null,
         fromAccount: Account? = null,
         amt: Double? = null,
-        exchangeRate: Double? = null
+        exchangeRate: Double? = null,
+        resetRate: Boolean = false
     ) {
         computationThread {
-
             val toAcc = toAccount ?: _toAccount.value
             val fromAcc = fromAccount ?: _account.value
 
@@ -610,7 +610,7 @@ class EditTransactionViewModel @Inject constructor(
 
             val exRate = exchangeRate
                 ?: if (customExchangeRateState.value.showCard && toAccCurrencyCode == customExchangeRateState.value.toCurrencyCode
-                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode
+                    && fromAccCurrencyCode == customExchangeRateState.value.fromCurrencyCode && !resetRate
                 )
                     customExchangeRateState.value.exchangeRate
                 else
@@ -639,9 +639,9 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun updateExchangeRate(exRate: Double) {
+    fun updateExchangeRate(exRate: Double?) {
         viewModelScope.launch {
-            updateCustomExchangeRateState(exchangeRate = exRate)
+            updateCustomExchangeRateState(exchangeRate = exRate, resetRate = exRate == null)
         }
     }
 }

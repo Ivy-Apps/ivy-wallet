@@ -22,9 +22,8 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.billing.Plan
-import com.ivy.wallet.billing.PlanType
+import com.ivy.wallet.android.billing.Plan
+import com.ivy.wallet.android.billing.PlanType
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ActionsRow
@@ -32,6 +31,7 @@ import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.modal.ModalTitle
+import com.ivy.wallet.utils.*
 import java.util.*
 import kotlin.math.roundToInt
 

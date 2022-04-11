@@ -17,8 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
@@ -31,6 +30,7 @@ import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.ui.theme.modal.model.Month.Companion.fromMonthValue
 import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
+import com.ivy.wallet.utils.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime

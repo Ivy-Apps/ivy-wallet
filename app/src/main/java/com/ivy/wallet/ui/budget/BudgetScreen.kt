@@ -19,20 +19,16 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.base.format
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.model.CreateBudgetData
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Budget
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Budget
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.BudgetScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gray
-
 import com.ivy.wallet.ui.theme.components.BudgetBattery
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.ReorderButton
@@ -40,6 +36,9 @@ import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.format
+import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {

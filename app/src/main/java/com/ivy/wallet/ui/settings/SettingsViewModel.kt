@@ -4,25 +4,25 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.analytics.IvyAnalytics
-import com.ivy.wallet.base.*
-import com.ivy.wallet.logic.LogoutLogic
-import com.ivy.wallet.logic.csv.ExportCSVLogic
-import com.ivy.wallet.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.logic.zip.ExportZipLogic
-import com.ivy.wallet.model.analytics.AnalyticsEvent
-import com.ivy.wallet.model.entity.User
-import com.ivy.wallet.network.FCMClient
-import com.ivy.wallet.network.RestClient
-import com.ivy.wallet.network.request.auth.GoogleSignInRequest
-import com.ivy.wallet.network.request.github.OpenIssueRequest
-import com.ivy.wallet.persistence.SharedPrefs
-import com.ivy.wallet.persistence.dao.SettingsDao
-import com.ivy.wallet.persistence.dao.UserDao
-import com.ivy.wallet.session.IvySession
-import com.ivy.wallet.sync.IvySync
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
+import com.ivy.wallet.domain.data.entity.User
+import com.ivy.wallet.domain.logic.LogoutLogic
+import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
+import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.sync.IvySync
+import com.ivy.wallet.io.network.FCMClient
+import com.ivy.wallet.io.network.IvyAnalytics
+import com.ivy.wallet.io.network.IvySession
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
+import com.ivy.wallet.io.network.request.github.OpenIssueRequest
+import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.ui.IvyWalletCtx
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -166,7 +166,7 @@ class SettingsViewModel @Inject constructor(
                     fileUri = fileUri
                 )
 
-                (context as IvyActivity).shareCSVFile(
+                (context as RootActivity).shareCSVFile(
                     fileUri = fileUri
                 )
 
@@ -189,7 +189,7 @@ class SettingsViewModel @Inject constructor(
                 _progressState.value = false
 
                 uiThread {
-                    (context as IvyActivity).shareZipFile(
+                    (context as RootActivity).shareZipFile(
                         fileUri = fileUri
                     )
                 }
@@ -293,7 +293,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun requestFeature(
-        ivyActivity: IvyActivity,
+        rootActivity: RootActivity,
         title: String,
         body: String
     ) {
@@ -314,7 +314,7 @@ class SettingsViewModel @Inject constructor(
                     .replace("api.github.com", "github.com")
                     .replace("/repos", "")
 
-                ivyActivity.openUrlInBrowser(issueUrl)
+                rootActivity.openUrlInBrowser(issueUrl)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
