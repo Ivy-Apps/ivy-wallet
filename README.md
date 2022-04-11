@@ -7,7 +7,7 @@
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
-## Ideology
+## Ideology :earth_africa:
 
 We believe that people _(not corporations or business entities)_ can create innovative, open-source,
 and free software that can make the world a better place.
@@ -21,9 +21,10 @@ and free software that can make the world a better place.
 
 **We believe in:**
 
-- Freedom
-- Creativity & Innovation
-- Challenging the status quo
+- Freedom.
+- Creativity & Innovation.
+- Challenging the status quo.
+- Decentralization.
 - Having the right to do what you believe in, not what you're told to.
 
 ## Community
@@ -35,20 +36,20 @@ tell us how we can create a better environment for developers & creators to work
 
 ### [Ivy Telegram News](https://t.me/ivywallet)
 
-## What's next?
+## What's next? :rocket:
 
 We need your help! Let us know what you think :)
 
 Our plan is:
 
 1. Make Ivy Wallet free! :heavy_check_mark:
-1. Create Ivy Community Telegram :heavy_check_mark:
+1. Create [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk). :heavy_check_mark:
 1. Create a crypto donations mechanism (BTC, ETH, ADA, SOL...)
 1. Use the donations to setup a dev fund where contributors can earn money by helping the project.
 1. Create a proposal and voting system based using Cardano (ADA) smart contracts.
 1. So far, so good! Let us know what do you think should be next?
 
-Correct us, if we're wrong! Share your opinion and be the change. :rocket:
+Correct us, if we're wrong! Share your opinion. Be the change. :star:
 
 ## The Ivy Wallet App
 
