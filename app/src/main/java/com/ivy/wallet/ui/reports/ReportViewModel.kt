@@ -25,6 +25,8 @@ import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
@@ -47,80 +49,42 @@ class ReportViewModel @Inject constructor(
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories = _categories.asLiveData()
+    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    val categories = _categories.readOnly()
 
-    private val _accounts = MutableLiveData<List<Account>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.readOnly()
 
-    private val _baseCurrency = MutableLiveData<String>()
-    val baseCurrency = _baseCurrency.asLiveData()
+    private val _baseCurrency = MutableStateFlow("")
+    val baseCurrency = _baseCurrency.readOnly()
 
-    private val _balance = MutableLiveData<Double>()
-    val balance = _balance.asLiveData()
+    private val _upcomingExpanded = MutableStateFlow(false)
+    private val _overdueExpanded = MutableStateFlow(true)
 
-    private val _income = MutableLiveData<Double>()
-    val income = _income.asLiveData()
+    private val _filter = MutableStateFlow<ReportFilter?>(null)
+    val filter = _filter.readOnly()
 
-    private val _expenses = MutableLiveData<Double>()
-    val expenses = _expenses.asLiveData()
+    private val _loading = MutableStateFlow(false)
+    val loading = _loading.readOnly()
 
-    //Upcoming
-    private val _upcoming = MutableLiveData<List<Transaction>>()
-    val upcoming = _upcoming.asLiveData()
-
-    private val _upcomingIncome = MutableLiveData<Double>()
-    val upcomingIncome = _upcomingIncome.asLiveData()
-
-    private val _upcomingExpenses = MutableLiveData<Double>()
-    val upcomingExpenses = _upcomingExpenses.asLiveData()
-
-    private val _upcomingExpanded = MutableLiveData(false)
-    val upcomingExpanded = _upcomingExpanded.asLiveData()
-
-    //Overdue
-    private val _overdue = MutableLiveData<List<Transaction>>()
-    val overdue = _overdue.asLiveData()
-
-    private val _overdueIncome = MutableLiveData<Double>()
-    val overdueIncome = _overdueIncome.asLiveData()
-
-    private val _overdueExpenses = MutableLiveData<Double>()
-    val overdueExpenses = _overdueExpenses.asLiveData()
-
-    private val _overdueExpanded = MutableLiveData(true)
-    val overdueExpanded = _overdueExpanded.asLiveData()
-
-    //History
-    private val _history = MutableLiveData<List<TransactionHistoryItem>>()
-    val history = _history.asLiveData()
-
-    private val _filter = MutableLiveData<ReportFilter?>()
-    val filter = _filter.asLiveData()
-
-    private val _loading = MutableLiveData<Boolean>()
-    val loading = _loading.asLiveData()
-
-    private val _accountFilterList = MutableStateFlow<List<UUID>>(emptyList())
-    val accountFilterList = _accountFilterList.readOnly()
-
-    private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
-    val transactions = _transactions.readOnly()
+    private val _state = MutableStateFlow(ReportScreenState())
+    val state = _state.readOnly()
 
     fun start() {
-        viewModelScope.launch {
-            val baseCurrency = ioThread { settingsDao.findFirst().currency }
-            _baseCurrency.value = baseCurrency
+        viewModelScope.launch(Dispatchers.IO) {
+            _baseCurrency.value = settingsDao.findFirst().currency
+            _categories.value = categoryDao.findAll()
+            _accounts.value = accountDao.findAll()
 
-            val categories = ioThread { categoryDao.findAll() }
-            _categories.value = categories
-
-            val accounts = ioThread { accountDao.findAll() }
-            _accounts.value = accounts
+            _state.value = _state.value.copy(
+                baseCurrency = _baseCurrency.value,
+                categories = _categories.value,
+                accounts = _accounts.value
+            )
         }
     }
 
-    fun setFilter(filter: ReportFilter?) {
+    private fun setFilter(filter: ReportFilter?) {
         if (filter == null) {
             //clear filter
             _filter.value = null
@@ -129,90 +93,91 @@ class ReportViewModel @Inject constructor(
 
         if (!filter.validate()) return
 
-        val accounts = accounts.value ?: return
-        val baseCurrency = baseCurrency.value ?: return
+        val accounts = accounts.value
+        val baseCurrency = baseCurrency.value
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loading.value = true
             _filter.value = filter
 
-            val transactions = ioThread {
-                filterTransactions(
-                    baseCurrency = baseCurrency,
-                    accounts = accounts,
-                    filter = filter
-                )
-            }
+            _state.value = _state.value.copy(loading = _loading.value, filter = _filter.value)
 
-            val history = ioThread {
-                transactions
-                    .filter { it.dateTime != null }
-                    .sortedByDescending { it.dateTime }
-            }
+            val transactions = filterTransactions(
+                baseCurrency = baseCurrency,
+                accounts = accounts,
+                filter = filter
+            )
 
-            _transactions.value = history
-            _history.value = ioThread {
+            val history = transactions
+                .filter { it.dateTime != null }
+                .sortedByDescending { it.dateTime }
+
+            val historyWithDateDividers = async {
                 history.withDateDividers(
                     exchangeRatesLogic = exchangeRatesLogic,
                     settingsDao = settingsDao,
                     accountDao = accountDao
                 )
-            }!!
-            val income = ioThread {
-                walletLogic.calculateIncome(history)
             }
-            _income.value = income
-            val expenses = ioThread {
-                walletLogic.calculateExpenses(history)
-            }
-            _expenses.value = expenses
-            _balance.value = ioThread {
+
+            val income = async { walletLogic.calculateIncome(history) }
+            val expenses = async { walletLogic.calculateExpenses(history) }
+
+            val balance = async {
                 calculateBalance(
                     baseCurrency = baseCurrency,
                     accounts = accounts,
                     history = history,
-                    income = income,
-                    expenses = expenses,
+                    income = income.await(),
+                    expenses = expenses.await(),
                     filter = filter
                 )
-            }!!
+            }
+
+            val accountFilterIdList = async { filter.accounts.map { it.id } }
 
             val timeNowUTC = timeNowUTC()
-            val upcoming = ioThread {
-                transactions
-                    .filter {
-                        it.dueDate != null && it.dueDate.isAfter(timeNowUTC)
-                    }
-                    .sortedBy { it.dueDate }
-            }
-            _upcoming.value = upcoming
-            _upcomingIncome.value = ioThread {
-                walletLogic.calculateIncome(upcoming)
-            }!!
-            _upcomingExpenses.value = ioThread {
-                walletLogic.calculateExpenses(upcoming)
-            }!!
 
-            val overdue = ioThread {
-                transactions.filter {
-                    it.dueDate != null && it.dueDate.isBefore(timeNowUTC)
-                }.sortedByDescending {
-                    it.dueDate
+            //Upcoming
+            val upcomingTransactions = transactions
+                .filter {
+                    it.dueDate != null && it.dueDate.isAfter(timeNowUTC)
                 }
-            }
-            _overdue.value = overdue
-            _overdueIncome.value = ioThread {
-                walletLogic.calculateIncome(overdue)
-            }!!
-            _overdueExpenses.value = ioThread {
-                walletLogic.calculateExpenses(overdue)
-            }!!
+                .sortedBy { it.dueDate }
+            val upcomingIncome = async { walletLogic.calculateIncome(upcomingTransactions) }
+            val upcomingExpenses = async { walletLogic.calculateExpenses(upcomingTransactions) }
 
-            _accountFilterList.value = computationThread {
-                filter.accounts.map { it.id }
+            //Overdue
+            val overdue = transactions.filter {
+                it.dueDate != null && it.dueDate.isBefore(timeNowUTC)
+            }.sortedByDescending {
+                it.dueDate
             }
+            val overdueIncome = async { walletLogic.calculateIncome(overdue) }
+            val overdueExpenses = async { walletLogic.calculateExpenses(overdue) }
 
             _loading.value = false
+
+            _state.value = _state.value.copy(
+                balance = balance.await(),
+                income = income.await(),
+                expenses = expenses.await(),
+                upcomingIncome = upcomingIncome.await(),
+                upcomingExpenses = upcomingExpenses.await(),
+                overdueIncome = overdueIncome.await(),
+                overdueExpenses = overdueExpenses.await(),
+                history = historyWithDateDividers.await(),
+                upcomingTransactions = upcomingTransactions,
+                overdueTransactions = overdue,
+                categories = categories.value,
+                accounts = _accounts.value,
+                upcomingExpanded = false,
+                overdueExpanded = false,
+                filter = filter,
+                loading = false,
+                accountIdFilters = accountFilterIdList.await(),
+                transactions = transactions
+            )
         }
     }
 
@@ -221,6 +186,10 @@ class ReportViewModel @Inject constructor(
         accounts: List<Account>,
         filter: ReportFilter,
     ): List<Transaction> {
+        val filterAccountIds = filter.accounts.map { it.id }
+        val filterCategoryIds = filter.categories.map { it.id }
+        val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
+
         return transactionDao
             .findAll()
             .asSequence()
@@ -231,8 +200,7 @@ class ReportViewModel @Inject constructor(
             .filter {
                 //Filter by Time Period
 
-                val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
-                    ?: return@filter false
+                filterRange ?: return@filter false
 
                 (it.dateTime != null && filterRange.includes(it.dateTime)) ||
                         (it.dueDate != null && filterRange.includes(it.dueDate))
@@ -240,14 +208,11 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 //Filter by Accounts
 
-                val filterAccountIds = filter.accounts.map { it.id }
-
                 filterAccountIds.contains(trn.accountId) || //Transfers Out
                         (trn.toAccountId != null && filterAccountIds.contains(trn.toAccountId)) //Transfers In
             }
             .filter { trn ->
                 //Filter by Categories
-                val filterCategoryIds = filter.categories.map { it.id }
 
                 filterCategoryIds.contains(trn.smartCategoryId())
             }
@@ -360,7 +325,7 @@ class ReportViewModel @Inject constructor(
         return income - expenses + transfersIn - transfersOut
     }
 
-    fun export(context: Context) {
+    private fun export(context: Context) {
         ivyContext.protectWithPaywall(
             paywallReason = PaywallReason.EXPORT_CSV,
             navigation = nav
@@ -376,7 +341,7 @@ class ReportViewModel @Inject constructor(
                 }).csv"
             ) { fileUri ->
                 viewModelScope.launch {
-                    _loading.value = true
+                    _state.value = _state.value.copy(loading = true)
 
                     exportCSVLogic.exportToFile(
                         context = context,
@@ -394,26 +359,72 @@ class ReportViewModel @Inject constructor(
                         fileUri = fileUri
                     )
 
-                    _loading.value = false
+                    _state.value = _state.value.copy(loading = false)
                 }
             }
         }
     }
 
-    fun setUpcomingExpanded(expanded: Boolean) {
+    private fun setUpcomingExpanded(expanded: Boolean) {
         _upcomingExpanded.value = expanded
+        _state.value = _state.value.copy(upcomingExpanded = expanded)
     }
 
-    fun setOverdueExpanded(expanded: Boolean) {
+    private fun setOverdueExpanded(expanded: Boolean) {
         _overdueExpanded.value = expanded
+        _state.value = _state.value.copy(overdueExpanded = expanded)
     }
 
 
-    fun payOrGet(transaction: Transaction) {
+    private fun payOrGet(transaction: Transaction) {
         viewModelScope.launch {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start()
             }
         }
     }
+
+    fun onEvent(event: ReportScreenEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is ReportScreenEvent.OnFilter -> setFilter(event.filter)
+                is ReportScreenEvent.OnExport -> export(event.context)
+                is ReportScreenEvent.OnPayOrGet -> payOrGet(event.transaction)
+                is ReportScreenEvent.OnOverdueExpanded -> setOverdueExpanded(event.overdueExpanded)
+                is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpanded(event.upcomingExpanded)
+            }
+        }
+    }
+
+}
+
+
+data class ReportScreenState(
+    val baseCurrency: String = "",
+    val balance: Double = 0.0,
+    val income: Double = 0.0,
+    val expenses: Double = 0.0,
+    val upcomingIncome: Double = 0.0,
+    val upcomingExpenses: Double = 0.0,
+    val overdueIncome: Double = 0.0,
+    val overdueExpenses: Double = 0.0,
+    val history: List<TransactionHistoryItem> = emptyList(),
+    val upcomingTransactions: List<Transaction> = emptyList(),
+    val overdueTransactions: List<Transaction> = emptyList(),
+    val categories: List<Category> = emptyList(),
+    val accounts: List<Account> = emptyList(),
+    val upcomingExpanded: Boolean = false,
+    val overdueExpanded: Boolean = false,
+    val filter: ReportFilter? = null,
+    val loading: Boolean = false,
+    val accountIdFilters: List<UUID> = emptyList(),
+    val transactions: List<Transaction> = emptyList()
+)
+
+sealed class ReportScreenEvent {
+    data class OnFilter(val filter: ReportFilter?) : ReportScreenEvent()
+    data class OnExport(val context: Context) : ReportScreenEvent()
+    data class OnPayOrGet(val transaction: Transaction) : ReportScreenEvent()
+    data class OnUpcomingExpanded(val upcomingExpanded: Boolean) : ReportScreenEvent()
+    data class OnOverdueExpanded(val overdueExpanded: Boolean) : ReportScreenEvent()
 }
