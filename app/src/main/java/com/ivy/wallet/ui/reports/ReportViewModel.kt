@@ -214,7 +214,7 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 //Filter by Categories
 
-                filterCategoryIds.contains(trn.smartCategoryId())
+                filterCategoryIds.contains(trn.smartCategoryId()) || (trn.type == TransactionType.TRANSFER )
             }
             .filter {
                 //Filter by Amount
