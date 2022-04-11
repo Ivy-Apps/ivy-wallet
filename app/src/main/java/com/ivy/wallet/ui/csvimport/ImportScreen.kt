@@ -8,9 +8,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.logic.csv.model.ImportResult
-import com.ivy.wallet.logic.csv.model.ImportType
+import com.ivy.wallet.domain.logic.csv.model.ImportResult
+import com.ivy.wallet.domain.logic.csv.model.ImportType
 import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.csvimport.flow.ImportFrom
@@ -18,6 +17,7 @@ import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI
 import com.ivy.wallet.ui.csvimport.flow.instructions.ImportInstructions
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
+import com.ivy.wallet.utils.onScreenStart
 
 @OptIn(ExperimentalStdlibApi::class)
 @ExperimentalFoundationApi

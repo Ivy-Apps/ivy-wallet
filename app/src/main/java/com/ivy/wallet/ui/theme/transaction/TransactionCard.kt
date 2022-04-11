@@ -16,17 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Transaction
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
@@ -35,6 +35,7 @@ import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
 
 
@@ -108,6 +109,24 @@ fun LazyItemScope.TransactionCard(
                 )
             )
 
+        }
+
+        if (transaction.description.isNotNullOrBlank()){
+            Spacer(
+                Modifier.height(
+                    if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
+                )
+            )
+
+            Text(text = transaction.description!!,
+                modifier = Modifier.padding(horizontal = 24.dp),
+                style = UI.typo.nC.style(
+                    color = UI.colors.gray,
+                    fontWeight = FontWeight.Bold
+                ),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
         }
 
         if (transaction.dueDate != null) {

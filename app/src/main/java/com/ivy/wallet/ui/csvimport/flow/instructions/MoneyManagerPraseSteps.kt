@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.ui.RootActivity
 
 @Composable
 fun MoneyManagerPraseSteps(
@@ -38,7 +38,7 @@ fun MoneyManagerPraseSteps(
 
     Spacer(Modifier.height(12.dp))
 
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     InstructionButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         icon = null,

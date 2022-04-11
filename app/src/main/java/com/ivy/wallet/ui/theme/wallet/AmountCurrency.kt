@@ -8,9 +8,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.format
-import com.ivy.wallet.base.shortenAmount
-import com.ivy.wallet.base.shouldShortAmount
+import com.ivy.wallet.utils.format
+import com.ivy.wallet.utils.shortenAmount
+import com.ivy.wallet.utils.shouldShortAmount
 
 
 @Composable

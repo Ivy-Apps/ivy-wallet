@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.design.l0_system.UI
-import com.ivy.wallet.base.toLowerCaseLocal
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.utils.toLowerCaseLocal
 
 
 @Composable

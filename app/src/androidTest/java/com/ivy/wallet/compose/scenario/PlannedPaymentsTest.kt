@@ -2,11 +2,11 @@ package com.ivy.wallet.compose.scenario
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.ivy.wallet.base.timeNowUTC
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
-import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 

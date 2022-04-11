@@ -21,11 +21,7 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.clickableNoIndication
-import com.ivy.wallet.base.format
-import com.ivy.wallet.base.horizontalSwipeListener
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.model.entity.Account
+import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
@@ -35,6 +31,10 @@ import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.wallet.utils.format
+import com.ivy.wallet.utils.horizontalSwipeListener
+import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab(screen: Main) {

@@ -138,7 +138,7 @@ private fun PreviewVerticalDivider_fixed() {
 private fun PreviewDivider() {
     IvyComponentPreview {
         Row {
-            SpacerH(16.dp)
+            SpacerHor(16.dp)
 
             Divider(
                 modifier = Modifier
@@ -146,7 +146,7 @@ private fun PreviewDivider() {
                     .height(2.dp)
             )
 
-            SpacerH(16.dp)
+            SpacerHor(16.dp)
 
             Divider(
                 modifier = Modifier
@@ -154,7 +154,7 @@ private fun PreviewDivider() {
                     .height(2.dp)
             )
 
-            SpacerH(16.dp)
+            SpacerHor(16.dp)
 
             Divider(
                 modifier = Modifier
@@ -162,7 +162,7 @@ private fun PreviewDivider() {
                     .height(2.dp)
             )
 
-            SpacerH(16.dp)
+            SpacerHor(16.dp)
         }
     }
 }

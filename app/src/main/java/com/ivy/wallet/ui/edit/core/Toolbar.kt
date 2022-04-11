@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.model.TransactionType
+import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
 import com.ivy.wallet.ui.theme.components.IvyOutlinedButton

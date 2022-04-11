@@ -23,22 +23,22 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.toDensityDp
-import com.ivy.wallet.billing.Plan
-import com.ivy.wallet.billing.PlanType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Budget
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.Loan
-import com.ivy.wallet.ui.IvyActivity
+import com.ivy.wallet.android.billing.Plan
+import com.ivy.wallet.android.billing.PlanType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Budget
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
+import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvyToolbar
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.toDensityDp
 
 private const val BENEFIT_TAG_ACCOUNTS = "accs"
 private const val BENEFIT_TAG_CATEGORIES = "cats"
@@ -75,7 +75,7 @@ private val BENEFITS = listOf(
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.PaywallScreen(screen: Paywall, activity: IvyActivity) {
+fun BoxWithConstraintsScope.PaywallScreen(screen: Paywall, activity: RootActivity) {
     val viewModel: PaywallViewModel = viewModel()
 
     val plans by viewModel.plans.observeAsState(emptyList())

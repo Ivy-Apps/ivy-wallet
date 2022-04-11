@@ -23,11 +23,9 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.toLowerCaseLocal
-import com.ivy.wallet.logic.model.CreateCategoryData
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
@@ -38,6 +36,7 @@ import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.OnboardingButton
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
+import com.ivy.wallet.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi
 @Composable

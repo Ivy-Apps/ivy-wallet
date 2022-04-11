@@ -31,10 +31,9 @@ import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
-import com.ivy.wallet.base.*
-import com.ivy.wallet.model.AuthProviderType
-import com.ivy.wallet.model.IvyCurrency
-import com.ivy.wallet.model.entity.User
+import com.ivy.wallet.domain.data.AuthProviderType
+import com.ivy.wallet.domain.data.IvyCurrency
+import com.ivy.wallet.domain.data.entity.User
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -42,6 +41,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.IvySwitch
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 import com.ivy.wallet.ui.theme.modal.*
+import com.ivy.wallet.utils.*
 import java.util.*
 
 @ExperimentalFoundationApi
@@ -63,7 +63,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         viewModel.start()
     }
 
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     val context = LocalContext.current
     UI(
         user = user,
@@ -94,7 +94,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
         onRequestFeature = { title, body ->
             viewModel.requestFeature(
-                ivyActivity = ivyActivity,
+                rootActivity = ivyActivity,
                 title = title,
                 body = body
             )
@@ -272,7 +272,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val ivyActivity = LocalContext.current as IvyActivity
+            val ivyActivity = LocalContext.current as RootActivity
             SettingsPrimaryButton(
                 icon = R.drawable.ic_custom_star_m,
                 text = "Rate us on Google Play",
@@ -488,7 +488,7 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val ivyActivity = LocalContext.current as IvyActivity
+    val ivyActivity = LocalContext.current as RootActivity
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = "Contact support",

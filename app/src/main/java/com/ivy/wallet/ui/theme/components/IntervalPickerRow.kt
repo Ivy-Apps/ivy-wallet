@@ -17,14 +17,14 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.capitalizeLocal
-import com.ivy.wallet.base.isNotNullOrBlank
-import com.ivy.wallet.base.selectEndTextFieldValue
-import com.ivy.wallet.model.IntervalType
+import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
+import com.ivy.wallet.utils.capitalizeLocal
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.selectEndTextFieldValue
 
 @Composable
 fun IntervalPickerRow(

@@ -20,11 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.base.drawColoredShadow
-import com.ivy.wallet.base.hideKeyboard
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.thenIf
-import com.ivy.wallet.model.entity.Category
+import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -34,6 +30,10 @@ import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.thenIf
 import java.util.*
 
 @ExperimentalFoundationApi

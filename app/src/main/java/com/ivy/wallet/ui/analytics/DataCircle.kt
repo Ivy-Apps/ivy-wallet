@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.format
-
 import com.ivy.wallet.ui.theme.findContrastTextColor
+import com.ivy.wallet.utils.format
 
 
 @Composable

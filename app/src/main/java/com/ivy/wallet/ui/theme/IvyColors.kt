@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.ivy.design.l0_system.UI
-import com.ivy.wallet.base.densityScope
+import com.ivy.wallet.utils.densityScope
 
 
 val White = Color(0xFFFAFAFA)

@@ -20,11 +20,9 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.base.toLowerCaseLocal
-import com.ivy.wallet.logic.model.CreateAccountData
-import com.ivy.wallet.model.entity.Account
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.logic.model.CreateAccountData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -41,6 +39,7 @@ import com.ivy.wallet.ui.theme.components.OnboardingButton
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
+import com.ivy.wallet.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi
 @Composable

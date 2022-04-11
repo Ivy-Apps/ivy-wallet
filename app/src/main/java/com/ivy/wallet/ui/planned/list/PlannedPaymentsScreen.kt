@@ -17,18 +17,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.base.onScreenStart
-import com.ivy.wallet.base.timeNowUTC
-import com.ivy.wallet.model.IntervalType
-import com.ivy.wallet.model.TransactionType
-import com.ivy.wallet.model.entity.Account
-import com.ivy.wallet.model.entity.Category
-import com.ivy.wallet.model.entity.PlannedPaymentRule
+import com.ivy.wallet.domain.data.IntervalType
+import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PlannedPayments
-
 import com.ivy.wallet.ui.theme.Orange
+import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.utils.timeNowUTC
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {

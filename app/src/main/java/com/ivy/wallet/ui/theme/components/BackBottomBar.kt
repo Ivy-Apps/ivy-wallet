@@ -11,9 +11,9 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
-import com.ivy.wallet.base.navigationBarInset
-import com.ivy.wallet.base.toDensityDp
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
+import com.ivy.wallet.utils.navigationBarInset
+import com.ivy.wallet.utils.toDensityDp
 
 @Composable
 fun BoxWithConstraintsScope.BackBottomBar(
