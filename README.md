@@ -7,6 +7,51 @@
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
+## Ideology
+
+We believe that people _(not corporations or business entities)_ can create innovative, open-source,
+and free software that can make the world a better place.
+
+**We want Ivy to be:**
+
+- A place where you can excel and have fun while contributing to something meaningful.
+- A community where you can express yourself freely and build the future that you want to live in.
+- An open-source project that'll inspire a movement where people can build the software they want
+  and eventually become a DAO where hundreds of developers can work on their own terms.
+
+**We believe in:**
+
+- Freedom
+- Creativity & Innovation
+- Challenging the status quo
+- Having the right to do what you believe in, not what you're told to.
+
+## Community
+
+Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), comment on GitHub, and
+tell us how we can create a better environment for developers & creators to work together.
+
+### [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk)
+
+### [Ivy Telegram News](https://t.me/ivywallet)
+
+## What's next?
+
+We need your help! Let us know what you think :)
+
+Our plan is:
+
+1. Make Ivy Wallet free! :heavy_check_mark:
+1. Create Ivy Community Telegram :heavy_check_mark:
+1. Create a crypto donations mechanism (BTC, ETH, ADA, SOL...)
+1. Use the donations to setup a dev fund where contributors can earn money by helping the project.
+1. Create a proposal and voting system based using Cardano (ADA) smart contracts.
+1. So far, so good! Let us know what do you think should be next?
+
+Correct us, if we're wrong! Share your opinion and be the change. :rocket:
+
+## The Ivy Wallet App
+
 Personal finance and spending tracker app which helps you manage your money.
 <div align="center">
 <img src="https://play-lh.googleusercontent.com/fxNeMm4BRWJ4ZozX5m8CSBbjZhcx0rKJM2cbiTgjKw4zxt8Pf_2BZBWp5L19R0XFdg=w720-h310-rw" alt="ivy-wallet-screenshot-1" width="155" height="310">
@@ -57,6 +102,7 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - MVVM architecture with LiveData
 - Hilt (DI)
 - Kotlin Coroutines
+- Functional Programming with Arrow
 ### Networking
 - Retrofit (REST API)
 - OkHttp 3 (REST client)
@@ -91,11 +137,14 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - You'll make Ivy Wallet better
 - You can develop the features that you want yourself, the way you want them
 - You'll play around and learn cutting-edge technologies
-- When you submit us a meaningful PR and we approve it => you'll receive a **free Ivy Wallet Premium Lifetime code**
-- It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in a production environment
-- You can see Android Development Best Practices in 2021 (and also help us improve our code)
-- When we merge your first PR I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on LinkedIn for Android Development and Kotlin
-- Personal recommendation on your LinkedIn profile after 10 successfully merged PRs
+- It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in
+  a production environment
+- You can see Android Development Best Practices in 2022 (and also help us improve our code)
+- When we merge your first PR
+  I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on
+  LinkedIn for Android Development and Kotlin
+- Personal recommendation on your LinkedIn profile after 10 successfully merged PRs - make sure that
+  you notify us because we don't count your PRs :)
 
 ### How to contribute?
 
