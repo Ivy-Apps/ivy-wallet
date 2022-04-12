@@ -21,6 +21,7 @@ What do you want to work on? How do you want to contribute?
 - Issues with the
   label [good first issue](https://github.com/ILIYANGERMANOV/ivy-wallet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
   are easier.
+- You can also help us clean up the [issue section](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) by identifying duplicate issues.
 - You can always make code improvements w/o having an opened issue.
 - You create an issue yourself!
 - Ask questions or suggest ideas in the comments section of any issue,
