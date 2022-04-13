@@ -1,36 +1,32 @@
 package com.ivy.wallet.ui.reports
 
 import android.content.Context
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.HistoryWithDateDivAct
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.fp.wallet.withDateDividers
 import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.logic.WalletLogic
 import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.paywall.PaywallReason
+import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,12 +40,13 @@ class ReportViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val exportCSVLogic: ExportCSVLogic,
-    private val historyWithDateDivAct: HistoryWithDateDivAct,
+    private val exchangeRateDao: ExchangeRateDao,
+    private val exportCSVLogic: ExportCSVLogic
 ) : IvyViewModel<ReportScreenState>() {
     override val mutableState: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
+    private val unSpecifiedCategory = Category("UnSpecified", color = Gray.toArgb())
 
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
@@ -69,8 +66,8 @@ class ReportViewModel @Inject constructor(
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = settingsDao.findFirst().currency
-            _categories.value = categoryDao.findAll()
             _accounts.value = accountDao.findAll()
+            _categories.value = listOf(unSpecifiedCategory) + categoryDao.findAll()
 
             updateState {
                 it.copy(
@@ -99,9 +96,6 @@ class ReportViewModel @Inject constructor(
                 it.copy(loading = true, filter = _filter.value)
             }
 
-            val timeRange = filter.period?.toRange(ivyContext.startDayOfMonth)?.toCloseTimeRange()
-                ?: return@scopedIOThread
-
             val transactions = filterTransactions(
                 baseCurrency = baseCurrency,
                 accounts = accounts,
@@ -113,11 +107,10 @@ class ReportViewModel @Inject constructor(
                 .sortedByDescending { it.dateTime }
 
             val historyWithDateDividers = scope.async {
-                historyWithDateDivAct(
-                    HistoryWithDateDivAct.Input(
-                        timeRange = timeRange,
-                        baseCurrencyCode = _baseCurrency.value
-                    )
+                history.withDateDividers(
+                    exchangeRateDao = exchangeRateDao,
+                    accountDao = accountDao,
+                    baseCurrencyCode = _baseCurrency.value
                 )
             }
 
@@ -160,7 +153,6 @@ class ReportViewModel @Inject constructor(
 
             updateState {
                 it.copy(
-                    balance = balance.await(),
                     income = income.await(),
                     expenses = expenses.await(),
                     upcomingIncome = upcomingIncome.await(),
@@ -175,7 +167,9 @@ class ReportViewModel @Inject constructor(
                     filter = filter,
                     loading = false,
                     accountIdFilters = accountFilterIdList.await(),
-                    transactions = transactions
+                    transactions = transactions,
+                    balance = balance.await(),
+                    filterOverlayVisible = false
                 )
             }
         }
@@ -187,7 +181,8 @@ class ReportViewModel @Inject constructor(
         filter: ReportFilter,
     ): List<Transaction> {
         val filterAccountIds = filter.accounts.map { it.id }
-        val filterCategoryIds = filter.categories.map { it.id }
+        val filterCategoryIds =
+            filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
         val filterRange = filter.period?.toRange(ivyContext.startDayOfMonth)
 
         return transactionDao
@@ -381,7 +376,6 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-
     private suspend fun payOrGet(transaction: Transaction) {
         uiThread {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
@@ -408,36 +402,4 @@ class ReportViewModel @Inject constructor(
             }
         }
     }
-}
-
-data class ReportScreenState(
-    val baseCurrency: String = "",
-    val balance: Double = 0.0,
-    val income: Double = 0.0,
-    val expenses: Double = 0.0,
-    val upcomingIncome: Double = 0.0,
-    val upcomingExpenses: Double = 0.0,
-    val overdueIncome: Double = 0.0,
-    val overdueExpenses: Double = 0.0,
-    val history: List<TransactionHistoryItem> = emptyList(),
-    val upcomingTransactions: List<Transaction> = emptyList(),
-    val overdueTransactions: List<Transaction> = emptyList(),
-    val categories: List<Category> = emptyList(),
-    val accounts: List<Account> = emptyList(),
-    val upcomingExpanded: Boolean = false,
-    val overdueExpanded: Boolean = false,
-    val filter: ReportFilter? = null,
-    val loading: Boolean = false,
-    val accountIdFilters: List<UUID> = emptyList(),
-    val transactions: List<Transaction> = emptyList(),
-    val filterOverlayVisible: Boolean = false
-)
-
-sealed class ReportScreenEvent {
-    data class OnFilter(val filter: ReportFilter?) : ReportScreenEvent()
-    data class OnExport(val context: Context) : ReportScreenEvent()
-    data class OnPayOrGet(val transaction: Transaction) : ReportScreenEvent()
-    data class OnUpcomingExpanded(val upcomingExpanded: Boolean) : ReportScreenEvent()
-    data class OnOverdueExpanded(val overdueExpanded: Boolean) : ReportScreenEvent()
-    data class OnFilterOverlayVisible(val filterOverlayVisible: Boolean) : ReportScreenEvent()
 }

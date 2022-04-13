@@ -224,7 +224,6 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
         }
-
     }
 
     FilterOverlay(
