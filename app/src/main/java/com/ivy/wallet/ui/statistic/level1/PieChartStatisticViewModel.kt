@@ -343,21 +343,3 @@ class PieChartStatisticViewModel @Inject constructor(
         return category == null || category == transfersCategory
     }
 }
-
-//
-//            transactions.groupBy { it.categoryId }.filter { mapEntry ->
-//                mapEntry.key == null
-//            }.map { mapEntry ->
-//
-//                trans = mapEntry.value.filter {
-//                    it.type == TransactionType.TRANSFER
-//                }
-//
-//                amt = trans.sumOf {
-//                    exchangeRatesLogic.toAmountBaseCurrency(
-//                        transaction = it,
-//                        baseCurrency = baseCurrencyCode.value,
-//                        accounts = walletDAOs.accountDao.findAll()
-//                    )
-//                }
-//            }
