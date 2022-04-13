@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
@@ -23,11 +24,9 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report
@@ -39,7 +38,6 @@ import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
-import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
@@ -47,114 +45,30 @@ fun BoxWithConstraintsScope.ReportScreen(
     screen: Report
 ) {
     val viewModel: ReportViewModel = viewModel()
-
-    val baseCurrency by viewModel.baseCurrency.observeAsState("")
-    val balance by viewModel.balance.observeAsState(0.0)
-    val income by viewModel.income.observeAsState(0.0)
-    val expenses by viewModel.expenses.observeAsState(0.0)
-    val upcomingIncome by viewModel.upcomingIncome.observeAsState(0.0)
-    val upcomingExpenses by viewModel.upcomingExpenses.observeAsState(0.0)
-    val overdueIncome by viewModel.overdueIncome.observeAsState(0.0)
-    val overdueExpenses by viewModel.overdueExpenses.observeAsState(0.0)
-
-    val history by viewModel.history.observeAsState(emptyList())
-    val upcoming by viewModel.upcoming.observeAsState(emptyList())
-    val overdue by viewModel.overdue.observeAsState(emptyList())
-
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-
-    val upcomingExpanded by viewModel.upcomingExpanded.observeAsState(false)
-    val overdueExpanded by viewModel.overdueExpanded.observeAsState(false)
-
-    val filter by viewModel.filter.observeAsState()
-    val loading by viewModel.loading.observeAsState(false)
-
-    val accountFilters by viewModel.accountFilterList.collectAsState()
-    val transactions by viewModel.transactions.collectAsState()
+    val state by viewModel.state().collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
-    val context = LocalContext.current
     UI(
-        baseCurrency = baseCurrency,
-        balance = balance,
-        income = income,
-        expenses = expenses,
-        upcomingIncome = upcomingIncome,
-        upcomingExpenses = upcomingExpenses,
-        overdueIncome = overdueIncome,
-        overdueExpenses = overdueExpenses,
-        history = history,
-        upcoming = upcoming,
-        overdue = overdue,
-        categories = categories,
-        accounts = accounts,
-        accountFilters = accountFilters,
-        transactions = transactions,
-
-        upcomingExpanded = upcomingExpanded,
-        overdueExpanded = overdueExpanded,
-
-        filter = filter,
-        loading = loading,
-
-        setUpcomingExpanded = viewModel::setUpcomingExpanded,
-        setOverdueExpanded = viewModel::setOverdueExpanded,
-        onPayOrGet = viewModel::payOrGet,
-        onSetFilter = viewModel::setFilter,
-        onExport = {
-            viewModel.export(context)
-        }
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    baseCurrency: String,
-    balance: Double,
-
-    income: Double,
-    expenses: Double,
-    upcomingIncome: Double,
-    upcomingExpenses: Double,
-    overdueIncome: Double,
-    overdueExpenses: Double,
-
-    history: List<TransactionHistoryItem>,
-    upcoming: List<Transaction>,
-    overdue: List<Transaction>,
-
-    categories: List<Category>,
-    accounts: List<Account>,
-    accountFilters: List<UUID> = emptyList(),
-    transactions: List<Transaction> = emptyList(),
-
-    upcomingExpanded: Boolean,
-    overdueExpanded: Boolean,
-
-    filter: ReportFilter?,
-    loading: Boolean,
-
-    setUpcomingExpanded: (Boolean) -> Unit = {},
-    setOverdueExpanded: (Boolean) -> Unit = {},
-
-    onPayOrGet: (Transaction) -> Unit = {},
-    onSetFilter: (ReportFilter?) -> Unit = {},
-    onExport: () -> Unit = {},
+    state: ReportScreenState = ReportScreenState(),
+    onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
     val listState = rememberLazyListState()
+    val context = LocalContext.current
 
-    var filterOverlayVisible by remember {
-        mutableStateOf(false)
-    }
-
-    if (loading) {
+    if (state.loading) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -182,9 +96,15 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         stickyHeader {
             Toolbar(
-                onExport = onExport,
+                onExport = {
+                    onEventHandler.invoke(ReportScreenEvent.OnExport(context = context))
+                },
                 onFilter = {
-                    filterOverlayVisible = true
+                    onEventHandler.invoke(
+                        ReportScreenEvent.OnFilterOverlayVisible(
+                            filterOverlayVisible = true
+                        )
+                    )
                 }
             )
         }
@@ -206,10 +126,10 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier
                     .padding(start = 32.dp),
                 textColor = UI.colors.pureInverse,
-                currency = baseCurrency,
-                balance = balance,
+                currency = state.baseCurrency,
+                balance = state.balance,
                 balanceAmountPrefix = when {
-                    balance > 0 -> "+"
+                    state.balance > 0 -> "+"
                     else -> null
                 }
             )
@@ -217,29 +137,29 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(20.dp))
 
             IncomeExpensesCards(
-                history = history,
-                currency = baseCurrency,
-                income = income,
-                expenses = expenses,
+                history = state.history,
+                currency = state.baseCurrency,
+                income = state.income,
+                expenses = state.expenses,
                 hasAddButtons = false,
                 itemColor = UI.colors.pure,
                 incomeHeaderCardClicked = {
-                    if (transactions.isNotEmpty())
+                    if (state.transactions.isNotEmpty())
                         nav.navigateTo(
                             PieChartStatistic(
                                 type = TransactionType.INCOME,
-                                transactions = transactions,
-                                accountList = accountFilters
+                                transactions = state.transactions,
+                                accountList = state.accountIdFilters
                             )
                         )
                 },
                 expenseHeaderCardClicked = {
-                    if (transactions.isNotEmpty())
+                    if (state.transactions.isNotEmpty())
                         nav.navigateTo(
                             PieChartStatistic(
                                 type = TransactionType.EXPENSE,
-                                transactions = transactions,
-                                accountList = accountFilters
+                                transactions = state.transactions,
+                                accountList = state.accountIdFilters
                             )
                         )
                 }
@@ -254,33 +174,39 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(4.dp))
         }
 
-        if (filter != null) {
+        if (state.filter != null) {
             transactions(
                 ivyContext = ivyContext,
                 nav = nav,
-                baseCurrency = baseCurrency,
+                baseCurrency = state.baseCurrency,
 
-                upcomingIncome = upcomingIncome,
-                upcomingExpenses = upcomingExpenses,
-                overdueIncome = overdueIncome,
-                overdueExpenses = overdueExpenses,
+                upcomingIncome = state.upcomingIncome,
+                upcomingExpenses = state.upcomingExpenses,
+                overdueIncome = state.overdueIncome,
+                overdueExpenses = state.overdueExpenses,
 
-                categories = categories,
-                accounts = accounts,
+                categories = state.categories,
+                accounts = state.accounts,
                 listState = listState,
 
-                overdue = overdue,
-                overdueExpanded = overdueExpanded,
-                setOverdueExpanded = setOverdueExpanded,
+                overdue = state.overdueTransactions,
+                overdueExpanded = state.overdueExpanded,
+                setOverdueExpanded = {
+                    onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
+                },
 
-                history = history,
+                history = state.history,
 
-                upcoming = upcoming,
-                upcomingExpanded = upcomingExpanded,
-                setUpcomingExpanded = setUpcomingExpanded,
+                upcoming = state.upcomingTransactions,
+                upcomingExpanded = state.upcomingExpanded,
+                setUpcomingExpanded = {
+                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
+                },
 
                 lastItemSpacer = 48.dp,
-                onPayOrGet = onPayOrGet,
+                onPayOrGet = {
+                    onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
+                },
                 emptyStateTitle = "No transactions",
 
                 emptyStateText = "You don't have any transactions for your filter."
@@ -289,25 +215,33 @@ private fun BoxWithConstraintsScope.UI(
             item {
                 NoFilterEmptyState(
                     setFilterOverlayVisible = {
-                        filterOverlayVisible = it
+                        onEventHandler.invoke(
+                            ReportScreenEvent.OnFilterOverlayVisible(
+                                filterOverlayVisible = it
+                            )
+                        )
                     }
                 )
             }
         }
-
     }
 
-
     FilterOverlay(
-        visible = filterOverlayVisible,
-        baseCurrency = baseCurrency,
-        accounts = accounts,
-        categories = categories,
-        filter = filter,
+        visible = state.filterOverlayVisible,
+        baseCurrency = state.baseCurrency,
+        accounts = state.accounts,
+        categories = state.categories,
+        filter = state.filter,
         onClose = {
-            filterOverlayVisible = false
+            onEventHandler.invoke(
+                ReportScreenEvent.OnFilterOverlayVisible(
+                    filterOverlayVisible = false
+                )
+            )
         },
-        onSetFilter = onSetFilter
+        onSetFilter = {
+            onEventHandler.invoke(ReportScreenEvent.OnFilter(filter = it))
+        }
     )
 }
 
@@ -408,9 +342,7 @@ private fun Preview() {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
-
-
-        UI(
+        val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = -6405.66,
             income = 2000.0,
@@ -419,17 +351,14 @@ private fun Preview() {
             upcomingExpenses = 0.0,
             overdueIncome = 2335.12,
             overdueExpenses = 0.0,
-
             history = emptyList(),
-            upcoming = emptyList(),
-            overdue = emptyList(),
+            upcomingTransactions = emptyList(),
+            overdueTransactions = emptyList(),
 
             upcomingExpanded = true,
             overdueExpanded = true,
-
             filter = ReportFilter.emptyFilter("BGN"),
             loading = false,
-
             accounts = listOf(
                 acc1,
                 acc2,
@@ -442,6 +371,8 @@ private fun Preview() {
                 Category("Home", color = Green.toArgb(), icon = null),
             ),
         )
+
+        UI(state = state)
     }
 }
 
@@ -453,9 +384,7 @@ private fun Preview_NO_FILTER() {
         val acc1 = Account("Cash", color = Green.toArgb())
         val acc2 = Account("DSK", color = GreenDark.toArgb())
         val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
-
-
-        UI(
+        val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = 0.0,
             income = 0.0,
@@ -466,8 +395,8 @@ private fun Preview_NO_FILTER() {
             overdueExpenses = 0.0,
 
             history = emptyList(),
-            upcoming = emptyList(),
-            overdue = emptyList(),
+            upcomingTransactions = emptyList(),
+            overdueTransactions = emptyList(),
 
             upcomingExpanded = true,
             overdueExpanded = true,
@@ -487,5 +416,7 @@ private fun Preview_NO_FILTER() {
                 Category("Home", color = Green.toArgb(), icon = null),
             ),
         )
+
+        UI(state = state)
     }
 }

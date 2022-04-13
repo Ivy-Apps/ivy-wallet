@@ -79,7 +79,8 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
         onSetPeriod = viewModel::onSetPeriod,
         onSelectNextMonth = viewModel::nextMonth,
         onSelectPreviousMonth = viewModel::previousMonth,
-        onSetSelectedCategory = viewModel::setSelectedCategory
+        onSetSelectedCategory = viewModel::setSelectedCategory,
+        checkForUnSpecifiedCategory = viewModel::checkForUnspecifiedCategory
     )
 }
 
@@ -99,7 +100,8 @@ private fun BoxWithConstraintsScope.UI(
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
     onSetPeriod: (TimePeriod) -> Unit = {},
-    onSetSelectedCategory: (SelectedCategory?) -> Unit = {}
+    onSetSelectedCategory: (SelectedCategory?) -> Unit = {},
+    checkForUnSpecifiedCategory: (Category?) -> Boolean,
 ) {
     var choosePeriodModal: ChoosePeriodModalData? by remember {
         mutableStateOf(null)
@@ -221,23 +223,21 @@ private fun BoxWithConstraintsScope.UI(
                     categoryAmount = item,
                     currency = currency,
                     totalAmount = totalAmount,
-
-
                     selectedCategory = selectedCategory
                 ) {
                     nav.navigateTo(
                         if (transactions.isEmpty())
                             ItemStatistic(
                                 categoryId = item.category?.id,
-                                unspecifiedCategory = item.category == null,
+                                unspecifiedCategory = checkForUnSpecifiedCategory(item.category),
                                 accountIdFilterList = accountIdFilterList
                             )
                         else {
                             ItemStatistic(
                                 categoryId = item.category?.id,
-                                unspecifiedCategory = item.category == null,
+                                unspecifiedCategory = checkForUnSpecifiedCategory(item.category),
                                 accountIdFilterList = accountIdFilterList,
-                                transactions = transactions
+                                transactions = item.associatedTransactions
                             )
                         }
                     )
@@ -523,7 +523,8 @@ private fun Preview_Expense() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            checkForUnSpecifiedCategory = {false}
         )
     }
 }
@@ -574,7 +575,8 @@ private fun Preview_Income() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null
+            selectedCategory = null,
+            checkForUnSpecifiedCategory = {false}
         )
     }
 }
