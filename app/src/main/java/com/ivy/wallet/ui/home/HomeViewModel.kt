@@ -74,12 +74,15 @@ class HomeViewModel @Inject constructor(
 
             val settings = ioThread { settingsDao.findFirst() }
 
+            val hideCurrentBalance = sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+
             updateState {
                 it.copy(
                     theme = settings.theme,
                     name = settings.name,
                     baseCurrencyCode = settings.currency,
-                    period = period
+                    period = period,
+                    hideCurrentBalance = hideCurrentBalance
                 )
             }
 

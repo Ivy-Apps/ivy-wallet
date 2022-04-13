@@ -58,6 +58,8 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
         period = state.period,
         currencyCode = state.baseCurrencyCode,
 
+        hideCurrentBalance = state.hideCurrentBalance,
+
         categories = state.categories,
         accounts = state.accounts,
 
@@ -103,6 +105,8 @@ private fun BoxWithConstraintsScope.UI(
     name: String,
     period: TimePeriod,
     currencyCode: String,
+
+    hideCurrentBalance: Boolean,
 
     categories: List<Category>,
     accounts: List<Account>,
@@ -213,6 +217,8 @@ private fun BoxWithConstraintsScope.UI(
                 onBalanceClick()
             },
 
+            hideCurrentBalance = hideCurrentBalance,
+
 
             period = period,
             listState = listState,
@@ -302,6 +308,8 @@ fun HomeLazyColumn(
     balance: Double,
     bufferDiff: Double,
 
+    hideCurrentBalance: Boolean,
+
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
 
@@ -385,6 +393,8 @@ fun HomeLazyColumn(
                 balance = balance,
                 bufferDiff = bufferDiff,
 
+                hideCurrentBalance = hideCurrentBalance,
+
                 monthlyIncome = monthlyIncome,
                 monthlyExpenses = monthlyExpenses,
 
@@ -445,6 +455,8 @@ private fun PreviewHomeTab() {
                 startDayOfMonth = 1
             ), //preview
             currencyCode = "BGN",
+
+            hideCurrentBalance = false,
 
             categories = emptyList(),
             accounts = emptyList(),
