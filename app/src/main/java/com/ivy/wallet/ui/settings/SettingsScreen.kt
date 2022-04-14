@@ -309,6 +309,10 @@ private fun BoxWithConstraintsScope.UI(
         item {
             SettingsSectionDivider(text = "Product")
 
+            Spacer(Modifier.height(12.dp))
+
+            IvyTelegram()
+
             Spacer(Modifier.height(16.dp))
 
             HelpCenter()
@@ -459,6 +463,19 @@ private fun StartDateOfMonth(
         )
 
         Spacer(Modifier.width(32.dp))
+    }
+}
+
+
+@Composable
+private fun IvyTelegram() {
+    val rootActivity = rootActivity()
+    SettingsPrimaryButton(
+        icon = R.drawable.ic_telegram_24dp,
+        text = "Ivy Telegram",
+        backgroundGradient = Gradient.solid(Blue),
+    ) {
+        rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
     }
 }
 
