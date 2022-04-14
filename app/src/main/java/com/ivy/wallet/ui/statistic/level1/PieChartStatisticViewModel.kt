@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.statistic.level1
 
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.data.TransactionType
@@ -20,6 +21,7 @@ import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
+import com.ivy.wallet.ui.theme.IvyLight
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
@@ -61,8 +63,8 @@ class PieChartStatisticViewModel @Inject constructor(
     private val _selectedCategory = MutableStateFlow<SelectedCategory?>(null)
     val selectedCategory = _selectedCategory.readOnly()
 
-    private val _accountFilterList = MutableStateFlow<List<UUID>>(emptyList())
-    val accountIdFilterList = _accountFilterList.readOnly()
+    private val _accountIdFilterList = MutableStateFlow<List<UUID>>(emptyList())
+    val accountIdFilterList = _accountIdFilterList.readOnly()
 
     private val _showCloseButtonOnly = MutableStateFlow(false)
     val showCloseButtonOnly = _showCloseButtonOnly.readOnly()
@@ -71,6 +73,8 @@ class PieChartStatisticViewModel @Inject constructor(
     val transaction = _transactions.readOnly()
 
     private var filterExcluded = true
+    private val transfersCategory =
+        Category("Account Transfers", color = IvyLight.toArgb(), icon = "transfer")
 
     fun start(
         screen: PieChartStatistic
@@ -86,7 +90,7 @@ class PieChartStatisticViewModel @Inject constructor(
             initPieChartFormTransactions(
                 period = ivyContext.selectedPeriod,
                 type = screen.type,
-                accountFilterList = screen.accountList,
+                accountIdFilterList = screen.accountList,
                 filterExclude = screen.filterExcluded,
                 transactions = screen.transactions
             )
@@ -100,7 +104,7 @@ class PieChartStatisticViewModel @Inject constructor(
         filterExcluded: Boolean
     ) {
         _showCloseButtonOnly.value = false
-        _accountFilterList.value = accountList
+        _accountIdFilterList.value = accountList
         this.filterExcluded = filterExcluded
         _transactions.value = emptyList()
 
@@ -114,16 +118,20 @@ class PieChartStatisticViewModel @Inject constructor(
     private fun initPieChartFormTransactions(
         period: TimePeriod,
         type: TransactionType,
-        accountFilterList: List<UUID>,
+        accountIdFilterList: List<UUID>,
         filterExclude: Boolean,
         transactions: List<Transaction>
     ) {
         viewModelScope.launch(Dispatchers.Default) {
             _showCloseButtonOnly.value = true
-            _accountFilterList.value = accountFilterList
+            _accountIdFilterList.value = accountIdFilterList
             _baseCurrencyCode.value = ioThread { settingsDao.findFirst() }.currency
             _transactions.value = transactions
+            _type.value = type
             filterExcluded = filterExclude
+
+            val accountTransfersCategoryAmount =
+                async { getAccountTransfersCategoryAmount(transactions, type, accountIdFilterList) }
 
             val catAmounts = scopedIOThread { scope ->
                 transactions.groupBy { it.categoryId }.map { mapEntry ->
@@ -131,20 +139,54 @@ class PieChartStatisticViewModel @Inject constructor(
                         val category =
                             if (mapEntry.key == null) null else categoryDao.findById(mapEntry.key!!)
 
-                        val amount = mapEntry.value.filter { it.type == type }.sumInBaseCurrency(
+                        val trans = mapEntry.value.filter { it.type == type }
+
+                        val amount = trans.sumInBaseCurrency(
                             exchangeRatesLogic = exchangeRatesLogic,
                             settingsDao = settingsDao,
                             accountDao = walletDAOs.accountDao
                         )
 
-                        CategoryAmount(category, amount)
+                        CategoryAmount(category, amount, trans)
                     }
                 }.awaitAll().sortedByDescending { it.amount }
             }
 
             _totalAmount.value = catAmounts.sumOf { it.amount }
-            _categoryAmounts.value = catAmounts
+            _categoryAmounts.value = listOf(accountTransfersCategoryAmount.await()) + catAmounts
         }
+    }
+
+    private suspend fun getAccountTransfersCategoryAmount(
+        transactions: List<Transaction>,
+        type: TransactionType,
+        accountIdFilterList: List<UUID>
+    ): CategoryAmount {
+
+        val accountTransferTrans = transactions.filter {
+            it.type == TransactionType.TRANSFER && it.categoryId == null
+        }
+
+        //Converted to set for faster filtering
+        val accountIdFilterSet = accountIdFilterList.toHashSet()
+
+        val categoryAmount = scopedIOThread {
+
+            val trans = if (type == TransactionType.EXPENSE)
+                accountTransferTrans.filter { accountIdFilterSet.contains(it.accountId) }
+            else
+                accountTransferTrans.filter { accountIdFilterSet.contains(it.toAccountId) }
+
+            val amt = trans.sumOf {
+                exchangeRatesLogic.toAmountBaseCurrency(
+                    transaction = it,
+                    baseCurrency = baseCurrencyCode.value,
+                    accounts = walletDAOs.accountDao.findAll()
+                )
+            }
+            CategoryAmount(transfersCategory, amt, trans)
+        }
+        return categoryAmount
     }
 
     private fun load(
@@ -295,5 +337,9 @@ class PieChartStatisticViewModel @Inject constructor(
             } else
                 categoryDao.findAll()
         }
+    }
+
+    fun checkForUnspecifiedCategory(category: Category?): Boolean {
+        return category == null || category == transfersCategory
     }
 }

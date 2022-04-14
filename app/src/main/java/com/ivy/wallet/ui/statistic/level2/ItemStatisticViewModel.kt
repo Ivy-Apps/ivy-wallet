@@ -14,7 +14,9 @@ import com.ivy.wallet.domain.fp.account.calculateAccountIncomeExpense
 import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
 import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
+import com.ivy.wallet.domain.fp.wallet.withDateDividers
 import com.ivy.wallet.domain.logic.*
+import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.sync.uploader.CategoryUploader
 import com.ivy.wallet.io.persistence.dao.*
@@ -47,6 +49,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
+    private val exchangeRatesLogic: ExchangeRatesLogic,
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
@@ -144,8 +147,17 @@ class ItemStatisticViewModel @Inject constructor(
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
                     initForCategory(screen.categoryId, screen.accountIdFilterList)
                 }
-                screen.categoryId != null && screen.transactions.isNotEmpty() -> {
+                //unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
+                screen.categoryId != null && screen.transactions.isNotEmpty()
+                        && screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
+                        screen.categoryId,
+                        screen.accountIdFilterList,
+                        screen.transactions
+                    )
+                }
+                screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
+                    initForUnspecifiedCategoryWithTransactions(
                         screen.categoryId,
                         screen.accountIdFilterList,
                         screen.transactions
@@ -405,6 +417,68 @@ class ItemStatisticViewModel @Inject constructor(
         }
 
         _overdue.value = ioThread { categoryLogic.overdueUnspecified(range) }
+    }
+
+    private suspend fun initForUnspecifiedCategoryWithTransactions(
+        categoryId: UUID?,
+        accountFilterList: List<UUID>,
+        transactions: List<Transaction>
+    ) {
+        _initWithTransactions.value = true
+        val accountFilterIdSet = accountFilterList.toHashSet()
+
+        val accountTransferCategoryEnabled = categoryId != null
+        if (accountTransferCategoryEnabled)
+            _category.value = Category("Account Transfers")
+
+        val trans = transactions.filter {
+            it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
+                it.toAccountId
+            ))
+        }
+
+        val incomeTrans = trans.filter {
+            it.type == TransactionType.INCOME
+        }
+
+        val expenseTrans = trans.filter {
+            it.type == TransactionType.EXPENSE
+        }
+
+        _income.value = ioThread {
+            categoryLogic.calculateCategoryIncome(
+                incomeTransaction = incomeTrans,
+                accountFilterSet = accountFilterIdSet
+            )
+        }
+
+        _expenses.value = ioThread {
+            categoryLogic.calculateCategoryExpenses(
+                expenseTransactions = expenseTrans,
+                accountFilterSet = accountFilterIdSet
+            )
+        }
+
+        _balance.value = scopedIOThread {
+            _income.value - _expenses.value +
+                    if (accountTransferCategoryEnabled)
+                        trans.filter { it.type == TransactionType.TRANSFER }
+                        .sumOf {
+                            exchangeRatesLogic.toAmountBaseCurrency(
+                                transaction = it,
+                                baseCurrency = baseCurrency.value,
+                                accounts = walletDAOs.accountDao.findAll()
+                            )
+                        } else 0.0
+        }
+
+        _history.value = ioThread {
+            trans.withDateDividers(
+                exchangeRateDao = exchangeRateDao,
+                accountDao = walletDAOs.accountDao,
+                baseCurrencyCode = baseCurrency.value
+            )
+        }
     }
 
     private fun reset() {

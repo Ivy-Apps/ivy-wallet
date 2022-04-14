@@ -29,7 +29,8 @@ data class HomeState(
     val overdueTrns: List<Transaction>,
     val overdueExpanded: Boolean,
     val history: List<TransactionHistoryItem>,
-    val customerJourneyCards: List<CustomerJourneyCardData>
+    val customerJourneyCards: List<CustomerJourneyCardData>,
+    val hideCurrentBalance: Boolean
 ) {
     companion object {
         fun initial(ivyWalletCtx: IvyWalletCtx): HomeState = HomeState(
@@ -50,7 +51,8 @@ data class HomeState(
             overdue = IncomeExpensePair.zero(),
             overdueTrns = emptyList(),
             overdueExpanded = false,
-            period = ivyWalletCtx.selectedPeriod
+            period = ivyWalletCtx.selectedPeriod,
+            hideCurrentBalance = false
         )
     }
 }

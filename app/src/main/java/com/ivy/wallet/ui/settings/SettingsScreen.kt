@@ -54,6 +54,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val currencyCode by viewModel.currencyCode.observeAsState("")
     val lockApp by viewModel.lockApp.observeAsState(false)
     val showNotifications by viewModel.showNotifications.collectAsState()
+    val hideCurrentBalance by viewModel.hideCurrentBalance.collectAsState()
     val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
     val progressState by viewModel.progressState.collectAsState()
 
@@ -71,6 +72,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         opSync = opSync,
         lockApp = lockApp,
         showNotifications = showNotifications,
+        hideCurrentBalance = hideCurrentBalance,
         progressState = progressState,
 
         nameLocalAccount = nameLocalAccount,
@@ -91,6 +93,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         },
         onSetLockApp = viewModel::setLockApp,
         onSetShowNotifications = viewModel::setShowNotifications,
+        onSetHideCurrentBalance = viewModel::setHideCurrentBalance,
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
         onRequestFeature = { title, body ->
             viewModel.requestFeature(
@@ -112,6 +115,7 @@ private fun BoxWithConstraintsScope.UI(
 
     lockApp: Boolean,
     showNotifications: Boolean = true,
+    hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
 
     nameLocalAccount: String?,
@@ -128,6 +132,7 @@ private fun BoxWithConstraintsScope.UI(
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetShowNotifications: (Boolean) -> Unit = {},
+    onSetHideCurrentBalance: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onRequestFeature: (String, String) -> Unit = { _, _ -> },
     onDeleteAllUserData: () -> Unit = {}
@@ -256,6 +261,15 @@ private fun BoxWithConstraintsScope.UI(
                 onSetLockApp = onSetShowNotifications,
                 text = "Show notifications",
                 icon = R.drawable.ic_notification_m
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            AppSwitch(
+                lockApp = hideCurrentBalance,
+                onSetLockApp = onSetHideCurrentBalance,
+                text = "Hide balance",
+                icon = R.drawable.ic_hide_m
             )
 
             Spacer(Modifier.height(12.dp))
