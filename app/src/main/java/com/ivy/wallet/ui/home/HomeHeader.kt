@@ -173,6 +173,8 @@ fun CashFlowInfo(
     monthlyIncome: Double,
     monthlyExpenses: Double,
 
+    hideCurrentBalance: Boolean,
+
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit
 ) {
@@ -185,17 +187,19 @@ fun CashFlowInfo(
                 }
             )
     ) {
-        BalanceRow(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .clickableNoIndication {
-                    onBalanceClick()
-                }
-                .testTag("home_balance"),
-            currency = currency,
-            balance = balance,
-            shortenBigNumbers = true
-        )
+        if (!hideCurrentBalance) {
+            BalanceRow(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .clickableNoIndication {
+                        onBalanceClick()
+                    }
+                    .testTag("home_balance"),
+                currency = currency,
+                balance = balance,
+                shortenBigNumbers = true
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 

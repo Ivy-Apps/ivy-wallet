@@ -63,6 +63,9 @@ class SettingsViewModel @Inject constructor(
     private val _lockApp = MutableLiveData<Boolean>()
     val lockApp = _lockApp.asLiveData()
 
+    private val _hideCurrentBalance = MutableStateFlow(false)
+    val hideCurrentBalance = _hideCurrentBalance.asStateFlow()
+
     private val _showNotifications = MutableStateFlow(true)
     val showNotifications = _showNotifications.asStateFlow()
 
@@ -90,6 +93,7 @@ class SettingsViewModel @Inject constructor(
             _currencyCode.value = settings.currency
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
+            _hideCurrentBalance.value = sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
 
             _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 
@@ -287,6 +291,17 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.SHOW_NOTIFICATIONS, showNotifications)
             _showNotifications.value = showNotifications
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun setHideCurrentBalance(hideCurrentBalance: Boolean) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideCurrentBalance)
+            _hideCurrentBalance.value = hideCurrentBalance
 
             TestIdlingResource.decrement()
         }
