@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.logic.zip.model
+package com.ivy.wallet.domain
 
 import com.ivy.wallet.domain.data.entity.*
 
