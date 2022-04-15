@@ -86,6 +86,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
         customerJourneyCards = state.customerJourneyCards,
 
         onBalanceClick = viewModel::onBalanceClick,
+        onHiddenBalanceClick = viewModel::onHiddenBalanceClick,
         onSwitchTheme = viewModel::switchTheme,
         onSetBuffer = viewModel::setBuffer,
         onSetCurrency = viewModel::setCurrency,
@@ -93,7 +94,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
         onPayOrGet = viewModel::payOrGet,
         onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard,
         onSelectNextMonth = viewModel::nextMonth,
-        onSelectPreviousMonth = viewModel::previousMonth
+        onSelectPreviousMonth = viewModel::previousMonth,
     )
 }
 
@@ -134,6 +135,7 @@ private fun BoxWithConstraintsScope.UI(
     customerJourneyCards: List<CustomerJourneyCardData> = emptyList(),
 
     onBalanceClick: () -> Unit = {},
+    onHiddenBalanceClick: () -> Unit = {},
     onSwitchTheme: () -> Unit = {},
     onSetCurrency: (String) -> Unit = {},
     onSetBuffer: (Double) -> Unit = {},
@@ -192,6 +194,7 @@ private fun BoxWithConstraintsScope.UI(
             currency = currencyCode,
             balance = balance,
             bufferDiff = bufferDiff,
+            hideCurrentBalance = hideCurrentBalance,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
@@ -201,6 +204,7 @@ private fun BoxWithConstraintsScope.UI(
             onBalanceClick = {
                 onBalanceClick()
             },
+            onHiddenBalanceClick = onHiddenBalanceClick,
             onSelectNextMonth = onSelectNextMonth,
             onSelectPreviousMonth = onSelectPreviousMonth
         )
@@ -216,6 +220,7 @@ private fun BoxWithConstraintsScope.UI(
             onBalanceClick = {
                 onBalanceClick()
             },
+            onHiddenBalanceClick = onHiddenBalanceClick,
 
             hideCurrentBalance = hideCurrentBalance,
 
@@ -312,6 +317,7 @@ fun HomeLazyColumn(
 
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
+    onHiddenBalanceClick: () -> Unit = {},
 
 
     period: TimePeriod,
@@ -399,7 +405,8 @@ fun HomeLazyColumn(
                 monthlyExpenses = monthlyExpenses,
 
                 onOpenMoreMenu = onOpenMoreMenu,
-                onBalanceClick = onBalanceClick
+                onBalanceClick = onBalanceClick,
+                onHiddenBalanceClick = onHiddenBalanceClick
             )
         }
         item {

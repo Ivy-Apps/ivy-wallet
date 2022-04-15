@@ -47,9 +47,11 @@ internal fun HomeHeader(
     currency: String,
     balance: Double,
     bufferDiff: Double,
+    hideCurrentBalance: Boolean = false,
 
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
+    onHiddenBalanceClick: () -> Unit = {},
 
     onSelectNextMonth: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
@@ -69,9 +71,11 @@ internal fun HomeHeader(
         period = period,
         currency = currency,
         balance = balance,
+        hideCurrentBalance = hideCurrentBalance,
 
         onShowMonthModal = onShowMonthModal,
         onBalanceClick = onBalanceClick,
+        onHiddenBalanceClick = onHiddenBalanceClick,
 
         onSelectNextMonth = onSelectNextMonth,
         onSelectPreviousMonth = onSelectPreviousMonth
@@ -95,9 +99,11 @@ private fun HeaderStickyRow(
 
     currency: String,
     balance: Double,
+    hideCurrentBalance: Boolean = false,
 
     onShowMonthModal: () -> Unit,
     onBalanceClick: () -> Unit,
+    onHiddenBalanceClick: () -> Unit = {},
 
     onSelectNextMonth: () -> Unit,
     onSelectPreviousMonth: () -> Unit,
@@ -127,11 +133,16 @@ private fun HeaderStickyRow(
                     modifier = Modifier
                         .alpha(alpha = 1f - percentExpanded)
                         .clickableNoIndication {
-                            onBalanceClick()
+                            if (hideCurrentBalance)
+                                onHiddenBalanceClick()
+                            else
+                                onBalanceClick()
+
                         },
                     currency = currency,
                     balance = balance,
-                    shortenBigNumbers = true
+                    shortenBigNumbers = true,
+                    hiddenMode = hideCurrentBalance
                 )
             }
         }
@@ -176,7 +187,8 @@ fun CashFlowInfo(
     hideCurrentBalance: Boolean,
 
     onOpenMoreMenu: () -> Unit,
-    onBalanceClick: () -> Unit
+    onBalanceClick: () -> Unit,
+    onHiddenBalanceClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -187,19 +199,21 @@ fun CashFlowInfo(
                 }
             )
     ) {
-        if (!hideCurrentBalance) {
-            BalanceRow(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp)
-                    .clickableNoIndication {
+        BalanceRow(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .clickableNoIndication {
+                    if (hideCurrentBalance)
+                        onHiddenBalanceClick()
+                    else
                         onBalanceClick()
-                    }
-                    .testTag("home_balance"),
-                currency = currency,
-                balance = balance,
-                shortenBigNumbers = true
-            )
-        }
+                }
+                .testTag("home_balance"),
+            currency = currency,
+            balance = balance,
+            shortenBigNumbers = true,
+            hiddenMode = hideCurrentBalance
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 

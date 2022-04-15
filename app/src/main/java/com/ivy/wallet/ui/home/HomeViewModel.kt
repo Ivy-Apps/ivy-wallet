@@ -29,6 +29,8 @@ import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -194,6 +196,19 @@ class HomeViewModel @Inject constructor(
             }
 
             TestIdlingResource.decrement()
+        }
+    }
+
+    fun onHiddenBalanceClick() {
+        viewModelScope.launch(Dispatchers.Default) {
+            updateState {
+                it.copy(hideCurrentBalance = false)
+            }
+            //Showing Balance fow 5s
+            delay(5000)
+            updateState {
+                it.copy(hideCurrentBalance = true)
+            }
         }
     }
 

@@ -33,6 +33,7 @@ fun BalanceRowMedium(
     balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,
+    hiddenMode: Boolean = false,
 ) {
     BalanceRow(
         modifier = modifier,
@@ -41,6 +42,7 @@ fun BalanceRowMedium(
         textColor = textColor,
         currency = currency,
         balance = balance,
+        hiddenMode = hiddenMode,
         spacerCurrency = 12.dp,
         spacerDecimal = 8.dp,
         currencyFontSize = 24.sp,
@@ -62,6 +64,7 @@ fun BalanceRowMini(
     balanceAmountPrefix: String? = null,
     currencyUpfront: Boolean = true,
     shortenBigNumbers: Boolean = false,
+    hiddenMode: Boolean = false,
 ) {
     BalanceRow(
         modifier = modifier,
@@ -70,6 +73,7 @@ fun BalanceRowMini(
         textColor = textColor,
         currency = currency,
         balance = balance,
+        hiddenMode = hiddenMode,
         spacerCurrency = 8.dp,
         spacerDecimal = 4.dp,
         currencyFontSize = 20.sp,
@@ -87,6 +91,7 @@ fun BalanceRow(
     modifier: Modifier = Modifier,
     currency: String,
     balance: Double,
+    hiddenMode: Boolean = false,
 
     textColor: Color = UI.colors.pureInverse,
     decimalPaddingTop: Dp = 12.dp,
@@ -122,8 +127,11 @@ fun BalanceRow(
             DecimalFormat("###,###").format(truncate(balance))
         }
         Text(
-            text = if (balanceAmountPrefix != null)
-                "$balanceAmountPrefix$integerPartFormatted" else integerPartFormatted,
+            text = when {
+                hiddenMode -> "****"
+                balanceAmountPrefix != null -> "$balanceAmountPrefix$integerPartFormatted"
+                else -> integerPartFormatted
+            },
             style = if (integerFontSize == null) {
                 UI.typo.nH1.style(
                     fontWeight = FontWeight.ExtraBold,
@@ -144,7 +152,7 @@ fun BalanceRow(
                 modifier = Modifier
                     .align(Alignment.Top)
                     .padding(top = decimalPaddingTop),
-                text = decimalPartFormatted(currency, balance),
+                text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
                 style = if (decimalFontSize == null) {
                     UI.typo.nB1.style(
                         fontWeight = FontWeight.Bold,
