@@ -8,6 +8,7 @@ import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.RootActivity
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class BankIntegrationsLogic(
     restClient: RestClient,
     private val seTransactionMapper: SaltEdgeTransactionMapper,

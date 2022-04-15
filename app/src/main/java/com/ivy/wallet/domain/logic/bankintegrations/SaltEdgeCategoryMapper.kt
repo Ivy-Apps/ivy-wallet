@@ -196,6 +196,7 @@ import java.util.*
 }
  */
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class SaltEdgeCategoryMapper(
     private val categoryDao: CategoryDao
 ) {

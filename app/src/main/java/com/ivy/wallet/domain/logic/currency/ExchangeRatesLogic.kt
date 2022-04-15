@@ -12,6 +12,7 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.utils.sendToCrashlytics
 import java.util.*
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class ExchangeRatesLogic(
     restClient: RestClient,
     private val exchangeRateDao: ExchangeRateDao
@@ -148,6 +149,7 @@ class ExchangeRatesLogic(
     }
 }
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 fun Iterable<Transaction>.sumInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
@@ -165,6 +167,7 @@ fun Iterable<Transaction>.sumInBaseCurrency(
     }
 }
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,

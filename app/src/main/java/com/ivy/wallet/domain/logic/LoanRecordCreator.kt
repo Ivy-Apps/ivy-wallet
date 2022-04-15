@@ -7,6 +7,7 @@ import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class LoanRecordCreator(
     private val paywallLogic: PaywallLogic,
     private val dao: LoanRecordDao,

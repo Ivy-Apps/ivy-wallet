@@ -7,7 +7,7 @@ import com.ivy.wallet.utils.capitalizeWords
 import com.ivy.wallet.utils.isNotNullOrBlank
 import java.util.*
 
-@Deprecated("Migrate to FP Style")
+@Deprecated("Use FP style, look into `domain.fp` package")
 class SmartTitleSuggestionsLogic(
     private val transactionDao: TransactionDao
 ) {
@@ -85,6 +85,7 @@ class SmartTitleSuggestionsLogic(
     }
 }
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 private fun List<Transaction>.extractUniqueTitles(
     excludeSuggestions: Set<String>? = null
 ): Set<String> {
@@ -95,6 +96,7 @@ private fun List<Transaction>.extractUniqueTitles(
         .toSet()
 }
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 private fun Set<String>.sortedByMostUsedFirst(countUses: (String) -> Long): Set<String> {
     val titleCountMap = this
         .map {

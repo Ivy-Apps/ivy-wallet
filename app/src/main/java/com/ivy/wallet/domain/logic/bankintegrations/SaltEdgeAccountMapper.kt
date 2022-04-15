@@ -11,6 +11,7 @@ import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.toLowerCaseLocal
 import java.util.*
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class SaltEdgeAccountMapper(
     private val accountDao: AccountDao
 ) {

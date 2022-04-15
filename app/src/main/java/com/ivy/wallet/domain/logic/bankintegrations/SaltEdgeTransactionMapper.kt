@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.absoluteValue
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class SaltEdgeTransactionMapper(
     private val transactionDao: TransactionDao,
     private val seAccountMapper: SaltEdgeAccountMapper,

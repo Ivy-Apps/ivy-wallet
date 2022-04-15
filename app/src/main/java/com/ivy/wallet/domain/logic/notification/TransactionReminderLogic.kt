@@ -9,6 +9,7 @@ import com.ivy.wallet.utils.timeNowLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.util.concurrent.TimeUnit
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class TransactionReminderLogic(
     private val appContext: Context,
     private val sharedPrefs: SharedPrefs,

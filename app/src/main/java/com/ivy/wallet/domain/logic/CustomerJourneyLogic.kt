@@ -15,6 +15,7 @@ import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
 
+@Deprecated("Use FP style, look into `domain.fp` package")
 class CustomerJourneyLogic(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
