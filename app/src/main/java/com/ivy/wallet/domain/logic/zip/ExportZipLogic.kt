@@ -102,6 +102,9 @@ class ExportZipLogic(
         hashmap[SharedPrefs.APP_LOCK_ENABLED] =
             sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false).toString()
 
+        hashmap[SharedPrefs.HIDE_CURRENT_BALANCE] =
+            sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false).toString()
+
         return hashmap
     }
 
@@ -248,6 +251,11 @@ class ExportZipLogic(
             sharedPrefs.putBoolean(
                 SharedPrefs.APP_LOCK_ENABLED,
                 (completeData.sharedPrefs[SharedPrefs.APP_LOCK_ENABLED] ?: "false").toBoolean()
+            )
+
+            sharedPrefs.putBoolean(
+                SharedPrefs.HIDE_CURRENT_BALANCE,
+                (completeData.sharedPrefs[SharedPrefs.HIDE_CURRENT_BALANCE] ?: "false").toBoolean()
             )
 
             plannedPayments.await()

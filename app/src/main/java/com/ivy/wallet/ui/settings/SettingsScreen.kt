@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.navigationBarsPadding
@@ -269,6 +270,7 @@ private fun BoxWithConstraintsScope.UI(
                 lockApp = hideCurrentBalance,
                 onSetLockApp = onSetHideCurrentBalance,
                 text = "Hide balance",
+                description = "Click on the hidden balance to show the balance for 5s",
                 icon = R.drawable.ic_hide_m
             )
 
@@ -546,7 +548,8 @@ private fun AppSwitch(
     lockApp: Boolean,
     onSetLockApp: (Boolean) -> Unit,
     text: String,
-    icon: Int
+    description: String = "",
+    icon: Int,
 ) {
     SettingsButtonRow(
         onClick = {
@@ -562,16 +565,30 @@ private fun AppSwitch(
 
         Spacer(Modifier.width(8.dp))
 
-        Text(
-            modifier = Modifier.padding(vertical = 20.dp),
-            text = text,
-            style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
-                fontWeight = FontWeight.Bold
+        Column(
+            Modifier
+                .weight(1f)
+                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)) {
+            Text(
+                text = text,
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+            if (description.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(end = 8.dp),
+                    text = description,
+                    style = UI.typo.nB2.style(
+                        color = Gray,
+                        fontWeight = FontWeight.Normal
+                    ).copy(fontSize = 14.sp)
+                )
+            }
+        }
 
-        Spacer(Modifier.weight(1f))
+        //Spacer(Modifier.weight(1f))
 
         IvySwitch(enabled = lockApp) {
             onSetLockApp(it)
