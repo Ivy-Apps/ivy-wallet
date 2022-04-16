@@ -46,7 +46,7 @@ Our plan is:
 1. Create [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk). :heavy_check_mark:
 1. Create a crypto donations mechanism (BTC, ETH, ADA, SOL...)
 1. Use the donations to setup a dev fund where contributors can earn money by helping the project.
-1. Create a proposal and voting system based using Cardano (ADA) smart contracts.
+1. Create a proposal and voting system using Cardano (ADA) smart contracts.
 1. So far, so good! Let us know what do you think should be next?
 
 Correct us, if we're wrong! Share your opinion. Be the change. :star:
