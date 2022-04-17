@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain
+package com.ivy.wallet.domain.data
 
 import com.ivy.wallet.domain.data.entity.*
 
