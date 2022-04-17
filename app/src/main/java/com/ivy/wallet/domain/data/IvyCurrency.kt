@@ -160,6 +160,11 @@ data class IvyCurrency(
                 name = "Ethereum Classic",
                 isCrypto = true
             ),
+            IvyCurrency(
+                code = "DASH",
+                name = "Dash",
+                isCrypto = true
+            ),
         )
 
         fun getAvailable(): List<IvyCurrency> {
