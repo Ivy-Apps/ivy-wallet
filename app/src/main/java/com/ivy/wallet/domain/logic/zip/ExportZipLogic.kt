@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import com.ivy.wallet.domain.IvyWalletCompleteData
+import com.ivy.wallet.domain.data.IvyWalletCompleteData
 import com.ivy.wallet.domain.logic.csv.model.ImportResult
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
