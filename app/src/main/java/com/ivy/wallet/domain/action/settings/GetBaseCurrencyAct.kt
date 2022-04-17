@@ -1,5 +1,6 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.settings
 
+import com.ivy.wallet.domain.action.Action
 import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import javax.inject.Inject
