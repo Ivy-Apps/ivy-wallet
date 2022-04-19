@@ -8,11 +8,13 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.wallet.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.ConnectBank
@@ -69,13 +71,13 @@ private fun UI(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        IvyButton(text = "Connect") {
+        IvyButton(text = stringResource(R.string.connect)) {
             onConnect()
         }
 
         Spacer(Modifier.height(24.dp))
 
-        IvyButton(text = "Sync transactions") {
+        IvyButton(text = stringResource(R.string.sync_transactions)) {
             onFetchTransactions()
         }
 
@@ -83,7 +85,7 @@ private fun UI(
             Spacer(Modifier.height(24.dp))
 
             Text(
-                text = "Syncing transactions...",
+                text = stringResource(R.string.syncing_transactions),
                 style = UI.typo.b2.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
@@ -97,7 +99,7 @@ private fun UI(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "Bank sync enabled:"
+                stringResource(R.string.bank_sync_enabled)
             )
 
             Spacer(Modifier.width(16.dp))
@@ -111,7 +113,7 @@ private fun UI(
 
         Spacer(Modifier.height(24.dp))
 
-        IvyButton(text = "Remove customer") {
+        IvyButton(text = stringResource(R.string.remove_customer)) {
             onRemoveCustomer()
         }
     }
