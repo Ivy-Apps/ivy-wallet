@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
@@ -19,9 +21,9 @@ fun IncomeExpensesRow(
     modifier: Modifier = Modifier,
     textColor: Color = UI.colors.pureInverse,
     dividerColor: Color = UI.colors.medium,
-    incomeLabel: String = "INCOME",
+    incomeLabel: String = stringResource(R.string.income_uppercase),
     income: Double,
-    expensesLabel: String = "EXPENSES",
+    expensesLabel: String = stringResource(R.string.expenses_uppercase),
     expenses: Double,
     currency: String,
     center: Boolean = true,
