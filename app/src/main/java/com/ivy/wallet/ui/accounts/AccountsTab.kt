@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,7 +99,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Column {
                 Text(
-                    text = "Accounts",
+                    text = stringResource(R.string.accounts),
                     style = UI.typo.b1.style(
                         color = UI.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
@@ -109,11 +110,10 @@ private fun BoxWithConstraintsScope.UI(
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = "Total: $baseCurrency ${
+                        text = stringResource(R.string.total, baseCurrency,
                             totalBalanceWithExcluded.format(
-                                baseCurrency
-                            )
-                        }",
+                            baseCurrency
+                        )),
                         style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
@@ -233,9 +233,9 @@ private fun AccountCard(
 
         IncomeExpensesRow(
             currency = currency,
-            incomeLabel = "INCOME THIS MONTH",
+            incomeLabel = stringResource(R.string.month_income),
             income = accountData.monthlyIncome,
-            expensesLabel = "EXPENSES THIS MONTH",
+            expensesLabel = stringResource(R.string.month_expenses),
             expenses = accountData.monthlyExpenses
         )
 
@@ -289,7 +289,7 @@ private fun AccountHeader(
                     modifier = Modifier
                         .align(Alignment.Bottom)
                         .padding(bottom = 4.dp),
-                    text = "(excluded)",
+                    text = stringResource(R.string.excluded),
                     style = UI.typo.c.style(
                         color = account.color.toComposeColor().dynamicContrast()
                     )
