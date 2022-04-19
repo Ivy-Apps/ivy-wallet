@@ -1,2 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_locked">APP LOCKED</string>
+    <string name="authenticate_text">Authenticate to enter the app</string>
+    <string name="unlock">Unlock</string>
 </resources>
