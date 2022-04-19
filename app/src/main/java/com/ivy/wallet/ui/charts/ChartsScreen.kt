@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.fp.charts.ChartPeriod
 import com.ivy.wallet.domain.fp.charts.IncomeExpenseChartPoint
@@ -169,7 +171,7 @@ private fun Toolbar() {
         Spacer(Modifier.width(32.dp))
 
         Text(
-            text = "Charts",
+            text = stringResource(R.string.charts),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
@@ -202,7 +204,7 @@ private fun Period(
             modifier = Modifier.clickable {
                 togglePeriod()
             },
-            text = "Period:",
+            text = stringResource(R.string.period),
             style = UI.typo.b1
         )
 
