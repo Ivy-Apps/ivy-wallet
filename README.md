@@ -154,7 +154,7 @@ compact **[Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob
 to begin.
 
 TL;DR:
-- Submit pull requests for bug fixes / code improvements
+- Submit pull requests for bug fixes / code improvements to the `develop` branch
 - Implement and submit PRs for opened issues
 - Report (or fix) bugs/glitches 
 - Create new issues to give us ideas and feedback
