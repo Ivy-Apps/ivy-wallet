@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -144,7 +145,7 @@ private fun ColumnScope.CurrentBalance(
 ) {
     Text(
         modifier = Modifier.align(Alignment.CenterHorizontally),
-        text = "CURRENT BALANCE",
+        text = stringResource(R.string.current_balance),
         style = UI.typo.b2.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
@@ -170,7 +171,7 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
     Text(
         modifier = Modifier
             .padding(horizontal = 32.dp),
-        text = "BALANCE AFTER PLANNED PAYMENTS",
+        text = stringResource(R.string.balance_after_payments),
         style = UI.typo.b2.style(
             color = Orange,
             fontWeight = FontWeight.ExtraBold
