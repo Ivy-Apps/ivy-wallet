@@ -9,6 +9,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -131,9 +132,8 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.weight(1f))
 
             NoBudgetsEmptyState(
-                emptyStateTitle = "No budgets",
-                emptyStateText = "You don't have any budgets set.\n" +
-                    "Tap the \"+ Add budget\" to add one."
+                emptyStateTitle = stringResource(R.string.no_budgets),
+                emptyStateText = stringResource(R.string.no_budgets)
             )
 
             Spacer(Modifier.weight(1f))
@@ -208,7 +208,7 @@ private fun Toolbar(
                 .padding(start = 24.dp, end = 16.dp)
         ) {
             Text(
-                text = "Budgets",
+                text = stringResource(R.string.budgets),
                 style = UI.typo.h2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -231,11 +231,11 @@ private fun Toolbar(
                 Spacer(Modifier.height(4.dp))
 
                 val categoryBudgetText = if (categoryBudgetsTotal > 0) {
-                    "${categoryBudgetsTotal.format(baseCurrency)} $baseCurrency for categories"
+                    stringResource(R.string.for_categories, categoryBudgetsTotal.format(baseCurrency), baseCurrency)
                 } else ""
 
                 val appBudgetMaxText = if (appBudgetMax > 0) {
-                    "${appBudgetMax.format(baseCurrency)} $baseCurrency app budget"
+                    stringResource(R.string.app_budget, appBudgetMax.format(baseCurrency), baseCurrency)
                 } else ""
 
                 val hasBothBudgetTypes =
@@ -243,7 +243,8 @@ private fun Toolbar(
                 Text(
                     modifier = Modifier.testTag("budgets_info_text"),
                     text = if (hasBothBudgetTypes)
-                        "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
+                        stringResource(R.string.budget_info_both, categoryBudgetText, appBudgetMaxText)
+                        else stringResource(R.string.budget_info, categoryBudgetText, appBudgetMaxText),
                     style = UI.typo.nC.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
