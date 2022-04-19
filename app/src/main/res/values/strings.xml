@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="accounts">Accounts</string>
+    <string name="total">Total: %1$s %2$s</string>
+    <string name="month_income">INCOME THIS MONTH</string>
+    <string name="month_expenses">EXPENSES THIS MONTH</string>
+    <string name="excluded">(excluded)</string>
+    <string name="income_uppercase">INCOME</string>
+    <string name="expenses_uppercase">EXPENSES</string>
     <string name="app_locked">APP LOCKED</string>
     <string name="authenticate_text">Authenticate to enter the app</string>
     <string name="unlock">Unlock</string>
+    <string name="current_balance">CURRENT BALANCE</string>
+    <string name="balance_after_payments">BALANCE AFTER PLANNED PAYMENTS</string>
+    <string name="connect">Connect</string>
+    <string name="sync_transactions">Sync transactions</string>
+    <string name="syncing_transactions">Syncing transactions…</string>
+    <string name="bank_sync_enabled">Bank sync enabled:</string>
+    <string name="remove_customer">Remove customer</string>
+    <string name="add_budget">Add budget</string>
+    <string name="no_budgets">No budgets</string>
+    <string name="no_budgets_text">You don\'t have any budgets set.\nTap the "+ Add budget" to add one.</string>
+    <string name="budgets">Budgets</string>
+    <string name="for_categories">%1$s %2$s for categories</string>
+    <string name="app_budget">%1$s %2$s app budget</string>
+    <string name="budget_info_both">Budget info: %1$s / %2$s</string>
+    <string name="budget_info">Budget info: %1$s%2$s</string>
+    <string name="add_category">Add category</string>
+    <string name="expenses">Expenses</string>
+    <string name="expenses_count">Expenses count</string>
+    <string name="income">Income</string>
+    <string name="income_count">Income count</string>
+    <string name="balance_chart">Balance chart</string>
+    <string name="balance">BALANCE %1$s</string>
+    <string name="charts">Charts</string>
+    <string name="period">Period:</string>
 </resources>
