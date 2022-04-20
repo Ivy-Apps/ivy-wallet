@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 
 @Composable
 fun MonefySteps(
@@ -14,8 +16,8 @@ fun MonefySteps(
 
     StepTitle(
         number = 1,
-        title = "Export to file",
-        description = "Character set: UTF-8\nDecimal separator: Decimal point '.'\nDelimiter character: Comma ','"
+        title = stringResource(R.string.export_to_file),
+        description = stringResource(R.string.export_to_file_description)
     )
 
     Spacer(Modifier.height(24.dp))

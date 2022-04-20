@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +27,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.logic.csv.model.ImportType
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
@@ -68,7 +70,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "How to import",
+                text = stringResource(R.string.how_to_import),
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
@@ -78,7 +80,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "open",
+                text = stringResource(R.string.open),
                 style = UI.typo.b2.style(
                     color = Gray,
                     fontWeight = Bold
@@ -103,7 +105,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "Steps",
+                text = stringResource(R.string.steps),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.Black
                 )
@@ -169,8 +171,8 @@ fun VideoButton(
     InstructionButton(
         modifier = modifier,
         icon = R.drawable.ic_import_video,
-        caption = "How to",
-        text = "Video"
+        caption = stringResource(R.string.how_to),
+        text = stringResource(R.string.video)
     ) {
         onClick()
     }
@@ -184,8 +186,8 @@ fun ArticleButton(
     InstructionButton(
         modifier = modifier,
         icon = R.drawable.ic_import_web,
-        caption = "How to",
-        text = "Article"
+        caption = stringResource(R.string.how_to),
+        text = stringResource(R.string.article)
     ) {
         onClick()
     }
@@ -246,7 +248,7 @@ fun InstructionButton(
 @Composable
 fun UploadFileStep(
     stepNumber: Int,
-    text: String = "Upload CSV file",
+    text: String = stringResource(R.string.upload_csv_file),
     onUploadClick: () -> Unit
 ) {
     StepTitle(

@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 
 @Composable
 fun FinancistoSteps(
@@ -14,8 +16,8 @@ fun FinancistoSteps(
 
     StepTitle(
         number = 1,
-        title = "Export CSV file with standard options",
-        description = "Please use the standard options and make sure to include headers."
+        title = stringResource(R.string.export_csv_file_standard),
+        description = stringResource(R.string.export_csv_file_standard_description)
     )
 
     Spacer(Modifier.height(24.dp))
