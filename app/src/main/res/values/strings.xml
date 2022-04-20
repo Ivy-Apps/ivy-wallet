@@ -112,4 +112,14 @@
     <string name="add_loan">Add loan</string>
     <string name="no_loans">No loans</string>
     <string name="no_loans_description">You don\'t have any loans.\nTap the \"+ Add loan\" to add one.</string>
+    <string name="confirm_loan_deletion_description">Note: Deleting this loan will remove it permanently and delete all associated loan records with it.</string>
+    <string name="confirm_account_loan_change">Please wait, re-calculating all loan records</string>
+    <string name="paid">Paid</string>
+    <string name="left_to_pay">%1$s %2$s left</string>
+    <string name="loan_interest">Loan Interest</string>
+    <string name="interest_paid">%1$s %2$s paid</string>
+    <string name="add_record">Add record</string>
+    <string name="interest">Interest</string>
+    <string name="no_records">No records</string>
+    <string name="no_records_for_the_loan">You don\'t have any records for this loan. Tap "Add record" to create one.</string>
 </resources>
