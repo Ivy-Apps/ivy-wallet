@@ -487,7 +487,7 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModal(
         visible = deleteTrnModalVisible,
         title = stringResource(R.string.confirm_deletion),
-        description = stringResource(R.string.confirm_deletion_description),
+        description = stringResource(R.string.transaction_confirm_deletion_description),
         dismiss = { deleteTrnModalVisible = false }
     ) {
         onDelete()
