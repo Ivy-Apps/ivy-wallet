@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -24,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
@@ -56,9 +58,9 @@ fun ColumnScope.Title(
             .padding(horizontal = 24.dp),
         value = titleTextFieldValue,
         hint = when (type) {
-            TransactionType.INCOME -> "Income title"
-            TransactionType.EXPENSE -> "Expense title"
-            TransactionType.TRANSFER -> "Transfer title"
+            TransactionType.INCOME -> stringResource(R.string.income_title)
+            TransactionType.EXPENSE -> stringResource(R.string.expense_title)
+            TransactionType.TRANSFER -> stringResource(R.string.transfer_title)
         },
         keyboardOptions = KeyboardOptions(
             autoCorrect = true,

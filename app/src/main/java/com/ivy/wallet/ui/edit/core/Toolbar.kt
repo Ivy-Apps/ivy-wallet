@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
 import com.ivy.wallet.R
@@ -38,7 +39,7 @@ fun Toolbar(
         when (type) {
             TransactionType.INCOME -> {
                 IvyOutlinedButton(
-                    text = "Income",
+                    text = stringResource(R.string.income),
                     iconStart = R.drawable.ic_income
                 ) {
                     onChangeTransactionTypeModal()
@@ -48,7 +49,7 @@ fun Toolbar(
             }
             TransactionType.EXPENSE -> {
                 IvyOutlinedButton(
-                    text = "Expense",
+                    text = stringResource(R.string.expense),
                     iconStart = R.drawable.ic_expense
                 ) {
                     onChangeTransactionTypeModal()
