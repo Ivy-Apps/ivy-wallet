@@ -27,6 +27,13 @@ infix fun <A, B, C> Action<B, C>.after(act1: Action<A, B>): Action<A, C> = objec
     }
 }
 
+infix fun <A, B, C> Action<A, B>.then(act2: Action<B, C>): Action<A, C> = object : Action<A, C>() {
+    override suspend fun A.willDo(): C {
+        val b = this@then(this)
+        return act2(b)
+    }
+}
+
 ///**
 // * Action composition example
 // */
