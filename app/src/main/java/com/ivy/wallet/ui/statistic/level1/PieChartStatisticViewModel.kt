@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.statistic.level1
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Transaction
@@ -16,6 +17,7 @@ import com.ivy.wallet.domain.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
@@ -74,7 +76,7 @@ class PieChartStatisticViewModel @Inject constructor(
 
     private var filterExcluded = true
     private val transfersCategory =
-        Category("Account Transfers", color = IvyLight.toArgb(), icon = "transfer")
+        Category(stringRes(R.string.account_transfers), color = IvyLight.toArgb(), icon = "transfer")
 
     fun start(
         screen: PieChartStatistic

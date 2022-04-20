@@ -85,7 +85,7 @@
     <string name="pay">Pay</string>
     <string name="get">Get</string>
     <string name="confirm_deletion">Confirm deletion</string>
-    <string name="confirm_deletion_description">Deleting this transaction will remove it from the transaction history and update the balance accordingly.</string>
+    <string name="transaction_confirm_deletion_description">Deleting this transaction will remove it from the transaction history and update the balance accordingly.</string>
     <string name="confirm_account_change">Confirm Account Change</string>
     <string name="confirm_account_change_description">Note: You are trying to change the account associated with the loan with an account of different currency, \nAll the loan records will be re-calculated based on today\'s exchanges rates </string>
     <string name="confirm">Confirm</string>
@@ -112,7 +112,7 @@
     <string name="add_loan">Add loan</string>
     <string name="no_loans">No loans</string>
     <string name="no_loans_description">You don\'t have any loans.\nTap the \"+ Add loan\" to add one.</string>
-    <string name="confirm_loan_deletion_description">Note: Deleting this loan will remove it permanently and delete all associated loan records with it.</string>
+    <string name="loan_confirm_deletion_description">Note: Deleting this loan will remove it permanently and delete all associated loan records with it.</string>
     <string name="confirm_account_loan_change">Please wait, re-calculating all loan records</string>
     <string name="paid">Paid</string>
     <string name="left_to_pay">%1$s %2$s left</string>
@@ -122,4 +122,14 @@
     <string name="interest">Interest</string>
     <string name="no_records">No records</string>
     <string name="no_records_for_the_loan">You don\'t have any records for this loan. Tap "Add record" to create one.</string>
+    <string name="add_income">Add income</string>
+    <string name="add_expense">Add expense</string>
+    <string name="unspecified">Unspecified</string>
+    <string name="percent">%1$s%</string>
+    <string name="account_transfers">Account Transfers</string>
+    <string name="no_transactions_for_period">You don\'t have any transactions for %1$s.\nYou can add one by scrolling down and tapping "Add income" or "Add expense" button at the top.</string>
+    <string name="account_confirm_deletion_description">Note: Deleting this account will remove it permanently and delete all associated transactions with it.</string>
+    <string name="category_confirm_deletion_description">Note: Deleting this category will remove it permanently.</string>
+    <string name="edit">Edit</string>
+    <string name="transactions">transactions</string>
 </resources>

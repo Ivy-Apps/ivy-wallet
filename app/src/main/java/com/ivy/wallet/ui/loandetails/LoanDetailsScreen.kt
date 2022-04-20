@@ -244,7 +244,7 @@ private fun BoxWithConstraintsScope.UI(
     DeleteModal(
         visible = deleteModalVisible,
         title = stringResource(R.string.confirm_deletion),
-        description = stringResource(R.string.confirm_loan_deletion_description),
+        description = stringResource(R.string.loan_confirm_deletion_description),
         dismiss = { deleteModalVisible = false }
     ) {
         onDeleteLoan()
@@ -485,7 +485,7 @@ private fun LoanInfoCard(
             Text(
                 modifier = Modifier
                     .testTag("left_to_pay"),
-                text = stringResource(R.string.left_to_pay),
+                text = stringResource(R.string.left_to_pay, leftToPay.format(baseCurrency), baseCurrency),
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold

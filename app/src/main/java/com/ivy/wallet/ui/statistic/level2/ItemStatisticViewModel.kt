@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
@@ -20,6 +21,7 @@ import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.sync.uploader.CategoryUploader
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -429,7 +431,7 @@ class ItemStatisticViewModel @Inject constructor(
 
         val accountTransferCategoryEnabled = categoryId != null
         if (accountTransferCategoryEnabled)
-            _category.value = Category("Account Transfers")
+            _category.value = Category(stringRes(R.string.account_transfers))
 
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
