@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -85,7 +86,7 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.width(24.dp))
 
             Text(
-                text = "Categories",
+                text = stringResource(R.string.categories),
                 style = UI.typo.h2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -230,7 +231,7 @@ fun AddedSpent(
 
         LabelAmount(
             textColor = textColor,
-            label = "EXPENSES THIS MONTH",
+            label = stringResource(R.string.month_expenses),
             amount = monthlyExpenses,
             currency = currency,
             center = center
@@ -262,7 +263,7 @@ fun AddedSpent(
 
         LabelAmount(
             textColor = textColor,
-            label = "INCOME THIS MONTH",
+            label = stringResource(R.string.month_income),
             amount = monthlyIncome,
             currency = currency,
             center = center

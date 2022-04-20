@@ -34,4 +34,5 @@
     <string name="balance">BALANCE %1$s</string>
     <string name="charts">Charts</string>
     <string name="period">Period:</string>
+    <string name="categories">Categories</string>
 </resources>
