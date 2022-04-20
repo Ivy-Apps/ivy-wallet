@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -250,7 +251,7 @@ private fun SearchButton(
             modifier = Modifier.padding(
                 vertical = 12.dp,
             ),
-            text = "Search transactions",
+            text = stringResource(R.string.search_transactions),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
                 color = UI.colors.pureInverse
@@ -291,7 +292,7 @@ private fun ColumnScope.OpenSource() {
                 .padding(start = 16.dp, end = 24.dp)
         ) {
             Text(
-                text = "Ivy Wallet is open-source",
+                text = stringResource(R.string.ivy_wallet_open_source),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -330,7 +331,7 @@ private fun ColumnScope.Buffer(
         Spacer(Modifier.width(24.dp))
 
         Text(
-            text = "Savings goal",
+            text = stringResource(R.string.savings_goal),
             style = UI.typo.b1.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
@@ -369,7 +370,7 @@ private fun QuickAccess(
 
     Text(
         modifier = Modifier.padding(start = 24.dp),
-        text = "Quick access"
+        text = stringResource(R.string.quick_access)
     )
 
     Spacer(Modifier.height(16.dp))
@@ -383,7 +384,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_settings,
-            label = "Settings"
+            label = stringResource(R.string.settings)
         ) {
             nav.navigateTo(Settings)
         }
@@ -392,7 +393,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_categories,
-            label = "Categories"
+            label = stringResource(R.string.categories)
         ) {
             nav.navigateTo(Categories)
         }
@@ -406,9 +407,9 @@ private fun QuickAccess(
                 Theme.AUTO -> R.drawable.home_more_menu_auto_mode
             },
             label = when (theme) {
-                Theme.LIGHT -> "Light mode"
-                Theme.DARK -> "Dark mode"
-                Theme.AUTO -> "Auto mode"
+                Theme.LIGHT -> stringResource(R.string.light_mode)
+                Theme.DARK -> stringResource(R.string.dark_mode)
+                Theme.AUTO -> stringResource(R.string.auto_mode)
             },
             backgroundColor = when (theme) {
                 Theme.LIGHT -> UI.colors.pure
@@ -428,7 +429,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_planned_payments,
-            label = "Planned\nPayments"
+            label = stringResource(R.string.planned_payments)
         ) {
             nav.navigateTo(PlannedPayments)
         }
@@ -456,7 +457,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_share,
-            label = "Share Ivy"
+            label = stringResource(R.string.share_ivy)
         ) {
             (context as RootActivity).shareIvyWallet()
         }
@@ -465,7 +466,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_reports,
-            label = "Reports",
+            label = stringResource(R.string.reports),
         ) {
             nav.navigateTo(Report)
         }
@@ -474,7 +475,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_budgets,
-            label = "Budgets",
+            label = stringResource(R.string.budgets),
         ) {
             nav.navigateTo(BudgetScreen)
         }
@@ -483,7 +484,7 @@ private fun QuickAccess(
 
         MoreMenuButton(
             icon = R.drawable.home_more_menu_loans,
-            label = "Loans",
+            label = stringResource(R.string.loans),
         ) {
             nav.navigateTo(Loans)
         }
