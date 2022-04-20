@@ -13,7 +13,7 @@ suspend fun calculateAccountBalance(
     accountId: UUID,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
 ): BigDecimal {
-    return calculateAccountValues(
+    return calcAccValues(
         transactionDao = transactionDao,
         accountId = accountId,
         range = range,
@@ -36,7 +36,7 @@ suspend fun calculateAccountStats(
     accountId: UUID,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
 ): AccountStats {
-    val values = calculateAccountValues(
+    val values = calcAccValues(
         transactionDao = transactionDao,
         accountId = accountId,
         range = range,
@@ -63,7 +63,7 @@ suspend fun calculateAccountIncomeExpense(
     accountId: UUID,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
 ): IncomeExpensePair {
-    val values = calculateAccountValues(
+    val values = calcAccValues(
         transactionDao = transactionDao,
         accountId = accountId,
         range = range,

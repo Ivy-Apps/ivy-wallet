@@ -34,6 +34,33 @@ infix fun <A, B, C> Action<A, B>.then(act2: Action<B, C>): Action<A, C> = object
     }
 }
 
+suspend infix fun <A, B, C> Action<B, C>.after(lambda: suspend (A) -> B): suspend (A) -> C = { a ->
+    val b = lambda(a)
+    this@after(b)
+}
+
+suspend infix fun <A, B, C> Action<A, B>.then(lambda: suspend (B) -> C): suspend (A) -> C = { a ->
+    val b = this@then(a)
+    lambda(b)
+}
+
+suspend infix fun <A, B, C> (suspend (B) -> C).after(lambda: suspend (A) -> B): suspend (A) -> C =
+    { a ->
+        val b = lambda(a)
+        this@after(b)
+    }
+
+suspend infix fun <A, B, C> (suspend (A) -> B).then(lambda: suspend (B) -> C): suspend (A) -> C =
+    { a ->
+        val b = this@then(a)
+        lambda(b)
+    }
+
+fun <A, B> Action<A, B>.lambda(): suspend (A) -> B = { a ->
+    this(a)
+}
+
+
 ///**
 // * Action composition example
 // */

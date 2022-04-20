@@ -2,8 +2,10 @@ package com.ivy.wallet.domain.fp.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
+import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.domain.fp.account.AccountValueFunction
-import com.ivy.wallet.domain.fp.account.calculateAccountValues
+import com.ivy.wallet.domain.fp.account.calcAccValues
 import com.ivy.wallet.domain.fp.core.Uncertain
 import com.ivy.wallet.domain.fp.core.mapIndexedNel
 import com.ivy.wallet.domain.fp.core.nonEmptyListOfZeros
@@ -31,7 +33,7 @@ suspend fun calculateWalletValues(
         .map { account ->
             Pair(
                 first = account.toFPAccount(baseCurrencyCode),
-                second = calculateAccountValues(
+                second = calcAccValues(
                     transactionDao = walletDAOs.transactionDao,
                     accountId = account.id,
                     range = range,
@@ -43,6 +45,32 @@ suspend fun calculateWalletValues(
             exchangeRateDao = walletDAOs.exchangeRateDao,
             baseCurrencyCode = baseCurrencyCode
         )
+
+    return sumUncertainWalletValues(
+        valueN = valueFunctions.size,
+        uncertainWalletValues = uncertainWalletValues
+    )
+}
+
+suspend fun sumAccountValuesInCurrency(
+    accountTrns: List<Pair<Account, List<Transaction>>>,
+    baseCurrencyCode: String,
+    exchangeRateDao: ExchangeRateDao,
+    valueFunctions: NonEmptyList<AccountValueFunction>
+): UncertainWalletValues {
+    val uncertainWalletValues = accountTrns.map { (account, trns) ->
+        Pair(
+            first = account.toFPAccount(baseCurrencyCode),
+            second = calcAccValues(
+                accountId = account.id,
+                accountsTrns = trns,
+                valueFunctions = valueFunctions
+            )
+        )
+    }.convertValuesInBaseCurrency(
+        exchangeRateDao = exchangeRateDao,
+        baseCurrencyCode = baseCurrencyCode
+    )
 
     return sumUncertainWalletValues(
         valueN = valueFunctions.size,
@@ -76,7 +104,7 @@ suspend fun calculateWalletValuesWithAccountFilters(
         .map { account ->
             Pair(
                 first = account.toFPAccount(baseCurrencyCode),
-                second = calculateAccountValues(
+                second = calcAccValues(
                     transactionDao = walletDAOs.transactionDao,
                     accountId = account.id,
                     range = range,
