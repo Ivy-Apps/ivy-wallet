@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit.core
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -31,7 +32,7 @@ fun Category(
             modifier = Modifier.padding(start = 24.dp),
             iconStart = R.drawable.ic_plus,
             iconTint = UI.colors.pureInverse,
-            text = "Add category"
+            text = stringResource(R.string.add_category)
         ) {
             onChooseCategory()
         }

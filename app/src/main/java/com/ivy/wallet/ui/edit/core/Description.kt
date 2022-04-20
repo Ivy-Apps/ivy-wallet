@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,7 @@ fun Description(
     } else {
         AddPrimaryAttributeButton(
             icon = R.drawable.ic_description,
-            text = "Add description",
+            text = stringResource(R.string.add_description),
             onClick = onAddDescription
         )
     }
@@ -46,7 +47,7 @@ private fun DescriptionText(
 ) {
     PrimaryAttributeColumn(
         icon = R.drawable.ic_description,
-        title = "Description",
+        title = stringResource(R.string.description_text),
         onClick = onClick
     ) {
         Spacer(Modifier.height(12.dp))

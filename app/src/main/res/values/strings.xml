@@ -68,4 +68,27 @@
     <string name="failed">Failed</string>
     <string name="rows_from_csv_not_recognized">%1$d rows from CSV file not recognized</string>
     <string name="finish">Finish</string>
+    <string name="add_description">Add description</string>
+    <string name="description_text">Description</string>
+    <string name="planned_for">Planned for</string>
+    <string name="add_money_to">Add money to</string>
+    <string name="pay_with">Pay with</string>
+    <string name="from">From</string>
+    <string name="account">Account</string>
+    <string name="to">To</string>
+    <string name="add_account">Add account</string>
+    <string name="income_title">Income title</string>
+    <string name="expense_title">Expense title</string>
+    <string name="transfer_title">Transfer title</string>
+    <string name="expense">Expense</string>
+    <string name="add_planned_date_payment">Add planned date of payment</string>
+    <string name="pay">Pay</string>
+    <string name="get">Get</string>
+    <string name="confirm_deletion">Confirm deletion</string>
+    <string name="confirm_deletion_description">Deleting this transaction will remove it from the transaction history and update the balance accordingly.</string>
+    <string name="confirm_account_change">Confirm Account Change</string>
+    <string name="confirm_account_change_description">Note: You are trying to change the account associated with the loan with an account of different currency, \nAll the loan records will be re-calculated based on today\'s exchanges rates </string>
+    <string name="confirm">Confirm</string>
+    <string name="account_change_recalculating">Please wait, re-calculating all loan records</string>
+    <string name="created_on">Created on</string>
 </resources>

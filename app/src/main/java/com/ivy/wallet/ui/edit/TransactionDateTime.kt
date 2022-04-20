@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,7 +51,7 @@ fun TransactionDateTime(
             Spacer(Modifier.width(8.dp))
 
             Text(
-                text = "Created on",
+                text = stringResource(R.string.created_on),
                 style = UI.typo.b2.style(
                     color = UI.colors.gray,
                     fontWeight = FontWeight.Bold
