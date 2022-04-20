@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -15,6 +16,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.R
 
 
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -32,7 +34,7 @@ fun ImportProcessing(
         Spacer(Modifier.height(80.dp))
 
         Text(
-            text = "Please wait",
+            text = stringResource(R.string.please_wait),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black
             )
@@ -57,7 +59,7 @@ fun ImportProcessing(
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = "Importing the CSV file",
+            text = stringResource(R.string.importing_the_csv_file),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )

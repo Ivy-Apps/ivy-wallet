@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.domain.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
+import com.ivy.wallet.R
 
 
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
@@ -59,7 +61,7 @@ fun BoxWithConstraintsScope.ImportFrom(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "Import from",
+                text = stringResource(R.string.import_from),
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
