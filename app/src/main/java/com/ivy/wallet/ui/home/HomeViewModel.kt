@@ -4,10 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.CalcOverdueAct
-import com.ivy.wallet.domain.action.CalcUpcomingAct
-import com.ivy.wallet.domain.action.CalcWalletBalanceAct
-import com.ivy.wallet.domain.action.HistoryWithDateDivAct
+import com.ivy.wallet.domain.action.wallet.CalcOverdueAct
+import com.ivy.wallet.domain.action.wallet.CalcUpcomingAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.action.wallet.HistoryWithDateDivAct
 import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense

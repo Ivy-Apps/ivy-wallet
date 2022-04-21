@@ -31,6 +31,7 @@ import kotlin.math.roundToInt
  * - font cannot be set
  * - handles color must be set Theme XML `accentColor`
  */
+@Deprecated("A new better componenet would be created soon.")
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,

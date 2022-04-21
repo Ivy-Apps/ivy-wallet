@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 
 @Composable
 fun DefaultImportSteps(
@@ -17,7 +19,7 @@ fun DefaultImportSteps(
 
     StepTitle(
         number = 1,
-        title = "Export CSV file"
+        title = stringResource(R.string.export_csv_file)
     )
 
     Spacer(Modifier.height(12.dp))

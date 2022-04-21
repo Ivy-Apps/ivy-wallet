@@ -1,5 +1,6 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.wallet
 
+import com.ivy.wallet.domain.action.Action
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.fp.data.ClosedTimeRange
 import com.ivy.wallet.domain.fp.data.WalletDAOs

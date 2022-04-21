@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -135,9 +136,9 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     ) {
         //Accounts label
         val label = when (type) {
-            TransactionType.INCOME -> "Add money to"
-            TransactionType.EXPENSE -> "Pay with"
-            TransactionType.TRANSFER -> "From"
+            TransactionType.INCOME -> stringResource(R.string.add_money_to)
+            TransactionType.EXPENSE -> stringResource(R.string.pay_with)
+            TransactionType.TRANSFER -> stringResource(R.string.from)
         }
 
         SheetHeader(
@@ -223,7 +224,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "Account",
+                text = stringResource(R.string.account),
                 style = UI.typo.b1.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -439,7 +440,7 @@ private fun SheetHeader(
 
                 Text(
                     modifier = Modifier.padding(start = 32.dp),
-                    text = "To",
+                    text = stringResource(R.string.to),
                     style = UI.typo.b1.style(
                         color = UI.colors.pureInverse,
                         fontWeight = FontWeight.ExtraBold
@@ -588,7 +589,7 @@ private fun AddAccount(
 
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
-            text = "Add account",
+            text = stringResource(R.string.add_account),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold

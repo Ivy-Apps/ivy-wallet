@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 
 @Composable
 fun SpendeeSteps(
@@ -14,7 +16,7 @@ fun SpendeeSteps(
 
     StepTitle(
         number = 1,
-        title = "Export CSV file"
+        title = stringResource(R.string.export_csv_file)
     )
 
     Spacer(Modifier.height(12.dp))
@@ -28,15 +30,15 @@ fun SpendeeSteps(
 
     StepTitle(
         number = 2,
-        title = "Check your email's \"Promotions\" and \"Spam\" folders"
+        title = stringResource(R.string.check_email_spam)
     )
 
     Spacer(Modifier.height(24.dp))
 
     StepTitle(
         number = 3,
-        title = "Download the \"transactions_export...\" file attached to the email.",
-        description = "If you have more than one currency you'll have to download each \"transactions_export...\" file and import it in Ivy."
+        title = stringResource(R.string.download_email_file),
+        description = stringResource(R.string.download_email_file_description)
     )
 
     Spacer(Modifier.height(24.dp))

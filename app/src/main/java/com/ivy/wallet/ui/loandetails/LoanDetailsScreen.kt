@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -242,16 +243,16 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         visible = deleteModalVisible,
-        title = "Confirm deletion",
-        description = "Note: Deleting this loan will remove it permanently and delete all associated loan records with it.",
+        title = stringResource(R.string.confirm_deletion),
+        description = stringResource(R.string.loan_confirm_deletion_description),
         dismiss = { deleteModalVisible = false }
     ) {
         onDeleteLoan()
     }
 
     ProgressModal(
-        title = "Confirm Account Change",
-        description = "Please wait, re-calculating all loan records",
+        title = stringResource(R.string.confirm_account_change),
+        description = stringResource(R.string.confirm_account_loan_change),
         visible = waitModalVisible
     )
 }
@@ -404,7 +405,7 @@ private fun LoanInfoCard(
         ) {
             Text(
                 modifier = Modifier.padding(top = 8.dp, start = 24.dp),
-                text = "Paid",
+                text = stringResource(R.string.paid),
                 style = UI.typo.c.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
@@ -484,7 +485,7 @@ private fun LoanInfoCard(
             Text(
                 modifier = Modifier
                     .testTag("left_to_pay"),
-                text = "${leftToPay.format(baseCurrency)} $baseCurrency left",
+                text = stringResource(R.string.left_to_pay, leftToPay.format(baseCurrency), baseCurrency),
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
@@ -515,7 +516,7 @@ private fun LoanInfoCard(
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                text = "Loan Interest",
+                text = stringResource(R.string.loan_interest),
                 style = UI.typo.c.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
@@ -545,7 +546,7 @@ private fun LoanInfoCard(
                 Text(
                     modifier = Modifier
                         .testTag("interest_paid"),
-                    text = "${loanAmountPaid.format(baseCurrency)} $baseCurrency paid",
+                    text = stringResource(R.string.interest_paid, loanAmountPaid.format(baseCurrency), baseCurrency),
                     style = UI.typo.nB2.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
@@ -572,7 +573,7 @@ private fun LoanInfoCard(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .align(Alignment.CenterHorizontally),
-            text = "Add record",
+            text = stringResource(R.string.add_record),
             shadowAlpha = 0.1f,
             backgroundGradient = Gradient.solid(contrastColor),
             textStyle = UI.typo.b2.style(
@@ -671,7 +672,7 @@ private fun LoanRecordItem(
                         backgroundGradient = Gradient.solid(loan.color.toComposeColor()),
                         hasGlow = false,
                         iconTint = textIconColor,
-                        text = "Interest",
+                        text = stringResource(R.string.interest),
                         iconStart = getCustomIconIdS(
                             iconName = "currency",
                             defaultIcon = R.drawable.ic_currency
@@ -754,7 +755,7 @@ private fun NoLoanRecordsEmptyState() {
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = "No records",
+            text = stringResource(R.string.no_records),
             style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
@@ -765,7 +766,7 @@ private fun NoLoanRecordsEmptyState() {
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "You don't have any records for this loan. Tap \"Add record\" to create one.",
+            text = stringResource(R.string.no_records_for_the_loan),
             style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,

@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -92,9 +93,8 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.weight(1f))
 
             NoLoansEmptyState(
-                emptyStateTitle = "No loans",
-                emptyStateText = "You don't have any loans.\n" +
-                        "Tap the \"+ Add loan\" to add one."
+                emptyStateTitle = stringResource(R.string.no_loans),
+                emptyStateText = stringResource(R.string.no_loans_description)
             )
 
             Spacer(Modifier.weight(1f))
@@ -166,7 +166,7 @@ private fun Toolbar(
                 .padding(start = 24.dp, end = 16.dp)
         ) {
             Text(
-                text = "Loans",
+                text = stringResource(R.string.loans),
                 style = UI.typo.h2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
