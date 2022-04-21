@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.nonEmptyListOf
-import com.ivy.wallet.domain.action.Action
+import com.ivy.wallet.domain.action.FPAction
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.then
 import com.ivy.wallet.domain.data.entity.Account
@@ -13,27 +13,24 @@ import javax.inject.Inject
 
 class CalcAccBalanceAct @Inject constructor(
     private val accTrnsAct: AccTrnsAct
-) : Action<CalcAccBalanceAct.Input, CalcAccBalanceAct.Output>() {
+) : FPAction<CalcAccBalanceAct.Input, CalcAccBalanceAct.Output>() {
 
-    override suspend fun Input.willDo(): Output = io {
-        val composition = accTrnsAct then { accTrns ->
-            Output(
-                account = account,
-                balance = calcAccValues(
-                    accountId = account.id,
-                    accountsTrns = accTrns,
-                    valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
-                ).head
-            )
-        }
-
-        composition(
-            AccTrnsAct.Input(
-                accountId = account.id,
-                range = ClosedTimeRange.allTimeIvy()
-            )
+    override suspend fun Input.recipe(): suspend () -> Output = suspend {
+        AccTrnsAct.Input(
+            accountId = account.id,
+            range = ClosedTimeRange.allTimeIvy()
         )
-
+    } then accTrnsAct then { accTrns ->
+        calcAccValues(
+            accountId = account.id,
+            accountsTrns = accTrns,
+            valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
+        ).head
+    } then { balance ->
+        Output(
+            account = account,
+            balance = balance
+        )
     }
 
     data class Input(

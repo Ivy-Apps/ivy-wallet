@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.fp.account.calculateAccountBalance
@@ -35,6 +36,7 @@ class AccountsViewModel @Inject constructor(
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
+    private val accountsAct: AccountsAct
 ) : ViewModel() {
 
     @Subscribe
@@ -67,38 +69,39 @@ class AccountsViewModel @Inject constructor(
             val baseCurrencyCode = ioThread { baseCurrencyCode(settingsDao) }
             _baseCurrencyCode.value = baseCurrencyCode
 
+            val accs = accountsAct(Unit)
+
             _accounts.value = ioThread {
-                accountDao.findAll()
-                    .map {
-                        val balance = calculateAccountBalance(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id
-                        )
-                        val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
-                            exchangeToBaseCurrency(
-                                exchangeRateDao = walletDAOs.exchangeRateDao,
-                                baseCurrencyCode = baseCurrencyCode,
-                                fromCurrencyCode = it.currency ?: baseCurrencyCode,
-                                fromAmount = balance
-                            ).orNull()?.toDouble()
-                        } else {
-                            null
-                        }
-
-                        val incomeExpensePair = calculateAccountIncomeExpense(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id,
-                            range = range.toCloseTimeRange()
-                        )
-
-                        AccountData(
-                            account = it,
-                            balance = balance.toDouble(),
-                            balanceBaseCurrency = balanceBaseCurrency,
-                            monthlyIncome = incomeExpensePair.income.toDouble(),
-                            monthlyExpenses = incomeExpensePair.expense.toDouble(),
-                        )
+                accs.map {
+                    val balance = calculateAccountBalance(
+                        transactionDao = walletDAOs.transactionDao,
+                        accountId = it.id
+                    )
+                    val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
+                        exchangeToBaseCurrency(
+                            exchangeRateDao = walletDAOs.exchangeRateDao,
+                            baseCurrencyCode = baseCurrencyCode,
+                            fromCurrencyCode = it.currency ?: baseCurrencyCode,
+                            fromAmount = balance
+                        ).orNull()?.toDouble()
+                    } else {
+                        null
                     }
+
+                    val incomeExpensePair = calculateAccountIncomeExpense(
+                        transactionDao = walletDAOs.transactionDao,
+                        accountId = it.id,
+                        range = range.toCloseTimeRange()
+                    )
+
+                    AccountData(
+                        account = it,
+                        balance = balance.toDouble(),
+                        balanceBaseCurrency = balanceBaseCurrency,
+                        monthlyIncome = incomeExpensePair.income.toDouble(),
+                        monthlyExpenses = incomeExpensePair.expense.toDouble(),
+                    )
+                }
             }
 
             _totalBalanceWithExcluded.value = ioThread {

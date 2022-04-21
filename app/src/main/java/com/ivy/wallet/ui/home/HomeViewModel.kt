@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.wallet.CalcAccountsBalanceAct
 import com.ivy.wallet.domain.action.wallet.CalcOverdueAct
 import com.ivy.wallet.domain.action.wallet.CalcUpcomingAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.action.wallet.HistoryWithDateDivAct
 import com.ivy.wallet.domain.data.entity.Transaction
 import com.ivy.wallet.domain.fp.data.WalletDAOs
@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
     private val sharedPrefs: SharedPrefs,
-    private val calcAccountBalanceAct: CalcAccountsBalanceAct,
+    private val calcAccountBalanceAct: CalcWalletBalanceAct,
     private val calcUpcomingAct: CalcUpcomingAct,
     private val calcOverdueAct: CalcOverdueAct,
     private val historyWithDateDivAct: HistoryWithDateDivAct,
@@ -100,11 +100,12 @@ class HomeViewModel @Inject constructor(
 
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
-            updateState {
-                it.copy(
-                    balance = calcAccountBalanceAct(settings.currency)
-                )
-            }
+            //TODO: Fix that!
+//            updateState {
+//                it.copy(
+//                    balance = calcAccountBalanceAct(settings.currency)
+//                )
+//            }
 
             updateState {
                 it.copy(
