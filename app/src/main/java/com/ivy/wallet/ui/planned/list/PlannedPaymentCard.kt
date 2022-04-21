@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -158,7 +159,7 @@ private fun PlannedPaymentHeaderRow(
             val account = accounts.find { it.id == plannedPayment.accountId }
             IvyButton(
                 backgroundGradient = Gradient.solid(UI.colors.pure),
-                text = account?.name ?: "deleted",
+                text = account?.name ?: stringResource(R.string.deleted),
                 iconTint = UI.colors.pureInverse,
                 iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
                 textStyle = UI.typo.c.style(
@@ -196,7 +197,7 @@ private fun RuleTextRow(
 
         if (oneTime) {
             Text(
-                text = "PLANNED FOR ",
+                text = stringResource(R.string.planned_for_uppercase),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
@@ -205,7 +206,7 @@ private fun RuleTextRow(
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = startDate?.toLocalDate()?.formatDateOnlyWithYear()?.uppercaseLocal()
-                    ?: "null",
+                    ?: stringResource(R.string.null_text),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
@@ -214,7 +215,7 @@ private fun RuleTextRow(
         } else {
             val startDateFormatted = startDate?.toLocalDate()?.formatDateOnly()?.uppercaseLocal()
             Text(
-                text = "STARTS $startDateFormatted ",
+                text = stringResource(R.string.starts_date, startDateFormatted ?: ""),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
@@ -223,7 +224,7 @@ private fun RuleTextRow(
             val intervalTypeFormatted = intervalType?.forDisplay(intervalN ?: 0)?.uppercaseLocal()
             Text(
                 modifier = Modifier.padding(bottom = 1.dp),
-                text = "REPEATS EVERY $intervalN $intervalTypeFormatted",
+                text = stringResource(R.string.repeats_every, intervalN ?: 0 , intervalTypeFormatted ?: ""),
                 style = UI.typo.nC.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold

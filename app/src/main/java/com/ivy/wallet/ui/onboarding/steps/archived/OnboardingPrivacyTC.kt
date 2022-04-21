@@ -17,6 +17,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -67,7 +68,7 @@ fun OnboardingPrivacyTC(
 
         Text(
             modifier = Modifier.padding(start = 32.dp),
-            text = "Privacy and\ndata collection",
+            text = stringResource(R.string.privacy_and_data_collection),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
@@ -87,8 +88,8 @@ fun OnboardingPrivacyTC(
         var privacyAccepted by remember { mutableStateOf(false) }
 
         SwipeToAgree(
-            swipeToAgreeText = "Swipe to agree with our Terms and conditions",
-            agreedText = "Agreed with our Terms and conditions"
+            swipeToAgreeText = stringResource(R.string.swipe_to_agree_terms_conditions),
+            agreedText = stringResource(R.string.agreed_terms_conditions)
         ) {
             tcAccepted = it
         }
@@ -96,8 +97,8 @@ fun OnboardingPrivacyTC(
         Spacer(Modifier.height(24.dp))
 
         SwipeToAgree(
-            swipeToAgreeText = "Swipe to agree with our Privacy policy",
-            agreedText = "Agreed with our Privacy policy"
+            swipeToAgreeText = stringResource(R.string.swipe_to_agree_privacy_policy),
+            agreedText = stringResource(R.string.agreed_privacy_policy)
         ) {
             privacyAccepted = it
         }
@@ -116,14 +117,14 @@ private fun URLsRow() {
         Spacer(Modifier.width(32.dp))
 
         TextLink(
-            text = "Terms and conditions",
+            text = stringResource(R.string.terms_and_conditions),
             url = Constants.URL_TC
         )
 
         Spacer(Modifier.width(36.dp))
 
         TextLink(
-            text = "Privacy policy",
+            text = stringResource(R.string.privacy_policy),
             url = Constants.URL_PRIVACY_POLICY
         )
 
@@ -138,7 +139,7 @@ private fun LongText() {
             start = 32.dp,
             end = 48.dp
         ),
-        text = "Track your income, expenses and budget with Ivy.\n\nIntuitive UI, recurring and planned payments, manage multiple accounts, organize transactions in categories, meaningful statistics, export to CSV and so much more.",
+        text = stringResource(R.string.wallet_description),
         style = UI.typo.b2.style(
             fontWeight = FontWeight.Medium
         )
