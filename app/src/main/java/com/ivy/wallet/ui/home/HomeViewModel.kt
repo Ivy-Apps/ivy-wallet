@@ -100,12 +100,16 @@ class HomeViewModel @Inject constructor(
 
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
 
-            //TODO: Fix that!
-//            updateState {
-//                it.copy(
-//                    balance = calcAccountBalanceAct(settings.currency)
-//                )
-//            }
+            updateState {
+                it.copy(
+                    balance = calcAccountBalanceAct(
+                        CalcWalletBalanceAct.Input(
+                            baseCurrency = settings.currency,
+                            balanceCurrency = settings.currency
+                        )
+                    )
+                )
+            }
 
             updateState {
                 it.copy(

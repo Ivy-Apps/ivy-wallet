@@ -1,10 +1,8 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
-import com.ivy.wallet.domain.action.FPAction
+import com.ivy.wallet.domain.action.*
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.fixUnit
-import com.ivy.wallet.domain.action.then
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -17,23 +15,21 @@ class CalcWalletBalanceAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
 
     private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
-        accountsAct then {
-            it.filter { acc -> acc.includeInBalance }
-        } then {
-            it.map { acc -> calcAccBalanceAct(CalcAccBalanceAct.Input(acc)) }
-        } then {
-            it.map { balanceOutput ->
-                exchangeAct(
-                    ExchangeAct.Input(
-                        baseCurrency = baseCurrency,
-                        fromCurrency = balanceOutput.account.currency.toOption(),
-                        toCurrency = balanceCurrency,
-                        amount = balanceOutput.balance
-                    )
+        accountsAct thenFilter {
+            it.includeInBalance
+        } thenMap {
+            calcAccBalanceAct(CalcAccBalanceAct.Input(it))
+        } thenMap {
+            exchangeAct(
+                ExchangeAct.Input(
+                    baseCurrency = baseCurrency,
+                    fromCurrency = it.account.currency.toOption(),
+                    toCurrency = balanceCurrency,
+                    amount = it.balance
                 )
-            }
-        } then { balances ->
-            balances.sumOf { it.orNull() ?: BigDecimal.ZERO }
+            )
+        } thenSum {
+            it.orNull() ?: BigDecimal.ZERO
         }
 
     data class Input(
