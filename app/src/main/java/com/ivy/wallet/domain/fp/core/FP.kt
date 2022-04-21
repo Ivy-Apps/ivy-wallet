@@ -16,6 +16,11 @@ annotation class Total
 annotation class Partial(val inCaseOf: String = "")
 
 
+@Target(AnnotationTarget.VALUE_PARAMETER)
+@Retention(AnnotationRetention.SOURCE)
+@MustBeDocumented
+annotation class SideEffect
+
 infix fun <A, B, C> ((A) -> B).compose(fn2: (B) -> C): (A) -> C = { a ->
     val b = this(a)
     val c = fn2(b)

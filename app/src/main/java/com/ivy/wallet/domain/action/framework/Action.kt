@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.framework
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

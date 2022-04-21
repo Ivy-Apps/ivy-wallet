@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.framework
 
 suspend infix fun <A, B> (suspend (A) -> List<B>).thenFilter(
     predicate: (B) -> Boolean

@@ -1,9 +1,8 @@
-package com.ivy.wallet.domain.action.wallet
+package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
-import com.ivy.wallet.domain.action.FPAction
-import com.ivy.wallet.domain.action.account.AccTrnsAct
-import com.ivy.wallet.domain.action.then
+import com.ivy.wallet.domain.action.framework.FPAction
+import com.ivy.wallet.domain.action.framework.then
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.fp.account.AccountValueFunctions
 import com.ivy.wallet.domain.fp.account.calcAccValues

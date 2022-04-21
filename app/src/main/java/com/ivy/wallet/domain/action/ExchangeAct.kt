@@ -1,7 +1,7 @@
-package com.ivy.wallet.domain.action.wallet
+package com.ivy.wallet.domain.action
 
 import arrow.core.Option
-import com.ivy.wallet.domain.action.FPAction
+import com.ivy.wallet.domain.action.framework.FPAction
 import com.ivy.wallet.domain.fp.exchange
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
@@ -15,10 +15,10 @@ class ExchangeAct @Inject constructor(
         io {
             exchange(
                 baseCurrencyCode = baseCurrency,
-                exchangeRateDao = exchangeRateDao,
-                fromAmount = amount,
+                amount = amount,
                 fromCurrencyCode = fromCurrency,
-                toCurrencyCode = toCurrency
+                toCurrencyCode = toCurrency,
+                getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency
             )
         }
     }

@@ -2,16 +2,19 @@ package com.ivy.wallet.domain.fp.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
+import arrow.core.toOption
 import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.entity.ExchangeRate
 import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.fp.ExchangeData
 import com.ivy.wallet.domain.fp.account.AccountValueFunction
 import com.ivy.wallet.domain.fp.account.calcAccValues
+import com.ivy.wallet.domain.fp.core.SideEffect
 import com.ivy.wallet.domain.fp.core.Uncertain
 import com.ivy.wallet.domain.fp.core.mapIndexedNel
 import com.ivy.wallet.domain.fp.core.nonEmptyListOfZeros
 import com.ivy.wallet.domain.fp.data.*
-import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
-import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
+import com.ivy.wallet.domain.fp.exchange
 import com.ivy.wallet.utils.scopedIOThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -26,7 +29,10 @@ suspend fun calculateWalletValues(
     baseCurrencyCode: String,
     filterExcluded: Boolean = true,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-    valueFunctions: NonEmptyList<AccountValueFunction>
+    valueFunctions: NonEmptyList<AccountValueFunction>,
+
+    @SideEffect
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): UncertainWalletValues {
     val uncertainWalletValues = walletDAOs.accountDao.findAll()
         .filter { !filterExcluded || it.includeInBalance }
@@ -42,8 +48,8 @@ suspend fun calculateWalletValues(
             )
         }
         .convertValuesInBaseCurrency(
-            exchangeRateDao = walletDAOs.exchangeRateDao,
-            baseCurrencyCode = baseCurrencyCode
+            baseCurrency = baseCurrencyCode,
+            getExchangeRate = getExchangeRate
         )
 
     return sumUncertainWalletValues(
@@ -55,8 +61,10 @@ suspend fun calculateWalletValues(
 suspend fun sumAccountValuesInCurrency(
     accountTrns: List<Pair<Account, List<Transaction>>>,
     baseCurrencyCode: String,
-    exchangeRateDao: ExchangeRateDao,
-    valueFunctions: NonEmptyList<AccountValueFunction>
+    valueFunctions: NonEmptyList<AccountValueFunction>,
+
+    @SideEffect
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): UncertainWalletValues {
     val uncertainWalletValues = accountTrns.map { (account, trns) ->
         Pair(
@@ -68,8 +76,8 @@ suspend fun sumAccountValuesInCurrency(
             )
         )
     }.convertValuesInBaseCurrency(
-        exchangeRateDao = exchangeRateDao,
-        baseCurrencyCode = baseCurrencyCode
+        baseCurrency = baseCurrencyCode,
+        getExchangeRate = getExchangeRate
     )
 
     return sumUncertainWalletValues(
@@ -84,7 +92,10 @@ suspend fun calculateWalletValuesWithAccountFilters(
     filterExcluded: Boolean = true,
     accountIdFilterList: List<UUID>,
     range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-    valueFunctions: NonEmptyList<AccountValueFunction>
+    valueFunctions: NonEmptyList<AccountValueFunction>,
+
+    @SideEffect
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): UncertainWalletValues {
 
     val accounts = scopedIOThread { scope ->
@@ -113,8 +124,8 @@ suspend fun calculateWalletValuesWithAccountFilters(
             )
         }
         .convertValuesInBaseCurrency(
-            exchangeRateDao = walletDAOs.exchangeRateDao,
-            baseCurrencyCode = baseCurrencyCode
+            baseCurrency = baseCurrencyCode,
+            getExchangeRate = getExchangeRate
         )
 
     return sumUncertainWalletValues(
@@ -124,16 +135,21 @@ suspend fun calculateWalletValuesWithAccountFilters(
 }
 
 private suspend fun Iterable<AccountValuesPair>.convertValuesInBaseCurrency(
-    exchangeRateDao: ExchangeRateDao,
-    baseCurrencyCode: String,
+    baseCurrency: String,
+
+    @SideEffect
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): List<UncertainWalletValues> {
     return this.map { (account, values) ->
         val valuesInBaseCurrency = values.map {
-            exchangeToBaseCurrency(
-                exchangeRateDao = exchangeRateDao,
-                baseCurrencyCode = baseCurrencyCode,
-                fromCurrencyCode = account.currencyCode,
-                fromAmount = it
+            exchange(
+                data = ExchangeData(
+                    baseCurrency = baseCurrency,
+                    fromCurrency = account.currencyCode.toOption(),
+                    toCurrency = baseCurrency
+                ),
+                amount = it,
+                getExchangeRate = getExchangeRate
             )
         }
         val hasError = valuesInBaseCurrency.any { !it.isDefined() }

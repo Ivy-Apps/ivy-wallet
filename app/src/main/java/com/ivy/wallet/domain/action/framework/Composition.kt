@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.framework
 
 
 suspend infix fun <A, B, C> (suspend (A) -> B).then(f: suspend (B) -> C): suspend (A) -> C =
