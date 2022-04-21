@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.accounts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.fp.account.calculateAccountBalance
@@ -10,7 +11,6 @@ import com.ivy.wallet.domain.fp.account.calculateAccountIncomeExpense
 import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
 import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
-import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
 import com.ivy.wallet.domain.logic.AccountCreator
 import com.ivy.wallet.domain.sync.item.AccountSync
 import com.ivy.wallet.io.persistence.dao.AccountDao
@@ -36,7 +36,8 @@ class AccountsViewModel @Inject constructor(
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
-    private val accountsAct: AccountsAct
+    private val accountsAct: AccountsAct,
+    private val calcWalletBalanceAct: CalcWalletBalanceAct
 ) : ViewModel() {
 
     @Subscribe
@@ -104,13 +105,11 @@ class AccountsViewModel @Inject constructor(
                 }
             }
 
-            _totalBalanceWithExcluded.value = ioThread {
-                calculateWalletBalance(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = baseCurrencyCode,
-                    filterExcluded = false
-                ).value.toDouble()
-            }
+            _totalBalanceWithExcluded.value = calcWalletBalanceAct(
+                CalcWalletBalanceAct.Input(
+                    baseCurrency = baseCurrencyCode
+                )
+            ).toDouble()
 
             TestIdlingResource.decrement()
         }

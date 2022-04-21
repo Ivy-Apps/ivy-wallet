@@ -2,9 +2,15 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.domain.action.charts.BalanceChartAct
+import com.ivy.wallet.domain.action.framework.then
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.fp.charts.*
+import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.fp.charts.IncomeExpenseChartPoint
+import com.ivy.wallet.domain.fp.charts.SingleChartPoint
+import com.ivy.wallet.domain.fp.charts.incomeExpenseChart
 import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
 import com.ivy.wallet.domain.logic.WalletCategoryLogic
@@ -26,7 +32,9 @@ class ChartsViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
     private val categoryDao: CategoryDao,
-    private val walletCategoryLogic: WalletCategoryLogic
+    private val walletCategoryLogic: WalletCategoryLogic,
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val balanceChartAct: BalanceChartAct
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ChartPeriod.LAST_12_MONTHS)
@@ -79,13 +87,15 @@ class ChartsViewModel @Inject constructor(
         _incomeExpenseChart.value = generateIncomeExpenseChart(period)
     }
 
-    private suspend fun generateBalanceChart(period: ChartPeriod) = ioThread {
-        balanceChart(
-            walletDAOs = walletDAOs,
-            baseCurrencyCode = baseCurrencyCode.value,
-            period = period
-        )
-    }
+    private suspend fun generateBalanceChart(period: ChartPeriod) =
+        (baseCurrencyAct then { baseCurrency ->
+            balanceChartAct(
+                BalanceChartAct.Input(
+                    baseCurrency = baseCurrency,
+                    period = period
+                )
+            )
+        })(Unit)
 
     private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
         incomeExpenseChart(

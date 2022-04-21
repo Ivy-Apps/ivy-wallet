@@ -17,7 +17,7 @@ class CalcAccBalanceAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
             accountId = account.id,
-            range = ClosedTimeRange.allTimeIvy()
+            range = range
         )
     } then accTrnsAct then { accTrns ->
         calcAccValues(
@@ -33,11 +33,12 @@ class CalcAccBalanceAct @Inject constructor(
     }
 
     data class Input(
-        val account: Account
+        val account: Account,
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
     )
 
     data class Output(
         val account: Account,
-        val balance: BigDecimal
+        val balance: BigDecimal,
     )
 }

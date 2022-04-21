@@ -5,6 +5,7 @@ import com.ivy.wallet.domain.action.ExchangeAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import com.ivy.wallet.domain.action.framework.*
+import com.ivy.wallet.domain.fp.data.ClosedTimeRange
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -20,7 +21,12 @@ class CalcWalletBalanceAct @Inject constructor(
         accountsAct thenFilter {
             it.includeInBalance
         } thenMap {
-            calcAccBalanceAct(CalcAccBalanceAct.Input(it))
+            calcAccBalanceAct(
+                CalcAccBalanceAct.Input(
+                    account = it,
+                    range = range
+                )
+            )
         } thenMap {
             exchangeAct(
                 ExchangeAct.Input(
@@ -36,6 +42,7 @@ class CalcWalletBalanceAct @Inject constructor(
 
     data class Input(
         val baseCurrency: String,
-        val balanceCurrency: String
+        val balanceCurrency: String = baseCurrency,
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
     )
 }

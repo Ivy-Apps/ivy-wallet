@@ -19,54 +19,11 @@ fun walletBufferDiff(
     return balance - settings.bufferAmount.toBigDecimal()
 }
 
+@Deprecated("Side-effects must be handled by Actions")
 suspend fun baseCurrencyCode(
     settingsDao: SettingsDao
 ): String {
     return settingsDao.findFirst().currency
-}
-
-suspend fun calculateWalletBalance(
-    walletDAOs: WalletDAOs,
-    baseCurrencyCode: String,
-    filterExcluded: Boolean = true,
-    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-): Uncertain<List<CurrencyConvError>, BigDecimal> {
-    val uncertainValues = calculateWalletValues(
-        walletDAOs = walletDAOs,
-        baseCurrencyCode = baseCurrencyCode,
-        filterExcluded = filterExcluded,
-        range = range,
-        valueFunctions = nonEmptyListOf(
-            AccountValueFunctions::balance
-        )
-    )
-
-    return Uncertain(
-        error = uncertainValues.error,
-        value = uncertainValues.value.head
-    )
-}
-
-suspend fun calculateWalletIncome(
-    walletDAOs: WalletDAOs,
-    baseCurrencyCode: String,
-    filterExcluded: Boolean = true,
-    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-): Uncertain<List<CurrencyConvError>, BigDecimal> {
-    val uncertainValues = calculateWalletValues(
-        walletDAOs = walletDAOs,
-        baseCurrencyCode = baseCurrencyCode,
-        filterExcluded = filterExcluded,
-        range = range,
-        valueFunctions = nonEmptyListOf(
-            AccountValueFunctions::income
-        )
-    )
-
-    return Uncertain(
-        error = uncertainValues.error,
-        value = uncertainValues.value.head
-    )
 }
 
 suspend fun calculateWalletIncomeWithAccountFilters(
@@ -93,27 +50,6 @@ suspend fun calculateWalletIncomeWithAccountFilters(
     )
 }
 
-suspend fun calculateWalletExpense(
-    walletDAOs: WalletDAOs,
-    baseCurrencyCode: String,
-    filterExcluded: Boolean = true,
-    range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
-): Uncertain<List<CurrencyConvError>, BigDecimal> {
-    val uncertainValues = calculateWalletValues(
-        walletDAOs = walletDAOs,
-        baseCurrencyCode = baseCurrencyCode,
-        filterExcluded = filterExcluded,
-        range = range,
-        valueFunctions = nonEmptyListOf(
-            AccountValueFunctions::expense
-        )
-    )
-
-    return Uncertain(
-        error = uncertainValues.error,
-        value = uncertainValues.value.head
-    )
-}
 
 suspend fun calculateWalletExpenseWithAccountFilters(
     walletDAOs: WalletDAOs,
