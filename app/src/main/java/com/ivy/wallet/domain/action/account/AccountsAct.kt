@@ -8,7 +8,7 @@ import javax.inject.Inject
 class AccountsAct @Inject constructor(
     private val accountDao: AccountDao
 ) : FPAction<Unit, List<Account>>() {
-    override suspend fun Unit.recipe(): suspend () -> List<Account> = suspend {
+    override suspend fun Unit.compose(): suspend () -> List<Account> = suspend {
         io { accountDao.findAll() }
     }
 }

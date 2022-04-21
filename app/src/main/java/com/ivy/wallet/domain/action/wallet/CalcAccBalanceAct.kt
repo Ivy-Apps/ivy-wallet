@@ -15,7 +15,7 @@ class CalcAccBalanceAct @Inject constructor(
     private val accTrnsAct: AccTrnsAct
 ) : FPAction<CalcAccBalanceAct.Input, CalcAccBalanceAct.Output>() {
 
-    override suspend fun Input.recipe(): suspend () -> Output = suspend {
+    override suspend fun Input.compose(): suspend () -> Output = suspend {
         AccTrnsAct.Input(
             accountId = account.id,
             range = ClosedTimeRange.allTimeIvy()

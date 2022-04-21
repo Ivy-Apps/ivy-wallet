@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.action.wallet
 
+import arrow.core.toOption
 import com.ivy.wallet.domain.action.FPAction
 import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.fixUnit
 import com.ivy.wallet.domain.action.then
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -11,29 +12,32 @@ class CalcWalletBalanceAct @Inject constructor(
     private val accountsAct: AccountsAct,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val exchangeAct: ExchangeAct,
-    private val baseCurrencyAct: BaseCurrencyAct
 ) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {
 
-    override suspend fun Input.recipe(): suspend () -> BigDecimal = (accountsAct then {
-        it.filter { acc -> acc.includeInBalance }
-    } then {
-        it.map { acc -> calcAccBalanceAct(CalcAccBalanceAct.Input(acc)) }
-    } then baseCurrencyAct then {
-        it.map { balanceOutput ->
-            exchangeAct(
-                ExchangeAct.Input(
-                    baseCurrency =,
-                    fromCurrency = balanceOutput.account.currency.toOption(),
-                    toCurrency =,
-                    amount = balanceOutput.balance
+    override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
+
+    private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
+        accountsAct then {
+            it.filter { acc -> acc.includeInBalance }
+        } then {
+            it.map { acc -> calcAccBalanceAct(CalcAccBalanceAct.Input(acc)) }
+        } then {
+            it.map { balanceOutput ->
+                exchangeAct(
+                    ExchangeAct.Input(
+                        baseCurrency = baseCurrency,
+                        fromCurrency = balanceOutput.account.currency.toOption(),
+                        toCurrency = balanceCurrency,
+                        amount = balanceOutput.balance
+                    )
                 )
-            )
+            }
+        } then { balances ->
+            balances.sumOf { it.orNull() ?: BigDecimal.ZERO }
         }
-    } then { balances ->
-        balances.sumOf { it.orNull() ?: BigDecimal.ZERO }
-    }).fixUnit()
 
     data class Input(
-        val currency: String
+        val baseCurrency: String,
+        val balanceCurrency: String
     )
 }

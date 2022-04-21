@@ -10,7 +10,7 @@ import javax.inject.Inject
 class AccTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao
 ) : FPAction<AccTrnsAct.Input, List<Transaction>>() {
-    override suspend fun Input.recipe(): suspend () -> List<Transaction> = suspend {
+    override suspend fun Input.compose(): suspend () -> List<Transaction> = suspend {
         io {
             transactionDao.findAllByAccountAndBetween(
                 accountId = accountId,

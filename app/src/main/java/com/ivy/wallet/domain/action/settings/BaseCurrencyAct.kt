@@ -8,7 +8,7 @@ import javax.inject.Inject
 class BaseCurrencyAct @Inject constructor(
     private val settingsDao: SettingsDao
 ) : FPAction<Unit, String>() {
-    override suspend fun Unit.recipe(): suspend () -> String {
+    override suspend fun Unit.compose(): suspend () -> String {
         return suspend {
             io { baseCurrencyCode(settingsDao) }
         }
