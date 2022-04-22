@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,7 +53,7 @@ fun RecurringRule(
     } else {
         AddPrimaryAttributeButton(
             icon = R.drawable.ic_planned_payments,
-            text = "Add planned date of payment",
+            text = stringResource(R.string.add_planned_date_payment),
             onClick = onShowRecurringRuleModal
         )
     }
@@ -94,7 +95,7 @@ private fun RecurringRuleCard(
 
         Column {
             Text(
-                text = if (oneTime) "Planned for" else "Planned start at",
+                text = if (oneTime) stringResource(R.string.planned_for) else stringResource(R.string.planned_start_at),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
@@ -106,7 +107,7 @@ private fun RecurringRuleCard(
 
                 val intervalTypeLabel = intervalType.forDisplay(intervalN).uppercaseLocal()
                 Text(
-                    text = "REPEATS EVERY $intervalN $intervalTypeLabel",
+                    text = stringResource(R.string.repeats_every, intervalN, intervalTypeLabel),
                     style = UI.typo.c.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange

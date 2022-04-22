@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun OnboardingType(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Import CSV file",
+            text = stringResource(R.string.import_csv_file),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black
             )
@@ -58,7 +59,7 @@ fun OnboardingType(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "from Ivy or another app",
+            text = stringResource(R.string.from_ivy_or_another_app),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -84,7 +85,7 @@ fun OnboardingType(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Importing a backup file from another can take up to 5 min. You can always import your data later if you want to.",
+            text = stringResource(R.string.importing_another_time_warning),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
@@ -95,7 +96,7 @@ fun OnboardingType(
         IvyOutlinedButtonFillMaxWidth(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
-            text = "Import backup file",
+            text = stringResource(R.string.import_backup_file),
             iconStart = R.drawable.ic_export_csv,
             iconTint = Green,
             textColor = Green
@@ -109,7 +110,7 @@ fun OnboardingType(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth(),
-            text = "Start fresh",
+            text = stringResource(R.string.start_fresh),
             textColor = White,
             backgroundGradient = GradientIvy,
             hasNext = true,
