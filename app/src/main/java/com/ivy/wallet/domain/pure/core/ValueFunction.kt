@@ -2,6 +2,9 @@ package com.ivy.wallet.domain.pure.core
 
 import arrow.core.NonEmptyList
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.pure.mapIndexedNel
+import com.ivy.wallet.domain.pure.mapIndexedNelSuspend
+import com.ivy.wallet.domain.pure.nonEmptyListOfZeros
 import java.math.BigDecimal
 
 typealias ValueFunction<A> = (Transaction, A) -> BigDecimal

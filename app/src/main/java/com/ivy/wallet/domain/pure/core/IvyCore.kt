@@ -1,10 +1,8 @@
-package com.ivy.wallet.domain.pure
+package com.ivy.wallet.domain.pure.core
 
 import arrow.core.NonEmptyList
 import com.ivy.fp.Pure
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.core.ValueFunction
-import com.ivy.wallet.domain.pure.core.calculateValueFunctionsSum
 import java.math.BigDecimal
 
 @Pure

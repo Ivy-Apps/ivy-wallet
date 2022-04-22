@@ -5,7 +5,7 @@ import com.ivy.fp.action.FPAction
 import com.ivy.fp.action.then
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.pure.AccountValueFunctions
-import com.ivy.wallet.domain.pure.calcValues
+import com.ivy.wallet.domain.pure.core.calcValues
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.math.BigDecimal
 import javax.inject.Inject
