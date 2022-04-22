@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.logic.LogoutLogic
 import com.ivy.wallet.domain.logic.PreloadDataLogic
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic

@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime

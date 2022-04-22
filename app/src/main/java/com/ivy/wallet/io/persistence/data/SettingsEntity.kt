@@ -1,12 +1,13 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.design.l0_system.Theme
+import com.ivy.wallet.domain.data.core.Settings
 import java.util.*
 
 @Entity(tableName = "settings")
-data class Settings(
+data class SettingsEntity(
     val theme: Theme,
     val currency: String,
     val bufferAmount: Double,
@@ -17,4 +18,12 @@ data class Settings(
 
     @PrimaryKey
     val id: UUID = UUID.randomUUID()
-)
+) {
+    fun toDomain(): Settings = Settings(
+        theme = theme,
+        currency = currency,
+        bufferAmount = bufferAmount,
+        name = name,
+        id = id
+    )
+}

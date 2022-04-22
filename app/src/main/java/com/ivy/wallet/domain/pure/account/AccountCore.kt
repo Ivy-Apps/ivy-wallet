@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.account
 
 import arrow.core.NonEmptyList
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.core.Pure
 import com.ivy.wallet.domain.pure.core.Total
 import com.ivy.wallet.domain.pure.core.calculateValueFunctionsSum

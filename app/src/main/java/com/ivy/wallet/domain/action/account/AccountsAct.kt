@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
 import com.ivy.wallet.domain.action.framework.FPAction
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 

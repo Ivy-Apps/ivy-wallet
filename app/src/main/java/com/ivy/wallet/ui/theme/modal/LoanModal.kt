@@ -26,8 +26,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.logic.model.CreateAccountData
 import com.ivy.wallet.domain.logic.model.CreateLoanData
 import com.ivy.wallet.ui.IvyWalletPreview

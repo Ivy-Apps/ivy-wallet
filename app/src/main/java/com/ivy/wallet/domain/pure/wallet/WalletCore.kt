@@ -3,9 +3,9 @@ package com.ivy.wallet.domain.pure.wallet
 import arrow.core.NonEmptyList
 import arrow.core.Some
 import arrow.core.toOption
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.ExchangeRate
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.ExchangeRate
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.ExchangeData
 import com.ivy.wallet.domain.pure.account.AccountValueFunction
 import com.ivy.wallet.domain.pure.account.calcAccValues

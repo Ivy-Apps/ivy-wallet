@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.data
 
-import com.ivy.wallet.domain.data.entity.*
+import com.ivy.wallet.domain.data.core.*
 
 data class IvyWalletCompleteData(
     val accounts: List<Account> = emptyList(),

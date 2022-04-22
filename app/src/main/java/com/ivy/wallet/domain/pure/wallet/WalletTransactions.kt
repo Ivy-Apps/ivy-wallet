@@ -4,8 +4,8 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.ExchangeData
 import com.ivy.wallet.domain.pure.core.*
 import com.ivy.wallet.domain.pure.data.FPTransaction

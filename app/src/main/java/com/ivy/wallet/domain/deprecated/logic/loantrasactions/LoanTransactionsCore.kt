@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.*
+import com.ivy.wallet.domain.data.core.*
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*

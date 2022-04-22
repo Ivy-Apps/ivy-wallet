@@ -3,7 +3,7 @@ package com.ivy.wallet.ui.test
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.data.entity.User
+import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.sync.item.CategorySync
 import com.ivy.wallet.io.network.IvySession

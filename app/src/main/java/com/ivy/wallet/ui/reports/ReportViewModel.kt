@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.viewmodel.IvyViewModel
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.logic.WalletLogic
 import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
@@ -209,7 +209,7 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 //Filter by Categories
 
-                filterCategoryIds.contains(trn.smartCategoryId()) || (trn.type == TransactionType.TRANSFER)
+                filterCategoryIds.contains(trn.categoryId) || (trn.type == TransactionType.TRANSFER)
             }
             .filter {
                 //Filter by Amount

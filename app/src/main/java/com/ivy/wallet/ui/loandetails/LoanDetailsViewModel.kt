@@ -3,10 +3,10 @@ package com.ivy.wallet.ui.loandetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.domain.data.entity.LoanRecord
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.logic.AccountCreator
 import com.ivy.wallet.domain.logic.LoanCreator

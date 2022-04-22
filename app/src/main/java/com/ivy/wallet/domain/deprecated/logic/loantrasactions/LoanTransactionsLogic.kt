@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.utils.computationThread
 
 data class LoanTransactionsLogic(

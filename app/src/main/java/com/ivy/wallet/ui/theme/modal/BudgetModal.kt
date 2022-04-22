@@ -14,7 +14,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -24,10 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Budget
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.reports.ListItem
@@ -121,8 +119,7 @@ fun BoxWithConstraintsScope.BudgetModal(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ModalTitle(
-                text = if (modal?.budget != null) stringResource(R.string.edit_budget) else stringResource(
-                                    R.string.create_budget)
+                text = if (modal?.budget != null) "Edit budget" else "Create budget"
             )
 
             if (initialBudget != null) {
@@ -140,7 +137,7 @@ fun BoxWithConstraintsScope.BudgetModal(
         Spacer(Modifier.height(24.dp))
 
         ModalNameInput(
-            hint = stringResource(R.string.budget_name),
+            hint = "Budget name",
             autoFocusKeyboard = modal?.autoFocusKeyboard ?: true,
             textFieldValue = nameTextFieldValue,
             setTextFieldValue = {
@@ -161,7 +158,7 @@ fun BoxWithConstraintsScope.BudgetModal(
         Spacer(Modifier.height(24.dp))
 
         ModalAmountSection(
-            label = stringResource(R.string.budget_amount_uppercase),
+            label = "BUDGET AMOUNT",
             currency = modal?.baseCurrency ?: "",
             amount = amount,
             amountPaddingTop = 24.dp,
@@ -186,8 +183,8 @@ fun BoxWithConstraintsScope.BudgetModal(
 
     DeleteModal(
         visible = deleteModalVisible,
-        title = stringResource(R.string.confirm_deletion),
-        description = stringResource(R.string.confirm_budget_deletion_warning, nameTextFieldValue.text),
+        title = "Confirm deletion",
+        description = "Are you sure that you want to delete \"${nameTextFieldValue.text}\" budget?",
         dismiss = { deleteModalVisible = false }
     ) {
         if (initialBudget != null) {

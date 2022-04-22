@@ -1,10 +1,7 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "budgets")
 data class Budget(
     val name: String,
     val amount: Double,
@@ -16,7 +13,6 @@ data class Budget(
     val isDeleted: Boolean = false,
 
     val orderId: Double,
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 ) {
     companion object {

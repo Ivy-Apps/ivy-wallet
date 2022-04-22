@@ -1,13 +1,10 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity(tableName = "transactions")
 data class Transaction(
     val accountId: UUID,
     val type: TransactionType,
@@ -30,21 +27,11 @@ data class Transaction(
     //This refers to the loan record id that is linked with a transaction
     val loanRecordId:UUID? = null,
 
-    //SaltEdge integration -------
-    val seTransactionId: String? = null,
-    val seAutoCategoryId: UUID? = null,
-    //SaltEdge integration -------
-
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 ) : TransactionHistoryItem {
-
-    fun smartCategoryId(): UUID? {
-        return categoryId ?: seAutoCategoryId
-    }
 
     fun isIdenticalWith(transaction: Transaction?): Boolean {
         if (transaction == null) return false

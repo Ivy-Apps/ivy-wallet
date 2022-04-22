@@ -2,10 +2,10 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.domain.data.entity.LoanRecord
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.scopedIOThread

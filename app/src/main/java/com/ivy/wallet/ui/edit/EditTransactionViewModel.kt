@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.logic.*
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
@@ -213,7 +213,7 @@ class EditTransactionViewModel @Inject constructor(
         _toAccount.value = transaction.toAccountId?.let {
             ioThread { accountDao.findById(it) }
         }
-        _category.value = transaction.smartCategoryId()?.let {
+        _category.value = transaction.categoryId?.let {
             ioThread { categoryDao.findById(it) }
         }
         _amount.value = transaction.amount

@@ -8,10 +8,10 @@ import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Budget
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.logic.PaywallLogic
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.persistence.dao.AccountDao

@@ -1,7 +1,7 @@
 package com.ivy.wallet.io.network.request.loan
 
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.io.network.data.LoanDTO
 
 data class UpdateLoanRequest(
-    val loan: Loan? = null
+    val loan: LoanDTO? = null
 )

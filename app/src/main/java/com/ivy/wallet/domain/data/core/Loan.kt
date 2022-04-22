@@ -1,11 +1,8 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.ivy.wallet.domain.data.LoanType
 import java.util.*
 
-@Entity(tableName = "loans")
 data class Loan(
     val name: String,
     val amount: Double,
@@ -18,7 +15,6 @@ data class Loan(
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 ) {
     fun humanReadableType(): String {

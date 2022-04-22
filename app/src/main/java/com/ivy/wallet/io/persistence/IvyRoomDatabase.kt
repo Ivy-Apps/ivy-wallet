@@ -5,19 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.ivy.wallet.domain.data.entity.*
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
 
 
 @Database(
     entities = [
-        Account::class, Transaction::class, Category::class,
-        Settings::class, PlannedPaymentRule::class,
-        User::class, ExchangeRate::class, Budget::class, Loan::class,
-        LoanRecord::class
+        AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
+        SettingsEntity::class, PlannedPaymentRuleEntity::class,
+        UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
+        LoanEntity::class, LoanRecordEntity::class
     ],
-    version = 120,
+    version = 121,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -67,7 +67,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration117to118_Budgets(),
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
-                    Migration120to121_DropWishlistItem()
                 )
                 .build()
         }

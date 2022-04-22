@@ -1,12 +1,9 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.ivy.wallet.ui.theme.Green
 import java.util.*
 
-@Entity(tableName = "accounts")
 data class Account(
     val name: String,
     val currency: String? = null,
@@ -15,13 +12,8 @@ data class Account(
     val orderNum: Double = 0.0,
     val includeInBalance: Boolean = true,
 
-    //SaltEdge integration -------
-    val seAccountId: String? = null,
-    //SaltEdge integration -------
-
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 )

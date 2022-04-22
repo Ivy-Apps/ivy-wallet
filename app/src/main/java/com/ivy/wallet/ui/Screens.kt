@@ -2,7 +2,7 @@ package com.ivy.wallet.ui
 
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.paywall.PaywallReason
 import java.util.*
 

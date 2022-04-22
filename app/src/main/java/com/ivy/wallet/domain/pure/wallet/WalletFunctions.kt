@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.wallet
 
 import arrow.core.nonEmptyListOf
-import com.ivy.wallet.domain.data.entity.Settings
+import com.ivy.wallet.domain.data.core.Settings
 import com.ivy.wallet.domain.pure.account.AccountValueFunctions
 import com.ivy.wallet.domain.pure.core.Uncertain
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange

@@ -1,13 +1,10 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity(tableName = "planned_payment_rules")
 data class PlannedPaymentRule(
     val startDate: LocalDateTime?,
     val intervalN: Int?,
@@ -24,6 +21,5 @@ data class PlannedPaymentRule(
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 )

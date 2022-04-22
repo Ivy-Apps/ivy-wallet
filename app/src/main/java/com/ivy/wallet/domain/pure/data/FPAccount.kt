@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.data
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.core.Account
 import java.util.*
 
 data class FPAccount(

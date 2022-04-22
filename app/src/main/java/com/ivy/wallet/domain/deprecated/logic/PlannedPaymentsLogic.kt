@@ -2,9 +2,9 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.logic.currency.sumByDoublePlannedInBaseCurrency
 import com.ivy.wallet.domain.sync.uploader.PlannedPaymentRuleUploader

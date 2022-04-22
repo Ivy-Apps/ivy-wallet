@@ -35,7 +35,7 @@ import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.entity.User
+import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton

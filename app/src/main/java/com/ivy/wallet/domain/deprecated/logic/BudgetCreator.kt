@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.wallet.domain.data.entity.Budget
+import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.sync.uploader.BudgetUploader
 import com.ivy.wallet.io.persistence.dao.BudgetDao

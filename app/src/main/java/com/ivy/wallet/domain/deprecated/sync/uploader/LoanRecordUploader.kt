@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.wallet.domain.data.entity.LoanRecord
+import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.request.loan.DeleteLoanRecordRequest

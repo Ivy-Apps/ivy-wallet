@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.logic.model.CreateAccountData
 import com.ivy.wallet.domain.sync.item.TransactionSync
 import com.ivy.wallet.domain.sync.uploader.AccountUploader

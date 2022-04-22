@@ -1,11 +1,8 @@
-package com.ivy.wallet.domain.data.entity
+package com.ivy.wallet.domain.data.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity(tableName = "loan_records")
 data class LoanRecord(
     val loanId: UUID,
     val amount: Double,
@@ -19,6 +16,5 @@ data class LoanRecord(
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
 
-    @PrimaryKey
     val id: UUID = UUID.randomUUID()
 )

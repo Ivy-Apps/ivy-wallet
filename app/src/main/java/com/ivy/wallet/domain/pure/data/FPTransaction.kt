@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.pure.data
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Transaction
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*

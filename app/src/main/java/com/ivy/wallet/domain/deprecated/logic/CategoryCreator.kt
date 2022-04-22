@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.sync.uploader.CategoryUploader
 import com.ivy.wallet.io.persistence.dao.CategoryDao
