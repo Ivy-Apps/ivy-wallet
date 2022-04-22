@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.toValue

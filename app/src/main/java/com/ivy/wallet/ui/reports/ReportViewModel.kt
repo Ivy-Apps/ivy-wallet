@@ -10,11 +10,11 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.wallet.withDateDividers
 import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.logic.WalletLogic
 import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.pure.wallet.withDateDividers
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity

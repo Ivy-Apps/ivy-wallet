@@ -2,9 +2,9 @@ package com.ivy.wallet.domain.action.charts
 
 import com.ivy.wallet.domain.action.framework.FPAction
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
-import com.ivy.wallet.domain.fp.charts.SingleChartPoint
-import com.ivy.wallet.domain.fp.charts.balanceChart
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.SingleChartPoint
+import com.ivy.wallet.domain.pure.charts.balanceChart
 import javax.inject.Inject
 
 class BalanceChartAct @Inject constructor(

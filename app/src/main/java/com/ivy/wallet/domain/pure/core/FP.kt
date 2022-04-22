@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.core
+package com.ivy.wallet.domain.pure.core
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)

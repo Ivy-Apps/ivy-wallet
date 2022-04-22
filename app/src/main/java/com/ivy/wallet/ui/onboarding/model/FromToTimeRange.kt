@@ -1,9 +1,7 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.stringRes
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
 
@@ -38,13 +36,13 @@ data class FromToTimeRange(
                 "${from.toLocalDate().formatDateOnly()} - ${to.toLocalDate().formatDateOnly()}"
             }
             from != null && to == null -> {
-                stringRes(R.string.from_date, from.toLocalDate().formatDateOnly())
+                "From ${from.toLocalDate().formatDateOnly()}"
             }
             from == null && to != null -> {
-                stringRes(R.string.to_date, to.toLocalDate().formatDateOnly())
+                "To ${to.toLocalDate().formatDateOnly()}"
             }
             else -> {
-                stringRes(R.string.range)
+                "Range"
             }
         }
     }

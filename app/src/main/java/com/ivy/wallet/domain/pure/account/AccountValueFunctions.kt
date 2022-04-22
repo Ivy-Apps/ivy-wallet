@@ -1,8 +1,8 @@
-package com.ivy.wallet.domain.fp.account
+package com.ivy.wallet.domain.pure.account
 
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.fp.core.ValueFunction
-import com.ivy.wallet.domain.fp.data.FPTransaction
+import com.ivy.wallet.domain.pure.core.ValueFunction
+import com.ivy.wallet.domain.pure.data.FPTransaction
 import java.math.BigDecimal
 import java.util.*
 

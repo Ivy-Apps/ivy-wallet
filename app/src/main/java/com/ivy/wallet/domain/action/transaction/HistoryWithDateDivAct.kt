@@ -2,8 +2,8 @@ package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.wallet.domain.action.framework.Action
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.domain.fp.data.WalletDAOs
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.WalletDAOs
 import javax.inject.Inject
 
 class HistoryWithDateDivAct @Inject constructor(

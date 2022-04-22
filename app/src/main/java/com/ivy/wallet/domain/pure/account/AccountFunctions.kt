@@ -1,8 +1,8 @@
-package com.ivy.wallet.domain.fp.account
+package com.ivy.wallet.domain.pure.account
 
 import arrow.core.nonEmptyListOf
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.domain.fp.data.IncomeExpensePair
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import java.math.BigDecimal
 import java.util.*

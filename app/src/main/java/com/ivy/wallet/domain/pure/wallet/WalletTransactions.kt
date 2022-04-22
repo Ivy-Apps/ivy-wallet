@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.wallet
+package com.ivy.wallet.domain.pure.wallet
 
 import arrow.core.Option
 import arrow.core.toOption
@@ -6,9 +6,9 @@ import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.ExchangeData
-import com.ivy.wallet.domain.fp.core.*
-import com.ivy.wallet.domain.fp.data.FPTransaction
+import com.ivy.wallet.domain.pure.ExchangeData
+import com.ivy.wallet.domain.pure.core.*
+import com.ivy.wallet.domain.pure.data.FPTransaction
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal

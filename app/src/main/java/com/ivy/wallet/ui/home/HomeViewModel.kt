@@ -9,13 +9,13 @@ import com.ivy.wallet.domain.action.wallet.CalcOverdueAct
 import com.ivy.wallet.domain.action.wallet.CalcUpcomingAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense
-import com.ivy.wallet.domain.fp.wallet.walletBufferDiff
 import com.ivy.wallet.domain.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.domain.pure.wallet.calculateWalletIncomeExpense
+import com.ivy.wallet.domain.pure.wallet.walletBufferDiff
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao

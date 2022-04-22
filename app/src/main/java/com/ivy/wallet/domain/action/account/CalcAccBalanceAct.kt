@@ -4,9 +4,9 @@ import arrow.core.nonEmptyListOf
 import com.ivy.wallet.domain.action.framework.FPAction
 import com.ivy.wallet.domain.action.framework.then
 import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.fp.account.AccountValueFunctions
-import com.ivy.wallet.domain.fp.account.calcAccValues
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.account.AccountValueFunctions
+import com.ivy.wallet.domain.pure.account.calcAccValues
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import java.math.BigDecimal
 import javax.inject.Inject
 

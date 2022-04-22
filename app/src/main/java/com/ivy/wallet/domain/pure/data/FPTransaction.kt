@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.data
+package com.ivy.wallet.domain.pure.data
 
 import arrow.core.Option
 import arrow.core.toOption

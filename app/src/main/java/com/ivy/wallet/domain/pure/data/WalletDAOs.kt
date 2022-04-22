@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.data
+package com.ivy.wallet.domain.pure.data
 
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao

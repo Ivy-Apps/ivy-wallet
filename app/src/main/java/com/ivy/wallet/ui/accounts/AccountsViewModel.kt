@@ -6,12 +6,11 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.fp.account.calculateAccountBalance
-import com.ivy.wallet.domain.fp.account.calculateAccountIncomeExpense
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
-import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
 import com.ivy.wallet.domain.logic.AccountCreator
+import com.ivy.wallet.domain.pure.account.calculateAccountBalance
+import com.ivy.wallet.domain.pure.account.calculateAccountIncomeExpense
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.domain.pure.wallet.baseCurrencyCode
 import com.ivy.wallet.domain.sync.item.AccountSync
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao

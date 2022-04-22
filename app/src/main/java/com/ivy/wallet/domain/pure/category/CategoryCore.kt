@@ -1,11 +1,11 @@
-package com.ivy.wallet.domain.fp.category
+package com.ivy.wallet.domain.pure.category
 
 import arrow.core.NonEmptyList
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.core.calculateValueFunctionsSumSuspend
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.data.toFPTransaction
+import com.ivy.wallet.domain.pure.core.calculateValueFunctionsSumSuspend
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.domain.pure.data.toFPTransaction
 import java.math.BigDecimal
 import java.util.*
 

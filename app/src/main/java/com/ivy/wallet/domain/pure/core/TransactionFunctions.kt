@@ -1,9 +1,9 @@
-package com.ivy.wallet.domain.fp.core
+package com.ivy.wallet.domain.pure.core
 
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.data.FPTransaction
-import com.ivy.wallet.domain.fp.data.toFPTransaction
+import com.ivy.wallet.domain.pure.data.FPTransaction
+import com.ivy.wallet.domain.pure.data.toFPTransaction
 import java.math.BigDecimal
 
 suspend fun <A> sum(

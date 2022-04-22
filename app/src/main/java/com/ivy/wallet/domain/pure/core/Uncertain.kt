@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.core
+package com.ivy.wallet.domain.pure.core
 
 data class Uncertain<E : List<*>, V>(
     val error: E,

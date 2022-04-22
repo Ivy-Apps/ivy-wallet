@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action
 
 import arrow.core.Option
 import com.ivy.wallet.domain.action.framework.FPAction
-import com.ivy.wallet.domain.fp.exchange
+import com.ivy.wallet.domain.pure.exchange
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 import javax.inject.Inject

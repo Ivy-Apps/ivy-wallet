@@ -1,12 +1,11 @@
-package com.ivy.wallet.domain.fp.charts
+package com.ivy.wallet.domain.pure.charts
 
-import com.ivy.wallet.domain.fp.core.Pure
-import com.ivy.wallet.domain.fp.core.SideEffect
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.domain.fp.data.IncomeExpensePair
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense
-import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpenseCount
+import com.ivy.wallet.domain.pure.core.Pure
+import com.ivy.wallet.domain.pure.core.SideEffect
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.domain.pure.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.utils.beginningOfIvyTime
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
@@ -122,12 +121,13 @@ suspend fun incomeExpenseCountChart(
     return generateIncomeExpenseCountChart(
         orderedPeriod = orderedPeriod,
         calculateWalletIncomeExpenseCount = { range ->
-            calculateWalletIncomeExpenseCount(
-                walletDAOs = walletDAOs,
-                baseCurrencyCode = baseCurrencyCode,
-                range = range,
-                filterExcluded = true
-            ).value
+            TODO()
+//            calculateWalletIncomeExpenseCount(
+//                walletDAOs = walletDAOs,
+//                baseCurrencyCode = baseCurrencyCode,
+//                range = range,
+//                filterExcluded = true
+//            ).value
         }
     )
 }

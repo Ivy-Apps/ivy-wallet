@@ -5,8 +5,8 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.data.IncomeExpensePair
 import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import java.math.BigDecimal

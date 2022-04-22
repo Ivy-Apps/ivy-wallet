@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp.wallet
+package com.ivy.wallet.domain.pure.wallet
 
 import arrow.core.NonEmptyList
 import arrow.core.Some
@@ -6,15 +6,15 @@ import arrow.core.toOption
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.ExchangeRate
 import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.ExchangeData
-import com.ivy.wallet.domain.fp.account.AccountValueFunction
-import com.ivy.wallet.domain.fp.account.calcAccValues
-import com.ivy.wallet.domain.fp.core.SideEffect
-import com.ivy.wallet.domain.fp.core.Uncertain
-import com.ivy.wallet.domain.fp.core.mapIndexedNel
-import com.ivy.wallet.domain.fp.core.nonEmptyListOfZeros
-import com.ivy.wallet.domain.fp.data.*
-import com.ivy.wallet.domain.fp.exchange
+import com.ivy.wallet.domain.pure.ExchangeData
+import com.ivy.wallet.domain.pure.account.AccountValueFunction
+import com.ivy.wallet.domain.pure.account.calcAccValues
+import com.ivy.wallet.domain.pure.core.SideEffect
+import com.ivy.wallet.domain.pure.core.Uncertain
+import com.ivy.wallet.domain.pure.core.mapIndexedNel
+import com.ivy.wallet.domain.pure.core.nonEmptyListOfZeros
+import com.ivy.wallet.domain.pure.data.*
+import com.ivy.wallet.domain.pure.exchange
 import com.ivy.wallet.utils.scopedIOThread
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

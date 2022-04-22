@@ -1,12 +1,12 @@
-package com.ivy.wallet.domain.fp.category
+package com.ivy.wallet.domain.pure.category
 
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.fp.core.SuspendValueFunction
-import com.ivy.wallet.domain.fp.data.FPTransaction
-import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
+import com.ivy.wallet.domain.pure.core.SuspendValueFunction
+import com.ivy.wallet.domain.pure.data.FPTransaction
+import com.ivy.wallet.domain.pure.exchangeToBaseCurrency
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 import java.util.*

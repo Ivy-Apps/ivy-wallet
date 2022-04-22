@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.notification.NotificationService
-import com.ivy.wallet.domain.fp.data.WalletDAOs
 import com.ivy.wallet.domain.logic.*
 import com.ivy.wallet.domain.logic.bankintegrations.BankIntegrationsLogic
 import com.ivy.wallet.domain.logic.bankintegrations.SaltEdgeAccountMapper
@@ -20,6 +19,7 @@ import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsCore
 import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.domain.sync.IvySync
 import com.ivy.wallet.domain.sync.item.*
 import com.ivy.wallet.domain.sync.uploader.*

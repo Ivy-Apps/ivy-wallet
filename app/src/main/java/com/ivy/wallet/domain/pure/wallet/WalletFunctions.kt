@@ -1,13 +1,13 @@
-package com.ivy.wallet.domain.fp.wallet
+package com.ivy.wallet.domain.pure.wallet
 
 import arrow.core.nonEmptyListOf
 import com.ivy.wallet.domain.data.entity.Settings
-import com.ivy.wallet.domain.fp.account.AccountValueFunctions
-import com.ivy.wallet.domain.fp.core.Uncertain
-import com.ivy.wallet.domain.fp.data.ClosedTimeRange
-import com.ivy.wallet.domain.fp.data.CurrencyConvError
-import com.ivy.wallet.domain.fp.data.IncomeExpensePair
-import com.ivy.wallet.domain.fp.data.WalletDAOs
+import com.ivy.wallet.domain.pure.account.AccountValueFunctions
+import com.ivy.wallet.domain.pure.core.Uncertain
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.data.CurrencyConvError
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
+import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import java.math.BigDecimal
 import java.util.*

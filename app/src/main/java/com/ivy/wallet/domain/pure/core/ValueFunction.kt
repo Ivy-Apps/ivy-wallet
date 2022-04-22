@@ -1,7 +1,7 @@
-package com.ivy.wallet.domain.fp.core
+package com.ivy.wallet.domain.pure.core
 
 import arrow.core.NonEmptyList
-import com.ivy.wallet.domain.fp.data.FPTransaction
+import com.ivy.wallet.domain.pure.data.FPTransaction
 import java.math.BigDecimal
 
 typealias ValueFunction<A> = (FPTransaction, A) -> BigDecimal

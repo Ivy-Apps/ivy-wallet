@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.fp
+package com.ivy.wallet.domain.pure
 
 import arrow.core.None
 import arrow.core.Option
@@ -6,8 +6,8 @@ import arrow.core.Some
 import arrow.core.computations.option
 import arrow.core.toOption
 import com.ivy.wallet.domain.data.entity.ExchangeRate
-import com.ivy.wallet.domain.fp.core.Pure
-import com.ivy.wallet.domain.fp.core.SideEffect
+import com.ivy.wallet.domain.pure.core.Pure
+import com.ivy.wallet.domain.pure.core.SideEffect
 import com.ivy.wallet.utils.isNotNullOrBlank
 import java.math.BigDecimal
 
