@@ -39,9 +39,9 @@ data class TransactionEntity(
     fun toDomain(): Transaction = Transaction(
         accountId = accountId,
         type = type,
-        amount = amount,
+        amount = amount.toBigDecimal(),
         toAccountId = toAccountId,
-        toAmount = toAmount,
+        toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
         title = title,
         description = description,
         dateTime = dateTime,
@@ -51,8 +51,6 @@ data class TransactionEntity(
         attachmentUrl = attachmentUrl,
         loanId = loanId,
         loanRecordId = loanRecordId,
-        isSynced = isSynced,
-        isDeleted = isDeleted,
         id = id
     )
 

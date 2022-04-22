@@ -2,12 +2,10 @@ package com.ivy.wallet.domain.pure.core
 
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.data.FPTransaction
-import com.ivy.wallet.domain.pure.data.toFPTransaction
 import java.math.BigDecimal
 
 suspend fun <A> sum(
-    transactions: List<FPTransaction>,
+    transactions: List<Transaction>,
     valueFunction: SuspendValueFunction<A>,
     argument: A
 ): BigDecimal {
@@ -16,18 +14,14 @@ suspend fun <A> sum(
     }
 }
 
-fun expenses(transactions: List<FPTransaction>): List<FPTransaction> {
+fun expenses(transactions: List<Transaction>): List<Transaction> {
     return transactions.filter { it.type == TransactionType.EXPENSE }
 }
 
-fun incomes(transactions: List<FPTransaction>): List<FPTransaction> {
+fun incomes(transactions: List<Transaction>): List<Transaction> {
     return transactions.filter { it.type == TransactionType.INCOME }
 }
 
-fun transfers(transactions: List<FPTransaction>): List<FPTransaction> {
+fun transfers(transactions: List<Transaction>): List<Transaction> {
     return transactions.filter { it.type == TransactionType.TRANSFER }
-}
-
-fun List<Transaction>.toFPTransactions(): List<FPTransaction> {
-    return this.map { it.toFPTransaction() }
 }

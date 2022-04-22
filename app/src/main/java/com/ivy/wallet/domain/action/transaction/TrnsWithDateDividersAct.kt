@@ -6,18 +6,20 @@ import com.ivy.wallet.domain.action.ExchangeAct
 import com.ivy.wallet.domain.action.actInput
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.wallet.withDateDividers
+import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 
-class AddDateDividersAct @Inject constructor(
+class TrnsWithDateDividersAct @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeAct: ExchangeAct
-) : FPAction<AddDateDividersAct.Input, List<TransactionHistoryItem>>() {
+) : FPAction<TrnsWithDateDividersAct.Input, List<TransactionHistoryItem>>() {
 
     override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
-        transactions.withDateDividers(
+        transactionsWithDateDividers(
+            transactions = transactions,
             baseCurrencyCode = baseCurrency,
+
             getAccount = accountDao::findById then { it?.toDomain() },
             exchange = ::actInput then exchangeAct
         )

@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.pure.wallet
+package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
@@ -12,18 +12,14 @@ import com.ivy.wallet.domain.pure.ExchangeData
 import com.ivy.wallet.domain.pure.core.expenses
 import com.ivy.wallet.domain.pure.core.incomes
 import com.ivy.wallet.domain.pure.core.sum
-import com.ivy.wallet.domain.pure.core.toFPTransactions
-import com.ivy.wallet.domain.pure.data.FPTransaction
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
 import java.util.*
 
-//TODO: overdue(range)
-//TODO: upcoming(range)
-
 @Pure
-suspend fun List<Transaction>.withDateDividers(
+suspend fun transactionsWithDateDividers(
+    transactions: List<Transaction>,
     baseCurrencyCode: String,
 
     @SideEffect
@@ -31,10 +27,9 @@ suspend fun List<Transaction>.withDateDividers(
     @SideEffect
     exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 ): List<TransactionHistoryItem> {
-    val history = this
-    if (history.isEmpty()) return emptyList()
+    if (transactions.isEmpty()) return emptyList()
 
-    return history
+    return transactions
         .groupBy { it.dateTime?.convertUTCtoLocal()?.toLocalDate() }
         .filterKeys { it != null }
         .toSortedMap { date1, date2 ->
@@ -48,19 +43,18 @@ suspend fun List<Transaction>.withDateDividers(
                 exchange = exchange
             )
 
-            val fpTransactions = transactionsForDate.toFPTransactions()
 
             listOf<TransactionHistoryItem>(
                 TransactionHistoryDateDivider(
                     date = date!!,
                     income = sum(
-                        incomes(fpTransactions),
-                        ::amountInCurrency,
+                        incomes(transactionsForDate),
+                        ::exchangeInCurrency,
                         arg
                     ).toDouble(),
                     expenses = sum(
-                        expenses(fpTransactions),
-                        ::amountInCurrency,
+                        expenses(transactionsForDate),
+                        ::exchangeInCurrency,
                         arg
                     ).toDouble()
                 ),
@@ -76,8 +70,8 @@ data class AmountInCurrencyArgument(
     val exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 )
 
-suspend fun amountInCurrency(
-    fpTransaction: FPTransaction,
+suspend fun exchangeInCurrency(
+    fpTransaction: Transaction,
     arg: AmountInCurrencyArgument
 ): BigDecimal {
     val fromCurrencyCode = arg.getAccount(fpTransaction.accountId)?.currency.toOption()

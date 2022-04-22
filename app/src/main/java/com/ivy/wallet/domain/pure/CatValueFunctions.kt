@@ -1,13 +1,12 @@
-package com.ivy.wallet.domain.pure.category
+package com.ivy.wallet.domain.pure
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.core.SuspendValueFunction
-import com.ivy.wallet.domain.pure.data.FPTransaction
-import com.ivy.wallet.domain.pure.exchangeToBaseCurrency
-import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 import java.util.*
 
@@ -16,17 +15,17 @@ typealias CategoryValueFunction = SuspendValueFunction<CategoryValueFunctions.Ar
 object CategoryValueFunctions {
     data class Argument(
         val categoryId: UUID?,
-
         val accounts: List<Account>,
-        val exchangeRateDao: ExchangeRateDao,
-        val baseCurrencyCode: String,
+
+        @SideEffect
+        val exchangeToBaseCurrency: suspend (Option<String>, BigDecimal) -> Option<BigDecimal>
     )
 
     suspend fun balance(
-        fpTransaction: FPTransaction,
+        transaction: Transaction,
         arg: Argument,
-    ): BigDecimal = with(fpTransaction) {
-        if (this.categoryId.orNull() == arg.categoryId) {
+    ): BigDecimal = with(transaction) {
+        if (this.categoryId == arg.categoryId) {
             when (type) {
                 TransactionType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
                 TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId).negate()
@@ -36,10 +35,10 @@ object CategoryValueFunctions {
     }
 
     suspend fun income(
-        fpTransaction: FPTransaction,
+        transaction: Transaction,
         arg: Argument,
-    ): BigDecimal = with(fpTransaction) {
-        if (this.categoryId.orNull() == arg.categoryId) {
+    ): BigDecimal = with(transaction) {
+        if (this.categoryId == arg.categoryId) {
             when (type) {
                 TransactionType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
@@ -48,10 +47,10 @@ object CategoryValueFunctions {
     }
 
     suspend fun expense(
-        fpTransaction: FPTransaction,
+        transaction: Transaction,
         arg: Argument,
-    ): BigDecimal = with(fpTransaction) {
-        if (this.categoryId.orNull() == arg.categoryId) {
+    ): BigDecimal = with(transaction) {
+        if (this.categoryId == arg.categoryId) {
             when (type) {
                 TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
@@ -60,10 +59,10 @@ object CategoryValueFunctions {
     }
 
     suspend fun incomeCount(
-        fpTransaction: FPTransaction,
+        transaction: Transaction,
         arg: Argument,
-    ): BigDecimal = with(fpTransaction) {
-        if (this.categoryId.orNull() == arg.categoryId) {
+    ): BigDecimal = with(transaction) {
+        if (this.categoryId == arg.categoryId) {
             when (type) {
                 TransactionType.INCOME -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
@@ -72,10 +71,10 @@ object CategoryValueFunctions {
     }
 
     suspend fun expenseCount(
-        fpTransaction: FPTransaction,
+        transaction: Transaction,
         arg: Argument,
-    ): BigDecimal = with(fpTransaction) {
-        if (this.categoryId.orNull() == arg.categoryId) {
+    ): BigDecimal = with(transaction) {
+        if (this.categoryId == arg.categoryId) {
             when (type) {
                 TransactionType.EXPENSE -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
@@ -84,24 +83,20 @@ object CategoryValueFunctions {
     }
 
     private suspend fun BigDecimal.toBaseCurrencyOrZero(
-        argument: Argument,
+        arg: Argument,
         accountId: UUID
     ): BigDecimal {
         return this.convertToBaseCurrency(
-            argument = argument,
+            arg = arg,
             accountId = accountId
         ).orNull() ?: BigDecimal.ZERO
     }
 
     private suspend fun BigDecimal.convertToBaseCurrency(
         accountId: UUID,
-        argument: Argument
+        arg: Argument
     ): Option<BigDecimal> {
-        return exchangeToBaseCurrency(
-            exchangeRateDao = argument.exchangeRateDao,
-            baseCurrencyCode = argument.baseCurrencyCode,
-            fromAmount = this,
-            fromCurrencyCode = argument.accounts.find { it.id == accountId }?.currency.toOption()
-        )
+        val trnCurrency = arg.accounts.find { it.id == accountId }?.currency.toOption()
+        return arg.exchangeToBaseCurrency(trnCurrency, this)
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.transaction.AddDateDividersAct
+import com.ivy.wallet.domain.action.transaction.TrnsWithDateDividersAct
 import com.ivy.wallet.domain.action.wallet.CalcOverdueAct
 import com.ivy.wallet.domain.action.wallet.CalcUpcomingAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
@@ -49,7 +49,7 @@ class HomeViewModel @Inject constructor(
     private val calcAccountBalanceAct: CalcWalletBalanceAct,
     private val calcUpcomingAct: CalcUpcomingAct,
     private val calcOverdueAct: CalcOverdueAct,
-    private val historyWithDateDivAct: AddDateDividersAct,
+    private val historyWithDateDivAct: TrnsWithDateDividersAct,
 ) : IvyViewModel<HomeState>() {
     override val mutableState: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
@@ -154,7 +154,7 @@ class HomeViewModel @Inject constructor(
             updateState {
                 it.copy(
                     history = historyWithDateDivAct(
-                        AddDateDividersAct.Input(
+                        TrnsWithDateDividersAct.Input(
                             timeRange = timeRange.toCloseTimeRange(),
                             baseCurrencyCode = stateVal().baseCurrencyCode
                         )
