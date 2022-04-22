@@ -191,4 +191,13 @@
     <string name="no_planned_payments">No planned payments</string>
     <string name="no_planned_payments_description">You  don\'t have any planned payments.\nPress the \'⚡\' bottom at the bottom to add one.</string>
     <string name="planned_payments_inline">Planned payments</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="due_on">Due on %1$s</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="overdue">Overdue</string>
+    <string name="expenses_lowercase">expenses</string>
+    <string name="income_lowercase">income</string>
+
 </resources>
