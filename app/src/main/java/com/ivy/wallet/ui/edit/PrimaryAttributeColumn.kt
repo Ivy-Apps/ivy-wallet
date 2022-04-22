@@ -67,7 +67,7 @@ private fun PreviewPrimaryAttributeColumn() {
     IvyWalletComponentPreview {
         PrimaryAttributeColumn(
             icon = R.drawable.ic_description,
-            title = stringResource(R.string.description_text),
+            title = stringResource(R.string.description),
             onClick = { }
         ) {
             Spacer(Modifier.height(12.dp))
