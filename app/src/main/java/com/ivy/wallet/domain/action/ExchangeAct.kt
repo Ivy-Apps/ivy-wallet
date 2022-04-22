@@ -30,7 +30,7 @@ class ExchangeAct @Inject constructor(
     )
 }
 
-fun exchangeActInput(
+fun actInput(
     data: ExchangeData,
     amount: BigDecimal
 ): ExchangeAct.Input = ExchangeAct.Input(
