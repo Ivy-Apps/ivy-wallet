@@ -13,7 +13,7 @@ import com.ivy.wallet.io.persistence.migration.*
 @Database(
     entities = [
         Account::class, Transaction::class, Category::class,
-        WishlistItem::class, Settings::class, PlannedPaymentRule::class,
+        Settings::class, PlannedPaymentRule::class,
         User::class, ExchangeRate::class, Budget::class, Loan::class,
         LoanRecord::class
     ],
@@ -29,8 +29,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun budgetDao(): BudgetDao
-
-    abstract fun wishlistItemDao(): WishlistItemDao
 
     abstract fun plannedPaymentRuleDao(): PlannedPaymentRuleDao
 
@@ -69,6 +67,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration117to118_Budgets(),
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
+                    Migration120to121_DropWishlistItem()
                 )
                 .build()
         }
@@ -78,7 +77,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         accountDao().deleteAll()
         transactionDao().deleteAll()
         categoryDao().deleteAll()
-        wishlistItemDao().deleteAll()
         settingsDao().deleteAll()
         plannedPaymentRuleDao().deleteAll()
         userDao().deleteAll()
