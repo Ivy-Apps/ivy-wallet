@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.pure.account
 
 import arrow.core.NonEmptyList
+import com.ivy.fp.Pure
+import com.ivy.fp.Total
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.core.Pure
-import com.ivy.wallet.domain.pure.core.Total
 import com.ivy.wallet.domain.pure.core.calculateValueFunctionsSum
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.toFPTransaction

@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.wallet
 
-import com.ivy.wallet.domain.action.framework.Action
+import com.ivy.fp.action.Action
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.logic.WalletLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair

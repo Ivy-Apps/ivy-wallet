@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.pure.core
+package com.ivy.fp
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.SOURCE)
@@ -21,14 +21,22 @@ annotation class Partial(val inCaseOf: String = "")
 @MustBeDocumented
 annotation class SideEffect
 
-infix fun <A, B, C> ((A) -> B).compose(fn2: (B) -> C): (A) -> C = { a ->
+infix fun <A, B, C> ((A) -> B).then(f: (B) -> C): (A) -> C = { a ->
     val b = this(a)
-    val c = fn2(b)
-    c
+    f(b)
 }
 
 infix fun <A, B, C> ((B) -> C).after(fn1: (A) -> B): (A) -> C = { a ->
     val b = fn1(a)
-    val c = this(b)
-    c
+    this(b)
+}
+
+infix fun <A, B, C, D> ((A, B) -> C).then(f: (C) -> D): (A, B) -> D = { a, b ->
+    val c = this(a, b)
+    f(c)
+}
+
+infix fun <A, B, C, D, E> ((A, B, C) -> D).then(f: (D) -> E): (A, B, C) -> E = { a, b, c ->
+    val d = this(a, b, c)
+    f(d)
 }

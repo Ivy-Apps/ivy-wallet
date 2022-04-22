@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
-import com.ivy.design.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.IvyViewModel
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category

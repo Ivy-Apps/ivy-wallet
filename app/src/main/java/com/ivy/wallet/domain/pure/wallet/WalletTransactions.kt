@@ -2,12 +2,17 @@ package com.ivy.wallet.domain.pure.wallet
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.fp.Pure
+import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.ExchangeData
-import com.ivy.wallet.domain.pure.core.*
+import com.ivy.wallet.domain.pure.core.expenses
+import com.ivy.wallet.domain.pure.core.incomes
+import com.ivy.wallet.domain.pure.core.sum
+import com.ivy.wallet.domain.pure.core.toFPTransactions
 import com.ivy.wallet.domain.pure.data.FPTransaction
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds

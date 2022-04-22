@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.charts
 
-import com.ivy.wallet.domain.pure.core.Pure
-import com.ivy.wallet.domain.pure.core.SideEffect
+import com.ivy.fp.Pure
+import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.data.WalletDAOs

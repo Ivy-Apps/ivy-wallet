@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action.framework
+package com.ivy.fp.action
 
 abstract class FPAction<I, O> : Action<I, O>() {
     protected abstract suspend fun I.compose(): (suspend () -> O)

@@ -1,4 +1,4 @@
-package com.ivy.design.viewmodel
+package com.ivy.fp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

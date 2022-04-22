@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action.framework
+package com.ivy.fp.action
 
 import java.math.BigDecimal
 

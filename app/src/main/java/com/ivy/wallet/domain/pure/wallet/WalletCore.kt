@@ -3,13 +3,13 @@ package com.ivy.wallet.domain.pure.wallet
 import arrow.core.NonEmptyList
 import arrow.core.Some
 import arrow.core.toOption
+import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.ExchangeRate
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.ExchangeData
 import com.ivy.wallet.domain.pure.account.AccountValueFunction
 import com.ivy.wallet.domain.pure.account.calcAccValues
-import com.ivy.wallet.domain.pure.core.SideEffect
 import com.ivy.wallet.domain.pure.core.Uncertain
 import com.ivy.wallet.domain.pure.core.mapIndexedNel
 import com.ivy.wallet.domain.pure.core.nonEmptyListOfZeros

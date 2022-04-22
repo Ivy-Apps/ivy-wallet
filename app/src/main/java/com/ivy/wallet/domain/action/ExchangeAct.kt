@@ -1,7 +1,9 @@
 package com.ivy.wallet.domain.action
 
 import arrow.core.Option
-import com.ivy.wallet.domain.action.framework.FPAction
+import com.ivy.fp.action.FPAction
+import com.ivy.fp.then
+import com.ivy.wallet.domain.pure.ExchangeData
 import com.ivy.wallet.domain.pure.exchange
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
@@ -14,20 +16,18 @@ class ExchangeAct @Inject constructor(
     override suspend fun Input.compose(): suspend () -> Option<BigDecimal> = suspend {
         io {
             exchange(
-                baseCurrencyCode = baseCurrency,
+                data = data,
                 amount = amount,
-                fromCurrencyCode = fromCurrency,
-                toCurrencyCode = toCurrency,
-                getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency
+                getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency then {
+                    it?.toDomain()
+                }
             )
         }
     }
 
 
     data class Input(
-        val baseCurrency: String,
-        val fromCurrency: Option<String>,
-        val toCurrency: String,
+        val data: ExchangeData,
         val amount: BigDecimal
     )
 }

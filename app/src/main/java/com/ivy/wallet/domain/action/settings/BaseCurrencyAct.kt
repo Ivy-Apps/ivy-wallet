@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.settings
 
-import com.ivy.wallet.domain.action.framework.FPAction
+import com.ivy.fp.action.FPAction
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import javax.inject.Inject
 

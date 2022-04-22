@@ -1,34 +1,26 @@
-package com.ivy.wallet.domain.action.account
+package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.fp.action.FPAction
 import com.ivy.fp.action.thenMap
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import java.util.*
 import javax.inject.Inject
 
-class AccTrnsAct @Inject constructor(
+class HistoryTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao
-) : FPAction<AccTrnsAct.Input, List<Transaction>>() {
+) : FPAction<HistoryTrnsAct.Input, List<Transaction>>() {
+
     override suspend fun Input.compose(): suspend () -> List<Transaction> = suspend {
         io {
-            transactionDao.findAllByAccountAndBetween(
-                accountId = accountId,
-                startDate = range.from,
-                endDate = range.to
-            ) + transactionDao.findAllToAccountAndBetween(
-                toAccountId = accountId,
+            transactionDao.findAllBetween(
                 startDate = range.from,
                 endDate = range.to
             )
         }
-    } thenMap {
-        it.toDomain()
-    }
+    } thenMap { it.toDomain() }
 
-    class Input(
-        val accountId: UUID,
+    data class Input(
         val range: ClosedTimeRange
     )
 }
