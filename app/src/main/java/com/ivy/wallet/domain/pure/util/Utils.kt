@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.pure
+package com.ivy.wallet.domain.pure.util
 
 import arrow.core.NonEmptyList
 import java.math.BigDecimal
