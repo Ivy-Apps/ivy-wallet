@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.logic
 
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.Account
@@ -8,6 +9,7 @@ import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
@@ -29,7 +31,7 @@ class WalletAccountLogic(
         actualBalance: Double = calculateAccountBalance(account),
         newBalance: Double,
 
-        adjustTransactionTitle: String = "Adjust balance",
+        adjustTransactionTitle: String = stringRes(R.string.adjust_balance),
 
         isFiat: Boolean? = null,
         trnIsSyncedFlag: Boolean = false, //TODO: Remove this once Bank Integration trn sync is properly implemented

@@ -6,10 +6,12 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.ivy.wallet.R
 import com.ivy.wallet.android.notification.IvyNotificationChannel
 import com.ivy.wallet.android.notification.NotificationService
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.atEndOfDay
 import com.ivy.wallet.utils.dateNowUTC
@@ -68,9 +70,9 @@ class TransactionReminderWorker @AssistedInject constructor(
 
     private fun randomText(): String =
         listOf(
-            "Have you made any transactions today? \uD83C\uDFC1",
-            "Did you track your expenses today? \uD83D\uDCB8",
-            "Have you recorded your transactions today? \uD83C\uDFC1",
+            stringRes(R.string.notification_1),
+            stringRes(R.string.notification_2),
+            stringRes(R.string.notification_3),
         ).shuffled().first()
 
     private fun fetchShowNotifications(): Boolean =

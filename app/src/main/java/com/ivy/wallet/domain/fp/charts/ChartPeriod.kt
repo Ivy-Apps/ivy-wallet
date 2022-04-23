@@ -1,6 +1,8 @@
 package com.ivy.wallet.domain.fp.charts
 
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.fp.data.ClosedTimeRange
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.endOfDayNowUTC
 import com.ivy.wallet.utils.endOfMonth
@@ -15,10 +17,10 @@ enum class ChartPeriod {
 
     fun display(): String {
         return when (this) {
-            LAST_12_MONTHS -> "Last 12 months"
-            LAST_6_MONTHS -> "Last 6 months"
-            LAST_4_WEEKS -> "Last 4 weeks"
-            LAST_7_DAYS -> "Last 7 days"
+            LAST_12_MONTHS -> stringRes(R.string.last_12_months)
+            LAST_6_MONTHS -> stringRes(R.string.last_6_months)
+            LAST_4_WEEKS -> stringRes(R.string.last_4_weeks)
+            LAST_7_DAYS -> stringRes(R.string.last_7_days)
         }
     }
 
