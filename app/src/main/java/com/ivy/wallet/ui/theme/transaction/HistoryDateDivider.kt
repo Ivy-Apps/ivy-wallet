@@ -5,6 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -18,6 +19,7 @@ import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.formatLocal
 import java.time.LocalDate
+import com.ivy.wallet.R
 
 @Composable
 fun HistoryDateDivider(
@@ -53,13 +55,13 @@ fun HistoryDateDivider(
             Text(
                 text = when (date) {
                     today -> {
-                        "Today"
+                        stringResource(R.string.today)
                     }
                     today.minusDays(1) -> {
-                        "Yesterday"
+                        stringResource(R.string.yesterday)
                     }
                     today.plusDays(1) -> {
-                        "Tomorrow"
+                        stringResource(R.string.tomorrow)
                     }
                     else -> {
                         date.formatLocal("EEEE")

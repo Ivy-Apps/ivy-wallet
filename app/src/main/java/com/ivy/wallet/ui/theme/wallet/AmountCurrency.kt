@@ -1,11 +1,15 @@
 package com.ivy.wallet.ui.theme.wallet
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.utils.format
@@ -30,9 +34,9 @@ fun AmountCurrencyB2Row(
                 color = textColor
             )
         )
-
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
-            text = " $currency",
+            text = currency,
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
@@ -78,9 +82,9 @@ fun AmountCurrencyB1(
             color = textColor
         )
     )
-
+    Spacer(modifier = Modifier.width(4.dp))
     Text(
-        text = " $currency",
+        text = currency,
         style = UI.typo.nB1.style(
             fontWeight = FontWeight.Normal,
             color = textColor
@@ -101,9 +105,9 @@ fun AmountCurrencyH1(
             color = textColor
         )
     )
-
+    Spacer(modifier = Modifier.width(4.dp))
     Text(
-        text = " $currency",
+        text = currency,
         style = UI.typo.nH2.style(
             fontWeight = FontWeight.Normal,
             color = textColor
@@ -127,9 +131,9 @@ fun AmountCurrencyH2Row(
                 color = textColor
             )
         )
-
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
-            text = " $currency",
+            text = currency,
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
@@ -152,9 +156,9 @@ fun AmountCurrencyCaption(
             color = textColor
         )
     )
-
+    Spacer(modifier = Modifier.width(4.dp))
     Text(
-        text = " $currency",
+        text = currency,
         style = UI.typo.nC.style(
             fontWeight = FontWeight.Normal,
             color = textColor

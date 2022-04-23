@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,7 +80,7 @@ fun BoxWithConstraintsScope.AmountModal(
             Spacer(Modifier.width(16.dp))
 
             ModalPositiveButton(
-                text = "Enter",
+                text = stringResource(R.string.enter),
                 iconStart = R.drawable.ic_check
             ) {
                 try {
@@ -147,15 +148,15 @@ fun AmountCurrency(
         Spacer(Modifier.weight(1f))
 
         Text(
-            text = if (amount.isBlank()) "0" else amount,
+            text = amount.ifBlank { "0" },
             style = UI.typo.nH1.style(
                 fontWeight = FontWeight.Bold,
                 color = UI.colors.pureInverse
             )
         )
-
+        Spacer(Modifier.width(4.dp))
         Text(
-            text = " $currency",
+            text = currency,
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Normal,
                 color = UI.colors.pureInverse
