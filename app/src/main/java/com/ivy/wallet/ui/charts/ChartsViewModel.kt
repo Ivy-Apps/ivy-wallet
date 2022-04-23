@@ -7,13 +7,12 @@ import com.ivy.wallet.domain.action.charts.BalanceChartAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.WalletCategoryLogic
+import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
 import com.ivy.wallet.domain.pure.charts.incomeExpenseChart
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.domain.pure.wallet.baseCurrencyCode
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
@@ -75,7 +74,7 @@ class ChartsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
+//            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
 
             walletCharts(period = period.value)
         }
@@ -137,16 +136,16 @@ class ChartsViewModel @Inject constructor(
         period: ChartPeriod,
         category: Category
     ) {
-        _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
-            period = period,
-            category = category,
-            calculateValue = { range ->
-                walletCategoryLogic.calculateCategoryExpenses(
-                    category = category,
-                    range = range
-                ).absoluteValue
-            }
-        )
+//        _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
+//            period = period,
+//            category = category,
+//            calculateValue = { range ->
+//                walletCategoryLogic.calculateCategoryExpenses(
+//                    category = category,
+//                    range = range
+//                ).absoluteValue
+//            }
+//        )
     }
 
     private suspend fun loadCategoryExpenseCount(

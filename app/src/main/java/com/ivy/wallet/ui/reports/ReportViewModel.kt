@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.exchange.ExchangeAct
+import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.logic.WalletLogic
-import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.pure.wallet.withDateDividers
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
@@ -33,15 +34,17 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val settingsDao: SettingsDao,
-    private val walletLogic: WalletLogic,
     private val transactionDao: TransactionDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
     private val exchangeRateDao: ExchangeRateDao,
-    private val exportCSVLogic: ExportCSVLogic
+    private val exportCSVLogic: ExportCSVLogic,
+    private val exchangeAct: ExchangeAct,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
+    private val trnsWithDateDivsAct: TrnsWithDateDivsAct
 ) : IvyViewModel<ReportScreenState>() {
     override val mutableState: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
@@ -66,8 +69,8 @@ class ReportViewModel @Inject constructor(
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = settingsDao.findFirst().currency
-            _accounts.value = accountDao.findAll()
-            _categories.value = listOf(unSpecifiedCategory) + categoryDao.findAll()
+            _accounts.value = accountsAct(Unit)
+            _categories.value = listOf(unSpecifiedCategory) + categoriesAct(Unit)
 
             updateState {
                 it.copy(
@@ -107,10 +110,11 @@ class ReportViewModel @Inject constructor(
                 .sortedByDescending { it.dateTime }
 
             val historyWithDateDividers = scope.async {
-                history.withDateDividers(
-                    exchangeRateDao = exchangeRateDao,
-                    accountDao = accountDao,
-                    baseCurrencyCode = _baseCurrency.value
+                trnsWithDateDivsAct(
+                    TrnsWithDateDivsAct.Input(
+                        baseCurrency = stateVal().baseCurrency,
+                        transactions = history
+                    )
                 )
             }
 
@@ -187,6 +191,7 @@ class ReportViewModel @Inject constructor(
 
         return transactionDao
             .findAll()
+            .map { it.toDomain() }
             .asSequence()
             .filter {
                 //Filter by Transaction Type

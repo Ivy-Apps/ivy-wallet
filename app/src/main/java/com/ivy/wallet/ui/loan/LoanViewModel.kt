@@ -2,15 +2,18 @@ package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.LoanCreator
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
+import com.ivy.wallet.domain.deprecated.sync.item.LoanSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.logic.AccountCreator
-import com.ivy.wallet.domain.logic.LoanCreator
-import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateLoanData
-import com.ivy.wallet.domain.sync.item.LoanSync
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.LoanDao
@@ -42,7 +45,10 @@ class LoanViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
-    private val loanTransactionsLogic: LoanTransactionsLogic
+    private val loanTransactionsLogic: LoanTransactionsLogic,
+    private val loansAct: LoansAct,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
@@ -75,7 +81,7 @@ class LoanViewModel @Inject constructor(
             initialiseAccounts()
 
             _loans.value = ioThread {
-                loanDao.findAll()
+                loansAct(Unit)
                     .map { loan ->
                         val amountPaid = calculateAmountPaid(loan)
                         val loanAmount = loan.amount
@@ -111,7 +117,7 @@ class LoanViewModel @Inject constructor(
     }
 
     private suspend fun initialiseAccounts() {
-        val accounts = ioThread { accountDao.findAll() }
+        val accounts = accountsAct(Unit)
         _accounts.value = accounts
         _selectedAccount.value = defaultAccountId(accounts)
         _selectedAccount.value?.let {
@@ -142,7 +148,7 @@ class LoanViewModel @Inject constructor(
             ioThread {
                 newOrder.forEachIndexed { index, item ->
                     loanDao.save(
-                        item.loan.copy(
+                        item.loan.toEntity().copy(
                             orderNum = index.toDouble(),
                             isSynced = false
                         )
@@ -165,7 +171,7 @@ class LoanViewModel @Inject constructor(
 
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
-                _accounts.value = ioThread { accountDao.findAll() }!!
+                _accounts.value = accountsAct(Unit)
                 _state.value = state.value.copy(accounts = _accounts.value)
             }
 

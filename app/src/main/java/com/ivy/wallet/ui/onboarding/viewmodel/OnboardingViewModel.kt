@@ -5,16 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Settings
-import com.ivy.wallet.domain.logic.*
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.domain.sync.IvySync
+import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
@@ -47,6 +49,9 @@ class OnboardingViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val categoryDao: CategoryDao,
     private val accountCreator: AccountCreator,
+
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
 
     //Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
@@ -133,8 +138,8 @@ class OnboardingViewModel @Inject constructor(
                         theme = if (isSystemDarkMode) Theme.DARK else Theme.LIGHT,
                         name = "",
                         baseCurrency = defaultCurrency.code,
-                        bufferAmount = 1000.0
-                    )
+                        bufferAmount = 1000.0.toBigDecimal()
+                    ).toEntity()
                 )
             }
 
@@ -283,15 +288,13 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun accountsWithBalance(): List<AccountBalance> = ioThread {
-        accountDao.findAll()
-            .map {
-                AccountBalance(
-                    account = it,
-                    balance = accountLogic.calculateAccountBalance(it)
-                )
-            }
-    }
+    private suspend fun accountsWithBalance(): List<AccountBalance> = accountsAct(Unit)
+        .map {
+            AccountBalance(
+                account = it,
+                balance = accountLogic.calculateAccountBalance(it)
+            )
+        }
 
     fun onAddAccountsDone() {
         viewModelScope.launch {
@@ -320,7 +323,7 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.editCategory(updatedCategory) {
-                _categories.value = ioThread { categoryDao.findAll() }!!
+                _categories.value = categoriesAct(Unit)!!
             }
 
             TestIdlingResource.decrement()
@@ -332,7 +335,7 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.createCategory(data) {
-                _categories.value = ioThread { categoryDao.findAll() }!!
+                _categories.value = categoriesAct(Unit)!!
             }
 
             TestIdlingResource.decrement()
