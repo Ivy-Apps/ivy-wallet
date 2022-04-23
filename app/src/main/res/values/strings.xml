@@ -281,8 +281,7 @@
     <string name="search_currency">Search (USD, EUR, GBP, BTC, etc)</string>
     <string name="pre_selected">Pre-selected</string>
     <string name="crypto">Crypto</string>
-    <string name="exchange_rate">Exch
-        ange Rate</string>
+    <string name="exchange_rate">Exchange Rate</string>
     <string name="choose_color">Choose color</string>
     <string name="reorder">Reorder</string>
     <string name="keyword">Keyword</string>
