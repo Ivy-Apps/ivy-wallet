@@ -1,14 +1,15 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
-import arrow.core.toOption
 import com.ivy.fp.Pure
 import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.ExchangeData
+import com.ivy.wallet.domain.pure.exchange.ExchangeData
+import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
+import com.ivy.wallet.domain.pure.exchange.exchangeInCurrency
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
@@ -34,7 +35,7 @@ suspend fun transactionsWithDateDividers(
             (date2.atStartOfDay().toEpochSeconds() - date1.atStartOfDay().toEpochSeconds()).toInt()
         }
         .flatMap { (date, transactionsForDate) ->
-            val arg = AmountInCurrencyArgument(
+            val arg = ExchangeTrnArgument(
                 baseCurrency = baseCurrencyCode,
                 getAccount = getAccount,
                 exchange = exchange
@@ -44,12 +45,12 @@ suspend fun transactionsWithDateDividers(
             listOf<TransactionHistoryItem>(
                 TransactionHistoryDateDivider(
                     date = date!!,
-                    income = sumTransactions(
+                    income = sumTrns(
                         incomes(transactionsForDate),
                         ::exchangeInCurrency,
                         arg
                     ).toDouble(),
-                    expenses = sumTransactions(
+                    expenses = sumTrns(
                         expenses(transactionsForDate),
                         ::exchangeInCurrency,
                         arg
@@ -57,28 +58,4 @@ suspend fun transactionsWithDateDividers(
                 ),
             ).plus(transactionsForDate)
         }
-}
-
-data class AmountInCurrencyArgument(
-    val baseCurrency: String,
-    @SideEffect
-    val getAccount: suspend (accountId: UUID) -> Account?,
-    @SideEffect
-    val exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
-)
-
-suspend fun exchangeInCurrency(
-    fpTransaction: Transaction,
-    arg: AmountInCurrencyArgument
-): BigDecimal {
-    val fromCurrencyCode = arg.getAccount(fpTransaction.accountId)?.currency.toOption()
-
-    return arg.exchange(
-        ExchangeData(
-            baseCurrency = arg.baseCurrency,
-            fromCurrency = fromCurrencyCode,
-            toCurrency = arg.baseCurrency
-        ),
-        fpTransaction.amount
-    ).orNull() ?: BigDecimal.ZERO
 }

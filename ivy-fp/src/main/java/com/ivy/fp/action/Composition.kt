@@ -52,3 +52,7 @@ fun <C> (suspend (Unit) -> C).fixUnit(): suspend () -> C =
     {
         this(Unit)
     }
+
+fun <A, B> (Action<A, B>).lambda(): suspend (A) -> B = { a ->
+    this(a)
+}

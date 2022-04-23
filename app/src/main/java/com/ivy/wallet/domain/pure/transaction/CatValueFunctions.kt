@@ -17,7 +17,10 @@ object CategoryValueFunctions {
         val accounts: List<Account>,
 
         @SideEffect
-        val exchangeToBaseCurrency: suspend (Option<String>, BigDecimal) -> Option<BigDecimal>
+        val exchangeToBaseCurrency: suspend (
+            fromCurrency: Option<String>,
+            amount: BigDecimal
+        ) -> Option<BigDecimal>
     )
 
     suspend fun balance(

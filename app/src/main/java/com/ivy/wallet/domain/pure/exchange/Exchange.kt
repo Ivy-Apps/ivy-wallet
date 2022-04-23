@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.pure
+package com.ivy.wallet.domain.pure.exchange
 
 import arrow.core.None
 import arrow.core.Option

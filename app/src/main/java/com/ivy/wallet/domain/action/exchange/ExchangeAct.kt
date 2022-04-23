@@ -1,10 +1,10 @@
-package com.ivy.wallet.domain.action
+package com.ivy.wallet.domain.action.exchange
 
 import arrow.core.Option
 import com.ivy.fp.action.FPAction
 import com.ivy.fp.then
-import com.ivy.wallet.domain.pure.ExchangeData
-import com.ivy.wallet.domain.pure.exchange
+import com.ivy.wallet.domain.pure.exchange.ExchangeData
+import com.ivy.wallet.domain.pure.exchange.exchange
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import java.math.BigDecimal
 import javax.inject.Inject

@@ -15,3 +15,14 @@ suspend infix fun <A, B> (Action<A, List<B>>).thenFilter(
         val list = this(a)
         list.filter(predicate)
     }
+
+
+suspend infix fun <B> (suspend () -> List<B>).thenFilter(
+    predicate: suspend (B) -> Boolean
+): suspend () -> List<B> =
+    {
+        val list = this()
+        list.filter {
+            predicate(it)
+        }
+    }

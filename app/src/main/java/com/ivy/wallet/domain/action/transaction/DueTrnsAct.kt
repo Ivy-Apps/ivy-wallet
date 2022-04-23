@@ -7,13 +7,13 @@ import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import javax.inject.Inject
 
-class HistoryTrnsAct @Inject constructor(
+class DueTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao
 ) : FPAction<ClosedTimeRange, List<Transaction>>() {
 
     override suspend fun ClosedTimeRange.compose(): suspend () -> List<Transaction> = suspend {
         io {
-            transactionDao.findAllBetween(
+            transactionDao.findAllDueToBetween(
                 startDate = from,
                 endDate = to
             )

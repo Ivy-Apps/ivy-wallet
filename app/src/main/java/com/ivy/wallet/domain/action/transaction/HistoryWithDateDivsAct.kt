@@ -12,7 +12,7 @@ class HistoryWithDateDivsAct @Inject constructor(
 ) : FPAction<HistoryWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
 
     override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
-        HistoryTrnsAct.Input(range)
+        range
     } then historyTrnsAct then { trns ->
         TrnsWithDateDivsAct.Input(
             baseCurrency = baseCurrency,

@@ -2,8 +2,8 @@ package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.fp.action.FPAction
 import com.ivy.fp.then
-import com.ivy.wallet.domain.action.ExchangeAct
-import com.ivy.wallet.domain.action.actInput
+import com.ivy.wallet.domain.action.exchange.ExchangeAct
+import com.ivy.wallet.domain.action.exchange.actInput
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
