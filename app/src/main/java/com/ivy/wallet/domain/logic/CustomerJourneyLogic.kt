@@ -9,6 +9,7 @@ import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
@@ -66,9 +67,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount == 0L
             },
-            title = "Adjust your initial balance",
-            description = "Let's get started. Go to \"Accounts\" -> Tap an account -> Tap its balance -> Enter current balance. That's it!",
-            cta = "To accounts",
+            title = stringRes(R.string.adjust_initial_balance),
+            description = stringRes(R.string.adjust_initial_balance_description),
+            cta = stringRes(R.string.to_accounts),
             ctaIcon = R.drawable.ic_custom_account_s,
             backgroundColor = Ivy,
             hasDismiss = false,
@@ -82,10 +83,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, plannedPaymentCount, _ ->
                 trnCount >= 1 && plannedPaymentCount == 0L
             },
-            title = "Create your first planned payment",
-            description = "Automate the tracking of recurring transactions like your subscriptions, rent, salary, etc." +
-                    " Stay ahead of your finances by knowing how much you have to pay/get in advance.",
-            cta = "Add planned payment",
+            title = stringRes(R.string.create_first_planned_payment),
+            description = stringRes(R.string.create_first_planned_payment_description),
+            cta = stringRes(R.string.add_planned_payment),
             ctaIcon = R.drawable.ic_planned_payments,
             backgroundColor = Orange,
             hasDismiss = true,
@@ -104,10 +104,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 3
             },
-            title = "Did you know?",
-            description = "Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home  " +
-                    "\n\nNote: If the \"Add widget\" button doesn't work, please add it manually from your launcher's widgets menu.",
-            cta = "Add widget",
+            title = stringRes(R.string.did_you_know),
+            description = stringRes(R.string.widget_description),
+            cta = stringRes(R.string.add_widget),
             ctaIcon = R.drawable.ic_custom_atom_s,
             backgroundColor = GreenLight,
             hasDismiss = true,
@@ -121,11 +120,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 5
             },
-            title = "Set a budget",
-            description = "Ivy Wallet not only helps you to passively track your expenses" +
-                    " but also proactively create your financial future by setting budgets" +
-                    " and sticking to them.",
-            cta = "Add budget",
+            title = stringRes(R.string.set_a_budget),
+                description = stringRes(R.string.set_a_budget_description),
+            cta = stringRes(R.string.add_budget),
             ctaIcon = R.drawable.ic_budget_xs,
             backgroundColor = Green2,
             hasDismiss = true,
@@ -139,9 +136,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 7
             },
-            title = "Did you know?",
-            description = "You can see your expenses structure by categories! Try it, tap the gray/black \"Expenses\" button just below your balance.",
-            cta = "Expenses PieChart",
+            title = stringRes(R.string.did_you_know),
+            description = stringRes(R.string.expenses_piechart_description),
+            cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             backgroundColor = Red,
             hasDismiss = true,
@@ -155,11 +152,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 10
             },
-            title = "Review Ivy Wallet",
-            description = "Give us your feedback! Help Ivy Wallet become better and grow by writing us a review." +
-                    " Compliments, ideas, and critics are all welcome!" +
-                    " We do our best.\n\nCheers,\nIvy Team",
-            cta = "Rate us on Google Play",
+            title = stringRes(R.string.review_ivy_wallet),
+            description = stringRes(R.string.review_ivy_wallet_description),
+            cta = stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = Green,
             hasDismiss = true,
@@ -173,10 +168,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 14
             },
-            title = "Share Ivy Wallet",
-            description = "Help us grow so we can invest more in development and make the app better for you." +
-                    " By sharing Ivy Wallet you'll make two developers happy and also help a friend to take control of their finances.",
-            cta = "Share with friends",
+            title = stringRes(R.string.share_ivy_wallet),
+            description = stringRes(R.string.help_us_grow),
+            cta = stringRes(R.string.share_with_friends),
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Red3,
             hasDismiss = true,
@@ -207,11 +201,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 18
             },
-            title = "Did you know?",
-            description = "You can generate reports to get deep insights about your income and spending." +
-                    " Filter your transactions by type, time period, category, accounts, amount, keywords and more" +
-                    " to gain better view on your finances.",
-            cta = "Make a report",
+            title = stringRes(R.string.did_you_know),
+            description = stringRes(R.string.make_a_report_description),
+            cta = stringRes(R.string.make_a_report),
             ctaIcon = R.drawable.ic_statistics_xs,
             backgroundColor = Green2,
             hasDismiss = true,
@@ -225,12 +217,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 22
             },
-            title = "Review Ivy Wallet",
-            description = "Want to make Ivy Wallet better? Write us a review." +
-                    " That's the only way for us to develop what you want and need." +
-                    " Also it help us rank higher in the PlayStore so we can spend money on the product rather than marketing." +
-                    "\n\nWe do our best.\nIvy Team",
-            cta = "Rate us on Google Play",
+            title = stringRes(R.string.review_ivy_wallet),
+            description = stringRes(R.string.make_ivy_wallet_better_description),
+            cta = stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
             backgroundColor = GreenLight,
             hasDismiss = true,
@@ -244,13 +233,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 24
             },
-            title = "We need your help!",
-            description = "We're just a designer and a developer" +
-                    " working on the app after our 9-5 jobs. Currently, we invest a lot of time and money" +
-                    " to generate only losses and exhaustion." +
-                    " If you want us to keep developing Ivy Wallet please share it with friends and family." +
-                    "\n\nP.S. Google PlayStore reviews also helps a lot!",
-            cta = "Share Ivy Wallet",
+            title = stringRes(R.string.we_need_your_help),
+            description = stringRes(R.string.we_need_your_help_description),
+            cta = stringRes(R.string.share_ivy_wallet),
             ctaIcon = R.drawable.ic_custom_family_s,
             backgroundColor = Purple2,
             hasDismiss = true,
@@ -264,11 +249,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 28
             },
-            title = "Ivy Wallet is open-source!",
-            description = "Ivy Wallet's code is open and everyone can see it." +
-                    " We believe that transparency and ethics are must for every software product." +
-                    " If you like our work and want to make the app better you can contribute in our public Github repository.",
-            cta = "Contribute",
+            title = stringRes(R.string.ivy_wallet_is_opensource),
+            description = stringRes(R.string.ivy_wallet_is_opensource_description),
+            cta = stringRes(R.string.contribute),
             ctaIcon = R.drawable.github_logo,
             backgroundColor = Blue3,
             hasDismiss = true,

@@ -1,12 +1,14 @@
 package com.ivy.wallet.domain.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.entity.*
 import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.theme.components.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.wallet.utils.computationThread
@@ -192,7 +194,7 @@ class LoanTransactionsCore(
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
             Category(
-                "Loans",
+                stringRes(R.string.loans),
                 color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
                 icon = "loan"
             )

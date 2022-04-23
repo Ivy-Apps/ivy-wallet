@@ -1,12 +1,14 @@
 package com.ivy.wallet.domain.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.entity.Account
 import com.ivy.wallet.domain.data.entity.Category
 import com.ivy.wallet.domain.logic.model.CreateAccountData
 import com.ivy.wallet.domain.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.theme.*
 
@@ -24,7 +26,7 @@ class PreloadDataLogic(
 
     fun preloadAccounts() {
         val cash = Account(
-            name = "Cash",
+            name = stringRes(R.string.cash),
             currency = null,
             color = Green.toArgb(),
             icon = "cash",
@@ -33,7 +35,7 @@ class PreloadDataLogic(
         )
 
         val bank = Account(
-            name = "Bank",
+            name = stringRes(R.string.bank),
             currency = null,
             color = IvyDark.toArgb(),
             icon = "bank",
@@ -47,21 +49,21 @@ class PreloadDataLogic(
 
     fun accountSuggestions(baseCurrency: String): List<CreateAccountData> = listOf(
         CreateAccountData(
-            name = "Cash",
+            name = stringRes(R.string.cash),
             currency = baseCurrency,
             color = Green,
             icon = "cash",
             balance = 0.0
         ),
         CreateAccountData(
-            name = "Bank",
+            name = stringRes(R.string.bank),
             currency = baseCurrency,
             color = IvyDark,
             icon = "bank",
             balance = 0.0
         ),
         CreateAccountData(
-            name = "Revolut",
+            name = stringRes(R.string.revoult),
             currency = baseCurrency,
             color = Blue,
             icon = "revolut",
@@ -81,61 +83,61 @@ class PreloadDataLogic(
 
     private fun preloadCategoriesCreateData() = listOf(
         CreateCategoryData(
-            name = "Food & Drinks",
+            name = stringRes(R.string.food_drinks),
             color = Green,
             icon = "fooddrink"
         ),
 
         CreateCategoryData(
-            name = "Bills & Fees",
+            name = stringRes(R.string.bills_fees),
             color = Red,
             icon = "bills"
         ),
 
         CreateCategoryData(
-            name = "Transport",
+            name = stringRes(R.string.transport),
             color = YellowLight,
             icon = "transport"
         ),
 
         CreateCategoryData(
-            name = "Groceries",
+            name = stringRes(R.string.groceries),
             color = GreenLight,
             icon = "groceries"
         ),
 
         CreateCategoryData(
-            name = "Entertainment",
+            name = stringRes(R.string.entertainment),
             color = Orange,
             icon = "game"
         ),
 
         CreateCategoryData(
-            name = "Shopping",
+            name = stringRes(R.string.shopping),
             color = Ivy,
             icon = "shopping"
         ),
 
         CreateCategoryData(
-            name = "Gifts",
+            name = stringRes(R.string.gifts),
             color = RedLight,
             icon = "gift"
         ),
 
         CreateCategoryData(
-            name = "Health",
+            name = stringRes(R.string.health),
             color = IvyLight,
             icon = "health"
         ),
 
         CreateCategoryData(
-            name = "Investments",
+            name = stringRes(R.string.investments),
             color = IvyDark,
             icon = "leaf"
         ),
 
         CreateCategoryData(
-            name = "Loans",
+            name = stringRes(R.string.loans),
             color = BlueDark,
             icon = "loan"
         ),
@@ -159,91 +161,91 @@ class PreloadDataLogic(
         .plus(
             listOf(
                 CreateCategoryData(
-                    name = "Car",
+                    name = stringRes(R.string.car),
                     color = Blue3,
                     icon = "vehicle"
                 ),
 
                 CreateCategoryData(
-                    name = "Work",
+                    name = stringRes(R.string.work),
                     color = Blue2Light,
                     icon = "work"
                 ),
 
                 CreateCategoryData(
-                    name = "Home",
+                    name = stringRes(R.string.home),
                     color = Green2,
                     icon = "house"
                 ),
 
                 CreateCategoryData(
-                    name = "Restaurant",
+                    name = stringRes(R.string.restaurant),
                     color = Orange3,
                     icon = "restaurant"
                 ),
 
                 CreateCategoryData(
-                    name = "Family",
+                    name = stringRes(R.string.family),
                     color = Red3Light,
                     icon = "family"
                 ),
 
                 CreateCategoryData(
-                    name = "Social Life",
+                    name = stringRes(R.string.social_life),
                     color = Blue2,
                     icon = "people"
                 ),
 
                 CreateCategoryData(
-                    name = "Order food",
+                    name = stringRes(R.string.order_food),
                     color = Orange2,
                     icon = "orderfood2"
                 ),
 
                 CreateCategoryData(
-                    name = "Travel",
+                    name = stringRes(R.string.travel),
                     color = BlueLight,
                     icon = "travel"
                 ),
 
                 CreateCategoryData(
-                    name = "Fitness",
+                    name = stringRes(R.string.fitness),
                     color = Purple2,
                     icon = "fitness"
                 ),
 
                 CreateCategoryData(
-                    name = "Self-development",
+                    name = stringRes(R.string.self_development),
                     color = Yellow,
                     icon = "selfdevelopment"
                 ),
 
                 CreateCategoryData(
-                    name = "Clothes",
+                    name = stringRes(R.string.clothes),
                     color = Green2Light,
                     icon = "clothes2"
                 ),
 
                 CreateCategoryData(
-                    name = "Beauty",
+                    name = stringRes(R.string.beauty),
                     color = Red3,
                     icon = "makeup"
                 ),
 
                 CreateCategoryData(
-                    name = "Education",
+                    name = stringRes(R.string.education),
                     color = Blue,
                     icon = "education"
                 ),
 
                 CreateCategoryData(
-                    name = "Pet",
+                    name = stringRes(R.string.pet),
                     color = Orange3Light,
                     icon = "pet"
                 ),
 
                 CreateCategoryData(
-                    name = "Sports",
+                    name = stringRes(R.string.sports),
                     color = Purple1,
                     icon = "sports"
                 ),
