@@ -12,11 +12,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
@@ -59,7 +61,7 @@ fun BoxWithConstraintsScope.MonthPickerModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = "Choose month"
+            text = stringResource(R.string.choose_month)
         )
 
         Spacer(Modifier.height(24.dp))

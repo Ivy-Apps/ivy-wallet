@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -136,7 +137,7 @@ private fun ChooseMonth(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "Choose month",
+        text = stringResource(R.string.choose_month),
         style = UI.typo.b1.style(
             color = if (selectedMonthYear != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
@@ -260,7 +261,7 @@ private fun FromToRange(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "or custom range",
+        text = stringResource(R.string.or_custom_range),
         style = UI.typo.b1.style(
             color = if (timeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
@@ -349,7 +350,7 @@ private fun IntervalFromToDate(
                 .padding(
                     vertical = 16.dp,
                 ),
-            text = if (border == IntervalBorder.FROM) "From" else "To",
+            text = if (border == IntervalBorder.FROM) stringResource(R.string.from) else stringResource(R.string.to),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = if (dateTime != null) Green else UI.colors.pureInverse
@@ -363,7 +364,7 @@ private fun IntervalFromToDate(
         }
 
         Text(
-            text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: "Add date",
+            text = dateTime?.toLocalDate()?.formatDateOnlyWithYear() ?: stringResource(R.string.add_date),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (dateTime != null) UI.colors.pureInverse else Gray
@@ -414,7 +415,7 @@ private fun LastNPeriod(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "or in the last",
+        text = stringResource(R.string.or_in_the_last),
         style = UI.typo.b1.style(
             color = if (lastNTimeRange != null) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
@@ -460,7 +461,7 @@ private fun AllTime(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "or all time",
+        text = stringResource(R.string.or_all_time),
         style = UI.typo.b1.style(
             color = if (active) UI.colors.pureInverse else Gray,
             fontWeight = FontWeight.ExtraBold
@@ -472,7 +473,7 @@ private fun AllTime(
     MonthButton(
         modifier = Modifier.padding(start = 32.dp),
         selected = active,
-        text = if (active) "Unselect All Time" else "Select All Time"
+        text = if (active) stringResource(R.string.unselect_all_time) else stringResource(R.string.select_all_time)
     ) {
         onSelected(
             if (active) {

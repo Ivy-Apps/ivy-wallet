@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,7 @@ import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
-    title: String = "Set transaction type",
+    title: String = stringResource(R.string.set_transaction_type),
     visible: Boolean,
     includeTransferType: Boolean,
     initialType: TransactionType,
@@ -164,9 +165,9 @@ private fun TransactionTypeButton(
 
         Text(
             text = when (transactionType) {
-                TransactionType.INCOME -> "Income"
-                TransactionType.EXPENSE -> "Expense"
-                TransactionType.TRANSFER -> "Transfer"
+                TransactionType.INCOME -> stringResource(R.string.income)
+                TransactionType.EXPENSE -> stringResource(R.string.expense)
+                TransactionType.TRANSFER -> stringResource(R.string.transfer)
             },
             style = UI.typo.b1.style(
                 color = textColor
@@ -182,7 +183,7 @@ private fun TransactionTypeButton(
             )
 
             Text(
-                text = "Selected",
+                text = stringResource(R.string.selected),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.SemiBold,
                     color = textSelectedColor
