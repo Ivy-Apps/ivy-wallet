@@ -1,8 +1,7 @@
-package com.ivy.wallet.domain.pure
+package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.core.ValueFunction
 import java.math.BigDecimal
 import java.util.*
 

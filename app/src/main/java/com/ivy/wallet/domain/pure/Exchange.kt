@@ -14,7 +14,7 @@ import java.math.BigDecimal
 data class ExchangeData(
     val baseCurrency: String,
     val fromCurrency: Option<String>,
-    val toCurrency: String,
+    val toCurrency: String = baseCurrency,
 )
 
 

@@ -4,18 +4,21 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.transaction.TrnsWithDateDividersAct
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
+import com.ivy.wallet.domain.action.settings.SettingsAct
+import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
+import com.ivy.wallet.domain.action.viewmodel.home.CalcBalanceIncsExpsAct
 import com.ivy.wallet.domain.action.wallet.CalcOverdueAct
 import com.ivy.wallet.domain.action.wallet.CalcUpcomingAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.CustomerJourneyLogic
-import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.domain.pure.wallet.calculateWalletIncomeExpense
-import com.ivy.wallet.domain.pure.wallet.walletBufferDiff
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -49,7 +52,12 @@ class HomeViewModel @Inject constructor(
     private val calcAccountBalanceAct: CalcWalletBalanceAct,
     private val calcUpcomingAct: CalcUpcomingAct,
     private val calcOverdueAct: CalcOverdueAct,
-    private val historyWithDateDivAct: TrnsWithDateDividersAct,
+    private val historyWithDateDivsAct: HistoryWithDateDivsAct,
+    private val calcBalanceIncsExpsAct: CalcBalanceIncsExpsAct,
+    private val settingsAct: SettingsAct,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
+    private val calcBufferDiffAct: CalcBufferDiffAct,
 ) : IvyViewModel<HomeState>() {
     override val mutableState: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
@@ -74,15 +82,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val settings = ioThread { settingsDao.findFirst() }
+            val settings = settingsAct(Unit)
 
-            val hideCurrentBalance = sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+            val hideCurrentBalance = sharedPrefs.getBoolean(
+                SharedPrefs.HIDE_CURRENT_BALANCE,
+                false
+            )
 
             updateState {
                 it.copy(
                     theme = settings.theme,
                     name = settings.name,
-                    baseCurrencyCode = settings.currency,
+                    baseCurrencyCode = settings.baseCurrency,
                     period = period,
                     hideCurrentBalance = hideCurrentBalance
                 )
@@ -91,47 +102,41 @@ class HomeViewModel @Inject constructor(
             //This method is used to restore the theme when user imports locally backed up data
             loadNewTheme(settings.theme)
 
+            val accounts = accountsAct(Unit)
+
             updateState {
                 it.copy(
-                    categories = ioThread { categoryDao.findAll() },
-                    accounts = ioThread { walletDAOs.accountDao.findAll() }
+                    categories = categoriesAct(Unit),
+                    accounts = accounts
                 )
             }
 
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
+                .toCloseTimeRange()
+
+            val monthlyStats = calcBalanceIncsExpsAct(
+                CalcBalanceIncsExpsAct.Input(
+                    baseCurrency = settings.baseCurrency,
+                    accounts = accounts,
+                    range = timeRange
+                )
+            )
 
             updateState {
                 it.copy(
-                    balance = calcAccountBalanceAct(
-                        CalcWalletBalanceAct.Input(
-                            baseCurrency = settings.currency,
-                            balanceCurrency = settings.currency
+                    balance = monthlyStats.balance,
+                    monthly = monthlyStats.incomeExpense
+                )
+            }
+
+            updateState {
+                it.copy(
+                    history = historyWithDateDivsAct(
+                        HistoryWithDateDivsAct.Input(
+                            range = timeRange,
+                            baseCurrency = settings.baseCurrency
                         )
                     )
-                )
-            }
-
-            updateState {
-                it.copy(
-                    buffer = settings.bufferAmount.toBigDecimal(),
-                    bufferDiff = ioThread {
-                        walletBufferDiff(
-                            settings = settings,
-                            balance = stateVal().balance
-                        )
-                    }
-                )
-            }
-
-            updateState {
-                it.copy(
-                    monthly = ioThread {
-                        calculateWalletIncomeExpense(
-                            walletDAOs = walletDAOs,
-                            baseCurrencyCode = stateVal().baseCurrencyCode,
-                            range = timeRange.toCloseTimeRange()
-                        ).value
-                    }
                 )
             }
 
@@ -153,18 +158,19 @@ class HomeViewModel @Inject constructor(
 
             updateState {
                 it.copy(
-                    history = historyWithDateDivAct(
-                        TrnsWithDateDividersAct.Input(
-                            timeRange = timeRange.toCloseTimeRange(),
-                            baseCurrencyCode = stateVal().baseCurrencyCode
-                        )
-                    )
+                    customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
                 )
             }
 
             updateState {
                 it.copy(
-                    customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
+                    buffer = settings.bufferAmount,
+                    bufferDiff = calcBufferDiffAct(
+                        CalcBufferDiffAct.Input(
+                            balance = monthlyStats.balance,
+                            buffer = settings.bufferAmount
+                        )
+                    )
                 )
             }
 

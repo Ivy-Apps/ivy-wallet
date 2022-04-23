@@ -1,6 +1,7 @@
-package com.ivy.wallet.domain.pure.core
+package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.NonEmptyList
+import arrow.core.nonEmptyListOf
 import com.ivy.fp.Pure
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.util.mapIndexedNel
@@ -8,32 +9,31 @@ import com.ivy.wallet.domain.pure.util.mapIndexedNelSuspend
 import com.ivy.wallet.domain.pure.util.nonEmptyListOfZeros
 import java.math.BigDecimal
 
+typealias ValueFunction<A> = (Transaction, A) -> BigDecimal
+typealias SuspendValueFunction<A> = suspend (Transaction, A) -> BigDecimal
+
 @Pure
-fun <Arg> calcValues(
+fun <Arg> foldTransactions(
     transactions: List<Transaction>,
     valueFunctions: NonEmptyList<ValueFunction<Arg>>,
     arg: Arg
-): NonEmptyList<BigDecimal> = calculateValueFunctionsSum(
+): NonEmptyList<BigDecimal> = sumTransactionsInternal(
     valueFunctionArgument = arg,
     transactions = transactions,
     valueFunctions = valueFunctions
 )
 
-
-typealias ValueFunction<A> = (Transaction, A) -> BigDecimal
-typealias SuspendValueFunction<A> = suspend (Transaction, A) -> BigDecimal
-
 @Pure
-internal tailrec fun <A> calculateValueFunctionsSum(
-    valueFunctionArgument: A,
+internal tailrec fun <A> sumTransactionsInternal(
     transactions: List<Transaction>,
+    valueFunctionArgument: A,
     valueFunctions: NonEmptyList<ValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
 ): NonEmptyList<BigDecimal> {
     return if (transactions.isEmpty())
         sum
     else
-        calculateValueFunctionsSum(
+        sumTransactionsInternal(
             valueFunctionArgument = valueFunctionArgument,
             transactions = transactions.drop(1),
             valueFunctions = valueFunctions,
@@ -45,16 +45,27 @@ internal tailrec fun <A> calculateValueFunctionsSum(
 }
 
 @Pure
-internal tailrec suspend fun <A> calculateValueFunctionsSumSuspend(
-    valueFunctionArgument: A,
+suspend fun <Arg> foldTransactionsSuspend(
     transactions: List<Transaction>,
+    valueFunctions: NonEmptyList<SuspendValueFunction<Arg>>,
+    arg: Arg
+): NonEmptyList<BigDecimal> = sumTransactionsSuspendInternal(
+    transactions = transactions,
+    valueFunctions = valueFunctions,
+    valueFunctionArgument = arg
+)
+
+@Pure
+internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
+    transactions: List<Transaction>,
+    valueFunctionArgument: A,
     valueFunctions: NonEmptyList<SuspendValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
 ): NonEmptyList<BigDecimal> {
     return if (transactions.isEmpty())
         sum
     else
-        calculateValueFunctionsSumSuspend(
+        sumTransactionsSuspendInternal(
             valueFunctionArgument = valueFunctionArgument,
             transactions = transactions.drop(1),
             valueFunctions = valueFunctions,
@@ -63,4 +74,16 @@ internal tailrec suspend fun <A> calculateValueFunctionsSumSuspend(
                 sumValue + valueFunction(transactions.first(), valueFunctionArgument)
             }
         )
+}
+
+suspend fun <A> sumTransactions(
+    transactions: List<Transaction>,
+    valueFunction: SuspendValueFunction<A>,
+    argument: A
+): BigDecimal {
+    return sumTransactionsSuspendInternal(
+        transactions = transactions,
+        valueFunctionArgument = argument,
+        valueFunctions = nonEmptyListOf(valueFunction)
+    ).head
 }

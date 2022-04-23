@@ -9,9 +9,6 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.ExchangeData
-import com.ivy.wallet.domain.pure.core.expenses
-import com.ivy.wallet.domain.pure.core.incomes
-import com.ivy.wallet.domain.pure.core.sum
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
@@ -47,12 +44,12 @@ suspend fun transactionsWithDateDividers(
             listOf<TransactionHistoryItem>(
                 TransactionHistoryDateDivider(
                     date = date!!,
-                    income = sum(
+                    income = sumTransactions(
                         incomes(transactionsForDate),
                         ::exchangeInCurrency,
                         arg
                     ).toDouble(),
-                    expenses = sum(
+                    expenses = sumTransactions(
                         expenses(transactionsForDate),
                         ::exchangeInCurrency,
                         arg

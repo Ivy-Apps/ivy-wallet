@@ -21,8 +21,8 @@ data class SettingsEntity(
 ) {
     fun toDomain(): Settings = Settings(
         theme = theme,
-        currency = currency,
-        bufferAmount = bufferAmount,
+        baseCurrency = currency,
+        bufferAmount = bufferAmount.toBigDecimal(),
         name = name,
         id = id
     )

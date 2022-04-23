@@ -132,7 +132,7 @@ class OnboardingViewModel @Inject constructor(
                     Settings(
                         theme = if (isSystemDarkMode) Theme.DARK else Theme.LIGHT,
                         name = "",
-                        currency = defaultCurrency.code,
+                        baseCurrency = defaultCurrency.code,
                         bufferAmount = 1000.0
                     )
                 )

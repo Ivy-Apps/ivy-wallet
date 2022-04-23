@@ -10,10 +10,10 @@ import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 
-class TrnsWithDateDividersAct @Inject constructor(
+class TrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeAct: ExchangeAct
-) : FPAction<TrnsWithDateDividersAct.Input, List<TransactionHistoryItem>>() {
+) : FPAction<TrnsWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
 
     override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
         transactionsWithDateDividers(

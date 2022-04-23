@@ -4,9 +4,9 @@ import arrow.core.nonEmptyListOf
 import com.ivy.fp.action.FPAction
 import com.ivy.fp.action.then
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.pure.AccountValueFunctions
-import com.ivy.wallet.domain.pure.core.calcValues
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
+import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -20,7 +20,7 @@ class CalcAccBalanceAct @Inject constructor(
             range = range
         )
     } then accTrnsAct then { accTrns ->
-        calcValues(
+        foldTransactions(
             transactions = accTrns,
             arg = account.id,
             valueFunctions = nonEmptyListOf(AccountValueFunctions::balance)
