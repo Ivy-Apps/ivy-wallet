@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -40,7 +41,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
     TitleContent: @Composable ColumnScope.() -> Unit = {
         Text(
             modifier = Modifier.padding(start = 32.dp),
-            text = "Reorder",
+            text = stringResource(R.string.reorder),
             style = UI.typo.b1.style(
                 UI.colors.pureInverse,
                 FontWeight.ExtraBold
@@ -80,7 +81,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
     TitleContent: @Composable ColumnScope.() -> Unit = {
         Text(
             modifier = Modifier.padding(start = 32.dp),
-            text = "Reorder",
+            text = stringResource(R.string.reorder),
             style = UI.typo.b1.style(
                 UI.colors.pureInverse,
                 FontWeight.ExtraBold

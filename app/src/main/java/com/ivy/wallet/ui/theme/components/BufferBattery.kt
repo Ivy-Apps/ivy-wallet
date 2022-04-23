@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -96,7 +97,8 @@ fun BufferBattery(
 
         Column {
             Text(
-                text = if (bufferExceeded) "Buffer exceeded by" else "Left to spend",
+                text = if (bufferExceeded) stringResource(R.string.buffer_exceeded_by) else stringResource(
+                                    R.string.left_to_spend),
                 style = UI.typo.c.style(
                     color = textColor,
                     fontWeight = FontWeight.ExtraBold

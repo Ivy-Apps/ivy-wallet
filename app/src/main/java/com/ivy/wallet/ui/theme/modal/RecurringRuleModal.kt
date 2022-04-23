@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -94,7 +95,7 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
             hideKeyboard(rootView)
         }
 
-        ModalTitle(text = "Plan for")
+        ModalTitle(text = stringResource(R.string.plan_for))
 
         Spacer(Modifier.height(16.dp))
 
@@ -157,7 +158,7 @@ private fun TimesSelector(
 
         TimesSelectorButton(
             selected = oneTime,
-            label = "One time"
+            label = stringResource(R.string.one_time)
         ) {
             onSetOneTime(true)
         }
@@ -166,7 +167,7 @@ private fun TimesSelector(
 
         TimesSelectorButton(
             selected = !oneTime,
-            label = "Multiple times"
+            label = stringResource(R.string.multiple_times)
         ) {
             onSetOneTime(false)
         }
@@ -233,7 +234,7 @@ private fun MultipleTimes(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "Starts on",
+        text = stringResource(R.string.starts_on),
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
@@ -257,7 +258,7 @@ private fun MultipleTimes(
     Text(
         modifier = Modifier
             .padding(start = 32.dp),
-        text = "Repeats every",
+        text = stringResource(R.string.repeats_every_text),
         style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold,
             color = UI.colors.pureInverse
