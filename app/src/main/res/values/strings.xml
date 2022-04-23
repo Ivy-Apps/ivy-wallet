@@ -377,7 +377,7 @@
     <string name="create_first_planned_payment">Create your first planned payment</string>
     <string name="create_first_planned_payment_description">Automate the tracking of recurring transactions like your subscriptions, rent, salary, etc. Stay ahead of your finances by knowing how much you have to pay/get in advance.</string>
     <string name="did_you_know">Did you know?</string>
-    <string name="widget_description">Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home\n\nNote: If the "Add widget" button doesn't work, please add it manually from your launcher's widgets menu.</string>
+    <string name="widget_description">Ivy Wallet has a cool widget that lets you add INCOME/EXPENSES/TRANSFER transactions with 1-click from your home\n\nNote: If the "Add widget" button doesn\'t work, please add it manually from your launcher\'s widgets menu.</string>
     <string name="add_widget">Add widget</string>
     <string name="set_a_budget">Set a budget</string>
     <string name="set_a_budget_description">Ivy Wallet not only helps you to passively track your expenses but also proactively create your financial future by setting budgets and sticking to them.</string>
