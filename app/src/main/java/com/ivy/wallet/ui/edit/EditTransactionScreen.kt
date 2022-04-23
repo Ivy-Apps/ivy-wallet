@@ -27,8 +27,8 @@ import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -54,24 +54,24 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
     val viewModel: EditTransactionViewModel = viewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
-    val initialTitle by viewModel.initialTitle.observeAsState()
+    val initialTitle by viewModel.initialTitle.collectAsState()
     val titleSuggestions by viewModel.titleSuggestions.collectAsState()
-    val currency by viewModel.currency.observeAsState("")
-    val description by viewModel.description.observeAsState()
-    val dateTime by viewModel.dateTime.observeAsState()
-    val category by viewModel.category.observeAsState()
-    val account by viewModel.account.observeAsState()
-    val toAccount by viewModel.toAccount.observeAsState()
-    val dueDate by viewModel.dueDate.observeAsState()
-    val amount by viewModel.amount.observeAsState(0.0)
+    val currency by viewModel.currency.collectAsState()
+    val description by viewModel.description.collectAsState()
+    val dateTime by viewModel.dateTime.collectAsState()
+    val category by viewModel.category.collectAsState()
+    val account by viewModel.account.collectAsState()
+    val toAccount by viewModel.toAccount.collectAsState()
+    val dueDate by viewModel.dueDate.collectAsState()
+    val amount by viewModel.amount.collectAsState()
     val loanData by viewModel.displayLoanHelper.collectAsState()
     val backgroundProcessing by viewModel.backgroundProcessingStarted.collectAsState()
     val customExchangeRateState by viewModel.customExchangeRateState.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState(emptyList())
+    val accounts by viewModel.accounts.collectAsState(emptyList())
 
-    val hasChanges by viewModel.hasChanges.observeAsState(false)
+    val hasChanges by viewModel.hasChanges.collectAsState(false)
 
     onScreenStart {
         viewModel.start(screen)
@@ -387,7 +387,11 @@ private fun BoxWithConstraintsScope.UI(
                         }
                     } else {
                         //no changes, pay
-                        ModalCheck(label = if (transactionType == TransactionType.EXPENSE) stringResource(R.string.pay) else stringResource(R.string.get)) {
+                        ModalCheck(
+                            label = if (transactionType == TransactionType.EXPENSE) stringResource(
+                                R.string.pay
+                            ) else stringResource(R.string.get)
+                        ) {
                             onPayPlannedPayment()
                         }
                     }

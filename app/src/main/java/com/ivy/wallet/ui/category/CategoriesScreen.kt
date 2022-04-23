@@ -4,7 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,7 +23,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -43,8 +42,8 @@ import com.ivy.wallet.utils.onScreenStart
 fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
 
-    val currency by viewModel.currency.observeAsState("")
-    val categories by viewModel.categories.observeAsState(emptyList())
+    val currency by viewModel.currency.collectAsState()
+    val categories by viewModel.categories.collectAsState()
 
     onScreenStart {
         viewModel.start()
