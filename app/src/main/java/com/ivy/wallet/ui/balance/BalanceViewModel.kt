@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.utils.dateNowUTC
@@ -19,8 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BalanceViewModel @Inject constructor(
-    private val walletDAOs: WalletDAOs,
-    private val settingsDao: SettingsDao,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val ivyContext: IvyWalletCtx,
     private val baseCurrencyAct: BaseCurrencyAct,
