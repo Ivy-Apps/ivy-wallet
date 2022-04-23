@@ -23,7 +23,7 @@ class BudgetUploader(
             //update
             service.update(
                 CrupdateBudgetRequest(
-                    budget = item
+                    budget = item.toDTO()
                 )
             )
 
@@ -31,7 +31,7 @@ class BudgetUploader(
             dao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("Budget updated: $item.")
         } catch (e: Exception) {

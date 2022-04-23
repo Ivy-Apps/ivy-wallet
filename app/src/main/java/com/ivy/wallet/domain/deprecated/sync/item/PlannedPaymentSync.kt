@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.item
 
-import com.ivy.wallet.domain.sync.uploader.PlannedPaymentRuleUploader
+import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -41,7 +41,7 @@ class PlannedPaymentSync(
         )
 
         for (item in toSync) {
-            uploader.sync(item)
+            uploader.sync(item.toDomain())
         }
     }
 
@@ -65,7 +65,7 @@ class PlannedPaymentSync(
 
             response.rules.forEach { item ->
                 dao.save(
-                    item.copy(
+                    item.toEntity().copy(
                         isSynced = true,
                         isDeleted = false
                     )

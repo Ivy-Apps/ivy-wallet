@@ -23,7 +23,7 @@ class CategoryUploader(
             //update
             service.update(
                 UpdateWalletCategoryRequest(
-                    category = item
+                    category = item.toDTO()
                 )
             )
 
@@ -31,7 +31,7 @@ class CategoryUploader(
             dao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("Category updated: $item.")
         } catch (e: Exception) {

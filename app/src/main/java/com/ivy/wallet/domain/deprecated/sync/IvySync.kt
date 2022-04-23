@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync
 
-import com.ivy.wallet.domain.sync.item.*
+import com.ivy.wallet.domain.deprecated.sync.item.*
 import com.ivy.wallet.io.network.IvySession
 
 class IvySync(

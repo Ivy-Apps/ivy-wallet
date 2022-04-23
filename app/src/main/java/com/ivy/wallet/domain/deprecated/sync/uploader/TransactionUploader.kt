@@ -23,7 +23,7 @@ class TransactionUploader(
             //update
             service.update(
                 UpdateTransactionRequest(
-                    transaction = item
+                    transaction = item.toDTO()
                 )
             )
 
@@ -31,7 +31,7 @@ class TransactionUploader(
             dao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("Transaction updated: $item.")
         } catch (e: Exception) {

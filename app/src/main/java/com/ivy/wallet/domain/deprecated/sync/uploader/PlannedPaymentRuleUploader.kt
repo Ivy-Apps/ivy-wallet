@@ -23,7 +23,7 @@ class PlannedPaymentRuleUploader(
             //update
             service.update(
                 UpdatePlannedPaymentRuleRequest(
-                    rule = item
+                    rule = item.toDTO()
                 )
             )
 
@@ -31,7 +31,7 @@ class PlannedPaymentRuleUploader(
             dao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("PlannedPaymentRule updated: $item.")
         } catch (e: Exception) {

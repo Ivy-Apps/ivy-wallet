@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.wallet.io.network.data.LoanRecordDTO
 import com.ivy.wallet.io.persistence.data.LoanRecordEntity
 import java.time.LocalDateTime
 import java.util.*
@@ -29,6 +30,17 @@ data class LoanRecord(
         convertedAmount = convertedAmount,
         isSynced = isSynced,
         isDeleted = isDeleted,
+        id = id
+    )
+
+    fun toDTO(): LoanRecordDTO = LoanRecordDTO(
+        loanId = loanId,
+        amount = amount,
+        note = note,
+        dateTime = dateTime,
+        interest = interest,
+        accountId = accountId,
+        convertedAmount = convertedAmount,
         id = id
     )
 }

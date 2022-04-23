@@ -25,7 +25,7 @@ class AccountUploader(
             //update
             service.update(
                 UpdateAccountRequest(
-                    account = item.toEntity()
+                    account = item.toDTO()
                 )
             )
 

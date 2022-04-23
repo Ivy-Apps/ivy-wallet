@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.item
 
-import com.ivy.wallet.domain.sync.uploader.LoanUploader
+import com.ivy.wallet.domain.deprecated.sync.uploader.LoanUploader
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -40,7 +40,7 @@ class LoanSync(
         )
 
         for (item in toSync) {
-            uploader.sync(item)
+            uploader.sync(item.toDomain())
         }
     }
 
@@ -63,7 +63,7 @@ class LoanSync(
 
             response.loans.forEach { item ->
                 dao.save(
-                    item.copy(
+                    item.toEntity().copy(
                         isSynced = true,
                         isDeleted = false
                     )

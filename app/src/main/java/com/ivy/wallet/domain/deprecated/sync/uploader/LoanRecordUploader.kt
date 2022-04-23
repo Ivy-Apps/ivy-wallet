@@ -23,7 +23,7 @@ class LoanRecordUploader(
             //update
             service.updateRecord(
                 UpdateLoanRecordRequest(
-                    loanRecord = item
+                    loanRecord = item.toDTO()
                 )
             )
 
@@ -31,7 +31,7 @@ class LoanRecordUploader(
             dao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("Loan record updated: $item.")
         } catch (e: Exception) {

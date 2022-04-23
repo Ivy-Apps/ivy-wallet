@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.wallet.io.network.data.BudgetDTO
 import com.ivy.wallet.io.persistence.data.BudgetEntity
 import java.util.*
 
@@ -25,6 +26,15 @@ data class Budget(
         isDeleted = isDeleted,
         orderId = orderId,
         id = id,
+    )
+
+    fun toDTO(): BudgetDTO = BudgetDTO(
+        name = name,
+        amount = amount,
+        categoryIdsSerialized = categoryIdsSerialized,
+        accountIdsSerialized = accountIdsSerialized,
+        orderId = orderId,
+        id = id
     )
 
     companion object {
