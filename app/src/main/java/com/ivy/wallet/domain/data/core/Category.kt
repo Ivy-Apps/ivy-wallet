@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.wallet.io.persistence.data.CategoryEntity
 import com.ivy.wallet.ui.theme.Ivy
 import java.util.*
 
@@ -14,4 +15,14 @@ data class Category(
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
-)
+) {
+    fun toEntity(): CategoryEntity = CategoryEntity(
+        name = name,
+        color = color,
+        icon = icon,
+        orderNum = orderNum,
+        isSynced = isSynced,
+        isDeleted = isDeleted,
+        id = id
+    )
+}

@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.io.persistence.data.PlannedPaymentRuleEntity
 import java.time.LocalDateTime
 import java.util.*
 
@@ -22,4 +23,20 @@ data class PlannedPaymentRule(
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
-)
+) {
+    fun toEntity(): PlannedPaymentRuleEntity = PlannedPaymentRuleEntity(
+        startDate = startDate,
+        intervalN = intervalN,
+        intervalType = intervalType,
+        oneTime = oneTime,
+        type = type,
+        accountId = accountId,
+        amount = amount,
+        categoryId = categoryId,
+        title = title,
+        description = description,
+        isSynced = isSynced,
+        isDeleted = isDeleted,
+        id = id
+    )
+}

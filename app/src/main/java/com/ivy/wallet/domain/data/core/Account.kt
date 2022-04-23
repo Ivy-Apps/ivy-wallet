@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.data.core
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.wallet.io.persistence.data.AccountEntity
 import com.ivy.wallet.ui.theme.Green
 import java.util.*
 
@@ -16,4 +17,17 @@ data class Account(
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
-)
+) {
+    fun toEntity(): AccountEntity = AccountEntity(
+        name = name,
+        currency = currency,
+        color = color,
+        icon = icon,
+        orderNum = orderNum,
+        includeInBalance = includeInBalance,
+        isSynced = isSynced,
+        isDeleted = isDeleted,
+        id = id,
+
+        )
+}

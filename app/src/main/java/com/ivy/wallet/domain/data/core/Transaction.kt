@@ -2,11 +2,13 @@ package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
 data class Transaction(
+    //TODO: Remove default values & introduce Transaction#dummy() method
     val accountId: UUID,
     val type: TransactionType,
     val amount: BigDecimal,
@@ -29,4 +31,29 @@ data class Transaction(
     val loanRecordId: UUID? = null,
 
     val id: UUID = UUID.randomUUID()
-) : TransactionHistoryItem
+) : TransactionHistoryItem {
+    fun toEntity(): TransactionEntity = TransactionEntity(
+        accountId = accountId,
+        type = type,
+        amount = amount.toDouble(),
+        toAccountId = toAccountId,
+        toAmount = toAmount.toDouble(),
+        title = title,
+        description = description,
+        dateTime = dateTime,
+        categoryId = categoryId,
+        dueDate = dueDate,
+
+        recurringRuleId = recurringRuleId,
+
+        attachmentUrl = attachmentUrl,
+
+        //This refers to the loan id that is linked with a transaction
+        loanId = loanId,
+
+        //This refers to the loan record id that is linked with a transaction
+        loanRecordId = loanRecordId,
+
+        id = id
+    )
+}

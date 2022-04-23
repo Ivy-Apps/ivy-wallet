@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.wallet.io.persistence.data.BudgetEntity
 import java.util.*
 
 data class Budget(
@@ -15,6 +16,17 @@ data class Budget(
     val orderId: Double,
     val id: UUID = UUID.randomUUID()
 ) {
+    fun toEntity(): BudgetEntity = BudgetEntity(
+        name = name,
+        amount = amount,
+        categoryIdsSerialized = categoryIdsSerialized,
+        accountIdsSerialized = accountIdsSerialized,
+        isSynced = isSynced,
+        isDeleted = isDeleted,
+        orderId = orderId,
+        id = id,
+    )
+
     companion object {
         fun serialize(ids: List<UUID>): String {
             return ids.joinToString(separator = ",")

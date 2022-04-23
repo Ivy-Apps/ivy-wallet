@@ -25,7 +25,7 @@ class AccountUploader(
             //update
             service.update(
                 UpdateAccountRequest(
-                    account = item
+                    account = item.toEntity()
                 )
             )
 
@@ -33,7 +33,7 @@ class AccountUploader(
             accountDao.save(
                 item.copy(
                     isSynced = true
-                )
+                ).toEntity()
             )
             Timber.d("Account updated: $item.")
         } catch (e: Exception) {
