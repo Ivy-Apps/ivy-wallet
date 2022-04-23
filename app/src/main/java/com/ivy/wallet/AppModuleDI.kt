@@ -6,23 +6,19 @@ import com.google.gson.GsonBuilder
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.notification.NotificationService
-import com.ivy.wallet.domain.logic.*
-import com.ivy.wallet.domain.logic.bankintegrations.BankIntegrationsLogic
-import com.ivy.wallet.domain.logic.bankintegrations.SaltEdgeAccountMapper
-import com.ivy.wallet.domain.logic.bankintegrations.SaltEdgeCategoryMapper
-import com.ivy.wallet.domain.logic.bankintegrations.SaltEdgeTransactionMapper
-import com.ivy.wallet.domain.logic.csv.*
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.loantrasactions.LTLoanMapper
-import com.ivy.wallet.domain.logic.loantrasactions.LTLoanRecordMapper
-import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsCore
-import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.domain.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.csv.*
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanMapper
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanRecordMapper
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.deprecated.sync.IvySync
+import com.ivy.wallet.domain.deprecated.sync.item.*
+import com.ivy.wallet.domain.deprecated.sync.uploader.*
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.domain.sync.IvySync
-import com.ivy.wallet.domain.sync.item.*
-import com.ivy.wallet.domain.sync.uploader.*
 import com.ivy.wallet.io.network.*
 import com.ivy.wallet.io.network.error.ErrorCode
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
@@ -118,9 +114,6 @@ object AppModuleDI {
     fun provideBudgetDao(db: IvyRoomDatabase): BudgetDao = db.budgetDao()
 
     @Provides
-    fun provideWishlistItemDao(db: IvyRoomDatabase): WishlistItemDao = db.wishlistItemDao()
-
-    @Provides
     fun provideSettingsDao(db: IvyRoomDatabase): SettingsDao = db.settingsDao()
 
     @Provides
@@ -133,18 +126,6 @@ object AppModuleDI {
     fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao =
         db.plannedPaymentRuleDao()
 
-    @Provides
-    fun provideWalletLogic(
-        accountDao: AccountDao,
-        transactionDao: TransactionDao,
-        settingsDao: SettingsDao,
-        exchangeRatesLogic: ExchangeRatesLogic,
-    ): WalletLogic = WalletLogic(
-        accountDao = accountDao,
-        transactionDao = transactionDao,
-        settingsDao = settingsDao,
-        exchangeRatesLogic = exchangeRatesLogic,
-    )
 
     @Provides
     fun provideWalletAccountLogic(
@@ -655,56 +636,6 @@ object AppModuleDI {
             ivySession = ivySession,
             sharedPrefs = sharedPrefs,
             navigation = navigation
-        )
-    }
-
-    @Provides
-    fun provideSaltEdgeLogic(
-        restClient: RestClient,
-        seTransactionsMapper: SaltEdgeTransactionMapper,
-        ivySession: IvySession,
-        sharedPrefs: SharedPrefs
-    ): BankIntegrationsLogic {
-        return BankIntegrationsLogic(
-            restClient = restClient,
-            seTransactionMapper = seTransactionsMapper,
-            ivySession = ivySession,
-            sharedPrefs = sharedPrefs
-        )
-    }
-
-    @Provides
-    fun provideSeTransactionMapper(
-        transactionDao: TransactionDao,
-        seAccountMapper: SaltEdgeAccountMapper,
-        seCategoryMapper: SaltEdgeCategoryMapper,
-        accountDao: AccountDao,
-        walletAccountLogic: WalletAccountLogic
-    ): SaltEdgeTransactionMapper {
-        return SaltEdgeTransactionMapper(
-            transactionDao = transactionDao,
-            seAccountMapper = seAccountMapper,
-            seCategoryMapper = seCategoryMapper,
-            accountDao = accountDao,
-            walletAccountLogic = walletAccountLogic
-        )
-    }
-
-    @Provides
-    fun provideSeAccountMapper(
-        accountDao: AccountDao
-    ): SaltEdgeAccountMapper {
-        return SaltEdgeAccountMapper(
-            accountDao = accountDao
-        )
-    }
-
-    @Provides
-    fun provideSeCategoryMapper(
-        categoryDao: CategoryDao
-    ): SaltEdgeCategoryMapper {
-        return SaltEdgeCategoryMapper(
-            categoryDao = categoryDao
         )
     }
 

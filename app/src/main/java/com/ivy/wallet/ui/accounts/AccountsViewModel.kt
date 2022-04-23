@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.logic.AccountCreator
 import com.ivy.wallet.domain.pure.account.calculateAccountBalance
 import com.ivy.wallet.domain.pure.account.calculateAccountIncomeExpense
 import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.domain.pure.wallet.baseCurrencyCode
-import com.ivy.wallet.domain.sync.item.AccountSync
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx

@@ -62,20 +62,20 @@ interface TransactionDao {
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId) AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     fun findAllByCategoryAndBetween(
         categoryId: UUID,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL AND seAutoCategoryId IS NULL) AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL) AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     fun findAllUnspecifiedAndBetween(
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     fun findAllByCategoryAndTypeAndBetween(
         categoryId: UUID,
         type: TransactionType,
@@ -83,7 +83,7 @@ interface TransactionDao {
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL AND seAutoCategoryId IS NULL) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     fun findAllUnspecifiedAndTypeAndBetween(
         type: TransactionType,
         startDate: LocalDateTime,
@@ -103,14 +103,14 @@ interface TransactionDao {
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) ORDER BY dateTime DESC, dueDate ASC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId = :categoryId) ORDER BY dateTime DESC, dueDate ASC")
     fun findAllDueToBetweenByCategory(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
         categoryId: UUID
     ): List<TransactionEntity>
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId IS NULL AND seAutoCategoryId IS NULL) ORDER BY dateTime DESC, dueDate ASC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dueDate >= :startDate AND dueDate <= :endDate AND (categoryId IS NULL) ORDER BY dateTime DESC, dueDate ASC")
     fun findAllDueToBetweenByCategoryUnspecified(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
@@ -142,9 +142,6 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     fun findById(id: UUID): TransactionEntity?
-
-    @Query("SELECT * FROM transactions WHERE seTransactionId = :seTransactionId")
-    fun findBySeTransactionId(seTransactionId: String): TransactionEntity?
 
     @Query("SELECT * FROM transactions WHERE isSynced = :synced AND isDeleted = :deleted")
     fun findByIsSyncedAndIsDeleted(
@@ -182,7 +179,7 @@ interface TransactionDao {
         pattern: String,
     ): Long
 
-    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId OR seAutoCategoryId = :categoryId) ORDER BY dateTime DESC")
+    @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId) ORDER BY dateTime DESC")
     fun findAllByCategory(
         categoryId: UUID,
     ): List<TransactionEntity>

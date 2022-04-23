@@ -39,14 +39,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
-    }
-
     packagingOptions {
         //Exclude this files so Jetpack Compose UI tests can build
         resources.excludes.add("META-INF/AL2.0")
