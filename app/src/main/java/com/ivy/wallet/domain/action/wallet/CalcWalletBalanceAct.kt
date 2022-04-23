@@ -20,7 +20,7 @@ class CalcWalletBalanceAct @Inject constructor(
 
     private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
         accountsAct thenFilter {
-            it.includeInBalance
+            withExcluded || it.includeInBalance
         } thenMap {
             calcAccBalanceAct(
                 CalcAccBalanceAct.Input(
@@ -46,6 +46,7 @@ class CalcWalletBalanceAct @Inject constructor(
     data class Input(
         val baseCurrency: String,
         val balanceCurrency: String = baseCurrency,
-        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val withExcluded: Boolean = false
     )
 }
