@@ -140,6 +140,8 @@
 -keep class com.ivy.wallet.domain.data.** { *; }
 -keep class com.ivy.wallet.ui.widget.** { *; }
 -keep class com.ivy.wallet.io.network.** { *; }
+-keep class com.ivy.wallet.io.persistence.data.** { *; }
+-keep class com.ivy.wallet.io.network.data.** { *; }
 -keep class com.ivy.wallet.domain.event.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,

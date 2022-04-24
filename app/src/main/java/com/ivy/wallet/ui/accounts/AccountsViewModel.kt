@@ -2,16 +2,15 @@ package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.fp.account.calculateAccountBalance
-import com.ivy.wallet.domain.fp.account.calculateAccountIncomeExpense
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
-import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
-import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
-import com.ivy.wallet.domain.logic.AccountCreator
-import com.ivy.wallet.domain.sync.item.AccountSync
+import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -35,6 +34,10 @@ class AccountsViewModel @Inject constructor(
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
+    private val accountsAct: AccountsAct,
+    private val calcWalletBalanceAct: CalcWalletBalanceAct,
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val accountDataAct: AccountDataAct
 ) : ViewModel() {
 
     @Subscribe
@@ -64,50 +67,25 @@ class AccountsViewModel @Inject constructor(
             ) //this must be monthly
             val range = period.toRange(ivyContext.startDayOfMonth)
 
-            val baseCurrencyCode = ioThread { baseCurrencyCode(settingsDao) }
+            val baseCurrencyCode = baseCurrencyAct(Unit)
             _baseCurrencyCode.value = baseCurrencyCode
 
-            _accounts.value = ioThread {
-                accountDao.findAll()
-                    .map {
-                        val balance = calculateAccountBalance(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id
-                        )
-                        val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
-                            exchangeToBaseCurrency(
-                                exchangeRateDao = walletDAOs.exchangeRateDao,
-                                baseCurrencyCode = baseCurrencyCode,
-                                fromCurrencyCode = it.currency ?: baseCurrencyCode,
-                                fromAmount = balance
-                            ).orNull()?.toDouble()
-                        } else {
-                            null
-                        }
+            val accs = accountsAct(Unit)
 
-                        val incomeExpensePair = calculateAccountIncomeExpense(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id,
-                            range = range.toCloseTimeRange()
-                        )
+            _accounts.value = accountDataAct(
+                AccountDataAct.Input(
+                    accounts = accs,
+                    range = range.toCloseTimeRange(),
+                    baseCurrency = baseCurrencyCode
+                )
+            )
 
-                        AccountData(
-                            account = it,
-                            balance = balance.toDouble(),
-                            balanceBaseCurrency = balanceBaseCurrency,
-                            monthlyIncome = incomeExpensePair.income.toDouble(),
-                            monthlyExpenses = incomeExpensePair.expense.toDouble(),
-                        )
-                    }
-            }
-
-            _totalBalanceWithExcluded.value = ioThread {
-                calculateWalletBalance(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = baseCurrencyCode,
-                    filterExcluded = false
-                ).value.toDouble()
-            }
+            _totalBalanceWithExcluded.value = calcWalletBalanceAct(
+                CalcWalletBalanceAct.Input(
+                    baseCurrency = baseCurrencyCode,
+                    withExcluded = true
+                )
+            ).toDouble()
 
             TestIdlingResource.decrement()
         }
@@ -120,7 +98,7 @@ class AccountsViewModel @Inject constructor(
             ioThread {
                 newOrder.mapIndexed { index, accountData ->
                     accountDao.save(
-                        accountData.account.copy(
+                        accountData.account.toEntity().copy(
                             orderNum = index.toDouble(),
                             isSynced = false
                         )

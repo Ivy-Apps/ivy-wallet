@@ -25,7 +25,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.Loans

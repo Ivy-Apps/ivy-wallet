@@ -2,12 +2,17 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.action.then
+import com.ivy.wallet.domain.action.charts.BalanceChartAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.fp.charts.*
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
-import com.ivy.wallet.domain.logic.WalletCategoryLogic
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
+import com.ivy.wallet.domain.pure.charts.SingleChartPoint
+import com.ivy.wallet.domain.pure.charts.incomeExpenseChart
+import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
@@ -19,14 +24,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class ChartsViewModel @Inject constructor(
     private val walletDAOs: WalletDAOs,
     private val settingsDao: SettingsDao,
     private val categoryDao: CategoryDao,
-    private val walletCategoryLogic: WalletCategoryLogic
+    private val walletCategoryLogic: WalletCategoryLogic,
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val balanceChartAct: BalanceChartAct
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ChartPeriod.LAST_12_MONTHS)
@@ -68,7 +74,7 @@ class ChartsViewModel @Inject constructor(
 
     fun start() {
         viewModelScope.launch {
-            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
+//            _baseCurrencyCode.value = ioThread { baseCurrencyCode(settingsDao) }
 
             walletCharts(period = period.value)
         }
@@ -79,13 +85,15 @@ class ChartsViewModel @Inject constructor(
         _incomeExpenseChart.value = generateIncomeExpenseChart(period)
     }
 
-    private suspend fun generateBalanceChart(period: ChartPeriod) = ioThread {
-        balanceChart(
-            walletDAOs = walletDAOs,
-            baseCurrencyCode = baseCurrencyCode.value,
-            period = period
-        )
-    }
+    private suspend fun generateBalanceChart(period: ChartPeriod) =
+        (baseCurrencyAct then { baseCurrency ->
+            balanceChartAct(
+                BalanceChartAct.Input(
+                    baseCurrency = baseCurrency,
+                    period = period
+                )
+            )
+        })(Unit)
 
     private suspend fun generateIncomeExpenseChart(period: ChartPeriod) = ioThread {
         incomeExpenseChart(
@@ -128,16 +136,16 @@ class ChartsViewModel @Inject constructor(
         period: ChartPeriod,
         category: Category
     ) {
-        _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
-            period = period,
-            category = category,
-            calculateValue = { range ->
-                walletCategoryLogic.calculateCategoryExpenses(
-                    category = category,
-                    range = range
-                ).absoluteValue
-            }
-        )
+//        _categoryExpenseValues.value = categoryExpenseValues.loadCategoryValue(
+//            period = period,
+//            category = category,
+//            calculateValue = { range ->
+//                walletCategoryLogic.calculateCategoryExpenses(
+//                    category = category,
+//                    range = range
+//                ).absoluteValue
+//            }
+//        )
     }
 
     private suspend fun loadCategoryExpenseCount(

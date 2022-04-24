@@ -1,8 +1,8 @@
 package com.ivy.wallet.io.network.request.transaction
 
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.io.network.data.TransactionDTO
 
 
 data class TransactionsResponse(
-    val transactions: List<Transaction>
+    val transactions: List<TransactionDTO>
 )

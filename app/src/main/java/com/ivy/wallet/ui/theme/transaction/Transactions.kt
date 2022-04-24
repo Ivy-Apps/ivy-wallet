@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -20,10 +19,9 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.stringRes
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
@@ -52,7 +50,7 @@ fun LazyListScope.transactions(
     history: List<TransactionHistoryItem>,
     lastItemSpacer: Dp? = null,
     onPayOrGet: (Transaction) -> Unit,
-    emptyStateTitle: String = stringRes(R.string.no_transactions),
+    emptyStateTitle: String = "No transactions",
     emptyStateText: String,
     dateDividerMarginTop: Dp? = null
 ) {
@@ -61,7 +59,7 @@ fun LazyListScope.transactions(
             SectionDivider(
                 expanded = upcomingExpanded,
                 setExpanded = setUpcomingExpanded,
-                title = stringResource(R.string.upcoming),
+                title = "Upcoming",
                 titleColor = Orange,
                 baseCurrency = baseCurrency,
                 income = upcomingIncome,
@@ -93,7 +91,7 @@ fun LazyListScope.transactions(
             SectionDivider(
                 expanded = overdueExpanded,
                 setExpanded = setOverdueExpanded,
-                title = stringResource(R.string.overdue),
+                title = "Overdue",
                 titleColor = Red,
                 baseCurrency = baseCurrency,
                 income = overdueIncome,

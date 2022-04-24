@@ -25,10 +25,10 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Budget
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity

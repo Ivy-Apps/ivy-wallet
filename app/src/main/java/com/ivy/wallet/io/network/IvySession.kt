@@ -30,7 +30,7 @@ class IvySession(
 
     fun initiate(authResponse: AuthResponse) {
         val user = authResponse.user
-        userDao.save(user)
+        userDao.save(user.toEntity())
 
         sharedPrefs.putString(SharedPrefs.SESSION_USER_ID, user.id.toString())
         sharedPrefs.putString(SharedPrefs.SESSION_AUTH_TOKEN, authResponse.sessionToken)

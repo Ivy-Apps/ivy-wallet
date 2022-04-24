@@ -1,19 +1,52 @@
 package com.ivy.wallet.domain.action.wallet
 
-import com.ivy.wallet.domain.action.Action
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
+import arrow.core.toOption
+import com.ivy.fp.action.*
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
+import com.ivy.wallet.domain.action.exchange.ExchangeAct
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
+import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcWalletBalanceAct @Inject constructor(
-    private val walletDAOs: WalletDAOs,
-) : Action<String, BigDecimal>() {
-    override suspend fun String.willDo(): BigDecimal = io {
-        val baseCurrency = this
-        calculateWalletBalance(
-            walletDAOs = walletDAOs,
-            baseCurrencyCode = baseCurrency
-        ).value
-    }
+    private val accountsAct: AccountsAct,
+    private val calcAccBalanceAct: CalcAccBalanceAct,
+    private val exchangeAct: ExchangeAct,
+) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {
+
+    override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
+
+    private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
+        accountsAct thenFilter {
+            withExcluded || it.includeInBalance
+        } thenMap {
+            calcAccBalanceAct(
+                CalcAccBalanceAct.Input(
+                    account = it,
+                    range = range
+                )
+            )
+        } thenMap {
+            exchangeAct(
+                ExchangeAct.Input(
+                    data = ExchangeData(
+                        baseCurrency = baseCurrency,
+                        fromCurrency = it.account.currency.toOption(),
+                        toCurrency = balanceCurrency
+                    ),
+                    amount = it.balance
+                )
+            )
+        } thenSum {
+            it.orNull() ?: BigDecimal.ZERO
+        }
+
+    data class Input(
+        val baseCurrency: String,
+        val balanceCurrency: String = baseCurrency,
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val withExcluded: Boolean = false
+    )
 }

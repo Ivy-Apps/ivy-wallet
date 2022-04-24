@@ -3,9 +3,9 @@ package com.ivy.wallet.ui.test
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.data.entity.User
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.domain.sync.item.CategorySync
+import com.ivy.wallet.domain.data.core.User
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.utils.TestIdlingResource
@@ -32,7 +32,7 @@ class TestViewModel @Inject constructor(
 
             _user.value = ioThread {
                 val userId = ivySession.getUserIdSafe()
-                if (userId != null) userDao.findById(userId) else null
+                if (userId != null) userDao.findById(userId)?.toDomain() else null
             }
 
             TestIdlingResource.decrement()

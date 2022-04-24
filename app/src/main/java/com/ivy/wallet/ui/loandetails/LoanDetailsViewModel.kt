@@ -3,18 +3,20 @@ package com.ivy.wallet.ui.loandetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.domain.data.entity.LoanRecord
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.loan.LoanByIdAct
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.LoanCreator
+import com.ivy.wallet.domain.deprecated.logic.LoanRecordCreator
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
+import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.logic.AccountCreator
-import com.ivy.wallet.domain.logic.LoanCreator
-import com.ivy.wallet.domain.logic.LoanRecordCreator
-import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateLoanRecordData
-import com.ivy.wallet.domain.logic.model.EditLoanRecordData
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LoanDetails
@@ -42,7 +44,9 @@ class LoanDetailsViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
-    private val nav: Navigation
+    private val nav: Navigation,
+    private val accountsAct: AccountsAct,
+    private val loanByIdAct: LoanByIdAct
 ) : ViewModel() {
 
     private val _baseCurrency = MutableStateFlow("")
@@ -87,13 +91,9 @@ class LoanDetailsViewModel @Inject constructor(
                 _baseCurrency.value = it
             }
 
-            _accounts.value = ioThread {
-                accountDao.findAll()
-            }
+            _accounts.value = accountsAct(Unit)
 
-            _loan.value = ioThread {
-                loanDao.findById(id = loanId)
-            }
+            _loan.value = loanByIdAct(loanId)
 
             loan.value?.let { loan ->
                 _selectedLoanAccount.value = accounts.value.find {
@@ -120,7 +120,7 @@ class LoanDetailsViewModel @Inject constructor(
                         )
 
                         DisplayLoanRecord(
-                            it,
+                            it.toDomain(),
                             account = account,
                             loanRecordTransaction = trans != null,
                             loanRecordCurrencyCode = account?.currency ?: defaultCurrencyCode,
@@ -148,7 +148,7 @@ class LoanDetailsViewModel @Inject constructor(
             }
 
             associatedTransaction = ioThread {
-                transactionDao.findLoanTransaction(loanId = loan.value!!.id)
+                transactionDao.findLoanTransaction(loanId = loan.value!!.id)?.toDomain()
             }
 
             associatedTransaction?.let {
@@ -296,7 +296,7 @@ class LoanDetailsViewModel @Inject constructor(
 
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
-                _accounts.value = ioThread { accountDao.findAll() }
+                _accounts.value = accountsAct(Unit)
             }
 
             TestIdlingResource.decrement()
