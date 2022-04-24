@@ -12,7 +12,8 @@ import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
 import com.ivy.wallet.domain.action.viewmodel.home.HasTrnsAct
 import com.ivy.wallet.domain.action.viewmodel.home.OverdueAct
 import com.ivy.wallet.domain.action.viewmodel.home.UpcomingAct
-import com.ivy.wallet.domain.action.wallet.CalcBalanceIncomeExpenseAct
+import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
@@ -46,7 +47,8 @@ class HomeViewModel @Inject constructor(
     private val customerJourneyLogic: CustomerJourneyLogic,
     private val sharedPrefs: SharedPrefs,
     private val historyWithDateDivsAct: HistoryWithDateDivsAct,
-    private val calcBalanceIncomeExpenseAct: CalcBalanceIncomeExpenseAct,
+    private val calcIncomeExpenseAct: CalcIncomeExpenseAct,
+    private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val settingsAct: SettingsAct,
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
@@ -111,18 +113,22 @@ class HomeViewModel @Inject constructor(
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
                 .toCloseTimeRange()
 
-            val monthlyStats = calcBalanceIncomeExpenseAct(
-                CalcBalanceIncomeExpenseAct.Input(
+            val monthlyIncomeExpense = calcIncomeExpenseAct(
+                CalcIncomeExpenseAct.Input(
                     baseCurrency = baseCurrency,
                     accounts = accounts,
                     range = timeRange
                 )
             )
 
+            val balance = calcWalletBalanceAct(
+                CalcWalletBalanceAct.Input(baseCurrency = baseCurrency)
+            )
+
             updateState {
                 it.copy(
-                    balance = monthlyStats.balance,
-                    monthly = monthlyStats.incomeExpense
+                    balance = balance,
+                    monthly = monthlyIncomeExpense
                 )
             }
 
@@ -174,7 +180,7 @@ class HomeViewModel @Inject constructor(
                     buffer = settings.bufferAmount,
                     bufferDiff = calcBufferDiffAct(
                         CalcBufferDiffAct.Input(
-                            balance = monthlyStats.balance,
+                            balance = balance,
                             buffer = settings.bufferAmount
                         )
                     )

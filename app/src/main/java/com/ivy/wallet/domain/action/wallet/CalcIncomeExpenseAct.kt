@@ -15,15 +15,14 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import com.ivy.wallet.domain.pure.util.orZero
-import java.math.BigDecimal
 import javax.inject.Inject
 
-class CalcBalanceIncomeExpenseAct @Inject constructor(
+class CalcIncomeExpenseAct @Inject constructor(
     private val accTrnsAct: AccTrnsAct,
     private val exchangeAct: ExchangeAct
-) : FPAction<CalcBalanceIncomeExpenseAct.Input, CalcBalanceIncomeExpenseAct.Output>() {
+) : FPAction<CalcIncomeExpenseAct.Input, IncomeExpensePair>() {
 
-    override suspend fun Input.compose(): suspend () -> Output = suspend {
+    override suspend fun Input.compose(): suspend () -> IncomeExpensePair = suspend {
         filterExcluded(accounts)
     } thenMap { acc ->
         Pair(
@@ -41,7 +40,6 @@ class CalcBalanceIncomeExpenseAct @Inject constructor(
             foldTransactions(
                 transactions = trns,
                 valueFunctions = nonEmptyListOf(
-                    AccountValueFunctions::balance,
                     AccountValueFunctions::income,
                     AccountValueFunctions::expense
                 ),
@@ -61,12 +59,9 @@ class CalcBalanceIncomeExpenseAct @Inject constructor(
             ).orZero()
         }
     } then { statsList ->
-        Output(
-            balance = statsList[0].sumOf { it },
-            incomeExpense = IncomeExpensePair(
-                income = statsList[1].sumOf { it },
-                expense = statsList[2].sumOf { it }
-            )
+        IncomeExpensePair(
+            income = statsList[0].sumOf { it },
+            expense = statsList[1].sumOf { it }
         )
     }
 
@@ -74,10 +69,5 @@ class CalcBalanceIncomeExpenseAct @Inject constructor(
         val baseCurrency: String,
         val accounts: List<Account>,
         val range: ClosedTimeRange,
-    )
-
-    data class Output(
-        val balance: BigDecimal,
-        val incomeExpense: IncomeExpensePair,
     )
 }
