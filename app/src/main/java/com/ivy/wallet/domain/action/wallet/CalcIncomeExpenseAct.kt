@@ -15,6 +15,7 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import com.ivy.wallet.domain.pure.util.orZero
+import timber.log.Timber
 import javax.inject.Inject
 
 class CalcIncomeExpenseAct @Inject constructor(
@@ -35,6 +36,7 @@ class CalcIncomeExpenseAct @Inject constructor(
             )
         )
     } thenMap { (acc, trns) ->
+        Timber.i("acc: $acc, trns = ${trns.size}")
         Pair(
             acc,
             foldTransactions(
@@ -47,6 +49,7 @@ class CalcIncomeExpenseAct @Inject constructor(
             )
         )
     } thenMap { (acc, stats) ->
+        Timber.i("acc_stats: $acc - $stats")
         stats.map {
             exchangeAct(
                 ExchangeAct.Input(
@@ -60,8 +63,8 @@ class CalcIncomeExpenseAct @Inject constructor(
         }
     } then { statsList ->
         IncomeExpensePair(
-            income = statsList[0].sumOf { it },
-            expense = statsList[1].sumOf { it }
+            income = statsList.sumOf { it[0] },
+            expense = statsList.sumOf { it[1] }
         )
     }
 
