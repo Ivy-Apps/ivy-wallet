@@ -99,9 +99,9 @@ fun LocalDateTime.formatNicelyWithTime(
         }
         else -> {
             if (isThisYear) {
-                this.formatLocal("EEE, dd MMM 'at' HH:mm", zone)
+                this.formatLocal("EEE, dd MMM HH:mm", zone)
             } else {
-                this.formatLocal("dd MMM, yyyy 'at' HH:mm", zone)
+                this.formatLocal("dd MMM, yyyy HH:mm", zone)
             }
         }
     }
