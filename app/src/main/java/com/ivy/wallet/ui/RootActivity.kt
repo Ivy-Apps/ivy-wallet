@@ -47,11 +47,10 @@ import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.logic.CustomerJourneyLogic
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
-import com.ivy.wallet.ui.bankintegrations.ConnectBankScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
@@ -204,7 +203,6 @@ class RootActivity : AppCompatActivity() {
             is Charts -> ChartsScreen(screen = screen)
             is AnalyticsReport -> AnalyticsReport(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
-            is ConnectBank -> ConnectBankScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)
             is Loans -> LoansScreen(screen = screen)

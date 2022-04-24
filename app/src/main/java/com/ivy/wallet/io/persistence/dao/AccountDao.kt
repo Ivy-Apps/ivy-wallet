@@ -4,28 +4,25 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.io.persistence.data.AccountEntity
 import java.util.*
 
 @Dao
 interface AccountDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: Account)
+    fun save(value: AccountEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<Account>)
+    fun save(value: List<AccountEntity>)
 
     @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
-    fun findAll(): List<Account>
+    fun findAll(): List<AccountEntity>
 
     @Query("SELECT * FROM accounts WHERE isSynced = :synced AND isDeleted = :deleted")
-    fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<Account>
+    fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<AccountEntity>
 
     @Query("SELECT * FROM accounts WHERE id = :id")
-    fun findById(id: UUID): Account?
-
-    @Query("SELECT * FROM accounts WHERE seAccountId = :seAccountId")
-    fun findBySeAccountId(seAccountId: String): Account?
+    fun findById(id: UUID): AccountEntity?
 
     @Query("UPDATE accounts SET isDeleted = 1, isSynced = 0 WHERE id = :id")
     fun flagDeleted(id: UUID)

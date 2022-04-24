@@ -271,21 +271,21 @@ fun AmountKeyboard(
         horizontalArrangement = Arrangement.Center
     ) {
         CircleNumberButton(
-            value = "1",
+            value = "7",
             onNumberPressed = onNumberPressed
         )
 
         Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
-            value = "2",
+            value = "8",
             onNumberPressed = onNumberPressed
         )
 
         Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
-            value = "3",
+            value = "9",
             onNumberPressed = onNumberPressed
         )
 
@@ -337,21 +337,21 @@ fun AmountKeyboard(
         horizontalArrangement = Arrangement.Center
     ) {
         CircleNumberButton(
-            value = "7",
+            value = "1",
             onNumberPressed = onNumberPressed
         )
 
         Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
-            value = "8",
+            value = "2",
             onNumberPressed = onNumberPressed
         )
 
         Spacer(Modifier.width(16.dp))
 
         CircleNumberButton(
-            value = "9",
+            value = "3",
             onNumberPressed = onNumberPressed
         )
 

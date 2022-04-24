@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
-import com.ivy.wallet.domain.data.entity.User
-import com.ivy.wallet.domain.logic.LogoutLogic
-import com.ivy.wallet.domain.logic.csv.ExportCSVLogic
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.zip.ExportZipLogic
-import com.ivy.wallet.domain.sync.IvySync
+import com.ivy.wallet.domain.data.core.User
+import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
+import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
+import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
@@ -88,12 +88,13 @@ class SettingsViewModel @Inject constructor(
 
             _user.value = ioThread {
                 val userId = ivySession.getUserIdSafe()
-                if (userId != null) userDao.findById(userId) else null
+                if (userId != null) userDao.findById(userId)?.toDomain() else null
             }
             _currencyCode.value = settings.currency
 
             _lockApp.value = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
-            _hideCurrentBalance.value = sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+            _hideCurrentBalance.value =
+                sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
 
             _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 

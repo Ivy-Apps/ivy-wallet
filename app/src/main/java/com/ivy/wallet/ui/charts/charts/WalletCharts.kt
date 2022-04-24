@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
-import com.ivy.wallet.domain.fp.charts.SingleChartPoint
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy

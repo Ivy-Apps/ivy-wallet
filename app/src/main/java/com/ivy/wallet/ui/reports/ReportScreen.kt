@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,9 +25,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.stringRes
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report
@@ -116,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier.padding(
                     start = 32.dp
                 ),
-                text = stringResource(R.string.reports),
+                text = "Reports",
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -209,9 +207,9 @@ private fun BoxWithConstraintsScope.UI(
                 onPayOrGet = {
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
-                emptyStateTitle = stringRes(R.string.no_transactions),
+                emptyStateTitle = "No transactions",
 
-                emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
+                emptyStateText = "You don't have any transactions for your filter."
             )
         } else {
             item {
@@ -265,7 +263,7 @@ private fun NoFilterEmptyState(
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = stringResource(R.string.no_filter),
+            text = "No Filter",
             style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
@@ -276,7 +274,7 @@ private fun NoFilterEmptyState(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = stringResource(R.string.invalid_filter_warning),
+            text = "To generate a report you must first set a valid filter.",
             style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
@@ -288,7 +286,7 @@ private fun NoFilterEmptyState(
 
         IvyButton(
             iconStart = R.drawable.ic_filter_xs,
-            text = stringResource(R.string.set_filter)
+            text = "Set Filter"
         ) {
             setFilterOverlayVisible(true)
         }
@@ -313,7 +311,7 @@ private fun Toolbar(
 
         //Export CSV
         IvyOutlinedButton(
-            text = stringResource(R.string.export),
+            text = "Export",
             iconTint = Green,
             textColor = Green,
             solidBackground = true,

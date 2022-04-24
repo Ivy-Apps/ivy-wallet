@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.api.navigation
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.accounts.AccountsTab
 import com.ivy.wallet.ui.home.HomeTab

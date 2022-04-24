@@ -11,8 +11,8 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.logic.PaywallLogic
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
