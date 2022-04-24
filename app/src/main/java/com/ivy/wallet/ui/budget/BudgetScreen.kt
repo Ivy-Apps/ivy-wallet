@@ -132,7 +132,7 @@ private fun BoxWithConstraintsScope.UI(
 
             NoBudgetsEmptyState(
                 emptyStateTitle = stringResource(R.string.no_budgets),
-                emptyStateText = stringResource(R.string.no_budgets)
+                emptyStateText = stringResource(R.string.no_budgets_text)
             )
 
             Spacer(Modifier.weight(1f))
