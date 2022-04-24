@@ -1,7 +1,9 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.wallet.R
 import com.ivy.wallet.io.network.data.BudgetDTO
 import com.ivy.wallet.io.persistence.data.BudgetEntity
+import com.ivy.wallet.stringRes
 import java.util.*
 
 data class Budget(
@@ -44,9 +46,9 @@ data class Budget(
 
         fun type(categoriesCount: Int): String {
             return when (categoriesCount) {
-                0 -> "Total Budget"
-                1 -> "Category Budget"
-                else -> "Multi-Category ($categoriesCount) Budget"
+                0 -> stringRes(R.string.total_budget)
+                1 -> stringRes(R.string.category_budget)
+                else -> stringRes(R.string.multi_category_budget, categoriesCount.toString())
             }
         }
     }
