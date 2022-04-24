@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,7 +64,7 @@ fun ColumnScope.IvyColorPicker(
 ) {
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
-        text = "Choose color",
+        text = stringResource(R.string.choose_color),
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold

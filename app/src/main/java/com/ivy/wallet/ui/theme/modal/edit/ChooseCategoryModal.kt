@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,7 +75,7 @@ fun BoxWithConstraintsScope.ChooseCategoryModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = "Choose category"
+            text = stringResource(R.string.choose_category)
         )
 
         Spacer(Modifier.height(24.dp))
@@ -240,7 +241,7 @@ fun AddNewButton(
 ) {
     IvyBorderButton(
         modifier = modifier,
-        text = "Add new",
+        text = stringResource(R.string.add_new),
         backgroundGradient = Gradient.solid(UI.colors.mediumInverse),
         iconStart = R.drawable.ic_plus,
         textStyle = UI.typo.b2.style(

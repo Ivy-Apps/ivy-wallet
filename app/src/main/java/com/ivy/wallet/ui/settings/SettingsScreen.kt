@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -179,7 +180,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Text(
                 modifier = Modifier.padding(start = 32.dp),
-                text = "Settings",
+                text = stringResource(R.string.settings),
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.Black
                 )
@@ -210,7 +211,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "Import & Export")
+            SettingsSectionDivider(text = stringResource(R.string.import_export))
 
             Spacer(Modifier.height(16.dp))
 
@@ -223,7 +224,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsDefaultButton(
                 icon = R.drawable.ic_export_csv,
-                text = "Backup Data",
+                text = stringResource(R.string.backup_data),
             ) {
                 onBackupData()
             }
@@ -232,7 +233,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsPrimaryButton(
                 icon = R.drawable.ic_export_csv,
-                text = "Import Data",
+                text = stringResource(R.string.import_data),
                 backgroundGradient = GradientGreen
             ) {
                 nav.navigateTo(
@@ -244,14 +245,14 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "App Settings")
+            SettingsSectionDivider(text = stringResource(R.string.app_settings))
 
             Spacer(Modifier.height(16.dp))
 
             AppSwitch(
                 lockApp = lockApp,
                 onSetLockApp = onSetLockApp,
-                text = "Lock app",
+                text = stringResource(R.string.lock_app),
                 icon = R.drawable.ic_custom_fingerprint_m
             )
 
@@ -260,7 +261,7 @@ private fun BoxWithConstraintsScope.UI(
             AppSwitch(
                 lockApp = showNotifications,
                 onSetLockApp = onSetShowNotifications,
-                text = "Show notifications",
+                text = stringResource(R.string.show_notifications),
                 icon = R.drawable.ic_notification_m
             )
 
@@ -269,8 +270,8 @@ private fun BoxWithConstraintsScope.UI(
             AppSwitch(
                 lockApp = hideCurrentBalance,
                 onSetLockApp = onSetHideCurrentBalance,
-                text = "Hide balance",
-                description = "Click on the hidden balance to show the balance for 5s",
+                text = stringResource(R.string.hide_balance),
+                description = stringResource(R.string.hide_balance_description),
                 icon = R.drawable.ic_hide_m
             )
 
@@ -284,14 +285,14 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "Other")
+            SettingsSectionDivider(text = stringResource(R.string.other))
 
             Spacer(Modifier.height(16.dp))
 
             val ivyActivity = LocalContext.current as RootActivity
             SettingsPrimaryButton(
                 icon = R.drawable.ic_custom_star_m,
-                text = "Rate us on Google Play",
+                text = stringResource(R.string.rate_us_on_google_play),
                 backgroundGradient = GradientIvy
             ) {
                 ivyActivity.reviewIvyWallet(dismissReviewCard = false)
@@ -301,7 +302,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsPrimaryButton(
                 icon = R.drawable.ic_custom_family_m,
-                text = "Share Ivy Wallet",
+                text = stringResource(R.string.share_ivy_wallet),
                 backgroundGradient = Gradient.solid(Red3)
             ) {
                 ivyActivity.shareIvyWallet()
@@ -309,7 +310,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "Product")
+            SettingsSectionDivider(text = stringResource(R.string.product))
 
             Spacer(Modifier.height(12.dp))
 
@@ -344,7 +345,7 @@ private fun BoxWithConstraintsScope.UI(
 
         item {
             SettingsSectionDivider(
-                text = "Danger zone",
+                text = stringResource(R.string.danger_zone),
                 color = Red
             )
 
@@ -352,7 +353,7 @@ private fun BoxWithConstraintsScope.UI(
 
             SettingsPrimaryButton(
                 icon = R.drawable.ic_delete,
-                text = "Delete all user data",
+                text = stringResource(R.string.delete_all_user_data),
                 backgroundGradient = Gradient.solid(Red)
             ) {
                 deleteAllDataModalVisible = true
@@ -365,7 +366,7 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     CurrencyModal(
-        title = "Set currency",
+        title = stringResource(R.string.set_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
@@ -398,8 +399,10 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     DeleteModal(
-        title = "Delete all user data?",
-        description = "WARNING! This action will delete all data for ${user?.email ?: "your account"} PERMANENTLY and you won't be able to recover it.",
+        title = stringResource(R.string.delete_all_user_data_question),
+        description = stringResource(R.string.delete_all_user_data_warning, user?.email ?: stringResource(
+                    R.string.your_account)
+                ),
         visible = deleteAllDataModalVisible,
         dismiss = { deleteAllDataModalVisible = false },
         onDelete = {
@@ -409,8 +412,10 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     DeleteModal(
-        title = "Confirm permanent deletion for '${user?.email ?: "all of your data"}'",
-        description = "FINAL WARNING! After clicking \"Delete\" your data will be gone forever.",
+        title = stringResource(R.string.confirm_all_userd_data_deletion, user?.email ?: stringResource(
+                    R.string.all_of_your_data)
+                ),
+        description = stringResource(R.string.final_deletion_warning),
         visible = deleteAllDataModalFinalVisible,
         dismiss = { deleteAllDataModalFinalVisible = false },
         onDelete = {
@@ -419,8 +424,8 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ProgressModal(
-        title = "Exporting Data",
-        description = "Please wait, exporting data",
+        title = stringResource(R.string.exporting_data),
+        description = stringResource(R.string.exporting_data_description),
         visible = progressState
     )
 }
@@ -447,7 +452,7 @@ private fun StartDateOfMonth(
 
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
-            text = "Start date of month",
+            text = stringResource(R.string.start_date_of_month),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold
@@ -474,7 +479,7 @@ private fun IvyTelegram() {
     val rootActivity = rootActivity()
     SettingsPrimaryButton(
         icon = R.drawable.ic_telegram_24dp,
-        text = "Ivy Telegram",
+        text = stringResource(R.string.ivy_telegram),
         backgroundGradient = Gradient.solid(Blue),
     ) {
         rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
@@ -486,7 +491,7 @@ private fun HelpCenter() {
     val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
-        text = "Help Center",
+        text = stringResource(R.string.help_center),
     ) {
         nav.navigateTo(
             IvyWebView(url = Constants.URL_HELP_CENTER)
@@ -499,7 +504,7 @@ private fun Roadmap() {
     val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
-        text = "Roadmap",
+        text = stringResource(R.string.roadmap),
     ) {
         nav.navigateTo(
             IvyWebView(url = Constants.URL_ROADMAP)
@@ -513,7 +518,7 @@ private fun RequestFeature(
 ) {
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_programming_m,
-        text = "Request a feature",
+        text = stringResource(R.string.request_a_feature),
     ) {
         onClick()
     }
@@ -524,7 +529,7 @@ private fun ContactSupport() {
     val ivyActivity = LocalContext.current as RootActivity
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
-        text = "Contact support",
+        text = stringResource(R.string.contact_support),
     ) {
         ivyActivity.contactSupport()
     }
@@ -535,7 +540,7 @@ private fun ProjectContributors() {
     val nav = navigation()
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_people_m,
-        text = "Project Contributors",
+        text = stringResource(R.string.project_contributors),
     ) {
         nav.navigateTo(
             IvyWebView(url = URL_IVY_CONTRIBUTORS)
@@ -631,7 +636,7 @@ private fun AccountCard(
             Spacer(Modifier.width(24.dp))
 
             Text(
-                text = "ACCOUNT",
+                text = stringResource(R.string.account_uppercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
                     color = UI.colors.gray
@@ -643,14 +648,14 @@ private fun AccountCard(
             if (user != null) {
                 AccountCardButton(
                     icon = R.drawable.ic_logout,
-                    text = "Logout"
+                    text = stringResource(R.string.logout)
                 ) {
                     onLogout()
                 }
             } else {
                 AccountCardButton(
                     icon = R.drawable.ic_login,
-                    text = "Login"
+                    text = stringResource(R.string.login)
                 ) {
                     onLogin()
                 }
@@ -755,7 +760,7 @@ private fun AccountCardUser(
                 Spacer(Modifier.width(12.dp))
 
                 Text(
-                    text = "Syncing...",
+                    text = stringResource(R.string.syncing),
                     style = UI.typo.b2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
@@ -781,7 +786,7 @@ private fun AccountCardUser(
                     Spacer(Modifier.width(12.dp))
 
                     Text(
-                        text = "Data synced to cloud",
+                        text = stringResource(R.string.data_synced_to_cloud),
                         style = UI.typo.b2.style(
                             fontWeight = FontWeight.ExtraBold,
                             color = Green
@@ -795,7 +800,7 @@ private fun AccountCardUser(
                 IvyButton(
                     modifier = Modifier.padding(horizontal = 24.dp),
                     iconStart = R.drawable.ic_sync,
-                    text = "Tap to sync",
+                    text = stringResource(R.string.tap_to_sync),
                     backgroundGradient = GradientRed
                 ) {
                     onSync()
@@ -806,7 +811,7 @@ private fun AccountCardUser(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 iconStart = R.drawable.ic_sync,
-                text = "Sync failed. Tap to sync",
+                text = stringResource(R.string.sync_failed),
                 backgroundGradient = GradientRed
             ) {
                 onSync()
@@ -834,7 +839,7 @@ private fun AccountCardLocalAccount(
 
         Text(
             modifier = Modifier.testTag("local_account_name"),
-            text = if (name != null && name.isNotBlank()) name else "Anonymous",
+            text = if (name != null && name.isNotBlank()) name else stringResource(R.string.anonymous),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold
             )
@@ -867,7 +872,7 @@ private fun ExportCSV(
 ) {
     SettingsDefaultButton(
         icon = R.drawable.ic_export_csv,
-        text = "Export to CSV",
+        text = stringResource(R.string.export_to_csv),
     ) {
         onExportToCSV()
     }
@@ -893,7 +898,7 @@ private fun TCAndPrivacyPolicy() {
                     uriHandler.openUri(Constants.URL_TC)
                 }
                 .padding(vertical = 14.dp),
-            text = "Terms & Conditions",
+            text = stringResource(R.string.terms_conditions),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = UI.colors.pureInverse,
@@ -912,7 +917,7 @@ private fun TCAndPrivacyPolicy() {
                     uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
                 }
                 .padding(vertical = 14.dp),
-            text = "Privacy Policy",
+            text = stringResource(R.string.privacy_policy),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = UI.colors.pureInverse,
@@ -1046,7 +1051,7 @@ private fun CurrencyButton(
 
         Text(
             modifier = Modifier.padding(vertical = 20.dp),
-            text = "Set currency",
+            text = stringResource(R.string.set_currency),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.Bold

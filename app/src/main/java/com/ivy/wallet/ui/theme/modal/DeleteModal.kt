@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -22,7 +23,7 @@ fun BoxWithConstraintsScope.DeleteModal(
     title: String,
     description: String,
     visible: Boolean,
-    buttonText: String = "Delete",
+    buttonText: String = stringResource(R.string.delete),
     iconStart: Int = R.drawable.ic_delete,
     dismiss: () -> Unit,
     onDelete: () -> Unit,

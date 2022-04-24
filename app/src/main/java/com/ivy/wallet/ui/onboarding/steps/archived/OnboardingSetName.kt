@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -76,7 +77,7 @@ fun OnboardingSetName(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Enter your name\nto personalize your\nwallet",
+            text = stringResource(R.string.enter_your_name),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.ExtraBold
             )
@@ -99,7 +100,7 @@ fun OnboardingSetName(
                 .fillMaxWidth()
                 .focusRequester(nameFocus),
             value = nameTextField,
-            hint = "What's your name?",
+            hint = stringResource(R.string.what_is_your_name),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 autoCorrect = false,
@@ -123,7 +124,7 @@ fun OnboardingSetName(
             Modifier
                 .padding(horizontal = 24.dp)
                 .fillMaxWidth(),
-            text = "Enter",
+            text = stringResource(R.string.enter),
             textColor = White,
             backgroundGradient = GradientIvy,
             hasNext = true,

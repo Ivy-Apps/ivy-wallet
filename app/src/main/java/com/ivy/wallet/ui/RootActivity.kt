@@ -45,6 +45,7 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
@@ -390,10 +391,10 @@ class RootActivity : AppCompatActivity() {
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(
-                "Authentication required"
+                getString(R.string.authentication_required)
             )
             .setSubtitle(
-                "Prove that you have access to this device to unlock the app."
+                getString(R.string.authentication_required_description)
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
