@@ -1,19 +1,45 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
+import arrow.core.toOption
 import com.ivy.fp.Pure
 import com.ivy.fp.SideEffect
+import com.ivy.fp.then
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
+import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
 import java.util.*
+
+@Deprecated("Migrate to actions")
+suspend fun List<Transaction>.withDateDividers(
+    exchangeRatesLogic: ExchangeRatesLogic,
+    settingsDao: SettingsDao,
+    accountDao: AccountDao
+): List<TransactionHistoryItem> {
+    return transactionsWithDateDividers(
+        transactions = this,
+        baseCurrencyCode = settingsDao.findFirst().currency,
+        getAccount = accountDao::findById then { it?.toDomain() },
+        exchange = { data, amount ->
+            exchangeRatesLogic.convertAmount(
+                baseCurrency = data.baseCurrency,
+                fromCurrency = data.fromCurrency.orNull() ?: "",
+                toCurrency = data.toCurrency,
+                amount = amount.toDouble()
+            ).toBigDecimal().toOption()
+        }
+    )
+}
 
 @Pure
 suspend fun transactionsWithDateDividers(

@@ -5,7 +5,6 @@ import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.domain.pure.wallet.calculateWalletIncomeExpense
 import com.ivy.wallet.utils.beginningOfIvyTime
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
@@ -76,12 +75,13 @@ suspend fun incomeExpenseChart(
     return generateIncomeExpenseChart(
         orderedPeriod = orderedPeriod,
         calculateWalletIncomeExpense = { range ->
-            calculateWalletIncomeExpense(
-                walletDAOs = walletDAOs,
-                baseCurrencyCode = baseCurrencyCode,
-                range = range,
-                filterExcluded = true
-            ).value
+            TODO()
+//            calculateWalletIncomeExpense(
+//                walletDAOs = walletDAOs,
+//                baseCurrencyCode = baseCurrencyCode,
+//                range = range,
+//                filterExcluded = true
+//            ).value
         }
     )
 }

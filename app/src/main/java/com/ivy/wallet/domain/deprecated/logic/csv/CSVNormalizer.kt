@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.wallet.domain.logic.csv.model.ImportType
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 
 class CSVNormalizer {
 

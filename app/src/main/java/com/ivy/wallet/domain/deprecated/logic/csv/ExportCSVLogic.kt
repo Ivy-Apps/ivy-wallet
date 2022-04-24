@@ -31,7 +31,7 @@ class ExportCSVLogic(
     suspend fun exportToFile(
         context: Context,
         fileUri: Uri,
-        exportScope: () -> List<Transaction> = {
+        exportScope: suspend () -> List<Transaction> = {
             transactionDao.findAll().map { it.toDomain() }
         }
     ) {
@@ -49,7 +49,7 @@ class ExportCSVLogic(
     }
 
     private suspend fun generateCSV(
-        exportScope: () -> List<Transaction>
+        exportScope: suspend () -> List<Transaction>
     ): String {
         return ioThread {
             val accountMap = accountDao

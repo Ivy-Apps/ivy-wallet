@@ -5,13 +5,13 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.LogoutLogic
-import com.ivy.wallet.domain.logic.PreloadDataLogic
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.domain.sync.IvySync
+import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
+import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
@@ -246,7 +246,7 @@ class OnboardingRouter(
     }
 
     private suspend fun routeToCategories() {
-        _categories.value = ioThread { categoryDao.findAll() }!!
+        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() } }!!
         _categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         _state.value = OnboardingState.CATEGORIES

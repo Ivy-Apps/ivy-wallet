@@ -6,7 +6,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.model.CreateLoanData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.scopedIOThread
 import kotlinx.coroutines.async
@@ -60,7 +60,7 @@ class LTLoanMapper(
         newLoanAccountId: UUID?,
         loanId: UUID
     ) {
-        val accounts = ltCore.fetchAccounts()
+        val accounts = ltCore.fetchAccounts().map { it.toDomain() }
         computationThread {
 
             if (oldLoanAccountId == newLoanAccountId || oldLoanAccountId.fetchAssociatedCurrencyCode(
@@ -100,13 +100,13 @@ class LTLoanMapper(
             }
 
             val modifiedLoan = loan.copy(
-                amount = transaction.amount,
+                amount = transaction.amount.toDouble(),
                 name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title,
                 type = if (transaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )
 
-            ltCore.saveLoan(modifiedLoan)
+            ltCore.saveLoan(modifiedLoan.toDomain())
         }
         onBackgroundProcessingEnd()
     }
@@ -117,21 +117,23 @@ class LTLoanMapper(
     ): List<LoanRecord> {
         return scopedIOThread { scope ->
             val loanRecords =
-                ltCore.fetchAllLoanRecords(loanId = loanId).map { loanRecord ->
-                    scope.async {
-                        val convertedAmount: Double? =
-                            ltCore.computeConvertedAmount(
-                                oldLoanRecordAccountId = loanRecord.accountId,
-                                oldLonRecordConvertedAmount = loanRecord.convertedAmount,
-                                oldLoanRecordAmount = loanRecord.amount,
-                                newLoanRecordAccountID = loanRecord.accountId,
-                                newLoanRecordAmount = loanRecord.amount,
-                                loanAccountId = newAccountId,
-                                accounts = ltCore.fetchAccounts(),
-                            )
-                        loanRecord.copy(convertedAmount = convertedAmount)
-                    }
-                }.awaitAll()
+                ltCore.fetchAllLoanRecords(loanId = loanId)
+                    .map { it.toDomain() }
+                    .map { loanRecord ->
+                        scope.async {
+                            val convertedAmount: Double? =
+                                ltCore.computeConvertedAmount(
+                                    oldLoanRecordAccountId = loanRecord.accountId,
+                                    oldLonRecordConvertedAmount = loanRecord.convertedAmount,
+                                    oldLoanRecordAmount = loanRecord.amount,
+                                    newLoanRecordAccountID = loanRecord.accountId,
+                                    newLoanRecordAmount = loanRecord.amount,
+                                    loanAccountId = newAccountId,
+                                    accounts = ltCore.fetchAccounts().map { it.toDomain() },
+                                )
+                            loanRecord.copy(convertedAmount = convertedAmount)
+                        }
+                    }.awaitAll()
             loanRecords
         }
     }

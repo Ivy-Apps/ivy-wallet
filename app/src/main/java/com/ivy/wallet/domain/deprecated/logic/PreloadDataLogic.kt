@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
@@ -41,8 +41,8 @@ class PreloadDataLogic(
             isSynced = false
         )
 
-        accountsDao.save(cash)
-        accountsDao.save(bank)
+        accountsDao.save(cash.toEntity())
+        accountsDao.save(bank.toEntity())
     }
 
     fun accountSuggestions(baseCurrency: String): List<CreateAccountData> = listOf(
@@ -152,7 +152,7 @@ class PreloadDataLogic(
             isSynced = false
         )
 
-        categoryDao.save(category)
+        categoryDao.save(category.toEntity())
     }
 
     fun categorySuggestions(): List<CreateCategoryData> = preloadCategoriesCreateData()

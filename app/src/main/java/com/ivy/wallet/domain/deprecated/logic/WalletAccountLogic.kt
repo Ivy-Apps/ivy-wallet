@@ -1,7 +1,5 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
@@ -9,7 +7,6 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.filterOverdue
 import com.ivy.wallet.ui.onboarding.model.filterUpcoming
@@ -31,7 +28,7 @@ class WalletAccountLogic(
         actualBalance: Double = calculateAccountBalance(account),
         newBalance: Double,
 
-        adjustTransactionTitle: String = stringRes(R.string.adjust_balance),
+        adjustTransactionTitle: String = "Adjust balance",
 
         isFiat: Boolean? = null,
         trnIsSyncedFlag: Boolean = false, //TODO: Remove this once Bank Integration trn sync is properly implemented
@@ -69,31 +66,6 @@ class WalletAccountLogic(
                 )
             }
         }
-    }
-
-    fun historyForAccount(account: Account, range: FromToTimeRange): List<TransactionHistoryItem> {
-        val startDate = range.from()
-        val endDate = range.to()
-
-        return transactionDao
-            .findAllByAccountAndBetween(
-                accountId = account.id,
-                startDate = startDate,
-                endDate = endDate
-            )
-            .plus(
-                transactionDao.findAllToAccountAndBetween(
-                    toAccountId = account.id,
-                    startDate = startDate,
-                    endDate = endDate
-                )
-            )
-            .sortedByDescending { it.dateTime }
-            .withDateDividers(
-                exchangeRatesLogic = exchangeRatesLogic,
-                accountDao = accountDao,
-                settingsDao = settingsDao
-            )
     }
 
     fun calculateAccountBalance(

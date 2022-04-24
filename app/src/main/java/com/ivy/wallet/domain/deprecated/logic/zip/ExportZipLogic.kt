@@ -6,7 +6,7 @@ import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.ivy.wallet.domain.data.IvyWalletCompleteData
-import com.ivy.wallet.domain.logic.csv.model.ImportResult
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.utils.ioThread
@@ -56,14 +56,15 @@ class ExportZipLogic(
 
     private suspend fun generateJsonString(): String {
         return scopedIOThread {
-            val accounts = it.async { accountDao.findAll() }
-            val budgets = it.async { budgetDao.findAll() }
-            val categories = it.async { categoryDao.findAll() }
-            val loanRecords = it.async { loanRecordDao.findAll() }
-            val loans = it.async { loanDao.findAll() }
-            val plannedPaymentRules = it.async { plannedPaymentRuleDao.findAll() }
-            val settings = it.async { settingsDao.findAll() }
-            val transactions = it.async { transactionDao.findAll() }
+            val accounts = it.async { accountDao.findAll().map { it.toDomain() } }
+            val budgets = it.async { budgetDao.findAll().map { it.toDomain() } }
+            val categories = it.async { categoryDao.findAll().map { it.toDomain() } }
+            val loanRecords = it.async { loanRecordDao.findAll().map { it.toDomain() } }
+            val loans = it.async { loanDao.findAll().map { it.toDomain() } }
+            val plannedPaymentRules =
+                it.async { plannedPaymentRuleDao.findAll().map { it.toDomain() } }
+            val settings = it.async { settingsDao.findAll().map { it.toDomain() } }
+            val transactions = it.async { transactionDao.findAll().map { it.toDomain() } }
             val sharedPrefs = it.async { getSharedPrefsData() }
 
             val gson = GsonBuilder().registerTypeAdapter(
@@ -216,20 +217,22 @@ class ExportZipLogic(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         scopedIOThread {
-            transactionDao.save(completeData.transactions)
+            transactionDao.save(completeData.transactions.map { it.toEntity() })
             onProgress(0.6)
 
-            val accounts = it.async { accountDao.save(completeData.accounts) }
-            val budgets = it.async { budgetDao.save(completeData.budgets) }
-            val categories = it.async { categoryDao.save(completeData.categories) }
+            val accounts = it.async { accountDao.save(completeData.accounts.map { it.toEntity() }) }
+            val budgets = it.async { budgetDao.save(completeData.budgets.map { it.toEntity() }) }
+            val categories =
+                it.async { categoryDao.save(completeData.categories.map { it.toEntity() }) }
             accounts.await()
             budgets.await()
             categories.await()
 
             onProgress(0.7)
 
-            val loans = it.async { loanDao.save(completeData.loans) }
-            val loanRecords = it.async { loanRecordDao.save(completeData.loanRecords) }
+            val loans = it.async { loanDao.save(completeData.loans.map { it.toEntity() }) }
+            val loanRecords =
+                it.async { loanRecordDao.save(completeData.loanRecords.map { it.toEntity() }) }
 
             loans.await()
             loanRecords.await()
@@ -237,10 +240,10 @@ class ExportZipLogic(
             onProgress(0.8)
 
             val plannedPayments =
-                it.async { plannedPaymentRuleDao.save(completeData.plannedPaymentRules) }
+                it.async { plannedPaymentRuleDao.save(completeData.plannedPaymentRules.map { it.toEntity() }) }
             val settings = it.async {
                 settingsDao.deleteAll()
-                settingsDao.save(completeData.settings)
+                settingsDao.save(completeData.settings.map { it.toEntity() })
             }
 
             sharedPrefs.putBoolean(
@@ -274,8 +277,8 @@ class ExportZipLogic(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
         return scopedIOThread { scope ->
-            val existingAccountsList = accountDao.findAll()
-            val existingCategoryList = categoryDao.findAll()
+            val existingAccountsList = accountDao.findAll().map { it.toDomain() }
+            val existingCategoryList = categoryDao.findAll().map { it.toDomain() }
 
             val backupAccountsList = completeData.accounts
             val backupCategoryList = completeData.categories

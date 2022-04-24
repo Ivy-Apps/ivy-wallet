@@ -5,8 +5,8 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.*
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.sync.uploader.TransactionUploader
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -48,8 +48,9 @@ class LoanTransactionsCore(
 
         ioThread {
             val transactions: List<Transaction?> =
-                if (loanId != null) transactionDao.findAllByLoanId(loanId = loanId) else
-                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!))
+                if (loanId != null) transactionDao.findAllByLoanId(loanId = loanId)
+                    .map { it.toDomain() } else
+                    listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
 
             transactions.forEach { trans ->
                 deleteTransaction(trans)
@@ -144,7 +145,7 @@ class LoanTransactionsCore(
         val modifiedTransaction: Transaction = transaction?.copy(
             loanId = loanId,
             loanRecordId = if (isLoanRecord) loanRecordId else null,
-            amount = amount,
+            amount = amount.toBigDecimal(),
             type = transType,
             accountId = selectedAccountId,
             title = title,
@@ -154,7 +155,7 @@ class LoanTransactionsCore(
             ?: Transaction(
                 accountId = selectedAccountId,
                 type = transType,
-                amount = amount,
+                amount = amount.toBigDecimal(),
                 dateTime = time,
                 categoryId = transCategoryId,
                 title = title,
@@ -163,7 +164,7 @@ class LoanTransactionsCore(
             )
 
         ioThread {
-            transactionDao.save(modifiedTransaction)
+            transactionDao.save(modifiedTransaction.toEntity())
         }
     }
 
@@ -184,7 +185,7 @@ class LoanTransactionsCore(
             return existingCategoryId
 
         val categoryList = ioThread {
-            categoryDao.findAll()
+            categoryDao.findAll().map { it.toDomain() }
         }
 
         var addCategoryToDb = false
@@ -203,7 +204,7 @@ class LoanTransactionsCore(
         if (addCategoryToDb)
             ioThread {
                 loanCategory?.let {
-                    categoryDao.save(it)
+                    categoryDao.save(it.toEntity())
                 }
             }
 
@@ -270,15 +271,15 @@ class LoanTransactionsCore(
     }
 
     suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {
-        loanRecordDao.save(loanRecords)
+        loanRecordDao.save(loanRecords.map { it.toEntity() })
     }
 
     suspend fun saveLoanRecords(loanRecord: LoanRecord) = ioThread {
-        loanRecordDao.save(loanRecord)
+        loanRecordDao.save(loanRecord.toEntity())
     }
 
     suspend fun saveLoan(loan: Loan) = ioThread {
-        loanDao.save(loan)
+        loanDao.save(loan.toEntity())
     }
 
     suspend fun fetchLoanRecord(loanRecordId: UUID) = ioThread {
@@ -296,7 +297,7 @@ class LoanTransactionsCore(
     suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): Transaction? {
         return loanRecordId?.let {
             ioThread {
-                transactionDao.findLoanRecordTransaction(it)
+                transactionDao.findLoanRecordTransaction(it)?.toDomain()
             }
         }
     }

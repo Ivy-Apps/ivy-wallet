@@ -5,10 +5,10 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.currency.sumByDoublePlannedInBaseCurrency
-import com.ivy.wallet.domain.sync.uploader.PlannedPaymentRuleUploader
-import com.ivy.wallet.domain.sync.uploader.TransactionUploader
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
+import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
+import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -40,9 +40,9 @@ class PlannedPaymentsLogic(
             endDate = range.to()
         ).sumOf {
             val amount = exchangeRatesLogic.amountBaseCurrency(
-                transaction = it,
+                transaction = it.toDomain(),
                 baseCurrency = baseCurrency,
-                accounts = accounts
+                accounts = accounts.map { it.toDomain() }
             )
 
             when (it.type) {
@@ -54,7 +54,7 @@ class PlannedPaymentsLogic(
     }
 
     fun oneTime(): List<PlannedPaymentRule> {
-        return plannedPaymentRuleDao.findAllByOneTime(oneTime = true)
+        return plannedPaymentRuleDao.findAllByOneTime(oneTime = true).map { it.toDomain() }
     }
 
     fun oneTimeIncome(): Double {
@@ -78,7 +78,7 @@ class PlannedPaymentsLogic(
     }
 
     fun recurring(): List<PlannedPaymentRule> =
-        plannedPaymentRuleDao.findAllByOneTime(oneTime = false)
+        plannedPaymentRuleDao.findAllByOneTime(oneTime = false).map { it.toDomain() }
 
     fun recurringIncome(): Double {
         return recurring()
@@ -100,7 +100,7 @@ class PlannedPaymentsLogic(
             amountForMonthInBaseCurrency(
                 plannedPayment = it,
                 baseCurrency = baseCurrency,
-                accounts = accounts
+                accounts = accounts.map { it.toDomain() }
             )
         }
     }
@@ -166,7 +166,7 @@ class PlannedPaymentsLogic(
         }
 
         ioThread {
-            transactionDao.save(paidTransaction)
+            transactionDao.save(paidTransaction.toEntity())
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                 //delete paid oneTime planned payment rules

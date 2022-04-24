@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.csvimport.flow
 
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,12 +22,10 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.domain.logic.csv.model.ImportType
+import com.ivy.wallet.R
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
-import com.ivy.wallet.R
-
-
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.IvyIcon
 

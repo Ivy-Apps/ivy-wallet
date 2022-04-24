@@ -140,13 +140,13 @@ fun LazyItemScope.TransactionCard(
             transactionType = transaction.type,
             dueDate = transaction.dueDate,
             currency = transactionCurrency,
-            amount = transaction.amount
+            amount = transaction.amount.toDouble()
         )
 
         if (transaction.type == TransactionType.TRANSFER && transaction.toAmount != null && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
-                text =  "${transaction.toAmount.format(2)} $toAccountCurrency",
+                text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
                 style = UI.typo.nB2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
@@ -427,7 +427,7 @@ private fun PreviewUpcomingExpense() {
                         accountId = cash.id,
                         title = "Lidl pazar",
                         categoryId = food.id,
-                        amount = 250.75,
+                        amount = 250.75.toBigDecimal(),
                         dueDate = timeNowUTC().plusDays(5),
                         dateTime = null,
                         type = TransactionType.EXPENSE,
@@ -458,7 +458,7 @@ private fun PreviewOverdueExpense() {
                         accountId = cash.id,
                         title = "Rent",
                         categoryId = food.id,
-                        amount = 500.0,
+                        amount = 500.0.toBigDecimal(),
                         dueDate = timeNowUTC().minusDays(5),
                         dateTime = null,
                         type = TransactionType.EXPENSE
@@ -493,7 +493,7 @@ private fun PreviewNormalExpense() {
                         accountId = cash.id,
                         title = "Близкия магазин",
                         categoryId = food.id,
-                        amount = 32.51,
+                        amount = 32.51.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.EXPENSE
                     ),
@@ -522,7 +522,7 @@ private fun PreviewIncome() {
                         accountId = cash.id,
                         title = "Qredo Salary May",
                         categoryId = category.id,
-                        amount = 8049.70,
+                        amount = 8049.70.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.INCOME
                     ),
@@ -552,7 +552,7 @@ private fun PreviewTransfer() {
                         accountId = acc1.id,
                         toAccountId = acc2.id,
                         title = "Top-up revolut",
-                        amount = 1000.0,
+                        amount = 1000.0.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.TRANSFER
                     ),

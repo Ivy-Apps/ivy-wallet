@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.model.CreateLoanRecordData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.utils.computationThread
 import java.util.*
 
@@ -75,19 +75,19 @@ class LTLoanRecordMapper(
                 oldLonRecordConvertedAmount = loanRecord.convertedAmount,
                 oldLoanRecordAmount = loanRecord.amount,
                 newLoanRecordAccountID = transaction.accountId,
-                newLoanRecordAmount = transaction.amount,
+                newLoanRecordAmount = transaction.amount.toDouble(),
                 loanAccountId = loan.accountId,
-                accounts = ltCore.fetchAccounts()
+                accounts = ltCore.fetchAccounts().map { it.toDomain() }
             )
 
             val modifiedLoanRecord = loanRecord.copy(
-                amount = transaction.amount,
+                amount = transaction.amount.toDouble(),
                 note = transaction.title,
                 dateTime = transaction.dateTime ?: loanRecord.dateTime,
                 accountId = transaction.accountId,
                 convertedAmount = convertedAmount
             )
-            ltCore.saveLoanRecords(modifiedLoanRecord)
+            ltCore.saveLoanRecords(modifiedLoanRecord.toDomain())
         }
         onBackgroundProcessingEnd()
     }
@@ -105,7 +105,7 @@ class LTLoanRecordMapper(
             newLoanRecordAccountID = newLoanRecord.accountId,
             newLoanRecordAmount = newLoanRecord.amount,
             loanAccountId = loanAccountId,
-            accounts = ltCore.fetchAccounts(),
+            accounts = ltCore.fetchAccounts().map { it.toDomain() },
             reCalculateLoanAmount = reCalculateLoanAmount
         )
     }
@@ -121,7 +121,7 @@ class LTLoanRecordMapper(
             newLoanRecordAccountID = data.account?.id,
             newLoanRecordAmount = data.amount,
             loanAccountId = loanAccountId,
-            accounts = ltCore.fetchAccounts(),
+            accounts = ltCore.fetchAccounts().map { it.toDomain() },
         )
     }
 }

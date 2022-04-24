@@ -4,12 +4,15 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.currency.sumInBaseCurrency
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
+import com.ivy.wallet.domain.pure.transaction.withDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.ui.onboarding.model.filterOverdue
+import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import java.util.*
 
 @Deprecated("Migrate to FP Style")
@@ -27,7 +30,7 @@ class WalletCategoryLogic(
         transactions: List<Transaction> = emptyList()
     ): Double {
         val baseCurrency = settingsDao.findFirst().currency
-        val accounts = accountDao.findAll()
+        val accounts = accountDao.findAll().map { it.toDomain() }
 
         return historyByCategory(
             category,
@@ -61,7 +64,7 @@ class WalletCategoryLogic(
                 type = TransactionType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
-            )
+            ).map { it.toDomain() }
             .filter {
                 accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
             }
@@ -101,7 +104,7 @@ class WalletCategoryLogic(
             )
             .filter {
                 accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
-            }
+            }.map { it.toDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -135,7 +138,7 @@ class WalletCategoryLogic(
                 type = TransactionType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
-            )
+            ).map { it.toDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -149,7 +152,7 @@ class WalletCategoryLogic(
                 type = TransactionType.EXPENSE,
                 startDate = range.from(),
                 endDate = range.to()
-            )
+            ).map { it.toDomain() }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -157,19 +160,8 @@ class WalletCategoryLogic(
             )
     }
 
-    fun historyByCategoryWithDateDividers(
-        category: Category,
-        range: FromToTimeRange
-    ): List<TransactionHistoryItem> {
-        return historyByCategory(category, range)
-            .withDateDividers(
-                exchangeRatesLogic = exchangeRatesLogic,
-                settingsDao = settingsDao,
-                accountDao = accountDao
-            )
-    }
 
-    fun historyByCategoryAccountWithDateDividers(
+    suspend fun historyByCategoryAccountWithDateDividers(
         category: Category,
         range: FromToTimeRange,
         accountFilterSet: Set<UUID>,
@@ -199,7 +191,7 @@ class WalletCategoryLogic(
                     categoryId = category.id,
                     startDate = range.from(),
                     endDate = range.to()
-                )
+                ).map { it.toDomain() }
         }
 
         return trans.filter {
@@ -207,12 +199,12 @@ class WalletCategoryLogic(
         }
     }
 
-    fun historyUnspecified(range: FromToTimeRange): List<TransactionHistoryItem> {
+    suspend fun historyUnspecified(range: FromToTimeRange): List<TransactionHistoryItem> {
         return transactionDao
             .findAllUnspecifiedAndBetween(
                 startDate = range.from(),
                 endDate = range.to()
-            )
+            ).map { it.toDomain() }
             .withDateDividers(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -266,14 +258,18 @@ class WalletCategoryLogic(
             categoryId = category.id,
             startDate = range.upcomingFrom(),
             endDate = range.to()
-        ).filterUpcoming()
+        )
+            .map { it.toDomain() }
+            .filterUpcoming()
     }
 
     fun upcomingUnspecified(range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategoryUnspecified(
             startDate = range.upcomingFrom(),
             endDate = range.to()
-        ).filterUpcoming()
+        )
+            .map { it.toDomain() }
+            .filterUpcoming()
     }
 
     fun calculateOverdueIncomeByCategory(category: Category, range: FromToTimeRange): Double {
@@ -322,14 +318,18 @@ class WalletCategoryLogic(
             categoryId = category.id,
             startDate = range.from(),
             endDate = range.overdueTo()
-        ).filterOverdue()
+        )
+            .map { it.toDomain() }
+            .filterOverdue()
     }
 
     fun overdueUnspecified(range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByCategoryUnspecified(
             startDate = range.from(),
             endDate = range.overdueTo()
-        ).filterOverdue()
+        )
+            .map { it.toDomain() }
+            .filterOverdue()
     }
 
 }

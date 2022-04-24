@@ -76,7 +76,7 @@ class PlannedPaymentsGenerator(
                 accountId = rule.accountId,
                 recurringRuleId = rule.id,
                 categoryId = rule.categoryId,
-                amount = rule.amount,
+                amount = rule.amount.toBigDecimal(),
                 title = rule.title,
                 description = rule.description,
                 dueDate = dueDate,
@@ -84,7 +84,7 @@ class PlannedPaymentsGenerator(
                 toAccountId = null,
 
                 isSynced = false
-            )
+            ).toEntity()
         )
     }
 

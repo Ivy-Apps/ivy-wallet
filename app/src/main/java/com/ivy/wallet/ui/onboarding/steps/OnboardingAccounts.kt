@@ -23,7 +23,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.ivyWalletCtx

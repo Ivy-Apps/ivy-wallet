@@ -6,9 +6,9 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.csv.model.CSVRow
-import com.ivy.wallet.domain.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.logic.csv.model.RowMapping
+import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
+import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -78,10 +78,10 @@ class CSVImporter(
         newCategoryColorIndex = 0
         newAccountColorIndex = 0
 
-        accounts = accountDao.findAll()
+        accounts = accountDao.findAll().map { it.toDomain() }
         val initialAccountsCount = accounts.size
 
-        categories = categoryDao.findAll()
+        categories = categoryDao.findAll().map { it.toDomain() }
         val initialCategoriesCount = categories.size
 
         val baseCurrency = settingsDao.findFirst().currency
@@ -120,7 +120,7 @@ class CSVImporter(
             val progressPercent = if (rowsCount > 0)
                 index / transactions.size.toDouble() else 0.0
             onProgress(0.5 + progressPercent / 2)
-            transactionDao.save(transaction)
+            transactionDao.save(transaction.toEntity())
         }
 
         return ImportResult(
@@ -212,10 +212,10 @@ class CSVImporter(
             Transaction(
                 id = id,
                 type = type,
-                amount = amount,
+                amount = amount.toBigDecimal(),
                 accountId = account.id,
                 toAccountId = toAccount?.id,
-                toAmount = toAmount,
+                toAmount = toAmount?.toBigDecimal() ?: amount.toBigDecimal(),
                 dateTime = dateTime,
                 dueDate = dueDate,
                 categoryId = category?.id,
@@ -444,8 +444,8 @@ class CSVImporter(
             icon = icon,
             orderNum = orderNum ?: accountDao.findMaxOrderNum() + 1
         )
-        accountDao.save(newAccount)
-        accounts = accountDao.findAll()
+        accountDao.save(newAccount.toEntity())
+        accounts = accountDao.findAll().map { it.toDomain() }
 
         return newAccount
     }
@@ -493,8 +493,8 @@ class CSVImporter(
             icon = icon,
             orderNum = orderNum ?: categoryDao.findMaxOrderNum() + 1
         )
-        categoryDao.save(newCategory)
-        categories = categoryDao.findAll()
+        categoryDao.save(newCategory.toEntity())
+        categories = categoryDao.findAll().map { it.toDomain() }
 
         return newCategory
     }

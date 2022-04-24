@@ -37,7 +37,7 @@ class ExchangeRatesLogic(
                         baseCurrency = baseCurrency,
                         currency = currency,
                         rate = rate
-                    )
+                    ).toEntity()
                 )
             }
         } catch (e: Exception) {
@@ -65,7 +65,7 @@ class ExchangeRatesLogic(
         accounts: List<Account> //helper
     ): Double {
         return amountBaseCurrency(
-            amount = transaction.amount,
+            amount = transaction.amount.toDouble(),
             accountId = transaction.accountId,
             baseCurrency = baseCurrency,
             accounts = accounts
@@ -79,10 +79,10 @@ class ExchangeRatesLogic(
     ): Double {
         val amount = transaction.toAmount ?: transaction.amount
         val toCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
-            ?: return amount // no conversion
+            ?: return amount.toDouble() // no conversion
 
         return amountBaseCurrency(
-            amount = amount,
+            amount = amount.toDouble(),
             amountCurrency = toCurrency,
             baseCurrency = baseCurrency
         )
@@ -162,7 +162,7 @@ fun Iterable<Transaction>.sumInBaseCurrency(
         exchangeRatesLogic.amountBaseCurrency(
             transaction = it,
             baseCurrency = baseCurrency,
-            accounts = accounts
+            accounts = accounts.map { it.toDomain() }
         )
     }
 }
@@ -180,7 +180,7 @@ fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
         exchangeRatesLogic.amountBaseCurrency(
             plannedPayment = it,
             baseCurrency = baseCurrency,
-            accounts = accounts
+            accounts = accounts.map { it.toDomain() }
         )
     }
 }
