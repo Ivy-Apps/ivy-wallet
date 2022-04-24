@@ -125,7 +125,7 @@
     <string name="add_income">Add income</string>
     <string name="add_expense">Add expense</string>
     <string name="unspecified">Unspecified</string>
-    <string name="percent">%1$s%</string>
+    <string name="percent">%1$s\%%</string>
     <string name="account_transfers">Account Transfers</string>
     <string name="no_transactions_for_period">You don\'t have any transactions for %1$s.\nYou can add one by scrolling down and tapping "Add income" or "Add expense" button at the top.</string>
     <string name="account_confirm_deletion_description">Note: Deleting this account will remove it permanently and delete all associated transactions with it.</string>
@@ -398,4 +398,21 @@
     <string name="adjust_balance">Adjust balance</string>
     <string name="authentication_required">Authentication required</string>
     <string name="authentication_required_description">Prove that you have access to this device to unlock the app.</string>
+    <string name="total_budget">Total Budget</string>
+    <string name="category_budget">Category Budget</string>
+    <string name="multi_category_budget">Multi-Category (%1$s) Budget</string>
+    <string name="borrowed_uppercase">BORROWED</string>
+    <string name="lent_uppercase">LENT</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
 </resources>

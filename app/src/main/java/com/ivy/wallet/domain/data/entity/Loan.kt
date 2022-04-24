@@ -2,7 +2,9 @@ package com.ivy.wallet.domain.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
+import com.ivy.wallet.stringRes
 import java.util.*
 
 @Entity(tableName = "loans")
@@ -22,6 +24,7 @@ data class Loan(
     val id: UUID = UUID.randomUUID()
 ) {
     fun humanReadableType(): String {
-        return if (type == LoanType.BORROW) "BORROWED" else "LENT"
+        return if (type == LoanType.BORROW) stringRes(R.string.borrowed_uppercase) else stringRes(
+                    R.string.lent_uppercase)
     }
 }
