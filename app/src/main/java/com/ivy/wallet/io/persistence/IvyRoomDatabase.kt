@@ -1,10 +1,8 @@
 package com.ivy.wallet.io.persistence
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
@@ -17,7 +15,14 @@ import com.ivy.wallet.io.persistence.migration.*
         UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
         LoanEntity::class, LoanRecordEntity::class
     ],
-    version = 121,
+    autoMigrations = [
+        AutoMigration(
+            from = 121,
+            to = 122,
+            spec = IvyRoomDatabase.DeleteSEMigration::class
+        )
+    ],
+    version = 122,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -84,4 +89,10 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         loanDao().deleteAll()
         loanRecordDao().deleteAll()
     }
+
+    @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
+    @DeleteColumn(tableName = "transactions", columnName = "seTransactionId")
+    @DeleteColumn(tableName = "transactions", columnName = "seAutoCategoryId")
+    @DeleteColumn(tableName = "categories", columnName = "seCategoryName")
+    class DeleteSEMigration : AutoMigrationSpec
 }
