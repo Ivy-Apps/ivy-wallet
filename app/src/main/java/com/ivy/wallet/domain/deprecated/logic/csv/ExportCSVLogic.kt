@@ -32,7 +32,7 @@ class ExportCSVLogic(
         context: Context,
         fileUri: Uri,
         exportScope: () -> List<Transaction> = {
-            transactionDao.findAll()
+            transactionDao.findAll().map { it.toDomain() }
         }
     ) {
         val csv = generateCSV(
@@ -66,8 +66,8 @@ class ExportCSVLogic(
                 .joinToString("\n") {
                     it.toCSV(
                         baseCurrency = baseCurrency,
-                        accountMap = accountMap,
-                        categoryMap = categoryMap
+                        accountMap = accountMap.mapValues { it.value.toDomain() },
+                        categoryMap = categoryMap.mapValues { it.value.toDomain() }
                     )
                 }
 
@@ -116,7 +116,7 @@ class ExportCSVLogic(
                 TransactionType.INCOME -> it
                 TransactionType.EXPENSE -> -it
                 TransactionType.TRANSFER -> 0.0
-            }.formatAmountCSV(currency)
+            }.toDouble().formatAmountCSV(currency)
             append(amountFormatted)
         }
 
@@ -132,7 +132,7 @@ class ExportCSVLogic(
 
         //Transfer Amount
         csv.appendValue(if (type == TransactionType.TRANSFER) amount else null) {
-            append(it.formatAmountCSV(currency))
+            append(it.toDouble().formatAmountCSV(currency))
         }
 
         //Transfer Currency
@@ -148,7 +148,7 @@ class ExportCSVLogic(
         val receiveCurrency = toAccountId?.let { accountMap[it]?.currency ?: baseCurrency }
         //Receive Amount
         csv.appendValue(toAmount) {
-            append(it.formatAmountCSV(receiveCurrency ?: baseCurrency))
+            append(it.toDouble().formatAmountCSV(receiveCurrency ?: baseCurrency))
         }
 
         //Receive Currency

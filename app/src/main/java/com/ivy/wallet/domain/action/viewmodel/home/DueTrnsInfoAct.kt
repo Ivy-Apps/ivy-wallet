@@ -12,7 +12,7 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
-import com.ivy.wallet.domain.pure.exchange.exchangeInCurrency
+import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.expenses
 import com.ivy.wallet.domain.pure.transaction.incomes
 import com.ivy.wallet.domain.pure.transaction.sumTrns
@@ -46,12 +46,12 @@ class DueTrnsInfoAct @Inject constructor(
                 dueIncomeExpense = IncomeExpensePair(
                     income = sumTrns(
                         incomes(upcomingTrns),
-                        ::exchangeInCurrency,
+                        ::exchangeInBaseCurrency,
                         exchangeArg
                     ),
                     expense = sumTrns(
                         expenses(upcomingTrns),
-                        ::exchangeInCurrency,
+                        ::exchangeInBaseCurrency,
                         exchangeArg
                     )
                 ),

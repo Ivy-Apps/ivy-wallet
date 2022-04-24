@@ -9,3 +9,11 @@ suspend fun <A> List<A>.sumOfSuspend(
     }
     return sum
 }
+
+suspend fun <A> Collection<A>.filterSuspend(
+    predicate: suspend (A) -> Boolean
+): Collection<A> {
+    return this.filter { a ->
+        predicate(a)
+    }
+}

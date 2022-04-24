@@ -1,4 +1,4 @@
-package com.ivy.wallet.domain.action.viewmodel.home
+package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.nonEmptyListOf
 import arrow.core.toOption

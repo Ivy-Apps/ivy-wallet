@@ -9,7 +9,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
-import com.ivy.wallet.domain.pure.exchange.exchangeInCurrency
+import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import com.ivy.wallet.utils.convertUTCtoLocal
 import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
@@ -47,12 +47,12 @@ suspend fun transactionsWithDateDividers(
                     date = date!!,
                     income = sumTrns(
                         incomes(transactionsForDate),
-                        ::exchangeInCurrency,
+                        ::exchangeInBaseCurrency,
                         arg
                     ).toDouble(),
                     expenses = sumTrns(
                         expenses(transactionsForDate),
-                        ::exchangeInCurrency,
+                        ::exchangeInBaseCurrency,
                         arg
                     ).toDouble()
                 ),
