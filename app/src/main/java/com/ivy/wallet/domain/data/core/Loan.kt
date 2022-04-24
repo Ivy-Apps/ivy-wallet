@@ -1,10 +1,8 @@
 package com.ivy.wallet.domain.data.core
 
-import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.io.network.data.LoanDTO
 import com.ivy.wallet.io.persistence.data.LoanEntity
-import com.ivy.wallet.stringRes
 import java.util.*
 
 data class Loan(
@@ -46,7 +44,6 @@ data class Loan(
     )
 
     fun humanReadableType(): String {
-        return if (type == LoanType.BORROW) stringRes(R.string.borrowed_uppercase) else stringRes(
-            R.string.lent_uppercase)
+        return if (type == LoanType.BORROW) "BORROWED" else "LENT"
     }
 }
