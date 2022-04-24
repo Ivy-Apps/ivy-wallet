@@ -67,6 +67,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration117to118_Budgets(),
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
+                    Migration120to121_DropWishlistItem()
                 )
                 .build()
         }
