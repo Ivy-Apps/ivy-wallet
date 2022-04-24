@@ -4,19 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
+import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.logic.AccountCreator
-import com.ivy.wallet.domain.logic.CategoryCreator
-import com.ivy.wallet.domain.logic.PlannedPaymentsGenerator
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.sync.item.TransactionSync
-import com.ivy.wallet.domain.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -42,7 +44,9 @@ class EditPlannedViewModel @Inject constructor(
     private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader,
     private val plannedPaymentsGenerator: PlannedPaymentsGenerator,
     private val categoryCreator: CategoryCreator,
-    private val accountCreator: AccountCreator
+    private val accountCreator: AccountCreator,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
@@ -95,19 +99,19 @@ class EditPlannedViewModel @Inject constructor(
 
             editMode = screen.plannedPaymentRuleId != null
 
-            val accounts = ioThread { accountDao.findAll() }!!
+            val accounts = accountsAct(Unit)
             if (accounts.isEmpty()) {
                 nav.back()
                 return@launch
             }
             _accounts.value = accounts
 
-            _categories.value = ioThread { categoryDao.findAll() }!!
+            _categories.value = categoriesAct(Unit)!!
 
             reset()
 
             loadedRule = screen.plannedPaymentRuleId?.let {
-                ioThread { plannedPaymentRuleDao.findById(it)!! }
+                ioThread { plannedPaymentRuleDao.findById(it)!!.toDomain() }
             } ?: PlannedPaymentRule(
                 startDate = null,
                 intervalN = null,
@@ -137,10 +141,10 @@ class EditPlannedViewModel @Inject constructor(
         _intervalType.value = rule.intervalType
         _initialTitle.value = rule.title
         _description.value = rule.description
-        val selectedAccount = ioThread { accountDao.findById(rule.accountId)!! }
+        val selectedAccount = ioThread { accountDao.findById(rule.accountId)!!.toDomain() }
         _account.value = selectedAccount
         _category.value = rule.categoryId?.let {
-            ioThread { categoryDao.findById(rule.categoryId) }
+            ioThread { categoryDao.findById(rule.categoryId)?.toDomain() }
         }
         _amount.value = rule.amount
 
@@ -262,7 +266,7 @@ class EditPlannedViewModel @Inject constructor(
                         isSynced = false
                     )
 
-                    plannedPaymentRuleDao.save(loadedRule())
+                    plannedPaymentRuleDao.save(loadedRule().toEntity())
                     plannedPaymentsGenerator.generate(loadedRule())
                 }
 
@@ -327,7 +331,7 @@ class EditPlannedViewModel @Inject constructor(
     fun createCategory(data: CreateCategoryData) {
         viewModelScope.launch {
             categoryCreator.createCategory(data) {
-                _categories.value = ioThread { categoryDao.findAll() }!!
+                _categories.value = categoriesAct(Unit)!!
 
                 onCategoryChanged(it)
             }
@@ -338,7 +342,7 @@ class EditPlannedViewModel @Inject constructor(
         viewModelScope.launch {
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
-                _accounts.value = ioThread { accountDao.findAll() }!!
+                _accounts.value = accountsAct(Unit)!!
             }
         }
     }

@@ -28,6 +28,7 @@ class SmartTitleSuggestionsLogic(
         if (title != null && title.isNotEmpty()) {
             //suggest by title
             val suggestionsByTitle = transactionDao.findAllByTitleMatchingPattern("${title}%")
+                .map { it.toDomain() }
                 .extractUniqueTitles()
                 .sortedByMostUsedFirst {
                     transactionDao.countByTitleMatchingPattern("${it}%")
@@ -45,6 +46,7 @@ class SmartTitleSuggestionsLogic(
                 .findAllByCategory(
                     categoryId = categoryId
                 )
+                .map { it.toDomain() }
                 //exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {
@@ -67,6 +69,7 @@ class SmartTitleSuggestionsLogic(
                 .findAllByAccount(
                     accountId = accountId
                 )
+                .map { it.toDomain() }
                 //exclude already suggested suggestions so they're ordered by priority at the end
                 .extractUniqueTitles(excludeSuggestions = suggestions)
                 .sortedByMostUsedFirst {

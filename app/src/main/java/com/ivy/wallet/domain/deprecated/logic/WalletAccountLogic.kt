@@ -5,12 +5,14 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.ui.onboarding.model.filterOverdue
+import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
 import kotlin.math.abs
@@ -44,11 +46,12 @@ class WalletAccountLogic(
                     Transaction(
                         type = TransactionType.INCOME,
                         title = adjustTransactionTitle,
-                        amount = diff.absoluteValue,
+                        amount = diff.absoluteValue.toBigDecimal(),
+                        toAmount = diff.absoluteValue.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         accountId = account.id,
                         isSynced = trnIsSyncedFlag
-                    )
+                    ).toEntity()
                 )
             }
             finalDiff > 0 -> {
@@ -57,11 +60,12 @@ class WalletAccountLogic(
                     Transaction(
                         type = TransactionType.EXPENSE,
                         title = adjustTransactionTitle,
-                        amount = diff.absoluteValue,
+                        amount = diff.absoluteValue.toBigDecimal(),
+                        toAmount = diff.absoluteValue.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         accountId = account.id,
                         isSynced = trnIsSyncedFlag
-                    )
+                    ).toEntity()
                 )
             }
         }
@@ -110,17 +114,19 @@ class WalletAccountLogic(
         before: LocalDateTime?
     ): Double {
         return transactionDao.findAllByTypeAndAccount(TransactionType.INCOME, account.id)
+            .map { it.toDomain() }
             .filterHappenedTransactions(
                 before = before
             )
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
             .plus(
                 //transfers in
                 transactionDao.findAllTransfersToAccount(account.id)
+                    .map { it.toDomain() }
                     .filterHappenedTransactions(
                         before = before
                     )
-                    .sumOf { it.toAmount ?: it.amount }
+                    .sumOf { it.toAmount.toDouble() }
             )
     }
 
@@ -129,20 +135,22 @@ class WalletAccountLogic(
         before: LocalDateTime?
     ): Double {
         return transactionDao.findAllByTypeAndAccount(TransactionType.EXPENSE, account.id)
+            .map { it.toDomain() }
             .filterHappenedTransactions(
                 before = before
             )
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
             .plus(
                 //transfer out
                 transactionDao.findAllByTypeAndAccount(
                     type = TransactionType.TRANSFER,
                     accountId = account.id
                 )
+                    .map { it.toDomain() }
                     .filterHappenedTransactions(
                         before = before
                     )
-                    .sumOf { it.amount }
+                    .sumOf { it.amount.toDouble() }
             )
     }
 
@@ -180,29 +188,31 @@ class WalletAccountLogic(
     fun calculateUpcomingIncome(account: Account, range: FromToTimeRange): Double =
         upcoming(account, range = range)
             .filter { it.type == TransactionType.INCOME }
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
 
     fun calculateUpcomingExpenses(account: Account, range: FromToTimeRange): Double =
         upcoming(account = account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
 
     fun calculateOverdueIncome(account: Account, range: FromToTimeRange): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.INCOME }
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
 
     fun calculateOverdueExpenses(account: Account, range: FromToTimeRange): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
-            .sumOf { it.amount }
+            .sumOf { it.amount.toDouble() }
 
     fun upcoming(account: Account, range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.upcomingFrom(),
             endDate = range.to()
-        ).filterUpcoming()
+        )
+            .map { it.toDomain() }
+            .filterUpcoming()
     }
 
 
@@ -211,6 +221,8 @@ class WalletAccountLogic(
             accountId = account.id,
             startDate = range.from(),
             endDate = range.overdueTo()
-        ).filterOverdue()
+        )
+            .map { it.toDomain() }
+            .filterOverdue()
     }
 }

@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Loan
-import com.ivy.wallet.domain.logic.model.CreateLoanData
-import com.ivy.wallet.domain.sync.uploader.LoanUploader
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
+import com.ivy.wallet.domain.deprecated.sync.uploader.LoanUploader
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
@@ -38,7 +39,7 @@ class LoanCreator(
                         accountId = data.account?.id
                     )
                     loanId = item.id
-                    dao.save(item)
+                    dao.save(item.toEntity())
                     item
                 }
 
@@ -66,7 +67,7 @@ class LoanCreator(
         try {
             ioThread {
                 dao.save(
-                    updatedItem.copy(
+                    updatedItem.toEntity().copy(
                         isSynced = false
                     )
                 )

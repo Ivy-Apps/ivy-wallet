@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.sync.uploader.CategoryUploader
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.utils.ioThread
 
@@ -31,8 +32,7 @@ class CategoryCreator(
                         isSynced = false
                     )
 
-                    categoryDao.
-                    save(newCategory)
+                    categoryDao.save(newCategory.toEntity())
                     newCategory
                 }
 
@@ -57,7 +57,7 @@ class CategoryCreator(
         try {
             ioThread {
                 categoryDao.save(
-                    updatedCategory.copy(
+                    updatedCategory.toEntity().copy(
                         isSynced = false
                     )
                 )

@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.core.Budget
-import com.ivy.wallet.domain.logic.model.CreateBudgetData
-import com.ivy.wallet.domain.sync.uploader.BudgetUploader
+import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
+import com.ivy.wallet.domain.deprecated.sync.uploader.BudgetUploader
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.utils.ioThread
 
@@ -33,7 +33,7 @@ class BudgetCreator(
                         isSynced = false
                     )
 
-                    budgetDao.save(budget)
+                    budgetDao.save(budget.toEntity())
                     budget
                 }
 
@@ -59,7 +59,7 @@ class BudgetCreator(
         try {
             ioThread {
                 budgetDao.save(
-                    updatedBudget.copy(
+                    updatedBudget.toEntity().copy(
                         isSynced = false
                     )
                 )

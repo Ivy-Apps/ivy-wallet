@@ -1,9 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.sync.item.TransactionSync
-import com.ivy.wallet.domain.sync.uploader.AccountUploader
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
+import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.utils.ioThread
 
@@ -35,7 +36,7 @@ class AccountCreator(
                     orderNum = accountDao.findMaxOrderNum() + 1,
                     isSynced = false
                 )
-                accountDao.save(account)
+                accountDao.save(account.toEntity())
 
                 accountLogic.adjustBalance(
                     account = account,
@@ -64,7 +65,7 @@ class AccountCreator(
         )
 
         ioThread {
-            accountDao.save(updatedAccount)
+            accountDao.save(updatedAccount.toEntity())
             accountLogic.adjustBalance(
                 account = updatedAccount,
                 actualBalance = accountLogic.calculateAccountBalance(updatedAccount),

@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.wallet.domain.data.core.LoanRecord
-import com.ivy.wallet.domain.logic.model.CreateLoanRecordData
-import com.ivy.wallet.domain.sync.uploader.LoanRecordUploader
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
+import com.ivy.wallet.domain.deprecated.sync.uploader.LoanRecordUploader
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
@@ -36,7 +36,7 @@ class LoanRecordCreator(
                         convertedAmount = data.convertedAmount
                     )
 
-                    dao.save(item)
+                    dao.save(item.toEntity())
                     item
                 }
 
@@ -63,7 +63,7 @@ class LoanRecordCreator(
         try {
             ioThread {
                 dao.save(
-                    updatedItem.copy(
+                    updatedItem.toEntity().copy(
                         isSynced = false
                     )
                 )
