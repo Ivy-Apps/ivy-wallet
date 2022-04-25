@@ -56,15 +56,15 @@ class ExportZipLogic(
 
     private suspend fun generateJsonString(): String {
         return scopedIOThread {
-            val accounts = it.async { accountDao.findAll().map { it.toDomain() } }
-            val budgets = it.async { budgetDao.findAll().map { it.toDomain() } }
-            val categories = it.async { categoryDao.findAll().map { it.toDomain() } }
-            val loanRecords = it.async { loanRecordDao.findAll().map { it.toDomain() } }
-            val loans = it.async { loanDao.findAll().map { it.toDomain() } }
+            val accounts = it.async { accountDao.findAll() }
+            val budgets = it.async { budgetDao.findAll() }
+            val categories = it.async { categoryDao.findAll() }
+            val loanRecords = it.async { loanRecordDao.findAll() }
+            val loans = it.async { loanDao.findAll() }
             val plannedPaymentRules =
-                it.async { plannedPaymentRuleDao.findAll().map { it.toDomain() } }
-            val settings = it.async { settingsDao.findAll().map { it.toDomain() } }
-            val transactions = it.async { transactionDao.findAll().map { it.toDomain() } }
+                it.async { plannedPaymentRuleDao.findAll() }
+            val settings = it.async { settingsDao.findAll() }
+            val transactions = it.async { transactionDao.findAll() }
             val sharedPrefs = it.async { getSharedPrefsData() }
 
             val gson = GsonBuilder().registerTypeAdapter(
@@ -220,22 +220,22 @@ class ExportZipLogic(
         onProgress: suspend (progressPercent: Double) -> Unit = {}
     ) {
         scopedIOThread {
-            transactionDao.save(completeData.transactions.map { it.toEntity() })
+            transactionDao.save(completeData.transactions)
             onProgress(0.6)
 
-            val accounts = it.async { accountDao.save(completeData.accounts.map { it.toEntity() }) }
-            val budgets = it.async { budgetDao.save(completeData.budgets.map { it.toEntity() }) }
+            val accounts = it.async { accountDao.save(completeData.accounts) }
+            val budgets = it.async { budgetDao.save(completeData.budgets) }
             val categories =
-                it.async { categoryDao.save(completeData.categories.map { it.toEntity() }) }
+                it.async { categoryDao.save(completeData.categories) }
             accounts.await()
             budgets.await()
             categories.await()
 
             onProgress(0.7)
 
-            val loans = it.async { loanDao.save(completeData.loans.map { it.toEntity() }) }
+            val loans = it.async { loanDao.save(completeData.loans) }
             val loanRecords =
-                it.async { loanRecordDao.save(completeData.loanRecords.map { it.toEntity() }) }
+                it.async { loanRecordDao.save(completeData.loanRecords) }
 
             loans.await()
             loanRecords.await()
@@ -243,10 +243,10 @@ class ExportZipLogic(
             onProgress(0.8)
 
             val plannedPayments =
-                it.async { plannedPaymentRuleDao.save(completeData.plannedPaymentRules.map { it.toEntity() }) }
+                it.async { plannedPaymentRuleDao.save(completeData.plannedPaymentRules) }
             val settings = it.async {
                 settingsDao.deleteAll()
-                settingsDao.save(completeData.settings.map { it.toEntity() })
+                settingsDao.save(completeData.settings)
             }
 
             sharedPrefs.putBoolean(
@@ -285,8 +285,8 @@ class ExportZipLogic(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
         return scopedIOThread { scope ->
-            val existingAccountsList = accountDao.findAll().map { it.toDomain() }
-            val existingCategoryList = categoryDao.findAll().map { it.toDomain() }
+            val existingAccountsList = accountDao.findAll()
+            val existingCategoryList = categoryDao.findAll()
 
             val backupAccountsList = completeData.accounts
             val backupCategoryList = completeData.categories
