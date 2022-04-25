@@ -1,0 +1,56 @@
+name: Dev/Contributor Request
+description: Report a problem or suggest an improvement
+labels: ["dev"]
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Please confirm the following
+      options:
+        - label: I checked [the current issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) for duplicate problems
+          required: true
+  - type: dropdown
+    id: project-building
+    attributes:
+      label: Is the project building?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like to improve?
+      description: "I want to:"
+      placeholder: |
+        - a
+        - b
+        - c
+      value: "- "
+    validations:
+      required: true
+  - type: textarea
+    id: because
+    attributes:
+      label: Because...
+      placeholder: |
+        - d
+        - e
+        - f
+    validations:
+      required: false
+  - type: textarea
+    id: other
+    attributes:
+      label: Other
+      description: Share your thoughts in free format.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Share any logs or information that might help us resolve your issue faster.
+    validations:
+      required: false

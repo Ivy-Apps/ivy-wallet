@@ -1,0 +1,40 @@
+name: Feature Request
+description: Request a feature to make Ivy Wallet better
+title: "[FEATURES] ..."
+labels: ["user request"]
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Please confirm the following
+      options:
+        - label: I checked [the current issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) for duplicate problems
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What do you want to be added or improved?
+      description: "I want to:"
+      placeholder: As a user I want to ...
+      value: As a user I want to
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why do you need it?
+      description: Explain with bullets why do you need it.
+      placeholder: |
+        - a
+        - b
+        - c
+      value: "- "
+    validations:
+      required: false
+  - type: textarea
+    id: because
+    attributes:
+      label: How do you imagine it?
+      description: Write any implementation details that might help us better fulfill your feature request.
+    validations:
+      required: false
