@@ -1,7 +1,7 @@
 package com.ivy.wallet.io.network.request.loan
 
-import com.ivy.wallet.domain.data.entity.LoanRecord
+import com.ivy.wallet.io.network.data.LoanRecordDTO
 
 data class LoanRecordsResponse(
-    val loanRecords: List<LoanRecord>
+    val loanRecords: List<LoanRecordDTO>
 )

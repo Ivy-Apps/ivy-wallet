@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.api.navigation
-import com.ivy.wallet.domain.data.entity.User
+import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Test

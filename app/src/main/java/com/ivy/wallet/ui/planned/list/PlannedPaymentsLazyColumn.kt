@@ -6,7 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -17,10 +16,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
-import com.ivy.wallet.stringRes
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
 
@@ -113,7 +111,7 @@ private fun LazyListScope.plannedPaymentItems(
             SectionDivider(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
-                title = stringRes(R.string.one_time_payments),
+                title = "One time payments",
                 titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = oneTimeIncome,
@@ -145,7 +143,7 @@ private fun LazyListScope.plannedPaymentItems(
             SectionDivider(
                 expanded = recurringExpanded,
                 setExpanded = setRecurringExpanded,
-                title = stringRes(R.string.recurring_payments),
+                title = "Recurring payments",
                 titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = recurringIncome,
@@ -214,7 +212,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = stringResource(R.string.no_planned_payments),
+            text = "No planned payments",
             style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
@@ -224,7 +222,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = stringResource(R.string.no_planned_payments_description),
+            text = "You don't have any planed payments.\nPress the '⚡' bottom at the bottom to add one.",
             style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,

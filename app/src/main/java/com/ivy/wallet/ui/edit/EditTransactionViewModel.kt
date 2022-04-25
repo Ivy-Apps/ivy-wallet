@@ -4,18 +4,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
+import com.ivy.wallet.domain.action.account.AccountByIdAct
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.category.CategoryByIdAct
+import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.logic.*
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.loantrasactions.LoanTransactionsLogic
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.EditTransaction
@@ -28,6 +33,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
@@ -49,50 +55,55 @@ class EditTransactionViewModel @Inject constructor(
     private val paywallLogic: PaywallLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
-    private val loanTransactionsLogic: LoanTransactionsLogic
+    private val loanTransactionsLogic: LoanTransactionsLogic,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
+    private val trnByIdAct: TrnByIdAct,
+    private val categoryByIdAct: CategoryByIdAct,
+    private val accountByIdAct: AccountByIdAct
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()
     val transactionType = _transactionType
 
-    private val _initialTitle = MutableLiveData<String?>()
-    val initialTitle = _initialTitle.asLiveData()
+    private val _initialTitle = MutableStateFlow<String?>(null)
+    val initialTitle = _initialTitle.readOnly()
 
     private val _titleSuggestions = MutableStateFlow(emptySet<String>())
     val titleSuggestions = _titleSuggestions.asStateFlow()
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    private val _currency = MutableStateFlow("")
+    val currency = _currency.readOnly()
 
-    private val _description = MutableLiveData<String?>()
-    val description = _description.asLiveData()
+    private val _description = MutableStateFlow<String?>(null)
+    val description = _description.readOnly()
 
-    private val _dateTime = MutableLiveData<LocalDateTime?>()
-    val dateTime = _dateTime.asLiveData()
+    private val _dateTime = MutableStateFlow<LocalDateTime?>(null)
+    val dateTime = _dateTime.readOnly()
 
-    private val _dueDate = MutableLiveData<LocalDateTime?>()
-    val dueDate = _dueDate.asLiveData()
+    private val _dueDate = MutableStateFlow<LocalDateTime?>(null)
+    val dueDate = _dueDate.readOnly()
 
-    private val _accounts = MutableLiveData<List<Account>>()
-    val accounts = _accounts.asLiveData()
+    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    val accounts = _accounts.readOnly()
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories = _categories.asLiveData()
+    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    val categories = _categories.readOnly()
 
-    private val _account = MutableLiveData<Account>()
-    val account = _account.asLiveData()
+    private val _account = MutableStateFlow<Account?>(null)
+    val account = _account.readOnly()
 
-    private val _toAccount = MutableLiveData<Account?>()
-    val toAccount = _toAccount.asLiveData()
+    private val _toAccount = MutableStateFlow<Account?>(null)
+    val toAccount = _toAccount.readOnly()
 
-    private val _category = MutableLiveData<Category?>()
-    val category = _category.asLiveData()
+    private val _category = MutableStateFlow<Category?>(null)
+    val category = _category.readOnly()
 
-    private val _amount = MutableLiveData(0.0)
-    val amount = _amount.asLiveData()
+    private val _amount = MutableStateFlow(0.0)
+    val amount = _amount.readOnly()
 
-    private val _hasChanges = MutableLiveData(false)
-    val hasChanges = _hasChanges.asLiveData()
+    private val _hasChanges = MutableStateFlow(false)
+    val hasChanges = _hasChanges.readOnly()
 
     private val _displayLoanHelper: MutableStateFlow<EditTransactionDisplayLoan> =
         MutableStateFlow(EditTransactionDisplayLoan())
@@ -123,19 +134,19 @@ class EditTransactionViewModel @Inject constructor(
 
             baseUserCurrency = baseCurrency()
 
-            val accounts = ioThread { accountDao.findAll() }!!
+            val accounts = accountsAct(Unit)
             if (accounts.isEmpty()) {
                 closeScreen()
                 return@launch
             }
             _accounts.value = accounts
 
-            _categories.value = ioThread { categoryDao.findAll() }!!
+            _categories.value = categoriesAct(Unit)
 
             reset()
 
             loadedTransaction = screen.initialTransactionId?.let {
-                ioThread { transactionDao.findById(it)!! }
+                trnByIdAct(it)
             } ?: Transaction(
                 accountId = defaultAccountId(
                     screen = screen,
@@ -143,7 +154,8 @@ class EditTransactionViewModel @Inject constructor(
                 ),
                 categoryId = screen.categoryId,
                 type = screen.type,
-                amount = 0.0,
+                amount = BigDecimal.ZERO,
+                toAmount = BigDecimal.ZERO
             )
 
             display(loadedTransaction!!)
@@ -208,32 +220,31 @@ class EditTransactionViewModel @Inject constructor(
         _dateTime.value = transaction.dateTime
         _description.value = transaction.description
         _dueDate.value = transaction.dueDate
-        val selectedAccount = ioThread { accountDao.findById(transaction.accountId)!! }
+        val selectedAccount = accountByIdAct(transaction.accountId)!!
         _account.value = selectedAccount
         _toAccount.value = transaction.toAccountId?.let {
-            ioThread { accountDao.findById(it) }
+            accountByIdAct(it)
         }
-        _category.value = transaction.smartCategoryId()?.let {
-            ioThread { categoryDao.findById(it) }
+        _category.value = transaction.categoryId?.let {
+            categoryByIdAct(it)
         }
-        _amount.value = transaction.amount
+        _amount.value = transaction.amount.toDouble()
 
         updateCurrency(account = selectedAccount)
 
-        transaction.toAmount?.let {
-            val exchangeRate = it / transaction.amount
+        _customExchangeRateState.value = if (transaction.toAccountId == null)
+            CustomExchangeRateState()
+        else {
+            val exchangeRate = transaction.toAmount / transaction.amount
             val toAccountCurrency =
-                _accounts.value?.find { acc -> acc.id == transaction.toAccountId }?.currency
-            _customExchangeRateState.value =
-                _customExchangeRateState.value.copy(
-                    showCard = toAccountCurrency != account.value?.currency,
-                    exchangeRate = exchangeRate,
-                    convertedAmount = it,
-                    toCurrencyCode = toAccountCurrency,
-                    fromCurrencyCode = currency.value
-                )
-        } ?: let {
-            _customExchangeRateState.value = CustomExchangeRateState()
+                _accounts.value.find { acc -> acc.id == transaction.toAccountId }?.currency
+            CustomExchangeRateState(
+                showCard = toAccountCurrency != account.value?.currency,
+                exchangeRate = exchangeRate.toDouble(),
+                convertedAmount = transaction.toAmount.toDouble(),
+                toCurrencyCode = toAccountCurrency,
+                fromCurrencyCode = currency.value
+            )
         }
 
         _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
@@ -248,7 +259,7 @@ class EditTransactionViewModel @Inject constructor(
     fun onAmountChanged(newAmount: Double) {
         viewModelScope.launch {
             loadedTransaction = loadedTransaction().copy(
-                amount = newAmount
+                amount = newAmount.toBigDecimal()
             )
             _amount.value = newAmount
             updateCustomExchangeRateState(amt = newAmount)
@@ -418,7 +429,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.createCategory(data) {
-                _categories.value = ioThread { categoryDao.findAll() }!!
+                _categories.value = categoriesAct(Unit)
 
                 //Select the newly created category
                 onCategoryChanged(it)
@@ -433,7 +444,7 @@ class EditTransactionViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             categoryCreator.editCategory(updatedCategory) {
-                _categories.value = ioThread { categoryDao.findAll() }!!
+                _categories.value = categoriesAct(Unit)
             }
 
             TestIdlingResource.decrement()
@@ -446,7 +457,7 @@ class EditTransactionViewModel @Inject constructor(
 
             accountCreator.createAccount(data) {
                 EventBus.getDefault().post(AccountsUpdatedEvent())
-                _accounts.value = ioThread { accountDao.findAll() }!!
+                _accounts.value = accountsAct(Unit)
             }
 
             TestIdlingResource.decrement()
@@ -484,12 +495,13 @@ class EditTransactionViewModel @Inject constructor(
     private suspend fun saveInternal(closeScreen: Boolean) {
         try {
             ioThread {
-                val amount = amount.value ?: error("no amount")
+                val amount = amount.value.toBigDecimal()
 
                 loadedTransaction = loadedTransaction().copy(
                     accountId = account.value?.id ?: error("no accountId"),
                     toAccountId = toAccount.value?.id,
-                    toAmount = _customExchangeRateState.value.convertedAmount,
+                    toAmount = _customExchangeRateState.value.convertedAmount?.toBigDecimal()
+                        ?: amount,
                     title = title?.trim(),
                     description = description.value?.trim(),
                     amount = amount,
@@ -522,7 +534,7 @@ class EditTransactionViewModel @Inject constructor(
                     accountsChanged = false
                 }
 
-                transactionDao.save(loadedTransaction())
+                transactionDao.save(loadedTransaction().toEntity())
             }
 
             if (closeScreen) {

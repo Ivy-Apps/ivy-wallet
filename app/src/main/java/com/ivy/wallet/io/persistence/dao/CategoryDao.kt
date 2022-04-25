@@ -4,28 +4,25 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.io.persistence.data.CategoryEntity
 import java.util.*
 
 @Dao
 interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: Category)
+    fun save(value: CategoryEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<Category>)
+    fun save(value: List<CategoryEntity>)
 
     @Query("SELECT * FROM categories WHERE isDeleted = 0 ORDER BY orderNum ASC")
-    fun findAll(): List<Category>
+    fun findAll(): List<CategoryEntity>
 
     @Query("SELECT * FROM categories WHERE isSynced = :synced AND isDeleted = :deleted")
-    fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<Category>
+    fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<CategoryEntity>
 
     @Query("SELECT * FROM categories WHERE id = :id")
-    fun findById(id: UUID): Category?
-
-    @Query("SELECT * FROM categories WHERE seCategoryName = :seCategoryName")
-    fun findBySeCategoryName(seCategoryName: String): Category?
+    fun findById(id: UUID): CategoryEntity?
 
     @Query("DELETE FROM categories WHERE id = :id")
     fun deleteById(id: UUID)

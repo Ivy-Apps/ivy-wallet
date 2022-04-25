@@ -21,10 +21,10 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
-import com.ivy.wallet.domain.fp.charts.IncomeExpenseChartPoint
-import com.ivy.wallet.domain.fp.charts.SingleChartPoint
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
+import com.ivy.wallet.domain.pure.charts.SingleChartPoint
 import com.ivy.wallet.ui.Charts
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts

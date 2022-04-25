@@ -1,5 +1,7 @@
 package com.ivy.wallet.ui.theme.modal.model
 
+import com.ivy.wallet.R
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.utils.dateNowUTC
@@ -11,18 +13,18 @@ data class Month(
 ) {
     companion object {
         fun monthsList(): MutableList<Month> = mutableListOf(
-            Month(1, "January"),
-            Month(2, "February"),
-            Month(3, "March"),
-            Month(4, "April"),
-            Month(5, "May"),
-            Month(6, "June"),
-            Month(7, "July"),
-            Month(8, "August"),
-            Month(9, "September"),
-            Month(10, "October"),
-            Month(11, "November"),
-            Month(12, "December"),
+            Month(1, stringRes(R.string.january)),
+            Month(2, stringRes(R.string.february)),
+            Month(3, stringRes(R.string.march)),
+            Month(4, stringRes(R.string.april)),
+            Month(5, stringRes(R.string.may)),
+            Month(6, stringRes(R.string.june)),
+            Month(7, stringRes(R.string.july)),
+            Month(8, stringRes(R.string.august)),
+            Month(9, stringRes(R.string.september)),
+            Month(10, stringRes(R.string.october)),
+            Month(11, stringRes(R.string.november)),
+            Month(12, stringRes(R.string.december)),
         )
 
         fun fromMonthValue(code: Int): Month =

@@ -46,6 +46,7 @@ fun DependencyHandler.appModuleDependencies(
     kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
     implementation(project(":ivy-design"))
+    implementation(project(":ivy-fp"))
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
@@ -86,6 +87,21 @@ fun DependencyHandler.ivyDesignModuleDependencies(
     )
 
     Compose(version = GlobalVersions.compose)
+
+    AndroidX()
+    Lifecycle(version = "2.3.1")
+}
+
+fun DependencyHandler.ivyFPModuleDependencies(
+    kotlinVersion: String = GlobalVersions.kotlinVersion
+) {
+    Kotlin(version = kotlinVersion)
+    Coroutines(version = "1.5.0")
+    FunctionalProgramming(
+        arrowVersion = "1.0.1",
+        kotestVersion = "5.1.0",
+        kotlinVersion = kotlinVersion
+    )
 
     AndroidX()
     Lifecycle(version = "2.3.1")

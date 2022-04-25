@@ -1,8 +1,5 @@
 import java.net.URI
 
-include(":ivy-design")
-
-
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -15,4 +12,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Ivy Wallet"
 include(":app")
+include(":ivy-design")
+include(":ivy-fp")
+
  

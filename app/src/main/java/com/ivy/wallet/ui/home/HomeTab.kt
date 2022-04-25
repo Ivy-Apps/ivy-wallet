@@ -24,10 +24,10 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
@@ -445,7 +445,10 @@ fun HomeLazyColumn(
             history = history,
             onPayOrGet = onPayOrGet,
             emptyStateTitle = stringRes(R.string.no_transactions),
-            emptyStateText = stringRes(R.string.no_transactions_description, period.toDisplayLong(ivyContext.startDayOfMonth))
+            emptyStateText = stringRes(
+                R.string.no_transactions_description,
+                period.toDisplayLong(ivyContext.startDayOfMonth)
+            )
         )
     }
 }
