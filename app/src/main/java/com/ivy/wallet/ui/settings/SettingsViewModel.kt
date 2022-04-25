@@ -69,6 +69,9 @@ class SettingsViewModel @Inject constructor(
     private val _showNotifications = MutableStateFlow(true)
     val showNotifications = _showNotifications.asStateFlow()
 
+    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
+    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.asStateFlow()
+
     private val _progressState = MutableStateFlow(false)
     val progressState = _progressState.asStateFlow()
 
@@ -303,6 +306,17 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, hideCurrentBalance)
             _hideCurrentBalance.value = hideCurrentBalance
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun setTransfersAsIncomeExpense(treatTransfersAsIncomeExpense: Boolean) {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            sharedPrefs.putBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, treatTransfersAsIncomeExpense)
+            _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
 
             TestIdlingResource.decrement()
         }

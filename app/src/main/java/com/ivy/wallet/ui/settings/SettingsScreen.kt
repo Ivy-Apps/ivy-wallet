@@ -57,6 +57,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val lockApp by viewModel.lockApp.observeAsState(false)
     val showNotifications by viewModel.showNotifications.collectAsState()
     val hideCurrentBalance by viewModel.hideCurrentBalance.collectAsState()
+    val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
     val startDateOfMonth by viewModel.startDateOfMonth.observeAsState(1)
     val progressState by viewModel.progressState.collectAsState()
 
@@ -76,6 +77,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         showNotifications = showNotifications,
         hideCurrentBalance = hideCurrentBalance,
         progressState = progressState,
+        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
@@ -97,6 +99,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
         onSetShowNotifications = viewModel::setShowNotifications,
         onSetHideCurrentBalance = viewModel::setHideCurrentBalance,
         onSetStartDateOfMonth = viewModel::setStartDateOfMonth,
+        onSetTreatTransfersAsIncExp = viewModel::setTransfersAsIncomeExpense,
         onRequestFeature = { title, body ->
             viewModel.requestFeature(
                 rootActivity = ivyActivity,
@@ -119,6 +122,7 @@ private fun BoxWithConstraintsScope.UI(
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
+    treatTransfersAsIncomeExpense :Boolean = false,
 
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
@@ -134,6 +138,7 @@ private fun BoxWithConstraintsScope.UI(
     onExportToCSV: () -> Unit = {},
     onSetLockApp: (Boolean) -> Unit = {},
     onSetShowNotifications: (Boolean) -> Unit = {},
+    onSetTreatTransfersAsIncExp: (Boolean) -> Unit = {},
     onSetHideCurrentBalance: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onRequestFeature: (String, String) -> Unit = { _, _ -> },
@@ -273,6 +278,16 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.hide_balance),
                 description = stringResource(R.string.hide_balance_description),
                 icon = R.drawable.ic_hide_m
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            AppSwitch(
+                lockApp = treatTransfersAsIncomeExpense,
+                onSetLockApp = onSetTreatTransfersAsIncExp,
+                text = stringResource(R.string.transfers_as_income_expense),
+                description = stringResource(R.string.transfers_as_income_expense_description),
+                icon = R.drawable.ic_custom_transfer_m
             )
 
             Spacer(Modifier.height(12.dp))
