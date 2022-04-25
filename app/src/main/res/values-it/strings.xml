@@ -295,7 +295,7 @@
     <string name="choose_month">Scegli il mese</string>
     <string name="or_custom_range">o un intervallo personalizzato</string>
     <string name="add_date">Aggiungi una data</string>
-    <string name="or_in_the_last">o nell’ultimo</string>
+    <string name="or_in_the_last">o nell’ultimo periodo di</string>
     <string name="or_all_time">o tutto il tempo</string>
     <string name="unselect_all_time">Deseleziona tutto il tempo</string>
     <string name="select_all_time">Seleziona tutto il tempo</string>
@@ -415,6 +415,15 @@
     <string name="october">Ottobre</string>
     <string name="november">Novembre</string>
     <string name="december">Dicembre</string>
-    <string name="transfers_as_income_expense"><![CDATA[Trasferimenti come entrate e spese]]></string>
-    <string name="transfers_as_income_expense_description">Tratta i trasferimenti di conto come entrate o spese nella schermata Conti</string>
+    <string name="days">giorni</string>
+    <string name="day">giorno</string>
+    <string name="weeks">settimane</string>
+    <string name="week">settimana</string>
+    <string name="months">mesi</string>
+    <string name="month">mese</string>
+    <string name="years">anni</string>
+    <string name="year">anno</string>
+    <string name="transfers_as_income_expense"><![CDATA[Trasferimenti come entrate ed uscite]]></string>
+    <string name="transfers_as_income_expense_description">Tratta i trasferimenti di conto come entrate o uscite nella schermata dei conti</string>
+    <string name="home_category">Casa</string>
 </resources>
