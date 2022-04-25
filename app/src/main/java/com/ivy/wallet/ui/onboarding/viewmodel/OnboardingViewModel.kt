@@ -293,7 +293,7 @@ class OnboardingViewModel @Inject constructor(
             .map {
                 AccountBalance(
                     account = it,
-                    balance = accountLogic.calculateAccountBalance(it)
+                    balance = ioThread { accountLogic.calculateAccountBalance(it) }
                 )
             }
     }
