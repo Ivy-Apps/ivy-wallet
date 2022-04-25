@@ -232,22 +232,20 @@ class EditTransactionViewModel @Inject constructor(
 
         updateCurrency(account = selectedAccount)
 
-        //TODO: Fix that
-//        transaction.toAmount?.let {
-//            val exchangeRate = it / transaction.amount
-//            val toAccountCurrency =
-//                _accounts.value?.find { acc -> acc.id == transaction.toAccountId }?.currency
-//            _customExchangeRateState.value =
-//                _customExchangeRateState.value.copy(
-//                    showCard = toAccountCurrency != account.value?.currency,
-//                    exchangeRate = exchangeRate,
-//                    convertedAmount = it,
-//                    toCurrencyCode = toAccountCurrency,
-//                    fromCurrencyCode = currency.value
-//                )
-//        } ?: let {
-//            _customExchangeRateState.value = CustomExchangeRateState()
-//        }
+        _customExchangeRateState.value = if (transaction.toAccountId == null)
+            CustomExchangeRateState()
+        else {
+            val exchangeRate = transaction.toAmount / transaction.amount
+            val toAccountCurrency =
+                _accounts.value.find { acc -> acc.id == transaction.toAccountId }?.currency
+            CustomExchangeRateState(
+                showCard = toAccountCurrency != account.value?.currency,
+                exchangeRate = exchangeRate.toDouble(),
+                convertedAmount = transaction.toAmount.toDouble(),
+                toCurrencyCode = toAccountCurrency,
+                fromCurrencyCode = currency.value
+            )
+        }
 
         _displayLoanHelper.value = getDisplayLoanHelper(trans = transaction)
     }
