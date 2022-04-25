@@ -1,15 +1,15 @@
 package com.ivy.wallet.domain.data
 
-import com.ivy.wallet.domain.data.core.*
+import com.ivy.wallet.io.persistence.data.*
 
 data class IvyWalletCompleteData(
-    val accounts: List<Account> = emptyList(),
-    val budgets: List<Budget> = emptyList(),
-    val categories: List<Category> = emptyList(),
-    val loanRecords: List<LoanRecord> = emptyList(),
-    val loans: List<Loan> = emptyList(),
-    val plannedPaymentRules: List<PlannedPaymentRule> = emptyList(),
-    val settings: List<Settings> = emptyList(),
-    val transactions: List<Transaction> = emptyList(),
+    val accounts: List<AccountEntity> = emptyList(),
+    val budgets: List<BudgetEntity> = emptyList(),
+    val categories: List<CategoryEntity> = emptyList(),
+    val loanRecords: List<LoanRecordEntity> = emptyList(),
+    val loans: List<LoanEntity> = emptyList(),
+    val plannedPaymentRules: List<PlannedPaymentRuleEntity> = emptyList(),
+    val settings: List<SettingsEntity> = emptyList(),
+    val transactions: List<TransactionEntity> = emptyList(),
     val sharedPrefs: HashMap<String, String> = HashMap()
 )

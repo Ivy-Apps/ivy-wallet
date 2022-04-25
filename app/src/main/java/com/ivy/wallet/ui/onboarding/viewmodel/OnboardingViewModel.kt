@@ -288,13 +288,15 @@ class OnboardingViewModel @Inject constructor(
         }
     }
 
-    private suspend fun accountsWithBalance(): List<AccountBalance> = accountsAct(Unit)
-        .map {
-            AccountBalance(
-                account = it,
-                balance = accountLogic.calculateAccountBalance(it)
-            )
-        }
+    private suspend fun accountsWithBalance(): List<AccountBalance> = ioThread {
+        accountsAct(Unit)
+            .map {
+                AccountBalance(
+                    account = it,
+                    balance = accountLogic.calculateAccountBalance(it)
+                )
+            }
+    }
 
     fun onAddAccountsDone() {
         viewModelScope.launch {
