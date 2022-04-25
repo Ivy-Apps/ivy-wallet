@@ -12,6 +12,7 @@ import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -37,6 +38,7 @@ class AccountsViewModel @Inject constructor(
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
+    private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
@@ -70,11 +72,15 @@ class AccountsViewModel @Inject constructor(
         val baseCurrencyCode = baseCurrencyAct(Unit)
         val accs = accountsAct(Unit)
 
+        val includeTransfersInCalc =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
         val accountsDataList = accountDataAct(
             AccountDataAct.Input(
                 accounts = accs,
                 range = range.toCloseTimeRange(),
-                baseCurrency = baseCurrencyCode
+                baseCurrency = baseCurrencyCode,
+                includeTransfersInCalc = includeTransfersInCalc
             )
         )
 

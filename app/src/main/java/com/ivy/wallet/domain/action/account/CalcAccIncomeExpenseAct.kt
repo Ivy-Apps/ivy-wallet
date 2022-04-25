@@ -8,6 +8,7 @@ import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
+import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcAccIncomeExpenseAct @Inject constructor(
@@ -25,22 +26,25 @@ class CalcAccIncomeExpenseAct @Inject constructor(
             arg = account.id,
             valueFunctions = nonEmptyListOf(
                 AccountValueFunctions::income,
-                AccountValueFunctions::expense
+                AccountValueFunctions::expense,
+                AccountValueFunctions::transferIncome,
+                AccountValueFunctions::transferExpense
             )
         )
     } then { values ->
         Output(
             account = account,
             incomeExpensePair = IncomeExpensePair(
-                income = values[0],
-                expense = values[1]
+                income = values[0] + if (includeTransfersInCalc) values[2] else BigDecimal.ZERO,
+                expense = values[1] + if (includeTransfersInCalc) values[3] else BigDecimal.ZERO
             )
         )
     }
 
     data class Input(
         val account: Account,
-        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy()
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val includeTransfersInCalc: Boolean = false
     )
 
     data class Output(

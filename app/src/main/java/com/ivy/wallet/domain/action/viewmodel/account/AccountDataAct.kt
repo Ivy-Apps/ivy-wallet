@@ -44,7 +44,8 @@ class AccountDataAct @Inject constructor(
         val incomeExpensePair = calcAccIncomeExpenseAct(
             CalcAccIncomeExpenseAct.Input(
                 account = acc,
-                range = range
+                range = range,
+                includeTransfersInCalc = includeTransfersInCalc
             )
         ).incomeExpensePair
 
@@ -60,6 +61,7 @@ class AccountDataAct @Inject constructor(
     data class Input(
         val accounts: List<Account>,
         val baseCurrency: String,
-        val range: ClosedTimeRange
+        val range: ClosedTimeRange,
+        val includeTransfersInCalc: Boolean = false
     )
 }
