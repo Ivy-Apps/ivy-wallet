@@ -1,0 +1,63 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[BUG] ..."
+labels: ["bug"]
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Please confirm the following
+      options:
+        - label: I checked [the current issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) for duplicate problems
+          required: true
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: I clicked something and my millions are not displayed anymore!
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: To Reproduce
+      description: "Steps to reproduce the behavior:"
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+      value: "1. "
+    validations:
+      required: false
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: My millions should be displayed!
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
+  - type: input
+    id: smartphone
+    attributes:
+      label: Smartphone
+      description: Specify the phone model and Android version.
+      placeholder: Samsung Galaxy S20 Ultra, Android 11
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false
