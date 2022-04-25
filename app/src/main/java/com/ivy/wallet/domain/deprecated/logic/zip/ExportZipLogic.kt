@@ -106,6 +106,9 @@ class ExportZipLogic(
         hashmap[SharedPrefs.HIDE_CURRENT_BALANCE] =
             sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false).toString()
 
+        hashmap[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE] =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false).toString()
+
         return hashmap
     }
 
@@ -259,6 +262,11 @@ class ExportZipLogic(
             sharedPrefs.putBoolean(
                 SharedPrefs.HIDE_CURRENT_BALANCE,
                 (completeData.sharedPrefs[SharedPrefs.HIDE_CURRENT_BALANCE] ?: "false").toBoolean()
+            )
+
+            sharedPrefs.putBoolean(
+                SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
+                (completeData.sharedPrefs[SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE] ?: "false").toBoolean()
             )
 
             plannedPayments.await()

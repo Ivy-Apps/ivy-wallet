@@ -42,6 +42,14 @@ object AccountValueFunctions {
             amount else BigDecimal.ZERO
     }
 
+    fun transferIncome(
+        transaction: Transaction,
+        accountId: UUID
+    ): BigDecimal = with(transaction) {
+        if (this.toAccountId == accountId && type == TransactionType.TRANSFER)
+            toAmount else BigDecimal.ZERO
+    }
+
     fun expense(
         transaction: Transaction,
         accountId: UUID
@@ -49,6 +57,15 @@ object AccountValueFunctions {
         if (this.accountId == accountId && type == TransactionType.EXPENSE)
             amount else BigDecimal.ZERO
     }
+
+    fun transferExpense(
+        transaction: Transaction,
+        accountId: UUID
+    ): BigDecimal = with(transaction) {
+        if (this.accountId == accountId && type == TransactionType.TRANSFER)
+            amount else BigDecimal.ZERO
+    }
+
 
     fun incomeCount(
         transaction: Transaction,

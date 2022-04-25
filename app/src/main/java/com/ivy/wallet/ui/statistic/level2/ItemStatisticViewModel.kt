@@ -25,6 +25,7 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
 import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.ItemStatistic
@@ -57,6 +58,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val exchangeRatesLogic: ExchangeRatesLogic,
+    private val sharedPrefs: SharedPrefs,
     private val categoriesAct: CategoriesAct,
     private val accountsAct: AccountsAct,
     private val accTrnsAct: AccTrnsAct,
@@ -217,10 +219,14 @@ class ItemStatisticViewModel @Inject constructor(
             ).orNull()?.toDouble()
         }
 
+        val includeTransfersInCalc =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
         val incomeExpensePair = calcAccIncomeExpenseAct(
             CalcAccIncomeExpenseAct.Input(
                 account = account,
-                range = range.toCloseTimeRange()
+                range = range.toCloseTimeRange(),
+                includeTransfersInCalc = includeTransfersInCalc
             )
         ).incomeExpensePair
         _income.value = incomeExpensePair.income.toDouble()

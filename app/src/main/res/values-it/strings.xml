@@ -415,4 +415,6 @@
     <string name="october">Ottobre</string>
     <string name="november">Novembre</string>
     <string name="december">Dicembre</string>
+    <string name="transfers_as_income_expense"><![CDATA[Trasferimenti come entrate e spese]]></string>
+    <string name="transfers_as_income_expense_description">Tratta i trasferimenti di conto come entrate o spese nella schermata Conti</string>
 </resources>
