@@ -33,7 +33,7 @@ class CalcWalletBalanceAct @Inject constructor(
                 ExchangeAct.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
-                        fromCurrency = it.account.currency.toOption(),
+                        fromCurrency = (it.account.currency ?: baseCurrency).toOption(),
                         toCurrency = balanceCurrency
                     ),
                     amount = it.balance

@@ -55,7 +55,7 @@ class CalcIncomeExpenseAct @Inject constructor(
                 ExchangeAct.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
-                        fromCurrency = acc.currency.toOption()
+                        fromCurrency = (acc.currency ?: baseCurrency).toOption()
                     ),
                     amount = it
                 ),
