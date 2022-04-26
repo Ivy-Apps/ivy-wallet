@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.R
+import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
@@ -31,7 +32,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
@@ -40,7 +40,8 @@ class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val ivyContext: IvyWalletCtx
+    private val ivyContext: IvyWalletCtx,
+    private val pieChartAct: PieChartAct
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
@@ -112,7 +113,7 @@ class PieChartStatisticViewModel @Inject constructor(
         load(
             period = period,
             type = type,
-            accountFilterList = accountList
+            accountIdFilterList = accountList
         )
     }
 
@@ -193,7 +194,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private fun load(
         period: TimePeriod,
         type: TransactionType,
-        accountFilterList: List<UUID>
+        accountIdFilterList: List<UUID>
     ) {
 
         _period.value = period
@@ -202,81 +203,21 @@ class PieChartStatisticViewModel @Inject constructor(
 
         _selectedCategory.value = null
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val settings = ioThread { settingsDao.findFirst() }
-
             _baseCurrencyCode.value = settings.currency
 
-            _totalAmount.value = ioThread {
-                when (type) {
-                    TransactionType.INCOME -> {
-                        //TODO: Fix that
-//                        calculateWalletIncomeWithAccountFilters(
-//                            walletDAOs = walletDAOs,
-//                            baseCurrencyCode = baseCurrencyCode.value,
-//                            range = range.toCloseTimeRange(),
-//                            accountIdFilterList = accountFilterList,
-//                            filterExcluded = filterExcluded
-//                        ).value.toDouble()
-                        0.0
-                    }
-                    TransactionType.EXPENSE -> {
-                        //TODO: Fix that
-//                        calculateWalletExpenseWithAccountFilters(
-//                            walletDAOs = walletDAOs,
-//                            baseCurrencyCode = baseCurrencyCode.value,
-//                            range = range.toCloseTimeRange(),
-//                            accountIdFilterList = accountFilterList,
-//                            filterExcluded = filterExcluded
-//                        ).value.toDouble()
-                        0.0
-                    }
-                    else -> error("not supported transactionType - $type")
-                }
-            }.absoluteValue
+            val pieChartActOutput = pieChartAct(
+                PieChartAct.Input(
+                    baseCurrency = _baseCurrencyCode.value,
+                    range = range,
+                    type = _type.value,
+                    accountIdFilterList = accountIdFilterList
+                )
+            )
 
-            _categoryAmounts.value = scopedIOThread { scope ->
-
-                val categories =
-                    getCategories(
-                        fetchCategoriesFromTransactions = accountFilterList.isNotEmpty(),
-                        timeRange = range
-                    )
-
-                categories
-                    .plus(null) //for unspecified
-                    .map { category ->
-                        CategoryAmount(
-                            category = category,
-                            amount = when (type) {
-                                TransactionType.INCOME -> {
-                                    //TODO: Fix that
-//                                    calculateCategoryIncomeWithAccountFilters(
-//                                        walletDAOs = walletDAOs,
-//                                        baseCurrencyCode = baseCurrencyCode.value,
-//                                        categoryId = category?.id,
-//                                        accountIdFilterList = accountFilterList,
-//                                        range = range.toCloseTimeRange()
-//                                    ).toDouble()
-                                    0.0
-                                }
-                                TransactionType.EXPENSE -> {
-                                    //TODO: Fix that
-//                                    calculateCategoryExpenseWithAccountFilters(
-//                                        walletDAOs = walletDAOs,
-//                                        baseCurrencyCode = baseCurrencyCode.value,
-//                                        categoryId = category?.id,
-//                                        accountIdList = accountFilterList,
-//                                        range = range.toCloseTimeRange()
-//                                    ).toDouble()
-                                    0.0
-                                }
-                                else -> error("not supported transactionType - $type")
-                            }
-                        )
-                    }
-                    .sortedByDescending { it.amount }
-            }
+            _totalAmount.value = pieChartActOutput.totalAmount
+            _categoryAmounts.value = pieChartActOutput.categoryAmounts
         }
     }
 
@@ -302,7 +243,7 @@ class PieChartStatisticViewModel @Inject constructor(
         load(
             period = period,
             type = type.value,
-            accountFilterList = accountIdFilterList.value
+            accountIdFilterList = accountIdFilterList.value
         )
     }
 
@@ -313,7 +254,7 @@ class PieChartStatisticViewModel @Inject constructor(
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year),
                 type = type.value,
-                accountFilterList = accountIdFilterList.value
+                accountIdFilterList = accountIdFilterList.value
             )
         }
     }
@@ -325,7 +266,7 @@ class PieChartStatisticViewModel @Inject constructor(
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year),
                 type = type.value,
-                accountFilterList = accountIdFilterList.value
+                accountIdFilterList = accountIdFilterList.value
             )
         }
     }
