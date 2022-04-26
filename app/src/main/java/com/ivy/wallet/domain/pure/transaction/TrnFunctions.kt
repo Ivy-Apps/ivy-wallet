@@ -36,3 +36,11 @@ fun trnCurrency(
     transaction: Transaction,
     accounts: List<Account>
 ): Option<String> = accounts.find { it.id == transaction.accountId }?.currency.toOption()
+
+@Pure
+fun trnCurrency(
+    transaction: Transaction,
+    accounts: List<Account>,
+    baseCurrency: String
+): Option<String> =
+    ((accounts.find { it.id == transaction.accountId }?.currency) ?: baseCurrency).toOption()

@@ -65,7 +65,7 @@ suspend fun exchangeInCurrency(
     return exchange(
         ExchangeData(
             baseCurrency = baseCurrency,
-            fromCurrency = trnCurrency(transaction, accounts),
+            fromCurrency = trnCurrency(transaction, accounts, baseCurrency),
             toCurrency = toCurrency
         ),
         transaction.amount
