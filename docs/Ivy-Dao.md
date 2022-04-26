@@ -16,18 +16,18 @@ graph TD;
     contribs -- Develop --> product
     contribs -- Design --> product
     contribs -- Promote --> product
-    contribs -- Vote --> dao_proposals
+    contribs -- Vote with IVY --> dao_proposals
 
     product -- Acquire --> users
 
     users -- Reviews --> product
-    users -- Donate --> dao
+    users -- Donate crypto --> dao
 
     dao -- Store Donations --> dao_dev_fund
-    dao -- Manage --> dao_proposals
+    dao -- Smart Contract --> dao_proposals
     dao_dev_fund -- Bounty --> dao_proposals
 
     dao_proposals -- If passed voting --> tickets
-    tickets -- Earn --> contribs
+    tickets -- Earn: Bounty + IVY --> contribs
   
 ```
