@@ -33,7 +33,7 @@ class AccountCreator(
                     color = data.color.toArgb(),
                     icon = data.icon,
                     includeInBalance = data.includeBalance,
-                    orderNum = accountDao.findMaxOrderNum() + 1,
+                    orderNum = accountDao.findMaxOrderNum() + 1.0,
                     isSynced = false
                 )
                 accountDao.save(account.toEntity())

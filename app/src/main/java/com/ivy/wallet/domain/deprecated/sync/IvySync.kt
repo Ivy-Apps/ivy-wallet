@@ -13,7 +13,7 @@ class IvySync(
     private val loanRecordSync: LoanRecordSync,
     private val ivySession: IvySession
 ) {
-    fun isSynced(): Boolean {
+    suspend fun isSynced(): Boolean {
         return accountSync.isSynced() &&
                 categorySync.isSynced() &&
                 transactionSync.isSynced() &&

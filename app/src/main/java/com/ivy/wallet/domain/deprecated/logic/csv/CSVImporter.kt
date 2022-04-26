@@ -132,7 +132,7 @@ class CSVImporter(
         )
     }
 
-    private fun mapToTransaction(
+    private suspend fun mapToTransaction(
         baseCurrency: String,
         row: List<String>,
         rowMapping: RowMapping
@@ -403,7 +403,7 @@ class CSVImporter(
         ).convertLocalToUTC()
     }
 
-    private fun mapAccount(
+    private suspend fun mapAccount(
         baseCurrency: String,
         accountNameString: String?,
         color: Int?,
@@ -466,7 +466,7 @@ class CSVImporter(
 
     }
 
-    private fun mapCategory(
+    private suspend fun mapCategory(
         categoryNameString: String?,
         color: Int?,
         icon: String?,

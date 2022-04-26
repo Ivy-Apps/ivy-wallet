@@ -20,6 +20,7 @@ import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -98,7 +99,7 @@ abstract class IvyComposeTest {
         SharedPrefs(context()).removeAll()
     }
 
-    private fun resetDatabase() {
+    private fun resetDatabase() = runTest {
         ivyRoomDatabase.reset()
     }
 

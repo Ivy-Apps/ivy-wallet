@@ -17,7 +17,7 @@ class PlannedPaymentSync(
 ) {
     private val service = restClient.plannedPaymentRuleService
 
-    fun isSynced(): Boolean =
+    suspend fun isSynced(): Boolean =
         dao.findByIsSyncedAndIsDeleted(synced = false, deleted = false).isEmpty() &&
                 dao.findByIsSyncedAndIsDeleted(synced = false, deleted = true).isEmpty()
 

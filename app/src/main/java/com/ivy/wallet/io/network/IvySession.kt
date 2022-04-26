@@ -28,7 +28,7 @@ class IvySession(
         return userId != null && authToken != null
     }
 
-    fun initiate(authResponse: AuthResponse) {
+    suspend fun initiate(authResponse: AuthResponse) {
         val user = authResponse.user
         userDao.save(user.toEntity())
 

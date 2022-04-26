@@ -24,7 +24,7 @@ class CustomerJourneyLogic(
     private val ivyContext: IvyWalletCtx
 ) {
 
-    fun loadCards(): List<CustomerJourneyCardData> {
+    suspend fun loadCards(): List<CustomerJourneyCardData> {
         val trnCount = transactionDao.countHappenedTransactions()
         val plannedPaymentsCount = plannedPaymentRuleDao.countPlannedPayments()
 

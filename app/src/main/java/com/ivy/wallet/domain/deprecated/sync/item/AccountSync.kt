@@ -17,7 +17,7 @@ class AccountSync(
 ) {
     private val service = restClient.accountService
 
-    fun isSynced(): Boolean =
+    suspend fun isSynced(): Boolean =
         dao.findByIsSyncedAndIsDeleted(synced = false, deleted = false).isEmpty() &&
                 dao.findByIsSyncedAndIsDeleted(synced = false, deleted = true).isEmpty()
 

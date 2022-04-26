@@ -24,7 +24,7 @@ class PreloadDataLogic(
         return accounts.size < 2
     }
 
-    fun preloadAccounts() {
+    suspend fun preloadAccounts() {
         val cash = Account(
             name = stringRes(R.string.cash),
             currency = null,
@@ -71,7 +71,7 @@ class PreloadDataLogic(
         ),
     )
 
-    fun preloadCategories() {
+    suspend fun preloadCategories() {
         categoryOrderNum = 0.0
 
         val categoriesToPreload = preloadCategoriesCreateData()
@@ -143,7 +143,7 @@ class PreloadDataLogic(
         ),
     )
 
-    private fun preloadCategory(
+    private suspend fun preloadCategory(
         data: CreateCategoryData
     ) {
         val category = Category(

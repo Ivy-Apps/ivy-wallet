@@ -13,7 +13,7 @@ class PlannedPaymentsGenerator(
         private const val GENERATED_INSTANCES_LIMIT = 72
     }
 
-    fun generate(rule: PlannedPaymentRule) {
+    suspend fun generate(rule: PlannedPaymentRule) {
         //delete all not happened transactions
         transactionDao.flagDeletedByRecurringRuleIdAndNoDateTime(
             recurringRuleId = rule.id
@@ -26,7 +26,7 @@ class PlannedPaymentsGenerator(
         }
     }
 
-    private fun generateOneTime(rule: PlannedPaymentRule) {
+    private suspend fun generateOneTime(rule: PlannedPaymentRule) {
         val trns = transactionDao.findAllByRecurringRuleId(recurringRuleId = rule.id)
 
         if (trns.isEmpty()) {
@@ -34,7 +34,7 @@ class PlannedPaymentsGenerator(
         }
     }
 
-    private fun generateRecurring(rule: PlannedPaymentRule) {
+    private suspend fun generateRecurring(rule: PlannedPaymentRule) {
         val startDate = rule.startDate!!
         val endDate = startDate.plusYears(3)
 
@@ -69,7 +69,7 @@ class PlannedPaymentsGenerator(
         }
     }
 
-    private fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
+    private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
         transactionDao.save(
             Transaction(
                 type = rule.type,

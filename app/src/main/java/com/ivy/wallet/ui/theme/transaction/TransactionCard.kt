@@ -143,7 +143,7 @@ fun LazyItemScope.TransactionCard(
             amount = transaction.amount.toDouble()
         )
 
-        if (transaction.type == TransactionType.TRANSFER && transaction.toAmount != null && toAccountCurrency != transactionCurrency) {
+        if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
