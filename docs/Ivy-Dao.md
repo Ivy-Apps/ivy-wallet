@@ -8,7 +8,7 @@ graph TD;
     dao(Ivy DAO)
     product(Ivy Wallet App)
 
-    dao_dev_fund(Dev Fund)
+    dao_dev_fund(R&D Fund)
     dao_proposals(Proposals)
 
     tickets(GitHub Issues)
@@ -24,9 +24,10 @@ graph TD;
     users -- Donate --> dao
 
     dao -- Store Donations --> dao_dev_fund
-    dao_dev_fund -- N ADA --> dao_proposals
+    dao -- Manage --> dao_proposals
+    dao_dev_fund -- Bounty --> dao_proposals
 
-    dao_proposals -- Pass --> tickets
+    dao_proposals -- If passed voting --> tickets
     tickets -- Earn --> contribs
   
 ```
