@@ -10,23 +10,23 @@ import java.util.*
 @Dao
 interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: SettingsEntity)
+    suspend fun save(value: SettingsEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<SettingsEntity>)
+    suspend fun save(value: List<SettingsEntity>)
 
     @Query("SELECT * FROM settings LIMIT 1")
-    fun findFirst(): SettingsEntity
+    suspend fun findFirst(): SettingsEntity
 
     @Query("SELECT * FROM settings")
-    fun findAll(): List<SettingsEntity>
+    suspend fun findAll(): List<SettingsEntity>
 
     @Query("SELECT * FROM settings WHERE id = :id")
-    fun findById(id: UUID): SettingsEntity?
+    suspend fun findById(id: UUID): SettingsEntity?
 
     @Query("DELETE FROM settings WHERE id = :id")
-    fun deleteById(id: UUID)
+    suspend fun deleteById(id: UUID)
 
     @Query("DELETE FROM settings")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

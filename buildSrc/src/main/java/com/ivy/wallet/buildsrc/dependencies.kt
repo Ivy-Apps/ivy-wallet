@@ -284,6 +284,9 @@ fun DependencyHandler.Coroutines(
 
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
+
+    //URL: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$version")
 }
 
 fun DependencyHandler.ThirdParty() {

@@ -23,9 +23,9 @@ class WalletAccountLogic(
     private val settingsDao: SettingsDao
 ) {
 
-    fun adjustBalance(
+    suspend fun adjustBalance(
         account: Account,
-        actualBalance: Double = calculateAccountBalance(account),
+        actualBalance: Double? = null,
         newBalance: Double,
 
         adjustTransactionTitle: String = "Adjust balance",
@@ -33,7 +33,8 @@ class WalletAccountLogic(
         isFiat: Boolean? = null,
         trnIsSyncedFlag: Boolean = false, //TODO: Remove this once Bank Integration trn sync is properly implemented
     ) {
-        val diff = actualBalance - newBalance
+        val ab = actualBalance ?: calculateAccountBalance(account)
+        val diff = ab - newBalance
 
         val finalDiff = if (isFiat == true && abs(diff) < 0.009) 0.0 else diff
         when {
@@ -68,7 +69,7 @@ class WalletAccountLogic(
         }
     }
 
-    fun calculateAccountBalance(
+    suspend fun calculateAccountBalance(
         account: Account,
         before: LocalDateTime? = null
     ): Double {
@@ -81,7 +82,7 @@ class WalletAccountLogic(
         )
     }
 
-    private fun calculateIncomeWithTransfers(
+    private suspend fun calculateIncomeWithTransfers(
         account: Account,
         before: LocalDateTime?
     ): Double {
@@ -102,7 +103,7 @@ class WalletAccountLogic(
             )
     }
 
-    private fun calculateExpensesWithTransfers(
+    private suspend fun calculateExpensesWithTransfers(
         account: Account,
         before: LocalDateTime?
     ): Double {
@@ -135,7 +136,7 @@ class WalletAccountLogic(
         }
     }
 
-    fun calculateAccountIncome(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateAccountIncome(account: Account, range: FromToTimeRange): Double =
         transactionDao
             .findAllByTypeAndAccountBetween(
                 type = TransactionType.INCOME,
@@ -146,7 +147,7 @@ class WalletAccountLogic(
             .filter { it.dateTime != null }
             .sumOf { it.amount }
 
-    fun calculateAccountExpenses(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateAccountExpenses(account: Account, range: FromToTimeRange): Double =
         transactionDao
             .findAllByTypeAndAccountBetween(
                 type = TransactionType.EXPENSE,
@@ -157,27 +158,27 @@ class WalletAccountLogic(
             .filter { it.dateTime != null }
             .sumOf { it.amount }
 
-    fun calculateUpcomingIncome(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateUpcomingIncome(account: Account, range: FromToTimeRange): Double =
         upcoming(account, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.toDouble() }
 
-    fun calculateUpcomingExpenses(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateUpcomingExpenses(account: Account, range: FromToTimeRange): Double =
         upcoming(account = account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.toDouble() }
 
-    fun calculateOverdueIncome(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateOverdueIncome(account: Account, range: FromToTimeRange): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.INCOME }
             .sumOf { it.amount.toDouble() }
 
-    fun calculateOverdueExpenses(account: Account, range: FromToTimeRange): Double =
+    suspend fun calculateOverdueExpenses(account: Account, range: FromToTimeRange): Double =
         overdue(account, range = range)
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.toDouble() }
 
-    fun upcoming(account: Account, range: FromToTimeRange): List<Transaction> {
+    suspend fun upcoming(account: Account, range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.upcomingFrom(),
@@ -188,7 +189,7 @@ class WalletAccountLogic(
     }
 
 
-    fun overdue(account: Account, range: FromToTimeRange): List<Transaction> {
+    suspend fun overdue(account: Account, range: FromToTimeRange): List<Transaction> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.from(),

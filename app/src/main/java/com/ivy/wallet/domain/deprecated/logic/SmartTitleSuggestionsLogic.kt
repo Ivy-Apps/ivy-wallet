@@ -18,7 +18,7 @@ class SmartTitleSuggestionsLogic(
      * - most used titles for categories
      * - if suggestions.size < SUGGESTIONS_LIMIT most used titles for accounts
      */
-    fun suggest(
+    suspend fun suggest(
         title: String?,
         categoryId: UUID?,
         accountId: UUID?
@@ -100,7 +100,7 @@ private fun List<Transaction>.extractUniqueTitles(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-private fun Set<String>.sortedByMostUsedFirst(countUses: (String) -> Long): Set<String> {
+private suspend fun Set<String>.sortedByMostUsedFirst(countUses: suspend (String) -> Long): Set<String> {
     val titleCountMap = this
         .map {
             it to countUses(it)

@@ -78,7 +78,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         }
     }
 
-    fun reset() {
+    suspend fun reset() {
         accountDao().deleteAll()
         transactionDao().deleteAll()
         categoryDao().deleteAll()

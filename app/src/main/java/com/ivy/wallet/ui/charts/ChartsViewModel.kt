@@ -155,7 +155,7 @@ class ChartsViewModel @Inject constructor(
         _categoryExpenseCount.value = categoryExpenseCount.loadCategoryValue(
             period = period,
             category = category,
-            calculateValue = { range ->
+            calculateValue =  { range ->
                 walletCategoryLogic.historyByCategory(
                     category = category,
                     range = range
@@ -200,7 +200,7 @@ class ChartsViewModel @Inject constructor(
     private suspend fun StateFlow<List<CategoryValues>>.loadCategoryValue(
         period: ChartPeriod,
         category: Category,
-        calculateValue: (range: FromToTimeRange) -> Double
+        calculateValue: suspend (range: FromToTimeRange) -> Double
     ): List<CategoryValues> {
         TODO()
 //        val values = ioThread {

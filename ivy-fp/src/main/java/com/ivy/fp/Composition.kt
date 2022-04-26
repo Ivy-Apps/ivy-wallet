@@ -23,6 +23,11 @@ annotation class Partial(val inCaseOf: String = "")
 @MustBeDocumented
 annotation class SideEffect
 
+infix fun <A, B, C> (suspend (A) -> B).then(f: suspend (B) -> C): suspend (A) -> C = { a ->
+    val b = this(a)
+    f(b)
+}
+
 infix fun <A, B, C> ((A) -> B).then(f: (B) -> C): (A) -> C = { a ->
     val b = this(a)
     f(b)

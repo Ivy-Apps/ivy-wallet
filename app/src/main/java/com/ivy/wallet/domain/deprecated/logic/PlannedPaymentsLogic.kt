@@ -31,7 +31,7 @@ class PlannedPaymentsLogic(
         private const val AVG_DAYS_IN_MONTH = 30.436875
     }
 
-    fun plannedPaymentsAmountFor(range: FromToTimeRange): Double {
+    suspend fun plannedPaymentsAmountFor(range: FromToTimeRange): Double {
         val baseCurrency = settingsDao.findFirst().currency
         val accounts = accountDao.findAll()
 
@@ -53,11 +53,11 @@ class PlannedPaymentsLogic(
         }
     }
 
-    fun oneTime(): List<PlannedPaymentRule> {
+    suspend fun oneTime(): List<PlannedPaymentRule> {
         return plannedPaymentRuleDao.findAllByOneTime(oneTime = true).map { it.toDomain() }
     }
 
-    fun oneTimeIncome(): Double {
+    suspend fun oneTimeIncome(): Double {
         return oneTime()
             .filter { it.type == TransactionType.INCOME }
             .sumByDoublePlannedInBaseCurrency(
@@ -67,7 +67,7 @@ class PlannedPaymentsLogic(
             )
     }
 
-    fun oneTimeExpenses(): Double {
+    suspend fun oneTimeExpenses(): Double {
         return oneTime()
             .filter { it.type == TransactionType.EXPENSE }
             .sumByDoublePlannedInBaseCurrency(
@@ -77,22 +77,22 @@ class PlannedPaymentsLogic(
             )
     }
 
-    fun recurring(): List<PlannedPaymentRule> =
+    suspend fun recurring(): List<PlannedPaymentRule> =
         plannedPaymentRuleDao.findAllByOneTime(oneTime = false).map { it.toDomain() }
 
-    fun recurringIncome(): Double {
+    suspend fun recurringIncome(): Double {
         return recurring()
             .filter { it.type == TransactionType.INCOME }
             .sumByDoubleRecurringForMonthInBaseCurrency()
     }
 
-    fun recurringExpenses(): Double {
+    suspend fun recurringExpenses(): Double {
         return recurring()
             .filter { it.type == TransactionType.EXPENSE }
             .sumByDoubleRecurringForMonthInBaseCurrency()
     }
 
-    private fun Iterable<PlannedPaymentRule>.sumByDoubleRecurringForMonthInBaseCurrency(): Double {
+    private suspend fun Iterable<PlannedPaymentRule>.sumByDoubleRecurringForMonthInBaseCurrency(): Double {
         val accounts = accountDao.findAll()
         val baseCurrency = settingsDao.findFirst().currency
 
@@ -105,7 +105,7 @@ class PlannedPaymentsLogic(
         }
     }
 
-    private fun amountForMonthInBaseCurrency(
+    private suspend fun amountForMonthInBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
         accounts: List<Account>

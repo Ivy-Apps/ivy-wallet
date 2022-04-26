@@ -46,7 +46,7 @@ class ExchangeRatesLogic(
         }
     }
 
-    fun amountBaseCurrency(
+    suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
         accounts: List<Account> //helper
@@ -59,7 +59,7 @@ class ExchangeRatesLogic(
         )
     }
 
-    fun amountBaseCurrency(
+    suspend fun amountBaseCurrency(
         transaction: Transaction,
         baseCurrency: String,
         accounts: List<Account> //helper
@@ -72,7 +72,7 @@ class ExchangeRatesLogic(
         )
     }
 
-    fun toAmountBaseCurrency(
+    suspend fun toAmountBaseCurrency(
         transaction: Transaction,
         baseCurrency: String,
         accounts: List<Account> //helper
@@ -88,7 +88,7 @@ class ExchangeRatesLogic(
         )
     }
 
-    private fun amountBaseCurrency(
+    private suspend fun amountBaseCurrency(
         amount: Double,
         accountId: UUID,
         baseCurrency: String,
@@ -104,7 +104,7 @@ class ExchangeRatesLogic(
         )
     }
 
-    fun amountBaseCurrency(
+    suspend fun amountBaseCurrency(
         amount: Double,
         amountCurrency: String,
         baseCurrency: String
@@ -118,7 +118,7 @@ class ExchangeRatesLogic(
         }
     }
 
-    fun convertAmount(
+    suspend fun convertAmount(
         baseCurrency: String,
         amount: Double,
         fromCurrency: String,
@@ -134,7 +134,7 @@ class ExchangeRatesLogic(
     /**
      * base = BGN, currency = EUR => rate = 0.51
      */
-    private fun exchangeRate(
+    private suspend fun exchangeRate(
         baseCurrency: String,
         currency: String
     ): Double {
@@ -150,7 +150,7 @@ class ExchangeRatesLogic(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-fun Iterable<Transaction>.sumInBaseCurrency(
+suspend fun Iterable<Transaction>.sumInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,
@@ -168,7 +168,7 @@ fun Iterable<Transaction>.sumInBaseCurrency(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
+suspend fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,

@@ -10,11 +10,11 @@ import java.util.*
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(user: UserEntity)
+    suspend fun save(user: UserEntity)
 
     @Query("SELECT * FROM users WHERE id = :userId")
-    fun findById(userId: UUID): UserEntity?
+    suspend fun findById(userId: UUID): UserEntity?
 
     @Query("DELETE FROM users")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
