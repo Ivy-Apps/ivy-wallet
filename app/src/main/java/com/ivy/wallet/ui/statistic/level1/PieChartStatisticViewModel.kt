@@ -11,6 +11,7 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
@@ -41,7 +42,8 @@ class PieChartStatisticViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val ivyContext: IvyWalletCtx,
-    private val pieChartAct: PieChartAct
+    private val pieChartAct: PieChartAct,
+    private val sharedPrefs: SharedPrefs
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
@@ -207,12 +209,19 @@ class PieChartStatisticViewModel @Inject constructor(
             val settings = ioThread { settingsDao.findFirst() }
             _baseCurrencyCode.value = settings.currency
 
+            val treatTransferAsIncExp =
+                sharedPrefs.getBoolean(
+                    SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
+                    false
+                ) && accountIdFilterList.isNotEmpty()
+
             val pieChartActOutput = pieChartAct(
                 PieChartAct.Input(
                     baseCurrency = _baseCurrencyCode.value,
                     range = range,
                     type = _type.value,
-                    accountIdFilterList = accountIdFilterList
+                    accountIdFilterList = accountIdFilterList,
+                    treatTransferAsIncExp = treatTransferAsIncExp
                 )
             )
 
@@ -292,6 +301,6 @@ class PieChartStatisticViewModel @Inject constructor(
     }
 
     fun checkForUnspecifiedCategory(category: Category?): Boolean {
-        return category == null || category == transfersCategory
+        return category == null || category == transfersCategory || category.name == stringRes(R.string.account_transfers)
     }
 }
