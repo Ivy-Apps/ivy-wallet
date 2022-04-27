@@ -32,12 +32,44 @@ object WalletValueFunctions {
         }
     }
 
+    suspend fun transferIncome(
+        transaction: Transaction,
+        arg: Argument
+    ): BigDecimal = with(transaction) {
+        val condition = arg.accounts.any { it.id == this.toAccountId }
+        when {
+            type == TransactionType.TRANSFER && condition -> exchangeInBaseCurrency(
+                transaction = this.copy(amount = this.toAmount),
+                accounts = arg.accounts,
+                baseCurrency = arg.baseCurrency,
+                exchange = arg.exchange
+            )
+            else -> BigDecimal.ZERO
+        }
+    }
+
     suspend fun expense(
         transaction: Transaction,
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
             TransactionType.EXPENSE -> exchangeInBaseCurrency(
+                transaction = this,
+                accounts = arg.accounts,
+                baseCurrency = arg.baseCurrency,
+                exchange = arg.exchange
+            )
+            else -> BigDecimal.ZERO
+        }
+    }
+
+    suspend fun transferExpenses(
+        transaction: Transaction,
+        arg: Argument
+    ): BigDecimal = with(transaction) {
+        val condition = arg.accounts.any { it.id == this.accountId }
+        when {
+            type == TransactionType.TRANSFER && condition -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
