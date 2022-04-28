@@ -18,8 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.hideKeyboard
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.rootView
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
@@ -40,6 +42,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
     var descTextFieldValue by remember(description) {
         mutableStateOf(selectEndTextFieldValue(description))
     }
+    val view = rootView()
 
     IvyModal(
         id = id,
@@ -51,9 +54,11 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 initialChanged = description != descTextFieldValue.text,
                 onSave = {
                     onDescriptionChanged(descTextFieldValue.text)
+                    view.hideKeyboard()
                 },
                 onDelete = {
                     onDescriptionChanged(null)
+                    view.hideKeyboard()
                 },
                 dismiss = dismiss
             )
