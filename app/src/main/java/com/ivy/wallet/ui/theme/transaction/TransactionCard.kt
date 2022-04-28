@@ -329,6 +329,7 @@ fun TypeAmountCurrency(
 ) {
 
     Row(
+        modifier = Modifier.testTag("type_amount_currency"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))
