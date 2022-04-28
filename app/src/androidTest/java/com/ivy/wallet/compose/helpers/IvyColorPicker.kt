@@ -7,15 +7,12 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.ivy.wallet.compose.printTree
 
 class IvyColorPicker<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
 
     fun chooseColor(color: Color) {
-        composeTestRule.printTree()
-
         composeTestRule.onNode(hasTestTag("color_item_${color.value}"))
             .performScrollTo()
             .performClick()
