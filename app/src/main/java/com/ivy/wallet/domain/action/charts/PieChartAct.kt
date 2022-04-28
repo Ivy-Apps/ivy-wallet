@@ -47,12 +47,14 @@ class PieChartAct @Inject constructor(
         val accountsUsed = it.first
         val accountIdFilterSet = it.second
 
-        val transactions = trnsWithRangeAndAccFiltersAct(
-            TrnsWithRangeAndAccFiltersAct.Input(
-                range = range,
-                accountIdFilterSet = accountIdFilterSet
+        val transactions = existingTransactions.ifEmpty {
+            trnsWithRangeAndAccFiltersAct(
+                TrnsWithRangeAndAccFiltersAct.Input(
+                    range = range,
+                    accountIdFilterSet = accountIdFilterSet
+                )
             )
-        )
+        }
 
         Pair(accountsUsed, transactions)
     } then {
@@ -67,17 +69,30 @@ class PieChartAct @Inject constructor(
             )
         )
 
-        val categoryAmounts = calculateCategoryAmounts(
-            type = type,
-            baseCurrency = baseCurrency,
-            allCategories = suspend {
-                categoriesAct(Unit).plus(null) //for unspecified
-            },
-            transactions = suspend { transactions },
-            accountsUsed = suspend { accountsUsed }
-        )
+        val categoryAmounts = suspend {
+            calculateCategoryAmounts(
+                type = type,
+                baseCurrency = baseCurrency,
+                allCategories = suspend {
+                    categoriesAct(Unit).plus(null) //for unspecified
+                },
+                transactions = suspend { transactions },
+                accountsUsed = suspend { accountsUsed },
+                addAssociatedTransToCategoryAmt = existingTransactions.isNotEmpty()
+            )
+        } then {
+            addAccountTransfersCategory(
+                treatTransferAsIncExp = treatTransferAsIncExp,
+                type = type,
+                accountTransfersCategory = accountTransfersCategory,
+                accountIdFilterSet = accountIdFilterList.toHashSet(),
+                incomeExpenseTransfer = suspend { incomeExpenseTransfer },
+                categoryAmounts = suspend { it },
+                transactions = suspend { transactions }
+            )
+        }
 
-        Pair(incomeExpenseTransfer, categoryAmounts)
+        Pair(incomeExpenseTransfer, categoryAmounts())
     } then {
 
         val totalAmount = calculateTotalAmount(
@@ -86,13 +101,7 @@ class PieChartAct @Inject constructor(
             incomeExpenseTransfer = suspend { it.first }
         )
 
-        val catAmountList = addAccountTransfersCategory(
-            treatTransferAsIncExp = treatTransferAsIncExp,
-            type = type,
-            incomeExpenseTransfer = suspend { it.first },
-            accountTransfersCategory = accountTransfersCategory,
-            categoryAmounts = suspend { it.second }
-        )
+        val catAmountList = it.second
 
         Pair(totalAmount, catAmountList)
     } then {
@@ -123,6 +132,7 @@ class PieChartAct @Inject constructor(
     private suspend fun calculateCategoryAmounts(
         type: TransactionType,
         baseCurrency: String,
+        addAssociatedTransToCategoryAmt: Boolean = false,
 
         @SideEffect
         allCategories: suspend () -> List<Category?>,
@@ -137,6 +147,15 @@ class PieChartAct @Inject constructor(
         val accUsed = accountsUsed()
 
         val catAmtList = allCategories thenMap { category ->
+            val categoryTransactions = asyncIo {
+                if (addAssociatedTransToCategoryAmt)
+                    trans.filter {
+                        it.type == type && it.categoryId == category?.id
+                    }
+                else
+                    emptyList()
+            }
+
             val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
                 CategoryIncomeWithAccountFiltersAct.Input(
                     transactions = trans,
@@ -152,7 +171,8 @@ class PieChartAct @Inject constructor(
                     TransactionType.INCOME -> catIncomeExpense.income.toDouble()
                     TransactionType.EXPENSE -> catIncomeExpense.expense.toDouble()
                     else -> error("not supported transactionType - $type")
-                }
+                },
+                associatedTransactions = categoryTransactions.await()
             )
         } thenFilter { catAmt ->
             catAmt.amount != 0.0
@@ -196,6 +216,10 @@ class PieChartAct @Inject constructor(
         treatTransferAsIncExp: Boolean,
         type: TransactionType,
         accountTransfersCategory: Category,
+        accountIdFilterSet: Set<UUID>,
+
+        @SideEffect
+        transactions: suspend () -> List<Transaction>,
 
         @SideEffect
         incomeExpenseTransfer: suspend () -> IncomeExpenseTransferPair,
@@ -216,10 +240,18 @@ class PieChartAct @Inject constructor(
                 else
                     incExpQuad.transferExpense.toDouble()
 
+                val categoryTrans = transactions().filter {
+                    it.type == TransactionType.TRANSFER && it.categoryId == null
+                }.filter {
+                    if (type == TransactionType.EXPENSE)
+                        accountIdFilterSet.contains(it.accountId)
+                    else
+                        accountIdFilterSet.contains(it.toAccountId)
+                }
 
                 categoryAmounts then {
                     it.plus(
-                        CategoryAmount(accountTransfersCategory, amt)
+                        CategoryAmount(accountTransfersCategory, amt, categoryTrans)
                     )
                 } then {
                     it.sortedByDescending { ca -> ca.amount }
@@ -234,7 +266,8 @@ class PieChartAct @Inject constructor(
         val range: FromToTimeRange,
         val type: TransactionType,
         val accountIdFilterList: List<UUID>,
-        val treatTransferAsIncExp: Boolean = false
+        val treatTransferAsIncExp: Boolean = false,
+        val existingTransactions: List<Transaction> = emptyList()
     )
 
     data class Output(val totalAmount: Double, val categoryAmounts: List<CategoryAmount>)

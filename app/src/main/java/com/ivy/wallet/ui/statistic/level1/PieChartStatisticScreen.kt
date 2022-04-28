@@ -229,7 +229,7 @@ private fun BoxWithConstraintsScope.UI(
                     selectedCategory = selectedCategory
                 ) {
                     nav.navigateTo(
-                        if (transactions.isEmpty())
+                        if (transactions.isEmpty() && item.associatedTransactions.isEmpty())
                             ItemStatistic(
                                 categoryId = item.category?.id,
                                 unspecifiedCategory = checkForUnSpecifiedCategory(item.category),
