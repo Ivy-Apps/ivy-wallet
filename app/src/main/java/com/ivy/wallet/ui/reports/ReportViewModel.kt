@@ -244,7 +244,7 @@ class ReportViewModel @Inject constructor(
                     ExchangeAct.Input(
                         data = ExchangeData(
                             baseCurrency = baseCurrency,
-                            fromCurrency = trnCurrency(it, accounts),
+                            fromCurrency = trnCurrency(it, accounts, baseCurrency),
                         ),
                         amount = it.amount
                     )
@@ -328,7 +328,7 @@ class ReportViewModel @Inject constructor(
                     ExchangeAct.Input(
                         data = ExchangeData(
                             baseCurrency = baseCurrency,
-                            fromCurrency = trnCurrency(trn, accounts),
+                            fromCurrency = trnCurrency(trn, accounts, baseCurrency),
                         ),
                         amount = trn.amount
                     )
@@ -346,7 +346,7 @@ class ReportViewModel @Inject constructor(
                     ExchangeAct.Input(
                         data = ExchangeData(
                             baseCurrency = baseCurrency,
-                            fromCurrency = trnCurrency(trn, accounts),
+                            fromCurrency = trnCurrency(trn, accounts, baseCurrency),
                         ),
                         amount = trn.amount
                     )

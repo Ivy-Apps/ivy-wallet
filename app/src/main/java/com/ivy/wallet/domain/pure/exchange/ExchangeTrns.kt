@@ -6,6 +6,7 @@ import com.ivy.fp.Pure
 import com.ivy.fp.SideEffect
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.pure.account.accountCurrency
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal
 import java.util.*
@@ -25,7 +26,9 @@ suspend fun exchangeInBaseCurrency(
     transaction: Transaction,
     arg: ExchangeTrnArgument
 ): BigDecimal {
-    val fromCurrency = arg.getAccount(transaction.accountId)?.currency.toOption()
+    val fromCurrency = arg.getAccount(transaction.accountId)?.let {
+        accountCurrency(it, arg.baseCurrency)
+    }.toOption()
 
     return exchangeInCurrency(
         transaction = transaction,
