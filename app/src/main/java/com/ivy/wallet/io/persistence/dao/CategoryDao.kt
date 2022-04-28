@@ -34,5 +34,5 @@ interface CategoryDao {
     suspend fun deleteAll()
 
     @Query("SELECT MAX(orderNum) FROM categories")
-    suspend fun findMaxOrderNum(): Double
+    suspend fun findMaxOrderNum(): Double?
 }
