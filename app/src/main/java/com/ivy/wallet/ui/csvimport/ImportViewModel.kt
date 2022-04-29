@@ -16,10 +16,7 @@ import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.utils.TestIdlingResource
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.uiThread
+import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -79,7 +76,7 @@ class ImportViewModel @Inject constructor(
 
                 _importStep.value = ImportStep.LOADING
 
-                _importResult.value = if (hasCSVExtension(fileUri))
+                _importResult.value = if (hasCSVExtension(context, fileUri))
                     restoreCSVFile(fileUri = fileUri, importType = importType)
                 else {
                     exportZipLogic.import(
@@ -196,10 +193,11 @@ class ImportViewModel @Inject constructor(
         _importStep.value = ImportStep.IMPORT_FROM
     }
 
-    private fun hasCSVExtension(fileUri: Uri): Boolean {
-        var ex = fileUri.toString()
-        ex = ex.substring(ex.lastIndexOf("."))
-
-        return ex.equals(".csv", ignoreCase = true)
+    private suspend fun hasCSVExtension(
+        context: Context,
+        fileUri: Uri
+    ): Boolean = ioThread {
+        val fileName = context.getFileName(fileUri)
+        fileName?.endsWith(suffix = ".csv", ignoreCase = true) ?: false
     }
 }
