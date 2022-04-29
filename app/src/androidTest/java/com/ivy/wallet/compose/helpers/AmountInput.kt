@@ -13,7 +13,8 @@ class AmountInput<A : ComponentActivity>(
 ) {
     fun enterNumber(
         number: String,
-        onCalculator: Boolean = false
+        onCalculator: Boolean = false,
+        autoPressNonCalculator: Boolean = true,
     ) {
         composeTestRule.waitForIdle()
 
@@ -32,7 +33,7 @@ class AmountInput<A : ComponentActivity>(
             }
         }
 
-        if (!onCalculator) {
+        if (!onCalculator && autoPressNonCalculator) {
             clickSet()
         }
     }
@@ -78,7 +79,7 @@ class AmountInput<A : ComponentActivity>(
     }
 
     fun pressDivision() {
-        composeTestRule.onNodeWithTag("key_-")
+        composeTestRule.onNodeWithTag("key_/")
             .performClick()
     }
 
@@ -89,6 +90,11 @@ class AmountInput<A : ComponentActivity>(
 
     fun pressRightBracket() {
         composeTestRule.onNodeWithTag("key_)")
+            .performClick()
+    }
+
+    fun pressCalcEqual() {
+        composeTestRule.onNodeWithTag("key_=")
             .performClick()
     }
 

@@ -60,12 +60,88 @@ class CalculatorTest : IvyComposeTest() {
 
     @Test
     fun setAmount_withAddition() {
+        onboarding.quickOnboarding()
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddIncome()
 
+        amountInput.enterNumber(
+            number = "38.16",
+            autoPressNonCalculator = false
+        )
+        amountInput.clickCalculator()
+
+        //---------------------------
+
+        amountInput.pressPlus()
+        amountInput.enterNumber(
+            number = "80.74",
+            onCalculator = true
+        )
+
+        amountInput.clickCalcSet()
+        amountInput.clickSet()
+
+        transactionScreen.skipCategory()
+        transactionScreen.editTitle("Calc 2")
+        transactionScreen.clickAdd()
+
+        //----------------------------
+
+        //38.16 + 80.74 = 118.90
+        homeTab.assertBalance(
+            amount = "118",
+            amountDecimal = ".90"
+        )
+
+        homeTab.clickTransaction(
+            amount = "118.90",
+            title = "Calc 2"
+        )
     }
 
     @Test
     fun calcAmount_viaDivision() {
+        onboarding.quickOnboarding()
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddExpense()
 
+        amountInput.clickCalculator()
+
+        //---------------------------
+
+        amountInput.enterNumber(
+            number = "72.50",
+            onCalculator = true
+        )
+
+        amountInput.pressDivision()
+
+        amountInput.enterNumber(
+            number = "3",
+            onCalculator = true
+        )
+
+        amountInput.pressCalcEqual()
+
+        amountInput.clickCalcSet()
+        amountInput.clickSet()
+
+        transactionScreen.skipCategory()
+        transactionScreen.editTitle("Calc 3")
+
+        transactionScreen.clickAdd()
+        //----------------------------------------
+
+        //72.50 / 3 = 24.17
+        homeTab.assertBalance(
+            amount = "-24",
+            amountDecimal = ".17"
+        )
+
+        homeTab.clickTransaction(
+            amount = "24.17",
+            title = "Calc 3"
+        )
     }
 
     @Test
@@ -74,7 +150,7 @@ class CalculatorTest : IvyComposeTest() {
     }
 
     @Test
-    fun calcComplexExpression() {
+    fun calcAmount_complexExpression() {
 
     }
 }
