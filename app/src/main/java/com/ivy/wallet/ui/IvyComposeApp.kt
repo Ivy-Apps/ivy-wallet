@@ -20,6 +20,7 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.utils.IvyPreview
+import com.ivy.wallet.IvyAndroidApp
 
 
 @Composable
@@ -59,6 +60,7 @@ fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
+    IvyAndroidApp.appContext = rootView().context
     IvyPreview(
         theme = theme,
         design = appDesign(IvyWalletCtx()),
