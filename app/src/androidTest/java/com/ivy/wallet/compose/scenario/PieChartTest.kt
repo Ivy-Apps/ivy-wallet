@@ -5,7 +5,6 @@ import com.ivy.wallet.compose.helpers.HomeTab
 import com.ivy.wallet.compose.helpers.OnboardingFlow
 import com.ivy.wallet.compose.helpers.PieChartScreen
 import com.ivy.wallet.compose.helpers.TransactionFlow
-import com.ivy.wallet.compose.printTree
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -43,12 +42,102 @@ class PieChartTest : IvyComposeTest() {
 
         homeTab.clickExpenseCard()
 
-        composeTestRule.printTree(useUnmergedTree = false)
-
         pieChartScreen.assertTitle("Expenses")
         pieChartScreen.assertTotalAmount(
             amountInt = "280",
             decimalPart = ".95",
+            currency = "USD"
+        )
+    }
+
+    @Test
+    fun expensePieChart_empty() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addIncome(
+            amount = 23.23
+        )
+
+        //----------------------------------------------------
+
+        homeTab.clickExpenseCard()
+
+        pieChartScreen.assertTitle("Expenses")
+        pieChartScreen.assertTotalAmount(
+            amountInt = "0",
+            decimalPart = ".00",
+            currency = "USD"
+        )
+    }
+
+    @Test
+    fun expensePieChart_oneTrn() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 55.01
+        )
+
+        //----------------------------------------------------
+
+        homeTab.clickExpenseCard()
+
+        pieChartScreen.assertTitle("Expenses")
+        pieChartScreen.assertTotalAmount(
+            amountInt = "55",
+            decimalPart = ".01",
+            currency = "USD"
+        )
+    }
+
+    @Test
+    fun incomePieChart_realistic() {
+        onboarding.quickOnboarding()
+
+        //To ensure that the code filters expenses
+        transactionFlow.addExpense(
+            amount = 10.0
+        )
+
+        transactionFlow.addIncome(
+            amount = 7200.0,
+            title = "Salary",
+            category = "Groceries"
+        )
+
+        transactionFlow.addIncome(
+            amount = 1.1,
+            title = "Adjust balance"
+        )
+
+        //----------------------------------------------------
+
+        homeTab.clickIncomeCard()
+
+        pieChartScreen.assertTitle("Income")
+        pieChartScreen.assertTotalAmount(
+            amountInt = "7,201",
+            decimalPart = ".10",
+            currency = "USD"
+        )
+    }
+
+    @Test
+    fun incomePieChart_empty() {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 23.23
+        )
+
+        //----------------------------------------------------
+
+        homeTab.clickIncomeCard()
+
+        pieChartScreen.assertTitle("Income")
+        pieChartScreen.assertTotalAmount(
+            amountInt = "0",
+            decimalPart = ".00",
             currency = "USD"
         )
     }
