@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -159,10 +160,11 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                modifier = Modifier.padding(start = 32.dp),
-                text = if (transactionType == TransactionType.EXPENSE) stringResource(R.string.expenses) else stringResource(
-                    R.string.income
-                ),
+                modifier = Modifier
+                    .padding(start = 32.dp)
+                    .testTag("piechart_title"),
+                text = if (transactionType == TransactionType.EXPENSE)
+                    stringResource(R.string.expenses) else stringResource(R.string.income),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -171,7 +173,8 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp, end = 16.dp)
-                    .alpha(percentExpanded),
+                    .alpha(percentExpanded)
+                    .testTag("piechart_total_amount"),
                 currency = currency,
                 balance = totalAmount,
                 currencyUpfront = false,

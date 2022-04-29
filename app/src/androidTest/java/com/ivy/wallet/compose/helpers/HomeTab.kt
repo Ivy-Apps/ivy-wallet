@@ -131,4 +131,14 @@ class HomeTab<A : ComponentActivity>(
         composeTestRule.onNodeWithTag("home_greeting_text", useUnmergedTree = true)
             .assertTextEquals(greeting)
     }
+
+    fun clickIncomeCard() {
+        composeTestRule.onNodeWithTag("home_card_income")
+            .performClick()
+    }
+
+    fun clickExpenseCard() {
+        composeTestRule.onNodeWithTag("home_card_expense")
+            .performClick()
+    }
 }
