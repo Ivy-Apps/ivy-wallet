@@ -16,7 +16,7 @@ class PieChartTest : IvyComposeTest() {
     private val pieChartScreen = PieChartScreen(composeTestRule)
 
     @Test
-    fun expensePieChart_realistic() {
+    fun expensePieChart_realistic() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(
@@ -51,7 +51,7 @@ class PieChartTest : IvyComposeTest() {
     }
 
     @Test
-    fun expensePieChart_empty() {
+    fun expensePieChart_empty() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addIncome(
@@ -71,7 +71,7 @@ class PieChartTest : IvyComposeTest() {
     }
 
     @Test
-    fun expensePieChart_oneTrn() {
+    fun expensePieChart_oneTrn() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(
@@ -91,7 +91,7 @@ class PieChartTest : IvyComposeTest() {
     }
 
     @Test
-    fun incomePieChart_realistic() {
+    fun incomePieChart_realistic() = testWithRetry {
         onboarding.quickOnboarding()
 
         //To ensure that the code filters expenses
@@ -123,7 +123,7 @@ class PieChartTest : IvyComposeTest() {
     }
 
     @Test
-    fun incomePieChart_empty() {
+    fun incomePieChart_empty() = testWithRetry {
         onboarding.quickOnboarding()
 
         transactionFlow.addExpense(
