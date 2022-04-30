@@ -22,8 +22,8 @@ import org.gradle.kotlin.dsl.project
 
 object Project {
     //Version
-    const val versionName = "3.1.2-fast"
-    const val versionCode = 104
+    const val versionName = "4.0.0"
+    const val versionCode = 105
 
     //Compile SDK & Build Tools
     const val compileSdkVersion = 31
@@ -46,6 +46,7 @@ fun DependencyHandler.appModuleDependencies(
     kotlinVersion: String = GlobalVersions.kotlinVersion
 ) {
     implementation(project(":ivy-design"))
+    implementation(project(":ivy-fp"))
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
@@ -86,6 +87,21 @@ fun DependencyHandler.ivyDesignModuleDependencies(
     )
 
     Compose(version = GlobalVersions.compose)
+
+    AndroidX()
+    Lifecycle(version = "2.3.1")
+}
+
+fun DependencyHandler.ivyFPModuleDependencies(
+    kotlinVersion: String = GlobalVersions.kotlinVersion
+) {
+    Kotlin(version = kotlinVersion)
+    Coroutines(version = "1.5.0")
+    FunctionalProgramming(
+        arrowVersion = "1.0.1",
+        kotestVersion = "5.1.0",
+        kotlinVersion = kotlinVersion
+    )
 
     AndroidX()
     Lifecycle(version = "2.3.1")
@@ -268,6 +284,9 @@ fun DependencyHandler.Coroutines(
 
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
+
+    //URL: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$version")
 }
 
 fun DependencyHandler.ThirdParty() {

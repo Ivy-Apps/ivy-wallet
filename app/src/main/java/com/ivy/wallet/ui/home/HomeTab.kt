@@ -12,6 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
@@ -20,12 +21,14 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.Constants
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -287,7 +290,7 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     CurrencyModal(
-        title = "Set currency",
+        title = stringResource(R.string.set_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
@@ -441,10 +444,11 @@ fun HomeLazyColumn(
             overdueExpenses = overdueExpenses,
             history = history,
             onPayOrGet = onPayOrGet,
-            emptyStateTitle = "No transactions",
-            emptyStateText = "You don't have any transactions for ${
+            emptyStateTitle = stringRes(R.string.no_transactions),
+            emptyStateText = stringRes(
+                R.string.no_transactions_description,
                 period.toDisplayLong(ivyContext.startDayOfMonth)
-            }.\nYou can add one by tapping the \"+\" button."
+            )
         )
     }
 }

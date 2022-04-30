@@ -7,21 +7,20 @@ import com.android.billingclient.api.Purchase
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.billing.Plan
 import com.ivy.wallet.android.billing.PlanType
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.budget.BudgetsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Budget
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.domain.logic.PaywallLogic
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.io.network.IvyAnalytics
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.BudgetDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,10 +32,10 @@ class PaywallViewModel @Inject constructor(
     private val ivyBilling: IvyBilling,
     private val paywallLogic: PaywallLogic,
     private val ivyAnalytics: IvyAnalytics,
-    private val categoryDao: CategoryDao,
-    private val accountDao: AccountDao,
-    private val budgetDao: BudgetDao,
-    private val loanDao: LoanDao
+    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsAct,
+    private val budgetsAct: BudgetsAct,
+    private val loansAct: LoansAct
 ) : ViewModel() {
 
     private val _plans = MutableLiveData<List<Plan>>()
@@ -90,10 +89,10 @@ class PaywallViewModel @Inject constructor(
         )
 
         viewModelScope.launch {
-            _categories.value = ioThread { categoryDao.findAll() }!!
-            _accounts.value = ioThread { accountDao.findAll() }!!
-            _budgets.value = ioThread { budgetDao.findAll() }!!
-            _loans.value = ioThread { loanDao.findAll() }!!
+            _categories.value = categoriesAct(Unit)!!
+            _accounts.value = accountsAct(Unit)!!
+            _budgets.value = budgetsAct(Unit)!!
+            _loans.value = loansAct(Unit)!!
 
             ivyAnalytics.logEvent(
                 when (screen.paywallReason) {

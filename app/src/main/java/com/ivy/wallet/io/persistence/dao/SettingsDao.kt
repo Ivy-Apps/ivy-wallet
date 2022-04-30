@@ -4,29 +4,29 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.Settings
+import com.ivy.wallet.io.persistence.data.SettingsEntity
 import java.util.*
 
 @Dao
 interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: Settings)
+    suspend fun save(value: SettingsEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<Settings>)
+    suspend fun save(value: List<SettingsEntity>)
 
     @Query("SELECT * FROM settings LIMIT 1")
-    fun findFirst(): Settings
+    suspend fun findFirst(): SettingsEntity
 
     @Query("SELECT * FROM settings")
-    fun findAll(): List<Settings>
+    suspend fun findAll(): List<SettingsEntity>
 
     @Query("SELECT * FROM settings WHERE id = :id")
-    fun findById(id: UUID): Settings?
+    suspend fun findById(id: UUID): SettingsEntity?
 
     @Query("DELETE FROM settings WHERE id = :id")
-    fun deleteById(id: UUID)
+    suspend fun deleteById(id: UUID)
 
     @Query("DELETE FROM settings")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

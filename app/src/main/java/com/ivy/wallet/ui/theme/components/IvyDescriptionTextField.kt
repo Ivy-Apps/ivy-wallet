@@ -63,7 +63,7 @@ fun IvyDescriptionTextField(
             modifier = textModifier,
             value = value,
             onValueChange = onValueChanged,
-            textStyle = UI.typo.b2.style(
+            textStyle = UI.typo.nB2.style(
                 color = textColor,
                 fontWeight = fontWeight,
                 textAlign = TextAlign.Start

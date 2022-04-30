@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,8 +21,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
@@ -112,13 +113,13 @@ fun BoxWithConstraintsScope.AccountModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = if (modal?.account != null) "Edit account" else "New account",
+            text = if (modal?.account != null) stringResource(R.string.edit_account) else stringResource(R.string.new_account),
         )
 
         Spacer(Modifier.height(24.dp))
 
         IconNameRow(
-            hint = "Account name",
+            hint = stringResource(R.string.account_name),
             defaultIcon = R.drawable.ic_custom_account_m,
             color = color,
             icon = icon,
@@ -157,13 +158,13 @@ fun BoxWithConstraintsScope.AccountModal(
                     modifier = Modifier
                         .padding(start = 16.dp)
                         .align(Alignment.Start),
-                    text = "Include account",
+                    text = stringResource(R.string.include_account),
                     checked = includeInBalance
                 ) {
                     includeInBalance = it
                 }
             },
-            label = "ENTER ACCOUNT BALANCE",
+            label = stringResource(R.string.enter_account_balance).uppercase(),
             currency = currencyCode,
             amount = amount,
             amountPaddingTop = 40.dp,
@@ -204,7 +205,7 @@ fun BoxWithConstraintsScope.AccountModal(
 
     val context = LocalContext.current
     CurrencyModal(
-        title = "Choose currency",
+        title = stringResource(R.string.choose_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }

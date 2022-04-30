@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -97,7 +98,7 @@ fun BoxWithConstraintsScope.BottomBar(
     ) {
         Tab(
             icon = R.drawable.ic_home,
-            name = "Home",
+            name = stringResource(R.string.home),
             selected = tab == MainTab.HOME,
             selectedColor = Ivy
         ) {
@@ -108,7 +109,7 @@ fun BoxWithConstraintsScope.BottomBar(
 
         Tab(
             icon = R.drawable.ic_accounts,
-            name = "Accounts",
+            name = stringResource(R.string.accounts),
             selected = tab == MainTab.ACCOUNTS,
             selectedColor = Green
         ) {
@@ -272,7 +273,7 @@ private fun TransactionButtons(
                 .alpha(buttonsShownPercent)
                 .zIndex(200f),
             iconStart = R.drawable.ic_planned_payments,
-            text = "Add planned payment",
+            text = stringResource(R.string.add_planned_payment),
             solidBackground = true
         ) {
             onAddPlannedPayment()
@@ -371,7 +372,7 @@ private fun AddIncomeButton(
                 onAddIncome()
             }
             .zIndex(200f),
-        text = "ADD INCOME",
+        text = stringResource(R.string.add_income_uppercase),
         style = UI.typo.c.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
@@ -457,7 +458,7 @@ private fun AddExpenseButton(
                 onAddExpense()
             }
             .zIndex(200f),
-        text = "ADD EXPENSE",
+        text = stringResource(R.string.add_expense_uppercase),
         style = UI.typo.c.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,
@@ -543,7 +544,7 @@ private fun AddTransferButton(
                 onAddTransfer()
             }
             .zIndex(200f),
-        text = "ACCOUNT TRANSFER",
+        text = stringResource(R.string.account_transfer),
         style = UI.typo.c.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold,

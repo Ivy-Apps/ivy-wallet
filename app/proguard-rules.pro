@@ -20,13 +20,16 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Fix broken stuff by R8
+-keep class com.ivy.wallet.ui.widget.** { *; }
+-keep class com.ivy.wallet.domain.data.** { *; }
+-keep class com.ivy.wallet.io.network.** { *; }
+-keep class com.ivy.wallet.io.persistence.data.** { *; }
+-keep class com.ivy.wallet.io.network.data.** { *; }
+-keep class com.ivy.wallet.domain.event.** { *; }
+
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
-
-# Widget
--keep class com.ivy.wallet.widget.** { *; }
-# ------
-
 
 # Firebase Crashlytics
 -dontwarn org.xmlpull.v1.**
@@ -135,12 +138,6 @@
 
 # Application classes that will be serialized/deserialized over Gson
 -keep class com.ivy.wallet.model.** { <fields>; }
-
-# Fix broken stuff by R8
--keep class com.ivy.wallet.domain.data.** { *; }
--keep class com.ivy.wallet.ui.widget.** { *; }
--keep class com.ivy.wallet.io.network.** { *; }
--keep class com.ivy.wallet.domain.event.** { *; }
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)

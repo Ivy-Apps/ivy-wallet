@@ -39,7 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/raleway_bold"
                 android:gravity="center"
-                android:text="Income"
+                android:text="@string/income"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/raleway_bold"
                 android:gravity="center"
-                android:text="Expense"
+                android:text="@string/expense"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -95,7 +95,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/raleway_bold"
                 android:gravity="center"
-                android:text="Transfer"
+                android:text="@string/transfer"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 

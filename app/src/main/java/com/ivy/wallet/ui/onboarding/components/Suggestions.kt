@@ -9,15 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
@@ -117,7 +118,7 @@ private fun AddNewButton(
 
         Text(
             modifier = Modifier.padding(vertical = 16.dp),
-            text = "Add new",
+            text = stringResource(R.string.add_new),
             style = UI.typo.b2.style(
                 color = UI.colors.pure,
                 fontWeight = FontWeight.Bold

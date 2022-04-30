@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,18 +22,16 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.hideKeyboard
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.EditPlanned
-import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.edit.core.*
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
@@ -53,28 +52,30 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
     val viewModel: EditTransactionViewModel = viewModel()
 
     val transactionType by viewModel.transactionType.observeAsState(screen.type)
-    val initialTitle by viewModel.initialTitle.observeAsState()
+    val initialTitle by viewModel.initialTitle.collectAsState()
     val titleSuggestions by viewModel.titleSuggestions.collectAsState()
-    val currency by viewModel.currency.observeAsState("")
-    val description by viewModel.description.observeAsState()
-    val dateTime by viewModel.dateTime.observeAsState()
-    val category by viewModel.category.observeAsState()
-    val account by viewModel.account.observeAsState()
-    val toAccount by viewModel.toAccount.observeAsState()
-    val dueDate by viewModel.dueDate.observeAsState()
-    val amount by viewModel.amount.observeAsState(0.0)
+    val currency by viewModel.currency.collectAsState()
+    val description by viewModel.description.collectAsState()
+    val dateTime by viewModel.dateTime.collectAsState()
+    val category by viewModel.category.collectAsState()
+    val account by viewModel.account.collectAsState()
+    val toAccount by viewModel.toAccount.collectAsState()
+    val dueDate by viewModel.dueDate.collectAsState()
+    val amount by viewModel.amount.collectAsState()
     val loanData by viewModel.displayLoanHelper.collectAsState()
     val backgroundProcessing by viewModel.backgroundProcessingStarted.collectAsState()
     val customExchangeRateState by viewModel.customExchangeRateState.collectAsState()
 
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
+    val categories by viewModel.categories.collectAsState(emptyList())
+    val accounts by viewModel.accounts.collectAsState(emptyList())
 
-    val hasChanges by viewModel.hasChanges.observeAsState(false)
+    val hasChanges by viewModel.hasChanges.collectAsState(false)
 
     onScreenStart {
         viewModel.start(screen)
     }
+
+    val view = rootView()
 
     UI(
         screen = screen,
@@ -111,7 +112,10 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
         onCreateCategory = viewModel::createCategory,
         onEditCategory = viewModel::editCategory,
         onPayPlannedPayment = viewModel::onPayPlannedPayment,
-        onSave = viewModel::save,
+        onSave = {
+            view.hideKeyboard()
+            viewModel.save()
+        },
         onSetHasChanges = viewModel::setHasChanges,
         onDelete = viewModel::delete,
         onCreateAccount = viewModel::createAccount,
@@ -335,7 +339,7 @@ private fun BoxWithConstraintsScope.UI(
             val nav = navigation()
             AddPrimaryAttributeButton(
                 icon = R.drawable.ic_planned_payments,
-                text = "Add planned date of payment",
+                text = stringResource(R.string.add_planned_date_payment),
                 onClick = {
                     nav.back()
                     nav.navigateTo(
@@ -386,7 +390,11 @@ private fun BoxWithConstraintsScope.UI(
                         }
                     } else {
                         //no changes, pay
-                        ModalCheck(label = if (transactionType == TransactionType.EXPENSE) "Pay" else "Get") {
+                        ModalCheck(
+                            label = if (transactionType == TransactionType.EXPENSE) stringResource(
+                                R.string.pay
+                            ) else stringResource(R.string.get)
+                        ) {
                             onPayPlannedPayment()
                         }
                     }
@@ -485,8 +493,8 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         visible = deleteTrnModalVisible,
-        title = "Confirm deletion",
-        description = "Deleting this transaction will remove it from the transaction history and update the balance accordingly.",
+        title = stringResource(R.string.confirm_deletion),
+        description = stringResource(R.string.transaction_confirm_deletion_description),
         dismiss = { deleteTrnModalVisible = false }
     ) {
         onDelete()
@@ -505,10 +513,9 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         visible = accountChangeModal,
-        title = "Confirm Account Change",
-        description = "Note: You are trying to change the account associated with the loan with an account of different currency, " +
-                "\nAll the loan records will be re-calculated based on today's exchanges rates ",
-        buttonText = "Confirm",
+        title = stringResource(R.string.confirm_account_change),
+        description = stringResource(R.string.confirm_account_change_description),
+        buttonText = stringResource(R.string.confirm),
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             accountChangeModal = false
@@ -519,8 +526,8 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     ProgressModal(
-        title = "Confirm Account Change",
-        description = "Please wait, re-calculating all loan records",
+        title = stringResource(R.string.confirm_account_change),
+        description = stringResource(R.string.account_change_recalculating),
         visible = waitModalVisible
     )
 

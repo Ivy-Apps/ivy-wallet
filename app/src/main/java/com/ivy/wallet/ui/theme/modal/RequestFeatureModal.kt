@@ -5,12 +5,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
@@ -39,7 +41,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
         dismiss = dismiss,
         PrimaryAction = {
             ModalSet(
-                label = "Submit",
+                label = stringResource(R.string.submit),
                 enabled = title.text.isNotBlank()
             ) {
                 onSubmit(
@@ -52,12 +54,12 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
     ) {
         Spacer(Modifier.height(32.dp))
 
-        ModalTitle(text = "Request a feature")
+        ModalTitle(text = stringResource(R.string.request_a_feature))
 
         Spacer(Modifier.height(24.dp))
 
         ModalNameInput(
-            hint = "What do you need?",
+            hint = stringResource(R.string.what_do_you_need),
             autoFocusKeyboard = true,
             textFieldValue = title,
             setTextFieldValue = {
@@ -87,7 +89,7 @@ fun BoxWithConstraintsScope.RequestFeatureModal(
                     )
                 }
             ),
-            hint = "Explain it in one sentence. (supports markdown)",
+            hint = stringResource(R.string.explain_it_in_one_sentence),
             hintColor = Gray,
             value = body,
         ) {

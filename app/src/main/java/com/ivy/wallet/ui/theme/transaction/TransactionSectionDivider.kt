@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -107,8 +108,9 @@ private fun SectionDividerIncomeExpenseRow(
                     color = UI.colors.pureInverse
                 )
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = " expenses",
+                text = stringResource(R.string.expenses_lowercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
                     color = UI.colors.pureInverse
@@ -133,8 +135,9 @@ private fun SectionDividerIncomeExpenseRow(
                     color = UI.colors.green
                 )
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = " income",
+                text = stringResource(R.string.income_lowercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
                     color = UI.colors.pureInverse

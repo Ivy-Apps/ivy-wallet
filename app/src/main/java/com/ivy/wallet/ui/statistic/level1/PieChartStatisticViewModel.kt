@@ -3,24 +3,23 @@ package com.ivy.wallet.ui.statistic.level1
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.R
+import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.category.calculateCategoryExpenseWithAccountFilters
-import com.ivy.wallet.domain.fp.category.calculateCategoryIncomeWithAccountFilters
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletExpenseWithAccountFilters
-import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeWithAccountFilters
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.currency.sumInBaseCurrency
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.IvyLight
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
@@ -34,7 +33,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
@@ -43,7 +41,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val ivyContext: IvyWalletCtx
+    private val ivyContext: IvyWalletCtx,
+    private val pieChartAct: PieChartAct,
+    private val sharedPrefs: SharedPrefs
 ) : ViewModel() {
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
@@ -74,7 +74,11 @@ class PieChartStatisticViewModel @Inject constructor(
 
     private var filterExcluded = true
     private val transfersCategory =
-        Category("Account Transfers", color = IvyLight.toArgb(), icon = "transfer")
+        Category(
+            stringRes(R.string.account_transfers),
+            color = IvyLight.toArgb(),
+            icon = "transfer"
+        )
 
     fun start(
         screen: PieChartStatistic
@@ -111,7 +115,7 @@ class PieChartStatisticViewModel @Inject constructor(
         load(
             period = period,
             type = type,
-            accountFilterList = accountList
+            accountIdFilterList = accountList
         )
     }
 
@@ -147,7 +151,7 @@ class PieChartStatisticViewModel @Inject constructor(
                             accountDao = walletDAOs.accountDao
                         )
 
-                        CategoryAmount(category, amount, trans)
+                        CategoryAmount(category?.toDomain(), amount, trans)
                     }
                 }.awaitAll().sortedByDescending { it.amount }
             }
@@ -181,7 +185,7 @@ class PieChartStatisticViewModel @Inject constructor(
                 exchangeRatesLogic.toAmountBaseCurrency(
                     transaction = it,
                     baseCurrency = baseCurrencyCode.value,
-                    accounts = walletDAOs.accountDao.findAll()
+                    accounts = walletDAOs.accountDao.findAll().map { it.toDomain() }
                 )
             }
             CategoryAmount(transfersCategory, amt, trans)
@@ -192,7 +196,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private fun load(
         period: TimePeriod,
         type: TransactionType,
-        accountFilterList: List<UUID>
+        accountIdFilterList: List<UUID>
     ) {
 
         _period.value = period
@@ -201,73 +205,28 @@ class PieChartStatisticViewModel @Inject constructor(
 
         _selectedCategory.value = null
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val settings = ioThread { settingsDao.findFirst() }
-
             _baseCurrencyCode.value = settings.currency
 
-            _totalAmount.value = ioThread {
-                when (type) {
-                    TransactionType.INCOME -> {
-                        calculateWalletIncomeWithAccountFilters(
-                            walletDAOs = walletDAOs,
-                            baseCurrencyCode = baseCurrencyCode.value,
-                            range = range.toCloseTimeRange(),
-                            accountIdFilterList = accountFilterList,
-                            filterExcluded = filterExcluded
-                        ).value.toDouble()
-                    }
-                    TransactionType.EXPENSE -> {
-                        calculateWalletExpenseWithAccountFilters(
-                            walletDAOs = walletDAOs,
-                            baseCurrencyCode = baseCurrencyCode.value,
-                            range = range.toCloseTimeRange(),
-                            accountIdFilterList = accountFilterList,
-                            filterExcluded = filterExcluded
-                        ).value.toDouble()
-                    }
-                    else -> error("not supported transactionType - $type")
-                }
-            }.absoluteValue
+            val treatTransferAsIncExp =
+                sharedPrefs.getBoolean(
+                    SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
+                    false
+                ) && accountIdFilterList.isNotEmpty()
 
-            _categoryAmounts.value = scopedIOThread { scope ->
+            val pieChartActOutput = pieChartAct(
+                PieChartAct.Input(
+                    baseCurrency = _baseCurrencyCode.value,
+                    range = range,
+                    type = _type.value,
+                    accountIdFilterList = accountIdFilterList,
+                    treatTransferAsIncExp = treatTransferAsIncExp
+                )
+            )
 
-                val categories =
-                    getCategories(
-                        fetchCategoriesFromTransactions = accountFilterList.isNotEmpty(),
-                        timeRange = range
-                    )
-
-                categories
-                    .plus(null) //for unspecified
-                    .map { category ->
-                        CategoryAmount(
-                            category = category,
-                            amount = when (type) {
-                                TransactionType.INCOME -> {
-                                    calculateCategoryIncomeWithAccountFilters(
-                                        walletDAOs = walletDAOs,
-                                        baseCurrencyCode = baseCurrencyCode.value,
-                                        categoryId = category?.id,
-                                        accountIdFilterList = accountFilterList,
-                                        range = range.toCloseTimeRange()
-                                    ).toDouble()
-                                }
-                                TransactionType.EXPENSE -> {
-                                    calculateCategoryExpenseWithAccountFilters(
-                                        walletDAOs = walletDAOs,
-                                        baseCurrencyCode = baseCurrencyCode.value,
-                                        categoryId = category?.id,
-                                        accountIdList = accountFilterList,
-                                        range = range.toCloseTimeRange()
-                                    ).toDouble()
-                                }
-                                else -> error("not supported transactionType - $type")
-                            }
-                        )
-                    }
-                    .sortedByDescending { it.amount }
-            }
+            _totalAmount.value = pieChartActOutput.totalAmount
+            _categoryAmounts.value = pieChartActOutput.categoryAmounts
         }
     }
 
@@ -293,7 +252,7 @@ class PieChartStatisticViewModel @Inject constructor(
         load(
             period = period,
             type = type.value,
-            accountFilterList = accountIdFilterList.value
+            accountIdFilterList = accountIdFilterList.value
         )
     }
 
@@ -304,7 +263,7 @@ class PieChartStatisticViewModel @Inject constructor(
             load(
                 period = month.incrementMonthPeriod(ivyContext, 1L, year),
                 type = type.value,
-                accountFilterList = accountIdFilterList.value
+                accountIdFilterList = accountIdFilterList.value
             )
         }
     }
@@ -316,7 +275,7 @@ class PieChartStatisticViewModel @Inject constructor(
             load(
                 period = month.incrementMonthPeriod(ivyContext, -1L, year),
                 type = type.value,
-                accountFilterList = accountIdFilterList.value
+                accountIdFilterList = accountIdFilterList.value
             )
         }
     }
@@ -327,19 +286,21 @@ class PieChartStatisticViewModel @Inject constructor(
     ): List<Category> {
         return scopedIOThread { scope ->
             if (fetchCategoriesFromTransactions) {
-                transactionDao.findAllBetween(timeRange.from(), timeRange.to()).filter {
-                    it.categoryId != null
-                }.map {
-                    scope.async {
-                        categoryDao.findById(it.categoryId!!)
-                    }
-                }.awaitAll().filterNotNull().distinctBy { it.id }
+                transactionDao.findAllBetween(timeRange.from(), timeRange.to())
+                    .map { it.toDomain() }
+                    .filter {
+                        it.categoryId != null
+                    }.map {
+                        scope.async {
+                            categoryDao.findById(it.categoryId!!)?.toDomain()
+                        }
+                    }.awaitAll().filterNotNull().distinctBy { it.id }
             } else
-                categoryDao.findAll()
+                categoryDao.findAll().map { it.toDomain() }
         }
     }
 
     fun checkForUnspecifiedCategory(category: Category?): Boolean {
-        return category == null || category == transfersCategory
+        return category == null || category == transfersCategory || category.name == stringRes(R.string.account_transfers)
     }
 }

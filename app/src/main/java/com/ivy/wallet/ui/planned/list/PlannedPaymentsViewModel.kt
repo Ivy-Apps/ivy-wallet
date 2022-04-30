@@ -3,13 +3,14 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
-import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.PlannedPayments
 import com.ivy.wallet.utils.TestIdlingResource
@@ -22,10 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PlannedPaymentsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val categoryDao: CategoryDao,
     private val accountDao: AccountDao,
-    private val plannedPaymentsLogic: PlannedPaymentsLogic
+    private val plannedPaymentsLogic: PlannedPaymentsLogic,
+    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsAct
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()
@@ -65,8 +67,8 @@ class PlannedPaymentsViewModel @Inject constructor(
 
             _currency.value = settings.currency
 
-            _categories.value = ioThread { categoryDao.findAll() }!!
-            _accounts.value = ioThread { accountDao.findAll() }!!
+            _categories.value = categoriesAct(Unit)!!
+            _accounts.value = accountsAct(Unit)!!
 
             _oneTime.value = ioThread { plannedPaymentsLogic.oneTime() }!!
             _oneTimeIncome.value = ioThread { plannedPaymentsLogic.oneTimeIncome() }!!

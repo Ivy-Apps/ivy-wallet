@@ -3,21 +3,23 @@ package com.ivy.wallet.ui.home
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
-import com.ivy.design.viewmodel.IvyViewModel
-import com.ivy.wallet.domain.action.CalcOverdueAct
-import com.ivy.wallet.domain.action.CalcUpcomingAct
-import com.ivy.wallet.domain.action.CalcWalletBalanceAct
-import com.ivy.wallet.domain.action.HistoryWithDateDivAct
-import com.ivy.wallet.domain.data.entity.Transaction
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.wallet.calculateWalletIncomeExpense
-import com.ivy.wallet.domain.fp.wallet.walletBufferDiff
-import com.ivy.wallet.domain.logic.CustomerJourneyLogic
-import com.ivy.wallet.domain.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.model.CustomerJourneyCardData
+import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
+import com.ivy.wallet.domain.action.settings.SettingsAct
+import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
+import com.ivy.wallet.domain.action.viewmodel.home.HasTrnsAct
+import com.ivy.wallet.domain.action.viewmodel.home.OverdueAct
+import com.ivy.wallet.domain.action.viewmodel.home.UpcomingAct
+import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
+import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -37,19 +39,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val walletDAOs: WalletDAOs,
-    private val settingsDao: SettingsDao,
-    private val categoryDao: CategoryDao,
     private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
+    private val settingsDao: SettingsDao,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val customerJourneyLogic: CustomerJourneyLogic,
     private val sharedPrefs: SharedPrefs,
+    private val historyWithDateDivsAct: HistoryWithDateDivsAct,
+    private val calcIncomeExpenseAct: CalcIncomeExpenseAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
-    private val calcUpcomingAct: CalcUpcomingAct,
-    private val calcOverdueAct: CalcOverdueAct,
-    private val historyWithDateDivAct: HistoryWithDateDivAct,
+    private val settingsAct: SettingsAct,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
+    private val calcBufferDiffAct: CalcBufferDiffAct,
+    private val upcomingAct: UpcomingAct,
+    private val overdueAct: OverdueAct,
+    private val hasTrnsAct: HasTrnsAct
 ) : IvyViewModel<HomeState>() {
     override val mutableState: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
@@ -74,15 +80,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val settings = ioThread { settingsDao.findFirst() }
+            val settings = settingsAct(Unit)
+            val baseCurrency = settings.baseCurrency
 
-            val hideCurrentBalance = sharedPrefs.getBoolean(SharedPrefs.HIDE_CURRENT_BALANCE, false)
+            val hideCurrentBalance = sharedPrefs.getBoolean(
+                SharedPrefs.HIDE_CURRENT_BALANCE,
+                false
+            )
 
             updateState {
                 it.copy(
                     theme = settings.theme,
                     name = settings.name,
-                    baseCurrencyCode = settings.currency,
+                    baseCurrencyCode = baseCurrency,
                     period = period,
                     hideCurrentBalance = hideCurrentBalance
                 )
@@ -91,47 +101,55 @@ class HomeViewModel @Inject constructor(
             //This method is used to restore the theme when user imports locally backed up data
             loadNewTheme(settings.theme)
 
+            val accounts = accountsAct(Unit)
+
             updateState {
                 it.copy(
-                    categories = ioThread { categoryDao.findAll() },
-                    accounts = ioThread { walletDAOs.accountDao.findAll() }
+                    categories = categoriesAct(Unit),
+                    accounts = accounts
                 )
             }
 
             val timeRange = period.toRange(ivyContext.startDayOfMonth)
+                .toCloseTimeRange()
+
+            val monthlyIncomeExpense = calcIncomeExpenseAct(
+                CalcIncomeExpenseAct.Input(
+                    baseCurrency = baseCurrency,
+                    accounts = accounts,
+                    range = timeRange
+                )
+            )
+
+            val balance = calcWalletBalanceAct(
+                CalcWalletBalanceAct.Input(baseCurrency = baseCurrency)
+            )
 
             updateState {
                 it.copy(
-                    balance = calcWalletBalanceAct(settings.currency)
+                    balance = balance,
+                    monthly = monthlyIncomeExpense
                 )
             }
 
             updateState {
                 it.copy(
-                    buffer = settings.bufferAmount.toBigDecimal(),
-                    bufferDiff = ioThread {
-                        walletBufferDiff(
-                            settings = settings,
-                            balance = stateVal().balance
+                    history = historyWithDateDivsAct(
+                        HistoryWithDateDivsAct.Input(
+                            range = timeRange,
+                            baseCurrency = baseCurrency
                         )
-                    }
+                    )
                 )
             }
 
             updateState {
-                it.copy(
-                    monthly = ioThread {
-                        calculateWalletIncomeExpense(
-                            walletDAOs = walletDAOs,
-                            baseCurrencyCode = stateVal().baseCurrencyCode,
-                            range = timeRange.toCloseTimeRange()
-                        ).value
-                    }
+                val result = upcomingAct(
+                    UpcomingAct.Input(
+                        range = timeRange,
+                        baseCurrency = baseCurrency
+                    )
                 )
-            }
-
-            updateState {
-                val result = calcUpcomingAct(timeRange)
                 it.copy(
                     upcoming = result.upcoming,
                     upcomingTrns = result.upcomingTrns
@@ -139,7 +157,12 @@ class HomeViewModel @Inject constructor(
             }
 
             updateState {
-                val result = calcOverdueAct(timeRange)
+                val result = overdueAct(
+                    OverdueAct.Input(
+                        range = timeRange,
+                        baseCurrency = baseCurrency
+                    )
+                )
                 it.copy(
                     overdue = result.overdue,
                     overdueTrns = result.overdueTrns
@@ -148,18 +171,19 @@ class HomeViewModel @Inject constructor(
 
             updateState {
                 it.copy(
-                    history = historyWithDateDivAct(
-                        HistoryWithDateDivAct.Input(
-                            timeRange = timeRange.toCloseTimeRange(),
-                            baseCurrencyCode = stateVal().baseCurrencyCode
-                        )
-                    )
+                    customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
                 )
             }
 
             updateState {
                 it.copy(
-                    customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
+                    buffer = settings.bufferAmount,
+                    bufferDiff = calcBufferDiffAct(
+                        CalcBufferDiffAct.Input(
+                            balance = balance,
+                            buffer = settings.bufferAmount
+                        )
+                    )
                 )
             }
 
@@ -183,9 +207,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val hasTransactions = ioThread {
-                walletDAOs.transactionDao.findAll_LIMIT_1().isNotEmpty()
-            }
+            val hasTransactions = hasTrnsAct(Unit)
             if (hasTransactions) {
                 //has transactions show him "Balance" screen
                 nav.navigateTo(BalanceScreen)

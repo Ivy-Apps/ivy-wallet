@@ -8,11 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
-import com.ivy.wallet.domain.fp.charts.SingleChartPoint
+import com.ivy.wallet.R
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.domain.pure.charts.SingleChartPoint
 import com.ivy.wallet.ui.charts.toValues2
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
@@ -107,7 +109,7 @@ fun BalanceChart(
 
     Text(
         modifier = Modifier.padding(start = 24.dp),
-        text = "Balance chart",
+        text = stringResource(R.string.balance_chart),
         style = UI.typo.b1
     )
 
@@ -118,7 +120,7 @@ fun BalanceChart(
     IvyLineChart(
         modifier = Modifier.padding(horizontal = 8.dp),
         height = 400.dp,
-        title = "BALANCE ${period.display().uppercase()}",
+        title = stringResource(R.string.balance, period.display().uppercase()),
         functions = listOf(
             Function(
                 values = values,

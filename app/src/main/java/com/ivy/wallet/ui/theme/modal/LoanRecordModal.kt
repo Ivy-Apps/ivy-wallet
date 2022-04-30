@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.LoanRecord
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateLoanRecordData
-import com.ivy.wallet.domain.logic.model.EditLoanRecordData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
+import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -141,7 +142,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ModalTitle(
-                text = if (initialRecord != null) "Edit record" else "New record"
+                text = if (initialRecord != null) stringResource(R.string.edit_record) else stringResource(
+                                    R.string.new_record)
             )
 
             if (initialRecord != null) {
@@ -158,7 +160,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         Spacer(Modifier.height(24.dp))
 
         ModalNameInput(
-            hint = "Note",
+            hint = stringResource(R.string.note),
             autoFocusKeyboard = false,
             textFieldValue = noteTextFieldValue,
             setTextFieldValue = {
@@ -179,7 +181,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Associated Account",
+            text = stringResource(R.string.associated_account),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
@@ -217,7 +219,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
-            text = "Create a Main Transaction",
+            text = stringResource(R.string.create_main_transaction),
             checked = createLoanRecordTrans
         ) {
             createLoanRecordTrans = it
@@ -227,7 +229,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
-            text = "Mark as Interest",
+            text = stringResource(R.string.mark_as_interest),
             checked = loanInterest
         ) {
             loanInterest = it
@@ -238,7 +240,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 8.dp)
                     .align(Alignment.Start),
-                text = "Recalculate Amount with today's Currency exchange Rates",
+                text = stringResource(R.string.recalculate_amount_with_today_exchange_rates),
                 checked = reCalculate
             ) {
                 reCalculate = it
@@ -248,7 +250,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
         Spacer(modifier = Modifier.height(16.dp))
 
         ModalAmountSection(
-            label = "ENTER RECORD AMOUNT",
+            label = stringResource(R.string.enter_record_amount_uppercase),
             currency = currencyCode,
             amount = amount,
             amountPaddingTop = 40.dp,
@@ -273,8 +275,8 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
     DeleteModal(
         visible = deleteModalVisible,
-        title = "Confirm deletion",
-        description = "Are you sure that you want to delete \"${noteTextFieldValue.text}\" record?",
+        title = stringResource(R.string.confirm_deletion),
+        description = stringResource(R.string.record_deletion_warning, noteTextFieldValue.text),
         dismiss = { deleteModalVisible = false }
     ) {
         if (initialRecord != null) {
@@ -296,10 +298,9 @@ fun BoxWithConstraintsScope.LoanRecordModal(
 
     DeleteModal(
         visible = accountChangeConformationModal,
-        title = "Confirm Account Change",
-        description = "Note: You are trying to change the account associated with the loan record with an account of different currency" +
-                "\nThe amount will be re-calculated based on today's exchanges rates ",
-        buttonText = "Confirm",
+        title = stringResource(R.string.confirm_account_change),
+        description = stringResource(R.string.account_change_warning),
+        buttonText = stringResource(R.string.confirm),
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             selectedAcc = modal?.selectedAccount ?: selectedAcc
@@ -540,7 +541,7 @@ private fun AddAccount(
 
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
-            text = "Add account",
+            text = stringResource(R.string.add_account),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold

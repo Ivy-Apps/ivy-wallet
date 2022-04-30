@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +47,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
                 .background(UI.colors.medium, UI.shapes.rFull)
                 .padding(vertical = 12.dp)
                 .padding(horizontal = 32.dp),
-            text = "APP LOCKED",
+            text = stringResource(R.string.app_locked),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
             )
@@ -66,7 +67,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
         Spacer(Modifier.weight(1f))
 
         Text(
-            text = "Authenticate to enter the app",
+            text = stringResource(R.string.authenticate_text),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
                 color = Gray
@@ -80,7 +81,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            text = "Unlock",
+            text = stringResource(R.string.unlock),
             textStyle = UI.typo.b2.style(
                 color = White,
                 fontWeight = FontWeight.Bold,

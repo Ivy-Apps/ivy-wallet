@@ -4,12 +4,12 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -22,8 +22,8 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -42,8 +42,8 @@ import com.ivy.wallet.utils.onScreenStart
 fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
 
-    val currency by viewModel.currency.observeAsState("")
-    val categories by viewModel.categories.observeAsState(emptyList())
+    val currency by viewModel.currency.collectAsState()
+    val categories by viewModel.categories.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -85,7 +85,7 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.width(24.dp))
 
             Text(
-                text = "Categories",
+                text = stringResource(R.string.categories),
                 style = UI.typo.h2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -230,7 +230,7 @@ fun AddedSpent(
 
         LabelAmount(
             textColor = textColor,
-            label = "EXPENSES THIS MONTH",
+            label = stringResource(R.string.month_expenses),
             amount = monthlyExpenses,
             currency = currency,
             center = center
@@ -262,7 +262,7 @@ fun AddedSpent(
 
         LabelAmount(
             textColor = textColor,
-            label = "INCOME THIS MONTH",
+            label = stringResource(R.string.month_income),
             amount = monthlyIncome,
             currency = currency,
             center = center

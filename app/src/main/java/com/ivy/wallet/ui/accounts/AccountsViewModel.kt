@@ -1,26 +1,29 @@
 package com.ivy.wallet.ui.accounts
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.wallet.R
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
+import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.fp.account.calculateAccountBalance
-import com.ivy.wallet.domain.fp.account.calculateAccountIncomeExpense
-import com.ivy.wallet.domain.fp.data.WalletDAOs
-import com.ivy.wallet.domain.fp.exchangeToBaseCurrency
-import com.ivy.wallet.domain.fp.wallet.baseCurrencyCode
-import com.ivy.wallet.domain.fp.wallet.calculateWalletBalance
-import com.ivy.wallet.domain.logic.AccountCreator
-import com.ivy.wallet.domain.sync.item.AccountSync
+import com.ivy.wallet.domain.pure.data.WalletDAOs
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.TestIdlingResource
+import com.ivy.wallet.utils.UiText
+import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -35,7 +38,13 @@ class AccountsViewModel @Inject constructor(
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
     private val ivyContext: IvyWalletCtx,
-) : ViewModel() {
+    private val sharedPrefs: SharedPrefs,
+    private val accountsAct: AccountsAct,
+    private val calcWalletBalanceAct: CalcWalletBalanceAct,
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val accountDataAct: AccountDataAct
+) : IvyViewModel<AccountState>() {
+    override val mutableState: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
 
     @Subscribe
     fun onAccountsUpdated(event: AccountsUpdatedEvent) {
@@ -46,107 +55,88 @@ class AccountsViewModel @Inject constructor(
         EventBus.getDefault().register(this)
     }
 
-    private val _baseCurrencyCode = MutableStateFlow("")
-    val baseCurrencyCode = _baseCurrencyCode.readOnly()
-
-    private val _accounts = MutableStateFlow<List<AccountData>>(emptyList())
-    val accounts = _accounts.readOnly()
-
-    private val _totalBalanceWithExcluded = MutableStateFlow(0.0)
-    val totalBalanceWithExcluded = _totalBalanceWithExcluded.readOnly()
-
     fun start() {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            val period = TimePeriod.currentMonth(
-                startDayOfMonth = ivyContext.startDayOfMonth
-            ) //this must be monthly
-            val range = period.toRange(ivyContext.startDayOfMonth)
-
-            val baseCurrencyCode = ioThread { baseCurrencyCode(settingsDao) }
-            _baseCurrencyCode.value = baseCurrencyCode
-
-            _accounts.value = ioThread {
-                accountDao.findAll()
-                    .map {
-                        val balance = calculateAccountBalance(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id
-                        )
-                        val balanceBaseCurrency = if (it.currency != baseCurrencyCode) {
-                            exchangeToBaseCurrency(
-                                exchangeRateDao = walletDAOs.exchangeRateDao,
-                                baseCurrencyCode = baseCurrencyCode,
-                                fromCurrencyCode = it.currency ?: baseCurrencyCode,
-                                fromAmount = balance
-                            ).orNull()?.toDouble()
-                        } else {
-                            null
-                        }
-
-                        val incomeExpensePair = calculateAccountIncomeExpense(
-                            transactionDao = walletDAOs.transactionDao,
-                            accountId = it.id,
-                            range = range.toCloseTimeRange()
-                        )
-
-                        AccountData(
-                            account = it,
-                            balance = balance.toDouble(),
-                            balanceBaseCurrency = balanceBaseCurrency,
-                            monthlyIncome = incomeExpensePair.income.toDouble(),
-                            monthlyExpenses = incomeExpensePair.expense.toDouble(),
-                        )
-                    }
-            }
-
-            _totalBalanceWithExcluded.value = ioThread {
-                calculateWalletBalance(
-                    walletDAOs = walletDAOs,
-                    baseCurrencyCode = baseCurrencyCode,
-                    filterExcluded = false
-                ).value.toDouble()
-            }
-
-            TestIdlingResource.decrement()
+        viewModelScope.launch(Dispatchers.Default) {
+            startInternally()
         }
     }
 
-    fun reorder(newOrder: List<AccountData>) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun startInternally() {
+        TestIdlingResource.increment()
 
-            ioThread {
-                newOrder.mapIndexed { index, accountData ->
-                    accountDao.save(
-                        accountData.account.copy(
-                            orderNum = index.toDouble(),
-                            isSynced = false
-                        )
+        val period = TimePeriod.currentMonth(
+            startDayOfMonth = ivyContext.startDayOfMonth
+        ) //this must be monthly
+        val range = period.toRange(ivyContext.startDayOfMonth)
+
+        val baseCurrencyCode = baseCurrencyAct(Unit)
+        val accs = accountsAct(Unit)
+
+        val includeTransfersInCalc =
+            sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
+        val accountsDataList = accountDataAct(
+            AccountDataAct.Input(
+                accounts = accs,
+                range = range.toCloseTimeRange(),
+                baseCurrency = baseCurrencyCode,
+                includeTransfersInCalc = includeTransfersInCalc
+            )
+        )
+
+        val totalBalanceWithExcluded = calcWalletBalanceAct(
+            CalcWalletBalanceAct.Input(
+                baseCurrency = baseCurrencyCode,
+                withExcluded = true
+            )
+        ).toDouble()
+
+        updateState {
+            it.copy(
+                baseCurrency = baseCurrencyCode,
+                accountsData = accountsDataList,
+                totalBalanceWithExcluded = totalBalanceWithExcluded,
+                totalBalanceWithExcludedText = UiText.StringResource(
+                    R.string.total, baseCurrencyCode, totalBalanceWithExcluded.format(
+                        baseCurrencyCode
                     )
-                }
-            }
-            start()
-
-            ioThread {
-                accountSync.sync()
-            }
-
-            TestIdlingResource.decrement()
+                )
+            )
         }
+
+        TestIdlingResource.decrement()
     }
 
-    fun editAccount(account: Account, newBalance: Double) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    private suspend fun reorder(newOrder: List<AccountData>) {
+        TestIdlingResource.increment()
 
-            accountCreator.editAccount(account, newBalance) {
-                start()
+        ioThread {
+            newOrder.mapIndexed { index, accountData ->
+                accountDao.save(
+                    accountData.account.toEntity().copy(
+                        orderNum = index.toDouble(),
+                        isSynced = false
+                    )
+                )
             }
-
-            TestIdlingResource.decrement()
         }
+        startInternally()
+
+        ioThread {
+            accountSync.sync()
+        }
+
+        TestIdlingResource.decrement()
+    }
+
+    private suspend fun editAccount(account: Account, newBalance: Double) {
+        TestIdlingResource.increment()
+
+        accountCreator.editAccount(account, newBalance) {
+            startInternally()
+        }
+
+        TestIdlingResource.decrement()
     }
 
     override fun onCleared() {
@@ -154,4 +144,19 @@ class AccountsViewModel @Inject constructor(
         super.onCleared()
     }
 
+    private suspend fun reorderModalVisible(reorderVisible: Boolean) {
+        updateState {
+            it.copy(reorderVisible = reorderVisible)
+        }
+    }
+
+    fun onEvent(event: AccountsEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is AccountsEvent.OnReorder -> reorder(event.reorderedList)
+                is AccountsEvent.OnEditAccount -> editAccount(event.editedAccount, event.newBalance)
+                is AccountsEvent.OnReorderModalVisible -> reorderModalVisible(event.reorderVisible)
+            }
+        }
+    }
 }

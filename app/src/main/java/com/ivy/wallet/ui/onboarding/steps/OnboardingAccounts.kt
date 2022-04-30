@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,8 +22,8 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.logic.model.CreateAccountData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -78,7 +79,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    text = "Add accounts",
+                    text = stringResource(R.string.add_accounts),
                     style = UI.typo.h2.style(
                         fontWeight = FontWeight.Black
                     )
@@ -130,7 +131,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 32.dp),
-                    text = "Suggestions",
+                    text = stringResource(R.string.suggestion),
                     style = UI.typo.b1.style(
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -173,7 +174,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
                 .navigationBarsPadding()
                 .padding(bottom = 20.dp),
 
-            text = "Next",
+            text = stringResource(R.string.next),
             textColor = White,
             backgroundGradient = GradientIvy,
             hasNext = true,

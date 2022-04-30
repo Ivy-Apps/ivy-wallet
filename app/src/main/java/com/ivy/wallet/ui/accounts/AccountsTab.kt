@@ -1,15 +1,22 @@
 package com.ivy.wallet.ui.accounts
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +28,7 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
+import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
@@ -29,55 +36,39 @@ import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
-import com.ivy.wallet.ui.theme.modal.edit.AccountModal
-import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.wallet.utils.UiText
 import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.horizontalSwipeListener
 import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
     val viewModel: AccountsViewModel = viewModel()
-
-    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
-    val accounts by viewModel.accounts.collectAsState()
-    val totalBalanceWithExcluded by viewModel.totalBalanceWithExcluded.collectAsState()
+    val state by viewModel.state().collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
     UI(
-        baseCurrency = baseCurrency,
-        accounts = accounts,
-        totalBalanceWithExcluded = totalBalanceWithExcluded,
-
-        onReorder = viewModel::reorder,
-        onEditAccount = viewModel::editAccount,
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    baseCurrency: String,
-    accounts: List<AccountData>,
-    totalBalanceWithExcluded: Double?,
-
-    onReorder: (List<AccountData>) -> Unit,
-    onEditAccount: (Account, Double) -> Unit,
+    state: AccountState = AccountState(),
+    onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
-    var reorderVisible by remember { mutableStateOf(false) }
-    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-
+    val nav = navigation()
     val ivyContext = ivyWalletCtx()
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
-            .verticalScroll(rememberScrollState())
             .horizontalSwipeListener(
                 sensitivity = 200,
                 onSwipeLeft = {
@@ -88,89 +79,86 @@ private fun BoxWithConstraintsScope.UI(
                 }
             ),
     ) {
-        Spacer(Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(Modifier.width(24.dp))
+        item {
+            Spacer(Modifier.height(32.dp))
 
-            Column {
-                Text(
-                    text = "Accounts",
-                    style = UI.typo.b1.style(
-                        color = UI.colors.pureInverse,
-                        fontWeight = FontWeight.ExtraBold
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(Modifier.width(24.dp))
+
+                Column {
+                    Text(
+                        text = stringResource(R.string.accounts),
+                        style = UI.typo.b1.style(
+                            color = UI.colors.pureInverse,
+                            fontWeight = FontWeight.ExtraBold
+                        )
                     )
-                )
 
-                if (totalBalanceWithExcluded != null) {
                     Spacer(Modifier.height(4.dp))
 
                     Text(
-                        text = "Total: $baseCurrency ${
-                            totalBalanceWithExcluded.format(
-                                baseCurrency
-                            )
-                        }",
+                        text = state.totalBalanceWithExcludedText.asString(),
                         style = UI.typo.nB2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
                         )
                     )
                 }
+
+                Spacer(Modifier.weight(1f))
+
+                ReorderButton {
+                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
+                }
+
+                Spacer(Modifier.width(24.dp))
             }
 
-
-            Spacer(Modifier.weight(1f))
-
-            ReorderButton {
-                reorderVisible = true
-            }
-
-            Spacer(Modifier.width(24.dp))
+            Spacer(Modifier.height(16.dp))
         }
 
-
-        Spacer(Modifier.height(16.dp))
-
-        val nav = navigation()
-        for (accountData in accounts) {
+        items(state.accountsData) {
             AccountCard(
-                baseCurrency = baseCurrency,
-                accountData = accountData,
+                baseCurrency = state.baseCurrency,
+                accountData = it,
                 onBalanceClick = {
                     nav.navigateTo(
                         ItemStatistic(
-                            accountId = accountData.account.id,
+                            accountId = it.account.id,
                             categoryId = null
                         )
                     )
                 },
                 onLongClick = {
-                    reorderVisible = true
+                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
                 }
             ) {
                 nav.navigateTo(
                     ItemStatistic(
-                        accountId = accountData.account.id,
+                        accountId = it.account.id,
                         categoryId = null
                     )
                 )
             }
         }
 
-        Spacer(Modifier.height(150.dp)) //scroll hack
+        item {
+            Spacer(Modifier.height(150.dp))     //scroll hack
+        }
     }
 
     ReorderModalSingleType(
-        visible = reorderVisible,
-        initialItems = accounts,
+        visible = state.reorderVisible,
+        initialItems = state.accountsData,
         dismiss = {
-            reorderVisible = false
+            onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
         },
-        onReordered = onReorder
+        onReordered = {
+            onEventHandler.invoke(AccountsEvent.OnReorder(reorderedList = it))
+        }
     ) { _, item ->
         Text(
             modifier = Modifier
@@ -184,15 +172,6 @@ private fun BoxWithConstraintsScope.UI(
             )
         )
     }
-
-    AccountModal(
-        modal = accountModalData,
-        onCreateAccount = { },
-        onEditAccount = onEditAccount,
-        dismiss = {
-            accountModalData = null
-        }
-    )
 }
 
 @Composable
@@ -233,9 +212,9 @@ private fun AccountCard(
 
         IncomeExpensesRow(
             currency = currency,
-            incomeLabel = "INCOME THIS MONTH",
+            incomeLabel = stringResource(R.string.month_income),
             income = accountData.monthlyIncome,
-            expensesLabel = "EXPENSES THIS MONTH",
+            expensesLabel = stringResource(R.string.month_expenses),
             expenses = accountData.monthlyExpenses
         )
 
@@ -289,7 +268,7 @@ private fun AccountHeader(
                     modifier = Modifier
                         .align(Alignment.Bottom)
                         .padding(bottom = 4.dp),
-                    text = "(excluded)",
+                    text = stringResource(R.string.excluded),
                     style = UI.typo.c.style(
                         color = account.color.toComposeColor().dynamicContrast()
                     )
@@ -341,9 +320,9 @@ private fun AccountHeader(
 @Composable
 private fun PreviewAccountsTab() {
     IvyWalletPreview {
-        UI(
+        val state = AccountState(
             baseCurrency = "BGN",
-            accounts = listOf(
+            accountsData = listOf(
                 AccountData(
                     account = Account("Phyre", color = Green.toArgb()),
                     balance = 2125.0,
@@ -384,9 +363,11 @@ private fun PreviewAccountsTab() {
                 ),
             ),
             totalBalanceWithExcluded = 25.54,
-
-            onReorder = {},
-            onEditAccount = { _, _ -> }
+            totalBalanceWithExcludedText = UiText.StringResource(
+                R.string.total, "BGN", "25.54"
+            )
         )
+
+        UI(state = state)
     }
 }

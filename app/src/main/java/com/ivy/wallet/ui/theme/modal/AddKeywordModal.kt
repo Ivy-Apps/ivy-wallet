@@ -9,11 +9,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.utils.onScreenStart
@@ -45,7 +47,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
 
         Text(
             modifier = Modifier.padding(start = 32.dp),
-            text = "Add keyword",
+            text = stringResource(R.string.add_keyword),
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.ExtraBold,
                 color = UI.colors.pureInverse
@@ -66,7 +68,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
                 .focusRequester(inputFocus),
             dividerModifier = Modifier.padding(horizontal = 24.dp),
             value = modalKeyword,
-            hint = "Keyword"
+            hint = stringResource(R.string.keyword)
         ) {
             modalKeyword = it
         }

@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 
 @Composable
 fun IvyWalletSteps(
@@ -14,7 +16,7 @@ fun IvyWalletSteps(
 
     StepTitle(
         number = 1,
-        title = "Export Data"
+        title = stringResource(R.string.export_data)
     )
 
     Spacer(Modifier.height(12.dp))
@@ -28,7 +30,7 @@ fun IvyWalletSteps(
 
     UploadFileStep(
         stepNumber = 2,
-        text = "Upload CSV/ZIP file",
+        text = stringResource(R.string.upload_csv_zip_file),
         onUploadClick = onUploadClick
     )
 }

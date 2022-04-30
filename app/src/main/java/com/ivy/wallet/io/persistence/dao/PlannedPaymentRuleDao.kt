@@ -4,44 +4,44 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.PlannedPaymentRule
+import com.ivy.wallet.io.persistence.data.PlannedPaymentRuleEntity
 import java.util.*
 
 @Dao
 interface PlannedPaymentRuleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: PlannedPaymentRule)
+    suspend fun save(value: PlannedPaymentRuleEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<PlannedPaymentRule>)
+    suspend fun save(value: List<PlannedPaymentRuleEntity>)
 
     @Query("SELECT * FROM planned_payment_rules WHERE isDeleted = 0 ORDER BY amount DESC, startDate ASC")
-    fun findAll(): List<PlannedPaymentRule>
+    suspend fun findAll(): List<PlannedPaymentRuleEntity>
 
     @Query("SELECT * FROM planned_payment_rules WHERE isSynced = :synced AND isDeleted = :deleted")
-    fun findByIsSyncedAndIsDeleted(
+    suspend fun findByIsSyncedAndIsDeleted(
         synced: Boolean,
         deleted: Boolean = false
-    ): List<PlannedPaymentRule>
+    ): List<PlannedPaymentRuleEntity>
 
     @Query("SELECT * FROM planned_payment_rules WHERE isDeleted = 0 AND oneTime = :oneTime ORDER BY amount DESC, startDate ASC")
-    fun findAllByOneTime(oneTime: Boolean): List<PlannedPaymentRule>
+    suspend fun findAllByOneTime(oneTime: Boolean): List<PlannedPaymentRuleEntity>
 
     @Query("SELECT * FROM planned_payment_rules WHERE id = :id AND isDeleted = 0")
-    fun findById(id: UUID): PlannedPaymentRule?
+    suspend fun findById(id: UUID): PlannedPaymentRuleEntity?
 
     @Query("UPDATE planned_payment_rules SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    fun flagDeleted(id: UUID)
+    suspend fun flagDeleted(id: UUID)
 
     @Query("UPDATE planned_payment_rules SET isDeleted = 1, isSynced = 0 WHERE accountId = :accountId")
-    fun flagDeletedByAccountId(accountId: UUID)
+    suspend fun flagDeletedByAccountId(accountId: UUID)
 
     @Query("DELETE FROM planned_payment_rules WHERE id = :id")
-    fun deleteById(id: UUID)
+    suspend fun deleteById(id: UUID)
 
     @Query("DELETE FROM planned_payment_rules")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("SELECT COUNT(*) FROM planned_payment_rules WHERE isDeleted = 0 ")
-    fun countPlannedPayments(): Long
+    suspend fun countPlannedPayments(): Long
 }

@@ -23,8 +23,8 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.ivyWalletCtx

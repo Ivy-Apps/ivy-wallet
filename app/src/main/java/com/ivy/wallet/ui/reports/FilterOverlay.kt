@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,8 +25,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
@@ -121,7 +122,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                     modifier = Modifier.padding(
                         start = 32.dp
                     ),
-                    text = "Filter",
+                    text = stringResource(R.string.filter),
                     style = UI.typo.h2.style(
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -136,7 +137,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
                             onSetFilter(null)
                         }
                         .padding(all = 4.dp), //expand click area
-                    text = "Clear filter",
+                    text = stringResource(R.string.clean_filter),
                     style = UI.typo.b2.style(
                         fontWeight = FontWeight.Bold,
                         color = Color.Gray
@@ -233,7 +234,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
         Spacer(Modifier.weight(1f))
 
         IvyButton(
-            text = "Apply filter",
+            text = stringResource(R.string.apply_filter),
             iconStart = R.drawable.ic_filter_xs,
             backgroundGradient = GradientGreen,
             padding = 10.dp,
@@ -336,7 +337,7 @@ private fun TypeFilter(
     onSetFilter: (ReportFilter) -> Unit
 ) {
     FilterTitleText(
-        text = "By Type",
+        text = stringResource(R.string.by_type),
         active = filter != null && filter.trnTypes.isNotEmpty(),
         inactiveColor = Red
     )
@@ -387,9 +388,9 @@ private fun TypeFilterCheckbox(
     IvyCheckboxWithText(
         modifier = modifier,
         text = when (trnType) {
-            TransactionType.INCOME -> "Incomes"
-            TransactionType.EXPENSE -> "Expenses"
-            TransactionType.TRANSFER -> "Account transfers"
+            TransactionType.INCOME -> stringResource(R.string.incomes)
+            TransactionType.EXPENSE -> stringResource(R.string.expenses)
+            TransactionType.TRANSFER -> stringResource(R.string.account_transfers)
         },
         checked = filter != null && filter.trnTypes.contains(trnType),
     ) { checked ->
@@ -418,7 +419,7 @@ private fun PeriodFilter(
     onShowPeriodChooserModal: () -> Unit
 ) {
     FilterTitleText(
-        text = "Time Period",
+        text = stringResource(R.string.time_period),
         active = filter?.period != null,
         inactiveColor = Red
     )
@@ -432,7 +433,7 @@ private fun PeriodFilter(
         iconStart = R.drawable.ic_calendar,
         text = filter?.period?.toDisplayLong(ivyWalletCtx().startDayOfMonth)
             ?.capitalizeLocal()
-            ?: "Select time range",
+            ?: stringResource(R.string.select_time_range),
         padding = 12.dp,
     ) {
         onShowPeriodChooserModal()
@@ -447,7 +448,7 @@ private fun AccountsFilter(
     onSetFilter: (ReportFilter) -> Unit
 ) {
     ListFilterTitle(
-        text = "Accounts (${filter?.accounts?.size ?: 0})",
+        text = stringResource(R.string.accounts_number, filter?.accounts?.size ?: 0),
         active = filter != null && filter.accounts.isNotEmpty(),
         itemsSelected = filter?.accounts?.size ?: 0,
         onClearAll = {
@@ -518,7 +519,7 @@ private fun CategoriesFilter(
     val selectedItemsCount = filter?.categories?.size ?: 0
 
     ListFilterTitle(
-        text = "Categories ($selectedItemsCount)",
+        text = stringResource(R.string.categories_number, selectedItemsCount),
         active = filter != null && filter.categories.isNotEmpty(),
         itemsSelected = selectedItemsCount,
         onClearAll = {
@@ -607,7 +608,7 @@ private fun ListFilterTitle(
                     }
                 }
                 .padding(all = 4.dp), //expand click area
-            text = if (itemsSelected > 0) "Clear all" else "Select all",
+            text = if (itemsSelected > 0) stringResource(R.string.clear_all) else stringResource(R.string.select_all),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray
@@ -679,7 +680,7 @@ private fun AmountFilter(
     onShowMaxAmountModal: () -> Unit,
 ) {
     FilterTitleText(
-        text = "Amount (optional)",
+        text = stringResource(R.string.amount_optional),
         active = filter?.minAmount != null || filter?.maxAmount != null
     )
 
@@ -697,7 +698,7 @@ private fun AmountFilter(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "From",
+                text = stringResource(R.string.from),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -718,7 +719,7 @@ private fun AmountFilter(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = "To",
+                text = stringResource(R.string.to),
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -743,7 +744,7 @@ private fun KeywordsFilter(
     onShowExcludeKeywordModal: () -> Unit,
 ) {
     FilterTitleText(
-        text = "Keywords (optional)",
+        text = stringResource(R.string.keywords_optional),
         active = filter != null &&
             (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
     )
@@ -752,7 +753,7 @@ private fun KeywordsFilter(
 
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = "INCLUDES",
+        text = stringResource(R.string.includes_uppercase),
         style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
@@ -781,7 +782,7 @@ private fun KeywordsFilter(
                 }
             }
             is AddKeywordButton -> {
-                AddKeywordButton(text = "Add a keyword") {
+                AddKeywordButton(text = stringResource(R.string.add_keyword)) {
                     onShowIncludeKeywordModal()
                 }
             }
@@ -792,7 +793,7 @@ private fun KeywordsFilter(
 
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = "EXCLUDES",
+        text = stringResource(R.string.excludes_uppercase),
         style = UI.typo.b2.style(
             fontWeight = FontWeight.ExtraBold
         )
@@ -821,7 +822,7 @@ private fun KeywordsFilter(
                 }
             }
             is AddKeywordButton -> {
-                AddKeywordButton(text = "Add a keyword") {
+                AddKeywordButton(text = stringResource(R.string.add_keyword)) {
                     onShowExcludeKeywordModal()
                 }
             }

@@ -1,7 +1,7 @@
 package com.ivy.wallet.io.network.request.transaction
 
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.io.network.data.TransactionDTO
 
 data class UpdateTransactionRequest(
-    val transaction: Transaction? = null
+    val transaction: TransactionDTO? = null
 )

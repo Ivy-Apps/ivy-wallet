@@ -2,15 +2,14 @@ package com.ivy.wallet.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.transaction.AllTrnsAct
+import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.logic.withDateDividers
-import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread
@@ -22,11 +21,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val transactionDao: TransactionDao,
-    private val settingsDao: SettingsDao,
-    private val categoryDao: CategoryDao,
-    private val accountDao: AccountDao,
-    private val exchangeRatesLogic: ExchangeRatesLogic
+    private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
+    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesAct,
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val allTrnsAct: AllTrnsAct
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
@@ -47,28 +46,24 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            _baseCurrencyCode.value = ioThread {
-                settingsDao.findFirst().currency
-            }
+            _baseCurrencyCode.value = baseCurrencyAct(Unit)
 
-            _categories.value = ioThread {
-                categoryDao.findAll()
-            }
+            _categories.value = categoriesAct(Unit)
 
-            _accounts.value = ioThread {
-                accountDao.findAll()
-            }
+            _accounts.value = accountsAct(Unit)
 
             _transactions.value = ioThread {
-                transactionDao.findAll()
+                val trns = allTrnsAct(Unit)
                     .filter {
                         it.title.matchesQuery(normalizedQuery) ||
                                 it.description.matchesQuery(normalizedQuery)
-                    }.withDateDividers(
-                        exchangeRatesLogic = exchangeRatesLogic,
-                        accountDao = accountDao,
-                        settingsDao = settingsDao
+                    }
+                trnsWithDateDivsAct(
+                    TrnsWithDateDivsAct.Input(
+                        baseCurrency = baseCurrencyCode.value,
+                        transactions = trns
                     )
+                )
             }
 
             TestIdlingResource.decrement()

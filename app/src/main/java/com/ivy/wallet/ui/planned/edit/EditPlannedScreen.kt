@@ -9,18 +9,20 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
@@ -357,15 +359,15 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         visible = deleteTrnModalVisible,
-        title = "Confirm deletion",
-        description = "Deleting this planned payment will delete all non-paid upcoming or overdue transactions associated with it.",
+        title = stringResource(R.string.confirm_deletion),
+        description = stringResource(R.string.planned_payment_confirm_deletion_description),
         dismiss = { deleteTrnModalVisible = false }
     ) {
         onDelete()
     }
 
     ChangeTransactionTypeModal(
-        title = "Set payment type",
+        title = stringResource(R.string.set_payment_type),
         visible = changeTransactionTypeModalVisible,
         includeTransferType = false,
         initialType = type,

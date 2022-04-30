@@ -25,8 +25,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report

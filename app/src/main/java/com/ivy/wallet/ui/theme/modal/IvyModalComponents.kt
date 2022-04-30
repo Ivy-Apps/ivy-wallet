@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -55,7 +56,7 @@ fun ModalDynamicPrimaryAction(
 @Composable
 fun ModalSet(
     modifier: Modifier = Modifier,
-    label: String = "Set",
+    label: String = stringResource(R.string.set),
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -110,7 +111,7 @@ fun ModalSave(
 ) {
     ModalPositiveButton(
         modifier = modifier,
-        text = "Save",
+        text = stringResource(R.string.save),
         iconStart = R.drawable.ic_save,
         enabled = enabled,
         onClick = onClick
@@ -123,7 +124,7 @@ fun ModalAdd(
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
-        text = "Add",
+        text = stringResource(R.string.add),
         iconStart = R.drawable.ic_plus,
         enabled = enabled,
         onClick = onClick
@@ -136,7 +137,7 @@ fun ModalCreate(
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
-        text = "Create",
+        text = stringResource(R.string.create),
         iconStart = R.drawable.ic_plus,
         enabled = enabled,
         onClick = onClick
@@ -226,7 +227,7 @@ fun ModalTitle(
 
 @Composable
 fun ModalSkip(
-    text: String = "Skip",
+    text: String = stringResource(R.string.skip),
     onClick: () -> Unit
 ) {
     IvyOutlinedButton(

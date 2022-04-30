@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.util.*
@@ -56,7 +58,7 @@ fun BoxWithConstraintsScope.BufferModal(
         Spacer(Modifier.height(24.dp))
 
         ModalAmountSection(
-            label = "Edit Savings goal",
+            label = stringResource(R.string.edit_savings_goal),
             currency = modal?.currency ?: "",
             amount = newBufferAmount
         ) {

@@ -9,10 +9,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.model.AccountBalance

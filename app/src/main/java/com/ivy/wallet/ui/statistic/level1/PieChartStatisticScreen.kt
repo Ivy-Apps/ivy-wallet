@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +32,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.data.entity.Transaction
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
@@ -158,8 +160,11 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                modifier = Modifier.padding(start = 32.dp),
-                text = if (transactionType == TransactionType.EXPENSE) "Expenses" else "Income",
+                modifier = Modifier
+                    .padding(start = 32.dp)
+                    .testTag("piechart_title"),
+                text = if (transactionType == TransactionType.EXPENSE)
+                    stringResource(R.string.expenses) else stringResource(R.string.income),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -168,7 +173,8 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp, end = 16.dp)
-                    .alpha(percentExpanded),
+                    .alpha(percentExpanded)
+                    .testTag("piechart_total_amount"),
                 currency = currency,
                 balance = totalAmount,
                 currencyUpfront = false,
@@ -431,7 +437,7 @@ private fun CategoryAmountCard(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 16.dp),
-                    text = category?.name ?: "Unspecified",
+                    text = category?.name ?: stringResource(R.string.unspecified),
                     style = UI.typo.b2.style(
                         color = textColor,
                         fontWeight = FontWeight.Bold,
@@ -469,7 +475,9 @@ private fun PercentText(
     contrastColor: Color
 ) {
     Text(
-        text = if (totalAmount != 0.0) "${((amount / totalAmount) * 100).format(2)}%" else "0%",
+        text = if (totalAmount != 0.0)
+            stringResource(R.string.percent, ((amount / totalAmount) * 100).format(2))
+        else stringResource(R.string.percent, "0"),
         style = UI.typo.nB2.style(
             color = if (selectedState) contrastColor else UI.colors.pureInverse,
             fontWeight = FontWeight.Normal
@@ -524,7 +532,7 @@ private fun Preview_Expense() {
                 ),
             ),
             selectedCategory = null,
-            checkForUnSpecifiedCategory = {false}
+            checkForUnSpecifiedCategory = { false }
         )
     }
 }
@@ -576,7 +584,7 @@ private fun Preview_Income() {
                 ),
             ),
             selectedCategory = null,
-            checkForUnSpecifiedCategory = {false}
+            checkForUnSpecifiedCategory = { false }
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -11,7 +12,8 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.domain.logic.csv.model.ImportResult
+import com.ivy.wallet.R
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButton
@@ -45,7 +47,7 @@ fun ImportResultUI(
                 result.transactionsImported > result.rowsFound / 2
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = if (importSuccess) "Success" else "Failure",
+            text = if (importSuccess) stringResource(R.string.success) else stringResource(R.string.failure),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black,
                 color = if (importSuccess) UI.colors.pureInverse else Red
@@ -56,7 +58,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Imported",
+            text = stringResource(R.string.imported),
             style = UI.typo.b1.style(
                 color = Green,
                 fontWeight = FontWeight.Black
@@ -77,7 +79,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${result.transactionsImported} transactions",
+            text = stringResource(R.string.transactions_imported, result.transactionsImported),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -88,7 +90,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${result.accountsImported} accounts",
+            text = stringResource(R.string.accounts_imported, result.accountsImported),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -99,7 +101,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${result.categoriesImported} categories",
+            text = stringResource(R.string.categories_imported, result.categoriesImported),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -118,7 +120,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Failed",
+            text = stringResource(R.string.failed),
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.Black,
                 color = Red
@@ -137,7 +139,7 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "${result.rowsFound - result.transactionsImported} rows from CSV file not recognized",
+            text = stringResource(R.string.rows_from_csv_not_recognized, result.rowsFound - result.transactionsImported),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
@@ -152,7 +154,7 @@ fun ImportResultUI(
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            text = "Finish",
+            text = stringResource(R.string.finish),
             textColor = White,
             backgroundGradient = GradientIvy,
             hasNext = true,

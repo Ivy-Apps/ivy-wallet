@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui
 
+import android.view.View
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.NavigationRoot
@@ -17,12 +20,17 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.navigation.Navigation
 import com.ivy.design.utils.IvyPreview
+import com.ivy.wallet.IvyAndroidApp
 
 
 @Composable
-fun ivyWalletCtx(): IvyWalletCtx {
-    return ivyContext() as IvyWalletCtx
-}
+fun ivyWalletCtx(): IvyWalletCtx = ivyContext() as IvyWalletCtx
+
+@Composable
+fun rootView(): View = LocalView.current
+
+@Composable
+fun rootActivity(): RootActivity = LocalContext.current as RootActivity
 
 fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
     override fun context(): IvyContext = context
@@ -52,6 +60,7 @@ fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
+    IvyAndroidApp.appContext = rootView().context
     IvyPreview(
         theme = theme,
         design = appDesign(IvyWalletCtx()),

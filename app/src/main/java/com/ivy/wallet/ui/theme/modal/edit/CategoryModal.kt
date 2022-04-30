@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -24,8 +25,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateCategoryData
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -105,13 +106,16 @@ fun BoxWithConstraintsScope.CategoryModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = if (modal?.category != null) "Edit category" else "Create category"
+            text = if (modal?.category != null) stringResource(R.string.edit_category)
+            else stringResource(
+                R.string.create_category
+            )
         )
 
         Spacer(Modifier.height(24.dp))
 
         IconNameRow(
-            hint = "Category name",
+            hint = stringResource(R.string.category_name),
             defaultIcon = R.drawable.ic_custom_category_m,
             color = color,
             icon = icon,

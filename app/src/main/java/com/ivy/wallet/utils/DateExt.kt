@@ -3,6 +3,8 @@ package com.ivy.wallet.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.ivy.wallet.R
+import com.ivy.wallet.stringRes
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -50,13 +52,13 @@ fun LocalDateTime.formatNicely(
 
     return when (this.toLocalDate()) {
         today -> {
-            "Today, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
         }
         today.minusDays(1) -> {
-            "Yesterday, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
         }
         today.plusDays(1) -> {
-            "Tomorrow, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.tomorrow_date, this.formatLocal(patternNoWeekDay, zone))
         }
         else -> {
             if (isThisYear) {
@@ -75,31 +77,31 @@ fun LocalDateTime.formatNicelyWithTime(
     val today = dateNowUTC()
     val isThisYear = today.year == this.year
 
-    val patternNoWeekDay = "dd MMM 'at' HH:mm"
+    val patternNoWeekDay = "dd MMM HH:mm"
 
     if (noWeekDay) {
         return if (isThisYear) {
             this.formatLocal(patternNoWeekDay)
         } else {
-            this.formatLocal("dd MMM, yyyy 'at' HH:mm")
+            this.formatLocal("dd MMM, yyyy HH:mm")
         }
     }
 
     return when (this.toLocalDate()) {
         today -> {
-            "Today, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
         }
         today.minusDays(1) -> {
-            "Yesterday, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
         }
         today.plusDays(1) -> {
-            "Tomorrow, ${this.formatLocal(patternNoWeekDay, zone)}"
+            stringRes(R.string.tomorrow, this.formatLocal(patternNoWeekDay, zone))
         }
         else -> {
             if (isThisYear) {
-                this.formatLocal("EEE, dd MMM 'at' HH:mm", zone)
+                this.formatLocal("EEE, dd MMM HH:mm", zone)
             } else {
-                this.formatLocal("dd MMM, yyyy 'at' HH:mm", zone)
+                this.formatLocal("dd MMM, yyyy HH:mm", zone)
             }
         }
     }
@@ -140,13 +142,13 @@ fun LocalDate.closeDay(): String? {
     val today = dateNowUTC()
     return when (this) {
         today -> {
-            "Today"
+            stringRes(R.string.today)
         }
         today.minusDays(1) -> {
-            "Yesterday"
+            stringRes(R.string.yesterday)
         }
         today.plusDays(1) -> {
-            "Tomorrow"
+            stringRes(R.string.tomorrow)
         }
         else -> {
             null
@@ -235,7 +237,7 @@ fun LocalDateTime.timeLeft(
     secondsLabel: String = "s"
 ): String {
     val timeLeftMs = this.millis() - from.millis()
-    if (timeLeftMs <= 0) return "Expired"
+    if (timeLeftMs <= 0) return stringRes(R.string.expired)
 
     val days = TimeUnit.MILLISECONDS.toDays(timeLeftMs)
     var timeLeftAfterCalculations = timeLeftMs - TimeUnit.DAYS.toMillis(days)

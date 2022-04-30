@@ -1,12 +1,17 @@
 package com.ivy.wallet.compose
 
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.IdlingResource
 import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
@@ -20,6 +25,7 @@ import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -98,7 +104,7 @@ abstract class IvyComposeTest {
         SharedPrefs(context()).removeAll()
     }
 
-    private fun resetDatabase() {
+    private fun resetDatabase() = runTest {
         ivyRoomDatabase.reset()
     }
 
@@ -188,6 +194,16 @@ fun ComposeTestRule.clickWithRetry(
                 maxRetries = maxRetries,
                 waitBetweenRetriesMs = waitBetweenRetriesMs
             )
+        }
+    }
+}
+
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.hideKeyboard() {
+    with(this.activity) {
+        if (currentFocus != null) {
+            val inputMethodManager: InputMethodManager =
+                this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
         }
     }
 }

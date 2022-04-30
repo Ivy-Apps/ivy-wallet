@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
@@ -120,7 +121,7 @@ private fun HeaderStickyRow(
                 modifier = Modifier
                     .alpha(percentExpanded)
                     .testTag("home_greeting_text"),
-                text = if (name.isNotNullOrBlank()) "Hi $name" else "Hi",
+                text = if (name.isNotNullOrBlank()) stringResource(R.string.hi_name, name) else stringResource(R.string.hi),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
@@ -234,7 +235,7 @@ fun CashFlowInfo(
                 modifier = Modifier.padding(
                     start = 24.dp
                 ),
-                text = "Cashflow: ${if (cashflow > 0) "+" else ""}${cashflow.format(currency)} $currency",
+                text = stringResource(R.string.cashflow, (if (cashflow > 0) "+" else ""), cashflow.format(currency), currency),
                 style = UI.typo.nB2.style(
                     color = if (cashflow < 0) Gray else Green
                 )
@@ -268,9 +269,10 @@ private fun IncomeExpenses(
             icon = R.drawable.ic_income,
             backgroundGradient = GradientGreen,
             textColor = White,
-            label = "Income",
+            label = stringResource(R.string.income),
             currency = currency,
-            amount = monthlyIncome
+            amount = monthlyIncome,
+            testTag = "home_card_income"
         ) {
             nav.navigateTo(
                 PieChartStatistic(
@@ -286,9 +288,10 @@ private fun IncomeExpenses(
             icon = R.drawable.ic_expense,
             backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
             textColor = UI.colors.pure,
-            label = "Expenses",
+            label = stringResource(R.string.expenses),
             currency = currency,
-            amount = monthlyExpenses.absoluteValue
+            amount = monthlyExpenses.absoluteValue,
+            testTag = "home_card_expense"
         ) {
             nav.navigateTo(
                 PieChartStatistic(
@@ -310,6 +313,7 @@ private fun RowScope.HeaderCard(
     label: String,
     currency: String,
     amount: Double,
+    testTag: String,
     onClick: () -> Unit
 ) {
     Column(
@@ -320,6 +324,7 @@ private fun RowScope.HeaderCard(
             }
             .clip(UI.shapes.r4)
             .background(backgroundGradient.asHorizontalBrush())
+            .testTag(testTag)
             .clickable(
                 onClick = onClick
             )

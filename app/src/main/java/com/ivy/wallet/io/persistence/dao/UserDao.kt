@@ -4,17 +4,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.User
+import com.ivy.wallet.io.persistence.data.UserEntity
 import java.util.*
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(user: User)
+    suspend fun save(user: UserEntity)
 
     @Query("SELECT * FROM users WHERE id = :userId")
-    fun findById(userId: UUID): User?
+    suspend fun findById(userId: UUID): UserEntity?
 
     @Query("DELETE FROM users")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

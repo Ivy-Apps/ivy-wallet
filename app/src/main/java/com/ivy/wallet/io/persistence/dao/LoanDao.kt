@@ -4,35 +4,35 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.entity.Loan
+import com.ivy.wallet.io.persistence.data.LoanEntity
 import java.util.*
 
 @Dao
 interface LoanDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: Loan)
+    suspend fun save(value: LoanEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(value: List<Loan>)
+    suspend fun save(value: List<LoanEntity>)
 
     @Query("SELECT * FROM loans WHERE isDeleted = 0 ORDER BY orderNum ASC")
-    fun findAll(): List<Loan>
+    suspend fun findAll(): List<LoanEntity>
 
     @Query("SELECT * FROM loans WHERE isSynced = :synced AND isDeleted = :deleted")
-    fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<Loan>
+    suspend fun findByIsSyncedAndIsDeleted(synced: Boolean, deleted: Boolean = false): List<LoanEntity>
 
     @Query("SELECT * FROM loans WHERE id = :id")
-    fun findById(id: UUID): Loan?
+    suspend fun findById(id: UUID): LoanEntity?
 
     @Query("DELETE FROM loans WHERE id = :id")
-    fun deleteById(id: UUID)
+    suspend fun deleteById(id: UUID)
 
     @Query("UPDATE loans SET isDeleted = 1, isSynced = 0 WHERE id = :id")
-    fun flagDeleted(id: UUID)
+    suspend fun flagDeleted(id: UUID)
 
     @Query("DELETE FROM loans")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("SELECT MAX(orderNum) FROM loans")
-    fun findMaxOrderNum(): Double
+    suspend fun findMaxOrderNum(): Double?
 }

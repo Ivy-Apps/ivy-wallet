@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -181,7 +182,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 ivyContext = ivyContext,
                 percentTransition = percentTransition
             ),
-            text = "Your personal money manager",
+            text = stringResource(R.string.your_personal_money_manager),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.SemiBold
@@ -203,7 +204,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 }
                 .padding(vertical = 8.dp)
                 .padding(end = 8.dp),
-            text = "#opensource",
+            text = stringResource(R.string.opensource),
             style = UI.typo.c.style(
                 color = Green,
                 fontWeight = FontWeight.Bold
@@ -261,10 +262,10 @@ private fun LoginSection(
 
             LoginButton(
                 text = when (opGoogleSignIn) {
-                    is OpResult.Failure -> "Error. Try again: ${opGoogleSignIn.error()}"
-                    OpResult.Loading -> "Signing in..."
-                    is OpResult.Success -> "Success!"
-                    null -> "Login with Google"
+                    is OpResult.Failure -> stringResource(R.string.google_error_try_again, opGoogleSignIn.error())
+                    OpResult.Loading -> stringResource(R.string.google_signing_in)
+                    is OpResult.Success -> stringResource(R.string.google_signing_in_success)
+                    null -> stringResource(R.string.login_with_google)
                 },
                 textColor = White,
                 backgroundGradient = GradientRed,
@@ -288,7 +289,7 @@ private fun LoginSection(
 
             LoginButton(
                 icon = R.drawable.ic_local_account,
-                text = "Offline account",
+                text = stringResource(R.string.offline_account),
                 textColor = UI.colors.pureInverse,
                 backgroundGradient = Gradient.solid(UI.colors.medium),
                 hasShadow = false
@@ -322,7 +323,7 @@ private fun LoginWithGoogleExplanation() {
 
         Column {
             Text(
-                text = "SYNC YOUR DATA ON THE IVY CLOUD",
+                text = stringResource(R.string.sync_data_ivy_cloud),
                 style = UI.typo.c.style(
                     color = Green,
                     fontWeight = FontWeight.ExtraBold
@@ -332,7 +333,7 @@ private fun LoginWithGoogleExplanation() {
             Spacer(Modifier.height(2.dp))
 
             Text(
-                text = "Data integrity and protection aren't guaranteed!",
+                text = stringResource(R.string.data_integrity_protection_warning),
                 style = UI.typo.c.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Medium
@@ -346,7 +347,7 @@ private fun LoginWithGoogleExplanation() {
 private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = "OR ENTER WITH OFFLINE ACCOUNT",
+        text = stringResource(R.string.or_enter_with_offline_account),
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
@@ -357,7 +358,7 @@ private fun LocalAccountExplanation() {
 
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
-        text = "Your data will be saved locally (only on your phone) and won't be synced with the cloud. You risk losing it if you uninstall the app or change your device. You can always activate sync later if you decide to.",
+        text = stringResource(R.string.offline_warning),
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium
@@ -367,9 +368,9 @@ private fun LocalAccountExplanation() {
 
 @Composable
 private fun PrivacyPolicyAndTC() {
-    val terms = "Terms & Conditions"
-    val privacy = "Privacy Policy"
-    val text = "By signing in, you agree with our $terms and $privacy."
+    val terms = stringResource(R.string.terms_conditions)
+    val privacy = stringResource(R.string.privacy_policy)
+    val text = stringResource(R.string.by_signing_in, terms, privacy)
 
     val tcStart = text.indexOf(terms)
     val tcEnd = tcStart + terms.length

@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -45,12 +44,12 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.logic.CustomerJourneyLogic
+import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
-import com.ivy.wallet.ui.bankintegrations.ConnectBankScreen
 import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
@@ -203,7 +202,6 @@ class RootActivity : AppCompatActivity() {
             is Charts -> ChartsScreen(screen = screen)
             is AnalyticsReport -> AnalyticsReport(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
-            is ConnectBank -> ConnectBankScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)
             is Loans -> LoansScreen(screen = screen)
@@ -390,10 +388,10 @@ class RootActivity : AppCompatActivity() {
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle(
-                "Authentication required"
+                getString(R.string.authentication_required)
             )
             .setSubtitle(
-                "Prove that you have access to this device to unlock the app."
+                getString(R.string.authentication_required_description)
             )
             .setAllowedAuthenticators(
                 BiometricManager.Authenticators.BIOMETRIC_WEAK or
@@ -532,9 +530,4 @@ class RootActivity : AppCompatActivity() {
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
-}
-
-@Composable
-fun rootActivity(): RootActivity {
-    return LocalContext.current as RootActivity
 }

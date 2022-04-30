@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.RootActivity
 
 @Composable
@@ -17,7 +19,7 @@ fun MoneyManagerPraseSteps(
 
     StepTitle(
         number = 1,
-        title = "Export Excel file",
+        title = stringResource(R.string.export_excel_file),
     )
 
     Spacer(Modifier.height(12.dp))
@@ -32,8 +34,8 @@ fun MoneyManagerPraseSteps(
 
     StepTitle(
         number = 2,
-        title = "Convert XLS to CSV",
-        description = "!NOTE: If the exported file doesn't have \".xls\" extension, add it by renaming the file manually."
+        title = stringResource(R.string.convert_xls_to_csv),
+        description = stringResource(R.string.convert_xls_to_csv_description)
     )
 
     Spacer(Modifier.height(12.dp))
@@ -42,7 +44,7 @@ fun MoneyManagerPraseSteps(
     InstructionButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         icon = null,
-        caption = "Online CSV converter FREE",
+        caption = stringResource(R.string.online_csv_converter_free),
         text = "https://www.zamzar.com/converters/document/xls-to-csv/"
     ) {
         ivyActivity.openUrlInBrowser("https://www.zamzar.com/converters/document/xls-to-csv/")

@@ -8,14 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.wallet.Constants
+import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.logic.PaywallLogic
-import com.ivy.wallet.domain.logic.notification.TransactionReminderLogic
+import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
+import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
@@ -116,13 +118,13 @@ class RootViewModel @Inject constructor(
     ): BiometricPrompt.AuthenticationCallback {
         return object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                Timber.d("Authentication succeeded!")
+                Timber.d(stringRes(R.string.authentication_succeeded))
                 unlockApp()
                 onAuthSuccess()
             }
 
             override fun onAuthenticationFailed() {
-                Timber.d("Authentication failed.")
+                Timber.d(stringRes(R.string.authentication_failed))
             }
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {

@@ -5,10 +5,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,10 +19,10 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Budget
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.logic.model.CreateBudgetData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.BudgetScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
@@ -44,13 +44,13 @@ import com.ivy.wallet.utils.onScreenStart
 fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
     val viewModel: BudgetViewModel = viewModel()
 
-    val timeRange by viewModel.timeRange.observeAsState()
-    val baseCurrency by viewModel.baseCurrencyCode.observeAsState("")
-    val categories by viewModel.categories.observeAsState(emptyList())
-    val accounts by viewModel.accounts.observeAsState(emptyList())
-    val budgets by viewModel.budgets.observeAsState(emptyList())
-    val appBudgetMax by viewModel.appBudgetMax.observeAsState(0.0)
-    val categoryBudgetsTotal by viewModel.categoryBudgetsTotal.observeAsState(0.0)
+    val timeRange by viewModel.timeRange.collectAsState()
+    val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
+    val categories by viewModel.categories.collectAsState()
+    val accounts by viewModel.accounts.collectAsState()
+    val budgets by viewModel.budgets.collectAsState()
+    val appBudgetMax by viewModel.appBudgetMax.collectAsState()
+    val categoryBudgetsTotal by viewModel.categoryBudgetsTotal.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -131,9 +131,8 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.weight(1f))
 
             NoBudgetsEmptyState(
-                emptyStateTitle = "No budgets",
-                emptyStateText = "You don't have any budgets set.\n" +
-                    "Tap the \"+ Add budget\" to add one."
+                emptyStateTitle = stringResource(R.string.no_budgets),
+                emptyStateText = stringResource(R.string.no_budgets_text)
             )
 
             Spacer(Modifier.weight(1f))
@@ -208,7 +207,7 @@ private fun Toolbar(
                 .padding(start = 24.dp, end = 16.dp)
         ) {
             Text(
-                text = "Budgets",
+                text = stringResource(R.string.budgets),
                 style = UI.typo.h2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -231,11 +230,19 @@ private fun Toolbar(
                 Spacer(Modifier.height(4.dp))
 
                 val categoryBudgetText = if (categoryBudgetsTotal > 0) {
-                    "${categoryBudgetsTotal.format(baseCurrency)} $baseCurrency for categories"
+                    stringResource(
+                        R.string.for_categories,
+                        categoryBudgetsTotal.format(baseCurrency),
+                        baseCurrency
+                    )
                 } else ""
 
                 val appBudgetMaxText = if (appBudgetMax > 0) {
-                    "${appBudgetMax.format(baseCurrency)} $baseCurrency app budget"
+                    stringResource(
+                        R.string.app_budget,
+                        appBudgetMax.format(baseCurrency),
+                        baseCurrency
+                    )
                 } else ""
 
                 val hasBothBudgetTypes =
@@ -243,7 +250,12 @@ private fun Toolbar(
                 Text(
                     modifier = Modifier.testTag("budgets_info_text"),
                     text = if (hasBothBudgetTypes)
-                        "Budget info: $categoryBudgetText / $appBudgetMaxText" else "Budget info: $categoryBudgetText$appBudgetMaxText",
+                        stringResource(
+                            R.string.budget_info_both,
+                            categoryBudgetText,
+                            appBudgetMaxText
+                        )
+                    else stringResource(R.string.budget_info, categoryBudgetText, appBudgetMaxText),
                     style = UI.typo.nC.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold

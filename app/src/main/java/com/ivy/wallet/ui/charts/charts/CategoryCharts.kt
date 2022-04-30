@@ -16,8 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.entity.Category
-import com.ivy.wallet.domain.fp.charts.ChartPeriod
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.pure.charts.ChartPeriod
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.charts.CategoryValues
 import com.ivy.wallet.ui.charts.toValue
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRangeUnsafe
@@ -81,7 +82,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             period = period,
-            title = "Expenses",
+            title = stringRes(R.string.expenses),
             baseCurrencyCode = baseCurrencyCode,
             categoryValues = categoryExpenseValues,
             countChart = false
@@ -91,7 +92,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             period = period,
-            title = "Expenses count",
+            title = stringRes(R.string.expenses_count),
             baseCurrencyCode = baseCurrencyCode,
             categoryValues = categoryExpenseCount,
             countChart = true
@@ -101,7 +102,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             period = period,
-            title = "Income",
+            title = stringRes(R.string.income),
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
             categoryValues = categoryIncomeValues,
@@ -112,7 +113,7 @@ fun LazyListScope.categoryCharts(
     item {
         CategoriesChart(
             period = period,
-            title = "Income count",
+            title = stringRes(R.string.income_count),
             titleColor = Green,
             baseCurrencyCode = baseCurrencyCode,
             categoryValues = categoryIncomeCount,

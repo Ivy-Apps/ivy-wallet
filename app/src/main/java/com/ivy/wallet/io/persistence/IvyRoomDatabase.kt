@@ -1,23 +1,28 @@
 package com.ivy.wallet.io.persistence
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.ivy.wallet.domain.data.entity.*
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
 
 
 @Database(
     entities = [
-        Account::class, Transaction::class, Category::class,
-        WishlistItem::class, Settings::class, PlannedPaymentRule::class,
-        User::class, ExchangeRate::class, Budget::class, Loan::class,
-        LoanRecord::class
+        AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
+        SettingsEntity::class, PlannedPaymentRuleEntity::class,
+        UserEntity::class, ExchangeRateEntity::class, BudgetEntity::class,
+        LoanEntity::class, LoanRecordEntity::class
     ],
-    version = 120,
+    autoMigrations = [
+        AutoMigration(
+            from = 121,
+            to = 122,
+            spec = IvyRoomDatabase.DeleteSEMigration::class
+        )
+    ],
+    version = 122,
     exportSchema = true
 )
 @TypeConverters(RoomTypeConverters::class)
@@ -29,8 +34,6 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
 
     abstract fun budgetDao(): BudgetDao
-
-    abstract fun wishlistItemDao(): WishlistItemDao
 
     abstract fun plannedPaymentRuleDao(): PlannedPaymentRuleDao
 
@@ -69,16 +72,16 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration117to118_Budgets(),
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
+                    Migration120to121_DropWishlistItem()
                 )
                 .build()
         }
     }
 
-    fun reset() {
+    suspend fun reset() {
         accountDao().deleteAll()
         transactionDao().deleteAll()
         categoryDao().deleteAll()
-        wishlistItemDao().deleteAll()
         settingsDao().deleteAll()
         plannedPaymentRuleDao().deleteAll()
         userDao().deleteAll()
@@ -86,4 +89,10 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         loanDao().deleteAll()
         loanRecordDao().deleteAll()
     }
+
+    @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
+    @DeleteColumn(tableName = "transactions", columnName = "seTransactionId")
+    @DeleteColumn(tableName = "transactions", columnName = "seAutoCategoryId")
+    @DeleteColumn(tableName = "categories", columnName = "seCategoryName")
+    class DeleteSEMigration : AutoMigrationSpec
 }

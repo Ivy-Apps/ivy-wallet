@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Red
@@ -39,7 +42,9 @@ fun BoxWithConstraintsScope.CalculatorModal(
         visible = visible,
         dismiss = dismiss,
         PrimaryAction = {
-            ModalSet {
+            ModalSet(
+                modifier = Modifier.testTag("calc_set")
+            ) {
                 val result = calculate(expression)
                 if (result != null) {
                     onCalculation(result)
@@ -50,7 +55,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
     ) {
         Spacer(Modifier.height(32.dp))
 
-        ModalTitle(text = "Calculator")
+        ModalTitle(text = stringResource(R.string.calculator))
 
         Spacer(Modifier.height(32.dp))
 
@@ -59,7 +64,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
-            text = if (isEmpty) "Calculation (+-/*=)" else expression,
+            text = if (isEmpty) stringResource(R.string.calculator_empty_expression) else expression,
             style = UI.typo.nH2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -70,6 +75,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
         Spacer(Modifier.height(32.dp))
 
         AmountKeyboard(
+            forCalculator = true,
             ZeroRow = {
                 KeypadCircleButton(
                     text = "C",

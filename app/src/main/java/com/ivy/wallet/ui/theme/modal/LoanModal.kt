@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -25,10 +26,10 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.entity.Account
-import com.ivy.wallet.domain.data.entity.Loan
-import com.ivy.wallet.domain.logic.model.CreateAccountData
-import com.ivy.wallet.domain.logic.model.CreateLoanData
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
+import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -145,13 +146,13 @@ fun BoxWithConstraintsScope.LoanModal(
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
-            text = if (modal?.loan != null) "Edit loan" else "New loan",
+            text = if (modal?.loan != null) stringResource(R.string.edit_loan) else stringResource(R.string.new_loan),
         )
 
         Spacer(Modifier.height(24.dp))
 
         IconNameRow(
-            hint = "Loan name",
+            hint = stringResource(R.string.loan_name),
             defaultIcon = R.drawable.ic_custom_loan_m,
             color = color,
             icon = icon,
@@ -183,7 +184,7 @@ fun BoxWithConstraintsScope.LoanModal(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = "Associated Account",
+            text = stringResource(R.string.associated_account),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
@@ -215,7 +216,7 @@ fun BoxWithConstraintsScope.LoanModal(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .align(Alignment.Start),
-            text = "Create a Main Transaction",
+            text = stringResource(R.string.create_main_transaction),
             checked = createLoanTrans
         ) {
             createLoanTrans = it
@@ -224,7 +225,7 @@ fun BoxWithConstraintsScope.LoanModal(
         Spacer(modifier = Modifier.height(24.dp))
 
         ModalAmountSection(
-            label = "ENTER LOAN AMOUNT",
+            label = stringResource(R.string.enter_loan_amount_uppercase),
             currency = currencyCode,
             amount = amount,
             amountPaddingTop = 40.dp,
@@ -248,7 +249,7 @@ fun BoxWithConstraintsScope.LoanModal(
     }
 
     CurrencyModal(
-        title = "Choose currency",
+        title = stringResource(R.string.choose_currency),
         initialCurrency = IvyCurrency.fromCode(currencyCode),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false }
@@ -276,10 +277,9 @@ fun BoxWithConstraintsScope.LoanModal(
 
     DeleteModal(
         visible = accountChangeModal,
-        title = "Confirm Account Change",
-        description = "Note: You are trying to change the account associated with the loan with an account of different currency, " +
-                "\nAll the loan records will be re-calculated based on today's exchanges rates ",
-        buttonText = "Confirm",
+        title = stringResource(R.string.confirm_account_change),
+        description = stringResource(R.string.confirm_account_change_warning),
+        buttonText = stringResource(R.string.confirm),
         iconStart = R.drawable.ic_agreed,
         dismiss = {
             selectedAcc = modal?.selectedAccount ?: selectedAcc
@@ -433,7 +433,7 @@ private fun AddAccount(
 
         Text(
             modifier = Modifier.padding(vertical = 10.dp),
-            text = "Add account",
+            text = stringResource(R.string.add_account),
             style = UI.typo.b2.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
@@ -453,7 +453,7 @@ private fun ColumnScope.LoanTypePicker(
 ) {
     Text(
         modifier = Modifier.padding(horizontal = 32.dp),
-        text = "Loan type",
+        text = stringResource(R.string.loan_type),
         style = UI.typo.b2.style(
             color = UI.colors.pureInverse,
             fontWeight = FontWeight.ExtraBold
@@ -473,7 +473,7 @@ private fun ColumnScope.LoanTypePicker(
 
         SelectorButton(
             selected = type == LoanType.BORROW,
-            label = "Borrow money"
+            label = stringResource(R.string.borrow_money)
         ) {
             onTypeSelected(LoanType.BORROW)
         }
@@ -482,7 +482,7 @@ private fun ColumnScope.LoanTypePicker(
 
         SelectorButton(
             selected = type == LoanType.LEND,
-            label = "Lend money"
+            label = stringResource(R.string.lend_money)
         ) {
             onTypeSelected(LoanType.LEND)
         }

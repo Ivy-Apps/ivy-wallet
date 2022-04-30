@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -20,7 +21,7 @@ internal fun BoxWithConstraintsScope.CategoriesBottomBar(
 ) {
     BackBottomBar(onBack = onClose) {
         IvyButton(
-            text = "Add category",
+            text = stringResource(R.string.add_category),
             iconStart = R.drawable.ic_plus
         ) {
             onAddCategory()

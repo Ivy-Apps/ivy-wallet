@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -17,7 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.hideKeyboard
+import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.rootView
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
@@ -38,6 +42,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
     var descTextFieldValue by remember(description) {
         mutableStateOf(selectEndTextFieldValue(description))
     }
+    val view = rootView()
 
     IvyModal(
         id = id,
@@ -49,9 +54,11 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 initialChanged = description != descTextFieldValue.text,
                 onSave = {
                     onDescriptionChanged(descTextFieldValue.text)
+                    view.hideKeyboard()
                 },
                 onDelete = {
                     onDescriptionChanged(null)
+                    view.hideKeyboard()
                 },
                 dismiss = dismiss
             )
@@ -62,7 +69,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
         Text(
             modifier = Modifier
                 .padding(start = 32.dp),
-            text = "Description",
+            text = stringResource(R.string.description),
             style = UI.typo.b1.style(
                 color = UI.colors.pureInverse,
                 fontWeight = FontWeight.ExtraBold
@@ -98,7 +105,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 }
             ),
             value = descTextFieldValue,
-            hint = "Enter any details here (supports Markdown)",
+            hint = stringResource(R.string.description_text_field_hint),
         ) {
             descTextFieldValue = it
         }
