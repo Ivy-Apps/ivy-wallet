@@ -237,17 +237,17 @@ fun getCustomIconId(
                     style = iconStyle,
                     newFormat = false
                 )
-            }
+            } ?: fallbackToNewIconFormat(
+                context = context,
+                iconName = iconName,
+                iconStyle = iconStyle
+            )
         } catch (e: Exception) {
             fallbackToNewIconFormat(
-                context = context, iconName = iconName
-            )?.let { nonNullId ->
-                IconInfo(
-                    iconId = nonNullId,
-                    style = iconStyle,
-                    newFormat = true
-                )
-            }
+                context = context,
+                iconName = iconName,
+                iconStyle = iconStyle
+            )
         }
     }
 }
@@ -263,22 +263,31 @@ enum class IconStyle {
     L, M, S, UNKNOWN
 }
 
-@DrawableRes
 fun fallbackToNewIconFormat(
+    iconStyle: IconStyle,
     context: Context,
     iconName: String?,
-): Int? {
+): IconInfo? {
     return iconName?.let {
         try {
             val iconNameNormalized = iconName
                 .replace(" ", "")
                 .trim()
                 .toLowerCaseLocal()
-            context.resources.getIdentifier(
+
+            val iconId = context.resources.getIdentifier(
                 iconNameNormalized,
                 "drawable",
                 context.packageName
             ).takeIf { it != 0 }
+
+            iconId?.let { nonNullId ->
+                IconInfo(
+                    iconId = nonNullId,
+                    style = iconStyle,
+                    newFormat = true
+                )
+            }
         } catch (e: Exception) {
             null
         }
