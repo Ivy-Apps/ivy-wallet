@@ -18,6 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.DividerW
+import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Ivy
@@ -28,6 +32,7 @@ import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.thenIf
 import java.util.*
 
+private const val ICON_PICKER_ICONS_PER_ROW = 5
 
 @Composable
 fun BoxWithConstraintsScope.ChooseIconModal(
@@ -72,7 +77,7 @@ fun BoxWithConstraintsScope.ChooseIconModal(
 
                 ModalTitle(text = stringResource(R.string.choose_icon))
 
-                Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(4.dp))
             }
 
             icons(selectedIcon = selectedIcon, color = color) {
@@ -92,37 +97,121 @@ private fun LazyListScope.icons(
 
     onIconSelected: (String) -> Unit
 ) {
-    val icons = listOf(
-        "account", "category", "cash", "bank", "revolut",
-        "clothes2", "clothes", "family", "star",
-        "education", "fitness", "loan", "orderfood", "orderfood2",
-        "pet", "restaurant", "selfdevelopment", "work", "vehicle",
-        "atom", "bills", "birthday", "calculator", "camera",
-        "chemistry", "coffee", "connect", "dna", "doctor",
-        "document", "drink", "farmacy", "fingerprint", "fishfood",
-        "food2", "fooddrink", "furniture", "gambling", "game",
-        "gears", "gift", "groceries", "hairdresser", "health",
-        "hike", "house", "insurance", "label", "leaf",
-        "location", "makeup", "music", "notice", "people",
-        "plant", "programming", "relationship", "rocket", "safe",
-        "sail", "server", "shopping2", "shopping", "sports",
-        "stats", "tools", "transport", "travel", "trees",
-        "zeus", "calendar", "crown", "diamond", "palette"
-//        "ada", "btc", "eth", "xrp", "doge"
+    val icons = ivyIcons()
+
+    iconsR(
+        icons = icons,
+        iconsPerRow = ICON_PICKER_ICONS_PER_ROW,
+        selectedIcon = selectedIcon,
+        color = color,
+        onIconSelected = onIconSelected
     )
+}
 
-    val rowsCount = icons.size / 5 + 1
+private tailrec fun LazyListScope.iconsR(
+    icons: List<Any>,
+    rowAcc: List<String> = emptyList(),
 
-    for (row in 0 until rowsCount) {
-        val toIndex = (row * 5) + 5
-        val rowIcons = icons.subList(
-            fromIndex = row * 5,
-            toIndex = if (toIndex < icons.size - 1) toIndex else icons.size
+    iconsPerRow: Int,
+    selectedIcon: String?,
+    color: Color,
+
+    onIconSelected: (String) -> Unit
+) {
+    if (icons.isNotEmpty()) {
+        //recurse
+
+        when (val currentItem = icons.first()) {
+            is IconPickerSection -> {
+                addIconsRowIfNotEmpty(
+                    rowAcc = rowAcc,
+                    selectedIcon = selectedIcon,
+                    color = color,
+                    onIconSelected = onIconSelected
+                )
+
+                item {
+                    Section(title = currentItem.title)
+                }
+
+                //RECURSE
+                iconsR(
+                    icons = icons.drop(1),
+                    rowAcc = emptyList(),
+
+                    iconsPerRow = iconsPerRow,
+                    selectedIcon = selectedIcon,
+                    color = color,
+                    onIconSelected = onIconSelected
+
+                )
+            }
+            is String -> {
+                //icon
+
+                if (rowAcc.size == iconsPerRow) {
+                    //recurse and reset acc
+
+                    addIconsRowIfNotEmpty(
+                        rowAcc = rowAcc,
+                        selectedIcon = selectedIcon,
+                        color = color,
+                        onIconSelected = onIconSelected
+                    )
+
+                    //RECURSE
+                    iconsR(
+                        icons = icons.drop(1),
+                        rowAcc = emptyList(),
+
+                        iconsPerRow = iconsPerRow,
+                        selectedIcon = selectedIcon,
+                        color = color,
+                        onIconSelected = onIconSelected
+
+                    )
+                } else {
+                    //recurse by filling acc
+
+                    //RECURSE
+                    iconsR(
+                        icons = icons.drop(1),
+                        rowAcc = rowAcc + currentItem,
+
+                        iconsPerRow = iconsPerRow,
+                        selectedIcon = selectedIcon,
+                        color = color,
+                        onIconSelected = onIconSelected
+
+                    )
+                }
+            }
+        }
+    } else {
+        //end recursion
+        addIconsRowIfNotEmpty(
+            rowAcc = rowAcc,
+            selectedIcon = selectedIcon,
+            color = color,
+            onIconSelected = onIconSelected
         )
+    }
+}
 
+private fun LazyListScope.addIconsRowIfNotEmpty(
+    rowAcc: List<String>,
+
+    selectedIcon: String?,
+    color: Color,
+
+    onIconSelected: (String) -> Unit
+) {
+    if (rowAcc.isNotEmpty()) {
         item {
             IconsRow(
-                icons = rowIcons, selectedIcon = selectedIcon, color = color
+                icons = rowAcc,
+                selectedIcon = selectedIcon,
+                color = color
             ) {
                 onIconSelected(it)
             }
@@ -190,6 +279,30 @@ private fun Icon(
     )
 }
 
+@Composable
+private fun Section(
+    title: String
+) {
+    SpacerVer(height = 20.dp)
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        DividerW()
+
+        SpacerHor(width = 16.dp)
+
+        IvyText(text = title, typo = UI.typo.b1)
+
+        SpacerHor(width = 16.dp)
+
+        DividerW()
+    }
+
+    SpacerVer(height = 20.dp)
+}
+
 @Preview
 @Composable
 private fun ChooseIconModal() {
@@ -204,3 +317,24 @@ private fun ChooseIconModal() {
         }
     }
 }
+
+fun ivyIcons(): List<Any> = listOf(
+    IconPickerSection("Ivy"),
+    "account", "category", "cash", "bank", "revolut",
+    "clothes2", "clothes", "family", "star",
+    "education", "fitness", "loan", "orderfood", "orderfood2",
+    "pet", "restaurant", "selfdevelopment", "work", "vehicle",
+    "atom", "bills", "birthday", "calculator", "camera",
+    "chemistry", "coffee", "connect", "dna", "doctor",
+    "document", "drink", "farmacy", "fingerprint", "fishfood",
+    "food2", "fooddrink", "furniture", "gambling", "game",
+    "gears", "gift", "groceries", "hairdresser", "health",
+    "hike", "house", "insurance", "label", "leaf",
+    "location", "makeup", "music", "notice", "people",
+    "plant", "programming", "relationship", "rocket", "safe",
+    "sail", "server", "shopping2", "shopping", "sports",
+    "stats", "tools", "transport", "travel", "trees",
+    "zeus", "calendar", "crown", "diamond", "palette"
+)
+
+data class IconPickerSection(val title: String)

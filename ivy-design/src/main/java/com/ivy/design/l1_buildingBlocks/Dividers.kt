@@ -68,6 +68,38 @@ fun DividerV(
 }
 
 @Composable
+fun RowScope.DividerW(
+    weight: Float = 1f,
+    height: Dp = 1.dp,
+    color: Color = UI.colors.gray,
+    shape: Shape = UI.shapes.rFull
+) {
+    Divider(
+        modifier = Modifier
+            .weight(weight)
+            .height(1.dp),
+        color = color,
+        shape = shape
+    )
+}
+
+@Composable
+fun ColumnScope.DividerW(
+    weight: Float = 1f,
+    width: Dp = 1.dp,
+    color: Color = UI.colors.gray,
+    shape: Shape = UI.shapes.rFull
+) {
+    Divider(
+        modifier = Modifier
+            .weight(weight)
+            .width(width),
+        color = color,
+        shape = shape
+    )
+}
+
+@Composable
 fun Divider(
     modifier: Modifier = Modifier,
     color: Color = UI.colors.gray,
