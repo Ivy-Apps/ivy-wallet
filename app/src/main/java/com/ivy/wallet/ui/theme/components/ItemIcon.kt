@@ -156,7 +156,8 @@ private fun ItemIcon(
             painter = painterResource(id = iconInfo.iconId),
             colorFilter = ColorFilter.tint(tint),
             alignment = Alignment.Center,
-            contentScale = ContentScale.Fit,
+            contentScale = if (iconInfo.newFormat)
+                ContentScale.Fit else ContentScale.None,
             contentDescription = iconName ?: "item icon"
         )
     } else {
