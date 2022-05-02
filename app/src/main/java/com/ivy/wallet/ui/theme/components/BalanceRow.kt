@@ -22,7 +22,6 @@ import com.ivy.wallet.utils.decimalPartFormatted
 import com.ivy.wallet.utils.shortenAmount
 import com.ivy.wallet.utils.shouldShortAmount
 import java.text.DecimalFormat
-import kotlin.math.truncate
 
 @Composable
 fun BalanceRowMedium(
@@ -121,10 +120,12 @@ fun BalanceRow(
             Spacer(Modifier.width(spacerCurrency))
         }
 
+        val balancePrecise = balance.toBigDecimal()
+
         val integerPartFormatted = if (shortAmount) {
             shortenAmount(balance)
         } else {
-            DecimalFormat("###,###").format(truncate(balance))
+            DecimalFormat("###,###").format(balancePrecise.toInt())
         }
         Text(
             text = when {
