@@ -149,7 +149,8 @@ private fun ItemIcon(
                             this.padding(all = 4.dp)
                         IconStyle.S ->
                             //32.dp - 24.dp = 8.dp / 4 = 2.dp
-                            this.padding(all = 2.dp)
+                            //2.dp is too small padding
+                            this.padding(all = 4.dp)
                         IconStyle.UNKNOWN -> this
                     }
                 },
