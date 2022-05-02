@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
@@ -34,7 +36,6 @@ import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
@@ -85,7 +86,10 @@ fun LazyItemScope.TransactionCard(
 
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                text = stringResource(R.string.due_on, transaction.dueDate.formatNicely()).uppercase(),
+                text = stringResource(
+                    R.string.due_on,
+                    transaction.dueDate.formatNicely()
+                ).uppercase(),
                 style = UI.typo.nC.style(
                     color = if (transaction.dueDate.isAfter(timeNowUTC()))
                         Orange else UI.colors.gray,
@@ -112,14 +116,15 @@ fun LazyItemScope.TransactionCard(
 
         }
 
-        if (transaction.description.isNotNullOrBlank()){
+        if (transaction.description.isNotNullOrBlank()) {
             Spacer(
                 Modifier.height(
                     if (transaction.title.isNotNullOrBlank()) 4.dp else 8.dp
                 )
             )
 
-            Text(text = transaction.description!!,
+            Text(
+                text = transaction.description!!,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = UI.typo.nC.style(
                     color = UI.colors.gray,
@@ -201,21 +206,11 @@ private fun TransactionHeaderRow(
                 transaction.categoryId
                     ?.let { targetId -> categories.find { it.id == targetId } }
             if (category != null) {
-                IvyButton(
+                TransactionBadge(
                     text = category.name,
-                    backgroundGradient = Gradient.solid(category.color.toComposeColor()),
-                    hasGlow = false,
-                    iconTint = findContrastTextColor(category.color.toComposeColor()),
-                    iconStart = getCustomIconIdS(
-                        iconName = category.icon,
-                        defaultIcon = R.drawable.ic_custom_category_s
-                    ),
-                    textStyle = UI.typo.c.style(
-                        color = findContrastTextColor(category.color.toComposeColor()),
-                        fontWeight = FontWeight.ExtraBold
-                    ),
-                    padding = 8.dp,
-                    iconEdgePadding = 10.dp
+                    backgroundColor = category.color.toComposeColor(),
+                    icon = category.icon,
+                    defaultIcon = R.drawable.ic_custom_category_s
                 ) {
                     nav.navigateTo(
                         ItemStatistic(
@@ -229,22 +224,11 @@ private fun TransactionHeaderRow(
             }
 
             val account = accounts.find { it.id == transaction.accountId }
-            //TODO: Rework that by using dedicated component for "Account"
-            IvyButton(
-                backgroundGradient = Gradient.solid(UI.colors.pure),
-                hasGlow = false,
-                iconTint = UI.colors.pureInverse,
+            TransactionBadge(
                 text = account?.name ?: stringResource(R.string.deleted),
-                iconStart = getCustomIconIdS(
-                    iconName = account?.icon,
-                    defaultIcon = R.drawable.ic_custom_account_s
-                ),
-                textStyle = UI.typo.c.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
-                ),
-                padding = 8.dp,
-                iconEdgePadding = 10.dp
+                backgroundColor = UI.colors.pure,
+                icon = account?.icon,
+                defaultIcon = R.drawable.ic_custom_account_s
             ) {
                 account?.let {
                     nav.navigateTo(
@@ -256,6 +240,50 @@ private fun TransactionHeaderRow(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun TransactionBadge(
+    text: String,
+    backgroundColor: Color,
+    icon: String?,
+    @DrawableRes
+    defaultIcon: Int,
+
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .background(backgroundColor, UI.shapes.rFull)
+            .clickable {
+                onClick()
+            }
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SpacerHor(width = 8.dp)
+
+        val contrastColor = findContrastTextColor(backgroundColor)
+
+        ItemIconSDefaultIcon(
+            iconName = icon,
+            defaultIcon = defaultIcon,
+            tint = contrastColor
+        )
+
+        SpacerHor(width = 4.dp)
+
+        IvyText(
+            text = text,
+            typo = UI.typo.c.style(
+                color = contrastColor,
+                fontWeight = FontWeight.ExtraBold
+            )
+        )
+
+        SpacerHor(width = 20.dp)
     }
 }
 
