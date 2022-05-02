@@ -122,7 +122,7 @@ private fun BoxWithConstraintsScope.UI(
     showNotifications: Boolean = true,
     hideCurrentBalance: Boolean = false,
     progressState: Boolean = false,
-    treatTransfersAsIncomeExpense :Boolean = false,
+    treatTransfersAsIncomeExpense: Boolean = false,
 
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
@@ -415,9 +415,11 @@ private fun BoxWithConstraintsScope.UI(
 
     DeleteModal(
         title = stringResource(R.string.delete_all_user_data_question),
-        description = stringResource(R.string.delete_all_user_data_warning, user?.email ?: stringResource(
-                    R.string.your_account)
-                ),
+        description = stringResource(
+            R.string.delete_all_user_data_warning, user?.email ?: stringResource(
+                R.string.your_account
+            )
+        ),
         visible = deleteAllDataModalVisible,
         dismiss = { deleteAllDataModalVisible = false },
         onDelete = {
@@ -427,9 +429,11 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     DeleteModal(
-        title = stringResource(R.string.confirm_all_userd_data_deletion, user?.email ?: stringResource(
-                    R.string.all_of_your_data)
-                ),
+        title = stringResource(
+            R.string.confirm_all_userd_data_deletion, user?.email ?: stringResource(
+                R.string.all_of_your_data
+            )
+        ),
         description = stringResource(R.string.final_deletion_warning),
         visible = deleteAllDataModalFinalVisible,
         dismiss = { deleteAllDataModalFinalVisible = false },
@@ -541,12 +545,12 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val ivyActivity = LocalContext.current as RootActivity
+    val rootActivity = rootActivity()
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = stringResource(R.string.contact_support),
     ) {
-        ivyActivity.contactSupport()
+        rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
     }
 }
 
@@ -588,7 +592,8 @@ private fun AppSwitch(
         Column(
             Modifier
                 .weight(1f)
-                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)) {
+                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)
+        ) {
             Text(
                 text = text,
                 style = UI.typo.b2.style(
