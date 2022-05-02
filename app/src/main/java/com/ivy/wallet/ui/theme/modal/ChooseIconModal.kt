@@ -698,7 +698,7 @@ fun ivyIcons(): List<Any> = listOf(
     "ic_vue_support_heart",
     "ic_vue_support_like",
     IconPickerSection("Transport"),
-    "ic_vue_transport_car_wash",
+//    "ic_vue_transport_car_wash", //TODO: Fix car_wash icon missing
     "ic_vue_transport_bus",
     "ic_vue_transport_airplane",
     "ic_vue_transport_train",

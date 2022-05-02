@@ -230,8 +230,9 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(12.dp))
 
             SettingsDefaultButton(
-                icon = R.drawable.ic_export_csv,
+                icon = R.drawable.ic_vue_security_shield,
                 text = stringResource(R.string.backup_data),
+                iconPadding = 6.dp
             ) {
                 onBackupData()
             }
@@ -501,7 +502,7 @@ private fun IvyTelegram() {
         icon = R.drawable.ic_telegram_24dp,
         text = stringResource(R.string.ivy_telegram),
         backgroundGradient = Gradient.solid(Blue),
-        customIconPadding = 8.dp
+        iconPadding = 8.dp
     ) {
         rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
     }
@@ -560,8 +561,9 @@ private fun ContactSupport() {
 private fun ProjectContributors() {
     val nav = navigation()
     SettingsDefaultButton(
-        icon = R.drawable.ic_custom_people_m,
+        icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
+        iconPadding = 6.dp
     ) {
         nav.navigateTo(
             IvyWebView(url = URL_IVY_CONTRIBUTORS)
@@ -748,11 +750,12 @@ private fun AccountCardUser(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(Modifier.width(24.dp))
+        Spacer(Modifier.width(20.dp))
 
         IvyIconScaled(
             icon = R.drawable.ic_email,
-            iconScale = IconScale.M
+            iconScale = IconScale.S,
+            padding = 0.dp
         )
 
         Spacer(Modifier.width(12.dp))
@@ -775,12 +778,13 @@ private fun AccountCardUser(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(Modifier.width(24.dp))
+                Spacer(Modifier.width(20.dp))
 
                 IvyIconScaled(
                     icon = R.drawable.ic_data_synced,
                     tint = Orange,
-                    iconScale = IconScale.M
+                    iconScale = IconScale.S,
+                    padding = 0.dp
                 )
 
                 Spacer(Modifier.width(12.dp))
@@ -802,12 +806,13 @@ private fun AccountCardUser(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(Modifier.width(24.dp))
+                    Spacer(Modifier.width(20.dp))
 
                     IvyIconScaled(
                         icon = R.drawable.ic_data_synced,
                         tint = Green,
-                        iconScale = IconScale.M
+                        iconScale = IconScale.S,
+                        padding = 0.dp
                     )
 
                     Spacer(Modifier.width(12.dp))
@@ -901,8 +906,9 @@ private fun ExportCSV(
     onExportToCSV: () -> Unit
 ) {
     SettingsDefaultButton(
-        icon = R.drawable.ic_export_csv,
+        icon = R.drawable.ic_vue_pc_printer,
         text = stringResource(R.string.export_to_csv),
+        iconPadding = 6.dp
     ) {
         onExportToCSV()
     }
@@ -966,7 +972,7 @@ private fun SettingsPrimaryButton(
     hasShadow: Boolean = false,
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
     textColor: Color = White,
-    customIconPadding: Dp? = null,
+    iconPadding: Dp = 0.dp,
     onClick: () -> Unit
 ) {
     SettingsButtonRow(
@@ -976,21 +982,12 @@ private fun SettingsPrimaryButton(
     ) {
         Spacer(Modifier.width(12.dp))
 
-        if (customIconPadding != null) {
-            IvyIconScaled(
-                icon = icon,
-                tint = textColor,
-                iconScale = IconScale.M,
-                padding = customIconPadding
-            )
-        } else {
-            IvyIconScaled(
-                icon = icon,
-                tint = textColor,
-                iconScale = IconScale.M,
-                padding = 0.dp
-            )
-        }
+        IvyIconScaled(
+            icon = icon,
+            tint = textColor,
+            iconScale = IconScale.M,
+            padding = iconPadding
+        )
 
         Spacer(Modifier.width(8.dp))
 
@@ -1086,11 +1083,12 @@ private fun CurrencyButton(
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(Modifier.width(20.dp))
+        Spacer(Modifier.width(12.dp))
 
         IvyIconScaled(
             icon = R.drawable.ic_currency,
-            iconScale = IconScale.M
+            iconScale = IconScale.M,
+            padding = 0.dp
         )
 
         Spacer(Modifier.width(8.dp))
@@ -1146,13 +1144,15 @@ private fun SettingsSectionDivider(
 private fun SettingsDefaultButton(
     @DrawableRes icon: Int,
     text: String,
+    iconPadding: Dp = 0.dp,
     onClick: () -> Unit
 ) {
     SettingsPrimaryButton(
         icon = icon,
         text = text,
         backgroundGradient = Gradient.solid(UI.colors.medium),
-        textColor = UI.colors.pureInverse
+        textColor = UI.colors.pureInverse,
+        iconPadding = iconPadding
     ) {
         onClick()
     }
