@@ -37,5 +37,5 @@ interface AccountDao {
     suspend fun findMinOrderNum(): Double
 
     @Query("SELECT MAX(orderNum) FROM accounts")
-    suspend fun findMaxOrderNum(): Double
+    suspend fun findMaxOrderNum(): Double?
 }

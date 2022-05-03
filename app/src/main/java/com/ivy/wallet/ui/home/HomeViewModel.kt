@@ -159,7 +159,7 @@ class HomeViewModel @Inject constructor(
             updateState {
                 val result = overdueAct(
                     OverdueAct.Input(
-                        range = timeRange,
+                        toRange = timeRange.to,
                         baseCurrency = baseCurrency
                     )
                 )

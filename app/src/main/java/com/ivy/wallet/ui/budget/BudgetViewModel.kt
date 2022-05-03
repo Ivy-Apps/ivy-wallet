@@ -145,7 +145,7 @@ class BudgetViewModel @Inject constructor(
                             ExchangeAct.Input(
                                 data = ExchangeData(
                                     baseCurrency = baseCurrencyCode,
-                                    fromCurrency = trnCurrency(it, accounts)
+                                    fromCurrency = trnCurrency(it, accounts, baseCurrencyCode)
                                 ),
                                 amount = it.amount
                             )

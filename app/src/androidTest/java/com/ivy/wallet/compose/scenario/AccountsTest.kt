@@ -20,7 +20,7 @@ class AccountsTest : IvyComposeTest() {
     private val transactionFlow = TransactionFlow(composeTestRule)
     private val homeTab = HomeTab(composeTestRule)
     private val accountsTab = AccountsTab(composeTestRule)
-    private val editTransactionScreen = EditTransactionScreen(composeTestRule)
+    private val editTransactionScreen = TransactionScreen(composeTestRule)
     private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
     private val reorderModal = ReorderModal(composeTestRule)
     private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)

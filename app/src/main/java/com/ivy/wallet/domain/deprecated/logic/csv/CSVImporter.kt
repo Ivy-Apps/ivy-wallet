@@ -9,6 +9,7 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
+import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -442,7 +443,7 @@ class CSVImporter(
             ),
             color = colorArgb,
             icon = icon,
-            orderNum = orderNum ?: accountDao.findMaxOrderNum() + 1
+            orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
         accountDao.save(newAccount.toEntity())
         accounts = accountDao.findAll().map { it.toDomain() }
@@ -491,7 +492,7 @@ class CSVImporter(
             name = categoryNameString,
             color = colorArgb,
             icon = icon,
-            orderNum = orderNum ?: categoryDao.findMaxOrderNum() + 1
+            orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
         )
         categoryDao.save(newCategory.toEntity())
         categories = categoryDao.findAll().map { it.toDomain() }

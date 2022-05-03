@@ -271,7 +271,8 @@ private fun IncomeExpenses(
             textColor = White,
             label = stringResource(R.string.income),
             currency = currency,
-            amount = monthlyIncome
+            amount = monthlyIncome,
+            testTag = "home_card_income"
         ) {
             nav.navigateTo(
                 PieChartStatistic(
@@ -289,7 +290,8 @@ private fun IncomeExpenses(
             textColor = UI.colors.pure,
             label = stringResource(R.string.expenses),
             currency = currency,
-            amount = monthlyExpenses.absoluteValue
+            amount = monthlyExpenses.absoluteValue,
+            testTag = "home_card_expense"
         ) {
             nav.navigateTo(
                 PieChartStatistic(
@@ -311,6 +313,7 @@ private fun RowScope.HeaderCard(
     label: String,
     currency: String,
     amount: Double,
+    testTag: String,
     onClick: () -> Unit
 ) {
     Column(
@@ -321,6 +324,7 @@ private fun RowScope.HeaderCard(
             }
             .clip(UI.shapes.r4)
             .background(backgroundGradient.asHorizontalBrush())
+            .testTag(testTag)
             .clickable(
                 onClick = onClick
             )

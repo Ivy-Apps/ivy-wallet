@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -76,6 +77,7 @@ fun AmountCurrencyB1(
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
 
     Text(
+        modifier = Modifier.testTag("amount_currency_b1"),
         text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
         style = UI.typo.nB1.style(
             fontWeight = amountFontWeight,

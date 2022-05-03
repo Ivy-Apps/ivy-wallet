@@ -3,6 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.deprecated.sync.uploader.BudgetUploader
+import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.utils.ioThread
 
@@ -29,7 +30,7 @@ class BudgetCreator(
                         amount = data.amount,
                         categoryIdsSerialized = data.categoryIdsSerialized,
                         accountIdsSerialized = data.accountIdsSerialized,
-                        orderId = budgetDao.findMaxOrderNum() + 1,
+                        orderId = budgetDao.findMaxOrderNum().nextOrderNum(),
                         isSynced = false
                     )
 
