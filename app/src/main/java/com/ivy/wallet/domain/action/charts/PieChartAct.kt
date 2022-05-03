@@ -82,7 +82,7 @@ class PieChartAct @Inject constructor(
             )
         } then {
             addAccountTransfersCategory(
-                treatTransferAsIncExp = treatTransferAsIncExp,
+                showAccountTransfersCategory = showAccountTransfersCategory,
                 type = type,
                 accountTransfersCategory = accountTransfersCategory,
                 accountIdFilterSet = accountIdFilterList.toHashSet(),
@@ -172,7 +172,8 @@ class PieChartAct @Inject constructor(
                     TransactionType.EXPENSE -> catIncomeExpense.expense.toDouble()
                     else -> error("not supported transactionType - $type")
                 },
-                associatedTransactions = categoryTransactions.await()
+                associatedTransactions = categoryTransactions.await(),
+                isCategoryUnspecified = category == null
             )
         } thenFilter { catAmt ->
             catAmt.amount != 0.0
@@ -213,7 +214,7 @@ class PieChartAct @Inject constructor(
 
     @Pure
     private suspend fun addAccountTransfersCategory(
-        treatTransferAsIncExp: Boolean,
+        showAccountTransfersCategory: Boolean,
         type: TransactionType,
         accountTransfersCategory: Category,
         accountIdFilterSet: Set<UUID>,
@@ -231,7 +232,7 @@ class PieChartAct @Inject constructor(
         val incExpQuad = incomeExpenseTransfer()
 
         val catAmtList =
-            if (!treatTransferAsIncExp || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO)
+            if (!showAccountTransfersCategory || incExpQuad.transferIncome == BigDecimal.ZERO && incExpQuad.transferExpense == BigDecimal.ZERO)
                 categoryAmounts then { it.sortedByDescending { ca -> ca.amount } }
             else {
 
@@ -251,7 +252,12 @@ class PieChartAct @Inject constructor(
 
                 categoryAmounts then {
                     it.plus(
-                        CategoryAmount(accountTransfersCategory, amt, categoryTrans)
+                        CategoryAmount(
+                            category = accountTransfersCategory,
+                            amount = amt,
+                            associatedTransactions = categoryTrans,
+                            isCategoryUnspecified = true
+                        )
                     )
                 } then {
                     it.sortedByDescending { ca -> ca.amount }
@@ -267,6 +273,7 @@ class PieChartAct @Inject constructor(
         val type: TransactionType,
         val accountIdFilterList: List<UUID>,
         val treatTransferAsIncExp: Boolean = false,
+        val showAccountTransfersCategory: Boolean = treatTransferAsIncExp,
         val existingTransactions: List<Transaction> = emptyList()
     )
 
