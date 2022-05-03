@@ -8,6 +8,7 @@ import com.ivy.design.navigation.Navigation
 import com.ivy.fp.filterSuspend
 import com.ivy.fp.sumOfSuspend
 import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
@@ -25,6 +26,7 @@ import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.domain.pure.util.orZero
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -56,7 +58,8 @@ class ReportViewModel @Inject constructor(
     override val mutableState: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
-    private val unSpecifiedCategory = Category("UnSpecified", color = Gray.toArgb())
+    private val unSpecifiedCategory =
+        Category(stringRes(R.string.unspecified), color = Gray.toArgb())
 
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
