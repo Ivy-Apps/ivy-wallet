@@ -5,7 +5,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
-class EditTransactionScreen<A : ComponentActivity>(
+class TransactionScreen<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
     private val amountInput = AmountInput(composeTestRule)
@@ -58,6 +58,16 @@ class EditTransactionScreen<A : ComponentActivity>(
 
     fun save() {
         composeTestRule.onNodeWithText("Save")
+            .performClick()
+    }
+
+    fun clickAdd() {
+        composeTestRule.onNodeWithText("Add")
+            .performClick()
+    }
+
+    fun skipCategory() {
+        composeTestRule.onNodeWithText("Skip")
             .performClick()
     }
 }

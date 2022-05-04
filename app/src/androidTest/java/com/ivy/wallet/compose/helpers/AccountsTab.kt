@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.hideKeyboard
 import com.ivy.wallet.compose.printTree
 import com.ivy.wallet.ui.theme.Ivy
 
@@ -64,6 +65,8 @@ class AccountsTab<A : ComponentActivity>(
 
         accountModal.apply {
             enterTitle(name)
+
+            composeTestRule.hideKeyboard()
 
             ivyColorPicker.chooseColor(color = color)
 

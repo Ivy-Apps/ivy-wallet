@@ -139,6 +139,7 @@ jobs:
           REPO: ${{ github.repository }}
 
       - name: Create GitHub Release
+        if: always() #Execute even the generation of changelog has failed
         id: create_release
         uses: actions/create-release@latest
         env:

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
+import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.utils.ioThread
 
@@ -28,7 +29,7 @@ class CategoryCreator(
                         name = name.trim(),
                         color = data.color.toArgb(),
                         icon = data.icon,
-                        orderNum = categoryDao.findMaxOrderNum() + 1,
+                        orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
                         isSynced = false
                     )
 

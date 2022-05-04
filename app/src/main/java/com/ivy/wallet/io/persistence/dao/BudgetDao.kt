@@ -34,5 +34,5 @@ interface BudgetDao {
     suspend fun deleteAll()
 
     @Query("SELECT MAX(orderId) FROM budgets")
-    suspend fun findMaxOrderNum(): Double
+    suspend fun findMaxOrderNum(): Double?
 }

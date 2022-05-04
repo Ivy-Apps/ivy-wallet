@@ -34,5 +34,5 @@ interface LoanDao {
     suspend fun deleteAll()
 
     @Query("SELECT MAX(orderNum) FROM loans")
-    suspend fun findMaxOrderNum(): Double
+    suspend fun findMaxOrderNum(): Double?
 }

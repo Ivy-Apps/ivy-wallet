@@ -19,6 +19,7 @@ data class CategoryDTO(
         icon = icon,
         orderNum = orderNum,
         isSynced = true,
-        isDeleted = false
+        isDeleted = false,
+        id = id
     )
 }

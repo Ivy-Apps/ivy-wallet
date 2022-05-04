@@ -22,6 +22,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.hideKeyboard
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.TransactionType
@@ -29,11 +30,8 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.EditPlanned
-import com.ivy.wallet.ui.EditTransaction
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.edit.core.*
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
@@ -77,6 +75,8 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
         viewModel.start(screen)
     }
 
+    val view = rootView()
+
     UI(
         screen = screen,
         transactionType = transactionType,
@@ -112,7 +112,10 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
         onCreateCategory = viewModel::createCategory,
         onEditCategory = viewModel::editCategory,
         onPayPlannedPayment = viewModel::onPayPlannedPayment,
-        onSave = viewModel::save,
+        onSave = {
+            view.hideKeyboard()
+            viewModel.save()
+        },
         onSetHasChanges = viewModel::setHasChanges,
         onDelete = viewModel::delete,
         onCreateAccount = viewModel::createAccount,

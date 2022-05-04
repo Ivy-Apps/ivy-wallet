@@ -6,7 +6,8 @@ import com.ivy.fp.Pure
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
-import java.time.LocalDateTime
+import com.ivy.wallet.domain.pure.account.accountCurrency
+import java.time.LocalDate
 
 @Pure
 fun expenses(transactions: List<Transaction>): List<Transaction> {
@@ -24,15 +25,24 @@ fun transfers(transactions: List<Transaction>): List<Transaction> {
 }
 
 @Pure
-fun isUpcoming(transaction: Transaction, timeNowUTC: LocalDateTime): Boolean =
-    timeNowUTC.isBefore(transaction.dueDate)
+fun isUpcoming(transaction: Transaction, dateNow: LocalDate): Boolean {
+    val dueDate = transaction.dueDate?.toLocalDate() ?: return false
+    return dateNow.isBefore(dueDate) || dateNow.isEqual(dueDate)
+}
 
 @Pure
-fun isOverdue(transaction: Transaction, timeNowUTC: LocalDateTime): Boolean =
-    timeNowUTC.isAfter(transaction.dueDate)
+fun isOverdue(transaction: Transaction, dateNow: LocalDate): Boolean {
+    val dueDate = transaction.dueDate?.toLocalDate() ?: return false
+    return dateNow.isAfter(dueDate)
+}
 
 @Pure
 fun trnCurrency(
     transaction: Transaction,
-    accounts: List<Account>
-): Option<String> = accounts.find { it.id == transaction.accountId }?.currency.toOption()
+    accounts: List<Account>,
+    baseCurrency: String
+): Option<String> {
+    val account = accounts.find { it.id == transaction.accountId }
+        ?: return baseCurrency.toOption()
+    return accountCurrency(account, baseCurrency).toOption()
+}

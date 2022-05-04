@@ -101,6 +101,9 @@ class SettingsViewModel @Inject constructor(
 
             _showNotifications.value = sharedPrefs.getBoolean(SharedPrefs.SHOW_NOTIFICATIONS, true)
 
+            _treatTransfersAsIncomeExpense.value =
+                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
+
             _opSync.value = OpResult.success(ioThread { ivySync.isSynced() })
 
             TestIdlingResource.decrement()
@@ -315,7 +318,10 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            sharedPrefs.putBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, treatTransfersAsIncomeExpense)
+            sharedPrefs.putBoolean(
+                SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
+                treatTransfersAsIncomeExpense
+            )
             _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
 
             TestIdlingResource.decrement()

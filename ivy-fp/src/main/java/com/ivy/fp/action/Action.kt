@@ -1,6 +1,8 @@
 package com.ivy.fp.action
 
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 abstract class Action<in I, out O> {
@@ -13,6 +15,11 @@ abstract class Action<in I, out O> {
     protected suspend fun <T> io(action: suspend () -> T): T = withContext(Dispatchers.IO) {
         return@withContext action()
     }
+
+    protected suspend fun <T> asyncIo(action: suspend () -> T): Deferred<T> =
+        withContext(Dispatchers.IO) {
+            return@withContext this.async { action() }
+        }
 
     protected suspend fun <T> computation(action: suspend () -> T): T =
         withContext(Dispatchers.Default) {

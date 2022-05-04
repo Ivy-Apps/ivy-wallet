@@ -10,13 +10,16 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,16 +35,13 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
-import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import com.ivy.wallet.utils.*
-import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
@@ -49,73 +49,31 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
     screen: PieChartStatistic
 ) {
     val viewModel: PieChartStatisticViewModel = viewModel()
-
-    val ivyContext = ivyWalletCtx()
-
-    val type by viewModel.type.collectAsState()
-    val period by viewModel.period.collectAsState()
-    val currency by viewModel.baseCurrencyCode.collectAsState()
-    val totalAmount by viewModel.totalAmount.collectAsState()
-    val categoryAmounts by viewModel.categoryAmounts.collectAsState()
-    val selectedCategory by viewModel.selectedCategory.collectAsState()
-    val accountIdList by viewModel.accountIdFilterList.collectAsState()
-    val showCloseButtonOnly by viewModel.showCloseButtonOnly.collectAsState()
-    val transactions by viewModel.transaction.collectAsState()
+    val state by viewModel.state().collectAsState()
 
     onScreenStart {
         viewModel.start(screen)
     }
 
     UI(
-        transactionType = type,
-        period = period,
-        currency = currency,
-        totalAmount = totalAmount,
-        categoryAmounts = categoryAmounts,
-        selectedCategory = selectedCategory,
-        accountIdFilterList = accountIdList,
-        showCloseButtonOnly = showCloseButtonOnly,
-        transactions = transactions,
-
-        onSetPeriod = viewModel::onSetPeriod,
-        onSelectNextMonth = viewModel::nextMonth,
-        onSelectPreviousMonth = viewModel::previousMonth,
-        onSetSelectedCategory = viewModel::setSelectedCategory,
-        checkForUnSpecifiedCategory = viewModel::checkForUnspecifiedCategory
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    transactionType: TransactionType,
-    period: TimePeriod,
-    currency: String,
-    totalAmount: Double,
-    categoryAmounts: List<CategoryAmount>,
-    selectedCategory: SelectedCategory?,
-    accountIdFilterList: List<UUID> = emptyList(),
-    showCloseButtonOnly: Boolean = false,
-    transactions: List<Transaction> = emptyList(),
-
-    onSelectNextMonth: () -> Unit = {},
-    onSelectPreviousMonth: () -> Unit = {},
-    onSetPeriod: (TimePeriod) -> Unit = {},
-    onSetSelectedCategory: (SelectedCategory?) -> Unit = {},
-    checkForUnSpecifiedCategory: (Category?) -> Boolean,
+    state: PieChartStatisticState = PieChartStatisticState(),
+    onEventHandler: (PieChartStatisticEvent) -> Unit = {}
 ) {
-    var choosePeriodModal: ChoosePeriodModalData? by remember {
-        mutableStateOf(null)
-    }
-
+    val nav = navigation()
     val lazyState = rememberLazyListState()
-
     val expanded = lazyState.firstVisibleItemIndex < 1
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce()
     )
-    val nav = navigation()
 
     LazyColumn(
         modifier = Modifier
@@ -125,21 +83,23 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         stickyHeader {
             Header(
-                transactionType = transactionType,
-                period = period,
+                transactionType = state.transactionType,
+                period = state.period,
                 percentExpanded = percentExpanded,
 
-                currency = currency,
-                amount = totalAmount,
+                currency = state.baseCurrency,
+                amount = state.totalAmount,
 
                 onShowMonthModal = {
-                    choosePeriodModal = ChoosePeriodModalData(
-                        period = period
-                    )
+                    onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(state.period))
                 },
-                onSelectNextMonth = onSelectNextMonth,
-                onSelectPreviousMonth = onSelectPreviousMonth,
-                showCloseButtonOnly = showCloseButtonOnly,
+                onSelectNextMonth = {
+                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectNextMonth)
+                },
+                onSelectPreviousMonth = {
+                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectPreviousMonth)
+                },
+                showCloseButtonOnly = state.showCloseButtonOnly,
 
                 onClose = {
                     nav.back()
@@ -159,8 +119,10 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                modifier = Modifier.padding(start = 32.dp),
-                text = if (transactionType == TransactionType.EXPENSE) stringResource(R.string.expenses) else stringResource(
+                modifier = Modifier
+                    .padding(start = 32.dp)
+                    .testTag("piechart_title"),
+                text = if (state.transactionType == TransactionType.EXPENSE) stringResource(R.string.expenses) else stringResource(
                     R.string.income
                 ),
                 style = UI.typo.b1.style(
@@ -171,9 +133,10 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp, end = 16.dp)
+                    .testTag("piechart_total_amount")
                     .alpha(percentExpanded),
-                currency = currency,
-                balance = totalAmount,
+                currency = state.baseCurrency,
+                balance = state.totalAmount,
                 currencyUpfront = false,
                 currencyFontSize = 30.sp
             )
@@ -183,31 +146,11 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(40.dp))
 
             PieChart(
-                type = transactionType,
-                categoryAmounts = categoryAmounts,
-                selectedCategory = selectedCategory,
+                type = state.transactionType,
+                categoryAmounts = state.categoryAmounts,
+                selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
-                    //null - Unspecified
-                    if (selectedCategory == null) {
-                        //no category selected, select the click one
-                        selectCategory(
-                            categoryToSelect = clickedCategory,
-                            setSelectedCategory = onSetSelectedCategory
-                        )
-                    } else {
-                        //category selected
-                        val currentlySelected = selectedCategory.category
-                        if (currentlySelected == clickedCategory) {
-                            //deselect clicked category
-                            onSetSelectedCategory(null)
-                        } else {
-                            //select new category
-                            selectCategory(
-                                categoryToSelect = clickedCategory,
-                                setSelectedCategory = onSetSelectedCategory
-                            )
-                        }
-                    }
+                    onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
                 }
             )
 
@@ -215,7 +158,7 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         itemsIndexed(
-            items = categoryAmounts
+            items = state.categoryAmounts
         ) { index, item ->
             if (item.amount != 0.0) {
                 if (index != 0) {
@@ -224,25 +167,17 @@ private fun BoxWithConstraintsScope.UI(
 
                 CategoryAmountCard(
                     categoryAmount = item,
-                    currency = currency,
-                    totalAmount = totalAmount,
-                    selectedCategory = selectedCategory
+                    currency = state.baseCurrency,
+                    totalAmount = state.totalAmount,
+                    selectedCategory = state.selectedCategory
                 ) {
                     nav.navigateTo(
-                        if (transactions.isEmpty())
-                            ItemStatistic(
-                                categoryId = item.category?.id,
-                                unspecifiedCategory = checkForUnSpecifiedCategory(item.category),
-                                accountIdFilterList = accountIdFilterList
-                            )
-                        else {
-                            ItemStatistic(
-                                categoryId = item.category?.id,
-                                unspecifiedCategory = checkForUnSpecifiedCategory(item.category),
-                                accountIdFilterList = accountIdFilterList,
-                                transactions = item.associatedTransactions
-                            )
-                        }
+                        ItemStatistic(
+                            categoryId = item.category?.id,
+                            unspecifiedCategory = item.isCategoryUnspecified,
+                            accountIdFilterList = state.accountIdFilterList,
+                            transactions = item.associatedTransactions
+                        )
                     )
                 }
             }
@@ -254,25 +189,13 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     ChoosePeriodModal(
-        modal = choosePeriodModal,
+        modal = state.choosePeriodModal,
         dismiss = {
-            choosePeriodModal = null
+            onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(null))
         }
     ) {
-        onSetPeriod(it)
+        onEventHandler.invoke(PieChartStatisticEvent.OnSetPeriod(it))
     }
-}
-
-private fun selectCategory(
-    categoryToSelect: Category?,
-
-    setSelectedCategory: (SelectedCategory?) -> Unit
-) {
-    setSelectedCategory(
-        SelectedCategory(
-            category = categoryToSelect
-        )
-    )
 }
 
 @Composable
@@ -487,12 +410,12 @@ private fun PercentText(
 @Composable
 private fun Preview_Expense() {
     IvyWalletPreview {
-        UI(
+        val state = PieChartStatisticState(
             transactionType = TransactionType.EXPENSE,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
-            currency = "BGN",
+            baseCurrency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
@@ -501,7 +424,8 @@ private fun Preview_Expense() {
                 ),
                 CategoryAmount(
                     category = null,
-                    amount = 497.0
+                    amount = 497.0,
+                    isCategoryUnspecified = true
                 ),
                 CategoryAmount(
                     category = Category("Shisha", Orange.toArgb(), icon = "trees"),
@@ -528,9 +452,10 @@ private fun Preview_Expense() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null,
-            checkForUnSpecifiedCategory = { false }
+            selectedCategory = null
         )
+
+        UI(state = state)
     }
 }
 
@@ -539,12 +464,12 @@ private fun Preview_Expense() {
 @Composable
 private fun Preview_Income() {
     IvyWalletPreview {
-        UI(
+        val state = PieChartStatisticState(
             transactionType = TransactionType.INCOME,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
-            currency = "BGN",
+            baseCurrency = "BGN",
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
@@ -553,7 +478,8 @@ private fun Preview_Income() {
                 ),
                 CategoryAmount(
                     category = null,
-                    amount = 497.0
+                    amount = 497.0,
+                    isCategoryUnspecified = true
                 ),
                 CategoryAmount(
                     category = Category("Shisha", Orange.toArgb(), icon = "trees"),
@@ -580,9 +506,10 @@ private fun Preview_Income() {
                     amount = 2.0
                 ),
             ),
-            selectedCategory = null,
-            checkForUnSpecifiedCategory = { false }
+            selectedCategory = null
         )
+
+        UI(state = state)
     }
 }
 

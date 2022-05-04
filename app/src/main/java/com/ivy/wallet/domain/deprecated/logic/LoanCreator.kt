@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.domain.deprecated.sync.uploader.LoanUploader
+import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
@@ -34,7 +35,7 @@ class LoanCreator(
                         type = data.type,
                         color = data.color.toArgb(),
                         icon = data.icon,
-                        orderNum = dao.findMaxOrderNum() + 1,
+                        orderNum = dao.findMaxOrderNum().nextOrderNum(),
                         isSynced = false,
                         accountId = data.account?.id
                     )

@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.printTree
 
 class HomeTab<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -24,25 +25,46 @@ class HomeTab<A : ComponentActivity>(
         account: String? = null,
         category: String? = null
     ) {
-        var matcher = hasTestTag("transaction_card")
-            .and(hasText(amount))
+        var matcher = hasTestTag("type_amount_currency")
+            .and(hasAnyDescendant(hasText(amount)))
 
         if (account != null) {
-            matcher = matcher.and(hasAnyDescendant(hasText(account)))
+            matcher = matcher.and(
+                hasAnySibling(
+                    hasAnyDescendant(
+                        hasText(account)
+                    )
+                )
+            )
         }
 
         if (category != null) {
-            matcher = matcher.and(hasAnyDescendant(hasText(category)))
+            matcher = matcher.and(
+                hasAnySibling(
+                    hasAnyDescendant(
+                        hasText(category)
+                    )
+                )
+            )
         }
 
         if (title != null) {
-            matcher = matcher.and(hasText(title))
+            matcher = matcher.and(
+                hasAnySibling(
+                    hasText(title)
+                )
+            )
         }
 
-        composeTestRule.onNode(matcher)
+        composeTestRule.printTree(
+            useUnmergedTree = true
+        )
+
+        composeTestRule.onNode(
+            matcher = matcher,
+            useUnmergedTree = true
+        )
             .assertIsDisplayed()
-            .assertHasClickAction()
-            .performScrollTo()
             .performClick()
     }
 
@@ -108,5 +130,15 @@ class HomeTab<A : ComponentActivity>(
     ) {
         composeTestRule.onNodeWithTag("home_greeting_text", useUnmergedTree = true)
             .assertTextEquals(greeting)
+    }
+
+    fun clickIncomeCard() {
+        composeTestRule.onNodeWithTag("home_card_income")
+            .performClick()
+    }
+
+    fun clickExpenseCard() {
+        composeTestRule.onNodeWithTag("home_card_expense")
+            .performClick()
     }
 }

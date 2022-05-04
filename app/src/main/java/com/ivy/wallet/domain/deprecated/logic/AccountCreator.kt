@@ -5,6 +5,7 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
+import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.utils.ioThread
 
@@ -33,7 +34,7 @@ class AccountCreator(
                     color = data.color.toArgb(),
                     icon = data.icon,
                     includeInBalance = data.includeBalance,
-                    orderNum = accountDao.findMaxOrderNum() + 1.0,
+                    orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
                     isSynced = false
                 )
                 accountDao.save(account.toEntity())
