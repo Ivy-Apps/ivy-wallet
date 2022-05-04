@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.search
 
+import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.ivyWalletCtx
@@ -123,8 +125,8 @@ private fun UI(
                 history = transactions,
                 onPayOrGet = { },
                 dateDividerMarginTop = 16.dp,
-                emptyStateTitle = "No transactions",
-                emptyStateText = "You don't have any transactions for \"${searchQueryTextFieldValue.text}\" query."
+                emptyStateTitle = stringRes(R.string.no_transactions),
+                emptyStateText = stringRes(R.string.no_transactions_for_query, searchQueryTextFieldValue.text),
             )
 
             item {
@@ -169,7 +171,7 @@ private fun SearchInput(
                 .padding(vertical = 12.dp)
                 .focusRequester(searchFocus),
             value = searchQueryTextFieldValue,
-            hint = "Search transactions",
+            hint = stringResource(R.string.search_transactions),
             onValueChanged = {
                 onSetSearchQueryTextField(it)
             }

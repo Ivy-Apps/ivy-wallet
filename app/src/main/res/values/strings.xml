@@ -189,7 +189,7 @@
     <string name="one_time_payments">One time payments</string>
     <string name="recurring_payments">Recurring payments</string>
     <string name="no_planned_payments">No planned payments</string>
-    <string name="no_planned_payments_description">You  don\'t have any planned payments.\nPress the \'⚡\' bottom at the bottom to add one.</string>
+    <string name="no_planned_payments_description">You  don\'t have any planned payments.\nPress the \'⚡\' button at the bottom to add one.</string>
     <string name="planned_payments_inline">Planned payments</string>
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
