@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="accounts">الحسابات</string>
-    <string name="total">المجموع: %1$s %2$s</string>
+    <string name="total">%1$s المجموع: %2$s </string>
     <string name="month_income">الدخل هذا الشهر</string>
     <string name="month_expenses">الإنفاق هذا الشهر</string>
     <string name="excluded">(مستبعد)</string>
@@ -11,7 +11,7 @@
     <string name="authenticate_text">الغِ القفل لدخول التطبيق</string>
     <string name="unlock">إلغاء القفل</string>
     <string name="current_balance">الرصيد الحالي</string>
-    <string name="balance_after_payments">الرصيد بع الدفعات المحددة</string>
+    <string name="balance_after_payments">الرصيد بعد الدفعات المحددة</string>
     <string name="connect">اتصل</string>
     <string name="sync_transactions">مزامنة المعاملات</string>
     <string name="syncing_transactions">يتم مزامنة المعاملات…</string>
@@ -70,7 +70,7 @@
     <string name="finish">الإنهاء</string>
     <string name="add_description">إضافة وصف</string>
     <string name="description">الوصف</string>
-    <string name="planned_for">مخطط في</string>
+    <string name="planned_for"> مخطط في </string>
     <string name="add_money_to">إضافة المال الى</string>
     <string name="pay_with">الدفع ب</string>
     <string name="from">من</string>
@@ -377,10 +377,10 @@
     <string name="create_first_planned_payment">قم بإنشاء أول دفعة مخططة</string>
     <string name="create_first_planned_payment_description">قم بأتمتة المعاملات المتكررة مثل الاشتراكات, الايجار, الراتب, الخ.. كن في معرفة بأموالك من خلال معرفة المبلغ الذي يتعين عليك دفعه/الحصول عليه مقدمًا</string>
     <string name="did_you_know">هل كنت تعلم؟</string>
-    <string name="widget_description">لديها تطبيقات مصغرة (ويدجت) رائعة تتيح لك إضافة دخل\إنفاق\تحويل بضغطة واحدة فقط من الشاشة الرئيسية\n\n ملاحظ: اذا لم يعمل زر \"إضافة تطبيق مصغر\" يرجى اضافته يدويا عن طريق قائمة التطبيقات المصغرة في شاشتك الرئيسية Ivy Wallet</string>
+    <string name="widget_description">Ivy Wallet \nلديها تطبيقات مصغرة (ويدجت) رائعة تتيح لك إضافة دخل/إنفاق/تحويل بضغطة واحدة فقط من الشاشة الرئيسية \n\n ملاحظ: اذا لم يعمل زر \"إضافة تطبيق مصغر\" يرجى اضافته يدويا عن طريق قائمة التطبيقات المصغرة في شاشتك الرئيسية</string>
     <string name="add_widget">إضافة تطبيق مصغر</string>
     <string name="set_a_budget">تحديد ميزانية</string>
-    <string name="set_a_budget_description">لا تساعدك Ivy Wallet على تتبع نفقاتك فحسب ، بل تساعدك أيضًا في إنشاء مستقبلك المالي بشكل استباقي من خلال تحديد الميزانيات والالتزام بها.</string>
+    <string name="set_a_budget_description">Ivy Wallet \nلا تساعدك على تتبع نفقاتك فحسب ، بل تساعدك أيضًا في إنشاء مستقبلك المالي بشكل استباقي من خلال تحديد الميزانيات والالتزام بها.</string>
     <string name="expenses_piechart_description">يمكنك أن ترى مخطط النفقات الخاصة بك حسب الفئات! جربه ، اضغط على زر الإنفاق الرمادي/الأسود الموجود أسفل رصيدك مباشرة.</string>
     <string name="expenses_piechart">إحصائيات الإنفاق</string>
     <string name="review_ivy_wallet">Ivy Wallet قيم</string>
