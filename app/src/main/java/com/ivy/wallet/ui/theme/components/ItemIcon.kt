@@ -26,6 +26,7 @@ fun ItemIconL(
     modifier: Modifier = Modifier,
     iconName: String?,
     tint: Color = UI.colors.pureInverse,
+    iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -34,6 +35,7 @@ fun ItemIconL(
         size = "l",
         iconName = iconName,
         tint = tint,
+        iconContentScale = iconContentScale,
         Default = Default
     )
 }
@@ -65,6 +67,7 @@ fun ItemIconM(
     modifier: Modifier = Modifier,
     iconName: String?,
     tint: Color = UI.colors.pureInverse,
+    iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -73,6 +76,7 @@ fun ItemIconM(
         size = "m",
         iconName = iconName,
         tint = tint,
+        iconContentScale = iconContentScale,
         Default = Default
     )
 }
@@ -104,6 +108,7 @@ fun ItemIconS(
     modifier: Modifier = Modifier,
     iconName: String?,
     tint: Color = UI.colors.pureInverse,
+    iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
     ItemIcon(
@@ -112,6 +117,7 @@ fun ItemIconS(
         size = "s",
         iconName = iconName,
         tint = tint,
+        iconContentScale = iconContentScale,
         Default = Default
     )
 }
@@ -122,6 +128,7 @@ private fun ItemIcon(
     iconName: String?,
     size: String,
     tint: Color = UI.colors.pureInverse,
+    iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
     val context = LocalContext.current
@@ -157,7 +164,7 @@ private fun ItemIcon(
             painter = painterResource(id = iconInfo.iconId),
             colorFilter = ColorFilter.tint(tint),
             alignment = Alignment.Center,
-            contentScale = if (iconInfo.newFormat)
+            contentScale = iconContentScale ?: if (iconInfo.newFormat)
                 ContentScale.Fit else ContentScale.None,
             contentDescription = iconName ?: "item icon"
         )
