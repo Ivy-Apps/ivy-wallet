@@ -426,4 +426,5 @@
     <string name="transfers_as_income_expense">التحويلات كدخل و إنفاق</string>
     <string name="transfers_as_income_expense_description">معاملة تحويلات الحساب كإنفاق/دخل في صفحة الحسابات</string>
     <string name="home_category">البيت</string>
+    <string name="generating_report">يتم إنشاء التقرير …</string>
 </resources>
