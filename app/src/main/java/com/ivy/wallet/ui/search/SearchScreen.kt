@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.search
 
+import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background

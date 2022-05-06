@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
+import androidx.compose.ui.res.stringResource
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -210,7 +211,6 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
-
                 emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
             )
         } else {

@@ -62,20 +62,24 @@ fun <T> MutableList<T>?.orEmpty(): MutableList<T> {
     return this ?: mutableListOf()
 }
 
-fun String.nullifyEmpty() = if (this.isBlank()) null else this
+fun String.nullifyEmpty() = this.ifBlank { null }
 
 fun getDefaultFIATCurrency(): Currency =
     Currency.getInstance(Locale.getDefault()) ?: Currency.getInstance("USD")
     ?: Currency.getInstance("usd") ?: Currency.getAvailableCurrencies().firstOrNull()
     ?: Currency.getInstance("EUR")
 
-fun String.toUpperCaseLocal() = this.toUpperCase(Locale.getDefault())
+fun String.toUpperCaseLocal() = this.uppercase(Locale.getDefault())
 
-fun String.toLowerCaseLocal() = this.toLowerCase(Locale.getDefault())
+fun String.toLowerCaseLocal() = this.lowercase(Locale.getDefault())
 
-fun String.uppercaseLocal(): String = this.toUpperCase(Locale.getDefault())
+fun String.uppercaseLocal(): String = this.uppercase(Locale.getDefault())
 
-fun String.capitalizeLocal(): String = this.capitalize(Locale.getDefault())
+fun String.capitalizeLocal(): String = this.replaceFirstChar {
+    if (it.isLowerCase()) it.titlecase(
+        Locale.getDefault()
+    ) else it.toString()
+}
 
 fun String.capitalizeWords(): String {
     return split(" ").joinToString(" ") { it.capitalizeLocal() }

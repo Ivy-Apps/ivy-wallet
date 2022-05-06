@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.planned.list
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
