@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -111,7 +112,7 @@ private fun LazyListScope.plannedPaymentItems(
             SectionDivider(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
-                title = "One time payments",
+                title = stringResource(R.string.one_time_payments),
                 titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = oneTimeIncome,
@@ -143,7 +144,7 @@ private fun LazyListScope.plannedPaymentItems(
             SectionDivider(
                 expanded = recurringExpanded,
                 setExpanded = setRecurringExpanded,
-                title = "Recurring payments",
+                title = stringResource(R.string.recurring_payments),
                 titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = recurringIncome,
@@ -212,7 +213,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = "No planned payments",
+            text = stringResource(R.string.no_planned_payments),
             style = UI.typo.b1.style(
                 color = Gray,
                 fontWeight = FontWeight.ExtraBold
@@ -222,7 +223,7 @@ private fun LazyItemScope.NoPlannedPaymentsEmptyState() {
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = "You don't have any planed payments.\nPress the '⚡' bottom at the bottom to add one.",
+            text = stringResource(R.string.no_planned_payments_description),
             style = UI.typo.b2.style(
                 color = Gray,
                 fontWeight = FontWeight.Medium,
