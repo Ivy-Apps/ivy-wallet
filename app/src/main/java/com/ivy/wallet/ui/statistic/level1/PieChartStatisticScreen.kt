@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -337,12 +338,22 @@ private fun CategoryAmountCard(
     ) {
         Spacer(Modifier.width(20.dp))
 
-        ItemIconMDefaultIcon(
+        ItemIconM(
             modifier = Modifier.background(categoryColor, CircleShape),
             iconName = category?.icon,
-            defaultIcon = R.drawable.ic_custom_category_m,
-            tint = findContrastTextColor(categoryColor)
+            tint = findContrastTextColor(categoryColor),
+            iconContentScale = ContentScale.None,
+            Default = {
+                ItemIconMDefaultIcon(
+                    modifier = Modifier.background(categoryColor, CircleShape),
+                    iconName = category?.icon,
+                    defaultIcon = R.drawable.ic_custom_category_m,
+                    tint = findContrastTextColor(categoryColor)
+                )
+            }
         )
+
+
 
         Spacer(Modifier.width(16.dp))
 

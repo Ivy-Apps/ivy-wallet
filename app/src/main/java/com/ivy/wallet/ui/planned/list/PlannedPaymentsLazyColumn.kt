@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -112,7 +113,7 @@ private fun LazyListScope.plannedPaymentItems(
             SectionDivider(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
-                title = "One time payments",
+                title = stringResource(R.string.one_time_payments),
                 titleColor = UI.colors.pureInverse,
                 baseCurrency = currency,
                 income = oneTimeIncome,

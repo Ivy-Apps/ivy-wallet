@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -126,7 +127,7 @@ private fun UI(
                 onPayOrGet = { },
                 dateDividerMarginTop = 16.dp,
                 emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_query, searchQueryTextFieldValue.text),
+                emptyStateText = stringRes(R.string.no_transactions_for_query, searchQueryTextFieldValue.text)
             )
 
             item {

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,7 +83,7 @@ private fun BoxWithConstraintsScope.UI(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Generating report...",
+                text = stringResource(R.string.generating_report),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = Orange
@@ -210,8 +211,7 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
                 emptyStateTitle = stringRes(R.string.no_transactions),
-
-                emptyStateText = stringRes(R.string.no_transactions_for_your_filter),
+                emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
             )
         } else {
             item {
@@ -288,7 +288,7 @@ private fun NoFilterEmptyState(
 
         IvyButton(
             iconStart = R.drawable.ic_filter_xs,
-            text = stringResource(R.string.set_filter),
+            text = stringResource(R.string.set_filter)
         ) {
             setFilterOverlayVisible(true)
         }
