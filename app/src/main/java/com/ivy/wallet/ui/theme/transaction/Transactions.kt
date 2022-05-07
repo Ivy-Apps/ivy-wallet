@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -54,7 +53,8 @@ fun LazyListScope.transactions(
     onPayOrGet: (Transaction) -> Unit,
     emptyStateTitle: String = stringRes(R.string.no_transactions),
     emptyStateText: String,
-    dateDividerMarginTop: Dp? = null
+    dateDividerMarginTop: Dp? = null,
+    onSkipTransaction: (Transaction) -> Unit = {},
 ) {
     if (upcoming.isNotEmpty()) {
         item {
@@ -76,7 +76,8 @@ fun LazyListScope.transactions(
                     categories = categories,
                     accounts = accounts,
                     transaction = it,
-                    onPayOrGet = onPayOrGet
+                    onPayOrGet = onPayOrGet,
+                    onSkipTransaction = onSkipTransaction
                 ) { trn ->
                     onTransactionClick(
                         nav = nav,
@@ -108,7 +109,8 @@ fun LazyListScope.transactions(
                     categories = categories,
                     accounts = accounts,
                     transaction = it,
-                    onPayOrGet = onPayOrGet
+                    onPayOrGet = onPayOrGet,
+                    onSkipTransaction = onSkipTransaction
                 ) { trn ->
                     onTransactionClick(
                         nav = nav,

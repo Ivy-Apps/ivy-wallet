@@ -149,6 +149,7 @@ class PlannedPaymentsLogic(
     suspend fun payOrGet(
         transaction: Transaction,
         syncTransaction: Boolean = true,
+        skipTransaction: Boolean = false,
         onUpdateUI: (paidTransaction: Transaction) -> Unit
     ) {
         if (transaction.dueDate == null || transaction.dateTime != null) return
@@ -166,7 +167,11 @@ class PlannedPaymentsLogic(
         }
 
         ioThread {
-            transactionDao.save(paidTransaction.toEntity())
+            if (skipTransaction)
+                transactionDao.flagDeleted(paidTransaction.id)
+            else
+                transactionDao.save(paidTransaction.toEntity())
+
 
             if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
                 //delete paid oneTime planned payment rules
@@ -177,7 +182,7 @@ class PlannedPaymentsLogic(
         onUpdateUI(paidTransaction)
 
         ioThread {
-            if (syncTransaction) {
+            if (syncTransaction && !skipTransaction) {
                 transactionUploader.sync(paidTransaction)
             }
 
