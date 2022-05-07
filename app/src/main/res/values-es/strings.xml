@@ -426,4 +426,5 @@
     <string name="transfers_as_income_expense"><![CDATA[Transferencias como ingresos y gastos]]></string>
     <string name="transfers_as_income_expense_description">Trata las transferencias de cuentas como ingresos o gastos en la pantalla Cuentas</string>
     <string name="home_category">Hogar</string>
+    <string name="generating_report">Generating report…</string>
 </resources>
