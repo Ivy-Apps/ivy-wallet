@@ -13,15 +13,13 @@ class ExchangeAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao,
 ) : FPAction<ExchangeAct.Input, Option<BigDecimal>>() {
     override suspend fun Input.compose(): suspend () -> Option<BigDecimal> = suspend {
-        io {
-            exchange(
-                data = data,
-                amount = amount,
-                getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency then {
-                    it?.toDomain()
-                }
-            )
-        }
+        exchange(
+            data = data,
+            amount = amount,
+            getExchangeRate = exchangeRateDao::findByBaseCurrencyAndCurrency then {
+                it?.toDomain()
+            }
+        )
     }
 
     data class Input(
