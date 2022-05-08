@@ -42,6 +42,8 @@ android -- Produces --> event
 
 The Data Model in Ivy drives clear separation between `domain` pure data required for business logic w/o added complexity, `entity` database data, `dto` _(data transfer object)_ JSON representation for network requests and `ui` data which we'll displayed.
 
+Learn more at [Android Developers Architecture: Entity](https://www.youtube.com/watch?v=cfak1jDKM_4).
+
 **Data Model**
 ```mermaid
 graph TD;
