@@ -206,6 +206,26 @@ suspend fun exchange(
 
 ### 5. UI (@Composable)
 
+Renders the `UI State` that the user sees, handles `user input` and transforms it to `events` which are propagated to the `ViewModel`. **Do NOT perform any business logic or computations.**
+
+```mermaid
+graph TD;
+
+user(User)
+uiState("UI State (Flow)")
+ui("UI (@Composable)")
+event(Event)
+viewmodel(ViewModel)
+
+user -- Interracts --> ui
+ui -- Produces --> event 
+event -- "onEvent()" --> viewmodel
+viewmodel -- "Action(s)" --> uiState
+uiState -- "Flow#collectAsState()" --> ui
+```
+
+> Exception: The UI layer may perform in-app navigation **`navigation().navigate(..)`** to reduce boiler-plate and complexity.
+
 ### 6. IO (side-effects)
 
 Responsible for the implementation of IO operations like persistnece, network requests, randomness, date & time, etc.
@@ -229,3 +249,7 @@ Responsible for the implementation of IO operations like persistnece, network re
 Responsible for the interaction with the Android System like launching `Intent`, sending `notification`, receiving `push messages`, `biometrics`, etc.
 
 ---
+
+_Version 1.0.0_
+
+_Feedback and proposals are highly appreciated! Let's spark techincal discussion and make Ivy and the Android World better! :rocket:_
