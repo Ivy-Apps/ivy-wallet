@@ -1,5 +1,11 @@
 # Contributing to Ivy Wallet
 
+## [Ivy Developer Guidelines](docs/Developer-Guidelines.md)
+
+A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - [Ivy Developer Guidelines](docs/Developer-Guidelines.md).
+
+> Tip: Read it -> make proposals -> make the project better! :rocket:
+
 ## 1. Fork the repo
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**

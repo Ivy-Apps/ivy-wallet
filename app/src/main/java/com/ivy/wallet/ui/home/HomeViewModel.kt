@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.home
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
@@ -302,16 +303,23 @@ class HomeViewModel @Inject constructor(
         load(period = period)
     }
 
-    fun payOrGet(transaction: Transaction) {
+    fun payOrGet(transaction: Transaction, skipTransaction: Boolean = false) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            plannedPaymentsLogic.payOrGet(transaction = transaction) {
+            plannedPaymentsLogic.payOrGet(
+                transaction = transaction,
+                skipTransaction = skipTransaction
+            ) {
                 load()
             }
 
             TestIdlingResource.decrement()
         }
+    }
+
+    fun skipTransaction(transaction: Transaction) {
+        payOrGet(transaction, true)
     }
 
     fun dismissCustomerJourneyCard(card: CustomerJourneyCardData) {

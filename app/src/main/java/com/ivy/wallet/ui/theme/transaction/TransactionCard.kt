@@ -49,9 +49,12 @@ fun LazyItemScope.TransactionCard(
     transaction: Transaction,
 
     onPayOrGet: (Transaction) -> Unit,
+    onSkipTransaction: (Transaction) -> Unit = {},
 
     onClick: (Transaction) -> Unit,
 ) {
+    val isLightTheme = UI.colors.pure == White
+
     Spacer(Modifier.height(12.dp))
 
     Column(
@@ -164,20 +167,43 @@ fun LazyItemScope.TransactionCard(
             Spacer(Modifier.height(16.dp))
 
             val isExpense = transaction.type == TransactionType.EXPENSE
-            IvyButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
-                text = if (isExpense) stringResource(R.string.pay) else stringResource(R.string.get),
-                wrapContentMode = false,
-                backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
-                textStyle = UI.typo.b2.style(
-                    color = if (isExpense) UI.colors.pure else White,
-                    fontWeight = FontWeight.Bold
-                )
-            ) {
-                onPayOrGet(transaction)
+            Row {
+                IvyButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 24.dp),
+                    text = stringResource(R.string.skip),
+                    wrapContentMode = false,
+                    backgroundGradient = if (isLightTheme) Gradient(White, White) else Gradient(
+                        Black,
+                        Black
+                    ),
+                    textStyle = UI.typo.b2.style(
+                        color = if (isLightTheme) Black else White,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    onSkipTransaction(transaction)
+                }
+
+                Spacer(Modifier.width(8.dp))
+
+                IvyButton(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 24.dp),
+                    text = if (isExpense) stringResource(R.string.pay) else stringResource(R.string.get),
+                    wrapContentMode = false,
+                    backgroundGradient = if (isExpense) gradientExpenses() else GradientGreen,
+                    textStyle = UI.typo.b2.style(
+                        color = if (isExpense) UI.colors.pure else White,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    onPayOrGet(transaction)
+                }
             }
+
         }
 
         Spacer(Modifier.height(20.dp))

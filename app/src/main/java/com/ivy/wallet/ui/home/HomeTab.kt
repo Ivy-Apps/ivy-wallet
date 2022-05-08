@@ -98,6 +98,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
         onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard,
         onSelectNextMonth = viewModel::nextMonth,
         onSelectPreviousMonth = viewModel::previousMonth,
+        onSkipTransaction = viewModel::skipTransaction
     )
 }
 
@@ -147,6 +148,7 @@ private fun BoxWithConstraintsScope.UI(
     onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {},
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
+    onSkipTransaction: (Transaction) -> Unit = {},
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -255,7 +257,8 @@ private fun BoxWithConstraintsScope.UI(
             customerJourneyCards = customerJourneyCards,
 
             onPayOrGet = onPayOrGet,
-            onDismiss = onDismissCustomerJourneyCard
+            onDismiss = onDismissCustomerJourneyCard,
+            onSkipTransaction = onSkipTransaction
         )
     }
 
@@ -352,7 +355,8 @@ fun HomeLazyColumn(
 
     history: List<TransactionHistoryItem>,
     onPayOrGet: (Transaction) -> Unit,
-    onDismiss: (CustomerJourneyCardData) -> Unit
+    onDismiss: (CustomerJourneyCardData) -> Unit,
+    onSkipTransaction: (Transaction) -> Unit = {},
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -448,7 +452,8 @@ fun HomeLazyColumn(
             emptyStateText = stringRes(
                 R.string.no_transactions_description,
                 period.toDisplayLong(ivyContext.startDayOfMonth)
-            )
+            ),
+            onSkipTransaction = onSkipTransaction
         )
     }
 }

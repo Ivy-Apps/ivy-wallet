@@ -36,20 +36,11 @@ tell us how we can create a better environment for developers & creators to work
 
 ### [Ivy Telegram News](https://t.me/ivywallet)
 
-## What's next? :rocket:
+## [Ivy Developer Guidelines](docs/Developer-Guidelines.md)
 
-We need your help! Let us know what you think :)
+A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - [Ivy Developer Guidelines](docs/Developer-Guidelines.md).
 
-Our plan is:
-
-1. Make Ivy Wallet free! :heavy_check_mark:
-1. Create [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk). :heavy_check_mark:
-1. Create a crypto donations mechanism (BTC, ETH, ADA, SOL...)
-1. Use the donations to setup a dev fund where contributors can earn money by helping the project.
-1. Create a proposal and voting system using Cardano (ADA) smart contracts.
-1. So far, so good! Let us know what do you think should be next?
-
-Correct us, if we're wrong! Share your opinion. Be the change. :star:
+> Tip: Read it -> make proposals -> make the project better! :rocket:
 
 ## The Ivy Wallet App
 

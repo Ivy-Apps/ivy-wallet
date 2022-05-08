@@ -22,6 +22,7 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
@@ -50,16 +51,17 @@ fun LazyListScope.transactions(
     history: List<TransactionHistoryItem>,
     lastItemSpacer: Dp? = null,
     onPayOrGet: (Transaction) -> Unit,
-    emptyStateTitle: String = "No transactions",
+    emptyStateTitle: String = stringRes(R.string.no_transactions),
     emptyStateText: String,
-    dateDividerMarginTop: Dp? = null
+    dateDividerMarginTop: Dp? = null,
+    onSkipTransaction: (Transaction) -> Unit = {},
 ) {
     if (upcoming.isNotEmpty()) {
         item {
             SectionDivider(
                 expanded = upcomingExpanded,
                 setExpanded = setUpcomingExpanded,
-                title = "Upcoming",
+                title = stringRes(R.string.upcoming),
                 titleColor = Orange,
                 baseCurrency = baseCurrency,
                 income = upcomingIncome,
@@ -74,7 +76,8 @@ fun LazyListScope.transactions(
                     categories = categories,
                     accounts = accounts,
                     transaction = it,
-                    onPayOrGet = onPayOrGet
+                    onPayOrGet = onPayOrGet,
+                    onSkipTransaction = onSkipTransaction
                 ) { trn ->
                     onTransactionClick(
                         nav = nav,
@@ -91,7 +94,7 @@ fun LazyListScope.transactions(
             SectionDivider(
                 expanded = overdueExpanded,
                 setExpanded = setOverdueExpanded,
-                title = "Overdue",
+                title = stringRes(R.string.overdue),
                 titleColor = Red,
                 baseCurrency = baseCurrency,
                 income = overdueIncome,
@@ -106,7 +109,8 @@ fun LazyListScope.transactions(
                     categories = categories,
                     accounts = accounts,
                     transaction = it,
-                    onPayOrGet = onPayOrGet
+                    onPayOrGet = onPayOrGet,
+                    onSkipTransaction = onSkipTransaction
                 ) { trn ->
                     onTransactionClick(
                         nav = nav,
