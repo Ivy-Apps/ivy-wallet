@@ -1,15 +1,18 @@
 # Ivy Developer Guidelines
 
-A short guide that'll evolve our time with one and only goal - to make you a better developer.
+A short guide _(that'll evolve with time)_ with one and only goal - to make you a better developer.
 
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 
-> Feedback: Welcome! 
+> Feedback: Welcome!
 
-> Proposals: Highly appreciated.
+> Proposals: Highly appreciated. :rocket:
 
-## Ivy Architecture
+## Ivy Architecture (FRP)
 
+The Ivy Architecture follows the Functional Reactive Programming (FRP) principles. A good example for them is [The Elm Architecture.](https://guide.elm-lang.org/architecture/)
+
+### Architecture graph
 ```mermaid
 graph TD;
 
@@ -19,42 +22,103 @@ view(UI)
 event(Event)
 viewmodel(ViewModel)
 action(Action)
-io(IO side-effects)
 pure(Pure)
 
 event -- Propagated --> viewmodel
 viewmodel -- Triggers --> action
-viewmodel -- "New State (Flow)" --> view
-action -- Abstracts --> io
+viewmodel -- "UI State (Flow)" --> view
+action -- "Abstacts IO" --> pure
 action -- "Composition" --> action
-io -- "Side-Effect abstraction" --> pure
-pure -- "New State (Data)" --> viewmodel
 pure -- "Composition" --> pure
+pure -- "Computes" --> action
+action -- "State (Data)" --> viewmodel
 
 user -- Interracts --> view
 view -- Produces --> event
 android -- Produces --> event
+```
+
+### 0. Data Model
+
+The Data Model in Ivy drives clear separation between `domain` pure data required for business logic w/o added complexity, `entity` database data, `dto` _(data transfer object)_ JSON representation for network requests and `ui` data which we'll displayed.
+
+**Data Model**
+```mermaid
+graph TD;
+
+data(Data)
+entity(Entity)
+dto(DTO)
+ui_data(UI Data)
+
+ui(UI)
+network(Network)
+db(Database)
+viewmodel(ViewModel)
+domain(Domain Logic)
+
+network -- Fetch --> dto -- Send --> network
+dto --> data
+
+db -- Retrieve --> entity -- Persist --> db
+entity --> data
+
+data --> entity
+data --> dto
+
+data --> domain
+data --> viewmodel
+viewmodel --> ui_data
+domain --> viewmodel
+ui_data -- "UI State (Flow)" --> ui
 
 ```
 
-## I. Domain (Business Logic)
+**Example**
+- `DisplayTransaction`
+  - UI specific fields
+- `Transaction`
+  - pure domain data
+- `TransactionEntity`
+  - has `isSynced`, `isDeletedFlags` db specific fields (Room DB anontations)
+- `TransactionDTO`
+  - exactly what the API expects/returns (JSON)
 
-We classify business logic as any domain-specific logic that: is neither UI nor Android stuff nor IO (persistence or network calls).
+> Motivation: This separation **reduces complexity** and **provides flexibility** for changes.
 
-Now knowing what the `domain` isn't, lets define what it is
+### 1. Event (UI interaction or system)
+An `Event` is generated from either user interaction with the UI or a system subscription _(e.g. Screen start, Time, Random, Battery level)_.
 
-# _WIP...._
+> Outside world signal -> Event
 
-### 1. Functional Programming (pure)
+### 2. ViewModel (mediator)
+Triggers `Actions` for incoming `Events`, transforms the result to `UI State` and propagates it to the UI via `Flow`.
 
-### 2. Actions (use-cases)
+> Event -> Action -> UI State
 
-### 3. ViewModel
+### 3. Action (domain logic with side-effects)
 
-## II. UI
 
-### `:ivy-design`
+### 4. Pure (domain logic with pure code)
 
-## III. Data model
+### 5. IO (side-effects)
 
-## IV. IO (network + persistence)
+Responsible for the implementation of IO operations like persistnece, network requests, randomness, date & time, etc.
+
+- **Room DB**, local persistence
+- **Shares Preferences**, local persistence
+  - key-value pairs persistence
+  - _will be migrated to DataStore_
+- **Retrofit**, Network Requests (REST)
+  - send requests
+  - parse response JSON with GSON
+  - transform network errors to `NetworkException`
+- **Randomness**
+  - `UUID` generation
+- **Date & Time**
+  - current Date & Time (`timeNowUtc`, `dateNowUtc`)
+  - Date & Time formatting using user's `Locale`
+
+
+
+---
