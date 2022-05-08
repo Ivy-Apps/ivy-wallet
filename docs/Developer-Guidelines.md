@@ -8,6 +8,35 @@ A short guide that'll evolve our time with one and only goal - to make you a bet
 
 > Proposals: Highly appreciated.
 
+## Ivy Architecture
+
+```mermaid
+graph TD;
+
+android(Android System)
+user(User)
+view(UI)
+event(Event)
+viewmodel(ViewModel)
+action(Action)
+io(IO side-effects)
+pure(Pure)
+
+event -- Propagated --> viewmodel
+viewmodel -- Triggers --> action
+viewmodel -- "New State (Flow)" --> view
+action -- Abstracts --> io
+action -- "Composition" --> action
+io -- "Side-Effect abstraction" --> pure
+pure -- "New State (Data)" --> viewmodel
+pure -- "Composition" --> pure
+
+user -- Interracts --> view
+view -- Produces --> event
+android -- Produces --> event
+
+```
+
 ## I. Domain (Business Logic)
 
 We classify business logic as any domain-specific logic that: is neither UI nor Android stuff nor IO (persistence or network calls).
