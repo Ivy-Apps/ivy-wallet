@@ -36,9 +36,9 @@ tell us how we can create a better environment for developers & creators to work
 
 ### [Ivy Telegram News](https://t.me/ivywallet)
 
-## [Ivy Developer Guidelines](docs/Developer-Guidelines.md)
+## Ivy Developer Guidelines
 
-A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - [Ivy Developer Guidelines](docs/Developer-Guidelines.md).
+A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - **[Ivy Developer Guidelines](docs/Developer-Guidelines.md)**.
 
 > Tip: Read it -> make proposals -> make the project better! :rocket:
 
