@@ -8,6 +8,8 @@ A short guide _(that'll evolve with time)_ with one and only goal - to **make us
 
 > Proposals: Highly appreciated. :rocket:
 
+> PRs for typos, better wording, better examples or minor edits are also very welcome!
+
 ## Ivy Architecture (FRP)
 
 The Ivy Architecture follows the Functional Reactive Programming (FRP) principles. A good example for them is [The Elm Architecture.](https://guide.elm-lang.org/architecture/)
@@ -305,18 +307,46 @@ class OverdueAct @Inject constructor(
 
 ### 4. Pure (domain logic with pure code)
 
-The `pure` layer as the name suggests must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
+The `pure` layer must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
+
+**Motivation**
+- Without the `pure` package many `actions` would duplicate the same code because of the different side-effects => `pure` offers re-usability of tested and working functions.
 
 **Function types**
-- Partial: not defined for all input values
+- **Partial**: not defined for all input values
 ```Kotlin
-@Partial(inCaseOf="b = 0, produces ArithmeticException::class")
+@Partial(inCaseOf="b=0, produces ArithmeticException::class")
 fun divide(a: Int, b: Int) = a / b
 ```
-- Total: defined for all input values but with side-effects
+- **Total**: defined for all input values but for the same input isn't guarantee to always return the same output (has side-effects)
 ```Kotlin
+//It's defined in all cases but with each call returns a different output
 @Total
-fun 
+fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
+
+//Produdes logging side-effect which can be seen in Logcat
+@Total
+fun logMessage(
+  msg: String
+) {
+  Log.d("DEBUG", msg) //SIDE-EFFECT!
+}
+```
+
+- **Pure**: defined for all input values and for the same input always returns the same result (has NO side-effects)
+```Kotlin
+@Pure
+fun sum(a: Int, b: Int) = a + b
+
+@Pure
+fun logMessage(
+  msg: String,
+
+  @SideEffect
+  log: (String) -> Unit
+) {
+  log("DEBUG: $msg")
+}
 ```
 
 Each `@Pure` function must be **total** and its `@SideEffect`(s) if any abstracted.
@@ -343,7 +373,7 @@ pure -- Calculates --> output
 
 **Code Example**
 ```Kotlin
-//domain.action
+//domain.action (NOT PURE)
 class ExchangeAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao,
 ) : FPAction<ExchangeAct.Input, Option<BigDecimal>>() {
@@ -364,7 +394,7 @@ class ExchangeAct @Inject constructor(
 }
 
 
-//domain.pure
+//domain.pure (PURE)
 @Pure
 suspend fun exchange(
     data: ExchangeData,
@@ -426,6 +456,32 @@ Responsible for the interaction with the Android System like launching `Intent`,
 
 ---
 
-_Version 1.0.0_
+## Testing
+
+One of the reasons for the Ivy Architecture is to support painless, effective and efficient testing of the code base.
+
+### Unit Testing
+
+- `Data Model`
+- `Pure`
+
+### Property-Based Testing
+
+- `Data Model`
+- `Pure`
+
+### End-to-end Android Tests
+
+- `Action`
+- `IO`
+- `Android System`
+
+### UI Android Tests
+
+- `UI` (Compose)
+
+---
+
+_Version 1.1.1_
 
 _Feedback and proposals are highly appreciated! Let's spark techincal discussion and make Ivy and the Android World better! :rocket:_
