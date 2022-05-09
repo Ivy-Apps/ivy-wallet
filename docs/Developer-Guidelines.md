@@ -2,19 +2,18 @@
 
 A short guide _(that'll evolve with time)_ with one and only goal - to **make us better developers.**
 
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+[![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+[![Feedback is welcome!](https://img.shields.io/badge/feedback-welcome-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
+[![Proposals are highly appreciated!](https://img.shields.io/badge/proposals-highly%20appreciated-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
 
-> Feedback: Welcome!
-
-> Proposals: Highly appreciated. :rocket:
-
-> PRs for typos, better wording, better examples or minor edits are also very welcome!
+> PRs and proposals for typos, better wording, better examples or minor edits are very welcome!
 
 ## Ivy Architecture (FRP)
 
 The Ivy Architecture follows the Functional Reactive Programming (FRP) principles. A good example for them is [The Elm Architecture.](https://guide.elm-lang.org/architecture/)
 
-**Motivation**
+### Motivation
+
 - Organize code _(Scaleability)_
 - Reduce complexity _(Separation of responsibility)_
 - Reuse code (Composability)
@@ -23,6 +22,7 @@ The Ivy Architecture follows the Functional Reactive Programming (FRP) principle
 - Easier refactoring _(Strongly Typed)_
 
 ### Architecture graph
+
 ```mermaid
 graph TD;
 
@@ -48,7 +48,8 @@ view -- Produces --> event
 android -- Produces --> event
 ```
 
-**Resources:** _(further learning)_
+### Resources _(further learning)_
+
 - [The Android Achitecture](https://www.youtube.com/watch?v=TPWmfJq16rA&list=PLWz5rJ2EKKc8GZWCbUm3tBXKeqIi3rcVX)
 - [Clean Code](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
 - [Jetpack Compose Docs](https://developer.android.com/jetpack/compose/documentation)
@@ -67,12 +68,14 @@ The Data Model in Ivy drives clear separation between `domain` pure data require
 
 Learn more at [Android Developers Architecture: Entity](https://www.youtube.com/watch?v=cfak1jDKM_4).
 
-**Motivation**
+#### Motivation
+
 - Reduce complexity _(JSON, DB specifics are isolated)_
 - Flexibility _(allows editting on Data object on different levels w/o breaking existing code)_
 - Easier domain logic _(unncessary fields are removed)_
 
-**Data Model**
+#### Data Model
+
 ```mermaid
 graph TD;
 
@@ -103,7 +106,8 @@ ui_data -- "UI State (Flow)" --> ui
 
 ```
 
-**Example**
+#### Example
+
 - `DisplayTransaction`
   - UI specific fields
 - `Transaction`
@@ -116,16 +120,21 @@ ui_data -- "UI State (Flow)" --> ui
 > Motivation: This separation **reduces complexity** and **provides flexibility** for changes.
 
 ### 1. Event (UI interaction or system)
+
 The `Event` encapsulates outside world signals in an excepted format and abstracts user input and system events.
 
 An `Event` is generated from either user interaction with the UI or a system subscription _(e.g. Screen start, Time, Random, Battery level)_.
 
-**Motivation**
+#### Motivation
+
 - Simplifies domain logic. _(Abstracts Input)_
 - Makes ViewModel & Domain logic independent of Android & UI specifics. _(Dependency Inversion)_
 
+#### Event Graph
+
 ```mermaid
 graph TD;
+
 user(User)
 world(Outside World)
 system(System Event)
@@ -142,11 +151,15 @@ system -- Produces --> event
 > Note: There are infinite user inputs and outside world signals.
 
 ### 2. ViewModel (mediator)
+
 Triggers `Action` for incoming `Event`, transforms the result to `UI State` and propagates it to the UI via `Flow`.
 
-**Motivation**
+#### Motivation
+
 - Domain logic & UI independent of each other. _(Dependency Inversion)_
 - Defines the behavior for each UI and connects it with the corresponding domain logic.
+
+#### ViewModel
 
 ```mermaid
 graph TD;
@@ -160,15 +173,14 @@ event -- Incoming --> viewmodel
 viewmodel -- "Action Input" --> action
 action -- "Action Output" --> viewmodel
 viewmodel -- "UI State (Flow)" --> ui
-
-
 ```
 
 ### 3. Action (domain logic with side-effects)
 
 Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO) and executes specific domain logic by **compising** `pure` functions or other `actions`.
 
-**Motivation**
+#### Motivation
+
 - Encapsulates domain logic.
 - Make business operations (actions) re-usable. _(Composability)_
 - Handles threading. _(Reduces Complexity)_
@@ -176,11 +188,12 @@ Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO)
 - Independent of UI State. _(Dependency Inversion)_
 - Provide side-effects for the `pure` layer via Dependency Injection. _(DAOs, Retrofit, etc)_
 
-**Action Types**
+#### Action Types
+
 - `FPAction()`: declaritve FP style _(preferable)_
 - `Action()`: imperative OOP style
 
-**Action Graph:**
+#### Action Graph
 
 ```mermaid
 graph TD;
@@ -208,9 +221,10 @@ action -- abstracted IO --> pure -- Result --> action
 action -- Final Result --> output
 ```
 
-**Action Composition Examples**
+#### Action Composition Examples
 
-_Calculate Balance_
+##### Calculate Balance
+
 ```Kotlin
 //Example 1: Calculates Ivy's balance
 class CalcWalletBalanceAct @Inject constructor(
@@ -255,7 +269,8 @@ class CalcWalletBalanceAct @Inject constructor(
 }
 ```
 
-_Overdue Transactions_
+##### Overdue Transactions
+
 ```Kotlin
 //Example 2: Due transtions + due income/expense for a given filter
 class DueTrnsInfoAct @Inject constructor(
@@ -343,9 +358,9 @@ class OverdueAct @Inject constructor(
 }
 ```
 
-> Actions are very similar to the "use-cases" from the standard "Clean Code" architecture.
+> `Actions` are very similar to the "use-cases" from the standard "Clean Code" architecture.
 
-> Tip: You can compose actions and pure functions by using **`"then"`**, **`"thenMap"`**, **`"thenFilter"`**, **`"thenSum"`**.
+> Tip: You can compose actions and pure functions by using `then`, `thenMap`, `thenFilter`, `thenSum`.
 
 > Tip: When creating an `Action` make it as **atomic** as possible. The goal of each `Action` is to do one thing **efficiently** and to be **composable** with other actions like LEGO.
 
@@ -353,54 +368,61 @@ class OverdueAct @Inject constructor(
 
 The `pure` layer must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
 
-**Motivation**
+#### Motivation
+
 - Avoid code duplication in `Action(s)`. _(Composability)_ 
 - Reduce complexity by abstracting domain logic from side-effects (DB, Network, etc) _(Effect-Based system)_
 - Easier Unit Testing for the core domain logic.
 - Enables Property-based Testing.
 
-**Function types**
-- **Partial**: not defined for all input values
-```Kotlin
-@Partial(inCaseOf="b=0, produces ArithmeticException::class")
-fun divide(a: Int, b: Int) = a / b
-```
-- **Total**: defined for all input values but for the same input isn't guarantee to always return the same output (has side-effects)
-```Kotlin
-//It's defined in all cases but with each call returns a different output
-@Total
-fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
+#### Function types
 
-//Produdes logging side-effect which can be seen in Logcat
-@Total
-fun logMessage(
-  msg: String
-) {
-  Log.d("DEBUG", msg) //SIDE-EFFECT!
-}
-```
+- **Partial**: not defined for all input values
+
+    ```Kotlin
+    @Partial(inCaseOf="b=0, produces ArithmeticException::class")
+    fun divide(a: Int, b: Int) = a / b
+    ```
+
+- **Total**: defined for all input values but for the same input isn't guarantee to always return the same output (has side-effects)
+
+    ```Kotlin
+    //It's defined in all cases but with each call returns a different output
+    @Total
+    fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
+
+    //Produdes logging side-effect which can be seen in Logcat
+    @Total
+    fun logMessage(
+    msg: String
+    ) {
+    Log.d("DEBUG", msg) //SIDE-EFFECT!
+    }
+    ```
 
 - **Pure**: defined for all input values and for the same input always returns the same result (has NO side-effects)
-```Kotlin
-@Pure
-fun sum(a: Int, b: Int) = a + b
 
-@Pure
-fun logMessage(
-  msg: String,
+    ```Kotlin
+    @Pure
+    fun sum(a: Int, b: Int) = a + b
 
-  @SideEffect
-  log: (String) -> Unit
-) {
-  log("DEBUG: $msg")
-}
-```
+    @Pure
+    fun logMessage(
+    msg: String,
+
+    @SideEffect
+    log: (String) -> Unit
+    ) {
+    log("DEBUG: $msg")
+    }
+    ```
 
 Each `@Pure` function must be **total** and its `@SideEffect`(s) if any abstracted.
 
 > Rule: If a pure function is called with the **same input** and mocked side-effects it must always produce the **same output**.
 
-**Pure graph**
+#### Pure Graph
+
 ```mermaid
 graph TD;
 
@@ -418,7 +440,8 @@ lambda -- Abstracted Effects --> pure
 pure -- Calculates --> output
 ```
 
-**Code Example**
+#### Code Example
+
 ```Kotlin
 //domain.action (NOT PURE)
 class ExchangeAct @Inject constructor(
@@ -461,7 +484,8 @@ suspend fun exchange(
 
 Renders the `UI State` that the user sees, handles `user input` and transforms it to `events` which are propagated to the `ViewModel`. **Do NOT perform any business logic or computations.**
 
-**Motivaiton**
+#### Motivaiton
+
 - UI independent of logic.
 - Transform UI State into UI on the screen.
 - Abstracts the ViewModel from UI specifics.
@@ -482,18 +506,20 @@ viewmodel -- "Action(s)" --> uiState
 uiState -- "Flow#collectAsState()" --> ui
 ```
 
-> Exception: The UI layer may perform in-app navigation **`navigation().navigate(..)`** to reduce boiler-plate and complexity.
+> Exception: The UI layer may perform in-app `navigation().navigate(..)` to reduce boiler-plate and complexity.
 
 ### 6. IO (side-effects)
 
 Responsible for the implementation of IO operations like persistnece, network requests, randomness, date & time, etc.
 
-**Motivation**
+#### Motivation
+
 - Encapsulate IO effects. _(Reduce Complexity)_
 - Abstracts `Action(s)` from IO implementation.
 - Re-usable IO. _(Composability)_
 
-**Side-Effects**
+#### Side-Effects
+
 - **Room DB**, local persistence
 - **Shares Preferences**, local persistence
   - key-value pairs persistence
@@ -512,7 +538,8 @@ Responsible for the implementation of IO operations like persistnece, network re
 
 Responsible for the interaction with the Android System like launching `Intent`, sending `notification`, receiving `push messages`, `biometrics`, etc.
 
-**Motivation**
+#### Motivation
+
 - Abstracts `Action(s)` and `UI` from the Android System and its specifics. _(Reduce Complexity)_
 - Re-usable Android System efects. _(Composability)_
 
@@ -522,7 +549,8 @@ Responsible for the interaction with the Android System like launching `Intent`,
 
 One of the reasons for the Ivy Architecture is to support painless, effective and efficient testing of the code base.
 
-**Motivation**
+### Motivation
+
 - Verifies whether the code works as expected before reaching manual QA. _(Stability)_
 - Easier refactoring. _(Tests will protect us)_
 - Faster and more reliable QA. _(Tests will ensure that the core functionality is working)_
@@ -532,7 +560,8 @@ One of the reasons for the Ivy Architecture is to support painless, effective an
 
 Tests whether the code is working correctyly in the expected cases. _(hard-coded cases)_
 
-**Layers**
+#### Layers
+
 - `Data Model`
 - `Pure`
 
@@ -540,7 +569,8 @@ Tests whether the code is working correctyly in the expected cases. _(hard-coded
 
 Tests correctness in not expected cases by random generating test cases in given a possible range of input. _(auto-generated tests cases)_
 
-**Layers**
+#### Layers
+
 - `Data Model`
 - `Pure`
 
@@ -548,7 +578,8 @@ Tests correctness in not expected cases by random generating test cases in given
 
 Tests the integration and correctness with the Android SDK & System on specific Android API version. _(end-to-end for logic)_
 
-**Layers**
+#### Layers
+
 - `Action`
 - `IO`
 - `Android System`
@@ -557,11 +588,12 @@ Tests the integration and correctness with the Android SDK & System on specific 
 
 Tests everything from the perspective of an user using the UI. Imagine it like an automated QA going through pre-defined scenarios. _(end-to-end for everything)_
 
-**Layers**
+#### Layers
+
 - `UI` (Compose)
 
 ---
 
-_Version 1.3.0_
+_Version 1.3.1_
 
 _Feedback and proposals are highly appreciated! Let's spark techincal discussion and make Ivy and the Android World better! :rocket:_
