@@ -394,9 +394,9 @@ The `pure` layer must consist of only pure functions without side-effects. If th
     //Produdes logging side-effect which can be seen in Logcat
     @Total
     fun logMessage(
-    msg: String
+        msg: String
     ) {
-    Log.d("DEBUG", msg) //SIDE-EFFECT!
+        Log.d("DEBUG", msg) //SIDE-EFFECT!
     }
     ```
 
@@ -408,12 +408,12 @@ The `pure` layer must consist of only pure functions without side-effects. If th
 
     @Pure
     fun logMessage(
-    msg: String,
+        msg: String,
 
-    @SideEffect
-    log: (String) -> Unit
+        @SideEffect
+        log: (String) -> Unit
     ) {
-    log("DEBUG: $msg")
+        log("DEBUG: $msg")
     }
     ```
 
