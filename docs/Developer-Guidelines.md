@@ -48,6 +48,19 @@ view -- Produces --> event
 android -- Produces --> event
 ```
 
+**Resources:** _(further learning)_
+- [The Android Achitecture](https://www.youtube.com/watch?v=TPWmfJq16rA&list=PLWz5rJ2EKKc8GZWCbUm3tBXKeqIi3rcVX)
+- [Clean Code](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
+- [Jetpack Compose Docs](https://developer.android.com/jetpack/compose/documentation)
+- [Functional Programming](https://en.wikipedia.org/wiki/Functional_programming)
+- [Category Theory for Programmers](https://github.com/hmemcpy/milewski-ctfp-pdf)
+- [Functional Reactive Programming](https://www.youtube.com/watch?v=Agu6jipKfYw&t=1518s)
+- [The Elm Architecture](https://guide.elm-lang.org/architecture/)
+- [Maintable Software Architecture with Haskell](https://www.youtube.com/watch?v=kIwd1D9m1gE)
+- [The Dao of FP](https://github.com/BartoszMilewski/Publications/blob/master/TheDaoOfFP/DaoFP.pdf)
+- [Don't walk away from complexity, run!](https://www.youtube.com/watch?v=4MEKu2TcEHM)
+- [Lambda Calculus](https://www.youtube.com/watch?v=eis11j_iGMs)
+
 ### 0. Data Model
 
 The Data Model in Ivy drives clear separation between `domain` pure data required for business logic w/o added complexity, `entity` database data, `dto` _(data transfer object)_ JSON representation for network requests and `ui` data which we'll displayed.
@@ -94,7 +107,7 @@ ui_data -- "UI State (Flow)" --> ui
 - `DisplayTransaction`
   - UI specific fields
 - `Transaction`
-  - pure domain data
+  - domain data
 - `TransactionEntity`
   - has `isSynced`, `isDeletedFlags` db specific fields (Room DB anontations)
 - `TransactionDTO`
@@ -108,7 +121,7 @@ The `Event` encapsulates outside world signals in an excepted format and abstrac
 An `Event` is generated from either user interaction with the UI or a system subscription _(e.g. Screen start, Time, Random, Battery level)_.
 
 **Motivation**
-- Simplify domain logic. _(Abstracts Input)_
+- Simplifies domain logic. _(Abstracts Input)_
 - Makes ViewModel & Domain logic independent of Android & UI specifics. _(Dependency Inversion)_
 
 ```mermaid
@@ -549,6 +562,6 @@ Tests everything from the perspective of an user using the UI. Imagine it like a
 
 ---
 
-_Version 1.1.1_
+_Version 1.3.0_
 
 _Feedback and proposals are highly appreciated! Let's spark techincal discussion and make Ivy and the Android World better! :rocket:_
