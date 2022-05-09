@@ -14,6 +14,14 @@ A short guide _(that'll evolve with time)_ with one and only goal - to **make us
 
 The Ivy Architecture follows the Functional Reactive Programming (FRP) principles. A good example for them is [The Elm Architecture.](https://guide.elm-lang.org/architecture/)
 
+**Motivation**
+- Organize code _(Scaleability)_
+- Reduce complexity _(Separation of responsibility)_
+- Reuse code (Composability)
+- Limit side-effects _(Less bugs)_
+- Easier testing _(Pure, Controlled Effects, UI)_
+- Easier refactoring _(Strongly Typed)_
+
 ### Architecture graph
 ```mermaid
 graph TD;
@@ -45,6 +53,11 @@ android -- Produces --> event
 The Data Model in Ivy drives clear separation between `domain` pure data required for business logic w/o added complexity, `entity` database data, `dto` _(data transfer object)_ JSON representation for network requests and `ui` data which we'll displayed.
 
 Learn more at [Android Developers Architecture: Entity](https://www.youtube.com/watch?v=cfak1jDKM_4).
+
+**Motivation**
+- Reduce complexity _(JSON, DB specifics are isolated)_
+- Flexibility _(allows editting on Data object on different levels w/o breaking existing code)_
+- Easier domain logic _(unncessary fields are removed)_
 
 **Data Model**
 ```mermaid
@@ -90,7 +103,13 @@ ui_data -- "UI State (Flow)" --> ui
 > Motivation: This separation **reduces complexity** and **provides flexibility** for changes.
 
 ### 1. Event (UI interaction or system)
+The `Event` encapsulates outside world signals in an excepted format and abstracts user input and system events.
+
 An `Event` is generated from either user interaction with the UI or a system subscription _(e.g. Screen start, Time, Random, Battery level)_.
+
+**Motivation**
+- Simplify domain logic. _(Abstracts Input)_
+- Makes ViewModel & Domain logic independent of Android & UI specifics. _(Dependency Inversion)_
 
 ```mermaid
 graph TD;
@@ -112,6 +131,10 @@ system -- Produces --> event
 ### 2. ViewModel (mediator)
 Triggers `Action` for incoming `Event`, transforms the result to `UI State` and propagates it to the UI via `Flow`.
 
+**Motivation**
+- Domain logic & UI independent of each other. _(Dependency Inversion)_
+- Defines the behavior for each UI and connects it with the corresponding domain logic.
+
 ```mermaid
 graph TD;
 
@@ -131,6 +154,14 @@ viewmodel -- "UI State (Flow)" --> ui
 ### 3. Action (domain logic with side-effects)
 
 Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO) and executes specific domain logic by **compising** `pure` functions or other `actions`.
+
+**Motivation**
+- Encapsulates domain logic.
+- Make business operations (actions) re-usable. _(Composability)_
+- Handles threading. _(Reduces Complexity)_
+- Simplifies the ViewModel.
+- Independent of UI State. _(Dependency Inversion)_
+- Provide side-effects for the `pure` layer via Dependency Injection. _(DAOs, Retrofit, etc)_
 
 **Action Types**
 - `FPAction()`: declaritve FP style _(preferable)_
@@ -305,12 +336,15 @@ class OverdueAct @Inject constructor(
 
 > Tip: When creating an `Action` make it as **atomic** as possible. The goal of each `Action` is to do one thing **efficiently** and to be **composable** with other actions like LEGO.
 
-### 4. Pure (domain logic with pure code)
+### 4. Pure (domain logic, pure code)
 
 The `pure` layer must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
 
 **Motivation**
-- Without the `pure` package many `actions` would duplicate the same code because of the different side-effects => `pure` offers re-usability of tested and working functions.
+- Avoid code duplication in `Action(s)`. _(Composability)_ 
+- Reduce complexity by abstracting domain logic from side-effects (DB, Network, etc) _(Effect-Based system)_
+- Easier Unit Testing for the core domain logic.
+- Enables Property-based Testing.
 
 **Function types**
 - **Partial**: not defined for all input values
@@ -414,6 +448,11 @@ suspend fun exchange(
 
 Renders the `UI State` that the user sees, handles `user input` and transforms it to `events` which are propagated to the `ViewModel`. **Do NOT perform any business logic or computations.**
 
+**Motivaiton**
+- UI independent of logic.
+- Transform UI State into UI on the screen.
+- Abstracts the ViewModel from UI specifics.
+
 ```mermaid
 graph TD;
 
@@ -436,6 +475,12 @@ uiState -- "Flow#collectAsState()" --> ui
 
 Responsible for the implementation of IO operations like persistnece, network requests, randomness, date & time, etc.
 
+**Motivation**
+- Encapsulate IO effects. _(Reduce Complexity)_
+- Abstracts `Action(s)` from IO implementation.
+- Re-usable IO. _(Composability)_
+
+**Side-Effects**
 - **Room DB**, local persistence
 - **Shares Preferences**, local persistence
   - key-value pairs persistence
@@ -454,30 +499,52 @@ Responsible for the implementation of IO operations like persistnece, network re
 
 Responsible for the interaction with the Android System like launching `Intent`, sending `notification`, receiving `push messages`, `biometrics`, etc.
 
+**Motivation**
+- Abstracts `Action(s)` and `UI` from the Android System and its specifics. _(Reduce Complexity)_
+- Re-usable Android System efects. _(Composability)_
+
 ---
 
 ## Testing
 
 One of the reasons for the Ivy Architecture is to support painless, effective and efficient testing of the code base.
 
+**Motivation**
+- Verifies whether the code works as expected before reaching manual QA. _(Stability)_
+- Easier refactoring. _(Tests will protect us)_
+- Faster and more reliable QA. _(Tests will ensure that the core functionality is working)_
+- Instant feedback for Pull Requests. _(CI/CD)_
+
 ### Unit Testing
 
+Tests whether the code is working correctyly in the expected cases. _(hard-coded cases)_
+
+**Layers**
 - `Data Model`
 - `Pure`
 
 ### Property-Based Testing
 
+Tests correctness in not expected cases by random generating test cases in given a possible range of input. _(auto-generated tests cases)_
+
+**Layers**
 - `Data Model`
 - `Pure`
 
 ### End-to-end Android Tests
 
+Tests the integration and correctness with the Android SDK & System on specific Android API version. _(end-to-end for logic)_
+
+**Layers**
 - `Action`
 - `IO`
 - `Android System`
 
 ### UI Android Tests
 
+Tests everything from the perspective of an user using the UI. Imagine it like an automated QA going through pre-defined scenarios. _(end-to-end for everything)_
+
+**Layers**
 - `UI` (Compose)
 
 ---
