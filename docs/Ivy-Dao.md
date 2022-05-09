@@ -1,5 +1,7 @@
 # Ivy DAO
 
+## WARNING: This business model is deprecated!
+
 ## High-level picture
 ```mermaid
 graph TD;
