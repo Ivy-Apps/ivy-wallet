@@ -14,7 +14,6 @@ body:
     id: url-to-app
     attributes:
       label: Google PlayStore URL to the app from which you want to import
-      description: A clear and concise description of what the bug is.
       placeholder: https://play.google.com/store/apps/details?id=com.cool.app
     validations:
       required: false

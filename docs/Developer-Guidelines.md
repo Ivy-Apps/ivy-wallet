@@ -2,17 +2,16 @@
 
 A short guide _(that'll evolve with time)_ with one and only goal - to **make you a better developer.**
 
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
-
-> Feedback: Welcome!
-
-> Proposals: Highly appreciated. :rocket:
+[![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+[![Feedback is welcome!](https://img.shields.io/badge/feedback-welcome-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
+[![Proposals are highly appreciated!](https://img.shields.io/badge/proposals-highly%20appreciated-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
 
 ## Ivy Architecture (FRP)
 
 The Ivy Architecture follows the Functional Reactive Programming (FRP) principles. A good example for them is [The Elm Architecture.](https://guide.elm-lang.org/architecture/)
 
 ### Architecture graph
+
 ```mermaid
 graph TD;
 
@@ -44,7 +43,8 @@ The Data Model in Ivy drives clear separation between `domain` pure data require
 
 Learn more at [Android Developers Architecture: Entity](https://www.youtube.com/watch?v=cfak1jDKM_4).
 
-**Data Model**
+#### Data Model
+
 ```mermaid
 graph TD;
 
@@ -75,7 +75,8 @@ ui_data -- "UI State (Flow)" --> ui
 
 ```
 
-**Example**
+#### Example
+
 - `DisplayTransaction`
   - UI specific fields
 - `Transaction`
@@ -88,6 +89,7 @@ ui_data -- "UI State (Flow)" --> ui
 > Motivation: This separation **reduces complexity** and **provides flexibility** for changes.
 
 ### 1. Event (UI interaction or system)
+
 An `Event` is generated from either user interaction with the UI or a system subscription _(e.g. Screen start, Time, Random, Battery level)_.
 
 ```mermaid
@@ -108,6 +110,7 @@ system -- Produces --> event
 > Note: There are infinite user inputs and outside world signals.
 
 ### 2. ViewModel (mediator)
+
 Triggers `Action` for incoming `Event`, transforms the result to `UI State` and propagates it to the UI via `Flow`.
 
 ```mermaid
@@ -130,7 +133,8 @@ viewmodel -- "UI State (Flow)" --> ui
 
 Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO) and executes specific domain logic by **compising** `pure` functions or other `actions`.
 
-**Action Types**
+#### Action Types
+
 - `FPAction()`: declaritve FP style _(preferable)_
 - `Action()`: imperative OOP style
 
@@ -162,15 +166,16 @@ action -- abstracted IO --> pure -- Result --> action
 action -- Final Result --> output
 ```
 
-> Actions are very similar to the "use-cases" from the standard "Clean Code" architecture.
-
-> You can compose actions and pure functions by using **`then`**.
+> `Actions` are very similar to the "use-cases" from the standard "Clean Code" architecture.
+>
+> You can compose `actions` and `pure` functions by using `then`.
 
 ### 4. Pure (domain logic with pure code)
 
 The `pure` layer as the name suggests must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
 
-**Code Example**
+#### Code Example
+
 ```Kotlin
 //domain.action
 class ExchangeAct @Inject constructor(
