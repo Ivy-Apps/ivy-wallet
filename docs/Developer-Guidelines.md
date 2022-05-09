@@ -134,7 +134,7 @@ Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO)
 - `FPAction()`: declaritve FP style _(preferable)_
 - `Action()`: imperative OOP style
 
-**Action Lifecycle:**
+**Action Graph:**
 
 ```mermaid
 graph TD;
@@ -162,13 +162,184 @@ action -- abstracted IO --> pure -- Result --> action
 action -- Final Result --> output
 ```
 
+**Action Composition Examples**
+
+_Calculate Balance_
+```Kotlin
+//Example 1: Calculates Ivy's balance
+class CalcWalletBalanceAct @Inject constructor(
+    private val accountsAct: AccountsAct,
+    private val calcAccBalanceAct: CalcAccBalanceAct,
+    private val exchangeAct: ExchangeAct,
+) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {
+
+    override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
+
+    private suspend fun Input.recipe(): suspend (Unit) -> BigDecimal =
+        accountsAct thenFilter {
+            withExcluded || it.includeInBalance
+        } thenMap {
+            calcAccBalanceAct(
+                CalcAccBalanceAct.Input(
+                    account = it,
+                    range = range
+                )
+            )
+        } thenMap {
+            exchangeAct(
+                ExchangeAct.Input(
+                    data = ExchangeData(
+                        baseCurrency = baseCurrency,
+                        fromCurrency = (it.account.currency ?: baseCurrency).toOption(),
+                        toCurrency = balanceCurrency
+                    ),
+                    amount = it.balance
+                )
+            )
+        } thenSum {
+            it.orNull() ?: BigDecimal.ZERO
+        }
+
+    data class Input(
+        val baseCurrency: String,
+        val balanceCurrency: String = baseCurrency,
+        val range: ClosedTimeRange = ClosedTimeRange.allTimeIvy(),
+        val withExcluded: Boolean = false
+    )
+}
+```
+
+_Overdue Transactions_
+```Kotlin
+//Example 2: Due transtions + due income/expense for a given filter
+class DueTrnsInfoAct @Inject constructor(
+    private val dueTrnsAct: DueTrnsAct,
+    private val accountByIdAct: AccountByIdAct,
+    private val exchangeAct: ExchangeAct
+) : FPAction<DueTrnsInfoAct.Input, DueTrnsInfoAct.Output>() {
+
+    override suspend fun Input.compose(): suspend () -> Output =
+        suspend {
+            range
+        } then dueTrnsAct then { trns ->
+            val dateNow = dateNowUTC()
+            trns.filter {
+                this.dueFilter(it, dateNow)
+            }
+        } then { dueTrns ->
+            //We have due transactions in different currencies
+            val exchangeArg = ExchangeTrnArgument(
+                baseCurrency = baseCurrency,
+                exchange = ::actInput then exchangeAct,
+                getAccount = accountByIdAct.lambda()
+            )
+
+            Output(
+                dueIncomeExpense = IncomeExpensePair(
+                    income = sumTrns(
+                        incomes(dueTrns),
+                        ::exchangeInBaseCurrency,
+                        exchangeArg
+                    ),
+                    expense = sumTrns(
+                        expenses(dueTrns),
+                        ::exchangeInBaseCurrency,
+                        exchangeArg
+                    )
+                ),
+                dueTrns = dueTrns
+            )
+        }
+
+    data class Input(
+        val range: ClosedTimeRange,
+        val baseCurrency: String,
+        val dueFilter: (Transaction, LocalDate) -> Boolean
+    )
+
+    data class Output(
+        val dueIncomeExpense: IncomeExpensePair,
+        val dueTrns: List<Transaction>
+    )
+}
+
+
+//Example 3: Overdue transactions + their income/expense
+class OverdueAct @Inject constructor(
+    private val dueTrnsInfoAct: DueTrnsInfoAct
+) : FPAction<OverdueAct.Input, OverdueAct.Output>() {
+
+    override suspend fun Input.compose(): suspend () -> Output = suspend {
+        DueTrnsInfoAct.Input(
+            range = ClosedTimeRange(
+                from = beginningOfIvyTime(),
+                to = toRange
+            ),
+            baseCurrency = baseCurrency,
+            dueFilter = ::isOverdue
+        )
+    } then dueTrnsInfoAct then {
+        Output(
+            overdue = it.dueIncomeExpense,
+            overdueTrns = it.dueTrns
+        )
+    }
+
+    data class Input(
+        val toRange: LocalDateTime,
+        val baseCurrency: String
+    )
+
+    data class Output(
+        val overdue: IncomeExpensePair,
+        val overdueTrns: List<Transaction>
+    )
+}
+```
+
 > Actions are very similar to the "use-cases" from the standard "Clean Code" architecture.
 
-> You can compose actions and pure functions by using **`then`**.
+> Tip: You can compose actions and pure functions by using **`"then"`**, **`"thenMap"`**, **`"thenFilter"`**, **`"thenSum"`**.
+
+> Tip: When creating an `Action` make it as **atomic** as possible. The goal of each `Action` is to do one thing **efficiently** and to be **composable** with other actions like LEGO.
 
 ### 4. Pure (domain logic with pure code)
 
 The `pure` layer as the name suggests must consist of only pure functions without side-effects. If the business logic requires, **side-effects must be abstracted**.
+
+**Function types**
+- Partial: not defined for all input values
+```Kotlin
+@Partial(inCaseOf="b = 0, produces ArithmeticException::class")
+fun divide(a: Int, b: Int) = a / b
+```
+- Total: defined for all input values but with side-effects
+```Kotlin
+@Total
+fun 
+```
+
+Each `@Pure` function must be **total** and its `@SideEffect`(s) if any abstracted.
+
+> Rule: If a pure function is called with the **same input** and mocked side-effects it must always produce the **same output**.
+
+**Pure graph**
+```mermaid
+graph TD;
+
+input(Input)
+pure(Pure)
+side-effect(IO / Side-Effect)
+lambda("@SideEffect Lambda")
+output(Output)
+
+side-effect -- Implements --> lambda
+
+input -- Data --> pure
+lambda -- Abstracted Effects --> pure
+
+pure -- Calculates --> output
+```
 
 **Code Example**
 ```Kotlin
@@ -203,8 +374,11 @@ suspend fun exchange(
     getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
 ): Option<BigDecimal> {
   //PURE IMPLEMENTATION
+  //....
 }
 ```
+
+> Tip: Make `pure` functions small, atomic and composable.
 
 ### 5. UI (@Composable)
 

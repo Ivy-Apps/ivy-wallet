@@ -26,22 +26,22 @@ class DueTrnsInfoAct @Inject constructor(
     private val exchangeAct: ExchangeAct
 ) : FPAction<DueTrnsInfoAct.Input, DueTrnsInfoAct.Output>() {
 
-    override suspend fun Input.compose(): suspend () -> Output = suspend {
-        range
-    } then dueTrnsAct then { trns ->
-        val dateNow = dateNowUTC()
-        trns.filter {
-            this.dueFilter(it, dateNow)
-        }
-    } then { dueTrns ->
-        //We have due transactions in different currencies
-        val exchangeArg = ExchangeTrnArgument(
-            baseCurrency = baseCurrency,
-            exchange = ::actInput then exchangeAct,
-            getAccount = accountByIdAct.lambda()
-        )
+    override suspend fun Input.compose(): suspend () -> Output =
+        suspend {
+            range
+        } then dueTrnsAct then { trns ->
+            val dateNow = dateNowUTC()
+            trns.filter {
+                this.dueFilter(it, dateNow)
+            }
+        } then { dueTrns ->
+            //We have due transactions in different currencies
+            val exchangeArg = ExchangeTrnArgument(
+                baseCurrency = baseCurrency,
+                exchange = ::actInput then exchangeAct,
+                getAccount = accountByIdAct.lambda()
+            )
 
-        io {
             Output(
                 dueIncomeExpense = IncomeExpensePair(
                     income = sumTrns(
@@ -58,7 +58,6 @@ class DueTrnsInfoAct @Inject constructor(
                 dueTrns = dueTrns
             )
         }
-    }
 
     data class Input(
         val range: ClosedTimeRange,
