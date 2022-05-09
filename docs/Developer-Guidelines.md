@@ -1,6 +1,6 @@
 # Ivy Developer Guidelines
 
-A short guide _(that'll evolve with time)_ with one and only goal - to **make you a better developer.**
+A short guide _(that'll evolve with time)_ with one and only goal - to **make us better developers.**
 
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 
