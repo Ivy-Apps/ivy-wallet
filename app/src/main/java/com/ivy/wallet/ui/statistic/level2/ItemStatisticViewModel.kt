@@ -135,6 +135,9 @@ class ItemStatisticViewModel @Inject constructor(
     private val _initWithTransactions = MutableStateFlow(false)
     val initWithTransactions = _initWithTransactions.readOnly()
 
+    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
+    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+
     fun start(
         screen: ItemStatistic,
         period: TimePeriod? = ivyContext.selectedPeriod,
@@ -156,6 +159,7 @@ class ItemStatisticViewModel @Inject constructor(
             _categories.value = categoriesAct(Unit)
             _accounts.value = accountsAct(Unit)
             _initWithTransactions.value = false
+            _treatTransfersAsIncomeExpense.value = sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
             when {
                 screen.accountId != null -> {

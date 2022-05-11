@@ -85,6 +85,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val overdueExpenses by viewModel.overdueExpenses.collectAsState()
 
     val initWithTransactions by viewModel.initWithTransactions.collectAsState()
+    val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
 
     val view = LocalView.current
     onScreenStart {
@@ -116,6 +117,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         expenses = expenses,
 
         initWithTransactions = initWithTransactions,
+        treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
         history = history,
 
@@ -175,6 +177,7 @@ private fun BoxWithConstraintsScope.UI(
     expenses: Double,
 
     initWithTransactions: Boolean = false,
+    treatTransfersAsIncomeExpense: Boolean = false,
 
     history: List<TransactionHistoryItem>,
 
@@ -251,6 +254,7 @@ private fun BoxWithConstraintsScope.UI(
                     category = category,
                     balance = balance,
                     balanceBaseCurrency = balanceBaseCurrency,
+                    treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense,
 
                     onDelete = {
                         deleteModalVisible = true
@@ -359,9 +363,12 @@ private fun BoxWithConstraintsScope.UI(
                 onPayOrGet = onPayOrGet,
                 emptyStateTitle = stringRes(R.string.no_transactions),
 
-                emptyStateText = stringRes(R.string.no_transactions_for_period, period.toDisplayLong(ivyContext.startDayOfMonth)),
+                emptyStateText = stringRes(
+                    R.string.no_transactions_for_period,
+                    period.toDisplayLong(ivyContext.startDayOfMonth)
+                ),
 
-            )
+                )
         }
     }
 
@@ -418,6 +425,7 @@ private fun Header(
     balanceBaseCurrency: Double?,
     income: Double,
     expenses: Double,
+    treatTransfersAsIncomeExpense: Boolean = false,
 
     onEdit: () -> Unit,
     onDelete: () -> Unit,
@@ -505,7 +513,8 @@ private fun Header(
                         PieChartStatistic(
                             type = TransactionType.INCOME,
                             accountList = listOf(account.id),
-                            filterExcluded = false
+                            filterExcluded = false,
+                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )
                     )
                 }
@@ -516,7 +525,8 @@ private fun Header(
                         PieChartStatistic(
                             type = TransactionType.EXPENSE,
                             accountList = listOf(account.id),
-                            filterExcluded = false
+                            filterExcluded = false,
+                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
                         )
                     )
                 }

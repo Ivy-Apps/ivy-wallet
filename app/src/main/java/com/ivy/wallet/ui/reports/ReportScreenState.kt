@@ -26,5 +26,7 @@ data class ReportScreenState(
     val loading: Boolean = false,
     val accountIdFilters: List<UUID> = emptyList(),
     val transactions: List<Transaction> = emptyList(),
-    val filterOverlayVisible: Boolean = false
+    val filterOverlayVisible: Boolean = false,
+    val showTransfersAsIncExpCheckbox: Boolean = false,
+    val treatTransfersAsIncExp: Boolean = false
 )
