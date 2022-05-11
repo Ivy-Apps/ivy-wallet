@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.filterSuspend
-import com.ivy.fp.sumOfSuspend
 import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.readOnly
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -21,6 +21,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
+import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import com.ivy.wallet.domain.pure.util.orZero
@@ -38,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,11 +69,13 @@ class ReportViewModel @Inject constructor(
     private val _categories = MutableStateFlow<List<Category>>(emptyList())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
-    val accounts = _accounts.readOnly()
+    private val _allAccounts = MutableStateFlow<List<Account>>(emptyList())
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.readOnly()
+
+    private val _historyIncomeExpense = MutableStateFlow(IncomeExpenseTransferPair.zero())
+    private val historyIncomeExpense = _historyIncomeExpense.readOnly()
 
     private val _filter = MutableStateFlow<ReportFilter?>(null)
     val filter = _filter.readOnly()
@@ -79,14 +83,14 @@ class ReportViewModel @Inject constructor(
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
             _baseCurrency.value = baseCurrencyAct(Unit)
-            _accounts.value = accountsAct(Unit)
+            _allAccounts.value = accountsAct(Unit)
             _categories.value = listOf(unSpecifiedCategory) + categoriesAct(Unit)
 
             updateState {
                 it.copy(
                     baseCurrency = _baseCurrency.value,
                     categories = _categories.value,
-                    accounts = _accounts.value
+                    accounts = _allAccounts.value
                 )
             }
         }
@@ -101,7 +105,7 @@ class ReportViewModel @Inject constructor(
             }
 
             if (!filter.validate()) return@scopedIOThread
-            val accounts = accounts.value
+            val accounts = filter.accounts
             val baseCurrency = baseCurrency.value
             _filter.value = filter
 
@@ -128,7 +132,7 @@ class ReportViewModel @Inject constructor(
                 )
             }
 
-            val historyIncomeExpense = calcTrnsIncomeExpenseAct(
+            _historyIncomeExpense.value = calcTrnsIncomeExpenseAct(
                 CalcTrnsIncomeExpenseAct.Input(
                     transactions = history,
                     accounts = accounts,
@@ -136,16 +140,13 @@ class ReportViewModel @Inject constructor(
                 )
             )
 
-            val balance = scope.async {
-                calculateBalance(
-                    baseCurrency = baseCurrency,
-                    accounts = accounts,
-                    history = history,
-                    income = historyIncomeExpense.income.toDouble(),
-                    expenses = historyIncomeExpense.expense.toDouble(),
-                    filter = filter
-                )
-            }
+            val income = historyIncomeExpense.value.income.toDouble() +
+                    if (stateVal().treatTransfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+
+            val expenses = historyIncomeExpense.value.expense.toDouble() +
+                    if (stateVal().treatTransfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+
+            val balance = calculateBalance(historyIncomeExpense.value).toDouble()
 
             val accountFilterIdList = scope.async { filter.accounts.map { it.id } }
 
@@ -181,8 +182,8 @@ class ReportViewModel @Inject constructor(
 
             updateState {
                 it.copy(
-                    income = historyIncomeExpense.income.toDouble(),
-                    expenses = historyIncomeExpense.expense.toDouble(),
+                    income = income,
+                    expenses = expenses,
                     upcomingIncome = upcomingIncomeExpense.income.toDouble(),
                     upcomingExpenses = upcomingIncomeExpense.expense.toDouble(),
                     overdueIncome = overdueIncomeExpense.income.toDouble(),
@@ -191,13 +192,14 @@ class ReportViewModel @Inject constructor(
                     upcomingTransactions = upcomingTransactions,
                     overdueTransactions = overdue,
                     categories = categories.value,
-                    accounts = _accounts.value,
+                    accounts = _allAccounts.value,
                     filter = filter,
                     loading = false,
                     accountIdFilters = accountFilterIdList.await(),
                     transactions = transactions,
-                    balance = balance.await(),
-                    filterOverlayVisible = false
+                    balance = balance,
+                    filterOverlayVisible = false,
+                    showTransfersAsIncExpCheckbox = filter.trnTypes.contains(TransactionType.TRANSFER)
                 )
             }
         }
@@ -311,53 +313,8 @@ class ReportViewModel @Inject constructor(
         return this.toLowerCaseLocal().contains(anotherString.toLowerCaseLocal())
     }
 
-    private suspend fun calculateBalance(
-        baseCurrency: String,
-        accounts: List<Account>,
-        history: List<Transaction>,
-        income: Double,
-        expenses: Double,
-        filter: ReportFilter
-    ): Double {
-        val includedAccountsIds = filter.accounts.map { it.id }
-        //+ Transfers In (#conv to BaseCurrency)
-        val transfersIn = history
-            .filter {
-                it.type == TransactionType.TRANSFER &&
-                        it.toAccountId != null && includedAccountsIds.contains(it.toAccountId)
-            }
-            .sumOfSuspend { trn ->
-                exchangeAct(
-                    ExchangeAct.Input(
-                        data = ExchangeData(
-                            baseCurrency = baseCurrency,
-                            fromCurrency = trnCurrency(trn, accounts, baseCurrency),
-                        ),
-                        amount = trn.amount
-                    )
-                ).orZero().toDouble()
-            }
-
-        //- Transfers Out (#conv to BaseCurrency)
-        val transfersOut = history
-            .filter {
-                it.type == TransactionType.TRANSFER &&
-                        includedAccountsIds.contains(it.accountId)
-            }
-            .sumOfSuspend { trn ->
-                exchangeAct(
-                    ExchangeAct.Input(
-                        data = ExchangeData(
-                            baseCurrency = baseCurrency,
-                            fromCurrency = trnCurrency(trn, accounts, baseCurrency),
-                        ),
-                        amount = trn.amount
-                    )
-                ).orZero().toDouble()
-            }
-
-        //Income - Expenses (#conv to BaseCurrency)
-        return income - expenses + transfersIn - transfersOut
+    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair) : BigDecimal{
+        return incomeExpenseTransferPair.income + incomeExpenseTransferPair.transferIncome - incomeExpenseTransferPair.expense - incomeExpenseTransferPair.transferExpense
     }
 
     private suspend fun export(context: Context) {
@@ -367,7 +324,7 @@ class ReportViewModel @Inject constructor(
         ) {
             val filter = _filter.value ?: return@protectWithPaywall
             if (!filter.validate()) return@protectWithPaywall
-            val accounts = _accounts.value
+            val accounts = _allAccounts.value
             val baseCurrency = _baseCurrency.value
 
             ivyContext.createNewFile(
@@ -430,6 +387,20 @@ class ReportViewModel @Inject constructor(
         }
     }
 
+    private suspend fun onTreatTransfersAsIncomeExpense(treatTransfersAsIncExp: Boolean) {
+        updateState {
+            val income = historyIncomeExpense.value.income.toDouble() +
+                    if (treatTransfersAsIncExp) historyIncomeExpense.value.transferIncome.toDouble() else 0.0
+            val expenses = historyIncomeExpense.value.expense.toDouble() +
+                    if (treatTransfersAsIncExp) historyIncomeExpense.value.transferExpense.toDouble() else 0.0
+            it.copy(
+                treatTransfersAsIncExp = treatTransfersAsIncExp,
+                income = income,
+                expenses = expenses
+            )
+        }
+    }
+
     fun onEvent(event: ReportScreenEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
@@ -439,6 +410,9 @@ class ReportViewModel @Inject constructor(
                 is ReportScreenEvent.OnOverdueExpanded -> setOverdueExpanded(event.overdueExpanded)
                 is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpanded(event.upcomingExpanded)
                 is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisible(event.filterOverlayVisible)
+                is ReportScreenEvent.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
+                    event.transfersAsIncomeExpense
+                )
             }
         }
     }

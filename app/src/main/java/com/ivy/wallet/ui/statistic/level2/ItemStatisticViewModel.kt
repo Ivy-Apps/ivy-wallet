@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.statistic.level2
 
+import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
@@ -13,6 +14,7 @@ import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.TransactionType
@@ -32,6 +34,7 @@ import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
+import com.ivy.wallet.ui.theme.RedLight
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,6 +69,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
+    private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val exchangeAct: ExchangeAct
 ) : ViewModel() {
 
@@ -135,6 +139,9 @@ class ItemStatisticViewModel @Inject constructor(
     private val _initWithTransactions = MutableStateFlow(false)
     val initWithTransactions = _initWithTransactions.readOnly()
 
+    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
+    val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+
     fun start(
         screen: ItemStatistic,
         period: TimePeriod? = ivyContext.selectedPeriod,
@@ -156,6 +163,8 @@ class ItemStatisticViewModel @Inject constructor(
             _categories.value = categoriesAct(Unit)
             _accounts.value = accountsAct(Unit)
             _initWithTransactions.value = false
+            _treatTransfersAsIncomeExpense.value =
+                sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
             when {
                 screen.accountId != null -> {
@@ -174,7 +183,7 @@ class ItemStatisticViewModel @Inject constructor(
                     )
                 }
                 screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
-                    initForUnspecifiedCategoryWithTransactions(
+                    initForAccountTransfersCategory(
                         screen.categoryId,
                         screen.accountIdFilterList,
                         screen.transactions
@@ -449,59 +458,31 @@ class ItemStatisticViewModel @Inject constructor(
         _overdue.value = ioThread { categoryLogic.overdueUnspecified(range) }
     }
 
-    private suspend fun initForUnspecifiedCategoryWithTransactions(
+    private suspend fun initForAccountTransfersCategory(
         categoryId: UUID?,
         accountFilterList: List<UUID>,
         transactions: List<Transaction>
     ) {
         _initWithTransactions.value = true
+        _category.value = Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
         val accountFilterIdSet = accountFilterList.toHashSet()
-
-        val accountTransferCategoryEnabled = categoryId != null
-        if (accountTransferCategoryEnabled)
-            _category.value = Category(stringRes(R.string.account_transfers))
-
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
                 it.toAccountId
-            ))
+            )) && it.type == TransactionType.TRANSFER
         }
 
-        val incomeTrans = trans.filter {
-            it.type == TransactionType.INCOME
-        }
-
-        val expenseTrans = trans.filter {
-            it.type == TransactionType.EXPENSE
-        }
-
-        _income.value = ioThread {
-            categoryLogic.calculateCategoryIncome(
-                incomeTransaction = incomeTrans,
-                accountFilterSet = accountFilterIdSet
+        val historyIncomeExpense = calcTrnsIncomeExpenseAct(
+            CalcTrnsIncomeExpenseAct.Input(
+                transactions = trans,
+                accounts = accountFilterList.mapNotNull { accID -> accounts.value.find { it.id == accID } },
+                baseCurrency = baseCurrency.value
             )
-        }
+        )
 
-        _expenses.value = ioThread {
-            categoryLogic.calculateCategoryExpenses(
-                expenseTransactions = expenseTrans,
-                accountFilterSet = accountFilterIdSet
-            )
-        }
-
-        _balance.value = scopedIOThread {
-            _income.value - _expenses.value +
-                    if (accountTransferCategoryEnabled)
-                        trans.filter { it.type == TransactionType.TRANSFER }
-                            .sumOf {
-                                exchangeRatesLogic.toAmountBaseCurrency(
-                                    transaction = it,
-                                    baseCurrency = baseCurrency.value,
-                                    accounts = accountsAct(Unit)
-                                )
-                            } else 0.0
-        }
-
+        _income.value = historyIncomeExpense.transferIncome.toDouble()
+        _expenses.value = historyIncomeExpense.transferExpense.toDouble()
+        _balance.value = _income.value - _expenses.value
         _history.value = trnsWithDateDivsAct(
             TrnsWithDateDivsAct.Input(
                 baseCurrency = baseCurrency.value,
