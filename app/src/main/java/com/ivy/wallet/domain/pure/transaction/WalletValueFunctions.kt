@@ -38,12 +38,16 @@ object WalletValueFunctions {
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.toAccountId }
         when {
-            type == TransactionType.TRANSFER && condition -> exchangeInBaseCurrency(
-                transaction = this.copy(amount = this.toAmount),
-                accounts = arg.accounts,
-                baseCurrency = arg.baseCurrency,
-                exchange = arg.exchange
-            )
+            type == TransactionType.TRANSFER && condition ->
+                exchangeInBaseCurrency(
+                    transaction = this.copy(
+                        amount = this.toAmount,
+                        accountId = this.toAccountId ?: this.accountId
+                    ), //Do not remove copy()
+                    accounts = arg.accounts,
+                    baseCurrency = arg.baseCurrency,
+                    exchange = arg.exchange
+                )
             else -> BigDecimal.ZERO
         }
     }

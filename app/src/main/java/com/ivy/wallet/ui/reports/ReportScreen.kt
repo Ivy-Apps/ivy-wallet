@@ -23,7 +23,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
-import androidx.compose.ui.res.stringResource
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -152,7 +151,8 @@ private fun BoxWithConstraintsScope.UI(
                             PieChartStatistic(
                                 type = TransactionType.INCOME,
                                 transactions = state.transactions,
-                                accountList = state.accountIdFilters
+                                accountList = state.accountIdFilters,
+                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
                         )
                 },
@@ -162,13 +162,28 @@ private fun BoxWithConstraintsScope.UI(
                             PieChartStatistic(
                                 type = TransactionType.EXPENSE,
                                 transactions = state.transactions,
-                                accountList = state.accountIdFilters
+                                accountList = state.accountIdFilters,
+                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                             )
                         )
                 }
             )
 
-            Spacer(Modifier.height(32.dp))
+            if (state.showTransfersAsIncExpCheckbox) {
+                IvyCheckboxWithText(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    text = stringResource(R.string.transfers_as_income_expense),
+                    checked = state.treatTransfersAsIncExp
+                ) {
+                    onEventHandler.invoke(
+                        ReportScreenEvent.OnTreatTransfersAsIncomeExpense(
+                            transfersAsIncomeExpense = it
+                        )
+                    )
+                }
+            } else
+                Spacer(Modifier.height(32.dp))
 
             TransactionsDividerLine(
                 paddingHorizontal = 0.dp

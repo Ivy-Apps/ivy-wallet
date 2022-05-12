@@ -14,6 +14,7 @@ import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.readOnly
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,6 +34,9 @@ class PieChartStatisticViewModel @Inject constructor(
         PieChartStatisticState()
     )
 
+    private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
+    private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+
     fun start(
         screen: PieChartStatistic
     ) {
@@ -42,7 +46,8 @@ class PieChartStatisticViewModel @Inject constructor(
                 type = screen.type,
                 accountIdFilterList = screen.accountList,
                 filterExclude = screen.filterExcluded,
-                transactions = screen.transactions
+                transactions = screen.transactions,
+                treatTransfersAsIncomeExpense = screen.treatTransfersAsIncomeExpense
             )
         }
     }
@@ -52,9 +57,11 @@ class PieChartStatisticViewModel @Inject constructor(
         type: TransactionType,
         accountIdFilterList: List<UUID>,
         filterExclude: Boolean,
-        transactions: List<Transaction>
+        transactions: List<Transaction>,
+        treatTransfersAsIncomeExpense: Boolean
     ) {
         initialise(period, type, accountIdFilterList, filterExclude, transactions)
+        _treatTransfersAsIncomeExpense.value = treatTransfersAsIncomeExpense
         load(period = period)
     }
 
@@ -90,12 +97,11 @@ class PieChartStatisticViewModel @Inject constructor(
         val baseCurrency = stateVal().baseCurrency
         val range = period.toRange(ivyContext.startDayOfMonth)
 
-        //transactions.isEmpty() condition disables treating transfers as income/expenses in Reports Screen
         val treatTransferAsIncExp =
             sharedPrefs.getBoolean(
                 SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE,
                 false
-            ) && accountIdFilterList.isNotEmpty() && transactions.isEmpty()
+            ) && accountIdFilterList.isNotEmpty() && treatTransfersAsIncomeExpense.value
 
         val pieChartActOutput = ioThread {
             pieChartAct(

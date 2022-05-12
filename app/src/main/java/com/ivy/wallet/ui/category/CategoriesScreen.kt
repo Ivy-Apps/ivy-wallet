@@ -1,9 +1,15 @@
 package com.ivy.wallet.ui.category
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,7 +29,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -41,76 +46,67 @@ import com.ivy.wallet.utils.onScreenStart
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
     val viewModel: CategoriesViewModel = viewModel()
-
-    val currency by viewModel.currency.collectAsState()
-    val categories by viewModel.categories.collectAsState()
+    val state by viewModel.state().collectAsState()
 
     onScreenStart {
         viewModel.start()
     }
 
     UI(
-        currency = currency,
-        categories = categories,
-
-        onCreateCategory = viewModel::createCategory,
-        onReorder = viewModel::reorder,
+        state = state,
+        onEventHandler = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    currency: String,
-    categories: List<CategoryData>,
-
-    onCreateCategory: (CreateCategoryData) -> Unit,
-    onReorder: (List<CategoryData>) -> Unit,
+    state: CategoriesScreenState = CategoriesScreenState(),
+    onEventHandler: (CategoriesScreenEvent) -> Unit = {}
 ) {
-    var reorderVisible by remember { mutableStateOf(false) }
-    var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
+    val nav = navigation()
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .navigationBarsPadding()
-            .verticalScroll(rememberScrollState()),
+            .navigationBarsPadding(),
     ) {
-        Spacer(Modifier.height(32.dp))
+        item {
+            Spacer(Modifier.height(32.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Spacer(Modifier.width(24.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(Modifier.width(24.dp))
 
-            Text(
-                text = stringResource(R.string.categories),
-                style = UI.typo.h2.style(
-                    color = UI.colors.pureInverse,
-                    fontWeight = FontWeight.ExtraBold
+                Text(
+                    text = stringResource(R.string.categories),
+                    style = UI.typo.h2.style(
+                        color = UI.colors.pureInverse,
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 )
-            )
 
-            Spacer(Modifier.weight(1f))
+                Spacer(Modifier.weight(1f))
 
-            ReorderButton {
-                reorderVisible = true
+                ReorderButton {
+                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
+                }
+
+                Spacer(Modifier.width(24.dp))
             }
 
-            Spacer(Modifier.width(24.dp))
+
+            Spacer(Modifier.height(16.dp))
         }
 
-
-        Spacer(Modifier.height(16.dp))
-
-        val nav = navigation()
-        for (categoryData in categories) {
+        items(state.categories) { categoryData ->
             CategoryCard(
-                currency = currency,
+                currency = state.baseCurrency,
                 categoryData = categoryData,
                 onLongClick = {
-                    reorderVisible = true
+                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
             ) {
                 nav.navigateTo(
@@ -122,14 +118,16 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        Spacer(Modifier.height(150.dp))  //scroll hack
+        item {
+            Spacer(Modifier.height(150.dp))  //scroll hack
+        }
     }
-
-    val nav = navigation()
     CategoriesBottomBar(
         onAddCategory = {
-            categoryModalData = CategoryModalData(
-                category = null
+            onEventHandler.invoke(
+                CategoriesScreenEvent.OnCategoryModalVisible(
+                    CategoryModalData(category = null)
+                )
             )
         },
         onClose = {
@@ -138,12 +136,14 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ReorderModalSingleType(
-        visible = reorderVisible,
-        initialItems = categories,
+        visible = state.reorderModalVisible,
+        initialItems = state.categories,
         dismiss = {
-            reorderVisible = false
+            onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(false))
         },
-        onReordered = onReorder
+        onReordered = {
+            onEventHandler.invoke(CategoriesScreenEvent.OnReorder(it))
+        }
     ) { _, item ->
         Text(
             modifier = Modifier
@@ -159,11 +159,13 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     CategoryModal(
-        modal = categoryModalData,
-        onCreateCategory = onCreateCategory,
+        modal = state.categoryModalData,
+        onCreateCategory = {
+            onEventHandler.invoke(CategoriesScreenEvent.OnCreateCategory(it))
+        },
         onEditCategory = { },
         dismiss = {
-            categoryModalData = null
+            onEventHandler.invoke(CategoriesScreenEvent.OnCategoryModalVisible(null))
         }
     )
 
@@ -375,8 +377,8 @@ private fun CategoryHeader(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        UI(
-            currency = "BGN",
+        val state = CategoriesScreenState(
+            baseCurrency = "BGN",
             categories = listOf(
                 CategoryData(
                     category = Category(
@@ -425,10 +427,8 @@ private fun Preview() {
                     monthlyIncome = 400.0
                 ),
 
-                ),
-
-            onCreateCategory = { },
-            onReorder = {},
+                )
         )
+        UI(state = state)
     }
 }
