@@ -99,8 +99,8 @@ fun <T : Reorderable> BoxScope.ReorderModal(
     ItemContent: @Composable RowScope.(Int, Any) -> Unit
 ) {
     var items by remember(id, initialItems) { mutableStateOf(initialItems) }
-    var reOrderedList by remember {
-        mutableStateOf(emptyList<Any>())
+    var reOrderedList :List<Any>? by remember {
+        mutableStateOf(null)
     }
     var orderNumUpdates by remember {
         mutableStateOf(
@@ -126,7 +126,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
                     onUpdateItemOrderNum(items, item, newOrderNum)
                 }
 
-                onReordered?.invoke(reOrderedList)
+                onReordered?.invoke(reOrderedList ?: items)
                 dismiss()
             }
         }
