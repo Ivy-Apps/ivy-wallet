@@ -1,5 +1,9 @@
 package com.ivy.fp.action
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+
 
 suspend infix fun <A, B, C> (suspend (A) -> B).then(f: suspend (B) -> C): suspend (A) -> C =
     { a ->
@@ -38,6 +42,11 @@ suspend infix fun <B, C> (() -> B).then(f: suspend (B) -> C): suspend () -> C =
         f(b)
     }
 
+suspend infix fun <B, C> (suspend () -> B).thenFinishWith(f: suspend (B) -> C): C {
+    val b = this@thenFinishWith()
+    return f(b)
+}
+
 fun <C> (() -> C).fixUnit(): suspend (Unit) -> C =
     {
         this()
@@ -55,4 +64,15 @@ fun <C> (suspend (Unit) -> C).fixUnit(): suspend () -> C =
 
 fun <A, B> (Action<A, B>).lambda(): suspend (A) -> B = { a ->
     this(a)
+}
+
+suspend inline fun <T, R> Iterable<T>.mapAsync(
+    scope: CoroutineScope,
+    crossinline transform: suspend (T) -> R
+): List<R> {
+    return this.map {
+        scope.async {
+            transform(it)
+        }
+    }.awaitAll()
 }
