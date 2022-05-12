@@ -99,6 +99,9 @@ fun <T : Reorderable> BoxScope.ReorderModal(
     ItemContent: @Composable RowScope.(Int, Any) -> Unit
 ) {
     var items by remember(id, initialItems) { mutableStateOf(initialItems) }
+    var reOrderedList by remember {
+        mutableStateOf(emptyList<Any>())
+    }
     var orderNumUpdates by remember {
         mutableStateOf(
             mapOf<T, Double>()
@@ -123,7 +126,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
                     onUpdateItemOrderNum(items, item, newOrderNum)
                 }
 
-                onReordered?.invoke(items)
+                onReordered?.invoke(reOrderedList)
                 dismiss()
             }
         }
@@ -156,6 +159,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
                         },
                         onReorderInternalList = { reorderedItems ->
                             items = reorderedItems
+                            reOrderedList = reorderedItems
                         }
                     )
                     layoutManager = LinearLayoutManager(it)
