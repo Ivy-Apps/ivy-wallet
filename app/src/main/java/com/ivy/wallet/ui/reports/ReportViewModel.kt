@@ -56,8 +56,8 @@ class ReportViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct
-) : IvyViewModel<ReportScreenState>() {
-    override val mutableState: MutableStateFlow<ReportScreenState> = MutableStateFlow(
+) : IvyViewModel<ReportScreenState, Nothing>() {
+    override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
     private val unSpecifiedCategory =

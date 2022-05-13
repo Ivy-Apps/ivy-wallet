@@ -139,6 +139,8 @@ fun DependencyHandler.Compose(version: String) {
 
     Accompanist(version = "0.15.0")
 
+    Coil()
+
     ComposeTesting(version = version)
 }
 
@@ -150,6 +152,10 @@ fun DependencyHandler.Accompanist(version: String) {
     implementation("com.google.accompanist:accompanist-coil:$version")
     implementation("com.google.accompanist:accompanist-insets:$version")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha")
+}
+
+fun DependencyHandler.Coil() {
+    implementation("io.coil-kt:coil-compose:2.0.0")
 }
 
 /**

@@ -58,3 +58,12 @@ infix fun <A, B, C, D, E> ((A, B, C) -> D).then(f: (D) -> E): (A, B, C) -> E = {
     val d = this(a, b, c)
     f(d)
 }
+
+suspend infix fun <T> (suspend () -> Unit).then(f: suspend () -> T): suspend () -> T = suspend {
+    this()
+    f()
+}
+
+suspend infix fun <T> (Unit).then(f: suspend () -> T): suspend () -> T = suspend {
+    f()
+}

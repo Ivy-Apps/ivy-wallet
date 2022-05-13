@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.home
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
@@ -57,8 +56,8 @@ class HomeViewModel @Inject constructor(
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,
     private val hasTrnsAct: HasTrnsAct
-) : IvyViewModel<HomeState>() {
-    override val mutableState: MutableStateFlow<HomeState> = MutableStateFlow(
+) : IvyViewModel<HomeState, Unit>() {
+    override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )
 

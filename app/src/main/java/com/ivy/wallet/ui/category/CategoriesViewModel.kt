@@ -39,9 +39,9 @@ class CategoriesViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
-) : IvyViewModel<CategoriesScreenState>() {
+) : IvyViewModel<CategoriesScreenState, Nothing>() {
 
-    override val mutableState: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(
+    override val _state: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(
         CategoriesScreenState()
     )
 
@@ -146,8 +146,16 @@ class CategoriesViewModel @Inject constructor(
             when (event) {
                 is CategoriesScreenEvent.OnReorder -> reorder(event.newOrder)
                 is CategoriesScreenEvent.OnCreateCategory -> createCategory(event.createCategoryData)
-                is CategoriesScreenEvent.OnReorderModalVisible -> updateState { it.copy(reorderModalVisible = event.visible) }
-                is CategoriesScreenEvent.OnCategoryModalVisible -> updateState { it.copy(categoryModalData = event.categoryModalData) }
+                is CategoriesScreenEvent.OnReorderModalVisible -> updateState {
+                    it.copy(
+                        reorderModalVisible = event.visible
+                    )
+                }
+                is CategoriesScreenEvent.OnCategoryModalVisible -> updateState {
+                    it.copy(
+                        categoryModalData = event.categoryModalData
+                    )
+                }
             }
         }
     }
@@ -164,6 +172,8 @@ sealed class CategoriesScreenEvent {
     data class OnReorder(val newOrder: List<CategoryData>) : CategoriesScreenEvent()
     data class OnCreateCategory(val createCategoryData: CreateCategoryData) :
         CategoriesScreenEvent()
-    data class OnReorderModalVisible(val visible :Boolean) : CategoriesScreenEvent()
-    data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) : CategoriesScreenEvent()
+
+    data class OnReorderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
+    data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
+        CategoriesScreenEvent()
 }

@@ -28,9 +28,9 @@ class PieChartStatisticViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
     private val sharedPrefs: SharedPrefs
-) : IvyViewModel<PieChartStatisticState>() {
+) : IvyViewModel<PieChartStatisticState, Nothing>() {
 
-    override val mutableState: MutableStateFlow<PieChartStatisticState> = MutableStateFlow(
+    override val _state: MutableStateFlow<PieChartStatisticState> = MutableStateFlow(
         PieChartStatisticState()
     )
 

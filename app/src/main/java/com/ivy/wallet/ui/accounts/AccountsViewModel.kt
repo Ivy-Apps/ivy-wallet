@@ -43,8 +43,8 @@ class AccountsViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct
-) : IvyViewModel<AccountState>() {
-    override val mutableState: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
+) : IvyViewModel<AccountState, Unit>() {
+    override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
 
     @Subscribe
     fun onAccountsUpdated(event: AccountsUpdatedEvent) {
