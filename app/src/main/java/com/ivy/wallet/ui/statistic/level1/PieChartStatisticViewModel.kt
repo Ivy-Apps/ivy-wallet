@@ -34,6 +34,10 @@ class PieChartStatisticViewModel @Inject constructor(
         PieChartStatisticState()
     )
 
+    override suspend fun handleEvent(event: Nothing): suspend () -> PieChartStatisticState {
+        TODO("Not yet implemented")
+    }
+
     private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
     private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
 

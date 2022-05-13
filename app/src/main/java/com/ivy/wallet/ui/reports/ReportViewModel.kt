@@ -60,6 +60,11 @@ class ReportViewModel @Inject constructor(
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
+
+    override suspend fun handleEvent(event: Nothing): suspend () -> ReportScreenState {
+        TODO("Not yet implemented")
+    }
+
     private val unSpecifiedCategory =
         Category(stringRes(R.string.unspecified), color = Gray.toArgb())
 

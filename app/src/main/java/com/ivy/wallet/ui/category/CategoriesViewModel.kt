@@ -45,6 +45,10 @@ class CategoriesViewModel @Inject constructor(
         CategoriesScreenState()
     )
 
+    override suspend fun handleEvent(event: Nothing): suspend () -> CategoriesScreenState {
+        TODO("Not yet implemented")
+    }
+
     private var allAccounts = emptyList<Account>()
     private var baseCurrency = ""
     private var transactions = emptyList<Transaction>()

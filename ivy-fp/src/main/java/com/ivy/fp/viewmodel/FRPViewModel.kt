@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 abstract class FRPViewModel<S, E> : ViewModel() {
     protected abstract val _state: MutableStateFlow<S>
 
-    //TODO: Make abstract
-    protected open suspend fun handleEvent(event: E): suspend () -> S = { stateVal() }
+    abstract suspend fun handleEvent(event: E): suspend () -> S
 
     fun onEvent(event: E) {
         viewModelScope.launch {
@@ -28,6 +27,4 @@ abstract class FRPViewModel<S, E> : ViewModel() {
     protected fun updateStateNonBlocking(update: (S) -> S) {
         _state.value = update(stateVal())
     }
-
-
 }

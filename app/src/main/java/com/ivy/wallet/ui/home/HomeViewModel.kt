@@ -61,6 +61,10 @@ class HomeViewModel @Inject constructor(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )
 
+    override suspend fun handleEvent(event: Unit): suspend () -> HomeState {
+        TODO("Not yet implemented")
+    }
+
     fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()

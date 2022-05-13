@@ -46,6 +46,10 @@ class AccountsViewModel @Inject constructor(
 ) : FRPViewModel<AccountState, Unit>() {
     override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
 
+    override suspend fun handleEvent(event: Unit): suspend () -> AccountState {
+        TODO("Not yet implemented")
+    }
+
     @Subscribe
     fun onAccountsUpdated(event: AccountsUpdatedEvent) {
         start()
