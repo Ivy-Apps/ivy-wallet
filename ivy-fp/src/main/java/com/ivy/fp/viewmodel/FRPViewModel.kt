@@ -2,6 +2,7 @@ package com.ivy.fp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.test.TestIdlingResource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +14,9 @@ abstract class FRPViewModel<S, E> : ViewModel() {
 
     fun onEvent(event: E) {
         viewModelScope.launch {
+            TestIdlingResource.increment()
             _state.value = handleEvent(event).invoke()
+            TestIdlingResource.decrement()
         }
     }
 

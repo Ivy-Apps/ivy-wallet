@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.fp.action.mapAsync
 import com.ivy.fp.action.thenFinishWith
 import com.ivy.fp.action.thenMap
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -19,7 +20,6 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel

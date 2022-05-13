@@ -103,6 +103,10 @@ fun DependencyHandler.ivyFPModuleDependencies(
         kotlinVersion = kotlinVersion
     )
 
+    Compose(
+        version = GlobalVersions.compose
+    )
+
     AndroidX()
     Lifecycle(version = "2.3.1")
 }

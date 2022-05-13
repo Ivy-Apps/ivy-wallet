@@ -1,4 +1,4 @@
-package com.ivy.wallet.utils
+package com.ivy.fp.test
 
 object TestingContext {
     var inTest = false
