@@ -148,9 +148,9 @@ private fun ImageItem(
 
     AsyncImage(
         modifier = Modifier
-            .clip(UI.shapes.r4)
             .fillMaxWidth()
-            .height(300.dp),
+            .height(300.dp)
+            .clip(UI.shapes.r4),
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
             .crossfade(true)
@@ -166,7 +166,7 @@ private fun ImageItem(
 
     when (imgState) {
         is AsyncImagePainter.State.Error -> {
-            IvyText(text = "Couldn't load: $imageUrl".take(25), typo = UI.typo.c.colorAs(Red))
+            IvyText(text = "Couldn't load: $imageUrl".take(100), typo = UI.typo.c.colorAs(Red))
         }
         else -> {
             //do nothing
