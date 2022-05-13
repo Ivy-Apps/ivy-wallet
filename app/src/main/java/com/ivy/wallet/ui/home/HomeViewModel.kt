@@ -56,16 +56,16 @@ class HomeViewModel @Inject constructor(
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,
     private val hasTrnsAct: HasTrnsAct
-) : FRPViewModel<HomeState, Unit>() {
+) : FRPViewModel<HomeState, HomeEvent>() {
     override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )
 
-    override suspend fun handleEvent(event: Unit): suspend () -> HomeState {
-        TODO("Not yet implemented")
+    override suspend fun handleEvent(event: HomeEvent): suspend () -> HomeState = when (event) {
+        HomeEvent.Start -> TODO()
     }
 
-    fun start() {
+    fun start() = suspend {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

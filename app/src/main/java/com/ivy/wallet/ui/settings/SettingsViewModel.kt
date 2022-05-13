@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.monad.Res
 import com.ivy.fp.test.TestIdlingResource
+import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
+import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
@@ -46,7 +49,9 @@ class SettingsViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val logoutLogic: LogoutLogic,
     private val sharedPrefs: SharedPrefs,
-    private val exportZipLogic: ExportZipLogic
+    private val exportZipLogic: ExportZipLogic,
+    private val startDayOfMonthAct: StartDayOfMonthAct,
+    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -87,8 +92,7 @@ class SettingsViewModel @Inject constructor(
 
             _nameLocalAccount.value = settings.name
 
-            ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
-            _startDateOfMonth.value = ivyContext.startDayOfMonth
+            _startDateOfMonth.value = startDayOfMonthAct(Unit)!!
 
             _user.value = ioThread {
                 val userId = ivySession.getUserIdSafe()
@@ -213,14 +217,15 @@ class SettingsViewModel @Inject constructor(
 
 
     fun setStartDateOfMonth(startDate: Int) {
-        if (startDate in 1..31) {
+        viewModelScope.launch {
             TestIdlingResource.increment()
 
-            ivyContext.updateStartDayOfMonthWithPersistence(
-                sharedPrefs = sharedPrefs,
-                startDayOfMonth = startDate
-            )
-            _startDateOfMonth.value = startDate
+            when (val res = updateStartDayOfMonthAct(startDate)) {
+                is Res.Err<UpdateStartDayOfMonthAct.InvalidStartDay, *> -> {}
+                is Res.Ok<*, Int> -> {
+                    _startDateOfMonth.value = res.data
+                }
+            }
 
             TestIdlingResource.decrement()
         }
