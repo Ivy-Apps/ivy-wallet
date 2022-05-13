@@ -34,3 +34,40 @@ suspend fun <T> tryOp(
         Res.Err<Exception, T>(e)
     }
 }
+
+suspend infix fun <A, E, T, E2> (suspend (A) -> Res<E, T>).mapError(
+    errorMapping: suspend (E) -> E2
+): suspend (A) -> Res<E2, T> = { a ->
+    when (val res = this(a)) {
+        is Res.Err<E, *> -> Res.Err<E2, T>(errorMapping(res.error))
+        is Res.Ok<*, T> -> res
+    }
+}
+
+suspend infix fun <E, T, E2> (suspend () -> Res<E, T>).mapError(
+    errorMapping: suspend (E) -> E2
+): suspend () -> Res<E2, T> = {
+    when (val res = this()) {
+        is Res.Err<E, *> -> Res.Err<E2, T>(errorMapping(res.error))
+        is Res.Ok<*, T> -> res
+    }
+}
+
+suspend infix fun <A, E, T, T2> (suspend (A) -> Res<E, T>).mapSuccess(
+    successMapping: suspend (T) -> T2
+): suspend (A) -> Res<E, T2> = { a ->
+    when (val res = this(a)) {
+        is Res.Err<E, *> -> res
+        is Res.Ok<*, T> -> Res.Ok<E, T2>(successMapping(res.data))
+    }
+}
+
+
+suspend infix fun <E, T, T2> (suspend () -> Res<E, T>).mapSuccess(
+    successMapping: suspend (T) -> T2
+): suspend () -> Res<E, T2> = {
+    when (val res = this()) {
+        is Res.Err<E, *> -> res
+        is Res.Ok<*, T> -> Res.Ok<E, T2>(successMapping(res.data))
+    }
+}
