@@ -35,6 +35,7 @@ suspend fun <T> tryOp(
     }
 }
 
+// ------------------ mapError --------------------------------------
 suspend infix fun <A, E, T, E2> (suspend (A) -> Res<E, T>).mapError(
     errorMapping: suspend (E) -> E2
 ): suspend (A) -> Res<E2, T> = { a ->
@@ -52,7 +53,10 @@ suspend infix fun <E, T, E2> (suspend () -> Res<E, T>).mapError(
         is Res.Ok<*, T> -> res
     }
 }
+// ------------------ mapError --------------------------------------
 
+
+// ------------------ mapSuccess --------------------------------------
 suspend infix fun <A, E, T, T2> (suspend (A) -> Res<E, T>).mapSuccess(
     successMapping: suspend (T) -> T2
 ): suspend (A) -> Res<E, T2> = { a ->
@@ -62,7 +66,6 @@ suspend infix fun <A, E, T, T2> (suspend (A) -> Res<E, T>).mapSuccess(
     }
 }
 
-
 suspend infix fun <E, T, T2> (suspend () -> Res<E, T>).mapSuccess(
     successMapping: suspend (T) -> T2
 ): suspend () -> Res<E, T2> = {
@@ -71,3 +74,4 @@ suspend infix fun <E, T, T2> (suspend () -> Res<E, T>).mapSuccess(
         is Res.Ok<*, T> -> Res.Ok<E, T2>(successMapping(res.data))
     }
 }
+// ------------------ mapSuccess --------------------------------------
