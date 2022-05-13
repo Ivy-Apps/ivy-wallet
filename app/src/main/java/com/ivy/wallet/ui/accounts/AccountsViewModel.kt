@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
@@ -43,7 +43,7 @@ class AccountsViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct
-) : IvyViewModel<AccountState, Unit>() {
+) : FRPViewModel<AccountState, Unit>() {
     override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
 
     @Subscribe

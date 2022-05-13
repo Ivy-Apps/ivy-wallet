@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.filterSuspend
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.fp.viewmodel.readOnly
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -56,7 +56,7 @@ class ReportViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct
-) : IvyViewModel<ReportScreenState, Nothing>() {
+) : FRPViewModel<ReportScreenState, Nothing>() {
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )

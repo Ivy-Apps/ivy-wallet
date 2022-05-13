@@ -748,7 +748,9 @@ object AppModuleDI {
 
             val success = Random.nextBoolean()
             return if (success) {
-                val res = listOf(
+                val res = mutableListOf<String>()
+
+                val images = listOf(
                     "https://stimg.cardekho.com/images/carexteriorimages/930x620/Lamborghini/Aventador/6721/Lamborghini-Aventador-SVJ/1621849426405/front-left-side-47.jpg",
                     "https://scuffedentertainment.com/wp-content/uploads/2021/11/what-car-suits-you-best-quiz.jpg",
                     "malformed_url",
@@ -759,7 +761,11 @@ object AppModuleDI {
                     "https://www.teslarati.com/wp-content/uploads/2021/12/apple-car-patent.jpeg"
                 )
 
-                res + res + res + res + res + res + res + res + res + res + res
+                for (i in 0..50) {
+                    res.addAll(images)
+                }
+
+                res
             } else {
                 throw NetworkError(
                     restError = RestError(ErrorCode.UNKNOWN, "Random error")

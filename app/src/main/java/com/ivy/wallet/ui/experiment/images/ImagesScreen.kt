@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
@@ -24,24 +23,20 @@ import com.ivy.design.l2_components.Button
 import com.ivy.design.navigation.Screen
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.utils.onScreenStart
+import com.ivy.wallet.ui.architecture.FRP
 
 class ImagesScreen : Screen
 
 @Composable
 fun BoxWithConstraintsScope.ImagesScreen(screen: ImagesScreen) {
-    val viewModel: ImagesViewModel = viewModel()
-
-    val state by viewModel.state().collectAsState()
-
-    onScreenStart {
-        viewModel.onEvent(ImagesEvent.Load)
+    FRP<ImagesState, ImagesEvent, ImagesViewModel>(
+        initialEvent = ImagesEvent.LoadImages
+    ) { state, onEvent ->
+        UI(
+            state = state,
+            onEvent = onEvent
+        )
     }
-
-    UI(
-        state = state,
-        onEvent = viewModel::onEvent
-    )
 }
 
 @Composable
@@ -103,7 +98,7 @@ private fun ColumnScope.ErrorUI(
     SpacerVer(height = 24.dp)
 
     Button(text = "Try again") {
-        onEvent(ImagesEvent.Load)
+        onEvent(ImagesEvent.LoadImages)
     }
 
     SpacerWeight(weight = 1f)
@@ -121,7 +116,7 @@ private fun SuccessUI(
 
         item {
             Button(text = "Load images") {
-                onEvent(ImagesEvent.Load)
+                onEvent(ImagesEvent.LoadImages)
             }
 
             SpacerVer(height = 16.dp)

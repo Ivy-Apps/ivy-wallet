@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-abstract class IvyViewModel<S, E> : ViewModel() {
+abstract class FRPViewModel<S, E> : ViewModel() {
     protected abstract val _state: MutableStateFlow<S>
 
     //TODO: Make abstract

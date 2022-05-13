@@ -3,7 +3,7 @@ package com.ivy.wallet.ui.home
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
@@ -56,7 +56,7 @@ class HomeViewModel @Inject constructor(
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,
     private val hasTrnsAct: HasTrnsAct
-) : IvyViewModel<HomeState, Unit>() {
+) : FRPViewModel<HomeState, Unit>() {
     override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
     )

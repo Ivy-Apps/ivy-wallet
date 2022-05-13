@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.fp.action.mapAsync
 import com.ivy.fp.action.thenFinishWith
 import com.ivy.fp.action.thenMap
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -39,7 +39,7 @@ class CategoriesViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
-) : IvyViewModel<CategoriesScreenState, Nothing>() {
+) : FRPViewModel<CategoriesScreenState, Nothing>() {
 
     override val _state: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(
         CategoriesScreenState()

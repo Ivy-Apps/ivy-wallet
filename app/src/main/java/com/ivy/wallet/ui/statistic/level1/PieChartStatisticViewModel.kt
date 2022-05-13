@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
@@ -28,7 +28,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
     private val sharedPrefs: SharedPrefs
-) : IvyViewModel<PieChartStatisticState, Nothing>() {
+) : FRPViewModel<PieChartStatisticState, Nothing>() {
 
     override val _state: MutableStateFlow<PieChartStatisticState> = MutableStateFlow(
         PieChartStatisticState()

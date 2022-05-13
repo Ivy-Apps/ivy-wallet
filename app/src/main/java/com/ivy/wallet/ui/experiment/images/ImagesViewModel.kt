@@ -2,7 +2,7 @@ package com.ivy.wallet.ui.experiment.images
 
 import com.ivy.fp.action.then
 import com.ivy.fp.monad.Res
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.viewmodel.experiment.FetchImagesAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,12 +11,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ImagesViewModel @Inject constructor(
     private val fetchImagesAct: FetchImagesAct
-) : IvyViewModel<ImagesState, ImagesEvent>() {
+) : FRPViewModel<ImagesState, ImagesEvent>() {
     override val _state: MutableStateFlow<ImagesState> =
         MutableStateFlow(ImagesState.Loading)
 
     override suspend fun handleEvent(event: ImagesEvent): suspend () -> ImagesState = when (event) {
-        is ImagesEvent.Load -> loadImages()
+        is ImagesEvent.LoadImages -> loadImages()
     }
 
     private suspend fun loadImages() = suspend {
