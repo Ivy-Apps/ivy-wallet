@@ -4,6 +4,7 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.action.fixUnit
 import com.ivy.fp.action.then
+import com.ivy.fp.action.thenFinishWith
 import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -64,21 +65,21 @@ class HomeViewModel @Inject constructor(
     override suspend fun handleEvent(event: HomeEvent): suspend () -> HomeState = when (event) {
         HomeEvent.Start -> start()
         HomeEvent.BalanceClick -> onBalanceClick()
-        is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
         HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
         is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
         is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
+        is HomeEvent.SetPeriod -> setPeriod(event.period)
         HomeEvent.SelectNextMonth -> nextMonth()
         HomeEvent.SelectPreviousMonth -> previousMonth()
+        is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+        is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
         is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
         is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
         HomeEvent.SwitchTheme -> switchTheme().fixUnit()
-        is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
-        is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
-        is HomeEvent.SetPeriod -> setPeriod(event.period)
+        is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
     }
 
-    suspend fun start(): suspend () -> HomeState =
+    private suspend fun start(): suspend () -> HomeState =
         suspend {
             val startDay = startDayOfMonthAct(Unit)
             ivyContext.initSelectedPeriodInMemory(
@@ -88,7 +89,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun reload(
         period: TimePeriod = ivyContext.selectedPeriod
-    ): HomeState = (suspend {
+    ): HomeState = suspend {
         val settings = settingsAct(Unit)
         val hideCurrentBalance = shouldHideBalanceAct(Unit)
         Triple(period, settings, hideCurrentBalance)
@@ -192,13 +193,13 @@ class HomeViewModel @Inject constructor(
                 overdueTrns = result.overdueTrns
             )
         }
-    } then {
+    } thenFinishWith {
         updateState {
             it.copy(
                 customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
             )
         }
-    }).invoke()
+    }
 
     private fun loadNewTheme(theme: Theme) {
         ivyContext.switchTheme(theme = theme)
