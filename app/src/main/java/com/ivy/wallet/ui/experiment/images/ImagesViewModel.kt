@@ -23,8 +23,8 @@ class ImagesViewModel @Inject constructor(
         updateState { ImagesState.Loading }
     } then fetchImagesAct then {
         when (it) {
-            is Res.Err<Exception, *> -> ImagesState.Error(it.error.message ?: "idk")
-            is Res.Ok<*, List<String>> -> ImagesState.Success(it.data)
+            is Res.Err -> ImagesState.Error(it.error.message ?: "idk")
+            is Res.Ok -> ImagesState.Success(it.data)
         }
     }
 }

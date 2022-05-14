@@ -221,9 +221,9 @@ class SettingsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             when (val res = updateStartDayOfMonthAct(startDate)) {
-                is Res.Err<UpdateStartDayOfMonthAct.InvalidStartDay, *> -> {}
-                is Res.Ok<*, Int> -> {
-                    _startDateOfMonth.value = res.data
+                is Res.Err -> {}
+                is Res.Ok -> {
+                    _startDateOfMonth.value = res.data!!
                 }
             }
 
