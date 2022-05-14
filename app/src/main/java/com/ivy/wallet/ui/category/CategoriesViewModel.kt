@@ -11,11 +11,13 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
+import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -27,6 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
@@ -35,6 +38,7 @@ class CategoriesViewModel @Inject constructor(
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
     private val ivyContext: IvyWalletCtx,
+    private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
@@ -79,6 +83,17 @@ class CategoriesViewModel @Inject constructor(
                     accountIdFilterSet = suspend { allAccounts } thenMap { it.id } thenFinishWith { it.toHashSet() }
                 )
             )
+
+            val sortOrder = SortOrder.from(
+                sharedPrefs.getInt(
+                    SharedPrefs.CATEGORY_SORT_ORDER,
+                    SortOrder.DEFAULT.orderNum
+                )
+            )
+
+            updateState {
+                it.copy(sortOrder = sortOrder)
+            }
         }
     }
 
@@ -100,32 +115,43 @@ class CategoriesViewModel @Inject constructor(
                     monthlyIncome = catIncomeExpense.income.toDouble(),
                     monthlyExpenses = catIncomeExpense.expense.toDouble()
                 )
-            }.sortedBy {
-                it.category.orderNum
             }
 
+            val sortedList = sortList(categories, stateVal().sortOrder)
+
             updateState {
-                it.copy(baseCurrency = baseCurrency, categories = categories)
+                it.copy(baseCurrency = baseCurrency, categories = sortedList)
             }
         }
     }
 
-    private suspend fun reorder(newOrder: List<CategoryData>) {
+    private suspend fun reorder(
+        newOrder: List<CategoryData>,
+        sortOrder: SortOrder = SortOrder.DEFAULT
+    ) {
         TestIdlingResource.increment()
 
-        ioThread {
-            newOrder.forEachIndexed { index, categoryData ->
-                categoryDao.save(
-                    categoryData.category.toEntity().copy(
-                        orderNum = index.toDouble(),
-                        isSynced = false
+        val sortedList = sortList(newOrder, sortOrder)
+
+        if (sortOrder == SortOrder.DEFAULT) {
+            ioThread {
+                sortedList.forEachIndexed { index, categoryData ->
+                    categoryDao.save(
+                        categoryData.category.toEntity().copy(
+                            orderNum = index.toDouble(),
+                            isSynced = false
+                        )
                     )
-                )
+                }
             }
         }
 
+        ioThread {
+            sharedPrefs.putInt(SharedPrefs.CATEGORY_SORT_ORDER, sortOrder.orderNum)
+        }
+
         updateState {
-            it.copy(categories = newOrder)
+            it.copy(categories = sortedList, sortOrder = sortOrder)
         }
 
         ioThread {
@@ -133,6 +159,26 @@ class CategoriesViewModel @Inject constructor(
         }
 
         TestIdlingResource.decrement()
+    }
+
+    private fun sortList(
+        categoryData: List<CategoryData>,
+        sortOrder: SortOrder
+    ): List<CategoryData> {
+        return when (sortOrder) {
+            SortOrder.DEFAULT -> categoryData.sortedBy {
+                it.category.orderNum
+            }
+            SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
+                it.monthlyBalance.absoluteValue
+            }
+            SortOrder.ALPHABETICAL -> categoryData.sortedBy {
+                it.category.name
+            }
+            SortOrder.EXPENSES -> categoryData.sortedByDescending {
+                it.monthlyExpenses
+            }
+        }
     }
 
     private suspend fun createCategory(data: CreateCategoryData) {
@@ -148,11 +194,16 @@ class CategoriesViewModel @Inject constructor(
     fun onEvent(event: CategoriesScreenEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
-                is CategoriesScreenEvent.OnReorder -> reorder(event.newOrder)
+                is CategoriesScreenEvent.OnReorder -> reorder(event.newOrder, event.sortOrder)
                 is CategoriesScreenEvent.OnCreateCategory -> createCategory(event.createCategoryData)
                 is CategoriesScreenEvent.OnReorderModalVisible -> updateState {
                     it.copy(
                         reorderModalVisible = event.visible
+                    )
+                }
+                is CategoriesScreenEvent.OnSortOrderModalVisible -> updateState {
+                    it.copy(
+                        sortModalVisible = event.visible
                     )
                 }
                 is CategoriesScreenEvent.OnCategoryModalVisible -> updateState {
@@ -169,15 +220,23 @@ data class CategoriesScreenState(
     val baseCurrency: String = "",
     val categories: List<CategoryData> = emptyList(),
     val reorderModalVisible: Boolean = false,
-    val categoryModalData: CategoryModalData? = null
+    val categoryModalData: CategoryModalData? = null,
+    val sortModalVisible: Boolean = false,
+    val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
+    val sortOrder: SortOrder = SortOrder.DEFAULT
 )
 
 sealed class CategoriesScreenEvent {
-    data class OnReorder(val newOrder: List<CategoryData>) : CategoriesScreenEvent()
+    data class OnReorder(
+        val newOrder: List<CategoryData>,
+        val sortOrder: SortOrder = SortOrder.DEFAULT
+    ) : CategoriesScreenEvent()
+
     data class OnCreateCategory(val createCategoryData: CreateCategoryData) :
         CategoriesScreenEvent()
 
     data class OnReorderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
+    data class OnSortOrderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
     data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
         CategoriesScreenEvent()
 }

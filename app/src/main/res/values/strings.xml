@@ -427,4 +427,5 @@
     <string name="transfers_as_income_expense_description">Treats account transfers as income or expense in Accounts Screen</string>
     <string name="home_category">Home</string>
     <string name="generating_report">Generating report…</string>
+    <string name="sort_by">Sort by</string>
 </resources>

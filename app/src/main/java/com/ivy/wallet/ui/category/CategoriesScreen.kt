@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.category
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,16 +8,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -28,20 +29,22 @@ import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
+import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.Categories
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.BalanceRow
-import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
-import com.ivy.wallet.ui.theme.components.ReorderButton
-import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
+import com.ivy.wallet.ui.theme.components.*
+import com.ivy.wallet.ui.theme.modal.IvyModal
+import com.ivy.wallet.ui.theme.modal.ModalSet
+import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.balancePrefix
 import com.ivy.wallet.utils.onScreenStart
+import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
@@ -54,14 +57,14 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
 
     UI(
         state = state,
-        onEventHandler = viewModel::onEvent
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: CategoriesScreenState = CategoriesScreenState(),
-    onEventHandler: (CategoriesScreenEvent) -> Unit = {}
+    onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
 
@@ -90,23 +93,32 @@ private fun BoxWithConstraintsScope.UI(
 
                 Spacer(Modifier.weight(1f))
 
+                CircleButtonFilled(
+                    icon = R.drawable.ic_sort_by_alpha_24,
+                    onClick = {
+                        onEvent(CategoriesScreenEvent.OnSortOrderModalVisible(visible = true))
+                    },
+                    clickAreaPadding = 12.dp
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
                 ReorderButton {
-                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
+                    onEvent(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
 
                 Spacer(Modifier.width(24.dp))
             }
 
-
             Spacer(Modifier.height(16.dp))
         }
 
-        items(state.categories) { categoryData ->
+        items(state.categories, key = { it.category.id }) { categoryData ->
             CategoryCard(
                 currency = state.baseCurrency,
                 categoryData = categoryData,
                 onLongClick = {
-                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
+                    onEvent(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
             ) {
                 nav.navigateTo(
@@ -124,7 +136,7 @@ private fun BoxWithConstraintsScope.UI(
     }
     CategoriesBottomBar(
         onAddCategory = {
-            onEventHandler.invoke(
+            onEvent(
                 CategoriesScreenEvent.OnCategoryModalVisible(
                     CategoryModalData(category = null)
                 )
@@ -139,10 +151,10 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.reorderModalVisible,
         initialItems = state.categories,
         dismiss = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(false))
+            onEvent(CategoriesScreenEvent.OnReorderModalVisible(false))
         },
         onReordered = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnReorder(it))
+            onEvent(CategoriesScreenEvent.OnReorder(it))
         }
     ) { _, item ->
         Text(
@@ -161,14 +173,25 @@ private fun BoxWithConstraintsScope.UI(
     CategoryModal(
         modal = state.categoryModalData,
         onCreateCategory = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnCreateCategory(it))
+            onEvent(CategoriesScreenEvent.OnCreateCategory(it))
         },
         onEditCategory = { },
         dismiss = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnCategoryModalVisible(null))
+            onEvent(CategoriesScreenEvent.OnCategoryModalVisible(null))
         }
     )
 
+    SortModal(
+        initialType = state.sortOrder,
+        items = state.sortOrderItems,
+        visible = state.sortModalVisible,
+        dismiss = {
+            onEvent(CategoriesScreenEvent.OnSortOrderModalVisible(visible = false))
+        },
+        onSortOrderChanged = {
+            onEvent(CategoriesScreenEvent.OnReorder(state.categories, it))
+        }
+    )
 }
 
 @Composable
@@ -372,6 +395,128 @@ private fun CategoryHeader(
         Spacer(Modifier.height(16.dp))
     }
 }
+
+@Composable
+fun BoxWithConstraintsScope.SortModal(
+    title: String = stringResource(R.string.sort_by),
+    items: List<SortOrder>,
+    visible: Boolean,
+    initialType: SortOrder,
+    id: UUID = UUID.randomUUID(),
+    dismiss: () -> Unit,
+    onSortOrderChanged: (SortOrder) -> Unit
+) {
+    var sortOrder by remember(initialType) {
+        mutableStateOf(initialType)
+    }
+
+    val applyChange = {
+        onSortOrderChanged(sortOrder)
+        dismiss()
+    }
+
+    IvyModal(
+        id = id,
+        visible = visible,
+        dismiss = dismiss,
+        PrimaryAction = {
+            ModalSet {
+                applyChange()
+            }
+        }
+    ) {
+        Spacer(Modifier.height(32.dp))
+
+        ModalTitle(text = title)
+
+        Spacer(Modifier.height(32.dp))
+
+        items.forEach {
+            SelectTypeButton(
+                text = it.displayName,
+                icon = when (it) {
+                    SortOrder.DEFAULT -> R.drawable.ic_custom_star_s
+                    SortOrder.BALANCE_AMOUNT -> R.drawable.ic_vue_money_coins
+                    SortOrder.EXPENSES -> R.drawable.ic_expense
+                    SortOrder.ALPHABETICAL -> R.drawable.ic_sort_by_alpha_24
+                },
+                selected = it == sortOrder
+            ) {
+                sortOrder = it
+                applyChange()
+            }
+            Spacer(Modifier.height(12.dp))
+        }
+    }
+}
+
+@Composable
+private fun SelectTypeButton(
+    text: String,
+    @DrawableRes icon: Int,
+    selected: Boolean,
+    selectedGradient: Gradient = GradientGreen,
+    textSelectedColor: Color = White,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .height(64.dp)
+            .clip(UI.shapes.r4)
+            .background(
+                brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(UI.colors.medium),
+                shape = UI.shapes.r4
+            )
+            .clickable {
+                onClick()
+            }
+            .padding(vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(Modifier.width(16.dp))
+
+        val textColor = if (selected) textSelectedColor else UI.colors.pureInverse
+
+        IvyIcon(
+            icon = icon,
+            tint = textColor,
+            modifier = Modifier.fillMaxHeight()
+        )
+
+        Spacer(Modifier.width(12.dp))
+
+        Text(
+            modifier = Modifier.wrapContentHeight(),
+            text = text,
+            style = UI.typo.b1.style(
+                color = textColor
+            ),
+            textAlign = TextAlign.Center,
+        )
+
+        if (selected) {
+            Spacer(Modifier.weight(1f))
+
+            IvyIcon(
+                icon = R.drawable.ic_check,
+                tint = textSelectedColor
+            )
+
+            Text(
+                text = stringResource(R.string.selected),
+                style = UI.typo.b2.style(
+                    fontWeight = FontWeight.SemiBold,
+                    color = textSelectedColor
+                )
+            )
+
+            Spacer(Modifier.width(24.dp))
+        }
+    }
+}
+
 
 @Preview
 @Composable
