@@ -42,8 +42,8 @@ suspend infix fun <B, C> (() -> B).then(f: suspend (B) -> C): suspend () -> C =
         f(b)
     }
 
-suspend infix fun <B, C> (suspend () -> B).thenFinishWith(f: suspend (B) -> C): C {
-    val b = this@thenFinishWith()
+suspend infix fun <B, C> (suspend () -> B).thenInvokeAfter(f: suspend (B) -> C): C {
+    val b = this@thenInvokeAfter()
     return f(b)
 }
 

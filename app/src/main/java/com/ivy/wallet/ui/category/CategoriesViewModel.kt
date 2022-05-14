@@ -2,7 +2,7 @@ package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
 import com.ivy.fp.action.mapAsync
-import com.ivy.fp.action.thenFinishWith
+import com.ivy.fp.action.thenInvokeAfter
 import com.ivy.fp.action.thenMap
 import com.ivy.fp.test.TestIdlingResource
 import com.ivy.fp.viewmodel.FRPViewModel
@@ -80,7 +80,7 @@ class CategoriesViewModel @Inject constructor(
             transactions = trnsWithRangeAndAccFiltersAct(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
-                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id } thenFinishWith { it.toHashSet() }
+                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id } thenInvokeAfter { it.toHashSet() }
                 )
             )
 

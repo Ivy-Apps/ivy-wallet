@@ -4,7 +4,7 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.action.fixUnit
 import com.ivy.fp.action.then
-import com.ivy.fp.action.thenFinishWith
+import com.ivy.fp.action.thenInvokeAfter
 import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -19,11 +19,14 @@ import com.ivy.wallet.domain.action.viewmodel.home.ShouldHideBalanceAct
 import com.ivy.wallet.domain.action.viewmodel.home.UpcomingAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Settings
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
@@ -35,6 +38,7 @@ import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -87,13 +91,13 @@ class HomeViewModel @Inject constructor(
             )
         } then ::reload
 
+    //-----------------------------------------------------------------------------------
     private suspend fun reload(
         period: TimePeriod = ivyContext.selectedPeriod
     ): HomeState = suspend {
         val settings = settingsAct(Unit)
-        val hideCurrentBalance = shouldHideBalanceAct(Unit)
-        Triple(period, settings, hideCurrentBalance)
-    } then { (period, settings, hideBalance) ->
+        val hideBalance = shouldHideBalanceAct(Unit)
+
         updateState {
             it.copy(
                 theme = settings.theme,
@@ -105,10 +109,18 @@ class HomeViewModel @Inject constructor(
         }
 
         //This method is used to restore the theme when user imports locally backed up data
-        loadNewTheme(settings.theme)
+        ivyContext.switchTheme(theme = settings.theme)
 
         Pair(settings, period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
-    } then { (settings, timeRange) ->
+    } then ::loadCategoriesAccounts then ::loadIncomeExpenseBalance then
+            ::loadBuffer then ::loadTrnHistory then
+            ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
+
+    private suspend fun loadCategoriesAccounts(
+        input: Pair<Settings, ClosedTimeRange>
+    ): Triple<Settings, ClosedTimeRange, List<Account>> {
+        val (settings, timeRange) = input
+
         val accounts = accountsAct(Unit)
 
         updateState {
@@ -118,8 +130,14 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        Triple(settings, timeRange, accounts)
-    } then { (settings, timeRange, accounts) ->
+        return Triple(settings, timeRange, accounts)
+    }
+
+    private suspend fun loadIncomeExpenseBalance(
+        input: Triple<Settings, ClosedTimeRange, List<Account>>
+    ): Triple<Settings, ClosedTimeRange, BigDecimal> {
+        val (settings, timeRange, accounts) = input
+
         val monthlyIncomeExpense = calcIncomeExpenseAct(
             CalcIncomeExpenseAct.Input(
                 baseCurrency = settings.baseCurrency,
@@ -139,8 +157,14 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        Triple(settings, timeRange, balance)
-    } then { (settings, timeRange, balance) ->
+        return Triple(settings, timeRange, balance)
+    }
+
+    private suspend fun loadBuffer(
+        input: Triple<Settings, ClosedTimeRange, BigDecimal>
+    ): Pair<String, ClosedTimeRange> {
+        val (settings, timeRange, balance) = input
+
         updateState {
             it.copy(
                 buffer = settings.bufferAmount,
@@ -153,8 +177,13 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        Pair(settings.baseCurrency, timeRange)
-    } then { (baseCurrency, timeRange) ->
+        return Pair(settings.baseCurrency, timeRange)
+    }
+
+    private suspend fun loadTrnHistory(
+        input: Pair<String, ClosedTimeRange>
+    ): Pair<String, ClosedTimeRange> {
+        val (baseCurrency, timeRange) = input
         updateState {
             it.copy(
                 history = historyWithDateDivsAct(
@@ -166,8 +195,13 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        Pair(baseCurrency, timeRange)
-    } then { (baseCurrency, timeRange) ->
+        return Pair(baseCurrency, timeRange)
+    }
+
+    private suspend fun loadDueTrns(
+        input: Pair<String, ClosedTimeRange>
+    ): HomeState {
+        val (baseCurrency, timeRange) = input
         updateState {
             val result = upcomingAct(
                 UpcomingAct.Input(
@@ -181,7 +215,7 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        updateState {
+        return updateState {
             val result = overdueAct(
                 OverdueAct.Input(
                     toRange = timeRange.to,
@@ -193,17 +227,18 @@ class HomeViewModel @Inject constructor(
                 overdueTrns = result.overdueTrns
             )
         }
-    } thenFinishWith {
-        updateState {
+    }
+
+    private suspend fun loadCustomerJourney(
+        input: HomeState
+    ): HomeState {
+        return updateState {
             it.copy(
                 customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }
             )
         }
     }
-
-    private fun loadNewTheme(theme: Theme) {
-        ivyContext.switchTheme(theme = theme)
-    }
+    //-----------------------------------------------------------------
 
     private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
         updateState { it.copy(upcomingExpanded = expanded) }
