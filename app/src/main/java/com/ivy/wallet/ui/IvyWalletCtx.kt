@@ -19,23 +19,16 @@ import java.time.LocalTime
 class IvyWalletCtx : IvyContext() {
     //------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1
+        private set
+
+    fun setStartDayOfMonth(day: Int) {
+        startDayOfMonth = day
+    }
+
+    @Deprecated("use StartDayOfMonthAct")
     fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
         startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
         return startDayOfMonth
-    }
-
-    fun updateStartDayOfMonthWithPersistence(
-        sharedPrefs: SharedPrefs,
-        startDayOfMonth: Int
-    ) {
-        sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDayOfMonth)
-        this.startDayOfMonth = startDayOfMonth
-
-        //when start day of month the selected time period must be reinitialized
-        initSelectedPeriodInMemory(
-            startDayOfMonth = startDayOfMonth,
-            forceReinitialize = true
-        )
     }
 
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(

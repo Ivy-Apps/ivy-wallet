@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.Theme
@@ -31,6 +30,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.architecture.FRP
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -38,7 +38,6 @@ import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.verticalSwipeListener
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
@@ -47,59 +46,55 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.HomeTab(screen: Main) {
-    val viewModel: HomeViewModel = viewModel()
+    FRP<HomeState, HomeEvent, HomeViewModel>(
+        initialEvent = HomeEvent.Start
+    ) { state, onEvent ->
+        UI(
+            theme = state.theme,
+            name = state.name,
+            period = state.period,
+            currencyCode = state.baseCurrencyCode,
 
-    val state by viewModel.state().collectAsState()
+            hideCurrentBalance = state.hideCurrentBalance,
 
-    onScreenStart {
-        viewModel.start()
+            categories = state.categories,
+            accounts = state.accounts,
+
+            balance = state.balance.toDouble(),
+            bufferDiff = state.bufferDiff.toDouble(),
+            buffer = state.buffer.toDouble(),
+            monthlyIncome = state.monthly.income.toDouble(),
+            monthlyExpenses = state.monthly.expense.toDouble(),
+
+            upcomingExpanded = state.upcomingExpanded,
+            upcomingIncome = state.upcoming.income.toDouble(),
+            upcomingExpenses = state.upcoming.expense.toDouble(),
+            upcoming = state.upcomingTrns,
+
+            overdueExpanded = state.overdueExpanded,
+            overdueIncome = state.overdue.income.toDouble(),
+            overdueExpenses = state.overdue.expense.toDouble(),
+            overdue = state.overdueTrns,
+
+            history = state.history,
+
+            customerJourneyCards = state.customerJourneyCards,
+
+            setUpcomingExpanded = { onEvent(HomeEvent.SetUpcomingExpanded(it)) },
+            setOverdueExpanded = { onEvent(HomeEvent.SetOverdueExpanded(it)) },
+            onBalanceClick = { onEvent(HomeEvent.BalanceClick) },
+            onHiddenBalanceClick = { onEvent(HomeEvent.HiddenBalanceClick) },
+            onSwitchTheme = { onEvent(HomeEvent.SwitchTheme) },
+            onSetBuffer = { onEvent(HomeEvent.SetBuffer(it)) },
+            onSetCurrency = { onEvent(HomeEvent.SetCurrency(it)) },
+            onSetPeriod = { onEvent(HomeEvent.SetPeriod(it)) },
+            onPayOrGet = { onEvent(HomeEvent.PayOrGetPlanned(it)) },
+            onSkipTransaction = { onEvent(HomeEvent.SkipPlanned(it)) },
+            onDismissCustomerJourneyCard = { onEvent(HomeEvent.DismissCustomerJourneyCard(it)) },
+            onSelectNextMonth = { onEvent(HomeEvent.SelectNextMonth) },
+            onSelectPreviousMonth = { onEvent(HomeEvent.SelectPreviousMonth) }
+        )
     }
-
-    UI(
-        theme = state.theme,
-        name = state.name,
-        period = state.period,
-        currencyCode = state.baseCurrencyCode,
-
-        hideCurrentBalance = state.hideCurrentBalance,
-
-        categories = state.categories,
-        accounts = state.accounts,
-
-        balance = state.balance.toDouble(),
-        bufferDiff = state.bufferDiff.toDouble(),
-        buffer = state.buffer.toDouble(),
-        monthlyIncome = state.monthly.income.toDouble(),
-        monthlyExpenses = state.monthly.expense.toDouble(),
-
-        upcomingExpanded = state.upcomingExpanded,
-        setUpcomingExpanded = viewModel::setUpcomingExpanded,
-        upcomingIncome = state.upcoming.income.toDouble(),
-        upcomingExpenses = state.upcoming.expense.toDouble(),
-        upcoming = state.upcomingTrns,
-
-        overdueExpanded = state.overdueExpanded,
-        setOverdueExpanded = viewModel::setOverdueExpanded,
-        overdueIncome = state.overdue.income.toDouble(),
-        overdueExpenses = state.overdue.expense.toDouble(),
-        overdue = state.overdueTrns,
-
-        history = state.history,
-
-        customerJourneyCards = state.customerJourneyCards,
-
-        onBalanceClick = viewModel::onBalanceClick,
-        onHiddenBalanceClick = viewModel::onHiddenBalanceClick,
-        onSwitchTheme = viewModel::switchTheme,
-        onSetBuffer = viewModel::setBuffer,
-        onSetCurrency = viewModel::setCurrency,
-        onSetPeriod = viewModel::setPeriod,
-        onPayOrGet = viewModel::payOrGet,
-        onDismissCustomerJourneyCard = viewModel::dismissCustomerJourneyCard,
-        onSelectNextMonth = viewModel::nextMonth,
-        onSelectPreviousMonth = viewModel::previousMonth,
-        onSkipTransaction = viewModel::skipTransaction
-    )
 }
 
 @ExperimentalAnimationApi

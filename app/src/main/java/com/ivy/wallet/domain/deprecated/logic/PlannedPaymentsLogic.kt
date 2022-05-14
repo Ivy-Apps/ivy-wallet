@@ -150,7 +150,7 @@ class PlannedPaymentsLogic(
         transaction: Transaction,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
-        onUpdateUI: (paidTransaction: Transaction) -> Unit
+        onUpdateUI: suspend (paidTransaction: Transaction) -> Unit
     ) {
         if (transaction.dueDate == null || transaction.dateTime != null) return
 

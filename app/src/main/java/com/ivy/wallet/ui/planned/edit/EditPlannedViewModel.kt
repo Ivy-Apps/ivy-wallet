@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IntervalType
@@ -22,7 +23,6 @@ import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel

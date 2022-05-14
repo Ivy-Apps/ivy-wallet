@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.design.navigation.Navigation
 import com.ivy.fp.action.then
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct

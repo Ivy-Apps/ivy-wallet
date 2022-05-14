@@ -1,7 +1,7 @@
-package com.ivy.wallet.utils
+package com.ivy.fp.test
 
 import androidx.compose.ui.test.IdlingResource
-import com.ivy.wallet.BuildConfig
+import com.ivy.fp.BuildConfig
 import java.util.concurrent.atomic.AtomicInteger
 
 object TestIdlingResource {

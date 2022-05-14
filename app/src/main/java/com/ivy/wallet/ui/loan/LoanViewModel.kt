@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.loan.LoansAct
@@ -21,7 +22,6 @@ import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.modal.LoanModalData
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.getDefaultFIATCurrency
 import com.ivy.wallet.utils.ioThread

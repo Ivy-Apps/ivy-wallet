@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.loandetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.navigation.Navigation
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.data.core.Account
@@ -21,7 +22,6 @@ import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel

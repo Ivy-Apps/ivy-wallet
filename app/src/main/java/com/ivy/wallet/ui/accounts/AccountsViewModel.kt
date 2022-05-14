@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.fp.viewmodel.FRPViewModel
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -18,7 +19,6 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.UiText
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.ioThread

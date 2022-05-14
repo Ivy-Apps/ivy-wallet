@@ -3,12 +3,12 @@ package com.ivy.wallet.ui.test
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.fp.test.TestIdlingResource
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.dao.UserDao
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
