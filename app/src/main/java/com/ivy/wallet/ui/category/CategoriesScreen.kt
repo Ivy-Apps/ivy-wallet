@@ -54,14 +54,14 @@ fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
 
     UI(
         state = state,
-        onEventHandler = viewModel::onEvent
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: CategoriesScreenState = CategoriesScreenState(),
-    onEventHandler: (CategoriesScreenEvent) -> Unit = {}
+    onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
     val nav = navigation()
 
@@ -91,22 +91,21 @@ private fun BoxWithConstraintsScope.UI(
                 Spacer(Modifier.weight(1f))
 
                 ReorderButton {
-                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
+                    onEvent(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
 
                 Spacer(Modifier.width(24.dp))
             }
 
-
             Spacer(Modifier.height(16.dp))
         }
 
-        items(state.categories) { categoryData ->
+        items(state.categories, key = { it.category.id }) { categoryData ->
             CategoryCard(
                 currency = state.baseCurrency,
                 categoryData = categoryData,
                 onLongClick = {
-                    onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(true))
+                    onEvent(CategoriesScreenEvent.OnReorderModalVisible(true))
                 }
             ) {
                 nav.navigateTo(
@@ -124,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
     }
     CategoriesBottomBar(
         onAddCategory = {
-            onEventHandler.invoke(
+            onEvent(
                 CategoriesScreenEvent.OnCategoryModalVisible(
                     CategoryModalData(category = null)
                 )
@@ -139,10 +138,10 @@ private fun BoxWithConstraintsScope.UI(
         visible = state.reorderModalVisible,
         initialItems = state.categories,
         dismiss = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnReorderModalVisible(false))
+            onEvent(CategoriesScreenEvent.OnReorderModalVisible(false))
         },
         onReordered = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnReorder(it))
+            onEvent(CategoriesScreenEvent.OnReorder(it))
         }
     ) { _, item ->
         Text(
@@ -161,11 +160,11 @@ private fun BoxWithConstraintsScope.UI(
     CategoryModal(
         modal = state.categoryModalData,
         onCreateCategory = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnCreateCategory(it))
+            onEvent(CategoriesScreenEvent.OnCreateCategory(it))
         },
         onEditCategory = { },
         dismiss = {
-            onEventHandler.invoke(CategoriesScreenEvent.OnCategoryModalVisible(null))
+            onEvent(CategoriesScreenEvent.OnCategoryModalVisible(null))
         }
     )
 
