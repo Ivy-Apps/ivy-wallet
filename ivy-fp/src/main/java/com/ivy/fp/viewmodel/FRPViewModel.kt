@@ -23,11 +23,13 @@ abstract class FRPViewModel<S, E> : ViewModel() {
     fun state(): StateFlow<S> = _state.readOnly()
     protected fun stateVal(): S = state().value
 
-    protected suspend fun updateState(update: suspend (S) -> S) {
+    protected suspend fun updateState(update: suspend (S) -> S): S {
         _state.value = update(stateVal())
+        return stateVal()
     }
 
-    protected fun updateStateNonBlocking(update: (S) -> S) {
+    protected fun updateStateNonBlocking(update: (S) -> S): S {
         _state.value = update(stateVal())
+        return stateVal()
     }
 }

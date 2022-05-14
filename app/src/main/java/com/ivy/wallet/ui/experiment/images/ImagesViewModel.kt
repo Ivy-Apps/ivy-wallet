@@ -21,6 +21,7 @@ class ImagesViewModel @Inject constructor(
 
     private suspend fun loadImages() = suspend {
         updateState { ImagesState.Loading }
+        Unit
     } then fetchImagesAct then {
         when (it) {
             is Res.Err -> ImagesState.Error(it.error.message ?: "idk")
