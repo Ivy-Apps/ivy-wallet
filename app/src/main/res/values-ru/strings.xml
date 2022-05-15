@@ -427,4 +427,5 @@
     <string name="transfers_as_income_expense_description">Переводы счёта рассматриваются как доходы и расходы на экране \"Счета\"</string>
     <string name="home_category">Дом</string>
     <string name="generating_report">Создание отчёта…</string>
+    <string name="sort_by">Сортировать по</string>
 </resources>
