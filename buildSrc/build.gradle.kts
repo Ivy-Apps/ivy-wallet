@@ -1,5 +1,3 @@
-import java.net.URI
-
 plugins {
     `kotlin-dsl`
     id("org.gradle.test-retry") version "1.2.0"
@@ -16,7 +14,7 @@ tasks.test {
 repositories {
     google()
     mavenCentral()
-    maven { url = URI.create("https://jitpack.io") }
+    maven(url = "https://jitpack.io")
 }
 
 dependencies {
