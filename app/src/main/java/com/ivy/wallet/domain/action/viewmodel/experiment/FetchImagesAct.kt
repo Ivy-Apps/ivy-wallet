@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.viewmodel.experiment
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.monad.Res
-import com.ivy.fp.monad.tryOp
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.monad.Res
+import com.ivy.frp.monad.tryOp
 import com.ivy.wallet.io.network.service.ExpImagesService
 import javax.inject.Inject
 

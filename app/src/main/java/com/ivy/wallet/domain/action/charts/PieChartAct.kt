@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.action.charts
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.fp.Pure
-import com.ivy.fp.SideEffect
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.then
-import com.ivy.fp.action.thenFilter
-import com.ivy.fp.action.thenMap
+import com.ivy.frp.Pure
+import com.ivy.frp.SideEffect
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.action.thenFilter
+import com.ivy.frp.action.thenMap
+import com.ivy.frp.then
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

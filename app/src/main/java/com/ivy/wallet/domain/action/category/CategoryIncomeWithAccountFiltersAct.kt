@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.then
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.then
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
@@ -13,7 +13,7 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct
 ) : FPAction<CategoryIncomeWithAccountFiltersAct.Input, IncomeExpenseTransferPair>() {
 
-    override suspend fun Input.compose(): suspend () -> IncomeExpenseTransferPair = {
+    override suspend fun Input.compose(): suspend () -> IncomeExpenseTransferPair = suspend {
         val accountFilterSet = accountFilterList.map { it.id }.toHashSet()
         transactions.filter {
             it.categoryId == category?.id

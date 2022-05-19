@@ -2,9 +2,9 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.fp.Pure
-import com.ivy.fp.SideEffect
-import com.ivy.fp.then
+import com.ivy.frp.Pure
+import com.ivy.frp.SideEffect
+import com.ivy.frp.then
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account

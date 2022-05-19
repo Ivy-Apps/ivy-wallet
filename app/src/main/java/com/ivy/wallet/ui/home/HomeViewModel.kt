@@ -1,11 +1,11 @@
 package com.ivy.wallet.ui.home
 
 import com.ivy.design.l0_system.Theme
-import com.ivy.design.navigation.Navigation
-import com.ivy.fp.action.fixUnit
-import com.ivy.fp.action.then
-import com.ivy.fp.action.thenInvokeAfter
-import com.ivy.fp.viewmodel.FRPViewModel
+import com.ivy.frp.fixUnit
+import com.ivy.frp.then
+import com.ivy.frp.thenInvokeAfter
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct

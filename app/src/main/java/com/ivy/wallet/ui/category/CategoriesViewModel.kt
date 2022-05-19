@@ -1,11 +1,10 @@
 package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.action.mapAsync
-import com.ivy.fp.action.thenInvokeAfter
-import com.ivy.fp.action.thenMap
-import com.ivy.fp.test.TestIdlingResource
-import com.ivy.fp.viewmodel.FRPViewModel
+import com.ivy.frp.action.thenMap
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.thenInvokeAfter
+import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -25,9 +24,8 @@ import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.scopedIOThread
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
@@ -80,7 +78,8 @@ class CategoriesViewModel @Inject constructor(
             transactions = trnsWithRangeAndAccFiltersAct(
                 TrnsWithRangeAndAccFiltersAct.Input(
                     range = range,
-                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id } thenInvokeAfter { it.toHashSet() }
+                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
+                            thenInvokeAfter { it.toHashSet() }
                 )
             )
 
@@ -239,4 +238,15 @@ sealed class CategoriesScreenEvent {
     data class OnSortOrderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
     data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
         CategoriesScreenEvent()
+}
+
+suspend inline fun <T, R> Iterable<T>.mapAsync(
+    scope: CoroutineScope,
+    crossinline transform: suspend (T) -> R
+): List<R> {
+    return this.map {
+        scope.async {
+            transform(it)
+        }
+    }.awaitAll()
 }

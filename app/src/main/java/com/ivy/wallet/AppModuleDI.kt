@@ -3,7 +3,7 @@ package com.ivy.wallet
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.android.notification.NotificationService
 import com.ivy.wallet.domain.deprecated.logic.*

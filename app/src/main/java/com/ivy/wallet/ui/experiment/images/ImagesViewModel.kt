@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.experiment.images
 
-import com.ivy.fp.action.then
-import com.ivy.fp.monad.Res
-import com.ivy.fp.viewmodel.FRPViewModel
+import com.ivy.frp.monad.Res
+import com.ivy.frp.then
+import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.viewmodel.experiment.FetchImagesAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

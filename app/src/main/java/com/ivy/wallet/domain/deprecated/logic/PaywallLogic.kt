@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.android.billingclient.api.Purchase
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.android.billing.IvyBilling

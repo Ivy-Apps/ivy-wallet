@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.design.api.navigation
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview

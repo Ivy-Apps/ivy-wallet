@@ -3,7 +3,7 @@ package com.ivy.wallet.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.ivy.fp.Total
+import com.ivy.frp.Total
 import com.ivy.wallet.R
 import com.ivy.wallet.stringRes
 import java.time.*

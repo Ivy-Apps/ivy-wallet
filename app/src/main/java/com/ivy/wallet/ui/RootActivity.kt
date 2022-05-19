@@ -39,9 +39,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.design.api.IvyUI
-import com.ivy.design.api.NavigationRoot
-import com.ivy.design.navigation.Navigation
-import com.ivy.design.navigation.Screen
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.view.navigation.NavigationRoot
+import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.SUPPORT_EMAIL

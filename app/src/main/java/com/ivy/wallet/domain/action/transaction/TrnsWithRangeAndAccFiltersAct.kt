@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.thenFilter
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.action.thenFilter
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
