@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.fp.action.FPAction
+import com.ivy.frp.action.FPAction
 import com.ivy.wallet.io.persistence.SharedPrefs
 import javax.inject.Inject
 

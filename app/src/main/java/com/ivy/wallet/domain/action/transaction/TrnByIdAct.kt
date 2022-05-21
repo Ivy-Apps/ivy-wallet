@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.then
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.then
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import java.util.*

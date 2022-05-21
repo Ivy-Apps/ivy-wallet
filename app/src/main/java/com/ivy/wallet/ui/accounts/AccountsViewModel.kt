@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.test.TestIdlingResource
-import com.ivy.fp.viewmodel.FRPViewModel
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct

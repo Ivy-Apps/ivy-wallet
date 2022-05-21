@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.global
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.monad.Res
-import com.ivy.fp.monad.thenR
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.monad.Res
+import com.ivy.frp.monad.thenIfSuccess
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyWalletCtx
 import javax.inject.Inject
@@ -20,11 +20,11 @@ class UpdateStartDayOfMonthAct @Inject constructor(
         } else {
             Res.Err("Invalid start day $startDay. Start date must be between 1 and 31.")
         }
-    } thenR { startDay ->
+    } thenIfSuccess { startDay ->
         sharedPrefs.putInt(SharedPrefs.START_DATE_OF_MONTH, startDay)
         ivyWalletCtx.setStartDayOfMonth(startDay)
         Res.Ok(startDay)
-    } thenR { startDay ->
+    } thenIfSuccess { startDay ->
         ivyWalletCtx.initSelectedPeriodInMemory(
             startDayOfMonth = startDay,
             forceReinitialize = true

@@ -25,7 +25,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.ivy.design.api.navigation
+import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.Gradient
 
 fun Modifier.horizontalGradientBackground(

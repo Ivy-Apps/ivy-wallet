@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.statusBarsPadding
-import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Black

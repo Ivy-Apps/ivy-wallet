@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.loan
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.thenMap
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.action.thenMap
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import javax.inject.Inject

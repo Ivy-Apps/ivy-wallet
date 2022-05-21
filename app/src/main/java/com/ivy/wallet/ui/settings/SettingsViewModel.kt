@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.monad.Res
-import com.ivy.fp.test.TestIdlingResource
+import com.ivy.frp.monad.Res
+import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent

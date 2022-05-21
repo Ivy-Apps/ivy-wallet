@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.charts
 
-import com.ivy.fp.action.FPAction
+import com.ivy.frp.action.FPAction
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint

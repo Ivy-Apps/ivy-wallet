@@ -16,9 +16,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
-import com.ivy.design.navigation.Navigation
-import com.ivy.fp.test.TestIdlingResource
-import com.ivy.fp.test.TestingContext
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.test.TestingContext
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
