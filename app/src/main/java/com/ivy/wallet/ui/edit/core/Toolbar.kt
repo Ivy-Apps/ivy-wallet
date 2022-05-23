@@ -64,7 +64,9 @@ fun Toolbar(
 
         if (initialTransactionId != null) {
 
-            DeleteButton {
+            DeleteButton(
+                hasShadow = false
+            ) {
                 onDeleteTrnModal()
             }
 
