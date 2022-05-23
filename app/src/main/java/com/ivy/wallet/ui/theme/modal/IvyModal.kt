@@ -63,6 +63,12 @@ fun BoxScope.IvyModal(
         },
         animationSpec = tween(DURATION_MODAL_ANIM)
     )
+    val navBarPadding by animateDpAsState(
+        targetValue = densityScope {
+            if (keyboardShown) 0.dp else navigationBarInsets().bottom.toDp()
+        },
+        animationSpec = tween(DURATION_MODAL_ANIM)
+    )
     val blurAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(DURATION_BACKGROUND_BLUR_ANIM),
@@ -143,7 +149,7 @@ fun BoxScope.IvyModal(
             visible = visible,
             modalPercentVisible = modalPercentVisible,
             keyboardShownInsetDp = keyboardShownInsetDp,
-            navBarPadding = navigationBarInsets().bottom.toDensityDp(),
+            navBarPadding = navBarPadding,
             onHeightChanged = {
                 actionsRowHeight = it
             },
