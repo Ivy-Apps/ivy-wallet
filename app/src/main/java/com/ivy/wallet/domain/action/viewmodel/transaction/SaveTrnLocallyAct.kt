@@ -6,7 +6,7 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import javax.inject.Inject
 
-class SaveTransactionLocallyAct @Inject constructor(
+class SaveTrnLocallyAct @Inject constructor(
     private val transactionDao: TransactionDao
 ) : FPAction<Transaction, Unit>() {
     override suspend fun Transaction.compose(): suspend () -> Unit = {

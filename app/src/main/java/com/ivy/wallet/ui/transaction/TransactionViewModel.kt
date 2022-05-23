@@ -9,7 +9,7 @@ import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.viewmodel.transaction.SaveTransactionLocallyAct
+import com.ivy.wallet.domain.action.viewmodel.transaction.SaveTrnLocallyAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.transaction.data.TrnDate
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class TransactionViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
-    private val saveTransactionLocallyAct: SaveTransactionLocallyAct
+    private val saveTrnLocallyAct: SaveTrnLocallyAct
 ) : FRPViewModel<TrnState, TrnEvent>() {
     override val _state: MutableStateFlow<TrnState> = MutableStateFlow(TrnState.Initial)
 

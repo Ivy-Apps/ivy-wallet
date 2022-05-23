@@ -47,7 +47,7 @@ fun DependencyHandler.appModuleDependencies(
 ) {
     implementation(project(":ivy-design"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.0")
+    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.3")
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
