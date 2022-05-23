@@ -24,7 +24,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.theme.Black
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -460,11 +459,11 @@ private fun circleButtonModifier(
 ): Modifier {
     return Modifier
         .size(size)
-        .drawColoredShadow(
-            color = Black,
-            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
-            borderRadius = 32.dp
-        )
+//        .drawColoredShadow(
+//            color = Black,
+//            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
+//            borderRadius = 32.dp
+//        )
         .clip(CircleShape)
         .clickable(
             onClick = onClick
