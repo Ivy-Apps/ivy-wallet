@@ -33,7 +33,7 @@ import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.*
 
@@ -135,7 +135,7 @@ private fun UI(
                     targetValue = densityScope {
                         if (keyboardVisible) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
                     },
-                    animationSpec = tween(DURATION_MODAL_KEYBOARD)
+                    animationSpec = tween(DURATION_MODAL_ANIM)
                 )
 
                 Spacer(Modifier.height(keyboardShownInsetDp))

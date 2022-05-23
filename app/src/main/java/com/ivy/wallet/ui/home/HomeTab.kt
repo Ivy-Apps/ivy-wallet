@@ -14,7 +14,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.Theme
@@ -355,7 +354,6 @@ fun HomeLazyColumn(
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
-    val doubleExpanded = remember { mutableStateOf(true) }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -372,18 +370,8 @@ fun HomeLazyColumn(
                         hideBalanceRowState.value = false
                     }
                 }
-                if (listState.firstVisibleItemIndex == 0 && listState.firstVisibleItemScrollOffset == 0 && doubleExpanded.value) {
-                    moreMenuExpanded(true)
-                } else
-                    doubleExpanded.value = false
 
                 return super.onPostScroll(consumed, available, source)
-            }
-
-            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
-                if (consumed.y <= 30f || available.y >= 1000f)
-                    doubleExpanded.value = true
-                return super.onPostFling(consumed, available)
             }
         }
     }

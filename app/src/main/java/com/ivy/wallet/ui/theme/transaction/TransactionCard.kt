@@ -285,8 +285,7 @@ private fun TransactionBadge(
             .background(backgroundColor, UI.shapes.rFull)
             .clickable {
                 onClick()
-            }
-            .padding(vertical = 4.dp),
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         SpacerHor(width = 8.dp)
@@ -608,6 +607,43 @@ private fun PreviewTransfer() {
                         toAccountId = acc2.id,
                         title = "Top-up revolut",
                         amount = 1000.0.toBigDecimal(),
+                        dateTime = timeNowUTC(),
+                        type = TransactionType.TRANSFER
+                    ),
+                    onPayOrGet = {},
+                ) {
+
+                }
+            }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+private fun PreviewTransfer_differentCurrency() {
+    IvyWalletPreview {
+        LazyColumn(Modifier.fillMaxSize()) {
+            val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
+            val acc2 = Account(
+                name = "Revolut",
+                currency = "EUR",
+                color = IvyDark.toArgb(),
+                icon = "revolut"
+            )
+
+            item {
+                TransactionCard(
+                    baseCurrency = "BGN",
+                    categories = emptyList(),
+                    accounts = listOf(acc1, acc2),
+                    transaction = Transaction(
+                        accountId = acc1.id,
+                        toAccountId = acc2.id,
+                        title = "Top-up revolut",
+                        amount = 1000.0.toBigDecimal(),
+                        toAmount = 510.toBigDecimal(),
                         dateTime = timeNowUTC(),
                         type = TransactionType.TRANSFER
                     ),

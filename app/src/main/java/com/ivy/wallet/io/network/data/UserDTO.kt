@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.data
 
+import com.google.gson.annotations.SerializedName
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.io.persistence.data.UserEntity
 import java.util.*
@@ -9,6 +10,7 @@ data class UserDTO(
     val authProviderType: AuthProviderType,
     var firstName: String,
     val lastName: String?,
+    @SerializedName("profilePictureUrl")
     val profilePicture: String?,
     val color: Int,
 
