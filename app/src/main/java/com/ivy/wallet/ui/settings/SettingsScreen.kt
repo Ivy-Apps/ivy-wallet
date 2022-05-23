@@ -1,7 +1,10 @@
 package com.ivy.wallet.ui.settings
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -24,7 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.AsyncImage
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.l0_system.UI
@@ -722,11 +725,11 @@ private fun AccountCardUser(
         Spacer(Modifier.width(24.dp))
 
         if (user.profilePicture != null) {
-            Image(
+            AsyncImage(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(32.dp),
-                painter = rememberCoilPainter(request = user.profilePicture),
+                model = user.profilePicture,
                 contentScale = ContentScale.FillBounds,
                 contentDescription = "profile picture"
             )
