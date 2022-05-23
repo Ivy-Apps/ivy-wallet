@@ -40,7 +40,7 @@ import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
-import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.ui.theme.modal.ModalSave
 import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
@@ -83,13 +83,13 @@ fun BoxWithConstraintsScope.EditBottomSheet(
         targetValue = densityScope {
             if (keyboardShown) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
         },
-        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+        animationSpec = tween(DURATION_MODAL_ANIM)
     )
     val navBarPadding by animateDpAsState(
         targetValue = densityScope {
             if (keyboardShown) 0.dp else navigationBarInsets().bottom.toDp()
         },
-        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+        animationSpec = tween(DURATION_MODAL_ANIM)
     )
 
     var bottomBarHeight by remember { mutableStateOf(0) }
