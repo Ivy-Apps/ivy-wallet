@@ -6,7 +6,8 @@ import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
@@ -18,7 +19,6 @@ import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.sendToCrashlytics

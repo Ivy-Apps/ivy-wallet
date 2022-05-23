@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.model
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 

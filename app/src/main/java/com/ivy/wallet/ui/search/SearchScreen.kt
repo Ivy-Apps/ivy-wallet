@@ -1,6 +1,5 @@
 package com.ivy.wallet.ui.search
 
-import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -21,8 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
-import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
+import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
@@ -34,7 +33,7 @@ import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.*
 
@@ -136,7 +135,7 @@ private fun UI(
                     targetValue = densityScope {
                         if (keyboardVisible) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
                     },
-                    animationSpec = tween(DURATION_MODAL_KEYBOARD)
+                    animationSpec = tween(DURATION_MODAL_ANIM)
                 )
 
                 Spacer(Modifier.height(keyboardShownInsetDp))

@@ -3,7 +3,8 @@ package com.ivy.wallet.ui.main
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -12,7 +13,6 @@ import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -19,12 +19,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.statusBarsPadding
-import com.ivy.design.api.navigation
 import com.ivy.design.l0_system.UI
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.theme.Black
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
@@ -34,8 +33,8 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-private const val DURATION_BACKGROUND_BLUR = 400
-const val DURATION_MODAL_KEYBOARD = 200
+private const val DURATION_BACKGROUND_BLUR_ANIM = 400
+const val DURATION_MODAL_ANIM = 200
 
 @Composable
 fun BoxScope.IvyModal(
@@ -62,22 +61,22 @@ fun BoxScope.IvyModal(
         targetValue = densityScope {
             if (keyboardShown) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
         },
-        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+        animationSpec = tween(DURATION_MODAL_ANIM)
     )
     val navBarPadding by animateDpAsState(
         targetValue = densityScope {
             if (keyboardShown) 0.dp else navigationBarInsets().bottom.toDp()
         },
-        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+        animationSpec = tween(DURATION_MODAL_ANIM)
     )
     val blurAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(DURATION_BACKGROUND_BLUR),
+        animationSpec = tween(DURATION_BACKGROUND_BLUR_ANIM),
         visibilityThreshold = 0.01f
     )
     val modalPercentVisible by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(DURATION_MODAL_KEYBOARD),
+        animationSpec = tween(DURATION_MODAL_ANIM),
         visibilityThreshold = 0.01f
     )
 
@@ -121,10 +120,6 @@ fun BoxScope.IvyModal(
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp)
-                .drawColoredShadow(
-                    color = Black,
-                    alpha = if (UI.colors.isLight) 0.05f else 0.5f,
-                )
                 .background(UI.colors.pure, UI.shapes.r2Top)
                 .consumeClicks()
                 .thenIf(scrollState != null) {

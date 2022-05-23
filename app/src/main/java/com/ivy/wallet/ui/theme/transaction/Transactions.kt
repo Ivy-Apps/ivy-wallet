@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem

@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs

@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.fp.SideEffect
+import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction

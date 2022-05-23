@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
-import com.ivy.fp.action.FPAction
-import com.ivy.fp.action.lambda
-import com.ivy.fp.action.then
-import com.ivy.fp.then
+import com.ivy.frp.action.FPAction
+import com.ivy.frp.lambda
+import com.ivy.frp.then
+
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.exchange.actInput

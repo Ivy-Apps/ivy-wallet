@@ -4,7 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.design.l0_system.Theme
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -30,7 +31,10 @@ import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.OpResult
+import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber

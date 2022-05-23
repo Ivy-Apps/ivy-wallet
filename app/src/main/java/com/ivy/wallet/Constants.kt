@@ -35,4 +35,6 @@ object Constants {
     const val SWIPE_DOWN_THRESHOLD_OPEN_MORE_MENU = 200
 
     const val SWIPE_UP_EXPANDED_THRESHOLD = 200
+
+    const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
 }

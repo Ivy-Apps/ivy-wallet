@@ -41,7 +41,7 @@ import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
-import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_KEYBOARD
+import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
 import com.ivy.wallet.utils.*
 import java.util.*
 
@@ -72,7 +72,7 @@ fun CurrencyPicker(
         targetValue = densityScope {
             if (keyboardShown) keyboardOnlyWindowInsets().bottom.toDp() else 0.dp
         },
-        animationSpec = tween(DURATION_MODAL_KEYBOARD)
+        animationSpec = tween(DURATION_MODAL_ANIM)
     )
 
     Column(

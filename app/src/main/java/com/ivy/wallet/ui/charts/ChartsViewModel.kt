@@ -2,7 +2,7 @@ package com.ivy.wallet.ui.charts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.action.then
+import com.ivy.frp.then
 import com.ivy.wallet.domain.action.charts.BalanceChartAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.data.TransactionType

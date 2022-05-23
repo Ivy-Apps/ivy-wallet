@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.fp.action.FPAction
+import com.ivy.frp.action.FPAction
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import java.util.*

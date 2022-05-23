@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.fp.Pure
+import com.ivy.frp.Pure
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction

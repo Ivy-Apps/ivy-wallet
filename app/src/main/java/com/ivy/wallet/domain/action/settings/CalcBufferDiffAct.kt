@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.settings
 
-import com.ivy.fp.action.FPAction
+import com.ivy.frp.action.FPAction
 import java.math.BigDecimal
 import javax.inject.Inject
 

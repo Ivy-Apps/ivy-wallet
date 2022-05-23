@@ -39,11 +39,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.design.api.IvyUI
-import com.ivy.design.api.NavigationRoot
-import com.ivy.design.navigation.Navigation
-import com.ivy.design.navigation.Screen
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.view.navigation.NavigationRoot
+import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.Constants.SUPPORT_EMAIL
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
@@ -55,6 +56,7 @@ import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
+import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen
@@ -83,7 +85,6 @@ import javax.inject.Inject
 class RootActivity : AppCompatActivity() {
 
     companion object {
-        const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
 
         fun getIntent(context: Context): Intent = Intent(context, RootActivity::class.java)
 
@@ -208,6 +209,7 @@ class RootActivity : AppCompatActivity() {
             is LoanDetails -> LoanDetailsScreen(screen = screen)
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
+            is ImagesScreen -> ImagesScreen(screen = screen)
             null -> {
             }
         }

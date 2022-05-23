@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ivy.design.navigation.Navigation
-import com.ivy.fp.filterSuspend
-import com.ivy.fp.viewmodel.IvyViewModel
-import com.ivy.fp.viewmodel.readOnly
+import com.ivy.frp.filterSuspend
+import com.ivy.frp.view.navigation.Navigation
+import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.frp.viewmodel.readOnly
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -56,10 +56,15 @@ class ReportViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
     private val baseCurrencyAct: BaseCurrencyAct
-) : IvyViewModel<ReportScreenState>() {
-    override val mutableState: MutableStateFlow<ReportScreenState> = MutableStateFlow(
+) : FRPViewModel<ReportScreenState, Nothing>() {
+    override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
+
+    override suspend fun handleEvent(event: Nothing): suspend () -> ReportScreenState {
+        TODO("Not yet implemented")
+    }
+
     private val unSpecifiedCategory =
         Category(stringRes(R.string.unspecified), color = Gray.toArgb())
 

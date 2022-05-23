@@ -1,7 +1,8 @@
 package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.fp.viewmodel.IvyViewModel
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
@@ -18,7 +19,6 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
-import com.ivy.wallet.utils.TestIdlingResource
 import com.ivy.wallet.utils.UiText
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.ioThread
@@ -43,8 +43,12 @@ class AccountsViewModel @Inject constructor(
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountDataAct: AccountDataAct
-) : IvyViewModel<AccountState>() {
-    override val mutableState: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
+) : FRPViewModel<AccountState, Unit>() {
+    override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
+
+    override suspend fun handleEvent(event: Unit): suspend () -> AccountState {
+        TODO("Not yet implemented")
+    }
 
     @Subscribe
     fun onAccountsUpdated(event: AccountsUpdatedEvent) {

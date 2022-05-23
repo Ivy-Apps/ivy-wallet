@@ -55,6 +55,9 @@ class SharedPrefs(appContext: Context) {
         //-------------------------------- Customer Journey ----------------------------------------
         const val _CARD_DISMISSED = "_cj_dismissed"
         //-------------------------------- Customer Journey ----------------------------------------
+
+        //----------------------------- Others -----------------------------------------------
+        const val CATEGORY_SORT_ORDER = "categorySortOrder"
     }
 
     private val preferences = appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)

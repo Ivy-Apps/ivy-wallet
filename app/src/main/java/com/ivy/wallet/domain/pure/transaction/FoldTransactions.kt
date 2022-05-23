@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
-import com.ivy.fp.Pure
+import com.ivy.frp.Pure
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.util.mapIndexedNel
 import com.ivy.wallet.domain.pure.util.mapIndexedNelSuspend

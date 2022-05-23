@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Category

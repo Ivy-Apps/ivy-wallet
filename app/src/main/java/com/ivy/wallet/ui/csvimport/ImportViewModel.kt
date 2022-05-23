@@ -5,7 +5,8 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.design.navigation.Navigation
+import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
@@ -16,7 +17,10 @@ import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.asLiveData
+import com.ivy.wallet.utils.getFileName
+import com.ivy.wallet.utils.ioThread
+import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
