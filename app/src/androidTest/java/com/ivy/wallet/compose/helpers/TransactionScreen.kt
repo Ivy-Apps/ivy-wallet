@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.hideKeyboard
 
 class TransactionScreen<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
@@ -44,6 +45,26 @@ class TransactionScreen<A : ComponentActivity>(
     ) {
         composeTestRule.onNodeWithTag("input_field")
             .performTextReplacement(newTitle)
+    }
+
+    fun removeDescription() {
+        composeTestRule.hideKeyboard()
+
+        composeTestRule.onNodeWithTag("trn_description")
+            .performClick()
+
+        composeTestRule.onNodeWithTag("modal_desc_delete")
+            .performClick()
+    }
+
+    fun assertDescription(desc: String) {
+        composeTestRule.onNodeWithTag("trn_description", useUnmergedTree = true)
+            .assertTextEquals(desc)
+    }
+
+    fun assertAddDescriptionButtonVisible() {
+        composeTestRule.onNodeWithText("Add description")
+            .assertIsDisplayed()
     }
 
     fun clickClose() {

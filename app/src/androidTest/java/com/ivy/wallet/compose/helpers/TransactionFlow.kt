@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.hideKeyboard
 import com.ivy.wallet.utils.format
 
 class TransactionFlow<A : ComponentActivity>(
@@ -17,7 +18,8 @@ class TransactionFlow<A : ComponentActivity>(
         amount: Double,
         title: String? = null,
         category: String? = null,
-        account: String = "Cash"
+        account: String = "Cash",
+        description: String? = null,
     ) {
         mainBottomBar.clickAddFAB()
         mainBottomBar.clickAddIncome()
@@ -26,7 +28,8 @@ class TransactionFlow<A : ComponentActivity>(
             amount = amount,
             title = title,
             category = category,
-            account = account
+            account = account,
+            description = description,
         )
     }
 
@@ -34,7 +37,8 @@ class TransactionFlow<A : ComponentActivity>(
         amount: Double,
         title: String? = null,
         category: String? = null,
-        account: String = "Cash"
+        account: String = "Cash",
+        description: String? = null,
     ) {
         mainBottomBar.clickAddFAB()
         mainBottomBar.clickAddExpense()
@@ -43,7 +47,8 @@ class TransactionFlow<A : ComponentActivity>(
             amount = amount,
             title = title,
             category = category,
-            account = account
+            account = account,
+            description = description
         )
     }
 
@@ -51,6 +56,7 @@ class TransactionFlow<A : ComponentActivity>(
         amount: Double,
         title: String?,
         category: String?,
+        description: String?,
         account: String = "Cash"
     ) {
         composeTestRule.onNode(
@@ -69,6 +75,21 @@ class TransactionFlow<A : ComponentActivity>(
         if (title != null) {
             composeTestRule.onNodeWithTag("input_field")
                 .performTextInput(title)
+        }
+
+        if (description != null) {
+            composeTestRule.hideKeyboard()
+
+            composeTestRule.onNodeWithText("Add description")
+                .performClick()
+
+            composeTestRule.onNode(
+                hasTestTag("modal_desc_input"),
+                useUnmergedTree = true
+            ).performTextReplacement(description)
+
+            composeTestRule.onNodeWithTag("modal_desc_save")
+                .performClick()
         }
 
         composeTestRule.onNodeWithText("Add")

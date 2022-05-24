@@ -211,7 +211,7 @@
     <string name="create_category">Создать категорию</string>
     <string name="category_name">Название категории</string>
     <string name="choose_category">Выбрать категорию</string>
-    <string name="description_text_field_hint">Добавьте детали (поддерживается Markdown)</string>
+    <string name="description_text_field_hint">Добавьте детали</string>
     <string name="clean_filter">Очистить фильтр</string>
     <string name="filter">Фильтр</string>
     <string name="apply_filter">Применить фильтр</string>

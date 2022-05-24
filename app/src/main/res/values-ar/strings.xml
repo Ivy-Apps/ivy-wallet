@@ -211,7 +211,7 @@
     <string name="create_category">انشاء فئى</string>
     <string name="category_name">اسم الفئة</string>
     <string name="choose_category">اتر الفئة</string>
-    <string name="description_text_field_hint">(Markdown تدعم صيغة) ادخل اي تفاصيل هنا</string>
+    <string name="description_text_field_hint"> ادخل اي تفاصيل هنا</string>
     <string name="clean_filter">إزالة التصفيات</string>
     <string name="filter">تصفية</string>
     <string name="apply_filter">تطبيق التصفيات</string>
