@@ -211,7 +211,7 @@
     <string name="create_category">Създай категория</string>
     <string name="category_name">Име на категория</string>
     <string name="choose_category">Избери категория</string>
-    <string name="description_text_field_hint">Добави детайли (поддържа Markdown)</string>
+    <string name="description_text_field_hint">Добави детайли</string>
     <string name="clean_filter">Изчисти филтър</string>
     <string name="filter">Филтър</string>
     <string name="apply_filter">Задай филтър</string>

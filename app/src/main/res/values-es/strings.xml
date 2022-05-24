@@ -211,7 +211,7 @@
     <string name="create_category">Crear categoría</string>
     <string name="category_name">Nombre de la categoría</string>
     <string name="choose_category">Elegir la categoría</string>
-    <string name="description_text_field_hint">Ingrese cualquier detalle aquí (admite Markdown)</string>
+    <string name="description_text_field_hint">Ingrese cualquier detalle aquí</string>
     <string name="clean_filter">Borrar filtros</string>
     <string name="filter">Filtrar</string>
     <string name="apply_filter">Aplicar filtros</string>
