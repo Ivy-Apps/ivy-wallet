@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,7 +59,8 @@ private fun DescriptionText(
                 .clickable {
                     onClick()
                 }
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 24.dp)
+                .testTag("trn_description"),
             text = description,
             style = UI.typo.nB2.style(
                 textAlign = TextAlign.Left

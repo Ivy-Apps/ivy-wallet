@@ -224,4 +224,32 @@ class OperationsCoreTest : IvyComposeTest() {
             amountDecimal = ".00"
         )
     }
+
+    @Test
+    fun AddTransaction_withDescription() = testWithRetry {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addExpense(
+            amount = 2178.0,
+            title = "Samsung Galaxy Tab S8+",
+            category = "Groceries",
+            description = "Tablet for learning purposes."
+        )
+
+        homeTab.assertBalance(
+            "-2,178",
+            amountDecimal = ".00"
+        )
+
+        homeTab.dismissPrompt()
+
+        homeTab.clickTransaction(
+            amount = "2,178.00",
+            title = "Samsung Galaxy Tab S8+",
+            category = "Groceries"
+        )
+
+        composeTestRule.onNodeWithTag("trn_description", useUnmergedTree = true)
+            .assertTextEquals("Tablet for learning purposes.")
+    }
 }

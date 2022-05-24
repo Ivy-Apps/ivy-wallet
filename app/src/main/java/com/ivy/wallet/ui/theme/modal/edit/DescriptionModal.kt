@@ -52,6 +52,10 @@ fun BoxWithConstraintsScope.DescriptionModal(
             ModalDynamicPrimaryAction(
                 initialEmpty = description.isNullOrBlank(),
                 initialChanged = description != descTextFieldValue.text,
+
+                testTagSave = "modal_desc_save",
+                testTagDelete = "modal_desc_delete",
+
                 onSave = {
                     onDescriptionChanged(descTextFieldValue.text)
                     view.hideKeyboard()
@@ -88,6 +92,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 .padding(horizontal = 32.dp)
                 .fillMaxWidth()
                 .focusRequester(focus),
+            testTag = "modal_desc_input",
             keyboardOptions = KeyboardOptions(
                 autoCorrect = true,
                 capitalization = KeyboardCapitalization.Sentences,

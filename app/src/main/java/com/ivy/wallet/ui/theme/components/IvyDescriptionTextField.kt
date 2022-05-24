@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +30,7 @@ import com.ivy.wallet.utils.isNotNullOrBlank
 fun IvyDescriptionTextField(
     modifier: Modifier = Modifier,
     textModifier: Modifier = Modifier,
+    testTag: String = "desc_input",
     value: TextFieldValue,
     hint: String?,
     fontWeight: FontWeight = FontWeight.Medium,
@@ -60,7 +62,7 @@ fun IvyDescriptionTextField(
 
         val view = LocalView.current
         BasicTextField(
-            modifier = textModifier,
+            modifier = textModifier.testTag(testTag),
             value = value,
             onValueChange = onValueChanged,
             textStyle = UI.typo.nB2.style(
