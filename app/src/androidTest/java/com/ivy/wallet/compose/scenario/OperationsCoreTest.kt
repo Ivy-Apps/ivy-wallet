@@ -249,7 +249,41 @@ class OperationsCoreTest : IvyComposeTest() {
             category = "Groceries"
         )
 
-        composeTestRule.onNodeWithTag("trn_description", useUnmergedTree = true)
-            .assertTextEquals("Tablet for learning purposes.")
+        editTransactionScreen.assertDescription("Tablet for learning purposes.")
+    }
+
+    @Test
+    fun AddTransaction_thenRemoveDescription() = testWithRetry {
+        onboarding.quickOnboarding()
+
+        transactionFlow.addIncome(
+            amount = 123.0,
+            title = "Income",
+            description = "-a\n-b\n-c\n-d"
+        )
+
+        homeTab.assertBalance(
+            "123",
+            amountDecimal = ".00"
+        )
+
+        homeTab.dismissPrompt()
+
+        homeTab.clickTransaction(
+            amount = "123.00",
+            title = "Income",
+        )
+
+        editTransactionScreen.assertDescription("-a\n-b\n-c\n-d")
+
+        // No remove desc ---------------------------------------------------------------
+        editTransactionScreen.removeDescription()
+        editTransactionScreen.save()
+
+        homeTab.clickTransaction(
+            amount = "123.00",
+            title = "Income",
+        )
+        editTransactionScreen.assertAddDescriptionButtonVisible()
     }
 }

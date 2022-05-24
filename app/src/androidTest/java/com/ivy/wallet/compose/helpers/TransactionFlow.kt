@@ -29,7 +29,7 @@ class TransactionFlow<A : ComponentActivity>(
             title = title,
             category = category,
             account = account,
-            description = null,
+            description = description,
         )
     }
 
