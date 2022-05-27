@@ -89,6 +89,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
             onSetPeriod = { onEvent(HomeEvent.SetPeriod(it)) },
             onPayOrGet = { onEvent(HomeEvent.PayOrGetPlanned(it)) },
             onSkipTransaction = { onEvent(HomeEvent.SkipPlanned(it)) },
+            onSkipAllTransactions = { onEvent(HomeEvent.SkipAllPlanned(it)) },
             onDismissCustomerJourneyCard = { onEvent(HomeEvent.DismissCustomerJourneyCard(it)) },
             onSelectNextMonth = { onEvent(HomeEvent.SelectNextMonth) },
             onSelectPreviousMonth = { onEvent(HomeEvent.SelectPreviousMonth) }
@@ -143,6 +144,7 @@ private fun BoxWithConstraintsScope.UI(
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -252,7 +254,8 @@ private fun BoxWithConstraintsScope.UI(
 
             onPayOrGet = onPayOrGet,
             onDismiss = onDismissCustomerJourneyCard,
-            onSkipTransaction = onSkipTransaction
+            onSkipTransaction = onSkipTransaction,
+            onSkipAllTransactions = onSkipAllTransactions
         )
     }
 
@@ -351,6 +354,7 @@ fun HomeLazyColumn(
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardData) -> Unit,
     onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -436,7 +440,8 @@ fun HomeLazyColumn(
                 R.string.no_transactions_description,
                 period.toDisplayLong(ivyContext.startDayOfMonth)
             ),
-            onSkipTransaction = onSkipTransaction
+            onSkipTransaction = onSkipTransaction,
+            onSkipAllTransactions = onSkipAllTransactions
         )
     }
 }

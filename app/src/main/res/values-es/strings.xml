@@ -428,4 +428,5 @@
     <string name="home_category">Hogar</string>
     <string name="generating_report">Generando reporte…</string>
     <string name="sort_by">" Ordenar por"</string>
+    <string name="skip_all">Saltar todo</string>
 </resources>
