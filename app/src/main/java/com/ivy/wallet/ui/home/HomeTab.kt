@@ -154,6 +154,7 @@ private fun BoxWithConstraintsScope.UI(
         mutableStateOf(null)
     }
     var moreMenuExpanded by remember { mutableStateOf(ivyContext.moreMenuExpanded) }
+    var skipAllModalVisible by remember { mutableStateOf(false) }
     val setMoreMenuExpanded = { expanded: Boolean ->
         moreMenuExpanded = expanded
         ivyContext.setMoreMenuExpanded(expanded)
@@ -255,7 +256,7 @@ private fun BoxWithConstraintsScope.UI(
             onPayOrGet = onPayOrGet,
             onDismiss = onDismissCustomerJourneyCard,
             onSkipTransaction = onSkipTransaction,
-            onSkipAllTransactions = onSkipAllTransactions
+            onSkipAllTransactions = { skipAllModalVisible = true }
         )
     }
 
@@ -305,6 +306,16 @@ private fun BoxWithConstraintsScope.UI(
         }
     ) {
         onSetPeriod(it)
+    }
+
+    DeleteModal(
+        visible = skipAllModalVisible,
+        title = stringResource(R.string.confirm_skip_all),
+        description = stringResource(R.string.confirm_skip_all_description),
+        dismiss = { skipAllModalVisible = false }
+    ) {
+        onSkipAllTransactions(overdue)
+        skipAllModalVisible = false
     }
 }
 
