@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.Theme
+import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
@@ -29,7 +30,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
-import com.ivy.wallet.ui.architecture.FRP
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod

@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val exportZipLogic: ExportZipLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
-    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct
+    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()

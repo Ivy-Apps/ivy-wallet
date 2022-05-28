@@ -47,7 +47,7 @@ fun DependencyHandler.appModuleDependencies(
 ) {
     implementation(project(":ivy-design"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.3")
+    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
@@ -73,6 +73,8 @@ fun DependencyHandler.appModuleDependencies(
     Lifecycle(version = "2.3.1")
     AndroidX()
 
+    DataStore()
+
     ThirdParty()
 }
 
@@ -94,6 +96,9 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 }
 //---------------------------------------------------------------------------------
 
+fun DependencyHandler.DataStore() {
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+}
 
 /**
  * Kotlin STD lib

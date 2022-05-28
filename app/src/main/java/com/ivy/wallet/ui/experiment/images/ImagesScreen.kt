@@ -20,10 +20,10 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.Button
+import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.architecture.FRP
 
 class ImagesScreen : Screen
 

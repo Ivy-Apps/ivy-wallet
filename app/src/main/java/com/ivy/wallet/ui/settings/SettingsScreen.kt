@@ -43,6 +43,7 @@ import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -302,6 +303,20 @@ private fun BoxWithConstraintsScope.UI(
                 startDateOfMonth = startDateOfMonth
             ) {
                 chooseStartDateOfMonthVisible = true
+            }
+        }
+
+        item {
+            SettingsSectionDivider(text = "Experimental")
+
+            Spacer(Modifier.height(16.dp))
+
+            val nav = navigation()
+            SettingsDefaultButton(
+                icon = R.drawable.ic_custom_atom_m,
+                text = "Experimental Settings"
+            ) {
+                nav.navigateTo(ExperimentalScreen)
             }
         }
 
