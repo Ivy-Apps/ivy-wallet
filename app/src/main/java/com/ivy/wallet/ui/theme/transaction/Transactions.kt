@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -25,9 +26,8 @@ import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.theme.Gray
-import com.ivy.wallet.ui.theme.Orange
-import com.ivy.wallet.ui.theme.Red
+import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.absoluteValue
 
@@ -55,6 +55,7 @@ fun LazyListScope.transactions(
     emptyStateText: String,
     dateDividerMarginTop: Dp? = null,
     onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     if (upcoming.isNotEmpty()) {
         item {
@@ -103,6 +104,24 @@ fun LazyListScope.transactions(
         }
 
         if (overdueExpanded) {
+            item{
+                val isLightTheme = UI.colors.pure == White
+                IvyButton(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    text = stringRes(R.string.skip_all),
+                    wrapContentMode = false,
+                    backgroundGradient = if (isLightTheme) Gradient(White, White) else Gradient(
+                        Black,
+                        Black
+                    ),
+                    textStyle = UI.typo.b2.style(
+                        color = if (isLightTheme) Black else White,
+                        fontWeight = FontWeight.Bold
+                    )
+                ) {
+                    onSkipAllTransactions(overdue)
+                }
+            }
             items(overdue) {
                 TransactionCard(
                     baseCurrency = baseCurrency,
@@ -178,6 +197,12 @@ fun LazyListScope.transactions(
             }
         }
     }
+}
+
+private fun onSkipAllClick(
+
+){
+
 }
 
 private fun onTransactionClick(

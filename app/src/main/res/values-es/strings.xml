@@ -428,4 +428,7 @@
     <string name="home_category">Hogar</string>
     <string name="generating_report">Generando reporte…</string>
     <string name="sort_by">" Ordenar por"</string>
+    <string name="skip_all">Saltar todo</string>
+    <string name="confirm_skip_all">Confirmar saltar todo</string>
+    <string name="confirm_skip_all_description">¿Está seguro de saltar todas las transacciones planeadas caducadas?</string>
 </resources>

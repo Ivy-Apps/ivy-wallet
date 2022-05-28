@@ -89,6 +89,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
             onSetPeriod = { onEvent(HomeEvent.SetPeriod(it)) },
             onPayOrGet = { onEvent(HomeEvent.PayOrGetPlanned(it)) },
             onSkipTransaction = { onEvent(HomeEvent.SkipPlanned(it)) },
+            onSkipAllTransactions = { onEvent(HomeEvent.SkipAllPlanned(it)) },
             onDismissCustomerJourneyCard = { onEvent(HomeEvent.DismissCustomerJourneyCard(it)) },
             onSelectNextMonth = { onEvent(HomeEvent.SelectNextMonth) },
             onSelectPreviousMonth = { onEvent(HomeEvent.SelectPreviousMonth) }
@@ -143,6 +144,7 @@ private fun BoxWithConstraintsScope.UI(
     onSelectNextMonth: () -> Unit = {},
     onSelectPreviousMonth: () -> Unit = {},
     onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -152,6 +154,7 @@ private fun BoxWithConstraintsScope.UI(
         mutableStateOf(null)
     }
     var moreMenuExpanded by remember { mutableStateOf(ivyContext.moreMenuExpanded) }
+    var skipAllModalVisible by remember { mutableStateOf(false) }
     val setMoreMenuExpanded = { expanded: Boolean ->
         moreMenuExpanded = expanded
         ivyContext.setMoreMenuExpanded(expanded)
@@ -252,7 +255,8 @@ private fun BoxWithConstraintsScope.UI(
 
             onPayOrGet = onPayOrGet,
             onDismiss = onDismissCustomerJourneyCard,
-            onSkipTransaction = onSkipTransaction
+            onSkipTransaction = onSkipTransaction,
+            onSkipAllTransactions = { skipAllModalVisible = true }
         )
     }
 
@@ -303,6 +307,16 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         onSetPeriod(it)
     }
+
+    DeleteModal(
+        visible = skipAllModalVisible,
+        title = stringResource(R.string.confirm_skip_all),
+        description = stringResource(R.string.confirm_skip_all_description),
+        dismiss = { skipAllModalVisible = false }
+    ) {
+        onSkipAllTransactions(overdue)
+        skipAllModalVisible = false
+    }
 }
 
 @ExperimentalAnimationApi
@@ -351,6 +365,7 @@ fun HomeLazyColumn(
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardData) -> Unit,
     onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -436,7 +451,8 @@ fun HomeLazyColumn(
                 R.string.no_transactions_description,
                 period.toDisplayLong(ivyContext.startDayOfMonth)
             ),
-            onSkipTransaction = onSkipTransaction
+            onSkipTransaction = onSkipTransaction,
+            onSkipAllTransactions = onSkipAllTransactions
         )
     }
 }

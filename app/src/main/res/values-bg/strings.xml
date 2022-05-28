@@ -428,4 +428,7 @@
     <string name="home_category">Дом</string>
     <string name="generating_report">Generating report…</string>
     <string name="sort_by">sortirane po</string>
+    <string name="skip_all">прескочете всички</string>
+    <string name="confirm_skip_all">Потвърдете пропускането на всички</string>
+    <string name="confirm_skip_all_description">Сигурни ли сте, че искате да пропуснете всички просрочени планирани операции?</string>
 </resources>

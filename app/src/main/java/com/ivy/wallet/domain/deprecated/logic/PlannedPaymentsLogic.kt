@@ -192,4 +192,66 @@ class PlannedPaymentsLogic(
             }
         }
     }
+
+    suspend fun payOrGet(
+        transactions: List<Transaction>,
+        syncTransaction: Boolean = true,
+        skipTransaction: Boolean = false,
+        onUpdateUI: suspend (paidTransactions: List<Transaction>) -> Unit
+    ){
+        val paidTransactions = transactions.filter { (it.dueDate == null || it.dateTime != null).not() }
+
+        if (paidTransactions.count() == 0) return
+
+        paidTransactions.map {
+            it.copy(
+                dueDate = null,
+                dateTime = timeNowUTC(),
+                isSynced = false
+            )
+        }
+
+        val plannedPaymentRules = ioThread {
+            paidTransactions.map { transaction ->
+                transaction.recurringRuleId?.let {
+                    plannedPaymentRuleDao.findById(it)
+                }
+            }
+        }
+
+        ioThread {
+            if (skipTransaction)
+                paidTransactions.forEach {
+                    paidTransaction -> transactionDao.flagDeleted(paidTransaction.id)
+                }
+            else
+                paidTransactions.forEach {
+                        paidTransaction -> transactionDao.save(paidTransaction.toEntity())
+                }
+
+            plannedPaymentRules.forEach { plannedPaymentRule ->
+                if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
+                    //delete paid oneTime planned payment rules
+                    plannedPaymentRuleDao.flagDeleted(plannedPaymentRule.id)
+                }
+            }
+        }
+
+        onUpdateUI(paidTransactions)
+
+        ioThread {
+            paidTransactions.forEach{ paidTransaction ->
+                if (syncTransaction && !skipTransaction) {
+                    transactionUploader.sync(paidTransaction)
+                }
+            }
+
+            plannedPaymentRules.forEach{ plannedPaymentRule ->
+                if (plannedPaymentRule != null && plannedPaymentRule.oneTime) {
+                    //delete paid oneTime planned payment rules
+                    plannedPaymentRuleUploader.delete(plannedPaymentRule.id)
+                }
+            }
+        }
+    }
 }

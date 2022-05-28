@@ -428,4 +428,7 @@
     <string name="home_category">Home</string>
     <string name="generating_report">Generating report…</string>
     <string name="sort_by">Sort by</string>
+    <string name="skip_all">Skip all</string>
+    <string name="confirm_skip_all">Confirm skip all</string>
+    <string name="confirm_skip_all_description">Are you sure that you want to skip all overdue planned transactions?</string>
 </resources>

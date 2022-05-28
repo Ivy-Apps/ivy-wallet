@@ -72,6 +72,7 @@ class HomeViewModel @Inject constructor(
         HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
         is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
         is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
+        is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
         is HomeEvent.SetPeriod -> setPeriod(event.period)
         HomeEvent.SelectNextMonth -> nextMonth()
         HomeEvent.SelectPreviousMonth -> previousMonth()
@@ -324,6 +325,24 @@ class HomeViewModel @Inject constructor(
         }
 
         //TODO: Refactor
+        stateVal()
+    }
+
+    private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend{
+        //transactions.forEach {
+        //    plannedPaymentsLogic.payOrGet(
+        //        transaction = it,
+        //        skipTransaction = true
+        //    ){
+        //        reload()
+        //    }
+        //}
+        plannedPaymentsLogic.payOrGet(
+            transactions =  transactions,
+            skipTransaction = true
+        ){
+            reload()
+        }
         stateVal()
     }
 

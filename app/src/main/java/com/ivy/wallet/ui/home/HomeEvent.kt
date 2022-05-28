@@ -23,6 +23,7 @@ sealed class HomeEvent {
 
     data class PayOrGetPlanned(val transaction: Transaction) : HomeEvent()
     data class SkipPlanned(val transaction: Transaction) : HomeEvent()
+    data class SkipAllPlanned(val transactions: List<Transaction>) : HomeEvent()
 
     data class DismissCustomerJourneyCard(val card: CustomerJourneyCardData) : HomeEvent()
 
