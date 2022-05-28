@@ -428,4 +428,7 @@
     <string name="home_category">Дом</string>
     <string name="generating_report">Создание отчёта…</string>
     <string name="sort_by">Сортировать по</string>
+    <string name="skip_all">Пропустить все</string>
+    <string name="confirm_skip_all">Подтвердить пропуск всех</string>
+    <string name="confirm_skip_all_description">Вы уверены, что хотите пропустить все просроченные запланированные операции?</string>
 </resources>
