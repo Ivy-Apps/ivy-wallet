@@ -26,6 +26,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
@@ -98,7 +99,14 @@ class RootViewModel @Inject constructor(
     }
 
     private fun handleSpecialStart(intent: Intent): Boolean {
-        val addTrnType = intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
+        val addTrnType: TransactionType? = try {
+            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType ?:
+            TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
+        } catch (e: IllegalArgumentException){
+            null
+        }
+
+
         if (addTrnType != null) {
             nav.navigateTo(
                 EditTransaction(
