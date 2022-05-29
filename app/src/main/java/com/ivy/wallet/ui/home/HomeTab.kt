@@ -16,22 +16,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
-import com.ivy.design.l0_system.Theme
+import com.ivy.frp.asParamTo2
+import com.ivy.frp.forward
+import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.BufferInfo
 import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
@@ -39,6 +42,7 @@ import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.utils.horizontalSwipeListener
 import com.ivy.wallet.utils.verticalSwipeListener
+import java.math.BigDecimal
 
 private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 
@@ -49,52 +53,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
     FRP<HomeState, HomeEvent, HomeViewModel>(
         initialEvent = HomeEvent.Start
     ) { state, onEvent ->
-        UI(
-            theme = state.theme,
-            name = state.name,
-            period = state.period,
-            currencyCode = state.baseCurrencyCode,
-
-            hideCurrentBalance = state.hideCurrentBalance,
-
-            categories = state.categories,
-            accounts = state.accounts,
-
-            balance = state.balance.toDouble(),
-            bufferDiff = state.bufferDiff.toDouble(),
-            buffer = state.buffer.toDouble(),
-            monthlyIncome = state.monthly.income.toDouble(),
-            monthlyExpenses = state.monthly.expense.toDouble(),
-
-            upcomingExpanded = state.upcomingExpanded,
-            upcomingIncome = state.upcoming.income.toDouble(),
-            upcomingExpenses = state.upcoming.expense.toDouble(),
-            upcoming = state.upcomingTrns,
-
-            overdueExpanded = state.overdueExpanded,
-            overdueIncome = state.overdue.income.toDouble(),
-            overdueExpenses = state.overdue.expense.toDouble(),
-            overdue = state.overdueTrns,
-
-            history = state.history,
-
-            customerJourneyCards = state.customerJourneyCards,
-
-            setUpcomingExpanded = { onEvent(HomeEvent.SetUpcomingExpanded(it)) },
-            setOverdueExpanded = { onEvent(HomeEvent.SetOverdueExpanded(it)) },
-            onBalanceClick = { onEvent(HomeEvent.BalanceClick) },
-            onHiddenBalanceClick = { onEvent(HomeEvent.HiddenBalanceClick) },
-            onSwitchTheme = { onEvent(HomeEvent.SwitchTheme) },
-            onSetBuffer = { onEvent(HomeEvent.SetBuffer(it)) },
-            onSetCurrency = { onEvent(HomeEvent.SetCurrency(it)) },
-            onSetPeriod = { onEvent(HomeEvent.SetPeriod(it)) },
-            onPayOrGet = { onEvent(HomeEvent.PayOrGetPlanned(it)) },
-            onSkipTransaction = { onEvent(HomeEvent.SkipPlanned(it)) },
-            onSkipAllTransactions = { onEvent(HomeEvent.SkipAllPlanned(it)) },
-            onDismissCustomerJourneyCard = { onEvent(HomeEvent.DismissCustomerJourneyCard(it)) },
-            onSelectNextMonth = { onEvent(HomeEvent.SelectNextMonth) },
-            onSelectPreviousMonth = { onEvent(HomeEvent.SelectPreviousMonth) }
-        )
+        UI(state = state, onEvent = onEvent)
     }
 }
 
@@ -102,50 +61,9 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    theme: Theme,
-    name: String,
-    period: TimePeriod,
-    currencyCode: String,
+    state: HomeState,
 
-    hideCurrentBalance: Boolean,
-
-    categories: List<Category>,
-    accounts: List<Account>,
-
-    balance: Double,
-    bufferDiff: Double,
-    buffer: Double,
-    monthlyIncome: Double,
-    monthlyExpenses: Double,
-
-    upcomingExpanded: Boolean = true,
-    setUpcomingExpanded: (Boolean) -> Unit = {},
-    upcomingIncome: Double,
-    upcomingExpenses: Double,
-    upcoming: List<Transaction>,
-
-    overdueExpanded: Boolean = true,
-    setOverdueExpanded: (Boolean) -> Unit = {},
-    overdueIncome: Double,
-    overdueExpenses: Double,
-    overdue: List<Transaction>,
-
-    history: List<TransactionHistoryItem>,
-
-    customerJourneyCards: List<CustomerJourneyCardData> = emptyList(),
-
-    onBalanceClick: () -> Unit = {},
-    onHiddenBalanceClick: () -> Unit = {},
-    onSwitchTheme: () -> Unit = {},
-    onSetCurrency: (String) -> Unit = {},
-    onSetBuffer: (Double) -> Unit = {},
-    onSetPeriod: (TimePeriod) -> Unit = {},
-    onPayOrGet: (Transaction) -> Unit = {},
-    onDismissCustomerJourneyCard: (CustomerJourneyCardData) -> Unit = {},
-    onSelectNextMonth: () -> Unit = {},
-    onSelectPreviousMonth: () -> Unit = {},
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onEvent: (HomeEvent) -> Unit
 ) {
     val ivyContext = ivyWalletCtx()
 
@@ -192,89 +110,83 @@ private fun BoxWithConstraintsScope.UI(
 
         HomeHeader(
             expanded = !hideBalanceRowState.value,
-            name = name,
-            period = period,
-            currency = currencyCode,
-            balance = balance,
-            bufferDiff = bufferDiff,
-            hideCurrentBalance = hideCurrentBalance,
+            name = state.name,
+            period = state.period,
+            currency = state.baseData.baseCurrency,
+            balance = state.balance.toDouble(),
+            bufferDiff = state.buffer.bufferDiff.toDouble(),
+            hideCurrentBalance = state.hideCurrentBalance,
 
             onShowMonthModal = {
                 choosePeriodModal = ChoosePeriodModalData(
-                    period = period
+                    period = state.period
                 )
             },
-            onBalanceClick = {
-                onBalanceClick()
-            },
-            onHiddenBalanceClick = onHiddenBalanceClick,
-            onSelectNextMonth = onSelectNextMonth,
-            onSelectPreviousMonth = onSelectPreviousMonth
+            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
+            onSelectNextMonth = HomeEvent.SelectNextMonth asParamTo2 onEvent,
+            onSelectPreviousMonth = HomeEvent.SelectPreviousMonth asParamTo2 onEvent
         )
 
         HomeLazyColumn(
             hideBalanceRowState = hideBalanceRowState,
-            currency = currencyCode,
-            balance = balance,
-            bufferDiff = bufferDiff,
+            balance = state.balance,
+            buffer = state.buffer,
             onOpenMoreMenu = {
                 setMoreMenuExpanded(true)
             },
-            onBalanceClick = {
-                onBalanceClick()
-            },
-            onHiddenBalanceClick = onHiddenBalanceClick,
+            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
 
-            hideCurrentBalance = hideCurrentBalance,
+            hideCurrentBalance = state.hideCurrentBalance,
 
 
-            period = period,
+            period = state.period,
             listState = listState,
-            baseCurrency = currencyCode,
-            categories = categories,
-            accounts = accounts,
 
-            upcomingExpanded = upcomingExpanded,
-            setUpcomingExpanded = setUpcomingExpanded,
-            upcomingIncome = upcomingIncome,
-            upcomingExpenses = upcomingExpenses,
-            upcoming = upcoming,
+            baseData = state.baseData,
 
-            moreMenuExpanded = setMoreMenuExpanded,
+            upcoming = state.upcoming,
+            overdue = state.overdue,
 
-            overdueExpanded = overdueExpanded,
-            setOverdueExpanded = setOverdueExpanded,
-            overdueIncome = overdueIncome,
-            overdueExpenses = overdueExpenses,
-            overdue = overdue,
+            stats = state.stats,
+            history = state.history,
 
-            monthlyIncome = monthlyIncome,
-            monthlyExpenses = monthlyExpenses,
-            history = history,
+            customerJourneyCards = state.customerJourneyCards,
 
-            customerJourneyCards = customerJourneyCards,
-
-            onPayOrGet = onPayOrGet,
-            onDismiss = onDismissCustomerJourneyCard,
-            onSkipTransaction = onSkipTransaction,
+            onPayOrGet = forward<Transaction>() then2 {
+                HomeEvent.PayOrGetPlanned(it)
+            } then2 onEvent,
+            onDismiss = forward<CustomerJourneyCardData>() then2 {
+                HomeEvent.DismissCustomerJourneyCard(it)
+            } then2 onEvent,
+            onSkipTransaction = forward<Transaction>() then2 {
+                HomeEvent.SkipPlanned(it)
+            } then2 onEvent,
+            setUpcomingExpanded = forward<Boolean>() then2 {
+                HomeEvent.SetOverdueExpanded(it)
+            } then2 onEvent,
+            setOverdueExpanded = forward<Boolean>() then2 {
+                HomeEvent.SetOverdueExpanded(it)
+            } then2 onEvent,
             onSkipAllTransactions = { skipAllModalVisible = true }
         )
     }
 
     MoreMenu(
         expanded = moreMenuExpanded,
-        theme = theme,
-        balance = balance,
-        currency = currencyCode,
-        buffer = buffer,
-        onSwitchTheme = onSwitchTheme,
+        theme = state.theme,
+        balance = state.balance.toDouble(),
+        currency = state.baseData.baseCurrency,
+        buffer = state.buffer.amount.toDouble(),
+        onSwitchTheme = HomeEvent.SwitchTheme asParamTo2 onEvent,
 
         setExpanded = setMoreMenuExpanded,
         onBufferClick = {
             bufferModalData = BufferModalData(
-                balance = balance,
-                currency = currencyCode,
-                buffer = buffer
+                balance = state.balance.toDouble(),
+                currency = state.baseData.baseCurrency,
+                buffer = state.buffer.amount.toDouble()
             )
         },
         onCurrencyClick = {
@@ -286,28 +198,31 @@ private fun BoxWithConstraintsScope.UI(
         modal = bufferModalData,
         dismiss = {
             bufferModalData = null
-        }
-    ) {
-        onSetBuffer(it)
-    }
+        },
+        onBufferChanged = forward<Double>() then2 {
+            HomeEvent.SetBuffer(it)
+        } then2 onEvent
+    )
 
     CurrencyModal(
         title = stringResource(R.string.set_currency),
-        initialCurrency = IvyCurrency.fromCode(currencyCode),
+        initialCurrency = IvyCurrency.fromCode(state.baseData.baseCurrency),
         visible = currencyModalVisible,
-        dismiss = { currencyModalVisible = false }
-    ) {
-        onSetCurrency(it)
-    }
+        dismiss = { currencyModalVisible = false },
+        onSetCurrency = forward<String>() then2 {
+            HomeEvent.SetCurrency(it)
+        } then2 onEvent
+    )
 
     ChoosePeriodModal(
         modal = choosePeriodModal,
         dismiss = {
             choosePeriodModal = null
-        }
-    ) {
-        onSetPeriod(it)
-    }
+        },
+        onPeriodSelected = forward<TimePeriod>() then2 {
+            HomeEvent.SetPeriod(it)
+        } then2 onEvent
+    )
 
     DeleteModal(
         visible = skipAllModalVisible,
@@ -315,7 +230,7 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.confirm_skip_all_description),
         dismiss = { skipAllModalVisible = false }
     ) {
-        onSkipAllTransactions(overdue)
+        onEvent(HomeEvent.SkipAllPlanned(state.overdue.trns))
         skipAllModalVisible = false
     }
 }
@@ -324,45 +239,31 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 fun HomeLazyColumn(
     hideBalanceRowState: MutableState<Boolean>,
-    currency: String,
-    balance: Double,
-    bufferDiff: Double,
+    listState: LazyListState,
 
+    buffer: BufferInfo,
     hideCurrentBalance: Boolean,
+    period: TimePeriod,
+
+    baseData: AppBaseData,
+
+    upcoming: DueSection,
+    overdue: DueSection,
+    balance: BigDecimal,
+    stats: IncomeExpensePair,
+    history: List<TransactionHistoryItem>,
+
+
+    customerJourneyCards: List<CustomerJourneyCardData>,
+
+
+    setUpcomingExpanded: (Boolean) -> Unit,
+    setOverdueExpanded: (Boolean) -> Unit,
 
     onOpenMoreMenu: () -> Unit,
     onBalanceClick: () -> Unit,
     onHiddenBalanceClick: () -> Unit = {},
 
-
-    period: TimePeriod,
-    listState: LazyListState,
-
-    baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
-
-
-    upcomingExpanded: Boolean,
-    setUpcomingExpanded: (Boolean) -> Unit,
-    upcomingIncome: Double,
-    upcomingExpenses: Double,
-    upcoming: List<Transaction>,
-
-    overdueExpanded: Boolean,
-    setOverdueExpanded: (Boolean) -> Unit,
-    overdueIncome: Double,
-    overdueExpenses: Double,
-    overdue: List<Transaction>,
-
-    moreMenuExpanded: (Boolean) -> Unit,
-
-    monthlyIncome: Double,
-    monthlyExpenses: Double,
-
-    customerJourneyCards: List<CustomerJourneyCardData>,
-
-    history: List<TransactionHistoryItem>,
     onPayOrGet: (Transaction) -> Unit,
     onDismiss: (CustomerJourneyCardData) -> Unit,
     onSkipTransaction: (Transaction) -> Unit = {},
@@ -401,14 +302,14 @@ fun HomeLazyColumn(
         item {
             CashFlowInfo(
                 period = period,
-                currency = currency,
-                balance = balance,
-                bufferDiff = bufferDiff,
+                currency = baseData.baseCurrency,
+                balance = balance.toDouble(),
+                bufferDiff = buffer.bufferDiff.toDouble(),
 
                 hideCurrentBalance = hideCurrentBalance,
 
-                monthlyIncome = monthlyIncome,
-                monthlyExpenses = monthlyExpenses,
+                monthlyIncome = stats.income.toDouble(),
+                monthlyExpenses = stats.expense.toDouble(),
 
                 onOpenMoreMenu = onOpenMoreMenu,
                 onBalanceClick = onBalanceClick,
@@ -429,25 +330,11 @@ fun HomeLazyColumn(
         }
 
         transactions(
-            nav = nav,
-            upcoming = DueSection(
-                trns = upcoming,
-                expanded = upcomingExpanded,
-                stats = up
-            ),
-            upcomingExpanded = upcomingExpanded,
+            baseData = baseData,
+            upcoming = upcoming,
             setUpcomingExpanded = setUpcomingExpanded,
-            baseCurrency = baseCurrency,
-            upcomingIncome = upcomingIncome,
-            upcomingExpenses = upcomingExpenses,
-            categories = categories,
-            accounts = accounts,
-            listState = listState,
             overdue = overdue,
-            overdueExpanded = overdueExpanded,
             setOverdueExpanded = setOverdueExpanded,
-            overdueIncome = overdueIncome,
-            overdueExpenses = overdueExpenses,
             history = history,
             onPayOrGet = onPayOrGet,
             emptyStateTitle = stringRes(R.string.no_transactions),
@@ -468,33 +355,8 @@ fun HomeLazyColumn(
 private fun PreviewHomeTab() {
     IvyWalletPreview {
         UI(
-            theme = Theme.LIGHT,
-            name = "Iliyan",
-            period = TimePeriod.currentMonth(
-                startDayOfMonth = 1
-            ), //preview
-            currencyCode = "BGN",
-
-            hideCurrentBalance = false,
-
-            categories = emptyList(),
-            accounts = emptyList(),
-
-            balance = 1314.578,
-            bufferDiff = 2055.0,
-            buffer = 5000.0,
-            monthlyIncome = 8000.0,
-            monthlyExpenses = 6000.0,
-
-            upcomingIncome = 8000.0,
-            upcomingExpenses = 4323.0,
-            upcoming = emptyList(),
-
-            overdueIncome = 0.0,
-            overdueExpenses = 10.0,
-            overdue = emptyList(),
-
-            history = emptyList(),
+            state = HomeState.initial(ivyWalletCtx()),
+            onEvent = {}
         )
     }
 }

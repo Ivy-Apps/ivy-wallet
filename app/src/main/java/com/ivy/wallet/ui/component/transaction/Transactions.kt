@@ -42,6 +42,8 @@ fun LazyListScope.transactions(
     lastItemSpacer: Dp? = null,
 
     onPayOrGet: (Transaction) -> Unit,
+    setUpcomingExpanded: (Boolean) -> Unit,
+    setOverdueExpanded: (Boolean) -> Unit,
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
@@ -50,7 +52,8 @@ fun LazyListScope.transactions(
         upcoming = upcoming,
 
         onPayOrGet = onPayOrGet,
-        onSkipTransaction = onSkipTransaction
+        onSkipTransaction = onSkipTransaction,
+        setExpanded = setUpcomingExpanded
     )
 
     overdueSection(
@@ -59,7 +62,8 @@ fun LazyListScope.transactions(
 
         onPayOrGet = onPayOrGet,
         onSkipTransaction = onSkipTransaction,
-        onSkipAllTransactions = onSkipAllTransactions
+        onSkipAllTransactions = onSkipAllTransactions,
+        setExpanded = setOverdueExpanded
     )
 
     historySection(
@@ -97,12 +101,13 @@ private fun LazyListScope.upcomingSection(
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
+    setExpanded: (Boolean) -> Unit
 ) {
     if (upcoming.trns.isNotEmpty()) {
         item {
             SectionDivider(
                 expanded = upcoming.expanded,
-                setExpanded = upcoming.setExpanded,
+                setExpanded = setExpanded,
                 title = stringRes(R.string.upcoming),
                 titleColor = Orange,
                 baseCurrency = baseData.baseCurrency,
@@ -131,13 +136,14 @@ private fun LazyListScope.overdueSection(
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
-    onSkipAllTransactions: (List<Transaction>) -> Unit
+    onSkipAllTransactions: (List<Transaction>) -> Unit,
+    setExpanded: (Boolean) -> Unit
 ) {
     if (overdue.trns.isNotEmpty()) {
         item {
             SectionDivider(
                 expanded = overdue.expanded,
-                setExpanded = overdue.setExpanded,
+                setExpanded = setExpanded,
                 title = stringRes(R.string.overdue),
                 titleColor = Red,
                 baseCurrency = baseData.baseCurrency,

@@ -6,7 +6,5 @@ import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 data class DueSection(
     val trns: List<Transaction>,
     val expanded: Boolean,
-    val stats: IncomeExpensePair,
-
-    val setExpanded: (Boolean) -> Unit,
+    val stats: IncomeExpensePair
 )

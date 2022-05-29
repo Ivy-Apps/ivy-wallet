@@ -30,6 +30,9 @@ import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.BufferInfo
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
@@ -103,7 +106,6 @@ class HomeViewModel @Inject constructor(
             it.copy(
                 theme = settings.theme,
                 name = settings.name,
-                baseCurrencyCode = settings.baseCurrency,
                 period = period,
                 hideCurrentBalance = hideBalance
             )
@@ -113,11 +115,11 @@ class HomeViewModel @Inject constructor(
         ivyContext.switchTheme(theme = settings.theme)
 
         Pair(settings, period.toRange(ivyContext.startDayOfMonth).toCloseTimeRange())
-    } then ::loadCategoriesAccounts then ::loadIncomeExpenseBalance then
+    } then ::loadAppBaseData then ::loadIncomeExpenseBalance then
             ::loadBuffer then ::loadTrnHistory then
             ::loadDueTrns thenInvokeAfter ::loadCustomerJourney
 
-    private suspend fun loadCategoriesAccounts(
+    private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
     ): Triple<Settings, ClosedTimeRange, List<Account>> {
         val (settings, timeRange) = input
@@ -126,8 +128,11 @@ class HomeViewModel @Inject constructor(
 
         updateState {
             it.copy(
-                categories = categoriesAct(Unit),
-                accounts = accounts
+                baseData = AppBaseData(
+                    baseCurrency = settings.baseCurrency,
+                    categories = categoriesAct(Unit),
+                    accounts = accounts
+                )
             )
         }
 
@@ -139,7 +144,7 @@ class HomeViewModel @Inject constructor(
     ): Triple<Settings, ClosedTimeRange, BigDecimal> {
         val (settings, timeRange, accounts) = input
 
-        val monthlyIncomeExpense = calcIncomeExpenseAct(
+        val incomeExpense = calcIncomeExpenseAct(
             CalcIncomeExpenseAct.Input(
                 baseCurrency = settings.baseCurrency,
                 accounts = accounts,
@@ -154,7 +159,7 @@ class HomeViewModel @Inject constructor(
         updateState {
             it.copy(
                 balance = balance,
-                monthly = monthlyIncomeExpense
+                stats = incomeExpense
             )
         }
 
@@ -168,11 +173,13 @@ class HomeViewModel @Inject constructor(
 
         updateState {
             it.copy(
-                buffer = settings.bufferAmount,
-                bufferDiff = calcBufferDiffAct(
-                    CalcBufferDiffAct.Input(
-                        balance = balance,
-                        buffer = settings.bufferAmount
+                buffer = BufferInfo(
+                    amount = settings.bufferAmount,
+                    bufferDiff = calcBufferDiffAct(
+                        CalcBufferDiffAct.Input(
+                            balance = balance,
+                            buffer = settings.bufferAmount
+                        )
                     )
                 )
             )
@@ -201,31 +208,28 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadDueTrns(
         input: Pair<String, ClosedTimeRange>
-    ): HomeState {
-        val (baseCurrency, timeRange) = input
+    ): HomeState = suspend {
+        UpcomingAct.Input(baseCurrency = input.first, range = input.second)
+    } then upcomingAct then { result ->
         updateState {
-            val result = upcomingAct(
-                UpcomingAct.Input(
-                    range = timeRange,
-                    baseCurrency = baseCurrency
-                )
-            )
             it.copy(
-                upcoming = result.upcoming,
-                upcomingTrns = result.upcomingTrns
+                upcoming = DueSection(
+                    trns = result.upcomingTrns,
+                    stats = result.upcoming,
+                    expanded = it.upcoming.expanded
+                )
             )
         }
-
-        return updateState {
-            val result = overdueAct(
-                OverdueAct.Input(
-                    toRange = timeRange.to,
-                    baseCurrency = baseCurrency
-                )
-            )
+    } then {
+        OverdueAct.Input(baseCurrency = input.first, toRange = input.second.to)
+    } then overdueAct thenInvokeAfter { result ->
+        updateState {
             it.copy(
-                overdue = result.overdue,
-                overdueTrns = result.overdueTrns
+                overdue = DueSection(
+                    trns = result.overdueTrns,
+                    stats = result.overdue,
+                    expanded = it.overdue.expanded
+                )
             )
         }
     }
@@ -242,11 +246,11 @@ class HomeViewModel @Inject constructor(
     //-----------------------------------------------------------------
 
     private suspend fun setUpcomingExpanded(expanded: Boolean) = suspend {
-        updateState { it.copy(upcomingExpanded = expanded) }
+        updateState { it.copy(upcoming = it.upcoming.copy(expanded = expanded)) }
     }
 
     private suspend fun setOverdueExpanded(expanded: Boolean) = suspend {
-        updateState { it.copy(overdueExpanded = expanded) }
+        updateState { it.copy(overdue = it.overdue.copy(expanded = expanded)) }
     }
 
     private suspend fun onBalanceClick() = suspend {
@@ -328,7 +332,7 @@ class HomeViewModel @Inject constructor(
         stateVal()
     }
 
-    private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend{
+    private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend {
         //transactions.forEach {
         //    plannedPaymentsLogic.payOrGet(
         //        transaction = it,
@@ -338,9 +342,9 @@ class HomeViewModel @Inject constructor(
         //    }
         //}
         plannedPaymentsLogic.payOrGet(
-            transactions =  transactions,
+            transactions = transactions,
             skipTransaction = true
-        ){
+        ) {
             reload()
         }
         stateVal()
