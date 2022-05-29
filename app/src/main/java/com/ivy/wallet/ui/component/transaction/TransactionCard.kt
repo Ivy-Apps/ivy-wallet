@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -43,7 +42,7 @@ import java.time.LocalDateTime
 
 
 @Composable
-fun LazyItemScope.TransactionCard(
+fun TransactionCard(
     baseData: AppBaseData,
 
     transaction: Transaction,
@@ -53,8 +52,6 @@ fun LazyItemScope.TransactionCard(
 
     onClick: (Transaction) -> Unit,
 ) {
-    val isLightTheme = UI.colors.pure == White
-
     Spacer(Modifier.height(12.dp))
 
     Column(
@@ -177,12 +174,9 @@ fun LazyItemScope.TransactionCard(
                         .padding(start = 24.dp),
                     text = stringResource(R.string.skip),
                     wrapContentMode = false,
-                    backgroundGradient = if (isLightTheme) Gradient(White, White) else Gradient(
-                        Black,
-                        Black
-                    ),
+                    backgroundGradient = Gradient.solid(UI.colors.pure),
                     textStyle = UI.typo.b2.style(
-                        color = if (isLightTheme) Black else White,
+                        color = UI.colors.pure,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
