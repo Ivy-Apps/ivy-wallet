@@ -71,6 +71,17 @@ private fun LoadedState(
                         { ExpEvent.SetSmallTrnsPref(it) } then2 onEvent
             )
         }
+
+        item {
+            SpacerVer(height = 16.dp)
+
+            BooleanPreference(
+                name = "New edit screen",
+                value = state.newEditScreen,
+                onValueChanged = forward<Boolean>() then2
+                        { ExpEvent.SetNewEditPref(it) } then2 onEvent
+            )
+        }
     }
 }
 
@@ -117,7 +128,8 @@ private fun Preview() {
     IvyWalletPreview {
         UI(
             state = ExpState.Loaded(
-                smallTrnsPref = false
+                smallTrnsPref = false,
+                newEditScreen = true
             ),
             onEvent = {}
         )
