@@ -336,33 +336,31 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             transactions(
-                ivyContext = ivyContext,
                 nav = nav,
                 upcoming = upcoming,
                 upcomingExpanded = upcomingExpanded,
                 setUpcomingExpanded = setUpcomingExpanded,
-
                 baseCurrency = baseCurrency,
-                upcomingIncome = upcomingIncome,
 
+                upcomingIncome = upcomingIncome,
                 upcomingExpenses = upcomingExpenses,
+
                 categories = categories,
                 accounts = accounts,
                 listState = listState,
                 overdue = overdue,
-
                 overdueExpanded = overdueExpanded,
+
                 setOverdueExpanded = setOverdueExpanded,
                 overdueIncome = overdueIncome,
                 overdueExpenses = overdueExpenses,
                 history = history,
-
                 lastItemSpacer = with(density) {
                     (ivyContext.screenHeight * 0.7f).toDp()
                 },
+
                 onPayOrGet = onPayOrGet,
                 emptyStateTitle = stringRes(R.string.no_transactions),
-
                 emptyStateText = stringRes(
                     R.string.no_transactions_for_period,
                     period.toDisplayLong(ivyContext.startDayOfMonth)

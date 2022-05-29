@@ -194,14 +194,16 @@ private fun BoxWithConstraintsScope.UI(
 
         if (state.filter != null) {
             transactions(
-                ivyContext = ivyContext,
                 nav = nav,
-                baseCurrency = state.baseCurrency,
+                upcoming = state.upcomingTransactions,
+                upcomingExpanded = state.upcomingExpanded,
 
+                setUpcomingExpanded = {
+                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
+                },
+                baseCurrency = state.baseCurrency,
                 upcomingIncome = state.upcomingIncome,
                 upcomingExpenses = state.upcomingExpenses,
-                overdueIncome = state.overdueIncome,
-                overdueExpenses = state.overdueExpenses,
 
                 categories = state.categories,
                 accounts = state.accounts,
@@ -213,15 +215,12 @@ private fun BoxWithConstraintsScope.UI(
                     onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
                 },
 
+                overdueIncome = state.overdueIncome,
+
+                overdueExpenses = state.overdueExpenses,
                 history = state.history,
-
-                upcoming = state.upcomingTransactions,
-                upcomingExpanded = state.upcomingExpanded,
-                setUpcomingExpanded = {
-                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
-                },
-
                 lastItemSpacer = 48.dp,
+
                 onPayOrGet = {
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },

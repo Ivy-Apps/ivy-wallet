@@ -428,7 +428,6 @@ fun HomeLazyColumn(
         }
 
         transactions(
-            ivyContext = ivyContext,
             nav = nav,
             upcoming = upcoming,
             upcomingExpanded = upcomingExpanded,

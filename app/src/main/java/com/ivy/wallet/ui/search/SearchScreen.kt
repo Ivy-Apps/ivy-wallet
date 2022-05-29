@@ -106,7 +106,6 @@ private fun UI(
 
         ) {
             transactions(
-                ivyContext = ivyContext,
                 nav = nav,
                 upcoming = emptyList(),
                 upcomingExpanded = false,
@@ -124,9 +123,12 @@ private fun UI(
                 overdueExpenses = 0.0,
                 history = transactions,
                 onPayOrGet = { },
-                dateDividerMarginTop = 16.dp,
                 emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_query, searchQueryTextFieldValue.text)
+                emptyStateText = stringRes(
+                    R.string.no_transactions_for_query,
+                    searchQueryTextFieldValue.text
+                ),
+                dateDividerMarginTop = 16.dp
             )
 
             item {
