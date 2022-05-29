@@ -31,6 +31,11 @@
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
 
+#Jetpack Datastore
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}
+
 # Firebase Crashlytics
 -dontwarn org.xmlpull.v1.**
 -dontnote org.xmlpull.v1.**
