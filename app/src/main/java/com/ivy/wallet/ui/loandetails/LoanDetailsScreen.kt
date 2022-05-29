@@ -39,12 +39,12 @@ import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.LoanDetails
+import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticToolbar
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.*
-import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import com.ivy.wallet.utils.*
 import java.util.*
 

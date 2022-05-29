@@ -32,12 +32,12 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report
+import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
+import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
-import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
 

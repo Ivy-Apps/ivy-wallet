@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.transaction
+package com.ivy.wallet.ui.component.transaction
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -19,29 +19,20 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.EditTransaction
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 fun LazyListScope.transactions(
-    baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    baseData: AppBaseData,
 
-    upcomingTrns: List<Transaction>,
-    upcomingExpanded: Boolean,
-    upcoming: IncomeExpensePair,
-
-    overdueTrns: List<Transaction>,
-    overdueExpanded: Boolean,
-    overdue: IncomeExpensePair,
-
+    upcoming: DueSection,
+    overdue: DueSection,
     history: List<TransactionHistoryItem>,
 
     emptyStateTitle: String = stringRes(R.string.no_transactions),
@@ -51,49 +42,38 @@ fun LazyListScope.transactions(
     lastItemSpacer: Dp? = null,
 
     onPayOrGet: (Transaction) -> Unit,
-    setUpcomingExpanded: (Boolean) -> Unit,
-    setOverdueExpanded: (Boolean) -> Unit,
     onSkipTransaction: (Transaction) -> Unit = {},
     onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     upcomingSection(
-        baseCurrency = baseCurrency,
-        accounts = accounts,
-        categories = categories,
-        upcomingTrns = upcomingTrns,
-        upcomingExpanded = upcomingExpanded,
+        baseData = baseData,
         upcoming = upcoming,
+
         onPayOrGet = onPayOrGet,
-        setUpcomingExpanded = setUpcomingExpanded,
         onSkipTransaction = onSkipTransaction
     )
 
     overdueSection(
-        baseCurrency = baseCurrency,
-        accounts = accounts,
-        categories = categories,
-        overdueTrns = overdueTrns,
-        overdueExpanded = overdueExpanded,
+        baseData = baseData,
         overdue = overdue,
+
         onPayOrGet = onPayOrGet,
-        setOverdueExpanded = setOverdueExpanded,
         onSkipTransaction = onSkipTransaction,
         onSkipAllTransactions = onSkipAllTransactions
     )
 
     historySection(
-        baseCurrency = baseCurrency,
-        accounts = accounts,
-        categories = categories,
+        baseData = baseData,
 
         history = history,
 
         dateDividerMarginTop = dateDividerMarginTop,
-
         onPayOrGet = onPayOrGet
     )
 
-    if (upcomingTrns.isEmpty() && overdueTrns.isEmpty() && history.isEmpty()) {
+    if (upcoming.trns.isEmpty() && overdue.trns.isEmpty()
+        && history.isEmpty()
+    ) {
         item {
             NoTransactionsEmptyState(
                 emptyStateTitle = emptyStateTitle,
@@ -102,55 +82,40 @@ fun LazyListScope.transactions(
         }
     }
 
-    item {
-        if (lastItemSpacer != null) {
-            Spacer(Modifier.height(lastItemSpacer))
-        } else {
-            //last spacer - scroll hack
-            val trnCount = history.size + if (upcomingExpanded) upcomingTrns.size else 0 +
-                    if (overdueExpanded) overdueTrns.size else 0
-            if (trnCount <= 5) {
-                Spacer(Modifier.height(300.dp))
-            } else {
-                Spacer(Modifier.height(150.dp))
-            }
-        }
-    }
+    scrollHackSpacer(
+        history = history,
+        upcoming = upcoming,
+        overdue = overdue,
+        lastItemSpacer = lastItemSpacer
+    )
 }
 
 private fun LazyListScope.upcomingSection(
-    baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    baseData: AppBaseData,
 
-    upcomingTrns: List<Transaction>,
-    upcomingExpanded: Boolean,
-    upcoming: IncomeExpensePair,
+    upcoming: DueSection,
 
     onPayOrGet: (Transaction) -> Unit,
-    setUpcomingExpanded: (Boolean) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
 ) {
-    if (upcomingTrns.isNotEmpty()) {
+    if (upcoming.trns.isNotEmpty()) {
         item {
             SectionDivider(
-                expanded = upcomingExpanded,
-                setExpanded = setUpcomingExpanded,
+                expanded = upcoming.expanded,
+                setExpanded = upcoming.setExpanded,
                 title = stringRes(R.string.upcoming),
                 titleColor = Orange,
-                baseCurrency = baseCurrency,
-                income = upcoming.income.toDouble(),
-                expenses = upcoming.expense.abs().toDouble()
+                baseCurrency = baseData.baseCurrency,
+                income = upcoming.stats.income.toDouble(),
+                expenses = upcoming.stats.expense.abs().toDouble()
             )
         }
 
-        if (upcomingExpanded) {
+        if (upcoming.expanded) {
             trnItems(
-                baseCurrency = baseCurrency,
-                accounts = accounts,
-                categories = categories,
+                baseData = baseData,
 
-                transactions = upcomingTrns,
+                transactions = upcoming.trns,
 
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction
@@ -160,33 +125,28 @@ private fun LazyListScope.upcomingSection(
 }
 
 private fun LazyListScope.overdueSection(
-    baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    baseData: AppBaseData,
 
-    overdueTrns: List<Transaction>,
-    overdueExpanded: Boolean,
-    overdue: IncomeExpensePair,
+    overdue: DueSection,
 
     onPayOrGet: (Transaction) -> Unit,
-    setOverdueExpanded: (Boolean) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit
 ) {
-    if (overdueTrns.isNotEmpty()) {
+    if (overdue.trns.isNotEmpty()) {
         item {
             SectionDivider(
-                expanded = overdueExpanded,
-                setExpanded = setOverdueExpanded,
+                expanded = overdue.expanded,
+                setExpanded = overdue.setExpanded,
                 title = stringRes(R.string.overdue),
                 titleColor = Red,
-                baseCurrency = baseCurrency,
-                income = overdue.income.toDouble(),
-                expenses = overdue.expense.abs().toDouble()
+                baseCurrency = baseData.baseCurrency,
+                income = overdue.stats.income.toDouble(),
+                expenses = overdue.stats.expense.abs().toDouble()
             )
         }
 
-        if (overdueExpanded) {
+        if (overdue.expanded) {
             item {
                 val isLightTheme = UI.colors.pure == White
                 IvyButton(
@@ -202,16 +162,14 @@ private fun LazyListScope.overdueSection(
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    onSkipAllTransactions(overdueTrns)
+                    onSkipAllTransactions(overdue.trns)
                 }
             }
 
             trnItems(
-                baseCurrency = baseCurrency,
-                accounts = accounts,
-                categories = categories,
+                baseData = baseData,
 
-                transactions = overdueTrns,
+                transactions = overdue.trns,
 
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction
@@ -221,9 +179,7 @@ private fun LazyListScope.overdueSection(
 }
 
 private fun LazyListScope.trnItems(
-    baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    baseData: AppBaseData,
 
     transactions: List<Transaction>,
 
@@ -236,9 +192,8 @@ private fun LazyListScope.trnItems(
     ) {
         val nav = navigation()
         TransactionCard(
-            baseCurrency = baseCurrency,
-            categories = categories,
-            accounts = accounts,
+            baseData = baseData,
+
             transaction = it,
             onPayOrGet = onPayOrGet,
             onSkipTransaction = onSkipTransaction
@@ -252,9 +207,7 @@ private fun LazyListScope.trnItems(
 }
 
 private fun LazyListScope.historySection(
-    baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    baseData: AppBaseData,
 
     history: List<TransactionHistoryItem>,
 
@@ -278,9 +231,8 @@ private fun LazyListScope.historySection(
                     val nav = navigation()
 
                     TransactionCard(
-                        baseCurrency = baseCurrency,
-                        categories = categories,
-                        accounts = accounts,
+                        baseData = baseData,
+
                         transaction = it,
                         onPayOrGet = onPayOrGet
                     ) { trn ->
@@ -296,7 +248,7 @@ private fun LazyListScope.historySection(
                         date = it.date,
                         spacerTop = dateDividerMarginTop
                             ?: if (it == history.firstOrNull()) 24.dp else 32.dp,
-                        baseCurrency = baseCurrency,
+                        baseCurrency = baseData.baseCurrency,
                         income = it.income,
                         expenses = it.expenses
                     )
@@ -357,5 +309,31 @@ private fun LazyItemScope.NoTransactionsEmptyState(
         )
 
         Spacer(Modifier.height(96.dp))
+    }
+}
+
+private fun LazyListScope.scrollHackSpacer(
+    history: List<TransactionHistoryItem>,
+    upcoming: DueSection,
+    overdue: DueSection,
+
+    lastItemSpacer: Dp?,
+) {
+    item {
+        if (lastItemSpacer != null) {
+            Spacer(Modifier.height(lastItemSpacer))
+        } else {
+            //last spacer - scroll hack
+            val trnCount = history.size.plus(
+                if (upcoming.expanded) upcoming.trns.size else 0
+            ).plus(
+                if (overdue.expanded) overdue.trns.size else 0
+            )
+            if (trnCount <= 5) {
+                Spacer(Modifier.height(300.dp))
+            } else {
+                Spacer(Modifier.height(150.dp))
+            }
+        }
     }
 }

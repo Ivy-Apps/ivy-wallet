@@ -30,12 +30,13 @@ import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Main
+import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
+import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.*
-import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.horizontalSwipeListener
 import com.ivy.wallet.utils.verticalSwipeListener
 
@@ -429,7 +430,11 @@ fun HomeLazyColumn(
 
         transactions(
             nav = nav,
-            upcoming = upcoming,
+            upcoming = DueSection(
+                trns = upcoming,
+                expanded = upcomingExpanded,
+                stats = up
+            ),
             upcomingExpanded = upcomingExpanded,
             setUpcomingExpanded = setUpcomingExpanded,
             baseCurrency = baseCurrency,

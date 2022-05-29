@@ -29,12 +29,12 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
+import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.*
 
 @Composable

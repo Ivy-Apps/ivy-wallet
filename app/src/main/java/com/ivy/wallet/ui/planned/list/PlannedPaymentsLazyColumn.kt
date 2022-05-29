@@ -21,9 +21,9 @@ import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.ui.EditPlanned
+import com.ivy.wallet.ui.component.transaction.SectionDivider
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.transaction.SectionDivider
 import kotlin.math.absoluteValue
 
 @Composable

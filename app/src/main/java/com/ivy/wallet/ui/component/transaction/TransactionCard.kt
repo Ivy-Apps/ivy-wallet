@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.theme.transaction
+package com.ivy.wallet.ui.component.transaction
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -32,6 +32,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -43,9 +44,8 @@ import java.time.LocalDateTime
 
 @Composable
 fun LazyItemScope.TransactionCard(
-    baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    baseData: AppBaseData,
+
     transaction: Transaction,
 
     onPayOrGet: (Transaction) -> Unit,
@@ -63,25 +63,28 @@ fun LazyItemScope.TransactionCard(
             .padding(horizontal = 16.dp)
             .clip(UI.shapes.r4)
             .clickable {
-                if (accounts.find { it.id == transaction.accountId } != null) {
+                if (baseData.accounts.find { it.id == transaction.accountId } != null) {
                     onClick(transaction)
                 }
             }
             .background(UI.colors.medium, UI.shapes.r4)
             .testTag("transaction_card")
     ) {
-        val transactionCurrency = accounts.find { it.id == transaction.accountId }?.currency
-            ?: baseCurrency
+        //TODO: Optimize this
+        val transactionCurrency =
+            baseData.accounts.find { it.id == transaction.accountId }?.currency
+                ?: baseData.baseCurrency
 
-        val toAccountCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
-            ?: baseCurrency
+        val toAccountCurrency =
+            baseData.accounts.find { it.id == transaction.toAccountId }?.currency
+                ?: baseData.baseCurrency
 
         Spacer(Modifier.height(20.dp))
 
         TransactionHeaderRow(
             transaction = transaction,
-            categories = categories,
-            accounts = accounts
+            categories = baseData.categories,
+            accounts = baseData.accounts
         )
 
         if (transaction.dueDate != null) {
@@ -474,9 +477,11 @@ private fun PreviewUpcomingExpense() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = listOf(food),
-                    accounts = listOf(cash),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(food),
+                        accounts = listOf(cash)
+                    ),
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Lidl pazar",
@@ -505,9 +510,11 @@ private fun PreviewOverdueExpense() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = listOf(food),
-                    accounts = listOf(cash),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(food),
+                        accounts = listOf(cash)
+                    ),
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Rent",
@@ -540,9 +547,11 @@ private fun PreviewNormalExpense() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = listOf(food),
-                    accounts = listOf(cash),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(food),
+                        accounts = listOf(cash)
+                    ),
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Близкия магазин",
@@ -569,9 +578,11 @@ private fun PreviewIncome() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = listOf(category),
-                    accounts = listOf(cash),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(category),
+                        accounts = listOf(cash)
+                    ),
                     transaction = Transaction(
                         accountId = cash.id,
                         title = "Qredo Salary May",
@@ -599,9 +610,11 @@ private fun PreviewTransfer() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = emptyList(),
-                    accounts = listOf(acc1, acc2),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(),
+                        accounts = listOf(acc1, acc2)
+                    ),
                     transaction = Transaction(
                         accountId = acc1.id,
                         toAccountId = acc2.id,
@@ -635,9 +648,11 @@ private fun PreviewTransfer_differentCurrency() {
 
             item {
                 TransactionCard(
-                    baseCurrency = "BGN",
-                    categories = emptyList(),
-                    accounts = listOf(acc1, acc2),
+                    baseData = AppBaseData(
+                        baseCurrency = "BGN",
+                        categories = listOf(),
+                        accounts = listOf(acc1, acc2)
+                    ),
                     transaction = Transaction(
                         accountId = acc1.id,
                         toAccountId = acc2.id,

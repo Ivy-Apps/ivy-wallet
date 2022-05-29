@@ -28,6 +28,7 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -35,7 +36,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.getCustomIconIdS
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.ui.theme.toComposeColor
-import com.ivy.wallet.ui.theme.transaction.TypeAmountCurrency
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
 
