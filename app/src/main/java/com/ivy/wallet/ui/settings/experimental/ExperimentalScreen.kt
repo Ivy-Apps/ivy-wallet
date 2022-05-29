@@ -65,7 +65,7 @@ private fun LoadedState(
     LazyColumn {
         item {
             BooleanPreference(
-                name = "Small transactions",
+                name = "Smaller transactions",
                 value = state.smallTrnsPref,
                 onValueChanged = forward<Boolean>() then2
                         { ExpEvent.SetSmallTrnsPref(it) } then2 onEvent
