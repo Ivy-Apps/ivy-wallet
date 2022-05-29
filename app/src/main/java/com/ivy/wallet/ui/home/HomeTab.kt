@@ -80,6 +80,7 @@ private fun BoxWithConstraintsScope.UI(
     }
     val hideBalanceRowState = remember { mutableStateOf(false) }
 
+    val baseCurrency = state.baseData.baseCurrency
 
     Column(
         modifier = Modifier
@@ -112,7 +113,7 @@ private fun BoxWithConstraintsScope.UI(
             expanded = !hideBalanceRowState.value,
             name = state.name,
             period = state.period,
-            currency = state.baseData.baseCurrency,
+            currency = baseCurrency,
             balance = state.balance.toDouble(),
             bufferDiff = state.buffer.bufferDiff.toDouble(),
             hideCurrentBalance = state.hideCurrentBalance,
@@ -177,7 +178,7 @@ private fun BoxWithConstraintsScope.UI(
         expanded = moreMenuExpanded,
         theme = state.theme,
         balance = state.balance.toDouble(),
-        currency = state.baseData.baseCurrency,
+        currency = baseCurrency,
         buffer = state.buffer.amount.toDouble(),
         onSwitchTheme = HomeEvent.SwitchTheme asParamTo2 onEvent,
 
@@ -185,7 +186,7 @@ private fun BoxWithConstraintsScope.UI(
         onBufferClick = {
             bufferModalData = BufferModalData(
                 balance = state.balance.toDouble(),
-                currency = state.baseData.baseCurrency,
+                currency = baseCurrency,
                 buffer = state.buffer.amount.toDouble()
             )
         },
@@ -206,7 +207,7 @@ private fun BoxWithConstraintsScope.UI(
 
     CurrencyModal(
         title = stringResource(R.string.set_currency),
-        initialCurrency = IvyCurrency.fromCode(state.baseData.baseCurrency),
+        initialCurrency = IvyCurrency.fromCode(baseCurrency),
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false },
         onSetCurrency = forward<String>() then2 {

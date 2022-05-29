@@ -30,6 +30,7 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
 import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
@@ -106,21 +107,15 @@ private fun UI(
 
         ) {
             transactions(
-                nav = nav,
-                upcoming = emptyList(),
-                upcomingExpanded = false,
+                baseData = AppBaseData(
+                    baseCurrency = baseCurrency,
+                    accounts = accounts,
+                    categories = categories
+                ),
+                upcoming = null,
                 setUpcomingExpanded = { },
-                baseCurrency = baseCurrency,
-                upcomingIncome = 0.0,
-                upcomingExpenses = 0.0,
-                categories = categories,
-                accounts = accounts,
-                listState = listState,
-                overdue = emptyList(),
-                overdueExpanded = false,
+                overdue = null,
                 setOverdueExpanded = { },
-                overdueIncome = 0.0,
-                overdueExpenses = 0.0,
                 history = transactions,
                 onPayOrGet = { },
                 emptyStateTitle = stringRes(R.string.no_transactions),

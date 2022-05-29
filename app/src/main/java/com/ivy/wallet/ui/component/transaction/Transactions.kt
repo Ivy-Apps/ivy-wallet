@@ -31,8 +31,8 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 fun LazyListScope.transactions(
     baseData: AppBaseData,
 
-    upcoming: DueSection,
-    overdue: DueSection,
+    upcoming: DueSection?,
+    overdue: DueSection?,
     history: List<TransactionHistoryItem>,
 
     emptyStateTitle: String = stringRes(R.string.no_transactions),
@@ -75,8 +75,10 @@ fun LazyListScope.transactions(
         onPayOrGet = onPayOrGet
     )
 
-    if (upcoming.trns.isEmpty() && overdue.trns.isEmpty()
-        && history.isEmpty()
+    if (
+        (upcoming == null || upcoming.trns.isEmpty()) &&
+        (overdue == null || overdue.trns.isEmpty()) &&
+        history.isEmpty()
     ) {
         item {
             NoTransactionsEmptyState(
@@ -97,12 +99,14 @@ fun LazyListScope.transactions(
 private fun LazyListScope.upcomingSection(
     baseData: AppBaseData,
 
-    upcoming: DueSection,
+    upcoming: DueSection?,
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     setExpanded: (Boolean) -> Unit
 ) {
+    if (upcoming == null) return //guard
+
     if (upcoming.trns.isNotEmpty()) {
         item {
             SectionDivider(
@@ -132,13 +136,15 @@ private fun LazyListScope.upcomingSection(
 private fun LazyListScope.overdueSection(
     baseData: AppBaseData,
 
-    overdue: DueSection,
+    overdue: DueSection?,
 
     onPayOrGet: (Transaction) -> Unit,
     onSkipTransaction: (Transaction) -> Unit,
     onSkipAllTransactions: (List<Transaction>) -> Unit,
     setExpanded: (Boolean) -> Unit
 ) {
+    if (overdue == null) return
+
     if (overdue.trns.isNotEmpty()) {
         item {
             SectionDivider(
@@ -320,8 +326,8 @@ private fun LazyItemScope.NoTransactionsEmptyState(
 
 private fun LazyListScope.scrollHackSpacer(
     history: List<TransactionHistoryItem>,
-    upcoming: DueSection,
-    overdue: DueSection,
+    upcoming: DueSection?,
+    overdue: DueSection?,
 
     lastItemSpacer: Dp?,
 ) {
@@ -331,9 +337,9 @@ private fun LazyListScope.scrollHackSpacer(
         } else {
             //last spacer - scroll hack
             val trnCount = history.size.plus(
-                if (upcoming.expanded) upcoming.trns.size else 0
+                if (upcoming != null && upcoming.expanded) upcoming.trns.size else 0
             ).plus(
-                if (overdue.expanded) overdue.trns.size else 0
+                if (overdue != null && overdue.expanded) overdue.trns.size else 0
             )
             if (trnCount <= 5) {
                 Spacer(Modifier.height(300.dp))

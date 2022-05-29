@@ -28,12 +28,15 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
@@ -194,30 +197,37 @@ private fun BoxWithConstraintsScope.UI(
 
         if (state.filter != null) {
             transactions(
-                nav = nav,
-                upcoming = state.upcomingTransactions,
-                upcomingExpanded = state.upcomingExpanded,
+                baseData = AppBaseData(
+                    baseCurrency = state.baseCurrency,
+                    categories = state.categories,
+                    accounts = state.accounts,
+                ),
+
+                upcoming = DueSection(
+                    trns = state.upcomingTransactions,
+                    stats = IncomeExpensePair(
+                        income = state.upcomingIncome.toBigDecimal(),
+                        expense = state.upcomingExpenses.toBigDecimal()
+                    ),
+                    expanded = state.upcomingExpanded
+                ),
 
                 setUpcomingExpanded = {
                     onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
                 },
-                baseCurrency = state.baseCurrency,
-                upcomingIncome = state.upcomingIncome,
-                upcomingExpenses = state.upcomingExpenses,
 
-                categories = state.categories,
-                accounts = state.accounts,
-                listState = listState,
-
-                overdue = state.overdueTransactions,
-                overdueExpanded = state.overdueExpanded,
+                overdue = DueSection(
+                    trns = state.overdueTransactions,
+                    stats = IncomeExpensePair(
+                        income = state.overdueIncome.toBigDecimal(),
+                        expense = state.overdueExpenses.toBigDecimal()
+                    ),
+                    expanded = state.overdueExpanded
+                ),
                 setOverdueExpanded = {
                     onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
                 },
 
-                overdueIncome = state.overdueIncome,
-
-                overdueExpenses = state.overdueExpenses,
                 history = state.history,
                 lastItemSpacer = 48.dp,
 
