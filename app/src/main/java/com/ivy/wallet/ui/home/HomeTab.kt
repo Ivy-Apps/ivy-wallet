@@ -165,7 +165,7 @@ private fun BoxWithConstraintsScope.UI(
                 HomeEvent.SkipPlanned(it)
             } then2 onEvent,
             setUpcomingExpanded = forward<Boolean>() then2 {
-                HomeEvent.SetOverdueExpanded(it)
+                HomeEvent.SetUpcomingExpanded(it)
             } then2 onEvent,
             setOverdueExpanded = forward<Boolean>() then2 {
                 HomeEvent.SetOverdueExpanded(it)
