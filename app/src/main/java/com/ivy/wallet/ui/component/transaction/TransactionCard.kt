@@ -231,9 +231,11 @@ private fun TransactionHeaderRow(
             modifier = Modifier.padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val category =
-                transaction.categoryId
-                    ?.let { targetId -> categories.find { it.id == targetId } }
+            val category = category(
+                categoryId = transaction.categoryId,
+                categories = categories
+            )
+
             if (category != null) {
                 TransactionBadge(
                     text = category.name,
@@ -252,7 +254,11 @@ private fun TransactionHeaderRow(
                 Spacer(Modifier.width(12.dp))
             }
 
-            val account = accounts.find { it.id == transaction.accountId }
+            val account = account(
+                accountId = transaction.accountId,
+                accounts = accounts
+            )
+
             TransactionBadge(
                 text = account?.name ?: stringResource(R.string.deleted),
                 backgroundColor = UI.colors.pure,

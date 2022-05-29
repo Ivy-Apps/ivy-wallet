@@ -13,10 +13,7 @@ import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.settings.UpdateSettingsAct
 import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
-import com.ivy.wallet.domain.action.viewmodel.home.HasTrnsAct
-import com.ivy.wallet.domain.action.viewmodel.home.OverdueAct
-import com.ivy.wallet.domain.action.viewmodel.home.ShouldHideBalanceAct
-import com.ivy.wallet.domain.action.viewmodel.home.UpcomingAct
+import com.ivy.wallet.domain.action.viewmodel.home.*
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.data.core.Account
@@ -63,7 +60,9 @@ class HomeViewModel @Inject constructor(
     private val hasTrnsAct: HasTrnsAct,
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val shouldHideBalanceAct: ShouldHideBalanceAct,
-    private val updateSettingsAct: UpdateSettingsAct
+    private val updateSettingsAct: UpdateSettingsAct,
+    private val updateAccCacheAct: UpdateAccCacheAct,
+    private val updateCategoriesCacheAct: UpdateCategoriesCacheAct
 ) : FRPViewModel<HomeState, HomeEvent>() {
     override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
@@ -121,23 +120,27 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
-    ): Triple<Settings, ClosedTimeRange, List<Account>> {
-        val (settings, timeRange) = input
+    ): Triple<Settings, ClosedTimeRange, List<Account>> =
+        suspend {} then accountsAct then updateAccCacheAct then { accounts ->
+            accounts
+        } then { accounts ->
+            val categories = categoriesAct thenInvokeAfter updateCategoriesCacheAct
+            accounts to categories
+        } thenInvokeAfter { (accounts, categories) ->
+            val (settings, timeRange) = input
 
-        val accounts = accountsAct(Unit)
-
-        updateState {
-            it.copy(
-                baseData = AppBaseData(
-                    baseCurrency = settings.baseCurrency,
-                    categories = categoriesAct(Unit),
-                    accounts = accounts
+            updateState {
+                it.copy(
+                    baseData = AppBaseData(
+                        baseCurrency = settings.baseCurrency,
+                        categories = categories,
+                        accounts = accounts
+                    )
                 )
-            )
-        }
+            }
 
-        return Triple(settings, timeRange, accounts)
-    }
+            Triple(settings, timeRange, accounts)
+        }
 
     private suspend fun loadIncomeExpenseBalance(
         input: Triple<Settings, ClosedTimeRange, List<Account>>
@@ -185,7 +188,7 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        return Pair(settings.baseCurrency, timeRange)
+        return settings.baseCurrency to timeRange
     }
 
     private suspend fun loadTrnHistory(
@@ -203,7 +206,7 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-        return Pair(baseCurrency, timeRange)
+        return baseCurrency to timeRange
     }
 
     private suspend fun loadDueTrns(
