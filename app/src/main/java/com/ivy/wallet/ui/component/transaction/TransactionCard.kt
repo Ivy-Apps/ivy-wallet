@@ -176,7 +176,7 @@ fun TransactionCard(
                     wrapContentMode = false,
                     backgroundGradient = Gradient.solid(UI.colors.pure),
                     textStyle = UI.typo.b2.style(
-                        color = UI.colors.pure,
+                        color = UI.colors.pureInverse,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
