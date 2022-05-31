@@ -313,7 +313,7 @@
     <string name="enter_loan_amount_uppercase">INGRESE EL MONTO DEL PRÉSTAMO</string>
     <string name="confirm_account_change_warning">"Nota: está intentando cambiar la cuenta asociada con el préstamo con una cuenta de moneda diferente, \nTodos los registros del préstamo se volverán a calcular en función de las tasas de cambio de hoy"</string>
     <string name="loan_type">Tipo de préstamo</string>
-    <string name="borrow_money">Prestar dinero</string>
+    <string name="borrow_money">Obtener préstamo</string>
     <string name="lend_money">Prestar dinero</string>
     <string name="edit_record">Editar registro</string>
     <string name="new_record">Nuevo récord</string>
