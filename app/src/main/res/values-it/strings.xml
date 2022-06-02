@@ -427,8 +427,8 @@
     <string name="transfers_as_income_expense_description">Tratta i trasferimenti di conto come entrate o uscite nella schermata dei conti</string>
     <string name="home_category">Casa</string>
     <string name="generating_report">Generazione report…</string>
-    <string name="sort_by">ordina per</string>
-    <string name="confirm_skip_all_description">Siete sicuri di voler saltare tutte le transazioni pianificate in ritardo?</string>
-    <string name="confirm_skip_all">Confermare il salto di tutti</string>
-    <string name="skip_all">Salta tutto</string>
+    <string name="sort_by">Ordina per</string>
+    <string name="confirm_skip_all_description">Sei sicuro di voler ignorare tutti i pagamenti pianificati scaduti?</string>
+    <string name="confirm_skip_all">Conferma e ignora tutto</string>
+    <string name="skip_all">Ignora tutto</string>
 </resources>
