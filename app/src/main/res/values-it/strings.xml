@@ -431,9 +431,9 @@
     <string name="confirm_skip_all_description">Sei sicuro di voler ignorare tutti i pagamenti pianificati scaduti?</string>
     <string name="confirm_skip_all">Conferma e ignora tutto</string>
     <string name="skip_all">Ignora tutto</string>
-    <string name="switch_to_offline_mode">Switch to offline mode</string>
-    <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
-    <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
-    <string name="experimental">Experimental</string>
-    <string name="experimental_settings">Experimental Settings</string>
+    <string name="switch_to_offline_mode">Passa alla modalità offline</string>
+    <string name="delete_all_user_cloud_data_warning">ATTENZIONE! Questa azione eliminerà PERMANENTEMENTE tutti i dati salvati nel cloud per %1$s, i file offline salvati in locale nella tua app rimaranno.</string>
+    <string name="delete_all_cloud_data_question">Eliminare tutti i dati salvati nel cloud?</string>
+    <string name="experimental">Sperimantale</string>
+    <string name="experimental_settings">Impostazioni Sperimentali</string>
 </resources>
