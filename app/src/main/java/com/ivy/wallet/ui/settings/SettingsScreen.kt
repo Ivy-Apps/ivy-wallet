@@ -311,14 +311,14 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
-            SettingsSectionDivider(text = "Experimental")
+            SettingsSectionDivider(text = stringResource(R.string.experimental))
 
             Spacer(Modifier.height(16.dp))
 
             val nav = navigation()
             SettingsDefaultButton(
                 icon = R.drawable.ic_custom_atom_m,
-                text = "Experimental Settings"
+                text = stringResource(R.string.experimental_settings)
             ) {
                 nav.navigateTo(ExperimentalScreen)
             }
