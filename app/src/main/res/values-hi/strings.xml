@@ -431,4 +431,7 @@
     <string name="make_a_report_description">आप अपनी आय और खर्च के बारे में गहन जानकारी प्राप्त करने के लिए रिपोर्ट तैयार कर सकते हैं। अपने वित्त के बारे में बेहतर दृष्टिकोण प्राप्त करने के लिए अपने लेन-देन को प्रकार, समय अवधि, श्रेणी, खातों, राशि, कीवर्ड आदि के आधार पर फ़िल्टर करें।</string>
     <string name="make_ivy_wallet_better_description">आइवी वॉलेट को बेहतर बनाना चाहते हैं? हमें एक समीक्षा लिखें। आप जो चाहते हैं उसे विकसित करने का यही एकमात्र तरीका है। साथ ही हमें PlayStore में उच्च रैंक देने में मदद करें ताकि हम मार्केटिंग के बजाय उत्पाद पर पैसा खर्च कर सकें।\\nहम अपनी तरफ से हमेशाअच्छा करते रहेंगे।\\n Ivy टीम</string>
     <string name="transfers_as_income_expense_description">खाता स्थानान्तरण को खाता स्क्रीन में आय या व्यय के रूप में मानता है</string>
+    <string name="switch_to_offline_mode">Switch to offline mode</string>
+    <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all your cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
+    <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
 </resources>
