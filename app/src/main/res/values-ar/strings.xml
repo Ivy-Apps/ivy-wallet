@@ -431,4 +431,7 @@
     <string name="skip_all">تخطي الكل</string>
     <string name="confirm_skip_all">تأكيد تخطي الكل</string>
     <string name="confirm_skip_all_description">هل أنت متأكد من أنك تريد تخطي جميع المعاملات المخطط لها المتأخرة؟</string>
+    <string name="switch_to_offline_mode">Switch to offline mode</string>
+    <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all your cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
+    <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
 </resources>

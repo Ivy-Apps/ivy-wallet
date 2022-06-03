@@ -431,4 +431,7 @@
     <string name="skip_all">прескочете всички</string>
     <string name="confirm_skip_all">Потвърдете пропускането на всички</string>
     <string name="confirm_skip_all_description">Сигурни ли сте, че искате да пропуснете всички просрочени планирани операции?</string>
+    <string name="switch_to_offline_mode">Switch to offline mode</string>
+    <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all your cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
+    <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
 </resources>
