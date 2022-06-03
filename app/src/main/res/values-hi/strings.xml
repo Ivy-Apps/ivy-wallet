@@ -94,7 +94,7 @@
     <string name="hi_name">नमस्ते %1$s</string>
     <string name="cashflow">कैशफ़्लो: %1$s%2$s %3$s</string>
     <string name="search_transactions">लेनदेन खोजें</string>
-    <string name="ivy_wallet_open_source">इवी वॉलेट ओपन-सोर्स है</string>
+    <string name="ivy_wallet_open_source">Ivy वॉलेट ओपन सोर्स हैं</string>
     <string name="savings_goal">बचत लक्ष्य</string>
     <string name="quick_access">क्विक ऐक्सेस</string>
     <string name="settings">सेटिंग्स</string>
