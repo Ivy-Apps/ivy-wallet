@@ -436,4 +436,5 @@
     <string name="delete_all_cloud_data_question">ಎಲ್ಲಾ ಕ್ಲೌಡ್-ಸಂಗ್ರಹಿಸಿದ ಡೇಟಾವನ್ನು ಅಳಿಸುವುದೇ?</string>
     <string name="experimental">ಪ್ರಯೋಗಾತ್ಮಕ</string>
     <string name="experimental_settings">ಪ್ರಯೋಗಾತ್ಮಕ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>
