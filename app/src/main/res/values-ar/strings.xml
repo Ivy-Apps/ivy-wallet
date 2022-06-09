@@ -434,4 +434,5 @@
     <string name="switch_to_offline_mode">التبديل إلى وضع بدون انترنت</string>
     <string name="delete_all_user_cloud_data_warning">تحذير! سوف يؤدي هذا الى حذف كل بياناتك المخزنة في السحابة ل%1$s نهائيا, لن يتم حذف البيانات المخزنة على جهازك.</string>
     <string name="delete_all_cloud_data_question">حذف كل اليانات على السحابة؟</string>
+    <string name="wallet_balance">رصيد المحفظة</string>
 </resources>
