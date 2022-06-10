@@ -16,6 +16,7 @@ import androidx.glance.background
 import androidx.glance.layout.*
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.ivy.wallet.R
@@ -23,6 +24,7 @@ import com.ivy.wallet.stringRes
 
 @Composable
 fun WalletBalanceWidgetContent(
+    appLocked: Boolean,
     balance: String,
     currency: String,
     income: String,
@@ -36,9 +38,21 @@ fun WalletBalanceWidgetContent(
         Column(
             modifier = GlanceModifier.fillMaxSize(),
         ) {
-            BalanceSection(balance, currency)
-            IncomeExpenseSection(income, expense, currency)
-            ButtonsSection()
+            if (appLocked) {
+                Text(
+                    modifier = GlanceModifier.fillMaxSize(),
+                    text = "App locked",
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        color = ColorProvider(Color.White),
+                        textAlign = TextAlign.Center
+                    )
+                )
+            } else {
+                BalanceSection(balance, currency)
+                IncomeExpenseSection(income, expense, currency)
+                ButtonsSection()
+            }
         }
     }
 }
@@ -51,18 +65,18 @@ fun RowScope.WidgetClickableItem(
     Column(
         GlanceModifier
             .defaultWeight()
-            .clickable( actionRunCallback<WalletBalanceButtonsAction>(
+            .clickable(
+                actionRunCallback<WalletBalanceButtonsAction>(
                     parameters = actionParametersOf(
-                       walletBtnActParam to when (text) {
-                           R.string.income -> AddTransactionWidgetClick.ACTION_ADD_INCOME
-                           R.string.expense -> AddTransactionWidgetClick.ACTION_ADD_EXPENSE
-                           R.string.transfer -> AddTransactionWidgetClick.ACTION_ADD_TRANSFER
-                           else -> return
-                       }
+                        walletBtnActParam to when (text) {
+                            R.string.income -> AddTransactionWidgetClick.ACTION_ADD_INCOME
+                            R.string.expense -> AddTransactionWidgetClick.ACTION_ADD_EXPENSE
+                            R.string.transfer -> AddTransactionWidgetClick.ACTION_ADD_TRANSFER
+                            else -> return
+                        }
                     )
                 )
-            )
-            ,
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -117,7 +131,8 @@ fun IncomeExpenseSection(
     currency: String
 ) {
     Row(
-        GlanceModifier.fillMaxWidth().padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 12.dp),
+        GlanceModifier.fillMaxWidth()
+            .padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
