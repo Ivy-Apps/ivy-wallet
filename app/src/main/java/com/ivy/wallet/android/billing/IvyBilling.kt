@@ -16,6 +16,12 @@ class IvyBilling(
 
         private const val LIFETIME_V1 = "ivy_wallet_lifetime_v1"
 
+        const val DONATE_5 = "donate_5"
+        const val DONATE_10 = "donate_10"
+        const val DONATE_15 = "donate_15"
+        const val DONATE_25 = "donate_25"
+        const val DONATE_50 = "donate_50"
+
         val SUBSCRIPTIONS = listOf(
             MONTHLY_V1,
             SIX_MONTH_V1,
@@ -23,7 +29,11 @@ class IvyBilling(
         )
 
         val ONE_TIME_PLANS = listOf(
-            LIFETIME_V1
+            DONATE_5,
+            DONATE_10,
+            DONATE_15,
+            DONATE_25,
+            DONATE_50
         )
     }
 
@@ -129,7 +139,7 @@ class IvyBilling(
             .filterNotNull()
     }
 
-    private suspend fun fetchOneTimePlans(): List<Plan> {
+    suspend fun fetchOneTimePlans(): List<Plan> {
         val params = SkuDetailsParams.newBuilder()
             .setSkusList(ONE_TIME_PLANS)
             .setType(BillingClient.SkuType.INAPP)
