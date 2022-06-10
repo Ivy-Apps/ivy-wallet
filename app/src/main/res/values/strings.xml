@@ -436,4 +436,5 @@
     <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">Experimental Settings</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>

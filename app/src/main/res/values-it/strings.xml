@@ -436,4 +436,5 @@
     <string name="delete_all_cloud_data_question">Eliminare tutti i dati salvati nel cloud?</string>
     <string name="experimental">Sperimantale</string>
     <string name="experimental_settings">Impostazioni Sperimentali</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>

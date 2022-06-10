@@ -126,6 +126,9 @@ fun DependencyHandler.Compose(version: String) {
     //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
 
+    // Jetpack Glance (Compose Widgets)
+    implementation ("androidx.glance:glance-appwidget:1.0.0-alpha03")
+
     Accompanist(version = "0.15.0")
 
     Coil()
