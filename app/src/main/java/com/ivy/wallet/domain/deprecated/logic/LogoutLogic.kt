@@ -4,6 +4,7 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
+import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.utils.ioThread
 
@@ -23,5 +24,13 @@ class LogoutLogic(
 
         navigation.navigateTo(Onboarding)
         navigation.resetBackStack()
+    }
+
+    suspend fun cloudLogout() {
+        ioThread {
+            ivySession.logout()
+        }
+
+        navigation.navigateTo(Main);
     }
 }

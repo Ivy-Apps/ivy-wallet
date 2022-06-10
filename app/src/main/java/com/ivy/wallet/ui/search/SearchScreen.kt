@@ -29,12 +29,13 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.Search
+import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.*
 
 @Composable
@@ -106,27 +107,23 @@ private fun UI(
 
         ) {
             transactions(
-                ivyContext = ivyContext,
-                nav = nav,
-                upcoming = emptyList(),
-                upcomingExpanded = false,
+                baseData = AppBaseData(
+                    baseCurrency = baseCurrency,
+                    accounts = accounts,
+                    categories = categories
+                ),
+                upcoming = null,
                 setUpcomingExpanded = { },
-                baseCurrency = baseCurrency,
-                upcomingIncome = 0.0,
-                upcomingExpenses = 0.0,
-                categories = categories,
-                accounts = accounts,
-                listState = listState,
-                overdue = emptyList(),
-                overdueExpanded = false,
+                overdue = null,
                 setOverdueExpanded = { },
-                overdueIncome = 0.0,
-                overdueExpenses = 0.0,
                 history = transactions,
                 onPayOrGet = { },
-                dateDividerMarginTop = 16.dp,
                 emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_query, searchQueryTextFieldValue.text)
+                emptyStateText = stringRes(
+                    R.string.no_transactions_for_query,
+                    searchQueryTextFieldValue.text
+                ),
+                dateDividerMarginTop = 16.dp
             )
 
             item {

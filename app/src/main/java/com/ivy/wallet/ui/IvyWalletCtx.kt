@@ -9,12 +9,15 @@ import com.ivy.design.IvyContext
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
+import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.paywall.PaywallReason
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.*
 
 class IvyWalletCtx : IvyContext() {
     //------------------------------------------ State ---------------------------------------------
@@ -24,6 +27,11 @@ class IvyWalletCtx : IvyContext() {
     fun setStartDayOfMonth(day: Int) {
         startDayOfMonth = day
     }
+
+    //---------------------- Optimization  ----------------------------
+    val categoryMap: MutableMap<UUID, Category> = mutableMapOf()
+    val accountMap: MutableMap<UUID, Account> = mutableMapOf()
+    //---------------------- Optimization  ----------------------------
 
     @Deprecated("use StartDayOfMonthAct")
     fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {

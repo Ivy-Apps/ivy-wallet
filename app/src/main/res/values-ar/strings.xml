@@ -428,4 +428,13 @@
     <string name="home_category">البيت</string>
     <string name="generating_report">يتم إنشاء التقرير …</string>
     <string name="sort_by">ترتيب حسب</string>
+    <string name="skip_all">تخطي الكل</string>
+    <string name="confirm_skip_all">تأكيد تخطي الكل</string>
+    <string name="confirm_skip_all_description">هل أنت متأكد من أنك تريد تخطي جميع المعاملات المخطط لها المتأخرة؟</string>
+    <string name="switch_to_offline_mode">التبديل إلى وضع بدون انترنت</string>
+    <string name="delete_all_user_cloud_data_warning">تحذير! سوف يؤدي هذا الى حذف كل بياناتك المخزنة في السحابة ل%1$s نهائيا, لن يتم حذف البيانات المخزنة على جهازك.</string>
+    <string name="delete_all_cloud_data_question">حذف كل اليانات على السحابة؟</string>
+    <string name="experimental">تجريبي</string>
+    <string name="experimental_settings">الإعدادات التجريبية</string>
+    <string name="wallet_balance">رصيد المحفظة</string>
 </resources>

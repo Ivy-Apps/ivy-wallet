@@ -427,5 +427,14 @@
     <string name="transfers_as_income_expense_description">Tratta i trasferimenti di conto come entrate o uscite nella schermata dei conti</string>
     <string name="home_category">Casa</string>
     <string name="generating_report">Generazione report…</string>
-    <string name="sort_by">ordina per</string>
+    <string name="sort_by">Ordina per</string>
+    <string name="confirm_skip_all_description">Sei sicuro di voler ignorare tutti i pagamenti pianificati scaduti?</string>
+    <string name="confirm_skip_all">Conferma e ignora tutto</string>
+    <string name="skip_all">Ignora tutto</string>
+    <string name="switch_to_offline_mode">Passa alla modalità offline</string>
+    <string name="delete_all_user_cloud_data_warning">ATTENZIONE! Questa azione eliminerà PERMANENTEMENTE tutti i dati salvati nel cloud per %1$s, i file offline salvati in locale nella tua app rimaranno.</string>
+    <string name="delete_all_cloud_data_question">Eliminare tutti i dati salvati nel cloud?</string>
+    <string name="experimental">Sperimantale</string>
+    <string name="experimental_settings">Impostazioni Sperimentali</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>

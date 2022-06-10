@@ -28,16 +28,19 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.Report
+import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
+import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
-import com.ivy.wallet.ui.theme.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.onScreenStart
 
@@ -194,34 +197,40 @@ private fun BoxWithConstraintsScope.UI(
 
         if (state.filter != null) {
             transactions(
-                ivyContext = ivyContext,
-                nav = nav,
-                baseCurrency = state.baseCurrency,
+                baseData = AppBaseData(
+                    baseCurrency = state.baseCurrency,
+                    categories = state.categories,
+                    accounts = state.accounts,
+                ),
 
-                upcomingIncome = state.upcomingIncome,
-                upcomingExpenses = state.upcomingExpenses,
-                overdueIncome = state.overdueIncome,
-                overdueExpenses = state.overdueExpenses,
+                upcoming = DueSection(
+                    trns = state.upcomingTransactions,
+                    stats = IncomeExpensePair(
+                        income = state.upcomingIncome.toBigDecimal(),
+                        expense = state.upcomingExpenses.toBigDecimal()
+                    ),
+                    expanded = state.upcomingExpanded
+                ),
 
-                categories = state.categories,
-                accounts = state.accounts,
-                listState = listState,
+                setUpcomingExpanded = {
+                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
+                },
 
-                overdue = state.overdueTransactions,
-                overdueExpanded = state.overdueExpanded,
+                overdue = DueSection(
+                    trns = state.overdueTransactions,
+                    stats = IncomeExpensePair(
+                        income = state.overdueIncome.toBigDecimal(),
+                        expense = state.overdueExpenses.toBigDecimal()
+                    ),
+                    expanded = state.overdueExpanded
+                ),
                 setOverdueExpanded = {
                     onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
                 },
 
                 history = state.history,
-
-                upcoming = state.upcomingTransactions,
-                upcomingExpanded = state.upcomingExpanded,
-                setUpcomingExpanded = {
-                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
-                },
-
                 lastItemSpacer = 48.dp,
+
                 onPayOrGet = {
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },

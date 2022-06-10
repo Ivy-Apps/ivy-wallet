@@ -67,6 +67,7 @@ import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
+import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
@@ -210,6 +211,7 @@ class RootActivity : AppCompatActivity() {
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
             is ImagesScreen -> ImagesScreen(screen = screen)
+            is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             null -> {
             }
         }

@@ -43,6 +43,7 @@ import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -112,7 +113,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
                 body = body
             )
         },
-        onDeleteAllUserData = viewModel::deleteAllUserData
+        onDeleteAllUserData = viewModel::deleteAllUserData,
+        onDeleteCloudUserData = viewModel::deleteCloudUserData
     )
 }
 
@@ -147,12 +149,15 @@ private fun BoxWithConstraintsScope.UI(
     onSetHideCurrentBalance: (Boolean) -> Unit = {},
     onSetStartDateOfMonth: (Int) -> Unit = {},
     onRequestFeature: (String, String) -> Unit = { _, _ -> },
-    onDeleteAllUserData: () -> Unit = {}
+    onDeleteAllUserData: () -> Unit = {},
+    onDeleteCloudUserData: () -> Unit = {},
+
 ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
     var requestFeatureModalVisible by remember { mutableStateOf(false) }
+    var deleteCloudDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalVisible by remember { mutableStateOf(false) }
     var deleteAllDataModalFinalVisible by remember { mutableStateOf(false) }
 
@@ -306,6 +311,20 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         item {
+            SettingsSectionDivider(text = stringResource(R.string.experimental))
+
+            Spacer(Modifier.height(16.dp))
+
+            val nav = navigation()
+            SettingsDefaultButton(
+                icon = R.drawable.ic_custom_atom_m,
+                text = stringResource(R.string.experimental_settings)
+            ) {
+                nav.navigateTo(ExperimentalScreen)
+            }
+        }
+
+        item {
             SettingsSectionDivider(text = stringResource(R.string.other))
 
             Spacer(Modifier.height(16.dp))
@@ -379,6 +398,18 @@ private fun BoxWithConstraintsScope.UI(
             ) {
                 deleteAllDataModalVisible = true
             }
+
+            if(user != null){
+                Spacer(Modifier.height(16.dp))
+
+                SettingsPrimaryButton(
+                    icon = R.drawable.ic_categories,
+                    text = stringResource(R.string.switch_to_offline_mode),
+                    backgroundGradient = Gradient.solid(Red)
+                ) {
+                    deleteCloudDataModalVisible = true
+                }
+            }
         }
 
         item {
@@ -445,6 +476,21 @@ private fun BoxWithConstraintsScope.UI(
         dismiss = { deleteAllDataModalFinalVisible = false },
         onDelete = {
             onDeleteAllUserData()
+        }
+    )
+
+    DeleteModal(
+        title = stringResource(R.string.delete_all_cloud_data_question),
+        description = stringResource(
+            R.string.delete_all_user_cloud_data_warning, user?.email ?: stringResource(
+                R.string.your_account
+            )
+        ),
+        visible = deleteCloudDataModalVisible,
+        dismiss = { deleteCloudDataModalVisible = false },
+        onDelete = {
+            onDeleteCloudUserData()
+            deleteCloudDataModalVisible = false
         }
     )
 

@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val exportZipLogic: ExportZipLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
-    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct
+    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -241,6 +241,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun cloudLogout() {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            logoutLogic.cloudLogout()
+
+            TestIdlingResource.decrement()
+        }
+    }
+
     fun login() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
@@ -373,6 +383,17 @@ class SettingsViewModel @Inject constructor(
                 e.printStackTrace()
             }
             logout()
+        }
+    }
+
+    fun deleteCloudUserData() {
+        viewModelScope.launch {
+            try {
+                restClient.nukeService.deleteAllUserData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            cloudLogout()
         }
     }
 }

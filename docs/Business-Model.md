@@ -8,9 +8,9 @@
 
 ## Non-profit
 
-For now, the model behind Ivy Wallet would be non-profit. A place to develop cool tech, use it to manage your money and also build a solid public portfolio in GitHub.
+For now, the model behind Ivy Wallet would be non-profit. A place to develop cool tech, use it to manage your money and also build a solid public portfolio on GitHub.
 
-> In near future, we might create an option in the app for PayPal donations. Donations will be used to pay the servers, Ivy's legal entity expenses and then distributed between founders and contributors.
+> In the near future, we might create an option in the app for PayPal donations. Donations will be used to pay the servers, Ivy's legal entity expenses and then distributed between founders and contributors.
 
 ### Goals
 - Build a cool app to use ourselves.
@@ -29,7 +29,7 @@ For now, the model behind Ivy Wallet would be non-profit. A place to develop coo
 - "I manage this amazing product!"
 - "I made this project successful and famous!"
 - ...
-- We want you to fill part of the project and use your skills, and talents to determine its ultimate destiny!
+- We want you to fill part of the project and use your skills and talents to determine its ultimate destiny!
 
 ### Model
 
@@ -63,13 +63,13 @@ _Disclaimer: WIP... :construction:_
 
 The `Hall of Fame` would be a special screen in the app to honor Ivy Wallet's contributors.
 
-There would also be a `Hall of Fame` page in our GitHub repository which will be linked in the [README](https://github.com/ILIYANGERMANOV/ivy-wallet).
+There is a `Hall of Fame` page in our GitHub repository and right now it's called [Contributors Wall](https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-wall).
 
 Non-technical people who promoted, designed or helped Ivy Wallet in any way can include themselves by submitting a PR following a template. _(which will be provided here :construction:)_
 
 
 ---
 
-_Version 1.0.0_
+_Version 1.0.1_
 
 _Feedback, proposals, and PRs are highly appreciated! Let's spark discussion and make Ivy Wallet and the world a better place! :rocket:_

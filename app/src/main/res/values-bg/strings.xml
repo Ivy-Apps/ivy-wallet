@@ -428,4 +428,13 @@
     <string name="home_category">Дом</string>
     <string name="generating_report">Generating report…</string>
     <string name="sort_by">sortirane po</string>
+    <string name="skip_all">прескочете всички</string>
+    <string name="confirm_skip_all">Потвърдете пропускането на всички</string>
+    <string name="confirm_skip_all_description">Сигурни ли сте, че искате да пропуснете всички просрочени планирани операции?</string>
+    <string name="switch_to_offline_mode">Switch to offline mode</string>
+    <string name="delete_all_user_cloud_data_warning">WARNING! This action will delete all your cloud-stored data for %1$s PERMANENTLY, the offline data stored in your local app will remain.</string>
+    <string name="delete_all_cloud_data_question">Delete all cloud-stored data?</string>
+    <string name="experimental">Experimental</string>
+    <string name="experimental_settings">Experimental Settings</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>

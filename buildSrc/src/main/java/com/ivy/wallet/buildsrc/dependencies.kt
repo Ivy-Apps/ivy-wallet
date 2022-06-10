@@ -22,8 +22,8 @@ import org.gradle.kotlin.dsl.project
 
 object Project {
     //Version
-    const val versionName = "4.1.5"
-    const val versionCode = 111
+    const val versionName = "4.2.0"
+    const val versionCode = 112
 
     //Compile SDK & Build Tools
     const val compileSdkVersion = 31
@@ -47,7 +47,7 @@ fun DependencyHandler.appModuleDependencies(
 ) {
     implementation(project(":ivy-design"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.0")
+    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
 
     Kotlin(version = kotlinVersion)
     Coroutines(version = "1.5.0")
@@ -73,6 +73,8 @@ fun DependencyHandler.appModuleDependencies(
     Lifecycle(version = "2.3.1")
     AndroidX()
 
+    DataStore()
+
     ThirdParty()
 }
 
@@ -94,6 +96,9 @@ fun DependencyHandler.ivyDesignModuleDependencies(
 }
 //---------------------------------------------------------------------------------
 
+fun DependencyHandler.DataStore() {
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+}
 
 /**
  * Kotlin STD lib
@@ -120,6 +125,9 @@ fun DependencyHandler.Compose(version: String) {
 
     //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
+
+    // Jetpack Glance (Compose Widgets)
+    implementation ("androidx.glance:glance-appwidget:1.0.0-alpha03")
 
     Accompanist(version = "0.15.0")
 

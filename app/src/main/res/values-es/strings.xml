@@ -75,7 +75,7 @@
     <string name="pay_with">Pagar con</string>
     <string name="from">Desde</string>
     <string name="account">Cuenta</string>
-    <string name="to">Para</string>
+    <string name="to">Hasta</string>
     <string name="add_account">Añadir cuenta</string>
     <string name="income_title">Título de ingreso</string>
     <string name="expense_title">Título del gasto</string>
@@ -235,8 +235,8 @@
     <string name="export">Exportar</string>
     <string name="no_transactions_for_query">No tienes transacciones para la consulta "%1$s".</string>
     <string name="import_export"><![CDATA[Importación y exportación]]></string>
-    <string name="backup_data">Los datos de copia de seguridad</string>
-    <string name="import_data">Datos de importación</string>
+    <string name="backup_data">Respaldo de datos</string>
+    <string name="import_data">Importar datos</string>
     <string name="app_settings">Ajustes de Aplicación</string>
     <string name="lock_app">Bloquear la aplicación</string>
     <string name="show_notifications">Mostrar notificaciones</string>
@@ -257,11 +257,11 @@
     <string name="exporting_data">Exportar datos</string>
     <string name="exporting_data_description">Por favor espere, exportando datos</string>
     <string name="start_date_of_month">Fecha de inicio del mes</string>
-    <string name="ivy_telegram">Ivy Telegram</string>
+    <string name="ivy_telegram">Ivy en Telegram</string>
     <string name="help_center">Centro de ayuda</string>
     <string name="roadmap">Hoja de ruta</string>
     <string name="request_a_feature">Solicitar una característica</string>
-    <string name="contact_support">Soporte de contacto</string>
+    <string name="contact_support">Contactar con soporte</string>
     <string name="project_contributors">Colaboradores del proyecto</string>
     <string name="account_uppercase">CUENTA</string>
     <string name="logout">Cerrar sesión</string>
@@ -274,7 +274,7 @@
     <string name="export_to_csv">Exportar a CSV</string>
     <string name="left_to_spend">Queda para gastar</string>
     <string name="budget_exceeded_by">Presupuesto excedido por</string>
-    <string name="buffer_exceeded_by">Búfer excedido por</string>
+    <string name="buffer_exceeded_by">Reserva excedida por</string>
     <string name="set_transaction_type">Establecer tipo de transacción</string>
     <string name="transfer">Transferir</string>
     <string name="selected">Seleccionado</string>
@@ -313,7 +313,7 @@
     <string name="enter_loan_amount_uppercase">INGRESE EL MONTO DEL PRÉSTAMO</string>
     <string name="confirm_account_change_warning">"Nota: está intentando cambiar la cuenta asociada con el préstamo con una cuenta de moneda diferente, \nTodos los registros del préstamo se volverán a calcular en función de las tasas de cambio de hoy"</string>
     <string name="loan_type">Tipo de préstamo</string>
-    <string name="borrow_money">Prestar dinero</string>
+    <string name="borrow_money">Obtener préstamo</string>
     <string name="lend_money">Prestar dinero</string>
     <string name="edit_record">Editar registro</string>
     <string name="new_record">Nuevo récord</string>
@@ -428,4 +428,13 @@
     <string name="home_category">Hogar</string>
     <string name="generating_report">Generando reporte…</string>
     <string name="sort_by">" Ordenar por"</string>
+    <string name="skip_all">Saltar todo</string>
+    <string name="confirm_skip_all">Confirmar saltar todo</string>
+    <string name="confirm_skip_all_description">¿Está seguro de saltar todas las transacciones planeadas caducadas?</string>
+    <string name="switch_to_offline_mode">Cambiar a modo sin conexión</string>
+    <string name="delete_all_user_cloud_data_warning">¡ADVERTENCIA! Esta acción eliminará todos sus datos almacenados en la nube para %1$s PERMANENTEMENTE, los datos sin conexión almacenados en su aplicación local permanecerán.</string>
+    <string name="delete_all_cloud_data_question">¿Eliminar todos los datos almacenados en la nube?</string>
+    <string name="experimental">Experimental</string>
+    <string name="experimental_settings">Ajustes experimentales</string>
+    <string name="wallet_balance">Wallet balance</string>
 </resources>
