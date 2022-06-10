@@ -70,15 +70,15 @@ fun RowScope.WidgetClickableItem(
             provider = ImageProvider(image),
             contentDescription = null
         )
-        Spacer(GlanceModifier.height(8.dp))
-        Text(
-            text = stringRes(text),
-                    style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                color = ColorProvider(Color.White)
-            )
-        )
+//        Spacer(GlanceModifier.height(8.dp))
+//        Text(
+//            text = stringRes(text),
+//                    style = TextStyle(
+//                fontSize = 12.sp,
+//                fontWeight = FontWeight.Bold,
+//                color = ColorProvider(Color.White)
+//            )
+//        )
     }
 }
 
