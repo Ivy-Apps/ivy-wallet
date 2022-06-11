@@ -20,8 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#Fix Crashig "Donate" scree
+#Fix Crashig "Donate" scree (Jetpack Compose internal crash)
 -keep class com.ivy.wallet.ui.donate.** { *; }
+-keep class com.ivy.frp.** { *; }
+-keep class com.ivy.frp.view.FRPComposableKt { *; }
 
 # Fix broken stuff by R8
 -keep class com.ivy.wallet.ui.widget.** { *; }
