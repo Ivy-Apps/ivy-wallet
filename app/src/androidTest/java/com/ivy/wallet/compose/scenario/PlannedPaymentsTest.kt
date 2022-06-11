@@ -149,9 +149,8 @@ class PlannedPaymentsTest : IvyComposeTest() {
 
         homeTab.assertUpcomingDoesNotExist()
 
-        //Assert that the root planned payment exists
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickPlannedPayments()
+            //Assert that the root planned payment exists
+            .openMoreMenu() homeMoreMenu . clickPlannedPayments ()
 
         plannedPaymentsScreen.clickPlannedPayment(
             amount = "650.00"
@@ -162,8 +161,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     fun DeletePlannedPayment_Root() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickPlannedPayments()
+            .openMoreMenu() homeMoreMenu . clickPlannedPayments ()
 
         plannedPaymentsScreen.clickAddPlannedPayment()
 

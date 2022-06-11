@@ -19,8 +19,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     fun SetSavingsGoal() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSavingsGoal()
+            .openMoreMenu() homeMoreMenu . clickSavingsGoal ()
 
         savingsGoalModal.apply {
             enterAmount("10,000.00")
@@ -31,9 +30,8 @@ class OperationsSecondaryTest : IvyComposeTest() {
             amount = "10,000.00"
         )
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeTab.assertBalance(
-            amount = "0",
+            .openMoreMenu() homeTab . assertBalance (
+                amount = "0",
             amountDecimal = ".00"
         )
     }
@@ -42,8 +40,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     fun EditSavingsGoal() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSavingsGoal()
+            .openMoreMenu() homeMoreMenu . clickSavingsGoal ()
 
         savingsGoalModal.apply {
             enterAmount("550.23")
@@ -70,8 +67,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     fun LockApp_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSettings()
+            .openMoreMenu() homeMoreMenu . clickSettings ()
 
         settingsScreen.clickLockApp()
         settingsScreen.clickLockApp()
@@ -85,8 +81,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
             greeting = "Hi"
         )
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSettings()
+            .openMoreMenu() homeMoreMenu . clickSettings ()
 
         settingsScreen.assertLocalAccountName(
             name = "Anonymous"
@@ -113,8 +108,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
             greeting = "Hi"
         )
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSettings()
+            .openMoreMenu() homeMoreMenu . clickSettings ()
 
         settingsScreen.assertLocalAccountName(
             name = "Anonymous"
@@ -146,8 +140,7 @@ class OperationsSecondaryTest : IvyComposeTest() {
     fun SetStartDateOfMonth_semiTest() = testWithRetry {
         onboardingFlow.quickOnboarding()
 
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickSettings()
+            .openMoreMenu() homeMoreMenu . clickSettings ()
 
         //TODO: Fix test scroll + click doesn't work
 

@@ -1,26 +1,20 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextReplacement
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.domain.data.LoanType
 
 class LoanModal(
     private val composeTestRule: IvyComposeTestRule
-) {
-    private val amountInput = IvyAmountInput(composeTestRule)
-    val colorPicker = IvyColorPicker(composeTestRule)
-    val chooseIconFlow = ChooseIconFlow(composeTestRule)
-    val accountsTab = AccountsTab(composeTestRule)
-
-    fun enterName(loanName: String) {
+) : AmountInput<LoanModal>, ColorPicker<LoanModal>, IconPicker<LoanModal> {
+    fun enterName(loanName: String): LoanModal {
         composeTestRule.onNodeWithTag("base_input")
             .performTextReplacement(loanName)
+        return this
     }
 
-    fun selectLoanType(loanType: LoanType) {
+    fun selectLoanType(loanType: LoanType): LoanModal {
         when (loanType) {
             LoanType.BORROW -> {
                 composeTestRule.onNodeWithText("Borrow money")
@@ -31,26 +25,44 @@ class LoanModal(
                     .performClick()
             }
         }
+        return this
     }
 
-    fun enterAmount(amount: String) {
+    private fun clickLoanAmount(): IvyAmountInput {
         composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
-
-        amountInput.enterNumber(amount)
+        return IvyAmountInput(composeTestRule)
     }
 
-    fun clickAdd() {
+    fun clickAdd(): LoansScreen {
         composeTestRule.onNodeWithText("Add")
             .performClick()
+        return LoansScreen(composeTestRule)
     }
 
-    fun clickSave() {
+    fun <N> clickSave(next: N): N {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return next
     }
 
-    fun selectDefaultLoanAccount(){
-        accountsTab.clickAccount(account = "Cash")
+    fun selectDefaultLoanAccount(): LoanModal {
+        composeTestRule.onNode(hasText("Cash")).performClick()
+        return this
+    }
+
+    override fun chooseIcon(icon: String): LoanModal {
+        ChooseIconFlow(composeTestRule).chooseIcon(icon)
+        return this
+    }
+
+    override fun chooseColor(color: Color): LoanModal {
+        IvyColorPicker(composeTestRule).chooseColor(color)
+        return this
+    }
+
+    override fun enterAmount(number: String): LoanModal {
+        return clickLoanAmount()
+            .enterNumber(number = number, next = this)
     }
 }
