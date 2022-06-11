@@ -45,7 +45,6 @@ import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.donate.DonateScreen
-import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -312,19 +311,19 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        item {
-            SettingsSectionDivider(text = stringResource(R.string.experimental))
-
-            Spacer(Modifier.height(16.dp))
-
-            val nav = navigation()
-            SettingsDefaultButton(
-                icon = R.drawable.ic_custom_atom_m,
-                text = stringResource(R.string.experimental_settings)
-            ) {
-                nav.navigateTo(ExperimentalScreen)
-            }
-        }
+//        item {
+//            SettingsSectionDivider(text = stringResource(R.string.experimental))
+//
+//            Spacer(Modifier.height(16.dp))
+//
+//            val nav = navigation()
+//            SettingsDefaultButton(
+//                icon = R.drawable.ic_custom_atom_m,
+//                text = stringResource(R.string.experimental_settings)
+//            ) {
+//                nav.navigateTo(ExperimentalScreen)
+//            }
+//        }
 
         item {
             SettingsSectionDivider(text = stringResource(R.string.other))
