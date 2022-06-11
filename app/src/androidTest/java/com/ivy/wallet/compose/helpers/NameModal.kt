@@ -10,13 +10,15 @@ class NameModal(
     private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun enterName(name: String) {
+    fun enterName(name: String): NameModal {
         composeTestRule.onNodeWithTag("input_field")
             .performTextReplacement(name)
+        return this
     }
 
-    fun clickSave() {
+    fun clickSave(): SettingsScreen {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return SettingsScreen(composeTestRule)
     }
 }

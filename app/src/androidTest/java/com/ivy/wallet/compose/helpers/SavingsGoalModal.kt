@@ -7,20 +7,20 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 
 class SavingsGoalModal(
     private val composeTestRule: IvyComposeTestRule
-) {
+) : AmountInput<SavingsGoalModal> {
     private val amountInput = IvyAmountInput(composeTestRule)
 
-    fun enterAmount(
-        amount: String
-    ) {
+    override fun enterAmount(number: String): SavingsGoalModal {
         composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
-
-        amountInput.enterNumber(amount)
+        amountInput.enterNumber(number, next = this)
+        return this
     }
 
-    fun clickSave() {
+
+    fun clickSave(): HomeMoreMenu {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return HomeMoreMenu(composeTestRule)
     }
 }

@@ -7,30 +7,34 @@ class SettingsScreen(
     private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun clickLockApp() {
+    fun clickLockApp(): SettingsScreen {
         composeTestRule.waitForIdle()
 
         composeTestRule.onNodeWithText("Lock app")
             .performScrollTo()
             .performClick()
+        return this
     }
 
-    fun clickProfileCard() {
+    fun clickProfileCard(): NameModal {
         composeTestRule.onNodeWithTag("settings_profile_card", useUnmergedTree = true)
             .performClick()
+        return NameModal(composeTestRule)
     }
 
     fun assertLocalAccountName(
         name: String
-    ) {
+    ): SettingsScreen {
         composeTestRule.onNodeWithTag("local_account_name", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals(name)
+        return this
     }
 
-    fun clickBack() {
+    fun clickBack(): HomeMoreMenu {
         composeTestRule.onNodeWithTag("toolbar_back")
             .performClick()
+        return HomeMoreMenu(composeTestRule)
     }
 
     fun clickStartDateOfMonth() {

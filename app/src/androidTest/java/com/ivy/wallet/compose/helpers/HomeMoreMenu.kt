@@ -8,9 +8,10 @@ class HomeMoreMenu(
     private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun clickOpenCloseArrow() {
+    fun closeMoreMenu(): HomeTab {
         composeTestRule.onNodeWithTag("home_more_menu_arrow")
             .performClick()
+        return HomeTab(composeTestRule)
     }
 
     fun clickPlannedPayments() {
@@ -30,20 +31,22 @@ class HomeMoreMenu(
         return CategoriesScreen(composeTestRule)
     }
 
-    fun clickSavingsGoal() {
+    fun clickSavingsGoal(): SavingsGoalModal {
         composeTestRule.onNodeWithText("Savings goal")
             .performClick()
+        return SavingsGoalModal(composeTestRule)
     }
 
     fun assertSavingsGoal(
         amount: String,
         currency: String = "USD"
-    ) {
+    ): HomeMoreMenu {
         composeTestRule.printTree()
 
         composeTestRule.onNode(
             hasTestTag("savings_goal_row")
         ).assertTextContains(amount)
+        return this
     }
 
     fun clickSettings(): SettingsScreen {
