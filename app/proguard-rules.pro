@@ -20,6 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+#Fix Crashig "Donate" scree
+-keep class com.ivy.wallet.ui.donate.** { *; }
+
 # Fix broken stuff by R8
 -keep class com.ivy.wallet.ui.widget.** { *; }
 -keep class com.ivy.wallet.domain.data.** { *; }
