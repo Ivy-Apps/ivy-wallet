@@ -9,6 +9,12 @@ import com.ivy.wallet.compose.printTree
 class HomeTab<A : ComponentActivity>(
     private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
 ) {
+    fun openMoreMenu(): HomeMoreMenu<A> {
+        composeTestRule.onNodeWithTag("home_more_menu_arrow")
+            .performClick()
+        return HomeMoreMenu(composeTestRule)
+    }
+
 
     fun assertBalance(
         amount: String,

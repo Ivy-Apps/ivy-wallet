@@ -44,12 +44,13 @@ class OnboardingFlow<A : ComponentActivity>(
         )
     }
 
-    fun quickOnboarding() {
+    fun quickOnboarding(): HomeTab<A> {
         chooseOfflineAccount()
         clickStartFresh()
         setCurrency()
         skipAccounts()
         skipCategories()
+        return HomeTab(composeTestRule)
     }
 
     fun onboardWith1AccountAnd1Category() {

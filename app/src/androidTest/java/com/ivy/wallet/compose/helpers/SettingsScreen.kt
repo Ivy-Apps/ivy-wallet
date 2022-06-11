@@ -42,4 +42,14 @@ class SettingsScreen<A : ComponentActivity>(
             .performScrollTo()
             .performClick()
     }
+
+    fun clickDonate(): DonateScreen<A> {
+        composeTestRule.onNodeWithTag("settings_lazy_column")
+            .performScrollToIndex(4)
+
+        composeTestRule.onNodeWithText("Donate")
+            .performScrollTo()
+            .performClick()
+        return DonateScreen(composeTestRule)
+    }
 }

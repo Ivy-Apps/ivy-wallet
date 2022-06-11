@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -141,6 +142,7 @@ private fun DonateOptionPicker(
         SpacerHor(width = 12.dp)
 
         IvyText(
+            modifier = Modifier.testTag("donation_amount"),
             text = "$${
                 when (option) {
                     DonateOption.DONATE_2 -> 2
@@ -265,7 +267,8 @@ private fun BoxWithConstraintsScope.DonateButton(
                 bottom = true, start = false, end = false
             )
             .padding(horizontal = 20.dp)
-            .padding(bottom = 16.dp),
+            .padding(bottom = 16.dp)
+            .testTag("btn_donate"),
         iconStart = R.drawable.ic_donate_crown,
         wrapContentMode = false,
         iconTint = UI.colors.pure,

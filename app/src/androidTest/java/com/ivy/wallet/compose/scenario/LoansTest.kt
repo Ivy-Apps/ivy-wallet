@@ -12,12 +12,10 @@ import org.junit.Test
 @HiltAndroidTest
 class LoansTest : IvyComposeTest() {
 
-    private val onboarding = OnboardingFlow(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val loansScreen = LoansScreen(composeTestRule)
     private val loanModal = LoanModal(composeTestRule)
     private val loanDetailsScreen = LoanDetailsScreen(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
     private val loanRecordModal = LoanRecordModal(composeTestRule)
 
     @Test

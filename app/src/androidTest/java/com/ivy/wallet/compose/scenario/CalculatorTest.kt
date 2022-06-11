@@ -1,16 +1,12 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.TransactionScreen
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
 class CalculatorTest : IvyComposeTest() {
-    private val onboarding = OnboardingFlow(composeTestRule)
-    private val homeTab = HomeTab(composeTestRule)
-    private val mainBottomBar = MainBottomBar(composeTestRule)
-    private val amountInput = AmountInput(composeTestRule)
     private val transactionScreen = TransactionScreen(composeTestRule)
 
 

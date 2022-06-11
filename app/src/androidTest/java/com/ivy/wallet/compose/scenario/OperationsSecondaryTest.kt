@@ -10,7 +10,6 @@ import org.junit.Test
 @HiltAndroidTest
 class OperationsSecondaryTest : IvyComposeTest() {
     private val onboardingFlow = OnboardingFlow(composeTestRule)
-    private val homeTab = HomeTab(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val savingsGoalModal = SavingsGoalModal(composeTestRule)
     private val settingsScreen = SettingsScreen(composeTestRule)

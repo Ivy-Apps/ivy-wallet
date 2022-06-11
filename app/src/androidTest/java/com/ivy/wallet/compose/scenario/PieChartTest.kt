@@ -1,18 +1,12 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.HomeTab
-import com.ivy.wallet.compose.helpers.OnboardingFlow
 import com.ivy.wallet.compose.helpers.PieChartScreen
-import com.ivy.wallet.compose.helpers.TransactionFlow
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
 class PieChartTest : IvyComposeTest() {
-    private val onboarding = OnboardingFlow(composeTestRule)
-    private val homeTab = HomeTab(composeTestRule)
-    private val transactionFlow = TransactionFlow(composeTestRule)
     private val pieChartScreen = PieChartScreen(composeTestRule)
 
     @Test

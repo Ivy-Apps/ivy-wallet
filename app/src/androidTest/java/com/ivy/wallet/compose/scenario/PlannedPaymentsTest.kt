@@ -3,7 +3,10 @@ package com.ivy.wallet.compose.scenario
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.EditPlannedScreen
+import com.ivy.wallet.compose.helpers.HomeMoreMenu
+import com.ivy.wallet.compose.helpers.OnboardingFlow
+import com.ivy.wallet.compose.helpers.PlannedPaymentsScreen
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
@@ -14,11 +17,7 @@ import org.junit.Test
 class PlannedPaymentsTest : IvyComposeTest() {
 
     private val onboardingFlow = OnboardingFlow(composeTestRule)
-    private val transactionFlow = TransactionFlow(composeTestRule)
     private val editPlannedScreen = EditPlannedScreen(composeTestRule)
-    private val homeTab = HomeTab(composeTestRule)
-    private val mainBottomBar = MainBottomBar(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val plannedPaymentsScreen = PlannedPaymentsScreen(composeTestRule)
 

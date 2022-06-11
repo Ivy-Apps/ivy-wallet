@@ -5,27 +5,11 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
 class OperationsCoreTest : IvyComposeTest() {
-
-    private val onboarding = OnboardingFlow(composeTestRule)
-    private val amountInput = AmountInput(composeTestRule)
-    private val accountModal = AccountModal(composeTestRule)
-    private val mainBottomBar = MainBottomBar(composeTestRule)
-    private val transactionFlow = TransactionFlow(composeTestRule)
-    private val homeTab = HomeTab(composeTestRule)
-    private val accountsTab = AccountsTab(composeTestRule)
-    private val editTransactionScreen = TransactionScreen(composeTestRule)
-    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
-
-    @Test
-    fun contextLoads() {
-    }
 
     @Test
     fun OnboardAndAdjustBalance() = testWithRetry {

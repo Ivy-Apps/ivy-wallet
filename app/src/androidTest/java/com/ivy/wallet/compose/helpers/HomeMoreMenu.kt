@@ -46,9 +46,10 @@ class HomeMoreMenu<A : ComponentActivity>(
         ).assertTextContains(amount)
     }
 
-    fun clickSettings() {
+    fun clickSettings(): SettingsScreen<A> {
         composeTestRule.onNodeWithText("Settings")
             .performClick()
+        return SettingsScreen(composeTestRule)
     }
 
     fun clickLoans() {

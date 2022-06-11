@@ -1,7 +1,10 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.BudgetModal
+import com.ivy.wallet.compose.helpers.BudgetsScreen
+import com.ivy.wallet.compose.helpers.HomeMoreMenu
+import com.ivy.wallet.compose.helpers.OnboardingFlow
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -12,7 +15,6 @@ class BudgetsTests : IvyComposeTest() {
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val budgetsScreen = BudgetsScreen(composeTestRule)
     private val budgetModal = BudgetModal(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
 
     @Test
     fun CreateGlobalBudget() = testWithRetry {

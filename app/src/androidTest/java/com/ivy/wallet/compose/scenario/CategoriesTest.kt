@@ -3,7 +3,10 @@ package com.ivy.wallet.compose.scenario
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.CategoriesScreen
+import com.ivy.wallet.compose.helpers.CategoryModal
+import com.ivy.wallet.compose.helpers.HomeMoreMenu
+import com.ivy.wallet.compose.helpers.OnboardingFlow
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Blue2
 import com.ivy.wallet.ui.theme.Ivy
@@ -17,9 +20,6 @@ class CategoriesTest : IvyComposeTest() {
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val categoryModal = CategoryModal(composeTestRule)
     private val categoryScreen = CategoriesScreen(composeTestRule)
-    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
-    private val reorderModal = ReorderModal(composeTestRule)
 
     @Test
     fun contextLoads() = testWithRetry {
