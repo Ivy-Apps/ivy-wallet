@@ -55,6 +55,7 @@ class CustomerJourneyLogic(
             didYouKnow_expensesPieChart(),
             rateUsCard(),
             shareIvyWalletCard(),
+            joinIvyTelegramCard(),
 //            buyLifetimeOfferCard(),
             makeReportCard(),
             rateUsCard_2(),
@@ -176,6 +177,22 @@ class CustomerJourneyLogic(
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
+            }
+        )
+
+        fun joinIvyTelegramCard() = CustomerJourneyCardData(
+            id = "join_ivy_telegram",
+            condition = { trnCount, _, _ ->
+                trnCount >= 16
+            },
+            description = "It seems like that you're enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)",
+            title = "Ivy Community",
+            cta = "Join now",
+            ctaIcon = R.drawable.ic_telegram_24dp,
+            backgroundColor = Blue,
+            hasDismiss = true,
+            onAction = { navigation, _, _ ->
+                navigation.navigateTo(Paywall(paywallReason = null))
             }
         )
 
@@ -340,6 +357,18 @@ private fun PreviewShareIvyWallet() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard(),
+            onCTA = { },
+            onDismiss = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewJoinTelegram() {
+    IvyWalletComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.joinIvyTelegramCard(),
             onCTA = { },
             onDismiss = {}
         )
