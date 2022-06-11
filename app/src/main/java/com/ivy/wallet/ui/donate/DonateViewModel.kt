@@ -9,6 +9,7 @@ import com.ivy.wallet.ui.donate.data.DonateOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,6 +56,7 @@ class DonateViewModel @Inject constructor(
             DonateOption.DONATE_100 -> IvyBilling.DONATE_100
         }
     } then { targetSku ->
+        Timber.i("Donating to sku \"$targetSku\"")
         plans.find { it.sku == targetSku }
     } then { plan ->
         if (plan != null) {
