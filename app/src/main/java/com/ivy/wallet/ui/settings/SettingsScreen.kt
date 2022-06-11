@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -153,7 +154,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -356,7 +357,7 @@ private fun BoxWithConstraintsScope.UI(
                 icon = R.drawable.ic_donate_crown,
                 text = "Donate",
                 iconPadding = 8.dp,
-                backgroundGradient = Gradient.solid(Orange2)
+                backgroundGradient = Gradient(SunsetNight.startColor, SunsetNight.endColor)
             ) {
                 nav.navigateTo(DonateScreen)
             }
@@ -412,7 +413,7 @@ private fun BoxWithConstraintsScope.UI(
                 deleteAllDataModalVisible = true
             }
 
-            if(user != null){
+            if (user != null) {
                 Spacer(Modifier.height(16.dp))
 
                 SettingsPrimaryButton(

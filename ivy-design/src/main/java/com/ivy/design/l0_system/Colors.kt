@@ -100,6 +100,7 @@ val GradientOrange = Gradient(Orange, OrangeLight)
 val GradientOrangeDark = Gradient(OrangeDark, Color(0xFFF2CD9E))
 val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)
 val GradientPurple = Gradient(Purple, Color(0xFFAA99FF))
+val SunsetNight = Gradient(Red, Orange)
 
 @Composable
 fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
