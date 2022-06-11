@@ -16,10 +16,10 @@ open class ItemStatisticScreen(
         return DeleteConfirmationModal(composeTestRule)
     }
 
-    fun clickEdit(): AccountModal {
+    fun <N> clickEdit(next: N): N {
         composeTestRule.onNodeWithText("Edit")
             .performClick()
-        return AccountModal(composeTestRule)
+        return next
     }
 
     fun <N> clickClose(next: N): N {

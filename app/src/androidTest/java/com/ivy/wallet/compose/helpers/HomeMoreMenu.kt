@@ -24,9 +24,10 @@ class HomeMoreMenu(
         return BudgetsScreen(composeTestRule)
     }
 
-    fun clickCategories() {
+    fun clickCategories(): CategoriesScreen {
         composeTestRule.onNodeWithText("Categories")
             .performClick()
+        return CategoriesScreen(composeTestRule)
     }
 
     fun clickSavingsGoal() {

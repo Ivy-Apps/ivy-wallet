@@ -1,6 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
+import com.ivy.wallet.compose.helpers.AccountModal
 import com.ivy.wallet.compose.helpers.AccountsTab
 import com.ivy.wallet.compose.helpers.ItemStatisticScreen
 import com.ivy.wallet.ui.theme.Blue
@@ -83,7 +84,7 @@ class AccountsTest : IvyComposeTest() {
         quickOnboarding()
             .clickAccountsTab()
             .clickAccount("Bank")
-            .clickEdit()
+            .clickEdit(AccountModal(composeTestRule))
             .enterTitle("DSK Bank")
             .chooseColor(Purple1)
             .chooseIcon("star")

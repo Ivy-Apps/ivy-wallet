@@ -51,7 +51,7 @@ class OnboardingFlow(
         return HomeTab(composeTestRule)
     }
 
-    fun onboardWith1AccountAnd1Category() {
+    fun onboardWith1AccountAnd1Category(): HomeTab {
         chooseOfflineAccount()
         clickStartFresh()
         setCurrency()
@@ -66,6 +66,8 @@ class OnboardingFlow(
             amount = "0",
             amountDecimal = ".00"
         )
+
+        return homeTab
     }
 
 
