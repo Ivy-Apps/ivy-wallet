@@ -110,4 +110,18 @@ open class TransactionScreen(
 
         return this
     }
+
+    fun <N> clickGet(next: N): N {
+        composeTestRule.onNodeWithText("Get")
+            .performClick()
+        return next
+
+    }
+
+    fun <N> clickPay(next: N): N {
+        composeTestRule.onNodeWithText("Pay")
+            .performClick()
+        return next
+    }
+
 }

@@ -109,7 +109,7 @@ class OperationsCoreTest : IvyComposeTest() {
 
     @Test
     fun EditTransaction() = testWithRetry {
-        val part1 = quickOnboarding()
+        quickOnboarding()
             .addExpense(
                 amount = 20.48,
                 category = "Food & Drinks",
@@ -120,18 +120,20 @@ class OperationsCoreTest : IvyComposeTest() {
                 amount = "20.48",
                 category = "Food & Drinks",
                 account = "Cash"
-            ) as IncomeExpenseScreen
+            )
 
-        part1.editCategory(
-            currentCategory = "Food & Drinks",
-            newCategory = "Groceries"
-        ).editAmount(
-            newAmount = "34.55"
-        ).editAccount(
-            newAccount = "Bank"
-        ).editTitle(
-            newTitle = "For the house"
-        ).save(next = HomeTab(composeTestRule))
+        //TODO: Fix that
+        IncomeExpenseScreen(composeTestRule)
+            .editCategory(
+                currentCategory = "Food & Drinks",
+                newCategory = "Groceries"
+            ).editAmount(
+                newAmount = "34.55"
+            ).editAccount(
+                newAccount = "Bank"
+            ).editTitle(
+                newTitle = "For the house"
+            ).save(next = HomeTab(composeTestRule))
             .clickTransaction(
                 amount = "34.55",
                 title = "For the house",

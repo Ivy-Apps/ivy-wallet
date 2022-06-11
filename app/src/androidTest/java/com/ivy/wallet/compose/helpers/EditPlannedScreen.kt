@@ -9,10 +9,8 @@ import java.time.LocalDateTime
 class EditPlannedScreen(
     private val composeTestRule: IvyComposeTestRule
 ) {
-    private val amountInput = IvyAmountInput(composeTestRule)
-    private val chooseCategoryModal = ChooseCategoryModal(composeTestRule)
 
-    fun setPaymentType(type: TransactionType) {
+    fun setPaymentType(type: TransactionType): IvyAmountInput {
         val nodeText = when (type) {
             TransactionType.INCOME -> "modal_type_${type.name}"
             TransactionType.EXPENSE -> "modal_type_${type.name}"
@@ -20,6 +18,8 @@ class EditPlannedScreen(
         }
         composeTestRule.onNodeWithTag(nodeText)
             .performClick()
+
+        return IvyAmountInput(composeTestRule)
     }
 
     fun setRecurring(
@@ -27,7 +27,7 @@ class EditPlannedScreen(
         startDate: LocalDateTime?,
         intervalN: Int?,
         intervalType: IntervalType?,
-    ) {
+    ): EditPlannedScreen {
         if (oneTime) {
             composeTestRule.onNodeWithText("One time")
                 .performClick()
@@ -72,19 +72,26 @@ class EditPlannedScreen(
 
         composeTestRule.onNodeWithTag("recurringModalSet")
             .performClick()
+
+        return this
     }
 
-    private fun clickIntervalArrowLeft() {
+    private fun clickIntervalArrowLeft(): EditPlannedScreen {
         composeTestRule.onNodeWithContentDescription("interval_type_arrow_left")
             .performClick()
+
+        return this
     }
 
-    private fun clickIntervalArrowRight() {
+    private fun clickIntervalArrowRight(): EditPlannedScreen {
         composeTestRule.onNodeWithContentDescription("interval_type_arrow_right")
             .performClick()
+
+        return this
     }
 
-    fun addPlannedPayment(
+    fun <N> addPlannedPayment(
+        next: N,
         type: TransactionType,
         amount: String,
         category: String,
@@ -94,51 +101,42 @@ class EditPlannedScreen(
         startDate: LocalDateTime? = null,
         intervalN: Int? = null,
         intervalType: IntervalType? = null,
-    ) {
+    ): N {
         setPaymentType(type = type)
-
-        amountInput.enterNumber(amount)
-
-        chooseCategoryModal.selectCategory(category)
-
-        setRecurring(
-            oneTime = oneTime,
-            startDate = startDate,
-            intervalN = intervalN,
-            intervalType = intervalType
-        )
+            .enterNumber(amount, next = ChooseCategoryModal(composeTestRule))
+            .selectCategory(category, next = this)
+            .setRecurring(
+                oneTime = oneTime,
+                startDate = startDate,
+                intervalN = intervalN,
+                intervalType = intervalType
+            )
 
         if (title != null) {
             editTitle(newTitle = title)
         }
 
-        clickSet()
+        return clickSet(next = next)
     }
 
     fun editTitle(
         newTitle: String
-    ) {
+    ): EditPlannedScreen {
         composeTestRule.onNodeWithTag("input_field")
             .performTextReplacement(newTitle)
+        return this
     }
 
-    fun clickSet() {
+    fun <N> clickSet(next: N): N {
         composeTestRule.onNodeWithTag("editPlannedScreen_set")
             .performClick()
+        return next
     }
 
-    fun clickGet() {
-        composeTestRule.onNodeWithText("Get")
-            .performClick()
-    }
 
-    fun clickPay() {
-        composeTestRule.onNodeWithText("Pay")
-            .performClick()
-    }
-
-    fun clickDelete() {
+    fun clickDelete(): DeleteConfirmationModal {
         composeTestRule.onNodeWithTag("delete_button")
             .performClick()
+        return DeleteConfirmationModal(composeTestRule)
     }
 }

@@ -14,9 +14,10 @@ class HomeMoreMenu(
         return HomeTab(composeTestRule)
     }
 
-    fun clickPlannedPayments() {
+    fun clickPlannedPayments(): PlannedPaymentsScreen {
         composeTestRule.onNodeWithText("Planned\nPayments")
             .performClick()
+        return PlannedPaymentsScreen(composeTestRule)
     }
 
     fun clickBudgets(): BudgetsScreen {
