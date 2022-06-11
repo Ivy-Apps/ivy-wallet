@@ -357,7 +357,7 @@ private fun BoxWithConstraintsScope.UI(
                 icon = R.drawable.ic_donate_crown,
                 text = "Donate",
                 iconPadding = 8.dp,
-                backgroundGradient = Gradient(SunsetNight.startColor, SunsetNight.endColor)
+                backgroundGradient = Gradient.from(SunsetNight)
             ) {
                 nav.navigateTo(DonateScreen)
             }

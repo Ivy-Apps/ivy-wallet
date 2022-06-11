@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -34,10 +35,13 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.theme.Blue
+import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
+import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
@@ -156,11 +160,16 @@ fun BoxWithConstraintsScope.MoreMenu(
         }
     }
 
+    if (percentExpanded > 0.01f) {
+        DonateButton(
+            percentExpanded = percentExpanded
+        )
+    }
+
     CircleButtonFilled(
         modifier = Modifier
             .layout { measurable, constraints ->
                 val placeable = measurable.measure(constraints)
-
 
                 layout(placeable.width, placeable.height) {
                     placeable.place(
@@ -179,7 +188,6 @@ fun BoxWithConstraintsScope.MoreMenu(
     ) {
         setExpanded(!expanded)
     }
-
 }
 
 @Composable
@@ -550,6 +558,28 @@ private fun Preview_Expanded() {
         ) {
 
         }
+    }
+}
+
+@Composable
+private fun BoxWithConstraintsScope.DonateButton(
+    percentExpanded: Float
+) {
+    val nav = navigation()
+    IvyButton(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .navigationBarsPadding()
+            .padding(bottom = 40.dp)
+            .zIndex(510f)
+            .alpha(percentExpanded),
+        text = "Donate",
+        iconStart = R.drawable.ic_donate_crown,
+        iconEdgePadding = 16.dp,
+        iconTextPadding = 12.dp,
+        backgroundGradient = Gradient.from(SunsetNight)
+    ) {
+        nav.navigateTo(DonateScreen)
     }
 }
 
