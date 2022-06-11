@@ -52,8 +52,15 @@ class HomeMoreMenu<A : ComponentActivity>(
         return SettingsScreen(composeTestRule)
     }
 
-    fun clickLoans() {
+    fun clickLoans(): LoansScreen<A> {
         composeTestRule.onNodeWithText("Loans")
             .performClick()
+        return LoansScreen(composeTestRule)
+    }
+
+    fun clickDonate(): DonateScreen<A> {
+        composeTestRule.onNodeWithText("Donate")
+            .performClick()
+        return DonateScreen(composeTestRule)
     }
 }
