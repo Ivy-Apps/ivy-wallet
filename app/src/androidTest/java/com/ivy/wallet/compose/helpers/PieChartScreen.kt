@@ -1,23 +1,22 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class PieChartScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class PieChartScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    fun assertTitle(title: String) {
+    fun assertTitle(title: String): PieChartScreen {
         composeTestRule.onNodeWithTag("piechart_title")
             .assertTextContains(title)
+        return this
     }
 
     fun assertTotalAmount(
         amountInt: String,
         decimalPart: String,
         currency: String = "USD"
-    ) {
+    ): PieChartScreen {
         val matchText: (String) -> SemanticsMatcher = { text ->
             hasTestTag("piechart_total_amount")
                 .and(
@@ -35,5 +34,7 @@ class PieChartScreen<A : ComponentActivity>(
 
         composeTestRule.onNode(matchText(currency))
             .assertIsDisplayed()
+
+        return this
     }
 }

@@ -1,28 +1,26 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class SavingsGoalModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
-) {
-    private val amountInput = AmountInput(composeTestRule)
+class SavingsGoalModal(
+    private val composeTestRule: IvyComposeTestRule
+) : AmountInput<SavingsGoalModal> {
+    private val amountInput = IvyAmountInput(composeTestRule)
 
-    fun enterAmount(
-        amount: String
-    ) {
+    override fun enterAmount(number: String): SavingsGoalModal {
         composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
-
-        amountInput.enterNumber(amount)
+        amountInput.enterNumber(number, next = this)
+        return this
     }
 
-    fun clickSave() {
+
+    fun clickSave(): HomeMoreMenu {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return HomeMoreMenu(composeTestRule)
     }
 }

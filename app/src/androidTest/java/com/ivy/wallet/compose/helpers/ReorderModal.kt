@@ -1,12 +1,10 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class ReorderModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class ReorderModal(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
     fun moveToTop(itemPosition: Int) {

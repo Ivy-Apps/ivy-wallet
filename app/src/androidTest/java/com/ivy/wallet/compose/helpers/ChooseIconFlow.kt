@@ -1,16 +1,13 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class ChooseIconFlow<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class ChooseIconFlow(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-
     fun chooseIcon(icon: String) {
         composeTestRule.onNodeWithTag("modal_item_icon")
             .performClick()
@@ -22,4 +19,8 @@ class ChooseIconFlow<A : ComponentActivity>(
         composeTestRule.onNodeWithTag("choose_icon_save")
             .performClick()
     }
+}
+
+interface IconPicker<T> {
+    fun chooseIcon(icon: String): T
 }

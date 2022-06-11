@@ -1,87 +1,92 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.clickWithRetry
 
-class OnboardingFlow<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class OnboardingFlow(
+    private val composeTestRule: IvyComposeTestRule
 ) {
     private val homeTab = HomeTab(composeTestRule)
 
-    fun chooseOfflineAccount() {
+    fun chooseOfflineAccount(): OnboardingFlow {
         composeTestRule.clickWithRetry(
             node = composeTestRule.onNode(hasText("Offline account")),
             maxRetries = 10
         )
+        return this
     }
 
-    fun clickStartFresh() {
+    fun clickStartFresh(): OnboardingFlow {
         composeTestRule.clickWithRetry(
             node = composeTestRule.onNode(hasText("Start fresh"))
         )
+        return this
     }
 
-    fun setCurrency() {
+    fun setCurrency(): OnboardingFlow {
         composeTestRule.clickWithRetry(
             node = composeTestRule.onNode(hasText("Set"))
         )
+        return this
     }
 
-    fun skipAccounts() {
+    fun skipAccounts(): OnboardingFlow {
         composeTestRule.clickWithRetry(
             node = composeTestRule.onNode(hasText("Skip"))
         )
+        return this
     }
 
-    fun skipCategories() {
+    fun skipCategories(): HomeTab {
         composeTestRule.clickWithRetry(
             node = composeTestRule.onNode(hasText("Skip"))
         )
+        return HomeTab(composeTestRule)
     }
 
-    fun quickOnboarding() {
-        chooseOfflineAccount()
-        clickStartFresh()
-        setCurrency()
-        skipAccounts()
-        skipCategories()
+    fun quickOnboarding(): HomeTab {
+        return chooseOfflineAccount()
+            .clickStartFresh()
+            .setCurrency()
+            .skipAccounts()
+            .skipCategories()
     }
 
-    fun onboardWith1AccountAnd1Category() {
-        chooseOfflineAccount()
-        clickStartFresh()
-        setCurrency()
+    fun onboardWith1AccountAnd1Category(): HomeTab {
+        return chooseOfflineAccount()
+            .clickStartFresh()
+            .setCurrency()
 
-        clickItemSuggestion("Cash")
-        clickAccountsNext()
+            .clickItemSuggestion("Cash")
+            .clickAccountsNext()
 
-        clickItemSuggestion("Food & Drinks")
-        clickCategoriesFinish()
-
-        homeTab.assertBalance(
-            amount = "0",
-            amountDecimal = ".00"
-        )
+            .clickItemSuggestion("Food & Drinks")
+            .clickCategoriesFinish()
+            .assertBalance(
+                amount = "0",
+                amountDecimal = ".00"
+            )
     }
 
 
-    private fun clickItemSuggestion(suggestion: String) {
+    private fun clickItemSuggestion(suggestion: String): OnboardingFlow {
         composeTestRule.onNodeWithText(suggestion)
             .performClick()
+        return this
     }
 
-    private fun clickAccountsNext() {
+    private fun clickAccountsNext(): OnboardingFlow {
         composeTestRule.onNodeWithText("Next")
             .performClick()
+        return this
     }
 
-    private fun clickCategoriesFinish() {
+    private fun clickCategoriesFinish(): HomeTab {
         composeTestRule.onNodeWithText("Finish")
             .performClick()
+        return HomeTab(composeTestRule)
     }
 }

@@ -1,9 +1,9 @@
 package com.ivy.wallet.compose.scenario
 
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.CategoriesScreen
+import com.ivy.wallet.compose.helpers.CategoryModal
+import com.ivy.wallet.compose.helpers.ItemStatisticScreen
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Blue2
 import com.ivy.wallet.ui.theme.Ivy
@@ -13,103 +13,74 @@ import org.junit.Test
 
 @HiltAndroidTest
 class CategoriesTest : IvyComposeTest() {
-    private val onboardingFlow = OnboardingFlow(composeTestRule)
-    private val homeMoreMenu = HomeMoreMenu(composeTestRule)
-    private val categoryModal = CategoryModal(composeTestRule)
-    private val categoryScreen = CategoriesScreen(composeTestRule)
-    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
-    private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
-    private val reorderModal = ReorderModal(composeTestRule)
-
-    @Test
-    fun contextLoads() = testWithRetry {
-    }
 
     @Test
     fun CreateCategory() = testWithRetry {
-        onboardingFlow.onboardWith1AccountAnd1Category()
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickCategories()
-
-
-        composeTestRule.onNodeWithText("Add category")
-            .performClick()
-
-        categoryModal.apply {
-            enterTitle("Fun")
-            chooseIconFlow.chooseIcon("game")
-            colorPicker.chooseColor(Blue)
-
-            clickAdd()
-        }
-
-        categoryScreen.assertCategory("Fun")
+        onboardWith1AccountAnd1Category()
+            .openMoreMenu()
+            .clickCategories()
+            .clickAddCategory()
+            .enterTitle("Fun")
+            .chooseIcon("game")
+            .chooseColor(Blue)
+            .clickAdd(next = CategoriesScreen(composeTestRule))
+            .assertCategory("Fun")
     }
 
     @Test
     fun AddSeveralCategories() = testWithRetry {
-        onboardingFlow.onboardWith1AccountAnd1Category()
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickCategories()
-
-        categoryScreen.addCategory(
-            categoryName = "Entertainment"
-        )
-        categoryScreen.addCategory(
-            categoryName = "Bills",
-            color = Blue2
-        )
-        categoryScreen.addCategory(
-            categoryName = "Ivy",
-            icon = "star"
-        )
+        onboardWith1AccountAnd1Category()
+            .openMoreMenu()
+            .clickCategories()
+            .addCategory(
+                categoryName = "Entertainment"
+            )
+            .addCategory(
+                categoryName = "Bills",
+                color = Blue2
+            )
+            .addCategory(
+                categoryName = "Ivy",
+                icon = "star"
+            )
     }
 
     @Test
     fun EditCategory() = testWithRetry {
-        onboardingFlow.onboardWith1AccountAnd1Category()
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickCategories()
-
-        categoryScreen.clickCategory(
-            categoryName = "Food & Drinks"
-        )
-
-        itemStatisticScreen.clickEdit()
-        categoryModal.apply {
-            enterTitle(
+        onboardWith1AccountAnd1Category()
+            .openMoreMenu()
+            .clickCategories()
+            .clickCategory(
+                categoryName = "Food & Drinks"
+            )
+            .clickEdit(CategoryModal(composeTestRule))
+            .enterTitle(
                 title = "Eating"
             )
-            chooseIconFlow.chooseIcon(
+            .chooseIcon(
                 icon = "restaurant"
             )
-            colorPicker.chooseColor(Ivy)
-
-            clickSave()
-        }
-        itemStatisticScreen.clickClose()
-
-        categoryScreen.assertCategory(
-            categoryName = "Eating"
-        )
+            .chooseColor(Ivy)
+            .clickSave(next = ItemStatisticScreen(composeTestRule))
+            .clickClose(next = CategoriesScreen(composeTestRule))
+            .assertCategory(
+                categoryName = "Eating"
+            )
     }
 
     @Test
     fun DeleteCategory() = testWithRetry {
-        onboardingFlow.onboardWith1AccountAnd1Category()
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickCategories()
+        onboardWith1AccountAnd1Category()
+            .openMoreMenu()
+            .clickCategories()
 
-        categoryScreen.clickCategory(
-            categoryName = "Food & Drinks"
-        )
-
-        itemStatisticScreen.clickDelete()
-        deleteConfirmationModal.confirmDelete()
-
-        categoryScreen.assertCategoryNotExists(
-            categoryName = "Food & Drinks"
-        )
+            .clickCategory(
+                categoryName = "Food & Drinks"
+            )
+            .deleteItem(next = CategoriesScreen(composeTestRule))
+            .assertCategoryNotExists(
+                categoryName = "Food & Drinks"
+            )
     }
 
     /**
@@ -118,11 +89,10 @@ class CategoriesTest : IvyComposeTest() {
     @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.domain.Settings.getCurrency()' on a null object reference")
     @Test
     fun ReorderCategories_semiTest() = testWithRetry {
-        onboardingFlow.quickOnboarding()
-        homeMoreMenu.clickOpenCloseArrow()
-        homeMoreMenu.clickCategories()
-
-        categoryScreen.clickReorder()
-        reorderModal.clickDone()
+        quickOnboarding()
+            .openMoreMenu()
+            .clickCategories()
+            .clickReorder()
+            .clickDone()
     }
 }
