@@ -32,9 +32,10 @@ open class ItemStatisticScreen(
         balance: String,
         balanceDecimal: String,
         currency: String
-    ) {
+    ): ItemStatisticScreen {
         composeTestRule.onNodeWithTag("balance")
             .assertTextEquals(currency, balance, balanceDecimal)
+        return this
     }
 
     fun <T> deleteItem(next: T): T {

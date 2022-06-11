@@ -3,6 +3,7 @@ package com.ivy.wallet.compose.helpers
 import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.printTree
+import com.ivy.wallet.utils.format
 
 class HomeTab(
     private val composeTestRule: IvyComposeTestRule
@@ -22,6 +23,7 @@ class HomeTab(
             .assertTextEquals(currency, amount, amountDecimal)
         return this
     }
+
 
     fun clickTransaction(
         amount: String,
@@ -163,5 +165,94 @@ class HomeTab(
 
     override fun clickAddFAB(): AddFABMenu {
         return clickAddFAB(next = AddFABMenu(composeTestRule))
+    }
+
+    //-------- TransactionFlow -------------------
+
+    fun addIncome(
+        amount: Double,
+        title: String? = null,
+        category: String? = null,
+        account: String = "Cash",
+        description: String? = null,
+    ): HomeTab {
+        return clickAddFAB()
+            .clickAddIncome()
+            .addTransaction(
+                amount = amount,
+                title = title,
+                category = category,
+                account = account,
+                description = description,
+            )
+    }
+
+    fun addExpense(
+        amount: Double,
+        title: String? = null,
+        category: String? = null,
+        account: String = "Cash",
+        description: String? = null,
+    ): HomeTab {
+        return clickAddFAB()
+            .clickAddExpense()
+            .addTransaction(
+                amount = amount,
+                title = title,
+                category = category,
+                account = account,
+                description = description
+            )
+    }
+
+    private fun TransactionScreen.addTransaction(
+        amount: Double,
+        title: String?,
+        category: String?,
+        description: String?,
+        account: String = "Cash"
+    ): HomeTab {
+        return firstOpen()
+            .selectAccount(account)
+            .enterNumber(
+                number = amount.format(2),
+                next = ChooseCategoryModal(composeTestRule)
+            )
+            .run {
+                if (category != null) {
+                    selectCategory(category, next = this@addTransaction)
+                } else {
+                    skip(next = this@addTransaction)
+                }
+            }.apply {
+                if (title != null) {
+                    editTitle(title)
+                }
+            }.apply {
+                if (description != null) {
+                    addDescription(description)
+                }
+            }.clickAdd(next = HomeTab(composeTestRule))
+    }
+
+    fun addTransfer(
+        amount: Double,
+        title: String? = null,
+        fromAccount: String,
+        toAccount: String
+    ): HomeTab {
+        return clickAddFAB()
+            .clickAddTransfer()
+            .firstOpen()
+            .enterNumber(
+                number = amount.format(2),
+                next = TransferScreen(composeTestRule)
+            ).selectFromAccount(fromAccount)
+            .selectToAccount(toAccount)
+            .apply {
+                if (title != null) {
+                    editTitle(title)
+                }
+            }.clickAdd(next = HomeTab(composeTestRule))
     }
 }

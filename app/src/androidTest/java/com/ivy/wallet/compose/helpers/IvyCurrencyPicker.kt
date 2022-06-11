@@ -17,7 +17,7 @@ class IvyCurrencyPicker(
         modalSave()
     }
 
-    private fun searchAndSelect(
+    fun searchAndSelect(
         currency: IvyCurrency,
     ) {
         composeTestRule.onNodeWithTag("search_input")
