@@ -43,6 +43,7 @@ import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -346,6 +347,18 @@ private fun BoxWithConstraintsScope.UI(
                 backgroundGradient = Gradient.solid(Red3)
             ) {
                 ivyActivity.shareIvyWallet()
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            val nav = navigation()
+            SettingsPrimaryButton(
+                icon = R.drawable.ic_donate_crown,
+                text = "Donate",
+                iconPadding = 8.dp,
+                backgroundGradient = Gradient.solid(Orange2)
+            ) {
+                nav.navigateTo(DonateScreen)
             }
         }
 

@@ -16,11 +16,13 @@ class IvyBilling(
 
         private const val LIFETIME_V1 = "ivy_wallet_lifetime_v1"
 
+        const val DONATE_2 = "donate_2"
         const val DONATE_5 = "donate_5"
         const val DONATE_10 = "donate_10"
         const val DONATE_15 = "donate_15"
         const val DONATE_25 = "donate_25"
         const val DONATE_50 = "donate_50"
+        const val DONATE_100 = "donate_100"
 
         val SUBSCRIPTIONS = listOf(
             MONTHLY_V1,
@@ -29,11 +31,13 @@ class IvyBilling(
         )
 
         val ONE_TIME_PLANS = listOf(
+            DONATE_2,
             DONATE_5,
             DONATE_10,
             DONATE_15,
             DONATE_25,
-            DONATE_50
+            DONATE_50,
+            DONATE_100
         )
     }
 

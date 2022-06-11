@@ -1,9 +1,5 @@
 package com.ivy.wallet.ui.donate.data
 
-import com.ivy.wallet.android.billing.Plan
-
-data class DonateOption(
-    val title: String,
-    val desc: String,
-    val plan: Plan
-)
+enum class DonateOption {
+    DONATE_2, DONATE_5, DONATE_10, DONATE_15, DONATE_25, DONATE_50, DONATE_100
+}

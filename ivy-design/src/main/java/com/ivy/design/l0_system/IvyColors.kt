@@ -21,6 +21,7 @@ interface IvyColors {
 
     val red: Color
     val red1: Color
+    val red1Inverse: Color
 
     val isLight: Boolean
 }

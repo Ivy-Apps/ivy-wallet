@@ -1,8 +1,11 @@
 package com.ivy.wallet.ui.donate
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.frp.then
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.android.billing.IvyBilling
+import com.ivy.wallet.android.billing.Plan
+import com.ivy.wallet.ui.donate.data.DonateOption
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -14,9 +17,11 @@ class DonateViewModel @Inject constructor(
 ) : FRPViewModel<DonateState, DonateEvent>() {
     override val _state: MutableStateFlow<DonateState> = MutableStateFlow(DonateState.Loading)
 
+    val plans = mutableListOf<Plan>()
+
     override suspend fun handleEvent(event: DonateEvent): suspend () -> DonateState = when (event) {
-        is DonateEvent.Buy -> TODO()
-        is DonateEvent.Load -> TODO()
+        is DonateEvent.Load -> load(event)
+        is DonateEvent.Donate -> donate(event)
     }
 
     private fun load(event: DonateEvent.Load) = suspend {
@@ -24,17 +29,9 @@ class DonateViewModel @Inject constructor(
             activity = event.activity,
             onReady = {
                 viewModelScope.launch {
-                    val plans = ivyBilling.fetchOneTimePlans()
-                        .mapNotNull {
-                            when (it.sku) {
-                                IvyBilling.DONATE_5 -> "Donate 5" to "Show support"
-                                IvyBilling.DONATE_10 -> "Donate 10" to "Give us hope!"
-                                IvyBilling.DONATE_15 -> "Donate 15" to ""
-                                IvyBilling.DONATE_25 -> "Donate 25" to "Pay our servers for 1 month."
-                                IvyBilling.DONATE_50 -> "Donate 50" to "Pay our accountant for 1 month."
-                                else -> null
-                            }
-                        }
+                    plans.clear()
+                    plans.addAll(ivyBilling.fetchOneTimePlans())
+                    updateStateNonBlocking { DonateState.Success }
                 }
             },
             onError = { code, msg ->
@@ -44,6 +41,29 @@ class DonateViewModel @Inject constructor(
             },
             onPurchases = {}
         )
+        stateVal()
+    }
+
+    private fun donate(event: DonateEvent.Donate) = suspend {
+        when (event.option) {
+            DonateOption.DONATE_2 -> IvyBilling.DONATE_2
+            DonateOption.DONATE_5 -> IvyBilling.DONATE_5
+            DonateOption.DONATE_10 -> IvyBilling.DONATE_10
+            DonateOption.DONATE_15 -> IvyBilling.DONATE_15
+            DonateOption.DONATE_25 -> IvyBilling.DONATE_25
+            DonateOption.DONATE_50 -> IvyBilling.DONATE_50
+            DonateOption.DONATE_100 -> IvyBilling.DONATE_100
+        }
+    } then { targetSku ->
+        plans.find { it.sku == targetSku }
+    } then { plan ->
+        if (plan != null) {
+            ivyBilling.buy(
+                activity = event.activity,
+                skuToBuy = plan.skuDetails,
+                oldSubscriptionPurchaseToken = null
+            )
+        }
         stateVal()
     }
 }
