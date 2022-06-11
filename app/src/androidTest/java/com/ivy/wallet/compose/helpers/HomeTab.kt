@@ -20,7 +20,7 @@ class HomeTab(
     ): HomeTab {
         composeTestRule.onNodeWithTag("home_balance")
             .assertTextEquals(currency, amount, amountDecimal)
-        return HomeTab(composeTestRule)
+        return this
     }
 
     fun clickTransaction(
@@ -28,7 +28,7 @@ class HomeTab(
         title: String? = null,
         account: String? = null,
         category: String? = null
-    ) {
+    ): TransactionScreen {
         var matcher = hasTestTag("type_amount_currency")
             .and(hasAnyDescendant(hasText(amount)))
 
@@ -70,80 +70,95 @@ class HomeTab(
         )
             .assertIsDisplayed()
             .performClick()
+
+        return TransactionScreen(composeTestRule)
     }
 
     fun assertTransactionNotExists(
         amount: String
-    ) {
+    ): HomeTab {
         composeTestRule.onNode(
             hasTestTag("transaction_card")
                 .and(hasText(amount))
         ).assertDoesNotExist()
+
+        return this
     }
 
     fun assertUpcomingIncome(
         amount: String,
         currency: String
-    ) {
+    ): HomeTab {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_income",
             useUnmergedTree = true
         ).assertTextEquals("$amount $currency")
+
+        return this
     }
 
     fun assertUpcomingExpense(
         amount: String,
         currency: String
-    ) {
+    ): HomeTab {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_expense",
             useUnmergedTree = true
         ).assertTextEquals("$amount $currency")
+
+        return this
     }
 
-    fun dismissPrompt() {
+    fun dismissPrompt(): HomeTab {
         composeTestRule.onNodeWithContentDescription("prompt_dismiss")
             .performClick()
+        return this
     }
 
-    fun assertUpcomingDoesNotExist() {
+    fun assertUpcomingDoesNotExist(): HomeTab {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
         ).assertDoesNotExist()
+        return this
     }
 
-    fun clickUpcoming() {
+    fun clickUpcoming(): HomeTab {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
         ).performClick()
+        return this
     }
 
-    fun clickTransactionPay() {
+    fun clickTransactionPay(): HomeTab {
         composeTestRule.onNode(
             hasText("Pay")
                 .and(hasAnyAncestor(hasTestTag("transaction_card")))
         )
             .performScrollTo()
             .performClick()
+        return this
     }
 
     fun assertGreeting(
         greeting: String
-    ) {
+    ): HomeTab {
         composeTestRule.onNodeWithTag("home_greeting_text", useUnmergedTree = true)
             .assertTextEquals(greeting)
+        return this
     }
 
-    fun clickIncomeCard() {
+    fun clickIncomeCard(): PieChartScreen {
         composeTestRule.onNodeWithTag("home_card_income")
             .performClick()
+        return PieChartScreen(composeTestRule)
     }
 
-    fun clickExpenseCard() {
+    fun clickExpenseCard(): PieChartScreen {
         composeTestRule.onNodeWithTag("home_card_expense")
             .performClick()
+        return PieChartScreen(composeTestRule)
     }
 
     override fun clickAddFAB(): AddFABMenu {

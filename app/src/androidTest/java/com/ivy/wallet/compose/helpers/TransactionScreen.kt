@@ -33,12 +33,13 @@ open class TransactionScreen(
 
     fun editTitle(
         newTitle: String
-    ) {
+    ): TransactionScreen {
         composeTestRule.onNodeWithTag("input_field")
             .performTextReplacement(newTitle)
+        return this
     }
 
-    fun removeDescription() {
+    fun removeDescription(): TransactionScreen {
         composeTestRule.hideKeyboard()
 
         composeTestRule.onNodeWithTag("trn_description")
@@ -46,41 +47,49 @@ open class TransactionScreen(
 
         composeTestRule.onNodeWithTag("modal_desc_delete")
             .performClick()
+        return this
     }
 
-    fun assertDescription(desc: String) {
+    fun assertDescription(desc: String): TransactionScreen {
         composeTestRule.onNodeWithTag("trn_description", useUnmergedTree = true)
             .assertTextEquals(desc)
+        return this
     }
 
-    fun assertAddDescriptionButtonVisible() {
+    fun assertAddDescriptionButtonVisible(): TransactionScreen {
         composeTestRule.onNodeWithText("Add description")
             .assertIsDisplayed()
+        return this
     }
 
-    fun clickClose() {
+    fun <N> clickClose(next: N): N {
         composeTestRule.onNodeWithContentDescription("close")
             .performClick()
+        return next
     }
 
-    fun clickDelete() {
+    fun clickDelete(): DeleteConfirmationModal {
         composeTestRule.onNodeWithTag("delete_button")
             .performClick()
+        return DeleteConfirmationModal(composeTestRule)
     }
 
-    fun save() {
+    fun <N> save(next: N): N {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return next
     }
 
-    fun clickAdd() {
+    fun <N> clickAdd(next: N): N {
         composeTestRule.onNodeWithText("Add")
             .performClick()
+        return next
     }
 
-    fun skipCategory() {
+    fun skipCategory(): TransactionScreen {
         composeTestRule.onNodeWithText("Skip")
             .performClick()
+        return this
     }
 
     fun firstOpen(): TransactionAmountInput = TransactionAmountInput(composeTestRule)

@@ -5,46 +5,61 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 
 class BudgetModal(
     private val composeTestRule: IvyComposeTestRule
-) {
+) : AmountInput<BudgetModal>, DeleteItem<BudgetsScreen> {
     private val amountInput = IvyAmountInput(composeTestRule)
 
-    fun enterName(budgetName: String) {
+    fun enterName(budgetName: String): BudgetModal {
         composeTestRule.onNodeWithTag("base_input")
             .performTextReplacement(budgetName)
+        return this
     }
 
-    fun enterAmount(amount: String) {
+    private fun clickBudgetAmount(): IvyAmountInput {
         composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
-
-        amountInput.enterNumber(amount)
+        return IvyAmountInput(composeTestRule)
     }
 
-    fun clickCategory(category: String) {
+    fun clickCategory(category: String): BudgetModal {
         composeTestRule.onNode(
             hasText(category)
                 .and(hasAnyAncestor(hasTestTag("budget_categories_row"))),
             useUnmergedTree = true
         ).performClick()
+        return this
     }
 
-    fun clickAdd() {
+    fun clickAdd(): BudgetsScreen {
         composeTestRule.onNodeWithText("Add")
             .performClick()
+        return BudgetsScreen(composeTestRule)
     }
 
-    fun clickSave() {
+    fun clickSave(): BudgetsScreen {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return BudgetsScreen(composeTestRule)
     }
 
-    fun clickDelete() {
+    private fun clickDelete(): DeleteConfirmationModal {
         composeTestRule.onNodeWithTag("modal_delete")
             .performClick()
+        return DeleteConfirmationModal(composeTestRule)
     }
 
-    fun clickClose() {
+    fun clickClose(): BudgetsScreen {
         composeTestRule.onNodeWithContentDescription("close")
             .performClick()
+        return BudgetsScreen(composeTestRule)
+    }
+
+    override fun enterAmount(number: String): BudgetModal {
+        return clickBudgetAmount()
+            .enterNumber(number, next = this)
+    }
+
+    override fun deleteWithConfirmation(): BudgetsScreen {
+        return clickDelete()
+            .confirmDelete(next = BudgetsScreen(composeTestRule))
     }
 }

@@ -19,7 +19,7 @@ import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.helpers.OnboardingFlow
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -46,19 +46,6 @@ abstract class IvyComposeTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<RootActivity>()
     // use createAndroidComposeRule<YourActivity>() if you need access to an activity
-
-    //----------------------------
-    protected val onboarding = OnboardingFlow(composeTestRule)
-    protected val amountInput = IvyAmountInput(composeTestRule)
-    protected val accountModal = AccountModal(composeTestRule)
-    protected val transactionFlow = TransactionFlow(composeTestRule)
-    protected val homeTab = HomeTab(composeTestRule)
-    protected val accountsTab = AccountsTab(composeTestRule)
-    protected val editTransactionScreen = TransactionScreen(composeTestRule)
-    protected val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
-    protected val reorderModal = ReorderModal(composeTestRule)
-    protected val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
-    //----------------------------
 
     private var idlingResource: IdlingResource? = null
 
@@ -143,7 +130,7 @@ abstract class IvyComposeTest {
         test: OnboardingFlow.() -> Unit
     ) {
         try {
-            onboarding.test()
+            OnboardingFlow(composeTestRule).test()
         } catch (e: Throwable) {
             if (attempt < maxAttempts) {
                 //reset state && retry test

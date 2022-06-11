@@ -9,7 +9,8 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 open class IvyAmountInput(
     protected val composeTestRule: IvyComposeTestRule
 ) {
-    fun <T> enterNumber(
+    //TODO: Refactor this method
+    open fun <T> enterNumber(
         number: String,
         next: T,
 
@@ -34,7 +35,7 @@ open class IvyAmountInput(
         }
 
         if (!onCalculator && autoPressNonCalculator) {
-            clickSet()
+            clickSet(next)
         }
 
         return next
@@ -49,70 +50,34 @@ open class IvyAmountInput(
             .performClick()
     }
 
-    fun pressDel() {
+    fun pressDel(): IvyAmountInput {
         composeTestRule.onNode(hasTestTag("key_del"))
             .performClick()
+        return this
     }
 
     fun pressDecimalSeparator(
         onCalculator: Boolean
-    ) {
+    ): IvyAmountInput {
         composeTestRule.onNode(
             hasTestTag(
                 if (onCalculator) "calc_key_decimal_separator" else "key_decimal_separator"
             )
         )
             .performClick()
+        return this
     }
 
-    fun pressPlus() {
-        composeTestRule.onNodeWithTag("key_+")
-            .performClick()
-    }
-
-    fun pressMinus() {
-        composeTestRule.onNodeWithTag("key_-")
-            .performClick()
-    }
-
-    fun pressMultiplication() {
-        composeTestRule.onNodeWithTag("key_*")
-            .performClick()
-    }
-
-    fun pressDivision() {
-        composeTestRule.onNodeWithTag("key_/")
-            .performClick()
-    }
-
-    fun pressLeftBracket() {
-        composeTestRule.onNodeWithTag("key_(")
-            .performClick()
-    }
-
-    fun pressRightBracket() {
-        composeTestRule.onNodeWithTag("key_)")
-            .performClick()
-    }
-
-    fun pressCalcEqual() {
-        composeTestRule.onNodeWithTag("key_=")
-            .performClick()
-    }
-
-    fun clickCalcSet() {
-        composeTestRule.onNodeWithTag("calc_set")
-            .performClick()
-    }
-
-    fun clickSet() {
+    fun <N> clickSet(next: N): N {
         composeTestRule.onNode(hasText("Enter"))
             .performClick()
+        return next
     }
 
-    fun clickCalculator() {
+    fun clickCalculator(): CalculatorAmountInput {
         composeTestRule.onNodeWithTag("btn_calculator")
             .performClick()
+        return CalculatorAmountInput(composeTestRule)
     }
 }
 
