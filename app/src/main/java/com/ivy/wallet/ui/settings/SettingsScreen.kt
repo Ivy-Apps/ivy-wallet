@@ -167,6 +167,7 @@ private fun BoxWithConstraintsScope.UI(
             .fillMaxSize()
             .statusBarsPadding()
             .navigationBarsPadding()
+            .testTag("settings_lazy_column")
     ) {
         stickyHeader {
             val nav = navigation()

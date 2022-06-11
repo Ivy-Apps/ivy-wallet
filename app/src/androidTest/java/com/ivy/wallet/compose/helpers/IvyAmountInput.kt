@@ -1,21 +1,22 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class AmountInput<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+open class IvyAmountInput(
+    protected val composeTestRule: IvyComposeTestRule
 ) {
-    fun enterNumber(
+    //TODO: Refactor this method
+    open fun <T> enterNumber(
         number: String,
+        next: T,
+
         onCalculator: Boolean = false,
         autoPressNonCalculator: Boolean = true,
-    ) {
+    ): T {
         composeTestRule.waitForIdle()
 
         for (char in number) {
@@ -34,8 +35,10 @@ class AmountInput<A : ComponentActivity>(
         }
 
         if (!onCalculator && autoPressNonCalculator) {
-            clickSet()
+            clickSet(next)
         }
+
+        return next
     }
 
     private fun pressNumber(number: Int, onCalculator: Boolean) {
@@ -47,69 +50,37 @@ class AmountInput<A : ComponentActivity>(
             .performClick()
     }
 
-    fun pressDel() {
+    fun pressDel(): IvyAmountInput {
         composeTestRule.onNode(hasTestTag("key_del"))
             .performClick()
+        return this
     }
 
     fun pressDecimalSeparator(
         onCalculator: Boolean
-    ) {
+    ): IvyAmountInput {
         composeTestRule.onNode(
             hasTestTag(
                 if (onCalculator) "calc_key_decimal_separator" else "key_decimal_separator"
             )
         )
             .performClick()
+        return this
     }
 
-    fun pressPlus() {
-        composeTestRule.onNodeWithTag("key_+")
-            .performClick()
-    }
-
-    fun pressMinus() {
-        composeTestRule.onNodeWithTag("key_-")
-            .performClick()
-    }
-
-    fun pressMultiplication() {
-        composeTestRule.onNodeWithTag("key_*")
-            .performClick()
-    }
-
-    fun pressDivision() {
-        composeTestRule.onNodeWithTag("key_/")
-            .performClick()
-    }
-
-    fun pressLeftBracket() {
-        composeTestRule.onNodeWithTag("key_(")
-            .performClick()
-    }
-
-    fun pressRightBracket() {
-        composeTestRule.onNodeWithTag("key_)")
-            .performClick()
-    }
-
-    fun pressCalcEqual() {
-        composeTestRule.onNodeWithTag("key_=")
-            .performClick()
-    }
-
-    fun clickCalcSet() {
-        composeTestRule.onNodeWithTag("calc_set")
-            .performClick()
-    }
-
-    fun clickSet() {
+    fun <N> clickSet(next: N): N {
         composeTestRule.onNode(hasText("Enter"))
             .performClick()
+        return next
     }
 
-    fun clickCalculator() {
+    fun clickCalculator(): CalculatorAmountInput {
         composeTestRule.onNodeWithTag("btn_calculator")
             .performClick()
+        return CalculatorAmountInput(composeTestRule)
     }
+}
+
+interface AmountInput<T> {
+    fun enterAmount(number: String): T
 }

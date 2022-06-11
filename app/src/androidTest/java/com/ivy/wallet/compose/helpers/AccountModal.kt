@@ -1,49 +1,77 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class AccountModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
-) {
-    val ivyColorPicker = IvyColorPicker(composeTestRule)
-    val chooseIconFlow = ChooseIconFlow(composeTestRule)
-    val currencyPicker = CurrencyPicker(composeTestRule)
+class AccountModal(
+    private val composeTestRule: IvyComposeTestRule
+) : ColorPicker<AccountModal>, IconPicker<AccountModal>,
+    CurrencyPicker<AccountModal>, AmountInput<AccountModal> {
 
     fun enterTitle(
         title: String
-    ) {
+    ): AccountModal {
         composeTestRule.onNodeWithTag("base_input")
             .performTextReplacement(title)
+        return this
     }
 
-    fun clickBalance() {
+    private fun clickBalance(): IvyAmountInput {
         composeTestRule
             .onNode(hasTestTag("amount_balance"))
             .performClick()
+        return IvyAmountInput(composeTestRule)
     }
 
-    fun chooseCurrency() {
+    private fun clickCurrency(): IvyCurrencyPicker {
         composeTestRule.onNodeWithTag("account_modal_currency")
             .performClick()
+        return IvyCurrencyPicker(composeTestRule)
     }
 
-    fun clickSave() {
+    fun <N> clickSave(next: N): N {
         composeTestRule
             .onNode(hasText("Save"))
             .performClick()
+        return next
     }
 
-    fun clickAdd() {
+    fun clickAdd(): AccountsTab {
         composeTestRule
             .onNode(hasText("Add"))
             .performClick()
+        return AccountsTab(composeTestRule)
     }
 
-    fun tapIncludeInBalance() {
+    fun tapIncludeInBalance(): AccountModal {
         composeTestRule.onNodeWithText("Include account")
             .performClick()
+        return this
+    }
+
+    override fun chooseColor(color: Color): AccountModal {
+        IvyColorPicker(composeTestRule).chooseColor(color)
+        return this
+    }
+
+    override fun chooseIcon(icon: String): AccountModal {
+        ChooseIconFlow(composeTestRule).chooseIcon(icon)
+        return this
+    }
+
+
+    override fun chooseCurrency(currencyCode: String): AccountModal {
+        clickCurrency()
+            .chooseCurrency(currencyCode)
+        return this
+    }
+
+    override fun enterAmount(number: String): AccountModal {
+        return clickBalance()
+            .enterNumber(
+                number = number,
+                next = this
+            )
     }
 }

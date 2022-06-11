@@ -1,20 +1,18 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.domain.data.LoanType
 
-class LoansScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class LoansScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    private val loanModal = LoanModal(composeTestRule)
 
-    fun clickAddLoan() {
+    fun clickAddLoan(): LoanModal {
         composeTestRule.onNodeWithText("Add loan")
             .performClick()
+        return LoanModal(composeTestRule)
     }
 
     fun assertLoan(
@@ -26,7 +24,7 @@ class LoansScreen<A : ComponentActivity>(
         amountPaid: String,
         percentPaid: String,
         currency: String = "USD"
-    ) {
+    ): LoansScreen {
         val typeText = when (loanType) {
             LoanType.BORROW -> "BORROWED"
             LoanType.LEND -> "LENT"
@@ -43,13 +41,15 @@ class LoansScreen<A : ComponentActivity>(
                 name, typeText, amountLeft, amountLeftDecimal, currency,
                 "$amountPaid $currency / $loanAmount $currency ($percentPaid%)"
             )
+        return this
     }
 
-    fun clickLoan(loanName: String) {
+    fun clickLoan(loanName: String): LoanDetailsScreen {
         composeTestRule.onNode(
             hasTestTag("loan_item")
                 .and(hasText(loanName, substring = true))
         ).performClick()
+        return LoanDetailsScreen(composeTestRule)
     }
 
     fun addLoanFlow(
@@ -58,22 +58,23 @@ class LoansScreen<A : ComponentActivity>(
         color: Color? = null,
         icon: String? = null,
         loanType: LoanType
-    ) {
+    ): LoansScreen {
         clickAddLoan()
-        loanModal.apply {
-            enterName(loanName)
-            enterAmount(amount)
-            selectLoanType(loanType)
-            selectDefaultLoanAccount()
-            if (color != null) {
-                colorPicker.chooseColor(color)
+            .enterName(loanName)
+            .enterAmount(amount)
+            .selectLoanType(loanType)
+            .selectDefaultLoanAccount()
+            .apply {
+                if (color != null) {
+                    chooseColor(color)
+                }
             }
-            if (icon != null) {
-                chooseIconFlow.chooseIcon(icon)
+            .apply {
+                if (icon != null) {
+                    chooseIcon(icon)
+                }
             }
-
-            clickAdd()
-        }
+            .clickAdd()
 
         val loanAmount = amount.split(".").first()
         val loanAmountDecimal = amount.split(".").getOrNull(1)?.let { ".$it" } ?: ".00"
@@ -87,6 +88,8 @@ class LoansScreen<A : ComponentActivity>(
             amountPaid = "0.00",
             percentPaid = "0.00"
         )
+
+        return this
     }
 
     fun assertEmptyState() {
