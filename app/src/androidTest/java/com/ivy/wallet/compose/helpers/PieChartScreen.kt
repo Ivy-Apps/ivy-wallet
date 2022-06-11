@@ -6,16 +6,17 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 class PieChartScreen(
     private val composeTestRule: IvyComposeTestRule
 ) {
-    fun assertTitle(title: String) {
+    fun assertTitle(title: String): PieChartScreen {
         composeTestRule.onNodeWithTag("piechart_title")
             .assertTextContains(title)
+        return this
     }
 
     fun assertTotalAmount(
         amountInt: String,
         decimalPart: String,
         currency: String = "USD"
-    ) {
+    ): PieChartScreen {
         val matchText: (String) -> SemanticsMatcher = { text ->
             hasTestTag("piechart_total_amount")
                 .and(
@@ -33,5 +34,7 @@ class PieChartScreen(
 
         composeTestRule.onNode(matchText(currency))
             .assertIsDisplayed()
+
+        return this
     }
 }
