@@ -1,21 +1,21 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class AmountInput<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+open class IvyAmountInput(
+    protected val composeTestRule: IvyComposeTestRule
 ) {
-    fun enterNumber(
+    fun <T> enterNumber(
         number: String,
+        next: T,
+
         onCalculator: Boolean = false,
         autoPressNonCalculator: Boolean = true,
-    ) {
+    ): T {
         composeTestRule.waitForIdle()
 
         for (char in number) {
@@ -36,6 +36,8 @@ class AmountInput<A : ComponentActivity>(
         if (!onCalculator && autoPressNonCalculator) {
             clickSet()
         }
+
+        return next
     }
 
     private fun pressNumber(number: Int, onCalculator: Boolean) {
@@ -112,4 +114,8 @@ class AmountInput<A : ComponentActivity>(
         composeTestRule.onNodeWithTag("btn_calculator")
             .performClick()
     }
+}
+
+interface AmountInput<T> {
+    fun enterAmount(number: String): T
 }

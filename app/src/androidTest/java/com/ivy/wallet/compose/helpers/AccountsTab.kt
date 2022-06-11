@@ -1,21 +1,15 @@
 package com.ivy.wallet.compose.helpers
 
-import android.icu.util.Currency
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.hideKeyboard
 import com.ivy.wallet.compose.printTree
 import com.ivy.wallet.ui.theme.Ivy
 
-class AccountsTab<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
-) {
-    private val mainBottomBar = MainBottomBar(composeTestRule)
-    private val accountModal = AccountModal(composeTestRule)
-    private val amountInput = AmountInput(composeTestRule)
+class AccountsTab(
+    private val composeTestRule: IvyComposeTestRule
+) : MainBottomBar<AccountModal>(composeTestRule) {
 
     fun assertAccountBalance(
         account: String,
@@ -23,7 +17,7 @@ class AccountsTab<A : ComponentActivity>(
         balanceDecimal: String,
         currency: String = "USD",
         baseCurrencyEquivalent: Boolean = false
-    ) {
+    ): AccountsTab {
         composeTestRule.printTree()
 
         composeTestRule.onNode(
@@ -40,18 +34,22 @@ class AccountsTab<A : ComponentActivity>(
         } else {
             baseCurrencyBalanceRow.assertDoesNotExist()
         }
+
+        return this
     }
 
     fun clickAccount(
         account: String
-    ) {
+    ): ItemStatisticScreen {
         composeTestRule.onNode(hasText(account)).performClick()
+        return ItemStatisticScreen(composeTestRule)
     }
 
     fun assertAccountNotExists(
         account: String
-    ) {
+    ): AccountsTab {
         composeTestRule.onNode(hasText(account)).assertDoesNotExist()
+        return this
     }
 
     fun addAccount(
@@ -60,38 +58,33 @@ class AccountsTab<A : ComponentActivity>(
         icon: String? = null,
         currency: String? = null,
         initialBalance: String? = null
-    ) {
-        mainBottomBar.clickAddFAB()
-
-        accountModal.apply {
-            enterTitle(name)
-
+    ): AccountsTab = clickAddFAB(next = AccountModal(composeTestRule))
+        .enterTitle(name)
+        .apply {
             composeTestRule.hideKeyboard()
-
-            ivyColorPicker.chooseColor(color = color)
-
+        }.chooseColor(color = color)
+        .apply {
             if (icon != null) {
-                chooseIconFlow.chooseIcon(icon)
+                chooseIcon(icon)
             }
-
-            if (currency != null) {
-                chooseCurrency()
-                currencyPicker.searchAndSelect(Currency.getInstance(currency))
-                currencyPicker.modalSave()
-            }
-
-
-            if (initialBalance != null) {
-                clickBalance()
-                amountInput.enterNumber(initialBalance)
-            }
-
-            clickAdd()
         }
-    }
+        .apply {
+            if (currency != null) {
+                chooseCurrency(currency)
+            }
+        }.apply {
+            if (initialBalance != null) {
+                enterAmount(initialBalance)
+            }
+        }.clickAdd()
 
-    fun clickReorder() {
+    fun clickReorder(): ReorderModal {
         composeTestRule.onNodeWithTag("reorder_button")
             .performClick()
+        return ReorderModal(composeTestRule)
+    }
+
+    override fun clickAddFAB(): AccountModal {
+        return clickAddFAB(next = AccountModal(composeTestRule))
     }
 }

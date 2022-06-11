@@ -1,12 +1,10 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class SettingsScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class SettingsScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
     fun clickLockApp() {
@@ -43,7 +41,7 @@ class SettingsScreen<A : ComponentActivity>(
             .performClick()
     }
 
-    fun clickDonate(): DonateScreen<A> {
+    fun clickDonate(): DonateScreen {
         composeTestRule.onNodeWithTag("settings_lazy_column")
             .performScrollToIndex(4)
 

@@ -1,15 +1,13 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.clickWithRetry
 
-class OnboardingFlow<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class OnboardingFlow(
+    private val composeTestRule: IvyComposeTestRule
 ) {
     private val homeTab = HomeTab(composeTestRule)
 
@@ -44,7 +42,7 @@ class OnboardingFlow<A : ComponentActivity>(
         )
     }
 
-    fun quickOnboarding(): HomeTab<A> {
+    fun quickOnboarding(): HomeTab {
         chooseOfflineAccount()
         clickStartFresh()
         setCurrency()

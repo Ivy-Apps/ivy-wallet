@@ -1,17 +1,15 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import java.time.LocalDateTime
 
-class EditPlannedScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class EditPlannedScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    private val amountInput = AmountInput(composeTestRule)
+    private val amountInput = IvyAmountInput(composeTestRule)
     private val chooseCategoryModal = ChooseCategoryModal(composeTestRule)
 
     fun setPaymentType(type: TransactionType) {

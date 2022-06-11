@@ -4,14 +4,14 @@ import android.icu.util.Currency
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.CurrencyPicker
+import com.ivy.wallet.compose.helpers.IvyCurrencyPicker
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
 class OnboardingTest : IvyComposeTest() {
 
-    private val currencyPicker = CurrencyPicker(composeTestRule)
+    private val currencyPicker = IvyCurrencyPicker(composeTestRule)
 
     @Test
     fun OnboardingShortestPath() = testWithRetry {

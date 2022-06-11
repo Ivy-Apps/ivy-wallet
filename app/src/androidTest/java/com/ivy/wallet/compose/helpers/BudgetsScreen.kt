@@ -1,12 +1,10 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class BudgetsScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class BudgetsScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
     fun clickAddBudget() {
         composeTestRule.onNodeWithText("Add budget")

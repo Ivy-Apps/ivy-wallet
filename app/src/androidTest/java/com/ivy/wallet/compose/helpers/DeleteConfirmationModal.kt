@@ -1,17 +1,20 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class DeleteConfirmationModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class DeleteConfirmationModal(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun confirmDelete() {
+    fun <T> confirmDelete(next: T): T {
         composeTestRule.onNodeWithText("Delete")
             .performClick()
+        return next
     }
+}
+
+interface DeleteItem<T> {
+    fun deleteWithConfirmation(): T
 }

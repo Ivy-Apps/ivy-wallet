@@ -1,30 +1,31 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class ItemStatisticScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+open class ItemStatisticScreen(
+    protected val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun clickDelete() {
+    private fun clickDelete(): DeleteConfirmationModal {
         composeTestRule.onNodeWithTag("delete_button")
             .performClick()
+        return DeleteConfirmationModal(composeTestRule)
     }
 
-    fun clickEdit() {
+    fun clickEdit(): AccountModal {
         composeTestRule.onNodeWithText("Edit")
             .performClick()
+        return AccountModal(composeTestRule)
     }
 
-    fun clickClose() {
+    fun <N> clickClose(next: N): N {
         composeTestRule.onNodeWithTag("toolbar_close")
             .performClick()
+        return next
     }
 
     fun assertBalance(
@@ -34,5 +35,10 @@ class ItemStatisticScreen<A : ComponentActivity>(
     ) {
         composeTestRule.onNodeWithTag("balance")
             .assertTextEquals(currency, balance, balanceDecimal)
+    }
+
+    fun <T> deleteItem(next: T): T {
+        return clickDelete()
+            .confirmDelete(next = next)
     }
 }

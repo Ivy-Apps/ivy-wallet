@@ -1,16 +1,14 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class SavingsGoalModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class SavingsGoalModal(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    private val amountInput = AmountInput(composeTestRule)
+    private val amountInput = IvyAmountInput(composeTestRule)
 
     fun enterAmount(
         amount: String

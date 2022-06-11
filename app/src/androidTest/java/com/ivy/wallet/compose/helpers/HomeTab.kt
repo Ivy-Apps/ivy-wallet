@@ -1,28 +1,26 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.printTree
 
-class HomeTab<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
-) {
-    fun openMoreMenu(): HomeMoreMenu<A> {
+class HomeTab(
+    private val composeTestRule: IvyComposeTestRule
+) : MainBottomBar<AddFABMenu>(composeTestRule) {
+    fun openMoreMenu(): HomeMoreMenu {
         composeTestRule.onNodeWithTag("home_more_menu_arrow")
             .performClick()
         return HomeMoreMenu(composeTestRule)
     }
 
-
     fun assertBalance(
         amount: String,
         amountDecimal: String,
         currency: String = "USD"
-    ) {
+    ): HomeTab {
         composeTestRule.onNodeWithTag("home_balance")
             .assertTextEquals(currency, amount, amountDecimal)
+        return HomeTab(composeTestRule)
     }
 
     fun clickTransaction(
@@ -146,5 +144,9 @@ class HomeTab<A : ComponentActivity>(
     fun clickExpenseCard() {
         composeTestRule.onNodeWithTag("home_card_expense")
             .performClick()
+    }
+
+    override fun clickAddFAB(): AddFABMenu {
+        return clickAddFAB(next = AddFABMenu(composeTestRule))
     }
 }

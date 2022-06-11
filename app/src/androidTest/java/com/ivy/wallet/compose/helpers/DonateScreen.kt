@@ -1,33 +1,31 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class DonateScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class DonateScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun verifyAmount(text: String): DonateScreen<A> {
+    fun verifyAmount(text: String): DonateScreen {
         composeTestRule.onNodeWithTag("donation_amount")
             .assertTextEquals(text)
         return this
     }
 
-    fun clickMinus(): DonateScreen<A> {
+    fun clickMinus(): DonateScreen {
         composeTestRule.onNodeWithContentDescription("btn_minus")
             .performClick()
         return this
     }
 
-    fun clickPlus(): DonateScreen<A> {
+    fun clickPlus(): DonateScreen {
         composeTestRule.onNodeWithContentDescription("btn_plus")
             .performClick()
         return this
     }
 
-    fun clickDonate(): DonateScreen<A> {
+    fun clickDonate(): DonateScreen {
         composeTestRule.onNodeWithTag("btn_donate")
             .assertIsDisplayed()
             .performClick()

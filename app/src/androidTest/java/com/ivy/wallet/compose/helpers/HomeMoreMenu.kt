@@ -1,13 +1,11 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.printTree
 
-class HomeMoreMenu<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class HomeMoreMenu(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
     fun clickOpenCloseArrow() {
@@ -46,19 +44,19 @@ class HomeMoreMenu<A : ComponentActivity>(
         ).assertTextContains(amount)
     }
 
-    fun clickSettings(): SettingsScreen<A> {
+    fun clickSettings(): SettingsScreen {
         composeTestRule.onNodeWithText("Settings")
             .performClick()
         return SettingsScreen(composeTestRule)
     }
 
-    fun clickLoans(): LoansScreen<A> {
+    fun clickLoans(): LoansScreen {
         composeTestRule.onNodeWithText("Loans")
             .performClick()
         return LoansScreen(composeTestRule)
     }
 
-    fun clickDonate(): DonateScreen<A> {
+    fun clickDonate(): DonateScreen {
         composeTestRule.onNodeWithText("Donate")
             .performClick()
         return DonateScreen(composeTestRule)

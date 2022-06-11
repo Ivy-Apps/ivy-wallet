@@ -36,6 +36,7 @@ import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
 
+typealias IvyComposeTestRule = AndroidComposeTestRule<ActivityScenarioRule<RootActivity>, RootActivity>
 
 @HiltAndroidTest
 abstract class IvyComposeTest {
@@ -48,9 +49,8 @@ abstract class IvyComposeTest {
 
     //----------------------------
     protected val onboarding = OnboardingFlow(composeTestRule)
-    protected val amountInput = AmountInput(composeTestRule)
+    protected val amountInput = IvyAmountInput(composeTestRule)
     protected val accountModal = AccountModal(composeTestRule)
-    protected val mainBottomBar = MainBottomBar(composeTestRule)
     protected val transactionFlow = TransactionFlow(composeTestRule)
     protected val homeTab = HomeTab(composeTestRule)
     protected val accountsTab = AccountsTab(composeTestRule)
@@ -140,7 +140,7 @@ abstract class IvyComposeTest {
         attempt: Int = 0,
         maxAttempts: Int = 3,
         firstFailure: Throwable? = null,
-        test: OnboardingFlow<RootActivity>.() -> Unit
+        test: OnboardingFlow.() -> Unit
     ) {
         try {
             onboarding.test()

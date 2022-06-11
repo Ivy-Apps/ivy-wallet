@@ -1,43 +1,34 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.hideKeyboard
 
-class TransactionScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+open class TransactionScreen(
+    protected val composeTestRule: IvyComposeTestRule
 ) {
-    private val amountInput = AmountInput(composeTestRule)
-    private val chooseCategoryModal = ChooseCategoryModal(composeTestRule)
-
-    fun editCategory(
-        currentCategory: String,
-        newCategory: String
-    ) {
-        composeTestRule.onNodeWithText(currentCategory)
-            .performClick()
-
-        chooseCategoryModal.selectCategory(newCategory)
-    }
-
     fun editAmount(
         newAmount: String
-    ) {
+    ): TransferScreen {
+        return clickAmount()
+            .enterNumber(newAmount, next = TransferScreen(composeTestRule))
+    }
+
+    fun clickAmount(): IvyAmountInput {
         composeTestRule.onNodeWithTag("edit_amount_balance_row")
             .performClick()
-
-        amountInput.enterNumber(newAmount)
+        return IvyAmountInput(composeTestRule)
     }
 
     fun editAccount(
         newAccount: String
-    ) {
+    ): TransactionScreen {
         composeTestRule.onNode(
             hasTestTag("from_account")
                 .and(hasText(newAccount))
         ).performClick()
+
+        return this
     }
 
     fun editTitle(
@@ -90,5 +81,24 @@ class TransactionScreen<A : ComponentActivity>(
     fun skipCategory() {
         composeTestRule.onNodeWithText("Skip")
             .performClick()
+    }
+
+    fun firstOpen(): TransactionAmountInput = TransactionAmountInput(composeTestRule)
+
+    fun addDescription(description: String): TransactionScreen {
+        composeTestRule.hideKeyboard()
+
+        composeTestRule.onNodeWithText("Add description")
+            .performClick()
+
+        composeTestRule.onNode(
+            hasTestTag("modal_desc_input"),
+            useUnmergedTree = true
+        ).performTextReplacement(description)
+
+        composeTestRule.onNodeWithTag("modal_desc_save")
+            .performClick()
+
+        return this
     }
 }

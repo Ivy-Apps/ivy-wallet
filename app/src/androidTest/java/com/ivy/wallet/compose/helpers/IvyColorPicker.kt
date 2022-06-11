@@ -1,20 +1,21 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class IvyColorPicker<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class IvyColorPicker(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-
     fun chooseColor(color: Color) {
         composeTestRule.onNode(hasTestTag("color_item_${color.value}"))
             .performScrollTo()
             .performClick()
     }
+}
+
+interface ColorPicker<T> {
+    fun chooseColor(color: Color): T
 }

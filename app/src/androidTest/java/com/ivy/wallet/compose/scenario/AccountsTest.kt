@@ -1,7 +1,8 @@
 package com.ivy.wallet.compose.scenario
 
-import android.icu.util.Currency
 import com.ivy.wallet.compose.IvyComposeTest
+import com.ivy.wallet.compose.helpers.AccountsTab
+import com.ivy.wallet.compose.helpers.ItemStatisticScreen
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Purple1
 import com.ivy.wallet.ui.theme.Purple2
@@ -14,125 +15,89 @@ class AccountsTest : IvyComposeTest() {
 
     @Test
     fun CreateAccount() = testWithRetry {
-        onboarding.quickOnboarding()
-
-        mainBottomBar.clickAccounts()
-
-        mainBottomBar.clickAddFAB()
-        accountModal.apply {
-            enterTitle("Revolut")
-            ivyColorPicker.chooseColor(Blue)
-            chooseIconFlow.chooseIcon("revolut")
-            clickAdd()
-        }
-
-        accountsTab.assertAccountBalance(
-            account = "Revolut",
-            balance = "0",
-            balanceDecimal = ".00",
-            currency = "USD"
-        )
+        quickOnboarding()
+            .clickAccountsTab()
+            .clickAddFAB()
+            .enterTitle("Revolut")
+            .chooseColor(Blue)
+            .chooseIcon("revolut")
+            .clickAdd()
+            .assertAccountBalance(
+                account = "Revolut",
+                balance = "0",
+                balanceDecimal = ".00",
+                currency = "USD"
+            )
     }
 
     @Test
     fun CreateAccount_inDifferentCurrency() = testWithRetry {
-        onboarding.quickOnboarding()
-
-        mainBottomBar.clickAccounts()
-
-        mainBottomBar.clickAddFAB()
-        accountModal.apply {
-            enterTitle("Savings")
-            ivyColorPicker.chooseColor(Purple2)
-            chooseIconFlow.chooseIcon("atom")
-
-            chooseCurrency()
-            currencyPicker.searchAndSelect(Currency.getInstance("EUR"))
-            currencyPicker.modalSave()
-
-            clickBalance()
-            amountInput.enterNumber("5,000.25")
-
-            clickAdd()
-        }
-
-        accountsTab.assertAccountBalance(
-            account = "Savings",
-            balance = "5,000",
-            balanceDecimal = ".25",
-            currency = "EUR",
-            baseCurrencyEquivalent = true
-        )
+        quickOnboarding()
+            .clickAccountsTab()
+            .clickAddFAB()
+            .enterTitle("Savings")
+            .chooseColor(Purple2)
+            .chooseIcon("atom")
+            .chooseCurrency("EUR")
+            .enterAmount("5,000.25")
+            .clickAdd()
+            .assertAccountBalance(
+                account = "Savings",
+                balance = "5,000",
+                balanceDecimal = ".25",
+                currency = "EUR",
+                baseCurrencyEquivalent = true
+            )
     }
 
     @Test
     fun DeleteAccount() = testWithRetry {
-        onboarding.quickOnboarding()
-
-        mainBottomBar.clickAccounts()
-
-        accountsTab.addAccount(
-            name = "New Account",
-            initialBalance = "830"
-        )
-
-        accountsTab.assertAccountBalance(
-            account = "New Account",
-            balance = "830",
-            balanceDecimal = ".00",
-            currency = "USD",
-            baseCurrencyEquivalent = false
-        )
-
-        accountsTab.clickAccount("New Account")
-
-        itemStatisticScreen.clickDelete()
-        deleteConfirmationModal.confirmDelete()
-
-        accountsTab.assertAccountNotExists(
-            account = "New Account"
-        )
-
-        mainBottomBar.clickHome()
-        homeTab.assertBalance(
-            amount = "0",
-            amountDecimal = ".00",
-            currency = "USD"
-        )
+        quickOnboarding()
+            .clickAccountsTab()
+            .addAccount(
+                name = "New Account",
+                initialBalance = "830"
+            )
+            .assertAccountBalance(
+                account = "New Account",
+                balance = "830",
+                balanceDecimal = ".00",
+                currency = "USD",
+                baseCurrencyEquivalent = false
+            )
+            .clickAccount("New Account")
+            .deleteItem(next = AccountsTab(composeTestRule))
+            .assertAccountNotExists(
+                account = "New Account"
+            )
+            .clickHomeTab()
+            .assertBalance(
+                amount = "0",
+                amountDecimal = ".00",
+                currency = "USD"
+            )
     }
 
     @Test
     fun EditAccount() = testWithRetry {
-        onboarding.quickOnboarding()
-
-        mainBottomBar.clickAccounts()
-
-        accountsTab.clickAccount("Bank")
-        itemStatisticScreen.clickEdit()
-
-        accountModal.apply {
-            enterTitle("DSK Bank")
-            ivyColorPicker.chooseColor(Purple1)
-            chooseIconFlow.chooseIcon("star")
-
-            chooseCurrency()
-            currencyPicker.searchAndSelect(Currency.getInstance("BGN"))
-            currencyPicker.modalSave()
-
-            tapIncludeInBalance()
-
-            clickSave()
-        }
-
-        itemStatisticScreen.clickClose()
-
-        accountsTab.assertAccountBalance(
-            account = "DSK Bank",
-            balance = "0",
-            balanceDecimal = ".00",
-            currency = "BGN",
-            baseCurrencyEquivalent = true
-        )
+        quickOnboarding()
+            .clickAccountsTab()
+            .clickAccount("Bank")
+            .clickEdit()
+            .enterTitle("DSK Bank")
+            .chooseColor(Purple1)
+            .chooseIcon("star")
+            .chooseCurrency("BGN")
+            .tapIncludeInBalance()
+            .clickSave(next = ItemStatisticScreen(composeTestRule))
+            .clickClose(next = AccountsTab(composeTestRule))
+            .assertAccountBalance(
+                account = "DSK Bank",
+                balance = "0",
+                balanceDecimal = ".00",
+                currency = "BGN",
+                baseCurrencyEquivalent = true
+            )
     }
 
     /**
@@ -141,10 +106,9 @@ class AccountsTest : IvyComposeTest() {
     @Ignore("Fails with very weird: java.lang.String com.ivy.wallet.domain.Settings.getCurrency()' on a null object reference")
     @Test
     fun ReorderAccounts_semiTest() = testWithRetry {
-        onboarding.quickOnboarding()
-        mainBottomBar.clickAccounts()
-
-        accountsTab.clickReorder()
-        reorderModal.clickDone()
+        quickOnboarding()
+            .clickAccountsTab()
+            .clickReorder()
+            .clickDone()
     }
 }
