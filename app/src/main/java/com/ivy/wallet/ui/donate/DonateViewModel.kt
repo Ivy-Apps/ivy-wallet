@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DonateViewModel @Inject constructor(
     private val ivyBilling: IvyBilling
 ) : FRPViewModel<DonateState, DonateEvent>() {
-    override val _state: MutableStateFlow<DonateState> = MutableStateFlow(DonateState.Loading)
+    override val _state: MutableStateFlow<DonateState> = MutableStateFlow(DonateState.Success)
 
     val plans = mutableListOf<Plan>()
 
@@ -32,7 +32,6 @@ class DonateViewModel @Inject constructor(
                 viewModelScope.launch {
                     plans.clear()
                     plans.addAll(ivyBilling.fetchOneTimePlans())
-                    updateStateNonBlocking { DonateState.Success }
                 }
             },
             onError = { code, msg ->
@@ -42,7 +41,7 @@ class DonateViewModel @Inject constructor(
             },
             onPurchases = {}
         )
-        stateVal()
+        DonateState.Success
     }
 
     private fun donate(event: DonateEvent.Donate) = suspend {
