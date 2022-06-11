@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
@@ -43,7 +44,7 @@ import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
 import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
+import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -152,7 +153,7 @@ private fun BoxWithConstraintsScope.UI(
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
 
-) {
+    ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
     var nameModalVisible by remember { mutableStateOf(false) }
     var chooseStartDateOfMonthVisible by remember { mutableStateOf(false) }
@@ -310,19 +311,19 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        item {
-            SettingsSectionDivider(text = stringResource(R.string.experimental))
-
-            Spacer(Modifier.height(16.dp))
-
-            val nav = navigation()
-            SettingsDefaultButton(
-                icon = R.drawable.ic_custom_atom_m,
-                text = stringResource(R.string.experimental_settings)
-            ) {
-                nav.navigateTo(ExperimentalScreen)
-            }
-        }
+//        item {
+//            SettingsSectionDivider(text = stringResource(R.string.experimental))
+//
+//            Spacer(Modifier.height(16.dp))
+//
+//            val nav = navigation()
+//            SettingsDefaultButton(
+//                icon = R.drawable.ic_custom_atom_m,
+//                text = stringResource(R.string.experimental_settings)
+//            ) {
+//                nav.navigateTo(ExperimentalScreen)
+//            }
+//        }
 
         item {
             SettingsSectionDivider(text = stringResource(R.string.other))
@@ -346,6 +347,18 @@ private fun BoxWithConstraintsScope.UI(
                 backgroundGradient = Gradient.solid(Red3)
             ) {
                 ivyActivity.shareIvyWallet()
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            val nav = navigation()
+            SettingsPrimaryButton(
+                icon = R.drawable.ic_donate_crown,
+                text = "Donate",
+                iconPadding = 8.dp,
+                backgroundGradient = Gradient.from(SunsetNight)
+            ) {
+                nav.navigateTo(DonateScreen)
             }
         }
 
@@ -399,7 +412,7 @@ private fun BoxWithConstraintsScope.UI(
                 deleteAllDataModalVisible = true
             }
 
-            if(user != null){
+            if (user != null) {
                 Spacer(Modifier.height(16.dp))
 
                 SettingsPrimaryButton(
