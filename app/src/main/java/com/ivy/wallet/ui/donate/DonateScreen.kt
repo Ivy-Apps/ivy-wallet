@@ -47,19 +47,16 @@ object DonateScreen : Screen
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {
     FRP<DonateState, DonateEvent, DonateViewModel>(
         initialEvent = DonateEvent.Load(rootActivity())
-    ) { state, onEvent ->
-        UI(state, onEvent)
+    ) { _, onEvent ->
+        UI(onEvent)
     }
 }
 
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: DonateState,
     onEvent: (DonateEvent) -> Unit
 ) {
-    var donateOption by remember {
-        mutableStateOf(DonateOption.DONATE_5)
-    }
+    var donateOption by remember { mutableStateOf(DonateOption.DONATE_5) }
 
     Column {
         Image(
@@ -123,7 +120,7 @@ private fun DonateOptionPicker(
     ) {
         SpacerHor(width = 16.dp)
 
-        if (option != DonateOption.DONATE_2)
+        if (option != DonateOption.DONATE_2) {
             OptionPickerButton(
                 icon = R.drawable.ic_donate_minus,
                 contentDescription = "btn_minus"
@@ -139,6 +136,7 @@ private fun DonateOptionPicker(
                 }
                 onSelect(newOption)
             }
+        }
 
         SpacerHor(width = 12.dp)
 
@@ -162,7 +160,7 @@ private fun DonateOptionPicker(
 
         SpacerHor(width = 12.dp)
 
-        if (option != DonateOption.DONATE_100)
+        if (option != DonateOption.DONATE_100) {
             OptionPickerButton(
                 icon = R.drawable.ic_donate_plus,
                 contentDescription = "btn_plus"
@@ -178,6 +176,7 @@ private fun DonateOptionPicker(
                 }
                 onSelect(newOption)
             }
+        }
     }
 }
 
@@ -286,6 +285,6 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        UI(state = DonateState.Success, onEvent = {})
+        UI(onEvent = {})
     }
 }
