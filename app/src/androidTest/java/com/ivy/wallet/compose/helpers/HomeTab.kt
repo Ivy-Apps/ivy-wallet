@@ -146,13 +146,14 @@ class HomeTab(
         return this
     }
 
-    fun clickTransactionSkip() {
+    fun clickTransactionSkip(): HomeTab {
         composeTestRule.onNode(
             hasText("Skip")
                 .and(hasAnyAncestor(hasTestTag("transaction_card")))
         )
             .performScrollTo()
             .performClick()
+        return this
     }
 
     fun assertGreeting(

@@ -30,32 +30,35 @@ open class ItemStatisticScreen(
         composeTestRule.onNodeWithTag("toolbar_close")
             .performScrollTo()
             .performClick()
+        return next
     }
 
-    fun clickUpcoming() {
+    fun clickUpcoming() : ItemStatisticScreen {
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
         ).performClick()
+        return this
     }
 
-    fun clickTransactionSkip(){
+    fun clickTransactionSkip() : ItemStatisticScreen{
         composeTestRule.onNode(
             hasText("Skip")
                 .and(hasAnyAncestor(hasTestTag("transaction_card")))
         )
             .performScrollTo()
             .performClick()
+        return this
     }
 
-    fun clickTransactionPay(){
+    fun clickTransactionPay(): ItemStatisticScreen{
         composeTestRule.onNode(
             hasText("Pay")
                 .and(hasAnyAncestor(hasTestTag("transaction_card")))
         )
             .performScrollTo()
             .performClick()
-        return next
+        return this
     }
 
     fun assertBalance(
