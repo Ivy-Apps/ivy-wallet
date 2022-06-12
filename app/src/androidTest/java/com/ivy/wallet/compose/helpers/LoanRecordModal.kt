@@ -1,46 +1,67 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextReplacement
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class LoanRecordModal<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
-) {
-    private val amountInput = AmountInput(composeTestRule)
+class LoanRecordModal(
+    private val composeTestRule: IvyComposeTestRule
+) : AmountInput<LoanRecordModal>, DeleteItem<LoanDetailsScreen> {
 
-    fun enterAmount(amount: String) {
+    override fun enterAmount(amount: String): LoanRecordModal {
+        return clickLoanAmount()
+            .enterNumber(number = amount, next = LoanRecordModal(composeTestRule))
+    }
+
+    private fun clickLoanAmount(): IvyAmountInput {
         composeTestRule.onNodeWithTag("amount_balance")
             .performClick()
-
-        inputAmountOpenModal(amount)
+        return IvyAmountInput(composeTestRule)
     }
 
-    fun inputAmountOpenModal(amount: String) {
-        amountInput.enterNumber(amount)
+    fun enterAmountWhenAmountInputOpened(amount: String): LoanRecordModal {
+        return firstOpenAddNew()
+            .enterNumber(number = amount, next = this)
     }
 
-    fun enterNote(note: String) {
+    private fun firstOpenAddNew(): IvyAmountInput {
+        return IvyAmountInput(composeTestRule)
+    }
+
+    fun enterNote(note: String): LoanRecordModal {
         composeTestRule.onNodeWithTag("base_input")
             .performTextReplacement(note)
+        return this
     }
 
-    fun clickAdd() {
+    fun clickAdd(): LoanDetailsScreen {
         composeTestRule.onNodeWithText("Add")
             .performClick()
+        return LoanDetailsScreen(composeTestRule)
     }
 
-    fun clickSave() {
+    fun clickSave(): LoanDetailsScreen {
         composeTestRule.onNodeWithText("Save")
             .performClick()
+        return LoanDetailsScreen(composeTestRule)
     }
 
-    fun clickDelete() {
+    private fun clickDelete(): DeleteConfirmationModal {
         composeTestRule.onNodeWithTag("modal_delete")
             .performClick()
+        return DeleteConfirmationModal(composeTestRule)
+    }
+
+    override fun deleteWithConfirmation(): LoanDetailsScreen {
+        return clickDelete()
+            .confirmDelete(next = LoanDetailsScreen(composeTestRule))
+    }
+
+    fun clickClose(): LoanDetailsScreen {
+        composeTestRule.onNodeWithTag("modal_close_button")
+            .performClick()
+        return LoanDetailsScreen(composeTestRule)
     }
 }

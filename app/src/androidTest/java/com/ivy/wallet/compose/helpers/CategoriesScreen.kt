@@ -1,59 +1,68 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class CategoriesScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class CategoriesScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    private val categoryModal = CategoryModal(composeTestRule)
+
+    fun clickAddCategory(): CategoryModal {
+        composeTestRule.onNodeWithText("Add category")
+            .performClick()
+        return CategoryModal(composeTestRule)
+    }
 
     fun addCategory(
         categoryName: String,
         icon: String? = null,
-        color: Color? = null
-    ) {
-        composeTestRule.onNodeWithText("Add category")
-            .performClick()
-
-        categoryModal.apply {
-            enterTitle(categoryName)
-            if (icon != null) {
-                chooseIconFlow.chooseIcon(icon)
+        color: Color? = null,
+    ): CategoriesScreen {
+        return clickAddCategory()
+            .enterTitle(categoryName)
+            .apply {
+                if (icon != null) {
+                    chooseIcon(icon)
+                }
             }
-            if (color != null) {
-                colorPicker.chooseColor(color)
+            .apply {
+                if (color != null) {
+                    chooseColor(color)
+                }
             }
-
-            clickAdd()
-        }
-
-        assertCategory(categoryName = categoryName)
+            .clickAdd(next = this)
+            .assertCategory(categoryName = categoryName)
     }
 
-    fun assertCategory(categoryName: String) {
+    fun assertCategory(categoryName: String): CategoriesScreen {
         composeTestRule.onNode(hasText(categoryName))
             .performScrollTo()
             .assertIsDisplayed()
+
+        return this
     }
 
-    fun assertCategoryNotExists(categoryName: String) {
+    fun assertCategoryNotExists(categoryName: String): CategoriesScreen {
         composeTestRule.onNode(hasText(categoryName))
             .assertDoesNotExist()
+
+        return this
     }
 
-    fun clickCategory(categoryName: String) {
+    fun clickCategory(categoryName: String): ItemStatisticScreen {
         composeTestRule.onNode(hasText(categoryName))
             .performScrollTo()
             .performClick()
+
+        return ItemStatisticScreen(composeTestRule)
     }
 
 
-    fun clickReorder() {
+    fun clickReorder(): ReorderModal {
         composeTestRule.onNodeWithTag("reorder_button")
             .performClick()
+
+        return ReorderModal(composeTestRule)
     }
 }

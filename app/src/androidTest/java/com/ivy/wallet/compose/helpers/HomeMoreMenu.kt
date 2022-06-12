@@ -1,58 +1,70 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.printTree
 
-class HomeMoreMenu<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class HomeMoreMenu(
+    private val composeTestRule: IvyComposeTestRule
 ) {
 
-    fun clickOpenCloseArrow() {
+    fun closeMoreMenu(): HomeTab {
         composeTestRule.onNodeWithTag("home_more_menu_arrow")
             .performClick()
+        return HomeTab(composeTestRule)
     }
 
-    fun clickPlannedPayments() {
+    fun clickPlannedPayments(): PlannedPaymentsScreen {
         composeTestRule.onNodeWithText("Planned\nPayments")
             .performClick()
+        return PlannedPaymentsScreen(composeTestRule)
     }
 
-    fun clickBudgets() {
+    fun clickBudgets(): BudgetsScreen {
         composeTestRule.onNodeWithText("Budgets")
             .performClick()
+        return BudgetsScreen(composeTestRule)
     }
 
-    fun clickCategories() {
+    fun clickCategories(): CategoriesScreen {
         composeTestRule.onNodeWithText("Categories")
             .performClick()
+        return CategoriesScreen(composeTestRule)
     }
 
-    fun clickSavingsGoal() {
+    fun clickSavingsGoal(): SavingsGoalModal {
         composeTestRule.onNodeWithText("Savings goal")
             .performClick()
+        return SavingsGoalModal(composeTestRule)
     }
 
     fun assertSavingsGoal(
         amount: String,
         currency: String = "USD"
-    ) {
+    ): HomeMoreMenu {
         composeTestRule.printTree()
 
         composeTestRule.onNode(
             hasTestTag("savings_goal_row")
         ).assertTextContains(amount)
+        return this
     }
 
-    fun clickSettings() {
+    fun clickSettings(): SettingsScreen {
         composeTestRule.onNodeWithText("Settings")
             .performClick()
+        return SettingsScreen(composeTestRule)
     }
 
-    fun clickLoans() {
+    fun clickLoans(): LoansScreen {
         composeTestRule.onNodeWithText("Loans")
             .performClick()
+        return LoansScreen(composeTestRule)
+    }
+
+    fun clickDonate(): DonateScreen {
+        composeTestRule.onNodeWithText("Donate")
+            .performClick()
+        return DonateScreen(composeTestRule)
     }
 }

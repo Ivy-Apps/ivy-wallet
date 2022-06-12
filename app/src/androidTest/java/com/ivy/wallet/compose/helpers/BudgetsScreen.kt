@@ -1,23 +1,22 @@
 package com.ivy.wallet.compose.helpers
 
-import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.ivy.wallet.compose.IvyComposeTestRule
 
-class BudgetsScreen<A : ComponentActivity>(
-    private val composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>
+class BudgetsScreen(
+    private val composeTestRule: IvyComposeTestRule
 ) {
-    fun clickAddBudget() {
+    fun clickAddBudget(): BudgetModal {
         composeTestRule.onNodeWithText("Add budget")
             .performClick()
+        return BudgetModal(composeTestRule)
     }
 
     fun assertBudgetsInfo(
         appBudget: String?,
         categoryBudget: String?,
         currency: String = "USD"
-    ) {
+    ): BudgetsScreen {
         val budgetInfoNode = composeTestRule.onNodeWithTag("budgets_info_text")
 
         when {
@@ -35,21 +34,27 @@ class BudgetsScreen<A : ComponentActivity>(
             }
             else -> error("Unexpected case")
         }
+
+        return this
     }
 
     fun clickBudget(
         budgetName: String
-    ) {
+    ): BudgetModal {
         composeTestRule.onNodeWithText(budgetName)
             .performScrollTo()
             .performClick()
+
+        return BudgetModal(composeTestRule)
     }
 
     fun assertBudgetDoesNotExist(
         budgetName: String
-    ) {
+    ): BudgetsScreen {
         composeTestRule.onNodeWithText(budgetName)
             .assertDoesNotExist()
+
+        return this
     }
 
 }
