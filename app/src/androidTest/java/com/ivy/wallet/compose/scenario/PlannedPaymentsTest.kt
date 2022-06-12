@@ -3,11 +3,14 @@ package com.ivy.wallet.compose.scenario
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
+import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.waitMillis
 import com.ivy.wallet.compose.helpers.EditPlannedScreen
 import com.ivy.wallet.compose.helpers.HomeTab
 import com.ivy.wallet.compose.helpers.PlannedPaymentsScreen
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
@@ -15,6 +18,7 @@ import org.junit.Test
 @HiltAndroidTest
 class PlannedPaymentsTest : IvyComposeTest() {
 
+  
     @Test
     fun Onboard_CreatePlannedPaymentFromPrompt() = testWithRetry {
         quickOnboarding()
@@ -247,6 +251,109 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .assertBalance(
                 amount = "0",
                 amountDecimal = ".00"
+            )
+    }
+
+    @Test
+    fun skipPlannedPaymentsOnHomeTab() = testWithRetry{
+        quickOnboarding()
+            .clickAddFAB()
+            .clickAddPlannedPayment()
+            .addPlannedPayment(
+                next = HomeTab(composeTestRule),
+                type = TransactionType.EXPENSE,
+                oneTime = true,
+                amount = "530.25",
+                category = "Transport",
+                startDate = null,
+                intervalN = null,
+                intervalType = null,
+                title = "Netherlands airplane"
+            )
+            .clickUpcoming()
+            .clickTransactionSkip()
+            .assertUpcomingDoesNotExist()
+    }
+
+    @Test
+    fun payPlannedPaymentsOnHomeTab() = testWithRetry{
+        quickOnboarding()
+            .clickAddFAB()
+            .clickAddPlannedPayment()
+            .addPlannedPayment(
+                next = HomeTab(composeTestRule),
+                type = TransactionType.EXPENSE,
+                oneTime = true,
+                amount = "530.25",
+                category = "Transport",
+                startDate = null,
+                intervalN = null,
+                intervalType = null,
+                title = "Netherlands airplane"
+            )
+            .clickUpcoming()
+            .clickTransactionPay()
+            .assertUpcomingDoesNotExist()
+            .assertBalance(
+                amount = "-530",
+                amountDecimal = ".25"
+            )
+    }
+
+    @Test
+    fun skipPlannedPaymentsOnAccountTab() = testWithRetry{
+        quickOnboarding()
+            .clickAddFAB()
+            .clickAddPlannedPayment()
+            .addPlannedPayment(
+                next = HomeTab(composeTestRule),
+                type = TransactionType.EXPENSE,
+                oneTime = true,
+                amount = "530.25",
+                category = "Transport",
+                startDate = null,
+                intervalN = null,
+                intervalType = null,
+                title = "Netherlands airplane"
+            )
+            .clickAccountsTab()
+            .clickAccount("Cash")
+            .clickUpcoming()
+            .clickTransactionSkip()
+            .clickClose(AccountsTab(composeTestRule))
+            .clickHomeTab()
+            .assertUpcomingDoesNotExist()
+
+        //Wait until the upcoming payments are loaded
+        /*composeTestRule.waitMillis(500)*/
+    }
+
+    @Test
+    fun payPlannedPaymentsOnAccountTab() = testWithRetry{
+        quickOnboarding()
+            .clickAddFAB()
+            .clickAddPlannedPayment()
+            .addPlannedPayment(
+                next=HomeTab(composeTestRule),
+                type = TransactionType.EXPENSE,
+                oneTime = true,
+                amount = "530.25",
+                category = "Transport",
+                startDate = null,
+                intervalN = null,
+                intervalType = null,
+                title = "Netherlands airplane"
+            )
+            .clickAccountsTab()
+            .clickAccount("Cash")
+            .clickUpcoming()
+            .clickTransactionPay()
+            .clickClose(AccountsTab(composeTestRule))
+            .clickHomeTab()
+            .assertUpcomingDoesNotExist()
+            .assertBalance(
+                amount = "-530",
+                amountDecimal = ".25"
             )
     }
 }

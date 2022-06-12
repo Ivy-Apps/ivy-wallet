@@ -1,5 +1,9 @@
 package com.ivy.wallet.compose.helpers
 
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -24,8 +28,37 @@ open class ItemStatisticScreen(
 
     fun <N> clickClose(next: N): N {
         composeTestRule.onNodeWithTag("toolbar_close")
+            .performScrollTo()
             .performClick()
         return next
+    }
+
+    fun clickUpcoming() : ItemStatisticScreen {
+        composeTestRule.onNodeWithTag(
+            testTag = "upcoming_title",
+            useUnmergedTree = true
+        ).performClick()
+        return this
+    }
+
+    fun clickTransactionSkip() : ItemStatisticScreen{
+        composeTestRule.onNode(
+            hasText("Skip")
+                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+        )
+            .performScrollTo()
+            .performClick()
+        return this
+    }
+
+    fun clickTransactionPay(): ItemStatisticScreen{
+        composeTestRule.onNode(
+            hasText("Pay")
+                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+        )
+            .performScrollTo()
+            .performClick()
+        return this
     }
 
     fun assertBalance(

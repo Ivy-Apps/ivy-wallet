@@ -20,6 +20,7 @@ class HomeTab(
         currency: String = "USD"
     ): HomeTab {
         composeTestRule.onNodeWithTag("home_balance")
+            .performScrollTo()
             .assertTextEquals(currency, amount, amountDecimal)
         return this
     }
@@ -129,13 +130,25 @@ class HomeTab(
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
-        ).performClick()
-        return this
+        )
+            .performScrollTo()
+            .performClick()
+            return this
     }
 
     fun clickTransactionPay(): HomeTab {
         composeTestRule.onNode(
             hasText("Pay")
+                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+        )
+            .performScrollTo()
+            .performClick()
+        return this
+    }
+
+    fun clickTransactionSkip(): HomeTab {
+        composeTestRule.onNode(
+            hasText("Skip")
                 .and(hasAnyAncestor(hasTestTag("transaction_card")))
         )
             .performScrollTo()
