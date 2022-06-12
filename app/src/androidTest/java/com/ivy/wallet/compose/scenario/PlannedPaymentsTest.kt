@@ -4,6 +4,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.waitMillis
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
@@ -21,6 +22,10 @@ class PlannedPaymentsTest : IvyComposeTest() {
     private val deleteConfirmationModal = DeleteConfirmationModal(composeTestRule)
     private val homeMoreMenu = HomeMoreMenu(composeTestRule)
     private val plannedPaymentsScreen = PlannedPaymentsScreen(composeTestRule)
+    private val accountsTab = AccountsTab(composeTestRule)
+    private val itemStatisticScreen = ItemStatisticScreen(composeTestRule)
+    private val accountModal = AccountModal(composeTestRule)
+    private val amountInput = AmountInput(composeTestRule)
 
     @Test
     fun Onboard_CreatePlannedPaymentFromPrompt() = testWithRetry {
@@ -272,6 +277,165 @@ class PlannedPaymentsTest : IvyComposeTest() {
         homeTab.assertBalance(
             amount = "0",
             amountDecimal = ".00"
+        )
+    }
+
+    @Test
+    fun skipPlannedPaymentsOnHomeTab() = testWithRetry{
+        onboardingFlow.quickOnboarding()
+
+        // Dismiss initial prompt
+        mainBottomBar.clickAccounts()
+        accountsTab.clickAccount("Bank")
+        itemStatisticScreen.clickEdit()
+        accountModal.apply {
+            clickBalance()
+            amountInput.enterNumber("13")
+            clickSave()
+        }
+        itemStatisticScreen.clickEdit()
+        accountModal.apply{
+            clickBalance()
+            amountInput.enterNumber("0")
+            clickSave()
+        }
+        itemStatisticScreen.clickClose()
+
+        mainBottomBar.clickHome()
+        // Dismiss initial prompt
+
+
+        try {
+            mainBottomBar.clickAddPlannedPayment()
+        } catch (e: Exception) {
+            mainBottomBar.clickAddFAB()
+            mainBottomBar.clickAddPlannedPayment()
+        }
+
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = true,
+            amount = "530.25",
+            category = "Transport",
+            startDate = null,
+            intervalN = null,
+            intervalType = null,
+            title = "Netherlands airplane"
+        )
+        homeTab.clickUpcoming()
+        homeTab.clickTransactionSkip()
+        homeTab.assertUpcomingDoesNotExist()
+    }
+
+    @Test
+    fun payPlannedPaymentsOnHomeTab() = testWithRetry{
+        onboardingFlow.quickOnboarding()
+
+        // Dismiss initial prompt
+        mainBottomBar.clickAccounts()
+        accountsTab.clickAccount("Bank")
+        itemStatisticScreen.clickEdit()
+        accountModal.apply {
+            clickBalance()
+            amountInput.enterNumber("13")
+            clickSave()
+        }
+        itemStatisticScreen.clickEdit()
+        accountModal.apply{
+            clickBalance()
+            amountInput.enterNumber("0")
+            clickSave()
+        }
+        itemStatisticScreen.clickClose()
+
+        mainBottomBar.clickHome()
+        // Dismiss initial prompt
+
+        try {
+            mainBottomBar.clickAddPlannedPayment()
+        } catch (e: Exception) {
+            mainBottomBar.clickAddFAB()
+            mainBottomBar.clickAddPlannedPayment()
+        }
+
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = true,
+            amount = "530.25",
+            category = "Transport",
+            startDate = null,
+            intervalN = null,
+            intervalType = null,
+            title = "Netherlands airplane"
+        )
+        homeTab.clickUpcoming()
+        homeTab.clickTransactionPay()
+        homeTab.assertUpcomingDoesNotExist()
+        homeTab.assertBalance(
+            amount = "-530",
+            amountDecimal = ".25"
+        )
+    }
+
+    @Test
+    fun skipPlannedPaymentsOnAccountTab() = testWithRetry{
+        onboardingFlow.quickOnboarding()
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = true,
+            amount = "530.25",
+            category = "Transport",
+            startDate = null,
+            intervalN = null,
+            intervalType = null,
+            title = "Netherlands airplane"
+        )
+        mainBottomBar.clickAccounts()
+        accountsTab.clickAccount("Cash")
+
+        //Wait until the upcoming payments are loaded
+        composeTestRule.waitMillis(500)
+
+        itemStatisticScreen.clickUpcoming()
+        itemStatisticScreen.clickTransactionSkip()
+        itemStatisticScreen.clickClose()
+
+        mainBottomBar.clickHome()
+        homeTab.assertUpcomingDoesNotExist()
+    }
+
+    @Test
+    fun payPlannedPaymentsOnAccountTab() = testWithRetry{
+        onboardingFlow.quickOnboarding()
+        mainBottomBar.clickAddFAB()
+        mainBottomBar.clickAddPlannedPayment()
+        editPlannedScreen.addPlannedPayment(
+            type = TransactionType.EXPENSE,
+            oneTime = true,
+            amount = "530.25",
+            category = "Transport",
+            startDate = null,
+            intervalN = null,
+            intervalType = null,
+            title = "Netherlands airplane"
+        )
+        mainBottomBar.clickAccounts()
+        accountsTab.clickAccount("Cash")
+
+        //Wait until the upcoming payments are loaded
+        composeTestRule.waitMillis(500)
+
+        itemStatisticScreen.clickUpcoming()
+        itemStatisticScreen.clickTransactionPay()
+        itemStatisticScreen.clickClose()
+
+        mainBottomBar.clickHome()
+        homeTab.assertUpcomingDoesNotExist()
+        homeTab.assertBalance(
+            amount = "-530",
+            amountDecimal = ".25"
         )
     }
 }
