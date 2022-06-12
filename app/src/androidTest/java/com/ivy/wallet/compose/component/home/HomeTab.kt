@@ -6,7 +6,7 @@ import com.ivy.wallet.compose.component.PieChartScreen
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
 import com.ivy.wallet.compose.component.edittrn.screen.TransactionScreen
 import com.ivy.wallet.compose.component.edittrn.screen.TransferScreen
-import com.ivy.wallet.compose.util.printTree
+import com.ivy.wallet.compose.util.scroll
 import com.ivy.wallet.utils.format
 
 class HomeTab(
@@ -69,10 +69,6 @@ class HomeTab(
             )
         }
 
-        composeTestRule.printTree(
-            useUnmergedTree = true
-        )
-
         composeTestRule.onNode(
             matcher = matcher,
             useUnmergedTree = true
@@ -133,19 +129,31 @@ class HomeTab(
     }
 
     fun clickUpcoming(): HomeTab {
+        scroll(
+            container = homeLazyColumn(),
+            toKey = "upcoming_section"
+        )
+
         composeTestRule.onNodeWithTag(
             testTag = "upcoming_title",
             useUnmergedTree = true
         )
             .performScrollTo()
             .performClick()
-            return this
+        return this
     }
 
     fun clickTransactionPay(): HomeTab {
+        val matcher = hasText("Pay")
+            .and(hasAnyAncestor(hasTestTag("transaction_card")))
+
+        scroll(
+            container = homeLazyColumn(),
+            toMatcher = matcher
+        )
+
         composeTestRule.onNode(
-            hasText("Pay")
-                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+            matcher
         )
             .performScrollTo()
             .performClick()
@@ -153,9 +161,16 @@ class HomeTab(
     }
 
     fun clickTransactionSkip(): HomeTab {
+        val matcher = hasText("Skip")
+            .and(hasAnyAncestor(hasTestTag("transaction_card")))
+
+        scroll(
+            container = homeLazyColumn(),
+            toMatcher = matcher
+        )
+
         composeTestRule.onNode(
-            hasText("Skip")
-                .and(hasAnyAncestor(hasTestTag("transaction_card")))
+            matcher
         )
             .performScrollTo()
             .performClick()
@@ -274,4 +289,7 @@ class HomeTab(
                 }
             }.clickAdd(next = HomeTab(composeTestRule))
     }
+
+    private fun homeLazyColumn(): SemanticsNodeInteraction =
+        composeTestRule.onNodeWithTag("home_lazy_column")
 }
