@@ -8,7 +8,7 @@ import com.ivy.wallet.compose.component.category.CategoriesScreen
 import com.ivy.wallet.compose.component.loan.LoansScreen
 import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
 import com.ivy.wallet.compose.component.settings.SettingsScreen
-import com.ivy.wallet.compose.printTree
+import com.ivy.wallet.compose.util.printTree
 
 class HomeMoreMenu(
     private val composeTestRule: IvyComposeTestRule

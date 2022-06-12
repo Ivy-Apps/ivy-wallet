@@ -4,7 +4,7 @@ import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.DeleteConfirmationModal
 import com.ivy.wallet.compose.component.DeleteItem
-import com.ivy.wallet.compose.printTree
+import com.ivy.wallet.compose.util.printTree
 
 class LoanDetailsScreen(
     private val composeTestRule: IvyComposeTestRule

@@ -7,7 +7,7 @@ import com.ivy.wallet.compose.component.ItemStatisticScreen
 import com.ivy.wallet.compose.component.ReorderModal
 import com.ivy.wallet.compose.component.home.MainBottomBar
 import com.ivy.wallet.compose.hideKeyboard
-import com.ivy.wallet.compose.printTree
+import com.ivy.wallet.compose.util.printTree
 import com.ivy.wallet.ui.theme.Ivy
 
 class AccountsTab(
