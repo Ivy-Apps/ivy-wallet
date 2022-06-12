@@ -1,9 +1,9 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.HomeTab
-import com.ivy.wallet.compose.helpers.IvyAmountInput
-import com.ivy.wallet.compose.helpers.TransactionScreen
+import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
+import com.ivy.wallet.compose.component.edittrn.TransactionScreen
+import com.ivy.wallet.compose.component.home.HomeTab
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 

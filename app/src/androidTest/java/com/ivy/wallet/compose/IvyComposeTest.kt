@@ -19,7 +19,7 @@ import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.compose.helpers.OnboardingFlow
+import com.ivy.wallet.compose.component.OnboardingFlow
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs

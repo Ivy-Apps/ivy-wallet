@@ -1,9 +1,9 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.CategoriesScreen
-import com.ivy.wallet.compose.helpers.CategoryModal
-import com.ivy.wallet.compose.helpers.ItemStatisticScreen
+import com.ivy.wallet.compose.component.ItemStatisticScreen
+import com.ivy.wallet.compose.component.category.CategoriesScreen
+import com.ivy.wallet.compose.component.category.CategoryModal
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Blue2
 import com.ivy.wallet.ui.theme.Ivy

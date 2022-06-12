@@ -1,7 +1,7 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.LoanDetailsScreen
+import com.ivy.wallet.compose.component.loan.LoanDetailsScreen
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.ui.theme.*
 import dagger.hilt.android.testing.HiltAndroidTest

@@ -3,7 +3,11 @@ package com.ivy.wallet.compose.scenario
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
-import com.ivy.wallet.compose.helpers.*
+import com.ivy.wallet.compose.component.ItemStatisticScreen
+import com.ivy.wallet.compose.component.account.AccountModal
+import com.ivy.wallet.compose.component.account.AccountsTab
+import com.ivy.wallet.compose.component.edittrn.IncomeExpenseScreen
+import com.ivy.wallet.compose.component.home.HomeTab
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
