@@ -6,7 +6,7 @@ import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.ItemStatisticScreen
 import com.ivy.wallet.compose.component.account.AccountModal
 import com.ivy.wallet.compose.component.account.AccountsTab
-import com.ivy.wallet.compose.component.edittrn.IncomeExpenseScreen
+import com.ivy.wallet.compose.component.edittrn.screen.IncomeExpenseScreen
 import com.ivy.wallet.compose.component.home.HomeTab
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
@@ -54,7 +54,8 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "5,000.00",
                 title = "Salary",
-                category = "Investments"
+                category = "Investments",
+                next = IncomeExpenseScreen(composeTestRule)
             )
     }
 
@@ -123,11 +124,9 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "20.48",
                 category = "Food & Drinks",
-                account = "Cash"
+                account = "Cash",
+                next = IncomeExpenseScreen(composeTestRule)
             )
-
-        //TODO: Fix that
-        IncomeExpenseScreen(composeTestRule)
             .editCategory(
                 currentCategory = "Food & Drinks",
                 newCategory = "Groceries"
@@ -142,7 +141,8 @@ class OperationsCoreTest : IvyComposeTest() {
                 amount = "34.55",
                 title = "For the house",
                 category = "Groceries",
-                account = "Bank"
+                account = "Bank",
+                next = IncomeExpenseScreen(composeTestRule)
             )
     }
 
@@ -162,7 +162,8 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "249.75",
                 title = "Food",
-                category = "Groceries"
+                category = "Groceries",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .clickDelete()
             .confirmDelete(next = HomeTab(composeTestRule))
@@ -192,7 +193,8 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "2,178.00",
                 title = "Samsung Galaxy Tab S8+",
-                category = "Groceries"
+                category = "Groceries",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .assertDescription("Tablet for learning purposes.")
     }
@@ -213,6 +215,7 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "123.00",
                 title = "Income",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .assertDescription("-a\n-b\n-c\n-d")
             // No remove desc ---------------------------------------------------------------
@@ -221,6 +224,7 @@ class OperationsCoreTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "123.00",
                 title = "Income",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .assertAddDescriptionButtonVisible()
     }

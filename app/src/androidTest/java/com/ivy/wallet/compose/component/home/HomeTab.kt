@@ -4,8 +4,8 @@ import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.PieChartScreen
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
-import com.ivy.wallet.compose.component.edittrn.TransactionScreen
-import com.ivy.wallet.compose.component.edittrn.TransferScreen
+import com.ivy.wallet.compose.component.edittrn.screen.TransactionScreen
+import com.ivy.wallet.compose.component.edittrn.screen.TransferScreen
 import com.ivy.wallet.compose.printTree
 import com.ivy.wallet.utils.format
 
@@ -30,12 +30,14 @@ class HomeTab(
     }
 
 
-    fun clickTransaction(
+    fun <N : TransactionScreen> clickTransaction(
         amount: String,
         title: String? = null,
         account: String? = null,
-        category: String? = null
-    ): TransactionScreen {
+        category: String? = null,
+
+        next: N
+    ): N {
         var matcher = hasTestTag("type_amount_currency")
             .and(hasAnyDescendant(hasText(amount)))
 
@@ -78,7 +80,7 @@ class HomeTab(
             .assertIsDisplayed()
             .performClick()
 
-        return TransactionScreen(composeTestRule)
+        return next
     }
 
     fun assertTransactionNotExists(

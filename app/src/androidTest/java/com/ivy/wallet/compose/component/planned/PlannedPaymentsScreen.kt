@@ -1,4 +1,4 @@
-package com.ivy.wallet.compose.component.edittrn
+package com.ivy.wallet.compose.component.planned
 
 import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule

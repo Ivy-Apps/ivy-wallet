@@ -1,12 +1,13 @@
-package com.ivy.wallet.compose.component.edittrn
+package com.ivy.wallet.compose.component.edittrn.screen
 
 import androidx.compose.ui.test.*
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.DeleteConfirmationModal
 import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
+import com.ivy.wallet.compose.component.edittrn.TransactionAmountInput
 import com.ivy.wallet.compose.hideKeyboard
 
-open class TransactionScreen(
+abstract class TransactionScreen(
     protected val composeTestRule: IvyComposeTestRule
 ) {
     fun editAmount(

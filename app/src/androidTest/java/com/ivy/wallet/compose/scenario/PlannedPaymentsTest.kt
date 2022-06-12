@@ -4,9 +4,10 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.account.AccountsTab
-import com.ivy.wallet.compose.component.edittrn.EditPlannedScreen
-import com.ivy.wallet.compose.component.edittrn.PlannedPaymentsScreen
+import com.ivy.wallet.compose.component.edittrn.screen.IncomeExpenseScreen
 import com.ivy.wallet.compose.component.home.HomeTab
+import com.ivy.wallet.compose.component.planned.EditPlannedScreen
+import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
@@ -49,7 +50,8 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickTransaction(
                 amount = "2,000.00",
                 category = "Bills & Fees",
-                title = "Salary"
+                title = "Salary",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .clickGet(next = HomeTab(composeTestRule))
             .assertBalance(
@@ -115,17 +117,16 @@ class PlannedPaymentsTest : IvyComposeTest() {
 
                 next = HomeTab(composeTestRule)
             )
-
             .assertUpcomingExpense(
                 amount = "650.00",
                 currency = "USD"
             )
-
             .clickUpcoming()
             .clickTransaction(
                 amount = "650.00",
                 category = "Bills & Fees",
-                title = "Rent"
+                title = "Rent",
+                next = IncomeExpenseScreen(composeTestRule)
             )
             .clickDelete()
             .confirmDelete(next = HomeTab(composeTestRule))

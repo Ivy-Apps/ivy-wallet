@@ -5,8 +5,8 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.DonateScreen
 import com.ivy.wallet.compose.component.budget.BudgetsScreen
 import com.ivy.wallet.compose.component.category.CategoriesScreen
-import com.ivy.wallet.compose.component.edittrn.PlannedPaymentsScreen
 import com.ivy.wallet.compose.component.loan.LoansScreen
+import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
 import com.ivy.wallet.compose.component.settings.SettingsScreen
 import com.ivy.wallet.compose.printTree
 

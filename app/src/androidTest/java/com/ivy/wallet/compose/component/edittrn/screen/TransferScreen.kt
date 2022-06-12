@@ -1,4 +1,4 @@
-package com.ivy.wallet.compose.component.edittrn
+package com.ivy.wallet.compose.component.edittrn.screen
 
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText

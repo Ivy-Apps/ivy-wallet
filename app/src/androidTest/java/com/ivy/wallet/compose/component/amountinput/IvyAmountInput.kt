@@ -10,13 +10,13 @@ open class IvyAmountInput(
     protected val composeTestRule: IvyComposeTestRule
 ) {
     //TODO: Refactor this method
-    open fun <T> enterNumber(
+    open fun <N> enterNumber(
         number: String,
-        next: T,
+        next: N,
 
         onCalculator: Boolean = false,
         autoPressNonCalculator: Boolean = true,
-    ): T {
+    ): N {
         composeTestRule.waitForIdle()
 
         for (char in number) {
