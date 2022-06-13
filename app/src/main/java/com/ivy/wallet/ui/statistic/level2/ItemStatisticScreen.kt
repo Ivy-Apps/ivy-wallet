@@ -253,7 +253,8 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
-                .background(UI.colors.pure),
+                .background(UI.colors.pure)
+                .testTag("item_stats_lazy_column"),
             state = listState,
         ) {
             item {

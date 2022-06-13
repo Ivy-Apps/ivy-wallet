@@ -6,6 +6,7 @@ import com.ivy.wallet.compose.component.PieChartScreen
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
 import com.ivy.wallet.compose.component.edittrn.screen.TransactionScreen
 import com.ivy.wallet.compose.component.edittrn.screen.TransferScreen
+import com.ivy.wallet.compose.util.printTree
 import com.ivy.wallet.compose.util.scroll
 import com.ivy.wallet.utils.format
 
@@ -68,6 +69,8 @@ class HomeTab(
                 )
             )
         }
+
+        composeTestRule.printTree()
 
         composeTestRule.onNode(
             matcher = matcher,

@@ -300,7 +300,6 @@ class PlannedPaymentsTest : IvyComposeTest() {
             )
     }
 
-    @Ignore("Fails: needs scrolling fix")
     @Test
     fun skipPlannedPaymentsOnItemStatistics() = testWithRetry {
         quickOnboarding()
