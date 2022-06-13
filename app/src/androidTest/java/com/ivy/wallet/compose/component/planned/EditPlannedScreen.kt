@@ -5,6 +5,7 @@ import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.DeleteConfirmationModal
 import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
+import com.ivy.wallet.compose.component.external.CalendarDialog
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import java.time.LocalDateTime
@@ -12,6 +13,7 @@ import java.time.LocalDateTime
 class EditPlannedScreen(
     private val composeTestRule: IvyComposeTestRule
 ) {
+    //TODO: Re-work: make UI options strongly typed!
 
     fun setPaymentType(type: TransactionType): IvyAmountInput {
         val nodeText = when (type) {
@@ -141,5 +143,11 @@ class EditPlannedScreen(
         composeTestRule.onNodeWithTag("delete_button")
             .performClick()
         return DeleteConfirmationModal(composeTestRule)
+    }
+
+    fun clickRecurringModalPickDate(): CalendarDialog {
+        composeTestRule.onNodeWithTag("recurring_modal_pick_date")
+            .performClick()
+        return CalendarDialog(composeTestRule)
     }
 }

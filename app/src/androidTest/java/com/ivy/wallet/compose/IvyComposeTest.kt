@@ -123,6 +123,10 @@ abstract class IvyComposeTest {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
 
+    protected fun testDebug(
+        test: OnboardingFlow.() -> Unit
+    ) = testWithRetry(maxAttempts = 0, test = test)
+
     protected fun testWithRetry(
         attempt: Int = 0,
         maxAttempts: Int = 3,
