@@ -12,13 +12,11 @@ import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Ignore
 import org.junit.Test
 
 @HiltAndroidTest
 class PlannedPaymentsTest : IvyComposeTest() {
 
-  
     @Test
     fun Onboard_CreatePlannedPaymentFromPrompt() = testWithRetry {
         quickOnboarding()
@@ -323,12 +321,8 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickClose(AccountsTab(composeTestRule))
             .clickHomeTab()
             .assertUpcomingDoesNotExist()
-
-        //Wait until the upcoming payments are loaded
-        /*composeTestRule.waitMillis(500)*/
     }
 
-    @Ignore("Fails: needs scrolling fix")
     @Test
     fun payPlannedPaymentsOnItemStatistics() = testWithRetry {
         quickOnboarding()
