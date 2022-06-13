@@ -1,4 +1,4 @@
-package com.ivy.wallet.compose.scenario
+package com.ivy.wallet.compose.scenario.core
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick

@@ -1,4 +1,4 @@
-package com.ivy.wallet.compose.scenario
+package com.ivy.wallet.compose.scenario.core
 
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.ItemStatisticScreen
