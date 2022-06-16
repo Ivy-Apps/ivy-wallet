@@ -24,8 +24,10 @@ import com.ivy.wallet.io.network.request.github.OpenIssueRequest
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
+import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +53,7 @@ class SettingsViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val exportZipLogic: ExportZipLogic,
     private val startDayOfMonthAct: StartDayOfMonthAct,
-    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct
+    private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -241,6 +243,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun cloudLogout() {
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            logoutLogic.cloudLogout()
+
+            TestIdlingResource.decrement()
+        }
+    }
+
     fun login() {
         ivyContext.googleSignIn { idToken ->
             if (idToken != null) {
@@ -293,6 +305,7 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
+            refreshWidget(WalletBalanceReceiver::class.java)
 
             TestIdlingResource.decrement()
         }
@@ -373,6 +386,17 @@ class SettingsViewModel @Inject constructor(
                 e.printStackTrace()
             }
             logout()
+        }
+    }
+
+    fun deleteCloudUserData() {
+        viewModelScope.launch {
+            try {
+                restClient.nukeService.deleteAllUserData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            cloudLogout()
         }
     }
 }

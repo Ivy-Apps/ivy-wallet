@@ -130,6 +130,7 @@ abstract class IvyWalletDesign : IvyDesign {
 
                 override val red = Red
                 override val red1 = RedLight
+                override val red1Inverse = RedDark
 
                 override val isLight = true
             }
@@ -151,6 +152,7 @@ abstract class IvyWalletDesign : IvyDesign {
 
                 override val red = Red
                 override val red1 = RedDark
+                override val red1Inverse = RedLight
 
                 override val isLight = false
             }

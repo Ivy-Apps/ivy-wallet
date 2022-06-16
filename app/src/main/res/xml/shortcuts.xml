@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="sc_add_expense"
+        android:enabled="true"
+        android:icon="@drawable/ic_expense"
+        android:shortcutShortLabel="@string/add_expense"
+        android:shortcutLongLabel="@string/add_expense"
+        android:shortcutDisabledMessage="@string/add_expense">
+        <intent android:action="ivy.wallet.intent.action.add_transaction">
+            <extra
+                android:name="add_transaction_type_extra"
+                android:value="EXPENSE" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="sc_add_income"
+        android:enabled="true"
+        android:icon="@drawable/ic_income"
+        android:shortcutShortLabel="@string/add_income"
+        android:shortcutLongLabel="@string/add_income"
+        android:shortcutDisabledMessage="@string/add_income">
+        <intent android:action="ivy.wallet.intent.action.add_transaction">
+            <extra
+                android:name="add_transaction_type_extra"
+                android:value="INCOME" />
+        </intent>
+    </shortcut>
+    <shortcut
+        android:shortcutId="sc_add_transfer"
+        android:enabled="true"
+        android:icon="@drawable/ic_transfer"
+        android:shortcutShortLabel="@string/account_transfers"
+        android:shortcutLongLabel="@string/account_transfers"
+        android:shortcutDisabledMessage="@string/account_transfers">
+        <intent android:action="ivy.wallet.intent.action.add_transaction">
+            <extra
+                android:name="add_transaction_type_extra"
+                android:value="TRANSFER" />
+        </intent>
+    </shortcut>
+</shortcuts>

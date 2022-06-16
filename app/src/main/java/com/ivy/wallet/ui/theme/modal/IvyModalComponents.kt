@@ -26,25 +26,34 @@ fun ModalDynamicPrimaryAction(
     initialEmpty: Boolean,
     initialChanged: Boolean,
 
+    testTagSave: String = "tag_save",
+    testTagDelete: String = "tag_delete",
+
     onDelete: () -> Unit,
     dismiss: () -> Unit,
     onSave: () -> Unit
 ) {
     when {
         initialEmpty -> {
-            ModalAdd {
+            ModalAdd(
+                testTag = testTagSave
+            ) {
                 onSave()
                 dismiss()
             }
         }
         else -> {
             if (!initialChanged) {
-                ModalDelete {
+                ModalDelete(
+                    testTag = testTagDelete
+                ) {
                     onDelete()
                     dismiss()
                 }
             } else {
-                ModalSave {
+                ModalSave(
+                    modifier = Modifier.testTag(testTagSave)
+                ) {
                     onSave()
                     dismiss()
                 }
@@ -121,9 +130,11 @@ fun ModalSave(
 @Composable
 fun ModalAdd(
     enabled: Boolean = true,
+    testTag: String = "modal_add",
     onClick: () -> Unit
 ) {
     ModalPositiveButton(
+        modifier = Modifier.testTag(testTag),
         text = stringResource(R.string.add),
         iconStart = R.drawable.ic_plus,
         enabled = enabled,
@@ -197,12 +208,13 @@ fun ModalPrimaryButton(
 @Composable
 fun ModalDelete(
     enabled: Boolean = true,
+    testTag: String = "modal_delete",
     onClick: () -> Unit
 ) {
     IvyCircleButton(
         modifier = Modifier
             .size(40.dp)
-            .testTag("modal_delete"),
+            .testTag(testTag),
         icon = R.drawable.ic_delete,
         backgroundGradient = GradientRed,
         enabled = enabled,

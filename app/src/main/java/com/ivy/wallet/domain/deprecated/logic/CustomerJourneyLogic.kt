@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.design.l0_system.SunsetNight
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -11,6 +12,7 @@ import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
@@ -55,11 +57,12 @@ class CustomerJourneyLogic(
             didYouKnow_expensesPieChart(),
             rateUsCard(),
             shareIvyWalletCard(),
-//            buyLifetimeOfferCard(),
+            joinIvyTelegramCard(),
             makeReportCard(),
             rateUsCard_2(),
             shareIvyWalletCard_2(),
-            ivyWalletIsOpenSource()
+            ivyWalletIsOpenSource(),
+            donateIvyWallet()
         )
 
         fun adjustBalanceCard() = CustomerJourneyCardData(
@@ -71,7 +74,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.adjust_initial_balance_description),
             cta = stringRes(R.string.to_accounts),
             ctaIcon = R.drawable.ic_custom_account_s,
-            backgroundColor = Ivy,
+            background = Gradient.solid(Ivy),
             hasDismiss = false,
             onAction = { _, ivyContext, _ ->
                 ivyContext.selectMainTab(MainTab.ACCOUNTS)
@@ -87,7 +90,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.create_first_planned_payment_description),
             cta = stringRes(R.string.add_planned_payment),
             ctaIcon = R.drawable.ic_planned_payments,
-            backgroundColor = Orange,
+            background = Gradient.solid(Orange),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(
@@ -108,7 +111,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.widget_description),
             cta = stringRes(R.string.add_widget),
             ctaIcon = R.drawable.ic_custom_atom_s,
-            backgroundColor = GreenLight,
+            background = Gradient.solid(GreenLight),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.pinWidget(AddTransactionWidgetCompact::class.java)
@@ -121,10 +124,10 @@ class CustomerJourneyLogic(
                 trnCount >= 5
             },
             title = stringRes(R.string.set_a_budget),
-                description = stringRes(R.string.set_a_budget_description),
+            description = stringRes(R.string.set_a_budget_description),
             cta = stringRes(R.string.add_budget),
             ctaIcon = R.drawable.ic_budget_xs,
-            backgroundColor = Green2,
+            background = Gradient.solid(Green2),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(BudgetScreen)
@@ -140,7 +143,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.expenses_piechart_description),
             cta = stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
-            backgroundColor = Red,
+            background = Gradient.solid(Red),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(PieChartStatistic(type = TransactionType.EXPENSE))
@@ -156,7 +159,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.review_ivy_wallet_description),
             cta = stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
-            backgroundColor = Green,
+            background = Gradient.solid(Green),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.reviewIvyWallet(dismissReviewCard = true)
@@ -172,27 +175,26 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.help_us_grow),
             cta = stringRes(R.string.share_with_friends),
             ctaIcon = R.drawable.ic_custom_family_s,
-            backgroundColor = Red3,
+            background = Gradient.solid(Red3),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
             }
         )
 
-        fun buyLifetimeOfferCard() = CustomerJourneyCardData(
-            id = "buy_lifetime_offer",
-            condition = { trnCount, _, ivyContext ->
-                trnCount >= 16 && !ivyContext.isPremium
+        fun joinIvyTelegramCard() = CustomerJourneyCardData(
+            id = "join_ivy_telegram",
+            condition = { trnCount, _, _ ->
+                trnCount >= 16
             },
-            title = "Lifetime Premium",
-            description = "We understand that owning something is better than just paying a subscription for it." +
-                    " That's why we've included this special limited lifetime offer only for our best users like you.",
-            cta = "Get Lifetime Premium",
-            ctaIcon = R.drawable.ic_custom_crown_s,
-            backgroundColor = Ivy,
+            description = "It looks like that you're enjoying Ivy Wallet! Feel free join our invite-only Ivy Telegram Community and make our app better :)",
+            title = "Ivy Community",
+            cta = "Join now",
+            ctaIcon = R.drawable.ic_telegram_24dp,
+            background = Gradient.solid(Blue),
             hasDismiss = true,
-            onAction = { navigation, _, _ ->
-                navigation.navigateTo(Paywall(paywallReason = null))
+            onAction = { _, _, rootActivity ->
+                rootActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
         )
 
@@ -205,7 +207,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.make_a_report_description),
             cta = stringRes(R.string.make_a_report),
             ctaIcon = R.drawable.ic_statistics_xs,
-            backgroundColor = Green2,
+            background = Gradient.solid(Green2),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(Report)
@@ -221,7 +223,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.make_ivy_wallet_better_description),
             cta = stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
-            backgroundColor = GreenLight,
+            background = Gradient.solid(GreenLight),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.reviewIvyWallet(dismissReviewCard = true)
@@ -237,7 +239,7 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.we_need_your_help_description),
             cta = stringRes(R.string.share_ivy_wallet),
             ctaIcon = R.drawable.ic_custom_family_s,
-            backgroundColor = Purple2,
+            background = Gradient.solid(Purple2),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.shareIvyWallet()
@@ -253,10 +255,27 @@ class CustomerJourneyLogic(
             description = stringRes(R.string.ivy_wallet_is_opensource_description),
             cta = stringRes(R.string.contribute),
             ctaIcon = R.drawable.github_logo,
-            backgroundColor = Blue3,
+            background = Gradient.solid(Blue3),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
                 ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
+            }
+        )
+
+        fun donateIvyWallet() = CustomerJourneyCardData(
+            id = "donate_ivy_wallet",
+            condition = { trnCount, _, _ ->
+                trnCount >= 30
+            },
+            title = "Support Ivy Wallet",
+            description = "It seems like you enjoy free and open-source software. We too! " +
+                    "That's why we opened a donations channel to sustain and improve our small project.",
+            cta = "Donate",
+            ctaIcon = R.drawable.ic_donate_crown,
+            background = Gradient.from(SunsetNight),
+            hasDismiss = true,
+            onAction = { nav, _, _ ->
+                nav.navigateTo(DonateScreen)
             }
         )
     }
@@ -348,10 +367,10 @@ private fun PreviewShareIvyWallet() {
 
 @Preview
 @Composable
-private fun PreviewBuyLifetimeOffer() {
+private fun PreviewJoinTelegram() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.buyLifetimeOfferCard(),
+            cardData = CustomerJourneyLogic.joinIvyTelegramCard(),
             onCTA = { },
             onDismiss = {}
         )
@@ -400,6 +419,18 @@ private fun PreviewIvyWallet_isOpenSource() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
+            onCTA = { },
+            onDismiss = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewDonateCard() {
+    IvyWalletComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.donateIvyWallet(),
             onCTA = { },
             onDismiss = {}
         )

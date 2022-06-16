@@ -47,6 +47,7 @@ fun IvyButton(
     hasGlow: Boolean = true,
     padding: Dp = 12.dp,
     iconEdgePadding: Dp = 12.dp,
+    iconTextPadding: Dp = 4.dp,
     onClick: () -> Unit
 ) {
     Row(
@@ -77,6 +78,7 @@ fun IvyButton(
                     icon = iconStart,
                     tint = iconTint,
                     iconEdgePadding = iconEdgePadding,
+                    iconTextPadding = iconTextPadding
                 )
             }
             iconEnd != null && !wrapContentMode -> {
@@ -84,6 +86,7 @@ fun IvyButton(
                     icon = iconEnd,
                     tint = Color.Transparent,
                     iconEdgePadding = iconEdgePadding,
+                    iconTextPadding = iconTextPadding
                 )
             }
             else -> {
@@ -113,6 +116,7 @@ fun IvyButton(
                     icon = iconStart,
                     tint = Color.Transparent,
                     iconEdgePadding = iconEdgePadding,
+                    iconTextPadding = iconTextPadding
                 )
             }
             iconEnd != null -> {
@@ -120,6 +124,7 @@ fun IvyButton(
                     icon = iconEnd,
                     tint = iconTint,
                     iconEdgePadding = iconEdgePadding,
+                    iconTextPadding = iconTextPadding
                 )
             }
             else -> {
@@ -132,6 +137,7 @@ fun IvyButton(
 @Composable
 private fun IconStart(
     iconEdgePadding: Dp,
+    iconTextPadding: Dp,
     icon: Int,
     tint: Color,
 ) {
@@ -144,16 +150,17 @@ private fun IconStart(
         tint = tint,
     )
 
-    Spacer(modifier = Modifier.width(4.dp))
+    Spacer(modifier = Modifier.width(iconTextPadding))
 }
 
 @Composable
 private fun IconEnd(
     iconEdgePadding: Dp,
+    iconTextPadding: Dp,
     icon: Int,
     tint: Color,
 ) {
-    Spacer(modifier = Modifier.width(4.dp))
+    Spacer(modifier = Modifier.width(iconTextPadding))
 
     Icon(
         modifier = Modifier,

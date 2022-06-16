@@ -67,8 +67,8 @@ fun CustomerJourneyCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .drawColoredShadow(cardData.backgroundColor)
-            .background(cardData.backgroundColor, UI.shapes.r3)
+            .drawColoredShadow(cardData.background.startColor)
+            .background(cardData.background.asHorizontalBrush(), UI.shapes.r3)
             .clip(UI.shapes.r3)
             .clickable {
                 onCTA()
@@ -86,7 +86,7 @@ fun CustomerJourneyCard(
                 text = cardData.title,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = findContrastTextColor(cardData.backgroundColor)
+                    color = findContrastTextColor(cardData.background.startColor)
                 )
             )
 
@@ -98,7 +98,7 @@ fun CustomerJourneyCard(
                         }
                         .padding(8.dp), //enlarge click area
                     icon = R.drawable.ic_dismiss,
-                    tint = cardData.backgroundColor.dynamicContrast(),
+                    tint = cardData.background.startColor.dynamicContrast(),
                     contentDescription = "prompt_dismiss",
                 )
 
@@ -115,7 +115,7 @@ fun CustomerJourneyCard(
             text = cardData.description,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Medium,
-                color = findContrastTextColor(cardData.backgroundColor)
+                color = findContrastTextColor(cardData.background.startColor)
             )
         )
 
@@ -129,13 +129,13 @@ fun CustomerJourneyCard(
             text = cardData.cta,
             shadowAlpha = 0f,
             iconStart = cardData.ctaIcon,
-            iconTint = cardData.backgroundColor,
+            iconTint = cardData.background.startColor,
             textStyle = UI.typo.b2.style(
-                color = cardData.backgroundColor,
+                color = cardData.background.startColor,
                 fontWeight = FontWeight.Bold
             ),
             padding = 8.dp,
-            backgroundGradient = Gradient.solid(findContrastTextColor(cardData.backgroundColor))
+            backgroundGradient = Gradient.solid(findContrastTextColor(cardData.background.startColor))
         ) {
             onCTA()
         }

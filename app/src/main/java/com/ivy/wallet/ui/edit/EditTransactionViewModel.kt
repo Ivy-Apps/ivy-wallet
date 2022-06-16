@@ -24,10 +24,12 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
+import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -536,6 +538,7 @@ class EditTransactionViewModel @Inject constructor(
                 }
 
                 transactionDao.save(loadedTransaction().toEntity())
+                refreshWidget(WalletBalanceReceiver::class.java)
             }
 
             if (closeScreen) {

@@ -14,7 +14,7 @@ The Ivy Architecture follows the Functional Reactive Programming (FRP) principle
 
 ### Motivation
 
-- Organize code _(Scaleability)_
+- Organize code _(Scalability)_
 - Reduce complexity _(Separation of responsibility)_
 - Reuse code (Composability)
 - Limit side-effects _(Less bugs)_
@@ -50,14 +50,14 @@ android -- Produces --> event
 
 ### Resources _(further learning)_
 
-- [The Android Achitecture](https://www.youtube.com/watch?v=TPWmfJq16rA&list=PLWz5rJ2EKKc8GZWCbUm3tBXKeqIi3rcVX)
+- [The Android Architecture](https://www.youtube.com/watch?v=TPWmfJq16rA&list=PLWz5rJ2EKKc8GZWCbUm3tBXKeqIi3rcVX)
 - [Clean Code](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)
 - [Jetpack Compose Docs](https://developer.android.com/jetpack/compose/documentation)
 - [Functional Programming](https://en.wikipedia.org/wiki/Functional_programming)
 - [Category Theory for Programmers](https://github.com/hmemcpy/milewski-ctfp-pdf)
 - [Functional Reactive Programming](https://www.youtube.com/watch?v=Agu6jipKfYw&t=1518s)
 - [The Elm Architecture](https://guide.elm-lang.org/architecture/)
-- [Maintable Software Architecture with Haskell](https://www.youtube.com/watch?v=kIwd1D9m1gE)
+- [Maintainable Software Architecture with Haskell](https://www.youtube.com/watch?v=kIwd1D9m1gE)
 - [The Dao of FP](https://github.com/BartoszMilewski/Publications/blob/master/TheDaoOfFP/DaoFP.pdf)
 - [Don't walk away from complexity, run!](https://www.youtube.com/watch?v=4MEKu2TcEHM)
 - [Lambda Calculus](https://www.youtube.com/watch?v=eis11j_iGMs)
@@ -71,8 +71,8 @@ Learn more at [Android Developers Architecture: Entity](https://www.youtube.com/
 #### Motivation
 
 - Reduce complexity _(JSON, DB specifics are isolated)_
-- Flexibility _(allows editting on Data object on different levels w/o breaking existing code)_
-- Easier domain logic _(unncessary fields are removed)_
+- Flexibility _(allows editing of Data object on different levels w/o breaking existing code)_
+- Easier domain logic _(unnecessary fields are removed)_
 
 #### Data Model
 
@@ -113,7 +113,7 @@ ui_data -- "UI State (Flow)" --> ui
 - `Transaction`
   - domain data
 - `TransactionEntity`
-  - has `isSynced`, `isDeletedFlags` db specific fields (Room DB anontations)
+  - has `isSynced`, `isDeletedFlags` db specific fields (Room DB annotations)
 - `TransactionDTO`
   - exactly what the API expects/returns (JSON)
 
@@ -177,7 +177,7 @@ viewmodel -- "UI State (Flow)" --> ui
 
 ### 3. Action (domain logic with side-effects)
 
-Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO) and executes specific domain logic by **compising** `pure` functions or other `actions`.
+Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO) and executes specific domain logic by **composing** `pure` functions or other `actions`.
 
 #### Motivation
 
@@ -190,7 +190,7 @@ Actions accept `Action Input`, handles `threading`, abstract `side-effects` (IO)
 
 #### Action Types
 
-- `FPAction()`: declaritve FP style _(preferable)_
+- `FPAction()`: declarative FP style _(preferable)_
 - `Action()`: imperative OOP style
 
 #### Action Graph
@@ -204,7 +204,7 @@ pure(Pure Functions)
 action(Action)
 
 io(IO)
-dao(Datbase)
+dao(Database)
 network(Network)
 side-effect(Side-Effect)
 
@@ -384,14 +384,14 @@ The `pure` layer must consist of only pure functions without side-effects. If th
     fun divide(a: Int, b: Int) = a / b
     ```
 
-- **Total**: defined for all input values but for the same input isn't guarantee to always return the same output (has side-effects)
+- **Total**: defined for all input values but for the same input there is no guarantee to always return the same output (has side-effects)
 
     ```Kotlin
     //It's defined in all cases but with each call returns a different output
     @Total
     fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 
-    //Produdes logging side-effect which can be seen in Logcat
+    //Produces logging side-effect which can be seen in Logcat
     @Total
     fun logMessage(
         msg: String
@@ -484,7 +484,7 @@ suspend fun exchange(
 
 Renders the `UI State` that the user sees, handles `user input` and transforms it to `events` which are propagated to the `ViewModel`. **Do NOT perform any business logic or computations.**
 
-#### Motivaiton
+#### Motivation
 
 - UI independent of logic.
 - Transform UI State into UI on the screen.
@@ -510,7 +510,7 @@ uiState -- "Flow#collectAsState()" --> ui
 
 ### 6. IO (side-effects)
 
-Responsible for the implementation of IO operations like persistnece, network requests, randomness, date & time, etc.
+Responsible for the implementation of IO operations like persistence, network requests, randomness, date & time, etc.
 
 #### Motivation
 
@@ -521,9 +521,9 @@ Responsible for the implementation of IO operations like persistnece, network re
 #### Side-Effects
 
 - **Room DB**, local persistence
-- **Shares Preferences**, local persistence
+- **Shared Preferences**, local persistence
   - key-value pairs persistence
-  - _will be migrated to DataStore_
+  - _migrated to DataStore_
 - **Retrofit**, Network Requests (REST)
   - send requests
   - parse response JSON with GSON
@@ -534,14 +534,14 @@ Responsible for the implementation of IO operations like persistnece, network re
   - current Date & Time (`timeNowUtc`, `dateNowUtc`)
   - Date & Time formatting using user's `Locale`
 
-### 7. Andoid System (side-effects)
+### 7. Android System (side-effects)
 
 Responsible for the interaction with the Android System like launching `Intent`, sending `notification`, receiving `push messages`, `biometrics`, etc.
 
 #### Motivation
 
 - Abstracts `Action(s)` and `UI` from the Android System and its specifics. _(Reduce Complexity)_
-- Re-usable Android System efects. _(Composability)_
+- Re-usable Android System effects. _(Composability)_
 
 ---
 
@@ -558,7 +558,7 @@ One of the reasons for the Ivy Architecture is to support painless, effective an
 
 ### Unit Testing
 
-Tests whether the code is working correctyly in the expected cases. _(hard-coded cases)_
+Tests whether the code is working correctly in the expected cases. _(hard-coded cases)_
 
 #### Layers
 
@@ -567,7 +567,7 @@ Tests whether the code is working correctyly in the expected cases. _(hard-coded
 
 ### Property-Based Testing
 
-Tests correctness in not expected cases by random generating test cases in given a possible range of input. _(auto-generated tests cases)_
+Tests correctness in unexpected cases by randomly generated test cases in a given range of possible input. _(auto-generated tests cases)_
 
 #### Layers
 
@@ -586,7 +586,7 @@ Tests the integration and correctness with the Android SDK & System on specific 
 
 ### UI Android Tests
 
-Tests everything from the perspective of an user using the UI. Imagine it like an automated QA going through pre-defined scenarios. _(end-to-end for everything)_
+Tests everything from the perspective of a user using the UI. Imagine it like an automated QA going through pre-defined scenarios. _(end-to-end for everything)_
 
 #### Layers
 
@@ -594,6 +594,6 @@ Tests everything from the perspective of an user using the UI. Imagine it like a
 
 ---
 
-_Version 1.3.1_
+_Version 1.3.2_
 
-_Feedback and proposals are highly appreciated! Let's spark techincal discussion and make Ivy and the Android World better! :rocket:_
+_Feedback and proposals are highly appreciated! Let's spark technical discussion and make Ivy and the Android World better! :rocket:_

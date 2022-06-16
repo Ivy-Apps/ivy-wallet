@@ -19,6 +19,7 @@ import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.wallet.compose.component.OnboardingFlow
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -35,6 +36,7 @@ import org.junit.Before
 import org.junit.Rule
 import javax.inject.Inject
 
+typealias IvyComposeTestRule = AndroidComposeTestRule<ActivityScenarioRule<RootActivity>, RootActivity>
 
 @HiltAndroidTest
 abstract class IvyComposeTest {
@@ -121,14 +123,18 @@ abstract class IvyComposeTest {
         return InstrumentationRegistry.getInstrumentation().targetContext
     }
 
+    protected fun testDebug(
+        test: OnboardingFlow.() -> Unit
+    ) = testWithRetry(maxAttempts = 0, test = test)
+
     protected fun testWithRetry(
         attempt: Int = 0,
         maxAttempts: Int = 3,
         firstFailure: Throwable? = null,
-        test: () -> Unit
+        test: OnboardingFlow.() -> Unit
     ) {
         try {
-            test()
+            OnboardingFlow(composeTestRule).test()
         } catch (e: Throwable) {
             if (attempt < maxAttempts) {
                 //reset state && retry test

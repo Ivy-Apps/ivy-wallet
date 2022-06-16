@@ -20,6 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+#Fix Crashig "Donate" scree (Jetpack Compose internal crash)
+-keep class com.ivy.wallet.ui.donate.** { *; }
+-keep class com.ivy.frp.** { *; }
+-keep class com.ivy.frp.view.FRPComposableKt { *; }
+
 # Fix broken stuff by R8
 -keep class com.ivy.wallet.ui.widget.** { *; }
 -keep class com.ivy.wallet.domain.data.** { *; }
@@ -30,6 +35,11 @@
 
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
+
+#Jetpack Datastore
+-keepclassmembers class * extends androidx.datastore.preferences.protobuf.GeneratedMessageLite {
+    <fields>;
+}
 
 # Firebase Crashlytics
 -dontwarn org.xmlpull.v1.**

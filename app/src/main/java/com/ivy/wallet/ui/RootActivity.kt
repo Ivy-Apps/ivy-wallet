@@ -55,6 +55,7 @@ import com.ivy.wallet.ui.budget.BudgetScreen
 import com.ivy.wallet.ui.category.CategoriesScreen
 import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
+import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
@@ -67,6 +68,7 @@ import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
+import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
@@ -210,6 +212,8 @@ class RootActivity : AppCompatActivity() {
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
             is ImagesScreen -> ImagesScreen(screen = screen)
+            is ExperimentalScreen -> ExperimentalScreen(screen = screen)
+            is DonateScreen -> DonateScreen(screen = screen)
             null -> {
             }
         }

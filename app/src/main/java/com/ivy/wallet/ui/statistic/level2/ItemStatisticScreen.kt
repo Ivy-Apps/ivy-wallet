@@ -33,8 +33,12 @@ import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.*
+import com.ivy.wallet.ui.component.transaction.transactions
+import com.ivy.wallet.ui.data.AppBaseData
+import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -45,9 +49,10 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.wallet.ui.theme.transaction.transactions
 import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 import com.ivy.wallet.utils.*
+import java.math.BigDecimal
+import java.util.*
 
 
 @Composable
@@ -155,6 +160,12 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         },
         onPayOrGet = { transaction ->
             viewModel.payOrGet(screen, transaction)
+        },
+        onSkipTransaction = { transaction ->
+            viewModel.skipTransaction(screen, transaction)
+        },
+        onSkipAllTransactions = { transactions ->
+            viewModel.skipTransactions(screen, transactions)
         }
     )
 }
@@ -199,13 +210,16 @@ private fun BoxWithConstraintsScope.UI(
     onEditAccount: (Account, Double) -> Unit,
     onEditCategory: (Category) -> Unit,
     onDelete: () -> Unit,
-    onPayOrGet: (Transaction) -> Unit = {}
+    onPayOrGet: (Transaction) -> Unit = {},
+    onSkipTransaction: (Transaction) -> Unit = {},
+    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
+    var skipAllModalVisible by remember { mutableStateOf(false) }
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
@@ -239,7 +253,8 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
-                .background(UI.colors.pure),
+                .background(UI.colors.pure)
+                .testTag("item_stats_lazy_column"),
             state = listState,
         ) {
             item {
@@ -336,39 +351,43 @@ private fun BoxWithConstraintsScope.UI(
             }
 
             transactions(
-                ivyContext = ivyContext,
-                nav = nav,
-                upcoming = upcoming,
-                upcomingExpanded = upcomingExpanded,
+                baseData = AppBaseData(
+                    baseCurrency, accounts, categories
+                ),
+                upcoming = DueSection(
+                    trns = upcoming,
+                    stats = IncomeExpensePair(
+                        income = upcomingIncome.toBigDecimal(),
+                        expense = upcomingExpenses.toBigDecimal()
+                    ),
+                    expanded = upcomingExpanded
+                ),
                 setUpcomingExpanded = setUpcomingExpanded,
 
-                baseCurrency = baseCurrency,
-                upcomingIncome = upcomingIncome,
-
-                upcomingExpenses = upcomingExpenses,
-                categories = categories,
-                accounts = accounts,
-                listState = listState,
-                overdue = overdue,
-
-                overdueExpanded = overdueExpanded,
+                overdue = DueSection(
+                    trns = overdue,
+                    stats = IncomeExpensePair(
+                        income = overdueIncome.toBigDecimal(),
+                        expense = overdueExpenses.toBigDecimal()
+                    ),
+                    expanded = overdueExpanded
+                ),
                 setOverdueExpanded = setOverdueExpanded,
-                overdueIncome = overdueIncome,
-                overdueExpenses = overdueExpenses,
-                history = history,
 
+                history = history,
                 lastItemSpacer = with(density) {
                     (ivyContext.screenHeight * 0.7f).toDp()
                 },
-                onPayOrGet = onPayOrGet,
-                emptyStateTitle = stringRes(R.string.no_transactions),
 
+                onPayOrGet = onPayOrGet,
+                onSkipTransaction = onSkipTransaction,
+                onSkipAllTransactions = { skipAllModalVisible = true },
+                emptyStateTitle = stringRes(R.string.no_transactions),
                 emptyStateText = stringRes(
                     R.string.no_transactions_for_period,
                     period.toDisplayLong(ivyContext.startDayOfMonth)
-                ),
-
                 )
+            )
         }
     }
 
@@ -383,6 +402,16 @@ private fun BoxWithConstraintsScope.UI(
         dismiss = { deleteModalVisible = false }
     ) {
         onDelete()
+    }
+
+    DeleteModal(
+        visible = skipAllModalVisible,
+        title = stringResource(R.string.confirm_skip_all),
+        description = stringResource(R.string.confirm_skip_all_description),
+        dismiss = { skipAllModalVisible = false }
+    ) {
+        onSkipAllTransactions(overdue)
+        skipAllModalVisible = false
     }
 
     CategoryModal(
@@ -916,6 +945,41 @@ private fun Preview_crypto() {
             onDelete = {},
             onEditAccount = { _, _ -> },
             onEditCategory = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_empty_upcoming() {
+    IvyWalletPreview {
+        UI(
+            period = TimePeriod.currentMonth(
+                startDayOfMonth = 1
+            ), //preview
+            baseCurrency = "BGN",
+            currency = "BGN",
+
+            categories = emptyList(),
+            accounts = emptyList(),
+
+            balance = 1314.578,
+            balanceBaseCurrency = null,
+            income = 8000.0,
+            expenses = 6000.0,
+
+            history = emptyList(),
+            category = null,
+            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            onSetPeriod = { },
+            onPreviousMonth = {},
+            onNextMonth = {},
+            onDelete = {},
+            onEditAccount = { _, _ -> },
+            onEditCategory = {},
+            upcoming = listOf(
+                Transaction(UUID(1L,2L),TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+            )
         )
     }
 }
