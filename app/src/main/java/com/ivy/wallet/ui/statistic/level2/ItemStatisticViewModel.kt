@@ -137,6 +137,9 @@ class ItemStatisticViewModel @Inject constructor(
     private val _category = MutableStateFlow<Category?>(null)
     val category = _category.readOnly()
 
+    private val _parentCategoryList = MutableStateFlow<List<Category>>(emptyList())
+    val parentCategoryList = _parentCategoryList.readOnly()
+
     private val _initWithTransactions = MutableStateFlow(false)
     val initWithTransactions = _initWithTransactions.readOnly()
 
@@ -285,6 +288,10 @@ class ItemStatisticViewModel @Inject constructor(
             categoryDao.findById(categoryId)?.toDomain() ?: error("category not found")
         }
         _category.value = category
+
+        _parentCategoryList.value =
+            ioThread { categoryDao.findAllParentCategories().map { it.toDomain() } }
+
         val range = period.value.toRange(ivyContext.startDayOfMonth)
 
         _balance.value = ioThread {
@@ -465,7 +472,8 @@ class ItemStatisticViewModel @Inject constructor(
         transactions: List<Transaction>
     ) {
         _initWithTransactions.value = true
-        _category.value = Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+        _category.value =
+            Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
@@ -623,7 +631,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatistic, transaction: Transaction){
+    fun skipTransaction(screen: ItemStatistic, transaction: Transaction) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -641,8 +649,8 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>){
-        viewModelScope.launch{
+    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>) {
+        viewModelScope.launch {
             TestIdlingResource.increment()
 
             plannedPaymentsLogic.payOrGet(

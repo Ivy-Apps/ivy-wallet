@@ -26,6 +26,7 @@ data class CategoryEntity(
         color = color,
         icon = icon,
         orderNum = orderNum,
+        parentCategoryId = parentCategoryId,
         isSynced = isSynced,
         isDeleted = isDeleted,
         id = id

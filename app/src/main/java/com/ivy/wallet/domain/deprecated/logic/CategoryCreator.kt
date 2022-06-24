@@ -30,7 +30,8 @@ class CategoryCreator(
                         color = data.color.toArgb(),
                         icon = data.icon,
                         orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false
+                        isSynced = false,
+                        parentCategoryId = data.parentCategory?.id
                     )
 
                     categoryDao.save(newCategory.toEntity())

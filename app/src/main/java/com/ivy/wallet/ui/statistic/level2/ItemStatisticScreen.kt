@@ -70,6 +70,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val category by viewModel.category.collectAsState()
 
     val categories by viewModel.categories.collectAsState()
+    val parentCategoryList by viewModel.parentCategoryList.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
 
     val balance by viewModel.balance.collectAsState()
@@ -111,6 +112,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         currency = currency,
 
         categories = categories,
+        parentCategoryList = parentCategoryList,
         accounts = accounts,
 
         account = account,
@@ -180,6 +182,7 @@ private fun BoxWithConstraintsScope.UI(
     category: Category?,
 
     categories: List<Category>,
+    parentCategoryList: List<Category> = emptyList(),
     accounts: List<Account>,
 
     balance: Double,
@@ -416,6 +419,7 @@ private fun BoxWithConstraintsScope.UI(
 
     CategoryModal(
         modal = categoryModalData,
+        parentCategoryList = parentCategoryList,
         onCreateCategory = { },
         onEditCategory = onEditCategory,
         dismiss = {
