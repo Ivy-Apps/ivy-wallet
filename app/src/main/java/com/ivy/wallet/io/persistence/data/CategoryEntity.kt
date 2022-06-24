@@ -13,6 +13,7 @@ data class CategoryEntity(
     val color: Int = Ivy.toArgb(),
     val icon: String? = null,
     val orderNum: Double = 0.0,
+    val parentCategoryId : UUID? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
