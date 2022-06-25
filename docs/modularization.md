@@ -26,8 +26,8 @@ export-zip(:export-zip)
 import-csv(:import:csv)
 import-zip(:import-zip)
 
-import-app-ivy(:import-app-ivy)
-import-app-wallet(:import-app-wallet)
+import-csv-app-ivy(:import-csv-app-ivy)
+import-csv-app-budgetbakers(:import-csv-app-budgetbakers)
 
 ui-component-trn-card(:ui-component-trn-card)
 
@@ -63,8 +63,16 @@ ui-reports --> app
 
 ui-customer-journey --> ui-home
 
-ui-import --> ui-settings
+import-csv-app-ivy --> import-csv
+import-csv-app-budgetbakers --> import-csv
+import-csv --> ui-import
+import-zip --> ui-import
+
+export-zip --> ui-export
+export-csv --> ui-export
+
 ui-export --> ui-settings
+ui-import --> ui-settings
 
 
 
