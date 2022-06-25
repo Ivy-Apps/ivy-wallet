@@ -12,6 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -297,7 +298,8 @@ fun HomeLazyColumn(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .nestedScroll(nestedScrollConnection),
+            .nestedScroll(nestedScrollConnection)
+            .testTag("home_lazy_column"),
         state = listState
     ) {
         item {

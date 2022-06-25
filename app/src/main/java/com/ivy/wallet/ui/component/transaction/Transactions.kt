@@ -108,7 +108,9 @@ private fun LazyListScope.upcomingSection(
     if (upcoming == null) return //guard
 
     if (upcoming.trns.isNotEmpty()) {
-        item {
+        item(
+            key = "upcoming_section"
+        ) {
             SectionDivider(
                 expanded = upcoming.expanded,
                 setExpanded = setExpanded,
@@ -146,7 +148,9 @@ private fun LazyListScope.overdueSection(
     if (overdue == null) return
 
     if (overdue.trns.isNotEmpty()) {
-        item {
+        item(
+            key = "overdue_section"
+        ) {
             SectionDivider(
                 expanded = overdue.expanded,
                 setExpanded = setExpanded,

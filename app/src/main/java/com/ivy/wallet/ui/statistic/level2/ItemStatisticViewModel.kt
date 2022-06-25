@@ -622,4 +622,40 @@ class ItemStatisticViewModel @Inject constructor(
             TestIdlingResource.decrement()
         }
     }
+
+    fun skipTransaction(screen: ItemStatistic, transaction: Transaction){
+        viewModelScope.launch {
+            TestIdlingResource.increment()
+
+            plannedPaymentsLogic.payOrGet(
+                transaction = transaction,
+                skipTransaction = true
+            ) {
+                start(
+                    screen = screen,
+                    reset = false
+                )
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
+
+    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>){
+        viewModelScope.launch{
+            TestIdlingResource.increment()
+
+            plannedPaymentsLogic.payOrGet(
+                transactions = transactions,
+                skipTransaction = true
+            ) {
+                start(
+                    screen = screen,
+                    reset = false
+                )
+            }
+
+            TestIdlingResource.decrement()
+        }
+    }
 }
