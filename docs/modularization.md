@@ -15,11 +15,6 @@ _⚠️ WIP ⚠️_
 graph TD;
 app(:app)
 
-common(:common)
-common-ui(:common-ui)
-common-test(:common-test)
-
-network(:network)
 
 export-csv(:export-csv)
 export-zip(:export-zip)
@@ -30,7 +25,6 @@ import-csv-app-ivy(:import-csv-app-ivy)
 import-csv-app-budgetbakers(:import-csv-app-budgetbakers)
 
 ui-component-trn-card(:ui-component-trn-card)
-
 
 ui-import(:ui-import)
 ui-export(:ui-export)
@@ -47,21 +41,31 @@ ui-more-menu(:ui-more-menu)
 ui-settings(:ui-settings)
 ui-onboarding(:ui-onboarding)
 ui-customer-journey(:ui-customer-journey)
+ui-planned-payments(:ui-planned-payments)
+
+ui-balance-transactions(:ui-balance-transactions)
+
+ui-home --> app
+ui-balance-transactions --> app
 
 ui-onboarding --> app
-ui-home --> app
+ui-settings --> app
+
 ui-transaction-details --> app
 ui-accounts --> app
 ui-categories --> app
 ui-pie-chart --> app
 ui-more-menu --> app
-ui-settings --> app
 ui-budgets --> app
 ui-loans --> app
 ui-reports --> app
+ui-planned-payments --> app
 
 
 ui-customer-journey --> ui-home
+
+ui-component-trn-card --> ui-home
+ui-component-trn-card --> ui-balance-transactions
 
 import-csv-app-ivy --> import-csv
 import-csv-app-budgetbakers --> import-csv
@@ -71,10 +75,9 @@ import-zip --> ui-import
 export-zip --> ui-export
 export-csv --> ui-export
 
-ui-export --> ui-settings
 ui-import --> ui-settings
-
-
+ui-import --> ui-onboarding
+ui-export --> ui-settings
 
 
 ```
