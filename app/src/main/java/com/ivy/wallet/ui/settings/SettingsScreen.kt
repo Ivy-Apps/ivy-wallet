@@ -69,6 +69,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
     val progressState by viewModel.progressState.collectAsState()
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
+    val opFetchTrns by viewModel.opFetchTrns.collectAsState()
 
     onScreenStart {
         viewModel.start()
@@ -88,6 +89,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
 
         nameLocalAccount = nameLocalAccount,
         startDateOfMonth = startDateOfMonth,
+        opFetchTrns = opFetchTrns,
 
 
         onSetCurrency = viewModel::setCurrency,
@@ -115,7 +117,8 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: Settings) {
             )
         },
         onDeleteAllUserData = viewModel::deleteAllUserData,
-        onDeleteCloudUserData = viewModel::deleteCloudUserData
+        onDeleteCloudUserData = viewModel::deleteCloudUserData,
+        onFetchMissingTransactions = viewModel::fetchMissingTransactions
     )
 }
 
@@ -135,6 +138,8 @@ private fun BoxWithConstraintsScope.UI(
     nameLocalAccount: String?,
     startDateOfMonth: Int = 1,
 
+    opFetchTrns: OpResult<Unit>? = null,
+
     onSetCurrency: (String) -> Unit,
     onSetName: (String) -> Unit = {},
 
@@ -152,6 +157,7 @@ private fun BoxWithConstraintsScope.UI(
     onRequestFeature: (String, String) -> Unit = { _, _ -> },
     onDeleteAllUserData: () -> Unit = {},
     onDeleteCloudUserData: () -> Unit = {},
+    onFetchMissingTransactions: () -> Unit = {},
 
     ) {
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -225,6 +231,17 @@ private fun BoxWithConstraintsScope.UI(
 
 //            Spacer(Modifier.height(20.dp))
 //            Premium()
+        }
+
+        item {
+            SettingsSectionDivider(text = "Sync")
+
+            Spacer(Modifier.height(16.dp))
+
+            FetchMissingTransactionsButton(
+                opFetchTrns = opFetchTrns,
+                onFetchMissingTransactions = onFetchMissingTransactions
+            )
         }
 
         item {
@@ -1201,6 +1218,35 @@ private fun SettingsSectionDivider(
             fontWeight = FontWeight.Bold
         )
     )
+}
+
+@Composable
+fun FetchMissingTransactionsButton(
+    opFetchTrns: OpResult<Unit>?,
+    onFetchMissingTransactions: () -> Unit
+) {
+    val background = Gradient.solid(
+        when (opFetchTrns) {
+            is OpResult.Failure -> Red
+            OpResult.Loading -> Orange
+            is OpResult.Success -> Green
+            null -> UI.colors.medium
+        }
+    )
+    SettingsPrimaryButton(
+        icon = R.drawable.ic_sync,
+        text = when (opFetchTrns) {
+            is OpResult.Failure -> "Error: ${opFetchTrns.error()}"
+            OpResult.Loading -> "Full sync... wait!"
+            is OpResult.Success -> "Success. Check transactions."
+            else -> "Fetch missing transactions"
+        },
+        backgroundGradient = background,
+        textColor = findContrastTextColor(background.startColor),
+        iconPadding = 0.dp
+    ) {
+        onFetchMissingTransactions()
+    }
 }
 
 @Composable

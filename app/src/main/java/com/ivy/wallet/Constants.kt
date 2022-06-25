@@ -37,4 +37,6 @@ object Constants {
     const val SWIPE_UP_EXPANDED_THRESHOLD = 200
 
     const val SUPPORT_EMAIL = "iliyan.germanov971@gmail.com"
+
+    const val PAGE_TRANSACTIONS_SIZE = 100
 }
