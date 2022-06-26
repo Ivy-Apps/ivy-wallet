@@ -1,5 +1,4 @@
-import com.ivy.wallet.buildsrc.*
-import com.ivy.wallet.buildsrc.Project
+import com.ivy.buildsrc.*
 
 plugins {
     id("com.android.library")
@@ -9,11 +8,11 @@ plugins {
 }
 
 android {
-    compileSdk = Project.compileSdkVersion
+    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
 
     defaultConfig {
-        minSdk = Project.minSdk
-        targetSdk = Project.targetSdk
+        minSdk = com.ivy.buildsrc.Project.minSdk
+        targetSdk = com.ivy.buildsrc.Project.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -44,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.Versions.compose
+        kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.compose
     }
 
     packagingOptions {

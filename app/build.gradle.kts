@@ -1,5 +1,4 @@
-import com.ivy.wallet.buildsrc.*
-import com.ivy.wallet.buildsrc.Project
+import com.ivy.buildsrc.*
 
 plugins {
     id("com.android.application")
@@ -12,14 +11,14 @@ plugins {
 }
 
 android {
-    compileSdk = Project.compileSdkVersion
+    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
 
     defaultConfig {
-        applicationId = Project.applicationId
-        minSdk = Project.minSdk
-        targetSdk = Project.targetSdk
-        versionCode = Project.versionCode
-        versionName = Project.versionName
+        applicationId = com.ivy.buildsrc.Project.applicationId
+        minSdk = com.ivy.buildsrc.Project.minSdk
+        targetSdk = com.ivy.buildsrc.Project.targetSdk
+        versionCode = com.ivy.buildsrc.Project.versionCode
+        versionName = com.ivy.buildsrc.Project.versionName
 
         testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
 
@@ -88,7 +87,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose
+        kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.compose
     }
 
     lint {

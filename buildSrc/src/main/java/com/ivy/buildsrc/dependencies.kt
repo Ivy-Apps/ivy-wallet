@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.ivy.wallet.buildsrc
+package com.ivy.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
