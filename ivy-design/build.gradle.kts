@@ -1,5 +1,5 @@
+import com.ivy.wallet.buildsrc.*
 import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.ivyDesignModuleDependencies
 
 plugins {
     id("com.android.library")
@@ -44,7 +44,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
+        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.Versions.compose
     }
 
     packagingOptions {
@@ -56,5 +56,15 @@ android {
 }
 
 dependencies {
-    ivyDesignModuleDependencies()
+    Kotlin()
+    Coroutines(version = "1.5.0")
+    FunctionalProgramming(
+        arrowVersion = "1.0.1",
+        kotestVersion = "5.1.0",
+    )
+
+    Compose()
+
+    AndroidX()
+    Lifecycle(version = "2.3.1")
 }

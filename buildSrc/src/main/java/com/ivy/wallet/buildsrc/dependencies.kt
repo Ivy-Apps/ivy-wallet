@@ -17,7 +17,6 @@
 package com.ivy.wallet.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.gradle.kotlin.dsl.project
 
 
 object Project {
@@ -34,67 +33,11 @@ object Project {
     const val targetSdk = 30
 }
 
-object GlobalVersions {
+object Versions {
     const val compose = "1.1.1"
     const val kotlinVersion = "1.6.20"
 }
 
-/**
- * @param kotlinVersion must also be updated in buildSrc gradle
- */
-fun DependencyHandler.appModuleDependencies(
-    kotlinVersion: String = GlobalVersions.kotlinVersion
-) {
-    implementation(project(":ivy-design"))
-
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
-
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-        arrowVersion = "1.0.1",
-        kotestVersion = "5.1.0",
-        kotlinVersion = kotlinVersion
-    )
-
-    Compose(version = GlobalVersions.compose)
-
-    Google()
-    Firebase()
-
-    Hilt(
-        hiltVersion = "2.38.1",
-        versionX = "1.0.0"
-    )
-    RoomDB(version = "2.4.0-alpha03")
-
-    Networking(retrofitVersion = "2.9.0")
-
-    Lifecycle(version = "2.3.1")
-    AndroidX()
-
-    DataStore()
-
-    ThirdParty()
-}
-
-fun DependencyHandler.ivyDesignModuleDependencies(
-    kotlinVersion: String = GlobalVersions.kotlinVersion
-) {
-    Kotlin(version = kotlinVersion)
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-        arrowVersion = "1.0.1",
-        kotestVersion = "5.1.0",
-        kotlinVersion = kotlinVersion
-    )
-
-    Compose(version = GlobalVersions.compose)
-
-    AndroidX()
-    Lifecycle(version = "2.3.1")
-}
-//---------------------------------------------------------------------------------
 
 fun DependencyHandler.DataStore() {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -104,13 +47,14 @@ fun DependencyHandler.DataStore() {
  * Kotlin STD lib
  * https://kotlinlang.org/docs/releases.html#release-details
  */
-fun DependencyHandler.Kotlin(version: String) {
+fun DependencyHandler.Kotlin() {
     //URL: https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$version")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}")
 }
 
-fun DependencyHandler.Compose(version: String) {
+fun DependencyHandler.Compose() {
+    val version = Versions.compose
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
     implementation("androidx.compose.ui:ui:$version")
     implementation("androidx.compose.foundation:foundation:$version")
@@ -310,14 +254,13 @@ fun DependencyHandler.ThirdParty() {
 fun DependencyHandler.FunctionalProgramming(
     arrowVersion: String = "1.0.1",
     kotestVersion: String = "5.1.0",
-    kotlinVersion: String
 ) {
     Arrow(version = arrowVersion)
 
     Kotest(
         version = kotestVersion,
         arrowVersion = arrowVersion,
-        kotlinVersion = kotlinVersion
+        kotlinVersion = Versions.kotlinVersion
     )
 }
 
