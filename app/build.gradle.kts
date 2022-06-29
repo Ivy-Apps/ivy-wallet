@@ -112,6 +112,20 @@ android {
 
 dependencies {
     implementation(project(":ivy-design"))
+    implementation(project(":account-transactions"))
+    implementation(project(":accounts"))
+    implementation(project(":budgets"))
+    implementation(project(":categories"))
+    implementation(project(":category-transactions"))
+    implementation(project(":home"))
+    implementation(project(":loans"))
+    implementation(project(":onboarding"))
+    implementation(project(":pie-charts"))
+    implementation(project(":planned-payments"))
+    implementation(project(":reports"))
+    implementation(project(":settings"))
+    implementation(project(":search-transactions"))
+    implementation(project(":transaction-details"))
 
     implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
 
