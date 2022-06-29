@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping

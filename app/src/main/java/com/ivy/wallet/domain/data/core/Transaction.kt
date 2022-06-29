@@ -1,7 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.network.data.TransactionDTO
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.math.BigDecimal

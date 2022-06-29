@@ -10,11 +10,7 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Budget
-import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.*
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.deprecated.sync.item.BudgetSync

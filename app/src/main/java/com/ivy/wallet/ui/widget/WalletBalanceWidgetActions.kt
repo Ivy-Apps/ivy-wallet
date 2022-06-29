@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.RootActivity
 
 class WalletBalanceButtonsAction : ActionCallback {

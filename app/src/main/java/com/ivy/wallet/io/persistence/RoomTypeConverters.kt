@@ -5,7 +5,7 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.utils.epochMilliToDateTime
 import com.ivy.wallet.utils.toEpochMilli
 import java.time.LocalDateTime

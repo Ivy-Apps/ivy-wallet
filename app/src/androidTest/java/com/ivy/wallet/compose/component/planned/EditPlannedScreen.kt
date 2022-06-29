@@ -7,7 +7,7 @@ import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
 import com.ivy.wallet.compose.component.external.CalendarDialog
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import java.time.LocalDateTime
 
 class EditPlannedScreen(

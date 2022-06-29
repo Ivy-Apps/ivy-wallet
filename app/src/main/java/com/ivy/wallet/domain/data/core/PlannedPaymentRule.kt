@@ -1,7 +1,6 @@
 package com.ivy.wallet.domain.data.core
 
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.io.network.data.PlannedPaymentRuleDTO
 import com.ivy.wallet.io.persistence.data.PlannedPaymentRuleEntity
 import java.time.LocalDateTime

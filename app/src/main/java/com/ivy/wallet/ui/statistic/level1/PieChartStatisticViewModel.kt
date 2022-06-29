@@ -3,9 +3,9 @@ package com.ivy.wallet.ui.statistic.level1
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.charts.PieChartAct
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx

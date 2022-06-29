@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.reports
 
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import java.util.*
 

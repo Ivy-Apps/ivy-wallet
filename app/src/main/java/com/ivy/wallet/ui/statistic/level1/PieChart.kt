@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon

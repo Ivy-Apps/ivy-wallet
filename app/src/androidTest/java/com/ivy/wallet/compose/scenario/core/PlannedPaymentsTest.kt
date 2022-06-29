@@ -9,7 +9,7 @@ import com.ivy.wallet.compose.component.home.HomeTab
 import com.ivy.wallet.compose.component.planned.EditPlannedScreen
 import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test

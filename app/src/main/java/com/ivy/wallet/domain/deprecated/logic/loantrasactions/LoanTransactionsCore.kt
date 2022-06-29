@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.*
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader

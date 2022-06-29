@@ -1,6 +1,6 @@
 package com.ivy.wallet.io.network.data
 
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
 import java.util.*

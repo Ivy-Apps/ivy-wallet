@@ -2,10 +2,10 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping

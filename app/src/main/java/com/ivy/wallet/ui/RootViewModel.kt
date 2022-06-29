@@ -11,7 +11,7 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.domain.data.TransactionType
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvyAnalytics
@@ -26,7 +26,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 

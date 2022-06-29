@@ -2,8 +2,8 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import java.time.LocalDateTime
 import java.util.*
 

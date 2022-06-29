@@ -29,10 +29,10 @@ import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.*
@@ -978,7 +978,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                Transaction(UUID(1L,2L),TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

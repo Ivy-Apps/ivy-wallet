@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui
 
 import com.ivy.frp.view.navigation.Screen
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.paywall.PaywallReason
 import java.util.*
 

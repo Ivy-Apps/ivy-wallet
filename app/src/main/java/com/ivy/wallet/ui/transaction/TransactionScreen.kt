@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.Screen
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 
 sealed class TransactionScreen : Screen {
     data class NewTransaction(

@@ -34,8 +34,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.*
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*

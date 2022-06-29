@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.charts.BalanceChartAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.WalletCategoryLogic
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint

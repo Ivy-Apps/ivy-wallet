@@ -13,10 +13,10 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.stringRes
