@@ -122,6 +122,7 @@ dependencies {
     implementation(project(":onboarding"))
     implementation(project(":pie-charts"))
     implementation(project(":planned-payments"))
+    implementation(project(":planned-payment-details"))
     implementation(project(":reports"))
     implementation(project(":settings"))
     implementation(project(":search-transactions"))
