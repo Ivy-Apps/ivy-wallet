@@ -38,7 +38,7 @@ fun HistoryDateDivider(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val today = dateNowUTC()
+        val today = LocalDate.now()
 
         Column {
             Text(
