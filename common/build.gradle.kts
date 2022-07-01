@@ -7,12 +7,7 @@ apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
     `android-library`
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-android")
-}
-
-android {
-    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
+    `kotlin-android`
 }
 
 dependencies {

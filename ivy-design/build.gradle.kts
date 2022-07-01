@@ -12,12 +12,7 @@ plugins {
 }
 
 android {
-    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
-
     defaultConfig {
-        minSdk = com.ivy.buildsrc.Project.minSdk
-        targetSdk = com.ivy.buildsrc.Project.targetSdk
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }

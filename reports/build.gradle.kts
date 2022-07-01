@@ -4,10 +4,6 @@ plugins {
     `android-library`
 }
 
-android {
-    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
-}
-
 dependencies {
 
 }
