@@ -6,6 +6,10 @@ plugins {
 
 android {
     compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
+
+    defaultConfig {
+        minSdk = com.ivy.buildsrc.Project.minSdk
+    }
 }
 
 dependencies {

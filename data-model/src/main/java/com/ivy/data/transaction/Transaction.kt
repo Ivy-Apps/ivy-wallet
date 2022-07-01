@@ -1,4 +1,4 @@
-package com.ivy.data_model_core
+package com.ivy.data.transaction
 
 import java.math.BigDecimal
 import java.time.LocalDateTime

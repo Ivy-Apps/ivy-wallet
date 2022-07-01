@@ -10,5 +10,5 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":data-model-core"))
+    implementation(project(":data-model"))
 }
