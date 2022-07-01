@@ -38,7 +38,7 @@ object Versions {
 
     //URL: https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.6.21"
+    const val kotlin = "1.6.10"
     const val coroutines = "1.6.3"
 
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
