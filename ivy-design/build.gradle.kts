@@ -1,7 +1,11 @@
-import com.ivy.buildsrc.*
+import com.ivy.buildsrc.AndroidX
+import com.ivy.buildsrc.Compose
+import com.ivy.buildsrc.Lifecycle
+
+apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
-    id("com.android.library")
+    `android-library`
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
     id("kotlin-kapt")
@@ -55,15 +59,9 @@ android {
 }
 
 dependencies {
-    Kotlin()
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-        arrowVersion = "1.0.1",
-        kotestVersion = "5.1.0",
-    )
+    implementation(project(":common"))
 
-    Compose()
-
-    AndroidX()
-    Lifecycle(version = "2.3.1")
+    Compose(api = true)
+    AndroidX(api = true)
+    Lifecycle(api = true)
 }

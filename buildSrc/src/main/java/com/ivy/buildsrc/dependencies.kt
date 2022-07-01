@@ -34,10 +34,43 @@ object Project {
 }
 
 object Versions {
+    //TODO: Copy comments URLs and add them here
+
+    //URL: https://kotlinlang.org/docs/releases.html#release-details
+    //WARNING: Version is also updated from buildSrc
+    const val kotlin = "1.6.21"
+    const val coroutines = "1.6.3"
+
+    //URL: https://developer.android.com/jetpack/androidx/releases/compose
     const val compose = "1.1.1"
-    const val kotlinVersion = "1.6.20"
+    const val composeActivity = "1.4.0"
+    const val composeViewModel = "1.0.0-alpha05"
+    const val composeGlance = "1.0.0-alpha03"
+    const val composeAccompanist = "0.15.0"
+    const val composeCoil = "2.0.0"
+
+    const val arrow: String = "1.0.1"
+    const val kotest: String = "5.1.0"
+    const val junitJupiter: String = "5.8.2"
+    const val hilt = "2.38.1"
+    const val hiltX = "1.0.0"
+    const val androidXTestRunner = "1.4.0"
+
+    const val appCompat = "1.4.1"
+    const val coreKtx = "1.7.0" //androidx
+    const val workVersion = "2.7.1"
+    const val biometric = "1.1.0"
+    const val recyclerView = "1.2.1"
+    const val webkit = "1.4.0"
+
+    const val lifecycle = "2.3.1"
 }
 
+fun DependencyHandler.IvyFRP(
+    api: Boolean = false
+) {
+    dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
+}
 
 fun DependencyHandler.DataStore() {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -47,64 +80,82 @@ fun DependencyHandler.DataStore() {
  * Kotlin STD lib
  * https://kotlinlang.org/docs/releases.html#release-details
  */
-fun DependencyHandler.Kotlin() {
+fun DependencyHandler.Kotlin(api: Boolean) {
     //URL: https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}")
+    dependency("org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}", api = api)
 }
 
-fun DependencyHandler.Compose() {
+fun DependencyHandler.Compose(api: Boolean) {
     val version = Versions.compose
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    implementation("androidx.compose.ui:ui:$version")
-    implementation("androidx.compose.foundation:foundation:$version")
-    implementation("androidx.compose.animation:animation:$version")
-    implementation("androidx.compose.material:material:$version")
-    implementation("androidx.compose.material:material-icons-extended:$version")
-    implementation("androidx.compose.runtime:runtime-livedata:$version")
-    implementation("androidx.compose.ui:ui-tooling:$version")
+    dependency("androidx.compose.ui:ui:$version", api = api)
+    dependency("androidx.compose.foundation:foundation:$version", api = api)
+    dependency("androidx.compose.animation:animation:$version", api = api)
+    dependency("androidx.compose.material:material:$version", api = api)
+    dependency("androidx.compose.material:material-icons-extended:$version", api = api)
+    dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
+    dependency("androidx.compose.ui:ui-tooling:$version", api = api)
 
     //URL: https://developer.android.com/jetpack/androidx/releases/activity
-    implementation("androidx.activity:activity-compose:1.4.0")
+    dependency(
+        "androidx.activity:activity-compose:${Versions.composeActivity}", api = api
+    )
 
     //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha05")
+    dependency(
+        "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.composeViewModel}",
+        api = api
+    )
 
     // Jetpack Glance (Compose Widgets)
-    implementation ("androidx.glance:glance-appwidget:1.0.0-alpha03")
+    dependency("androidx.glance:glance-appwidget:${Versions.composeGlance}", api = api)
 
-    Accompanist(version = "0.15.0")
+    Accompanist(api = api)
 
-    Coil()
+    Coil(api = api)
 
-    ComposeTesting(version = version)
+    ComposeTesting(api = api)
 }
 
 /**
  *  Compose Window Insets + extras
  *  https://github.com/google/accompanist
  */
-fun DependencyHandler.Accompanist(version: String) {
-    implementation("com.google.accompanist:accompanist-coil:$version")
-    implementation("com.google.accompanist:accompanist-insets:$version")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha")
+fun DependencyHandler.Accompanist(api: Boolean) {
+    dependency(
+        dependency = "com.google.accompanist:accompanist-coil:${Versions.composeAccompanist}",
+        api = api
+    )
+    dependency(
+        dependency = "com.google.accompanist:accompanist-insets:${Versions.composeAccompanist}",
+        api = api
+    )
+
+    //TODO: Review what is this? Why is hard-coded to that version?
+    dependency(
+        "com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha", api = api
+    )
 }
 
-fun DependencyHandler.Coil() {
-    implementation("io.coil-kt:coil-compose:2.0.0")
+fun DependencyHandler.Coil(api: Boolean) {
+    dependency("io.coil-kt:coil-compose:${Versions.composeCoil}", api = api)
 }
 
 /**
  * Required for running Compose UI tests
  * https://developer.android.com/jetpack/compose/testing#setup
  */
-fun DependencyHandler.ComposeTesting(version: String) {
+fun DependencyHandler.ComposeTesting(api: Boolean) {
     //THIS IS NOT RIGHT: Implementation for IdlingResource access on both Debug & Release
     //Without having this dependency "lintRelease" fails
-    implementation("androidx.compose.ui:ui-test-junit4:$version")
+    //TODO: Fix that
+    dependency("androidx.compose.ui:ui-test-junit4:${Versions.compose}", api = api)
 
     // Needed for createComposeRule, but not createAndroidComposeRule:
-    androidTestImplementation("androidx.compose.ui:ui-test-manifest:$version")
+    androidTestDependency(
+        "androidx.compose.ui:ui-test-manifest:${Versions.compose}", api = api
+    )
 }
 
 fun DependencyHandler.Google() {
@@ -113,6 +164,11 @@ fun DependencyHandler.Google() {
 
     //URL: https://developer.android.com/google/play/billing/getting-ready
     implementation("com.android.billingclient:billing-ktx:4.0.0")
+
+    //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
+    implementation(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3}"
+    )
 
     //In-App Reviews SDK
     implementation("com.google.android.play:core:1.10.0")
@@ -129,29 +185,32 @@ fun DependencyHandler.Firebase() {
  * Hilt DI
  * https://developer.android.com/training/dependency-injection/hilt-android
  */
-fun DependencyHandler.Hilt(
-    hiltVersion: String,
-    versionX: String
-) {
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+fun DependencyHandler.Hilt() {
+    val api = true
+    dependency("com.google.dagger:hilt-android:${Versions.hilt}", api = api)
+    kapt("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
 
     //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
 //    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
-    kapt("androidx.hilt:hilt-compiler:$versionX")
+    kapt("androidx.hilt:hilt-compiler:${Versions.hiltX}")
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
-    implementation("androidx.hilt:hilt-work:$versionX")
+    dependency("androidx.hilt:hilt-work:${Versions.hiltX}", api = api)
 
-    HiltTesting(version = hiltVersion)
+    HiltTesting()
 }
 
-fun DependencyHandler.HiltTesting(
-    version: String
-) {
-    androidTestImplementation("com.google.dagger:hilt-android-testing:$version")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$version")
-    implementation("androidx.test:runner:1.4.0")
+fun DependencyHandler.HiltTesting() {
+    val api = true
+    androidTestDependency(
+        "com.google.dagger:hilt-android-testing:${Versions.hilt}", api = api
+    )
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
+
+    //TODO: Investigate why this is not test dependency
+    dependency(
+        "androidx.test:runner:${Versions.androidXTestRunner}", api = api
+    )
 }
 
 /**
@@ -188,47 +247,49 @@ fun DependencyHandler.Networking(
  * https://developer.android.com/jetpack/androidx/releases/lifecycle
  */
 fun DependencyHandler.Lifecycle(
-    version: String = "2.3.1"
+    api: Boolean
 ) {
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$version")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$version")
+    val version = Versions.lifecycle
+    dependency("androidx.lifecycle:lifecycle-livedata-ktx:$version", api = api)
+    dependency("androidx.lifecycle:lifecycle-viewmodel-ktx:$version", api = api)
+    dependency("androidx.lifecycle:lifecycle-viewmodel-savedstate:$version", api = api)
+    dependency("androidx.lifecycle:lifecycle-runtime-ktx:$version", api = api)
+
+    //TODO: Warning "kapt" is not transitive!
     kapt("androidx.lifecycle:lifecycle-compiler:$version")
 }
 
-fun DependencyHandler.AndroidX() {
+fun DependencyHandler.AndroidX(api: Boolean) {
     //https://developer.android.com/jetpack/androidx/releases/appcompat
-    implementation("androidx.appcompat:appcompat:1.4.1")
+    dependency("androidx.appcompat:appcompat:${Versions.appCompat}", api = api)
 
     //URL: https://developer.android.com/jetpack/androidx/releases/core
-    implementation("androidx.core:core-ktx:1.7.0")
+    dependency("androidx.core:core-ktx:${Versions.coreKtx}", api = api)
 
     //URL: https://developer.android.com/jetpack/androidx/releases/work
-    val workVersion = "2.7.1"
-    implementation("androidx.work:work-runtime-ktx:$workVersion")
-    implementation("androidx.work:work-testing:$workVersion")
+    dependency("androidx.work:work-runtime-ktx:${Versions.workVersion}", api = api)
+    dependency("androidx.work:work-testing:${Versions.workVersion}", api = api)
 
-    implementation("androidx.biometric:biometric:1.1.0")
+    dependency("androidx.biometric:biometric:${Versions.biometric}", api = api)
 
     //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    dependency("androidx.recyclerview:recyclerview:${Versions.recyclerView}", api = api)
 
-    implementation("androidx.webkit:webkit:1.4.0")
+    dependency("androidx.webkit:webkit:${Versions.webkit}", api = api)
 }
 
 fun DependencyHandler.Coroutines(
-    version: String = "1.6.0"
+    api: Boolean
 ) {
+    val version = Versions.coroutines
     //URL: https://github.com/Kotlin/kotlinx.coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version")
-
-    //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$version")
+    dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version", api = api)
+    dependency("org.jetbrains.kotlinx:kotlinx-coroutines-android:$version", api = api)
 
     //URL: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/
-    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$version")
+    androidTestDependency(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version", api = api
+    )
 }
 
 fun DependencyHandler.ThirdParty() {
@@ -251,48 +312,39 @@ fun DependencyHandler.ThirdParty() {
     implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 
-fun DependencyHandler.FunctionalProgramming(
-    arrowVersion: String = "1.0.1",
-    kotestVersion: String = "5.1.0",
-) {
-    Arrow(version = arrowVersion)
+fun DependencyHandler.FunctionalProgramming(api: Boolean) {
+    Arrow(api)
 
-    Kotest(
-        version = kotestVersion,
-        arrowVersion = arrowVersion,
-        kotlinVersion = Versions.kotlinVersion
-    )
+    Kotest(api)
 }
 
 /**
  * Functional Programming with Kotlin
  */
 fun DependencyHandler.Arrow(
-    version: String
+    api: Boolean
 ) {
-    implementation(platform("io.arrow-kt:arrow-stack:$version"))
-    implementation("io.arrow-kt:arrow-core")
-    implementation("io.arrow-kt:arrow-fx-coroutines")
-    implementation("io.arrow-kt:arrow-fx-stm")
+    dependency(platform("io.arrow-kt:arrow-stack:${Versions.arrow}"), api = api)
+    dependency("io.arrow-kt:arrow-core", api = api)
+    dependency("io.arrow-kt:arrow-fx-coroutines", api = api)
+    dependency("io.arrow-kt:arrow-fx-stm", api = api)
 }
 
 /**
  * Kotlin Property-based testing
  */
-fun DependencyHandler.Kotest(
-    version: String,
-    arrowVersion: String,
-    kotlinVersion: String
-) {
+fun DependencyHandler.Kotest(api: Boolean) {
     //junit5 is required!
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("io.kotest:kotest-runner-junit5:$version")
-    testImplementation("io.kotest:kotest-assertions-core:$version")
-    testImplementation("io.kotest:kotest-property:$version")
+    testDependency("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}", api = api)
+    testDependency("io.kotest:kotest-runner-junit5:${Versions.kotest}", api = api)
+    testDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
+    testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
 
     //otherwise Kotest doesn't work...
-    testImplementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    testDependency("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}", api = api)
 
 
-    testImplementation("io.kotest.extensions:kotest-property-arrow:$arrowVersion")
+    testDependency(
+        "io.kotest.extensions:kotest-property-arrow:${Versions.arrow}", api = api
+    )
 }

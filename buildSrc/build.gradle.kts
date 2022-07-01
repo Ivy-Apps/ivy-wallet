@@ -1,14 +1,5 @@
 plugins {
     `kotlin-dsl`
-    id("org.gradle.test-retry") version "1.2.0"
-}
-
-tasks.test {
-    retry {
-        maxRetries.set(2)
-        maxFailures.set(10)
-        failOnPassedAfterRetry.set(false)
-    }
 }
 
 repositories {
@@ -19,10 +10,10 @@ repositories {
 
 dependencies {
     //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-    implementation("com.android.tools.build:gradle:7.1.1")
+    implementation("com.android.tools.build:gradle:7.2.0")
 
     //Must match kotlinVersion from dependencies.kt
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
 
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
 

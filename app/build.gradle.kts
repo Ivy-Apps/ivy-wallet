@@ -111,6 +111,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(project(":ivy-design"))
     implementation(project(":account-transactions"))
     implementation(project(":accounts"))
@@ -128,30 +129,14 @@ dependencies {
     implementation(project(":search-transactions"))
     implementation(project(":transaction-details"))
 
-    implementation("com.github.ILIYANGERMANOV:ivy-frp:0.9.5")
-
-    Kotlin()
-    Coroutines(version = "1.5.0")
-    FunctionalProgramming(
-        arrowVersion = "1.0.1",
-        kotestVersion = "5.1.0",
-    )
-
-    Compose()
+    Hilt()
 
     Google()
     Firebase()
 
-    Hilt(
-        hiltVersion = "2.38.1",
-        versionX = "1.0.0"
-    )
     RoomDB(version = "2.4.0-alpha03")
 
     Networking(retrofitVersion = "2.9.0")
-
-    Lifecycle(version = "2.3.1")
-    AndroidX()
 
     DataStore()
 
