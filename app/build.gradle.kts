@@ -137,7 +137,7 @@ dependencies {
 
     RoomDB()
 
-    Networking(retrofitVersion = "2.9.0")
+    Networking(api = false)
 
     DataStore()
 

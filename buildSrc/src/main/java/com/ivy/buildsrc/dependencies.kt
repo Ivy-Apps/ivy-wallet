@@ -52,8 +52,11 @@ object Versions {
     const val arrow: String = "1.0.1"
     const val kotest: String = "5.1.0"
     const val junitJupiter: String = "5.8.2"
+
+    //https://developer.android.com/training/dependency-injection/hilt-android
     const val hilt = "2.38.1"
     const val hiltX = "1.0.0"
+
     const val androidXTestRunner = "1.4.0"
 
     const val appCompat = "1.4.1"
@@ -67,6 +70,19 @@ object Versions {
 
     //https://developer.android.com/jetpack/androidx/releases/room
     const val room = "2.4.2"
+
+
+    //URL: https://github.com/square/retrofit
+    const val retrofit = "2.9.0"
+
+    //URL: https://github.com/google/gson
+    const val gson = "2.8.7"
+
+    //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+    const val okhttpLogging = "4.9.1"
+
+    //URL: https://github.com/JakeWharton/timber/releases
+    const val timber = "4.7.1"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -203,7 +219,7 @@ fun DependencyHandler.Hilt() {
     HiltTesting()
 }
 
-fun DependencyHandler.HiltTesting() {
+private fun DependencyHandler.HiltTesting() {
     val api = true
     androidTestDependency(
         "com.google.dagger:hilt-android-testing:${Versions.hilt}", api = api
@@ -229,19 +245,19 @@ fun DependencyHandler.RoomDB(
 /**
  * REST
  */
-fun DependencyHandler.Networking(
-    retrofitVersion: String = "2.9.0"
-) {
+fun DependencyHandler.Networking(api: Boolean) {
     //URL: https://github.com/square/retrofit
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    dependency("com.squareup.retrofit2:retrofit:${Versions.retrofit}", api = api)
+    dependency("com.squareup.retrofit2:converter-gson:${Versions.retrofit}", api = api)
 
     //URL: https://github.com/google/gson
-    implementation("com.google.code.gson:gson:2.8.7")
+    dependency("com.google.code.gson:gson:${Versions.gson}", api = api)
 
 
     //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    dependency(
+        "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}", api = api
+    )
 }
 
 /**
@@ -301,9 +317,6 @@ fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/jeziellago/compose-markdown
     implementation("com.github.jeziellago:compose-markdown:0.2.6")
 
-    //URL: https://github.com/JakeWharton/timber/releases
-    implementation("com.jakewharton.timber:timber:4.7.1")
-
     //URL: https://github.com/greenrobot/EventBus/releases
     implementation("org.greenrobot:eventbus:3.2.0")
 
@@ -312,6 +325,11 @@ fun DependencyHandler.ThirdParty() {
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+}
+
+fun DependencyHandler.Timber(api: Boolean) {
+    //URL: https://github.com/JakeWharton/timber/releases
+    dependency("com.jakewharton.timber:timber:${Versions.timber}", api = api)
 }
 
 fun DependencyHandler.FunctionalProgramming(api: Boolean) {

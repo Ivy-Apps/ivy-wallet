@@ -1,7 +1,4 @@
-import com.ivy.buildsrc.Coroutines
-import com.ivy.buildsrc.FunctionalProgramming
-import com.ivy.buildsrc.IvyFRP
-import com.ivy.buildsrc.Kotlin
+import com.ivy.buildsrc.*
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -15,4 +12,5 @@ dependencies {
     Kotlin(api = true)
     Coroutines(api = true)
     FunctionalProgramming(api = true)
+    Timber(api = true)
 }

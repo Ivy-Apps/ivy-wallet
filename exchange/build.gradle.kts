@@ -1,3 +1,5 @@
+import com.ivy.buildsrc.Hilt
+
 apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
@@ -5,5 +7,7 @@ plugins {
 }
 
 dependencies {
-
+    implementation(project(":common"))
+    implementation(project(":network-common"))
+    Hilt()
 }

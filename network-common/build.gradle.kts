@@ -1,3 +1,5 @@
+import com.ivy.buildsrc.Networking
+
 apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
@@ -5,5 +7,6 @@ plugins {
 }
 
 dependencies {
-
+    implementation(project(":common"))
+    Networking(api = true)
 }
