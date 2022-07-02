@@ -20,11 +20,10 @@ import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
-import com.ivy.frp.view.navigation.Screen
+import com.ivy.screens.ExperimentalScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.components.IvySwitch
 
-object ExperimentalScreen : Screen
 
 @Composable
 fun BoxWithConstraintsScope.ExperimentalScreen(screen: ExperimentalScreen) {

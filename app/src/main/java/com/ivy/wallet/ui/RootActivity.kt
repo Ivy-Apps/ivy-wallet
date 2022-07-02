@@ -42,6 +42,7 @@ import com.ivy.design.api.IvyUI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.screens.*
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.SUPPORT_EMAIL
@@ -62,7 +63,6 @@ import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
 import com.ivy.wallet.ui.main.MainScreen
 import com.ivy.wallet.ui.onboarding.OnboardingScreen
-import com.ivy.wallet.ui.paywall.PaywallScreen
 import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
@@ -197,10 +197,6 @@ class RootActivity : AppCompatActivity() {
             is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
             is EditPlanned -> EditPlannedScreen(screen = screen)
             is BalanceScreen -> BalanceScreen(screen = screen)
-            is Paywall -> PaywallScreen(
-                screen = screen,
-                activity = this@RootActivity
-            )
             is Test -> TestScreen(screen = screen)
             is Charts -> ChartsScreen(screen = screen)
             is AnalyticsReport -> AnalyticsReport(screen = screen)

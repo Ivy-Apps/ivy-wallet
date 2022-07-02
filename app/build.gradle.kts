@@ -113,6 +113,7 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":ivy-design"))
+    implementation(project(":screens"))
     implementation(project(":account-transactions"))
     implementation(project(":accounts"))
     implementation(project(":budgets"))
@@ -134,7 +135,7 @@ dependencies {
     Google()
     Firebase()
 
-    RoomDB(version = "2.4.0-alpha03")
+    RoomDB()
 
     Networking(retrofitVersion = "2.9.0")
 

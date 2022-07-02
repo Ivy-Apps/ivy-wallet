@@ -64,6 +64,9 @@ object Versions {
     const val webkit = "1.4.0"
 
     const val lifecycle = "2.3.1"
+
+    //https://developer.android.com/jetpack/androidx/releases/room
+    const val room = "2.4.2"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -217,11 +220,10 @@ fun DependencyHandler.HiltTesting() {
  * https://developer.android.com/jetpack/androidx/releases/room
  */
 fun DependencyHandler.RoomDB(
-    version: String = "2.4.0-alpha03"
 ) {
-    implementation("androidx.room:room-runtime:$version")
-    kapt("androidx.room:room-compiler:$version")
-    implementation("androidx.room:room-ktx:$version")
+    implementation("androidx.room:room-runtime:${Versions.room}")
+    kapt("androidx.room:room-compiler:${Versions.room}")
+    implementation("androidx.room:room-ktx:${Versions.room}")
 }
 
 /**

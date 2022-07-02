@@ -32,8 +32,8 @@ import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
 import com.ivy.design.utils.padding
 import com.ivy.frp.view.FRP
-import com.ivy.frp.view.navigation.Screen
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.DonateScreen
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
@@ -41,8 +41,6 @@ import com.ivy.wallet.ui.donate.data.DonateOption
 import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
-
-object DonateScreen : Screen
 
 @Composable
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {
