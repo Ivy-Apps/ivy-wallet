@@ -4,9 +4,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -21,7 +23,6 @@ import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
@@ -31,7 +32,6 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.ItemStatistic
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
@@ -169,16 +169,16 @@ class ItemStatisticViewModel @Inject constructor(
 
             when {
                 screen.accountId != null -> {
-                    initForAccount(screen.accountId)
+                    initForAccount(screen.accountId!!)
                 }
                 screen.categoryId != null && screen.transactions.isEmpty() -> {
-                    initForCategory(screen.categoryId, screen.accountIdFilterList)
+                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
                 }
                 //unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
                 screen.categoryId != null && screen.transactions.isNotEmpty()
                         && screen.unspecifiedCategory == false -> {
                     initForCategoryWithTransactions(
-                        screen.categoryId,
+                        screen.categoryId!!,
                         screen.accountIdFilterList,
                         screen.transactions
                     )
@@ -546,10 +546,10 @@ class ItemStatisticViewModel @Inject constructor(
 
             when {
                 screen.accountId != null -> {
-                    deleteAccount(screen.accountId)
+                    deleteAccount(screen.accountId!!)
                 }
                 screen.categoryId != null -> {
-                    deleteCategory(screen.categoryId)
+                    deleteCategory(screen.categoryId!!)
                 }
             }
 

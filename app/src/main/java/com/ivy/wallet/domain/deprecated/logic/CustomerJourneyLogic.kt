@@ -2,17 +2,18 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.SunsetNight
+import com.ivy.screens.*
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.donate.DonateScreen
+import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.home.CustomerJourneyCard
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*

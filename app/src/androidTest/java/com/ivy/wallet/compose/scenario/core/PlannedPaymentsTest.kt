@@ -2,6 +2,7 @@ package com.ivy.wallet.compose.scenario.core
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.account.AccountsTab
 import com.ivy.wallet.compose.component.edittrn.screen.IncomeExpenseScreen
@@ -9,7 +10,6 @@ import com.ivy.wallet.compose.component.home.HomeTab
 import com.ivy.wallet.compose.component.planned.EditPlannedScreen
 import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test

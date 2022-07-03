@@ -3,8 +3,11 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.EditTransaction
+import com.ivy.screens.Main
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -14,8 +17,10 @@ import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.data.core.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.*
+import com.ivy.wallet.domain.deprecated.logic.AccountCreator
+import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
+import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
+import com.ivy.wallet.domain.deprecated.logic.SmartTitleSuggestionsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -25,9 +30,7 @@ import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*
@@ -55,7 +58,6 @@ class EditTransactionViewModel @Inject constructor(
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
-    private val paywallLogic: PaywallLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
     private val loanTransactionsLogic: LoanTransactionsLogic,
@@ -201,8 +203,9 @@ class EditTransactionViewModel @Inject constructor(
         screen: EditTransaction,
         accounts: List<Account>,
     ): UUID {
-        if (screen.accountId != null) {
-            return screen.accountId
+        val accountId = screen.accountId
+        if (accountId != null) {
+            return accountId
         }
 
         val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
@@ -483,13 +486,7 @@ class EditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            paywallLogic.protectQuotaExceededWithPaywall(
-                onPaywallHit = {
-                    nav.back()
-                }
-            ) {
-                saveInternal(closeScreen = closeScreen)
-            }
+            saveInternal(closeScreen = closeScreen)
 
             TestIdlingResource.decrement()
         }

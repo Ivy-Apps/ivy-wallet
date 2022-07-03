@@ -5,14 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.EditTransaction
+import com.ivy.screens.Main
+import com.ivy.screens.Onboarding
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.domain.data.core.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
@@ -38,7 +40,6 @@ class RootViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val ivySession: IvySession,
     private val ivyBilling: IvyBilling,
-    private val paywallLogic: PaywallLogic,
     private val transactionReminderLogic: TransactionReminderLogic
 ) : ViewModel() {
 
@@ -99,9 +100,9 @@ class RootViewModel @Inject constructor(
 
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType: TransactionType? = try {
-            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType ?:
-            TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
-        } catch (e: IllegalArgumentException){
+            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
+                ?: TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
+        } catch (e: IllegalArgumentException) {
             null
         }
 
@@ -146,12 +147,12 @@ class RootViewModel @Inject constructor(
             onReady = {
                 viewModelScope.launch {
                     val purchases = ivyBilling.queryPurchases()
-                    paywallLogic.processPurchases(purchases)
+//                    paywallLogic.processPurchases(purchases)
                 }
             },
             onPurchases = { purchases ->
                 viewModelScope.launch {
-                    paywallLogic.processPurchases(purchases)
+//                    paywallLogic.processPurchases(purchases)
                 }
 
             },

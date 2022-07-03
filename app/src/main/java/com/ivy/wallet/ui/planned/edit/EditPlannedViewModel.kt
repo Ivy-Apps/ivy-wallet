@@ -3,15 +3,16 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.EditPlanned
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
@@ -21,7 +22,6 @@ import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
 import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread

@@ -23,12 +23,12 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.LoanDetails
+import com.ivy.screens.Loans
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.LoanDetails
-import com.ivy.wallet.ui.Loans
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*

@@ -2,6 +2,9 @@ package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.Import
+import com.ivy.screens.Main
+import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Category
@@ -16,10 +19,7 @@ import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Main
-import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult

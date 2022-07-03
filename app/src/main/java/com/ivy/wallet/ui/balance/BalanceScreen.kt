@@ -18,8 +18,8 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.BalanceScreen
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod

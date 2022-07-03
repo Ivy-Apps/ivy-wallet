@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
@@ -18,7 +19,6 @@ import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
@@ -31,7 +31,6 @@ import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -318,49 +317,44 @@ class ReportViewModel @Inject constructor(
         return this.toLowerCaseLocal().contains(anotherString.toLowerCaseLocal())
     }
 
-    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair) : BigDecimal{
+    private fun calculateBalance(incomeExpenseTransferPair: IncomeExpenseTransferPair): BigDecimal {
         return incomeExpenseTransferPair.income + incomeExpenseTransferPair.transferIncome - incomeExpenseTransferPair.expense - incomeExpenseTransferPair.transferExpense
     }
 
     private suspend fun export(context: Context) {
-        ivyContext.protectWithPaywall(
-            paywallReason = PaywallReason.EXPORT_CSV,
-            navigation = nav
-        ) {
-            val filter = _filter.value ?: return@protectWithPaywall
-            if (!filter.validate()) return@protectWithPaywall
-            val accounts = _allAccounts.value
-            val baseCurrency = _baseCurrency.value
+        val filter = _filter.value ?: return
+        if (!filter.validate()) return
+        val accounts = _allAccounts.value
+        val baseCurrency = _baseCurrency.value
 
-            ivyContext.createNewFile(
-                "Report (${
-                    timeNowUTC().formatNicelyWithTime(noWeekDay = true)
-                }).csv"
-            ) { fileUri ->
-                viewModelScope.launch {
-                    updateState {
-                        it.copy(loading = true)
+        ivyContext.createNewFile(
+            "Report (${
+                timeNowUTC().formatNicelyWithTime(noWeekDay = true)
+            }).csv"
+        ) { fileUri ->
+            viewModelScope.launch {
+                updateState {
+                    it.copy(loading = true)
+                }
+
+                exportCSVLogic.exportToFile(
+                    context = context,
+                    fileUri = fileUri,
+                    exportScope = {
+                        filterTransactions(
+                            baseCurrency = baseCurrency,
+                            accounts = accounts,
+                            filter = filter
+                        )
                     }
+                )
 
-                    exportCSVLogic.exportToFile(
-                        context = context,
-                        fileUri = fileUri,
-                        exportScope = {
-                            filterTransactions(
-                                baseCurrency = baseCurrency,
-                                accounts = accounts,
-                                filter = filter
-                            )
-                        }
-                    )
+                (context as RootActivity).shareCSVFile(
+                    fileUri = fileUri
+                )
 
-                    (context as RootActivity).shareCSVFile(
-                        fileUri = fileUri
-                    )
-
-                    updateState {
-                        it.copy(loading = false)
-                    }
+                updateState {
+                    it.copy(loading = false)
                 }
             }
         }

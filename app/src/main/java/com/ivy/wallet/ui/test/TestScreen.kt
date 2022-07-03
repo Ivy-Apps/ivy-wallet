@@ -10,11 +10,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.AnalyticsReport
+import com.ivy.screens.ImagesScreen
+import com.ivy.screens.Test
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Test
-import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.modal.ChooseIconModal
@@ -68,7 +68,7 @@ private fun BoxWithConstraintsScope.UI(
         SpacerVer(height = 24.dp)
 
         IvyButton(text = "Images Experiment") {
-            nav.navigateTo(ImagesScreen())
+            nav.navigateTo(ImagesScreen)
         }
     }
 

@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.pure.transaction
 
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import java.math.BigDecimal

@@ -25,13 +25,11 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Paywall
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
-import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -234,11 +232,11 @@ fun BuyPremiumRow(
             .clip(UI.shapes.r4)
             .border(2.dp, UI.colors.medium, UI.shapes.r4)
             .clickable {
-                nav.navigateTo(
-                    Paywall(
-                        paywallReason = PaywallReason.ACCOUNTS
-                    )
-                )
+//                nav.navigateTo(
+//                    Paywall(
+//                        paywallReason = PaywallReason.ACCOUNTS
+//                    )
+//                )
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

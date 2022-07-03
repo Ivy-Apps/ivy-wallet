@@ -1,11 +1,12 @@
 package com.ivy.db_persistence
 
 import android.content.Context
-import androidx.room.*
-import androidx.room.migration.AutoMigrationSpec
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.ivy.db_persistence.dao.*
 import com.ivy.db_persistence.data.*
-import com.ivy.db_persistence.migration.*
 
 @Database(
     entities = [
@@ -14,15 +15,8 @@ import com.ivy.db_persistence.migration.*
         UserEntity::class, BudgetEntity::class,
         LoanEntity::class, LoanRecordEntity::class
     ],
-    autoMigrations = [
-        AutoMigration(
-            from = 121,
-            to = 122,
-            spec = IvyRoomDatabase.DeleteSEMigration::class
-        )
-    ],
-    version = 122,
-    exportSchema = true
+    version = 1,
+    exportSchema = false //TODO: Fix that
 )
 @TypeConverters(RoomTypeConverters::class)
 abstract class IvyRoomDatabase : RoomDatabase() {
@@ -43,31 +37,13 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract fun loanRecordDao(): LoanRecordDao
 
     companion object {
-        const val DB_NAME = "ivywallet.db"
+        const val DB_NAME = "db_persistence.db"
 
         fun create(applicationContext: Context): IvyRoomDatabase {
             return Room
                 .databaseBuilder(
                     applicationContext,
                     IvyRoomDatabase::class.java, DB_NAME
-                )
-                .addMigrations(
-                    Migration105to106_TrnRecurringRules(),
-                    Migration106to107_Wishlist(),
-                    Migration107to108_Sync(),
-                    Migration108to109_Users(),
-                    Migration109to110_PlannedPayments(),
-                    Migration110to111_PlannedPaymentRule(),
-                    Migration111to112_User_testUser(),
-                    Migration112to113_ExchangeRates(),
-                    Migration113to114_Multi_Currency(),
-                    Migration114to115_Category_Account_Icons(),
-                    Migration115to116_Account_Include_In_Balance(),
-                    Migration116to117_SalteEdgeIntgration(),
-                    Migration117to118_Budgets(),
-                    Migration118to119_Loans(),
-                    Migration119to120_LoanTransactions(),
-                    Migration120to121_DropWishlistItem()
                 )
                 .build()
         }
@@ -83,10 +59,4 @@ abstract class IvyRoomDatabase : RoomDatabase() {
         loanDao().deleteAll()
         loanRecordDao().deleteAll()
     }
-
-    @DeleteColumn(tableName = "accounts", columnName = "seAccountId")
-    @DeleteColumn(tableName = "transactions", columnName = "seTransactionId")
-    @DeleteColumn(tableName = "transactions", columnName = "seAutoCategoryId")
-    @DeleteColumn(tableName = "categories", columnName = "seCategoryName")
-    class DeleteSEMigration : AutoMigrationSpec
 }

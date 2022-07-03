@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.Main
+import com.ivy.screens.Onboarding
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.Main
-import com.ivy.wallet.ui.Onboarding
 import com.ivy.wallet.utils.ioThread
 
 @Deprecated("Migrate to FP Style & Actions")
@@ -31,6 +31,6 @@ class LogoutLogic(
             ivySession.logout()
         }
 
-        navigation.navigateTo(Main);
+        navigation.navigateTo(Main)
     }
 }

@@ -16,12 +16,12 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.EditTransaction
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.EditTransaction
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
 import com.ivy.wallet.ui.theme.*

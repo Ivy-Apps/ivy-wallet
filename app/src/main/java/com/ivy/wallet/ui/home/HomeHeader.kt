@@ -19,13 +19,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.TransactionType
-import com.ivy.wallet.ui.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod

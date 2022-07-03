@@ -14,7 +14,6 @@ import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
-import com.ivy.wallet.ui.paywall.PaywallReason
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -81,18 +80,17 @@ class IvyWalletCtx : IvyContext() {
 
     //------------------------------------------- Navigation ----------------------------------------
     fun protectWithPaywall(
-        paywallReason: PaywallReason,
         navigation: Navigation,
         action: () -> Unit
     ) {
         if (isPremium || (BuildConfig.DEBUG && !Constants.ENABLE_PAYWALL_ON_DEBUG)) {
             action()
         } else {
-            navigation.navigateTo(
-                screen = Paywall(
-                    paywallReason = paywallReason
-                )
-            )
+//            navigation.navigateTo(
+//                screen = Paywall(
+//                    paywallReason = paywallReason
+//                )
+//            )
         }
     }
     //------------------------------------------- Navigation ----------------------------------------

@@ -1,7 +1,5 @@
 package com.ivy.data.loan
 
-import com.ivy.wallet.io.network.data.LoanRecordDTO
-import com.ivy.wallet.io.persistence.data.LoanRecordEntity
 import java.time.LocalDateTime
 import java.util.*
 
@@ -19,28 +17,4 @@ data class LoanRecord(
     val isDeleted: Boolean = false,
 
     val id: UUID = UUID.randomUUID()
-) {
-    fun toEntity(): LoanRecordEntity = LoanRecordEntity(
-        loanId = loanId,
-        amount = amount,
-        note = note,
-        dateTime = dateTime,
-        interest = interest,
-        accountId = accountId,
-        convertedAmount = convertedAmount,
-        isSynced = isSynced,
-        isDeleted = isDeleted,
-        id = id
-    )
-
-    fun toDTO(): LoanRecordDTO = LoanRecordDTO(
-        loanId = loanId,
-        amount = amount,
-        note = note,
-        dateTime = dateTime,
-        interest = interest,
-        accountId = accountId,
-        convertedAmount = convertedAmount,
-        id = id
-    )
-}
+)

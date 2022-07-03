@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.Main
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct
@@ -28,7 +29,6 @@ import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.refreshWidget
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*

@@ -8,9 +8,9 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class AccountCreator(
-    private val paywallLogic: PaywallLogic,
+class AccountCreator @Inject constructor(
     private val accountDao: AccountDao,
     private val accountUploader: AccountUploader,
     private val transactionSync: TransactionSync,
@@ -24,35 +24,31 @@ class AccountCreator(
         val name = data.name
         if (name.isBlank()) return
 
-        paywallLogic.protectAddWithPaywall(
-            addAccount = true
-        ) {
-            val newAccount = ioThread {
-                val account = Account(
-                    name = name,
-                    currency = data.currency,
-                    color = data.color.toArgb(),
-                    icon = data.icon,
-                    includeInBalance = data.includeBalance,
-                    orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
-                    isSynced = false
-                )
-                accountDao.save(account.toEntity())
+        val newAccount = ioThread {
+            val account = Account(
+                name = name,
+                currency = data.currency,
+                color = data.color.toArgb(),
+                icon = data.icon,
+                includeInBalance = data.includeBalance,
+                orderNum = accountDao.findMaxOrderNum().nextOrderNum(),
+                isSynced = false
+            )
+            accountDao.save(account.toEntity())
 
-                accountLogic.adjustBalance(
-                    account = account,
-                    actualBalance = 0.0,
-                    newBalance = data.balance
-                )
-                account
-            }
+            accountLogic.adjustBalance(
+                account = account,
+                actualBalance = 0.0,
+                newBalance = data.balance
+            )
+            account
+        }
 
-            onRefreshUI()
+        onRefreshUI()
 
-            ioThread {
-                accountUploader.sync(newAccount)
-                transactionSync.sync()
-            }
+        ioThread {
+            accountUploader.sync(newAccount)
+            transactionSync.sync()
         }
     }
 

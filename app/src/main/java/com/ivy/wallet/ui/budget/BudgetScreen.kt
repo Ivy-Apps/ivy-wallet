@@ -18,12 +18,12 @@ import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.BudgetScreen
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.ui.BudgetScreen
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange

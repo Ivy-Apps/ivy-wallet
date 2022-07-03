@@ -6,9 +6,9 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.BudgetUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.BudgetDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class BudgetCreator(
-    private val paywallLogic: PaywallLogic,
+class BudgetCreator @Inject constructor(
     private val budgetDao: BudgetDao,
     private val budgetUploader: BudgetUploader
 ) {
@@ -21,28 +21,24 @@ class BudgetCreator(
         if (data.amount <= 0) return
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addBudget = true,
-            ) {
-                val newBudget = ioThread {
-                    val budget = Budget(
-                        name = name.trim(),
-                        amount = data.amount,
-                        categoryIdsSerialized = data.categoryIdsSerialized,
-                        accountIdsSerialized = data.accountIdsSerialized,
-                        orderId = budgetDao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false
-                    )
+            val newBudget = ioThread {
+                val budget = Budget(
+                    name = name.trim(),
+                    amount = data.amount,
+                    categoryIdsSerialized = data.categoryIdsSerialized,
+                    accountIdsSerialized = data.accountIdsSerialized,
+                    orderId = budgetDao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false
+                )
 
-                    budgetDao.save(budget.toEntity())
-                    budget
-                }
+                budgetDao.save(budget.toEntity())
+                budget
+            }
 
-                onRefreshUI(newBudget)
+            onRefreshUI(newBudget)
 
-                ioThread {
-                    budgetUploader.sync(newBudget)
-                }
+            ioThread {
+                budgetUploader.sync(newBudget)
             }
         } catch (e: Exception) {
             e.printStackTrace()

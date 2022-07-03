@@ -7,9 +7,9 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.utils.ioThread
+import javax.inject.Inject
 
-class CategoryCreator(
-    private val paywallLogic: PaywallLogic,
+class CategoryCreator @Inject constructor(
     private val categoryDao: CategoryDao,
     private val categoryUploader: CategoryUploader
 ) {
@@ -21,27 +21,24 @@ class CategoryCreator(
         if (name.isBlank()) return
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addCategory = true,
-            ) {
-                val newCategory = ioThread {
-                    val newCategory = Category(
-                        name = name.trim(),
-                        color = data.color.toArgb(),
-                        icon = data.icon,
-                        orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false
-                    )
 
-                    categoryDao.save(newCategory.toEntity())
-                    newCategory
-                }
+            val newCategory = ioThread {
+                val newCategory = Category(
+                    name = name.trim(),
+                    color = data.color.toArgb(),
+                    icon = data.icon,
+                    orderNum = categoryDao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false
+                )
 
-                onRefreshUI(newCategory)
+                categoryDao.save(newCategory.toEntity())
+                newCategory
+            }
 
-                ioThread {
-                    categoryUploader.sync(newCategory)
-                }
+            onRefreshUI(newCategory)
+
+            ioThread {
+                categoryUploader.sync(newCategory)
             }
         } catch (e: Exception) {
             e.printStackTrace()

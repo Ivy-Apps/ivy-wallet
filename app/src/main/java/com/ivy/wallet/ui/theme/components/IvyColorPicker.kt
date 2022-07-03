@@ -26,7 +26,6 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletComponentPreview
 import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.paywall.PaywallReason
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.utils.densityScope
 import com.ivy.wallet.utils.onScreenStart
@@ -130,12 +129,7 @@ fun ColumnScope.IvyColorPicker(
                 selectedColor = selectedColor,
                 onSelected = {
                     if (it.premium) {
-                        ivyContext.protectWithPaywall(
-                            paywallReason = PaywallReason.PREMIUM_COLOR,
-                            navigation = navigation
-                        ) {
-                            onColorSelected(it.color)
-                        }
+                        onColorSelected(it.color)
                     } else {
                         onColorSelected(it.color)
                     }

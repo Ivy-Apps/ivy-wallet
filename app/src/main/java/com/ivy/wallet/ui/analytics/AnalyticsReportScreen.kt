@@ -15,8 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
+import com.ivy.screens.AnalyticsReport
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.AnalyticsReport
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.analytics.model.Health
 import com.ivy.wallet.ui.analytics.model.KPIs

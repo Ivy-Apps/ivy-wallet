@@ -6,6 +6,8 @@ import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.screens.BalanceScreen
+import com.ivy.screens.Main
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
@@ -24,9 +26,7 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import com.ivy.wallet.ui.BalanceScreen
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.BufferInfo
 import com.ivy.wallet.ui.data.DueSection

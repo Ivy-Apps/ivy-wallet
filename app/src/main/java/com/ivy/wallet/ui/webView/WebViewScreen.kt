@@ -16,7 +16,7 @@ import androidx.webkit.WebViewFeature
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.wallet.ui.IvyWebView
+import com.ivy.screens.IvyWebView
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar

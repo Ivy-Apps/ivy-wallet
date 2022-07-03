@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.wallet.domain.data.core.TransactionType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
 import java.util.*

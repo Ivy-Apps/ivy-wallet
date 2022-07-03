@@ -36,6 +36,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.*
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.Constants
 import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
@@ -43,8 +44,9 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.donate.DonateScreen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -962,23 +964,6 @@ private fun AccountCardLocalAccount(
     }
 
     Spacer(Modifier.height(24.dp))
-}
-
-@Composable
-private fun Premium() {
-    val nav = navigation()
-    SettingsPrimaryButton(
-        icon = R.drawable.ic_custom_crown_s,
-        text = if (ivyWalletCtx().isPremium) "Ivy Premium (owned)" else "Buy premium",
-        hasShadow = true,
-        backgroundGradient = if (ivyWalletCtx().isPremium) GradientIvy else GradientOrange
-    ) {
-        nav.navigateTo(
-            Paywall(
-                paywallReason = null
-            )
-        )
-    }
 }
 
 @Composable

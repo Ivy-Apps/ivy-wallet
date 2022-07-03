@@ -32,10 +32,12 @@ import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.*
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.*
-import com.ivy.wallet.ui.donate.DonateScreen
+import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray

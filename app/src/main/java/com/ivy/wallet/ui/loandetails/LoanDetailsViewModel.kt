@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.LoanDetails
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.data.core.Account
@@ -20,7 +21,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.LoanDetails
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread

@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.RoomDB
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -10,4 +11,5 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":network-common"))
     Hilt()
+    RoomDB()
 }

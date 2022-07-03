@@ -22,6 +22,7 @@ import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.screens.Main
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
@@ -31,7 +32,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.Main
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.data.AppBaseData

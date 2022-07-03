@@ -6,10 +6,10 @@ import com.ivy.wallet.domain.deprecated.sync.uploader.LoanRecordUploader
 import com.ivy.wallet.io.persistence.dao.LoanRecordDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
+import javax.inject.Inject
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-class LoanRecordCreator(
-    private val paywallLogic: PaywallLogic,
+class LoanRecordCreator @Inject constructor(
     private val dao: LoanRecordDao,
     private val uploader: LoanRecordUploader
 ) {
@@ -23,28 +23,26 @@ class LoanRecordCreator(
 
         try {
             var newItem: LoanRecord? = null
-            paywallLogic.protectQuotaExceededWithPaywall {
-                newItem = ioThread {
-                    val item = LoanRecord(
-                        loanId = loanId,
-                        note = note?.trim(),
-                        amount = data.amount,
-                        dateTime = data.dateTime,
-                        isSynced = false,
-                        interest = data.interest,
-                        accountId = data.account?.id,
-                        convertedAmount = data.convertedAmount
-                    )
+            newItem = ioThread {
+                val item = LoanRecord(
+                    loanId = loanId,
+                    note = note?.trim(),
+                    amount = data.amount,
+                    dateTime = data.dateTime,
+                    isSynced = false,
+                    interest = data.interest,
+                    accountId = data.account?.id,
+                    convertedAmount = data.convertedAmount
+                )
 
-                    dao.save(item.toEntity())
-                    item
-                }
+                dao.save(item.toEntity())
+                item
+            }
 
-                onRefreshUI(newItem!!)
+            onRefreshUI(newItem!!)
 
-                ioThread {
-                    uploader.sync(newItem!!)
-                }
+            ioThread {
+                uploader.sync(newItem!!)
             }
             return newItem?.id
         } catch (e: Exception) {

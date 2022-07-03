@@ -432,28 +432,6 @@ object AppModuleDI {
 
     @Provides
     @Singleton
-    fun providepaywallLogic(
-        ivyBilling: IvyBilling,
-        ivyContext: IvyWalletCtx,
-        navigation: Navigation,
-        accountDao: AccountDao,
-        categoryDao: CategoryDao,
-        budgetDao: BudgetDao,
-        loanDao: LoanDao
-    ): PaywallLogic {
-        return PaywallLogic(
-            ivyBilling = ivyBilling,
-            ivyContext = ivyContext,
-            navigation = navigation,
-            accountDao = accountDao,
-            categoryDao = categoryDao,
-            budgetDao = budgetDao,
-            loanDao = loanDao
-        )
-    }
-
-    @Provides
-    @Singleton
     fun provideIvyAnalytics(
         sharedPrefs: SharedPrefs,
         restClient: RestClient
@@ -560,74 +538,6 @@ object AppModuleDI {
         )
     }
 
-    @Provides
-    fun provideCategoryCreator(
-        paywallLogic: PaywallLogic,
-        categoryDao: CategoryDao,
-        categoryUploader: CategoryUploader
-    ): CategoryCreator {
-        return CategoryCreator(
-            paywallLogic = paywallLogic,
-            categoryDao = categoryDao,
-            categoryUploader = categoryUploader
-        )
-    }
-
-    @Provides
-    fun provideBudgetCreator(
-        paywallLogic: PaywallLogic,
-        budgetDao: BudgetDao,
-        budgetUploader: BudgetUploader
-    ): BudgetCreator {
-        return BudgetCreator(
-            paywallLogic = paywallLogic,
-            budgetDao = budgetDao,
-            budgetUploader = budgetUploader
-        )
-    }
-
-    @Provides
-    fun provideLoanCreator(
-        paywallLogic: PaywallLogic,
-        dao: LoanDao,
-        uploader: LoanUploader
-    ): LoanCreator {
-        return LoanCreator(
-            paywallLogic = paywallLogic,
-            dao = dao,
-            uploader = uploader
-        )
-    }
-
-    @Provides
-    fun provideLoanRecordCreator(
-        paywallLogic: PaywallLogic,
-        dao: LoanRecordDao,
-        uploader: LoanRecordUploader
-    ): LoanRecordCreator {
-        return LoanRecordCreator(
-            paywallLogic = paywallLogic,
-            dao = dao,
-            uploader = uploader
-        )
-    }
-
-    @Provides
-    fun provideAccountCreator(
-        paywallLogic: PaywallLogic,
-        accountDao: AccountDao,
-        accountUploader: AccountUploader,
-        accountLogic: WalletAccountLogic,
-        transactionSync: TransactionSync
-    ): AccountCreator {
-        return AccountCreator(
-            paywallLogic = paywallLogic,
-            accountDao = accountDao,
-            transactionSync = transactionSync,
-            accountLogic = accountLogic,
-            accountUploader = accountUploader,
-        )
-    }
 
     @Provides
     fun provideLogoutLogic(

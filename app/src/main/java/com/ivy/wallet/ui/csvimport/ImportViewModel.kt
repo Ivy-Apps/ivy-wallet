@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.screens.Import
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
@@ -14,7 +15,6 @@ import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
-import com.ivy.wallet.ui.Import
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.utils.asLiveData

@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.transaction
 
 import arrow.core.NonEmptyList
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.monad.Res
 import com.ivy.frp.monad.mapError
 import com.ivy.frp.monad.mapSuccess
@@ -11,7 +12,6 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.viewmodel.transaction.SaveTrnLocallyAct
 import com.ivy.wallet.domain.data.core.Transaction
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.ui.transaction.data.TrnDate
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.lifecycle.HiltViewModel

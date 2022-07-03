@@ -16,14 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.data.transaction.TransactionType
+import com.ivy.screens.EditPlanned
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.EditPlanned
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal

@@ -129,6 +129,7 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":search-transactions"))
     implementation(project(":transaction-details"))
+    implementation(project(":data-model"))
 
     Hilt()
 

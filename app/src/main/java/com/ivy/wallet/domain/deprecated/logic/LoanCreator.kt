@@ -8,9 +8,9 @@ import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.LoanDao
 import com.ivy.wallet.utils.ioThread
 import java.util.*
+import javax.inject.Inject
 
-class LoanCreator(
-    private val paywallLogic: PaywallLogic,
+class LoanCreator @Inject constructor(
     private val dao: LoanDao,
     private val uploader: LoanUploader
 ) {
@@ -25,30 +25,27 @@ class LoanCreator(
         var loanId: UUID? = null
 
         try {
-            paywallLogic.protectAddWithPaywall(
-                addLoan = true
-            ) {
-                val newItem = ioThread {
-                    val item = Loan(
-                        name = name.trim(),
-                        amount = data.amount,
-                        type = data.type,
-                        color = data.color.toArgb(),
-                        icon = data.icon,
-                        orderNum = dao.findMaxOrderNum().nextOrderNum(),
-                        isSynced = false,
-                        accountId = data.account?.id
-                    )
-                    loanId = item.id
-                    dao.save(item.toEntity())
-                    item
-                }
 
-                onRefreshUI(newItem)
+            val newItem = ioThread {
+                val item = Loan(
+                    name = name.trim(),
+                    amount = data.amount,
+                    type = data.type,
+                    color = data.color.toArgb(),
+                    icon = data.icon,
+                    orderNum = dao.findMaxOrderNum().nextOrderNum(),
+                    isSynced = false,
+                    accountId = data.account?.id
+                )
+                loanId = item.id
+                dao.save(item.toEntity())
+                item
+            }
 
-                ioThread {
-                    uploader.sync(newItem)
-                }
+            onRefreshUI(newItem)
+
+            ioThread {
+                uploader.sync(newItem)
             }
         } catch (e: Exception) {
             e.printStackTrace()
