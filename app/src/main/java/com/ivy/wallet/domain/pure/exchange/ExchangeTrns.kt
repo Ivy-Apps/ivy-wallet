@@ -2,10 +2,10 @@ package com.ivy.wallet.domain.pure.exchange
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal

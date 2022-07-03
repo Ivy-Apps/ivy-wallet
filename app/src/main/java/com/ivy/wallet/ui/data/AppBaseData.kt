@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.data
 
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.data.Account
 import com.ivy.wallet.domain.data.core.Category
 
 data class AppBaseData(

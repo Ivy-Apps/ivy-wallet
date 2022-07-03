@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.accounts
 
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.data.Account
 
 sealed class AccountsEvent {
     data class OnReorder(val reorderedList: List<AccountData>) : AccountsEvent()

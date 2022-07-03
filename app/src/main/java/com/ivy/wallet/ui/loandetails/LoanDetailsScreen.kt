@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.data.Account
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -32,7 +33,6 @@ import com.ivy.screens.LoanDetails
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

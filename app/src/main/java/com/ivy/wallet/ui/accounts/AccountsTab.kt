@@ -24,13 +24,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.data.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.Main
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.main.MainTab

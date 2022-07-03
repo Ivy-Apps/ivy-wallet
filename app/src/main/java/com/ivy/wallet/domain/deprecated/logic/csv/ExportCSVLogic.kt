@@ -2,9 +2,9 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import android.content.Context
 import android.net.Uri
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao

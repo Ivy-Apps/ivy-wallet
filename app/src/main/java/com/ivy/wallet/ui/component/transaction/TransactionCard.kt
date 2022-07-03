@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
@@ -28,7 +29,6 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.data.AppBaseData
@@ -472,8 +472,8 @@ private data class AmountTypeStyle(
 private fun PreviewUpcomingExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash")
-            val food = Category(name = "Food")
+            val cash = Account(name = "Cash", color = Green.toArgb())
+            val food = Category(name = "Food", color = Green.toArgb())
 
             item {
                 TransactionCard(

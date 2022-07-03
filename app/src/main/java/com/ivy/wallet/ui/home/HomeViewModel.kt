@@ -1,5 +1,6 @@
 package com.ivy.wallet.ui.home
 
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.fixUnit
@@ -19,7 +20,6 @@ import com.ivy.wallet.domain.action.transaction.HistoryWithDateDivsAct
 import com.ivy.wallet.domain.action.viewmodel.home.*
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Settings
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic

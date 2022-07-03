@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.filterSuspend
@@ -17,7 +18,6 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic

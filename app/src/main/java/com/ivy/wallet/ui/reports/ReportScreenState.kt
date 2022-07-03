@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.reports
 
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import java.util.*
 

@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.component.transaction
 
 import androidx.compose.runtime.Composable
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.data.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.ivyWalletCtx
 import java.util.*

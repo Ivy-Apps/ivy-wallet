@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.loan.data
 
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.data.Account
 import com.ivy.wallet.domain.data.core.LoanRecord
 
 data class DisplayLoanRecord(

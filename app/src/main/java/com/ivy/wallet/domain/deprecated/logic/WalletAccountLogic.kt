@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao

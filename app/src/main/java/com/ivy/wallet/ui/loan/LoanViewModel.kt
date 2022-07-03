@@ -2,11 +2,11 @@ package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.loan.LoansAct
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator

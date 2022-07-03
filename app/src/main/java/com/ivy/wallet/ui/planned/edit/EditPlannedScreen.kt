@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -16,16 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.data.Account
 import com.ivy.data.transaction.TransactionType
 import com.ivy.screens.EditPlanned
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.edit.core.*
+import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.modal.DeleteModal
 import com.ivy.wallet.ui.theme.modal.ModalSet
@@ -442,7 +444,7 @@ private fun Preview() {
             currency = "BGN",
             description = null,
             category = null,
-            account = Account(name = "phyre"),
+            account = Account(name = "phyre", color = Green.toArgb()),
             amount = 0.0,
             type = TransactionType.INCOME,
 

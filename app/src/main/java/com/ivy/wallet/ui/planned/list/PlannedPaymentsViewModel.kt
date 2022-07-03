@@ -3,11 +3,11 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.screens.PlannedPayments
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic

@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
@@ -15,7 +16,6 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryByIdAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.data.CustomExchangeRateState
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator

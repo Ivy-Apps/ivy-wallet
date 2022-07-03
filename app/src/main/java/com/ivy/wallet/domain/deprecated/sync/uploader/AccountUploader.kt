@@ -1,6 +1,8 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.data.Account
+import com.ivy.wallet.domain.data.core.toDTO
+import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.request.account.DeleteAccountRequest

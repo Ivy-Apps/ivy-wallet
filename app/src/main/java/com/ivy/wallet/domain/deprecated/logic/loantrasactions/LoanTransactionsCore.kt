@@ -1,11 +1,15 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.core.*
+import com.ivy.wallet.domain.data.core.Category
+import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.wallet.domain.data.core.LoanRecord
+import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*

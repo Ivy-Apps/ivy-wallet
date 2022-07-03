@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.Theme
@@ -33,7 +34,6 @@ import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes

@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
@@ -10,7 +11,6 @@ import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Settings
 import com.ivy.wallet.domain.deprecated.logic.*

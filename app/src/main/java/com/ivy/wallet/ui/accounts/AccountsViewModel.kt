@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.accounts
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.Account
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.R
@@ -8,7 +9,7 @@ import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
-import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.sync.item.AccountSync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent

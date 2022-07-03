@@ -1,8 +1,8 @@
 package com.ivy.wallet.ui.transaction
 
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import java.math.BigDecimal
 import java.time.LocalDate

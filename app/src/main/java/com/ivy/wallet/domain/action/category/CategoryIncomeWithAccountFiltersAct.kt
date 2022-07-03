@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.category
 
+import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import javax.inject.Inject

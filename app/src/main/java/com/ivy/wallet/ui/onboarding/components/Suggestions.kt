@@ -9,17 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletComponentPreview
+import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.utils.drawColoredShadow
@@ -138,9 +140,9 @@ private fun Preview() {
     IvyWalletComponentPreview {
         Suggestions(
             suggestions = listOf(
-                Account("Cash"),
-                Account("Bank"),
-                Account("Revolut")
+                Account("Cash", color = Green.toArgb()),
+                Account("Bank", color = Green.toArgb()),
+                Account("Revolut", color = Green.toArgb())
             ),
             onAddSuggestion = { }
         ) {
