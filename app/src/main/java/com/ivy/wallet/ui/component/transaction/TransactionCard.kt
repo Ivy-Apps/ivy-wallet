@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -29,7 +30,6 @@ import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.theme.*
@@ -91,10 +91,10 @@ fun TransactionCard(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = stringResource(
                     R.string.due_on,
-                    transaction.dueDate.formatNicely()
+                    transaction.dueDate!!.formatNicely()
                 ).uppercase(),
                 style = UI.typo.nC.style(
-                    color = if (transaction.dueDate.isAfter(timeNowUTC()))
+                    color = if (transaction.dueDate!!.isAfter(timeNowUTC()))
                         Orange else UI.colors.gray,
                     fontWeight = FontWeight.Bold
                 )

@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.ExchangeRate
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.io.persistence.dao.AccountDao

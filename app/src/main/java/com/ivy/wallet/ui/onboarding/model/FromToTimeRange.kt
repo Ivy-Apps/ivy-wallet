@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.onboarding.model
 
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.data.transaction.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
@@ -53,7 +53,7 @@ fun Iterable<Transaction>.filterUpcoming(): List<Transaction> {
 
     return filter {
         //make sure that it's in the future
-        it.dueDate != null && it.dueDate.isAfter(todayStartOfDayUTC)
+        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUTC)
     }
 }
 
@@ -62,7 +62,7 @@ fun Iterable<Transaction>.filterOverdue(): List<Transaction> {
 
     return filter {
         //make sure that it's in the past
-        it.dueDate != null && it.dueDate.isBefore(todayStartOfDayUTC)
+        it.dueDate != null && it.dueDate!!.isBefore(todayStartOfDayUTC)
     }
 }
 

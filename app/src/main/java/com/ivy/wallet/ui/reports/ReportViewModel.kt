@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
@@ -18,7 +19,6 @@ import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
@@ -159,7 +159,7 @@ class ReportViewModel @Inject constructor(
             //Upcoming
             val upcomingTransactions = transactions
                 .filter {
-                    it.dueDate != null && it.dueDate.isAfter(timeNowUTC)
+                    it.dueDate != null && it.dueDate!!.isAfter(timeNowUTC)
                 }
                 .sortedBy { it.dueDate }
 
@@ -172,7 +172,7 @@ class ReportViewModel @Inject constructor(
             )
             //Overdue
             val overdue = transactions.filter {
-                it.dueDate != null && it.dueDate.isBefore(timeNowUTC)
+                it.dueDate != null && it.dueDate!!.isBefore(timeNowUTC)
             }.sortedByDescending {
                 it.dueDate
             }
@@ -231,8 +231,8 @@ class ReportViewModel @Inject constructor(
 
                 filterRange ?: return@filter false
 
-                (it.dateTime != null && filterRange.includes(it.dateTime)) ||
-                        (it.dueDate != null && filterRange.includes(it.dueDate))
+                (it.dateTime != null && filterRange.includes(it.dateTime!!)) ||
+                        (it.dueDate != null && filterRange.includes(it.dueDate!!))
             }
             .filter { trn ->
                 //Filter by Accounts
@@ -268,17 +268,17 @@ class ReportViewModel @Inject constructor(
                 val includeKeywords = filter.includeKeywords
                 if (includeKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title.isNotEmpty()) {
+                if (it.title != null && it.title!!.isNotEmpty()) {
                     includeKeywords.forEach { keyword ->
-                        if (it.title.containsLowercase(keyword)) {
+                        if (it.title!!.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
                 }
 
-                if (it.description != null && it.description.isNotEmpty()) {
+                if (it.description != null && it.description!!.isNotEmpty()) {
                     includeKeywords.forEach { keyword ->
-                        if (it.description.containsLowercase(keyword)) {
+                        if (it.description!!.containsLowercase(keyword)) {
                             return@filter true
                         }
                     }
@@ -292,17 +292,17 @@ class ReportViewModel @Inject constructor(
                 val excludedKeywords = filter.excludeKeywords
                 if (excludedKeywords.isEmpty()) return@filter true
 
-                if (it.title != null && it.title.isNotEmpty()) {
+                if (it.title != null && it.title!!.isNotEmpty()) {
                     excludedKeywords.forEach { keyword ->
-                        if (it.title.containsLowercase(keyword)) {
+                        if (it.title!!.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }
                 }
 
-                if (it.description != null && it.description.isNotEmpty()) {
+                if (it.description != null && it.description!!.isNotEmpty()) {
                     excludedKeywords.forEach { keyword ->
-                        if (it.description.containsLowercase(keyword)) {
+                        if (it.description!!.containsLowercase(keyword)) {
                             return@filter false
                         }
                     }

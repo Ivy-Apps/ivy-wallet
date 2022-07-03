@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
@@ -16,7 +17,7 @@ import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.data.CustomExchangeRateState
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
@@ -174,7 +175,7 @@ class EditTransactionViewModel @Inject constructor(
             return EditTransactionDisplayLoan()
 
         val loan =
-            ioThread { loanDao.findById(trans.loanId) } ?: return EditTransactionDisplayLoan()
+            ioThread { loanDao.findById(trans.loanId!!) } ?: return EditTransactionDisplayLoan()
         val isLoanRecord = trans.loanRecordId != null
 
         val loanWarningDescription = if (isLoanRecord)

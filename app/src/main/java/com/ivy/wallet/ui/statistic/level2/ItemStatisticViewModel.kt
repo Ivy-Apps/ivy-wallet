@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
@@ -19,10 +20,8 @@ import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
@@ -128,7 +127,7 @@ class ItemStatisticViewModel @Inject constructor(
     val overdueExpanded = _overdueExpanded.readOnly()
 
     //History
-    private val _history = MutableStateFlow<List<TransactionHistoryItem>>(emptyList())
+    private val _history = MutableStateFlow<List<Any>>(emptyList())
     val history = _history.readOnly()
 
     private val _account = MutableStateFlow<Account?>(null)

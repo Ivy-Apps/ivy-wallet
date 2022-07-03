@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.budget
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
@@ -14,7 +15,6 @@ import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.deprecated.sync.item.BudgetSync

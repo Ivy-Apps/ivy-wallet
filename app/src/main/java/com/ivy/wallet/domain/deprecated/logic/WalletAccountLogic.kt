@@ -1,8 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -132,7 +133,7 @@ class WalletAccountLogic(
     ): List<Transaction> {
         return this.filter {
             it.dateTime != null &&
-                    (before == null || it.dateTime.isBefore(before))
+                    (before == null || it.dateTime!!.isBefore(before))
         }
     }
 

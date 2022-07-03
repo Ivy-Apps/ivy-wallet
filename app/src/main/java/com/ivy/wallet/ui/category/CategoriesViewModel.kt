@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -12,7 +13,6 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync

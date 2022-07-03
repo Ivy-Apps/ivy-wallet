@@ -8,7 +8,6 @@ import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.utils.getDefaultFIATCurrency
@@ -31,7 +30,7 @@ class SearchViewModel @Inject constructor(
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)
     val baseCurrencyCode = _baseCurrencyCode.asStateFlow()
 
-    private val _transactions = MutableStateFlow(emptyList<TransactionHistoryItem>())
+    private val _transactions = MutableStateFlow(emptyList<Any>())
     val transactions = _transactions.asStateFlow()
 
     private val _accounts = MutableStateFlow(emptyList<Account>())

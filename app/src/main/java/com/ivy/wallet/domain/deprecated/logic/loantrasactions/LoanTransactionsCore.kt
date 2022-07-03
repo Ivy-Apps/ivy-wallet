@@ -1,6 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType

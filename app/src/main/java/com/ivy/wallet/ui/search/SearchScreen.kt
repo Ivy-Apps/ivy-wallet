@@ -24,7 +24,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.Search
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.stringRes
@@ -63,7 +62,7 @@ fun SearchScreen(screen: Search) {
 
 @Composable
 private fun UI(
-    transactions: List<TransactionHistoryItem>,
+    transactions: List<Any>,
     baseCurrency: String,
     categories: List<Category>,
     accounts: List<Account>,

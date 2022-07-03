@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.domain.pure.transaction.isOverdue

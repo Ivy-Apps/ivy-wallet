@@ -1,9 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers
@@ -166,7 +165,7 @@ class WalletCategoryLogic(
         range: FromToTimeRange,
         accountFilterSet: Set<UUID>,
         transactions: List<Transaction> = emptyList()
-    ): List<TransactionHistoryItem> {
+    ): List<Any> {
         return historyByCategory(category, range, transactions = transactions)
             .filter {
                 accountFilterSet.isEmpty() || accountFilterSet.contains(it.accountId)
@@ -199,7 +198,7 @@ class WalletCategoryLogic(
         }
     }
 
-    suspend fun historyUnspecified(range: FromToTimeRange): List<TransactionHistoryItem> {
+    suspend fun historyUnspecified(range: FromToTimeRange): List<Any> {
         return transactionDao
             .findAllUnspecifiedAndBetween(
                 startDate = range.from(),

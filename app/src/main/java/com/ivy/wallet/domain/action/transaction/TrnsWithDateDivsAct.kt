@@ -1,11 +1,10 @@
 package com.ivy.wallet.domain.action.transaction
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.action.exchange.actInput
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
@@ -13,9 +12,9 @@ import javax.inject.Inject
 class TrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeAct: ExchangeAct
-) : FPAction<TrnsWithDateDivsAct.Input, List<TransactionHistoryItem>>() {
+) : FPAction<TrnsWithDateDivsAct.Input, List<Any>>() {
 
-    override suspend fun Input.compose(): suspend () -> List<TransactionHistoryItem> = suspend {
+    override suspend fun Input.compose(): suspend () -> List<Any> = suspend {
         transactionsWithDateDividers(
             transactions = transactions,
             baseCurrencyCode = baseCurrency,

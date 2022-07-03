@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.data
 
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.data.transaction.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 
 data class DueSection(

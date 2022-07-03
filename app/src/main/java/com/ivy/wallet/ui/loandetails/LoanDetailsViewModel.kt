@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.data.transaction.Transaction
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.LoanDetails
@@ -10,7 +11,6 @@ import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanRecordCreator

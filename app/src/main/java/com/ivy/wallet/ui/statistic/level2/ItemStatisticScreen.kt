@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsHeight
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.Theme
 import com.ivy.design.l0_system.UI
@@ -32,10 +33,8 @@ import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
@@ -194,7 +193,7 @@ private fun BoxWithConstraintsScope.UI(
     initWithTransactions: Boolean = false,
     treatTransfersAsIncomeExpense: Boolean = false,
 
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
 
     upcomingExpanded: Boolean = true,
     setUpcomingExpanded: (Boolean) -> Unit = {},
@@ -448,7 +447,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun Header(
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
     currency: String,
     baseCurrency: String,
     itemColor: Color,
@@ -627,7 +626,7 @@ fun ItemStatisticToolbar(
 
 @Composable
 fun IncomeExpensesCards(
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
     currency: String,
     income: Double,
     expenses: Double,

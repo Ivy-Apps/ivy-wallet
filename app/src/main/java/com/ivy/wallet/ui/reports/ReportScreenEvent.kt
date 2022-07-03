@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.reports
 
 import android.content.Context
-import com.ivy.wallet.domain.data.core.Transaction
+import com.ivy.data.transaction.Transaction
 
 sealed class ReportScreenEvent {
     data class OnFilter(val filter: ReportFilter?) : ReportScreenEvent()

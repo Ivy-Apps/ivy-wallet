@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.data.transaction.Transaction
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
@@ -19,8 +20,6 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
-import com.ivy.wallet.domain.data.TransactionHistoryItem
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.data.DueSection
@@ -33,7 +32,7 @@ fun LazyListScope.transactions(
 
     upcoming: DueSection?,
     overdue: DueSection?,
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
 
     emptyStateTitle: String = stringRes(R.string.no_transactions),
     emptyStateText: String,
@@ -225,7 +224,7 @@ private fun LazyListScope.trnItems(
 private fun LazyListScope.historySection(
     baseData: AppBaseData,
 
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
 
     dateDividerMarginTop: Dp? = null,
 
@@ -329,7 +328,7 @@ private fun LazyItemScope.NoTransactionsEmptyState(
 }
 
 private fun LazyListScope.scrollHackSpacer(
-    history: List<TransactionHistoryItem>,
+    history: List<Any>,
     upcoming: DueSection?,
     overdue: DueSection?,
 

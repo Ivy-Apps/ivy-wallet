@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.scopedIOThread
@@ -89,11 +89,11 @@ class LTLoanMapper(
 
             onBackgroundProcessingStart()
 
-            val loan = ltCore.fetchLoan(transaction.loanId) ?: return@computationThread
+            val loan = ltCore.fetchLoan(transaction.loanId!!) ?: return@computationThread
 
             if (accountsChanged) {
                 val newLoanRecords: List<LoanRecord> = calculateLoanRecords(
-                    loanId = transaction.loanId,
+                    loanId = transaction.loanId!!,
                     newAccountId = transaction.accountId
                 )
                 ltCore.saveLoanRecords(newLoanRecords)
@@ -101,7 +101,7 @@ class LTLoanMapper(
 
             val modifiedLoan = loan.copy(
                 amount = transaction.amount.toDouble(),
-                name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title,
+                name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title!!,
                 type = if (transaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )

@@ -2,13 +2,12 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.data.transaction.Transaction
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
 import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
@@ -25,7 +24,7 @@ suspend fun List<Transaction>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao
-): List<TransactionHistoryItem> {
+): List<Any> {
     return transactionsWithDateDividers(
         transactions = this,
         baseCurrencyCode = settingsDao.findFirst().currency,
@@ -50,7 +49,7 @@ suspend fun transactionsWithDateDividers(
     getAccount: suspend (accountId: UUID) -> Account?,
     @SideEffect
     exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
-): List<TransactionHistoryItem> {
+): List<Any> {
     if (transactions.isEmpty()) return emptyList()
 
     return transactions
@@ -68,7 +67,7 @@ suspend fun transactionsWithDateDividers(
             )
 
 
-            listOf<TransactionHistoryItem>(
+            listOf<Any>(
                 TransactionHistoryDateDivider(
                     date = date!!,
                     income = sumTrns(

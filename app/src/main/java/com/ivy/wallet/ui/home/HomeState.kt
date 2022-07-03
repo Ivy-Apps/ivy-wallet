@@ -1,7 +1,6 @@
 package com.ivy.wallet.ui.home
 
 import com.ivy.design.l0_system.Theme
-import com.ivy.wallet.domain.data.TransactionHistoryItem
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -18,7 +17,7 @@ data class HomeState(
     val period: TimePeriod,
     val baseData: AppBaseData,
 
-    val history: List<TransactionHistoryItem>,
+    val history: List<Any>,
     val stats: IncomeExpensePair,
 
     val balance: BigDecimal,
