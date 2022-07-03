@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -17,9 +18,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.theme.Ivy
 
 
 @Composable
@@ -94,13 +96,13 @@ private fun PreviewWrapContentRow() {
                 .padding(horizontal = 16.dp, vertical = 24.dp)
                 .background(UI.colors.red),
             items = listOf(
-                Category("Todo"),
-                Category("Ivy"),
-                Category("Qredo"),
-                Category("Home"),
-                Category("Inspiration"),
-                Category("Business and marketing"),
-                Category("Testdfsgdfgdf"),
+                Category("Todo", color = Ivy.toArgb()),
+                Category("Ivy", color = Ivy.toArgb()),
+                Category("Qredo", color = Ivy.toArgb()),
+                Category("Home", color = Ivy.toArgb()),
+                Category("Inspiration", color = Ivy.toArgb()),
+                Category("Business and marketing", color = Ivy.toArgb()),
+                Category("Testdfsgdfgdf", color = Ivy.toArgb()),
             ),
             verticalMarginBetweenRows = 8.dp
         ) {

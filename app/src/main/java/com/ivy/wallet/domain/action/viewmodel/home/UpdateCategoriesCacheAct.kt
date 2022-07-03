@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
+import com.ivy.data.Category
 import com.ivy.frp.action.FPAction
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.ui.IvyWalletCtx
 import javax.inject.Inject
 

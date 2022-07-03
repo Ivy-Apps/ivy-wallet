@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.data.Account
+import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.Search
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.stringRes
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.component.transaction.transactions

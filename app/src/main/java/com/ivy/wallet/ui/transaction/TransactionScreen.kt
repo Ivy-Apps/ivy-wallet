@@ -3,11 +3,11 @@ package com.ivy.wallet.ui.transaction
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import com.ivy.data.Account
+import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.Screen
-import com.ivy.wallet.domain.data.core.Category
 
 sealed class TransactionScreen : Screen {
     data class NewTransaction(

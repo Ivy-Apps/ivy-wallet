@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.category
 
+import com.ivy.data.Category
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
 

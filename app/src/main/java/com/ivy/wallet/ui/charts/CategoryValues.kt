@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui.charts
 
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.data.Category
 
 class CategoryValues(
     val category: Category,

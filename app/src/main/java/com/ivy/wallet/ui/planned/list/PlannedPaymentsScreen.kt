@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.data.Account
+import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -24,10 +25,10 @@ import com.ivy.screens.EditPlanned
 import com.ivy.screens.PlannedPayments
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Green
+import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.timeNowUTC
@@ -126,7 +127,7 @@ private fun BoxWithConstraintsScope.UI(
 private fun Preview() {
     IvyWalletPreview {
         val account = Account(name = "Cash", color = Green.toArgb())
-        val food = Category(name = "Food")
+        val food = Category(name = "Food", color = Ivy.toArgb())
         val shisha = Category(name = "Shisha", color = Orange.toArgb())
 
         UI(

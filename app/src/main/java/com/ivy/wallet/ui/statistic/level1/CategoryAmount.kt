@@ -1,7 +1,7 @@
 package com.ivy.wallet.ui.statistic.level1
 
+import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
-import com.ivy.wallet.domain.data.core.Category
 
 data class CategoryAmount(
     val category: Category?,

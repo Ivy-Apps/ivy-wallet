@@ -1,13 +1,13 @@
 package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.ivy.data.Category
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.Import
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
-import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic

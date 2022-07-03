@@ -3,7 +3,7 @@ package com.ivy.wallet.io.persistence.data
 import androidx.compose.ui.graphics.toArgb
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.wallet.domain.data.core.Category
+import com.ivy.data.Category
 import com.ivy.wallet.ui.theme.Ivy
 import java.util.*
 
