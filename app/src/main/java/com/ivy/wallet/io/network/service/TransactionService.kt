@@ -12,6 +12,13 @@ interface TransactionService {
     @GET("/wallet/transactions")
     suspend fun get(@Query("after") after: Long? = null): TransactionsResponse
 
+    @GET("/wallet/transactions/paginated")
+    suspend fun getPaginated(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): TransactionsResponse
+
+
     @HTTP(method = "DELETE", path = "/wallet/transactions/delete", hasBody = true)
     suspend fun delete(@Body request: DeleteTransactionRequest)
 }
