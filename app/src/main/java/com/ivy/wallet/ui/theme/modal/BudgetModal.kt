@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
@@ -29,7 +30,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple1Dark

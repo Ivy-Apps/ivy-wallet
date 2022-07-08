@@ -8,10 +8,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.IvyWalletPreview
 import com.ivy.screens.Import
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.csvimport.flow.ImportFrom
 import com.ivy.wallet.ui.csvimport.flow.ImportProcessing
 import com.ivy.wallet.ui.csvimport.flow.ImportResultUI

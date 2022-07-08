@@ -22,7 +22,6 @@ import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
 import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +36,7 @@ class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,

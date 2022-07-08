@@ -17,6 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.Constants
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.data.AppBaseData
+import com.ivy.base.data.BufferInfo
+import com.ivy.base.data.DueSection
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
@@ -24,20 +30,13 @@ import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.Main
-import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.BufferInfo
-import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.utils.horizontalSwipeListener
@@ -95,10 +94,10 @@ private fun BoxWithConstraintsScope.UI(
             .horizontalSwipeListener(
                 sensitivity = SWIPE_HORIZONTAL_THRESHOLD,
                 onSwipeLeft = {
-                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                    ivyContext.selectMainTab(com.ivy.base.MainTab.ACCOUNTS)
                 },
                 onSwipeRight = {
-                    ivyContext.selectMainTab(MainTab.ACCOUNTS)
+                    ivyContext.selectMainTab(com.ivy.base.MainTab.ACCOUNTS)
                 }
             )
     ) {

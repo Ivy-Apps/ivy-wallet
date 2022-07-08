@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -26,7 +27,6 @@ import com.ivy.wallet.R
 import com.ivy.wallet.domain.pure.charts.ChartPeriod
 import com.ivy.wallet.domain.pure.charts.IncomeExpenseChartPoint
 import com.ivy.wallet.domain.pure.charts.SingleChartPoint
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.charts.charts.accountCharts
 import com.ivy.wallet.ui.charts.charts.walletCharts
 import com.ivy.wallet.ui.theme.Ivy

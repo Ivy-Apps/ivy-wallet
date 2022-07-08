@@ -27,7 +27,6 @@ import com.ivy.wallet.io.network.service.ExpImagesService
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,8 +42,8 @@ import kotlin.random.Random
 object AppModuleDI {
     @Provides
     @Singleton
-    fun provideIvyContext(): IvyWalletCtx {
-        return IvyWalletCtx()
+    fun provideIvyContext(): com.ivy.base.IvyWalletCtx {
+        return com.ivy.base.IvyWalletCtx()
     }
 
     @Provides
@@ -559,7 +558,7 @@ object AppModuleDI {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyWalletCtx
+        ivyContext: com.ivy.base.IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -597,7 +596,7 @@ object AppModuleDI {
         categoryDao: CategoryDao,
         transactionUploader: TransactionUploader,
         transactionDao: TransactionDao,
-        ivyContext: IvyWalletCtx,
+        ivyContext: com.ivy.base.IvyWalletCtx,
         loanDao: LoanDao,
         loanRecordDao: LoanRecordDao,
         exchangeRatesLogic: ExchangeRatesLogic,

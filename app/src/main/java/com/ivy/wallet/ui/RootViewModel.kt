@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.Constants
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.Theme
 import com.ivy.frp.test.TestIdlingResource
@@ -12,7 +13,6 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding
-import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
@@ -33,7 +33,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RootViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,

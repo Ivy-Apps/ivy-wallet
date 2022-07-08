@@ -25,10 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.navigationBarsPadding
+import com.ivy.base.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -44,8 +44,8 @@ val TRN_BUTTON_CLICK_AREA_HEIGHT = 150.dp
 
 @Composable
 fun BoxWithConstraintsScope.BottomBar(
-    tab: MainTab,
-    selectTab: (MainTab) -> Unit,
+    tab: com.ivy.base.MainTab,
+    selectTab: (com.ivy.base.MainTab) -> Unit,
 
     onAddIncome: () -> Unit,
     onAddExpense: () -> Unit,
@@ -99,10 +99,10 @@ fun BoxWithConstraintsScope.BottomBar(
         Tab(
             icon = R.drawable.ic_home,
             name = stringResource(R.string.home),
-            selected = tab == MainTab.HOME,
+            selected = tab == com.ivy.base.MainTab.HOME,
             selectedColor = Ivy
         ) {
-            selectTab(MainTab.HOME)
+            selectTab(com.ivy.base.MainTab.HOME)
         }
 
         Spacer(Modifier.width(FAB_BUTTON_SIZE))
@@ -110,10 +110,10 @@ fun BoxWithConstraintsScope.BottomBar(
         Tab(
             icon = R.drawable.ic_accounts,
             name = stringResource(R.string.accounts),
-            selected = tab == MainTab.ACCOUNTS,
+            selected = tab == com.ivy.base.MainTab.ACCOUNTS,
             selectedColor = Green
         ) {
-            selectTab(MainTab.ACCOUNTS)
+            selectTab(com.ivy.base.MainTab.ACCOUNTS)
         }
     }
 
@@ -165,7 +165,7 @@ fun BoxWithConstraintsScope.BottomBar(
             .size(FAB_BUTTON_SIZE)
             .rotate(fabRotation)
             .zIndex(200f)
-            .thenIf(tab == MainTab.HOME) {
+            .thenIf(tab == com.ivy.base.MainTab.HOME) {
                 pointerInput(Unit) {
                     detectDragGestures(
                         onDragCancel = {
@@ -208,24 +208,24 @@ fun BoxWithConstraintsScope.BottomBar(
         backgroundPadding = 8.dp,
         icon = R.drawable.ic_add,
         backgroundGradient = when (tab) {
-            MainTab.HOME -> {
+            com.ivy.base.MainTab.HOME -> {
                 if (!expanded) GradientIvy else Gradient.solid(UI.colors.gray)
             }
-            MainTab.ACCOUNTS -> {
+            com.ivy.base.MainTab.ACCOUNTS -> {
                 GradientGreen
             }
         },
         hasShadow = !expanded,
         tint = when (tab) {
-            MainTab.HOME -> White
-            MainTab.ACCOUNTS -> White
+            com.ivy.base.MainTab.HOME -> White
+            com.ivy.base.MainTab.ACCOUNTS -> White
         }
     ) {
         when (tab) {
-            MainTab.HOME -> {
+            com.ivy.base.MainTab.HOME -> {
                 expanded = !expanded
             }
-            MainTab.ACCOUNTS -> {
+            com.ivy.base.MainTab.ACCOUNTS -> {
                 showAddAccountModal()
             }
         }

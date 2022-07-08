@@ -31,7 +31,6 @@ import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.ui.theme.RedLight
@@ -50,7 +49,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,

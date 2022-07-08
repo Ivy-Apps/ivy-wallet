@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.data.AppBaseData
+import com.ivy.base.data.DueSection
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType
@@ -32,12 +36,8 @@ import com.ivy.screens.Report
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.pure.data.IncomeExpensePair
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.statistic.level2.IncomeExpensesCards
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*

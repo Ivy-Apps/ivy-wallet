@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -31,9 +33,6 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.Main
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
-import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.utils.UiText
@@ -72,10 +71,10 @@ private fun BoxWithConstraintsScope.UI(
             .horizontalSwipeListener(
                 sensitivity = 200,
                 onSwipeLeft = {
-                    ivyContext.selectMainTab(MainTab.HOME)
+                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
                 },
                 onSwipeRight = {
-                    ivyContext.selectMainTab(MainTab.HOME)
+                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
                 }
             ),
     ) {

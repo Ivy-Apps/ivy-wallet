@@ -5,5 +5,9 @@ plugins {
 }
 
 dependencies {
-
+    implementation(project(":ui-common"))
+    implementation(project(":ui-components-old"))
+    implementation(project(":app-base"))
+    implementation(project(":data-model"))
+    implementation(project(":screens"))
 }

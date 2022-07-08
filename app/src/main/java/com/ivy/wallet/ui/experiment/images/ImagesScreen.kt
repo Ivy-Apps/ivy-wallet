@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
+import com.ivy.base.IvyWalletPreview
 import com.ivy.design.l0_system.*
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -23,7 +24,6 @@ import com.ivy.design.l2_components.Button
 import com.ivy.frp.view.FRP
 import com.ivy.screens.ImagesScreen
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
 
 @Composable
 fun BoxWithConstraintsScope.ImagesScreen(screen: ImagesScreen) {

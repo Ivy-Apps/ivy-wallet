@@ -15,7 +15,6 @@ import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.getFileName
@@ -29,7 +28,7 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,

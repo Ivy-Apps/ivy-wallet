@@ -21,14 +21,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.old.wallet.AmountCurrencyB1Row
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -36,7 +37,6 @@ import com.ivy.wallet.ui.theme.modal.AddModalBackHandling
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import com.ivy.wallet.utils.capitalizeLocal
 import com.ivy.wallet.utils.springBounce
 import com.ivy.wallet.utils.thenIf

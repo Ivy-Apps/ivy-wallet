@@ -11,10 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
+import com.ivy.design.old.wallet.AmountCurrencyB1
+import com.ivy.wallet.R
 
 @Composable
 fun IncomeExpensesRow(

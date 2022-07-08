@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.data.AppBaseData
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
@@ -27,16 +29,14 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.old.wallet.AmountCurrencyB1
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.data.AppBaseData
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.*
 import java.time.LocalDateTime
 

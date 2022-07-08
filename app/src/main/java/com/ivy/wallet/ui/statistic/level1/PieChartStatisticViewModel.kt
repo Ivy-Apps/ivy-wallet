@@ -9,7 +9,6 @@ import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.domain.action.charts.PieChartAct
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.utils.dateNowUTC
@@ -25,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val pieChartAct: PieChartAct,
     private val sharedPrefs: SharedPrefs
 ) : FRPViewModel<PieChartStatisticState, Nothing>() {

@@ -28,7 +28,6 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.OnboardingState
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.utils.OpResult
@@ -42,7 +41,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,

@@ -17,7 +17,6 @@ import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.shortenAmount
@@ -61,7 +60,7 @@ class WalletBalanceReceiver : GlanceAppWidgetReceiver() {
     lateinit var calcIncomeExpenseAct: CalcIncomeExpenseAct
 
     @Inject
-    lateinit var ivyContext: IvyWalletCtx
+    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
 
     @Inject
     lateinit var sharedPrefs: SharedPrefs

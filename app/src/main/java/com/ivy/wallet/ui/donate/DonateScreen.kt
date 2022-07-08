@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.rootScreen
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -35,17 +37,15 @@ import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.DonateScreen
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.donate.data.DonateOption
-import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 
 @Composable
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {
     FRP<DonateState, DonateEvent, DonateViewModel>(
-        initialEvent = DonateEvent.Load(rootActivity())
+        initialEvent = DonateEvent.Load(rootScreen())
     ) { _, onEvent ->
         UI(onEvent)
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType
@@ -26,7 +27,6 @@ import com.ivy.screens.PlannedPayments
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange

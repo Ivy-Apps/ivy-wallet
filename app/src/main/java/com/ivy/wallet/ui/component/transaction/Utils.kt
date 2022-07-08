@@ -1,9 +1,9 @@
 package com.ivy.wallet.ui.component.transaction
 
 import androidx.compose.runtime.Composable
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.wallet.ui.ivyWalletCtx
 import java.util.*
 
 @Composable

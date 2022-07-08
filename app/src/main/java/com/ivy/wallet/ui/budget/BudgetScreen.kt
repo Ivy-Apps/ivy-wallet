@@ -15,16 +15,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.old.wallet.AmountCurrencyB1
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.BudgetScreen
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.budget.model.DisplayBudget
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -35,7 +36,6 @@ import com.ivy.wallet.ui.theme.components.ReorderButton
 import com.ivy.wallet.ui.theme.components.ReorderModalSingleType
 import com.ivy.wallet.ui.theme.modal.BudgetModal
 import com.ivy.wallet.ui.theme.modal.BudgetModalData
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.onScreenStart

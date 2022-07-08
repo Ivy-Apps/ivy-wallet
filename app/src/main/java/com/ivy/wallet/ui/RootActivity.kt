@@ -38,6 +38,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.base.Constants
+import com.ivy.base.Constants.SUPPORT_EMAIL
+import com.ivy.base.RootScreen
+import com.ivy.base.appDesign
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.api.IvyUI
 import com.ivy.frp.view.navigation.Navigation
@@ -45,8 +49,6 @@ import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.screens.*
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.SUPPORT_EMAIL
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
@@ -84,7 +86,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class RootActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity(), RootScreen {
 
     companion object {
 
@@ -97,7 +99,7 @@ class RootActivity : AppCompatActivity() {
     }
 
     @Inject
-    lateinit var ivyContext: IvyWalletCtx
+    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation

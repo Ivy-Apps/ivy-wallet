@@ -31,7 +31,6 @@ import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.loan.data.EditTransactionDisplayLoan
 import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*
@@ -52,7 +51,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,

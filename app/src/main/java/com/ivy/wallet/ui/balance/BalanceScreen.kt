@@ -15,12 +15,13 @@ import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.old.wallet.PeriodSelector
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.BalanceScreen
 import com.ivy.wallet.R
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.main.FAB_BUTTON_SIZE
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gradient
@@ -32,7 +33,6 @@ import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
-import com.ivy.wallet.ui.theme.wallet.PeriodSelector
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.onScreenStart
 

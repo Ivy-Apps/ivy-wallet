@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.base.IvyWalletPreview
 import com.ivy.wallet.ui.analytics.DataCircle
 import com.ivy.wallet.ui.analytics.model.KPIs
 import com.ivy.wallet.ui.theme.*

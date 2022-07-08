@@ -28,7 +28,6 @@ import com.ivy.wallet.domain.pure.util.orZero
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.Gray
@@ -46,7 +45,7 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,

@@ -112,7 +112,8 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":ivy-design"))
+    implementation(project(":ui-common"))
+    implementation(project(":app-base"))
     implementation(project(":screens"))
     implementation(project(":account-transactions"))
     implementation(project(":accounts"))

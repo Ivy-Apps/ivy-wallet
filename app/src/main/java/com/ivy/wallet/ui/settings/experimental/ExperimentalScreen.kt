@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.*
@@ -21,7 +22,6 @@ import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.screens.ExperimentalScreen
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.components.IvySwitch
 
 

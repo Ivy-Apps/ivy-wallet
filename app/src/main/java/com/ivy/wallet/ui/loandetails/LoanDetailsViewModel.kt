@@ -20,7 +20,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.loan.data.DisplayLoanRecord
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.ioThread
@@ -39,7 +38,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,

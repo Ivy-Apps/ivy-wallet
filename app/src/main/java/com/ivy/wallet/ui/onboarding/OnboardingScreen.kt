@@ -8,13 +8,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.onboarding.model.AccountBalance
 import com.ivy.wallet.ui.onboarding.steps.*
 import com.ivy.wallet.ui.onboarding.viewmodel.OnboardingViewModel

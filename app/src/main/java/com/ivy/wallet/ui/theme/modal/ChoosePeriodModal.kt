@@ -15,12 +15,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.Month
+import com.ivy.base.Month.Companion.fromMonthValue
+import com.ivy.base.Month.Companion.monthsList
+import com.ivy.base.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import com.ivy.wallet.ui.onboarding.model.LastNTimeRange
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
@@ -28,9 +31,6 @@ import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.wallet.ui.theme.modal.model.Month
-import com.ivy.wallet.ui.theme.modal.model.Month.Companion.fromMonthValue
-import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
 import com.ivy.wallet.utils.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -12,7 +12,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -35,8 +34,8 @@ class MainViewModel @Inject constructor(
 
     fun start(screen: Main) {
         nav.onBackPressed[screen] = {
-            if (ivyContext.mainTab == MainTab.ACCOUNTS) {
-                ivyContext.selectMainTab(MainTab.HOME)
+            if (ivyContext.mainTab == com.ivy.base.MainTab.ACCOUNTS) {
+                ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
                 true
             } else {
                 //Exiting (the backstack will close the app)
@@ -68,7 +67,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun selectTab(tab: MainTab) {
+    fun selectTab(tab: com.ivy.base.MainTab) {
         ivyContext.selectMainTab(tab)
     }
 

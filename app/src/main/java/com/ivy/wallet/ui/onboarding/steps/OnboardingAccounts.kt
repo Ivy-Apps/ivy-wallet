@@ -18,14 +18,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.old.wallet.AmountCurrencyB1Row
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.ui.IvyWalletPreview
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.components.OnboardingProgressSlider
 import com.ivy.wallet.ui.onboarding.components.OnboardingToolbar
 import com.ivy.wallet.ui.onboarding.components.Suggestions
@@ -37,7 +38,6 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.components.OnboardingButton
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import com.ivy.wallet.utils.toLowerCaseLocal
 
 @ExperimentalFoundationApi

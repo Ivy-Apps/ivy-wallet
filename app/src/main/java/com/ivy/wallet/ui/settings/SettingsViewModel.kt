@@ -28,7 +28,6 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.UserDao
 import com.ivy.wallet.refreshWidget
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.widget.WalletBalanceReceiver
 import com.ivy.wallet.utils.*
@@ -45,7 +44,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivySession: IvySession,
     private val userDao: UserDao,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,

@@ -19,15 +19,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.base.Constants
+import com.ivy.base.ivyWalletCtx
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.PieChartStatistic
-import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
-import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -121,7 +121,10 @@ private fun HeaderStickyRow(
                 modifier = Modifier
                     .alpha(percentExpanded)
                     .testTag("home_greeting_text"),
-                text = if (name.isNotNullOrBlank()) stringResource(R.string.hi_name, name) else stringResource(R.string.hi),
+                text = if (name.isNotNullOrBlank()) stringResource(
+                    R.string.hi_name,
+                    name
+                ) else stringResource(R.string.hi),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.pureInverse
@@ -235,7 +238,12 @@ fun CashFlowInfo(
                 modifier = Modifier.padding(
                     start = 24.dp
                 ),
-                text = stringResource(R.string.cashflow, (if (cashflow > 0) "+" else ""), cashflow.format(currency), currency),
+                text = stringResource(
+                    R.string.cashflow,
+                    (if (cashflow > 0) "+" else ""),
+                    cashflow.format(currency),
+                    currency
+                ),
                 style = UI.typo.nB2.style(
                     color = if (cashflow < 0) Gray else Green
                 )

@@ -1,9 +1,9 @@
 package com.ivy.wallet.domain.data.core
 
+import com.ivy.base.stringRes
 import com.ivy.wallet.R
 import com.ivy.wallet.io.network.data.BudgetDTO
 import com.ivy.wallet.io.persistence.data.BudgetEntity
-import com.ivy.wallet.stringRes
 import java.util.*
 
 data class Budget(

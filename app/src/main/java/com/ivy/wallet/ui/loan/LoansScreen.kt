@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.systemBarsPadding
+import com.ivy.base.IvyWalletPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -28,7 +29,6 @@ import com.ivy.screens.Loans
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Loan
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.loan.data.DisplayLoan
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*

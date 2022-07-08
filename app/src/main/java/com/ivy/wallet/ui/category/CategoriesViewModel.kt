@@ -19,7 +19,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
 import com.ivy.wallet.utils.ioThread
@@ -36,7 +35,7 @@ class CategoriesViewModel @Inject constructor(
     private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesAct,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val accountsAct: AccountsAct,

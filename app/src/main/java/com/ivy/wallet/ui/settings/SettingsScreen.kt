@@ -30,6 +30,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.Constants
+import com.ivy.base.Constants.URL_IVY_CONTRIBUTORS
+import com.ivy.base.IvyWalletPreview
+import com.ivy.base.rootScreen
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -38,15 +42,11 @@ import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.*
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.AuthProviderType
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.User
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.rootActivity
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -579,7 +579,7 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun IvyTelegram() {
-    val rootActivity = rootActivity()
+    val rootActivity = rootScreen()
     SettingsPrimaryButton(
         icon = R.drawable.ic_telegram_24dp,
         text = stringResource(R.string.ivy_telegram),
@@ -630,7 +630,7 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val rootActivity = rootActivity()
+    val rootActivity = rootScreen()
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = stringResource(R.string.contact_support),

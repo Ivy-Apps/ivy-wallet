@@ -25,15 +25,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.IvyWalletPreview
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.old.wallet.AmountCurrencyB1
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.Categories
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.SortOrder
-import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -41,7 +42,6 @@ import com.ivy.wallet.ui.theme.modal.ModalSet
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModal
 import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1
 import com.ivy.wallet.utils.balancePrefix
 import com.ivy.wallet.utils.onScreenStart
 import java.util.*

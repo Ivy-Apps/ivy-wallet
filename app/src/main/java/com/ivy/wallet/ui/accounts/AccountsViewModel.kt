@@ -17,7 +17,6 @@ import com.ivy.wallet.domain.pure.data.WalletDAOs
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.UiText
@@ -38,7 +37,7 @@ class AccountsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,

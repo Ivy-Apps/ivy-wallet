@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
@@ -18,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BalanceViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct
 ) : ViewModel() {

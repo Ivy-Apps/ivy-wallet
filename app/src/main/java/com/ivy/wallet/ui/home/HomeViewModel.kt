@@ -1,5 +1,8 @@
 package com.ivy.wallet.ui.home
 
+import com.ivy.base.data.AppBaseData
+import com.ivy.base.data.BufferInfo
+import com.ivy.base.data.DueSection
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.design.l0_system.Theme
@@ -26,11 +29,6 @@ import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CustomerJourneyCardData
 import com.ivy.wallet.domain.pure.data.ClosedTimeRange
-import com.ivy.wallet.ui.IvyWalletCtx
-import com.ivy.wallet.ui.data.AppBaseData
-import com.ivy.wallet.ui.data.BufferInfo
-import com.ivy.wallet.ui.data.DueSection
-import com.ivy.wallet.ui.main.MainTab
 import com.ivy.wallet.ui.onboarding.model.TimePeriod
 import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.dateNowUTC
@@ -43,7 +41,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
@@ -263,7 +261,7 @@ class HomeViewModel @Inject constructor(
             nav.navigateTo(BalanceScreen)
         } else {
             //doesn't have transactions lead him to adjust balance
-            ivyContext.selectMainTab(MainTab.ACCOUNTS)
+            ivyContext.selectMainTab(com.ivy.base.MainTab.ACCOUNTS)
             nav.navigateTo(Main)
         }
 
