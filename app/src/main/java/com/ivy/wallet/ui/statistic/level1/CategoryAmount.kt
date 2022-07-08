@@ -7,5 +7,14 @@ data class CategoryAmount(
     val category: Category?,
     val amount: Double,
     val associatedTransactions: List<Transaction> = emptyList(),
-    val isCategoryUnspecified: Boolean = false
-)
+    val isCategoryUnspecified: Boolean = false,
+    val subCategoryState: SubCategoryState = SubCategoryState(),
+) {
+    fun totalAmount(): Double = amount + subCategoryState.subCategoryTotalAmount
+
+    data class SubCategoryState(
+        val subCategoriesList: List<CategoryAmount> = emptyList(),
+        val subCategoryTotalAmount: Double = 0.0,
+        val subCategoryListExpanded: Boolean = false,
+    )
+}

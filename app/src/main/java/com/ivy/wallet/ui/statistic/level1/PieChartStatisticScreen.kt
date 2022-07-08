@@ -10,9 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,6 +30,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -148,7 +147,7 @@ private fun BoxWithConstraintsScope.UI(
 
             PieChart(
                 type = state.transactionType,
-                categoryAmounts = state.categoryAmounts,
+                categoryAmounts = state.pieChartCategoryAmount,
                 selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
                     onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
@@ -165,22 +164,15 @@ private fun BoxWithConstraintsScope.UI(
                 if (index != 0) {
                     Spacer(Modifier.height(16.dp))
                 }
-
-                CategoryAmountCard(
+                CategoryAmountCardWithSub(
                     categoryAmount = item,
                     currency = state.baseCurrency,
                     totalAmount = state.totalAmount,
-                    selectedCategory = state.selectedCategory
-                ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            categoryId = item.category?.id,
-                            unspecifiedCategory = item.isCategoryUnspecified,
-                            accountIdFilterList = state.accountIdFilterList,
-                            transactions = item.associatedTransactions
-                        )
-                    )
-                }
+                    selectedCategory = state.selectedCategory,
+                    nav = nav,
+                    state = state,
+                    onEventHandler = onEventHandler
+                )
             }
         }
 
@@ -291,6 +283,69 @@ private fun Header(
 }
 
 @Composable
+private fun CategoryAmountCardWithSub(
+    categoryAmount: CategoryAmount,
+    currency: String,
+    totalAmount: Double,
+
+    selectedCategory: SelectedCategory?,
+    nav: Navigation,
+    state: PieChartStatisticState,
+
+    onEventHandler: (PieChartStatisticEvent) -> Unit = {},
+) {
+    var subCategoryListExpand by remember(totalAmount) {
+        mutableStateOf(false)
+    }
+    CategoryAmountCard(
+        categoryAmount = categoryAmount,
+        currency = currency,
+        totalAmount = totalAmount,
+        selectedCategory = selectedCategory,
+        onSubCategoryListExpand = {
+            subCategoryListExpand = !subCategoryListExpand
+            onEventHandler(
+                PieChartStatisticEvent.OnSubCategoryListExpanded(
+                    categoryAmount,
+                    subCategoryListExpand
+                )
+            )
+        }
+    ) {
+        nav.navigateTo(
+            ItemStatistic(
+                categoryId = categoryAmount.category?.id,
+                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
+                accountIdFilterList = state.accountIdFilterList,
+                transactions = categoryAmount.associatedTransactions
+            )
+        )
+    }
+    if (categoryAmount.subCategoryState.subCategoryListExpanded) {
+        Column(modifier = Modifier.padding(start = 24.dp)) {
+            categoryAmount.subCategoryState.subCategoriesList.forEach {
+                Spacer(Modifier.height(16.dp))
+                CategoryAmountCard(
+                    categoryAmount = it,
+                    currency = currency,
+                    totalAmount = totalAmount,
+                    selectedCategory = selectedCategory
+                ) {
+                    nav.navigateTo(
+                        ItemStatistic(
+                            categoryId = it.category?.id,
+                            unspecifiedCategory = it.isCategoryUnspecified,
+                            accountIdFilterList = state.accountIdFilterList,
+                            transactions = it.associatedTransactions
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun CategoryAmountCard(
     categoryAmount: CategoryAmount,
     currency: String,
@@ -298,6 +353,7 @@ private fun CategoryAmountCard(
 
     selectedCategory: SelectedCategory?,
 
+    onSubCategoryListExpand: () -> Unit = {},
     onClick: () -> Unit
 ) {
     val category = categoryAmount.category
@@ -388,12 +444,33 @@ private fun CategoryAmountCard(
 
             Spacer(Modifier.height(4.dp))
 
-            AmountCurrencyB1Row(
-                amount = amount,
-                currency = currency,
-                textColor = textColor,
-                amountFontWeight = FontWeight.ExtraBold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    AmountCurrencyB1Row(
+                        amount = amount,
+                        currency = currency,
+                        textColor = textColor,
+                        amountFontWeight = FontWeight.ExtraBold
+                    )
+                }
+                if (categoryAmount.subCategoryState.subCategoriesList.isNotEmpty()) {
+                    IvyIcon(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable {
+                                onSubCategoryListExpand()
+                            },
+                        icon = R.drawable.ic_expandarrow,
+                        tint = findContrastTextColor(categoryColor)
+                    )
+                }
+            }
         }
     }
 }
