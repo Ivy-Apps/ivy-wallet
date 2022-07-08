@@ -140,7 +140,8 @@ class PieChartStatisticViewModel @Inject constructor(
                     accountIdFilterList = accountIdFilterList,
                     treatTransferAsIncExp = treatTransferAsIncExp,
                     existingTransactions = transactions,
-                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty()
+                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty(),
+                    filterEmptyCategoryAmounts = false
                 )
             )
         }
@@ -253,9 +254,24 @@ class PieChartStatisticViewModel @Inject constructor(
         updateState {
             it.copy(
                 pieChartCategoryAmount = if (expandedState)
-                    it.pieChartCategoryAmount.plus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet())
+                    it.pieChartCategoryAmount.replace(
+                        { c ->
+                            c.category?.id == parentCategoryAmt.category?.id
+                        },
+                        parentCategoryAmt.copy(
+                            subCategoryState = CategoryAmount.SubCategoryState()
+                        )
+                    ).plus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet())
                 else
-                    it.pieChartCategoryAmount.minus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet()),
+                    stateVal().pieChartCategoryAmount.replace(
+                        { c ->
+                            c.category?.id == parentCategoryAmt.category?.id
+                        },
+                        parentCategoryAmt.copy(
+                            amount = parentCategoryAmt.totalAmount(),
+                            subCategoryState = CategoryAmount.SubCategoryState()
+                        )
+                    ).minus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet()),
                 categoryAmounts = it.categoryAmounts.replace(parentCategoryAmt, newCategoryAmount),
                 selectedCategory = clearSelectedCategory(
                     stateVal().selectedCategory,

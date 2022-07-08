@@ -179,7 +179,7 @@ private fun BoxWithConstraintsScope.UI(
         itemsIndexed(
             items = state.categoryAmounts
         ) { index, item ->
-            if (item.amount != 0.0) {
+            if (item.totalAmount() != 0.0) {
                 if (index != 0) {
                     Spacer(Modifier.height(16.dp))
                 }

@@ -90,4 +90,5 @@ fun hasLockScreen(context: Context): Boolean {
     return keyguardManager.isDeviceSecure
 }
 
-fun <E> Iterable<E>.replace(old: E, new: E) = map { if (it == old) new else it }
+fun <E> Iterable<E>.replace(oldComp: (E) -> Boolean, new: E) = map { if (oldComp(it)) new else it }
+fun <E> Iterable<E>.replace(old: E, new: E) = map { if (old == it) new else it }

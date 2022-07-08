@@ -57,7 +57,9 @@ class SubCategoryAct @Inject constructor() :
                 )
             )
         }
-    } thenInvokeAfter {
+    } then {
         it.sortedByDescending { categoryAmount -> categoryAmount.totalAmount() }
+    } thenInvokeAfter {
+        it.filter { categoryAmount -> categoryAmount.totalAmount() != 0.0 }
     }
 }
