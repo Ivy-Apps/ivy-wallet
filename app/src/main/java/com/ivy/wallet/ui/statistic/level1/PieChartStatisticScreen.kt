@@ -10,7 +10,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -140,6 +142,23 @@ private fun BoxWithConstraintsScope.UI(
                 currencyUpfront = false,
                 currencyFontSize = 30.sp
             )
+        }
+
+        if (state.showUnpackOption) {
+            item {
+                IvyCheckboxWithText(
+                    modifier = Modifier
+                        .padding(top = 12.dp, start = 16.dp),
+                    text = "Unpack All Subcategories",
+                    checked = state.unpackAllSubCategories
+                ) {
+                    onEventHandler.invoke(
+                        PieChartStatisticEvent.OnUnpackSubCategories(
+                            unpackAllSubCategories = !state.unpackAllSubCategories
+                        )
+                    )
+                }
+            }
         }
 
         item {
@@ -278,7 +297,6 @@ private fun Header(
 
             Spacer(Modifier.width(20.dp))
         }
-
     }
 }
 
@@ -294,20 +312,16 @@ private fun CategoryAmountCardWithSub(
 
     onEventHandler: (PieChartStatisticEvent) -> Unit = {},
 ) {
-    var subCategoryListExpand by remember(totalAmount) {
-        mutableStateOf(false)
-    }
     CategoryAmountCard(
         categoryAmount = categoryAmount,
         currency = currency,
         totalAmount = totalAmount,
         selectedCategory = selectedCategory,
         onSubCategoryListExpand = {
-            subCategoryListExpand = !subCategoryListExpand
             onEventHandler(
                 PieChartStatisticEvent.OnSubCategoryListExpanded(
                     categoryAmount,
-                    subCategoryListExpand
+                    !categoryAmount.subCategoryState.subCategoryListExpanded
                 )
             )
         }
@@ -357,7 +371,7 @@ private fun CategoryAmountCard(
     onClick: () -> Unit
 ) {
     val category = categoryAmount.category
-    val amount = categoryAmount.amount
+    val amount = categoryAmount.getRelevantAmount()
 
     val categoryColor = category?.color?.toComposeColor() ?: Gray //Unspecified category = Gray
     val selectedState = when {

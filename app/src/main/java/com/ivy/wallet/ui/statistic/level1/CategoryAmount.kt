@@ -11,6 +11,14 @@ data class CategoryAmount(
     val subCategoryState: SubCategoryState = SubCategoryState(),
 ) {
     fun totalAmount(): Double = amount + subCategoryState.subCategoryTotalAmount
+    fun clearSubcategoriesAndGet(): CategoryAmount {
+        return this.copy(subCategoryState = SubCategoryState())
+    }
+
+    fun getRelevantAmount() = if (subCategoryState.subCategoryListExpanded)
+        amount
+    else
+        totalAmount()
 
     data class SubCategoryState(
         val subCategoriesList: List<CategoryAmount> = emptyList(),
