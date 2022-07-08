@@ -11,4 +11,8 @@ dependencies {
     implementation(project(":app-base"))
     implementation(project(":data-model"))
     implementation(project(":screens"))
+    implementation(project(":temp-persistence"))
+    implementation(project(":temp-domain"))
+
+    implementation(project(":widgets"))
 }

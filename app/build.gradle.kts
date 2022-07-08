@@ -131,6 +131,10 @@ dependencies {
     implementation(project(":search-transactions"))
     implementation(project(":transaction-details"))
     implementation(project(":data-model"))
+    implementation(project(":ui-components-old"))
+    implementation(project(":customer-journey"))
+    implementation(project(":widgets"))
+    implementation(project(":main"))
 
     Hilt()
 

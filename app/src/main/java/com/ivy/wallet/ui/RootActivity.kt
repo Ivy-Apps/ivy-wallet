@@ -47,10 +47,12 @@ import com.ivy.design.api.IvyUI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.journey.domain.CustomerJourneyLogic
+import com.ivy.main.MainScreen
+import com.ivy.pie_charts.PieChartStatisticScreen
 import com.ivy.screens.*
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.R
-import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
 import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
 import com.ivy.wallet.ui.balance.BalanceScreen
@@ -63,7 +65,6 @@ import com.ivy.wallet.ui.edit.EditTransactionScreen
 import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
-import com.ivy.wallet.ui.main.MainScreen
 import com.ivy.wallet.ui.onboarding.OnboardingScreen
 import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
@@ -71,7 +72,6 @@ import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
 import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
 import com.ivy.wallet.ui.test.TestScreen
 import com.ivy.wallet.ui.webView.WebViewScreen
@@ -442,7 +442,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-    fun openUrlInBrowser(url: String) {
+    override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
             browserIntent.data = Uri.parse(url)
@@ -458,7 +458,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-    fun shareIvyWallet() {
+    override fun shareIvyWallet() {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -505,7 +505,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         startActivity(intent)
     }
 
-    fun reviewIvyWallet(dismissReviewCard: Boolean) {
+    override fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
@@ -529,7 +529,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-    fun <T> pinWidget(widget: Class<T>) {
+    override fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)

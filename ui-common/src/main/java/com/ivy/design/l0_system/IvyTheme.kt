@@ -35,7 +35,7 @@ object UI {
 
 @Composable
 fun IvyTheme(
-    theme: Theme,
+    theme: com.ivy.data.Theme,
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {

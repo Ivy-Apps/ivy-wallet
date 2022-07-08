@@ -2,8 +2,8 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.design.l0_system.Theme
-import com.ivy.wallet.domain.data.core.Settings
+import com.ivy.data.Settings
+import com.ivy.data.Theme
 import java.util.*
 
 @Entity(tableName = "settings")
@@ -27,3 +27,14 @@ data class SettingsEntity(
         id = id
     )
 }
+
+fun Settings.toEntity(): SettingsEntity = SettingsEntity(
+    theme = theme,
+    currency = baseCurrency,
+    bufferAmount = bufferAmount.toDouble(),
+    name = name,
+    id = id,
+
+    isSynced = true,
+    isDeleted = false
+)

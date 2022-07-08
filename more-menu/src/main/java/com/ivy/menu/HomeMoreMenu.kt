@@ -32,7 +32,7 @@ import com.ivy.base.IvyWalletPreview
 import com.ivy.base.ivyWalletCtx
 import com.ivy.base.rootScreen
 import com.ivy.design.l0_system.SunsetNight
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation

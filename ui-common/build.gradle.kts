@@ -55,6 +55,7 @@ android {
 
 dependencies {
     api(project(":common"))
+    implementation(project(":data-model"))
 
     Compose(api = true)
     AndroidX(api = true)

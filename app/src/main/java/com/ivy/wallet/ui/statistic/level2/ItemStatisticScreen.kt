@@ -30,7 +30,7 @@ import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.old.wallet.PeriodSelector

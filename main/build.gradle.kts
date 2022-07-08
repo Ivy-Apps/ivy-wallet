@@ -1,3 +1,6 @@
+import com.ivy.buildsrc.EventBus
+import com.ivy.buildsrc.ThirdParty
+
 apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
@@ -6,5 +9,14 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":ui-common"))
+    implementation(project(":data-model"))
+    implementation(project(":temp-domain"))
+    implementation(project(":screens"))
+    implementation(project(":app-base"))
 
+    EventBus()
+
+    implementation(project(":home"))
+    implementation(project(":accounts"))
 }

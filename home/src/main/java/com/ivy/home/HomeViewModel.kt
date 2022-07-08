@@ -4,10 +4,10 @@ import com.ivy.base.*
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
-import com.ivy.base.data.Settings
+import com.ivy.data.Settings
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter

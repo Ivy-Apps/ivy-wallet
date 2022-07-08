@@ -2,7 +2,7 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.wallet.domain.data.core.Settings
 import java.util.*
 

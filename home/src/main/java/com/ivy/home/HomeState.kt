@@ -6,7 +6,7 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.journey.domain.CustomerJourneyCardData
 import java.math.BigDecimal
 

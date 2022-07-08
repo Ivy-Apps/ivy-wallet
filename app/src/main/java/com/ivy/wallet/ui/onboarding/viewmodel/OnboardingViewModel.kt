@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.Onboarding

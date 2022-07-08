@@ -113,7 +113,7 @@ data class Gradient(
     val endColor: Color
 ) {
     companion object {
-        fun from(startColor: Int, endColor: Int?) = Gradient(
+        fun from(startColor: Int, endColor: Int? = null) = Gradient(
             startColor = startColor.toComposeColor(),
             endColor = (endColor ?: startColor).toComposeColor()
         )

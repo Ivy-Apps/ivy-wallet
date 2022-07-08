@@ -15,7 +15,7 @@ import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.ivyContext
 import com.ivy.design.api.systems.IvyWalletDesign
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.Navigation

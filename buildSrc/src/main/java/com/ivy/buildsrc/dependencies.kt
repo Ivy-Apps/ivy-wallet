@@ -83,6 +83,9 @@ object Versions {
 
     //URL: https://github.com/JakeWharton/timber/releases
     const val timber = "4.7.1"
+
+    //URL: https://github.com/greenrobot/EventBus/releases
+    const val eventBus = "3.2.0"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -317,14 +320,18 @@ fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/jeziellago/compose-markdown
     implementation("com.github.jeziellago:compose-markdown:0.2.6")
 
-    //URL: https://github.com/greenrobot/EventBus/releases
-    implementation("org.greenrobot:eventbus:3.2.0")
+    EventBus()
 
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
     implementation("com.notkamui.libs:keval:0.8.0")
 
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
+}
+
+fun DependencyHandler.EventBus() {
+    //URL: https://github.com/greenrobot/EventBus/releases
+    implementation("org.greenrobot:eventbus:${Versions.eventBus}")
 }
 
 fun DependencyHandler.Timber(api: Boolean) {

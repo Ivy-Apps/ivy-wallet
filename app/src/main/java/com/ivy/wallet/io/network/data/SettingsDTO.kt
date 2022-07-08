@@ -1,6 +1,6 @@
 package com.ivy.wallet.io.network.data
 
-import com.ivy.design.l0_system.Theme
+import com.ivy.data.Theme
 import com.ivy.wallet.io.persistence.data.SettingsEntity
 import java.util.*
 

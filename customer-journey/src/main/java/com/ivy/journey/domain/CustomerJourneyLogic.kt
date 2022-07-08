@@ -2,18 +2,19 @@ package com.ivy.journey.domain
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.base.Constants
 import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.stringRes
 import com.ivy.data.transaction.TransactionType
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.screens.*
-import com.ivy.wallet.Constants
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.home.CustomerJourneyCard
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.widget.AddTransactionWidgetCompact
+import com.ivy.base.R
+import com.ivy.design.l0_system.*
+import com.ivy.journey.CustomerJourneyCard
+import com.ivy.wallet.ui.theme.Ivy
+import com.ivy.widgets.AddTransactionWidgetCompact
 
 @Deprecated("Use FP style, look into `domain.fp` package")
 class CustomerJourneyLogic(
@@ -269,7 +270,7 @@ class CustomerJourneyLogic(
                     "That's why we opened a donations channel to sustain and improve our small project.",
             cta = "Donate",
             ctaIcon = R.drawable.ic_donate_crown,
-            background = Gradient.from(SunsetNight),
+            background = SunsetNight,
             hasDismiss = true,
             onAction = { nav, _, _ ->
                 nav.navigateTo(DonateScreen)

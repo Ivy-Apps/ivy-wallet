@@ -10,6 +10,7 @@ plugins {
 dependencies {
     implementation(project(":common"))
     implementation(project(":network-common"))
+    implementation(project(":data-model"))
     Hilt()
     RoomDB()
 }

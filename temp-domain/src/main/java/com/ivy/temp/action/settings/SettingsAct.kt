@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.settings
 
-import com.ivy.base.data.Settings
+import com.ivy.data.Settings
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.io.persistence.dao.SettingsDao
