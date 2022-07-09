@@ -6,8 +6,6 @@ import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
-import com.ivy.wallet.domain.pure.account.accountCurrency
-import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal
 import java.util.*
 
@@ -93,3 +91,19 @@ suspend fun exchangeInCurrency(
         transaction.amount
     ).orNull() ?: BigDecimal.ZERO
 }
+
+
+@Pure
+fun trnCurrency(
+    transaction: Transaction,
+    accounts: List<Account>,
+    baseCurrency: String
+): Option<String> {
+    val account = accounts.find { it.id == transaction.accountId }
+        ?: return baseCurrency.toOption()
+    return accountCurrency(account, baseCurrency).toOption()
+}
+
+
+fun accountCurrency(account: Account, baseCurrency: String): String =
+    account.currency ?: baseCurrency

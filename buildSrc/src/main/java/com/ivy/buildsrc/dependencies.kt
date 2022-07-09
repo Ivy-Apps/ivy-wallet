@@ -94,8 +94,8 @@ fun DependencyHandler.IvyFRP(
     dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
 }
 
-fun DependencyHandler.DataStore() {
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+fun DependencyHandler.DataStore(api: Boolean) {
+    dependency("androidx.datastore:datastore-preferences:1.0.0", api = api)
 }
 
 /**
@@ -253,14 +253,17 @@ fun DependencyHandler.Networking(api: Boolean) {
     dependency("com.squareup.retrofit2:retrofit:${Versions.retrofit}", api = api)
     dependency("com.squareup.retrofit2:converter-gson:${Versions.retrofit}", api = api)
 
-    //URL: https://github.com/google/gson
-    dependency("com.google.code.gson:gson:${Versions.gson}", api = api)
-
+    Gson(api = api)
 
     //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
     dependency(
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}", api = api
     )
+}
+
+fun DependencyHandler.Gson(api: Boolean) {
+    //URL: https://github.com/google/gson
+    dependency("com.google.code.gson:gson:${Versions.gson}", api = api)
 }
 
 /**

@@ -5,15 +5,6 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthService {
-    @POST("/auth/check-email")
-    suspend fun checkEmail(@Body request: CheckEmailRequest): CheckEmailResponse
-
-    @POST("/auth/sign-up")
-    suspend fun signUp(@Body request: SignUpRequest): AuthResponse
-
-    @POST("/auth/sign-in")
-    suspend fun signIn(@Body request: SignInRequest): AuthResponse
-
     @POST("/auth/google-sign-in")
     suspend fun googleSignIn(@Body request: GoogleSignInRequest): AuthResponse
 

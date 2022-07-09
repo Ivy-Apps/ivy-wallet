@@ -1,13 +1,13 @@
 package com.ivy.wallet.io.persistence
 
 import androidx.room.TypeConverter
+import com.ivy.common.epochMilliToDateTime
+import com.ivy.common.toEpochMilli
+import com.ivy.data.Theme
+import com.ivy.data.loan.LoanType
+import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TransactionType
-import com.ivy.design.l0_system.Theme
-import com.ivy.wallet.domain.data.AuthProviderType
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.utils.epochMilliToDateTime
-import com.ivy.wallet.utils.toEpochMilli
+import com.ivy.data.user.AuthProviderType
 import java.time.LocalDateTime
 import java.util.*
 

@@ -2,8 +2,8 @@ package com.ivy.wallet.io.persistence
 
 import android.content.Context
 import com.google.gson.Gson
-import com.ivy.wallet.utils.epochSecondToDateTime
-import com.ivy.wallet.utils.toEpochSeconds
+import com.ivy.common.epochSecondToDateTime
+import com.ivy.common.toEpochSeconds
 import java.time.LocalDateTime
 
 /**

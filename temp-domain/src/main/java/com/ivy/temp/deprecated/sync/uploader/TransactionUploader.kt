@@ -8,6 +8,7 @@ import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.request.transaction.DeleteTransactionRequest
 import com.ivy.wallet.io.network.request.transaction.UpdateTransactionRequest
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import timber.log.Timber
 import java.util.*
 

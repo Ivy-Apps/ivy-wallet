@@ -11,8 +11,10 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":data-model"))
     implementation(project(":app-base"))
-    implementation(project(mapOf("path" to ":exchange")))
+    implementation(project(":exchange"))
+    implementation(project(":ui-common"))
     Hilt()
 
     implementation(project(":temp-persistence"))
+    implementation(project(":temp-network"))
 }

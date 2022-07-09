@@ -100,7 +100,7 @@ private fun Preview_IconLeft_Wrap() {
         Button(
             text = "Button",
             mode = Mode.WRAP_CONTENT,
-            iconLeft = R.drawable.ic_android_black_24dp
+            iconLeft = R.drawable.ic_vue_crypto_icon
         ) {
 
         }
@@ -114,7 +114,7 @@ private fun Preview_IconRight_Wrap() {
         Button(
             text = "Button",
             mode = Mode.WRAP_CONTENT,
-            iconRight = R.drawable.ic_android_black_24dp
+            iconRight = R.drawable.ic_vue_crypto_icon
         ) {
 
         }
@@ -131,7 +131,7 @@ private fun Preview_IconLeft_FillMax() {
                 .padding(horizontal = 24.dp),
             text = "Button",
             mode = Mode.FILL_MAX_WIDTH,
-            iconLeft = R.drawable.ic_android_black_24dp
+            iconLeft = R.drawable.ic_vue_crypto_icon
         ) {
 
         }
@@ -148,7 +148,7 @@ private fun Preview_IconRight_FillMax() {
                 .padding(horizontal = 24.dp),
             text = "Button",
             mode = Mode.FILL_MAX_WIDTH,
-            iconRight = R.drawable.ic_android_black_24dp
+            iconRight = R.drawable.ic_vue_crypto_icon
         ) {
 
         }

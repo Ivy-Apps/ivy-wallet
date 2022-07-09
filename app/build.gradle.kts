@@ -149,7 +149,7 @@ dependencies {
 
     Networking(api = false)
 
-    DataStore()
+    DataStore(api = false)
 
     ThirdParty()
 }

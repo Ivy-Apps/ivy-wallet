@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.deprecated.sync.item
 
+import com.ivy.common.timeNowUTC
+import com.ivy.common.toEpochSeconds
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.AccountDao
-import com.ivy.wallet.utils.timeNowUTC
-import com.ivy.wallet.utils.toEpochSeconds
 
 class AccountSync(
     private val sharedPrefs: SharedPrefs,

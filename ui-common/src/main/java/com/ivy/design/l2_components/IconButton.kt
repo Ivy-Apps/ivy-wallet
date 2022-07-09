@@ -47,7 +47,7 @@ fun IconButton(
 private fun Preview() {
     IvyComponentPreview {
         IconButton(
-            icon = R.drawable.ic_baseline_add_24
+            icon = R.drawable.ic_add
         ) {
 
         }
