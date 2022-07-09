@@ -59,6 +59,7 @@ data class CategoryModalData(
 @Composable
 fun BoxWithConstraintsScope.CategoryModal(
     modal: CategoryModalData?,
+    isCategoryParentCategory: Boolean = true,
     parentCategoryList: List<Category> = emptyList(),
     onCreateCategory: (CreateCategoryData) -> Unit,
     onEditCategory: (Category) -> Unit,
@@ -84,6 +85,9 @@ fun BoxWithConstraintsScope.CategoryModal(
 
     var selectedParentCategory: Category? by remember(modal) {
         mutableStateOf(parentCategoryList.find { it.id == modal?.category?.parentCategoryId })
+    }
+    val isParentCat: Boolean by remember(modal) {
+        mutableStateOf(if (initialCategory == null) false else isCategoryParentCategory)
     }
 
     IvyModal(
@@ -170,16 +174,28 @@ fun BoxWithConstraintsScope.CategoryModal(
             }
         }
 
-        IvyCheckboxWithText(
-            modifier = Modifier
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 0.dp),
-            text = stringResource(R.string.mark_as_sub_category),
-            checked = isSubCategory
-        ) {
-            isSubCategory = it
-            if (!isSubCategory)
-                selectedParentCategory =
-                    null // Reset Sub-Category if Sub-Category Option is Unchecked
+        if (!isParentCat && parentCategoryList.isNotEmpty()) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 0.dp),
+                text = stringResource(R.string.mark_as_sub_category),
+                checked = isSubCategory
+            ) {
+                isSubCategory = it
+                if (!isSubCategory)
+                    selectedParentCategory =
+                        null // Reset Sub-Category if Sub-Category Option is Unchecked
+            }
+        }
+        if (parentCategoryList.isNotEmpty() && isParentCat) {
+            Text(
+                modifier = Modifier.padding(top = 32.dp, start = 32.dp),
+                text = "*This is marked as a Parent Category",
+                style = UI.typo.nB2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.Normal
+                )
+            )
         }
 
         Spacer(Modifier.height(16.dp))

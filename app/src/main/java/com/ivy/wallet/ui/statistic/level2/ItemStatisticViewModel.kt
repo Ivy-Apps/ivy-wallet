@@ -137,6 +137,9 @@ class ItemStatisticViewModel @Inject constructor(
     private val _category = MutableStateFlow<Category?>(null)
     val category = _category.readOnly()
 
+    private val _isParentCategory = MutableStateFlow(false)
+    val isParentCategory = _isParentCategory.readOnly()
+
     private val _parentCategoryList = MutableStateFlow<List<Category>>(emptyList())
     val parentCategoryList = _parentCategoryList.readOnly()
 
@@ -288,6 +291,8 @@ class ItemStatisticViewModel @Inject constructor(
             categoryDao.findById(categoryId)?.toDomain() ?: error("category not found")
         }
         _category.value = category
+        _isParentCategory.value =
+            ioThread { categoryDao.findAllSubCategories(category.id).isNotEmpty() }
 
         _parentCategoryList.value =
             ioThread { categoryDao.findAllParentCategories().map { it.toDomain() } }
