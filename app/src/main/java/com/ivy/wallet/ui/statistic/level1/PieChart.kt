@@ -73,7 +73,7 @@ fun PieChart(
             },
             update = { view ->
                 view.display(
-                    categoryAmounts = categoryAmounts.sortedByDescending { it.amount },
+                    categoryAmounts = categoryAmounts,
                     selectedCategory = selectedCategory,
                     onCategoryClicked = onCategoryClicked
                 )

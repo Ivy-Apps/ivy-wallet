@@ -172,6 +172,7 @@ private fun BoxWithConstraintsScope.UI(
 
     CategoryModal(
         modal = state.categoryModalData,
+        parentCategoryList = state.parentCategoryList,
         onCreateCategory = {
             onEvent(CategoriesScreenEvent.OnCreateCategory(it))
         },

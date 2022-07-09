@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,18 +19,23 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.IvyWalletPreview
+import com.ivy.wallet.ui.category.CategoryList
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
+import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 import com.ivy.wallet.ui.theme.components.IvyColorPicker
 import com.ivy.wallet.ui.theme.components.IvyNameTextField
 import com.ivy.wallet.ui.theme.dynamicContrast
@@ -46,12 +52,14 @@ import java.util.*
 data class CategoryModalData(
     val category: Category?,
     val id: UUID = UUID.randomUUID(),
-    val autoFocusKeyboard: Boolean = true,
+    val autoFocusKeyboard: Boolean = true
 )
 
 @Composable
 fun BoxWithConstraintsScope.CategoryModal(
     modal: CategoryModalData?,
+    isCategoryParentCategory: Boolean = true,
+    parentCategoryList: List<Category> = emptyList(),
     onCreateCategory: (CreateCategoryData) -> Unit,
     onEditCategory: (Category) -> Unit,
     dismiss: () -> Unit,
@@ -66,10 +74,19 @@ fun BoxWithConstraintsScope.CategoryModal(
     var icon by remember(modal) {
         mutableStateOf(initialCategory?.icon)
     }
-
-
     var chooseIconModalVisible by remember(modal) {
         mutableStateOf(false)
+    }
+
+    var isSubCategory by remember(modal) {
+        mutableStateOf(modal?.category?.parentCategoryId != null)
+    }
+
+    var selectedParentCategory: Category? by remember(modal) {
+        mutableStateOf(parentCategoryList.find { it.id == modal?.category?.parentCategoryId })
+    }
+    val isParentCat: Boolean by remember(modal) {
+        mutableStateOf(if (initialCategory == null) false else isCategoryParentCategory)
     }
 
     IvyModal(
@@ -80,13 +97,15 @@ fun BoxWithConstraintsScope.CategoryModal(
             ModalAddSave(
                 item = modal?.category,
                 enabled = nameTextFieldValue.text.isNotNullOrBlank()
+                        && ((isSubCategory && selectedParentCategory != null) || !isSubCategory)
             ) {
                 if (initialCategory != null) {
                     onEditCategory(
                         initialCategory.copy(
                             name = nameTextFieldValue.text.trim(),
                             color = color.toArgb(),
-                            icon = icon
+                            icon = icon,
+                            parentCategoryId = selectedParentCategory?.id
                         )
                     )
                 } else {
@@ -94,7 +113,8 @@ fun BoxWithConstraintsScope.CategoryModal(
                         CreateCategoryData(
                             name = nameTextFieldValue.text.trim(),
                             color = color,
-                            icon = icon
+                            icon = icon,
+                            parentCategory = selectedParentCategory
                         )
                     )
                 }
@@ -136,7 +156,48 @@ fun BoxWithConstraintsScope.CategoryModal(
             onColorSelected = { color = it }
         )
 
-        Spacer(Modifier.height(48.dp))
+        if (isSubCategory) {
+            Text(
+                modifier = Modifier.padding(top = 16.dp, end = 32.dp, start = 32.dp),
+                text = "Parent Category",
+                style = UI.typo.b2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.ExtraBold
+                )
+            )
+            CategoryList(
+                categoryList = parentCategoryList,
+                selectedCategory = selectedParentCategory
+            ) {
+                selectedParentCategory = it
+            }
+        }
+
+        if (!isParentCat && parentCategoryList.isNotEmpty()) {
+            IvyCheckboxWithText(
+                modifier = Modifier
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 0.dp),
+                text = stringResource(R.string.mark_as_sub_category),
+                checked = isSubCategory
+            ) {
+                isSubCategory = it
+                if (!isSubCategory)
+                    selectedParentCategory =
+                        null // Reset Sub-Category if Sub-Category Option is Unchecked
+            }
+        }
+        if (parentCategoryList.isNotEmpty() && isParentCat) {
+            Text(
+                modifier = Modifier.padding(top = 32.dp, start = 32.dp),
+                text = "*This is marked as a Parent Category",
+                style = UI.typo.nB2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
+
+        Spacer(Modifier.height(16.dp))
     }
 
     ChooseIconModal(

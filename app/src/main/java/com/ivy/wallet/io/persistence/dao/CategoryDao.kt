@@ -35,4 +35,10 @@ interface CategoryDao {
 
     @Query("SELECT MAX(orderNum) FROM categories")
     suspend fun findMaxOrderNum(): Double?
+
+    @Query("SELECT * FROM categories WHERE isDeleted = 0 AND parentCategoryId IS NULL ORDER BY orderNum ASC")
+    suspend fun findAllParentCategories(): List<CategoryEntity>
+
+    @Query("SELECT * FROM categories WHERE isDeleted = 0 AND parentCategoryId = :id ORDER BY orderNum ASC")
+    suspend fun findAllSubCategories(id:UUID): List<CategoryEntity>
 }

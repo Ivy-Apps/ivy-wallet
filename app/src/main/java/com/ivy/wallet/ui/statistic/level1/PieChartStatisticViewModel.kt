@@ -1,8 +1,11 @@
 package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.frp.then
+import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.charts.PieChartAct
+import com.ivy.wallet.domain.action.charts.SubCategoryAct
 import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
@@ -15,6 +18,7 @@ import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
+import com.ivy.wallet.utils.replace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +31,7 @@ class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
+    private val subCategoryAct: SubCategoryAct,
     private val sharedPrefs: SharedPrefs
 ) : FRPViewModel<PieChartStatisticState, Nothing>() {
 
@@ -40,6 +45,25 @@ class PieChartStatisticViewModel @Inject constructor(
 
     private val _treatTransfersAsIncomeExpense = MutableStateFlow(false)
     private val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
+
+    fun onEvent(event: PieChartStatisticEvent) {
+        viewModelScope.launch(Dispatchers.Default) {
+            when (event) {
+                is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
+                is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
+                is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
+                is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
+                is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
+                is PieChartStatisticEvent.OnSubCategoryListExpanded -> onSubcategoryListExpand(
+                    event.parentCategoryAmount,
+                    event.expandedState
+                )
+                is PieChartStatisticEvent.OnUnpackSubCategories -> onSubcategoriesUnpacked(
+                    event.unpackAllSubCategories
+                )
+            }
+        }
+    }
 
     fun start(
         screen: PieChartStatistic
@@ -87,7 +111,9 @@ class PieChartStatisticViewModel @Inject constructor(
                 filterExcluded = filterExclude,
                 transactions = transactions,
                 showCloseButtonOnly = transactions.isNotEmpty(),
-                baseCurrency = baseCurrency
+                baseCurrency = baseCurrency,
+                unpackAllSubCategories = false,
+                showUnpackOption = false
             )
         }
     }
@@ -116,20 +142,25 @@ class PieChartStatisticViewModel @Inject constructor(
                     accountIdFilterList = accountIdFilterList,
                     treatTransferAsIncExp = treatTransferAsIncExp,
                     existingTransactions = transactions,
-                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty()
+                    showAccountTransfersCategory = accountIdFilterList.isNotEmpty(),
+                    filterEmptyCategoryAmounts = false
                 )
             )
         }
 
         val totalAmount = pieChartActOutput.totalAmount
-        val categoryAmounts = pieChartActOutput.categoryAmounts
+        val categoryAmounts = suspend { pieChartActOutput.categoryAmounts } thenInvokeAfter {
+            subCategoryAct(it)
+        }
 
         updateState {
             it.copy(
                 period = period,
                 totalAmount = totalAmount,
                 categoryAmounts = categoryAmounts,
-                selectedCategory = null
+                pieChartCategoryAmount = categoryAmounts.map { cat -> cat.copy(amount = cat.totalAmount()) },
+                selectedCategory = null,
+                showUnpackOption = categoryAmounts.size != pieChartActOutput.categoryAmounts.filter { c -> c.amount != 0.0 }.size
             )
         }
     }
@@ -178,16 +209,31 @@ class PieChartStatisticViewModel @Inject constructor(
         else
             SelectedCategory(category = clickedCategory)
 
+        val categoryToSort =
+            if (selectedCategory?.category != null && selectedCategory.category.isSubCategory() && !isSubCategoryListUnpacked())
+                SelectedCategory(findParentCategory(selectedCategory.category))
+            else
+                selectedCategory
+
         val existingCategoryAmounts = stateVal().categoryAmounts
-        val newCategoryAmounts = if (selectedCategory != null) {
+        val newCategoryAmounts = if (categoryToSort != null && selectedCategory != null) {
             existingCategoryAmounts
-                .sortedByDescending { it.amount }
-                .sortedByDescending {
-                    selectedCategory.category == it.category
+                .sortedByDescending { it.totalAmount() }
+                .sortedByDescending { categoryToSort.category == it.category }
+                .map { parentCategory ->
+                    val subCatList = parentCategory.subCategoryState.subCategoriesList
+                        .sortedByDescending { sc -> sc.amount }
+                        .sortedByDescending { sc -> selectedCategory.category == sc.category }
+
+                    parentCategory.copy(
+                        subCategoryState = parentCategory.subCategoryState.copy(
+                            subCategoriesList = subCatList
+                        )
+                    )
                 }
         } else {
             existingCategoryAmounts.sortedByDescending {
-                it.amount
+                it.totalAmount()
             }
         }
 
@@ -199,16 +245,131 @@ class PieChartStatisticViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: PieChartStatisticEvent) {
-        viewModelScope.launch(Dispatchers.Default) {
-            when (event) {
-                is PieChartStatisticEvent.OnSelectNextMonth -> nextMonth()
-                is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonth()
-                is PieChartStatisticEvent.OnSetPeriod -> onSetPeriod(event.timePeriod)
-                is PieChartStatisticEvent.OnShowMonthModal -> configureMonthModal(event.timePeriod)
-                is PieChartStatisticEvent.OnCategoryClicked -> onCategoryClicked(event.category)
-            }
+    private suspend fun onSubcategoryListExpand(
+        parentCategoryAmt: CategoryAmount,
+        expandedState: Boolean
+    ) {
+        val newCategoryAmount = parentCategoryAmt.copy(
+            subCategoryState = parentCategoryAmt.subCategoryState.copy(subCategoryListExpanded = expandedState)
+        )
+
+        updateState {
+            it.copy(
+                pieChartCategoryAmount = getUpdatedPieChartList(
+                    parentCategoryAmt = parentCategoryAmt,
+                    pieChartCategoryAmountList = stateVal().pieChartCategoryAmount,
+                    expandedState = expandedState
+                ),
+                categoryAmounts = it.categoryAmounts.replace(parentCategoryAmt, newCategoryAmount),
+                selectedCategory = clearSelectedCategory(
+                    stateVal().selectedCategory,
+                    parentCategoryAmt.category
+                )
+            )
         }
+    }
+
+    private suspend fun getUpdatedPieChartList(
+        parentCategoryAmt: CategoryAmount,
+        pieChartCategoryAmountList: List<CategoryAmount>,
+        expandedState: Boolean
+    ): List<CategoryAmount> {
+
+        /**
+         * For a given parentCategory @param [parentCatAmt]
+         * returns a list where all the subcategories are present directly under the parent category
+         */
+        fun flattenPieChartListWithOrderPreserved(
+            parentCatAmt: CategoryAmount,
+            pieChartCatAmount: List<CategoryAmount>
+        ): List<CategoryAmount> {
+            val newPieChartList = mutableListOf<CategoryAmount>()
+            pieChartCatAmount.forEach { c ->
+                newPieChartList.add(c)
+                if (c.category?.id == parentCatAmt.category?.id) {
+                    parentCatAmt.subCategoryState.subCategoriesList.forEach { sc ->
+                        newPieChartList.add(sc)
+                    }
+                }
+            }
+            return newPieChartList
+        }
+
+        /**
+         * Replace the original object with [replacementCatAmt] parameter,
+         * using replacementCatAmt.category.id as the key
+         */
+        fun replaceCategoryAmount(
+            replacementCatAmt: CategoryAmount,
+            pieChartCatAmt: List<CategoryAmount> = pieChartCategoryAmountList
+        ): List<CategoryAmount> {
+            return pieChartCatAmt.replace(
+                { c ->
+                    c.category?.id == replacementCatAmt.category?.id
+                },
+                replacementCatAmt
+            )
+        }
+
+
+        return if (expandedState)
+            suspend { replaceCategoryAmount(parentCategoryAmt) } thenInvokeAfter { list ->
+                flattenPieChartListWithOrderPreserved(parentCategoryAmt, list)
+            }
+        else
+            suspend {
+                replaceCategoryAmount(
+                    parentCategoryAmt.copy(amount = parentCategoryAmt.totalAmount())
+                )
+            } then {
+                it.minus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet())
+            } thenInvokeAfter {
+                it.sortedByDescending { ca -> ca.amount }
+            }
+    }
+
+    private suspend fun onSubcategoriesUnpacked(unpackAllSubCategories: Boolean) {
+        val newCategoryList = if (unpackAllSubCategories)
+            stateVal().categoryAmounts.flatMap {
+                val list = mutableListOf<CategoryAmount>()
+                list.addAll(it.subCategoryState.subCategoriesList)
+                list.add(it.clearSubcategoriesAndGet())
+
+                list
+            }.sortedByDescending {
+                it.totalAmount()
+            }
+        else
+            suspend { stateVal().categoryAmounts } thenInvokeAfter {
+                subCategoryAct(it)
+            }
+
+        updateState {
+            it.copy(
+                pieChartCategoryAmount = newCategoryList.map { cat -> cat.copy(amount = cat.totalAmount()) },
+                categoryAmounts = newCategoryList,
+                unpackAllSubCategories = unpackAllSubCategories,
+                selectedCategory = null
+            )
+        }
+    }
+
+    private fun findParentCategory(subCategory: Category): Category? {
+        return stateVal().categoryAmounts.find { it.category?.id == subCategory.parentCategoryId }?.category
+    }
+
+    private fun isSubCategoryListUnpacked() =
+        stateVal().categoryAmounts.size == stateVal().pieChartCategoryAmount.size
+
+    //clears the selectedCategory if and only if selected category is subcategory of parentCategory
+    private fun clearSelectedCategory(
+        selectedCategory: SelectedCategory?,
+        parentCategory: Category?
+    ): SelectedCategory? {
+        return if (selectedCategory != null && selectedCategory.category?.parentCategoryId == parentCategory?.id)
+            null
+        else
+            selectedCategory
     }
 }
 
@@ -218,12 +379,15 @@ data class PieChartStatisticState(
     val baseCurrency: String = "",
     val totalAmount: Double = 0.0,
     val categoryAmounts: List<CategoryAmount> = emptyList(),
+    val pieChartCategoryAmount: List<CategoryAmount> = emptyList(),
     val selectedCategory: SelectedCategory? = null,
     val accountIdFilterList: List<UUID> = emptyList(),
     val showCloseButtonOnly: Boolean = false,
     val filterExcluded: Boolean = false,
     val transactions: List<Transaction> = emptyList(),
-    val choosePeriodModal: ChoosePeriodModalData? = null
+    val choosePeriodModal: ChoosePeriodModalData? = null,
+    val showUnpackOption: Boolean = false,
+    val unpackAllSubCategories: Boolean = false
 )
 
 sealed class PieChartStatisticEvent {
@@ -237,4 +401,11 @@ sealed class PieChartStatisticEvent {
         PieChartStatisticEvent()
 
     data class OnShowMonthModal(val timePeriod: TimePeriod?) : PieChartStatisticEvent()
+
+    data class OnUnpackSubCategories(val unpackAllSubCategories: Boolean) : PieChartStatisticEvent()
+
+    data class OnSubCategoryListExpanded(
+        val parentCategoryAmount: CategoryAmount,
+        val expandedState: Boolean
+    ) : PieChartStatisticEvent()
 }

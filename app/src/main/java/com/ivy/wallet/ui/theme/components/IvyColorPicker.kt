@@ -116,9 +116,9 @@ fun ColumnScope.IvyColorPicker(
     val navigation = navigation()
 
     LazyRow(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
+         modifier = Modifier
+                .fillMaxWidth(),
+        verticalAlignment= Alignment.CenterVertically,
         state = listState
     ) {
         items(

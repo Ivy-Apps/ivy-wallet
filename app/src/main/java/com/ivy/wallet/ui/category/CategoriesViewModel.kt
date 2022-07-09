@@ -12,6 +12,7 @@ import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.data.SortOrder
 import com.ivy.wallet.domain.data.core.Account
+import com.ivy.wallet.domain.data.core.Category
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -90,8 +91,10 @@ class CategoriesViewModel @Inject constructor(
                 )
             )
 
+            val parentCategoryList = categoryDao.findAllParentCategories().map { it.toDomain() }
+
             updateState {
-                it.copy(sortOrder = sortOrder)
+                it.copy(sortOrder = sortOrder, parentCategoryList = parentCategoryList)
             }
         }
     }
@@ -222,7 +225,8 @@ data class CategoriesScreenState(
     val categoryModalData: CategoryModalData? = null,
     val sortModalVisible: Boolean = false,
     val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
-    val sortOrder: SortOrder = SortOrder.DEFAULT
+    val sortOrder: SortOrder = SortOrder.DEFAULT,
+    val parentCategoryList: List<Category> = emptyList()
 )
 
 sealed class CategoriesScreenEvent {

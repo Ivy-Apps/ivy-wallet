@@ -32,6 +32,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.R
 import com.ivy.wallet.domain.data.TransactionType
@@ -143,12 +144,29 @@ private fun BoxWithConstraintsScope.UI(
             )
         }
 
+        if (state.showUnpackOption) {
+            item {
+                IvyCheckboxWithText(
+                    modifier = Modifier
+                        .padding(top = 12.dp, start = 16.dp),
+                    text = "Unpack All Subcategories",
+                    checked = state.unpackAllSubCategories
+                ) {
+                    onEventHandler.invoke(
+                        PieChartStatisticEvent.OnUnpackSubCategories(
+                            unpackAllSubCategories = !state.unpackAllSubCategories
+                        )
+                    )
+                }
+            }
+        }
+
         item {
             Spacer(Modifier.height(40.dp))
 
             PieChart(
                 type = state.transactionType,
-                categoryAmounts = state.categoryAmounts,
+                categoryAmounts = state.pieChartCategoryAmount,
                 selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
                     onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
@@ -161,26 +179,19 @@ private fun BoxWithConstraintsScope.UI(
         itemsIndexed(
             items = state.categoryAmounts
         ) { index, item ->
-            if (item.amount != 0.0) {
+            if (item.totalAmount() != 0.0) {
                 if (index != 0) {
                     Spacer(Modifier.height(16.dp))
                 }
-
-                CategoryAmountCard(
+                CategoryAmountCardWithSub(
                     categoryAmount = item,
                     currency = state.baseCurrency,
                     totalAmount = state.totalAmount,
-                    selectedCategory = state.selectedCategory
-                ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            categoryId = item.category?.id,
-                            unspecifiedCategory = item.isCategoryUnspecified,
-                            accountIdFilterList = state.accountIdFilterList,
-                            transactions = item.associatedTransactions
-                        )
-                    )
-                }
+                    selectedCategory = state.selectedCategory,
+                    nav = nav,
+                    state = state,
+                    onEventHandler = onEventHandler
+                )
             }
         }
 
@@ -286,7 +297,65 @@ private fun Header(
 
             Spacer(Modifier.width(20.dp))
         }
+    }
+}
 
+@Composable
+private fun CategoryAmountCardWithSub(
+    categoryAmount: CategoryAmount,
+    currency: String,
+    totalAmount: Double,
+
+    selectedCategory: SelectedCategory?,
+    nav: Navigation,
+    state: PieChartStatisticState,
+
+    onEventHandler: (PieChartStatisticEvent) -> Unit = {},
+) {
+    CategoryAmountCard(
+        categoryAmount = categoryAmount,
+        currency = currency,
+        totalAmount = totalAmount,
+        selectedCategory = selectedCategory,
+        onSubCategoryListExpand = {
+            onEventHandler(
+                PieChartStatisticEvent.OnSubCategoryListExpanded(
+                    categoryAmount,
+                    !categoryAmount.subCategoryState.subCategoryListExpanded
+                )
+            )
+        }
+    ) {
+        nav.navigateTo(
+            ItemStatistic(
+                categoryId = categoryAmount.category?.id,
+                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
+                accountIdFilterList = state.accountIdFilterList,
+                transactions = categoryAmount.associatedTransactions
+            )
+        )
+    }
+    if (categoryAmount.subCategoryState.subCategoryListExpanded) {
+        Column(modifier = Modifier.padding(start = 24.dp)) {
+            categoryAmount.subCategoryState.subCategoriesList.forEach {
+                Spacer(Modifier.height(16.dp))
+                CategoryAmountCard(
+                    categoryAmount = it,
+                    currency = currency,
+                    totalAmount = totalAmount,
+                    selectedCategory = selectedCategory
+                ) {
+                    nav.navigateTo(
+                        ItemStatistic(
+                            categoryId = it.category?.id,
+                            unspecifiedCategory = it.isCategoryUnspecified,
+                            accountIdFilterList = state.accountIdFilterList,
+                            transactions = it.associatedTransactions
+                        )
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -298,10 +367,11 @@ private fun CategoryAmountCard(
 
     selectedCategory: SelectedCategory?,
 
+    onSubCategoryListExpand: () -> Unit = {},
     onClick: () -> Unit
 ) {
     val category = categoryAmount.category
-    val amount = categoryAmount.amount
+    val amount = categoryAmount.getRelevantAmount()
 
     val categoryColor = category?.color?.toComposeColor() ?: Gray //Unspecified category = Gray
     val selectedState = when {
@@ -388,12 +458,33 @@ private fun CategoryAmountCard(
 
             Spacer(Modifier.height(4.dp))
 
-            AmountCurrencyB1Row(
-                amount = amount,
-                currency = currency,
-                textColor = textColor,
-                amountFontWeight = FontWeight.ExtraBold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    AmountCurrencyB1Row(
+                        amount = amount,
+                        currency = currency,
+                        textColor = textColor,
+                        amountFontWeight = FontWeight.ExtraBold
+                    )
+                }
+                if (categoryAmount.subCategoryState.subCategoriesList.isNotEmpty()) {
+                    IvyIcon(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable {
+                                onSubCategoryListExpand()
+                            },
+                        icon = R.drawable.ic_expandarrow,
+                        tint = findContrastTextColor(categoryColor)
+                    )
+                }
+            }
         }
     }
 }

@@ -89,3 +89,6 @@ fun hasLockScreen(context: Context): Boolean {
     val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     return keyguardManager.isDeviceSecure
 }
+
+fun <E> Iterable<E>.replace(oldComp: (E) -> Boolean, new: E) = map { if (oldComp(it)) new else it }
+fun <E> Iterable<E>.replace(old: E, new: E) = map { if (old == it) new else it }

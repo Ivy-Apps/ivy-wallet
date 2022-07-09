@@ -78,7 +78,8 @@ class PieChartAct @Inject constructor(
                 },
                 transactions = suspend { transactions },
                 accountsUsed = suspend { accountsUsed },
-                addAssociatedTransToCategoryAmt = existingTransactions.isNotEmpty()
+                addAssociatedTransToCategoryAmt = existingTransactions.isNotEmpty(),
+                filterEmptyCategoryAmounts = filterEmptyCategoryAmounts
             )
         } then {
             addAccountTransfersCategory(
@@ -133,6 +134,7 @@ class PieChartAct @Inject constructor(
         type: TransactionType,
         baseCurrency: String,
         addAssociatedTransToCategoryAmt: Boolean = false,
+        filterEmptyCategoryAmounts: Boolean = true,
 
         @SideEffect
         allCategories: suspend () -> List<Category?>,
@@ -176,7 +178,10 @@ class PieChartAct @Inject constructor(
                 isCategoryUnspecified = category == null
             )
         } thenFilter { catAmt ->
-            catAmt.amount != 0.0
+            if (filterEmptyCategoryAmounts)
+                catAmt.amount != 0.0
+            else
+                true
         } then {
             it.sortedByDescending { ca -> ca.amount }
         }
@@ -274,7 +279,8 @@ class PieChartAct @Inject constructor(
         val accountIdFilterList: List<UUID>,
         val treatTransferAsIncExp: Boolean = false,
         val showAccountTransfersCategory: Boolean = treatTransferAsIncExp,
-        val existingTransactions: List<Transaction> = emptyList()
+        val existingTransactions: List<Transaction> = emptyList(),
+        val filterEmptyCategoryAmounts: Boolean = true
     )
 
     data class Output(val totalAmount: Double, val categoryAmounts: List<CategoryAmount>)

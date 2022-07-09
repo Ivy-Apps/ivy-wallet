@@ -70,6 +70,8 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val category by viewModel.category.collectAsState()
 
     val categories by viewModel.categories.collectAsState()
+    val isCategoryParentCategory by viewModel.isParentCategory.collectAsState()
+    val parentCategoryList by viewModel.parentCategoryList.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
 
     val balance by viewModel.balance.collectAsState()
@@ -111,6 +113,8 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         currency = currency,
 
         categories = categories,
+        isCategoryParentCategory = isCategoryParentCategory,
+        parentCategoryList = parentCategoryList,
         accounts = accounts,
 
         account = account,
@@ -180,6 +184,8 @@ private fun BoxWithConstraintsScope.UI(
     category: Category?,
 
     categories: List<Category>,
+    isCategoryParentCategory: Boolean = true,
+    parentCategoryList: List<Category> = emptyList(),
     accounts: List<Account>,
 
     balance: Double,
@@ -416,6 +422,8 @@ private fun BoxWithConstraintsScope.UI(
 
     CategoryModal(
         modal = categoryModalData,
+        isCategoryParentCategory = isCategoryParentCategory,
+        parentCategoryList = parentCategoryList,
         onCreateCategory = { },
         onEditCategory = onEditCategory,
         dismiss = {
@@ -978,7 +986,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                Transaction(UUID(1L,2L),TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

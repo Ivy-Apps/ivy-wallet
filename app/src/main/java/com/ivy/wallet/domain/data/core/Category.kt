@@ -11,6 +11,7 @@ data class Category(
     val color: Int = Ivy.toArgb(),
     val icon: String? = null,
     val orderNum: Double = 0.0,
+    val parentCategoryId: UUID? = null,
 
     val isSynced: Boolean = false,
     val isDeleted: Boolean = false,
@@ -22,6 +23,7 @@ data class Category(
         color = color,
         icon = icon,
         orderNum = orderNum,
+        parentCategoryId = parentCategoryId,
         isSynced = isSynced,
         isDeleted = isDeleted,
         id = id
@@ -34,4 +36,6 @@ data class Category(
         orderNum = orderNum,
         id = id
     )
+
+    fun isSubCategory(): Boolean = parentCategoryId != null
 }
