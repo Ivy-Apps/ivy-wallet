@@ -52,8 +52,7 @@ import java.util.*
 data class CategoryModalData(
     val category: Category?,
     val id: UUID = UUID.randomUUID(),
-    val autoFocusKeyboard: Boolean = true,
-    val parentCategoryList: List<Category> = emptyList()
+    val autoFocusKeyboard: Boolean = true
 )
 
 @Composable
