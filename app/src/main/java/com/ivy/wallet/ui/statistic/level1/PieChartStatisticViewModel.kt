@@ -1,6 +1,7 @@
 package com.ivy.wallet.ui.statistic.level1
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.charts.PieChartAct
@@ -253,25 +254,11 @@ class PieChartStatisticViewModel @Inject constructor(
 
         updateState {
             it.copy(
-                pieChartCategoryAmount = if (expandedState)
-                    it.pieChartCategoryAmount.replace(
-                        { c ->
-                            c.category?.id == parentCategoryAmt.category?.id
-                        },
-                        parentCategoryAmt.copy(
-                            subCategoryState = CategoryAmount.SubCategoryState()
-                        )
-                    ).plus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet())
-                else
-                    stateVal().pieChartCategoryAmount.replace(
-                        { c ->
-                            c.category?.id == parentCategoryAmt.category?.id
-                        },
-                        parentCategoryAmt.copy(
-                            amount = parentCategoryAmt.totalAmount(),
-                            subCategoryState = CategoryAmount.SubCategoryState()
-                        )
-                    ).minus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet()),
+                pieChartCategoryAmount = getUpdatedPieChartList(
+                    parentCategoryAmt = parentCategoryAmt,
+                    pieChartCategoryAmountList = stateVal().pieChartCategoryAmount,
+                    expandedState = expandedState
+                ),
                 categoryAmounts = it.categoryAmounts.replace(parentCategoryAmt, newCategoryAmount),
                 selectedCategory = clearSelectedCategory(
                     stateVal().selectedCategory,
@@ -279,6 +266,65 @@ class PieChartStatisticViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    private suspend fun getUpdatedPieChartList(
+        parentCategoryAmt: CategoryAmount,
+        pieChartCategoryAmountList: List<CategoryAmount>,
+        expandedState: Boolean
+    ): List<CategoryAmount> {
+
+        /**
+         * For a given parentCategory @param [parentCatAmt]
+         * returns a list where all the subcategories are present directly under the parent category
+         */
+        fun flattenPieChartListWithOrderPreserved(
+            parentCatAmt: CategoryAmount,
+            pieChartCatAmount: List<CategoryAmount>
+        ): List<CategoryAmount> {
+            val newPieChartList = mutableListOf<CategoryAmount>()
+            pieChartCatAmount.forEach { c ->
+                newPieChartList.add(c)
+                if (c.category?.id == parentCatAmt.category?.id) {
+                    parentCatAmt.subCategoryState.subCategoriesList.forEach { sc ->
+                        newPieChartList.add(sc)
+                    }
+                }
+            }
+            return newPieChartList
+        }
+
+        /**
+         * Replace the original object with [replacementCatAmt] parameter,
+         * using replacementCatAmt.category.id as the key
+         */
+        fun replaceCategoryAmount(
+            replacementCatAmt: CategoryAmount,
+            pieChartCatAmt: List<CategoryAmount> = pieChartCategoryAmountList
+        ): List<CategoryAmount> {
+            return pieChartCatAmt.replace(
+                { c ->
+                    c.category?.id == replacementCatAmt.category?.id
+                },
+                replacementCatAmt
+            )
+        }
+
+
+        return if (expandedState)
+            suspend { replaceCategoryAmount(parentCategoryAmt) } thenInvokeAfter { list ->
+                flattenPieChartListWithOrderPreserved(parentCategoryAmt, list)
+            }
+        else
+            suspend {
+                replaceCategoryAmount(
+                    parentCategoryAmt.copy(amount = parentCategoryAmt.totalAmount())
+                )
+            } then {
+                it.minus(parentCategoryAmt.subCategoryState.subCategoriesList.toSet())
+            } thenInvokeAfter {
+                it.sortedByDescending { ca -> ca.amount }
+            }
     }
 
     private suspend fun onSubcategoriesUnpacked(unpackAllSubCategories: Boolean) {
