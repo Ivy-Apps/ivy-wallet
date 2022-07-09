@@ -23,7 +23,6 @@ import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
 import com.ivy.wallet.utils.*
 import java.time.LocalDate

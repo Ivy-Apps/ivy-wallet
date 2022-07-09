@@ -5,15 +5,15 @@ import android.content.Intent
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
+import com.ivy.base.GlobalProvider
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.ui.RootActivity
 
 class WalletBalanceButtonsAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         when (parameters[walletBtnActParam]) {
             AddTransactionWidgetClick.ACTION_ADD_INCOME -> {
                 context.startActivity(
-                    RootActivity.addTransactionStart(
+                    GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TransactionType.INCOME
                     ).apply {
@@ -23,7 +23,7 @@ class WalletBalanceButtonsAction : ActionCallback {
             }
             AddTransactionWidgetClick.ACTION_ADD_EXPENSE -> {
                 context.startActivity(
-                    RootActivity.addTransactionStart(
+                    GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TransactionType.EXPENSE
                     ).apply {
@@ -33,7 +33,7 @@ class WalletBalanceButtonsAction : ActionCallback {
             }
             AddTransactionWidgetClick.ACTION_ADD_TRANSFER -> {
                 context.startActivity(
-                    RootActivity.addTransactionStart(
+                    GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TransactionType.TRANSFER
                     ).apply {
@@ -46,10 +46,10 @@ class WalletBalanceButtonsAction : ActionCallback {
     }
 }
 
-class WalletBalanceWidgetClickAction: ActionCallback {
+class WalletBalanceWidgetClickAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
         context.startActivity(
-            RootActivity.getIntent(
+            GlobalProvider.rootIntent.getIntent(
                 context = context
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

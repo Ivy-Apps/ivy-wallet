@@ -27,7 +27,7 @@ import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.wallet.R
+import com.ivy.base.R
 import com.ivy.wallet.domain.data.core.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.reports.ListItem

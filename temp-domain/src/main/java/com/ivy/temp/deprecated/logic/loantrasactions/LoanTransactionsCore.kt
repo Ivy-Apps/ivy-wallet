@@ -5,7 +5,7 @@ import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.R
+import com.ivy.base.R
 import com.ivy.wallet.domain.data.LoanType
 import com.ivy.wallet.domain.data.core.Loan
 import com.ivy.wallet.domain.data.core.LoanRecord

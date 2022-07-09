@@ -21,7 +21,7 @@ import com.ivy.base.rootView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
-import com.ivy.wallet.R
+import com.ivy.base.R
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction

@@ -25,7 +25,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.modal.model.Month
 import com.ivy.wallet.utils.lerp
 import timber.log.Timber
 import java.text.DecimalFormat

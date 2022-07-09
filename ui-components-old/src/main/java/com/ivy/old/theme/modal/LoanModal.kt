@@ -22,14 +22,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
+import com.ivy.base.R
 import com.ivy.data.Account
+import com.ivy.data.IvyCurrency
+import com.ivy.data.getDefaultFIATCurrency
+import com.ivy.data.loan.Loan
+import com.ivy.data.loan.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
-import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.IvyCurrency
-import com.ivy.wallet.domain.data.LoanType
-import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.ui.theme.*
@@ -41,7 +43,9 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.modal.edit.IconNameRow
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.isNotNullOrBlank
+import com.ivy.wallet.utils.selectEndTextFieldValue
+import com.ivy.wallet.utils.thenIf
 import kotlinx.coroutines.launch
 import java.util.*
 

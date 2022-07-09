@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.design.IvyContext
+import com.ivy.wallet.io.persistence.SharedPrefs
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -46,6 +47,12 @@ class IvyWalletCtx : IvyContext() {
 
     fun updateSelectedPeriodInMemory(period: TimePeriod) {
         selectedPeriod = period
+    }
+
+    @Deprecated("use StartDayOfMonthAct")
+    fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
+        startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
+        return startDayOfMonth
     }
 
 

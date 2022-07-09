@@ -123,18 +123,6 @@ fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() ->
     } else this
 }
 
-@SuppressLint("ComposableNaming")
-@Composable
-fun onScreenStart(
-    cleanUp: () -> Unit = {},
-    start: () -> Unit
-) {
-    DisposableEffect(navigation().currentScreen) {
-        start()
-        onDispose { cleanUp() }
-    }
-}
-
 fun Modifier.consumeClicks() = clickableNoIndication {
     //consume click
 }

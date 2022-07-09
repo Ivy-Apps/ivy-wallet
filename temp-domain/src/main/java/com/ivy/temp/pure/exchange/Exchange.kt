@@ -5,17 +5,11 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
 import arrow.core.toOption
+import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.ExchangeRate
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
-import com.ivy.wallet.domain.data.core.ExchangeRate
-import com.ivy.wallet.utils.isNotNullOrBlank
 import java.math.BigDecimal
-
-data class ExchangeData(
-    val baseCurrency: String,
-    val fromCurrency: Option<String>,
-    val toCurrency: String = baseCurrency,
-)
 
 
 @Pure
@@ -96,7 +90,7 @@ suspend fun exchange(
 
 @Pure
 private fun String.validateCurrency(): Option<String> {
-    return if (this.isNotNullOrBlank()) return Some(this) else None
+    return if (this.isNotBlank()) return Some(this) else None
 }
 
 @Pure

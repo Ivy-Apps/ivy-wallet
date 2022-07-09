@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.accounts.AccountsTab
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.MainTab
 import com.ivy.base.ivyWalletCtx
@@ -18,11 +19,8 @@ import com.ivy.screens.EditPlanned
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.ui.accounts.AccountsTab
-import com.ivy.wallet.ui.home.HomeTab
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
-import com.ivy.wallet.utils.onScreenStart
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi

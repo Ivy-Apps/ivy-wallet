@@ -19,6 +19,7 @@ import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.formatLocal
 import java.time.LocalDate
+import com.ivy.base.R
 
 @Composable
 fun HistoryDateDivider(

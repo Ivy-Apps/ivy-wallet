@@ -12,12 +12,12 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.currentState
 import androidx.glance.state.PreferencesGlanceStateDefinition
+import com.ivy.base.toCloseTimeRange
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
 import com.ivy.wallet.domain.action.wallet.CalcIncomeExpenseAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.onboarding.model.toCloseTimeRange
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.shortenAmount
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +25,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WalletBalanceWidget: GlanceAppWidget() {
+class WalletBalanceWidget : GlanceAppWidget() {
 
     @Composable
     override fun Content() {
@@ -91,15 +91,18 @@ class WalletBalanceReceiver : GlanceAppWidgetReceiver() {
             )
 
             val glanceId =
-                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java).firstOrNull()
+                GlanceAppWidgetManager(context).getGlanceIds(WalletBalanceWidget::class.java)
+                    .firstOrNull()
             glanceId?.let {
                 updateAppWidgetState(context, PreferencesGlanceStateDefinition, it) { pref ->
                     pref.toMutablePreferences().apply {
                         this[booleanPreferencesKey("appLocked")] = appLocked
                         this[stringPreferencesKey("balance")] = shortenAmount(balance.toDouble())
                         this[stringPreferencesKey("currency")] = currency
-                        this[stringPreferencesKey("income")] = shortenAmount(incomeExpense.income.toDouble())
-                        this[stringPreferencesKey("expense")] = shortenAmount(incomeExpense.expense.toDouble())
+                        this[stringPreferencesKey("income")] =
+                            shortenAmount(incomeExpense.income.toDouble())
+                        this[stringPreferencesKey("expense")] =
+                            shortenAmount(incomeExpense.expense.toDouble())
                     }
                 }
                 glanceAppWidget.update(context, it)

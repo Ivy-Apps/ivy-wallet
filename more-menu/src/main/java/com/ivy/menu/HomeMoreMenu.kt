@@ -395,7 +395,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_settings,
             label = stringResource(R.string.settings)
         ) {
-            nav.navigateTo(Settings)
+            nav.navigateTo(SettingsScreen)
         }
 
         Spacer(Modifier.weight(1f))
