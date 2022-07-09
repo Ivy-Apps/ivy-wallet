@@ -112,7 +112,8 @@ class PieChartStatisticViewModel @Inject constructor(
                 transactions = transactions,
                 showCloseButtonOnly = transactions.isNotEmpty(),
                 baseCurrency = baseCurrency,
-                unpackAllSubCategories = false
+                unpackAllSubCategories = false,
+                showUnpackOption = false
             )
         }
     }
@@ -159,7 +160,7 @@ class PieChartStatisticViewModel @Inject constructor(
                 categoryAmounts = categoryAmounts,
                 pieChartCategoryAmount = categoryAmounts.map { cat -> cat.copy(amount = cat.totalAmount()) },
                 selectedCategory = null,
-                showUnpackOption = categoryAmounts.size != pieChartActOutput.categoryAmounts.size
+                showUnpackOption = categoryAmounts.size != pieChartActOutput.categoryAmounts.filter { c -> c.amount != 0.0 }.size
             )
         }
     }
