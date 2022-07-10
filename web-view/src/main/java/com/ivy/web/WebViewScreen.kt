@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Theme
 import com.ivy.frp.view.navigation.navigation
@@ -35,7 +32,8 @@ private fun BoxWithConstraintsScope.UI(url: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
+            .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         val ivyContext = ivyWalletCtx()
         val nav = navigation()

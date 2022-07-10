@@ -21,9 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
 import com.ivy.base.IvyWalletPreview
-import com.ivy.base.rootScreen
+import com.ivy.base.R
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
@@ -35,11 +34,10 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
 import com.ivy.design.utils.padding
+import com.ivy.donate.data.DonateOption
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.DonateScreen
-import com.ivy.base.R
-import com.ivy.donate.data.DonateOption
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 
@@ -262,9 +260,7 @@ private fun BoxWithConstraintsScope.DonateButton(
         modifier = Modifier
             .align(Alignment.BottomCenter)
             .fillMaxWidth()
-            .navigationBarsPadding(
-                bottom = true, start = false, end = false
-            )
+            .navigationBarsPadding()
             .padding(horizontal = 20.dp)
             .padding(bottom = 16.dp)
             .testTag("btn_donate"),

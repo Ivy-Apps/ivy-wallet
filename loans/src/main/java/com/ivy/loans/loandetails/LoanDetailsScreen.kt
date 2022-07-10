@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.statusBarsHeight
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.humanReadableType
@@ -122,11 +121,10 @@ private fun BoxWithConstraintsScope.UI(
     ) {
         val listState = rememberLazyListState()
 
-        Spacer(Modifier.statusBarsHeight())
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .padding(top = 16.dp)
                 .clip(UI.shapes.r1Top)
                 .background(UI.colors.pure),

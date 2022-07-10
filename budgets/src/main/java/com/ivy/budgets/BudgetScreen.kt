@@ -14,7 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.base.*
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.data.Account

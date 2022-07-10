@@ -19,7 +19,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
@@ -36,7 +35,10 @@ import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.densityScope
+import com.ivy.wallet.utils.keyboardOnlyWindowInsets
+import com.ivy.wallet.utils.keyboardVisibleState
+import com.ivy.wallet.utils.selectEndTextFieldValue
 
 @Composable
 fun SearchScreen(screen: Search) {

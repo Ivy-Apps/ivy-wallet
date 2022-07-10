@@ -107,6 +107,10 @@ object Versions {
 
     //https://developer.android.com/jetpack/androidx/releases/datastore
     const val dataStore = "1.0.0"
+
+
+    //https://developer.android.com/google/play/billing/getting-ready
+    const val googleBilling = "4.0.0"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -203,17 +207,21 @@ fun DependencyHandler.Google() {
     //URL: https://mvnrepository.com/artifact/com.google.android.gms/play-services-auth
     implementation("com.google.android.gms:play-services-auth:19.2.0")
 
-    //URL: https://developer.android.com/google/play/billing/getting-ready
-    implementation("com.android.billingclient:billing-ktx:4.0.0")
-
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation(
         "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3}"
     )
 
+    Billing(api = false)
+
     //In-App Reviews SDK
     implementation("com.google.android.play:core:1.10.0")
     implementation("com.google.android.play:core-ktx:1.8.1")
+}
+
+fun DependencyHandler.Billing(api: Boolean) {
+    //https://developer.android.com/google/play/billing/getting-ready
+    dependency("com.android.billingclient:billing-ktx:${Versions.googleBilling}", api = api)
 }
 
 fun DependencyHandler.Firebase() {

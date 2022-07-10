@@ -3,11 +3,11 @@ package com.ivy.onboarding.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.AccountBalance
 import com.ivy.data.*
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.base.AccountBalance
 import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
@@ -29,7 +29,6 @@ import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -159,7 +158,6 @@ class OnboardingViewModel @Inject constructor(
 
                         _opGoogleSignIn.value = null //reset login with Google operation state
                     } catch (e: Exception) {
-                        e.sendToCrashlytics("GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
                         e.printStackTrace()
                         Timber.e("Login with Google failed on Ivy server - ${e.message}")
                         _opGoogleSignIn.value = OpResult.failure(e)
@@ -168,7 +166,6 @@ class OnboardingViewModel @Inject constructor(
                     TestIdlingResource.decrement()
                 }
             } else {
-                sendToCrashlytics("GOOGLE_SIGN_IN ERROR: idToken is null!!")
                 Timber.e("Login with Google failed while getting idToken")
                 _opGoogleSignIn.value = OpResult.faliure("Login with Google failed, try again.")
             }

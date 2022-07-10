@@ -28,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.base.*
 import com.ivy.base.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.base.R
@@ -933,6 +931,7 @@ private fun AccountCardUser(
                 onSync()
             }
         }
+        null -> {}
     }
 
     Spacer(Modifier.height(24.dp))

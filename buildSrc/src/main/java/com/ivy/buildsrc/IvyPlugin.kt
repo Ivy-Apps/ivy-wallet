@@ -36,6 +36,9 @@ abstract class IvyPlugin : Plugin<Project> {
             minSdk = com.ivy.buildsrc.Project.minSdk
             targetSdk = com.ivy.buildsrc.Project.targetSdk
         }
+        library.buildFeatures {
+            compose = true
+        }
 
     }
 }

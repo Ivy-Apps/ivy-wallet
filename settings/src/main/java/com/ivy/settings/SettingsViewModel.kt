@@ -285,7 +285,6 @@ class SettingsViewModel @Inject constructor(
 
                         sync()
                     } catch (e: Exception) {
-                        e.sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: generic exception when logging with GOOGLE")
                         e.printStackTrace()
                         Timber.e("Settings - Login with Google failed on Ivy server - ${e.message}")
                     }
@@ -293,7 +292,6 @@ class SettingsViewModel @Inject constructor(
                     TestIdlingResource.decrement()
                 }
             } else {
-                sendToCrashlytics("Settings - GOOGLE_SIGN_IN ERROR: idToken is null!!")
                 Timber.e("Settings - Login with Google failed while getting idToken")
             }
         }

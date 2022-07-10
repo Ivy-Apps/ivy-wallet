@@ -30,13 +30,13 @@ import com.ivy.data.Account
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.Main
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.horizontalSwipeListener
-import com.ivy.wallet.utils.onScreenStart
 
 @Composable
 fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
@@ -304,7 +304,7 @@ private fun AccountHeader(
                     .testTag("baseCurrencyEquivalent"),
                 textColor = account.color.toComposeColor().dynamicContrast(),
                 currency = baseCurrency,
-                balance = accountData.balanceBaseCurrency,
+                balance = accountData.balanceBaseCurrency!!,
                 currencyUpfront = false
             )
         }

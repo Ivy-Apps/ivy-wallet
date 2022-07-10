@@ -37,6 +37,7 @@ import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.PieChartStatistic

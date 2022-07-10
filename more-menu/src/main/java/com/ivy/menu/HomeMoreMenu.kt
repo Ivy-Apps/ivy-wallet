@@ -25,14 +25,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.base.Constants
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.ivyWalletCtx
 import com.ivy.base.rootScreen
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.data.Theme
+import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -395,7 +393,8 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_settings,
             label = stringResource(R.string.settings)
         ) {
-            nav.navigateTo(SettingsScreen)
+            //TODO: Fix that
+            nav.navigateTo(SettingsScreen(versionName = "WIP", versionCode = "???"))
         }
 
         Spacer(Modifier.weight(1f))
