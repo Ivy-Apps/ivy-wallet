@@ -27,6 +27,7 @@ class CSVMapper {
         ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
         ImportType.FORTUNE_CITY -> fortuneCity()
         ImportType.FINANCISTO -> financisto()
+        ImportType.MONEY_WALLET -> moneyWallet()
     }
 
     private fun ivyMappingV1() = RowMapping(
@@ -223,6 +224,68 @@ class CSVMapper {
                 }
             )
         },
+
+        joinTransactions = { transactions ->
+            var mergedCount = 0
+            JoinResult(
+                transactions = buildList {
+                    val it = transactions.listIterator()
+                    while (it.hasNext()) {
+                        val t = it.next()
+                        if (t.type == TransactionType.TRANSFER && it.hasNext()) {
+                            val t2 = it.next()
+                            val new = Transaction(
+                                id = t.id,
+                                type = TransactionType.TRANSFER,
+                                amount = t.amount,
+                                accountId = t.accountId,
+                                toAccountId = t2.accountId,
+                                toAmount = t2.amount,
+                                dateTime = t.dateTime,
+                                dueDate = t.dueDate,
+                                categoryId = t.categoryId,
+                                title = t.title,
+                                description = t.description
+                            )
+                            mergedCount++
+                            add(new)
+                        } else {
+                            add(t)
+                        }
+                    }
+                },
+                mergedCount = mergedCount
+            )
+        }
+    )
+
+    private fun moneyWallet() = RowMapping(
+        account = 0,
+        accountCurrency = 1,
+        category = 2,
+        date = 3,
+        dateTimeFormat = "yyyy-MM-dd HH:mm:ss",
+        amount = 4,
+        title = 5,
+        description = 9,
+
+        transformTransaction = { transaction, category, csvAmount ->
+            // MoneyWallet will export transfer transaction as a pair of income/expense.
+            // The category is a "system category" and user cannot change it.
+            // However the name depends on system language when the wallet is created.
+            // So we have added a note in the import step to ensure user uses the English local
+            // for the category name.
+            val isTransfer = category?.name == "Transfer"
+
+            transaction.copy(
+                type = if (isTransfer)
+                    TransactionType.TRANSFER
+                else if (csvAmount > 0) TransactionType.INCOME
+                else TransactionType.EXPENSE,
+                categoryId = if (isTransfer) null else transaction.categoryId
+            )
+        },
+
 
         joinTransactions = { transactions ->
             var mergedCount = 0

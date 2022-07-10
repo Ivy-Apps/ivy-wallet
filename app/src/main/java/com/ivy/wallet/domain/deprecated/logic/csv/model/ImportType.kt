@@ -17,7 +17,8 @@ enum class ImportType {
     BLUE_COINS,
     KTW_MONEY_MANAGER,
     FORTUNE_CITY,
-    FINANCISTO;
+    FINANCISTO,
+    MONEY_WALLET;
 
     fun color(): Color = when (this) {
         IVY -> Ivy
@@ -30,6 +31,7 @@ enum class ImportType {
         KTW_MONEY_MANAGER -> Yellow
         FORTUNE_CITY -> Green2Light
         FINANCISTO -> White
+        MONEY_WALLET -> Blue2
     }
 
     fun appId(): String = when (this) {
@@ -43,6 +45,7 @@ enum class ImportType {
         KTW_MONEY_MANAGER -> "com.ktwapps.walletmanager"
         FORTUNE_CITY -> "com.fourdesire.fortunecity"
         FINANCISTO -> "ru.orangesoftware.financisto"
+        MONEY_WALLET -> "com.oriondev.moneywallet"
     }
 
     @DrawableRes
@@ -57,6 +60,7 @@ enum class ImportType {
         KTW_MONEY_MANAGER -> R.drawable.ktw_money_manager_logo
         FORTUNE_CITY -> R.drawable.fortune_city_app_logo
         FINANCISTO -> R.drawable.financisto_logo
+        MONEY_WALLET -> R.drawable.moneywallet_logo
     }
 
     fun listName(): String = when (this) {
@@ -70,6 +74,7 @@ enum class ImportType {
         KTW_MONEY_MANAGER -> "Money Manager (KTW)"
         FORTUNE_CITY -> "Fortune City"
         FINANCISTO -> "Financisto"
+        MONEY_WALLET -> "MoneyWallet"
     }
 
     fun appName(): String = when (this) {
@@ -116,6 +121,9 @@ enum class ImportType {
                 onUploadClick = onUploadClick
             )
             FINANCISTO -> FinancistoSteps(
+                onUploadClick = onUploadClick
+            )
+            MONEY_WALLET -> MoneyWalletSteps(
                 onUploadClick = onUploadClick
             )
         }
