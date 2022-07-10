@@ -46,6 +46,7 @@ class SubCategoryAct @Inject constructor() :
         groupedMap.map { mapEntry ->
             val parentCategory = mapEntry.key
             val subCatList = mapEntry.value.filter { subCategory -> subCategory != parentCategory }
+                .filter { sc -> sc.totalAmount() != 0.0 }
             val subCatTotalAmount = subCatList.sumOf { subCategory -> subCategory.amount }
 
             parentCategory.copy(

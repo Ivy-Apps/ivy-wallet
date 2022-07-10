@@ -149,7 +149,7 @@ private fun BoxWithConstraintsScope.UI(
                 IvyCheckboxWithText(
                     modifier = Modifier
                         .padding(top = 12.dp, start = 16.dp),
-                    text = "Unpack All Subcategories",
+                    text = stringResource(R.string.unpack_all_subcategories),
                     checked = state.unpackAllSubCategories
                 ) {
                     onEventHandler.invoke(

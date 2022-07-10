@@ -437,4 +437,8 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">प्रायोगिक सेटिंग्स</string>
     <string name="wallet_balance">वॉलेट बैलेंस</string>
+    <string name="mark_as_sub_category">उप-श्रेणी के रूप में चिह्नित करें</string>
+    <string name="parent_category">अभिभावक श्रेणी</string>
+    <string name="marked_parent_category">*इसे मूल श्रेणी के रूप में चिह्नित किया गया है</string>
+    <string name="unpack_all_subcategories">सभी उपश्रेणियों को अनपैक करें</string>
 </resources>
