@@ -5,7 +5,7 @@ import com.ivy.data.Category
 import com.ivy.data.IvyCurrency
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.onboarding.model.AccountBalance
+import com.ivy.base.AccountBalance
 import com.ivy.screens.Import
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding

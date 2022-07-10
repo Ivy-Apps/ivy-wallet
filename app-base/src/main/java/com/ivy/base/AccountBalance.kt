@@ -1,4 +1,4 @@
-package com.ivy.onboarding.model
+package com.ivy.base
 
 import com.ivy.data.Account
 

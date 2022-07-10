@@ -1,11 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.base.FromToTimeRange
+import com.ivy.common.timeNowUTC
 import com.ivy.data.Account
+import com.ivy.data.planned.IntervalType
+import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
@@ -14,9 +15,8 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
+import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.timeNowUTC
 
 @Deprecated("Migrate to FP Style")
 class PlannedPaymentsLogic(

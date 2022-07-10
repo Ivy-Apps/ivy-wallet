@@ -1,9 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.base.incrementDate
+import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.Transaction
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
-import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.io.persistence.dao.TransactionDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import java.time.LocalDateTime
 
 @Deprecated("Migrate to FP Style")

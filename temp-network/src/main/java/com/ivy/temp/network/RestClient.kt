@@ -163,7 +163,7 @@ class RestClient private constructor(
             val sslSocketFactory = sslContext.socketFactory
 
             okHttpBuilder.sslSocketFactory(sslSocketFactory, (trustAllCerts[0] as X509TrustManager))
-            okHttpBuilder.hostnameVerifier(HostnameVerifier { hostname, session ->
+            okHttpBuilder.hostnameVerifier(HostnameVerifier { _, _ ->
                 true
             })
         }

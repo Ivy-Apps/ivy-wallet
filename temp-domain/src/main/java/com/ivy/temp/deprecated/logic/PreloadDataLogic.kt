@@ -1,17 +1,17 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.base.AccountBalance
+import com.ivy.base.R
+import com.ivy.base.stringRes
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.base.R
-import com.ivy.wallet.domain.data.core.toEntity
+import com.ivy.design.l0_system.*
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.onboarding.model.AccountBalance
-import com.ivy.wallet.ui.theme.*
+import com.ivy.wallet.io.persistence.data.toEntity
 
 @Deprecated("Migrate to FP Style")
 class PreloadDataLogic(
@@ -115,7 +115,7 @@ class PreloadDataLogic(
 
         CreateCategoryData(
             name = stringRes(R.string.shopping),
-            color = Ivy,
+            color = Purple,
             icon = "shopping"
         ),
 

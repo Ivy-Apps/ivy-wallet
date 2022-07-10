@@ -17,13 +17,20 @@ abstract class IvyPlugin : Plugin<Project> {
         project.allprojects {
             allprojects {
                 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).all {
-                    kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+                    kotlinOptions.freeCompilerArgs += listOf("-Xcontext-receivers")
+//                    kotlinOptions.freeCompilerArgs += listOf(
+//                        "-P",
+//                        "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+//                    )
                 }
             }
         }
 
         val library = project.extensions.getByType(LibraryExtension::class.java)
         library.compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
+        library.composeOptions {
+            kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.composeCompilerVersion
+        }
         library.defaultConfig {
             minSdk = com.ivy.buildsrc.Project.minSdk
             targetSdk = com.ivy.buildsrc.Project.targetSdk

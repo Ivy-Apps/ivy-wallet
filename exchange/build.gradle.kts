@@ -5,6 +5,7 @@ apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
     `android-library`
+    id("dagger.hilt.android.plugin")
 }
 
 dependencies {

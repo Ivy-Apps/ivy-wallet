@@ -13,7 +13,7 @@ import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.IvyCurrency
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.onboarding.model.AccountBalance
+import com.ivy.base.AccountBalance
 import com.ivy.onboarding.steps.*
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.screens.Onboarding

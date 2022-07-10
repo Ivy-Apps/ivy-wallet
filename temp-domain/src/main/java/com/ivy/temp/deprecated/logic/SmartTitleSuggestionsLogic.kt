@@ -1,10 +1,9 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.base.Constants
 import com.ivy.data.transaction.Transaction
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.edit.core.SUGGESTIONS_LIMIT
 import com.ivy.wallet.utils.capitalizeWords
-import com.ivy.wallet.utils.isNotNullOrBlank
 import java.util.*
 
 @Deprecated("Use FP style, look into `domain.fp` package")
@@ -60,7 +59,7 @@ class SmartTitleSuggestionsLogic(
         }
 
 
-        if (suggestions.size < SUGGESTIONS_LIMIT && accountId != null) {
+        if (suggestions.size < Constants.SUGGESTIONS_LIMIT && accountId != null) {
             //last resort, suggest by account
             //all titles used for the specific account
             //ordered by N times used
@@ -93,7 +92,7 @@ private fun List<Transaction>.extractUniqueTitles(
     excludeSuggestions: Set<String>? = null
 ): Set<String> {
     return this
-        .filter { it.title.isNotNullOrBlank() }
+        .filter { !it.title.isNullOrBlank() }
         .map { it.title!!.trim().capitalizeWords() }
         .filter { excludeSuggestions == null || !excludeSuggestions.contains(it) }
         .toSet()

@@ -38,27 +38,42 @@ object Versions {
 
     //URL: https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.6.20"
+    const val kotlin = "1.7.0"
     const val coroutines = "1.6.3"
 
     //https://developer.android.com/jetpack/androidx/releases/compose
     const val compose = "1.2.0-rc03"
+
+    //https://developer.android.com/jetpack/androidx/releases/compose-compiler
+    const val composeCompilerVersion = "1.2.0"
+
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
     const val composeFoundation = "1.2.0-rc03"
-    const val composeActivity = "1.4.0"
-    const val composeViewModel = "1.0.0-alpha05"
+
+    //https://developer.android.com/jetpack/androidx/releases/activity
+    const val composeActivity = "1.5.0"
+
+    //https://developer.android.com/jetpack/androidx/releases/lifecycle
+    const val composeViewModel = "2.5.0"
+    //https://developer.android.com/jetpack/androidx/releases/glance
     const val composeGlance = "1.0.0-alpha03"
 
     //https://github.com/google/accompanist
     const val composeAccompanist = "0.15.0"
-    const val composeCoil = "2.0.0"
+    //Set status bar color
+    //https://google.github.io/accompanist/systemuicontroller/
+    const val composeAccompanistUIController = "0.24.13-rc"
+
+    //https://coil-kt.github.io/coil/compose/
+    const val composeCoil = "2.1.0"
 
     const val arrow: String = "1.0.1"
     const val kotest: String = "5.1.0"
     const val junitJupiter: String = "5.8.2"
 
     //https://developer.android.com/training/dependency-injection/hilt-android
-    const val hilt = "2.38.1"
+    //WARNING: Update hilt gradle plugin from buildSrc
+    const val hilt = "2.42"
     const val hiltX = "1.0.0"
 
     const val androidXTestRunner = "1.4.0"
@@ -75,21 +90,23 @@ object Versions {
     //https://developer.android.com/jetpack/androidx/releases/room
     const val room = "2.4.2"
 
-
-    //URL: https://github.com/square/retrofit
+    //https://github.com/square/retrofit
     const val retrofit = "2.9.0"
 
-    //URL: https://github.com/google/gson
+    //https://github.com/google/gson
     const val gson = "2.8.7"
 
-    //URL: https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
+    //https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor
     const val okhttpLogging = "4.9.1"
 
-    //URL: https://github.com/JakeWharton/timber/releases
+    //https://github.com/JakeWharton/timber/releases
     const val timber = "4.7.1"
 
-    //URL: https://github.com/greenrobot/EventBus/releases
+    //https://github.com/greenrobot/EventBus/releases
     const val eventBus = "3.2.0"
+
+    //https://developer.android.com/jetpack/androidx/releases/datastore
+    const val dataStore = "1.0.0"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -130,12 +147,10 @@ fun DependencyHandler.Compose(api: Boolean) {
     dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
     dependency("androidx.compose.ui:ui-tooling:$version", api = api)
 
-    //URL: https://developer.android.com/jetpack/androidx/releases/activity
     dependency(
         "androidx.activity:activity-compose:${Versions.composeActivity}", api = api
     )
 
-    //URL: https://developer.android.com/jetpack/androidx/releases/lifecycle
     dependency(
         "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.composeViewModel}",
         api = api
@@ -156,18 +171,11 @@ fun DependencyHandler.Compose(api: Boolean) {
  *  https://github.com/google/accompanist
  */
 fun DependencyHandler.Accompanist(api: Boolean) {
+    //Set status bar color
+    //https://google.github.io/accompanist/systemuicontroller/
     dependency(
-        dependency = "com.google.accompanist:accompanist-coil:${Versions.composeAccompanist}",
+        "com.google.accompanist:accompanist-systemuicontroller:${Versions.composeAccompanistUIController}",
         api = api
-    )
-//    dependency(
-//        dependency = "com.google.accompanist:accompanist-insets:${Versions.composeAccompanist}",
-//        api = api
-//    )
-
-    //TODO: Review what is this? Why is hard-coded to that version?
-    dependency(
-        "com.google.accompanist:accompanist-systemuicontroller:0.24.4-alpha", api = api
     )
 }
 

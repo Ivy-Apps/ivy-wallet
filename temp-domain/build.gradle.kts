@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":app-base"))
     implementation(project(":exchange"))
     implementation(project(":ui-common"))
+    implementation(project(":screens"))
     Hilt()
     ThirdParty()
 

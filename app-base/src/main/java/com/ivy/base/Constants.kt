@@ -41,4 +41,6 @@ object Constants {
     const val PAGE_TRANSACTIONS_SIZE = 100
 
     const val IVY_WALLET_APP_ID = "com.ivy.wallet"
+
+    const val SUGGESTIONS_LIMIT = 10
 }

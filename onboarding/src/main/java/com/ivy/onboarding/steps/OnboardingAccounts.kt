@@ -16,8 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
@@ -28,7 +26,7 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
 import com.ivy.old.Suggestions
-import com.ivy.onboarding.model.AccountBalance
+import com.ivy.base.AccountBalance
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.GradientCutBottom

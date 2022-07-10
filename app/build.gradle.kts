@@ -87,7 +87,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.compose
+        kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.composeCompilerVersion
     }
 
     lint {

@@ -1,17 +1,17 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.base.FromToTimeRange
+import com.ivy.base.filterOverdue
+import com.ivy.base.filterUpcoming
+import com.ivy.common.timeNowUTC
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.onboarding.model.filterOverdue
-import com.ivy.wallet.ui.onboarding.model.filterUpcoming
-import com.ivy.wallet.utils.timeNowUTC
+import com.ivy.wallet.io.persistence.data.toEntity
 import java.time.LocalDateTime
 import kotlin.math.abs
 import kotlin.math.absoluteValue

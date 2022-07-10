@@ -7,7 +7,7 @@ import com.ivy.data.*
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.onboarding.model.AccountBalance
+import com.ivy.base.AccountBalance
 import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct

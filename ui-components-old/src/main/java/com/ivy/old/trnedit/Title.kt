@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.base.Constants
 import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
@@ -34,7 +35,6 @@ import com.ivy.wallet.utils.selectEndTextFieldValue
 import kotlinx.coroutines.launch
 import java.util.*
 
-const val SUGGESTIONS_LIMIT = 10
 
 @Composable
 fun ColumnScope.Title(
@@ -100,7 +100,7 @@ private fun Suggestions(
     val keyboardVisible by keyboardVisibleState()
     if (keyboardVisible) {
         if (suggestions.isNotEmpty()) {
-            for (suggestion in suggestions.take(SUGGESTIONS_LIMIT)) {
+            for (suggestion in suggestions.take(Constants.SUGGESTIONS_LIMIT)) {
                 Suggestion(suggestion = suggestion) {
                     onClick(suggestion)
                 }

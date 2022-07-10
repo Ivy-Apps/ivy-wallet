@@ -1,5 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic
 
+import com.ivy.base.FromToTimeRange
+import com.ivy.base.filterOverdue
+import com.ivy.base.filterUpcoming
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
@@ -9,9 +12,6 @@ import com.ivy.wallet.domain.pure.transaction.withDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.onboarding.model.filterOverdue
-import com.ivy.wallet.ui.onboarding.model.filterUpcoming
 import java.util.*
 
 @Deprecated("Migrate to FP Style")
