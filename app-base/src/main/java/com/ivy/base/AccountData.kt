@@ -1,4 +1,4 @@
-package com.ivy.accounts
+package com.ivy.base
 
 import com.ivy.base.Reorderable
 import com.ivy.data.Account

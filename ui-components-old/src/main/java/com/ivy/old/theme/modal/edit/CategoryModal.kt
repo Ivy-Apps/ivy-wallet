@@ -25,8 +25,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
-import com.ivy.data.Category
 import com.ivy.base.R
+import com.ivy.data.Category
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconMDefaultIcon
@@ -39,7 +40,6 @@ import com.ivy.wallet.ui.theme.modal.ModalAddSave
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
 

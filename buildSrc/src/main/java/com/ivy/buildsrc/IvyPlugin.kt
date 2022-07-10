@@ -22,6 +22,7 @@ abstract class IvyPlugin : Plugin<Project> {
 //                        "-P",
 //                        "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
 //                    )
+                    kotlinOptions.freeCompilerArgs += listOf("-Xextended-compiler-checks")
                 }
             }
         }

@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.ivy.base.CategoryAmount
 import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType

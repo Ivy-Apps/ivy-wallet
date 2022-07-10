@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.transaction
 
+import com.ivy.base.FromToTimeRange
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
 import java.util.*
 import javax.inject.Inject
 

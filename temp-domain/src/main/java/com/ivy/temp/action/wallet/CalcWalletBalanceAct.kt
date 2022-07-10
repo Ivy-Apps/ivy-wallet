@@ -1,6 +1,8 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
+import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
@@ -8,8 +10,6 @@ import com.ivy.frp.action.thenSum
 import com.ivy.frp.fixUnit
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
-import com.ivy.wallet.domain.action.exchange.ExchangeAct
-import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import java.math.BigDecimal
 import javax.inject.Inject
 

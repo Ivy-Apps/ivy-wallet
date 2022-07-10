@@ -1,6 +1,7 @@
 package com.ivy.pie_charts
 
 import androidx.lifecycle.viewModelScope
+import com.ivy.base.CategoryAmount
 import com.ivy.base.TimePeriod
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction

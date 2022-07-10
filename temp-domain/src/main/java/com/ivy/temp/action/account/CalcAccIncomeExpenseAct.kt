@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
 import com.ivy.data.Account
+import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions

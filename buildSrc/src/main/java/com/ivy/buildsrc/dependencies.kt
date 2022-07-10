@@ -257,11 +257,10 @@ private fun DependencyHandler.HiltTesting() {
 /**
  * https://developer.android.com/jetpack/androidx/releases/room
  */
-fun DependencyHandler.RoomDB(
-) {
-    implementation("androidx.room:room-runtime:${Versions.room}")
+fun DependencyHandler.RoomDB(api: Boolean) {
+    dependency("androidx.room:room-runtime:${Versions.room}", api = api)
     kapt("androidx.room:room-compiler:${Versions.room}")
-    implementation("androidx.room:room-ktx:${Versions.room}")
+    dependency("androidx.room:room-ktx:${Versions.room}", api =  api)
 }
 
 /**

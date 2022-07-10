@@ -22,15 +22,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
+import com.ivy.base.*
+import com.ivy.base.R
 import com.ivy.data.Account
+import com.ivy.data.Budget
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
-import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.old.ListItem
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
-import com.ivy.wallet.ui.reports.ListItem
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Purple1Dark
 import com.ivy.wallet.ui.theme.Red3Light
@@ -39,9 +40,9 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.toComposeColor
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
-import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
+
 
 data class BudgetModalData(
     val budget: Budget?,
@@ -96,8 +97,8 @@ fun BoxWithConstraintsScope.BudgetModal(
                         initialBudget.copy(
                             name = nameTextFieldValue.text.trim(),
                             amount = amount,
-                            categoryIdsSerialized = Budget.serialize(categoryIds),
-                            accountIdsSerialized = Budget.serialize(accountIds)
+                            categoryIdsSerialized = BudgetExt.serialize(categoryIds),
+                            accountIdsSerialized = BudgetExt.serialize(accountIds)
                         )
                     )
                 } else {
@@ -105,8 +106,8 @@ fun BoxWithConstraintsScope.BudgetModal(
                         CreateBudgetData(
                             name = nameTextFieldValue.text.trim(),
                             amount = amount,
-                            categoryIdsSerialized = Budget.serialize(categoryIds),
-                            accountIdsSerialized = Budget.serialize(accountIds)
+                            categoryIdsSerialized = BudgetExt.serialize(categoryIds),
+                            accountIdsSerialized = BudgetExt.serialize(accountIds)
                         )
                     )
                 }
@@ -251,7 +252,7 @@ private fun CategoriesRow(
 ) {
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = Budget.type(budgetCategoryIds.size),
+        text = BudgetExt.type(budgetCategoryIds.size),
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
             color = UI.colors.pureInverse
@@ -270,7 +271,7 @@ private fun CategoriesRow(
         items(items = categories) { category ->
             ListItem(
                 icon = category.icon,
-                defaultIcon = com.ivy.wallet.R.drawable.ic_custom_category_s,
+                defaultIcon = R.drawable.ic_custom_category_s,
                 text = category.name,
                 selectedColor = category.color.toComposeColor().takeIf {
                     budgetCategoryIds.contains(category.id)

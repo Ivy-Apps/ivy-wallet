@@ -3,10 +3,10 @@ package com.ivy.wallet.domain.action.transaction
 import arrow.core.nonEmptyListOf
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
+import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.wallet.domain.action.exchange.ExchangeAct
-import com.ivy.wallet.domain.action.exchange.actInput
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.transaction.WalletValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactionsSuspend

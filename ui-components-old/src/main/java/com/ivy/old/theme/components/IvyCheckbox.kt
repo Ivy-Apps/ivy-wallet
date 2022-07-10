@@ -18,6 +18,7 @@ import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.utils.clickableNoIndication
+import com.ivy.base.R
 
 
 @Composable

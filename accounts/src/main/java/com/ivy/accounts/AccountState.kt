@@ -1,5 +1,6 @@
 package com.ivy.accounts
 
+import com.ivy.base.AccountData
 import com.ivy.base.UiText
 
 data class AccountState(

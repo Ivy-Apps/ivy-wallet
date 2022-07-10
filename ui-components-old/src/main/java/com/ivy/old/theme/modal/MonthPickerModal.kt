@@ -17,14 +17,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
+import com.ivy.base.Month
+import com.ivy.base.Month.Companion.monthsList
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.findContrastTextColor
-import com.ivy.wallet.ui.theme.modal.model.Month.Companion.monthsList
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.dateNowUTC
+import com.ivy.wallet.utils.drawColoredShadow
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.thenIf
 import java.time.LocalDate
 import java.util.*
 

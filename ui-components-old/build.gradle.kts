@@ -12,6 +12,7 @@ dependencies {
     implementation(project(":data-model"))
     implementation(project(":app-base"))
     implementation(project(":temp-domain"))
+    implementation(project(":screens"))
 
     ThirdParty()
 }

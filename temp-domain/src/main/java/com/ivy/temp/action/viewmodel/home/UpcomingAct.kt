@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
+import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then

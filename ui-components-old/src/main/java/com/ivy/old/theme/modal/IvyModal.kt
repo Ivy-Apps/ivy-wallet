@@ -18,12 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop

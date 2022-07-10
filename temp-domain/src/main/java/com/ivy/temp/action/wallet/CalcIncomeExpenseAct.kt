@@ -3,13 +3,14 @@ package com.ivy.wallet.domain.action.wallet
 import arrow.core.nonEmptyListOf
 import arrow.core.toOption
 import com.ivy.data.Account
+import com.ivy.data.pure.IncomeExpensePair
+import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.account.AccTrnsAct
-import com.ivy.wallet.domain.action.exchange.ExchangeAct
 import com.ivy.wallet.domain.pure.account.filterExcluded
-import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions
 import com.ivy.wallet.domain.pure.transaction.foldTransactions
 import com.ivy.wallet.domain.pure.util.orZero

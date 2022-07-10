@@ -17,6 +17,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
+import com.ivy.base.R
 
 @Composable
 fun BoxWithConstraintsScope.NameModal(

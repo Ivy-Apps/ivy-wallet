@@ -19,10 +19,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
+import com.ivy.base.R
 import com.ivy.data.Category
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
@@ -33,7 +34,6 @@ import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.hideKeyboard
-import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.thenIf
 import java.util.*
 

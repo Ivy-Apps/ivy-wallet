@@ -17,16 +17,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
+import com.ivy.base.R
 import com.ivy.base.rootView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
-import com.ivy.base.R
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
 import com.ivy.wallet.utils.clickableNoIndication
-import com.ivy.wallet.utils.onScreenStart
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
 

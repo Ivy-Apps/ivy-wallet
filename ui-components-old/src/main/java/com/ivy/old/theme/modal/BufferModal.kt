@@ -12,6 +12,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.components.BufferBattery
 import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import java.util.*
+import com.ivy.base.R
 
 
 data class BufferModalData(

@@ -28,8 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
+import com.ivy.base.CategoryAmount
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.TimePeriod
 import com.ivy.base.ivyWalletCtx

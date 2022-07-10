@@ -145,7 +145,7 @@ dependencies {
     Google()
     Firebase()
 
-    RoomDB()
+    RoomDB(api = false)
 
     Networking(api = false)
 

@@ -27,6 +27,7 @@ import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.thenIf
+import com.ivy.base.R
 
 @Composable
 fun IvyButton(

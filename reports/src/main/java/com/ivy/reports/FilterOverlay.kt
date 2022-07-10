@@ -1,17 +1,18 @@
 package com.ivy.reports
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
@@ -20,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
@@ -29,6 +29,7 @@ import com.ivy.data.Category
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.old.ListItem
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -39,7 +40,6 @@ import com.ivy.wallet.ui.theme.modal.edit.AmountModal
 import com.ivy.wallet.ui.theme.wallet.AmountCurrencyB1Row
 import com.ivy.wallet.utils.capitalizeLocal
 import com.ivy.wallet.utils.springBounce
-import com.ivy.wallet.utils.thenIf
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -617,58 +617,6 @@ private fun ListFilterTitle(
 
         Spacer(modifier = Modifier.width(32.dp))
     }
-}
-
-@Composable
-fun ListItem(
-    icon: String?,
-    @DrawableRes defaultIcon: Int,
-    text: String,
-    selectedColor: Color?,
-    onClick: (selected: Boolean) -> Unit
-) {
-    val textColor =
-        if (selectedColor != null) findContrastTextColor(selectedColor) else UI.colors.pureInverse
-
-    Row(
-        modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .thenIf(selectedColor == null) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
-            }
-            .thenIf(selectedColor != null) {
-                background(selectedColor!!, UI.shapes.rFull)
-            }
-            .clickable(
-                onClick = {
-                    onClick(selectedColor != null)
-                }
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(Modifier.width(12.dp))
-
-        ItemIconSDefaultIcon(
-            iconName = icon,
-            defaultIcon = defaultIcon,
-            tint = textColor
-        )
-
-        Spacer(Modifier.width(4.dp))
-
-        Text(
-            modifier = Modifier.padding(vertical = 10.dp),
-            text = text,
-            style = UI.typo.b2.style(
-                color = textColor,
-                fontWeight = FontWeight.ExtraBold
-            )
-        )
-
-        Spacer(Modifier.width(24.dp))
-    }
-
-    Spacer(Modifier.width(12.dp))
 }
 
 @Composable

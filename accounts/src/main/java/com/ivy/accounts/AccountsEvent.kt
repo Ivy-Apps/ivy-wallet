@@ -1,5 +1,6 @@
 package com.ivy.accounts
 
+import com.ivy.base.AccountData
 import com.ivy.data.Account
 
 sealed class AccountsEvent {

@@ -1,14 +1,14 @@
 package com.ivy.wallet.domain.action.viewmodel.account
 
 import arrow.core.toOption
+import com.ivy.base.AccountData
 import com.ivy.data.Account
+import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
-import com.ivy.wallet.domain.action.exchange.ExchangeAct
-import com.ivy.wallet.domain.pure.exchange.ExchangeData
-import com.ivy.wallet.ui.accounts.AccountData
 import javax.inject.Inject
 
 class AccountDataAct @Inject constructor(

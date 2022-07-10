@@ -1,17 +1,21 @@
 package com.ivy.wallet.domain.action.charts
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.base.CategoryAmount
+import com.ivy.base.FromToTimeRange
+import com.ivy.base.R
+import com.ivy.base.stringRes
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
+import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
-import com.ivy.base.R
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
@@ -19,10 +23,6 @@ import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.onboarding.model.FromToTimeRange
-import com.ivy.wallet.ui.statistic.level1.CategoryAmount
-import com.ivy.wallet.ui.theme.RedLight
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject

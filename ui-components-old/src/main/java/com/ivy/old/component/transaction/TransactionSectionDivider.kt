@@ -24,6 +24,7 @@ import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.springBounce
+import com.ivy.base.R
 
 @Composable
 fun SectionDivider(
@@ -82,7 +83,7 @@ fun SectionDivider(
 
         IvyIcon(
             modifier = Modifier.rotate(expandIconRotation),
-            icon = com.ivy.old.component.R.drawable.ic_expandarrow
+            icon = R.drawable.ic_expandarrow
         )
 
         Spacer(Modifier.width(32.dp))

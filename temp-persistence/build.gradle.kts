@@ -26,6 +26,6 @@ dependencies {
     implementation(project(":data-model"))
     Hilt()
     DataStore(api = true)
-    RoomDB()
+    RoomDB(api = true)
     Gson(api = false)
 }

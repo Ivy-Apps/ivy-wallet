@@ -23,6 +23,7 @@ import com.ivy.data.Account
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy

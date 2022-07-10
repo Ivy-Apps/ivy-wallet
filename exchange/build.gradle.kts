@@ -13,5 +13,5 @@ dependencies {
     implementation(project(":network-common"))
     implementation(project(":data-model"))
     Hilt()
-    RoomDB()
+    RoomDB(api = true)
 }

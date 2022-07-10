@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.settings.preference
 
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.asParamTo
-import com.ivy.wallet.domain.data.preference.Preference
+import com.ivy.temp.persistence.Preference
 import com.ivy.wallet.io.persistence.datastore.IvyDataStore
 import javax.inject.Inject
 
