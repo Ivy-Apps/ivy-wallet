@@ -437,4 +437,8 @@
     <string name="experimental">تجريبي</string>
     <string name="experimental_settings">الإعدادات التجريبية</string>
     <string name="wallet_balance">رصيد المحفظة</string>
+    <string name="mark_as_sub_category">وضع علامة كفئة فرعية</string>
+    <string name="parent_category">القسم الرئيسي</string>
+    <string name="marked_parent_category">* تم وضع علامة على أنها فئة الأصل</string>
+    <string name="unpack_all_subcategories">فك جميع الفئات الفرعية</string>
 </resources>

@@ -82,6 +82,14 @@ fun BoxWithConstraintsScope.FilterOverlay(
     var includeKeywordModalShown by remember { mutableStateOf(false) }
     var excludeKeywordModalShown by remember { mutableStateOf(false) }
 
+    val includesKeywordId by remember(includeKeywordModalShown) {
+        mutableStateOf(UUID.randomUUID())
+    }
+
+    val excludesKeywordId by remember(excludeKeywordModalShown) {
+        mutableStateOf(UUID.randomUUID())
+    }
+
     if (percentVisible > 0.01f) {
         Column(
             modifier = Modifier
@@ -306,6 +314,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
     }
 
     AddKeywordModal(
+        id = includesKeywordId,
         keyword = "",
         visible = includeKeywordModalShown,
         dismiss = { includeKeywordModalShown = false }
@@ -318,6 +327,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
     }
 
     AddKeywordModal(
+        id = excludesKeywordId,
         keyword = "",
         visible = excludeKeywordModalShown,
         dismiss = { excludeKeywordModalShown = false }
@@ -746,7 +756,7 @@ private fun KeywordsFilter(
     FilterTitleText(
         text = stringResource(R.string.keywords_optional),
         active = filter != null &&
-            (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
+                (filter.includeKeywords.isNotEmpty() || filter.excludeKeywords.isNotEmpty())
     )
 
     Spacer(Modifier.height(12.dp))

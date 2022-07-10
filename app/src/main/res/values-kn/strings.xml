@@ -437,4 +437,8 @@
     <string name="experimental">ಪ್ರಯೋಗಾತ್ಮಕ</string>
     <string name="experimental_settings">ಪ್ರಯೋಗಾತ್ಮಕ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">ಉಪವರ್ಗ ಎಂದು ಗುರುತಿಸಿ</string>
+    <string name="parent_category">ಪೋಷಕ ವರ್ಗ</string>
+    <string name="marked_parent_category">*ಇದನ್ನು ಪೋಷಕ ವರ್ಗ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ</string>
+    <string name="unpack_all_subcategories">ಎಲ್ಲಾ ಉಪವರ್ಗಗಳನ್ನು ಅನ್ಪ್ಯಾಕ್ ಮಾಡಿ</string>
 </resources>
