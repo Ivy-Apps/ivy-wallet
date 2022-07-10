@@ -441,4 +441,10 @@
     <string name="parent_category">القسم الرئيسي</string>
     <string name="marked_parent_category">* تم وضع علامة على أنها فئة الأصل</string>
     <string name="unpack_all_subcategories">فك جميع الفئات الفرعية</string>
+    <string name="export_csv_moneywallet_description">حدد جميع \"الأعمدة الاختيارية\" في خيارات التصدير</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">إعادة تسمية فئة النقل</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">بالنسبة للمستخدمين غير الإنجليز ، أعد تسمية فئة نظام النقل إلى \"نقل\" في ملف التصدير</string>
+    <string name="export_csv_caveats">تحفظات</string>
+    <string name="export_csv_moneywallet_caveat_1">الفئات الفرعية غير مدعومة</string>
+    <string name="export_csv_moneywallet_caveat_2">سيتم تجاهل أعمدة الأحداث والأشخاص والمكان</string>
 </resources>
