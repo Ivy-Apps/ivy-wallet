@@ -1,4 +1,4 @@
-package com.ivy.import.flow.instructions
+package com.ivy.import_data.flow.instructions
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi

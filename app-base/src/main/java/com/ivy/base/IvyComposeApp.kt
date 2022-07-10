@@ -59,7 +59,7 @@ fun IvyWalletPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
-    IvyAndroidApp.appContext = rootView().context
+    GlobalProvider.appContext = rootView().context
     IvyPreview(
         theme = theme,
         design = appDesign(IvyWalletCtx()),

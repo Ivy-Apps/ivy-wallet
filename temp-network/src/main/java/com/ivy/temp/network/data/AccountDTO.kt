@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.data
 
+import com.ivy.data.Account
 import com.ivy.wallet.io.persistence.data.AccountEntity
 import java.util.*
 
@@ -26,3 +27,12 @@ data class AccountDTO(
     )
 }
 
+fun Account.toDTO(): AccountDTO = AccountDTO(
+    name = name,
+    currency = currency,
+    color = color,
+    icon = icon,
+    orderNum = orderNum,
+    includeInBalance = includeInBalance,
+    id = id,
+)

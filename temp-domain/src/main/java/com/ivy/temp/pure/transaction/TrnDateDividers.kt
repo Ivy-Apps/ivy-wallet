@@ -2,20 +2,20 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
+import com.ivy.base.TransactionHistoryDateDivider
+import com.ivy.common.convertUTCtoLocal
+import com.ivy.common.toEpochSeconds
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
+import com.ivy.exchange.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
-import com.ivy.wallet.domain.data.TransactionHistoryDateDivider
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.pure.exchange.ExchangeData
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.utils.convertUTCtoLocal
-import com.ivy.wallet.utils.toEpochSeconds
 import java.math.BigDecimal
 import java.util.*
 

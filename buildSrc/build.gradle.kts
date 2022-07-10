@@ -13,7 +13,7 @@ dependencies {
     implementation("com.android.tools.build:gradle:7.2.1")
 
     //Must match kotlinVersion from dependencies.kt
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20")
 
     implementation("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
 

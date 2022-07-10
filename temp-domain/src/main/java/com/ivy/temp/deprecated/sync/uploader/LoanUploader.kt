@@ -1,11 +1,13 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.wallet.domain.data.core.Loan
+import com.ivy.data.loan.Loan
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.data.toDTO
 import com.ivy.wallet.io.network.request.loan.DeleteLoanRequest
 import com.ivy.wallet.io.network.request.loan.UpdateLoanRequest
 import com.ivy.wallet.io.persistence.dao.LoanDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import timber.log.Timber
 import java.util.*
 

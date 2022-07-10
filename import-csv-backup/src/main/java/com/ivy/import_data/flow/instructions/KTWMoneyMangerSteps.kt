@@ -1,9 +1,9 @@
-package com.ivy.import.flow.instructions
+package com.ivy.import_data.flow.instructions
 
 import androidx.compose.runtime.Composable
 
 @Composable
-fun OneMoneySteps(
+fun KTWMoneyManagerSteps(
     onUploadClick: () -> Unit
 ) {
     DefaultImportSteps(

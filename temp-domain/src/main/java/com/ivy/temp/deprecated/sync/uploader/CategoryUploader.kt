@@ -1,13 +1,13 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
 import com.ivy.data.Category
-import com.ivy.wallet.domain.data.core.toDTO
-import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.data.toDTO
 import com.ivy.wallet.io.network.request.category.DeleteWalletCategoryRequest
 import com.ivy.wallet.io.network.request.category.UpdateWalletCategoryRequest
 import com.ivy.wallet.io.persistence.dao.CategoryDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import timber.log.Timber
 import java.util.*
 

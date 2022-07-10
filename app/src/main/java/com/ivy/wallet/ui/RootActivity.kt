@@ -50,7 +50,7 @@ import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
-import com.ivy.import.ImportCSVScreen
+import com.ivy.import_data.ImportCSVScreen
 import com.ivy.item_transactions.ItemStatisticScreen
 import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.main.MainScreen

@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.data
 
+import com.ivy.data.Budget
 import com.ivy.wallet.io.persistence.data.BudgetEntity
 import java.util.*
 
@@ -64,3 +65,12 @@ data class BudgetDTO(
         return name.isNotEmpty() && amount > 0.0
     }
 }
+
+fun Budget.toDTO(): BudgetDTO = BudgetDTO(
+    name = name,
+    amount = amount,
+    categoryIdsSerialized = categoryIdsSerialized,
+    accountIdsSerialized = accountIdsSerialized,
+    orderId = orderId,
+    id = id,
+)

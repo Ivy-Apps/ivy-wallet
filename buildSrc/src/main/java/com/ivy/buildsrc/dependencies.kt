@@ -25,7 +25,7 @@ object Project {
     const val versionCode = 117
 
     //Compile SDK & Build Tools
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 32
 
     //App
     const val applicationId = "com.ivy.wallet"
@@ -38,14 +38,18 @@ object Versions {
 
     //URL: https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.6.10"
+    const val kotlin = "1.6.20"
     const val coroutines = "1.6.3"
 
-    //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    const val compose = "1.1.1"
+    //https://developer.android.com/jetpack/androidx/releases/compose
+    const val compose = "1.2.0-rc03"
+    //https://developer.android.com/jetpack/androidx/releases/compose-foundation
+    const val composeFoundation = "1.2.0-rc03"
     const val composeActivity = "1.4.0"
     const val composeViewModel = "1.0.0-alpha05"
     const val composeGlance = "1.0.0-alpha03"
+
+    //https://github.com/google/accompanist
     const val composeAccompanist = "0.15.0"
     const val composeCoil = "2.0.0"
 
@@ -112,7 +116,14 @@ fun DependencyHandler.Compose(api: Boolean) {
     val version = Versions.compose
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
     dependency("androidx.compose.ui:ui:$version", api = api)
-    dependency("androidx.compose.foundation:foundation:$version", api = api)
+    dependency(
+        "androidx.compose.foundation:foundation:${Versions.composeFoundation}",
+        api = api
+    )
+    dependency(
+        "androidx.compose.foundation:foundation-layout:${Versions.composeFoundation}",
+        api = api
+    )
     dependency("androidx.compose.animation:animation:$version", api = api)
     dependency("androidx.compose.material:material:$version", api = api)
     dependency("androidx.compose.material:material-icons-extended:$version", api = api)
@@ -149,10 +160,10 @@ fun DependencyHandler.Accompanist(api: Boolean) {
         dependency = "com.google.accompanist:accompanist-coil:${Versions.composeAccompanist}",
         api = api
     )
-    dependency(
-        dependency = "com.google.accompanist:accompanist-insets:${Versions.composeAccompanist}",
-        api = api
-    )
+//    dependency(
+//        dependency = "com.google.accompanist:accompanist-insets:${Versions.composeAccompanist}",
+//        api = api
+//    )
 
     //TODO: Review what is this? Why is hard-coded to that version?
     dependency(

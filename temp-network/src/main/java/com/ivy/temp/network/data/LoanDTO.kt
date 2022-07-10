@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.data
 
+import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanType
 import com.ivy.wallet.io.persistence.data.LoanEntity
 import java.util.*
@@ -33,3 +34,14 @@ data class LoanDTO(
         return if (type == LoanType.BORROW) "BORROWED" else "LENT"
     }
 }
+
+fun Loan.toDTO(): LoanDTO = LoanDTO(
+    name = name,
+    amount = amount,
+    type = type,
+    color = color,
+    icon = icon,
+    orderNum = orderNum,
+    accountId = accountId,
+    id = id,
+)

@@ -4,6 +4,7 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.Account
 import com.ivy.data.transaction.Transaction
+import com.ivy.exchange.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.pure.account.accountCurrency

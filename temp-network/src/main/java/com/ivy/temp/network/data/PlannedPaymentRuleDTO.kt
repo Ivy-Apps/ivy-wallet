@@ -1,6 +1,7 @@
 package com.ivy.wallet.io.network.data
 
 import com.ivy.data.planned.IntervalType
+import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.io.persistence.data.PlannedPaymentRuleEntity
 import java.time.LocalDateTime
@@ -37,3 +38,16 @@ data class PlannedPaymentRuleDTO(
         isDeleted = false
     )
 }
+
+fun PlannedPaymentRule.toDTO(): PlannedPaymentRuleDTO = PlannedPaymentRuleDTO(
+    startDate = startDate,
+    intervalN = intervalN,
+    intervalType = intervalType,
+    oneTime = oneTime,
+    type = type,
+    accountId = accountId,
+    amount = amount,
+    categoryId = categoryId,
+    title = title,
+    id = id,
+)

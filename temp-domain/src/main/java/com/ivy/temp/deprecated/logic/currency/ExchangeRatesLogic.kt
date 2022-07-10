@@ -1,14 +1,14 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
 import com.ivy.data.Account
+import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.Transaction
-import com.ivy.wallet.domain.data.core.ExchangeRate
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.exchange.ExchangeRate
+import com.ivy.exchange.ExchangeRateDao
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.utils.sendToCrashlytics
 import java.util.*
 
 @Deprecated("Use FP style, look into `domain.fp` package")
@@ -41,7 +41,6 @@ class ExchangeRatesLogic(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            e.sendToCrashlytics("Failed to sync exchange rates")
         }
     }
 

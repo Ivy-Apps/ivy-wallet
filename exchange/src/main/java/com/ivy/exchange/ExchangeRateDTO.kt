@@ -1,4 +1,4 @@
-package com.ivy.wallet.io.network.data
+package com.ivy.exchange
 
 data class ExchangeRateDTO(
     val baseCurrency: String,

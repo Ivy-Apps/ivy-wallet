@@ -1,4 +1,4 @@
-package com.ivy.import
+package com.ivy.import_data
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
@@ -10,10 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.import.flow.ImportFrom
-import com.ivy.import.flow.ImportProcessing
-import com.ivy.import.flow.ImportResultUI
-import com.ivy.import.flow.instructions.ImportInstructions
+import com.ivy.import_data.flow.ImportFrom
+import com.ivy.import_data.flow.ImportProcessing
+import com.ivy.import_data.flow.ImportResultUI
+import com.ivy.import_data.flow.instructions.ImportInstructions
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.screens.Import
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult

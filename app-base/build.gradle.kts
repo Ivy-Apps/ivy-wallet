@@ -7,6 +7,12 @@ plugins {
     `kotlin-android`
 }
 
+android {
+    buildFeatures {
+        compose = true
+    }
+}
+
 dependencies {
     implementation(project(":ui-common"))
     implementation(project(":data-model"))

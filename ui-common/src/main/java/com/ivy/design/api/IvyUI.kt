@@ -12,7 +12,6 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ivy.design.IvyContext
 import com.ivy.design.l0_system.IvyTheme
@@ -45,18 +44,16 @@ fun IvyUI(
             }
 
             Surface(modifier = Modifier.fillMaxSize()) {
-                ProvideWindowInsets {
-                    BoxWithConstraints {
-                        ivyContext.screenWidth = with(LocalDensity.current) {
-                            maxWidth.roundToPx()
-                        }
-                        ivyContext.screenHeight = with(LocalDensity.current) {
-                            maxHeight.roundToPx()
-                        }
-
-
-                        Content()
+                BoxWithConstraints {
+                    ivyContext.screenWidth = with(LocalDensity.current) {
+                        maxWidth.roundToPx()
                     }
+                    ivyContext.screenHeight = with(LocalDensity.current) {
+                        maxHeight.roundToPx()
+                    }
+
+
+                    Content()
                 }
             }
         }

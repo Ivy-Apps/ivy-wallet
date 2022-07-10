@@ -1,11 +1,13 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.wallet.domain.data.core.PlannedPaymentRule
+import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.network.data.toDTO
 import com.ivy.wallet.io.network.request.planned.DeletePlannedPaymentRuleRequest
 import com.ivy.wallet.io.network.request.planned.UpdatePlannedPaymentRuleRequest
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import timber.log.Timber
 import java.util.*
 

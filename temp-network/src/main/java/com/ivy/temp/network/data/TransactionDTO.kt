@@ -1,5 +1,6 @@
 package com.ivy.wallet.io.network.data
 
+import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
@@ -50,3 +51,21 @@ data class TransactionDTO(
         isDeleted = false
     )
 }
+
+fun Transaction.toDTO(): TransactionDTO = TransactionDTO(
+    accountId = accountId,
+    type = type,
+    amount = amount.toDouble(),
+    toAccountId = toAccountId,
+    toAmount = toAmount.toDouble(),
+    title = title,
+    description = description,
+    dateTime = dateTime,
+    categoryId = categoryId,
+    dueDate = dueDate,
+    recurringRuleId = recurringRuleId,
+    attachmentUrl = attachmentUrl,
+    loanId = loanId,
+    loanRecordId = loanRecordId,
+    id = id,
+)
