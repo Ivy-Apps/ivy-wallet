@@ -437,4 +437,8 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">Ajustes experimentales</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">Marcar como subcategoría</string>
+    <string name="parent_category">Categoría principal</string>
+    <string name="marked_parent_category">*Esto está marcado como una categoría principal</string>
+    <string name="unpack_all_subcategories">Desempaquetar todas las subcategorías</string>
 </resources>

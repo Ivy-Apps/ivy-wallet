@@ -437,4 +437,8 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">Отметить как подкатегорию</string>
+    <string name="parent_category">" родительская категория"</string>
+    <string name="marked_parent_category">*Это помечено как родительская категория</string>
+    <string name="unpack_all_subcategories">Распаковать все подкатегории</string>
 </resources>

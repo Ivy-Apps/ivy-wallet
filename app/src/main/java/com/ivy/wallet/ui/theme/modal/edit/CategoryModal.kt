@@ -159,7 +159,7 @@ fun BoxWithConstraintsScope.CategoryModal(
         if (isSubCategory) {
             Text(
                 modifier = Modifier.padding(top = 16.dp, end = 32.dp, start = 32.dp),
-                text = "Parent Category",
+                text = stringResource(R.string.parent_category),
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
@@ -189,7 +189,7 @@ fun BoxWithConstraintsScope.CategoryModal(
         if (parentCategoryList.isNotEmpty() && isParentCat) {
             Text(
                 modifier = Modifier.padding(top = 32.dp, start = 32.dp),
-                text = "*This is marked as a Parent Category",
+                text = stringResource(R.string.marked_parent_category),
                 style = UI.typo.nB2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Normal

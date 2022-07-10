@@ -438,4 +438,7 @@
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="mark_as_sub_category">Mark as Sub-Category</string>
+    <string name="parent_category">Parent Category</string>
+    <string name="marked_parent_category">*This is marked as a Parent Category</string>
+    <string name="unpack_all_subcategories">Unpack All Subcategories</string>
 </resources>
