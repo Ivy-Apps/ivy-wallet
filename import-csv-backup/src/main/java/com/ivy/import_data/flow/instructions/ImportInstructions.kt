@@ -19,14 +19,13 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.import_data.flow.ImportSteps
 import com.ivy.old.OnboardingToolbar
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -109,7 +108,8 @@ fun BoxWithConstraintsScope.ImportInstructions(
                 )
             )
 
-            importType.ImportSteps(
+            ImportSteps(
+                type = importType,
                 onUploadClick = onUploadClick
             )
         }

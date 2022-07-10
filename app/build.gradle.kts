@@ -140,6 +140,13 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":import-csv-backup"))
 
+    implementation(project(":temp-domain"))
+    implementation(project(":temp-persistence"))
+    implementation(project(":temp-network"))
+    implementation(project(":billing"))
+    implementation(project(":android-notifications"))
+    implementation(project(":exchange"))
+
     Hilt()
 
     Google()

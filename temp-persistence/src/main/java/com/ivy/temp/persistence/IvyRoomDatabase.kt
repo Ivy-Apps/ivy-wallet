@@ -3,6 +3,8 @@ package com.ivy.wallet.io.persistence
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
+import com.ivy.exchange.ExchangeRateDao
+import com.ivy.exchange.ExchangeRateEntity
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
@@ -13,7 +15,7 @@ import com.ivy.wallet.io.persistence.migration.*
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
         SettingsEntity::class, PlannedPaymentRuleEntity::class,
         UserEntity::class, BudgetEntity::class,
-        LoanEntity::class, LoanRecordEntity::class
+        LoanEntity::class, LoanRecordEntity::class, ExchangeRateEntity::class
     ],
     autoMigrations = [
         AutoMigration(
@@ -45,6 +47,8 @@ abstract class IvyRoomDatabase : RoomDatabase() {
 
     abstract fun loanRecordDao(): LoanRecordDao
 
+    abstract fun exchangeRateDao(): ExchangeRateDao
+
     companion object {
         const val DB_NAME = "ivywallet.db"
 
@@ -71,7 +75,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
                     Migration118to119_Loans(),
                     Migration119to120_LoanTransactions(),
                     Migration120to121_DropWishlistItem(),
-                    Migration122to123_DropExchangeRates(),
+                    Migration122to123_DoNothing(),
                 )
                 .build()
         }

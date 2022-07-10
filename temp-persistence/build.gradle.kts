@@ -28,4 +28,6 @@ dependencies {
     DataStore(api = true)
     RoomDB(api = true)
     Gson(api = false)
+
+    implementation(project(":exchange"))
 }

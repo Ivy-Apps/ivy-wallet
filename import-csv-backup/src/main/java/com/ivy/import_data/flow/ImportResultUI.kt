@@ -8,12 +8,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.systemBarsPadding
 import com.ivy.base.IvyWalletPreview
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.base.R
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButton
@@ -139,7 +138,10 @@ fun ImportResultUI(
 
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
-            text = stringResource(R.string.rows_from_csv_not_recognized, result.rowsFound - result.transactionsImported),
+            text = stringResource(
+                R.string.rows_from_csv_not_recognized,
+                result.rowsFound - result.transactionsImported
+            ),
             style = UI.typo.nB2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray

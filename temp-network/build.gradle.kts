@@ -7,6 +7,7 @@ apply<com.ivy.buildsrc.IvyPlugin>()
 plugins {
     `android-library`
     `kotlin-android`
+    id("com.google.gms.google-services")
 }
 
 dependencies {

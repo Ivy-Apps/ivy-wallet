@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 123,
-    "identityHash": "146cf161e002810963ea9f28d108a7ac",
+    "identityHash": "319b13332051b3e936a5902b2b7a2ad5",
     "entities": [
       {
         "tableName": "accounts",
@@ -663,12 +663,45 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "exchange_rates",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`baseCurrency` TEXT NOT NULL, `currency` TEXT NOT NULL, `rate` REAL NOT NULL, PRIMARY KEY(`baseCurrency`, `currency`))",
+        "fields": [
+          {
+            "fieldPath": "baseCurrency",
+            "columnName": "baseCurrency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rate",
+            "columnName": "rate",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "baseCurrency",
+            "currency"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '146cf161e002810963ea9f28d108a7ac')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '319b13332051b3e936a5902b2b7a2ad5')"
     ]
   }
 }
