@@ -438,9 +438,12 @@
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
     <string name="mark_as_sub_category">Mark as Sub-Category</string>
+    <string name="parent_category">Parent Category</string>
+    <string name="marked_parent_category">*This is marked as a Parent Category</string>
+    <string name="unpack_all_subcategories">Unpack All Subcategories</string>
     <string name="export_csv_moneywallet_description">Check all \"Optional columns\" in export options</string>
     <string name="export_csv_moneywallet_rename_transfer_title">Rename transfer category</string>
-    <string name="export_csv_moneywallet_rename_transfer_description">For non-English users, rename transfer system cateogry to \"Transfer\" in export file</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">For non-English users, rename transfer system category to \"Transfer\" in export file</string>
     <string name="export_csv_caveats">Caveats</string>
     <string name="export_csv_moneywallet_caveat_1">Subcategories are not supported</string>
     <string name="export_csv_moneywallet_caveat_2">Event, People and Place columns will be ignored</string>
