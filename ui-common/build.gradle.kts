@@ -2,7 +2,7 @@ import com.ivy.buildsrc.AndroidX
 import com.ivy.buildsrc.Compose
 import com.ivy.buildsrc.Lifecycle
 
-apply<com.ivy.buildsrc.IvyPlugin>()
+apply<com.ivy.buildsrc.IvyComposePlugin>()
 
 plugins {
     `android-library`

@@ -1,7 +1,6 @@
 import com.ivy.buildsrc.EventBus
-import com.ivy.buildsrc.ThirdParty
 
-apply<com.ivy.buildsrc.IvyPlugin>()
+apply<com.ivy.buildsrc.IvyComposePlugin>()
 
 plugins {
     `android-library`
