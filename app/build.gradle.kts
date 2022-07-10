@@ -80,6 +80,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xskip-prerelease-check")
     }
 
     buildFeatures {

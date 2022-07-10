@@ -6,7 +6,9 @@ import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.Constants
+import com.ivy.base.R
 import com.ivy.base.stringRes
+import com.ivy.billing.IvyBilling
 import com.ivy.data.Theme
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
@@ -14,10 +16,7 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding
-import com.ivy.base.R
-import com.ivy.wallet.android.billing.IvyBilling
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -35,7 +34,6 @@ import javax.inject.Inject
 class RootViewModel @Inject constructor(
     private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
-    private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
     private val ivySession: IvySession,
@@ -73,7 +71,6 @@ class RootViewModel @Inject constructor(
 
             ioThread {
                 ivySession.loadFromCache()
-                ivyAnalytics.loadSession()
 
                 appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
                 //initial app locked state

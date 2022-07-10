@@ -7,7 +7,6 @@ apply<com.ivy.buildsrc.IvyPlugin>()
 plugins {
     `android-library`
     `kotlin-android`
-    id("com.google.gms.google-services")
 }
 
 dependencies {
@@ -16,6 +15,4 @@ dependencies {
     implementation(project(":temp-persistence"))
     Networking(api = true)
 
-    Google()
-    Firebase()
 }

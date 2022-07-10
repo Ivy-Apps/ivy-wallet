@@ -17,7 +17,6 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
-import com.ivy.wallet.io.network.FCMClient
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.request.auth.GoogleSignInRequest
@@ -41,7 +40,6 @@ class OnboardingViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,
     private val restClient: RestClient,
-    private val fcmClient: FCMClient,
     private val session: IvySession,
     private val accountLogic: WalletAccountLogic,
     private val categoryCreator: CategoryCreator,
@@ -178,7 +176,7 @@ class OnboardingViewModel @Inject constructor(
         val authResponse = restClient.authService.googleSignIn(
             GoogleSignInRequest(
                 googleIdToken = idToken,
-                fcmToken = fcmClient.fcmToken()
+                fcmToken = "n/a"
             )
         )
 

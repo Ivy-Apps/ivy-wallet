@@ -74,6 +74,7 @@ object Versions {
     //https://developer.android.com/training/dependency-injection/hilt-android
     //WARNING: Update hilt gradle plugin from buildSrc
     const val hilt = "2.42"
+    //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
 
     const val androidXTestRunner = "1.4.0"
@@ -239,8 +240,6 @@ fun DependencyHandler.Hilt() {
     dependency("com.google.dagger:hilt-android:${Versions.hilt}", api = api)
     kapt("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
 
-    //URL: https://mvnrepository.com/artifact/androidx.hilt/hilt-lifecycle-viewmodel?repo=google
-//    implementation("androidx.hilt:hilt-lifecycle-viewmodel:$versionX")
     kapt("androidx.hilt:hilt-compiler:${Versions.hiltX}")
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
