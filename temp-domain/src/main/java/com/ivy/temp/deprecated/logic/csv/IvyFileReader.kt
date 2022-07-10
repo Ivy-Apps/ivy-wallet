@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import android.content.Context
 import android.net.Uri
-import com.ivy.wallet.utils.readFile
+import com.ivy.base.readFile
 import java.nio.charset.Charset
 
 class IvyFileReader(

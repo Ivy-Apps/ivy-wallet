@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
+import com.ivy.data.loan.Loan
+import com.ivy.data.loan.LoanRecord
 import com.ivy.data.transaction.Transaction
-import com.ivy.wallet.domain.data.core.Loan
-import com.ivy.wallet.domain.data.core.LoanRecord
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.utils.computationThread
 import java.util.*

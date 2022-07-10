@@ -1,10 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.wallet.domain.data.core.Budget
+import com.ivy.data.Budget
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.deprecated.sync.uploader.BudgetUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.BudgetDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 

@@ -6,15 +6,15 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.ivy.base.GlobalProvider
 import com.ivy.base.R
-import com.ivy.wallet.android.notification.IvyNotificationChannel
-import com.ivy.wallet.android.notification.NotificationService
+import com.ivy.base.stringRes
+import com.ivy.common.atEndOfDay
+import com.ivy.common.dateNowUTC
+import com.ivy.notifications.IvyNotificationChannel
+import com.ivy.notifications.NotificationService
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.wallet.stringRes
-import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.utils.atEndOfDay
-import com.ivy.wallet.utils.dateNowUTC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +56,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                     PendingIntent.getActivity(
                         applicationContext,
                         1,
-                        RootActivity.getIntent(applicationContext),
+                        GlobalProvider.rootIntent.getIntent(applicationContext),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
                                 or PendingIntent.FLAG_IMMUTABLE
                     )

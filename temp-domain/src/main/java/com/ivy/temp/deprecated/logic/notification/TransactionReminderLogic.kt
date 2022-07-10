@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.ivy.common.timeNowLocal
+import com.ivy.common.toEpochSeconds
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.utils.timeNowLocal
-import com.ivy.wallet.utils.toEpochSeconds
 import java.util.concurrent.TimeUnit
 
 @Deprecated("Use FP style, look into `domain.fp` package")

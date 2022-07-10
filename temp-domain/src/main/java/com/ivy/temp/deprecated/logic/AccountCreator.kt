@@ -2,12 +2,12 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.data.Account
-import com.ivy.wallet.domain.data.core.toEntity
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
 import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.ioThread
 import javax.inject.Inject
 

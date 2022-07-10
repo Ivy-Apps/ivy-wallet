@@ -339,6 +339,10 @@ fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
     implementation("com.notkamui.libs:keval:0.8.0")
 
+    OpenCSV()
+}
+
+fun DependencyHandler.OpenCSV() {
     implementation("com.opencsv:opencsv:5.5")
     implementation("org.apache.commons:commons-lang3:3.12.0")
 }

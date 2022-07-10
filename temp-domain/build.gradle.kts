@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.ThirdParty
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -14,7 +15,9 @@ dependencies {
     implementation(project(":exchange"))
     implementation(project(":ui-common"))
     Hilt()
+    ThirdParty()
 
     implementation(project(":temp-persistence"))
     implementation(project(":temp-network"))
+    implementation(project(":android-notifications"))
 }

@@ -5,14 +5,14 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import com.ivy.wallet.domain.data.IvyWalletCompleteData
+import com.ivy.base.readFile
+import com.ivy.common.toEpochMilli
+import com.ivy.temp.deprecated.logic.zip.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.readFile
 import com.ivy.wallet.utils.scopedIOThread
-import com.ivy.wallet.utils.toEpochMilli
 import kotlinx.coroutines.async
 import java.io.File
 import java.lang.reflect.Type
