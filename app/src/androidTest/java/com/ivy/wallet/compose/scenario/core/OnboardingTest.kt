@@ -2,9 +2,9 @@ package com.ivy.wallet.compose.scenario.core
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
+import com.ivy.data.IvyCurrency
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.picker.IvyCurrencyPicker
-import com.ivy.wallet.domain.data.IvyCurrency
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 

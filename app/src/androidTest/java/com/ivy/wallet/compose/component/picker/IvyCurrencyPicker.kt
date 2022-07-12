@@ -4,8 +4,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.ivy.data.IvyCurrency
 import com.ivy.wallet.compose.IvyComposeTestRule
-import com.ivy.wallet.domain.data.IvyCurrency
 
 class IvyCurrencyPicker(
     private val composeTestRule: IvyComposeTestRule
