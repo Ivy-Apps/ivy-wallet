@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.*
+import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -8,6 +9,7 @@ plugins {
 }
 
 dependencies {
+    Hilt()
     IvyFRP(api = true)
     Kotlin(api = true)
     Coroutines(api = true)

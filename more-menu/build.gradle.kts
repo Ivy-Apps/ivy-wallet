@@ -1,3 +1,5 @@
+import com.ivy.buildsrc.Hilt
+
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
 plugins {
@@ -5,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":ui-common"))
     implementation(project(":ui-components-old"))
     implementation(project(":app-base"))

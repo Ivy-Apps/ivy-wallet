@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.DataStore
+import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
@@ -14,6 +15,7 @@ android {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":ui-common"))
     implementation(project(":data-model"))
     implementation(project(":app-base"))

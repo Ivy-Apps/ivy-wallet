@@ -22,9 +22,9 @@ android {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":common"))
     implementation(project(":data-model"))
-    Hilt()
     DataStore(api = true)
     RoomDB(api = true)
     Gson(api = false)

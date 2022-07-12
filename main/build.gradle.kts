@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.EventBus
+import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
@@ -8,6 +9,7 @@ plugins {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":ui-common"))
     implementation(project(":data-model"))
     implementation(project(":temp-domain"))

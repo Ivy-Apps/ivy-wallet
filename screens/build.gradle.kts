@@ -1,3 +1,5 @@
+import com.ivy.buildsrc.Hilt
+
 apply<com.ivy.buildsrc.IvyPlugin>()
 
 plugins {
@@ -5,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":common"))
     implementation(project(":data-model"))
 }

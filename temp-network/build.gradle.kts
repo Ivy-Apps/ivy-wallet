@@ -1,6 +1,5 @@
-import com.ivy.buildsrc.Firebase
-import com.ivy.buildsrc.Google
 import com.ivy.buildsrc.Networking
+import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -10,6 +9,7 @@ plugins {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":common"))
     implementation(project(":data-model"))
     implementation(project(":temp-persistence"))

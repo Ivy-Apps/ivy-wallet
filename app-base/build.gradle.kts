@@ -14,9 +14,8 @@ android {
 }
 
 dependencies {
+    Hilt()
     implementation(project(":ui-common"))
     implementation(project(":data-model"))
     implementation(project(":temp-persistence"))
-
-    Hilt()
 }

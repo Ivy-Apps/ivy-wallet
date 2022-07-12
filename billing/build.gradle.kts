@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Billing
+import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -8,6 +9,8 @@ plugins {
 }
 
 dependencies {
+    Hilt()
+
     implementation(project(":common"))
     implementation(project(":data-model"))
     implementation(project(":app-base"))
