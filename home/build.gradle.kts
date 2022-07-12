@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.IvyFRP
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 

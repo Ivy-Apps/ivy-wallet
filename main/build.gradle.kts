@@ -20,6 +20,6 @@ dependencies {
 
     EventBus()
 
-    implementation(project(":home"))
-    implementation(project(":accounts"))
+    api(project(":home"))
+    api(project(":accounts"))
 }

@@ -54,12 +54,10 @@ object Versions {
     const val composeActivity = "1.5.0"
 
     //https://developer.android.com/jetpack/androidx/releases/lifecycle
-    const val composeViewModel = "2.5.0"
+    const val composeViewModel = "2.6.0-alpha01"
     //https://developer.android.com/jetpack/androidx/releases/glance
     const val composeGlance = "1.0.0-alpha03"
 
-    //https://github.com/google/accompanist
-    const val composeAccompanist = "0.15.0"
     //Set status bar color
     //https://google.github.io/accompanist/systemuicontroller/
     const val composeAccompanistUIController = "0.24.13-rc"
@@ -79,8 +77,10 @@ object Versions {
 
     const val androidXTestRunner = "1.4.0"
 
-    const val appCompat = "1.4.1"
-    const val coreKtx = "1.7.0" //androidx
+    //https://developer.android.com/jetpack/androidx/releases/appcompat
+    const val appCompat = "1.4.2"
+    //https://developer.android.com/jetpack/androidx/releases/core
+    const val coreKtx = "1.9.0-alpha05" //androidx
     const val workVersion = "2.7.1"
     const val biometric = "1.1.0"
     const val recyclerView = "1.2.1"

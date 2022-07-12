@@ -26,6 +26,8 @@ android {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+
+            correctErrorTypes = true
         }
     }
 
@@ -103,6 +105,10 @@ android {
         //-------------------------------------------------------
     }
 
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
+
     testOptions {
         unitTests.all {
             //Required by Kotest
@@ -116,10 +122,8 @@ dependencies {
     implementation(project(":ui-common"))
     implementation(project(":app-base"))
     implementation(project(":screens"))
-    implementation(project(":accounts"))
     implementation(project(":budgets"))
     implementation(project(":categories"))
-    implementation(project(":home"))
     implementation(project(":loans"))
     implementation(project(":onboarding"))
     implementation(project(":pie-charts"))
