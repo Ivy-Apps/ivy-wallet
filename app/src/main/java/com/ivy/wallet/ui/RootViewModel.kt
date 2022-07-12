@@ -5,20 +5,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.design.l0_system.Theme
+import com.ivy.base.Constants
+import com.ivy.base.R
+import com.ivy.base.stringRes
+import com.ivy.billing.IvyBilling
+import com.ivy.data.Theme
+import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.Constants
-import com.ivy.wallet.R
-import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.PaywallLogic
+import com.ivy.screens.EditTransaction
+import com.ivy.screens.Main
+import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
-import com.ivy.wallet.io.network.IvyAnalytics
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.stringRes
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
 import com.ivy.wallet.utils.sendToCrashlytics
@@ -26,20 +27,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
 
 @HiltViewModel
 class RootViewModel @Inject constructor(
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
-    private val ivyAnalytics: IvyAnalytics,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
     private val ivySession: IvySession,
     private val ivyBilling: IvyBilling,
-    private val paywallLogic: PaywallLogic,
     private val transactionReminderLogic: TransactionReminderLogic
 ) : ViewModel() {
 
@@ -73,7 +71,6 @@ class RootViewModel @Inject constructor(
 
             ioThread {
                 ivySession.loadFromCache()
-                ivyAnalytics.loadSession()
 
                 appLockEnabled = sharedPrefs.getBoolean(SharedPrefs.APP_LOCK_ENABLED, false)
                 //initial app locked state
@@ -100,9 +97,9 @@ class RootViewModel @Inject constructor(
 
     private fun handleSpecialStart(intent: Intent): Boolean {
         val addTrnType: TransactionType? = try {
-            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType ?:
-            TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
-        } catch (e: IllegalArgumentException){
+            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
+                ?: TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
+        } catch (e: IllegalArgumentException) {
             null
         }
 
@@ -147,12 +144,12 @@ class RootViewModel @Inject constructor(
             onReady = {
                 viewModelScope.launch {
                     val purchases = ivyBilling.queryPurchases()
-                    paywallLogic.processPurchases(purchases)
+//                    paywallLogic.processPurchases(purchases)
                 }
             },
             onPurchases = { purchases ->
                 viewModelScope.launch {
-                    paywallLogic.processPurchases(purchases)
+//                    paywallLogic.processPurchases(purchases)
                 }
 
             },

@@ -1,5 +1,4 @@
-import com.ivy.wallet.buildsrc.Project
-import com.ivy.wallet.buildsrc.appModuleDependencies
+import com.ivy.buildsrc.*
 
 plugins {
     id("com.android.application")
@@ -12,14 +11,14 @@ plugins {
 }
 
 android {
-    compileSdk = Project.compileSdkVersion
+    compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
 
     defaultConfig {
-        applicationId = Project.applicationId
-        minSdk = Project.minSdk
-        targetSdk = Project.targetSdk
-        versionCode = Project.versionCode
-        versionName = Project.versionName
+        applicationId = com.ivy.buildsrc.Project.applicationId
+        minSdk = com.ivy.buildsrc.Project.minSdk
+        targetSdk = com.ivy.buildsrc.Project.targetSdk
+        versionCode = com.ivy.buildsrc.Project.versionCode
+        versionName = com.ivy.buildsrc.Project.versionName
 
         testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
 
@@ -27,6 +26,8 @@ android {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+
+            correctErrorTypes = true
         }
     }
 
@@ -48,8 +49,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            //TODO: R8 disabled until `modularization` is stable
+            isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = false
             isDefault = false
 
@@ -81,6 +83,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + listOf("-Xskip-prerelease-check")
     }
 
     buildFeatures {
@@ -88,7 +91,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = com.ivy.wallet.buildsrc.GlobalVersions.compose
+        kotlinCompilerExtensionVersion = com.ivy.buildsrc.Versions.composeCompilerVersion
     }
 
     lint {
@@ -103,6 +106,10 @@ android {
         //-------------------------------------------------------
     }
 
+    hilt {
+        enableExperimentalClasspathAggregation = true
+    }
+
     testOptions {
         unitTests.all {
             //Required by Kotest
@@ -112,5 +119,50 @@ android {
 }
 
 dependencies {
-    appModuleDependencies()
+    implementation(project(":common"))
+    implementation(project(":ui-common"))
+    implementation(project(":app-base"))
+    implementation(project(":screens"))
+    implementation(project(":budgets"))
+    implementation(project(":categories"))
+    implementation(project(":loans"))
+    implementation(project(":onboarding"))
+    implementation(project(":pie-charts"))
+    implementation(project(":planned-payments"))
+    implementation(project(":reports"))
+    implementation(project(":settings"))
+    implementation(project(":search-transactions"))
+    implementation(project(":transaction-details"))
+    implementation(project(":data-model"))
+    implementation(project(":ui-components-old"))
+    implementation(project(":customer-journey"))
+    implementation(project(":widgets"))
+    implementation(project(":main"))
+    implementation(project(":app-locked"))
+    implementation(project(":balance-prediction"))
+    implementation(project(":donate"))
+    implementation(project(":item-transactions"))
+    implementation(project(":web-view"))
+    implementation(project(":settings"))
+    implementation(project(":import-csv-backup"))
+
+    implementation(project(":temp-domain"))
+    implementation(project(":temp-persistence"))
+    implementation(project(":temp-network"))
+    implementation(project(":billing"))
+    implementation(project(":android-notifications"))
+    implementation(project(":exchange"))
+
+    Hilt()
+
+    Google()
+    Firebase()
+
+    RoomDB(api = false)
+
+    Networking(api = false)
+
+    DataStore(api = false)
+
+    ThirdParty()
 }

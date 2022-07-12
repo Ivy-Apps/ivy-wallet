@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/ivy</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="colorAccent">@color/black</color>
+
+    <!-- Design System -->
+    <color name="white">#FFFAFAFA</color>
+    <color name="black">#FF111114</color>
+
+    <color name="mediumBlack">#FF2B2C2D</color>
+    <color name="gray">#FF939199</color>
+    <color name="mediumWhite">#FFEFEEF0</color>
+
+    <color name="ivy">#6B4DFF</color>
+
+    <color name="green">#14CC9E</color>
+
+    <color name="orange">#FFC44D</color>
+
+    <color name="red">#FF4D6B</color>
+    <color name="redL1">#FF94A6</color>
+
+
+    <!-- UNIVERSAL -->
+    <color name="transparent">#00FFFFFF</color>
+</resources>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accounts">الحسابات</string>
+    <string name="total">%1$s المجموع: %2$s </string>
+    <string name="month_income">الدخل هذا الشهر</string>
+    <string name="month_expenses">الإنفاق هذا الشهر</string>
+    <string name="excluded">(مستبعد)</string>
+    <string name="income_uppercase">دخل</string>
+    <string name="expenses_uppercase">إنفاق</string>
+    <string name="app_locked">التطبيق مغلق</string>
+    <string name="authenticate_text">الغِ القفل لدخول التطبيق</string>
+    <string name="unlock">إلغاء القفل</string>
+    <string name="current_balance">الرصيد الحالي</string>
+    <string name="balance_after_payments">الرصيد بعد الدفعات المحددة</string>
+    <string name="connect">اتصل</string>
+    <string name="sync_transactions">مزامنة المعاملات</string>
+    <string name="syncing_transactions">يتم مزامنة المعاملات…</string>
+    <string name="bank_sync_enabled">مزامنة البنك مفعلة:</string>
+    <string name="remove_customer">حذف العميل</string>
+    <string name="add_budget">أضف ميزانية</string>
+    <string name="no_budgets">لا يوجد ميزانيات</string>
+    <string name="no_budgets_text">لا يوجد لديك اي ميزانيات محددة. اضغط على "أضف ميزانية" لإضافة واحدة.</string>
+    <string name="budgets">الميزانيات</string>
+    <string name="for_categories">للفئات %1$s %2$s</string>
+    <string name="app_budget">%1$s %2$s ميزانية التطبيق</string>
+    <string name="budget_info_both">معلومات الميزانية: %1$s / %2$s</string>
+    <string name="budget_info">%2$s معلومات الميزانية: %1$s</string>
+    <string name="add_category">أضف فئة</string>
+    <string name="expenses">الإنفاق</string>
+    <string name="expenses_count">عدد الإنفاق</string>
+    <string name="income">الدخل</string>
+    <string name="income_count">عدد المدخولات</string>
+    <string name="balance_chart">مخطط الرصيد</string>
+    <string name="balance">الرصيد %1$s</string>
+    <string name="charts">المخططات</string>
+    <string name="period">المدة:</string>
+    <string name="categories">الفئات</string>
+    <string name="export_csv_file">csv تصدير ملف</string>
+    <string name="export_csv_file_standard">تصدير ملف csv بالخيارات القياسية</string>
+    <string name="export_csv_file_standard_description">الرجاء استخدام الخيارات القياسية و التأكد من وجود الرأس</string>
+    <string name="how_to_import">كيفية الإستيراد</string>
+    <string name="open">افتح</string>
+    <string name="steps">الخطوات</string>
+    <string name="how_to">تعليمات</string>
+    <string name="video">فيديو</string>
+    <string name="article">اقرأ المقال</string>
+    <string name="upload_csv_file">CSV رفع ملف</string>
+    <string name="export_data">تصدير البيانات</string>
+    <string name="upload_csv_zip_file">CSV/ZIP رفع ملف</string>
+    <string name="export_to_file">التصدير الى ملف</string>
+    <string name="export_to_file_description">مجموعة الحروف: UTF-8\nفاصلة الارقام: Decimal point \'.\'\nمحدد الحروف: فاصلة \'\ط\\,\'</string>
+    <string name="export_excel_file">Excel تصدير ملف</string>
+    <string name="convert_xls_to_csv">CSV حول الملف الى صيغة</string>
+    <string name="convert_xls_to_csv_description">ملاحظة: اذا كان المف المصدر لا ينتهي ب ,xls. اضفها عنة طريق اعادة نسمية الملف يدويا.</string>
+    <string name="online_csv_converter_free">محول مجاني لملفات CSV</string>
+    <string name="check_email_spam">تحقق في مجلدات "االترويج" و "الرسائل الغير مرغوبة" في بريدك الالكتروني</string>
+    <string name="download_email_file">حمل الملف المرفق في بريدك الالكتروني المحتوي على النص: \"transactions_export…\"</string>
+    <string name="download_email_file_description">إذا كان لديك أكثر من عملة يجب عليك ان تنزل كل ملف ة تقوم بإيراده في التطيق.</string>
+    <string name="import_from">الاستيراد من</string>
+    <string name="please_wait">الرجاء الإنتظار</string>
+    <string name="importing_the_csv_file">يتم استيراد ملف الcsv</string>
+    <string name="success">تم بنجاح</string>
+    <string name="failure">فشل</string>
+    <string name="imported">تم الإستيراد</string>
+    <string name="transactions_imported">%1$d معاملات</string>
+    <string name="accounts_imported">%1$d حسابات</string>
+    <string name="categories_imported">%1$d فئات</string>
+    <string name="failed">فشل</string>
+    <string name="rows_from_csv_not_recognized">%1$d صفوف من الملف لم يتعرف عليهم</string>
+    <string name="finish">الإنهاء</string>
+    <string name="add_description">إضافة وصف</string>
+    <string name="description">الوصف</string>
+    <string name="planned_for"> مخطط في </string>
+    <string name="add_money_to">إضافة المال الى</string>
+    <string name="pay_with">الدفع ب</string>
+    <string name="from">من</string>
+    <string name="account">الحساب</string>
+    <string name="to">الى</string>
+    <string name="add_account">إضافة حساب</string>
+    <string name="income_title">عنوان الدخل</string>
+    <string name="expense_title">عنوان الإنفاق</string>
+    <string name="transfer_title">عنوان التحويل</string>
+    <string name="expense">إنفاق</string>
+    <string name="add_planned_date_payment">أضف تاريخ المحدد للدفع</string>
+    <string name="pay">ادفع</string>
+    <string name="get">اجلب</string>
+    <string name="confirm_deletion">تأكيد الحذف</string>
+    <string name="transaction_confirm_deletion_description">حذف هذه العملية سيؤدي الى حذفها من تاريخ العمليات و تحديث الرصيد وفقاً لذلك.</string>
+    <string name="confirm_account_change">تأكيد تغيير الحساب</string>
+    <string name="confirm_account_change_description">ملاحظة: انت تحاول ان تغير حساب مرتبط بقرض من حساب بعملة مختلفة, \n سجلات القرض سوف يتم اعادة حسابها وفقا لأسعار الصرف اليوم</string>
+    <string name="confirm">تأكيد</string>
+    <string name="account_change_recalculating">الرجاء الانتظارو يتم إعادة حساب سجلات القرض</string>
+    <string name="created_on">تم الانشاء في</string>
+    <string name="hi">أهلا</string>
+    <string name="hi_name">أهلا %1$s</string>
+    <string name="cashflow">تدفق المال: %1$s%2$s %3$s</string>
+    <string name="search_transactions">ابحث المعاملات</string>
+    <string name="ivy_wallet_open_source">مفتوح المصدر Ivy Wallet</string>
+    <string name="savings_goal">هدف التوفير</string>
+    <string name="quick_access">الوصول السريع</string>
+    <string name="settings">الاعدادات</string>
+    <string name="light_mode">وضع النهار</string>
+    <string name="dark_mode">الوضغ الليلي</string>
+    <string name="auto_mode">الوضع التلقائي</string>
+    <string name="planned_payments">المدفوعات\n المخططة</string>
+    <string name="share_ivy">شارك التطبيق</string>
+    <string name="reports">التقارير</string>
+    <string name="loans">القروض</string>
+    <string name="set_currency">تحديد العملة</string>
+    <string name="no_transactions">لا يوجد معاملات</string>
+    <string name="no_transactions_description">لا يوجد لديك معاملات في %1$s \n"+" يمكنك اضافة معاملة بالضغط على </string>
+    <string name="add_loan">اضافة قرض</string>
+    <string name="no_loans">لا يوجد قروض</string>
+    <string name="no_loans_description">لا يوجد لديك اي قروض.\n اضغط على "اضافة قرض +" للإضافة</string>
+    <string name="loan_confirm_deletion_description">ملاحظة: حذف هذا القرض سيزيله نهائيا و يحذف جميع القروض التابعة له</string>
+    <string name="confirm_account_loan_change">الرجاء الانتظار, يتم اعادة حساب كل سجلات القروض</string>
+    <string name="paid">مدفوع</string>
+    <string name="left_to_pay">%1$s %2$s متبقي</string>
+    <string name="loan_interest">فائدة القرض</string>
+    <string name="interest_paid">%1$s %2$s مدفوعة</string>
+    <string name="add_record">إضافة سجل</string>
+    <string name="interest">الفائدة</string>
+    <string name="no_records">لا يوجد سجلات</string>
+    <string name="no_records_for_the_loan">لا يوجد لديك اي سجلات  لهذا القرض.\n اضغط على "اضافة سجل +" للإضافة</string>
+    <string name="add_income">إضافة دخل</string>
+    <string name="add_expense">إضافة إنفاق</string>
+    <string name="unspecified">غير محدد</string>
+    <string name="percent">%1$s\%%</string>
+    <string name="account_transfers">تحويلات الحساب</string>
+    <string name="no_transactions_for_period"> %1$sلا يوجد لديك اي معاملات في.\n يمكنك إضافة معاملة بالسحب لاسفل و الضغط على زر "أضف دخل" أو "أضف إنفاق" في الاعلى.</string>
+    <string name="account_confirm_deletion_description">ملاحظة: حذف هذا الحساب سيزيله نهائيا و يزيل كل المعاملات المتعلقه به.</string>
+    <string name="category_confirm_deletion_description">ملاحظة: حذف هذه الفئة سيزيلها نهائيا</string>
+    <string name="edit">تعديل</string>
+    <string name="transactions">المعاملات</string>
+    <string name="home">الرئيسية</string>
+    <string name="add_planned_payment">إضافة مدفوعات مخططة</string>
+    <string name="add_income_uppercase">إضافة دخل</string>
+    <string name="add_expense_uppercase">إضافة إنفاق</string>
+    <string name="account_transfer">تحويل لحساب</string>
+    <string name="skip">تخطي</string>
+    <string name="add_new">إضافة جديد</string>
+    <string name="from_date">من %1$s</string>
+    <string name="to_date">إلى %1$s</string>
+    <string name="range">المجال</string>
+    <string name="privacy_and_data_collection">الخصوصية و\n تجميع البيانات</string>
+    <string name="swipe_to_agree_terms_conditions">اسحب للموافقة على الشروط و الأحكام</string>
+    <string name="agreed_terms_conditions">تمت الموافقة على الشروط و الأحكام</string>
+    <string name="swipe_to_agree_privacy_policy">اسحب للموافقة على سياسة الخصوصية</string>
+    <string name="agreed_privacy_policy">تمت الموافقة على سياسة الخصوصية</string>
+    <string name="terms_and_conditions">الشروط و الأحكام</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="wallet_description">تتبع دخلك, إنفاقك و ميزانيتك مع Ivy.\n\n تصميم أنيق, دفعات مخططة و متكررة, أدِر حسابات متعددة, نظم المعاملات في فئات, إحصائيات معبرة, صدّر المعاملات الى ملف csv و أكثر.</string>
+    <string name="enter_your_name">أدخل اسمك\n لتخصيص محفظتك</string>
+    <string name="what_is_your_name">ما اسمك؟</string>
+    <string name="enter">إدخال</string>
+    <string name="add_accounts">إضافة حسابات</string>
+    <string name="suggestion">مقترح</string>
+    <string name="next">التالي</string>
+    <string name="add_categories">إضافة فئات</string>
+    <string name="suggestions">مقترحات</string>
+    <string name="set">تحديد</string>
+    <string name="your_personal_money_manager">مدير أموالك الشخصي</string>
+    <string name="opensource">مفتوح_المصدر#</string>
+    <string name="google_error_try_again">حدث خطأ, حاول مجددًا:\n %1$s</string>
+    <string name="google_signing_in">يتم تسجيل الدخول…</string>
+    <string name="google_signing_in_success">تم بنجاح!</string>
+    <string name="login_with_google">Google تسجيل الدخول بحساب</string>
+    <string name="offline_account">حساب غير متصل على الانترنت</string>
+    <string name="sync_data_ivy_cloud">Ivy Cloud مزامنة بياناتك على</string>
+    <string name="data_integrity_protection_warning">سلامة و حماية البيانات غير مضمونة!</string>
+    <string name="or_enter_with_offline_account">أو الدخول بحساب غير متصل على الانترنت</string>
+    <string name="offline_warning">سوف يتم حفظ بياناتك محليا على جهازك و لن يتم مزامنتها مع السحابة. انت تخاطر بخسارة ملفاتك إذا ألغيت تثبيت التطبيق أو غيرت جهازك. يمكنك دائما تفعيل المزامنة لاحقا في حال تغيير رأيك.</string>
+    <string name="terms_conditions">الشروط و الأحكام</string>
+    <string name="by_signing_in">بتسجيل الدخول انت توافق على %1$s و %2$s.</string>
+    <string name="import_csv_file">CSV إستيراد ملف</string>
+    <string name="from_ivy_or_another_app">Ivy من تطبيق اخر او من </string>
+    <string name="importing_another_time_warning">استيراد ملف نسخ احتياطي من تطبيق اخر يمكن ان يستغرق حتى 5 دقائق. يمكنك دائمًا استيراد البيانات لاحقًا اذا اردت.</string>
+    <string name="import_backup_file">استيراد ملف نسخ احتياطي</string>
+    <string name="start_fresh">ابدأ من الصفر</string>
+    <string name="planned_payment_confirm_deletion_description">حذف هذه الدفعه المخططة سيزيل كل المدفوعات الغير مدفوغة او المدفوعات المتأخرة القادمة المتعلقة بها.</string>
+    <string name="set_payment_type">تحديد نوع العملية</string>
+    <string name="planned_start_at">مخطط البدء في</string>
+    <string name="repeats_every">تكرر كل %1$d %2$s</string>
+    <string name="deleted">محذوف</string>
+    <string name="planned_for_uppercase">مخطط في</string>
+    <string name="null_text">null</string>
+    <string name="starts_date">"تبدأ %1$s "</string>
+    <string name="add_payment">إضافة دفعة</string>
+    <string name="one_time_payments">المدفوعات لمرة واحدة</string>
+    <string name="recurring_payments">الدفعات متكررة</string>
+    <string name="no_planned_payments">لا توجد مدفوعات مخططة</string>
+    <string name="no_planned_payments_description">لا يوجد لديك دفعات مخططة.\n اضغط على \'⚡\' في الاسفل لإضافة واحدة.</string>
+    <string name="planned_payments_inline">الدفعات المخططة</string>
+    <string name="today">اليوم</string>
+    <string name="yesterday">أمس</string>
+    <string name="tomorrow">غدًا</string>
+    <string name="due_on">محدد الدفع في %1$s</string>
+    <string name="upcoming">قادم</string>
+    <string name="overdue">متأخر</string>
+    <string name="expenses_lowercase">الانفاق</string>
+    <string name="income_lowercase">الدخل</string>
+    <string name="edit_account">تعديل الحساب</string>
+    <string name="new_account">حساب جديد</string>
+    <string name="account_name">اسم الحساب</string>
+    <string name="include_account">تضمين الحساب</string>
+    <string name="enter_account_balance">ادخل رصيد الحساب</string>
+    <string name="choose_currency">اختر العملة</string>
+    <string name="calculator">الحاسبة</string>
+    <string name="calculator_empty_expression">العملية الحسابية (+-/*=)</string>
+    <string name="edit_category">تعديل الفئة</string>
+    <string name="create_category">انشاء فئى</string>
+    <string name="category_name">اسم الفئة</string>
+    <string name="choose_category">اتر الفئة</string>
+    <string name="description_text_field_hint"> ادخل اي تفاصيل هنا</string>
+    <string name="clean_filter">إزالة التصفيات</string>
+    <string name="filter">تصفية</string>
+    <string name="apply_filter">تطبيق التصفيات</string>
+    <string name="by_type">النوع</string>
+    <string name="incomes">الدخل</string>
+    <string name="time_period">الفترة زمنية</string>
+    <string name="select_time_range">حدد النطاق الزمني</string>
+    <string name="accounts_number">حسابات (%1$d)</string>
+    <string name="categories_number">فئات (%1$d)</string>
+    <string name="clear_all">ازالة الكل</string>
+    <string name="select_all">تحديد الكل</string>
+    <string name="amount_optional">القيمة (اختياري)</string>
+    <string name="keywords_optional">الكلمات المفتاحية (اختياري)</string>
+    <string name="includes_uppercase">تحتوي</string>
+    <string name="add_keyword">اضف كلمة مفتاحية</string>
+    <string name="excludes_uppercase">استبعد</string>
+    <string name="no_transactions_for_your_filter">لا يوجد معاملات لتصفياتك</string>
+    <string name="no_filter">بدون تصفيات</string>
+    <string name="invalid_filter_warning">لإنشاء تقرير يجب عليك تحديد تصفيات صالحة اولا.</string>
+    <string name="set_filter">تحديد التصفيات</string>
+    <string name="export">تصدير</string>
+    <string name="no_transactions_for_query">لا يوجد لديك عمليات تطابق "%1$s"</string>
+    <string name="import_export">التصدير و الاستيراد</string>
+    <string name="backup_data">نسخ إحتياطي للبيانات</string>
+    <string name="import_data">استيراد البيانات</string>
+    <string name="app_settings">إعدادات التطبيق</string>
+    <string name="lock_app">أقفل التطبيق</string>
+    <string name="show_notifications">إظهار التنبيهات</string>
+    <string name="hide_balance">إخفاء الرصيد</string>
+    <string name="hide_balance_description">إضغط على الرصيد المخفي لإظهاره لمدة 5ث</string>
+    <string name="other">أخرى</string>
+    <string name="rate_us_on_google_play">Google Play قيمنا على</string>
+    <string name="share_ivy_wallet">Ivy Wallet شارك</string>
+    <string name="product">المنتج</string>
+    <string name="danger_zone">المنطقة الخطرة</string>
+    <string name="delete_all_user_data">احذف كل بيانات المستخدم</string>
+    <string name="delete_all_user_data_question">هل تريد حذف كل البيانات؟</string>
+    <string name="delete_all_user_data_warning">تحذير! هذا الفعل سوف يحذف كل البيانات ل%1$s نهائيا و لن يمكن اسنعادتها.</string>
+    <string name="your_account">حسابك</string>
+    <string name="confirm_all_userd_data_deletion">تأكيد الحذف النهائي ل\'%1$s\'</string>
+    <string name="all_of_your_data">كل بياناتك</string>
+    <string name="final_deletion_warning">تحذير اخير! بعد الضغط على "حذف" بياناتك سوف تحذف للأبد</string>
+    <string name="exporting_data">يتم تصدير البيانات</string>
+    <string name="exporting_data_description">الرجاء الانتظار, يتم تصدير البيانات</string>
+    <string name="start_date_of_month">تاريخ بداية الشهر</string>
+    <string name="ivy_telegram">على تيليجرام Ivy</string>
+    <string name="help_center">مركز المساعدة</string>
+    <string name="roadmap">الخطة</string>
+    <string name="request_a_feature">طلب ميزة</string>
+    <string name="contact_support">اتصل بالدعم</string>
+    <string name="project_contributors">المساهمون في التطبيق</string>
+    <string name="account_uppercase">الحساب</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="syncing">يتم المزامنة…</string>
+    <string name="data_synced_to_cloud">تمت مزامنة البيانات للسحابة</string>
+    <string name="tap_to_sync">أضغط للمزامنة</string>
+    <string name="sync_failed">فشلت عملية المزامنة. أضغط للمزامنة</string>
+    <string name="anonymous">مجهول</string>
+    <string name="export_to_csv">CSV التصدير لملف</string>
+    <string name="left_to_spend">المتبقي للإنفاق</string>
+    <string name="budget_exceeded_by">تجاوزت عن الميزانية ب</string>
+    <string name="buffer_exceeded_by">تجاوزت حاجز الإنفاق ب</string>
+    <string name="set_transaction_type">تحديد نوع المعاملة</string>
+    <string name="transfer">تحويل</string>
+    <string name="selected">تم تحديده</string>
+    <string name="search_currency">(USD, EUR, GBP, BTC, الخ) ابحث </string>
+    <string name="pre_selected">محدد مسبقًا</string>
+    <string name="crypto">عملة رقمية</string>
+    <string name="exchange_rate">سعر الصرف</string>
+    <string name="choose_color">اختر اللون</string>
+    <string name="reorder">إعادة ترتيب</string>
+    <string name="keyword">الكلمة المفتاحية</string>
+    <string name="edit_budget">تعديل الميزانية</string>
+    <string name="create_budget">إنشاء ميزانية</string>
+    <string name="budget_name">اسم الميزانية</string>
+    <string name="budget_amount_uppercase">قيمة الميزانية</string>
+    <string name="confirm_budget_deletion_warning">هل انت متأكد من حذف الميزانية "%1$s"؟</string>
+    <string name="edit_savings_goal">تعديل هدف التوفير</string>
+    <string name="choose_icon">اختر أيقونة</string>
+    <string name="choose_month">اختر شهر</string>
+    <string name="or_custom_range">أو نطاق مخصص</string>
+    <string name="add_date">أضف تاريخ</string>
+    <string name="or_in_the_last">أو في آخر</string>
+    <string name="or_all_time">أو كل الوقت</string>
+    <string name="unselect_all_time">إلغاء تحديد كل الأوقات</string>
+    <string name="select_all_time">تحديد كل الأوقات</string>
+    <string name="choose_start_date_of_month">أختر تاريخ بداية الشهر</string>
+    <string name="supports_crypto">تدعم العملات الرقمية</string>
+    <string name="delete">حذف</string>
+    <string name="save">حفظ</string>
+    <string name="add">أضافة</string>
+    <string name="create">إنشاء</string>
+    <string name="edit_loan">تعديل القرض</string>
+    <string name="new_loan">قرض جديد</string>
+    <string name="loan_name">اسم القرض</string>
+    <string name="associated_account">الحساب المرتبط</string>
+    <string name="create_main_transaction">إنشاء معاملة أساسية</string>
+    <string name="enter_loan_amount_uppercase">أدخل قيمة القرض</string>
+    <string name="confirm_account_change_warning">"ملاحظة: انت تحاول ان تغير حساب مرتبط بقرض من حساب بعملة مختلفة, \n سجلات القرض سوف يتم اعادة حسابها وفقا لأسعار الصرف اليوم"</string>
+    <string name="loan_type">نوع القرض</string>
+    <string name="borrow_money">اقتراض مال</string>
+    <string name="lend_money">إقراض مال</string>
+    <string name="edit_record">تعديل السجل</string>
+    <string name="new_record">سجل جديد</string>
+    <string name="note">ملاحظة</string>
+    <string name="mark_as_interest">وضع علامة: فائدة</string>
+    <string name="recalculate_amount_with_today_exchange_rates">أعد حساب القيمة وفقا لأسعار الصرف اليوم</string>
+    <string name="enter_record_amount_uppercase">أدخل قيمة السجل</string>
+    <string name="record_deletion_warning">هل انت متأكد من حذف السجل "%1$s"؟</string>
+    <string name="account_change_warning">"ملاحظة: انت تحاول ان تغير حساب مرتبط بقرض من حساب بعملة مختلفة, \n سجلات القرض سوف يتم اعادة حسابها وفقا لأسعار الصرف اليوم"</string>
+    <string name="edit_name">تعديل الاسم</string>
+    <string name="plan_for">خطط ل</string>
+    <string name="one_time">مرة واحدة</string>
+    <string name="multiple_times">مرات متعددة</string>
+    <string name="starts_on">تبدأ في</string>
+    <string name="repeats_every_text">تتكرر كل</string>
+    <string name="submit">إرسال</string>
+    <string name="what_do_you_need">ماذا تحتاج؟</string>
+    <string name="explain_it_in_one_sentence">(Markdown تدعم صيغة) اشرحها في جملة واحدة</string>
+    <string name="last_12_months">آخر 12 شهر</string>
+    <string name="last_6_months">آخر 6 أشهر</string>
+    <string name="last_4_weeks">آخر 4 أسابيع</string>
+    <string name="last_7_days">آخر 7 أيام</string>
+    <string name="today_date">اليوم, %1$s</string>
+    <string name="yesterday_date">أمس, %1$s</string>
+    <string name="tomorrow_date">غدًا, %1$s</string>
+    <string name="expired">منتهي الصلاحية</string>
+    <string name="authentication_succeeded">تم تأكيدالهوية.</string>
+    <string name="authentication_failed">فشل تأكيدالهوية.</string>
+    <string name="notification_1">هل قمت بأي معاملات اليوم؟ 🏁</string>
+    <string name="notification_2">هل قمت بمتابعة إنفاقك اليوم؟ 💸</string>
+    <string name="notification_3">هل قمت بتسجيل معاملاتك اليوم؟ 🏁</string>
+    <string name="cash">نقدي</string>
+    <string name="bank">البنك</string>
+    <string name="revoult">Revolut</string>
+    <string name="food_drinks">أطعمة ومشروبات</string>
+    <string name="bills_fees">الفواتير والرسوم</string>
+    <string name="transport">المواصلات</string>
+    <string name="groceries">البقالة</string>
+    <string name="entertainment">الترفيه</string>
+    <string name="shopping">التسوق</string>
+    <string name="gifts">هدايا</string>
+    <string name="health">الصحة</string>
+    <string name="investments">استثمار</string>
+    <string name="car">السيارة</string>
+    <string name="work">العمل</string>
+    <string name="restaurant">مطعم</string>
+    <string name="family">العائلة</string>
+    <string name="social_life">الحياة الاجتماعية</string>
+    <string name="order_food">طلب الطعام</string>
+    <string name="travel">السفر</string>
+    <string name="fitness">اللياقة البدنية</string>
+    <string name="self_development">تطوير الذات</string>
+    <string name="clothes">ملابس</string>
+    <string name="beauty">الجمال</string>
+    <string name="education">التعليم</string>
+    <string name="pet">الحيوان الأليف</string>
+    <string name="sports">رياضات</string>
+    <string name="adjust_initial_balance">اضبط رصيدك المبدئي</string>
+    <string name="to_accounts">انتقل الى الحسابات</string>
+    <string name="adjust_initial_balance_description"><![CDATA[هيا لنبدأ.  اذهب الى \"الحسابات\" -> اضغط على حساب -> اضغط على الرصيد -> ادخل رصيد الحساب. هذا كل شيء]]></string>
+    <string name="create_first_planned_payment">قم بإنشاء أول دفعة مخططة</string>
+    <string name="create_first_planned_payment_description">قم بأتمتة المعاملات المتكررة مثل الاشتراكات, الايجار, الراتب, الخ.. كن في معرفة بأموالك من خلال معرفة المبلغ الذي يتعين عليك دفعه/الحصول عليه مقدمًا</string>
+    <string name="did_you_know">هل كنت تعلم؟</string>
+    <string name="widget_description">Ivy Wallet \nلديها تطبيقات مصغرة (ويدجت) رائعة تتيح لك إضافة دخل/إنفاق/تحويل بضغطة واحدة فقط من الشاشة الرئيسية \n\n ملاحظ: اذا لم يعمل زر \"إضافة تطبيق مصغر\" يرجى اضافته يدويا عن طريق قائمة التطبيقات المصغرة في شاشتك الرئيسية</string>
+    <string name="add_widget">إضافة تطبيق مصغر</string>
+    <string name="set_a_budget">تحديد ميزانية</string>
+    <string name="set_a_budget_description">Ivy Wallet \nلا تساعدك على تتبع نفقاتك فحسب ، بل تساعدك أيضًا في إنشاء مستقبلك المالي بشكل استباقي من خلال تحديد الميزانيات والالتزام بها.</string>
+    <string name="expenses_piechart_description">يمكنك أن ترى مخطط النفقات الخاصة بك حسب الفئات! جربه ، اضغط على زر الإنفاق الرمادي/الأسود الموجود أسفل رصيدك مباشرة.</string>
+    <string name="expenses_piechart">إحصائيات الإنفاق</string>
+    <string name="review_ivy_wallet">Ivy Wallet قيم</string>
+    <string name="review_ivy_wallet_description">أعطنا تقييمك! ساعد Ivy Wallet في أن تصبح أفضل وتنمو من خلال كتابة مراجعة لنا. المجاملات والأفكار والنقاد مرحب بهم! نفعل أفضل ما بوسعنا\n فريق التطبيق</string>
+    <string name="help_us_grow">ساعدنا على النمو حتى نتمكن من استثمار المزيد في التطوير وجعل التطبيق أفضل لك. عبر خلال مشاركة التطبيق ، ستجعل اثنين من المطورين سعداء وتساعد أيضًا صديقًا على إدارة امواله.</string>
+    <string name="share_with_friends">شارك مع الاصدقاء</string>
+    <string name="make_a_report_description">يمكنك إنشاء تقارير للحصول على رؤى عميقة حول دخلك وإنفاقك. قم بتصفية معاملاتك حسب النوع والفترة الزمنية والفئة والحسابات والمبلغ والكلمات المفتاحية والمزيد للحصول على عرض أفضل لأموالك.</string>
+    <string name="make_a_report">إنشاء سجل</string>
+    <string name="make_ivy_wallet_better_description">هل تريد تحسين Ivy Wallet؟ اكتب لنا مراجعة. هذه هي الطريقة الوحيدة لتطوير ما تريده وتحتاجه. كما أنها تساعدنا في الحصول على مرتبة أعلى في PlayStore حتى نتمكن من إنفاق الأموال على المنتج بدلاً من التسويق. \n\n نحن نبذل قصارى جهدنا. \ n Ivy Team</string>
+    <string name="we_need_your_help">نحتاج مساعدتك!</string>
+    <string name="we_need_your_help_description">نحن مجرد مصمم ومطور نعمل على التطبيق بعد وظائفنا. في الوقت الحالي ، نستثمر الكثير من الوقت والمال لتوليد الخسائر والإرهاق فقط. إذا كنت تريد منا الاستمرار في تطوير Ivy Wallet ، فيرجى مشاركتها مع الأصدقاء والعائلة. \n\n ملاحظة. تساعد مراجعات Google PlayStore أيضًا كثيرًا!</string>
+    <string name="ivy_wallet_is_opensource">مفتوح المصدر Ivy Wallet</string>
+    <string name="ivy_wallet_is_opensource_description">كود التطبيق مفتوح ويمكن للجميع رؤيته. نعتقد أن الشفافية والأخلاق ضرورية لكل منتج برمجي. إذا كنت تحب عملنا وترغب في تحسين التطبيق ، يمكنك المساهمة في حساب Github العام الخاص بنا.</string>
+    <string name="contribute">ساهم</string>
+    <string name="adjust_balance">أضبط الرصيد</string>
+    <string name="authentication_required">تأكيد الهوية مطلوب</string>
+    <string name="authentication_required_description">أثبت أن لديك حق الوصول إلى هذا الجهاز لإلغاء قفل التطبيق.</string>
+    <string name="total_budget">الميزانية الإجمالية</string>
+    <string name="category_budget">ميزانية بفئة</string>
+    <string name="multi_category_budget">ميزانية بفئات (%1$s)</string>
+    <string name="borrowed_uppercase">مٌقتَرَض</string>
+    <string name="lent_uppercase">مُعَار</string>
+    <string name="january">يناير</string>
+    <string name="february">فبراير</string>
+    <string name="march">مارس</string>
+    <string name="april">ابريل</string>
+    <string name="may">مايو</string>
+    <string name="june">يونيو</string>
+    <string name="july">يوليو</string>
+    <string name="august">اغسطس</string>
+    <string name="september">سبتمبر</string>
+    <string name="october">اكتوبر</string>
+    <string name="november">نوفمبر</string>
+    <string name="december">ديسمبر</string>
+    <string name="days">أيام</string>
+    <string name="day">يوم</string>
+    <string name="weeks">أسابيع</string>
+    <string name="week">أسبوع</string>
+    <string name="months">شهور</string>
+    <string name="month">شهر</string>
+    <string name="years">سنوات</string>
+    <string name="year">سنة</string>
+    <string name="transfers_as_income_expense">التحويلات كدخل و إنفاق</string>
+    <string name="transfers_as_income_expense_description">معاملة تحويلات الحساب كإنفاق/دخل في صفحة الحسابات</string>
+    <string name="home_category">البيت</string>
+    <string name="generating_report">يتم إنشاء التقرير …</string>
+    <string name="sort_by">ترتيب حسب</string>
+    <string name="skip_all">تخطي الكل</string>
+    <string name="confirm_skip_all">تأكيد تخطي الكل</string>
+    <string name="confirm_skip_all_description">هل أنت متأكد من أنك تريد تخطي جميع المعاملات المخطط لها المتأخرة؟</string>
+    <string name="switch_to_offline_mode">التبديل إلى وضع بدون انترنت</string>
+    <string name="delete_all_user_cloud_data_warning">تحذير! سوف يؤدي هذا الى حذف كل بياناتك المخزنة في السحابة ل%1$s نهائيا, لن يتم حذف البيانات المخزنة على جهازك.</string>
+    <string name="delete_all_cloud_data_question">حذف كل اليانات على السحابة؟</string>
+    <string name="experimental">تجريبي</string>
+    <string name="experimental_settings">الإعدادات التجريبية</string>
+    <string name="wallet_balance">رصيد المحفظة</string>
+    <string name="mark_as_sub_category">وضع علامة كفئة فرعية</string>
+    <string name="parent_category">القسم الرئيسي</string>
+    <string name="marked_parent_category">* تم وضع علامة على أنها فئة الأصل</string>
+    <string name="unpack_all_subcategories">فك جميع الفئات الفرعية</string>
+    <string name="export_csv_moneywallet_description">حدد جميع \"الأعمدة الاختيارية\" في خيارات التصدير</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">إعادة تسمية فئة النقل</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">بالنسبة للمستخدمين غير الإنجليز ، أعد تسمية فئة نظام النقل إلى \"نقل\" في ملف التصدير</string>
+    <string name="export_csv_caveats">تحفظات</string>
+    <string name="export_csv_moneywallet_caveat_1">الفئات الفرعية غير مدعومة</string>
+    <string name="export_csv_moneywallet_caveat_2">سيتم تجاهل أعمدة الأحداث والأشخاص والمكان</string>
+</resources>

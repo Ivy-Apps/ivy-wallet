@@ -10,6 +10,12 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.ivy.base.GlobalProvider
+import com.ivy.base.RootIntent
+import com.ivy.common.BuildConfig
+import com.ivy.data.transaction.TransactionType
+import com.ivy.wallet.ui.RootActivity
+import com.ivy.wallet.ui.RootViewModel
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -38,33 +44,19 @@ class IvyAndroidApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         appContext = this
+        GlobalProvider.appContext = this
+        GlobalProvider.rootIntent = object : RootIntent {
+            override fun getIntent(context: Context): Intent =
+                Intent(context, RootActivity::class.java)
+
+            override fun addTransactionStart(context: Context, type: TransactionType): Intent =
+                Intent(context, RootActivity::class.java).apply {
+                    putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
+                }
+        }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())
         }
     }
-}
-
-fun stringRes(
-    @StringRes id: Int,
-    vararg args: String
-): String {
-    //I don't want strings.xml to handle something different than String at this point
-    return IvyAndroidApp.appContext.getString(id, *args)
-}
-
-fun refreshWidget(widgetReceiver: Class<out AppWidgetProvider>) {
-    val updateIntent = Intent(IvyAndroidApp.appContext, widgetReceiver)
-    updateIntent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-
-    val widgetManager = AppWidgetManager.getInstance(IvyAndroidApp.appContext)
-    val ids = widgetManager.getAppWidgetIds(
-        ComponentName(
-            IvyAndroidApp.appContext,
-            widgetReceiver
-        )
-    )
-    updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-
-    IvyAndroidApp.appContext.sendBroadcast(updateIntent)
 }

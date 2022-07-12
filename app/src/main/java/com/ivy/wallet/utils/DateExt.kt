@@ -4,8 +4,8 @@ package com.ivy.wallet.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.frp.Total
-import com.ivy.wallet.R
-import com.ivy.wallet.stringRes
+import com.ivy.base.R
+import com.ivy.base.stringRes
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
