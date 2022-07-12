@@ -49,8 +49,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            //TODO: R8 disabled until `modularization` is stable
+            isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = false
             isDefault = false
 
