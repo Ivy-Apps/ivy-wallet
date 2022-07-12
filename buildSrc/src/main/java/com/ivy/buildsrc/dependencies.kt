@@ -80,13 +80,18 @@ object Versions {
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
     //https://developer.android.com/jetpack/androidx/releases/core
-    const val coreKtx = "1.9.0-alpha05" //androidx
-    const val workVersion = "2.7.1"
-    const val biometric = "1.1.0"
-    const val recyclerView = "1.2.1"
-    const val webkit = "1.4.0"
+    const val coreKtx = "1.9.0-alpha05"
+    //https://developer.android.com/jetpack/androidx/releases/work
+    const val workVersion = "2.8.0-alpha02"
+    //https://developer.android.com/jetpack/androidx/releases/biometric
+    const val biometric = "1.2.0-alpha04"
+    //https://developer.android.com/jetpack/androidx/releases/recyclerview
+    const val recyclerView = "1.3.0-beta01"
+    //https://developer.android.com/jetpack/androidx/releases/webkit
+    const val webkit = "1.5.0-beta01"
 
-    const val lifecycle = "2.3.1"
+    //https://developer.android.com/jetpack/androidx/releases/lifecycle
+    const val lifecycle = "2.6.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/room
     const val room = "2.4.2"
@@ -315,7 +320,7 @@ fun DependencyHandler.AndroidX(api: Boolean) {
     //URL: https://developer.android.com/jetpack/androidx/releases/core
     dependency("androidx.core:core-ktx:${Versions.coreKtx}", api = api)
 
-    //URL: https://developer.android.com/jetpack/androidx/releases/work
+    //https://developer.android.com/jetpack/androidx/releases/work
     dependency("androidx.work:work-runtime-ktx:${Versions.workVersion}", api = api)
     dependency("androidx.work:work-testing:${Versions.workVersion}", api = api)
 
@@ -324,6 +329,7 @@ fun DependencyHandler.AndroidX(api: Boolean) {
     //URL: https://developer.android.com/jetpack/androidx/releases/recyclerview
     dependency("androidx.recyclerview:recyclerview:${Versions.recyclerView}", api = api)
 
+    //https://developer.android.com/jetpack/androidx/releases/webkit
     dependency("androidx.webkit:webkit:${Versions.webkit}", api = api)
 }
 
