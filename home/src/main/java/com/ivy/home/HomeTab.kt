@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.*
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
@@ -28,6 +29,7 @@ import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.journey.CustomerJourney
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.menu.MoreMenu
@@ -45,11 +47,20 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.HomeTab(screen: Main) {
-    FRP<HomeState, HomeEvent, HomeViewModel>(
-        initialEvent = HomeEvent.Start
-    ) { state, onEvent ->
-        UI(state = state, onEvent = onEvent)
+    //TODO: For some weird reason FRP<>() crashes, so I workaround it
+//    FRP<HomeState, HomeEvent, HomeViewModel>(
+//        initialEvent = HomeEvent.Start
+//    ) { state, onEvent ->
+//        UI(state = state, onEvent = onEvent)
+//    }
+    val viewModel: HomeViewModel = viewModel()
+    val state by viewModel.state().collectAsState()
+
+    onScreenStart {
+        viewModel.onEvent(HomeEvent.Start)
     }
+
+    UI(state, viewModel::onEvent)
 }
 
 @ExperimentalAnimationApi
