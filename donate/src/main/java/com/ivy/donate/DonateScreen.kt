@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.design.l0_system.Black
@@ -35,19 +36,29 @@ import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
 import com.ivy.design.utils.padding
 import com.ivy.donate.data.DonateOption
-import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.DonateScreen
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 
 @Composable
 fun BoxWithConstraintsScope.DonateScreen(screen: DonateScreen) {
-    FRP<DonateState, DonateEvent, DonateViewModel>(
-        initialEvent = DonateEvent.Load(LocalContext.current as Activity)
-    ) { _, onEvent ->
-        UI(onEvent)
+    //TODO: For some weird reason FRP<>() crashes, so I workaround it
+//    FRP<DonateState, DonateEvent, DonateViewModel>(
+//        initialEvent = DonateEvent.Load(LocalContext.current as Activity)
+//    ) { _, onEvent ->
+//        UI(onEvent)
+//    }
+    val viewModel: DonateViewModel = viewModel()
+//    val state by viewModel.state().collectAsState()
+
+    val activity = LocalContext.current as Activity
+    onScreenStart {
+        viewModel.onEvent(DonateEvent.Load(activity))
     }
+
+    UI(viewModel::onEvent)
 }
 
 @Composable
