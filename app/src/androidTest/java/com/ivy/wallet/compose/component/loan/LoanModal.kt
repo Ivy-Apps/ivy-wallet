@@ -2,6 +2,7 @@ package com.ivy.wallet.compose.component.loan
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
+import com.ivy.data.loan.LoanType
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.amountinput.AmountInput
 import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
@@ -9,7 +10,6 @@ import com.ivy.wallet.compose.component.picker.ColorPicker
 import com.ivy.wallet.compose.component.picker.IconPicker
 import com.ivy.wallet.compose.component.picker.IvyColorPicker
 import com.ivy.wallet.compose.component.picker.IvyIconPicker
-import com.ivy.wallet.domain.data.LoanType
 
 class LoanModal(
     private val composeTestRule: IvyComposeTestRule

@@ -437,4 +437,14 @@
     <string name="experimental">ಪ್ರಯೋಗಾತ್ಮಕ</string>
     <string name="experimental_settings">ಪ್ರಯೋಗಾತ್ಮಕ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">ಉಪವರ್ಗ ಎಂದು ಗುರುತಿಸಿ</string>
+    <string name="parent_category">ಪೋಷಕ ವರ್ಗ</string>
+    <string name="marked_parent_category">*ಇದನ್ನು ಪೋಷಕ ವರ್ಗ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ</string>
+    <string name="unpack_all_subcategories">ಎಲ್ಲಾ ಉಪವರ್ಗಗಳನ್ನು ಅನ್ಪ್ಯಾಕ್ ಮಾಡಿ</string>
+    <string name="export_csv_moneywallet_description">ರಫ್ತು ಆಯ್ಕೆಗಳಲ್ಲಿ ಎಲ್ಲಾ \"ಐಚ್ಛಿಕ ಕಾಲಮ್‌ಗಳನ್ನು\" ಪರಿಶೀಲಿಸಿ</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">ವರ್ಗಾವಣೆ ವರ್ಗವನ್ನು ಮರುಹೆಸರಿಸಿ</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">ಇಂಗ್ಲಿಷ್ ಅಲ್ಲದ ಬಳಕೆದಾರರಿಗೆ, ರಫ್ತು ಫೈಲ್‌ನಲ್ಲಿ ವರ್ಗಾವಣೆ ಸಿಸ್ಟಮ್ ವರ್ಗವನ್ನು \"ವರ್ಗಾವಣೆ\" ಎಂದು ಮರುಹೆಸರಿಸಿ</string>
+    <string name="export_csv_caveats">ಎಚ್ಚರಿಕೆಗಳು</string>
+    <string name="export_csv_moneywallet_caveat_1">ಉಪವರ್ಗಗಳು ಬೆಂಬಲಿತವಾಗಿಲ್ಲ</string>
+    <string name="export_csv_moneywallet_caveat_2">ಈವೆಂಟ್, ಜನರು ಮತ್ತು ಸ್ಥಳದ ಕಾಲಮ್‌ಗಳನ್ನು ನಿರ್ಲಕ್ಷಿಸಲಾಗುತ್ತದೆ</string>
 </resources>

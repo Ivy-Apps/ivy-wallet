@@ -23,7 +23,6 @@ import com.ivy.wallet.compose.component.OnboardingFlow
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.toEpochMilli
@@ -50,7 +49,7 @@ abstract class IvyComposeTest {
     private var idlingResource: IdlingResource? = null
 
     @Inject
-    lateinit var ivyContext: IvyWalletCtx
+    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation

@@ -1,6 +1,5 @@
 package com.ivy.wallet.utils
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.*
@@ -25,7 +24,6 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.Gradient
 
 fun Modifier.horizontalGradientBackground(
@@ -121,18 +119,6 @@ fun Modifier.thenIf(condition: Boolean, thanModifier: @Composable Modifier.() ->
     if (condition) {
         this.thanModifier()
     } else this
-}
-
-@SuppressLint("ComposableNaming")
-@Composable
-fun onScreenStart(
-    cleanUp: () -> Unit = {},
-    start: () -> Unit
-) {
-    DisposableEffect(navigation().currentScreen) {
-        start()
-        onDispose { cleanUp() }
-    }
 }
 
 fun Modifier.consumeClicks() = clickableNoIndication {

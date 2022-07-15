@@ -437,4 +437,14 @@
     <string name="experimental">Sperimantale</string>
     <string name="experimental_settings">Impostazioni Sperimentali</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">Contrassegna come sottocategoria</string>
+    <string name="parent_category">Categoria padre</string>
+    <string name="marked_parent_category">*Questa è contrassegnata come categoria padre</string>
+    <string name="unpack_all_subcategories">Decomprimi tutte le sottocategorie</string>
+    <string name="export_csv_moneywallet_description">Seleziona tutte le \"Colonne facoltative\" nelle opzioni di esportazione</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">Rinomina categoria di trasferimento</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">Per gli utenti non inglesi, rinomina la categoria del sistema di trasferimento in \"Trasferisci\" nel file di esportazione</string>
+    <string name="export_csv_caveats">Avvertenze</string>
+    <string name="export_csv_moneywallet_caveat_1">Le sottocategorie non sono supportate</string>
+    <string name="export_csv_moneywallet_caveat_2">Le colonne Evento, Persone e Luogo verranno ignorate</string>
 </resources>

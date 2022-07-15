@@ -2,8 +2,8 @@ package com.ivy.wallet.compose.component.loan
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
+import com.ivy.data.loan.LoanType
 import com.ivy.wallet.compose.IvyComposeTestRule
-import com.ivy.wallet.domain.data.LoanType
 
 class LoansScreen(
     private val composeTestRule: IvyComposeTestRule

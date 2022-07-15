@@ -1,0 +1,55 @@
+package com.ivy.buildsrc
+
+import com.android.build.api.dsl.LibraryExtension
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+abstract class IvyPlugin : Plugin<Project> {
+
+    override fun apply(project: Project) {
+        applyPlugins(project)
+        addKotlinCompilerArgs(project)
+        setProjectSdkVersions(project)
+    }
+
+    private fun applyPlugins(project: Project) {
+        project.apply {
+            plugin("android-library")
+            plugin("kotlin-android")
+            plugin("kotlin-kapt")
+            plugin("dagger.hilt.android.plugin")
+        }
+    }
+
+    private fun addKotlinCompilerArgs(project: Project) {
+        project.allprojects {
+            allprojects {
+                tasks.withType(KotlinCompile::class).all {
+                    with(kotlinOptions) {
+                        freeCompilerArgs = freeCompilerArgs + listOf("-Xcontext-receivers")
+                        //Suppress Jetpack Compose versions compiler incompatibility, do NOT do it
+//                        freeCompilerArgs = freeCompilerArgs + listOf(
+//                            "-P",
+//                            "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+//                        )
+                        freeCompilerArgs = freeCompilerArgs + listOf("-Xskip-prerelease-check")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setProjectSdkVersions(project: Project) {
+        val library = project.androidLibrary()
+        library.compileSdk = com.ivy.buildsrc.Project.compileSdkVersion
+        library.defaultConfig {
+            minSdk = com.ivy.buildsrc.Project.minSdk
+            targetSdk = com.ivy.buildsrc.Project.targetSdk
+        }
+    }
+
+    protected fun Project.androidLibrary(): LibraryExtension =
+        extensions.getByType(LibraryExtension::class.java)
+}

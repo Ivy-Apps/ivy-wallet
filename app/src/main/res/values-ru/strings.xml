@@ -437,4 +437,14 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">Отметить как подкатегорию</string>
+    <string name="parent_category">" родительская категория"</string>
+    <string name="marked_parent_category">*Это помечено как родительская категория</string>
+    <string name="unpack_all_subcategories">Распаковать все подкатегории</string>
+    <string name="export_csv_moneywallet_description">Проверьте все «Необязательные столбцы» в параметрах экспорта.</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">Переименовать категорию передачи</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">Для пользователей, не владеющих английским языком, переименуйте категорию системы перевода в «Перевод» в файле экспорта.</string>
+    <string name="export_csv_caveats">Предостережения</string>
+    <string name="export_csv_moneywallet_caveat_1">Подкатегории не поддерживаются</string>
+    <string name="export_csv_moneywallet_caveat_2">Столбцы «Событие», «Люди» и «Место» будут игнорироваться.</string>
 </resources>

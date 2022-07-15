@@ -3,9 +3,11 @@ package com.ivy.wallet
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ivy.billing.IvyBilling
+import com.ivy.exchange.ExchangeRateDao
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.wallet.android.billing.IvyBilling
-import com.ivy.wallet.android.notification.NotificationService
+import com.ivy.journey.domain.CustomerJourneyLogic
+import com.ivy.notifications.NotificationService
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.csv.*
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -19,32 +21,29 @@ import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.domain.deprecated.sync.item.*
 import com.ivy.wallet.domain.deprecated.sync.uploader.*
 import com.ivy.wallet.domain.pure.data.WalletDAOs
-import com.ivy.wallet.io.network.*
+import com.ivy.wallet.io.network.ErrorCodeTypeAdapter
+import com.ivy.wallet.io.network.IvySession
+import com.ivy.wallet.io.network.LocalDateTimeTypeAdapter
+import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.error.ErrorCode
-import com.ivy.wallet.io.network.error.NetworkError
-import com.ivy.wallet.io.network.error.RestError
-import com.ivy.wallet.io.network.service.ExpImagesService
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
-import com.ivy.wallet.ui.IvyWalletCtx
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import javax.inject.Singleton
-import kotlin.random.Random
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModuleDI {
     @Provides
     @Singleton
-    fun provideIvyContext(): IvyWalletCtx {
-        return IvyWalletCtx()
+    fun provideIvyContext(): com.ivy.base.IvyWalletCtx {
+        return com.ivy.base.IvyWalletCtx()
     }
 
     @Provides
@@ -84,13 +83,6 @@ object AppModuleDI {
         ivySession: IvySession
     ): RestClient {
         return RestClient.initialize(appContext, ivySession, gson)
-    }
-
-    @Provides
-    fun provideFCMClient(
-        sharedPrefs: SharedPrefs
-    ): FCMClient {
-        return FCMClient(sharedPrefs)
     }
 
     @Provides
@@ -431,40 +423,6 @@ object AppModuleDI {
     }
 
     @Provides
-    @Singleton
-    fun providepaywallLogic(
-        ivyBilling: IvyBilling,
-        ivyContext: IvyWalletCtx,
-        navigation: Navigation,
-        accountDao: AccountDao,
-        categoryDao: CategoryDao,
-        budgetDao: BudgetDao,
-        loanDao: LoanDao
-    ): PaywallLogic {
-        return PaywallLogic(
-            ivyBilling = ivyBilling,
-            ivyContext = ivyContext,
-            navigation = navigation,
-            accountDao = accountDao,
-            categoryDao = categoryDao,
-            budgetDao = budgetDao,
-            loanDao = loanDao
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideIvyAnalytics(
-        sharedPrefs: SharedPrefs,
-        restClient: RestClient
-    ): IvyAnalytics {
-        return IvyAnalytics(
-            sharedPrefs = sharedPrefs,
-            restClient = restClient
-        )
-    }
-
-    @Provides
     fun provideExportCSVLogic(
         settingsDao: SettingsDao,
         transactionDao: TransactionDao,
@@ -560,74 +518,6 @@ object AppModuleDI {
         )
     }
 
-    @Provides
-    fun provideCategoryCreator(
-        paywallLogic: PaywallLogic,
-        categoryDao: CategoryDao,
-        categoryUploader: CategoryUploader
-    ): CategoryCreator {
-        return CategoryCreator(
-            paywallLogic = paywallLogic,
-            categoryDao = categoryDao,
-            categoryUploader = categoryUploader
-        )
-    }
-
-    @Provides
-    fun provideBudgetCreator(
-        paywallLogic: PaywallLogic,
-        budgetDao: BudgetDao,
-        budgetUploader: BudgetUploader
-    ): BudgetCreator {
-        return BudgetCreator(
-            paywallLogic = paywallLogic,
-            budgetDao = budgetDao,
-            budgetUploader = budgetUploader
-        )
-    }
-
-    @Provides
-    fun provideLoanCreator(
-        paywallLogic: PaywallLogic,
-        dao: LoanDao,
-        uploader: LoanUploader
-    ): LoanCreator {
-        return LoanCreator(
-            paywallLogic = paywallLogic,
-            dao = dao,
-            uploader = uploader
-        )
-    }
-
-    @Provides
-    fun provideLoanRecordCreator(
-        paywallLogic: PaywallLogic,
-        dao: LoanRecordDao,
-        uploader: LoanRecordUploader
-    ): LoanRecordCreator {
-        return LoanRecordCreator(
-            paywallLogic = paywallLogic,
-            dao = dao,
-            uploader = uploader
-        )
-    }
-
-    @Provides
-    fun provideAccountCreator(
-        paywallLogic: PaywallLogic,
-        accountDao: AccountDao,
-        accountUploader: AccountUploader,
-        accountLogic: WalletAccountLogic,
-        transactionSync: TransactionSync
-    ): AccountCreator {
-        return AccountCreator(
-            paywallLogic = paywallLogic,
-            accountDao = accountDao,
-            transactionSync = transactionSync,
-            accountLogic = accountLogic,
-            accountUploader = accountUploader,
-        )
-    }
 
     @Provides
     fun provideLogoutLogic(
@@ -649,7 +539,7 @@ object AppModuleDI {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: IvyWalletCtx
+        ivyContext: com.ivy.base.IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -687,7 +577,7 @@ object AppModuleDI {
         categoryDao: CategoryDao,
         transactionUploader: TransactionUploader,
         transactionDao: TransactionDao,
-        ivyContext: IvyWalletCtx,
+        ivyContext: com.ivy.base.IvyWalletCtx,
         loanDao: LoanDao,
         loanRecordDao: LoanRecordDao,
         exchangeRatesLogic: ExchangeRatesLogic,
@@ -738,40 +628,5 @@ object AppModuleDI {
             transactionDao,
             sharedPrefs
         )
-    }
-
-    @Provides
-    fun provideExpImagesService(): ExpImagesService = object : ExpImagesService {
-        override suspend fun fetchImages(): List<String> {
-            val randDelay = Random.nextLong(from = 300, until = 1500)
-            delay(randDelay)
-
-            val success = Random.nextBoolean()
-            return if (success) {
-                val res = mutableListOf<String>()
-
-                val images = listOf(
-                    "https://stimg.cardekho.com/images/carexteriorimages/930x620/Lamborghini/Aventador/6721/Lamborghini-Aventador-SVJ/1621849426405/front-left-side-47.jpg",
-                    "https://scuffedentertainment.com/wp-content/uploads/2021/11/what-car-suits-you-best-quiz.jpg",
-                    "malformed_url",
-                    "https://maserati.scene7.com/is/image/maserati/maserati/regional/us/models/my22/levante/22_LV_Trofeo_PS_T1_HomePage_1920x1080.jpg?\$1920x2000\$&fit=constrain",
-                    "https://i.ytimg.com/vi/dip_8dmrcaU/maxresdefault.jpg",
-                    "https://img.poki.com/cdn-cgi/image/quality=78,width=600,height=600,fit=cover,f=auto/94945631828bfdcf32a8ad0b79978913.png",
-                    "https://pixelmedia.bg/wp-content/uploads/2021/08/Apple-Car.jpeg",
-                    "https://www.teslarati.com/wp-content/uploads/2021/12/apple-car-patent.jpeg"
-                )
-
-                for (i in 0..50) {
-                    res.addAll(images)
-                }
-
-                res
-            } else {
-                throw NetworkError(
-                    restError = RestError(ErrorCode.UNKNOWN, "Random error")
-                )
-            }
-        }
-
     }
 }

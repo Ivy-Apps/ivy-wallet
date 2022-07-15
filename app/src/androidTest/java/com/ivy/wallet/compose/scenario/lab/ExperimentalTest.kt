@@ -1,9 +1,9 @@
 package com.ivy.wallet.compose.scenario.lab
 
+import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
 import com.ivy.wallet.compose.component.planned.EditPlannedScreen
-import com.ivy.wallet.domain.data.TransactionType
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Ignore
 import org.junit.Test

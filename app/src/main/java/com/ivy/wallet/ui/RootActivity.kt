@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,43 +37,39 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.balance.BalanceScreen
+import com.ivy.base.Constants
+import com.ivy.base.Constants.SUPPORT_EMAIL
+import com.ivy.base.R
+import com.ivy.base.RootScreen
+import com.ivy.base.appDesign
+import com.ivy.budgets.BudgetScreen
+import com.ivy.categories.CategoriesScreen
 import com.ivy.design.api.IvyUI
+import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
+import com.ivy.import_data.ImportCSVScreen
+import com.ivy.item_transactions.ItemStatisticScreen
+import com.ivy.journey.domain.CustomerJourneyLogic
+import com.ivy.main.MainScreen
+import com.ivy.onboarding.OnboardingScreen
+import com.ivy.pie_charts.PieChartStatisticScreen
+import com.ivy.reports.ReportScreen
+import com.ivy.screens.*
+import com.ivy.search.SearchScreen
+import com.ivy.settings.SettingsScreen
+import com.ivy.transaction_details.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.Constants
-import com.ivy.wallet.Constants.SUPPORT_EMAIL
-import com.ivy.wallet.R
-import com.ivy.wallet.domain.data.TransactionType
-import com.ivy.wallet.domain.deprecated.logic.CustomerJourneyLogic
-import com.ivy.wallet.ui.analytics.AnalyticsReport
 import com.ivy.wallet.ui.applocked.AppLockedScreen
-import com.ivy.wallet.ui.balance.BalanceScreen
-import com.ivy.wallet.ui.budget.BudgetScreen
-import com.ivy.wallet.ui.category.CategoriesScreen
-import com.ivy.wallet.ui.charts.ChartsScreen
-import com.ivy.wallet.ui.csvimport.ImportCSVScreen
-import com.ivy.wallet.ui.donate.DonateScreen
-import com.ivy.wallet.ui.edit.EditTransactionScreen
-import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
-import com.ivy.wallet.ui.main.MainScreen
-import com.ivy.wallet.ui.onboarding.OnboardingScreen
-import com.ivy.wallet.ui.paywall.PaywallScreen
 import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
-import com.ivy.wallet.ui.reports.ReportScreen
-import com.ivy.wallet.ui.search.SearchScreen
-import com.ivy.wallet.ui.settings.SettingsScreen
-import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
-import com.ivy.wallet.ui.statistic.level2.ItemStatisticScreen
-import com.ivy.wallet.ui.test.TestScreen
-import com.ivy.wallet.ui.webView.WebViewScreen
-import com.ivy.wallet.ui.widget.AddTransactionWidget
 import com.ivy.wallet.utils.*
+import com.ivy.web.WebViewScreen
+import com.ivy.widgets.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -84,20 +79,10 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class RootActivity : AppCompatActivity() {
-
-    companion object {
-
-        fun getIntent(context: Context): Intent = Intent(context, RootActivity::class.java)
-
-        fun addTransactionStart(context: Context, type: TransactionType): Intent =
-            Intent(context, RootActivity::class.java).apply {
-                putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
-            }
-    }
+class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
-    lateinit var ivyContext: IvyWalletCtx
+    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation
@@ -193,17 +178,10 @@ class RootActivity : AppCompatActivity() {
             is ItemStatistic -> ItemStatisticScreen(screen = screen)
             is PieChartStatistic -> PieChartStatisticScreen(screen = screen)
             is Categories -> CategoriesScreen(screen = screen)
-            is Settings -> SettingsScreen(screen = screen)
+            is SettingsScreen -> SettingsScreen(screen = screen)
             is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
             is EditPlanned -> EditPlannedScreen(screen = screen)
             is BalanceScreen -> BalanceScreen(screen = screen)
-            is Paywall -> PaywallScreen(
-                screen = screen,
-                activity = this@RootActivity
-            )
-            is Test -> TestScreen(screen = screen)
-            is Charts -> ChartsScreen(screen = screen)
-            is AnalyticsReport -> AnalyticsReport(screen = screen)
             is Import -> ImportCSVScreen(screen = screen)
             is Report -> ReportScreen(screen = screen)
             is BudgetScreen -> BudgetScreen(screen = screen)
@@ -211,8 +189,6 @@ class RootActivity : AppCompatActivity() {
             is LoanDetails -> LoanDetailsScreen(screen = screen)
             is Search -> SearchScreen(screen = screen)
             is IvyWebView -> WebViewScreen(screen = screen)
-            is ImagesScreen -> ImagesScreen(screen = screen)
-            is ExperimentalScreen -> ExperimentalScreen(screen = screen)
             is DonateScreen -> DonateScreen(screen = screen)
             null -> {
             }
@@ -444,7 +420,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun openUrlInBrowser(url: String) {
+    override fun openUrlInBrowser(url: String) {
         try {
             val browserIntent = Intent(Intent.ACTION_VIEW)
             browserIntent.data = Uri.parse(url)
@@ -460,7 +436,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareIvyWallet() {
+    override fun shareIvyWallet() {
         val share = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -472,7 +448,11 @@ class RootActivity : AppCompatActivity() {
         startActivity(share)
     }
 
-    fun openGooglePlayAppPage(appId: String = packageName) {
+    fun openIvyWalletGooglePlayPage() {
+        openGooglePlayAppPage(appId = Constants.IVY_WALLET_APP_ID)
+    }
+
+    override fun openGooglePlayAppPage(appId: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appId")))
         } catch (e: ActivityNotFoundException) {
@@ -485,7 +465,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
-    fun shareCSVFile(fileUri: Uri) {
+    override fun shareCSVFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -496,7 +476,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun shareZipFile(fileUri: Uri) {
+    override fun shareZipFile(fileUri: Uri) {
         val intent = Intent.createChooser(
             Intent().apply {
                 action = Intent.ACTION_SEND
@@ -507,7 +487,7 @@ class RootActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun reviewIvyWallet(dismissReviewCard: Boolean) {
+    override fun reviewIvyWallet(dismissReviewCard: Boolean) {
         val manager = ReviewManagerFactory.create(this)
         val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
@@ -523,15 +503,15 @@ class RootActivity : AppCompatActivity() {
                         customerJourneyLogic.dismissCard(CustomerJourneyLogic.rateUsCard())
                     }
 
-                    openGooglePlayAppPage()
+                    openIvyWalletGooglePlayPage()
                 }
             } else {
-                openGooglePlayAppPage()
+                openIvyWalletGooglePlayPage()
             }
         }
     }
 
-    fun <T> pinWidget(widget: Class<T>) {
+    override fun <T> pinWidget(widget: Class<T>) {
         val appWidgetManager: AppWidgetManager = this.getSystemService(AppWidgetManager::class.java)
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)

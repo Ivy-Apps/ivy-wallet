@@ -437,4 +437,14 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">Experimental Settings</string>
     <string name="wallet_balance">Wallet balance</string>
+    <string name="mark_as_sub_category">Маркирайте като подкатегория</string>
+    <string name="parent_category">Roditelska kategoriya</string>
+    <string name="marked_parent_category">*Това е маркирано като родителска категория</string>
+    <string name="unpack_all_subcategories">Разопаковайте всички подкатегории</string>
+    <string name="export_csv_moneywallet_description">Проверете всички „Незадължителни колони“ в опциите за експортиране</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">Преименуване на категория за прехвърляне</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">За потребители, които не са на английски, преименувайте категорията на системата за прехвърляне на „Прехвърляне“ във файла за експортиране</string>
+    <string name="export_csv_caveats">Предупреждения</string>
+    <string name="export_csv_moneywallet_caveat_1">Подкатегориите не се поддържат</string>
+    <string name="export_csv_moneywallet_caveat_2">Колоните за събитие, хора и място ще бъдат игнорирани</string>
 </resources>

@@ -437,4 +437,14 @@
     <string name="experimental">Experimental</string>
     <string name="experimental_settings">प्रायोगिक सेटिंग्स</string>
     <string name="wallet_balance">वॉलेट बैलेंस</string>
+    <string name="mark_as_sub_category">उप-श्रेणी के रूप में चिह्नित करें</string>
+    <string name="parent_category">अभिभावक श्रेणी</string>
+    <string name="marked_parent_category">*इसे मूल श्रेणी के रूप में चिह्नित किया गया है</string>
+    <string name="unpack_all_subcategories">सभी उपश्रेणियों को अनपैक करें</string>
+    <string name="export_csv_moneywallet_description">निर्यात विकल्पों में सभी \"वैकल्पिक कॉलम\" जांचें</string>
+    <string name="export_csv_moneywallet_rename_transfer_title">स्थानांतरण श्रेणी का नाम बदलें</string>
+    <string name="export_csv_moneywallet_rename_transfer_description">गैर-अंग्रेज़ी उपयोगकर्ताओं के लिए, निर्यात फ़ाइल में स्थानांतरण प्रणाली श्रेणी का नाम बदलकर \"स्थानांतरण\" कर दें</string>
+    <string name="export_csv_caveats">चेतावनियां</string>
+    <string name="export_csv_moneywallet_caveat_1">उपश्रेणियाँ समर्थित नहीं हैं</string>
+    <string name="export_csv_moneywallet_caveat_2">ईवेंट, लोग और स्थान कॉलम पर ध्यान नहीं दिया जाएगा</string>
 </resources>

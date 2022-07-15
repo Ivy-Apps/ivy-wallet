@@ -2,14 +2,14 @@ package com.ivy.wallet.compose.scenario.core
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.ivy.data.planned.IntervalType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.account.AccountsTab
 import com.ivy.wallet.compose.component.edittrn.screen.IncomeExpenseScreen
 import com.ivy.wallet.compose.component.home.HomeTab
 import com.ivy.wallet.compose.component.planned.EditPlannedScreen
 import com.ivy.wallet.compose.component.planned.PlannedPaymentsScreen
-import com.ivy.wallet.domain.data.IntervalType
-import com.ivy.wallet.domain.data.TransactionType
 import com.ivy.wallet.utils.timeNowUTC
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
@@ -253,7 +253,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun skipPlannedPaymentsOnHomeTab() = testWithRetry{
+    fun skipPlannedPaymentsOnHomeTab() = testWithRetry {
         quickOnboarding()
             .clickAddFAB()
             .clickAddPlannedPayment()
@@ -274,7 +274,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
     }
 
     @Test
-    fun payPlannedPaymentsOnHomeTab() = testWithRetry{
+    fun payPlannedPaymentsOnHomeTab() = testWithRetry {
         quickOnboarding()
             .clickAddFAB()
             .clickAddPlannedPayment()

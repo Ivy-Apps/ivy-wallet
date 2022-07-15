@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorPrimary">@color/ivy</item>
+        <item name="android:colorPrimaryDark">@color/ivy</item>
+        <item name="android:colorAccent">@color/ivy</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+
+        <item name="android:colorControlActivated">@color/ivy</item>
+    </style>
+
+</resources>
