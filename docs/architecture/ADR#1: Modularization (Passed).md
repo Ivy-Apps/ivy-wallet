@@ -39,9 +39,30 @@ how to create modules and how to navigate between them.
 - Stay with `:app` monolith.
 - Modularize only by domain - `:ui`, `:actions`, `:persistence`, `:network`, ...
 
-## Implementation
+## Implementation Strategy
 
-**Rule of thumb:**
+### When to create a new module?
+- When a group of code or resources can be logically organized and isolated
+from other dependencies. Good examples:
+  - `:exchange`: holds all exchange logic (created)
+  - `:date-time`: holds all datetime conversion and formatting code (not created)
+  - `:backups`: all logic for JSON zip backs - import & export. 
+(not created- @Vishwa)
+
+- When code or components from a monolithic "trashy" `:temp-` modules can
+be logically extracted. Example `:ui-components-old` -> `:modals`
+-> `:account-modals`, `:category-modals`, `:loan-modals`, ..
+
+- When large feature modules can logically split futher. Example `:main` ->
+`:more-menu`, `:customer-journey`, `:home`, `:accounts`.
+
+> ❗To create a new module run `runhaskel scripts/create_module.hs`.
+
+### When to move "stuff" to a module?
+
+### Common module dependencies
+
+### Temporary (trashy) modules
 
 ## Further Reading
 (TODO: Add resources)
