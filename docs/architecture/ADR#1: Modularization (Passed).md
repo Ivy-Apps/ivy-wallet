@@ -78,6 +78,7 @@ module should NOT contain behavior. (we'll cover it another ADR)
 - `:temp-domain`: all Actions, pure functions and "Logic" => will be split further
 - `:app-base`: all resources + random stuff - must be reworked
 - `:ui-components-old`: all legacy Ivy Wallet components => will be split and deprecated.
+- `:screens`: data classes for all screens in the app, used for navigation
 
 ### Temporary (trashy) modules
 
