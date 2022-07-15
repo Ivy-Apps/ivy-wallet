@@ -24,9 +24,27 @@ a new module `:goals` and develop there w/o risk of breaking `:categories`, `:ac
 - **Faster unit & UI tests:** we can optimize the CI to run only the tests for the changed modules.
 
 ### Drawbacks
+- **A lot of work required:** modularization is big iniciative and requires a lof ot work 
+because of our coupled code in `:app`.
+- **Will break R8:** we have to redesign how are `minify` work.
+- **Will break R (resources):** as our resources are monolithic it'll take some time to de-couple and re-organize them.
+- **Complex Gradle KTS setup:** compared to a monolith is way harder to configure all gradle modules
+and their dependencies efficiently.
+- **Learning curve for contributors:** contributors will have to understand our modules structure, 
+how to create modules and how to navigate between them.
+- **Until fully completed it's worse than a monolith:** a lot of `temp` modules or junkyards like `app-base`.
 
 ### Alternatives
+
+- Stay with `:app` monolith.
+- Modularize only by domain - `:ui`, `:actions`, `:persistence`, `:network`, ...
 
 ## Implementation
 
 **Rule of thumb:**
+
+## Further Reading
+(TODO: Add resources)
+- [Resource 1]()
+- [Resource 2]()
+- ...
