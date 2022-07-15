@@ -15,7 +15,7 @@ Split the `:app` logically by:
 - **responsibility (shared) modules:** e.g. `:exchange`, `:ui-components`, `:persitence`, `:network`, ...
 
 ### Benefits
-- **No couplicing:** you can't import functions or classes from `:app` or other feature modules.
+- **No coupling:** you can't import functions or classes from `:app` or other feature modules.
 - **Less complexity:** to re-use code it have to defined-well in a shared module.
 - **Faster build time:** if done well only the affected modules will be recompiled and NOT the entire monolith.
 - **Stable way to scale and add new feautres:** when developing new features (e.g. Goals) contributors can add
