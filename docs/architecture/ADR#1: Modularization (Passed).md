@@ -58,11 +58,37 @@ be logically extracted. Example `:ui-components-old` -> `:modals`
 
 > ❗To create a new module run `runhaskel scripts/create_module.hs`.
 
-### When to move "stuff" to a module?
+### When to move "stuff" to another module?
+
+- When a code in a shared module is only used in one feature module. 
+Example: `CategoryAmount` data class in `:app-base` -> `:pie-charts`.
+
+- When a code in a shared module can be used only in a few logically connected feature modulues.
+
+- When a code in a monolithic shared module can be isolated further.
+Example: The modals UI from `:ui-components-old`to `:modals` or even further to many smaller modals
+modules like `:amount-input-modals`, ...
 
 ### Common module dependencies
+- `:common`: contains all common Kotlin deps
+- `:ui-common`: `:common` + Jetpack Compose + other UI related stuff
+- `:data-model`: The data model behind Ivy Wallet. ⚠️ Add only data classes w/o methods in it -> 
+module should NOT contain behavior. (we'll cover it another ADR)
+- `:temp-persistence`: everything persistence related => will be split further
+- `:temp-domain`: all Actions, pure functions and "Logic" => will be split further
+- `:app-base`: all resources + random stuff - must be reworked
+- `:ui-components-old`: all legacy Ivy Wallet components => will be split and deprecated.
 
 ### Temporary (trashy) modules
+
+This modules are just bad but we temporarily need them to have the project compiling. 
+If you want to help consider splitting them logically further.
+
+- `:app-base`
+- `:temp-domain`
+- `:ui-components-old`
+- `:temp-network`
+- `:temp-persistence`
 
 ## Further Reading
 (TODO: Add resources)
