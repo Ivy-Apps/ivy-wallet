@@ -2,6 +2,8 @@
 
 Split the `:app` monolith into many small modules by feature or responsibility.
 
+Goal: divide, refactor and conquer.
+
 ## Problem
 
 Ivy Wallet is progessively becoming bigger and bigger by introducing new features and user requests.
