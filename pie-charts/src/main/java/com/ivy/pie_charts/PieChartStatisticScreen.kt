@@ -10,9 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -42,9 +40,6 @@ import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.PieChartStatistic
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticEvent
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticState
-import com.ivy.wallet.ui.statistic.level1.PieChartStatisticViewModel
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
@@ -60,7 +55,7 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
     val state by viewModel.state().collectAsState()
 
     onScreenStart {
-        viewModel.start(screen)
+        viewModel.onEvent(PieChartStatisticEvent.Start(screen))
     }
 
     UI(
@@ -77,7 +72,7 @@ private fun BoxWithConstraintsScope.UI(
 ) {
     val nav = navigation()
     val lazyState = rememberLazyListState()
-    val expanded = lazyState.firstVisibleItemIndex < 1
+    val expanded by remember { derivedStateOf { lazyState.firstVisibleItemIndex < 1 } }
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
         animationSpec = springBounce()
@@ -99,13 +94,13 @@ private fun BoxWithConstraintsScope.UI(
                 amount = state.totalAmount,
 
                 onShowMonthModal = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(state.period))
+                    onEventHandler(PieChartStatisticEvent.OnShowMonthModal(state.period))
                 },
                 onSelectNextMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectNextMonth)
+                    onEventHandler(PieChartStatisticEvent.OnSelectNextMonth)
                 },
                 onSelectPreviousMonth = {
-                    onEventHandler.invoke(PieChartStatisticEvent.OnSelectPreviousMonth)
+                    onEventHandler(PieChartStatisticEvent.OnSelectPreviousMonth)
                 },
                 showCloseButtonOnly = state.showCloseButtonOnly,
 
@@ -158,7 +153,7 @@ private fun BoxWithConstraintsScope.UI(
                     text = stringResource(R.string.unpack_all_subcategories),
                     checked = state.unpackAllSubCategories
                 ) {
-                    onEventHandler.invoke(
+                    onEventHandler(
                         PieChartStatisticEvent.OnUnpackSubCategories(
                             unpackAllSubCategories = !state.unpackAllSubCategories
                         )
@@ -175,7 +170,7 @@ private fun BoxWithConstraintsScope.UI(
                 categoryAmounts = state.pieChartCategoryAmount,
                 selectedCategory = state.selectedCategory,
                 onCategoryClicked = { clickedCategory ->
-                    onEventHandler.invoke(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
+                    onEventHandler(PieChartStatisticEvent.OnCategoryClicked(clickedCategory))
                 }
             )
 
@@ -209,10 +204,10 @@ private fun BoxWithConstraintsScope.UI(
     ChoosePeriodModal(
         modal = state.choosePeriodModal,
         dismiss = {
-            onEventHandler.invoke(PieChartStatisticEvent.OnShowMonthModal(null))
+            onEventHandler(PieChartStatisticEvent.OnShowMonthModal(null))
         }
     ) {
-        onEventHandler.invoke(PieChartStatisticEvent.OnSetPeriod(it))
+        onEventHandler(PieChartStatisticEvent.OnSetPeriod(it))
     }
 }
 
