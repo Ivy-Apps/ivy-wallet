@@ -5,9 +5,10 @@ import com.ivy.data.Category
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.pie_charts.action.PieChartAct
+import com.ivy.pie_charts.action.SubCategoryAct
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.screens.PieChartStatistic
-import com.ivy.wallet.domain.action.charts.PieChartAct
-import com.ivy.wallet.domain.action.charts.SubCategoryAct
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData

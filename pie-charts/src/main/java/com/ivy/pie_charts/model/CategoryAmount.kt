@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.pie_charts.model
 
 import com.ivy.data.Category
 import com.ivy.data.transaction.Transaction

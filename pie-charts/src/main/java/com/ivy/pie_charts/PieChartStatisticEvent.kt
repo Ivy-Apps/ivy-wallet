@@ -1,6 +1,6 @@
 package com.ivy.pie_charts
 
-import com.ivy.base.CategoryAmount
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.TimePeriod
 import com.ivy.data.Category
 import com.ivy.screens.PieChartStatistic
