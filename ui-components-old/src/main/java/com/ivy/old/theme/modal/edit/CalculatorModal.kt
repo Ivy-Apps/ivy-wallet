@@ -151,13 +151,11 @@ fun BoxWithConstraintsScope.CalculatorModal(
             onNumberPressed = {
                 expression = formatExpression(
                     expression = expression + it,
-                    currency = currency
                 )
             },
             onDecimalPoint = {
                 expression = formatExpression(
                     expression = expression + localDecimalSeparator(),
-                    currency = currency
                 )
             },
             onBackspace = {
@@ -171,7 +169,7 @@ fun BoxWithConstraintsScope.CalculatorModal(
     }
 }
 
-private fun formatExpression(expression: String, currency: String): String {
+private fun formatExpression(expression: String): String {
     var formattedExpression = expression
 
     expression
@@ -181,17 +179,12 @@ private fun formatExpression(expression: String, currency: String): String {
             listOf(expression)
         }
         .forEach { part ->
-            val numberPart = part.amountToDoubleOrNull()
-            if (numberPart != null) {
-                val formattedPart = formatInputAmount(
-                    currency = currency,
-                    amount = part,
-                    newSymbol = ""
-                )
+            val formattedPart = removeExtraDecimals(part)
 
-                if (formattedPart != null) {
-                    formattedExpression = formattedExpression.replace(part, formattedPart)
-                }
+            val numberPart = formattedPart
+                .amountToDoubleOrNull()
+            if (numberPart != null) {
+                formattedExpression = formattedExpression.replace(part, formattedPart)
             }
         }
 
