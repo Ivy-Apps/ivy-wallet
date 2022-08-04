@@ -182,3 +182,10 @@ fun formatInputAmount(
 
     return null
 }
+
+fun removeExtraDecimals(
+    amount: String,
+): String = amount
+    .split(localDecimalSeparator())
+    .take(2)
+    .joinToString(separator = localDecimalSeparator())

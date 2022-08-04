@@ -129,7 +129,7 @@ fun LocalDate.atEndOfDay(): LocalDateTime =
 /**
  * +1 day so things won't fck up with Long overflow
  */
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(10)
+fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(99)
 
 fun toIvyFutureTime(): LocalDateTime = timeNowUTC().plusYears(30)
 
