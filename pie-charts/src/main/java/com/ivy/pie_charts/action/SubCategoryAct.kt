@@ -1,6 +1,6 @@
-package com.ivy.wallet.domain.action.charts
+package com.ivy.pie_charts.action
 
-import com.ivy.base.CategoryAmount
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
