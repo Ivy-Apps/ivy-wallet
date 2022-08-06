@@ -1,7 +1,7 @@
-package com.ivy.wallet.domain.action.charts
+package com.ivy.pie_charts.action
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.base.CategoryAmount
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.FromToTimeRange
 import com.ivy.base.R
 import com.ivy.base.stringRes
