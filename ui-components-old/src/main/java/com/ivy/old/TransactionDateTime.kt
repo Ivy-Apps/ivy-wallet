@@ -18,6 +18,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.base.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
+import com.ivy.wallet.utils.formatLocalTime
+import com.ivy.wallet.utils.formatNicely
 import com.ivy.wallet.utils.formatNicelyWithTime
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
@@ -27,6 +29,8 @@ fun TransactionDateTime(
     dateTime: LocalDateTime?,
     dueDateTime: LocalDateTime?,
 
+    onEditDate: () -> Unit = {},
+    onEditTime: () -> Unit = {},
     onEditDateTime: () -> Unit
 ) {
     if (dueDateTime == null || dateTime != null) {
@@ -62,13 +66,29 @@ fun TransactionDateTime(
             Spacer(Modifier.weight(1f))
 
             Text(
-                text = (dateTime ?: timeNowUTC()).formatNicelyWithTime(
+                text = (dateTime ?: timeNowUTC()).formatNicely(
                     noWeekDay = true
                 ),
                 style = UI.typo.nB2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.ExtraBold
-                )
+                ),
+                modifier = Modifier.clickable {
+                    onEditDate()
+                }
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = (dateTime ?: timeNowUTC()).formatLocalTime(),
+                style = UI.typo.nB2.style(
+                    color = UI.colors.pureInverse,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+                modifier = Modifier.clickable {
+                    onEditTime()
+                }
             )
 
             Spacer(modifier = Modifier.width(24.dp))

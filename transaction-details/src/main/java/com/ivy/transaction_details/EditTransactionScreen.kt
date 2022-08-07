@@ -305,6 +305,28 @@ private fun BoxWithConstraintsScope.UI(
         TransactionDateTime(
             dateTime = dateTime,
             dueDateTime = dueDate,
+            onEditDate = {
+                ivyContext.datePicker(
+                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+                ) { date ->
+                    onSetDateTime(
+                        getTrueDate(
+                            date, dateTime?.toLocalTime()
+                                ?: timeNowLocal().toLocalTime()
+                        )
+                    )
+                }
+            },
+            onEditTime = {
+                ivyContext.timePicker { time ->
+                    onSetDateTime(
+                        getTrueDate(
+                            dateTime?.toLocalDate()
+                                ?: timeNowLocal().toLocalDate(), time
+                        )
+                    )
+                }
+            }
         ) {
             ivyContext.datePicker(
                 initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate(),
