@@ -18,9 +18,9 @@ import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
@@ -49,11 +49,11 @@ class ReportViewModel @Inject constructor(
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeAct,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val baseCurrencyAct: BaseCurrencyAct
+    private val baseCurrencyAct: BaseCurrencyActOld
 ) : FRPViewModel<ReportScreenState, Nothing>() {
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()

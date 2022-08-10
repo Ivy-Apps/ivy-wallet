@@ -16,8 +16,8 @@ import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountByIdAct
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryByIdAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
@@ -61,8 +61,8 @@ class EditTransactionViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val smartTitleSuggestionsLogic: SmartTitleSuggestionsLogic,
     private val loanTransactionsLogic: LoanTransactionsLogic,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
     private val trnByIdAct: TrnByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
     private val accountByIdAct: AccountByIdAct

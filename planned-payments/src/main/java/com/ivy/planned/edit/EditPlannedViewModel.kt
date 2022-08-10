@@ -12,8 +12,8 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditPlanned
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
@@ -45,8 +45,8 @@ class EditPlannedViewModel @Inject constructor(
     private val plannedPaymentsGenerator: PlannedPaymentsGenerator,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld
 ) : ViewModel() {
 
     private val _transactionType = MutableLiveData<TransactionType>()

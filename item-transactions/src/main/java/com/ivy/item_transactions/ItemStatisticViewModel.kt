@@ -20,11 +20,11 @@ import com.ivy.frp.then
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.domain.action.account.AccTrnsAct
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.*
@@ -62,11 +62,11 @@ class ItemStatisticViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val sharedPrefs: SharedPrefs,
-    private val categoriesAct: CategoriesAct,
-    private val accountsAct: AccountsAct,
+    private val categoriesAct: CategoriesActOld,
+    private val accountsAct: AccountsActOld,
     private val accTrnsAct: AccTrnsAct,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val baseCurrencyAct: BaseCurrencyActOld,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,

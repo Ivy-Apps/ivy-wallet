@@ -8,8 +8,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.screens.PlannedPayments
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
@@ -26,8 +26,8 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val accountDao: AccountDao,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val categoriesAct: CategoriesAct,
-    private val accountsAct: AccountsAct
+    private val categoriesAct: CategoriesActOld,
+    private val accountsAct: AccountsActOld
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()

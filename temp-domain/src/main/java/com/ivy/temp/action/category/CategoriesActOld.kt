@@ -6,7 +6,8 @@ import com.ivy.frp.action.thenMap
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
 
-class CategoriesAct @Inject constructor(
+@Deprecated("Use CategoriesAct from `:core-actions`")
+class CategoriesActOld @Inject constructor(
     private val categoryDao: CategoryDao
 ) : FPAction<Unit, List<CategoryOld>>() {
     override suspend fun Unit.compose(): suspend () -> List<CategoryOld> = suspend {

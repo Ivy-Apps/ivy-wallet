@@ -10,7 +10,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.LoanDetails
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -44,7 +44,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation,
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val loanByIdAct: LoanByIdAct
 ) : ViewModel() {
 

@@ -1,7 +1,6 @@
 package com.ivy.pie_charts.action
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.FromToTimeRange
 import com.ivy.base.R
 import com.ivy.base.stringRes
@@ -16,8 +15,9 @@ import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.pie_charts.model.CategoryAmount
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
@@ -28,10 +28,10 @@ import java.util.*
 import javax.inject.Inject
 
 class PieChartAct @Inject constructor(
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val categoriesAct: CategoriesAct,
+    private val categoriesAct: CategoriesActOld,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 

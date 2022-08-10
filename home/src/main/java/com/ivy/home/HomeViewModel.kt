@@ -4,10 +4,10 @@ import com.ivy.base.*
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
-import com.ivy.data.Settings
 import com.ivy.data.AccountOld
-import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.Settings
 import com.ivy.data.Theme
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -17,8 +17,8 @@ import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.screens.BalanceScreen
 import com.ivy.screens.Main
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -48,8 +48,8 @@ class HomeViewModel @Inject constructor(
     private val calcIncomeExpenseAct: CalcIncomeExpenseAct,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
     private val settingsAct: SettingsAct,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
     private val calcBufferDiffAct: CalcBufferDiffAct,
     private val upcomingAct: UpcomingAct,
     private val overdueAct: OverdueAct,

@@ -8,13 +8,13 @@ import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.action.thenSum
 import com.ivy.frp.fixUnit
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcWalletBalanceAct @Inject constructor(
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val exchangeAct: ExchangeAct,
 ) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {

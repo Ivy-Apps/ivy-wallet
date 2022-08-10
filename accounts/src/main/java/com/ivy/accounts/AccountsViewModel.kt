@@ -9,8 +9,8 @@ import com.ivy.data.AccountOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
@@ -35,9 +35,9 @@ class AccountsViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val baseCurrencyAct: BaseCurrencyActOld,
     private val accountDataAct: AccountDataAct
 ) : FRPViewModel<AccountState, Unit>() {
     override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())

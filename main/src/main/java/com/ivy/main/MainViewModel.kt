@@ -7,7 +7,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.Main
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,
-    private val baseCurrencyAct: BaseCurrencyAct
+    private val baseCurrencyAct: BaseCurrencyActOld
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()

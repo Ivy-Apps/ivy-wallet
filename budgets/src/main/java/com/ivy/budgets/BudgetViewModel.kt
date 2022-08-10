@@ -17,10 +17,10 @@ import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.budget.BudgetsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
@@ -50,10 +50,10 @@ class BudgetViewModel @Inject constructor(
     private val budgetCreator: BudgetCreator,
     private val budgetSync: BudgetSync,
     private val ivyContext: com.ivy.base.IvyWalletCtx,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
     private val budgetsAct: BudgetsAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val baseCurrencyAct: BaseCurrencyActOld,
     private val historyTrnsAct: HistoryTrnsAct,
     private val exchangeAct: ExchangeAct
 ) : ViewModel() {

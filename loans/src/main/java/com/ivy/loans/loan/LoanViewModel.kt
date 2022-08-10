@@ -7,8 +7,8 @@ import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.Loan
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.loan.LoansAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -48,8 +48,8 @@ class LoanViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val loansAct: LoansAct,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld
 ) : ViewModel() {
 
     private val _baseCurrencyCode = MutableStateFlow(getDefaultFIATCurrency().currencyCode)

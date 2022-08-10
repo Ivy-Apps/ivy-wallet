@@ -6,9 +6,9 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.AllTrnsAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.utils.ioThread
@@ -21,9 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
+    private val baseCurrencyAct: BaseCurrencyActOld,
     private val allTrnsAct: AllTrnsAct
 ) : ViewModel() {
 
