@@ -10,7 +10,7 @@ import com.ivy.base.stringRes
 import com.ivy.base.toCloseTimeRange
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
@@ -101,7 +101,7 @@ class ItemStatisticViewModel @Inject constructor(
     val expenses = _expenses.readOnly()
 
     //Upcoming
-    private val _upcoming = MutableStateFlow<List<Transaction>>(emptyList())
+    private val _upcoming = MutableStateFlow<List<TransactionOld>>(emptyList())
     val upcoming = _upcoming.readOnly()
 
     private val _upcomingIncome = MutableStateFlow(0.0)
@@ -114,7 +114,7 @@ class ItemStatisticViewModel @Inject constructor(
     val upcomingExpanded = _upcomingExpanded.readOnly()
 
     //Overdue
-    private val _overdue = MutableStateFlow<List<Transaction>>(emptyList())
+    private val _overdue = MutableStateFlow<List<TransactionOld>>(emptyList())
     val overdue = _overdue.readOnly()
 
     private val _overdueIncome = MutableStateFlow(0.0)
@@ -346,7 +346,7 @@ class ItemStatisticViewModel @Inject constructor(
     private suspend fun initForCategoryWithTransactions(
         categoryId: UUID,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<TransactionOld>
     ) {
         computationThread {
             _initWithTransactions.value = true
@@ -473,7 +473,7 @@ class ItemStatisticViewModel @Inject constructor(
     private suspend fun initForAccountTransfersCategory(
         categoryId: UUID?,
         accountFilterList: List<UUID>,
-        transactions: List<Transaction>
+        transactions: List<TransactionOld>
     ) {
         _initWithTransactions.value = true
         _category.value =
@@ -620,7 +620,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun payOrGet(screen: ItemStatistic, transaction: Transaction) {
+    fun payOrGet(screen: ItemStatistic, transaction: TransactionOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -635,7 +635,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatistic, transaction: Transaction) {
+    fun skipTransaction(screen: ItemStatistic, transaction: TransactionOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -653,7 +653,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatistic, transactions: List<Transaction>) {
+    fun skipTransactions(screen: ItemStatistic, transactions: List<TransactionOld>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.data.IvyCurrency
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -48,7 +48,7 @@ fun IncomeExpensesCards(
             currencyCode = currency,
             amount = income,
             transactionCount = history
-                .filterIsInstance(Transaction::class.java)
+                .filterIsInstance(TransactionOld::class.java)
                 .count { it.type == TransactionType.INCOME },
             addButtonText = if (hasAddButtons) stringResource(R.string.add_income) else null,
             isIncome = true,
@@ -66,7 +66,7 @@ fun IncomeExpensesCards(
             currencyCode = currency,
             amount = expenses,
             transactionCount = history
-                .filterIsInstance(Transaction::class.java)
+                .filterIsInstance(TransactionOld::class.java)
                 .count { it.type == TransactionType.EXPENSE },
             addButtonText = if (hasAddButtons) stringResource(R.string.add_expense) else null,
             isIncome = false,

@@ -5,7 +5,7 @@ import com.ivy.common.timeNowUTC
 import com.ivy.data.Account
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
@@ -148,10 +148,10 @@ class PlannedPaymentsLogic(
     }
 
     suspend fun payOrGet(
-        transaction: Transaction,
+        transaction: TransactionOld,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
-        onUpdateUI: suspend (paidTransaction: Transaction) -> Unit
+        onUpdateUI: suspend (paidTransaction: TransactionOld) -> Unit
     ) {
         if (transaction.dueDate == null || transaction.dateTime != null) return
 
@@ -195,10 +195,10 @@ class PlannedPaymentsLogic(
     }
 
     suspend fun payOrGet(
-        transactions: List<Transaction>,
+        transactions: List<TransactionOld>,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
-        onUpdateUI: suspend (paidTransactions: List<Transaction>) -> Unit
+        onUpdateUI: suspend (paidTransactions: List<TransactionOld>) -> Unit
     ) {
         val paidTransactions =
             transactions.filter { (it.dueDate == null || it.dateTime != null).not() }

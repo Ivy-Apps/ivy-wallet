@@ -24,7 +24,7 @@ import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -47,12 +47,12 @@ import java.time.LocalDateTime
 fun TransactionCard(
     baseData: AppBaseData,
 
-    transaction: Transaction,
+    transaction: TransactionOld,
 
-    onPayOrGet: (Transaction) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit = {},
+    onPayOrGet: (TransactionOld) -> Unit,
+    onSkipTransaction: (TransactionOld) -> Unit = {},
 
-    onClick: (Transaction) -> Unit,
+    onClick: (TransactionOld) -> Unit,
 ) {
     Spacer(Modifier.height(12.dp))
 
@@ -211,7 +211,7 @@ fun TransactionCard(
 
 @Composable
 private fun TransactionHeaderRow(
-    transaction: Transaction,
+    transaction: TransactionOld,
     categories: List<Category>,
     accounts: List<Account>
 ) {
@@ -320,7 +320,7 @@ private fun TransactionBadge(
 @Composable
 private fun TransferHeader(
     accounts: List<Account>,
-    transaction: Transaction
+    transaction: TransactionOld
 ) {
     Row(
         modifier = Modifier
@@ -484,7 +484,7 @@ private fun PreviewUpcomingExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Lidl pazar",
                         categoryId = food.id,
@@ -517,7 +517,7 @@ private fun PreviewOverdueExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Rent",
                         categoryId = food.id,
@@ -554,7 +554,7 @@ private fun PreviewNormalExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Близкия магазин",
                         categoryId = food.id,
@@ -585,7 +585,7 @@ private fun PreviewIncome() {
                         categories = listOf(category),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Qredo Salary May",
                         categoryId = category.id,
@@ -617,7 +617,7 @@ private fun PreviewTransfer() {
                         categories = listOf(),
                         accounts = listOf(acc1, acc2)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = acc1.id,
                         toAccountId = acc2.id,
                         title = "Top-up revolut",
@@ -655,7 +655,7 @@ private fun PreviewTransfer_differentCurrency() {
                         categories = listOf(),
                         accounts = listOf(acc1, acc2)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = acc1.id,
                         toAccountId = acc2.id,
                         title = "Top-up revolut",

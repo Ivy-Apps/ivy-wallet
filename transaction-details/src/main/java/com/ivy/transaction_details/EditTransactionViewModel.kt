@@ -8,7 +8,7 @@ import com.ivy.base.EditTransactionDisplayLoan
 import com.ivy.base.refreshWidget
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
@@ -122,7 +122,7 @@ class EditTransactionViewModel @Inject constructor(
     private val _customExchangeRateState = MutableStateFlow(CustomExchangeRateState())
     val customExchangeRateState = _customExchangeRateState.asStateFlow()
 
-    private var loadedTransaction: Transaction? = null
+    private var loadedTransaction: TransactionOld? = null
     private var editMode = false
 
     //Used for optimising in updating all loan/loanRecords
@@ -152,7 +152,7 @@ class EditTransactionViewModel @Inject constructor(
 
             loadedTransaction = screen.initialTransactionId?.let {
                 trnByIdAct(it)
-            } ?: Transaction(
+            } ?: TransactionOld(
                 accountId = defaultAccountId(
                     screen = screen,
                     accounts = accounts
@@ -169,7 +169,7 @@ class EditTransactionViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getDisplayLoanHelper(trans: Transaction): EditTransactionDisplayLoan {
+    private suspend fun getDisplayLoanHelper(trans: TransactionOld): EditTransactionDisplayLoan {
         if (trans.loanId == null)
             return EditTransactionDisplayLoan()
 
@@ -218,7 +218,7 @@ class EditTransactionViewModel @Inject constructor(
         return accounts.first().id
     }
 
-    private suspend fun display(transaction: Transaction) {
+    private suspend fun display(transaction: TransactionOld) {
         this.title = transaction.title
 
         _transactionType.value = transaction.type

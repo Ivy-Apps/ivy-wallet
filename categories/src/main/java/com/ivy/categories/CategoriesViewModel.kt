@@ -7,7 +7,7 @@ import com.ivy.base.TimePeriod
 import com.ivy.categories.CategoryData
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
@@ -56,7 +56,7 @@ class CategoriesViewModel @Inject constructor(
 
     private var allAccounts = emptyList<Account>()
     private var baseCurrency = ""
-    private var transactions = emptyList<Transaction>()
+    private var transactions = emptyList<TransactionOld>()
 
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {

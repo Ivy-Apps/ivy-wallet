@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.currency
 
 import com.ivy.data.Account
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeRate
 import com.ivy.exchange.ExchangeRateDao
 import com.ivy.wallet.io.network.RestClient
@@ -58,7 +58,7 @@ class ExchangeRatesLogic(
     }
 
     suspend fun amountBaseCurrency(
-        transaction: Transaction,
+        transaction: TransactionOld,
         baseCurrency: String,
         accounts: List<Account> //helper
     ): Double {
@@ -71,7 +71,7 @@ class ExchangeRatesLogic(
     }
 
     suspend fun toAmountBaseCurrency(
-        transaction: Transaction,
+        transaction: TransactionOld,
         baseCurrency: String,
         accounts: List<Account> //helper
     ): Double {
@@ -148,7 +148,7 @@ class ExchangeRatesLogic(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-suspend fun Iterable<Transaction>.sumInBaseCurrency(
+suspend fun Iterable<TransactionOld>.sumInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,

@@ -27,7 +27,7 @@ import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -203,13 +203,13 @@ private fun BoxWithConstraintsScope.UI(
     setUpcomingExpanded: (Boolean) -> Unit = {},
     upcomingIncome: Double = 0.0,
     upcomingExpenses: Double = 0.0,
-    upcoming: List<Transaction> = emptyList(),
+    upcoming: List<TransactionOld> = emptyList(),
 
     overdueExpanded: Boolean = true,
     setOverdueExpanded: (Boolean) -> Unit = {},
     overdueIncome: Double = 0.0,
     overdueExpenses: Double = 0.0,
-    overdue: List<Transaction> = emptyList(),
+    overdue: List<TransactionOld> = emptyList(),
 
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
@@ -217,9 +217,9 @@ private fun BoxWithConstraintsScope.UI(
     onEditAccount: (Account, Double) -> Unit,
     onEditCategory: (Category) -> Unit,
     onDelete: () -> Unit,
-    onPayOrGet: (Transaction) -> Unit = {},
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onPayOrGet: (TransactionOld) -> Unit = {},
+    onSkipTransaction: (TransactionOld) -> Unit = {},
+    onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -778,7 +778,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                TransactionOld(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

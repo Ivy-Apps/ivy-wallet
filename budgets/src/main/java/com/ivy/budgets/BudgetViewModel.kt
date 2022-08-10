@@ -11,7 +11,7 @@ import com.ivy.data.Account
 import com.ivy.data.Budget
 import com.ivy.data.Category
 import com.ivy.data.getDefaultFIATCurrency
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
@@ -127,7 +127,7 @@ class BudgetViewModel @Inject constructor(
 
     private suspend fun calculateSpentAmount(
         budget: Budget,
-        transactions: List<Transaction>,
+        transactions: List<TransactionOld>,
         baseCurrencyCode: String,
         accounts: List<Account>
     ): Double {

@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.pure.transaction
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.SideEffect
 import java.math.BigDecimal
@@ -24,7 +24,7 @@ object CategoryValueFunctions {
     )
 
     suspend fun balance(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument,
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
@@ -37,7 +37,7 @@ object CategoryValueFunctions {
     }
 
     suspend fun income(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument,
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
@@ -49,7 +49,7 @@ object CategoryValueFunctions {
     }
 
     suspend fun expense(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument,
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
@@ -61,7 +61,7 @@ object CategoryValueFunctions {
     }
 
     suspend fun incomeCount(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument,
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
@@ -73,7 +73,7 @@ object CategoryValueFunctions {
     }
 
     suspend fun expenseCount(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument,
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {

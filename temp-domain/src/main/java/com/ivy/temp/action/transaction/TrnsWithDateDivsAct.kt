@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.transaction
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
@@ -26,6 +26,6 @@ class TrnsWithDateDivsAct @Inject constructor(
 
     data class Input(
         val baseCurrency: String,
-        val transactions: List<Transaction>
+        val transactions: List<TransactionOld>
     )
 }

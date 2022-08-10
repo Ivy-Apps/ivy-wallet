@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.transaction
 
 import arrow.core.nonEmptyListOf
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
@@ -40,7 +40,7 @@ class CalcTrnsIncomeExpenseAct @Inject constructor(
     }
 
     data class Input(
-        val transactions: List<Transaction>,
+        val transactions: List<TransactionOld>,
         val baseCurrency: String,
         val accounts: List<Account>
     )

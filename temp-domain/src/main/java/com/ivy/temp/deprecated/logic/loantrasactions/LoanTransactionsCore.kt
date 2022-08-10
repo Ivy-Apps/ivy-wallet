@@ -10,7 +10,7 @@ import com.ivy.data.Category
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
@@ -51,7 +51,7 @@ class LoanTransactionsCore(
             return
 
         ioThread {
-            val transactions: List<Transaction?> =
+            val transactions: List<TransactionOld?> =
                 if (loanId != null) transactionDao.findAllByLoanId(loanId = loanId)
                     .map { it.toDomain() } else
                     listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
@@ -88,7 +88,7 @@ class LoanTransactionsCore(
         category: Category? = null,
         time: LocalDateTime? = null,
         isLoanRecord: Boolean = false,
-        transaction: Transaction? = null,
+        transaction: TransactionOld? = null,
     ) {
         if (isLoanRecord && loanRecordId == null)
             return
@@ -134,7 +134,7 @@ class LoanTransactionsCore(
         categoryId: UUID? = null,
         time: LocalDateTime = timeNowUTC(),
         isLoanRecord: Boolean = false,
-        transaction: Transaction? = null
+        transaction: TransactionOld? = null
     ) {
         if (selectedAccountId == null)
             return
@@ -146,7 +146,7 @@ class LoanTransactionsCore(
 
         val transCategoryId: UUID? = getCategoryId(existingCategoryId = categoryId)
 
-        val modifiedTransaction: Transaction = transaction?.copy(
+        val modifiedTransaction: TransactionOld = transaction?.copy(
             loanId = loanId,
             loanRecordId = if (isLoanRecord) loanRecordId else null,
             amount = amount.toBigDecimal(),
@@ -156,7 +156,7 @@ class LoanTransactionsCore(
             categoryId = transCategoryId,
             dateTime = time
         )
-            ?: Transaction(
+            ?: TransactionOld(
                 accountId = selectedAccountId,
                 type = transType,
                 amount = amount.toBigDecimal(),
@@ -172,7 +172,7 @@ class LoanTransactionsCore(
         }
     }
 
-    private suspend fun deleteTransaction(transaction: Transaction?) {
+    private suspend fun deleteTransaction(transaction: TransactionOld?) {
         ioThread {
             transaction?.let {
                 transactionDao.flagDeleted(it.id)
@@ -298,7 +298,7 @@ class LoanTransactionsCore(
         loanDao.findById(loanId)
     }
 
-    suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): Transaction? {
+    suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): TransactionOld? {
         return loanRecordId?.let {
             ioThread {
                 transactionDao.findLoanRecordTransaction(it)?.toDomain()

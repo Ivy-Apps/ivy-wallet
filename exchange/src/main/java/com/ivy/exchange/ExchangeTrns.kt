@@ -3,7 +3,7 @@ package com.ivy.exchange
 import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import java.math.BigDecimal
@@ -21,7 +21,7 @@ data class ExchangeTrnArgument(
 
 @Pure
 suspend fun exchangeInBaseCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     arg: ExchangeTrnArgument
 ): BigDecimal {
     val fromCurrency = arg.getAccount(transaction.accountId)?.let {
@@ -39,7 +39,7 @@ suspend fun exchangeInBaseCurrency(
 
 @Pure
 suspend fun exchangeInBaseCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
     accounts: List<Account>,
 
@@ -55,7 +55,7 @@ suspend fun exchangeInBaseCurrency(
 
 @Pure
 suspend fun exchangeInCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
     accounts: List<Account>,
     toCurrency: String,
@@ -74,7 +74,7 @@ suspend fun exchangeInCurrency(
 }
 
 suspend fun exchangeInCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
     trnCurrency: Option<String>,
     toCurrency: String,
@@ -95,7 +95,7 @@ suspend fun exchangeInCurrency(
 
 @Pure
 fun trnCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     accounts: List<Account>,
     baseCurrency: String
 ): Option<String> {

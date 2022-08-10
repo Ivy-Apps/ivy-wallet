@@ -2,7 +2,7 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import java.time.LocalDateTime
 import java.util.*
@@ -36,7 +36,7 @@ data class TransactionEntity(
     @PrimaryKey
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toDomain(): Transaction = Transaction(
+    fun toDomain(): TransactionOld = TransactionOld(
         accountId = accountId,
         type = type,
         amount = amount.toBigDecimal(),
@@ -68,7 +68,7 @@ data class TransactionEntity(
     }
 }
 
-fun Transaction.toEntity(): TransactionEntity = TransactionEntity(
+fun TransactionOld.toEntity(): TransactionEntity = TransactionEntity(
     accountId = accountId,
     type = type,
     amount = amount.toDouble(),

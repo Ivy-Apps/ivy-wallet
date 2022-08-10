@@ -7,7 +7,7 @@ import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
@@ -140,7 +140,7 @@ class PieChartAct @Inject constructor(
         allCategories: suspend () -> List<Category?>,
 
         @SideEffect
-        transactions: suspend () -> List<Transaction>,
+        transactions: suspend () -> List<TransactionOld>,
 
         @SideEffect
         accountsUsed: suspend () -> List<Account>,
@@ -225,7 +225,7 @@ class PieChartAct @Inject constructor(
         accountIdFilterSet: Set<UUID>,
 
         @SideEffect
-        transactions: suspend () -> List<Transaction>,
+        transactions: suspend () -> List<TransactionOld>,
 
         @SideEffect
         incomeExpenseTransfer: suspend () -> IncomeExpenseTransferPair,
@@ -279,7 +279,7 @@ class PieChartAct @Inject constructor(
         val accountIdFilterList: List<UUID>,
         val treatTransferAsIncExp: Boolean = false,
         val showAccountTransfersCategory: Boolean = treatTransferAsIncExp,
-        val existingTransactions: List<Transaction> = emptyList(),
+        val existingTransactions: List<TransactionOld> = emptyList(),
         val filterEmptyCategoryAmounts: Boolean = true
     )
 

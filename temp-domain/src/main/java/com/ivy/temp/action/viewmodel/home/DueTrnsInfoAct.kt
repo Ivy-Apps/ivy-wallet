@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.common.dateNowUTC
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
@@ -60,11 +60,11 @@ class DueTrnsInfoAct @Inject constructor(
     data class Input(
         val range: com.ivy.base.ClosedTimeRange,
         val baseCurrency: String,
-        val dueFilter: (Transaction, LocalDate) -> Boolean
+        val dueFilter: (TransactionOld, LocalDate) -> Boolean
     )
 
     data class Output(
         val dueIncomeExpense: IncomeExpensePair,
-        val dueTrns: List<Transaction>
+        val dueTrns: List<TransactionOld>
     )
 }

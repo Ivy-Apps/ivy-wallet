@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
@@ -18,7 +18,7 @@ object WalletValueFunctions {
     )
 
     suspend fun income(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
@@ -33,7 +33,7 @@ object WalletValueFunctions {
     }
 
     suspend fun transferIncome(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.toAccountId }
@@ -53,7 +53,7 @@ object WalletValueFunctions {
     }
 
     suspend fun expense(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
@@ -68,7 +68,7 @@ object WalletValueFunctions {
     }
 
     suspend fun transferExpenses(
-        transaction: Transaction,
+        transaction: TransactionOld,
         arg: Argument
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.accountId }

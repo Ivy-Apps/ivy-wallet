@@ -6,7 +6,7 @@ import com.ivy.base.TransactionHistoryDateDivider
 import com.ivy.common.convertUTCtoLocal
 import com.ivy.common.toEpochSeconds
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
@@ -20,7 +20,7 @@ import java.math.BigDecimal
 import java.util.*
 
 @Deprecated("Migrate to actions")
-suspend fun List<Transaction>.withDateDividers(
+suspend fun List<TransactionOld>.withDateDividers(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao
@@ -42,7 +42,7 @@ suspend fun List<Transaction>.withDateDividers(
 
 @Pure
 suspend fun transactionsWithDateDividers(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     baseCurrencyCode: String,
 
     @SideEffect

@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import java.math.BigDecimal
 import java.util.*
@@ -9,7 +9,7 @@ typealias AccountValueFunction = ValueFunction<UUID>
 
 object AccountValueFunctions {
     fun balance(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId) {
@@ -35,7 +35,7 @@ object AccountValueFunctions {
     }
 
     fun income(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId && type == TransactionType.INCOME)
@@ -43,7 +43,7 @@ object AccountValueFunctions {
     }
 
     fun transferIncome(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.toAccountId == accountId && type == TransactionType.TRANSFER)
@@ -51,7 +51,7 @@ object AccountValueFunctions {
     }
 
     fun expense(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId && type == TransactionType.EXPENSE)
@@ -59,7 +59,7 @@ object AccountValueFunctions {
     }
 
     fun transferExpense(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId && type == TransactionType.TRANSFER)
@@ -68,7 +68,7 @@ object AccountValueFunctions {
 
 
     fun incomeCount(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId && type == TransactionType.INCOME)
@@ -76,7 +76,7 @@ object AccountValueFunctions {
     }
 
     fun expenseCount(
-        transaction: Transaction,
+        transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
         if (this.accountId == accountId && type == TransactionType.EXPENSE)

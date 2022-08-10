@@ -6,7 +6,7 @@ import com.ivy.base.writeToFile
 import com.ivy.common.formatLocal
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
@@ -31,7 +31,7 @@ class ExportCSVLogic(
     suspend fun exportToFile(
         context: Context,
         fileUri: Uri,
-        exportScope: suspend () -> List<Transaction> = {
+        exportScope: suspend () -> List<TransactionOld> = {
             transactionDao.findAll().map { it.toDomain() }
         }
     ) {
@@ -49,7 +49,7 @@ class ExportCSVLogic(
     }
 
     private suspend fun generateCSV(
-        exportScope: suspend () -> List<Transaction>
+        exportScope: suspend () -> List<TransactionOld>
     ): String {
         return ioThread {
             val accountMap = accountDao
@@ -80,7 +80,7 @@ class ExportCSVLogic(
         }
     }
 
-    private fun Transaction.toCSV(
+    private fun TransactionOld.toCSV(
         baseCurrency: String,
         accountMap: Map<UUID, Account>,
         categoryMap: Map<UUID, Category>

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.data.Account
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.LoanDetails
@@ -69,7 +69,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val _selectedLoanAccount = MutableStateFlow<Account?>(null)
     val selectedLoanAccount = _selectedLoanAccount.asStateFlow()
 
-    private var associatedTransaction: Transaction? = null
+    private var associatedTransaction: TransactionOld? = null
 
     private val _createLoanTransaction = MutableStateFlow(false)
     val createLoanTransaction = _createLoanTransaction.asStateFlow()

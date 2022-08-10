@@ -10,7 +10,7 @@ import com.ivy.base.TimePeriod
 import com.ivy.base.stringRes
 import com.ivy.data.Account
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
@@ -212,7 +212,7 @@ class ReportViewModel @Inject constructor(
         baseCurrency: String,
         accounts: List<Account>,
         filter: ReportFilter,
-    ): List<Transaction> {
+    ): List<TransactionOld> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
@@ -371,7 +371,7 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    private suspend fun payOrGet(transaction: Transaction) {
+    private suspend fun payOrGet(transaction: TransactionOld) {
         uiThread {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start()

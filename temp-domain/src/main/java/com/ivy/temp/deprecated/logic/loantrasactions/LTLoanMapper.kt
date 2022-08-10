@@ -4,7 +4,7 @@ import com.ivy.data.Account
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
@@ -34,7 +34,7 @@ class LTLoanMapper(
     suspend fun editAssociatedLoanTransaction(
         loan: Loan,
         createLoanTransaction: Boolean = false,
-        transaction: Transaction?
+        transaction: TransactionOld?
     ) {
         computationThread {
             ltCore.updateAssociatedTransaction(
@@ -79,7 +79,7 @@ class LTLoanMapper(
     }
 
     suspend fun updateAssociatedLoan(
-        transaction: Transaction?,
+        transaction: TransactionOld?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
         accountsChanged: Boolean = true

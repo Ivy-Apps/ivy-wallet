@@ -1,7 +1,7 @@
 package com.ivy.home
 
 import com.ivy.base.TimePeriod
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.journey.domain.CustomerJourneyCardData
 
 sealed class HomeEvent {
@@ -21,9 +21,9 @@ sealed class HomeEvent {
 
     data class SetPeriod(val period: TimePeriod) : HomeEvent()
 
-    data class PayOrGetPlanned(val transaction: Transaction) : HomeEvent()
-    data class SkipPlanned(val transaction: Transaction) : HomeEvent()
-    data class SkipAllPlanned(val transactions: List<Transaction>) : HomeEvent()
+    data class PayOrGetPlanned(val transaction: TransactionOld) : HomeEvent()
+    data class SkipPlanned(val transaction: TransactionOld) : HomeEvent()
+    data class SkipAllPlanned(val transactions: List<TransactionOld>) : HomeEvent()
 
     data class DismissCustomerJourneyCard(val card: CustomerJourneyCardData) : HomeEvent()
 

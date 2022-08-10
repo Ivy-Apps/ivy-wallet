@@ -2,19 +2,19 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.Pure
 import com.ivy.wallet.domain.pure.util.mapIndexedNel
 import com.ivy.wallet.domain.pure.util.mapIndexedNelSuspend
 import com.ivy.wallet.domain.pure.util.nonEmptyListOfZeros
 import java.math.BigDecimal
 
-typealias ValueFunction<A> = (Transaction, A) -> BigDecimal
-typealias SuspendValueFunction<A> = suspend (Transaction, A) -> BigDecimal
+typealias ValueFunction<A> = (TransactionOld, A) -> BigDecimal
+typealias SuspendValueFunction<A> = suspend (TransactionOld, A) -> BigDecimal
 
 @Pure
 fun <Arg> foldTransactions(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     valueFunctions: NonEmptyList<ValueFunction<Arg>>,
     arg: Arg
 ): NonEmptyList<BigDecimal> = sumTransactionsInternal(
@@ -25,7 +25,7 @@ fun <Arg> foldTransactions(
 
 @Pure
 internal tailrec fun <A> sumTransactionsInternal(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     valueFunctionArgument: A,
     valueFunctions: NonEmptyList<ValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
@@ -46,7 +46,7 @@ internal tailrec fun <A> sumTransactionsInternal(
 
 @Pure
 suspend fun <Arg> foldTransactionsSuspend(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     valueFunctions: NonEmptyList<SuspendValueFunction<Arg>>,
     arg: Arg
 ): NonEmptyList<BigDecimal> = sumTransactionsSuspendInternal(
@@ -57,7 +57,7 @@ suspend fun <Arg> foldTransactionsSuspend(
 
 @Pure
 internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     valueFunctionArgument: A,
     valueFunctions: NonEmptyList<SuspendValueFunction<A>>,
     sum: NonEmptyList<BigDecimal> = nonEmptyListOfZeros(n = valueFunctions.size)
@@ -77,7 +77,7 @@ internal tailrec suspend fun <A> sumTransactionsSuspendInternal(
 }
 
 suspend fun <A> sumTrns(
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
     valueFunction: SuspendValueFunction<A>,
     argument: A
 ): BigDecimal {

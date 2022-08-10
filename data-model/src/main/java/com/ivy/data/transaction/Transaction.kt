@@ -1,34 +1,24 @@
 package com.ivy.data.transaction
 
-import java.math.BigDecimal
-import java.time.LocalDateTime
+import com.ivy.data.Account
+import com.ivy.data.Category
 import java.util.*
 
 data class Transaction(
-    val accountId: UUID,
+    val account: Account,
     val type: TransactionType,
-    val amount: BigDecimal,
-    val toAccountId: UUID? = null,
-    val toAmount: BigDecimal = amount,
-    val title: String? = null,
-    val description: String? = null,
-    val dateTime: LocalDateTime? = null,
-    val categoryId: UUID? = null,
-    val dueDate: LocalDateTime? = null,
+    val amount: Double,
+    val category: Category?,
+    val time: TrnTime,
 
-    val recurringRuleId: UUID? = null,
+    val transfer: TransferInfo?,
 
-    val attachmentUrl: String? = null,
+    val title: String?,
+    val description: String?,
 
-    //This refers to the loan id that is linked with a transaction
-    val loanId: UUID? = null,
+    val attachmentUrl: String?,
 
-    //This refers to the loan record id that is linked with a transaction
-    val loanRecordId: UUID? = null,
+    val metadata: TrnMetadata,
 
-    val isSynced: Boolean = false,
-    val isDeleted: Boolean = false,
-
-
-    val id: UUID = UUID.randomUUID()
+    val id: UUID
 )

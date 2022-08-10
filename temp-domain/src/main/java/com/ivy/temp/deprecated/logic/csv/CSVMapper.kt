@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
@@ -234,7 +234,7 @@ class CSVMapper {
                         val t = it.next()
                         if (t.type == TransactionType.TRANSFER && it.hasNext()) {
                             val t2 = it.next()
-                            val new = Transaction(
+                            val new = TransactionOld(
                                 id = t.id,
                                 type = TransactionType.TRANSFER,
                                 amount = t.amount,
@@ -296,7 +296,7 @@ class CSVMapper {
                         val t = it.next()
                         if (t.type == TransactionType.TRANSFER && it.hasNext()) {
                             val t2 = it.next()
-                            val new = Transaction(
+                            val new = TransactionOld(
                                 id = t.id,
                                 type = TransactionType.TRANSFER,
                                 amount = t.amount,

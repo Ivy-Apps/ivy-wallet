@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.incrementDate
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.toEntity
 import java.time.LocalDateTime
@@ -73,7 +73,7 @@ class PlannedPaymentsGenerator(
 
     private suspend fun generateTransaction(rule: PlannedPaymentRule, dueDate: LocalDateTime) {
         transactionDao.save(
-            Transaction(
+            TransactionOld(
                 type = rule.type,
                 accountId = rule.accountId,
                 recurringRuleId = rule.id,

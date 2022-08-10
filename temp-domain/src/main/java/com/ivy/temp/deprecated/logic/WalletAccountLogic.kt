@@ -5,7 +5,7 @@ import com.ivy.base.filterOverdue
 import com.ivy.base.filterUpcoming
 import com.ivy.common.timeNowUTC
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
@@ -42,7 +42,7 @@ class WalletAccountLogic(
             finalDiff < 0 -> {
                 //add income
                 transactionDao.save(
-                    Transaction(
+                    TransactionOld(
                         type = TransactionType.INCOME,
                         title = adjustTransactionTitle,
                         amount = diff.absoluteValue.toBigDecimal(),
@@ -56,7 +56,7 @@ class WalletAccountLogic(
             finalDiff > 0 -> {
                 //add expense
                 transactionDao.save(
-                    Transaction(
+                    TransactionOld(
                         type = TransactionType.EXPENSE,
                         title = adjustTransactionTitle,
                         amount = diff.absoluteValue.toBigDecimal(),
@@ -128,9 +128,9 @@ class WalletAccountLogic(
             )
     }
 
-    private fun List<Transaction>.filterHappenedTransactions(
+    private fun List<TransactionOld>.filterHappenedTransactions(
         before: LocalDateTime?
-    ): List<Transaction> {
+    ): List<TransactionOld> {
         return this.filter {
             it.dateTime != null &&
                     (before == null || it.dateTime!!.isBefore(before))
@@ -179,7 +179,7 @@ class WalletAccountLogic(
             .filter { it.type == TransactionType.EXPENSE }
             .sumOf { it.amount.toDouble() }
 
-    suspend fun upcoming(account: Account, range: FromToTimeRange): List<Transaction> {
+    suspend fun upcoming(account: Account, range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.upcomingFrom(),
@@ -190,7 +190,7 @@ class WalletAccountLogic(
     }
 
 
-    suspend fun overdue(account: Account, range: FromToTimeRange): List<Transaction> {
+    suspend fun overdue(account: Account, range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByAccount(
             accountId = account.id,
             startDate = range.from(),

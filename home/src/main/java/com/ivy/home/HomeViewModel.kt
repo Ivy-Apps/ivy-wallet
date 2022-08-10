@@ -6,7 +6,7 @@ import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
 import com.ivy.data.Settings
 import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.Theme
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
@@ -307,7 +307,7 @@ class HomeViewModel @Inject constructor(
         reload()
     }
 
-    private suspend fun payOrGetPlanned(transaction: Transaction) = suspend {
+    private suspend fun payOrGetPlanned(transaction: TransactionOld) = suspend {
         plannedPaymentsLogic.payOrGet(
             transaction = transaction,
             skipTransaction = false
@@ -319,7 +319,7 @@ class HomeViewModel @Inject constructor(
         stateVal()
     }
 
-    private suspend fun skipPlanned(transaction: Transaction) = suspend {
+    private suspend fun skipPlanned(transaction: TransactionOld) = suspend {
         plannedPaymentsLogic.payOrGet(
             transaction = transaction,
             skipTransaction = true
@@ -331,7 +331,7 @@ class HomeViewModel @Inject constructor(
         stateVal()
     }
 
-    private suspend fun skipAllPlanned(transactions: List<Transaction>) = suspend {
+    private suspend fun skipAllPlanned(transactions: List<TransactionOld>) = suspend {
         //transactions.forEach {
         //    plannedPaymentsLogic.payOrGet(
         //        transaction = it,

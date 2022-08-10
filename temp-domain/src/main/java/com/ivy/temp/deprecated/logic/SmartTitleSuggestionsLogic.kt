@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.Constants
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.utils.capitalizeWords
 import java.util.*
@@ -88,7 +88,7 @@ class SmartTitleSuggestionsLogic(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-private fun List<Transaction>.extractUniqueTitles(
+private fun List<TransactionOld>.extractUniqueTitles(
     excludeSuggestions: Set<String>? = null
 ): Set<String> {
     return this

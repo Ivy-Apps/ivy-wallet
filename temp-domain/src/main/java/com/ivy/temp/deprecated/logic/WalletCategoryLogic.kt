@@ -4,7 +4,7 @@ import com.ivy.base.FromToTimeRange
 import com.ivy.base.filterOverdue
 import com.ivy.base.filterUpcoming
 import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
@@ -26,7 +26,7 @@ class WalletCategoryLogic(
         category: Category,
         range: FromToTimeRange,
         accountFilterSet: Set<UUID> = emptySet(),
-        transactions: List<Transaction> = emptyList()
+        transactions: List<TransactionOld> = emptyList()
     ): Double {
         val baseCurrency = settingsDao.findFirst().currency
         val accounts = accountDao.findAll().map { it.toDomain() }
@@ -75,7 +75,7 @@ class WalletCategoryLogic(
     }
 
     suspend fun calculateCategoryIncome(
-        incomeTransaction: List<Transaction>,
+        incomeTransaction: List<TransactionOld>,
         accountFilterSet: Set<UUID> = emptySet()
     ): Double {
         return incomeTransaction
@@ -113,7 +113,7 @@ class WalletCategoryLogic(
 
 
     suspend fun calculateCategoryExpenses(
-        expenseTransactions: List<Transaction>,
+        expenseTransactions: List<TransactionOld>,
         accountFilterSet: Set<UUID> = emptySet()
     ): Double {
         return expenseTransactions
@@ -164,7 +164,7 @@ class WalletCategoryLogic(
         category: Category,
         range: FromToTimeRange,
         accountFilterSet: Set<UUID>,
-        transactions: List<Transaction> = emptyList()
+        transactions: List<TransactionOld> = emptyList()
     ): List<Any> {
         return historyByCategory(category, range, transactions = transactions)
             .filter {
@@ -181,8 +181,8 @@ class WalletCategoryLogic(
         category: Category,
         range: FromToTimeRange,
         accountFilterSet: Set<UUID> = emptySet(),
-        transactions: List<Transaction> = emptyList()
-    ): List<Transaction> {
+        transactions: List<TransactionOld> = emptyList()
+    ): List<TransactionOld> {
 
         val trans = transactions.ifEmpty {
             transactionDao
@@ -258,7 +258,7 @@ class WalletCategoryLogic(
             )
     }
 
-    suspend fun upcomingByCategory(category: Category, range: FromToTimeRange): List<Transaction> {
+    suspend fun upcomingByCategory(category: Category, range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByCategory(
             categoryId = category.id,
             startDate = range.upcomingFrom(),
@@ -268,7 +268,7 @@ class WalletCategoryLogic(
             .filterUpcoming()
     }
 
-    suspend fun upcomingUnspecified(range: FromToTimeRange): List<Transaction> {
+    suspend fun upcomingUnspecified(range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByCategoryUnspecified(
             startDate = range.upcomingFrom(),
             endDate = range.to()
@@ -324,7 +324,7 @@ class WalletCategoryLogic(
     }
 
 
-    suspend fun overdueByCategory(category: Category, range: FromToTimeRange): List<Transaction> {
+    suspend fun overdueByCategory(category: Category, range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByCategory(
             categoryId = category.id,
             startDate = range.from(),
@@ -334,7 +334,7 @@ class WalletCategoryLogic(
             .filterOverdue()
     }
 
-    suspend fun overdueUnspecified(range: FromToTimeRange): List<Transaction> {
+    suspend fun overdueUnspecified(range: FromToTimeRange): List<TransactionOld> {
         return transactionDao.findAllDueToBetweenByCategoryUnspecified(
             startDate = range.from(),
             endDate = range.overdueTo()

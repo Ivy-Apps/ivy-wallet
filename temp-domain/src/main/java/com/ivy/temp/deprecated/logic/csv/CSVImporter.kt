@@ -7,7 +7,7 @@ import com.ivy.common.timeNowUTC
 import com.ivy.data.Account
 import com.ivy.data.Category
 import com.ivy.data.IvyCurrency
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
@@ -138,7 +138,7 @@ class CSVImporter(
         baseCurrency: String,
         row: List<String>,
         rowMapping: RowMapping
-    ): Transaction? {
+    ): TransactionOld? {
         val type = mapType(
             row = row,
             rowMapping = rowMapping
@@ -211,7 +211,7 @@ class CSVImporter(
 
 
         return rowMapping.transformTransaction(
-            Transaction(
+            TransactionOld(
                 id = id,
                 type = type,
                 amount = amount.toBigDecimal(),

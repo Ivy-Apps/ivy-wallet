@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.utils.computationThread
 
 data class LoanTransactionsLogic(
@@ -8,7 +8,7 @@ data class LoanTransactionsLogic(
     val LoanRecord: LTLoanRecordMapper
 ) {
     suspend fun updateAssociatedLoanData(
-        transaction: Transaction?,
+        transaction: TransactionOld?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
         accountsChanged: Boolean = true
