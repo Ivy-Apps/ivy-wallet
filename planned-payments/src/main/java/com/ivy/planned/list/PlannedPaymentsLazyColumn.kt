@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -30,8 +30,8 @@ fun PlannedPaymentsLazyColumn(
 
 
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
     listState: LazyListState = rememberLazyListState(),
 
     oneTime: List<PlannedPaymentRule>,
@@ -86,8 +86,8 @@ fun PlannedPaymentsLazyColumn(
 private fun LazyListScope.plannedPaymentItems(
     nav: Navigation,
     currency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
     listState: LazyListState,
 
     oneTime: List<PlannedPaymentRule>,

@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.Pure
@@ -39,7 +39,7 @@ fun isOverdue(transaction: TransactionOld, dateNow: LocalDate): Boolean {
 @Pure
 fun trnCurrency(
     transaction: TransactionOld,
-    accounts: List<Account>,
+    accounts: List<AccountOld>,
     baseCurrency: String
 ): Option<String> {
     val account = accounts.find { it.id == transaction.accountId }

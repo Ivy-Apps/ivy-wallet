@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -34,7 +34,7 @@ import com.ivy.wallet.utils.*
 import java.util.*
 
 data class AccountModalData(
-    val account: Account?,
+    val account: AccountOld?,
     val baseCurrency: String,
     val balance: Double,
     val adjustBalanceMode: Boolean = false,
@@ -47,7 +47,7 @@ data class AccountModalData(
 fun BoxWithConstraintsScope.AccountModal(
     modal: AccountModalData?,
     onCreateAccount: (CreateAccountData) -> Unit,
-    onEditAccount: (Account, balance: Double) -> Unit,
+    onEditAccount: (AccountOld, balance: Double) -> Unit,
     dismiss: () -> Unit,
 ) {
     val account = modal?.account
@@ -233,7 +233,7 @@ fun BoxWithConstraintsScope.AccountModal(
 }
 
 private fun save(
-    account: Account?,
+    account: AccountOld?,
     nameTextFieldValue: TextFieldValue,
     currency: String,
     color: Color,
@@ -242,7 +242,7 @@ private fun save(
     includeInBalance: Boolean,
 
     onCreateAccount: (CreateAccountData) -> Unit,
-    onEditAccount: (Account, balance: Double) -> Unit,
+    onEditAccount: (AccountOld, balance: Double) -> Unit,
     dismiss: () -> Unit
 ) {
     if (account != null) {

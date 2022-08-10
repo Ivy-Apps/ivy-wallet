@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
@@ -33,8 +33,8 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
 
     data class Input(
         val transactions: List<TransactionOld>,
-        val accountFilterList: List<Account>,
-        val category: Category?,
+        val accountFilterList: List<AccountOld>,
+        val category: CategoryOld?,
         val baseCurrency: String
     )
 }

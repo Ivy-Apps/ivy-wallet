@@ -24,8 +24,8 @@ import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.ivyWalletCtx
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
@@ -67,8 +67,8 @@ fun SearchScreen(screen: Search) {
 private fun UI(
     transactions: List<Any>,
     baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
 
     onSearch: (String) -> Unit = {}
 ) {

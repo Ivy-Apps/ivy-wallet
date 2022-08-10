@@ -5,8 +5,8 @@ import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.FromToTimeRange
 import com.ivy.base.R
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.RedLight
@@ -36,7 +36,7 @@ class PieChartAct @Inject constructor(
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
-        Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+        CategoryOld(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         getUsableAccounts(
@@ -114,8 +114,8 @@ class PieChartAct @Inject constructor(
         accountIdFilterList: List<UUID>,
 
         @SideEffect
-        allAccounts: suspend () -> List<Account>
-    ): Pair<List<Account>, Set<UUID>> {
+        allAccounts: suspend () -> List<AccountOld>
+    ): Pair<List<AccountOld>, Set<UUID>> {
 
         val accountsUsed = if (accountIdFilterList.isEmpty())
             allAccounts then ::filterExcluded
@@ -137,13 +137,13 @@ class PieChartAct @Inject constructor(
         filterEmptyCategoryAmounts: Boolean = true,
 
         @SideEffect
-        allCategories: suspend () -> List<Category?>,
+        allCategories: suspend () -> List<CategoryOld?>,
 
         @SideEffect
         transactions: suspend () -> List<TransactionOld>,
 
         @SideEffect
-        accountsUsed: suspend () -> List<Account>,
+        accountsUsed: suspend () -> List<AccountOld>,
     ): List<CategoryAmount> {
         val trans = transactions()
         val accUsed = accountsUsed()
@@ -221,7 +221,7 @@ class PieChartAct @Inject constructor(
     private suspend fun addAccountTransfersCategory(
         showAccountTransfersCategory: Boolean,
         type: TransactionType,
-        accountTransfersCategory: Category,
+        accountTransfersCategory: CategoryOld,
         accountIdFilterSet: Set<UUID>,
 
         @SideEffect

@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.common.convertLocalToUTC
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
@@ -39,8 +39,8 @@ class CSVImporter(
     private val transactionDao: TransactionDao
 ) {
 
-    lateinit var accounts: List<Account>
-    lateinit var categories: List<Category>
+    lateinit var accounts: List<AccountOld>
+    lateinit var categories: List<CategoryOld>
 
     private var newCategoryColorIndex = 0
     private var newAccountColorIndex = 0
@@ -412,7 +412,7 @@ class CSVImporter(
         icon: String?,
         orderNum: Double?,
         currencyRawString: String?,
-    ): Account? {
+    ): AccountOld? {
         if (accountNameString == null || accountNameString.isBlank()) return null
 
         val existingAccount = accounts.firstOrNull {
@@ -436,7 +436,7 @@ class CSVImporter(
             }
         }.toArgb()
 
-        val newAccount = Account(
+        val newAccount = AccountOld(
             name = accountNameString,
             currency = mapCurrency(
                 baseCurrency = baseCurrency,
@@ -473,7 +473,7 @@ class CSVImporter(
         color: Int?,
         icon: String?,
         orderNum: Double?
-    ): Category? {
+    ): CategoryOld? {
         if (categoryNameString == null || categoryNameString.isBlank()) return null
 
         val existingCategory = categories.firstOrNull {
@@ -489,7 +489,7 @@ class CSVImporter(
             IVY_COLOR_PICKER_COLORS_FREE.first()
         }.toArgb()
 
-        val newCategory = Category(
+        val newCategory = CategoryOld(
             name = categoryNameString,
             color = colorArgb,
             icon = icon,

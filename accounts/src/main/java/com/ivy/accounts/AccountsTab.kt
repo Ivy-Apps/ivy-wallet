@@ -26,7 +26,7 @@ import com.ivy.base.AccountData
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.UiText
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -321,21 +321,21 @@ private fun PreviewAccountsTab() {
             baseCurrency = "BGN",
             accountsData = listOf(
                 AccountData(
-                    account = Account("Phyre", color = Green.toArgb()),
+                    account = AccountOld("Phyre", color = Green.toArgb()),
                     balance = 2125.0,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 920.0,
                     monthlyIncome = 3045.0
                 ),
                 AccountData(
-                    account = Account("DSK", color = GreenLight.toArgb()),
+                    account = AccountOld("DSK", color = GreenLight.toArgb()),
                     balance = 12125.21,
                     balanceBaseCurrency = null,
                     monthlyExpenses = 1350.50,
                     monthlyIncome = 8000.48
                 ),
                 AccountData(
-                    account = Account(
+                    account = AccountOld(
                         "Revolut",
                         color = IvyDark.toArgb(),
                         currency = "USD",
@@ -348,7 +348,7 @@ private fun PreviewAccountsTab() {
                     monthlyIncome = 1000.30
                 ),
                 AccountData(
-                    account = Account(
+                    account = AccountOld(
                         "Cash",
                         color = GreenDark.toArgb(),
                         icon = "cash"

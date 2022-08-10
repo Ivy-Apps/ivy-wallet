@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.*
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.Budget
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -72,8 +72,8 @@ fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
 private fun BoxWithConstraintsScope.UI(
     timeRange: FromToTimeRange?,
     baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
     displayBudgets: List<DisplayBudget>,
     appBudgetMax: Double,
     categoryBudgetsTotal: Double,

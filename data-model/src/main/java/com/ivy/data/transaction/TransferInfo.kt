@@ -1,8 +1,8 @@
 package com.ivy.data.transaction
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 
 data class TransferInfo(
-    val toAccountId: Account,
+    val toAccountId: AccountOld,
     val toAmount: Double
 )

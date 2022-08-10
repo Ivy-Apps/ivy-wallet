@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.ivy.base.writeToFile
 import com.ivy.common.formatLocal
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.wallet.io.persistence.dao.AccountDao
@@ -82,8 +82,8 @@ class ExportCSVLogic(
 
     private fun TransactionOld.toCSV(
         baseCurrency: String,
-        accountMap: Map<UUID, Account>,
-        categoryMap: Map<UUID, Category>
+        accountMap: Map<UUID, AccountOld>,
+        categoryMap: Map<UUID, CategoryOld>
     ): String {
         val csv = StringBuilder()
 

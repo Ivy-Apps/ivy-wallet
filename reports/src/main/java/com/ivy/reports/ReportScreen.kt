@@ -26,8 +26,8 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
 import com.ivy.base.ivyWalletCtx
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
@@ -364,9 +364,9 @@ private fun Toolbar(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val acc1 = AccountOld("Cash", color = Green.toArgb())
+        val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
+        val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
         val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = -6405.66,
@@ -387,13 +387,13 @@ private fun Preview() {
             accounts = listOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                AccountOld("phyre", color = GreenLight.toArgb(), icon = "cash"),
+                AccountOld("Revolut", color = IvyDark.toArgb()),
             ),
             categories = listOf(
                 cat1,
-                Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                Category("Home", color = Green.toArgb(), icon = null),
+                CategoryOld("Pet", color = Red3Light.toArgb(), icon = "pet"),
+                CategoryOld("Home", color = Green.toArgb(), icon = null),
             ),
         )
 
@@ -406,9 +406,9 @@ private fun Preview() {
 @Composable
 private fun Preview_NO_FILTER() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val acc1 = AccountOld("Cash", color = Green.toArgb())
+        val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
+        val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
         val state = ReportScreenState(
             baseCurrency = "BGN",
             balance = 0.0,
@@ -432,13 +432,13 @@ private fun Preview_NO_FILTER() {
             accounts = listOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                AccountOld("phyre", color = GreenLight.toArgb(), icon = "cash"),
+                AccountOld("Revolut", color = IvyDark.toArgb()),
             ),
             categories = listOf(
                 cat1,
-                Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                Category("Home", color = Green.toArgb(), icon = null),
+                CategoryOld("Pet", color = Red3Light.toArgb(), icon = "pet"),
+                CategoryOld("Home", color = Green.toArgb(), icon = null),
             ),
         )
 

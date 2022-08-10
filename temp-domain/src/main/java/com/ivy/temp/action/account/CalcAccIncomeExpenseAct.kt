@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.account
 
 import arrow.core.nonEmptyListOf
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
@@ -41,13 +41,13 @@ class CalcAccIncomeExpenseAct @Inject constructor(
     }
 
     data class Input(
-        val account: Account,
+        val account: AccountOld,
         val range: com.ivy.base.ClosedTimeRange = com.ivy.base.ClosedTimeRange.allTimeIvy(),
         val includeTransfersInCalc: Boolean = false
     )
 
     data class Output(
-        val account: Account,
+        val account: AccountOld,
         val incomeExpensePair: IncomeExpensePair
     )
 }

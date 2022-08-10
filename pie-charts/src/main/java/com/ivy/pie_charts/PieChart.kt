@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.IvyWalletComponentPreview
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.*
@@ -44,7 +44,7 @@ fun PieChart(
     categoryAmounts: List<CategoryAmount>,
     selectedCategory: SelectedCategory?,
 
-    onCategoryClicked: (Category?) -> Unit = {}
+    onCategoryClicked: (CategoryOld?) -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -95,7 +95,7 @@ fun PieChart(
 
 private class PieChartView(context: Context) : View(context) {
     private var categoryAmounts = emptyList<CategoryAmount>()
-    private var paints = mapOf<Category?, Paint>()
+    private var paints = mapOf<CategoryOld?, Paint>()
     private var totalAmount = 0.0
 
     val rectangle = RectF(
@@ -104,12 +104,12 @@ private class PieChartView(context: Context) : View(context) {
         convertDpToPixel(context, 2 * RADIUS_DP)
     )
 
-    var onCategoryClicked: (Category?) -> Unit = {}
+    var onCategoryClicked: (CategoryOld?) -> Unit = {}
 
     fun display(
         categoryAmounts: List<CategoryAmount>,
         selectedCategory: SelectedCategory?,
-        onCategoryClicked: (Category?) -> Unit
+        onCategoryClicked: (CategoryOld?) -> Unit
     ) {
         this.onCategoryClicked = onCategoryClicked
 
@@ -253,7 +253,7 @@ private class PieChartView(context: Context) : View(context) {
     private data class Zone(
         val startAngle: Double,
         val endAngle: Double,
-        val category: Category?
+        val category: CategoryOld?
     ) {
         fun contains(angle: Double): Boolean =
             angle > startAngle && angle < endAngle
@@ -273,19 +273,19 @@ private fun Preview() {
                 type = TransactionType.EXPENSE,
                 categoryAmounts = listOf(
                     CategoryAmount(
-                        category = Category("Bills", Green.toArgb()),
+                        category = CategoryOld("Bills", Green.toArgb()),
                         amount = 791.0
                     ),
                     CategoryAmount(
-                        category = Category("Shisha", Green.toArgb()),
+                        category = CategoryOld("Shisha", Green.toArgb()),
                         amount = 411.93
                     ),
                     CategoryAmount(
-                        category = Category("Food & Drink", IvyDark.toArgb()),
+                        category = CategoryOld("Food & Drink", IvyDark.toArgb()),
                         amount = 260.03
                     ),
                     CategoryAmount(
-                        category = Category("Gifts", RedLight.toArgb()),
+                        category = CategoryOld("Gifts", RedLight.toArgb()),
                         amount = 160.0
                     ),
                     CategoryAmount(

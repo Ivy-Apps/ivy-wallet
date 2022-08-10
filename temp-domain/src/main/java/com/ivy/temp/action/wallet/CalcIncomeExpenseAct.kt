@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.nonEmptyListOf
 import arrow.core.toOption
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
@@ -69,7 +69,7 @@ class CalcIncomeExpenseAct @Inject constructor(
 
     data class Input(
         val baseCurrency: String,
-        val accounts: List<Account>,
+        val accounts: List<AccountOld>,
         val range: com.ivy.base.ClosedTimeRange,
     )
 }

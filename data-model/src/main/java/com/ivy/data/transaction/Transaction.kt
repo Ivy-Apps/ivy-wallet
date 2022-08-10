@@ -1,14 +1,14 @@
 package com.ivy.data.transaction
 
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import java.util.*
 
 data class Transaction(
-    val account: Account,
+    val account: AccountOld,
     val type: TransactionType,
     val amount: Double,
-    val category: Category?,
+    val category: CategoryOld?,
     val time: TrnTime,
 
     val transfer: TransferInfo?,

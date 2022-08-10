@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.data.toDTO
@@ -18,7 +18,7 @@ class CategoryUploader(
 ) {
     private val service = restClient.categoryService
 
-    suspend fun sync(item: Category) {
+    suspend fun sync(item: CategoryOld) {
         if (!ivySession.isLoggedIn()) return
 
         try {

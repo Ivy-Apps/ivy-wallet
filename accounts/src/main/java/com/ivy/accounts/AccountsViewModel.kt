@@ -5,7 +5,7 @@ import com.ivy.base.AccountData
 import com.ivy.base.TimePeriod
 import com.ivy.base.UiText
 import com.ivy.base.toCloseTimeRange
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.temp.event.AccountsUpdatedEvent
@@ -129,7 +129,7 @@ class AccountsViewModel @Inject constructor(
         TestIdlingResource.decrement()
     }
 
-    private suspend fun editAccount(account: Account, newBalance: Double) {
+    private suspend fun editAccount(account: AccountOld, newBalance: Double) {
         TestIdlingResource.increment()
 
         accountCreator.editAccount(account, newBalance) {

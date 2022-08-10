@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.csv.model
 
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 
 data class RowMapping(
@@ -42,7 +42,7 @@ data class RowMapping(
      * @param category - category object because Transaction#categoryId but no Category
      * @param csvAmount - the original amount from the CSV file (can be negative, too)
      */
-    val transformTransaction: (TransactionOld, Category?, csvAmount: Double) -> TransactionOld =
+    val transformTransaction: (TransactionOld, CategoryOld?, csvAmount: Double) -> TransactionOld =
         { transaction, _, _ ->
             transaction
         },

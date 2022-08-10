@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
@@ -212,8 +212,8 @@ fun TransactionCard(
 @Composable
 private fun TransactionHeaderRow(
     transaction: TransactionOld,
-    categories: List<Category>,
-    accounts: List<Account>
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>
 ) {
     val nav = navigation()
 
@@ -319,7 +319,7 @@ private fun TransactionBadge(
 
 @Composable
 private fun TransferHeader(
-    accounts: List<Account>,
+    accounts: List<AccountOld>,
     transaction: TransactionOld
 ) {
     Row(
@@ -474,8 +474,8 @@ private data class AmountTypeStyle(
 private fun PreviewUpcomingExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Food", color = Green.toArgb())
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(name = "Food", color = Green.toArgb())
 
             item {
                 TransactionCard(
@@ -507,8 +507,8 @@ private fun PreviewUpcomingExpense() {
 private fun PreviewOverdueExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Rent", color = Green.toArgb())
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(name = "Rent", color = Green.toArgb())
 
             item {
                 TransactionCard(
@@ -540,8 +540,8 @@ private fun PreviewOverdueExpense() {
 private fun PreviewNormalExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(
                 name = "Bitovi",
                 color = Orange.toArgb(),
                 icon = "groceries"
@@ -575,8 +575,8 @@ private fun PreviewNormalExpense() {
 private fun PreviewIncome() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "DSK Bank", color = Green.toArgb())
-            val category = Category(name = "Salary", color = GreenDark.toArgb())
+            val cash = AccountOld(name = "DSK Bank", color = Green.toArgb())
+            val category = CategoryOld(name = "Salary", color = GreenDark.toArgb())
 
             item {
                 TransactionCard(
@@ -607,8 +607,8 @@ private fun PreviewIncome() {
 private fun PreviewTransfer() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
-            val acc2 = Account(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
+            val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
+            val acc2 = AccountOld(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
 
             item {
                 TransactionCard(
@@ -640,8 +640,8 @@ private fun PreviewTransfer() {
 private fun PreviewTransfer_differentCurrency() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
-            val acc2 = Account(
+            val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
+            val acc2 = AccountOld(
                 name = "Revolut",
                 currency = "EUR",
                 color = IvyDark.toArgb(),

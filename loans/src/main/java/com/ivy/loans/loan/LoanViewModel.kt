@@ -2,7 +2,7 @@ package com.ivy.wallet.ui.loan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.Loan
 import com.ivy.frp.test.TestIdlingResource
@@ -58,10 +58,10 @@ class LoanViewModel @Inject constructor(
     private val _loans = MutableStateFlow(emptyList<DisplayLoan>())
     val loans = _loans.asStateFlow()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<List<AccountOld>>(emptyList())
     val accounts = _accounts.asStateFlow()
 
-    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    private val _selectedAccount = MutableStateFlow<AccountOld?>(null)
     val selectedAccount = _selectedAccount.asStateFlow()
 
     private var defaultCurrencyCode = ""
@@ -181,8 +181,8 @@ class LoanViewModel @Inject constructor(
     }
 
     private fun defaultAccountId(
-        accounts: List<Account>,
-    ): Account? {
+        accounts: List<AccountOld>,
+    ): AccountOld? {
 
         val lastSelectedId =
             sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)?.let {
@@ -196,7 +196,7 @@ class LoanViewModel @Inject constructor(
         }
     }
 
-    private fun findCurrencyCode(accounts: List<Account>, accountId: UUID?): String {
+    private fun findCurrencyCode(accounts: List<AccountOld>, accountId: UUID?): String {
         return accountId?.let {
             accounts.find { account -> account.id == it }?.currency
         } ?: defaultCurrencyCode
@@ -258,8 +258,8 @@ class LoanViewModel @Inject constructor(
 data class LoanScreenState(
     val baseCurrency: String = "",
     val loans: List<DisplayLoan> = emptyList(),
-    val accounts: List<Account> = emptyList(),
-    val selectedAccount: Account? = null,
+    val accounts: List<AccountOld> = emptyList(),
+    val selectedAccount: AccountOld? = null,
     val loanModalData: LoanModalData? = null,
     val reorderModalVisible: Boolean = false
 )

@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.*
 import com.ivy.base.R
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -134,33 +134,33 @@ private fun BoxWithConstraintsScope.UI(
     initialTitle: String?,
     titleSuggestions: Set<String>,
     description: String?,
-    category: Category?,
+    category: CategoryOld?,
     dateTime: LocalDateTime?,
-    account: Account?,
-    toAccount: Account?,
+    account: AccountOld?,
+    toAccount: AccountOld?,
     dueDate: LocalDateTime?,
     amount: Double,
     loanData: EditTransactionDisplayLoan = EditTransactionDisplayLoan(),
     backgroundProcessing: Boolean = false,
     customExchangeRateState: CustomExchangeRateState,
 
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
 
     hasChanges: Boolean = false,
 
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,
-    onCategoryChanged: (Category?) -> Unit,
-    onAccountChanged: (Account) -> Unit,
-    onToAccountChanged: (Account) -> Unit,
+    onCategoryChanged: (CategoryOld?) -> Unit,
+    onAccountChanged: (AccountOld) -> Unit,
+    onToAccountChanged: (AccountOld) -> Unit,
     onDueDateChanged: (LocalDateTime?) -> Unit,
     onSetDateTime: (LocalDateTime) -> Unit,
     onSetTransactionType: (TransactionType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit,
-    onEditCategory: (Category) -> Unit,
+    onEditCategory: (CategoryOld) -> Unit,
     onPayPlannedPayment: () -> Unit,
     onSave: (closeScreen: Boolean) -> Unit,
     onSetHasChanges: (hasChanges: Boolean) -> Unit,
@@ -546,7 +546,7 @@ private fun BoxWithConstraintsScope.UI(
 }
 
 private fun shouldFocusCategory(
-    category: Category?,
+    category: CategoryOld?,
     type: TransactionType
 ): Boolean = category == null && type != TransactionType.TRANSFER
 
@@ -570,7 +570,7 @@ private fun Preview() {
             dateTime = timeNowLocal(),
             description = null,
             category = null,
-            account = Account(name = "phyre", color = Green.toArgb()),
+            account = AccountOld(name = "phyre", color = Green.toArgb()),
             toAccount = null,
             amount = 0.0,
             dueDate = null,

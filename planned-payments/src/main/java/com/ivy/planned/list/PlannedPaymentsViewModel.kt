@@ -3,8 +3,8 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.screens.PlannedPayments
@@ -33,10 +33,10 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<List<AccountOld>>()
     val accounts = _accounts.asLiveData()
 
     //One Time

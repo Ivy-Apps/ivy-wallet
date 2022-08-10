@@ -7,9 +7,9 @@ import com.ivy.base.parseAccountIds
 import com.ivy.base.parseCategoryIds
 import com.ivy.base.toCloseTimeRange
 import com.ivy.budgets.model.DisplayBudget
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.Budget
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
@@ -67,10 +67,10 @@ class BudgetViewModel @Inject constructor(
     private val _budgets = MutableStateFlow<List<DisplayBudget>>(emptyList())
     val budgets = _budgets.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<List<CategoryOld>>(emptyList())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<List<AccountOld>>(emptyList())
     val accounts = _accounts.readOnly()
 
     private val _categoryBudgetsTotal = MutableStateFlow(0.0)
@@ -129,7 +129,7 @@ class BudgetViewModel @Inject constructor(
         budget: Budget,
         transactions: List<TransactionOld>,
         baseCurrencyCode: String,
-        accounts: List<Account>
+        accounts: List<AccountOld>
     ): Double {
         //TODO: Re-work this by creating an FPAction for it
         val accountsFilter = budget.parseAccountIds()

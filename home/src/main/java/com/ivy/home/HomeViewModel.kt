@@ -5,7 +5,7 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
 import com.ivy.data.Settings
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.Theme
 import com.ivy.frp.fixUnit
@@ -116,7 +116,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadAppBaseData(
         input: Pair<Settings, ClosedTimeRange>
-    ): Triple<Settings, ClosedTimeRange, List<Account>> =
+    ): Triple<Settings, ClosedTimeRange, List<AccountOld>> =
         suspend {} then accountsAct then updateAccCacheAct then { accounts ->
             accounts
         } then { accounts ->
@@ -139,7 +139,7 @@ class HomeViewModel @Inject constructor(
         }
 
     private suspend fun loadIncomeExpenseBalance(
-        input: Triple<Settings, ClosedTimeRange, List<Account>>
+        input: Triple<Settings, ClosedTimeRange, List<AccountOld>>
     ): Triple<Settings, ClosedTimeRange, BigDecimal> {
         val (settings, timeRange, accounts) = input
 

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.IvyWalletPreview
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.Ivy
 
@@ -96,13 +96,13 @@ private fun PreviewWrapContentRow() {
                 .padding(horizontal = 16.dp, vertical = 24.dp)
                 .background(UI.colors.red),
             items = listOf(
-                Category("Todo", color = Ivy.toArgb()),
-                Category("Ivy", color = Ivy.toArgb()),
-                Category("Qredo", color = Ivy.toArgb()),
-                Category("Home", color = Ivy.toArgb()),
-                Category("Inspiration", color = Ivy.toArgb()),
-                Category("Business and marketing", color = Ivy.toArgb()),
-                Category("Testdfsgdfgdf", color = Ivy.toArgb()),
+                CategoryOld("Todo", color = Ivy.toArgb()),
+                CategoryOld("Ivy", color = Ivy.toArgb()),
+                CategoryOld("Qredo", color = Ivy.toArgb()),
+                CategoryOld("Home", color = Ivy.toArgb()),
+                CategoryOld("Inspiration", color = Ivy.toArgb()),
+                CategoryOld("Business and marketing", color = Ivy.toArgb()),
+                CategoryOld("Testdfsgdfgdf", color = Ivy.toArgb()),
             ),
             verticalMarginBetweenRows = 8.dp
         ) {

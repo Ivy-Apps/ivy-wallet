@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.FromToTimeRange
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionOld
@@ -109,7 +109,7 @@ class PlannedPaymentsLogic(
     private suspend fun amountForMonthInBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
-        accounts: List<Account>
+        accounts: List<AccountOld>
     ): Double {
         val amountBaseCurrency = exchangeRatesLogic.amountBaseCurrency(
             plannedPayment = plannedPayment,

@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.action.viewmodel.account
 
 import arrow.core.toOption
 import com.ivy.base.AccountData
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
@@ -58,7 +58,7 @@ class AccountDataAct @Inject constructor(
     }
 
     data class Input(
-        val accounts: List<Account>,
+        val accounts: List<AccountOld>,
         val baseCurrency: String,
         val range: com.ivy.base.ClosedTimeRange,
         val includeTransfersInCalc: Boolean = false

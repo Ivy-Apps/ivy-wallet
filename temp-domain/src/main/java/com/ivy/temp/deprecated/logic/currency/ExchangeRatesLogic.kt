@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeRate
@@ -47,7 +47,7 @@ class ExchangeRatesLogic(
     suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         return amountBaseCurrency(
             amount = plannedPayment.amount,
@@ -60,7 +60,7 @@ class ExchangeRatesLogic(
     suspend fun amountBaseCurrency(
         transaction: TransactionOld,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         return amountBaseCurrency(
             amount = transaction.amount.toDouble(),
@@ -73,7 +73,7 @@ class ExchangeRatesLogic(
     suspend fun toAmountBaseCurrency(
         transaction: TransactionOld,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         val amount = transaction.toAmount ?: transaction.amount
         val toCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
@@ -90,7 +90,7 @@ class ExchangeRatesLogic(
         amount: Double,
         accountId: UUID,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         val trnCurrency = accounts.find { it.id == accountId }?.currency
             ?: return amount //no conversion

@@ -23,8 +23,8 @@ import com.ivy.base.*
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
@@ -181,13 +181,13 @@ private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     currency: String,
 
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
 
-    categories: List<Category>,
+    categories: List<CategoryOld>,
     isCategoryParentCategory: Boolean = true,
-    parentCategoryList: List<Category> = emptyList(),
-    accounts: List<Account>,
+    parentCategoryList: List<CategoryOld> = emptyList(),
+    accounts: List<AccountOld>,
 
     balance: Double,
     balanceBaseCurrency: Double?,
@@ -214,8 +214,8 @@ private fun BoxWithConstraintsScope.UI(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onSetPeriod: (TimePeriod) -> Unit,
-    onEditAccount: (Account, Double) -> Unit,
-    onEditCategory: (Category) -> Unit,
+    onEditAccount: (AccountOld, Double) -> Unit,
+    onEditCategory: (CategoryOld) -> Unit,
     onDelete: () -> Unit,
     onPayOrGet: (TransactionOld) -> Unit = {},
     onSkipTransaction: (TransactionOld) -> Unit = {},
@@ -456,8 +456,8 @@ private fun Header(
     currency: String,
     baseCurrency: String,
     itemColor: Color,
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
     balance: Double,
     balanceBaseCurrency: Double?,
     income: Double,
@@ -588,8 +588,8 @@ private fun Header(
 private fun Item(
     itemColor: Color,
     contrastColor: Color,
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
 
     showCategoryModal: () -> Unit,
     showAccountModal: () -> Unit,
@@ -701,7 +701,7 @@ private fun Preview_empty() {
 
             history = emptyList(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = AccountOld("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -733,7 +733,7 @@ private fun Preview_crypto() {
 
             history = emptyList(),
             category = null,
-            account = Account(
+            account = AccountOld(
                 name = "DSK",
                 color = GreenDark.toArgb(),
                 icon = "pet",
@@ -770,7 +770,7 @@ private fun Preview_empty_upcoming() {
 
             history = emptyList(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = AccountOld("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},

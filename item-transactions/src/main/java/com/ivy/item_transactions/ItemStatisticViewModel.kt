@@ -8,8 +8,8 @@ import com.ivy.base.R
 import com.ivy.base.TimePeriod
 import com.ivy.base.stringRes
 import com.ivy.base.toCloseTimeRange
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.exchange.ExchangeAct
@@ -76,10 +76,10 @@ class ItemStatisticViewModel @Inject constructor(
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
     val period = _period.readOnly()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<List<CategoryOld>>(emptyList())
     val categories = _categories.readOnly()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<List<AccountOld>>(emptyList())
     val accounts = _accounts.readOnly()
 
     private val _baseCurrency = MutableStateFlow("")
@@ -130,16 +130,16 @@ class ItemStatisticViewModel @Inject constructor(
     private val _history = MutableStateFlow<List<Any>>(emptyList())
     val history = _history.readOnly()
 
-    private val _account = MutableStateFlow<Account?>(null)
+    private val _account = MutableStateFlow<AccountOld?>(null)
     val account = _account.readOnly()
 
-    private val _category = MutableStateFlow<Category?>(null)
+    private val _category = MutableStateFlow<CategoryOld?>(null)
     val category = _category.readOnly()
 
     private val _isParentCategory = MutableStateFlow(false)
     val isParentCategory = _isParentCategory.readOnly()
 
-    private val _parentCategoryList = MutableStateFlow<List<Category>>(emptyList())
+    private val _parentCategoryList = MutableStateFlow<List<CategoryOld>>(emptyList())
     val parentCategoryList = _parentCategoryList.readOnly()
 
     private val _initWithTransactions = MutableStateFlow(false)
@@ -477,7 +477,7 @@ class ItemStatisticViewModel @Inject constructor(
     ) {
         _initWithTransactions.value = true
         _category.value =
-            Category(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+            CategoryOld(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
@@ -592,7 +592,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun editCategory(updatedCategory: Category) {
+    fun editCategory(updatedCategory: CategoryOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -604,7 +604,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun editAccount(screen: ItemStatistic, account: Account, newBalance: Double) {
+    fun editAccount(screen: ItemStatistic, account: AccountOld, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

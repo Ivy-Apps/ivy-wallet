@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionType
@@ -68,8 +68,8 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
 private fun BoxWithConstraintsScope.UI(
     currency: String,
 
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
 
     oneTime: List<PlannedPaymentRule>,
     oneTimeIncome: Double,
@@ -126,9 +126,9 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val account = Account(name = "Cash", color = Green.toArgb())
-        val food = Category(name = "Food", color = Ivy.toArgb())
-        val shisha = Category(name = "Shisha", color = Orange.toArgb())
+        val account = AccountOld(name = "Cash", color = Green.toArgb())
+        val food = CategoryOld(name = "Food", color = Ivy.toArgb())
+        val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
 
         UI(
             currency = "BGN",

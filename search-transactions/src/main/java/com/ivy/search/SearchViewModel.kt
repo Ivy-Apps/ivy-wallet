@@ -2,8 +2,8 @@ package com.ivy.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsAct
@@ -33,10 +33,10 @@ class SearchViewModel @Inject constructor(
     private val _transactions = MutableStateFlow(emptyList<Any>())
     val transactions = _transactions.asStateFlow()
 
-    private val _accounts = MutableStateFlow(emptyList<Account>())
+    private val _accounts = MutableStateFlow(emptyList<AccountOld>())
     val accounts = _accounts.asStateFlow()
 
-    private val _categories = MutableStateFlow(emptyList<Category>())
+    private val _categories = MutableStateFlow(emptyList<CategoryOld>())
     val categories = _categories.asStateFlow()
 
     fun search(query: String) {

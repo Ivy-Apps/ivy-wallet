@@ -1,10 +1,10 @@
 package com.ivy.categories
 
 import com.ivy.base.Reorderable
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 
 data class CategoryData(
-    val category: Category,
+    val category: CategoryOld,
     val monthlyBalance: Double,
     val monthlyExpenses: Double,
     val monthlyIncome: Double

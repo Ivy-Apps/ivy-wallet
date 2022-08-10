@@ -5,7 +5,7 @@ import arrow.core.toOption
 import com.ivy.base.TransactionHistoryDateDivider
 import com.ivy.common.convertUTCtoLocal
 import com.ivy.common.toEpochSeconds
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.Pure
@@ -46,7 +46,7 @@ suspend fun transactionsWithDateDividers(
     baseCurrencyCode: String,
 
     @SideEffect
-    getAccount: suspend (accountId: UUID) -> Account?,
+    getAccount: suspend (accountId: UUID) -> AccountOld?,
     @SideEffect
     exchange: suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 ): List<Any> {

@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.humanReadableType
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
@@ -93,8 +93,8 @@ private fun BoxWithConstraintsScope.UI(
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
 
-    accounts: List<Account> = emptyList(),
-    selectedLoanAccount: Account? = null,
+    accounts: List<AccountOld> = emptyList(),
+    selectedLoanAccount: AccountOld? = null,
     createLoanTransaction: Boolean = false,
 
     onCreateAccount: (CreateAccountData) -> Unit = {},
@@ -264,7 +264,7 @@ private fun Header(
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
     itemColor: Color,
-    selectedLoanAccount: Account? = null,
+    selectedLoanAccount: AccountOld? = null,
 
     onAmountClick: () -> Unit,
     onEditLoan: () -> Unit,
@@ -376,7 +376,7 @@ private fun LoanInfoCard(
     baseCurrency: String,
     amountPaid: Double,
     loanAmountPaid: Double = 0.0,
-    selectedLoanAccount: Account? = null,
+    selectedLoanAccount: AccountOld? = null,
 
     onAddRecord: () -> Unit
 ) {
@@ -626,7 +626,7 @@ private fun LoanRecordItem(
     loanRecord: LoanRecord,
     baseCurrency: String,
     loanBaseCurrency: String = "",
-    account: Account? = null,
+    account: AccountOld? = null,
     onClick: () -> Unit
 ) {
     val nav = navigation()

@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.forDisplay
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionType
@@ -40,8 +40,8 @@ import java.time.LocalDateTime
 @Composable
 fun LazyItemScope.PlannedPaymentCard(
     baseCurrency: String,
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
     plannedPayment: PlannedPaymentRule,
     onClick: (PlannedPaymentRule) -> Unit,
 ) {
@@ -108,8 +108,8 @@ fun LazyItemScope.PlannedPaymentCard(
 @Composable
 private fun PlannedPaymentHeaderRow(
     plannedPayment: PlannedPaymentRule,
-    categories: List<Category>,
-    accounts: List<Account>
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>
 ) {
     val nav = navigation()
 
@@ -244,8 +244,8 @@ private fun RuleTextRow(
 private fun Preview_oneTime() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Food", color = Green.toArgb())
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(name = "Food", color = Green.toArgb())
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -278,8 +278,8 @@ private fun Preview_oneTime() {
 private fun Preview_recurring() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut", color = Green.toArgb())
-            val shisha = Category(name = "Shisha", color = Orange.toArgb())
+            val account = AccountOld(name = "Revolut", color = Green.toArgb())
+            val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
 
             item {
                 Spacer(Modifier.height(68.dp))
@@ -312,8 +312,8 @@ private fun Preview_recurring() {
 private fun Preview_recurringError() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val account = Account(name = "Revolut", color = Green.toArgb())
-            val shisha = Category(name = "Shisha", color = Orange.toArgb())
+            val account = AccountOld(name = "Revolut", color = Green.toArgb())
+            val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
 
             item {
                 Spacer(Modifier.height(68.dp))

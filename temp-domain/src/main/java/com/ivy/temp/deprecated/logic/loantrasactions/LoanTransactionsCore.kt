@@ -5,8 +5,8 @@ import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
@@ -63,9 +63,9 @@ class LoanTransactionsCore(
     }
 
     fun findAccount(
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         accountId: UUID?,
-    ): Account? {
+    ): AccountOld? {
         return accountId?.let { uuid ->
             accounts.find { acc ->
                 acc.id == uuid
@@ -85,7 +85,7 @@ class LoanTransactionsCore(
         loanType: LoanType,
         selectedAccountId: UUID?,
         title: String? = null,
-        category: Category? = null,
+        category: CategoryOld? = null,
         time: LocalDateTime? = null,
         isLoanRecord: Boolean = false,
         transaction: TransactionOld? = null,
@@ -198,7 +198,7 @@ class LoanTransactionsCore(
             category.name.lowercase(Locale.ENGLISH).contains("loan")
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
-            Category(
+            CategoryOld(
                 stringRes(R.string.loans),
                 color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
                 icon = "loan"
@@ -222,7 +222,7 @@ class LoanTransactionsCore(
         newLoanRecordAccountID: UUID?,
         newLoanRecordAmount: Double,
         loanAccountId: UUID?,
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         reCalculateLoanAmount: Boolean = false,
     ): Double? {
         return computationThread {
@@ -266,7 +266,7 @@ class LoanTransactionsCore(
         }
     }
 
-    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<Account>): String {
+    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<AccountOld>): String {
         return findAccount(accountsList, this)?.currency ?: baseCurrency()
     }
 

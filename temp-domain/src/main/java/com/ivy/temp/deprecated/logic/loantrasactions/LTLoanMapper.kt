@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
@@ -138,7 +138,7 @@ class LTLoanMapper(
         }
     }
 
-    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<Account>): String {
+    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<AccountOld>): String {
         return ltCore.findAccount(accountsList, this)?.currency ?: ltCore.baseCurrency()
     }
 }

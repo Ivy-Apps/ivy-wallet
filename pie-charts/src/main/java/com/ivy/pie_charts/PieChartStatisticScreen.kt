@@ -30,7 +30,7 @@ import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.TimePeriod
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -522,7 +522,7 @@ private fun Preview_Expense() {
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = CategoryOld("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -531,23 +531,23 @@ private fun Preview_Expense() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = CategoryOld("Shisha", Orange.toArgb(), icon = "trees"),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = CategoryOld("Food & Drink", IvyDark.toArgb()),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = CategoryOld("Gifts", RedLight.toArgb()),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = CategoryOld("Clothes & Jewelery Fancy", Red.toArgb()),
                     amount = 2.0
                 ),
                 CategoryAmount(
-                    category = Category(
+                    category = CategoryOld(
                         "Finances, Burocracy & Governance",
                         IvyLight.toArgb(),
                         icon = "work"
@@ -576,7 +576,7 @@ private fun Preview_Income() {
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = CategoryOld("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -585,23 +585,23 @@ private fun Preview_Income() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = CategoryOld("Shisha", Orange.toArgb(), icon = "trees"),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = CategoryOld("Food & Drink", IvyDark.toArgb()),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = CategoryOld("Gifts", RedLight.toArgb()),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = CategoryOld("Clothes & Jewelery Fancy", Red.toArgb()),
                     amount = 2.0
                 ),
                 CategoryAmount(
-                    category = Category(
+                    category = CategoryOld(
                         "Finances, Burocracy & Governance",
                         IvyLight.toArgb(),
                         icon = "work"

@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.base.R
@@ -19,7 +19,7 @@ import com.ivy.wallet.ui.theme.toComposeColor
 
 @Composable
 fun Category(
-    category: Category?,
+    category: CategoryOld?,
     onChooseCategory: () -> Unit
 ) {
     if (category != null) {
@@ -40,7 +40,7 @@ fun Category(
 
 @Composable
 private fun CategoryButton(
-    category: Category,
+    category: CategoryOld,
     onClick: () -> Unit,
 ) {
     val contrastColor = findContrastTextColor(category.color.toComposeColor())

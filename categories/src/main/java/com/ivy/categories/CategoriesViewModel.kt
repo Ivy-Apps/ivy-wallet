@@ -5,8 +5,8 @@ import com.ivy.base.IvyWalletCtx
 import com.ivy.base.SortOrder
 import com.ivy.base.TimePeriod
 import com.ivy.categories.CategoryData
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
@@ -54,7 +54,7 @@ class CategoriesViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private var allAccounts = emptyList<Account>()
+    private var allAccounts = emptyList<AccountOld>()
     private var baseCurrency = ""
     private var transactions = emptyList<TransactionOld>()
 
@@ -229,7 +229,7 @@ data class CategoriesScreenState(
     val sortModalVisible: Boolean = false,
     val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
     val sortOrder: SortOrder = SortOrder.DEFAULT,
-    val parentCategoryList: List<Category> = emptyList()
+    val parentCategoryList: List<CategoryOld> = emptyList()
 )
 
 sealed class CategoriesScreenEvent {

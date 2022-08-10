@@ -3,8 +3,8 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionType
@@ -73,16 +73,16 @@ class EditPlannedViewModel @Inject constructor(
     private val _description = MutableLiveData<String?>()
     val description = _description.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<List<AccountOld>>()
     val accounts = _accounts.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
-    private val _account = MutableLiveData<Account>()
+    private val _account = MutableLiveData<AccountOld>()
     val account = _account.asLiveData()
 
-    private val _category = MutableLiveData<Category?>()
+    private val _category = MutableLiveData<CategoryOld?>()
     val category = _category.asLiveData()
 
     private val _amount = MutableLiveData(0.0)
@@ -151,7 +151,7 @@ class EditPlannedViewModel @Inject constructor(
         updateCurrency(account = selectedAccount)
     }
 
-    private suspend fun updateCurrency(account: Account) {
+    private suspend fun updateCurrency(account: AccountOld) {
         _currency.value = account.currency ?: baseCurrency()
     }
 
@@ -205,7 +205,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onCategoryChanged(newCategory: Category?) {
+    fun onCategoryChanged(newCategory: CategoryOld?) {
         loadedRule = loadedRule().copy(
             categoryId = newCategory?.id
         )
@@ -214,7 +214,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onAccountChanged(newAccount: Account) {
+    fun onAccountChanged(newAccount: AccountOld) {
         loadedRule = loadedRule().copy(
             accountId = newAccount.id
         )

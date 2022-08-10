@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
 import com.ivy.wallet.domain.deprecated.sync.uploader.AccountUploader
@@ -26,7 +26,7 @@ class AccountCreator @Inject constructor(
         if (name.isBlank()) return
 
         val newAccount = ioThread {
-            val account = Account(
+            val account = AccountOld(
                 name = name,
                 currency = data.currency,
                 color = data.color.toArgb(),
@@ -54,7 +54,7 @@ class AccountCreator @Inject constructor(
     }
 
     suspend fun editAccount(
-        account: Account,
+        account: AccountOld,
         newBalance: Double,
         onRefreshUI: suspend () -> Unit
     ) {

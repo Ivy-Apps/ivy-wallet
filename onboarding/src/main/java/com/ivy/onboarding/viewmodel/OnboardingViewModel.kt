@@ -73,7 +73,7 @@ class OnboardingViewModel @Inject constructor(
     private val _accountSuggestions = MutableLiveData<List<CreateAccountData>>()
     val accountSuggestions = _accountSuggestions.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
     private val _categorySuggestions = MutableLiveData<List<CreateCategoryData>>()
@@ -255,7 +255,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     //--------------------- Accounts ---------------------------------------------------------------
-    fun editAccount(account: Account, newBalance: Double) {
+    fun editAccount(account: AccountOld, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -312,7 +312,7 @@ class OnboardingViewModel @Inject constructor(
     //--------------------- Accounts ---------------------------------------------------------------
 
     //---------------------------- Categories ------------------------------------------------------
-    fun editCategory(updatedCategory: Category) {
+    fun editCategory(updatedCategory: CategoryOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

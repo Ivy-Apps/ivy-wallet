@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.pure.transaction
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.SideEffect
@@ -10,7 +10,7 @@ import java.math.BigDecimal
 
 object WalletValueFunctions {
     data class Argument(
-        val accounts: List<Account>,
+        val accounts: List<AccountOld>,
         val baseCurrency: String,
 
         @SideEffect

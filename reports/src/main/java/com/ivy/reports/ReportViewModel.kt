@@ -8,8 +8,8 @@ import com.ivy.base.R
 import com.ivy.base.RootScreen
 import com.ivy.base.TimePeriod
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.exchange.ExchangeAct
@@ -64,15 +64,15 @@ class ReportViewModel @Inject constructor(
     }
 
     private val unSpecifiedCategory =
-        Category(stringRes(R.string.unspecified), color = Gray.toArgb())
+        CategoryOld(stringRes(R.string.unspecified), color = Gray.toArgb())
 
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<List<CategoryOld>>(emptyList())
     val categories = _categories.readOnly()
 
-    private val _allAccounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _allAccounts = MutableStateFlow<List<AccountOld>>(emptyList())
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.readOnly()
@@ -210,7 +210,7 @@ class ReportViewModel @Inject constructor(
 
     private suspend fun filterTransactions(
         baseCurrency: String,
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         filter: ReportFilter,
     ): List<TransactionOld> {
         val filterAccountIds = filter.accounts.map { it.id }

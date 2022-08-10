@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.SideEffect
@@ -14,7 +14,7 @@ typealias CategoryValueFunction = SuspendValueFunction<CategoryValueFunctions.Ar
 object CategoryValueFunctions {
     data class Argument(
         val categoryId: UUID?,
-        val accounts: List<Account>,
+        val accounts: List<AccountOld>,
 
         @SideEffect
         val exchangeToBaseCurrency: suspend (
