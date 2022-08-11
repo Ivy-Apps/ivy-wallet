@@ -18,10 +18,10 @@ import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
 import java.util.*
 
-class TransactionsAct constructor(
+class TrnsAct constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
-) : FPAction<TransactionsAct.Input, List<Transaction>>() {
+) : FPAction<TrnsAct.Input, List<Transaction>>() {
 
     data class Input(
         val period: Period,

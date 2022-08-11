@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 class ActualTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao,
-    private val transactionsAct: TransactionsAct,
+    private val transactionsAct: TrnsAct,
 ) : FPAction<Period, List<Transaction>>() {
     override suspend fun Period.compose(): suspend () -> List<Transaction> = suspend {
-        TransactionsAct.Input(
+        TrnsAct.Input(
             period = this,
             query = transactionDao::findAllBetween
         )
