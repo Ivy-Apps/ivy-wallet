@@ -47,7 +47,6 @@ class WriteTrnsAct @Inject constructor(
         }
     )
 
-    private suspend fun persist(trns: List<Transaction>) {
+    private suspend fun persist(trns: List<Transaction>) =
         transactionDao.save(trns.map(::mapToEntity))
-    }
 }

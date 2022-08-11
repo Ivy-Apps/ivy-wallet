@@ -47,15 +47,15 @@ class SyncTrnAct @Inject constructor(
             transaction = mapToDTO(item)
         ) asParamTo transactionService::update
     ) thenIfSuccess {
-        val syncedTrn = item.mark(
+        val syncedItem = item.mark(
             isSynced = true,
             isDeleted = false
         )
-        persist(syncedTrn)
+        persist(syncedItem)
         Res.Ok(Unit)
     } thenInvokeAfter {}
 
-    private suspend fun persist(transaction: Transaction) {
-        transactionDao.save(mapToEntity(transaction))
+    private suspend fun persist(item: Transaction) {
+        transactionDao.save(mapToEntity(item))
     }
 }

@@ -40,9 +40,8 @@ class WriteTrnAct @Inject constructor(
         syncTaskFrom(this asParamTo syncTrnAct)
     }
 
-    private suspend fun persist(transaction: Transaction) {
-        transactionDao.save(mapToEntity(transaction))
-    }
+    private suspend fun persist(trn: Transaction) =
+        transactionDao.save(mapToEntity(trn))
 }
 
 /** How you can use it?
