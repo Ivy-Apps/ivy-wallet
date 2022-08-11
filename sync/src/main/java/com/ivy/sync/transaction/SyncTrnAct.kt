@@ -8,6 +8,7 @@ import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import javax.inject.Inject
 
+
 class SyncTrnAct @Inject constructor(
     private val transactionDao: TransactionDao,
     private val ivySession: IvySession,
@@ -29,6 +30,7 @@ class SyncTrnAct @Inject constructor(
     private suspend fun delete(item: Transaction) {
         // TODO: Delete HTTP Request
 
+
         transactionDao.deleteById(item.id)
     }
 
@@ -42,7 +44,19 @@ class SyncTrnAct @Inject constructor(
         persist(syncedTrn)
     }
 
+    private suspend fun sendUploadTrnRequest(item: Transaction) {
+        //TODO: WIP
+//        postIvy(
+//            endpoint = endpoint("/update"),
+//            body = SaveTransactionRequest(
+//                transaction = item
+//            )
+//        )
+    }
+
     private suspend fun persist(transaction: Transaction) {
         transactionDao.save(mapToEntity(transaction))
     }
+
+    private fun endpoint(api: String): String = "/wallet/transactions$api"
 }

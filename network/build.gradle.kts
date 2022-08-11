@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Ktor
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -10,6 +11,6 @@ plugins {
 dependencies {
     Hilt()
     implementation(project(":common"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":network"))
+    api(project(":temp-network"))
+    Ktor(api = true)
 }

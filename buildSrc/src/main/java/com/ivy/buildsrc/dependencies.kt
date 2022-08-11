@@ -306,6 +306,9 @@ fun DependencyHandler.Networking(api: Boolean) {
 fun DependencyHandler.Ktor(api: Boolean) {
     dependency("io.ktor:ktor-client-core:${Versions.ktor}", api = api)
     dependency("io.ktor:ktor-client-okhttp:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-client-logging:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-client-content-negotiation:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}", api = api)
 }
 
 fun DependencyHandler.Gson(api: Boolean) {
