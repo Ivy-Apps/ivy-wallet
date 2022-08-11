@@ -26,6 +26,9 @@ import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.LocalDateTimeTypeAdapter
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.error.ErrorCode
+import com.ivy.wallet.io.network.service.AccountService
+import com.ivy.wallet.io.network.service.CategoryService
+import com.ivy.wallet.io.network.service.TransactionService
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.*
@@ -629,4 +632,19 @@ object AppModuleDI {
             sharedPrefs
         )
     }
+
+    @Provides
+    fun provideAccountService(
+        restClient: RestClient
+    ): AccountService = restClient.accountService
+
+    @Provides
+    fun provideCategoryService(
+        restClient: RestClient
+    ): CategoryService = restClient.categoryService
+
+    @Provides
+    fun provideTransactionService(
+        restClient: RestClient
+    ): TransactionService = restClient.transactionService
 }

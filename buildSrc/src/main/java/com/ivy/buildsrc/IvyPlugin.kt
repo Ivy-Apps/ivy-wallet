@@ -20,7 +20,9 @@ abstract class IvyPlugin : Plugin<Project> {
             plugin("kotlin-android")
             plugin("kotlin-kapt")
             plugin("dagger.hilt.android.plugin")
-            plugin("kotlinx-serialization")
+
+            //TODO: Enable when we migrate to kotlinx serialization
+//            plugin("kotlinx-serialization")
         }
     }
 
