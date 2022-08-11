@@ -9,4 +9,5 @@ plugins {
 
 dependencies {
     Hilt()
+    implementation(project(":common"))
 }

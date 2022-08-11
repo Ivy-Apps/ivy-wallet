@@ -3,10 +3,9 @@ package com.ivy.core.action.transaction
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.ivy.common.beginningOfIvyTime
-import com.ivy.common.endOfIvyTime
 import com.ivy.core.action.AccountsAct
 import com.ivy.core.action.CategoriesAct
+import com.ivy.core.functions.toRange
 import com.ivy.data.Invalid
 import com.ivy.data.Period
 import com.ivy.data.SyncMetadata
@@ -15,24 +14,25 @@ import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
-import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.TransactionEntity
+import java.time.LocalDateTime
 import java.util.*
-import javax.inject.Inject
 
-class TransactionsAct @Inject constructor(
+class TransactionsAct constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
-    private val transactionDao: TransactionDao
-) : FPAction<Period, List<Transaction>>() {
-    override suspend fun Period.compose(): suspend () -> List<Transaction> = {
-        when (this) {
-            is Period.After -> Pair(from, endOfIvyTime())
-            is Period.Before -> Pair(beginningOfIvyTime(), to)
-            is Period.FromTo -> Pair(from, to)
-        }
+) : FPAction<TransactionsAct.Input, List<Transaction>>() {
+
+    data class Input(
+        val period: Period,
+        val query: suspend (LocalDateTime, LocalDateTime) -> List<TransactionEntity>
+    )
+
+
+    override suspend fun Input.compose(): suspend () -> List<Transaction> = {
+        period.toRange()
     } then { (from, to) ->
-        transactionDao.findAllBetween(startDate = from, endDate = to)
+        query(from, to)
     } then { entities ->
         val accounts = accountsAct(Unit).associateBy { it.id }
         val categories = categoriesAct(Unit).associateBy { it.id }
