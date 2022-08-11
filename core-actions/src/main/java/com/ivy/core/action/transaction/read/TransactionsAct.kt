@@ -1,10 +1,10 @@
-package com.ivy.core.action.transaction
+package com.ivy.core.action.transaction.read
 
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
-import com.ivy.core.action.AccountsAct
-import com.ivy.core.action.CategoriesAct
+import com.ivy.core.action.account.AccountsAct
+import com.ivy.core.action.category.CategoriesAct
 import com.ivy.core.functions.toRange
 import com.ivy.data.Invalid
 import com.ivy.data.Period

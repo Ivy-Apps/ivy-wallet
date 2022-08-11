@@ -1,4 +1,4 @@
-package com.ivy.core.action
+package com.ivy.core.action.category
 
 import com.ivy.data.SyncMetadata
 import com.ivy.data.category.Category

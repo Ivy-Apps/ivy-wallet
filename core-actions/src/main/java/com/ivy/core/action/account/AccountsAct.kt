@@ -1,5 +1,6 @@
-package com.ivy.core.action
+package com.ivy.core.action.account
 
+import com.ivy.core.action.BaseCurrencyAct
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.AccMetadata
 import com.ivy.data.account.Account
