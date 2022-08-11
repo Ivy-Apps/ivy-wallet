@@ -15,6 +15,8 @@ dependencies {
     //https://kotlinlang.org/docs/releases.html#release-details
     //Must match kotlinVersion from dependencies.kt
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
+    implementation(kotlin("serialization", version = "1.7.0"))
+
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     //Must match hiltVersion from dependencies.kt
