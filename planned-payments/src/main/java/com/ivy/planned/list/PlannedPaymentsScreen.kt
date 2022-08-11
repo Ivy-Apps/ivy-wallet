@@ -21,7 +21,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -114,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
         onAdd = {
             nav.navigateTo(
                 EditPlanned(
-                    type = TransactionType.EXPENSE,
+                    type = TrnType.EXPENSE,
                     plannedPaymentRuleId = null
                 )
             )
@@ -145,7 +145,7 @@ private fun Preview() {
                     oneTime = true,
                     intervalType = null,
                     intervalN = null,
-                    type = TransactionType.EXPENSE
+                    type = TrnType.EXPENSE
                 )
             ),
             oneTimeExpenses = 250.75,
@@ -160,7 +160,7 @@ private fun Preview() {
                     oneTime = false,
                     intervalType = IntervalType.MONTH,
                     intervalN = 1,
-                    type = TransactionType.EXPENSE
+                    type = TrnType.EXPENSE
                 )
             ),
             recurringExpenses = 1025.5,

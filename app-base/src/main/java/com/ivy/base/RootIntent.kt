@@ -2,12 +2,12 @@ package com.ivy.base
 
 import android.content.Context
 import android.content.Intent
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 
 interface RootIntent {
     fun addTransactionStart(
         context: Context,
-        type: TransactionType
+        type: TrnType
     ): Intent
 
     fun getIntent(context: Context): Intent

@@ -8,7 +8,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
@@ -144,7 +144,7 @@ class CSVImporter(
             rowMapping = rowMapping
         ) ?: return null
 
-        val toAccount = if (type == TransactionType.TRANSFER) {
+        val toAccount = if (type == TrnType.TRANSFER) {
             mapAccount(
                 baseCurrency = baseCurrency,
                 accountNameString = row.extract(rowMapping.toAccount),
@@ -155,7 +155,7 @@ class CSVImporter(
             )
         } else null
 
-        val csvAmount = if (type != TransactionType.TRANSFER) {
+        val csvAmount = if (type != TrnType.TRANSFER) {
             mapAmount(row.extract(rowMapping.amount))
         } else {
             mapAmount(row.extract(rowMapping.transferAmount))
@@ -167,7 +167,7 @@ class CSVImporter(
             return null
         }
 
-        val toAmount = if (type == TransactionType.TRANSFER) {
+        val toAmount = if (type == TrnType.TRANSFER) {
             mapAmount(row.extract(rowMapping.toAmount))
         } else null
 
@@ -232,25 +232,25 @@ class CSVImporter(
     private fun mapType(
         row: List<String>,
         rowMapping: RowMapping
-    ): TransactionType? {
+    ): TrnType? {
         //Return Expense for intentionally set Type mapping to null
         //Example: Fortune City
-        if (rowMapping.type == null) return TransactionType.EXPENSE
+        if (rowMapping.type == null) return TrnType.EXPENSE
 
         val type = row.extract(rowMapping.type) ?: return null
         // default is expense as some apps only declare transfers
-        if (type.isBlank()) return TransactionType.EXPENSE
+        if (type.isBlank()) return TrnType.EXPENSE
 
         val normalizedType = type.toLowerCaseLocal()
 
         return when {
-            normalizedType.contains("income") -> TransactionType.INCOME
-            normalizedType.contains("expense") -> TransactionType.EXPENSE
-            normalizedType.contains("transfer") -> TransactionType.TRANSFER
+            normalizedType.contains("income") -> TrnType.INCOME
+            normalizedType.contains("expense") -> TrnType.EXPENSE
+            normalizedType.contains("transfer") -> TrnType.TRANSFER
             else -> {
                 // Default to Expense because Financisto messed up its CSV Export
                 // and mixes it with another (ignored) column
-                if (rowMapping.defaultTypeToExpense) TransactionType.EXPENSE else null
+                if (rowMapping.defaultTypeToExpense) TrnType.EXPENSE else null
             }
         }
     }

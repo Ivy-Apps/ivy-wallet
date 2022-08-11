@@ -4,7 +4,7 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.SideEffect
 import java.math.BigDecimal
 import java.util.*
@@ -29,9 +29,9 @@ object CategoryValueFunctions {
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
             when (type) {
-                TransactionType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
-                TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId).negate()
-                TransactionType.TRANSFER -> BigDecimal.ZERO
+                TrnType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
+                TrnType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId).negate()
+                TrnType.TRANSFER -> BigDecimal.ZERO
             }
         } else BigDecimal.ZERO
     }
@@ -42,7 +42,7 @@ object CategoryValueFunctions {
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
             when (type) {
-                TransactionType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
+                TrnType.INCOME -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
             }
         } else BigDecimal.ZERO
@@ -54,7 +54,7 @@ object CategoryValueFunctions {
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
             when (type) {
-                TransactionType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId)
+                TrnType.EXPENSE -> amount.toBaseCurrencyOrZero(arg, accountId)
                 else -> BigDecimal.ZERO
             }
         } else BigDecimal.ZERO
@@ -66,7 +66,7 @@ object CategoryValueFunctions {
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
             when (type) {
-                TransactionType.INCOME -> BigDecimal.ONE
+                TrnType.INCOME -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
             }
         } else BigDecimal.ZERO
@@ -78,7 +78,7 @@ object CategoryValueFunctions {
     ): BigDecimal = with(transaction) {
         if (this.categoryId == arg.categoryId) {
             when (type) {
-                TransactionType.EXPENSE -> BigDecimal.ONE
+                TrnType.EXPENSE -> BigDecimal.ONE
                 else -> BigDecimal.ZERO
             }
         } else BigDecimal.ZERO

@@ -24,11 +24,11 @@ class AccountsAct @Inject constructor(
         val baseCurrency = baseCurrencyAct(Unit)
         entities.map {
             Account(
+                id = it.id,
                 name = it.name,
                 currencyCode = it.currency ?: baseCurrency,
                 color = it.color,
                 icon = it.icon,
-                id = it.id,
                 excluded = !it.includeInBalance,
                 metadata = AccMetadata(
                     orderNum = it.orderNum,

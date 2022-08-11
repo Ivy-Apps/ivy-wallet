@@ -7,7 +7,7 @@ import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
@@ -131,7 +131,7 @@ class PieChartAct @Inject constructor(
 
     @Pure
     private suspend fun calculateCategoryAmounts(
-        type: TransactionType,
+        type: TrnType,
         baseCurrency: String,
         addAssociatedTransToCategoryAmt: Boolean = false,
         filterEmptyCategoryAmounts: Boolean = true,
@@ -170,8 +170,8 @@ class PieChartAct @Inject constructor(
             CategoryAmount(
                 category = category,
                 amount = when (type) {
-                    TransactionType.INCOME -> catIncomeExpense.income.toDouble()
-                    TransactionType.EXPENSE -> catIncomeExpense.expense.toDouble()
+                    TrnType.INCOME -> catIncomeExpense.income.toDouble()
+                    TrnType.EXPENSE -> catIncomeExpense.expense.toDouble()
                     else -> error("not supported transactionType - $type")
                 },
                 associatedTransactions = categoryTransactions.await(),
@@ -191,7 +191,7 @@ class PieChartAct @Inject constructor(
 
     @Pure
     private suspend fun calculateTotalAmount(
-        type: TransactionType,
+        type: TrnType,
         treatTransferAsIncExp: Boolean,
 
         @SideEffect
@@ -199,14 +199,14 @@ class PieChartAct @Inject constructor(
     ): BigDecimal {
         val incExpQuad = incomeExpenseTransfer()
         return when (type) {
-            TransactionType.INCOME -> {
+            TrnType.INCOME -> {
                 incExpQuad.income +
                         if (treatTransferAsIncExp)
                             incExpQuad.transferIncome
                         else
                             BigDecimal.ZERO
             }
-            TransactionType.EXPENSE -> {
+            TrnType.EXPENSE -> {
                 incExpQuad.expense +
                         if (treatTransferAsIncExp)
                             incExpQuad.transferExpense
@@ -220,7 +220,7 @@ class PieChartAct @Inject constructor(
     @Pure
     private suspend fun addAccountTransfersCategory(
         showAccountTransfersCategory: Boolean,
-        type: TransactionType,
+        type: TrnType,
         accountTransfersCategory: CategoryOld,
         accountIdFilterSet: Set<UUID>,
 
@@ -241,15 +241,15 @@ class PieChartAct @Inject constructor(
                 categoryAmounts then { it.sortedByDescending { ca -> ca.amount } }
             else {
 
-                val amt = if (type == TransactionType.INCOME)
+                val amt = if (type == TrnType.INCOME)
                     incExpQuad.transferIncome.toDouble()
                 else
                     incExpQuad.transferExpense.toDouble()
 
                 val categoryTrans = transactions().filter {
-                    it.type == TransactionType.TRANSFER && it.categoryId == null
+                    it.type == TrnType.TRANSFER && it.categoryId == null
                 }.filter {
-                    if (type == TransactionType.EXPENSE)
+                    if (type == TrnType.EXPENSE)
                         accountIdFilterSet.contains(it.accountId)
                     else
                         accountIdFilterSet.contains(it.toAccountId)
@@ -275,7 +275,7 @@ class PieChartAct @Inject constructor(
     data class Input(
         val baseCurrency: String,
         val range: FromToTimeRange,
-        val type: TransactionType,
+        val type: TrnType,
         val accountIdFilterList: List<UUID>,
         val treatTransferAsIncExp: Boolean = false,
         val showAccountTransfersCategory: Boolean = treatTransferAsIncExp,

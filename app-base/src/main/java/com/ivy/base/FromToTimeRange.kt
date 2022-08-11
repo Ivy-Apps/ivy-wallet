@@ -75,6 +75,6 @@ fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
 fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
         from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        to = to ?: endOfIvyTime()
     )
 }

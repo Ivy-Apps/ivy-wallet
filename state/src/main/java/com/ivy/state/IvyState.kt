@@ -25,27 +25,29 @@ fun writeIvyState(update: () -> IvyState) {
 }
 
 //region Update
-fun baseCurrencyUpdate(newCurrency: String): () -> IvyState = {
+fun baseCurrencyUpdate(newCurrency: String?): () -> IvyState = {
     readIvyState().copy(
         baseCurrency = newCurrency
     )
 }
 
-fun accountsUpdate(newAccounts: List<Account>): () -> IvyState = {
+fun accountsUpdate(newAccounts: List<Account>?): () -> IvyState = {
     readIvyState().copy(
         accounts = newAccounts
     )
 }
 
-fun categoriesUpdate(newCategories: List<Category>): () -> IvyState = {
+fun categoriesUpdate(newCategories: List<Category>?): () -> IvyState = {
     readIvyState().copy(
         categories = newCategories
     )
 }
 
-fun periodUpdate(newPeriod: Period): () -> IvyState = {
+fun periodUpdate(newPeriod: Period?): () -> IvyState = {
     readIvyState().copy(
         period = newPeriod
     )
 }
+
+fun invalidate() = null
 //endregion

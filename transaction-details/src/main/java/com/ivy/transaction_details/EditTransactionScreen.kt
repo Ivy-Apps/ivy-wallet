@@ -22,7 +22,7 @@ import com.ivy.base.*
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
@@ -129,7 +129,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
 @Composable
 private fun BoxWithConstraintsScope.UI(
     screen: EditTransaction,
-    transactionType: TransactionType,
+    transactionType: TrnType,
     baseCurrency: String,
     initialTitle: String?,
     titleSuggestions: Set<String>,
@@ -157,7 +157,7 @@ private fun BoxWithConstraintsScope.UI(
     onToAccountChanged: (AccountOld) -> Unit,
     onDueDateChanged: (LocalDateTime?) -> Unit,
     onSetDateTime: (LocalDateTime) -> Unit,
-    onSetTransactionType: (TransactionType) -> Unit,
+    onSetTransactionType: (TrnType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit,
     onEditCategory: (CategoryOld) -> Unit,
@@ -219,7 +219,7 @@ private fun BoxWithConstraintsScope.UI(
         Toolbar(
             //Setting the transaction type to TransactionType.TRANSFER for transactions associated
             // with loan record to hide the ChangeTransactionType Button
-            type = if (loanData.isLoanRecord) TransactionType.TRANSFER else transactionType,
+            type = if (loanData.isLoanRecord) TrnType.TRANSFER else transactionType,
             initialTransactionId = screen.initialTransactionId,
             onDeleteTrnModal = {
                 deleteTrnModalVisible = true
@@ -269,7 +269,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         }
 
-        if (transactionType != TransactionType.TRANSFER) {
+        if (transactionType != TrnType.TRANSFER) {
             Spacer(Modifier.height(32.dp))
 
             Category(
@@ -315,7 +315,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        if (transactionType == TransactionType.TRANSFER && customExchangeRateState.showCard) {
+        if (transactionType == TrnType.TRANSFER && customExchangeRateState.showCard) {
             Spacer(Modifier.height(12.dp))
             CustomExchangeRateCard(
                 fromCurrencyCode = baseCurrency,
@@ -333,7 +333,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         }
 
-        if (dueDate == null && transactionType != TransactionType.TRANSFER && dateTime == null) {
+        if (dueDate == null && transactionType != TrnType.TRANSFER && dateTime == null) {
             Spacer(Modifier.height(12.dp))
 
             val nav = navigation()
@@ -391,7 +391,7 @@ private fun BoxWithConstraintsScope.UI(
                     } else {
                         //no changes, pay
                         ModalCheck(
-                            label = if (transactionType == TransactionType.EXPENSE) stringResource(
+                            label = if (transactionType == TrnType.EXPENSE) stringResource(
                                 R.string.pay
                             ) else stringResource(R.string.get)
                         ) {
@@ -547,13 +547,13 @@ private fun BoxWithConstraintsScope.UI(
 
 private fun shouldFocusCategory(
     category: CategoryOld?,
-    type: TransactionType
-): Boolean = category == null && type != TransactionType.TRANSFER
+    type: TrnType
+): Boolean = category == null && type != TrnType.TRANSFER
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
-    type: TransactionType
-): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
+    type: TrnType
+): Boolean = titleTextFieldValue.text.isBlank() && type != TrnType.TRANSFER
 
 private fun shouldFocusAmount(amount: Double) = amount == 0.0
 
@@ -563,7 +563,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            screen = EditTransaction(null, TransactionType.EXPENSE),
+            screen = EditTransaction(null, TrnType.EXPENSE),
             initialTitle = "",
             titleSuggestions = emptySet(),
             baseCurrency = "BGN",
@@ -574,7 +574,7 @@ private fun Preview() {
             toAccount = null,
             amount = 0.0,
             dueDate = null,
-            transactionType = TransactionType.INCOME,
+            transactionType = TrnType.INCOME,
             customExchangeRateState = CustomExchangeRateState(),
 
             categories = emptyList(),

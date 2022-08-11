@@ -12,7 +12,7 @@ import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.sumOfSuspend
@@ -140,12 +140,12 @@ class BudgetViewModel @Inject constructor(
             .filter { categoryFilter.isEmpty() || categoryFilter.contains(it.categoryId) }
             .sumOfSuspend {
                 when (it.type) {
-                    TransactionType.INCOME -> {
+                    TrnType.INCOME -> {
                         //decrement spent amount if it's not global budget
                         0.0 //ignore income
 //                        if (categoryFilter.isEmpty()) 0.0 else -amountBaseCurrency
                     }
-                    TransactionType.EXPENSE -> {
+                    TrnType.EXPENSE -> {
                         //increment spent amount
                         exchangeAct(
                             ExchangeAct.Input(
@@ -157,7 +157,7 @@ class BudgetViewModel @Inject constructor(
                             )
                         ).orNull()?.toDouble() ?: 0.0
                     }
-                    TransactionType.TRANSFER -> {
+                    TrnType.TRANSFER -> {
                         //ignore transfers for simplicity
                         0.0
                     }

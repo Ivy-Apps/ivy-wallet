@@ -9,7 +9,7 @@ import com.ivy.base.refreshWidget
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditTransaction
@@ -68,7 +68,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accountByIdAct: AccountByIdAct
 ) : ViewModel() {
 
-    private val _transactionType = MutableLiveData<TransactionType>()
+    private val _transactionType = MutableLiveData<TrnType>()
     val transactionType = _transactionType
 
     private val _initialTitle = MutableStateFlow<String?>(null)
@@ -379,7 +379,7 @@ class EditTransactionViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetTransactionType(newTransactionType: TransactionType) {
+    fun onSetTransactionType(newTransactionType: TrnType) {
         loadedTransaction = loadedTransaction().copy(
             type = newTransactionType
         )
@@ -557,7 +557,7 @@ class EditTransactionViewModel @Inject constructor(
     private suspend fun transferToAmount(
         amount: Double
     ): Double? {
-        if (transactionType.value != TransactionType.TRANSFER) return null
+        if (transactionType.value != TrnType.TRANSFER) return null
         val toCurrency = toAccount.value?.currency ?: baseCurrency()
         val fromCurrency = account.value?.currency ?: baseCurrency()
 
@@ -579,7 +579,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun validateTransaction(): Boolean {
-        if (transactionType.value == TransactionType.TRANSFER && toAccount.value == null) {
+        if (transactionType.value == TrnType.TRANSFER && toAccount.value == null) {
             return false
         }
 

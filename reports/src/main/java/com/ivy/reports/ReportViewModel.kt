@@ -11,7 +11,7 @@ import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.exchange.ExchangeAct
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.filterSuspend
@@ -202,7 +202,7 @@ class ReportViewModel @Inject constructor(
                     transactions = transactions,
                     balance = balance,
                     filterOverlayVisible = false,
-                    showTransfersAsIncExpCheckbox = filter.trnTypes.contains(TransactionType.TRANSFER)
+                    showTransfersAsIncExpCheckbox = filter.trnTypes.contains(TrnType.TRANSFER)
                 )
             }
         }
@@ -242,7 +242,7 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 //Filter by Categories
 
-                filterCategoryIds.contains(trn.categoryId) || (trn.type == TransactionType.TRANSFER)
+                filterCategoryIds.contains(trn.categoryId) || (trn.type == TrnType.TRANSFER)
             }
             .filterSuspend {
                 //Filter by Amount

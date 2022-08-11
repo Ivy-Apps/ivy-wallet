@@ -10,7 +10,7 @@ import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.billing.IvyBilling
 import com.ivy.data.Theme
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditTransaction
@@ -96,9 +96,9 @@ class RootViewModel @Inject constructor(
     }
 
     private fun handleSpecialStart(intent: Intent): Boolean {
-        val addTrnType: TransactionType? = try {
-            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TransactionType
-                ?: TransactionType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
+        val addTrnType: TrnType? = try {
+            intent.getSerializableExtra(EXTRA_ADD_TRANSACTION_TYPE) as? TrnType
+                ?: TrnType.valueOf(intent.getStringExtra(EXTRA_ADD_TRANSACTION_TYPE) ?: "")
         } catch (e: IllegalArgumentException) {
             null
         }

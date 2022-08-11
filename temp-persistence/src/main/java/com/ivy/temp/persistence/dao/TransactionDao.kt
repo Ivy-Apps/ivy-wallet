@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
 import java.util.*
@@ -25,17 +25,17 @@ interface TransactionDao {
 
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type ORDER BY dateTime DESC")
-    suspend fun findAllByType(type: TransactionType): List<TransactionEntity>
+    suspend fun findAllByType(type: TrnType): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and accountId = :accountId ORDER BY dateTime DESC")
     suspend fun findAllByTypeAndAccount(
-        type: TransactionType,
+        type: TrnType,
         accountId: UUID
     ): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and accountId = :accountId and dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     suspend fun findAllByTypeAndAccountBetween(
-        type: TransactionType,
+        type: TrnType,
         accountId: UUID,
         startDate: LocalDateTime,
         endDate: LocalDateTime
@@ -44,7 +44,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and toAccountId = :toAccountId ORDER BY dateTime DESC")
     suspend fun findAllTransfersToAccount(
         toAccountId: UUID,
-        type: TransactionType = TransactionType.TRANSFER
+        type: TrnType = TrnType.TRANSFER
     ): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND type = :type and toAccountId = :toAccountId and dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
@@ -52,7 +52,7 @@ interface TransactionDao {
         toAccountId: UUID,
         startDate: LocalDateTime,
         endDate: LocalDateTime,
-        type: TransactionType = TransactionType.TRANSFER
+        type: TrnType = TrnType.TRANSFER
     ): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
@@ -84,14 +84,14 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId = :categoryId) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     suspend fun findAllByCategoryAndTypeAndBetween(
         categoryId: UUID,
-        type: TransactionType,
+        type: TrnType,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND (categoryId IS NULL) AND type = :type AND dateTime >= :startDate AND dateTime <= :endDate ORDER BY dateTime DESC")
     suspend fun findAllUnspecifiedAndTypeAndBetween(
-        type: TransactionType,
+        type: TrnType,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): List<TransactionEntity>
@@ -136,7 +136,7 @@ interface TransactionDao {
     suspend fun findAllBetweenAndType(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
-        type: TransactionType
+        type: TrnType
     ): List<TransactionEntity>
 
     @Query("SELECT * FROM transactions WHERE isDeleted = 0 AND dateTime >= :startDate AND dateTime <= :endDate AND recurringRuleId = :recurringRuleId ORDER BY dateTime DESC")

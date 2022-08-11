@@ -4,15 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
 import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.base.stringRes
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
+import com.ivy.design.l0_system.*
+import com.ivy.journey.CustomerJourneyCard
 import com.ivy.screens.*
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
-import com.ivy.base.R
-import com.ivy.design.l0_system.*
-import com.ivy.journey.CustomerJourneyCard
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.widgets.AddTransactionWidgetCompact
 
@@ -93,7 +93,7 @@ class CustomerJourneyLogic(
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(
                     EditPlanned(
-                        type = TransactionType.EXPENSE,
+                        type = TrnType.EXPENSE,
                         plannedPaymentRuleId = null
                     )
                 )
@@ -144,7 +144,7 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Red),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(PieChartStatistic(type = TransactionType.EXPENSE))
+                navigation.navigateTo(PieChartStatistic(type = TrnType.EXPENSE))
             }
         )
 

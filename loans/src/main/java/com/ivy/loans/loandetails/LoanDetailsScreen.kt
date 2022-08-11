@@ -30,7 +30,7 @@ import com.ivy.data.IvyCurrency
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -726,7 +726,7 @@ private fun LoanRecordItem(
             Spacer(Modifier.height(16.dp))
 
         TypeAmountCurrency(
-            transactionType = if (loan.type == LoanType.LEND) TransactionType.INCOME else TransactionType.EXPENSE,
+            transactionType = if (loan.type == LoanType.LEND) TrnType.INCOME else TrnType.EXPENSE,
             dueDate = null,
             currency = baseCurrency,
             amount = loanRecord.amount

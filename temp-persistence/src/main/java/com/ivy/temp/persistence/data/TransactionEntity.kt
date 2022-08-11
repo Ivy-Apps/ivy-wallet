@@ -3,14 +3,14 @@ package com.ivy.wallet.io.persistence.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*
 
 @Entity(tableName = "transactions")
 data class TransactionEntity(
     val accountId: UUID,
-    val type: TransactionType,
+    val type: TrnType,
     val amount: Double,
     val toAccountId: UUID? = null,
     val toAmount: Double? = null,

@@ -5,6 +5,8 @@ import com.ivy.data.IvyIcon
 import java.util.*
 
 data class Account(
+    val id: UUID,
+
     val name: String,
     val currencyCode: String,
 
@@ -15,6 +17,4 @@ data class Account(
     val excluded: Boolean,
 
     val metadata: AccMetadata,
-
-    val id: UUID
 )

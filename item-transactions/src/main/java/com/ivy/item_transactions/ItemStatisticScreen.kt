@@ -28,7 +28,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -548,7 +548,7 @@ private fun Header(
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatistic(
-                            type = TransactionType.INCOME,
+                            type = TrnType.INCOME,
                             accountList = listOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
@@ -560,7 +560,7 @@ private fun Header(
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatistic(
-                            type = TransactionType.EXPENSE,
+                            type = TrnType.EXPENSE,
                             accountList = listOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
@@ -778,7 +778,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                TransactionOld(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                TransactionOld(UUID(1L, 2L), TrnType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

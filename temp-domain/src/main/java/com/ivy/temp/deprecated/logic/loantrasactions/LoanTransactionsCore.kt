@@ -11,7 +11,7 @@ import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*
@@ -140,9 +140,9 @@ class LoanTransactionsCore(
             return
 
         val transType = if (isLoanRecord)
-            if (loanType == LoanType.BORROW) TransactionType.EXPENSE else TransactionType.INCOME
+            if (loanType == LoanType.BORROW) TrnType.EXPENSE else TrnType.INCOME
         else
-            if (loanType == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
+            if (loanType == LoanType.BORROW) TrnType.INCOME else TrnType.EXPENSE
 
         val transCategoryId: UUID? = getCategoryId(existingCategoryId = categoryId)
 

@@ -5,7 +5,7 @@ import com.ivy.base.filterOverdue
 import com.ivy.base.filterUpcoming
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumInBaseCurrency
 import com.ivy.wallet.domain.pure.transaction.withDateDividers
@@ -45,9 +45,9 @@ class WalletCategoryLogic(
                 )
 
                 when (it.type) {
-                    TransactionType.INCOME -> amount
-                    TransactionType.EXPENSE -> -amount
-                    TransactionType.TRANSFER -> 0.0 //TODO: Transfer zero operation
+                    TrnType.INCOME -> amount
+                    TrnType.EXPENSE -> -amount
+                    TrnType.TRANSFER -> 0.0 //TODO: Transfer zero operation
                 }
             }
     }
@@ -60,7 +60,7 @@ class WalletCategoryLogic(
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
                 categoryId = category.id,
-                type = TransactionType.INCOME,
+                type = TrnType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
             ).map { it.toDomain() }
@@ -97,7 +97,7 @@ class WalletCategoryLogic(
         return transactionDao
             .findAllByCategoryAndTypeAndBetween(
                 categoryId = category.id,
-                type = TransactionType.EXPENSE,
+                type = TrnType.EXPENSE,
                 startDate = range.from(),
                 endDate = range.to()
             )
@@ -134,7 +134,7 @@ class WalletCategoryLogic(
     suspend fun calculateUnspecifiedIncome(range: FromToTimeRange): Double {
         return transactionDao
             .findAllUnspecifiedAndTypeAndBetween(
-                type = TransactionType.INCOME,
+                type = TrnType.INCOME,
                 startDate = range.from(),
                 endDate = range.to()
             ).map { it.toDomain() }
@@ -148,7 +148,7 @@ class WalletCategoryLogic(
     suspend fun calculateUnspecifiedExpenses(range: FromToTimeRange): Double {
         return transactionDao
             .findAllUnspecifiedAndTypeAndBetween(
-                type = TransactionType.EXPENSE,
+                type = TrnType.EXPENSE,
                 startDate = range.from(),
                 endDate = range.to()
             ).map { it.toDomain() }
@@ -217,7 +217,7 @@ class WalletCategoryLogic(
         range: FromToTimeRange
     ): Double {
         return upcomingByCategory(category = category, range = range)
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -230,7 +230,7 @@ class WalletCategoryLogic(
         range: FromToTimeRange
     ): Double {
         return upcomingByCategory(category = category, range = range)
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -240,7 +240,7 @@ class WalletCategoryLogic(
 
     suspend fun calculateUpcomingIncomeUnspecified(range: FromToTimeRange): Double {
         return upcomingUnspecified(range = range)
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -250,7 +250,7 @@ class WalletCategoryLogic(
 
     suspend fun calculateUpcomingExpensesUnspecified(range: FromToTimeRange): Double {
         return upcomingUnspecified(range = range)
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -282,7 +282,7 @@ class WalletCategoryLogic(
         range: FromToTimeRange
     ): Double {
         return overdueByCategory(category, range = range)
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -295,7 +295,7 @@ class WalletCategoryLogic(
         range: FromToTimeRange
     ): Double {
         return overdueByCategory(category, range = range)
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -305,7 +305,7 @@ class WalletCategoryLogic(
 
     suspend fun calculateOverdueIncomeUnspecified(range: FromToTimeRange): Double {
         return overdueUnspecified(range = range)
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -315,7 +315,7 @@ class WalletCategoryLogic(
 
     suspend fun calculateOverdueExpensesUnspecified(range: FromToTimeRange): Double {
         return overdueUnspecified(range = range)
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
