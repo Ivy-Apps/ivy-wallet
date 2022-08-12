@@ -13,7 +13,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
@@ -55,7 +55,7 @@ class BudgetViewModel @Inject constructor(
     private val budgetsAct: BudgetsAct,
     private val baseCurrencyAct: BaseCurrencyActOld,
     private val historyTrnsAct: HistoryTrnsAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : ViewModel() {
 
     private val _timeRange = MutableStateFlow(ivyContext.selectedPeriod.toRange(1))
@@ -148,7 +148,7 @@ class BudgetViewModel @Inject constructor(
                     TrnType.EXPENSE -> {
                         //increment spent amount
                         exchangeAct(
-                            ExchangeAct.Input(
+                            ExchangeActOld.Input(
                                 data = ExchangeData(
                                     baseCurrency = baseCurrencyCode,
                                     fromCurrency = trnCurrency(it, accounts, baseCurrencyCode)

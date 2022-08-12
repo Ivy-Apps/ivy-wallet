@@ -12,7 +12,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
@@ -48,7 +48,7 @@ class ReportViewModel @Inject constructor(
     private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
-    private val exchangeAct: ExchangeAct,
+    private val exchangeAct: ExchangeActOld,
     private val accountsAct: AccountsActOld,
     private val categoriesAct: CategoriesActOld,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
@@ -249,7 +249,7 @@ class ReportViewModel @Inject constructor(
                 //!NOTE: Amount must be converted to baseCurrency amount
 
                 val trnAmountBaseCurrency = exchangeAct(
-                    ExchangeAct.Input(
+                    ExchangeActOld.Input(
                         data = ExchangeData(
                             baseCurrency = baseCurrency,
                             fromCurrency = trnCurrency(it, accounts, baseCurrency),

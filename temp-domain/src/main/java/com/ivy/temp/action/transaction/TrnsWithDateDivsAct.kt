@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class TrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : FPAction<TrnsWithDateDivsAct.Input, List<Any>>() {
 
     override suspend fun Input.compose(): suspend () -> List<Any> = suspend {

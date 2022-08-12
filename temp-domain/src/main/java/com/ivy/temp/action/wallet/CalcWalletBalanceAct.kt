@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class CalcWalletBalanceAct @Inject constructor(
     private val accountsAct: AccountsActOld,
     private val calcAccBalanceAct: CalcAccBalanceAct,
-    private val exchangeAct: ExchangeAct,
+    private val exchangeAct: ExchangeActOld,
 ) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {
 
     override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
@@ -33,7 +33,7 @@ class CalcWalletBalanceAct @Inject constructor(
             )
         } thenMap {
             exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
                         fromCurrency = (it.account.currency ?: baseCurrency).toOption(),

@@ -4,7 +4,7 @@ import arrow.core.nonEmptyListOf
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class CalcIncomeExpenseAct @Inject constructor(
     private val accTrnsAct: AccTrnsAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : FPAction<CalcIncomeExpenseAct.Input, IncomeExpensePair>() {
 
     override suspend fun Input.compose(): suspend () -> IncomeExpensePair = suspend {
@@ -51,7 +51,7 @@ class CalcIncomeExpenseAct @Inject constructor(
         Timber.i("acc_stats: $acc - $stats")
         stats.map {
             exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
                         fromCurrency = (acc.currency ?: baseCurrency).toOption()

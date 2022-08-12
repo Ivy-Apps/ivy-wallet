@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.action.viewmodel.account
 import arrow.core.toOption
 import com.ivy.base.AccountData
 import com.ivy.data.AccountOld
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
@@ -12,7 +12,7 @@ import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
 import javax.inject.Inject
 
 class AccountDataAct @Inject constructor(
-    private val exchangeAct: ExchangeAct,
+    private val exchangeAct: ExchangeActOld,
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct
 ) : FPAction<AccountDataAct.Input, List<AccountData>>() {
@@ -28,7 +28,7 @@ class AccountDataAct @Inject constructor(
 
         val balanceBaseCurrency = if (acc.currency != baseCurrency) {
             exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
                         fromCurrency = acc.currency.toOption()

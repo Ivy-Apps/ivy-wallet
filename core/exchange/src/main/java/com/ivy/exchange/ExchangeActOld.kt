@@ -6,9 +6,10 @@ import com.ivy.frp.then
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class ExchangeAct @Inject constructor(
+@Deprecated("use `ExchangeAct`")
+class ExchangeActOld @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao,
-) : FPAction<ExchangeAct.Input, Option<BigDecimal>>() {
+) : FPAction<ExchangeActOld.Input, Option<BigDecimal>>() {
     override suspend fun Input.compose(): suspend () -> Option<BigDecimal> = suspend {
         exchange(
             data = data,
@@ -28,7 +29,7 @@ class ExchangeAct @Inject constructor(
 fun actInput(
     data: ExchangeData,
     amount: BigDecimal
-): ExchangeAct.Input = ExchangeAct.Input(
+): ExchangeActOld.Input = ExchangeActOld.Input(
     data = data,
     amount = amount
 )

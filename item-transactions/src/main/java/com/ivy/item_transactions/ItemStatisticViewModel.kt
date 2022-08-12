@@ -12,7 +12,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.ExchangeData
 import com.ivy.exchange.ExchangeRateDao
 import com.ivy.frp.test.TestIdlingResource
@@ -70,7 +70,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val calcAccBalanceAct: CalcAccBalanceAct,
     private val calcAccIncomeExpenseAct: CalcAccIncomeExpenseAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : ViewModel() {
 
     private val _period = MutableStateFlow(ivyContext.selectedPeriod)
@@ -224,7 +224,7 @@ class ItemStatisticViewModel @Inject constructor(
         _balance.value = balance
         if (baseCurrency.value != currency.value) {
             _balanceBaseCurrency.value = exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency.value,
                         fromCurrency = currency.value.toOption()

@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.action.viewmodel.home
 import com.ivy.common.dateNowUTC
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.ExchangeAct
+import com.ivy.exchange.ExchangeActOld
 import com.ivy.exchange.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.lambda
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class DueTrnsInfoAct @Inject constructor(
     private val dueTrnsAct: DueTrnsAct,
     private val accountByIdAct: AccountByIdAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : FPAction<DueTrnsInfoAct.Input, DueTrnsInfoAct.Output>() {
 
     override suspend fun Input.compose(): suspend () -> Output =
