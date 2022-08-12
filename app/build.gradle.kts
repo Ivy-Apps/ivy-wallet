@@ -151,7 +151,7 @@ dependencies {
     implementation(project(":temp-network"))
     implementation(project(":billing"))
     implementation(project(":android-notifications"))
-    implementation(project(":exchange"))
+    implementation(project(":core:exchange"))
 
     Hilt()
 
