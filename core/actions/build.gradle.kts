@@ -12,6 +12,6 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":temp-persistence"))
     implementation(project(":core:functions"))
-    implementation(project(":core:exchange"))
+    implementation(project(":core:exchange-provider"))
     implementation(project(":sync:public"))
 }

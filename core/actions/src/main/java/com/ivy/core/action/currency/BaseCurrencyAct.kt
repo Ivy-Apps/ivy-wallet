@@ -1,6 +1,7 @@
 package com.ivy.core.action.currency
 
 import com.ivy.core.functions.getDefaultCurrencyCode
+import com.ivy.data.CurrencyCode
 import com.ivy.frp.action.FPAction
 import com.ivy.state.baseCurrencyUpdate
 import com.ivy.state.readIvyState
@@ -10,14 +11,14 @@ import javax.inject.Inject
 
 class BaseCurrencyAct @Inject constructor(
     private val settingsDao: SettingsDao
-) : FPAction<Unit, String>() {
-    override suspend fun Unit.compose(): suspend () -> String = {
+) : FPAction<Unit, CurrencyCode>() {
+    override suspend fun Unit.compose(): suspend () -> CurrencyCode = {
         readIvyState().baseCurrency ?: loadBaseCurrency().also {
             writeIvyState(baseCurrencyUpdate(it))
         }
     }
 
-    private suspend fun loadBaseCurrency(): String =
+    private suspend fun loadBaseCurrency(): CurrencyCode =
         settingsDao.findAll().firstOrNull()?.currency ?: getDefaultCurrencyCode()
 
 }

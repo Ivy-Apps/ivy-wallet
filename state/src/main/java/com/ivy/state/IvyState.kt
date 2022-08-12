@@ -1,5 +1,6 @@
 package com.ivy.state
 
+import com.ivy.data.CurrencyCode
 import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
@@ -11,8 +12,6 @@ private var state = IvyState(
     baseCurrency = null,
     exchangeRates = null,
 )
-
-typealias CurrencyCode = String
 
 data class IvyState(
     val accounts: List<Account>?,
@@ -56,9 +55,9 @@ fun periodUpdate(newPeriod: Period?): () -> IvyState = {
     )
 }
 
-fun exchangeRatesUpdate(newExchangeRate: Map<CurrencyCode, Double>?): () -> IvyState = {
+fun exchangeRatesUpdate(newExchangeRates: Map<CurrencyCode, Double>?): () -> IvyState = {
     readIvyState().copy(
-        exchangeRates = newExchangeRate
+        exchangeRates = newExchangeRates
     )
 }
 

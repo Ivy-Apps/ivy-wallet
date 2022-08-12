@@ -8,13 +8,19 @@ import androidx.room.Query
 @Dao
 interface ExchangeRateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(value: com.ivy.exchange.ExchangeRateEntity)
+    suspend fun save(value: ExchangeRateEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun save(values: List<ExchangeRateEntity>)
+
+    @Query("SELECT * FROM exchange_rates")
+    suspend fun findAll(): List<ExchangeRateEntity>
 
     @Query("SELECT * FROM exchange_rates WHERE baseCurrency = :baseCurrency AND currency = :currency")
     suspend fun findByBaseCurrencyAndCurrency(
         baseCurrency: String,
         currency: String
-    ): com.ivy.exchange.ExchangeRateEntity?
+    ): ExchangeRateEntity?
 
     @Query("DELETE FROM exchange_rates")
     suspend fun deleteALl()

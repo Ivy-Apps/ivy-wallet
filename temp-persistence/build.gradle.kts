@@ -29,5 +29,5 @@ dependencies {
     RoomDB(api = true)
     Gson(api = false)
 
-    implementation(project(":core:exchange"))
+    implementation(project(":core:exchange-provider"))
 }

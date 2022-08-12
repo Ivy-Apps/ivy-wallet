@@ -1,14 +1,15 @@
 package com.ivy.exchange
 
+import com.ivy.data.CurrencyCode
 import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface CoinbaseService {
     companion object {
         fun exchangeRatesUrl(
-            baseCurrencyCode: String
+            baseCurrency: CurrencyCode
         ): String {
-            return "https://api.coinbase.com/v2/exchange-rates?currency=${baseCurrencyCode}"
+            return "https://api.coinbase.com/v2/exchange-rates?currency=${baseCurrency}"
         }
     }
 
