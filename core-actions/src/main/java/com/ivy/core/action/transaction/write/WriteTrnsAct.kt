@@ -2,9 +2,10 @@ package com.ivy.core.action.transaction.write
 
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
+import com.ivy.frp.asParamTo
 import com.ivy.sync.SyncTask
 import com.ivy.sync.syncTaskFrom
-import com.ivy.sync.transaction.SyncTrnAct
+import com.ivy.sync.transaction.SyncTrnsAct
 import com.ivy.sync.transaction.mark
 import com.ivy.temp.persistence.IOEffect
 import com.ivy.temp.persistence.mapToEntity
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class WriteTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao,
-    private val syncTrnAct: SyncTrnAct
+    private val syncTrnsAct: SyncTrnsAct
 ) : FPAction<IOEffect<List<Transaction>>, SyncTask>() {
     override suspend fun IOEffect<List<Transaction>>.compose(): suspend () -> SyncTask = {
         when (this) {
@@ -21,12 +22,7 @@ class WriteTrnsAct @Inject constructor(
             is IOEffect.Delete -> delete(trns = item)
         }
 
-        syncTaskFrom {
-            when (this) {
-                is IOEffect.Delete -> item.map { IOEffect.Delete(it) }
-                is IOEffect.Save -> item.map { IOEffect.Save(it) }
-            }.forEach { syncTrnAct(it) }
-        }
+        syncTaskFrom(this asParamTo syncTrnsAct)
     }
 
     private suspend fun save(trns: List<Transaction>) = persist(

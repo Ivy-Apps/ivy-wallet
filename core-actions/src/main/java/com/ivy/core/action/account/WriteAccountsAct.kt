@@ -7,7 +7,7 @@ import com.ivy.state.accountsUpdate
 import com.ivy.state.invalidate
 import com.ivy.state.writeIvyState
 import com.ivy.sync.SyncTask
-import com.ivy.sync.account.SyncAccountAct
+import com.ivy.sync.account.SyncAccountsAct
 import com.ivy.sync.account.mark
 import com.ivy.sync.syncTaskFrom
 import com.ivy.temp.persistence.IOEffect
@@ -16,26 +16,21 @@ import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import javax.inject.Inject
 
-class WriteAccountAct @Inject constructor(
+class WriteAccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val transactionDao: TransactionDao,
-    private val syncAccountAct: SyncAccountAct
-) : FPAction<IOEffect<Account>, SyncTask>() {
-    override suspend fun IOEffect<Account>.compose(): suspend () -> SyncTask = {
+    private val syncAccountsAct: SyncAccountsAct
+) : FPAction<IOEffect<List<Account>>, SyncTask>() {
+    override suspend fun IOEffect<List<Account>>.compose(): suspend () -> SyncTask = {
         when (this) {
-            is IOEffect.Delete -> delete(item)
-            is IOEffect.Save -> persist(
-                item.mark(
-                    isSynced = false,
-                    isDeleted = false
-                )
-            )
+            is IOEffect.Delete -> item.forEach { delete(it) }
+            is IOEffect.Save -> item.forEach { save(it) }
         }
 
         // Invalidate cache
         writeIvyState(accountsUpdate(invalidate()))
 
-        syncTaskFrom(this asParamTo syncAccountAct)
+        syncTaskFrom(this asParamTo syncAccountsAct)
     }
 
     private suspend fun delete(account: Account) {
@@ -48,5 +43,15 @@ class WriteAccountAct @Inject constructor(
         )
     }
 
-    private suspend fun persist(acc: Account) = accountDao.save(mapToEntity(acc))
+    private suspend fun save(account: Account) {
+        persist(
+            account.mark(
+                isSynced = false,
+                isDeleted = false
+            )
+        )
+    }
+
+    private suspend fun persist(item: Account) =
+        accountDao.save(mapToEntity(item))
 }

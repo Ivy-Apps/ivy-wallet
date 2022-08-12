@@ -10,7 +10,4 @@ plugins {
 dependencies {
     Hilt()
     implementation(project(":common"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":core-functions"))
-    implementation(project(":sync:public"))
 }

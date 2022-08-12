@@ -12,4 +12,5 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":temp-persistence"))
     implementation(project(":network"))
+    implementation(project(":sync:base"))
 }

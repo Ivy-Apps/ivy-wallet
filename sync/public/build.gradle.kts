@@ -11,6 +11,6 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     implementation(project(":temp-persistence"))
-    implementation(project(":core-functions"))
-    implementation(project(":sync:public"))
+    implementation(project(":sync:base"))
+    implementation(project(":sync:ivy-server"))
 }
