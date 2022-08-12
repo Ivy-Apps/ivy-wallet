@@ -5,8 +5,8 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
 import arrow.core.toOption
-import com.ivy.exchange.ExchangeData
-import com.ivy.exchange.ExchangeRate
+import com.ivy.exchange.cache.ExchangeRate
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import java.math.BigDecimal

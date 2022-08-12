@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.billing.IvyBilling
-import com.ivy.exchange.ExchangeRateDao
+import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.notifications.NotificationService

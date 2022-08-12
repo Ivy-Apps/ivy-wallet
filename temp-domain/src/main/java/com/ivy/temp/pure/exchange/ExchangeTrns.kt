@@ -4,7 +4,7 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.pure.account.accountCurrency

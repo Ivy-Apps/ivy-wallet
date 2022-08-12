@@ -1,7 +1,7 @@
 package com.ivy.core.action.currency.exchange
 
 import com.ivy.data.CurrencyCode
-import com.ivy.exchange.ExchangeRateDao
+import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then

@@ -2,9 +2,9 @@ package com.ivy.core.action.currency.exchange
 
 import com.ivy.core.action.currency.BaseCurrencyAct
 import com.ivy.data.CurrencyCode
-import com.ivy.exchange.ExchangeRateDao
-import com.ivy.exchange.ExchangeRateEntity
 import com.ivy.exchange.api.ExchangeProvider
+import com.ivy.exchange.cache.ExchangeRateDao
+import com.ivy.exchange.cache.ExchangeRateEntity
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.asParamTo
 import com.ivy.frp.fixUnit

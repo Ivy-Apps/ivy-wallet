@@ -12,8 +12,8 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.exchange.ExchangeActOld
-import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel

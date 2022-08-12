@@ -3,8 +3,8 @@ package com.ivy.wallet.io.persistence
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import com.ivy.exchange.ExchangeRateDao
-import com.ivy.exchange.ExchangeRateEntity
+import com.ivy.exchange.cache.ExchangeRateDao
+import com.ivy.exchange.cache.ExchangeRateEntity
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*

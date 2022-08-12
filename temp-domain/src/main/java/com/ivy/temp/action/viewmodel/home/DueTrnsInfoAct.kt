@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.action.viewmodel.home
 import com.ivy.common.dateNowUTC
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.ExchangeActOld
-import com.ivy.exchange.actInput
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.lambda
 import com.ivy.frp.then

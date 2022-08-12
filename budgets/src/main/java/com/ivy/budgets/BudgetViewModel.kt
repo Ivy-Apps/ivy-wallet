@@ -13,8 +13,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.exchange.ExchangeActOld
-import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.sumOfSuspend
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsActOld

@@ -1,6 +1,7 @@
-package com.ivy.exchange
+package com.ivy.exchange.deprecated
 
 import arrow.core.Option
+import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import java.math.BigDecimal

@@ -1,4 +1,4 @@
-package com.ivy.exchange
+package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
 import retrofit2.http.GET

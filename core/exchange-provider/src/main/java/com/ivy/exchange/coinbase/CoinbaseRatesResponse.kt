@@ -1,4 +1,4 @@
-package com.ivy.exchange
+package com.ivy.exchange.coinbase
 
 data class CoinbaseRatesResponse(
     val data: ExchangeRatesData

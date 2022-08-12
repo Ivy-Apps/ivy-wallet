@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.pure.data
 
-import com.ivy.exchange.ExchangeRateDao
+import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 

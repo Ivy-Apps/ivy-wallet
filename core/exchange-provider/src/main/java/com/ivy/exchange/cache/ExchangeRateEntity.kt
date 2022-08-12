@@ -1,4 +1,4 @@
-package com.ivy.exchange
+package com.ivy.exchange.cache
 
 import androidx.room.Entity
 

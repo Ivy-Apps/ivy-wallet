@@ -1,7 +1,6 @@
 package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
-import com.ivy.exchange.CoinbaseService
 import com.ivy.exchange.api.ExchangeProvider
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
