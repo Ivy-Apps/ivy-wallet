@@ -1,6 +1,6 @@
 package com.ivy.exchange.di
 
-import com.ivy.exchange.api.ExchangeProvider
+import com.ivy.exchange.ExchangeProvider
 import com.ivy.exchange.coinbase.CoinbaseExchangeProvider
 import dagger.Binds
 import dagger.Module

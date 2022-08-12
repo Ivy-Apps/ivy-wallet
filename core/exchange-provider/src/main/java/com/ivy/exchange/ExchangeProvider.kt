@@ -1,4 +1,4 @@
-package com.ivy.exchange.api
+package com.ivy.exchange
 
 import com.ivy.data.CurrencyCode
 

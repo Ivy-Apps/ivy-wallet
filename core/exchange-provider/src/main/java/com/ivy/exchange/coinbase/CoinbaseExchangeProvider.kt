@@ -1,7 +1,7 @@
 package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
-import com.ivy.exchange.api.ExchangeProvider
+import com.ivy.exchange.ExchangeProvider
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
 import com.ivy.frp.monad.mapError
