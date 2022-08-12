@@ -5,7 +5,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 
-@Deprecated("Use AccountsAct from `:core-actions`")
+@Deprecated("Use AccountsAct from `:core:actions`")
 class AccountsActOld @Inject constructor(
     private val accountDao: AccountDao
 ) : FPAction<Unit, List<AccountOld>>() {

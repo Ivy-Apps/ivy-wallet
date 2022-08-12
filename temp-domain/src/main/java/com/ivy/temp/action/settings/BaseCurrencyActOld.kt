@@ -4,7 +4,7 @@ import com.ivy.frp.action.FPAction
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import javax.inject.Inject
 
-@Deprecated("Use BaseCurrencyAct from `:core-actions`")
+@Deprecated("Use BaseCurrencyAct from `:core:actions`")
 class BaseCurrencyActOld @Inject constructor(
     private val settingsDao: SettingsDao
 ) : FPAction<Unit, String>() {
