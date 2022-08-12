@@ -17,24 +17,24 @@ data class ExchangeData(
 
 @Pure
 suspend fun exchange(
-    data: ExchangeData,
-    amount: BigDecimal,
+    baseCurrency: String,
+    fromCurrency: String,
+    toCurrency: String,
+    amount: Double,
 
     @SideEffect
     getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
-): Option<BigDecimal> = option {
-    if (amount == BigDecimal.ZERO) {
-        return@option BigDecimal.ZERO
+): Option<Double> = option {
+    if (amount == 0.0) {
+        return@option 0.0
     }
 
-    val fromCurrency = data.fromCurrency.bind().validateCurrency().bind()
-    val toCurrency = data.toCurrency.validateCurrency().bind()
 
     if (fromCurrency == toCurrency) {
         return@option amount
     }
 
-    when (val baseCurrency = data.baseCurrency.validateCurrency().bind()) {
+    when (val validBaseCurrency = baseCurrency.validateCurrency().bind()) {
         fromCurrency -> {
             //exchange from base currency to other currency
             //we need the rate from baseCurrency to toCurrency
@@ -73,12 +73,89 @@ suspend fun exchange(
             //that's the only possible case left because we already checked "fromCurrency == toCurrency"
 
             val rateBaseFrom = validExchangeRate(
-                baseCurrency = baseCurrency,
+                baseCurrency = validBaseCurrency,
                 toCurrency = fromCurrency,
                 retrieveExchangeRate = getExchangeRate
             ).bind()
 
             val rateBaseTo = validExchangeRate(
+                baseCurrency = validBaseCurrency,
+                toCurrency = toCurrency,
+                retrieveExchangeRate = getExchangeRate
+            ).bind()
+
+            //Convert: toBaseCurrency -> toToCurrency
+            val amountBaseCurrency = amount / rateBaseFrom
+            amountBaseCurrency * rateBaseTo
+        }
+    }
+}
+
+@Deprecated("use `exchange`")
+@Pure
+suspend fun exchangeOld(
+    data: ExchangeData,
+    amount: BigDecimal,
+
+    @SideEffect
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
+): Option<BigDecimal> = option {
+    if (amount == BigDecimal.ZERO) {
+        return@option BigDecimal.ZERO
+    }
+
+    val fromCurrency = data.fromCurrency.bind().validateCurrency().bind()
+    val toCurrency = data.toCurrency.validateCurrency().bind()
+
+    if (fromCurrency == toCurrency) {
+        return@option amount
+    }
+
+    when (val baseCurrency = data.baseCurrency.validateCurrency().bind()) {
+        fromCurrency -> {
+            //exchange from base currency to other currency
+            //we need the rate from baseCurrency to toCurrency
+            val rateFromTo = validExchangeRateOld(
+                baseCurrency = fromCurrency, //fromCurrency = baseCurrency
+                toCurrency = toCurrency,
+                retrieveExchangeRate = getExchangeRate
+            ).bind()
+
+            //toAmount = fromAmount * rateFromTo
+            amount * rateFromTo
+        }
+        toCurrency -> {
+            //exchange from other currency to base currency
+            //we'll get the rate to
+
+            val rateToFrom = validExchangeRateOld(
+                baseCurrency = toCurrency, //toCurrency = baseCurrency
+                toCurrency = fromCurrency,
+                retrieveExchangeRate = getExchangeRate
+            ).bind()
+
+            /*
+            Example: fromA = 10 fromC = EUR; toC = BGN
+            rateToFrom = rate (BGN EUR) ~= 0.51
+
+            Formula: (10 EUR / 0.51 ~= 19.67)
+                fromAmount / rateToFrom
+
+            EXPECTED: 10 EUR ~= 19.67 BGN
+             */
+            amount / rateToFrom
+        }
+        else -> {
+            //exchange from other currency to other currency
+            //that's the only possible case left because we already checked "fromCurrency == toCurrency"
+
+            val rateBaseFrom = validExchangeRateOld(
+                baseCurrency = baseCurrency,
+                toCurrency = fromCurrency,
+                retrieveExchangeRate = getExchangeRate
+            ).bind()
+
+            val rateBaseTo = validExchangeRateOld(
                 baseCurrency = baseCurrency,
                 toCurrency = toCurrency,
                 retrieveExchangeRate = getExchangeRate
@@ -101,7 +178,7 @@ suspend fun validExchangeRate(
     baseCurrency: String,
     toCurrency: String,
     retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
-): Option<BigDecimal> = option {
+): Option<Double> = option {
     retrieveExchangeRate(
         baseCurrency, toCurrency
     ).toOption().bind()
@@ -109,7 +186,20 @@ suspend fun validExchangeRate(
 }
 
 @Pure
-fun ExchangeRate.validateRate(): Option<BigDecimal> {
+suspend fun validExchangeRateOld(
+    baseCurrency: String,
+    toCurrency: String,
+    retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
+): Option<BigDecimal> = option {
+    retrieveExchangeRate(
+        baseCurrency, toCurrency
+    ).toOption().bind()
+        .validateRate().bind()
+        .toBigDecimal()
+}
+
+@Pure
+fun ExchangeRate.validateRate(): Option<Double> {
     //exchange rate which <= 0 is invalid!
-    return if (rate > 0) return Some(rate.toBigDecimal()) else None
+    return if (rate > 0) return Some(rate) else None
 }

@@ -1,4 +1,4 @@
-package com.ivy.core.action
+package com.ivy.core.action.currency
 
 import com.ivy.core.functions.getDefaultCurrencyCode
 import com.ivy.frp.action.FPAction

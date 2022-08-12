@@ -15,6 +15,9 @@ interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: List<SettingsEntity>)
 
+    @Query("UPDATE settings SET currency = :currencyCode")
+    suspend fun updateBaseCurrency(currencyCode: String)
+
     @Query("SELECT * FROM settings LIMIT 1")
     suspend fun findFirst(): SettingsEntity
 

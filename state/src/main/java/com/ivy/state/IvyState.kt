@@ -8,14 +8,21 @@ private var state = IvyState(
     accounts = null,
     categories = null,
     period = null,
-    baseCurrency = null
+    baseCurrency = null,
+    exchangeRates = null,
 )
+
+typealias CurrencyCode = String
 
 data class IvyState(
     val accounts: List<Account>?,
     val categories: List<Category>?,
     val period: Period?,
-    val baseCurrency: String?
+    val baseCurrency: String?,
+    /**
+     * The exchange rate baseCurrency <> CurrencyCode.
+     */
+    val exchangeRates: Map<CurrencyCode, Double>?
 )
 
 fun readIvyState(): IvyState = state
@@ -46,6 +53,12 @@ fun categoriesUpdate(newCategories: List<Category>?): () -> IvyState = {
 fun periodUpdate(newPeriod: Period?): () -> IvyState = {
     readIvyState().copy(
         period = newPeriod
+    )
+}
+
+fun exchangeRatesUpdate(newExchangeRate: Map<CurrencyCode, Double>?): () -> IvyState = {
+    readIvyState().copy(
+        exchangeRates = newExchangeRate
     )
 }
 
