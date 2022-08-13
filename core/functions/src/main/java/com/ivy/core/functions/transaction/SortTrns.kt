@@ -2,9 +2,10 @@ package com.ivy.core.functions.transaction
 
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnTime
+import java.time.LocalDateTime
 
-fun sortTrns(trns: List<Transaction>): List<Transaction> =
+fun chronological(trns: List<Transaction>): List<Transaction> =
     trns.sortedWith(
-        compareByDescending<Transaction> { (it.time as? TrnTime.Due)?.due }
+        compareBy<Transaction, LocalDateTime?>(nullsLast()) { (it.time as? TrnTime.Due)?.due }
             .thenByDescending { (it.time as? TrnTime.Actual)?.actual }
     )

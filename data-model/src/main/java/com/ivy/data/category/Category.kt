@@ -5,6 +5,8 @@ import com.ivy.data.IvyIcon
 import java.util.*
 
 data class Category(
+    val id: UUID,
+
     val name: String,
     val parentCategoryId: UUID?,
 
@@ -13,6 +15,4 @@ data class Category(
     val icon: IvyIcon?,
 
     val metadata: CategoryMetadata,
-
-    val id: UUID
 )
