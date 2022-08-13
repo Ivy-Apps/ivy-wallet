@@ -1,7 +1,10 @@
 package com.ivy.core.functions.transaction
 
+import com.ivy.common.endOfIvyTime
+import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
+import com.ivy.core.functions.toRange
 import com.ivy.core.functions.transaction.TrnQuery.*
 import com.ivy.data.Period
 import com.ivy.data.transaction.TrnType
@@ -14,6 +17,7 @@ import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
 
 class TrnSelectQueryTest : StringSpec({
+    //region generators
     val genById = arbitrary {
         val id = Arb.uuid().bind()
         ById(id)
@@ -95,7 +99,24 @@ class TrnSelectQueryTest : StringSpec({
 
     val genRecursiveAnd = recursiveQuery(gen = genSimpleQuery, block = ::And)
     val genRecursiveOr = recursiveQuery(gen = genSimpleQuery, ::Or)
+    //endregion
 
+    //region test cases
+    //TODO: Add "case complex query"
+
+    "case 'Upcoming By Category' query" {
+        val theFuture = timeNowUTC().plusSeconds(1)
+        val category = dummyCategory()
+
+        val query = DueBetween(Period.After(theFuture)) and ByCategory(category)
+        val where = toWhereClause(query)
+
+        where.query shouldBe "(dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
+        where.args shouldBe listOf(theFuture, endOfIvyTime(), category.id)
+    }
+    //endregion
+
+    //region property-based
     "generate ById" {
         val byId = genById.next()
         toWhereClause(byId) shouldBe WhereClause(
@@ -139,7 +160,7 @@ class TrnSelectQueryTest : StringSpec({
             val where = toWhereClause(actualBetween)
             where.query shouldBe "(dateTime >= ? AND dateTime <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe listOf(where.args[0], where.args[1])
+            where.args shouldBe actualBetween.period.toRange().toList()
         }
     }
 
@@ -148,7 +169,7 @@ class TrnSelectQueryTest : StringSpec({
             val where = toWhereClause(dueBetween)
             where.query shouldBe "(dueDate >= ? AND dueDate <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe listOf(where.args[0], where.args[1])
+            where.args shouldBe dueBetween.period.toRange().toList()
         }
     }
 
@@ -219,4 +240,5 @@ class TrnSelectQueryTest : StringSpec({
             collect("args_count", res.args.size)
         }
     }
+    //endregion
 })
