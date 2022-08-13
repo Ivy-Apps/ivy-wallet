@@ -8,10 +8,7 @@ plugins {
     id("com.google.firebase.crashlytics")
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
-
-    // Kotest Plugin
-    // https://github.com/kotest/kotest-gradle-plugin
-    id("io.kotest") version "0.3.8"
+    id("io.kotest")
 }
 
 android {

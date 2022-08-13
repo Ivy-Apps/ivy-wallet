@@ -58,37 +58,6 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
-
-        <receiver android:name=".ui.widget.AddTransactionWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/add_transaction_widget_info" />
-        </receiver>
-
-        <receiver android:name=".ui.widget.AddTransactionWidgetCompact">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/add_transaction_widget_compact_info" />
-        </receiver>
-
-        <receiver
-            android:name=".ui.widget.WalletBalanceReceiver"
-            android:enabled="@bool/glance_appwidget_available"
-            android:label="@string/wallet_balance"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/wallet_balance_widget_info" />
-        </receiver>
     </application>
 
 </manifest>

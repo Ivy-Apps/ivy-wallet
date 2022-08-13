@@ -431,6 +431,7 @@ fun DependencyHandler.Kotest() {
     testDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-framework-api-jvm:${Versions.kotest}", api = api)
+    testImplementation("io.kotest:kotest-framework-engine-jvm:${Versions.kotest}")
 
     //otherwise Kotest doesn't work...
     testDependency("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}", api = api)
