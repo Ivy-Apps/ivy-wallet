@@ -16,6 +16,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
+import com.ivy.common.timeNowUTC
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.Navigation
@@ -24,7 +25,6 @@ import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.utils.timeNowUTC
 import com.ivy.wallet.utils.toEpochMilli
 import com.ivy.wallet.utils.toEpochSeconds
 import dagger.hilt.android.testing.HiltAndroidRule

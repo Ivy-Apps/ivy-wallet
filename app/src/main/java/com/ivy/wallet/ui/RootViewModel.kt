@@ -22,7 +22,6 @@ import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.readOnly
-import com.ivy.wallet.utils.sendToCrashlytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -154,7 +153,6 @@ class RootViewModel @Inject constructor(
 
             },
             onError = { code, msg ->
-                sendToCrashlytics("IvyActivity Billing error: code=$code: $msg")
                 Timber.e("Billing error code=$code: $msg")
             }
         )
