@@ -39,7 +39,8 @@ class StatsAct @Inject constructor(
             income = income,
             expense = expense,
             incomesCount = res[2].toInt(),
-            expensesCount = res[3].toInt()
+            expensesCount = res[3].toInt(),
+            trns = trns
         )
     }
 

@@ -4,6 +4,7 @@ import com.ivy.core.action.calculate.Stats
 import com.ivy.core.action.calculate.StatsAct
 import com.ivy.core.action.transaction.read.TrnsAct
 import com.ivy.core.functions.allTime
+import com.ivy.core.functions.transaction.sortTrns
 import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.frp.action.FPAction
@@ -38,7 +39,8 @@ class AccStatsAct @Inject constructor(
             incomesCount = if (transfersAsIncomeExpense)
                 stats.incomesCount + tIn.transfersIn.size else stats.incomesCount,
             expensesCount = if (transfersAsIncomeExpense)
-                stats.expensesCount + tOut.transfersOut.size else stats.expensesCount
+                stats.expensesCount + tOut.transfersOut.size else stats.expensesCount,
+            trns = sortTrns(stats.trns + tIn.transfersIn + tOut.transfersOut)
         )
     }
 
