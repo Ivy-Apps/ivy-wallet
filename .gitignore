@@ -84,4 +84,5 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
+**/lint-report.html
 # lint/reports/

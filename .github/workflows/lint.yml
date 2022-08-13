@@ -65,8 +65,9 @@ jobs:
         run: bundle exec fastlane lint_release
 
       - name: Upload Lint Release report to GitHub
+        if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+          name: lint-report.html
+          path: app/lint-merged-report.html
       #------------------------------------------------------------------

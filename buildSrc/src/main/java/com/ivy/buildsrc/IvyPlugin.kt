@@ -26,6 +26,9 @@ abstract class IvyPlugin : Plugin<Project> {
         }
     }
 
+    /**
+     * Global lint configuration
+     */
     private fun lint(project: Project) {
         project.androidLibrary().lint {
             disable.add("MissingTranslation")
