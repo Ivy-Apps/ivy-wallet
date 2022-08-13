@@ -27,7 +27,7 @@ class AccountsAct @Inject constructor(
             Account(
                 id = it.id,
                 name = it.name,
-                currencyCode = it.currency ?: baseCurrency,
+                currency = it.currency ?: baseCurrency,
                 color = it.color,
                 icon = it.icon,
                 excluded = !it.includeInBalance,

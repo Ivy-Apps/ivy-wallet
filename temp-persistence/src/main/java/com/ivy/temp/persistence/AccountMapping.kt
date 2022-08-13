@@ -6,7 +6,7 @@ import com.ivy.wallet.io.persistence.data.AccountEntity
 fun mapToEntity(acc: Account): AccountEntity = AccountEntity(
     id = acc.id,
     name = acc.name,
-    currency = acc.currencyCode,
+    currency = acc.currency,
     color = acc.color,
     icon = acc.icon,
     orderNum = acc.metadata.orderNum,

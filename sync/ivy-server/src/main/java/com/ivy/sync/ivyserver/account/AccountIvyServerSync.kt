@@ -46,7 +46,7 @@ class AccountIvyServerSync @Inject constructor(
     private fun mapToDTO(acc: Account): AccountDTO = AccountDTO(
         id = acc.id,
         name = acc.name,
-        currency = acc.currencyCode,
+        currency = acc.currency,
         color = acc.color,
         icon = acc.icon,
         orderNum = acc.metadata.orderNum,

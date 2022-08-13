@@ -20,6 +20,7 @@ class ExchangeAct @Inject constructor(
     }
 
     private suspend fun Input.exchange() = option {
+        if (from == to) return@option amount
         if (amount == 0.0) return@option 0.0
 
         val rate = exchangeRateAct(

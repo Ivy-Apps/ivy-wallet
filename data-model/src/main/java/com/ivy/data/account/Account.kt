@@ -9,7 +9,7 @@ data class Account(
     val id: UUID,
 
     val name: String,
-    val currencyCode: CurrencyCode,
+    val currency: CurrencyCode,
 
     @ColorInt
     val color: Int,
