@@ -1,4 +1,4 @@
-name: Lint
+name: Build
 
 # Controls when the workflow will run
 on:
@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  lint:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -50,14 +50,7 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      # Check: Lint
-      - name: Lint
-        run: ./gradlew lint
-
-      - name: Upload Lint report to GitHub (see artificats)
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: lint-report.html
-          path: app/lint-merged-report.html
+      # RUN
+      - name: Build
+        run: ./gradlew build
       #------------------------------------------------------------------
