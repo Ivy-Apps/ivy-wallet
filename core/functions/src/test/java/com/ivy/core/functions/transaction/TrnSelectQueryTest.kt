@@ -8,6 +8,7 @@ import com.ivy.data.transaction.TrnType
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
+import io.kotest.property.PropertyContext
 import io.kotest.property.arbitrary.*
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
@@ -47,7 +48,7 @@ class TrnSelectQueryTest : StringSpec({
         DueBetween(period = genPeriod.bind())
     }
 
-    val genCoreQuery = Arb.choice(
+    val genSimpleQuery = Arb.choice(
         listOf(
             genById,
             genByType,
@@ -60,18 +61,40 @@ class TrnSelectQueryTest : StringSpec({
 
     val genNonRecursiveAnd = arbitrary {
         And(
-            cond1 = genCoreQuery.bind(),
-            cond2 = genCoreQuery.bind()
+            cond1 = genSimpleQuery.bind(),
+            cond2 = genSimpleQuery.bind()
         )
     }
 
     val genNonRecursiveOr = arbitrary {
         Or(
-            cond1 = genCoreQuery.bind(),
-            cond2 = genCoreQuery.bind()
+            cond1 = genSimpleQuery.bind(),
+            cond2 = genSimpleQuery.bind()
         )
     }
 
+    fun <T : TrnQuery> recursiveQuery(
+        gen: Arb<TrnQuery>,
+        block: (TrnQuery, TrnQuery) -> T
+    ): Arb<T> {
+        fun build(
+            cond: TrnQuery,
+            block: (TrnQuery, TrnQuery) -> T
+        ): Arb<T> = arbitrary {
+            if (Arb.boolean().bind()) {
+                // recurse
+                block(cond, build(gen.bind(), block).bind())
+            } else {
+                // stop recursion
+                block(cond, gen.bind())
+            }
+        }
+
+        return build(gen.next(), block)
+    }
+
+    val genRecursiveAnd = recursiveQuery(gen = genSimpleQuery, block = ::And)
+    val genRecursiveOr = recursiveQuery(gen = genSimpleQuery, ::Or)
 
     "generate ById" {
         val byId = genById.next()
@@ -130,7 +153,7 @@ class TrnSelectQueryTest : StringSpec({
     }
 
     "generate Brackets" {
-        checkAll(genCoreQuery) { cond ->
+        checkAll(genSimpleQuery) { cond ->
             val res = toWhereClause(Brackets(cond))
             val condWhere = toWhereClause(cond)
             res.query shouldBe "(${condWhere.query})"
@@ -157,6 +180,43 @@ class TrnSelectQueryTest : StringSpec({
 
             res.query shouldBe "${whereCond1.query} OR ${whereCond2.query}"
             res.args shouldBe (whereCond1.args + whereCond2.args)
+        }
+    }
+
+    fun PropertyContext.labelRecursive(label: String, trnQuery: TrnQuery) {
+        collect(
+            label, when (trnQuery) {
+                is And, is Brackets, is Or -> "RECURSIVE"
+                else -> "NON-RECURSIVE"
+            }
+        )
+    }
+
+    "generate recursive And" {
+        checkAll(genRecursiveAnd) { and ->
+            val res = toWhereClause(and)
+            val whereCond1 = toWhereClause(and.cond1)
+            val whereCond2 = toWhereClause(and.cond2)
+
+            res.query shouldBe "${whereCond1.query} AND ${whereCond2.query}"
+            res.args shouldBe (whereCond1.args + whereCond2.args)
+
+            labelRecursive("cond2", and.cond2)
+            collect("args_count", res.args.size)
+        }
+    }
+
+    "generate recursive Or" {
+        checkAll(genRecursiveOr) { or ->
+            val res = toWhereClause(or)
+            val whereCond1 = toWhereClause(or.cond1)
+            val whereCond2 = toWhereClause(or.cond2)
+
+            res.query shouldBe "${whereCond1.query} OR ${whereCond2.query}"
+            res.args shouldBe (whereCond1.args + whereCond2.args)
+
+            labelRecursive("cond2", or.cond2)
+            collect("args_count", res.args.size)
         }
     }
 })
