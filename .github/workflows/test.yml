@@ -17,6 +17,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Fix GitHub Actions crashing with:
+    # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
