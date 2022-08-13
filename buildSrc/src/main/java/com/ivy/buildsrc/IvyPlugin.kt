@@ -13,11 +13,22 @@ abstract class IvyPlugin : Plugin<Project> {
         addKotlinCompilerArgs(project)
         setProjectSdkVersions(project)
 
+        kotest(project)
+        lint(project)
+    }
+
+    private fun kotest(project: Project) {
         val library = project.androidLibrary()
         library.testOptions {
             unitTests.all {
                 it.useJUnitPlatform()
             }
+        }
+    }
+
+    private fun lint(project: Project) {
+        project.androidLibrary().lint {
+            disable.add("MissingTranslation")
         }
     }
 
