@@ -25,6 +25,10 @@ tasks {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 // Any of parameter of this task can be passed on or changed when running the gradle task as parameter
 tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
     outputFormatter = "html"

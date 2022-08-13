@@ -166,6 +166,7 @@ dependencies {
     RoomDB(api = false)
 
     Networking(api = false)
+    Testing()
 
     DataStore(api = false)
 
