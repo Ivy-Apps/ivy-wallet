@@ -126,9 +126,9 @@ fun endOfMonth(date: LocalDate): LocalDateTime =
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)
 
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.now().minusYears(99)
+fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.of(1990, 1, 1, 0, 0)
 
-fun endOfIvyTime(): LocalDateTime = timeNowUTC().plusYears(99)
+fun endOfIvyTime(): LocalDateTime = LocalDateTime.of(2050, 1, 1, 0, 0)
 
 fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
     val maxDayOfMonth = this.lengthOfMonth()
