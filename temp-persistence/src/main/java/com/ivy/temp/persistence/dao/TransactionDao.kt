@@ -1,9 +1,7 @@
 package com.ivy.wallet.io.persistence.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
@@ -221,4 +219,7 @@ interface TransactionDao {
     suspend fun findAllByLoanId(
         loanId: UUID
     ): List<TransactionEntity>
+
+    @RawQuery
+    suspend fun findByQuery(query: SupportSQLiteQuery): List<TransactionEntity>
 }
