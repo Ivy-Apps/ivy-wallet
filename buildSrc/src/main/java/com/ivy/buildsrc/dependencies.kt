@@ -67,7 +67,9 @@ object Versions {
     const val composeCoil = "2.1.0"
 
     const val arrow: String = "1.0.1"
-    const val kotest: String = "5.1.0"
+
+    //https://kotest.io/
+    const val kotest: String = "5.4.2"
     const val junitJupiter: String = "5.8.2"
 
     //https://developer.android.com/training/dependency-injection/hilt-android
@@ -399,8 +401,6 @@ fun DependencyHandler.Timber(api: Boolean) {
 
 fun DependencyHandler.FunctionalProgramming(api: Boolean) {
     Arrow(api)
-
-    Kotest(api)
 }
 
 /**
@@ -416,15 +416,21 @@ fun DependencyHandler.Arrow(
 //    dependency("io.arrow-kt:arrow-optics")
 }
 
+fun DependencyHandler.Testing() {
+    Kotest()
+}
+
 /**
  * Kotlin Property-based testing
  */
-fun DependencyHandler.Kotest(api: Boolean) {
+fun DependencyHandler.Kotest() {
+    val api = false //TODO: Kotest API does not work
     //junit5 is required!
     testDependency("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}", api = api)
     testDependency("io.kotest:kotest-runner-junit5:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
+    testDependency("io.kotest:kotest-framework-api-jvm:${Versions.kotest}", api = api)
 
     //otherwise Kotest doesn't work...
     testDependency("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}", api = api)

@@ -12,6 +12,13 @@ abstract class IvyPlugin : Plugin<Project> {
         applyPlugins(project)
         addKotlinCompilerArgs(project)
         setProjectSdkVersions(project)
+
+        val library = project.androidLibrary()
+        library.testOptions {
+            unitTests.all {
+                it.useJUnitPlatform()
+            }
+        }
     }
 
     private fun applyPlugins(project: Project) {
