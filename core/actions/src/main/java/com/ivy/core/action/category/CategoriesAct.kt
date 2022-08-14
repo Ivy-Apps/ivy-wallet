@@ -6,7 +6,6 @@ import com.ivy.data.category.CategoryMetadata
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.state.categoriesUpdate
-import com.ivy.state.readIvyState
 import com.ivy.state.writeIvyState
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
@@ -15,7 +14,9 @@ class CategoriesAct @Inject constructor(
     private val categoryDao: CategoryDao
 ) : FPAction<Unit, List<Category>>() {
     override suspend fun Unit.compose(): suspend () -> List<Category> = {
-        readIvyState().categories ?: loadCategories()
+        // TODO: enable caching
+        // readIvyState().categories ?: loadCategories()
+        loadCategories()
     }
 
     private suspend fun loadCategories(): List<Category> = suspend {
