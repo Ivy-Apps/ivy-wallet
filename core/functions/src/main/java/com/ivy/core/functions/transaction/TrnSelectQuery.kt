@@ -48,7 +48,7 @@ fun not(cond: TrnWhere): Not = Not(cond)
 
 data class WhereClause(
     val query: String,
-    val args: List<Any>
+    val args: List<Any?>
 )
 
 private object EmptyArg
@@ -124,12 +124,12 @@ fun toWhereClause(where: TrnWhere): WhereClause {
 }
 
 @Suppress("UNCHECKED_CAST")
-private fun flatten(list: List<Any>): List<Any> {
-    val result = mutableListOf<Any>()
+private fun flatten(list: List<Any?>): List<Any?> {
+    val result = mutableListOf<Any?>()
 
     for (item in list) {
         if (item is List<*>) {
-            result.addAll(item as List<Any>)
+            result.addAll(item as List<Any?>)
         } else {
             result.add(item)
         }

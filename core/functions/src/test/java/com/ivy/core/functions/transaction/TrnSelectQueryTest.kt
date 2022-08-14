@@ -17,6 +17,8 @@ import io.kotest.property.arbitrary.*
 import io.kotest.property.arrow.nonEmptyList
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
+import java.time.LocalDateTime
+import java.util.*
 
 class TrnSelectQueryTest : StringSpec({
     //region generators
@@ -91,34 +93,32 @@ class TrnSelectQueryTest : StringSpec({
         ByTypeIn(Arb.nonEmptyList(genTrnType, 1..3).bind())
     }
 
-    val genSimpleClause = Arb.choice(
-        listOf(
-            genById,
-            genByType,
-            genByAccount,
-            genByToAccount,
-            genByCategory.toArb(),
-            genActualBetween,
-            genDueBetween,
-            genByIdIn,
-            genByAccountIn,
-            genByToAccountIn,
-            genByCategoryIn,
-            genByTypeIn
-        )
+    val genSimpleQuery = Arb.choice(
+        genById,
+        genByType,
+        genByAccount,
+        genByToAccount,
+        genByCategory.toArb(),
+        genActualBetween,
+        genDueBetween,
+        genByIdIn,
+        genByAccountIn,
+        genByToAccountIn,
+        genByCategoryIn,
+        genByTypeIn
     )
 
     val genNonRecursiveAnd = arbitrary {
         And(
-            cond1 = genSimpleClause.bind(),
-            cond2 = genSimpleClause.bind()
+            cond1 = genSimpleQuery.bind(),
+            cond2 = genSimpleQuery.bind()
         )
     }
 
     val genNonRecursiveOr = arbitrary {
         Or(
-            cond1 = genSimpleClause.bind(),
-            cond2 = genSimpleClause.bind()
+            cond1 = genSimpleQuery.bind(),
+            cond2 = genSimpleQuery.bind()
         )
     }
 
@@ -142,8 +142,26 @@ class TrnSelectQueryTest : StringSpec({
         return build(gen.next(), block)
     }
 
-    val genRecursiveAnd = recursiveQuery(gen = genSimpleClause, block = ::And)
-    val genRecursiveOr = recursiveQuery(gen = genSimpleClause, ::Or)
+    val genRecursiveAnd = recursiveQuery(gen = genSimpleQuery, block = ::And)
+    val genRecursiveOr = recursiveQuery(gen = genSimpleQuery, ::Or)
+    val genBrackets = arbitrary {
+        brackets(
+            Arb.choice(genRecursiveAnd, genRecursiveOr).bind()
+        )
+    }
+    val genNot = arbitrary {
+        not(
+            Arb.choice(genSimpleQuery, genBrackets).bind()
+        )
+    }
+
+    val genComplexQuery = Arb.choice(
+        genSimpleQuery,
+        genRecursiveAnd,
+        genRecursiveOr,
+        genNot,
+        genBrackets
+    )
     //endregion
 
     //region test cases
@@ -261,18 +279,18 @@ class TrnSelectQueryTest : StringSpec({
     }
 
     "generate Brackets" {
-        checkAll(genSimpleClause) { cond ->
-            val res = toWhereClause(brackets(cond))
-            val condWhere = toWhereClause(cond)
+        checkAll(genBrackets) { brackets ->
+            val res = toWhereClause(brackets(brackets))
+            val condWhere = toWhereClause(brackets)
             res.query shouldBe "(${condWhere.query})"
             res.args shouldBe condWhere.args
         }
     }
 
     "generate Not" {
-        checkAll(genSimpleClause) { cond ->
-            val res = toWhereClause(not(cond))
-            val condWhere = toWhereClause(cond)
+        checkAll(genNot) { not ->
+            val res = toWhereClause(not)
+            val condWhere = toWhereClause(not.cond)
             res.query shouldBe "NOT(${condWhere.query})"
             res.args shouldBe condWhere.args
         }
@@ -334,6 +352,25 @@ class TrnSelectQueryTest : StringSpec({
 
             labelRecursive("cond2", or.cond2)
             collect("args_count", res.args.size)
+        }
+    }
+
+    "query args property" {
+        checkAll(genComplexQuery) { complexQuery ->
+            val where = toWhereClause(complexQuery)
+
+            // Things that query args can BE:
+            where.args.forEach {
+                val acceptedType = when (it) {
+                    is UUID, is LocalDateTime,
+                    is TrnType, is Boolean, is String, null -> true
+                    else -> false
+                }
+                if (!acceptedType) {
+                    collect("not_accepted", it)
+                }
+                acceptedType shouldBe true
+            }
         }
     }
     //endregion
