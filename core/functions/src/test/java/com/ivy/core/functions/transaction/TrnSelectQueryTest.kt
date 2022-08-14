@@ -5,7 +5,7 @@ import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.toRange
-import com.ivy.core.functions.transaction.TrnQuery.*
+import com.ivy.core.functions.transaction.TrnWhere.*
 import com.ivy.data.Period
 import com.ivy.data.transaction.TrnType
 import io.kotest.core.spec.style.StringSpec
@@ -77,13 +77,13 @@ class TrnSelectQueryTest : StringSpec({
         )
     }
 
-    fun <T : TrnQuery> recursiveQuery(
-        gen: Arb<TrnQuery>,
-        block: (TrnQuery, TrnQuery) -> T
+    fun <T : TrnWhere> recursiveQuery(
+        gen: Arb<TrnWhere>,
+        block: (TrnWhere, TrnWhere) -> T
     ): Arb<T> {
         fun build(
-            cond: TrnQuery,
-            block: (TrnQuery, TrnQuery) -> T
+            cond: TrnWhere,
+            block: (TrnWhere, TrnWhere) -> T
         ): Arb<T> = arbitrary {
             if (Arb.boolean().bind()) {
                 // recurse
@@ -204,9 +204,9 @@ class TrnSelectQueryTest : StringSpec({
         }
     }
 
-    fun PropertyContext.labelRecursive(label: String, trnQuery: TrnQuery) {
+    fun PropertyContext.labelRecursive(label: String, trnWhere: TrnWhere) {
         collect(
-            label, when (trnQuery) {
+            label, when (trnWhere) {
                 is And, is Brackets, is Or -> "RECURSIVE"
                 else -> "NON-RECURSIVE"
             }
