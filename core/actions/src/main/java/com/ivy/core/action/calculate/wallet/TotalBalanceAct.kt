@@ -9,10 +9,10 @@ import com.ivy.frp.lambda
 import com.ivy.frp.then
 import javax.inject.Inject
 
-class BalanceAct @Inject constructor(
+class TotalBalanceAct @Inject constructor(
     private val accountsAct: AccountsAct,
     private val accBalanceAct: AccBalanceAct
-) : FPAction<BalanceAct.Input, Double>() {
+) : FPAction<TotalBalanceAct.Input, Double>() {
     data class Input(
         val withExcluded: Boolean
     )
