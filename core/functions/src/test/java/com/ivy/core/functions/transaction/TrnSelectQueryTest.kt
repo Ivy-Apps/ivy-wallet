@@ -1,6 +1,7 @@
 package com.ivy.core.functions.transaction
 
 import arrow.core.NonEmptyList
+import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
@@ -165,8 +166,6 @@ class TrnSelectQueryTest : StringSpec({
     //endregion
 
     //region test cases
-    //TODO: Add "case complex query"
-
     "case 'Upcoming By Category' query" {
         val theFuture = timeNowUTC().plusSeconds(1)
         val category = dummyCategory()
@@ -176,6 +175,34 @@ class TrnSelectQueryTest : StringSpec({
 
         where.query shouldBe "(dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
         where.args shouldBe listOf(theFuture, endOfIvyTime(), category.id)
+    }
+
+    "case complex query" {
+        val acc1 = dummyAcc()
+        val acc2 = dummyAcc()
+        val acc3 = dummyAcc()
+        val cat = dummyCategory()
+        val dueStart = timeNowUTC()
+        val dueEnd = dueStart.plusYears(3)
+        val id1 = UUID.randomUUID()
+        val id2 = UUID.randomUUID()
+        val id3 = UUID.randomUUID()
+
+        val query = brackets(
+            ByAccountIn(
+                nonEmptyListOf(acc1, acc2)
+            ) and not(ByToAccount(acc3))
+        ) or brackets(
+            ByCategory(cat) and DueBetween(Period.FromTo(dueStart, dueEnd))
+        ) or ByIdIn(nonEmptyListOf(id1, id2, id3))
+
+        val where = toWhereClause(query)
+
+        where.query shouldBe "(accountId IN (?, ?) AND NOT(toAccountId = ?)) OR " +
+                "(categoryId = ? AND (dueDate >= ? AND dueDate <= ?)) OR id IN (?, ?, ?)"
+        where.args shouldBe listOf(
+            acc1.id, acc2.id, acc3.id, cat.id, dueStart, dueEnd, id1, id2, id3
+        )
     }
     //endregion
 

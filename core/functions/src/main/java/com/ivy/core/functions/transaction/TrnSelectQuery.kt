@@ -43,7 +43,7 @@ sealed class TrnWhere {
 
 fun brackets(cond: TrnWhere): Brackets = Brackets(cond)
 infix fun TrnWhere.and(cond2: TrnWhere): And = And(this, cond2)
-infix fun TrnWhere.or(cond2: TrnWhere): And = And(this, cond2)
+infix fun TrnWhere.or(cond2: TrnWhere): Or = Or(this, cond2)
 fun not(cond: TrnWhere): Not = Not(cond)
 
 data class WhereClause(
