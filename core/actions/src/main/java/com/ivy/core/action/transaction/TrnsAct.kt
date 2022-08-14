@@ -1,39 +1,37 @@
-package com.ivy.core.action.transaction.read
+package com.ivy.core.action.transaction
 
+import androidx.sqlite.db.SimpleSQLiteQuery
 import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.ivy.core.action.account.AccountsAct
 import com.ivy.core.action.category.CategoriesAct
-import com.ivy.core.functions.toRange
+import com.ivy.core.functions.transaction.TrnWhere
+import com.ivy.core.functions.transaction.toWhereClause
 import com.ivy.data.Invalid
-import com.ivy.data.Period
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.TransactionEntity
-import java.time.LocalDateTime
 import java.util.*
 
 class TrnsAct constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
-) : FPAction<TrnsAct.Input, List<Transaction>>() {
+    private val transactionDao: TransactionDao
+) : FPAction<TrnWhere, List<Transaction>>() {
 
-    data class Input(
-        val period: Period,
-        val query: suspend (LocalDateTime, LocalDateTime) -> List<TransactionEntity>
-    )
-
-
-    override suspend fun Input.compose(): suspend () -> List<Transaction> = {
-        period.toRange()
-    } then { (from, to) ->
-        query(from, to)
-    } then { entities ->
+    override suspend fun TrnWhere.compose(): suspend () -> List<Transaction> = {
+        SimpleSQLiteQuery(
+            "SELECT * FROM transactions WHERE isDeleted = 0 AND " +
+                    toWhereClause(this) +
+                    " ORDER BY dateTime DESC, dueDate ASC"
+        )
+    } then transactionDao::findByQuery then { entities ->
         val accounts = accountsAct(Unit).associateBy { it.id }
         val categories = categoriesAct(Unit).associateBy { it.id }
 

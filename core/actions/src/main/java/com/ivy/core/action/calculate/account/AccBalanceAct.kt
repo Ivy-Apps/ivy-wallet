@@ -8,13 +8,13 @@ import com.ivy.frp.then
 import javax.inject.Inject
 
 class AccBalanceAct @Inject constructor(
-    private val accStatsAct: AccStatsAct
+    private val accActualStatsAct: AccActualStatsAct
 ) : FPAction<Account, Double>() {
-    override suspend fun Account.compose(): suspend () -> Double = AccStatsAct.Input(
+    override suspend fun Account.compose(): suspend () -> Double = AccActualStatsAct.Input(
         account = this,
         period = allTime(),
         transfersAsIncomeExpense = false
-    ) asParamTo accStatsAct then {
+    ) asParamTo accActualStatsAct then {
         it.balance
     }
 }

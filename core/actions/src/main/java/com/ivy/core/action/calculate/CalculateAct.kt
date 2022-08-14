@@ -11,9 +11,9 @@ import com.ivy.frp.asParamTo
 import com.ivy.frp.thenInvokeAfter
 import javax.inject.Inject
 
-class StatsAct @Inject constructor(
+class CalculateAct @Inject constructor(
     private val exchangeAct: ExchangeAct
-) : FPAction<StatsAct.Input, Stats>() {
+) : FPAction<CalculateAct.Input, Stats>() {
     data class Input(
         val trns: List<Transaction>,
         val outputCurrency: CurrencyCode

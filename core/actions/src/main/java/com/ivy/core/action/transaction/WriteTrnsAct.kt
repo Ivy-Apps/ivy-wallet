@@ -1,4 +1,4 @@
-package com.ivy.core.action.transaction.write
+package com.ivy.core.action.transaction
 
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.action.FPAction
