@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.wallet.io.persistence.dao.TransactionDao
@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class CategoryTrnsBetweenAct @Inject constructor(
     private val transactionDao: TransactionDao
-) : FPAction<CategoryTrnsBetweenAct.Input, List<Transaction>>() {
+) : FPAction<CategoryTrnsBetweenAct.Input, List<TransactionOld>>() {
 
-    override suspend fun Input.compose(): suspend () -> List<Transaction> = suspend {
+    override suspend fun Input.compose(): suspend () -> List<TransactionOld> = suspend {
         io {
             transactionDao.findAllByCategoryAndBetween(
                 startDate = between.from,

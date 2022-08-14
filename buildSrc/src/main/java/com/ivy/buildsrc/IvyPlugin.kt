@@ -12,6 +12,27 @@ abstract class IvyPlugin : Plugin<Project> {
         applyPlugins(project)
         addKotlinCompilerArgs(project)
         setProjectSdkVersions(project)
+
+        kotest(project)
+        lint(project)
+    }
+
+    private fun kotest(project: Project) {
+        val library = project.androidLibrary()
+        library.testOptions {
+            unitTests.all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
+
+    /**
+     * Global lint configuration
+     */
+    private fun lint(project: Project) {
+        project.androidLibrary().lint {
+            disable.add("MissingTranslation")
+        }
     }
 
     private fun applyPlugins(project: Project) {
@@ -20,6 +41,10 @@ abstract class IvyPlugin : Plugin<Project> {
             plugin("kotlin-android")
             plugin("kotlin-kapt")
             plugin("dagger.hilt.android.plugin")
+            plugin("io.kotest")
+
+            //TODO: Enable when we migrate to kotlinx serialization
+//            plugin("kotlinx-serialization")
         }
     }
 

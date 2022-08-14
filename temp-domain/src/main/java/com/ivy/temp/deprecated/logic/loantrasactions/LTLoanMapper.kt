@@ -1,11 +1,11 @@
 package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.scopedIOThread
@@ -34,7 +34,7 @@ class LTLoanMapper(
     suspend fun editAssociatedLoanTransaction(
         loan: Loan,
         createLoanTransaction: Boolean = false,
-        transaction: Transaction?
+        transaction: TransactionOld?
     ) {
         computationThread {
             ltCore.updateAssociatedTransaction(
@@ -79,7 +79,7 @@ class LTLoanMapper(
     }
 
     suspend fun updateAssociatedLoan(
-        transaction: Transaction?,
+        transaction: TransactionOld?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
         accountsChanged: Boolean = true
@@ -102,7 +102,7 @@ class LTLoanMapper(
             val modifiedLoan = loan.copy(
                 amount = transaction.amount.toDouble(),
                 name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title!!,
-                type = if (transaction.type == TransactionType.INCOME) LoanType.BORROW else LoanType.LEND,
+                type = if (transaction.type == TrnType.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )
 
@@ -138,7 +138,7 @@ class LTLoanMapper(
         }
     }
 
-    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<Account>): String {
+    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<AccountOld>): String {
         return ltCore.findAccount(accountsList, this)?.currency ?: ltCore.baseCurrency()
     }
 }

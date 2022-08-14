@@ -23,12 +23,12 @@ import com.ivy.base.*
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -181,13 +181,13 @@ private fun BoxWithConstraintsScope.UI(
     baseCurrency: String,
     currency: String,
 
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
 
-    categories: List<Category>,
+    categories: List<CategoryOld>,
     isCategoryParentCategory: Boolean = true,
-    parentCategoryList: List<Category> = emptyList(),
-    accounts: List<Account>,
+    parentCategoryList: List<CategoryOld> = emptyList(),
+    accounts: List<AccountOld>,
 
     balance: Double,
     balanceBaseCurrency: Double?,
@@ -203,23 +203,23 @@ private fun BoxWithConstraintsScope.UI(
     setUpcomingExpanded: (Boolean) -> Unit = {},
     upcomingIncome: Double = 0.0,
     upcomingExpenses: Double = 0.0,
-    upcoming: List<Transaction> = emptyList(),
+    upcoming: List<TransactionOld> = emptyList(),
 
     overdueExpanded: Boolean = true,
     setOverdueExpanded: (Boolean) -> Unit = {},
     overdueIncome: Double = 0.0,
     overdueExpenses: Double = 0.0,
-    overdue: List<Transaction> = emptyList(),
+    overdue: List<TransactionOld> = emptyList(),
 
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
     onSetPeriod: (TimePeriod) -> Unit,
-    onEditAccount: (Account, Double) -> Unit,
-    onEditCategory: (Category) -> Unit,
+    onEditAccount: (AccountOld, Double) -> Unit,
+    onEditCategory: (CategoryOld) -> Unit,
     onDelete: () -> Unit,
-    onPayOrGet: (Transaction) -> Unit = {},
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onPayOrGet: (TransactionOld) -> Unit = {},
+    onSkipTransaction: (TransactionOld) -> Unit = {},
+    onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
@@ -456,8 +456,8 @@ private fun Header(
     currency: String,
     baseCurrency: String,
     itemColor: Color,
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
     balance: Double,
     balanceBaseCurrency: Double?,
     income: Double,
@@ -548,7 +548,7 @@ private fun Header(
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatistic(
-                            type = TransactionType.INCOME,
+                            type = TrnType.INCOME,
                             accountList = listOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
@@ -560,7 +560,7 @@ private fun Header(
                 if (account != null) {
                     nav.navigateTo(
                         PieChartStatistic(
-                            type = TransactionType.EXPENSE,
+                            type = TrnType.EXPENSE,
                             accountList = listOf(account.id),
                             filterExcluded = false,
                             treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
@@ -588,8 +588,8 @@ private fun Header(
 private fun Item(
     itemColor: Color,
     contrastColor: Color,
-    account: Account?,
-    category: Category?,
+    account: AccountOld?,
+    category: CategoryOld?,
 
     showCategoryModal: () -> Unit,
     showAccountModal: () -> Unit,
@@ -701,7 +701,7 @@ private fun Preview_empty() {
 
             history = emptyList(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = AccountOld("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -733,7 +733,7 @@ private fun Preview_crypto() {
 
             history = emptyList(),
             category = null,
-            account = Account(
+            account = AccountOld(
                 name = "DSK",
                 color = GreenDark.toArgb(),
                 icon = "pet",
@@ -770,7 +770,7 @@ private fun Preview_empty_upcoming() {
 
             history = emptyList(),
             category = null,
-            account = Account("DSK", color = GreenDark.toArgb(), icon = "pet"),
+            account = AccountOld("DSK", color = GreenDark.toArgb(), icon = "pet"),
             onSetPeriod = { },
             onPreviousMonth = {},
             onNextMonth = {},
@@ -778,7 +778,7 @@ private fun Preview_empty_upcoming() {
             onEditAccount = { _, _ -> },
             onEditCategory = {},
             upcoming = listOf(
-                Transaction(UUID(1L, 2L), TransactionType.EXPENSE, BigDecimal.valueOf(10L))
+                TransactionOld(UUID(1L, 2L), TrnType.EXPENSE, BigDecimal.valueOf(10L))
             )
         )
     }

@@ -1,8 +1,8 @@
 package com.ivy.wallet.domain.action.category
 
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
@@ -32,9 +32,9 @@ class CategoryIncomeWithAccountFiltersAct @Inject constructor(
     } then calcTrnsIncomeExpenseAct
 
     data class Input(
-        val transactions: List<Transaction>,
-        val accountFilterList: List<Account>,
-        val category: Category?,
+        val transactions: List<TransactionOld>,
+        val accountFilterList: List<AccountOld>,
+        val category: CategoryOld?,
         val baseCurrency: String
     )
 }

@@ -4,10 +4,10 @@ import android.content.Context
 import android.net.Uri
 import com.ivy.base.writeToFile
 import com.ivy.common.formatLocal
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -31,7 +31,7 @@ class ExportCSVLogic(
     suspend fun exportToFile(
         context: Context,
         fileUri: Uri,
-        exportScope: suspend () -> List<Transaction> = {
+        exportScope: suspend () -> List<TransactionOld> = {
             transactionDao.findAll().map { it.toDomain() }
         }
     ) {
@@ -49,7 +49,7 @@ class ExportCSVLogic(
     }
 
     private suspend fun generateCSV(
-        exportScope: suspend () -> List<Transaction>
+        exportScope: suspend () -> List<TransactionOld>
     ): String {
         return ioThread {
             val accountMap = accountDao
@@ -80,10 +80,10 @@ class ExportCSVLogic(
         }
     }
 
-    private fun Transaction.toCSV(
+    private fun TransactionOld.toCSV(
         baseCurrency: String,
-        accountMap: Map<UUID, Account>,
-        categoryMap: Map<UUID, Category>
+        accountMap: Map<UUID, AccountOld>,
+        categoryMap: Map<UUID, CategoryOld>
     ): String {
         val csv = StringBuilder()
 
@@ -113,9 +113,9 @@ class ExportCSVLogic(
         //Amount
         csv.appendValue(amount) {
             val amountFormatted = when (type) {
-                TransactionType.INCOME -> it
-                TransactionType.EXPENSE -> -it
-                TransactionType.TRANSFER -> 0.0
+                TrnType.INCOME -> it
+                TrnType.EXPENSE -> -it
+                TrnType.TRANSFER -> 0.0
             }.toDouble().formatAmountCSV(currency)
             append(amountFormatted)
         }
@@ -131,12 +131,12 @@ class ExportCSVLogic(
         }
 
         //Transfer Amount
-        csv.appendValue(if (type == TransactionType.TRANSFER) amount else null) {
+        csv.appendValue(if (type == TrnType.TRANSFER) amount else null) {
             append(it.toDouble().formatAmountCSV(currency))
         }
 
         //Transfer Currency
-        csv.appendValue(if (type == TransactionType.TRANSFER) currency else null) {
+        csv.appendValue(if (type == TrnType.TRANSFER) currency else null) {
             append(it)
         }
 

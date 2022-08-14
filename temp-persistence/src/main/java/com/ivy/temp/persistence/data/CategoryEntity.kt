@@ -2,7 +2,7 @@ package com.ivy.wallet.io.persistence.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import java.util.*
 
 @Entity(tableName = "categories")
@@ -19,7 +19,7 @@ data class CategoryEntity(
     @PrimaryKey
     val id: UUID = UUID.randomUUID()
 ) {
-    fun toDomain(): Category = Category(
+    fun toDomain(): CategoryOld = CategoryOld(
         name = name,
         color = color,
         icon = icon,
@@ -31,7 +31,7 @@ data class CategoryEntity(
     )
 }
 
-fun Category.toEntity(): CategoryEntity = CategoryEntity(
+fun CategoryOld.toEntity(): CategoryEntity = CategoryEntity(
     name = name,
     color = color,
     icon = icon,

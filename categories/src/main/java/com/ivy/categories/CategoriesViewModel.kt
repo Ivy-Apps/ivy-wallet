@@ -5,17 +5,17 @@ import com.ivy.base.IvyWalletCtx
 import com.ivy.base.SortOrder
 import com.ivy.base.TimePeriod
 import com.ivy.categories.CategoryData
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -37,11 +37,11 @@ class CategoriesViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
-    private val categoriesAct: CategoriesAct,
+    private val categoriesAct: CategoriesActOld,
     private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
-    private val baseCurrencyAct: BaseCurrencyAct,
-    private val accountsAct: AccountsAct,
+    private val baseCurrencyAct: BaseCurrencyActOld,
+    private val accountsAct: AccountsActOld,
     private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
     private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
 ) : FRPViewModel<CategoriesScreenState, Nothing>() {
@@ -54,9 +54,9 @@ class CategoriesViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private var allAccounts = emptyList<Account>()
+    private var allAccounts = emptyList<AccountOld>()
     private var baseCurrency = ""
-    private var transactions = emptyList<Transaction>()
+    private var transactions = emptyList<TransactionOld>()
 
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -229,7 +229,7 @@ data class CategoriesScreenState(
     val sortModalVisible: Boolean = false,
     val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
     val sortOrder: SortOrder = SortOrder.DEFAULT,
-    val parentCategoryList: List<Category> = emptyList()
+    val parentCategoryList: List<CategoryOld> = emptyList()
 )
 
 sealed class CategoriesScreenEvent {

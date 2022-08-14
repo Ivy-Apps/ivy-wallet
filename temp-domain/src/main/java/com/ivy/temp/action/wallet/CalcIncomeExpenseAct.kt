@@ -2,10 +2,10 @@ package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.nonEmptyListOf
 import arrow.core.toOption
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.exchange.ExchangeAct
-import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class CalcIncomeExpenseAct @Inject constructor(
     private val accTrnsAct: AccTrnsAct,
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : FPAction<CalcIncomeExpenseAct.Input, IncomeExpensePair>() {
 
     override suspend fun Input.compose(): suspend () -> IncomeExpensePair = suspend {
@@ -51,7 +51,7 @@ class CalcIncomeExpenseAct @Inject constructor(
         Timber.i("acc_stats: $acc - $stats")
         stats.map {
             exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
                         fromCurrency = (acc.currency ?: baseCurrency).toOption()
@@ -69,7 +69,7 @@ class CalcIncomeExpenseAct @Inject constructor(
 
     data class Input(
         val baseCurrency: String,
-        val accounts: List<Account>,
+        val accounts: List<AccountOld>,
         val range: com.ivy.base.ClosedTimeRange,
     )
 }

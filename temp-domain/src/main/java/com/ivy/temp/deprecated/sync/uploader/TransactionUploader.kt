@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.uploader
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.data.toDTO
@@ -18,7 +18,7 @@ class TransactionUploader(
 ) {
     private val service = restClient.transactionService
 
-    suspend fun sync(item: Transaction) {
+    suspend fun sync(item: TransactionOld) {
         if (!ivySession.isLoggedIn()) return
 
         try {

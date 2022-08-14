@@ -6,7 +6,7 @@ import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
 import com.ivy.base.GlobalProvider
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 
 class WalletBalanceButtonsAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
@@ -15,7 +15,7 @@ class WalletBalanceButtonsAction : ActionCallback {
                 context.startActivity(
                     GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TransactionType.INCOME
+                        type = TrnType.INCOME
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
@@ -25,7 +25,7 @@ class WalletBalanceButtonsAction : ActionCallback {
                 context.startActivity(
                     GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TransactionType.EXPENSE
+                        type = TrnType.EXPENSE
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
@@ -35,7 +35,7 @@ class WalletBalanceButtonsAction : ActionCallback {
                 context.startActivity(
                     GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TransactionType.TRANSFER
+                        type = TrnType.TRANSFER
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }

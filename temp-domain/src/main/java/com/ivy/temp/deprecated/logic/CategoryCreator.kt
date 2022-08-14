@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.ui.graphics.toArgb
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.uploader.CategoryUploader
 import com.ivy.wallet.domain.pure.util.nextOrderNum
@@ -16,7 +16,7 @@ class CategoryCreator @Inject constructor(
 ) {
     suspend fun createCategory(
         data: CreateCategoryData,
-        onRefreshUI: suspend (Category) -> Unit
+        onRefreshUI: suspend (CategoryOld) -> Unit
     ) {
         val name = data.name
         if (name.isBlank()) return
@@ -24,7 +24,7 @@ class CategoryCreator @Inject constructor(
         try {
 
             val newCategory = ioThread {
-                val newCategory = Category(
+                val newCategory = CategoryOld(
                     name = name.trim(),
                     color = data.color.toArgb(),
                     icon = data.icon,
@@ -49,8 +49,8 @@ class CategoryCreator @Inject constructor(
 
 
     suspend fun editCategory(
-        updatedCategory: Category,
-        onRefreshUI: suspend (Category) -> Unit
+        updatedCategory: CategoryOld,
+        onRefreshUI: suspend (CategoryOld) -> Unit
     ) {
         if (updatedCategory.name.isBlank()) return
 

@@ -16,6 +16,6 @@ dependencies {
     implementation(project(":temp-domain"))
     implementation(project(":temp-persistence"))
     implementation(project(":temp-network"))
-    implementation(project(":exchange"))
+    implementation(project(":core:exchange-provider"))
     implementation(project(":widgets"))
 }

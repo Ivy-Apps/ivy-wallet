@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.transaction
 
 import arrow.core.nonEmptyListOf
-import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
-import com.ivy.exchange.ExchangeAct
-import com.ivy.exchange.actInput
+import com.ivy.data.AccountOld
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
@@ -13,7 +13,7 @@ import com.ivy.wallet.domain.pure.transaction.foldTransactionsSuspend
 import javax.inject.Inject
 
 class CalcTrnsIncomeExpenseAct @Inject constructor(
-    private val exchangeAct: ExchangeAct
+    private val exchangeAct: ExchangeActOld
 ) : FPAction<CalcTrnsIncomeExpenseAct.Input, IncomeExpenseTransferPair>() {
     override suspend fun Input.compose(): suspend () -> IncomeExpenseTransferPair = suspend {
         foldTransactionsSuspend(
@@ -40,8 +40,8 @@ class CalcTrnsIncomeExpenseAct @Inject constructor(
     }
 
     data class Input(
-        val transactions: List<Transaction>,
+        val transactions: List<TransactionOld>,
         val baseCurrency: String,
-        val accounts: List<Account>
+        val accounts: List<AccountOld>
     )
 }

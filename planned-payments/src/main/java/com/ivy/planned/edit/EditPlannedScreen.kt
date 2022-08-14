@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditPlanned
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -107,24 +107,24 @@ private fun BoxWithConstraintsScope.UI(
     intervalType: IntervalType?,
     oneTime: Boolean,
 
-    type: TransactionType,
+    type: TrnType,
     currency: String,
     initialTitle: String?,
     description: String?,
-    category: Category?,
-    account: Account?,
+    category: CategoryOld?,
+    account: AccountOld?,
     amount: Double,
 
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
 
     onRuleChanged: (LocalDateTime, oneTime: Boolean, Int?, IntervalType?) -> Unit,
     onTitleChanged: (String?) -> Unit,
     onDescriptionChanged: (String?) -> Unit,
     onAmountChanged: (Double) -> Unit,
-    onCategoryChanged: (Category?) -> Unit,
-    onAccountChanged: (Account) -> Unit,
-    onSetTransactionType: (TransactionType) -> Unit,
+    onCategoryChanged: (CategoryOld?) -> Unit,
+    onAccountChanged: (AccountOld) -> Unit,
+    onSetTransactionType: (TrnType) -> Unit,
 
     onCreateCategory: (CreateCategoryData) -> Unit = {},
     onSave: () -> Unit,
@@ -200,7 +200,7 @@ private fun BoxWithConstraintsScope.UI(
             }
         )
 
-        if (type != TransactionType.TRANSFER) {
+        if (type != TrnType.TRANSFER) {
             Spacer(Modifier.height(32.dp))
 
             Category(
@@ -402,14 +402,14 @@ private fun BoxWithConstraintsScope.UI(
 }
 
 private fun shouldFocusCategory(
-    category: Category?,
-    type: TransactionType
-): Boolean = category == null && type != TransactionType.TRANSFER
+    category: CategoryOld?,
+    type: TrnType
+): Boolean = category == null && type != TrnType.TRANSFER
 
 private fun shouldFocusTitle(
     titleTextFieldValue: TextFieldValue,
-    type: TransactionType
-): Boolean = titleTextFieldValue.text.isBlank() && type != TransactionType.TRANSFER
+    type: TrnType
+): Boolean = titleTextFieldValue.text.isBlank() && type != TrnType.TRANSFER
 
 private fun shouldFocusRecurring(
     startDate: LocalDateTime?,
@@ -433,7 +433,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyWalletPreview {
         UI(
-            screen = EditPlanned(null, TransactionType.EXPENSE),
+            screen = EditPlanned(null, TrnType.EXPENSE),
             oneTime = false,
             startDate = null,
             intervalN = null,
@@ -442,9 +442,9 @@ private fun Preview() {
             currency = "BGN",
             description = null,
             category = null,
-            account = Account(name = "phyre", color = Green.toArgb()),
+            account = AccountOld(name = "phyre", color = Green.toArgb()),
             amount = 0.0,
-            type = TransactionType.INCOME,
+            type = TrnType.INCOME,
 
             categories = emptyList(),
             accounts = emptyList(),

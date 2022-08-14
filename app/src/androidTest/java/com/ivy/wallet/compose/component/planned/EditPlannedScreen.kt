@@ -2,7 +2,7 @@ package com.ivy.wallet.compose.component.planned
 
 import androidx.compose.ui.test.*
 import com.ivy.data.planned.IntervalType
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.DeleteConfirmationModal
 import com.ivy.wallet.compose.component.amountinput.IvyAmountInput
@@ -15,11 +15,11 @@ class EditPlannedScreen(
 ) {
     //TODO: Re-work: make UI options strongly typed!
 
-    fun setPaymentType(type: TransactionType): IvyAmountInput {
+    fun setPaymentType(type: TrnType): IvyAmountInput {
         val nodeText = when (type) {
-            TransactionType.INCOME -> "modal_type_${type.name}"
-            TransactionType.EXPENSE -> "modal_type_${type.name}"
-            TransactionType.TRANSFER -> error("Unsupported type for planned payments")
+            TrnType.INCOME -> "modal_type_${type.name}"
+            TrnType.EXPENSE -> "modal_type_${type.name}"
+            TrnType.TRANSFER -> error("Unsupported type for planned payments")
         }
         composeTestRule.onNodeWithTag(nodeText)
             .performClick()
@@ -97,7 +97,7 @@ class EditPlannedScreen(
 
     fun <N> addPlannedPayment(
         next: N,
-        type: TransactionType,
+        type: TrnType,
         amount: String,
         category: String,
         title: String? = null,

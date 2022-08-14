@@ -5,13 +5,13 @@ import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.dao.*
@@ -51,7 +51,7 @@ class LoanTransactionsCore(
             return
 
         ioThread {
-            val transactions: List<Transaction?> =
+            val transactions: List<TransactionOld?> =
                 if (loanId != null) transactionDao.findAllByLoanId(loanId = loanId)
                     .map { it.toDomain() } else
                     listOf(transactionDao.findLoanRecordTransaction(loanRecordId!!)).map { it?.toDomain() }
@@ -63,9 +63,9 @@ class LoanTransactionsCore(
     }
 
     fun findAccount(
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         accountId: UUID?,
-    ): Account? {
+    ): AccountOld? {
         return accountId?.let { uuid ->
             accounts.find { acc ->
                 acc.id == uuid
@@ -85,10 +85,10 @@ class LoanTransactionsCore(
         loanType: LoanType,
         selectedAccountId: UUID?,
         title: String? = null,
-        category: Category? = null,
+        category: CategoryOld? = null,
         time: LocalDateTime? = null,
         isLoanRecord: Boolean = false,
-        transaction: Transaction? = null,
+        transaction: TransactionOld? = null,
     ) {
         if (isLoanRecord && loanRecordId == null)
             return
@@ -134,19 +134,19 @@ class LoanTransactionsCore(
         categoryId: UUID? = null,
         time: LocalDateTime = timeNowUTC(),
         isLoanRecord: Boolean = false,
-        transaction: Transaction? = null
+        transaction: TransactionOld? = null
     ) {
         if (selectedAccountId == null)
             return
 
         val transType = if (isLoanRecord)
-            if (loanType == LoanType.BORROW) TransactionType.EXPENSE else TransactionType.INCOME
+            if (loanType == LoanType.BORROW) TrnType.EXPENSE else TrnType.INCOME
         else
-            if (loanType == LoanType.BORROW) TransactionType.INCOME else TransactionType.EXPENSE
+            if (loanType == LoanType.BORROW) TrnType.INCOME else TrnType.EXPENSE
 
         val transCategoryId: UUID? = getCategoryId(existingCategoryId = categoryId)
 
-        val modifiedTransaction: Transaction = transaction?.copy(
+        val modifiedTransaction: TransactionOld = transaction?.copy(
             loanId = loanId,
             loanRecordId = if (isLoanRecord) loanRecordId else null,
             amount = amount.toBigDecimal(),
@@ -156,7 +156,7 @@ class LoanTransactionsCore(
             categoryId = transCategoryId,
             dateTime = time
         )
-            ?: Transaction(
+            ?: TransactionOld(
                 accountId = selectedAccountId,
                 type = transType,
                 amount = amount.toBigDecimal(),
@@ -172,7 +172,7 @@ class LoanTransactionsCore(
         }
     }
 
-    private suspend fun deleteTransaction(transaction: Transaction?) {
+    private suspend fun deleteTransaction(transaction: TransactionOld?) {
         ioThread {
             transaction?.let {
                 transactionDao.flagDeleted(it.id)
@@ -198,7 +198,7 @@ class LoanTransactionsCore(
             category.name.lowercase(Locale.ENGLISH).contains("loan")
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
-            Category(
+            CategoryOld(
                 stringRes(R.string.loans),
                 color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
                 icon = "loan"
@@ -222,7 +222,7 @@ class LoanTransactionsCore(
         newLoanRecordAccountID: UUID?,
         newLoanRecordAmount: Double,
         loanAccountId: UUID?,
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         reCalculateLoanAmount: Boolean = false,
     ): Double? {
         return computationThread {
@@ -266,7 +266,7 @@ class LoanTransactionsCore(
         }
     }
 
-    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<Account>): String {
+    private suspend fun UUID?.fetchAssociatedCurrencyCode(accountsList: List<AccountOld>): String {
         return findAccount(accountsList, this)?.currency ?: baseCurrency()
     }
 
@@ -298,7 +298,7 @@ class LoanTransactionsCore(
         loanDao.findById(loanId)
     }
 
-    suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): Transaction? {
+    suspend fun fetchLoanRecordTransaction(loanRecordId: UUID?): TransactionOld? {
         return loanRecordId?.let {
             ioThread {
                 transactionDao.findLoanRecordTransaction(it)?.toDomain()

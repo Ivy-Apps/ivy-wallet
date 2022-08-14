@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -47,7 +47,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
     accounts: List<AccountBalance>,
 
     onCreateAccount: (CreateAccountData) -> Unit = { },
-    onEditAccount: (Account, Double) -> Unit = { _, _ -> },
+    onEditAccount: (AccountOld, Double) -> Unit = { _, _ -> },
 
     onSkip: () -> Unit = {},
     onDone: () -> Unit = {}
@@ -350,7 +350,7 @@ private fun Preview_Accounts() {
                 ),
             ), accounts = listOf(
                 AccountBalance(
-                    account = Account(
+                    account = AccountOld(
                         name = "Cash", color = Green.toArgb(), icon = "cash"
                     ), balance = 0.0
                 )
@@ -390,17 +390,17 @@ private fun Preview_Premium() {
                 ),
             ), accounts = listOf(
                 AccountBalance(
-                    account = Account(
+                    account = AccountOld(
                         name = "Cash", color = Green.toArgb(), icon = "cash"
                     ), balance = 0.0
                 ),
                 AccountBalance(
-                    account = Account(
+                    account = AccountOld(
                         name = "Revolut", color = IvyDark.toArgb(), icon = "cash"
                     ), balance = 0.0
                 ),
                 AccountBalance(
-                    account = Account(
+                    account = AccountOld(
                         name = "Revolut", color = Color(0xFF4DCAFF).toArgb(), icon = "revolut"
                     ), balance = 0.0
                 ),

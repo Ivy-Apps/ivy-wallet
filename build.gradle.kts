@@ -7,6 +7,10 @@ plugins {
     // ./gradlew dependencyUpdates // Simple report in the console
     // ./gradlew dependencyUpdates -DoutputFormatter=html,json,xml // Report in console & generate files accordingly
     id("com.github.ben-manes.versions") version "0.39.0"
+
+    // Kotest Plugin
+    // https://github.com/kotest/kotest-gradle-plugin
+    id("io.kotest") version "0.3.8"
 }
 
 tasks {
@@ -19,6 +23,10 @@ tasks {
             isNonStable(candidate.version)
         }
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 // Any of parameter of this task can be passed on or changed when running the gradle task as parameter

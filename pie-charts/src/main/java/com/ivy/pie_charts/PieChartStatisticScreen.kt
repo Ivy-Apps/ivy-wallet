@@ -26,17 +26,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.TimePeriod
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Category
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.ItemStatistic
 import com.ivy.screens.PieChartStatistic
@@ -125,7 +125,7 @@ private fun BoxWithConstraintsScope.UI(
                 modifier = Modifier
                     .padding(start = 32.dp)
                     .testTag("piechart_title"),
-                text = if (state.transactionType == TransactionType.EXPENSE) stringResource(R.string.expenses) else stringResource(
+                text = if (state.transactionType == TrnType.EXPENSE) stringResource(R.string.expenses) else stringResource(
                     R.string.income
                 ),
                 style = UI.typo.b1.style(
@@ -213,7 +213,7 @@ private fun BoxWithConstraintsScope.UI(
 
 @Composable
 private fun Header(
-    transactionType: TransactionType,
+    transactionType: TrnType,
     period: TimePeriod,
     percentExpanded: Float,
 
@@ -227,7 +227,7 @@ private fun Header(
     onSelectPreviousMonth: () -> Unit,
 
     onClose: () -> Unit,
-    onAdd: (TransactionType) -> Unit,
+    onAdd: (TrnType) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -277,7 +277,7 @@ private fun Header(
             if (percentExpanded > 0f) {
                 Spacer(Modifier.width(12.dp))
 
-                val backgroundGradient = if (transactionType == TransactionType.EXPENSE)
+                val backgroundGradient = if (transactionType == TrnType.EXPENSE)
                     gradientExpenses() else GradientGreen
                 CircleButtonFilledGradient(
                     modifier = Modifier
@@ -289,7 +289,7 @@ private fun Header(
                     iconPadding = 4.dp,
                     icon = R.drawable.ic_plus,
                     backgroundGradient = backgroundGradient,
-                    tint = if (transactionType == TransactionType.EXPENSE)
+                    tint = if (transactionType == TrnType.EXPENSE)
                         UI.colors.pure else White
                 ) {
                     onAdd(transactionType)
@@ -514,7 +514,7 @@ private fun PercentText(
 private fun Preview_Expense() {
     IvyWalletPreview {
         val state = PieChartStatisticState(
-            transactionType = TransactionType.EXPENSE,
+            transactionType = TrnType.EXPENSE,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
@@ -522,7 +522,7 @@ private fun Preview_Expense() {
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = CategoryOld("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -531,23 +531,23 @@ private fun Preview_Expense() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = CategoryOld("Shisha", Orange.toArgb(), icon = "trees"),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = CategoryOld("Food & Drink", IvyDark.toArgb()),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = CategoryOld("Gifts", RedLight.toArgb()),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = CategoryOld("Clothes & Jewelery Fancy", Red.toArgb()),
                     amount = 2.0
                 ),
                 CategoryAmount(
-                    category = Category(
+                    category = CategoryOld(
                         "Finances, Burocracy & Governance",
                         IvyLight.toArgb(),
                         icon = "work"
@@ -568,7 +568,7 @@ private fun Preview_Expense() {
 private fun Preview_Income() {
     IvyWalletPreview {
         val state = PieChartStatisticState(
-            transactionType = TransactionType.INCOME,
+            transactionType = TrnType.INCOME,
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
             ), //preview
@@ -576,7 +576,7 @@ private fun Preview_Income() {
             totalAmount = 1828.0,
             categoryAmounts = listOf(
                 CategoryAmount(
-                    category = Category("Bills", Green.toArgb(), icon = "bills"),
+                    category = CategoryOld("Bills", Green.toArgb(), icon = "bills"),
                     amount = 791.0
                 ),
                 CategoryAmount(
@@ -585,23 +585,23 @@ private fun Preview_Income() {
                     isCategoryUnspecified = true
                 ),
                 CategoryAmount(
-                    category = Category("Shisha", Orange.toArgb(), icon = "trees"),
+                    category = CategoryOld("Shisha", Orange.toArgb(), icon = "trees"),
                     amount = 411.93
                 ),
                 CategoryAmount(
-                    category = Category("Food & Drink", IvyDark.toArgb()),
+                    category = CategoryOld("Food & Drink", IvyDark.toArgb()),
                     amount = 260.03
                 ),
                 CategoryAmount(
-                    category = Category("Gifts", RedLight.toArgb()),
+                    category = CategoryOld("Gifts", RedLight.toArgb()),
                     amount = 160.0
                 ),
                 CategoryAmount(
-                    category = Category("Clothes & Jewelery Fancy", Red.toArgb()),
+                    category = CategoryOld("Clothes & Jewelery Fancy", Red.toArgb()),
                     amount = 2.0
                 ),
                 CategoryAmount(
-                    category = Category(
+                    category = CategoryOld(
                         "Finances, Burocracy & Governance",
                         IvyLight.toArgb(),
                         icon = "work"

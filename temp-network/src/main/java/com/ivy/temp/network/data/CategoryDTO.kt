@@ -1,6 +1,6 @@
 package com.ivy.wallet.io.network.data
 
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.wallet.io.persistence.data.CategoryEntity
 import java.util.*
 
@@ -23,7 +23,7 @@ data class CategoryDTO(
     )
 }
 
-fun Category.toDTO(): CategoryDTO = CategoryDTO(
+fun CategoryOld.toDTO(): CategoryDTO = CategoryDTO(
     name = name,
     color = color,
     icon = icon,

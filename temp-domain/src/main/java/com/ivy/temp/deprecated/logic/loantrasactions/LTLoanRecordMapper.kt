@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.utils.computationThread
 import java.util.*
@@ -57,7 +57,7 @@ class LTLoanRecordMapper(
     }
 
     suspend fun updateAssociatedLoanRecord(
-        transaction: Transaction?,
+        transaction: TransactionOld?,
         onBackgroundProcessingStart: suspend () -> Unit = {},
         onBackgroundProcessingEnd: suspend () -> Unit = {},
     ) {

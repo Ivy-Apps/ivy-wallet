@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -41,10 +41,10 @@ import com.ivy.wallet.utils.toLowerCaseLocal
 @Composable
 fun BoxWithConstraintsScope.OnboardingCategories(
     suggestions: List<CreateCategoryData>,
-    categories: List<Category>,
+    categories: List<CategoryOld>,
 
     onCreateCategory: (CreateCategoryData) -> Unit = { },
-    onEditCategory: (Category) -> Unit = { _ -> },
+    onEditCategory: (CategoryOld) -> Unit = { _ -> },
 
     onSkip: () -> Unit = {},
     onDone: () -> Unit = {}
@@ -184,8 +184,8 @@ fun BoxWithConstraintsScope.OnboardingCategories(
 
 @Composable
 private fun Categories(
-    categories: List<Category>,
-    onClick: (Category) -> Unit
+    categories: List<CategoryOld>,
+    onClick: (CategoryOld) -> Unit
 ) {
     for (category in categories) {
         CategoryCard(
@@ -200,7 +200,7 @@ private fun Categories(
 
 @Composable
 private fun CategoryCard(
-    category: Category,
+    category: CategoryOld,
     onClick: () -> Unit
 ) {
     val categoryColor = category.color.toComposeColor()
@@ -370,7 +370,7 @@ private fun Preview_Categories() {
                 ),
             ),
             categories = listOf(
-                Category(
+                CategoryOld(
                     name = "Food & Drinks",
                     color = Orange.toArgb(),
                     icon = "fooddrinks"
@@ -442,7 +442,7 @@ private fun Preview_Premium() {
                 ),
             ),
             categories = List(12) {
-                Category(
+                CategoryOld(
                     name = "Food & Drinks",
                     color = Orange.toArgb(),
                     icon = "fooddrinks"

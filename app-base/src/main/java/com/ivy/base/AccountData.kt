@@ -1,10 +1,9 @@
 package com.ivy.base
 
-import com.ivy.base.Reorderable
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 
 data class AccountData(
-    val account: Account,
+    val account: AccountOld,
     val balance: Double,
     val balanceBaseCurrency: Double?,
     val monthlyExpenses: Double,

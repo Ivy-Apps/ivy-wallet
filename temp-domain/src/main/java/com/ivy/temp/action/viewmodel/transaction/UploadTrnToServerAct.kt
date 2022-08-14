@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.action.viewmodel.transaction
 
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.monad.Res
 import com.ivy.wallet.io.network.IvySession
@@ -12,9 +12,9 @@ class UploadTrnToServerAct @Inject constructor(
     private val ivySession: IvySession,
     restClient: RestClient,
     private val dao: TransactionDao
-) : FPAction<Transaction, Res<String, Unit>>() {
+) : FPAction<TransactionOld, Res<String, Unit>>() {
     private val service = restClient.transactionService
-    override suspend fun Transaction.compose(): suspend () -> Res<String, Unit> {
+    override suspend fun TransactionOld.compose(): suspend () -> Res<String, Unit> {
         TODO("Not yet implemented")
     }
 

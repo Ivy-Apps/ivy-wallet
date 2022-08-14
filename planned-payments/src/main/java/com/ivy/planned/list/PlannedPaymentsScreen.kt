@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -68,8 +68,8 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
 private fun BoxWithConstraintsScope.UI(
     currency: String,
 
-    categories: List<Category>,
-    accounts: List<Account>,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>,
 
     oneTime: List<PlannedPaymentRule>,
     oneTimeIncome: Double,
@@ -114,7 +114,7 @@ private fun BoxWithConstraintsScope.UI(
         onAdd = {
             nav.navigateTo(
                 EditPlanned(
-                    type = TransactionType.EXPENSE,
+                    type = TrnType.EXPENSE,
                     plannedPaymentRuleId = null
                 )
             )
@@ -126,9 +126,9 @@ private fun BoxWithConstraintsScope.UI(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val account = Account(name = "Cash", color = Green.toArgb())
-        val food = Category(name = "Food", color = Ivy.toArgb())
-        val shisha = Category(name = "Shisha", color = Orange.toArgb())
+        val account = AccountOld(name = "Cash", color = Green.toArgb())
+        val food = CategoryOld(name = "Food", color = Ivy.toArgb())
+        val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
 
         UI(
             currency = "BGN",
@@ -145,7 +145,7 @@ private fun Preview() {
                     oneTime = true,
                     intervalType = null,
                     intervalN = null,
-                    type = TransactionType.EXPENSE
+                    type = TrnType.EXPENSE
                 )
             ),
             oneTimeExpenses = 250.75,
@@ -160,7 +160,7 @@ private fun Preview() {
                     oneTime = false,
                     intervalType = IntervalType.MONTH,
                     intervalN = 1,
-                    type = TransactionType.EXPENSE
+                    type = TrnType.EXPENSE
                 )
             ),
             recurringExpenses = 1025.5,

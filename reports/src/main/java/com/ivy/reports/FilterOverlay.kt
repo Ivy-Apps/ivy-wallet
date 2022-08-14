@@ -24,9 +24,9 @@ import androidx.compose.ui.zIndex
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.old.ListItem
@@ -48,8 +48,8 @@ fun BoxWithConstraintsScope.FilterOverlay(
     visible: Boolean,
 
     baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
+    accounts: List<AccountOld>,
+    categories: List<CategoryOld>,
 
     filter: ReportFilter?,
     onClose: () -> Unit,
@@ -360,7 +360,7 @@ private fun TypeFilter(
         Spacer(Modifier.width(20.dp))
 
         TypeFilterCheckbox(
-            trnType = TransactionType.INCOME,
+            trnType = TrnType.INCOME,
             filter = filter,
             nonFilter = nonNullFilter,
             onSetFilter = onSetFilter
@@ -369,7 +369,7 @@ private fun TypeFilter(
         Spacer(Modifier.width(20.dp))
 
         TypeFilterCheckbox(
-            trnType = TransactionType.EXPENSE,
+            trnType = TrnType.EXPENSE,
             filter = filter,
             nonFilter = nonNullFilter,
             onSetFilter = onSetFilter
@@ -380,7 +380,7 @@ private fun TypeFilter(
 
     TypeFilterCheckbox(
         modifier = Modifier.padding(start = 20.dp),
-        trnType = TransactionType.TRANSFER,
+        trnType = TrnType.TRANSFER,
         filter = filter,
         nonFilter = nonNullFilter,
         onSetFilter = onSetFilter
@@ -390,7 +390,7 @@ private fun TypeFilter(
 @Composable
 private fun TypeFilterCheckbox(
     modifier: Modifier = Modifier,
-    trnType: TransactionType,
+    trnType: TrnType,
     filter: ReportFilter?,
     nonFilter: (ReportFilter?) -> ReportFilter,
     onSetFilter: (ReportFilter) -> Unit
@@ -398,9 +398,9 @@ private fun TypeFilterCheckbox(
     IvyCheckboxWithText(
         modifier = modifier,
         text = when (trnType) {
-            TransactionType.INCOME -> stringResource(R.string.incomes)
-            TransactionType.EXPENSE -> stringResource(R.string.expenses)
-            TransactionType.TRANSFER -> stringResource(R.string.account_transfers)
+            TrnType.INCOME -> stringResource(R.string.incomes)
+            TrnType.EXPENSE -> stringResource(R.string.expenses)
+            TrnType.TRANSFER -> stringResource(R.string.account_transfers)
         },
         checked = filter != null && filter.trnTypes.contains(trnType),
     ) { checked ->
@@ -452,7 +452,7 @@ private fun PeriodFilter(
 
 @Composable
 private fun AccountsFilter(
-    allAccounts: List<Account>,
+    allAccounts: List<AccountOld>,
     filter: ReportFilter?,
     nonNullFilter: (ReportFilter?) -> ReportFilter,
     onSetFilter: (ReportFilter) -> Unit
@@ -520,7 +520,7 @@ private fun AccountsFilter(
 
 @Composable
 private fun CategoriesFilter(
-    allCategories: List<Category>,
+    allCategories: List<CategoryOld>,
     filter: ReportFilter?,
     nonNullFilter: (ReportFilter?) -> ReportFilter,
     onSetFilter: (ReportFilter) -> Unit
@@ -854,9 +854,9 @@ private fun FilterTitleText(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
-        val cat1 = Category("Science", color = Purple1Dark.toArgb(), icon = "atom")
+        val acc1 = AccountOld("Cash", color = Green.toArgb())
+        val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
+        val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         FilterOverlay(
             visible = true,
@@ -865,13 +865,13 @@ private fun Preview() {
             accounts = listOf(
                 acc1,
                 acc2,
-                Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                Account("Revolut", color = IvyDark.toArgb()),
+                AccountOld("phyre", color = GreenLight.toArgb(), icon = "cash"),
+                AccountOld("Revolut", color = IvyDark.toArgb()),
             ),
             categories = listOf(
                 cat1,
-                Category("Pet", color = Red3Light.toArgb(), icon = "pet"),
-                Category("Home", color = Green.toArgb(), icon = null),
+                CategoryOld("Pet", color = Red3Light.toArgb(), icon = "pet"),
+                CategoryOld("Home", color = Green.toArgb(), icon = null),
             ),
 
             filter = ReportFilter.emptyFilter("BGN").copy(

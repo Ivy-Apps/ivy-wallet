@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -47,12 +47,12 @@ import java.time.LocalDateTime
 fun TransactionCard(
     baseData: AppBaseData,
 
-    transaction: Transaction,
+    transaction: TransactionOld,
 
-    onPayOrGet: (Transaction) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit = {},
+    onPayOrGet: (TransactionOld) -> Unit,
+    onSkipTransaction: (TransactionOld) -> Unit = {},
 
-    onClick: (Transaction) -> Unit,
+    onClick: (TransactionOld) -> Unit,
 ) {
     Spacer(Modifier.height(12.dp))
 
@@ -153,7 +153,7 @@ fun TransactionCard(
             amount = transaction.amount.toDouble()
         )
 
-        if (transaction.type == TransactionType.TRANSFER && toAccountCurrency != transactionCurrency) {
+        if (transaction.type == TrnType.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
@@ -168,7 +168,7 @@ fun TransactionCard(
             //Pay/Get button
             Spacer(Modifier.height(16.dp))
 
-            val isExpense = transaction.type == TransactionType.EXPENSE
+            val isExpense = transaction.type == TrnType.EXPENSE
             Row {
                 IvyButton(
                     modifier = Modifier
@@ -211,13 +211,13 @@ fun TransactionCard(
 
 @Composable
 private fun TransactionHeaderRow(
-    transaction: Transaction,
-    categories: List<Category>,
-    accounts: List<Account>
+    transaction: TransactionOld,
+    categories: List<CategoryOld>,
+    accounts: List<AccountOld>
 ) {
     val nav = navigation()
 
-    if (transaction.type == TransactionType.TRANSFER) {
+    if (transaction.type == TrnType.TRANSFER) {
         TransferHeader(
             accounts = accounts,
             transaction = transaction
@@ -319,8 +319,8 @@ private fun TransactionBadge(
 
 @Composable
 private fun TransferHeader(
-    accounts: List<Account>,
-    transaction: Transaction
+    accounts: List<AccountOld>,
+    transaction: TransactionOld
 ) {
     Row(
         modifier = Modifier
@@ -380,7 +380,7 @@ private fun TransferHeader(
 
 @Composable
 fun TypeAmountCurrency(
-    transactionType: TransactionType,
+    transactionType: TrnType,
     dueDate: LocalDateTime?,
     currency: String,
     amount: Double
@@ -393,7 +393,7 @@ fun TypeAmountCurrency(
         Spacer(Modifier.width(24.dp))
 
         val style = when (transactionType) {
-            TransactionType.INCOME -> {
+            TrnType.INCOME -> {
                 AmountTypeStyle(
                     icon = R.drawable.ic_income,
                     gradient = GradientGreen,
@@ -401,7 +401,7 @@ fun TypeAmountCurrency(
                     textColor = Green
                 )
             }
-            TransactionType.EXPENSE -> {
+            TrnType.EXPENSE -> {
                 when {
                     dueDate != null && dueDate.isAfter(timeNowUTC()) -> {
                         //Upcoming Expense
@@ -432,7 +432,7 @@ fun TypeAmountCurrency(
                     }
                 }
             }
-            TransactionType.TRANSFER -> {
+            TrnType.TRANSFER -> {
                 //Transfer
                 AmountTypeStyle(
                     icon = R.drawable.ic_transfer,
@@ -474,8 +474,8 @@ private data class AmountTypeStyle(
 private fun PreviewUpcomingExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Food", color = Green.toArgb())
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(name = "Food", color = Green.toArgb())
 
             item {
                 TransactionCard(
@@ -484,14 +484,14 @@ private fun PreviewUpcomingExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Lidl pazar",
                         categoryId = food.id,
                         amount = 250.75.toBigDecimal(),
                         dueDate = timeNowUTC().plusDays(5),
                         dateTime = null,
-                        type = TransactionType.EXPENSE,
+                        type = TrnType.EXPENSE,
                     ),
                     onPayOrGet = {},
                 ) {
@@ -507,8 +507,8 @@ private fun PreviewUpcomingExpense() {
 private fun PreviewOverdueExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(name = "Rent", color = Green.toArgb())
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(name = "Rent", color = Green.toArgb())
 
             item {
                 TransactionCard(
@@ -517,14 +517,14 @@ private fun PreviewOverdueExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Rent",
                         categoryId = food.id,
                         amount = 500.0.toBigDecimal(),
                         dueDate = timeNowUTC().minusDays(5),
                         dateTime = null,
-                        type = TransactionType.EXPENSE
+                        type = TrnType.EXPENSE
                     ),
                     onPayOrGet = {},
                 ) {
@@ -540,8 +540,8 @@ private fun PreviewOverdueExpense() {
 private fun PreviewNormalExpense() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "Cash", color = Green.toArgb())
-            val food = Category(
+            val cash = AccountOld(name = "Cash", color = Green.toArgb())
+            val food = CategoryOld(
                 name = "Bitovi",
                 color = Orange.toArgb(),
                 icon = "groceries"
@@ -554,13 +554,13 @@ private fun PreviewNormalExpense() {
                         categories = listOf(food),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Близкия магазин",
                         categoryId = food.id,
                         amount = 32.51.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TransactionType.EXPENSE
+                        type = TrnType.EXPENSE
                     ),
                     onPayOrGet = {},
                 ) {
@@ -575,8 +575,8 @@ private fun PreviewNormalExpense() {
 private fun PreviewIncome() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val cash = Account(name = "DSK Bank", color = Green.toArgb())
-            val category = Category(name = "Salary", color = GreenDark.toArgb())
+            val cash = AccountOld(name = "DSK Bank", color = Green.toArgb())
+            val category = CategoryOld(name = "Salary", color = GreenDark.toArgb())
 
             item {
                 TransactionCard(
@@ -585,13 +585,13 @@ private fun PreviewIncome() {
                         categories = listOf(category),
                         accounts = listOf(cash)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = cash.id,
                         title = "Qredo Salary May",
                         categoryId = category.id,
                         amount = 8049.70.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TransactionType.INCOME
+                        type = TrnType.INCOME
                     ),
                     onPayOrGet = {},
                 ) {
@@ -607,8 +607,8 @@ private fun PreviewIncome() {
 private fun PreviewTransfer() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
-            val acc2 = Account(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
+            val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
+            val acc2 = AccountOld(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
 
             item {
                 TransactionCard(
@@ -617,13 +617,13 @@ private fun PreviewTransfer() {
                         categories = listOf(),
                         accounts = listOf(acc1, acc2)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = acc1.id,
                         toAccountId = acc2.id,
                         title = "Top-up revolut",
                         amount = 1000.0.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TransactionType.TRANSFER
+                        type = TrnType.TRANSFER
                     ),
                     onPayOrGet = {},
                 ) {
@@ -640,8 +640,8 @@ private fun PreviewTransfer() {
 private fun PreviewTransfer_differentCurrency() {
     IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
-            val acc1 = Account(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
-            val acc2 = Account(
+            val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
+            val acc2 = AccountOld(
                 name = "Revolut",
                 currency = "EUR",
                 color = IvyDark.toArgb(),
@@ -655,14 +655,14 @@ private fun PreviewTransfer_differentCurrency() {
                         categories = listOf(),
                         accounts = listOf(acc1, acc2)
                     ),
-                    transaction = Transaction(
+                    transaction = TransactionOld(
                         accountId = acc1.id,
                         toAccountId = acc2.id,
                         title = "Top-up revolut",
                         amount = 1000.0.toBigDecimal(),
                         toAmount = 510.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TransactionType.TRANSFER
+                        type = TrnType.TRANSFER
                     ),
                     onPayOrGet = {},
                 ) {

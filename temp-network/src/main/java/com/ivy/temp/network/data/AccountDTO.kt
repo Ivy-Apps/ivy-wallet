@@ -1,6 +1,6 @@
 package com.ivy.wallet.io.network.data
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.wallet.io.persistence.data.AccountEntity
 import java.util.*
 
@@ -27,7 +27,7 @@ data class AccountDTO(
     )
 }
 
-fun Account.toDTO(): AccountDTO = AccountDTO(
+fun AccountOld.toDTO(): AccountDTO = AccountDTO(
     name = name,
     currency = currency,
     color = color,

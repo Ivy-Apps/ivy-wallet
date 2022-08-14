@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.LoanRecord
 import com.ivy.design.l0_system.UI
@@ -49,7 +49,7 @@ data class LoanRecordModalData(
     val loanRecord: LoanRecord?,
     val baseCurrency: String,
     val loanAccountCurrencyCode: String? = null,
-    val selectedAccount: Account? = null,
+    val selectedAccount: AccountOld? = null,
     val createLoanRecordTransaction: Boolean = false,
     val isLoanInterest: Boolean = false,
     val id: UUID = UUID.randomUUID()
@@ -58,7 +58,7 @@ data class LoanRecordModalData(
 @Composable
 fun BoxWithConstraintsScope.LoanRecordModal(
     modal: LoanRecordModalData?,
-    accounts: List<Account> = emptyList(),
+    accounts: List<AccountOld> = emptyList(),
     onCreateAccount: (CreateAccountData) -> Unit = {},
 
     onCreate: (CreateLoanRecordData) -> Unit,
@@ -376,7 +376,7 @@ private fun save(
     dateTime: LocalDateTime,
     loanRecordInterest: Boolean = false,
     createLoanRecordTransaction: Boolean = false,
-    selectedAccount: Account? = null,
+    selectedAccount: AccountOld? = null,
     reCalculateAmount: Boolean = false,
 
     onCreate: (CreateLoanRecordData) -> Unit,
@@ -418,10 +418,10 @@ private fun save(
 @Composable
 private fun AccountsRow(
     modifier: Modifier = Modifier,
-    accounts: List<Account>,
-    selectedAccount: Account?,
+    accounts: List<AccountOld>,
+    selectedAccount: AccountOld?,
     childrenTestTag: String? = null,
-    onSelectedAccountChanged: (Account) -> Unit,
+    onSelectedAccountChanged: (AccountOld) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
     val lazyState = rememberLazyListState()
@@ -476,7 +476,7 @@ private fun AccountsRow(
 
 @Composable
 private fun Account(
-    account: Account,
+    account: AccountOld,
     selected: Boolean,
     testTag: String,
     onClick: () -> Unit

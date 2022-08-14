@@ -55,6 +55,7 @@ object Versions {
 
     //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val composeViewModel = "2.6.0-alpha01"
+
     //https://developer.android.com/jetpack/androidx/releases/glance
     const val composeGlance = "1.0.0-alpha03"
 
@@ -66,12 +67,15 @@ object Versions {
     const val composeCoil = "2.1.0"
 
     const val arrow: String = "1.0.1"
-    const val kotest: String = "5.1.0"
+
+    //https://kotest.io/
+    const val kotest: String = "5.4.2"
     const val junitJupiter: String = "5.8.2"
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     //WARNING: Update hilt gradle plugin from buildSrc
     const val hilt = "2.42"
+
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
 
@@ -79,14 +83,19 @@ object Versions {
 
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
+
     //https://developer.android.com/jetpack/androidx/releases/core
     const val coreKtx = "1.9.0-alpha05"
+
     //https://developer.android.com/jetpack/androidx/releases/work
     const val workVersion = "2.8.0-alpha02"
+
     //https://developer.android.com/jetpack/androidx/releases/biometric
     const val biometric = "1.2.0-alpha04"
+
     //https://developer.android.com/jetpack/androidx/releases/recyclerview
     const val recyclerView = "1.3.0-beta01"
+
     //https://developer.android.com/jetpack/androidx/releases/webkit
     const val webkit = "1.5.0-beta01"
 
@@ -98,6 +107,9 @@ object Versions {
 
     //https://github.com/square/retrofit
     const val retrofit = "2.9.0"
+
+    //https://ktor.io/
+    const val ktor = "2.0.3"
 
     //https://github.com/google/gson
     const val gson = "2.8.7"
@@ -272,7 +284,7 @@ private fun DependencyHandler.HiltTesting() {
 fun DependencyHandler.RoomDB(api: Boolean) {
     dependency("androidx.room:room-runtime:${Versions.room}", api = api)
     kapt("androidx.room:room-compiler:${Versions.room}")
-    dependency("androidx.room:room-ktx:${Versions.room}", api =  api)
+    dependency("androidx.room:room-ktx:${Versions.room}", api = api)
 }
 
 /**
@@ -289,6 +301,16 @@ fun DependencyHandler.Networking(api: Boolean) {
     dependency(
         "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}", api = api
     )
+
+    Ktor(api = api)
+}
+
+fun DependencyHandler.Ktor(api: Boolean) {
+    dependency("io.ktor:ktor-client-core:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-client-okhttp:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-client-logging:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-client-content-negotiation:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}", api = api)
 }
 
 fun DependencyHandler.Gson(api: Boolean) {
@@ -379,8 +401,6 @@ fun DependencyHandler.Timber(api: Boolean) {
 
 fun DependencyHandler.FunctionalProgramming(api: Boolean) {
     Arrow(api)
-
-    Kotest(api)
 }
 
 /**
@@ -393,17 +413,25 @@ fun DependencyHandler.Arrow(
     dependency("io.arrow-kt:arrow-core", api = api)
     dependency("io.arrow-kt:arrow-fx-coroutines", api = api)
     dependency("io.arrow-kt:arrow-fx-stm", api = api)
+//    dependency("io.arrow-kt:arrow-optics")
+}
+
+fun DependencyHandler.Testing() {
+    Kotest()
 }
 
 /**
  * Kotlin Property-based testing
  */
-fun DependencyHandler.Kotest(api: Boolean) {
+fun DependencyHandler.Kotest() {
+    val api = false //TODO: Kotest API does not work
     //junit5 is required!
     testDependency("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}", api = api)
     testDependency("io.kotest:kotest-runner-junit5:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
+    testDependency("io.kotest:kotest-framework-api-jvm:${Versions.kotest}", api = api)
+    testImplementation("io.kotest:kotest-framework-engine-jvm:${Versions.kotest}")
 
     //otherwise Kotest doesn't work...
     testDependency("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}", api = api)

@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.onScreenStart
@@ -42,11 +42,11 @@ import java.util.*
 fun BoxWithConstraintsScope.ChooseCategoryModal(
     id: UUID = UUID.randomUUID(),
     visible: Boolean,
-    initialCategory: Category?,
-    categories: List<Category>,
+    initialCategory: CategoryOld?,
+    categories: List<CategoryOld>,
 
-    showCategoryModal: (Category?) -> Unit,
-    onCategoryChanged: (Category?) -> Unit,
+    showCategoryModal: (CategoryOld?) -> Unit,
+    onCategoryChanged: (CategoryOld?) -> Unit,
     dismiss: () -> Unit
 ) {
     var selectedCategory by remember(initialCategory) {
@@ -104,8 +104,8 @@ fun BoxWithConstraintsScope.ChooseCategoryModal(
 private fun save(
     shouldDismissModal: Boolean = true,
 
-    category: Category?,
-    onCategoryChanged: (Category?) -> Unit,
+    category: CategoryOld?,
+    onCategoryChanged: (CategoryOld?) -> Unit,
     dismiss: () -> Unit
 ) {
     onCategoryChanged(category)
@@ -117,11 +117,11 @@ private fun save(
 @ExperimentalFoundationApi
 @Composable
 private fun CategoryPicker(
-    categories: List<Category>,
-    selectedCategory: Category?,
-    showCategoryModal: (Category?) -> Unit,
-    onEditCategory: (Category) -> Unit,
-    onSelected: (Category?) -> Unit,
+    categories: List<CategoryOld>,
+    selectedCategory: CategoryOld?,
+    showCategoryModal: (CategoryOld?) -> Unit,
+    onEditCategory: (CategoryOld) -> Unit,
+    onSelected: (CategoryOld?) -> Unit,
 ) {
     val data = mutableListOf<Any>()
     data.addAll(categories)
@@ -135,7 +135,7 @@ private fun CategoryPicker(
         items = data
     ) {
         when (it) {
-            is Category -> {
+            is CategoryOld -> {
                 CategoryButton(
                     category = it,
                     selected = it == selectedCategory,
@@ -162,7 +162,7 @@ private fun CategoryPicker(
 @ExperimentalFoundationApi
 @Composable
 private fun CategoryButton(
-    category: Category,
+    category: CategoryOld,
     selected: Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
@@ -262,9 +262,9 @@ private class AddNewCategory
 private fun PreviewChooseCategoryModal() {
     IvyWalletPreview {
         val categories = mutableListOf(
-            Category("Test", color = Ivy.toArgb()),
-            Category("Second", color = Orange.toArgb()),
-            Category("Third", color = Red.toArgb()),
+            CategoryOld("Test", color = Ivy.toArgb()),
+            CategoryOld("Second", color = Orange.toArgb()),
+            CategoryOld("Third", color = Red.toArgb()),
         )
 
         ChooseCategoryModal(

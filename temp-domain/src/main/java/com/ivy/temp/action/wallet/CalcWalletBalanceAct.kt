@@ -1,22 +1,22 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
-import com.ivy.exchange.ExchangeAct
-import com.ivy.exchange.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.action.thenSum
 import com.ivy.frp.fixUnit
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import java.math.BigDecimal
 import javax.inject.Inject
 
 class CalcWalletBalanceAct @Inject constructor(
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val calcAccBalanceAct: CalcAccBalanceAct,
-    private val exchangeAct: ExchangeAct,
+    private val exchangeAct: ExchangeActOld,
 ) : FPAction<CalcWalletBalanceAct.Input, BigDecimal>() {
 
     override suspend fun Input.compose(): suspend () -> BigDecimal = recipe().fixUnit()
@@ -33,7 +33,7 @@ class CalcWalletBalanceAct @Inject constructor(
             )
         } thenMap {
             exchangeAct(
-                ExchangeAct.Input(
+                ExchangeActOld.Input(
                     data = ExchangeData(
                         baseCurrency = baseCurrency,
                         fromCurrency = (it.account.currency ?: baseCurrency).toOption(),

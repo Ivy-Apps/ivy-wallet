@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.ivy.widgets"/>
+<manifest package="com.ivy.widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <receiver android:name=".AddTransactionWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_transaction_widget_info" />
+        </receiver>
+
+        <receiver android:name=".AddTransactionWidgetCompact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_transaction_widget_compact_info" />
+        </receiver>
+
+        <receiver
+            android:name=".WalletBalanceReceiver"
+            android:enabled="@bool/glance_appwidget_available"
+            android:label="@string/wallet_balance"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/wallet_balance_widget_info" />
+        </receiver>
+    </application>
+</manifest>

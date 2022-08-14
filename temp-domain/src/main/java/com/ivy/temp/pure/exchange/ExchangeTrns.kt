@@ -2,9 +2,9 @@ package com.ivy.wallet.domain.pure.exchange
 
 import arrow.core.Option
 import arrow.core.toOption
-import com.ivy.data.Account
-import com.ivy.data.transaction.Transaction
-import com.ivy.exchange.ExchangeData
+import com.ivy.data.AccountOld
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.pure.account.accountCurrency
@@ -17,14 +17,14 @@ typealias ExchangeEffect = suspend (ExchangeData, BigDecimal) -> Option<BigDecim
 data class ExchangeTrnArgument(
     val baseCurrency: String,
     @SideEffect
-    val getAccount: suspend (accountId: UUID) -> Account?,
+    val getAccount: suspend (accountId: UUID) -> AccountOld?,
     @SideEffect
     val exchange: ExchangeEffect
 )
 
 @Pure
 suspend fun exchangeInBaseCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     arg: ExchangeTrnArgument
 ): BigDecimal {
     val fromCurrency = arg.getAccount(transaction.accountId)?.let {
@@ -42,9 +42,9 @@ suspend fun exchangeInBaseCurrency(
 
 @Pure
 suspend fun exchangeInBaseCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
-    accounts: List<Account>,
+    accounts: List<AccountOld>,
 
     @SideEffect
     exchange: ExchangeEffect
@@ -58,9 +58,9 @@ suspend fun exchangeInBaseCurrency(
 
 @Pure
 suspend fun exchangeInCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
-    accounts: List<Account>,
+    accounts: List<AccountOld>,
     toCurrency: String,
 
     @SideEffect
@@ -77,7 +77,7 @@ suspend fun exchangeInCurrency(
 }
 
 suspend fun exchangeInCurrency(
-    transaction: Transaction,
+    transaction: TransactionOld,
     baseCurrency: String,
     trnCurrency: Option<String>,
     toCurrency: String,

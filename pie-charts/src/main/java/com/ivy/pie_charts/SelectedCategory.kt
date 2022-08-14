@@ -1,7 +1,7 @@
 package com.ivy.pie_charts
 
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 
 data class SelectedCategory(
-    val category: Category? //null - Unspecified
+    val category: CategoryOld? //null - Unspecified
 )

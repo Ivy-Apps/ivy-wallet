@@ -1,7 +1,7 @@
 package com.ivy.base
 
 import com.ivy.common.*
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import java.time.LocalDateTime
 
 data class FromToTimeRange(
@@ -47,7 +47,7 @@ data class FromToTimeRange(
     }
 }
 
-fun Iterable<Transaction>.filterUpcoming(): List<Transaction> {
+fun Iterable<TransactionOld>.filterUpcoming(): List<TransactionOld> {
     val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
 
     return filter {
@@ -56,7 +56,7 @@ fun Iterable<Transaction>.filterUpcoming(): List<Transaction> {
     }
 }
 
-fun Iterable<Transaction>.filterOverdue(): List<Transaction> {
+fun Iterable<TransactionOld>.filterOverdue(): List<TransactionOld> {
     val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
 
     return filter {
@@ -75,6 +75,6 @@ fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
 fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
     return ClosedTimeRange(
         from = from ?: beginningOfIvyTime(),
-        to = to ?: toIvyFutureTime()
+        to = to ?: endOfIvyTime()
     )
 }

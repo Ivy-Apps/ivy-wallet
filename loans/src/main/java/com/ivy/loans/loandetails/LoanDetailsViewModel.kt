@@ -2,15 +2,15 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.LoanDetails
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.LoanCreator
@@ -44,7 +44,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val loanTransactionsLogic: LoanTransactionsLogic,
     private val nav: Navigation,
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val loanByIdAct: LoanByIdAct
 ) : ViewModel() {
 
@@ -60,16 +60,16 @@ class LoanDetailsViewModel @Inject constructor(
     private val _amountPaid = MutableStateFlow(0.0)
     val amountPaid = _amountPaid.asStateFlow()
 
-    private val _accounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _accounts = MutableStateFlow<List<AccountOld>>(emptyList())
     val accounts = _accounts.asStateFlow()
 
     private val _loanInterestAmountPaid = MutableStateFlow(0.0)
     val loanAmountPaid = _loanInterestAmountPaid.asStateFlow()
 
-    private val _selectedLoanAccount = MutableStateFlow<Account?>(null)
+    private val _selectedLoanAccount = MutableStateFlow<AccountOld?>(null)
     val selectedLoanAccount = _selectedLoanAccount.asStateFlow()
 
-    private var associatedTransaction: Transaction? = null
+    private var associatedTransaction: TransactionOld? = null
 
     private val _createLoanTransaction = MutableStateFlow(false)
     val createLoanTransaction = _createLoanTransaction.asStateFlow()
@@ -303,9 +303,9 @@ class LoanDetailsViewModel @Inject constructor(
     }
 
     private fun findAccount(
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         accountId: UUID?,
-    ): Account? {
+    ): AccountOld? {
         return accountId?.let { uuid ->
             accounts.find { acc ->
                 acc.id == uuid

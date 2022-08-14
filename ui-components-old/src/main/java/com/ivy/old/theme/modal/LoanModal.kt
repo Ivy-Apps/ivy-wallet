@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.Loan
@@ -52,7 +52,7 @@ import java.util.*
 data class LoanModalData(
     val loan: Loan?,
     val baseCurrency: String,
-    val selectedAccount: Account? = null,
+    val selectedAccount: AccountOld? = null,
     val autoFocusKeyboard: Boolean = true,
     val autoOpenAmountModal: Boolean = false,
     val createLoanTransaction: Boolean = false,
@@ -61,7 +61,7 @@ data class LoanModalData(
 
 @Composable
 fun BoxWithConstraintsScope.LoanModal(
-    accounts: List<Account> = emptyList(),
+    accounts: List<AccountOld> = emptyList(),
     onCreateAccount: (CreateAccountData) -> Unit = {},
 
     modal: LoanModalData?,
@@ -313,10 +313,10 @@ fun BoxWithConstraintsScope.LoanModal(
 @Composable
 private fun AccountsRow(
     modifier: Modifier = Modifier,
-    accounts: List<Account>,
-    selectedAccount: Account?,
+    accounts: List<AccountOld>,
+    selectedAccount: AccountOld?,
     childrenTestTag: String? = null,
-    onSelectedAccountChanged: (Account) -> Unit,
+    onSelectedAccountChanged: (AccountOld) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
     val lazyState = rememberLazyListState()
@@ -369,7 +369,7 @@ private fun AccountsRow(
 
 @Composable
 private fun Account(
-    account: Account,
+    account: AccountOld,
     selected: Boolean,
     testTag: String,
     onClick: () -> Unit
@@ -530,7 +530,7 @@ private fun save(
     color: Color,
     icon: String?,
     amount: Double,
-    selectedAccount: Account? = null,
+    selectedAccount: AccountOld? = null,
     createLoanTransaction: Boolean = false,
 
     onCreateLoan: (CreateLoanData) -> Unit,

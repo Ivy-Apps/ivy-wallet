@@ -3,17 +3,17 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditPlanned
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
@@ -45,11 +45,11 @@ class EditPlannedViewModel @Inject constructor(
     private val plannedPaymentsGenerator: PlannedPaymentsGenerator,
     private val categoryCreator: CategoryCreator,
     private val accountCreator: AccountCreator,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld
 ) : ViewModel() {
 
-    private val _transactionType = MutableLiveData<TransactionType>()
+    private val _transactionType = MutableLiveData<TrnType>()
     val transactionType = _transactionType
 
     private val _startDate = MutableLiveData<LocalDateTime?>()
@@ -73,16 +73,16 @@ class EditPlannedViewModel @Inject constructor(
     private val _description = MutableLiveData<String?>()
     val description = _description.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<List<AccountOld>>()
     val accounts = _accounts.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
-    private val _account = MutableLiveData<Account>()
+    private val _account = MutableLiveData<AccountOld>()
     val account = _account.asLiveData()
 
-    private val _category = MutableLiveData<Category?>()
+    private val _category = MutableLiveData<CategoryOld?>()
     val category = _category.asLiveData()
 
     private val _amount = MutableLiveData(0.0)
@@ -151,7 +151,7 @@ class EditPlannedViewModel @Inject constructor(
         updateCurrency(account = selectedAccount)
     }
 
-    private suspend fun updateCurrency(account: Account) {
+    private suspend fun updateCurrency(account: AccountOld) {
         _currency.value = account.currency ?: baseCurrency()
     }
 
@@ -205,7 +205,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onCategoryChanged(newCategory: Category?) {
+    fun onCategoryChanged(newCategory: CategoryOld?) {
         loadedRule = loadedRule().copy(
             categoryId = newCategory?.id
         )
@@ -214,7 +214,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onAccountChanged(newAccount: Account) {
+    fun onAccountChanged(newAccount: AccountOld) {
         loadedRule = loadedRule().copy(
             accountId = newAccount.id
         )
@@ -227,7 +227,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetTransactionType(newTransactionType: TransactionType) {
+    fun onSetTransactionType(newTransactionType: TrnType) {
         loadedRule = loadedRule().copy(
             type = newTransactionType
         )
@@ -287,7 +287,7 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     private fun validate(): Boolean {
-        if (transactionType.value == TransactionType.TRANSFER) {
+        if (transactionType.value == TrnType.TRANSFER) {
             return false
         }
 

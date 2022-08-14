@@ -4,11 +4,11 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.common.convertLocalToUTC
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
@@ -39,8 +39,8 @@ class CSVImporter(
     private val transactionDao: TransactionDao
 ) {
 
-    lateinit var accounts: List<Account>
-    lateinit var categories: List<Category>
+    lateinit var accounts: List<AccountOld>
+    lateinit var categories: List<CategoryOld>
 
     private var newCategoryColorIndex = 0
     private var newAccountColorIndex = 0
@@ -138,13 +138,13 @@ class CSVImporter(
         baseCurrency: String,
         row: List<String>,
         rowMapping: RowMapping
-    ): Transaction? {
+    ): TransactionOld? {
         val type = mapType(
             row = row,
             rowMapping = rowMapping
         ) ?: return null
 
-        val toAccount = if (type == TransactionType.TRANSFER) {
+        val toAccount = if (type == TrnType.TRANSFER) {
             mapAccount(
                 baseCurrency = baseCurrency,
                 accountNameString = row.extract(rowMapping.toAccount),
@@ -155,7 +155,7 @@ class CSVImporter(
             )
         } else null
 
-        val csvAmount = if (type != TransactionType.TRANSFER) {
+        val csvAmount = if (type != TrnType.TRANSFER) {
             mapAmount(row.extract(rowMapping.amount))
         } else {
             mapAmount(row.extract(rowMapping.transferAmount))
@@ -167,7 +167,7 @@ class CSVImporter(
             return null
         }
 
-        val toAmount = if (type == TransactionType.TRANSFER) {
+        val toAmount = if (type == TrnType.TRANSFER) {
             mapAmount(row.extract(rowMapping.toAmount))
         } else null
 
@@ -211,7 +211,7 @@ class CSVImporter(
 
 
         return rowMapping.transformTransaction(
-            Transaction(
+            TransactionOld(
                 id = id,
                 type = type,
                 amount = amount.toBigDecimal(),
@@ -232,25 +232,25 @@ class CSVImporter(
     private fun mapType(
         row: List<String>,
         rowMapping: RowMapping
-    ): TransactionType? {
+    ): TrnType? {
         //Return Expense for intentionally set Type mapping to null
         //Example: Fortune City
-        if (rowMapping.type == null) return TransactionType.EXPENSE
+        if (rowMapping.type == null) return TrnType.EXPENSE
 
         val type = row.extract(rowMapping.type) ?: return null
         // default is expense as some apps only declare transfers
-        if (type.isBlank()) return TransactionType.EXPENSE
+        if (type.isBlank()) return TrnType.EXPENSE
 
         val normalizedType = type.toLowerCaseLocal()
 
         return when {
-            normalizedType.contains("income") -> TransactionType.INCOME
-            normalizedType.contains("expense") -> TransactionType.EXPENSE
-            normalizedType.contains("transfer") -> TransactionType.TRANSFER
+            normalizedType.contains("income") -> TrnType.INCOME
+            normalizedType.contains("expense") -> TrnType.EXPENSE
+            normalizedType.contains("transfer") -> TrnType.TRANSFER
             else -> {
                 // Default to Expense because Financisto messed up its CSV Export
                 // and mixes it with another (ignored) column
-                if (rowMapping.defaultTypeToExpense) TransactionType.EXPENSE else null
+                if (rowMapping.defaultTypeToExpense) TrnType.EXPENSE else null
             }
         }
     }
@@ -412,7 +412,7 @@ class CSVImporter(
         icon: String?,
         orderNum: Double?,
         currencyRawString: String?,
-    ): Account? {
+    ): AccountOld? {
         if (accountNameString == null || accountNameString.isBlank()) return null
 
         val existingAccount = accounts.firstOrNull {
@@ -436,7 +436,7 @@ class CSVImporter(
             }
         }.toArgb()
 
-        val newAccount = Account(
+        val newAccount = AccountOld(
             name = accountNameString,
             currency = mapCurrency(
                 baseCurrency = baseCurrency,
@@ -473,7 +473,7 @@ class CSVImporter(
         color: Int?,
         icon: String?,
         orderNum: Double?
-    ): Category? {
+    ): CategoryOld? {
         if (categoryNameString == null || categoryNameString.isBlank()) return null
 
         val existingCategory = categories.firstOrNull {
@@ -489,7 +489,7 @@ class CSVImporter(
             IVY_COLOR_PICKER_COLORS_FREE.first()
         }.toArgb()
 
-        val newCategory = Category(
+        val newCategory = CategoryOld(
             name = categoryNameString,
             color = colorArgb,
             icon = icon,

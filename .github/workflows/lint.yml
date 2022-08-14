@@ -17,35 +17,30 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Fix GitHub Actions crashing with:
+    # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 #Fetch all history for all branches and tags
 
       - name: Setup Java SDK
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '11'
-
-      - name: Setup Ruby (for Fastlane)
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-
-      - name: Install Fastlane
-        run: bundle install
       #----------------------------------------------------
 
       #Security
-      - name: Validate Gradle Wrapper checksum
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: Make Gradle Wrapper (gradlew) executable
-        run: chmod +x gradlew
+      #      - name: Validate Gradle Wrapper checksum
+      #        uses: gradle/wrapper-validation-action@v1
+      #
+      #      - name: Make Gradle Wrapper (gradlew) executable
+      #        run: chmod +x gradlew
       #----------------------------------------------------
 
       #Optimization
@@ -60,13 +55,14 @@ jobs:
             ${{ runner.os }}-gradle-
       #---------------------------------------------------
 
-      #Lint
-      - name: Verify that the code is release-able ("lintRelease")
-        run: bundle exec fastlane lint_release
+      # Check: Lint
+      - name: Lint
+        run: ./gradlew lint
 
-      - name: Upload Lint Release report to GitHub
+      - name: Upload Lint report to GitHub (see artificats)
+        if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: lint-release-report.html
-          path: app/build/reports/lint-results-release.html
+          name: lint-report.html
+          path: app/lint-merged-report.html
       #------------------------------------------------------------------

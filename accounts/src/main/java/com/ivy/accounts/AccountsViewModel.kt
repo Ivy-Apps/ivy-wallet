@@ -5,12 +5,12 @@ import com.ivy.base.AccountData
 import com.ivy.base.TimePeriod
 import com.ivy.base.UiText
 import com.ivy.base.toCloseTimeRange
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.viewmodel.account.AccountDataAct
 import com.ivy.wallet.domain.action.wallet.CalcWalletBalanceAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
@@ -35,9 +35,9 @@ class AccountsViewModel @Inject constructor(
     private val accountCreator: AccountCreator,
     private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
-    private val accountsAct: AccountsAct,
+    private val accountsAct: AccountsActOld,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val baseCurrencyAct: BaseCurrencyActOld,
     private val accountDataAct: AccountDataAct
 ) : FRPViewModel<AccountState, Unit>() {
     override val _state: MutableStateFlow<AccountState> = MutableStateFlow(AccountState())
@@ -129,7 +129,7 @@ class AccountsViewModel @Inject constructor(
         TestIdlingResource.decrement()
     }
 
-    private suspend fun editAccount(account: Account, newBalance: Double) {
+    private suspend fun editAccount(account: AccountOld, newBalance: Double) {
         TestIdlingResource.increment()
 
         accountCreator.editAccount(account, newBalance) {

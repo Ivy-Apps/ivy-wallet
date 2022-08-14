@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.onScreenStart
@@ -50,7 +50,7 @@ import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
 
 data class CategoryModalData(
-    val category: Category?,
+    val category: CategoryOld?,
     val id: UUID = UUID.randomUUID(),
     val autoFocusKeyboard: Boolean = true
 )
@@ -59,9 +59,9 @@ data class CategoryModalData(
 fun BoxWithConstraintsScope.CategoryModal(
     modal: CategoryModalData?,
     isCategoryParentCategory: Boolean = true,
-    parentCategoryList: List<Category> = emptyList(),
+    parentCategoryList: List<CategoryOld> = emptyList(),
     onCreateCategory: (CreateCategoryData) -> Unit,
-    onEditCategory: (Category) -> Unit,
+    onEditCategory: (CategoryOld) -> Unit,
     dismiss: () -> Unit,
 ) {
     val initialCategory = modal?.category
@@ -82,7 +82,7 @@ fun BoxWithConstraintsScope.CategoryModal(
         mutableStateOf(modal?.category?.parentCategoryId != null)
     }
 
-    var selectedParentCategory: Category? by remember(modal) {
+    var selectedParentCategory: CategoryOld? by remember(modal) {
         mutableStateOf(parentCategoryList.find { it.id == modal?.category?.parentCategoryId })
     }
     val isParentCat: Boolean by remember(modal) {

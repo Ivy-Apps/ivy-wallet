@@ -5,7 +5,7 @@ import java.util.*
 
 data class Settings(
     val theme: Theme,
-    val baseCurrency: String,
+    val baseCurrency: CurrencyCode,
     val bufferAmount: BigDecimal,
     val name: String,
 

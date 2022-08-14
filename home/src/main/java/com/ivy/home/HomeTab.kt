@@ -23,11 +23,10 @@ import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
 import com.ivy.data.IvyCurrency
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.asParamTo2
 import com.ivy.frp.forward
 import com.ivy.frp.then2
-import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.journey.CustomerJourney
@@ -161,13 +160,13 @@ private fun BoxWithConstraintsScope.UI(
 
             customerJourneyCards = state.customerJourneyCards,
 
-            onPayOrGet = forward<Transaction>() then2 {
+            onPayOrGet = forward<TransactionOld>() then2 {
                 HomeEvent.PayOrGetPlanned(it)
             } then2 onEvent,
             onDismiss = forward<CustomerJourneyCardData>() then2 {
                 HomeEvent.DismissCustomerJourneyCard(it)
             } then2 onEvent,
-            onSkipTransaction = forward<Transaction>() then2 {
+            onSkipTransaction = forward<TransactionOld>() then2 {
                 HomeEvent.SkipPlanned(it)
             } then2 onEvent,
             setUpcomingExpanded = forward<Boolean>() then2 {
@@ -271,10 +270,10 @@ fun HomeLazyColumn(
     onBalanceClick: () -> Unit,
     onHiddenBalanceClick: () -> Unit = {},
 
-    onPayOrGet: (Transaction) -> Unit,
+    onPayOrGet: (TransactionOld) -> Unit,
     onDismiss: (CustomerJourneyCardData) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onSkipTransaction: (TransactionOld) -> Unit = {},
+    onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()

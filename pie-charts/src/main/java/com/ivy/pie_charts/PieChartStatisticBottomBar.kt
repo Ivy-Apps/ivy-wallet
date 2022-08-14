@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IvyWalletPreview
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Gradient
@@ -28,10 +28,10 @@ import com.ivy.wallet.utils.toDensityDp
 
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
-    type: TransactionType,
+    type: TrnType,
     bottomInset: Dp = navigationBarInset().toDensityDp(),
     onClose: () -> Unit,
-    onAdd: (TransactionType) -> Unit
+    onAdd: (TrnType) -> Unit
 ) {
     ActionsRow(
         modifier = Modifier
@@ -48,7 +48,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 
         Spacer(Modifier.weight(1f))
 
-        val isIncome = type == TransactionType.INCOME
+        val isIncome = type == TrnType.INCOME
         IvyButton(
             iconStart = R.drawable.ic_plus,
             text = if (isIncome) stringResource(id = R.string.add_income) else stringResource(id = R.string.add_expense),
@@ -71,7 +71,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 private fun PreviewBottomBar() {
     IvyWalletPreview {
         PieChartStatisticBottomBar(
-            type = TransactionType.INCOME,
+            type = TrnType.INCOME,
             bottomInset = 16.dp,
             onAdd = {},
             onClose = {}

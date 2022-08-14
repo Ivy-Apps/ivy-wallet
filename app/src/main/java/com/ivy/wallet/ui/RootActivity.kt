@@ -267,7 +267,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
                 onGoogleSignInIdTokenResult(idToken)
             } catch (e: ApiException) {
-                e.sendToCrashlytics("GOOGLE_SIGN_IN - registerGoogleSignInContract(): ApiException")
                 e.printStackTrace()
                 onGoogleSignInIdTokenResult(null)
             }
@@ -427,7 +426,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
             startActivity(browserIntent)
         } catch (e: Exception) {
             e.printStackTrace()
-            e.sendToCrashlytics("Cannot open URL in browser, intent not supported.")
             Toast.makeText(
                 this,
                 "No browser app found. Visit manually: $url",

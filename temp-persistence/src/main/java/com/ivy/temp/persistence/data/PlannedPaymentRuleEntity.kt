@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*
 
@@ -15,7 +15,7 @@ data class PlannedPaymentRuleEntity(
     val intervalType: IntervalType?,
     val oneTime: Boolean,
 
-    val type: TransactionType,
+    val type: TrnType,
     val accountId: UUID,
     val amount: Double = 0.0,
     val categoryId: UUID? = null,

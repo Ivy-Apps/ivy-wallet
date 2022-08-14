@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
@@ -140,7 +140,7 @@ class CSVMapper {
         transformTransaction = { transaction, _, csvAmount ->
             //Monefy doesn't have transaction type, it uses amount +/- sign
             transaction.copy(
-                type = if (csvAmount > 0) TransactionType.INCOME else TransactionType.EXPENSE
+                type = if (csvAmount > 0) TrnType.INCOME else TrnType.EXPENSE
             )
         }
     )
@@ -177,7 +177,7 @@ class CSVMapper {
         transformTransaction = { transaction, category, _ ->
             transaction.copy(
                 type = if (category?.name?.toLowerCaseLocal() == "income")
-                    TransactionType.INCOME else TransactionType.EXPENSE
+                    TrnType.INCOME else TrnType.EXPENSE
             )
         }
     )
@@ -217,8 +217,8 @@ class CSVMapper {
         transformTransaction = { transaction, _, csvAmount ->
             transaction.copy(
                 // Financisto exports expenses with a negative sign and incoming as positive values
-                type = if (csvAmount > 0 && transaction.type == TransactionType.EXPENSE) {
-                    TransactionType.INCOME
+                type = if (csvAmount > 0 && transaction.type == TrnType.EXPENSE) {
+                    TrnType.INCOME
                 } else {
                     transaction.type
                 }
@@ -232,11 +232,11 @@ class CSVMapper {
                     val it = transactions.listIterator()
                     while (it.hasNext()) {
                         val t = it.next()
-                        if (t.type == TransactionType.TRANSFER && it.hasNext()) {
+                        if (t.type == TrnType.TRANSFER && it.hasNext()) {
                             val t2 = it.next()
-                            val new = Transaction(
+                            val new = TransactionOld(
                                 id = t.id,
-                                type = TransactionType.TRANSFER,
+                                type = TrnType.TRANSFER,
                                 amount = t.amount,
                                 accountId = t.accountId,
                                 toAccountId = t2.accountId,
@@ -279,9 +279,9 @@ class CSVMapper {
 
             transaction.copy(
                 type = if (isTransfer)
-                    TransactionType.TRANSFER
-                else if (csvAmount > 0) TransactionType.INCOME
-                else TransactionType.EXPENSE,
+                    TrnType.TRANSFER
+                else if (csvAmount > 0) TrnType.INCOME
+                else TrnType.EXPENSE,
                 categoryId = if (isTransfer) null else transaction.categoryId
             )
         },
@@ -294,11 +294,11 @@ class CSVMapper {
                     val it = transactions.listIterator()
                     while (it.hasNext()) {
                         val t = it.next()
-                        if (t.type == TransactionType.TRANSFER && it.hasNext()) {
+                        if (t.type == TrnType.TRANSFER && it.hasNext()) {
                             val t2 = it.next()
-                            val new = Transaction(
+                            val new = TransactionOld(
                                 id = t.id,
-                                type = TransactionType.TRANSFER,
+                                type = TrnType.TRANSFER,
                                 amount = t.amount,
                                 accountId = t.accountId,
                                 toAccountId = t2.accountId,

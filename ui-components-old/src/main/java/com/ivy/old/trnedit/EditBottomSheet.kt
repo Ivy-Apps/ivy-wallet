@@ -32,8 +32,8 @@ import com.ivy.base.Constants
 import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.ivyWalletCtx
-import com.ivy.data.Account
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.AccountOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
@@ -52,10 +52,10 @@ import kotlin.math.roundToInt
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
     initialTransactionId: UUID?,
-    type: TransactionType,
-    accounts: List<Account>,
-    selectedAccount: Account?,
-    toAccount: Account?,
+    type: TrnType,
+    accounts: List<AccountOld>,
+    selectedAccount: AccountOld?,
+    toAccount: AccountOld?,
     amount: Double,
     currency: String,
     convertedAmount: Double? = null,
@@ -66,8 +66,8 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     ActionButton: @Composable () -> Unit,
 
     onAmountChanged: (Double) -> Unit,
-    onSelectedAccountChanged: (Account) -> Unit,
-    onToAccountChanged: (Account) -> Unit,
+    onSelectedAccountChanged: (AccountOld) -> Unit,
+    onToAccountChanged: (AccountOld) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
     val rootView = LocalView.current
@@ -104,7 +104,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     val percentCollapsed = 1f - percentExpanded
 
     val showConvertedAmountText by remember(convertedAmount) {
-        if (type == TransactionType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
+        if (type == TrnType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
             mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
         else
             mutableStateOf(null)
@@ -142,9 +142,9 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     ) {
         //Accounts label
         val label = when (type) {
-            TransactionType.INCOME -> stringResource(R.string.add_money_to)
-            TransactionType.EXPENSE -> stringResource(R.string.pay_with)
-            TransactionType.TRANSFER -> stringResource(R.string.from)
+            TrnType.INCOME -> stringResource(R.string.add_money_to)
+            TrnType.EXPENSE -> stringResource(R.string.pay_with)
+            TrnType.TRANSFER -> stringResource(R.string.from)
         }
 
         SheetHeader(
@@ -162,7 +162,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
         val spacerAboveAmount = lerp(40, 16, percentCollapsed)
         Spacer(Modifier.height(spacerAboveAmount.dp))
 
-        if (type == TransactionType.TRANSFER && percentExpanded < 1f) {
+        if (type == TrnType.TRANSFER && percentExpanded < 1f) {
             TransferRowMini(
                 percentCollapsed = percentCollapsed,
                 fromAccount = selectedAccount,
@@ -320,8 +320,8 @@ private fun BottomBar(
 @Composable
 private fun TransferRowMini(
     percentCollapsed: Float,
-    fromAccount: Account?,
-    toAccount: Account?,
+    fromAccount: AccountOld?,
+    toAccount: AccountOld?,
     onSetExpanded: () -> Unit
 ) {
     Row(
@@ -394,12 +394,12 @@ private fun TransferRowMini(
 private fun SheetHeader(
     percentExpanded: Float,
     label: String,
-    type: TransactionType,
-    accounts: List<Account>,
-    selectedAccount: Account?,
-    toAccount: Account?,
-    onSelectedAccountChanged: (Account) -> Unit,
-    onToAccountChanged: (Account) -> Unit,
+    type: TrnType,
+    accounts: List<AccountOld>,
+    selectedAccount: AccountOld?,
+    toAccount: AccountOld?,
+    onSelectedAccountChanged: (AccountOld) -> Unit,
+    onToAccountChanged: (AccountOld) -> Unit,
     onAddNewAccount: () -> Unit,
 ) {
     if (percentExpanded > 0.01f) {
@@ -431,7 +431,7 @@ private fun SheetHeader(
                 )
             )
 
-            Spacer(Modifier.height(if (type == TransactionType.TRANSFER) 8.dp else 16.dp))
+            Spacer(Modifier.height(if (type == TrnType.TRANSFER) 8.dp else 16.dp))
 
             AccountsRow(
                 accounts = accounts,
@@ -441,7 +441,7 @@ private fun SheetHeader(
                 childrenTestTag = "from_account"
             )
 
-            if (type == TransactionType.TRANSFER) {
+            if (type == TrnType.TRANSFER) {
                 Spacer(Modifier.height(24.dp))
 
                 Text(
@@ -470,10 +470,10 @@ private fun SheetHeader(
 @Composable
 private fun AccountsRow(
     modifier: Modifier = Modifier,
-    accounts: List<Account>,
-    selectedAccount: Account?,
+    accounts: List<AccountOld>,
+    selectedAccount: AccountOld?,
     childrenTestTag: String? = null,
-    onSelectedAccountChanged: (Account) -> Unit,
+    onSelectedAccountChanged: (AccountOld) -> Unit,
     onAddNewAccount: () -> Unit
 ) {
     val lazyState = rememberLazyListState()
@@ -526,7 +526,7 @@ private fun AccountsRow(
 
 @Composable
 private fun Account(
-    account: Account,
+    account: AccountOld,
     selected: Boolean,
     testTag: String,
     onClick: () -> Unit
@@ -610,12 +610,12 @@ private fun AddAccount(
 
 @Composable
 private fun Amount(
-    type: TransactionType,
+    type: TrnType,
     amount: Double,
     currency: String,
     percentExpanded: Float,
     label: String,
-    account: Account?,
+    account: AccountOld?,
     showConvertedAmountText: String? = null,
     onShowAmountModal: () -> Unit,
     onAccountMiniClick: () -> Unit,
@@ -674,7 +674,7 @@ private fun Amount(
 
         Spacer(Modifier.weight(1f))
 
-        if (percentExpanded < 1f && type != TransactionType.TRANSFER) {
+        if (percentExpanded < 1f && type != TrnType.TRANSFER) {
             LabelAccountMini(
                 percentExpanded = percentExpanded,
                 label = label,
@@ -691,7 +691,7 @@ private fun Amount(
 private fun LabelAccountMini(
     percentExpanded: Float,
     label: String,
-    account: Account?,
+    account: AccountOld?,
     onClick: () -> Unit
 ) {
     Column(
@@ -738,7 +738,7 @@ private fun LabelAccountMini(
 @Composable
 private fun Preview() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
+        val acc1 = AccountOld("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
             modifier = Modifier
@@ -748,7 +748,7 @@ private fun Preview() {
                 amountModalShown = false,
                 setAmountModalShown = {},
                 initialTransactionId = null,
-                type = TransactionType.INCOME,
+                type = TrnType.INCOME,
                 ActionButton = {
                     ModalSet() {
 
@@ -756,9 +756,9 @@ private fun Preview() {
                 },
                 accounts = listOf(
                     acc1,
-                    Account("DSK", color = GreenDark.toArgb()),
-                    Account("phyre", color = GreenLight.toArgb()),
-                    Account("Revolut", color = IvyDark.toArgb()),
+                    AccountOld("DSK", color = GreenDark.toArgb()),
+                    AccountOld("phyre", color = GreenLight.toArgb()),
+                    AccountOld("Revolut", color = IvyDark.toArgb()),
                 ),
                 selectedAccount = acc1,
                 toAccount = null,
@@ -777,8 +777,8 @@ private fun Preview() {
 @Composable
 private fun Preview_Transfer() {
     IvyWalletPreview {
-        val acc1 = Account("Cash", color = Green.toArgb())
-        val acc2 = Account("DSK", color = GreenDark.toArgb())
+        val acc1 = AccountOld("Cash", color = Green.toArgb())
+        val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
 
         BoxWithConstraints(
             modifier = Modifier
@@ -793,12 +793,12 @@ private fun Preview_Transfer() {
 
                     }
                 },
-                type = TransactionType.TRANSFER,
+                type = TrnType.TRANSFER,
                 accounts = listOf(
                     acc1,
                     acc2,
-                    Account("phyre", color = GreenLight.toArgb(), icon = "cash"),
-                    Account("Revolut", color = IvyDark.toArgb()),
+                    AccountOld("phyre", color = GreenLight.toArgb(), icon = "cash"),
+                    AccountOld("Revolut", color = IvyDark.toArgb()),
                 ),
                 selectedAccount = acc1,
                 toAccount = acc2,

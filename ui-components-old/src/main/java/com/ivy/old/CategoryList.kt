@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.ListItem
 import com.ivy.wallet.ui.theme.toComposeColor
@@ -20,12 +20,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun CategoryList(
-    categoryList: List<Category>,
-    selectedCategory: Category? = null,
-    onSelectedCategory: (Category?) -> Unit = {}
+    categoryList: List<CategoryOld>,
+    selectedCategory: CategoryOld? = null,
+    onSelectedCategory: (CategoryOld?) -> Unit = {}
 ) {
 
-    var selectedCat: Category? by remember(selectedCategory) {
+    var selectedCat: CategoryOld? by remember(selectedCategory) {
         mutableStateOf(selectedCategory)
     }
 

@@ -3,13 +3,13 @@ package com.ivy.wallet.ui.planned.list
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.screens.PlannedPayments
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
@@ -26,17 +26,17 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val accountDao: AccountDao,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-    private val categoriesAct: CategoriesAct,
-    private val accountsAct: AccountsAct
+    private val categoriesAct: CategoriesActOld,
+    private val accountsAct: AccountsActOld
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
-    private val _accounts = MutableLiveData<List<Account>>()
+    private val _accounts = MutableLiveData<List<AccountOld>>()
     val accounts = _accounts.asLiveData()
 
     //One Time

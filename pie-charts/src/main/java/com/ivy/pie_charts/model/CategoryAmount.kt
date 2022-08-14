@@ -1,12 +1,12 @@
 package com.ivy.pie_charts.model
 
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
 
 data class CategoryAmount(
-    val category: Category?,
+    val category: CategoryOld?,
     val amount: Double,
-    val associatedTransactions: List<Transaction> = emptyList(),
+    val associatedTransactions: List<TransactionOld> = emptyList(),
     val isCategoryUnspecified: Boolean = false,
     val subCategoryState: SubCategoryState = SubCategoryState(),
 ) {

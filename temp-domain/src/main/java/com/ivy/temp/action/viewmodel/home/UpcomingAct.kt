@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.wallet.domain.pure.transaction.isUpcoming
@@ -31,6 +31,6 @@ class UpcomingAct @Inject constructor(
 
     data class Output(
         val upcoming: IncomeExpensePair,
-        val upcomingTrns: List<Transaction>
+        val upcomingTrns: List<TransactionOld>
     )
 }

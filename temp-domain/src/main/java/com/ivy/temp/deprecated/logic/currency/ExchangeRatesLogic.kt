@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.Transaction
-import com.ivy.exchange.ExchangeRate
-import com.ivy.exchange.ExchangeRateDao
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.exchange.cache.ExchangeRate
+import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.io.persistence.dao.AccountDao
@@ -47,7 +47,7 @@ class ExchangeRatesLogic(
     suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         return amountBaseCurrency(
             amount = plannedPayment.amount,
@@ -58,9 +58,9 @@ class ExchangeRatesLogic(
     }
 
     suspend fun amountBaseCurrency(
-        transaction: Transaction,
+        transaction: TransactionOld,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         return amountBaseCurrency(
             amount = transaction.amount.toDouble(),
@@ -71,9 +71,9 @@ class ExchangeRatesLogic(
     }
 
     suspend fun toAmountBaseCurrency(
-        transaction: Transaction,
+        transaction: TransactionOld,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         val amount = transaction.toAmount ?: transaction.amount
         val toCurrency = accounts.find { it.id == transaction.toAccountId }?.currency
@@ -90,7 +90,7 @@ class ExchangeRatesLogic(
         amount: Double,
         accountId: UUID,
         baseCurrency: String,
-        accounts: List<Account> //helper
+        accounts: List<AccountOld> //helper
     ): Double {
         val trnCurrency = accounts.find { it.id == accountId }?.currency
             ?: return amount //no conversion
@@ -148,7 +148,7 @@ class ExchangeRatesLogic(
 }
 
 @Deprecated("Use FP style, look into `domain.fp` package")
-suspend fun Iterable<Transaction>.sumInBaseCurrency(
+suspend fun Iterable<TransactionOld>.sumInBaseCurrency(
     exchangeRatesLogic: ExchangeRatesLogic,
     settingsDao: SettingsDao,
     accountDao: AccountDao,

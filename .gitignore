@@ -44,6 +44,7 @@ captures/
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
+.idea/androidTestResultsUserPreferences.xml
 #misc.xml is annoying and useless
 .idea/misc.xml
 # Android Studio 3 in .gitignore file.
@@ -84,4 +85,5 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
+**/lint-report.html
 # lint/reports/

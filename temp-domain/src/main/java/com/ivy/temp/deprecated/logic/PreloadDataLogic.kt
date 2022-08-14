@@ -4,8 +4,8 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.AccountBalance
 import com.ivy.base.R
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.*
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
@@ -26,7 +26,7 @@ class PreloadDataLogic(
     }
 
     suspend fun preloadAccounts() {
-        val cash = Account(
+        val cash = AccountOld(
             name = stringRes(R.string.cash),
             currency = null,
             color = Green.toArgb(),
@@ -35,7 +35,7 @@ class PreloadDataLogic(
             isSynced = false
         )
 
-        val bank = Account(
+        val bank = AccountOld(
             name = stringRes(R.string.bank),
             currency = null,
             color = IvyDark.toArgb(),
@@ -147,7 +147,7 @@ class PreloadDataLogic(
     private suspend fun preloadCategory(
         data: CreateCategoryData
     ) {
-        val category = Category(
+        val category = CategoryOld(
             name = data.name,
             color = data.color.toArgb(),
             icon = data.icon,

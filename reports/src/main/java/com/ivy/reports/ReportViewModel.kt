@@ -8,19 +8,19 @@ import com.ivy.base.R
 import com.ivy.base.RootScreen
 import com.ivy.base.TimePeriod
 import com.ivy.base.stringRes
-import com.ivy.data.Account
-import com.ivy.data.Category
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
-import com.ivy.exchange.ExchangeAct
-import com.ivy.exchange.ExchangeData
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
+import com.ivy.exchange.deprecated.ExchangeActOld
+import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
@@ -48,12 +48,12 @@ class ReportViewModel @Inject constructor(
     private val ivyContext: com.ivy.base.IvyWalletCtx,
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
-    private val exchangeAct: ExchangeAct,
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val exchangeAct: ExchangeActOld,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val baseCurrencyAct: BaseCurrencyAct
+    private val baseCurrencyAct: BaseCurrencyActOld
 ) : FRPViewModel<ReportScreenState, Nothing>() {
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
@@ -64,15 +64,15 @@ class ReportViewModel @Inject constructor(
     }
 
     private val unSpecifiedCategory =
-        Category(stringRes(R.string.unspecified), color = Gray.toArgb())
+        CategoryOld(stringRes(R.string.unspecified), color = Gray.toArgb())
 
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
 
-    private val _categories = MutableStateFlow<List<Category>>(emptyList())
+    private val _categories = MutableStateFlow<List<CategoryOld>>(emptyList())
     val categories = _categories.readOnly()
 
-    private val _allAccounts = MutableStateFlow<List<Account>>(emptyList())
+    private val _allAccounts = MutableStateFlow<List<AccountOld>>(emptyList())
 
     private val _baseCurrency = MutableStateFlow("")
     val baseCurrency = _baseCurrency.readOnly()
@@ -202,7 +202,7 @@ class ReportViewModel @Inject constructor(
                     transactions = transactions,
                     balance = balance,
                     filterOverlayVisible = false,
-                    showTransfersAsIncExpCheckbox = filter.trnTypes.contains(TransactionType.TRANSFER)
+                    showTransfersAsIncExpCheckbox = filter.trnTypes.contains(TrnType.TRANSFER)
                 )
             }
         }
@@ -210,9 +210,9 @@ class ReportViewModel @Inject constructor(
 
     private suspend fun filterTransactions(
         baseCurrency: String,
-        accounts: List<Account>,
+        accounts: List<AccountOld>,
         filter: ReportFilter,
-    ): List<Transaction> {
+    ): List<TransactionOld> {
         val filterAccountIds = filter.accounts.map { it.id }
         val filterCategoryIds =
             filter.categories.map { if (it.id == unSpecifiedCategory.id) null else it.id }
@@ -242,14 +242,14 @@ class ReportViewModel @Inject constructor(
             .filter { trn ->
                 //Filter by Categories
 
-                filterCategoryIds.contains(trn.categoryId) || (trn.type == TransactionType.TRANSFER)
+                filterCategoryIds.contains(trn.categoryId) || (trn.type == TrnType.TRANSFER)
             }
             .filterSuspend {
                 //Filter by Amount
                 //!NOTE: Amount must be converted to baseCurrency amount
 
                 val trnAmountBaseCurrency = exchangeAct(
-                    ExchangeAct.Input(
+                    ExchangeActOld.Input(
                         data = ExchangeData(
                             baseCurrency = baseCurrency,
                             fromCurrency = trnCurrency(it, accounts, baseCurrency),
@@ -371,7 +371,7 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    private suspend fun payOrGet(transaction: Transaction) {
+    private suspend fun payOrGet(transaction: TransactionOld) {
         uiThread {
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start()

@@ -17,7 +17,7 @@ import com.ivy.base.TransactionHistoryDateDivider
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
 import com.ivy.base.stringRes
-import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
@@ -41,11 +41,11 @@ fun LazyListScope.transactions(
     dateDividerMarginTop: Dp? = null,
     lastItemSpacer: Dp? = null,
 
-    onPayOrGet: (Transaction) -> Unit,
+    onPayOrGet: (TransactionOld) -> Unit,
     setUpcomingExpanded: (Boolean) -> Unit,
     setOverdueExpanded: (Boolean) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit = {},
-    onSkipAllTransactions: (List<Transaction>) -> Unit = {}
+    onSkipTransaction: (TransactionOld) -> Unit = {},
+    onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
     upcomingSection(
         baseData = baseData,
@@ -101,8 +101,8 @@ private fun LazyListScope.upcomingSection(
 
     upcoming: DueSection?,
 
-    onPayOrGet: (Transaction) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit,
+    onPayOrGet: (TransactionOld) -> Unit,
+    onSkipTransaction: (TransactionOld) -> Unit,
     setExpanded: (Boolean) -> Unit
 ) {
     if (upcoming == null) return //guard
@@ -140,9 +140,9 @@ private fun LazyListScope.overdueSection(
 
     overdue: DueSection?,
 
-    onPayOrGet: (Transaction) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit,
-    onSkipAllTransactions: (List<Transaction>) -> Unit,
+    onPayOrGet: (TransactionOld) -> Unit,
+    onSkipTransaction: (TransactionOld) -> Unit,
+    onSkipAllTransactions: (List<TransactionOld>) -> Unit,
     setExpanded: (Boolean) -> Unit
 ) {
     if (overdue == null) return
@@ -197,10 +197,10 @@ private fun LazyListScope.overdueSection(
 private fun LazyListScope.trnItems(
     baseData: AppBaseData,
 
-    transactions: List<Transaction>,
+    transactions: List<TransactionOld>,
 
-    onPayOrGet: (Transaction) -> Unit,
-    onSkipTransaction: (Transaction) -> Unit,
+    onPayOrGet: (TransactionOld) -> Unit,
+    onSkipTransaction: (TransactionOld) -> Unit,
 ) {
     items(
         items = transactions,
@@ -229,21 +229,21 @@ private fun LazyListScope.historySection(
 
     dateDividerMarginTop: Dp? = null,
 
-    onPayOrGet: (Transaction) -> Unit
+    onPayOrGet: (TransactionOld) -> Unit
 ) {
     if (history.isNotEmpty()) {
         items(
             items = history,
             key = {
                 when (it) {
-                    is Transaction -> it.id.toString()
+                    is TransactionOld -> it.id.toString()
                     is TransactionHistoryDateDivider -> it.date.toString()
                     else -> "unknown"
                 }
             }
         ) {
             when (it) {
-                is Transaction -> {
+                is TransactionOld -> {
                     val nav = navigation()
 
                     TransactionCard(
@@ -276,7 +276,7 @@ private fun LazyListScope.historySection(
 
 private fun onTransactionClick(
     nav: Navigation,
-    transaction: Transaction
+    transaction: TransactionOld
 ) {
     nav.navigateTo(
         EditTransaction(

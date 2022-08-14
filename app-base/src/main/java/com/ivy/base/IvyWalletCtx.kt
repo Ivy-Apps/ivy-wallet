@@ -5,8 +5,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.ivy.data.Account
-import com.ivy.data.Category
+import com.ivy.data.AccountOld
+import com.ivy.data.CategoryOld
 import com.ivy.design.IvyContext
 import com.ivy.wallet.io.persistence.SharedPrefs
 import java.time.LocalDate
@@ -23,8 +23,8 @@ class IvyWalletCtx : IvyContext() {
     }
 
     //---------------------- Optimization  ----------------------------
-    val categoryMap: MutableMap<UUID, Category> = mutableMapOf()
-    val accountMap: MutableMap<UUID, Account> = mutableMapOf()
+    val categoryMap: MutableMap<UUID, CategoryOld> = mutableMapOf()
+    val accountMap: MutableMap<UUID, AccountOld> = mutableMapOf()
     //---------------------- Optimization  ----------------------------
 
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(

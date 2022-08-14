@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.base.stringRes
 import com.ivy.data.IvyCurrency
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.*
@@ -35,7 +35,7 @@ fun IncomeExpensesCards(
 
     incomeHeaderCardClicked: () -> Unit = {},
     expenseHeaderCardClicked: () -> Unit = {},
-    onAddTransaction: (TransactionType) -> Unit = {},
+    onAddTransaction: (TrnType) -> Unit = {},
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -48,15 +48,15 @@ fun IncomeExpensesCards(
             currencyCode = currency,
             amount = income,
             transactionCount = history
-                .filterIsInstance(Transaction::class.java)
-                .count { it.type == TransactionType.INCOME },
+                .filterIsInstance(TransactionOld::class.java)
+                .count { it.type == TrnType.INCOME },
             addButtonText = if (hasAddButtons) stringResource(R.string.add_income) else null,
             isIncome = true,
 
             itemColor = itemColor,
             onHeaderCardClicked = { incomeHeaderCardClicked() }
         ) {
-            onAddTransaction(TransactionType.INCOME)
+            onAddTransaction(TrnType.INCOME)
         }
 
         Spacer(Modifier.width(12.dp))
@@ -66,15 +66,15 @@ fun IncomeExpensesCards(
             currencyCode = currency,
             amount = expenses,
             transactionCount = history
-                .filterIsInstance(Transaction::class.java)
-                .count { it.type == TransactionType.EXPENSE },
+                .filterIsInstance(TransactionOld::class.java)
+                .count { it.type == TrnType.EXPENSE },
             addButtonText = if (hasAddButtons) stringResource(R.string.add_expense) else null,
             isIncome = false,
 
             itemColor = itemColor,
             onHeaderCardClicked = { expenseHeaderCardClicked() }
         ) {
-            onAddTransaction(TransactionType.EXPENSE)
+            onAddTransaction(TrnType.EXPENSE)
         }
 
         Spacer(Modifier.width(16.dp))

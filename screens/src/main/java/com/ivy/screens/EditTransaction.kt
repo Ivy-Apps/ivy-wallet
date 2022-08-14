@@ -1,12 +1,12 @@
 package com.ivy.screens
 
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnType
 import com.ivy.frp.view.navigation.Screen
 import java.util.*
 
 data class EditTransaction(
     val initialTransactionId: UUID?,
-    val type: TransactionType,
+    val type: TrnType,
 
     //extras
     val accountId: UUID? = null,

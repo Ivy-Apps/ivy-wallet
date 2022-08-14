@@ -2,11 +2,11 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.base.FromToTimeRange
 import com.ivy.common.timeNowUTC
-import com.ivy.data.Account
+import com.ivy.data.AccountOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionOld
+import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.sumByDoublePlannedInBaseCurrency
 import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
@@ -47,9 +47,9 @@ class PlannedPaymentsLogic(
             )
 
             when (it.type) {
-                TransactionType.INCOME -> amount
-                TransactionType.EXPENSE -> -amount
-                TransactionType.TRANSFER -> 0.0
+                TrnType.INCOME -> amount
+                TrnType.EXPENSE -> -amount
+                TrnType.TRANSFER -> 0.0
             }
         }
     }
@@ -60,7 +60,7 @@ class PlannedPaymentsLogic(
 
     suspend fun oneTimeIncome(): Double {
         return oneTime()
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumByDoublePlannedInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -70,7 +70,7 @@ class PlannedPaymentsLogic(
 
     suspend fun oneTimeExpenses(): Double {
         return oneTime()
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumByDoublePlannedInBaseCurrency(
                 exchangeRatesLogic = exchangeRatesLogic,
                 settingsDao = settingsDao,
@@ -83,13 +83,13 @@ class PlannedPaymentsLogic(
 
     suspend fun recurringIncome(): Double {
         return recurring()
-            .filter { it.type == TransactionType.INCOME }
+            .filter { it.type == TrnType.INCOME }
             .sumByDoubleRecurringForMonthInBaseCurrency()
     }
 
     suspend fun recurringExpenses(): Double {
         return recurring()
-            .filter { it.type == TransactionType.EXPENSE }
+            .filter { it.type == TrnType.EXPENSE }
             .sumByDoubleRecurringForMonthInBaseCurrency()
     }
 
@@ -109,7 +109,7 @@ class PlannedPaymentsLogic(
     private suspend fun amountForMonthInBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,
-        accounts: List<Account>
+        accounts: List<AccountOld>
     ): Double {
         val amountBaseCurrency = exchangeRatesLogic.amountBaseCurrency(
             plannedPayment = plannedPayment,
@@ -148,10 +148,10 @@ class PlannedPaymentsLogic(
     }
 
     suspend fun payOrGet(
-        transaction: Transaction,
+        transaction: TransactionOld,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
-        onUpdateUI: suspend (paidTransaction: Transaction) -> Unit
+        onUpdateUI: suspend (paidTransaction: TransactionOld) -> Unit
     ) {
         if (transaction.dueDate == null || transaction.dateTime != null) return
 
@@ -195,10 +195,10 @@ class PlannedPaymentsLogic(
     }
 
     suspend fun payOrGet(
-        transactions: List<Transaction>,
+        transactions: List<TransactionOld>,
         syncTransaction: Boolean = true,
         skipTransaction: Boolean = false,
-        onUpdateUI: suspend (paidTransactions: List<Transaction>) -> Unit
+        onUpdateUI: suspend (paidTransactions: List<TransactionOld>) -> Unit
     ) {
         val paidTransactions =
             transactions.filter { (it.dueDate == null || it.dateTime != null).not() }

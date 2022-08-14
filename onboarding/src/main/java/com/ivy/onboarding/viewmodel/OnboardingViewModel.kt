@@ -9,8 +9,8 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
 import com.ivy.screens.Onboarding
-import com.ivy.wallet.domain.action.account.AccountsAct
-import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.account.AccountsActOld
+import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.*
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -46,8 +46,8 @@ class OnboardingViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val accountCreator: AccountCreator,
 
-    private val accountsAct: AccountsAct,
-    private val categoriesAct: CategoriesAct,
+    private val accountsAct: AccountsActOld,
+    private val categoriesAct: CategoriesActOld,
 
     //Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
@@ -73,7 +73,7 @@ class OnboardingViewModel @Inject constructor(
     private val _accountSuggestions = MutableLiveData<List<CreateAccountData>>()
     val accountSuggestions = _accountSuggestions.asLiveData()
 
-    private val _categories = MutableLiveData<List<Category>>()
+    private val _categories = MutableLiveData<List<CategoryOld>>()
     val categories = _categories.asLiveData()
 
     private val _categorySuggestions = MutableLiveData<List<CreateCategoryData>>()
@@ -255,7 +255,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     //--------------------- Accounts ---------------------------------------------------------------
-    fun editAccount(account: Account, newBalance: Double) {
+    fun editAccount(account: AccountOld, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -312,7 +312,7 @@ class OnboardingViewModel @Inject constructor(
     //--------------------- Accounts ---------------------------------------------------------------
 
     //---------------------------- Categories ------------------------------------------------------
-    fun editCategory(updatedCategory: Category) {
+    fun editCategory(updatedCategory: CategoryOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

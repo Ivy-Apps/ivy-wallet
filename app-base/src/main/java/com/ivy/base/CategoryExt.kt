@@ -1,5 +1,5 @@
 package com.ivy.base
 
-import com.ivy.data.Category
+import com.ivy.data.CategoryOld
 
-fun Category.isSubCategory(): Boolean = parentCategoryId != null
+fun CategoryOld.isSubCategory(): Boolean = parentCategoryId != null
