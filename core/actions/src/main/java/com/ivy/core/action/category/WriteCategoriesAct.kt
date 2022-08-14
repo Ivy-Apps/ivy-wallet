@@ -16,7 +16,8 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
 
 class WriteCategoriesAct @Inject constructor(
-    private val categoryDao: CategoryDao, private val syncCategoriesAct: SyncCategoriesAct
+    private val categoryDao: CategoryDao,
+    private val syncCategoriesAct: SyncCategoriesAct
 ) : FPAction<IOEffect<List<Category>>, SyncTask>() {
 
     override suspend fun IOEffect<List<Category>>.compose(): suspend () -> SyncTask = {

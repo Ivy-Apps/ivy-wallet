@@ -17,13 +17,10 @@ import com.ivy.data.transaction.TrnType
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
-import com.ivy.wallet.io.persistence.dao.TransactionDao
 import javax.inject.Inject
 
 class AccActualStatsAct @Inject constructor(
     private val calculateAct: CalculateAct,
-
-    private val transactionDao: TransactionDao,
     private val trnsAct: TrnsAct
 ) : FPAction<AccActualStatsAct.Input, Stats>() {
     data class Input(
