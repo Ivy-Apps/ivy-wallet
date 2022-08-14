@@ -1,5 +1,6 @@
 package com.ivy.core.functions.transaction
 
+import arrow.core.NonEmptyList
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
@@ -13,6 +14,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
 import io.kotest.property.PropertyContext
 import io.kotest.property.arbitrary.*
+import io.kotest.property.arrow.nonEmptyList
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
 
@@ -23,16 +25,30 @@ class TrnSelectQueryTest : StringSpec({
         ById(id)
     }
 
-    val genByCategory = listOf(ByCategory(null), ByCategory(dummyCategory()))
+    val genCategory = arbitrary {
+        dummyCategory()
+    }
+
+    val genByCategory = listOf(ByCategory(null), ByCategory(genCategory.next()))
         .exhaustive()
 
-    val genByAccount = arbitrary {
-        ByAccount(dummyAcc())
+    val genAcc = arbitrary {
+        dummyAcc()
     }
+
+    val genByAccount = arbitrary {
+        ByAccount(genAcc.bind())
+    }
+
+    val genByToAccount = arbitrary {
+        ByToAccount(genAcc.bind())
+    }
+
+    val genTrnType = Arb.enum<TrnType>()
 
     val genByType = arbitrary {
         ByType(
-            trnType = Arb.enum<TrnType>().bind()
+            trnType = genTrnType.bind()
         )
     }
 
@@ -52,28 +68,57 @@ class TrnSelectQueryTest : StringSpec({
         DueBetween(period = genPeriod.bind())
     }
 
-    val genSimpleQuery = Arb.choice(
+    val genByIdIn = arbitrary {
+        ByIdIn(Arb.nonEmptyList(Arb.uuid(), 1..20).bind())
+    }
+
+    val genByAccountIn = arbitrary {
+        ByAccountIn(Arb.nonEmptyList(genAcc, 1..10).bind())
+    }
+
+    val genByToAccountIn = arbitrary {
+        ByToAccountIn(Arb.nonEmptyList(genAcc, 1..10).bind())
+    }
+
+    val genByCategoryIn = arbitrary {
+        val categories = Arb.nonEmptyList(genCategory, 1..10).bind()
+        val maybeNullableCats = if (Arb.boolean().bind())
+            NonEmptyList.fromListUnsafe(categories.plus(null)) else categories
+        ByCategoryIn(maybeNullableCats)
+    }
+
+    val genByTypeIn = arbitrary {
+        ByTypeIn(Arb.nonEmptyList(genTrnType, 1..3).bind())
+    }
+
+    val genSimpleClause = Arb.choice(
         listOf(
             genById,
             genByType,
             genByAccount,
+            genByToAccount,
             genByCategory.toArb(),
             genActualBetween,
-            genDueBetween
+            genDueBetween,
+            genByIdIn,
+            genByAccountIn,
+            genByToAccountIn,
+            genByCategoryIn,
+            genByTypeIn
         )
     )
 
     val genNonRecursiveAnd = arbitrary {
         And(
-            cond1 = genSimpleQuery.bind(),
-            cond2 = genSimpleQuery.bind()
+            cond1 = genSimpleClause.bind(),
+            cond2 = genSimpleClause.bind()
         )
     }
 
     val genNonRecursiveOr = arbitrary {
         Or(
-            cond1 = genSimpleQuery.bind(),
-            cond2 = genSimpleQuery.bind()
+            cond1 = genSimpleClause.bind(),
+            cond2 = genSimpleClause.bind()
         )
     }
 
@@ -97,8 +142,8 @@ class TrnSelectQueryTest : StringSpec({
         return build(gen.next(), block)
     }
 
-    val genRecursiveAnd = recursiveQuery(gen = genSimpleQuery, block = ::And)
-    val genRecursiveOr = recursiveQuery(gen = genSimpleQuery, ::Or)
+    val genRecursiveAnd = recursiveQuery(gen = genSimpleClause, block = ::And)
+    val genRecursiveOr = recursiveQuery(gen = genSimpleClause, ::Or)
     //endregion
 
     //region test cases
@@ -147,6 +192,14 @@ class TrnSelectQueryTest : StringSpec({
         )
     }
 
+    "generate ByToAccount" {
+        val byToAccount = genByToAccount.next()
+        toWhereClause(byToAccount) shouldBe WhereClause(
+            query = "toAccountId = ?",
+            args = listOf(byToAccount.toAccount.id)
+        )
+    }
+
     "generate ByType" {
         checkAll(genByType) { byType ->
             val where = toWhereClause(byType)
@@ -173,11 +226,54 @@ class TrnSelectQueryTest : StringSpec({
         }
     }
 
+    fun placeholders(n: Int) = "?, ".repeat(n - 1) + "?"
+
+    "generate ByIdIn" {
+        checkAll(genByIdIn) { byIdIn ->
+            val where = toWhereClause(byIdIn)
+            where.query shouldBe "id IN (${placeholders(byIdIn.ids.size)})"
+            where.args shouldBe byIdIn.ids.toList()
+        }
+    }
+
+    "generate ByAccountIn" {
+        checkAll(genByAccountIn) { byAccountIn ->
+            val where = toWhereClause(byAccountIn)
+            where.query shouldBe "accountId IN (${placeholders(byAccountIn.accs.size)})"
+            where.args shouldBe byAccountIn.accs.map { it.id }.toList()
+        }
+    }
+
+    "generate ByToAccountIn" {
+        checkAll(genByToAccountIn) { byToAccountIn ->
+            val where = toWhereClause(byToAccountIn)
+            where.query shouldBe "toAccountId IN (${placeholders(byToAccountIn.toAccs.size)})"
+            where.args shouldBe byToAccountIn.toAccs.map { it.id }.toList()
+        }
+    }
+
+    "generate ByTypeIn" {
+        checkAll(genByTypeIn) { byTypeIn ->
+            val where = toWhereClause(byTypeIn)
+            where.query shouldBe "type IN (${placeholders(byTypeIn.types.size)})"
+            where.args shouldBe byTypeIn.types.toList()
+        }
+    }
+
     "generate Brackets" {
-        checkAll(genSimpleQuery) { cond ->
-            val res = toWhereClause(Brackets(cond))
+        checkAll(genSimpleClause) { cond ->
+            val res = toWhereClause(brackets(cond))
             val condWhere = toWhereClause(cond)
             res.query shouldBe "(${condWhere.query})"
+            res.args shouldBe condWhere.args
+        }
+    }
+
+    "generate Not" {
+        checkAll(genSimpleClause) { cond ->
+            val res = toWhereClause(not(cond))
+            val condWhere = toWhereClause(cond)
+            res.query shouldBe "NOT(${condWhere.query})"
             res.args shouldBe condWhere.args
         }
     }
