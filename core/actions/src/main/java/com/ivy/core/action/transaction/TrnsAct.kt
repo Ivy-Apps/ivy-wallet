@@ -19,6 +19,25 @@ import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.util.*
 
+/**
+ * Builds a list of domain **[[Transaction]]** by a given query.
+ * ## Query
+ *
+ * ### Filters
+ * - [TrnWhere.ByAccount]
+ * - [TrnWhere.ByCategory]
+ * - [TrnWhere.ByType]
+ * - [TrnWhere.ActualBetween]
+ * - [TrnWhere.DueBetween]
+ * - [TrnWhere.ById]
+ * - see [TrnWhere]
+ *
+ * ### Building more complex query:
+ * - and()
+ * - or()
+ * - not()
+ * - brackets()
+ */
 class TrnsAct constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,

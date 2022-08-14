@@ -11,6 +11,10 @@ import com.ivy.frp.asParamTo
 import com.ivy.frp.thenInvokeAfter
 import javax.inject.Inject
 
+/**
+ * Calculates [Stats] (income, expense, counts, balance) for a list of [Transaction]
+ * converted in a **outputCurrency** of your choice.
+ */
 class CalculateAct @Inject constructor(
     private val exchangeAct: ExchangeAct
 ) : FPAction<CalculateAct.Input, Stats>() {
