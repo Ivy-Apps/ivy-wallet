@@ -173,7 +173,7 @@ class TrnSelectQueryTest : StringSpec({
         val query = DueBetween(Period.After(theFuture)) and ByCategory(category)
         val where = toWhereClause(query)
 
-        where.query shouldBe "(dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
+        where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
         where.args shouldBe listOf(theFuture, endOfIvyTime(), category.id)
     }
 
@@ -193,13 +193,14 @@ class TrnSelectQueryTest : StringSpec({
                 nonEmptyListOf(acc1, acc2)
             ) and not(ByToAccount(acc3))
         ) or brackets(
-            ByCategory(cat) and DueBetween(Period.FromTo(dueStart, dueEnd))
+            ByCategory(cat) and ActualBetween(Period.FromTo(dueStart, dueEnd))
         ) or ByIdIn(nonEmptyListOf(id1, id2, id3))
 
         val where = toWhereClause(query)
 
         where.query shouldBe "(accountId IN (?, ?) AND NOT(toAccountId = ?)) OR " +
-                "(categoryId = ? AND (dueDate >= ? AND dueDate <= ?)) OR id IN (?, ?, ?)"
+                "(categoryId = ? AND (dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)) OR " +
+                "id IN (?, ?, ?)"
         where.args shouldBe listOf(
             acc1.id, acc2.id, acc3.id, cat.id, dueStart, dueEnd, id1, id2, id3
         )
@@ -256,7 +257,7 @@ class TrnSelectQueryTest : StringSpec({
     "generate ActualBetween" {
         checkAll(genActualBetween) { actualBetween ->
             val where = toWhereClause(actualBetween)
-            where.query shouldBe "(dateTime >= ? AND dateTime <= ?)"
+            where.query shouldBe "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)"
             where.args.size shouldBe 2
             where.args shouldBe actualBetween.period.toRange().toList()
         }
@@ -265,7 +266,7 @@ class TrnSelectQueryTest : StringSpec({
     "generate DueBetween" {
         checkAll(genDueBetween) { dueBetween ->
             val where = toWhereClause(dueBetween)
-            where.query shouldBe "(dueDate >= ? AND dueDate <= ?)"
+            where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)"
             where.args.size shouldBe 2
             where.args shouldBe dueBetween.period.toRange().toList()
         }

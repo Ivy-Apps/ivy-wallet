@@ -87,9 +87,11 @@ fun toWhereClause(where: TrnWhere): WhereClause {
             "categoryId IN (${placeholders(where.categories.size)})" to arg(where.categories.map { it?.id })
 
         is DueBetween -> {
-            "(dueDate >= ? AND dueDate <= ?)" to arg(where.period.toRange().toList())
+            "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)" to arg(
+                where.period.toRange().toList()
+            )
         }
-        is ActualBetween -> "(dateTime >= ? AND dateTime <= ?)" to arg(
+        is ActualBetween -> "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)" to arg(
             where.period.toRange().toList()
         )
 
