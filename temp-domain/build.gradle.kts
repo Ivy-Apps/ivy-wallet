@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":data-model"))
     implementation(project(":app-base"))
     implementation(project(":core:exchange-provider"))
+    implementation(project(":common"))
     implementation(project(":ui-common"))
     implementation(project(":screens"))
     ThirdParty()

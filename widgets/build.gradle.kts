@@ -16,6 +16,7 @@ android {
 
 dependencies {
     Hilt()
+    implementation(project(":common"))
     implementation(project(":ui-common"))
     implementation(project(":data-model"))
     implementation(project(":app-base"))

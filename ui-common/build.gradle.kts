@@ -56,7 +56,7 @@ android {
 
 dependencies {
     Hilt()
-    api(project(":common")) //TODO: Consider removing this "api" if it makes builds slower
+    implementation(project(":common"))
     implementation(project(":data-model"))
 
     Compose(api = true)

@@ -10,6 +10,7 @@ plugins {
 dependencies {
     Hilt()
 
+    implementation(project(":common"))
     implementation(project(":ui-common"))
     implementation(project(":ui-components-old"))
     implementation(project(":app-base"))
