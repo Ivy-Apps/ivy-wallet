@@ -212,6 +212,32 @@ class TrnSelectQueryTest : StringSpec({
             id1.toString(), id2.toString(), id3.toString()
         )
     }
+
+    "case 'CategoryIdIn' happy path 1" {
+        val cat1 = dummyCategory()
+        val cat2 = dummyCategory()
+        val cat3 = dummyCategory()
+
+        val where = toWhereClause(
+            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnType.EXPENSE)
+        )
+
+        where.query shouldBe "(categoryId IN (?, ?, ?) OR categoryId IS NULL) AND type = ?"
+        where.args shouldBe listOf(
+            cat1.id.toString(), cat2.id.toString(), cat3.id.toString(), "EXPENSE"
+        )
+    }
+
+    "case 'CategoryIdIn' happy path 2" {
+        val cat1 = dummyCategory()
+        val cat2 = dummyCategory()
+        val cat3 = dummyCategory()
+
+        val where = toWhereClause(ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3)))
+
+        where.query shouldBe "categoryId IN (?, ?, ?)"
+        where.args shouldBe listOf(cat1.id.toString(), cat2.id.toString(), cat3.id.toString())
+    }
     //endregion
 
     //region property-based
@@ -302,6 +328,28 @@ class TrnSelectQueryTest : StringSpec({
             val where = toWhereClause(byToAccountIn)
             where.query shouldBe "toAccountId IN (${placeholders(byToAccountIn.toAccs.size)})"
             where.args shouldBe byToAccountIn.toAccs.map { it.id.toString() }.toList()
+        }
+    }
+
+    "generate ByCategoryIn" {
+        checkAll(genByCategoryIn) { byCategoryIn ->
+            val where = toWhereClause(byCategoryIn)
+            val categories = byCategoryIn.categories
+            val nonNullCategories = categories.filterNotNull()
+
+            val expectedQuery = when {
+                categories.size == 1 && categories.first() == null -> {
+                    "categoryId IS NULL"
+                }
+                categories.size == nonNullCategories.size -> {
+                    "categoryId IN (${placeholders(byCategoryIn.categories.size)})"
+                }
+                else -> {
+                    "(categoryId IN (${placeholders(nonNullCategories.size)}) OR categoryId IS NULL)"
+                }
+            }
+            where.query shouldBe expectedQuery
+            where.args shouldBe byCategoryIn.categories.mapNotNull { it?.id?.toString() }
         }
     }
 
