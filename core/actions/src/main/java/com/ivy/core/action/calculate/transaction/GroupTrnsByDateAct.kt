@@ -5,6 +5,7 @@ import com.ivy.core.action.calculate.CalculateAct
 import com.ivy.core.action.currency.BaseCurrencyAct
 import com.ivy.data.transaction.DateDivider
 import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TrnHistoryItem
 import com.ivy.data.transaction.TrnTime
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
@@ -12,15 +13,15 @@ import javax.inject.Inject
 class GroupTrnsByDateAct @Inject constructor(
     private val calculateAct: CalculateAct,
     private val baseCurrencyAct: BaseCurrencyAct
-) : FPAction<List<Transaction>, List<Any>>() {
+) : FPAction<List<Transaction>, List<TrnHistoryItem>>() {
 
-    override suspend fun List<Transaction>.compose(): suspend () -> List<Any> = {
+    override suspend fun List<Transaction>.compose(): suspend () -> List<TrnHistoryItem> = {
         groupTransactionsByDate(this)
     }
 
     private suspend fun groupTransactionsByDate(
         transactions: List<Transaction>,
-    ): List<Any> {
+    ): List<TrnHistoryItem> {
         if (transactions.isEmpty()) return emptyList()
 
         val baseCurrency = baseCurrencyAct(Unit)
@@ -42,13 +43,17 @@ class GroupTrnsByDateAct @Inject constructor(
                     )
                 )
 
-                listOf<Any>(
-                    DateDivider(
-                        date = date!!,
-                        income = stats.income,
-                        expense = stats.expense
+                listOf<TrnHistoryItem>(
+                    TrnHistoryItem.Divider(
+                        DateDivider(
+                            date = date!!,
+                            income = stats.income,
+                            expense = stats.expense
+                        )
                     )
-                ).plus(trnsForDate)
+                ).plus(
+                    trnsForDate.map(TrnHistoryItem::Trn)
+                )
             }
     }
 }
