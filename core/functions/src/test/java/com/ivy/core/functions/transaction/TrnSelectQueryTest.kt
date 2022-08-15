@@ -213,7 +213,7 @@ class TrnSelectQueryTest : StringSpec({
         )
     }
 
-    "case 'CategoryIdIn' happy path 1" {
+    "case 'ByCategoryIdIn' happy path 1" {
         val cat1 = dummyCategory()
         val cat2 = dummyCategory()
         val cat3 = dummyCategory()
@@ -228,7 +228,7 @@ class TrnSelectQueryTest : StringSpec({
         )
     }
 
-    "case 'CategoryIdIn' happy path 2" {
+    "case 'ByCategoryIdIn' happy path 2" {
         val cat1 = dummyCategory()
         val cat2 = dummyCategory()
         val cat3 = dummyCategory()
