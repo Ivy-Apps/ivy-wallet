@@ -1,12 +1,14 @@
 package com.ivy.core.functions.transaction
 
 import arrow.core.NonEmptyList
+import com.ivy.common.toEpochMilli
 import com.ivy.core.functions.toRange
 import com.ivy.core.functions.transaction.TrnWhere.*
 import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
+import java.time.LocalDateTime
 import java.util.*
 
 sealed class TrnWhere {
@@ -63,36 +65,59 @@ fun toWhereClause(where: TrnWhere): WhereClause {
     fun <T> arg(arg: T): List<T> = listOf(arg)
     fun noArg() = arg(EmptyArg)
 
+    fun uuid(id: UUID): String = id.toString()
+    fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochMilli()
+    fun trnType(type: TrnType): String = type.name
+
     val result = when (where) {
-        is ById -> "id = ?" to arg(where.id)
-        is ByIdIn -> "id IN (${placeholders(where.ids.size)})" to arg(where.ids.toList())
+        is ById -> "id = ?" to arg(uuid(where.id))
+        is ByIdIn ->
+            "id IN (${placeholders(where.ids.size)})" to arg(where.ids.map(::uuid).toList())
 
-        is ByType -> "type = ?" to arg(where.trnType)
+        is ByType -> "type = ?" to arg(trnType(where.trnType))
         is ByTypeIn ->
-            "type IN (${placeholders(where.types.size)})" to arg(where.types.toList())
+            "type IN (${placeholders(where.types.size)})" to arg(
+                where.types.map(::trnType).toList()
+            )
 
-        is ByAccount -> "accountId = ?" to arg(where.account.id)
+        is ByAccount -> "accountId = ?" to arg(uuid(where.account.id))
         is ByAccountIn ->
-            "accountId IN (${placeholders(where.accs.size)})" to arg(where.accs.map { it.id })
-        is ByToAccount -> "toAccountId = ?" to arg(where.toAccount.id)
+            "accountId IN (${placeholders(where.accs.size)})" to arg(where.accs.map { uuid(it.id) })
+        is ByToAccount -> "toAccountId = ?" to arg(uuid(where.toAccount.id))
         is ByToAccountIn ->
-            "toAccountId IN (${placeholders(where.toAccs.size)})" to arg(where.toAccs.map { it.id })
+            "toAccountId IN (${placeholders(where.toAccs.size)})" to arg(
+                where.toAccs.map { uuid(it.id) }
+            )
 
         is ByCategory -> {
             where.category?.id?.let {
-                "categoryId = ?" to arg(it)
+                "categoryId = ?" to arg(uuid(it))
             } ?: ("categoryId IS NULL" to noArg())
         }
-        is ByCategoryIn ->
-            "categoryId IN (${placeholders(where.categories.size)})" to arg(where.categories.map { it?.id })
+        is ByCategoryIn -> {
+            val nonNullArgs = where.categories.filterNotNull()
+            when (nonNullArgs.size) {
+                0 -> "categoryId is NULL" to nonNullArgs
+                where.categories.size ->
+                    // only non-null args
+                    "categoryId IN (${placeholders(nonNullArgs.size)})" to arg(
+                        nonNullArgs.map { uuid(it.id) }
+                    )
+                else ->
+                    // non-null args + null
+                    "(categoryId IN (${placeholders(nonNullArgs.size)}) OR categoryId IS NULL)" to arg(
+                        nonNullArgs.map { uuid(it.id) }
+                    )
+            }
+        }
 
         is DueBetween -> {
             "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)" to arg(
-                where.period.toRange().toList()
+                where.period.toRange().toList().map(::timestamp)
             )
         }
         is ActualBetween -> "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)" to arg(
-            where.period.toRange().toList()
+            where.period.toRange().toList().map(::timestamp)
         )
 
         is Brackets -> {

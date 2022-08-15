@@ -4,12 +4,14 @@ import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
+import com.ivy.common.toEpochMilli
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.toRange
 import com.ivy.core.functions.transaction.TrnWhere.*
 import com.ivy.data.Period
 import com.ivy.data.transaction.TrnType
+import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb
@@ -18,7 +20,6 @@ import io.kotest.property.arbitrary.*
 import io.kotest.property.arrow.nonEmptyList
 import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
-import java.time.LocalDateTime
 import java.util.*
 
 class TrnSelectQueryTest : StringSpec({
@@ -86,7 +87,7 @@ class TrnSelectQueryTest : StringSpec({
     val genByCategoryIn = arbitrary {
         val categories = Arb.nonEmptyList(genCategory, 1..10).bind()
         val maybeNullableCats = if (Arb.boolean().bind())
-            NonEmptyList.fromListUnsafe(categories.plus(null)) else categories
+            NonEmptyList.fromListUnsafe(categories.plus(null).shuffled()) else categories
         ByCategoryIn(maybeNullableCats)
     }
 
@@ -174,7 +175,11 @@ class TrnSelectQueryTest : StringSpec({
         val where = toWhereClause(query)
 
         where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
-        where.args shouldBe listOf(theFuture, endOfIvyTime(), category.id)
+        where.args shouldBe listOf(
+            theFuture.toEpochMilli(),
+            endOfIvyTime().toEpochMilli(),
+            category.id.toString()
+        )
     }
 
     "case complex query" {
@@ -202,7 +207,9 @@ class TrnSelectQueryTest : StringSpec({
                 "(categoryId = ? AND (dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)) OR " +
                 "id IN (?, ?, ?)"
         where.args shouldBe listOf(
-            acc1.id, acc2.id, acc3.id, cat.id, dueStart, dueEnd, id1, id2, id3
+            acc1.id.toString(), acc2.id.toString(), acc3.id.toString(),
+            cat.id.toString(), dueStart.toEpochMilli(), dueEnd.toEpochMilli(),
+            id1.toString(), id2.toString(), id3.toString()
         )
     }
     //endregion
@@ -212,7 +219,7 @@ class TrnSelectQueryTest : StringSpec({
         val byId = genById.next()
         toWhereClause(byId) shouldBe WhereClause(
             query = "id = ?",
-            args = listOf(byId.id)
+            args = listOf(byId.id.toString())
         )
     }
 
@@ -225,7 +232,7 @@ class TrnSelectQueryTest : StringSpec({
                 where.args shouldBe emptyList()
             } else {
                 where.query shouldBe "categoryId = ?"
-                where.args shouldBe listOf(category.id)
+                where.args shouldBe listOf(category.id.toString())
             }
         }
     }
@@ -234,7 +241,7 @@ class TrnSelectQueryTest : StringSpec({
         val byAccount = genByAccount.next()
         toWhereClause(byAccount) shouldBe WhereClause(
             query = "accountId = ?",
-            args = listOf(byAccount.account.id)
+            args = listOf(byAccount.account.id.toString())
         )
     }
 
@@ -242,7 +249,7 @@ class TrnSelectQueryTest : StringSpec({
         val byToAccount = genByToAccount.next()
         toWhereClause(byToAccount) shouldBe WhereClause(
             query = "toAccountId = ?",
-            args = listOf(byToAccount.toAccount.id)
+            args = listOf(byToAccount.toAccount.id.toString())
         )
     }
 
@@ -250,7 +257,7 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genByType) { byType ->
             val where = toWhereClause(byType)
             where.query shouldBe "type = ?"
-            where.args shouldBe listOf(byType.trnType)
+            where.args shouldBe listOf(byType.trnType.name)
         }
     }
 
@@ -259,7 +266,7 @@ class TrnSelectQueryTest : StringSpec({
             val where = toWhereClause(actualBetween)
             where.query shouldBe "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe actualBetween.period.toRange().toList()
+            where.args shouldBe actualBetween.period.toRange().toList().map { it.toEpochMilli() }
         }
     }
 
@@ -268,7 +275,7 @@ class TrnSelectQueryTest : StringSpec({
             val where = toWhereClause(dueBetween)
             where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe dueBetween.period.toRange().toList()
+            where.args shouldBe dueBetween.period.toRange().toList().map { it.toEpochMilli() }
         }
     }
 
@@ -278,7 +285,7 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genByIdIn) { byIdIn ->
             val where = toWhereClause(byIdIn)
             where.query shouldBe "id IN (${placeholders(byIdIn.ids.size)})"
-            where.args shouldBe byIdIn.ids.toList()
+            where.args shouldBe byIdIn.ids.toList().map { it.toString() }
         }
     }
 
@@ -286,7 +293,7 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genByAccountIn) { byAccountIn ->
             val where = toWhereClause(byAccountIn)
             where.query shouldBe "accountId IN (${placeholders(byAccountIn.accs.size)})"
-            where.args shouldBe byAccountIn.accs.map { it.id }.toList()
+            where.args shouldBe byAccountIn.accs.map { it.id.toString() }.toList()
         }
     }
 
@@ -294,7 +301,7 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genByToAccountIn) { byToAccountIn ->
             val where = toWhereClause(byToAccountIn)
             where.query shouldBe "toAccountId IN (${placeholders(byToAccountIn.toAccs.size)})"
-            where.args shouldBe byToAccountIn.toAccs.map { it.id }.toList()
+            where.args shouldBe byToAccountIn.toAccs.map { it.id.toString() }.toList()
         }
     }
 
@@ -302,7 +309,7 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genByTypeIn) { byTypeIn ->
             val where = toWhereClause(byTypeIn)
             where.query shouldBe "type IN (${placeholders(byTypeIn.types.size)})"
-            where.args shouldBe byTypeIn.types.toList()
+            where.args shouldBe byTypeIn.types.toList().map { it.name }
         }
     }
 
@@ -387,17 +394,16 @@ class TrnSelectQueryTest : StringSpec({
         checkAll(genComplexQuery) { complexQuery ->
             val where = toWhereClause(complexQuery)
 
-            // Things that query args can BE:
+            // Things that query args can be:
             where.args.forEach {
                 val acceptedType = when (it) {
-                    is UUID, is LocalDateTime,
-                    is TrnType, is Boolean, is String, null -> true
+                    is String, is Long, is Boolean -> true
                     else -> false
                 }
                 if (!acceptedType) {
                     collect("not_accepted", it)
+                    fail("$it (${it?.javaClass?.name}) is not accepted type.")
                 }
-                acceptedType shouldBe true
             }
         }
     }
