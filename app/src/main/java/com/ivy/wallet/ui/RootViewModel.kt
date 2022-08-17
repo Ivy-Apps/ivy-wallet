@@ -16,6 +16,7 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding
+import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -37,7 +38,8 @@ class RootViewModel @Inject constructor(
     private val sharedPrefs: SharedPrefs,
     private val ivySession: IvySession,
     private val ivyBilling: IvyBilling,
-    private val transactionReminderLogic: TransactionReminderLogic
+    private val transactionReminderLogic: TransactionReminderLogic,
+    private val startDayOfMonthAct: StartDayOfMonthAct
 ) : ViewModel() {
 
     companion object {
@@ -59,7 +61,7 @@ class RootViewModel @Inject constructor(
                     ?: if (systemDarkMode) Theme.DARK else Theme.LIGHT
                 ivyContext.switchTheme(theme)
 
-                ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
+                startDayOfMonthAct(Unit)
             }
 
             TestIdlingResource.decrement()
