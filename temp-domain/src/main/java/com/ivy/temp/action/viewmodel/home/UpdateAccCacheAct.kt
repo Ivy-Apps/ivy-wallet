@@ -5,7 +5,7 @@ import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
 class UpdateAccCacheAct @Inject constructor(
-    private val ivyWalletCtx: com.ivy.base.IvyWalletCtx
+    private val ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx
 ) : FPAction<List<AccountOld>, List<AccountOld>>() {
     override suspend fun List<AccountOld>.compose(): suspend () -> List<AccountOld> = suspend {
         val accounts = this

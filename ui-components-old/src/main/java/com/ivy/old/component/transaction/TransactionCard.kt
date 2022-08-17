@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.data.AccountOld
@@ -472,7 +471,7 @@ private data class AmountTypeStyle(
 @Preview
 @Composable
 private fun PreviewUpcomingExpense() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Food", color = Green.toArgb())
@@ -505,7 +504,7 @@ private fun PreviewUpcomingExpense() {
 @Preview
 @Composable
 private fun PreviewOverdueExpense() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Rent", color = Green.toArgb())
@@ -538,7 +537,7 @@ private fun PreviewOverdueExpense() {
 @Preview
 @Composable
 private fun PreviewNormalExpense() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(
@@ -573,7 +572,7 @@ private fun PreviewNormalExpense() {
 @Preview
 @Composable
 private fun PreviewIncome() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "DSK Bank", color = Green.toArgb())
             val category = CategoryOld(name = "Salary", color = GreenDark.toArgb())
@@ -605,7 +604,7 @@ private fun PreviewIncome() {
 @Preview
 @Composable
 private fun PreviewTransfer() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = AccountOld(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
@@ -638,7 +637,7 @@ private fun PreviewTransfer() {
 @Preview
 @Composable
 private fun PreviewTransfer_differentCurrency() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = AccountOld(

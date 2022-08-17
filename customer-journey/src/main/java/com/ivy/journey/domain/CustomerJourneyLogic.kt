@@ -3,9 +3,7 @@ package com.ivy.journey.domain
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.*
 import com.ivy.journey.CustomerJourneyCard
@@ -21,7 +19,7 @@ class CustomerJourneyLogic(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,
-    private val ivyContext: com.ivy.base.IvyWalletCtx
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
 ) {
 
     suspend fun loadCards(): List<CustomerJourneyCardData> {
@@ -68,9 +66,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount == 0L
             },
-            title = stringRes(R.string.adjust_initial_balance),
-            description = stringRes(R.string.adjust_initial_balance_description),
-            cta = stringRes(R.string.to_accounts),
+            title = com.ivy.core.ui.temp.stringRes(R.string.adjust_initial_balance),
+            description = com.ivy.core.ui.temp.stringRes(R.string.adjust_initial_balance_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.to_accounts),
             ctaIcon = R.drawable.ic_custom_account_s,
             background = Gradient.solid(Ivy),
             hasDismiss = false,
@@ -84,9 +82,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, plannedPaymentCount, _ ->
                 trnCount >= 1 && plannedPaymentCount == 0L
             },
-            title = stringRes(R.string.create_first_planned_payment),
-            description = stringRes(R.string.create_first_planned_payment_description),
-            cta = stringRes(R.string.add_planned_payment),
+            title = com.ivy.core.ui.temp.stringRes(R.string.create_first_planned_payment),
+            description = com.ivy.core.ui.temp.stringRes(R.string.create_first_planned_payment_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.add_planned_payment),
             ctaIcon = R.drawable.ic_planned_payments,
             background = Gradient.solid(Orange),
             hasDismiss = true,
@@ -105,9 +103,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 3
             },
-            title = stringRes(R.string.did_you_know),
-            description = stringRes(R.string.widget_description),
-            cta = stringRes(R.string.add_widget),
+            title = com.ivy.core.ui.temp.stringRes(R.string.did_you_know),
+            description = com.ivy.core.ui.temp.stringRes(R.string.widget_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.add_widget),
             ctaIcon = R.drawable.ic_custom_atom_s,
             background = Gradient.solid(GreenLight),
             hasDismiss = true,
@@ -121,9 +119,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 5
             },
-            title = stringRes(R.string.set_a_budget),
-            description = stringRes(R.string.set_a_budget_description),
-            cta = stringRes(R.string.add_budget),
+            title = com.ivy.core.ui.temp.stringRes(R.string.set_a_budget),
+            description = com.ivy.core.ui.temp.stringRes(R.string.set_a_budget_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.add_budget),
             ctaIcon = R.drawable.ic_budget_xs,
             background = Gradient.solid(Green2),
             hasDismiss = true,
@@ -137,9 +135,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 7
             },
-            title = stringRes(R.string.did_you_know),
-            description = stringRes(R.string.expenses_piechart_description),
-            cta = stringRes(R.string.expenses_piechart),
+            title = com.ivy.core.ui.temp.stringRes(R.string.did_you_know),
+            description = com.ivy.core.ui.temp.stringRes(R.string.expenses_piechart_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.expenses_piechart),
             ctaIcon = R.drawable.ic_custom_bills_s,
             background = Gradient.solid(Red),
             hasDismiss = true,
@@ -153,9 +151,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 10
             },
-            title = stringRes(R.string.review_ivy_wallet),
-            description = stringRes(R.string.review_ivy_wallet_description),
-            cta = stringRes(R.string.rate_us_on_google_play),
+            title = com.ivy.core.ui.temp.stringRes(R.string.review_ivy_wallet),
+            description = com.ivy.core.ui.temp.stringRes(R.string.review_ivy_wallet_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
             background = Gradient.solid(Green),
             hasDismiss = true,
@@ -169,9 +167,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 14
             },
-            title = stringRes(R.string.share_ivy_wallet),
-            description = stringRes(R.string.help_us_grow),
-            cta = stringRes(R.string.share_with_friends),
+            title = com.ivy.core.ui.temp.stringRes(R.string.share_ivy_wallet),
+            description = com.ivy.core.ui.temp.stringRes(R.string.help_us_grow),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.share_with_friends),
             ctaIcon = R.drawable.ic_custom_family_s,
             background = Gradient.solid(Red3),
             hasDismiss = true,
@@ -201,9 +199,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 18
             },
-            title = stringRes(R.string.did_you_know),
-            description = stringRes(R.string.make_a_report_description),
-            cta = stringRes(R.string.make_a_report),
+            title = com.ivy.core.ui.temp.stringRes(R.string.did_you_know),
+            description = com.ivy.core.ui.temp.stringRes(R.string.make_a_report_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.make_a_report),
             ctaIcon = R.drawable.ic_statistics_xs,
             background = Gradient.solid(Green2),
             hasDismiss = true,
@@ -217,9 +215,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 22
             },
-            title = stringRes(R.string.review_ivy_wallet),
-            description = stringRes(R.string.make_ivy_wallet_better_description),
-            cta = stringRes(R.string.rate_us_on_google_play),
+            title = com.ivy.core.ui.temp.stringRes(R.string.review_ivy_wallet),
+            description = com.ivy.core.ui.temp.stringRes(R.string.make_ivy_wallet_better_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.rate_us_on_google_play),
             ctaIcon = R.drawable.ic_custom_star_s,
             background = Gradient.solid(GreenLight),
             hasDismiss = true,
@@ -233,9 +231,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 24
             },
-            title = stringRes(R.string.we_need_your_help),
-            description = stringRes(R.string.we_need_your_help_description),
-            cta = stringRes(R.string.share_ivy_wallet),
+            title = com.ivy.core.ui.temp.stringRes(R.string.we_need_your_help),
+            description = com.ivy.core.ui.temp.stringRes(R.string.we_need_your_help_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.share_ivy_wallet),
             ctaIcon = R.drawable.ic_custom_family_s,
             background = Gradient.solid(Purple2),
             hasDismiss = true,
@@ -249,9 +247,9 @@ class CustomerJourneyLogic(
             condition = { trnCount, _, _ ->
                 trnCount >= 28
             },
-            title = stringRes(R.string.ivy_wallet_is_opensource),
-            description = stringRes(R.string.ivy_wallet_is_opensource_description),
-            cta = stringRes(R.string.contribute),
+            title = com.ivy.core.ui.temp.stringRes(R.string.ivy_wallet_is_opensource),
+            description = com.ivy.core.ui.temp.stringRes(R.string.ivy_wallet_is_opensource_description),
+            cta = com.ivy.core.ui.temp.stringRes(R.string.contribute),
             ctaIcon = R.drawable.github_logo,
             background = Gradient.solid(Blue3),
             hasDismiss = true,
@@ -282,7 +280,7 @@ class CustomerJourneyLogic(
 @Preview
 @Composable
 private fun PreviewAdjustBalanceCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },
@@ -294,7 +292,7 @@ private fun PreviewAdjustBalanceCard() {
 @Preview
 @Composable
 private fun PreviewAddPlannedPaymentCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addPlannedPaymentCard(),
             onCTA = { },
@@ -306,7 +304,7 @@ private fun PreviewAddPlannedPaymentCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_pinAddTransactionWidgetCard(),
             onCTA = { },
@@ -318,7 +316,7 @@ private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
 @Preview
 @Composable
 private fun PreviewAddBudgetCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addBudgetCard(),
             onCTA = { },
@@ -330,7 +328,7 @@ private fun PreviewAddBudgetCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_ExpensesPieChart() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_expensesPieChart(),
             onCTA = { },
@@ -342,7 +340,7 @@ private fun PreviewDidYouKnow_ExpensesPieChart() {
 @Preview
 @Composable
 private fun PreviewRateUsCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard(),
             onCTA = { },
@@ -354,7 +352,7 @@ private fun PreviewRateUsCard() {
 @Preview
 @Composable
 private fun PreviewShareIvyWallet() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard(),
             onCTA = { },
@@ -366,7 +364,7 @@ private fun PreviewShareIvyWallet() {
 @Preview
 @Composable
 private fun PreviewJoinTelegram() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.joinIvyTelegramCard(),
             onCTA = { },
@@ -378,7 +376,7 @@ private fun PreviewJoinTelegram() {
 @Preview
 @Composable
 private fun PreviewMakeReport() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.makeReportCard(),
             onCTA = { },
@@ -390,7 +388,7 @@ private fun PreviewMakeReport() {
 @Preview
 @Composable
 private fun PreviewRateUs_2() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard_2(),
             onCTA = { },
@@ -402,7 +400,7 @@ private fun PreviewRateUs_2() {
 @Preview
 @Composable
 private fun PreviewShaveIvyWallet_2() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard_2(),
             onCTA = { },
@@ -414,7 +412,7 @@ private fun PreviewShaveIvyWallet_2() {
 @Preview
 @Composable
 private fun PreviewIvyWallet_isOpenSource() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
             onCTA = { },
@@ -426,7 +424,7 @@ private fun PreviewIvyWallet_isOpenSource() {
 @Preview
 @Composable
 private fun PreviewDonateCard() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.donateIvyWallet(),
             onCTA = { },

@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.IvyCurrency
@@ -570,7 +569,7 @@ private fun save(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LoanModal(
             modal = LoanModalData(
                 loan = null,

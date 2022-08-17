@@ -20,12 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
-import com.ivy.base.ivyWalletCtx
-import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.pure.IncomeExpensePair
@@ -67,7 +64,7 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
     val listState = rememberLazyListState()
     val context = LocalContext.current
@@ -233,8 +230,8 @@ private fun BoxWithConstraintsScope.UI(
                 onPayOrGet = {
                     onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
                 },
-                emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(R.string.no_transactions_for_your_filter)
+                emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
+                emptyStateText = com.ivy.core.ui.temp.stringRes(R.string.no_transactions_for_your_filter)
             )
         } else {
             item {
@@ -363,7 +360,7 @@ private fun Toolbar(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
@@ -405,7 +402,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_NO_FILTER() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")

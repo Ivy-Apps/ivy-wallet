@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.thenWhen
 import com.ivy.wallet.utils.toLowerCaseLocal
@@ -306,7 +305,7 @@ fun fallbackToNewIconFormat(
 @Preview
 @Composable
 private fun Preview_L() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         ItemIconL(iconName = "dna")
     }
 }
@@ -314,7 +313,7 @@ private fun Preview_L() {
 @Preview
 @Composable
 private fun Preview_M() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         ItemIconM(iconName = "document")
     }
 }
@@ -322,7 +321,7 @@ private fun Preview_M() {
 @Preview
 @Composable
 private fun Preview_S() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         ItemIconS(iconName = "fooddrink")
     }
 }

@@ -35,7 +35,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val nav: Navigation,
     private val accountDao: AccountDao,
     private val settingsDao: SettingsDao,

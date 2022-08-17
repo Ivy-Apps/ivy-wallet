@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
@@ -479,7 +478,7 @@ private fun circleButtonModifier(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         BoxWithConstraints(
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {

@@ -6,9 +6,7 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.ivy.base.GlobalProvider
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.common.atEndOfDay
 import com.ivy.common.dateNowUTC
 import com.ivy.notifications.IvyNotificationChannel
@@ -56,7 +54,7 @@ class TransactionReminderWorker @AssistedInject constructor(
                     PendingIntent.getActivity(
                         applicationContext,
                         1,
-                        GlobalProvider.rootIntent.getIntent(applicationContext),
+                        com.ivy.core.ui.temp.GlobalProvider.rootIntent.getIntent(applicationContext),
                         PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_UPDATE_CURRENT
                                 or PendingIntent.FLAG_IMMUTABLE
                     )
@@ -70,9 +68,9 @@ class TransactionReminderWorker @AssistedInject constructor(
 
     private fun randomText(): String =
         listOf(
-            stringRes(R.string.notification_1),
-            stringRes(R.string.notification_2),
-            stringRes(R.string.notification_3),
+            com.ivy.core.ui.temp.stringRes(R.string.notification_1),
+            com.ivy.core.ui.temp.stringRes(R.string.notification_2),
+            com.ivy.core.ui.temp.stringRes(R.string.notification_3),
         ).shuffled().first()
 
     private fun fetchShowNotifications(): Boolean =

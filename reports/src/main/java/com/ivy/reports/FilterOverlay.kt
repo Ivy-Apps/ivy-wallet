@@ -21,9 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnType
@@ -166,7 +164,7 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            val ivyContext = ivyWalletCtx()
+            val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
             PeriodFilter(
                 filter = localFilter,
                 onShowPeriodChooserModal = {
@@ -441,7 +439,7 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(ivyWalletCtx().startDayOfMonth)
+        text = filter?.period?.toDisplayLong(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth)
             ?.capitalizeLocal()
             ?: stringResource(R.string.select_time_range),
         padding = 12.dp,
@@ -853,7 +851,7 @@ private fun FilterTitleText(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")

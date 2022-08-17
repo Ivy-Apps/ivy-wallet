@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.base.rootScreen
 
 @Composable
 fun MoneyManagerPraseSteps(
@@ -39,7 +38,7 @@ fun MoneyManagerPraseSteps(
 
     Spacer(Modifier.height(12.dp))
 
-    val rootScreen = rootScreen()
+    val rootScreen = com.ivy.core.ui.temp.rootScreen()
     InstructionButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         icon = null,

@@ -22,8 +22,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.*
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.BudgetExt
+import com.ivy.core.ui.temp.trash.parseAccountIds
+import com.ivy.core.ui.temp.trash.parseCategoryIds
 import com.ivy.data.AccountOld
 import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
@@ -296,7 +298,7 @@ private fun CategoriesRow(
 @Preview
 @Composable
 private fun Preview_create() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(
@@ -322,7 +324,7 @@ private fun Preview_create() {
 @Preview
 @Composable
 private fun Preview_edit() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(

@@ -45,8 +45,8 @@ import javax.inject.Singleton
 object AppModuleDI {
     @Provides
     @Singleton
-    fun provideIvyContext(): com.ivy.base.IvyWalletCtx {
-        return com.ivy.base.IvyWalletCtx()
+    fun provideIvyContext(): com.ivy.core.ui.temp.IvyWalletCtx {
+        return com.ivy.core.ui.temp.IvyWalletCtx()
     }
 
     @Provides
@@ -542,7 +542,7 @@ object AppModuleDI {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: com.ivy.base.IvyWalletCtx
+        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -580,7 +580,7 @@ object AppModuleDI {
         categoryDao: CategoryDao,
         transactionUploader: TransactionUploader,
         transactionDao: TransactionDao,
-        ivyContext: com.ivy.base.IvyWalletCtx,
+        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
         loanDao: LoanDao,
         loanRecordDao: LoanRecordDao,
         exchangeRatesLogic: ExchangeRatesLogic,

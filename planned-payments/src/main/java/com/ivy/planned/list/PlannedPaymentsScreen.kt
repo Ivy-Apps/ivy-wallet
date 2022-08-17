@@ -15,7 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -125,7 +124,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val account = AccountOld(name = "Cash", color = Green.toArgb())
         val food = CategoryOld(name = "Food", color = Ivy.toArgb())
         val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())

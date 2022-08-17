@@ -8,12 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
+import com.ivy.base.AccountBalance
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.base.AccountBalance
 import com.ivy.onboarding.steps.*
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.screens.Onboarding
@@ -160,7 +159,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewOnboarding() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             accountSuggestions = listOf(),
             accounts = listOf(),

@@ -128,6 +128,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":ui-common"))
     implementation(project(":app-base"))
+    implementation(project(":core:ui"))
     implementation(project(":screens"))
     implementation(project(":budgets"))
     implementation(project(":categories"))

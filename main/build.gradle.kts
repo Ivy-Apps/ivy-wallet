@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":temp-domain"))
     implementation(project(":screens"))
     implementation(project(":app-base"))
+    implementation(project(":core:ui"))
     implementation(project(":ui-components-old"))
 
 

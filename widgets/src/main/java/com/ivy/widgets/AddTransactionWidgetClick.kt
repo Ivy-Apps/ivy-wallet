@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
-import com.ivy.base.GlobalProvider
 import com.ivy.data.transaction.TrnType
 
 class AddTransactionWidgetClick {
@@ -21,7 +20,7 @@ class AddTransactionWidgetClick {
         when (intent.action) {
             ACTION_ADD_INCOME -> {
                 context.startActivity(
-                    GlobalProvider.rootIntent.addTransactionStart(
+                    com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TrnType.INCOME
                     ).apply {
@@ -31,7 +30,7 @@ class AddTransactionWidgetClick {
             }
             ACTION_ADD_EXPENSE -> {
                 context.startActivity(
-                    GlobalProvider.rootIntent.addTransactionStart(
+                    com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TrnType.EXPENSE
                     ).apply {
@@ -41,7 +40,7 @@ class AddTransactionWidgetClick {
             }
             ACTION_ADD_TRANSFER -> {
                 context.startActivity(
-                    GlobalProvider.rootIntent.addTransactionStart(
+                    com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
                         type = TrnType.TRANSFER
                     ).apply {

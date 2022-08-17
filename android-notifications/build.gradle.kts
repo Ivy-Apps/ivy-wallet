@@ -13,5 +13,6 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     implementation(project(":app-base"))
+    implementation(project(":core:ui"))
     AndroidX(api = false)
 }

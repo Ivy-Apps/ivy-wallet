@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.core.ui.temp
 
 import android.view.View
 import androidx.compose.foundation.background
@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import com.ivy.data.Theme
 import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.ivyContext
 import com.ivy.design.api.systems.IvyWalletDesign
-import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.Navigation

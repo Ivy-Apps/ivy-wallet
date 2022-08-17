@@ -1,6 +1,8 @@
-package com.ivy.base
+package com.ivy.core.ui.temp.trash
 
+import com.ivy.base.R
 import com.ivy.common.dateNowUTC
+import com.ivy.core.ui.temp.stringRes
 import java.time.LocalDate
 
 data class Month(
@@ -32,7 +34,7 @@ data class Month(
 
 
     fun incrementMonthPeriod(
-        ivyContext: IvyWalletCtx,
+        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
         increment: Long,
         year: Int
     ): TimePeriod {

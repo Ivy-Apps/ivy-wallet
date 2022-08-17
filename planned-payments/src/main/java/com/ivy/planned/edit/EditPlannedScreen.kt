@@ -15,7 +15,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -431,7 +430,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             screen = EditPlanned(null, TrnType.EXPENSE),
             oneTime = false,

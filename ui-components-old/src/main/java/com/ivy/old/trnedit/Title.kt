@@ -24,7 +24,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.Constants
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.base.R
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
@@ -132,7 +131,7 @@ private fun Suggestion(
 @Preview
 @Composable
 private fun PreviewTitleWithSuggestions() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         Column {
             Title(
                 type = TrnType.EXPENSE,

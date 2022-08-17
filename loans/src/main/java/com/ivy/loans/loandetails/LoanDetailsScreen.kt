@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.humanReadableType
 import com.ivy.data.AccountOld
@@ -789,7 +788,7 @@ private fun NoLoanRecordsEmptyState() {
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(
@@ -806,7 +805,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Records() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(

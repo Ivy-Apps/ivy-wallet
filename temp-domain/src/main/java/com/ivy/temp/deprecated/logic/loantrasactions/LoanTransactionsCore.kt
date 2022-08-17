@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.deprecated.logic.loantrasactions
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.common.timeNowUTC
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -28,7 +27,7 @@ class LoanTransactionsCore(
     private val categoryDao: CategoryDao,
     private val transactionUploader: TransactionUploader,
     private val transactionDao: TransactionDao,
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,
@@ -199,7 +198,7 @@ class LoanTransactionsCore(
         } ?: if (ivyContext.isPremium || categoryList.size < 12) {
             addCategoryToDb = true
             CategoryOld(
-                stringRes(R.string.loans),
+                com.ivy.core.ui.temp.stringRes(R.string.loans),
                 color = IVY_COLOR_PICKER_COLORS_FREE[4].toArgb(),
                 icon = "loan"
             )

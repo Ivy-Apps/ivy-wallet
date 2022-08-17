@@ -14,11 +14,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Green
@@ -137,7 +136,7 @@ private class AddNew
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         Suggestions(
             suggestions = listOf(
                 AccountOld("Cash", color = Green.toArgb()),

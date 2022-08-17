@@ -1,14 +1,15 @@
-package com.ivy.base
+package com.ivy.core.ui.temp.trash
 
+import com.ivy.base.FromToTimeRange
 import com.ivy.common.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class TimePeriod(
-    val month: Month? = null,
+    val month: com.ivy.core.ui.temp.trash.Month? = null,
     val year: Int? = null,
     val fromToRange: FromToTimeRange? = null,
-    val lastNRange: LastNTimeRange? = null,
+    val lastNRange: com.ivy.core.ui.temp.trash.LastNTimeRange? = null,
 ) {
     companion object {
         /**
@@ -156,7 +157,7 @@ data class TimePeriod(
         }
     }
 
-    private fun displayMonthStartingOn1st(month: com.ivy.base.Month): String {
+    private fun displayMonthStartingOn1st(month: com.ivy.core.ui.temp.trash.Month): String {
         val year = year
         return if (year != null && dateNowUTC().year != year) {
             //not this year

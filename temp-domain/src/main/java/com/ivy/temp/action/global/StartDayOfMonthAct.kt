@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class StartDayOfMonthAct @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val ivyWalletCtx: com.ivy.base.IvyWalletCtx
+    private val ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx
 ) : FPAction<Unit, Int>() {
 
     override suspend fun Unit.compose(): suspend () -> Int = suspend {

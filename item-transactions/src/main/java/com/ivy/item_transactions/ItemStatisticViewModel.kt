@@ -5,9 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.R
-import com.ivy.base.TimePeriod
-import com.ivy.base.stringRes
 import com.ivy.base.toCloseTimeRange
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -50,7 +49,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val nav: Navigation,
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,
@@ -477,7 +476,11 @@ class ItemStatisticViewModel @Inject constructor(
     ) {
         _initWithTransactions.value = true
         _category.value =
-            CategoryOld(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+            CategoryOld(
+                com.ivy.core.ui.temp.stringRes(R.string.account_transfers),
+                RedLight.toArgb(),
+                "transfer"
+            )
         val accountFilterIdSet = accountFilterList.toHashSet()
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(

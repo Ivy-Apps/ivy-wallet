@@ -1,11 +1,11 @@
 package com.ivy.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.ivy.base.AccountBalance
 import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.base.AccountBalance
 import com.ivy.screens.Import
 import com.ivy.screens.Main
 import com.ivy.screens.Onboarding
@@ -33,7 +33,7 @@ class OnboardingRouter(
     private val _categories: MutableLiveData<List<CategoryOld>>,
     private val _categorySuggestions: MutableLiveData<List<CreateCategoryData>>,
 
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val nav: Navigation,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountDao: AccountDao,

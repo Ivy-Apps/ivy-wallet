@@ -13,14 +13,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.formatLocalTime
 import com.ivy.wallet.utils.formatNicely
-import com.ivy.wallet.utils.formatNicelyWithTime
 import com.ivy.wallet.utils.timeNowUTC
 import java.time.LocalDateTime
 
@@ -99,7 +97,7 @@ fun TransactionDateTime(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         TransactionDateTime(
             dateTime = timeNowUTC(),
             dueDateTime = null

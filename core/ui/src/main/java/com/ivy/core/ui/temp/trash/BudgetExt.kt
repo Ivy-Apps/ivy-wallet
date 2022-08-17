@@ -1,5 +1,7 @@
-package com.ivy.base
+package com.ivy.core.ui.temp.trash
 
+import com.ivy.base.R
+import com.ivy.core.ui.temp.stringRes
 import com.ivy.data.Budget
 import java.util.*
 
@@ -12,7 +14,10 @@ object BudgetExt {
         return when (categoriesCount) {
             0 -> stringRes(R.string.total_budget)
             1 -> stringRes(R.string.category_budget)
-            else -> stringRes(R.string.multi_category_budget, categoriesCount.toString())
+            else -> stringRes(
+                R.string.multi_category_budget,
+                categoriesCount.toString()
+            )
         }
     }
 }

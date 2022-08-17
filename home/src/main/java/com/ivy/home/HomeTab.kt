@@ -17,10 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.*
+import com.ivy.base.Constants
+import com.ivy.base.MainTab
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.IvyCurrency
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
@@ -70,7 +72,7 @@ private fun BoxWithConstraintsScope.UI(
 
     onEvent: (HomeEvent) -> Unit
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     var bufferModalData: BufferModalData? by remember { mutableStateOf(null) }
     var currencyModalVisible by remember { mutableStateOf(false) }
@@ -275,7 +277,7 @@ fun HomeLazyColumn(
     onSkipTransaction: (TransactionOld) -> Unit = {},
     onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
 
     val nestedScrollConnection = remember {
@@ -344,8 +346,8 @@ fun HomeLazyColumn(
             setOverdueExpanded = setOverdueExpanded,
             history = history,
             onPayOrGet = onPayOrGet,
-            emptyStateTitle = stringRes(R.string.no_transactions),
-            emptyStateText = stringRes(
+            emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
+            emptyStateText = com.ivy.core.ui.temp.stringRes(
                 R.string.no_transactions_description,
                 period.toDisplayLong(ivyContext.startDayOfMonth)
             ),
@@ -360,9 +362,9 @@ fun HomeLazyColumn(
 @Preview
 @Composable
 private fun PreviewHomeTab() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
-            state = HomeState.initial(ivyWalletCtx()),
+            state = HomeState.initial(com.ivy.core.ui.temp.ivyWalletCtx()),
             onEvent = {}
         )
     }

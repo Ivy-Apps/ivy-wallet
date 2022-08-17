@@ -17,9 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.forDisplay
+import com.ivy.core.ui.temp.trash.forDisplay
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
@@ -242,7 +241,7 @@ private fun RuleTextRow(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Food", color = Green.toArgb())
@@ -276,7 +275,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_recurring() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = AccountOld(name = "Revolut", color = Green.toArgb())
             val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
@@ -310,7 +309,7 @@ private fun Preview_recurring() {
 @Preview
 @Composable
 private fun Preview_recurringError() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = AccountOld(name = "Revolut", color = Green.toArgb())
             val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())

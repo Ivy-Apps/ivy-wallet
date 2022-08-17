@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.ivy.base.GlobalProvider
 import com.ivy.base.RootIntent
 import com.ivy.common.BuildConfig
 import com.ivy.data.transaction.TrnType
@@ -40,8 +39,8 @@ class IvyAndroidApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        GlobalProvider.appContext = this
-        GlobalProvider.rootIntent = object : RootIntent {
+        com.ivy.core.ui.temp.GlobalProvider.appContext = this
+        com.ivy.core.ui.temp.GlobalProvider.rootIntent = object : RootIntent {
             override fun getIntent(context: Context): Intent =
                 Intent(context, RootActivity::class.java)
 

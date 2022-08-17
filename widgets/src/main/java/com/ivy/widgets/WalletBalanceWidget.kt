@@ -60,7 +60,7 @@ class WalletBalanceReceiver : GlanceAppWidgetReceiver() {
     lateinit var calcIncomeExpenseAct: CalcIncomeExpenseAct
 
     @Inject
-    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
+    lateinit var ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
 
     @Inject
     lateinit var sharedPrefs: SharedPrefs

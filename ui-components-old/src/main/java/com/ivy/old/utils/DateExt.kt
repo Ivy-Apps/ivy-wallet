@@ -4,7 +4,6 @@ package com.ivy.wallet.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.frp.Total
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -55,13 +54,22 @@ fun LocalDateTime.formatNicely(
 
     return when (this.toLocalDate()) {
         today -> {
-            stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.today_date,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         today.minusDays(1) -> {
-            stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.yesterday_date,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         today.plusDays(1) -> {
-            stringRes(R.string.tomorrow_date, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.tomorrow_date,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         else -> {
             if (isThisYear) {
@@ -92,13 +100,22 @@ fun LocalDateTime.formatNicelyWithTime(
 
     return when (this.toLocalDate()) {
         today -> {
-            stringRes(R.string.today_date, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.today_date,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         today.minusDays(1) -> {
-            stringRes(R.string.yesterday_date, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.yesterday_date,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         today.plusDays(1) -> {
-            stringRes(R.string.tomorrow, this.formatLocal(patternNoWeekDay, zone))
+            com.ivy.core.ui.temp.stringRes(
+                R.string.tomorrow,
+                this.formatLocal(patternNoWeekDay, zone)
+            )
         }
         else -> {
             if (isThisYear) {
@@ -145,13 +162,13 @@ fun LocalDate.closeDay(): String? {
     val today = dateNowUTC()
     return when (this) {
         today -> {
-            stringRes(R.string.today)
+            com.ivy.core.ui.temp.stringRes(R.string.today)
         }
         today.minusDays(1) -> {
-            stringRes(R.string.yesterday)
+            com.ivy.core.ui.temp.stringRes(R.string.yesterday)
         }
         today.plusDays(1) -> {
-            stringRes(R.string.tomorrow)
+            com.ivy.core.ui.temp.stringRes(R.string.tomorrow)
         }
         else -> {
             null
@@ -240,7 +257,7 @@ fun LocalDateTime.timeLeft(
     secondsLabel: String = "s"
 ): String {
     val timeLeftMs = this.millis() - from.millis()
-    if (timeLeftMs <= 0) return stringRes(R.string.expired)
+    if (timeLeftMs <= 0) return com.ivy.core.ui.temp.stringRes(R.string.expired)
 
     val days = TimeUnit.MILLISECONDS.toDays(timeLeftMs)
     var timeLeftAfterCalculations = timeLeftMs - TimeUnit.DAYS.toMillis(days)

@@ -18,7 +18,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.*
+import com.ivy.base.CustomExchangeRateState
+import com.ivy.base.EditTransactionDisplayLoan
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -75,7 +76,7 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
         viewModel.start(screen)
     }
 
-    val view = rootView()
+    val view = com.ivy.core.ui.temp.rootView()
 
     UI(
         screen = screen,
@@ -282,7 +283,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(32.dp))
 
-        val ivyContext = ivyWalletCtx()
+        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
@@ -583,7 +584,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             screen = EditTransaction(null, TrnType.EXPENSE),
             initialTitle = "",

@@ -18,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.LoanRecord
@@ -335,7 +333,7 @@ private fun DateTimeRow(
     dateTime: LocalDateTime,
     onSetDateTime: (LocalDateTime) -> Unit
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -562,7 +560,7 @@ private fun AddAccount(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

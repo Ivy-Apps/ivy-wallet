@@ -1,6 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
-import com.ivy.base.incrementDate
+import com.ivy.core.ui.temp.trash.incrementDate
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.wallet.io.persistence.dao.TransactionDao

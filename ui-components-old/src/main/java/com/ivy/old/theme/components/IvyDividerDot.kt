@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 
 
@@ -24,7 +23,7 @@ fun IvyDividerDot() {
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.IvyWalletComponentPreview {
         IvyDividerDot()
     }
 }

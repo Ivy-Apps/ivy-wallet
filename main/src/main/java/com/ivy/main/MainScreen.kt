@@ -8,9 +8,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.accounts.AccountsTab
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.MainTab
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.transaction.TrnType
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
@@ -34,7 +32,7 @@ fun BoxWithConstraintsScope.MainScreen(screen: Main) {
         viewModel.start(screen)
     }
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     UI(
         screen = screen,
         tab = ivyContext.mainTab,
@@ -125,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewMainScreen() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         UI(
             screen = Main,
             tab = MainTab.HOME,

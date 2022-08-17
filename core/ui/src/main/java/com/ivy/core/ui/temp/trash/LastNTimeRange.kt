@@ -1,5 +1,6 @@
-package com.ivy.base
+package com.ivy.core.ui.temp.trash
 
+import com.ivy.base.R
 import com.ivy.common.timeNowUTC
 import com.ivy.data.planned.IntervalType
 import java.time.LocalDateTime
@@ -21,10 +22,18 @@ fun LastNTimeRange.forDisplay(): String =
 fun IntervalType.forDisplay(intervalN: Int): String {
     val plural = intervalN > 1 || intervalN == 0
     return when (this) {
-        IntervalType.DAY -> if (plural) stringRes(R.string.days) else stringRes(R.string.day)
-        IntervalType.WEEK -> if (plural) stringRes(R.string.weeks) else stringRes(R.string.week)
-        IntervalType.MONTH -> if (plural) stringRes(R.string.months) else stringRes(R.string.month)
-        IntervalType.YEAR -> if (plural) stringRes(R.string.years) else stringRes(R.string.year)
+        IntervalType.DAY -> if (plural) com.ivy.core.ui.temp.stringRes(R.string.days) else com.ivy.core.ui.temp.stringRes(
+            R.string.day
+        )
+        IntervalType.WEEK -> if (plural) com.ivy.core.ui.temp.stringRes(R.string.weeks) else com.ivy.core.ui.temp.stringRes(
+            R.string.week
+        )
+        IntervalType.MONTH -> if (plural) com.ivy.core.ui.temp.stringRes(R.string.months) else com.ivy.core.ui.temp.stringRes(
+            R.string.month
+        )
+        IntervalType.YEAR -> if (plural) com.ivy.core.ui.temp.stringRes(R.string.years) else com.ivy.core.ui.temp.stringRes(
+            R.string.year
+        )
     }
 }
 

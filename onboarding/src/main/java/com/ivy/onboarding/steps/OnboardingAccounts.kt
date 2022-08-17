@@ -16,9 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
+import com.ivy.base.AccountBalance
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -26,7 +25,6 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
 import com.ivy.old.Suggestions
-import com.ivy.base.AccountBalance
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
@@ -55,7 +53,10 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .navigationBarsPadding()
     ) {
         stickyHeader {
             val nav = navigation()
@@ -148,8 +149,12 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
 
     if (accounts.isNotEmpty()) {
         OnboardingButton(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp).align(Alignment.BottomCenter)
-                .navigationBarsPadding().padding(bottom = 20.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 20.dp),
 
             text = stringResource(R.string.next),
             textColor = White,
@@ -185,7 +190,7 @@ fun PremiumInfo(
                 fontWeight = FontWeight.Bold, color = if (freeItemsLeft > 2) Green else Orange
             )
         )
-    } else if (!ivyWalletCtx().isPremium) {
+    } else if (!com.ivy.core.ui.temp.ivyWalletCtx().isPremium) {
         Spacer(Modifier.height(24.dp))
 
         BuyPremiumRow(
@@ -200,8 +205,12 @@ fun BuyPremiumRow(
 ) {
     val nav = navigation()
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4).clickable {
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clickable {
 //                nav.navigateTo(
 //                    Paywall(
 //                        paywallReason = PaywallReason.ACCOUNTS
@@ -216,7 +225,9 @@ fun BuyPremiumRow(
         )
 
         Text(
-            modifier = Modifier.padding(vertical = 12.dp).padding(start = 12.dp, end = 32.dp),
+            modifier = Modifier
+                .padding(vertical = 12.dp)
+                .padding(start = 12.dp, end = 32.dp),
             text = "Buy premium for unlimited number of $itemLabelPlural",
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold, color = Red
@@ -250,15 +261,21 @@ private fun AccountCard(
 
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).clip(UI.shapes.r3)
-            .background(accountColor, UI.shapes.r3).clickable {
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(UI.shapes.r3)
+            .background(accountColor, UI.shapes.r3)
+            .clickable {
                 onClick()
             }, verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(24.dp))
 
         ItemIconMDefaultIcon(
-            modifier = Modifier.padding(vertical = 16.dp).background(dynamicContrast, CircleShape),
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .background(dynamicContrast, CircleShape),
             iconName = account.icon,
             defaultIcon = R.drawable.ic_custom_account_m,
             tint = accountColor
@@ -289,7 +306,7 @@ private fun AccountCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -323,7 +340,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Accounts() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -363,7 +380,7 @@ private fun Preview_Accounts() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.IvyWalletPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
