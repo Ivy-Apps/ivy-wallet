@@ -5,6 +5,7 @@ import com.ivy.common.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+@Deprecated("Migration to Period")
 data class TimePeriod(
     val month: com.ivy.core.ui.temp.trash.Month? = null,
     val year: Int? = null,

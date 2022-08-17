@@ -8,7 +8,10 @@ import com.ivy.data.category.Category
 private var state = IvyState(
     accounts = null,
     categories = null,
+
     period = null,
+    startDayOfMonth = null,
+
     baseCurrency = null,
     exchangeRates = null,
 )
@@ -16,7 +19,10 @@ private var state = IvyState(
 data class IvyState(
     val accounts: List<Account>?,
     val categories: List<Category>?,
+
     val period: Period?,
+    val startDayOfMonth: Int?,
+
     val baseCurrency: String?,
     /**
      * The exchange rate baseCurrency <> CurrencyCode.
@@ -52,6 +58,12 @@ fun categoriesUpdate(newCategories: List<Category>?): () -> IvyState = {
 fun periodUpdate(newPeriod: Period?): () -> IvyState = {
     readIvyState().copy(
         period = newPeriod
+    )
+}
+
+fun startDayOfMonth(newStartDay: Int?): () -> IvyState = {
+    readIvyState().copy(
+        startDayOfMonth = newStartDay
     )
 }
 
