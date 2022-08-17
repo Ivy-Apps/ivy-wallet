@@ -24,14 +24,20 @@ class IvyWalletCtx : IvyContext() {
     }
 
     //---------------------- Optimization  ----------------------------
+    @Deprecated("use IvyState")
     val categoryMap: MutableMap<UUID, CategoryOld> = mutableMapOf()
+
+    @Deprecated("use IvyState")
     val accountMap: MutableMap<UUID, AccountOld> = mutableMapOf()
     //---------------------- Optimization  ----------------------------
 
+    @Deprecated("use IvyState")
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
         startDayOfMonth = startDayOfMonth //this is default value
     )
     private var selectedPeriodInitialized = false
+
+    @Deprecated("use IvyState")
     fun initSelectedPeriodInMemory(
         startDayOfMonth: Int,
         forceReinitialize: Boolean = false
@@ -46,10 +52,12 @@ class IvyWalletCtx : IvyContext() {
         return selectedPeriod
     }
 
+    @Deprecated("use IvyState")
     fun updateSelectedPeriodInMemory(period: TimePeriod) {
         selectedPeriod = period
     }
 
+    @Deprecated("use IvyState")
     var transactionsListState: LazyListState? = null
 
     var mainTab by mutableStateOf(MainTab.HOME)
