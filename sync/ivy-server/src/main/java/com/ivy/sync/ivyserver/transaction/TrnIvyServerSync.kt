@@ -50,9 +50,9 @@ class TrnIvyServerSync @Inject constructor(
     private fun mapToDTO(trn: Transaction): TransactionDTO = TransactionDTO(
         accountId = trn.account.id,
         type = mapToTrnType(trn.type),
-        amount = trn.amount,
+        amount = trn.value.amount,
         toAccountId = (trn.type as? TransactionType.Transfer)?.toAccount?.id,
-        toAmount = (trn.type as? TransactionType.Transfer)?.toAmount,
+        toAmount = (trn.type as? TransactionType.Transfer)?.toValue?.amount,
         title = trn.title,
         description = trn.description,
         dateTime = (trn.time as? TrnTime.Actual)?.actual,

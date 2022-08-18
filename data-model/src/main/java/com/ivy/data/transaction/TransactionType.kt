@@ -8,7 +8,7 @@ sealed class TransactionType {
     object Income : TransactionType()
 
     data class Transfer(
-        val toAccount: Account,
-        val toAmount: Double
+        val toValue: Value,
+        val toAccount: Account
     ) : TransactionType()
 }

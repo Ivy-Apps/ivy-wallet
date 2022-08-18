@@ -12,7 +12,7 @@ data class Transaction(
 
     val account: Account,
     val type: TransactionType,
-    val amount: Double,
+    val value: Value,
     val category: Category?,
     val time: TrnTime,
 

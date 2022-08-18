@@ -50,7 +50,7 @@ class AccActualStatsAct @Inject constructor(
         ByType(TrnType.TRANSFER) and ActualBetween(period) and ByToAccount(account)
     } then trnsAct thenInvokeAfter { transfersIn ->
         suspend fun transferInAmount(trn: Transaction, arg: Unit): Double =
-            (trn.type as? TransactionType.Transfer)?.toAmount ?: 0.0
+            (trn.type as? TransactionType.Transfer)?.toValue?.amount ?: 0.0
 
         val amount = foldTransactions(
             transactions = transfersIn,
@@ -66,7 +66,7 @@ class AccActualStatsAct @Inject constructor(
     private suspend fun Input.transfersOutStats(): Pair<Double, List<Transaction>> = {
         ByAccount(account) and ActualBetween(period) and ByType(TrnType.TRANSFER)
     } then trnsAct thenInvokeAfter { transfersOut ->
-        suspend fun transferOutAmount(trn: Transaction, arg: Unit): Double = trn.amount
+        suspend fun transferOutAmount(trn: Transaction, arg: Unit): Double = trn.value.amount
 
         val amount = foldTransactions(
             transactions = transfersOut,

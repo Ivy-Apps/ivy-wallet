@@ -71,14 +71,19 @@ class TrnsAct @Inject constructor(
         categories: Map<UUID, Category>,
         entity: TransactionEntity
     ): Transaction? {
+        val account = accounts[entity.accountId] ?: return null
+
         return Transaction(
             id = entity.id,
-            account = accounts[entity.accountId] ?: return null,
+            account = account,
             type = transactionType(
                 accounts = accounts,
                 entity = entity
             ).orNull() ?: return null,
-            amount = entity.amount,
+            value = Value(
+                amount = entity.amount,
+                currency = account.currency
+            ),
             category = categories[entity.categoryId],
             time = trnTime(entity) ?: return null,
             title = entity.title,
@@ -112,8 +117,11 @@ class TrnsAct @Inject constructor(
 
                 Right(
                     TransactionType.Transfer(
-                        toAccount = toAccount,
-                        toAmount = toAmount
+                        toValue = Value(
+                            amount = toAmount,
+                            currency = toAccount.currency
+                        ),
+                        toAccount = toAccount
                     )
                 )
             }

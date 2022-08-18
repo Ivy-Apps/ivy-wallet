@@ -82,9 +82,9 @@ class CalculateAct @Inject constructor(
         outputCurrency: CurrencyCode
     ): Double =
         ExchangeAct.Input(
-            from = trn.account.currency,
+            from = trn.value.currency,
             to = outputCurrency,
-            amount = trn.amount
+            amount = trn.value.amount
         ) asParamTo exchangeAct thenInvokeAfter {
             it.orNull() ?: 0.0
         }

@@ -7,10 +7,7 @@ import com.ivy.core.functions.sync.dummySync
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
-import com.ivy.data.transaction.TrnMetadata
-import com.ivy.data.transaction.TrnTime
+import com.ivy.data.transaction.*
 import java.util.*
 
 fun dummyTrn(
@@ -28,7 +25,10 @@ fun dummyTrn(
     id = id,
     account = account,
     type = type,
-    amount = amount,
+    value = Value(
+        amount = amount,
+        currency = account.currency,
+    ),
     category = category,
     time = time,
     title = title,
