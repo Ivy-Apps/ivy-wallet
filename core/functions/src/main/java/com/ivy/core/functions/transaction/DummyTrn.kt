@@ -4,6 +4,7 @@ import com.ivy.common.timeNowLocal
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.sync.dummySync
+import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
@@ -47,4 +48,12 @@ fun dummyTrnMetadata(
     loanId = loanId,
     loanRecordId = loanRecordId,
     sync = sync
+)
+
+fun dummyTrnValue(
+    amount: Double = 0.0,
+    currency: CurrencyCode = "USD"
+): TrnValue = TrnValue(
+    amount = amount,
+    currency = currency,
 )

@@ -120,6 +120,11 @@ data class Gradient(
 
         fun solid(color: Color) = Gradient(color, color)
 
+        fun neutral(lightTheme: Boolean) = Gradient(
+            startColor = Gray,
+            endColor = if (lightTheme) Black else White
+        )
+
         @Composable
         fun black() = Gradient(UI.colors.gray, UI.colors.pureInverse)
     }

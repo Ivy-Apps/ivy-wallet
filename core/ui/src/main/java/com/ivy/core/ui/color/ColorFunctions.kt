@@ -8,6 +8,7 @@ import com.ivy.design.l0_system.*
 /**
  * @return Black or White so it maximizes contrast
  */
+@Suppress("DEPRECATION")
 @Composable
 fun Color.contrast(): Color = remember(this) {
     // Optimize black and white colors
