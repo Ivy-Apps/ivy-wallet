@@ -129,6 +129,7 @@ data class Gradient(
     fun asVerticalBrush() = Brush.verticalGradient(colors = listOf(startColor, endColor))
 }
 
+@Deprecated("Use `:core:ui` @Composable Color#contrastColor")
 fun findContrastTextColor(backgroundColor: Color): Color {
     return if (isDarkColor(backgroundColor.toArgb())) White else Black
 }
@@ -145,6 +146,7 @@ fun Color.asBrush(): Brush {
     return Brush.horizontalGradient(listOf(this, this))
 }
 
+@Deprecated("use @Composable `:core:ui` Color#dynamicContrast()")
 fun Color.dynamicContrast(): Color {
     val pickedColor = this.toHSVSpec()
 

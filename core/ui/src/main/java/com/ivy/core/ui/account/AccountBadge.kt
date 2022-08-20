@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.ui.R
-import com.ivy.core.ui.common.BadgeComponent
+import com.ivy.core.ui.component.BadgeComponent
 import com.ivy.data.account.Account
 import com.ivy.data.icon.IvyIcon
 import com.ivy.design.l0_system.Black
