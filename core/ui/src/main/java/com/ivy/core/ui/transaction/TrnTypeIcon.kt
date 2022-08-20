@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.R
-import com.ivy.common.dateNowUTC
 import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.transaction.dummyTrn
@@ -51,12 +50,7 @@ private fun Transaction.iconStyle(): StyledIcon {
             }
             is TransactionType.Expense -> {
                 when (val time = time) {
-                    is TrnTime.Due -> {
-                        dueExpenseStyle(
-                            lightTheme = isLight,
-                            due = time.due
-                        )
-                    }
+                    is TrnTime.Due -> dueExpenseStyle(due = time.due)
                     is TrnTime.Actual -> {
                         //Actual Expense
                         StyledIcon(
@@ -81,7 +75,6 @@ private fun Transaction.iconStyle(): StyledIcon {
 }
 
 private fun dueExpenseStyle(
-    lightTheme: Boolean,
     due: LocalDateTime
 ): StyledIcon = when {
     due.isAfter(timeNowUTC()) -> {
@@ -92,20 +85,11 @@ private fun dueExpenseStyle(
             tint = White,
         )
     }
-    due.isBefore(dateNowUTC().atStartOfDay()) -> {
+    else -> {
         // Overdue Expense
         StyledIcon(
             icon = R.drawable.ic_overdue,
             gradient = GradientRed.asHorizontalBrush(),
-            tint = White,
-        )
-    }
-    else -> {
-        // Due today
-        StyledIcon(
-            icon = R.drawable.ic_expense,
-            gradient = Gradient.neutral(lightTheme = lightTheme)
-                .asHorizontalBrush(),
             tint = White,
         )
     }
@@ -171,17 +155,6 @@ private fun Preview_OverdueExpense() {
         dummyTrn(
             type = TransactionType.Expense,
             time = TrnTime.Due(timeNowUTC().minusDays(2))
-        ).TrnTypeIcon()
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_DueTodayExpense() {
-    ComponentPreview {
-        dummyTrn(
-            type = TransactionType.Expense,
-            time = TrnTime.Due(timeNowUTC().minusHours(1))
         ).TrnTypeIcon()
     }
 }
