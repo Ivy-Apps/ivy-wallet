@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,11 +14,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.ui.R
+import com.ivy.core.ui.color.contrastColor
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.data.account.Account
 import com.ivy.data.icon.IconSize
 import com.ivy.data.icon.IvyIcon
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.Black
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.style
+import com.ivy.design.l0_system.toComposeColor
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.utils.ComponentPreview
@@ -41,14 +44,7 @@ fun Account.Badge(
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val contrastColor = remember(background) {
-            // Optimize black and white colors
-            when (background) {
-                Black -> White
-                White -> Black
-                else -> findContrastTextColor(background)
-            }
-        }
+        val contrastColor = background.contrastColor()
 
         icon.ItemIcon(
             size = IconSize.S,
