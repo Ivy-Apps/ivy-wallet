@@ -1,5 +1,6 @@
 package com.ivy.sync.ivyserver.category
 
+import com.ivy.core.functions.icon.iconId
 import com.ivy.data.category.Category
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -48,7 +49,7 @@ class CategoryIvyServerSync @Inject constructor(
         name = cat.name,
         //TODO: Handle parentCategoryId
         color = cat.color,
-        icon = cat.icon,
+        icon = cat.icon.iconId(),
         orderNum = cat.metadata.orderNum,
     )
 }

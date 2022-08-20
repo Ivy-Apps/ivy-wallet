@@ -1,11 +1,11 @@
 package com.ivy.core.ui.icon
 
 import androidx.compose.runtime.Composable
-import com.ivy.data.IvyIcon
+import com.ivy.data.IvyIconId
 import com.ivy.design.l1_buildingBlocks.IconScale
 
 @Composable
-fun IvyIcon.ItemIcon(
+fun IvyIconId.ItemIcon(
     scale: IconScale
 ) {
 

@@ -80,7 +80,7 @@ class TrnsAct @Inject constructor(
                 accounts = accounts,
                 entity = entity
             ).orNull() ?: return null,
-            value = Value(
+            value = TrnValue(
                 amount = entity.amount,
                 currency = account.currency
             ),
@@ -117,7 +117,7 @@ class TrnsAct @Inject constructor(
 
                 Right(
                     TransactionType.Transfer(
-                        toValue = Value(
+                        toValue = TrnValue(
                             amount = toAmount,
                             currency = toAccount.currency
                         ),

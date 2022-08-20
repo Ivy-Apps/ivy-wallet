@@ -1,6 +1,8 @@
 package com.ivy.core.action.account
 
 import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.action.icon.DefaultTo
+import com.ivy.core.action.icon.IconAct
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.AccMetadata
 import com.ivy.data.account.Account
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 class AccountsAct @Inject constructor(
     private val accountDao: AccountDao,
-    private val baseCurrencyAct: BaseCurrencyAct
+    private val baseCurrencyAct: BaseCurrencyAct,
+    private val iconAct: IconAct,
 ) : FPAction<Unit, List<Account>>() {
     override suspend fun Unit.compose(): suspend () -> List<Account> = {
         // TODO: enable caching
@@ -30,7 +33,12 @@ class AccountsAct @Inject constructor(
                 name = it.name,
                 currency = it.currency ?: baseCurrency,
                 color = it.color,
-                icon = it.icon,
+                icon = iconAct(
+                    IconAct.Input(
+                        iconId = it.icon,
+                        defaultTo = DefaultTo.Account
+                    )
+                ),
                 excluded = !it.includeInBalance,
                 metadata = AccMetadata(
                     orderNum = it.orderNum,

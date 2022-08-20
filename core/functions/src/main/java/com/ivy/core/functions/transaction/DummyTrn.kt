@@ -25,7 +25,7 @@ fun dummyTrn(
     id = id,
     account = account,
     type = type,
-    value = Value(
+    value = TrnValue(
         amount = amount,
         currency = account.currency,
     ),
