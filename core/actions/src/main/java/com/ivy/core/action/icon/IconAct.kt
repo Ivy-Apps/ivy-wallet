@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.DrawableRes
 import com.ivy.base.R
 import com.ivy.data.IvyIconId
+import com.ivy.data.icon.IconSize
 import com.ivy.data.icon.IvyIcon
 import com.ivy.frp.action.FPAction
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -94,12 +95,6 @@ class IconAct @Inject constructor(
         .replace(" ", "")
         .trim()
         .lowercase()
-
-    enum class IconSize(val value: String) {
-        S("s"),
-        M("m"),
-        L("l")
-    }
 }
 
 enum class DefaultTo {

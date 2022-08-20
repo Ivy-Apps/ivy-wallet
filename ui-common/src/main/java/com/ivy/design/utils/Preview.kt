@@ -12,12 +12,11 @@ import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.systems.IvyWalletDesign
-import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 
 
 @Composable
-fun IvyComponentPreview(
+fun ComponentPreview(
     design: IvyDesign = defaultDesign(),
     theme: com.ivy.data.Theme = com.ivy.data.Theme.LIGHT,
     content: @Composable BoxScope.() -> Unit

@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.utils.thenWhen
 import com.ivy.wallet.utils.toLowerCaseLocal
 
-
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 fun ItemIconL(
     modifier: Modifier = Modifier,
@@ -39,6 +39,7 @@ fun ItemIconL(
     )
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 fun ItemIconMDefaultIcon(
     modifier: Modifier = Modifier,
@@ -61,6 +62,7 @@ fun ItemIconMDefaultIcon(
     )
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 fun ItemIconM(
     modifier: Modifier = Modifier,
@@ -80,6 +82,7 @@ fun ItemIconM(
     )
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 fun ItemIconSDefaultIcon(
     modifier: Modifier = Modifier,
@@ -102,6 +105,7 @@ fun ItemIconSDefaultIcon(
     )
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 fun ItemIconS(
     modifier: Modifier = Modifier,
@@ -121,6 +125,7 @@ fun ItemIconS(
     )
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @Composable
 private fun ItemIcon(
     modifier: Modifier = Modifier,
@@ -172,6 +177,7 @@ private fun ItemIcon(
     }
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @DrawableRes
 @Composable
 fun getCustomIconIdS(
@@ -186,6 +192,7 @@ fun getCustomIconIdS(
     )?.iconId ?: defaultIcon
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @DrawableRes
 @Composable
 fun getCustomIconIdM(
@@ -200,6 +207,7 @@ fun getCustomIconIdM(
     )?.iconId ?: defaultIcon
 }
 
+@Deprecated("use IvyIcon.ItemIcon()")
 @DrawableRes
 @Composable
 fun getCustomIconIdL(
