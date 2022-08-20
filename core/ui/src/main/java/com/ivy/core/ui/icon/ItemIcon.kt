@@ -54,7 +54,7 @@ fun IvyIcon.ItemIcon(
             contentDescription = "itemIcon",
             colorFilter = ColorFilter.tint(tint),
             alignment = Alignment.Center,
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.FillBounds,
         )
     }
 }
