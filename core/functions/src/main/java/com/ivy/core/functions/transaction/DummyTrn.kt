@@ -9,6 +9,7 @@ import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
+import java.time.LocalDateTime
 import java.util.*
 
 fun dummyTrn(
@@ -57,3 +58,20 @@ fun dummyTrnValue(
     amount = amount,
     currency = currency,
 )
+
+fun dummyTransfer(
+    toValue: TrnValue = dummyTrnValue(),
+    toAccount: Account = dummyAcc()
+): TransactionType.Transfer = TransactionType.Transfer(
+    toValue = toValue,
+    toAccount = toAccount,
+)
+
+fun dummyActual(
+    time: LocalDateTime = timeNowLocal()
+): TrnTime.Actual = TrnTime.Actual(time)
+
+
+fun dummyDue(
+    time: LocalDateTime = timeNowLocal()
+): TrnTime.Due = TrnTime.Due(time)
