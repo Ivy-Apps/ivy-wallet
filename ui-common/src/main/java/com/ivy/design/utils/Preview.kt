@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import com.ivy.design.IvyContext
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
@@ -53,3 +54,6 @@ fun defaultDesign(): IvyDesign = object : IvyWalletDesign() {
     override fun context(): IvyContext = object : IvyContext() {
     }
 }
+
+@Composable
+fun isInPreview(): Boolean = LocalInspectionMode.current

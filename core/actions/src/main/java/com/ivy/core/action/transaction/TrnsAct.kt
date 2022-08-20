@@ -80,14 +80,14 @@ class TrnsAct @Inject constructor(
                 accounts = accounts,
                 entity = entity
             ).orNull() ?: return null,
-            value = TrnValue(
+            value = Value(
                 amount = entity.amount,
                 currency = account.currency
             ),
             category = categories[entity.categoryId],
             time = trnTime(entity) ?: return null,
-            title = entity.title,
-            description = entity.description,
+            title = entity.title.takeIf { it.isNullOrBlank().not() },
+            description = entity.description.takeIf { it.isNullOrBlank().not() },
             attachmentUrl = entity.attachmentUrl,
             metadata = TrnMetadata(
                 recurringRuleId = entity.recurringRuleId,
@@ -117,7 +117,7 @@ class TrnsAct @Inject constructor(
 
                 Right(
                     TransactionType.Transfer(
-                        toValue = TrnValue(
+                        toValue = Value(
                             amount = toAmount,
                             currency = toAccount.currency
                         ),

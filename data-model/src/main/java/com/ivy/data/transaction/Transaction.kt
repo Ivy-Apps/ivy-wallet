@@ -9,7 +9,7 @@ data class Transaction(
 
     val account: Account,
     val type: TransactionType,
-    val value: TrnValue,
+    val value: Value,
     val category: Category?,
     val time: TrnTime,
 

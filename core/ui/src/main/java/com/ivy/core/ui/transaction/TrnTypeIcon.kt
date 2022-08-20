@@ -15,6 +15,7 @@ import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.transaction.dummyActual
 import com.ivy.core.functions.transaction.dummyDue
 import com.ivy.core.functions.transaction.dummyTransfer
+import com.ivy.core.ui.transaction.TrnDetailedType.*
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.*
 import com.ivy.design.utils.ComponentPreview
@@ -35,28 +36,29 @@ fun TrnTypeIcon(
 
 @Composable
 private fun TrnDetailedType.iconStyle(): StyledIcon = when (this) {
-    TrnDetailedType.Income -> StyledIcon(
+    ActualIncome, UpcomingIncome,
+    OverdueIncome -> StyledIcon(
         icon = R.drawable.ic_income,
         gradient = GradientGreen.asHorizontalBrush(),
         tint = White,
     )
-    TrnDetailedType.Transfer -> StyledIcon(
+    Transfer -> StyledIcon(
         icon = R.drawable.ic_transfer,
         gradient = GradientPurple.asHorizontalBrush(),
         tint = White,
     )
-    TrnDetailedType.ActualExpense -> StyledIcon(
+    ActualExpense -> StyledIcon(
         icon = R.drawable.ic_expense,
         gradient = Gradient.neutral(lightTheme = UI.colors.isLight)
             .asHorizontalBrush(),
         tint = White,
     )
-    TrnDetailedType.UpcomingExpense -> StyledIcon(
+    UpcomingExpense -> StyledIcon(
         icon = R.drawable.ic_expense,
         gradient = GradientOrangeRevert.asHorizontalBrush(),
         tint = White,
     )
-    TrnDetailedType.OverdueExpense -> StyledIcon(
+    OverdueExpense -> StyledIcon(
         icon = R.drawable.ic_overdue,
         gradient = GradientRed.asHorizontalBrush(),
         tint = White,

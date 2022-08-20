@@ -27,7 +27,7 @@ fun dummyTrn(
     id = id,
     account = account,
     type = type,
-    value = TrnValue(
+    value = Value(
         amount = amount,
         currency = account.currency,
     ),
@@ -51,16 +51,16 @@ fun dummyTrnMetadata(
     sync = sync
 )
 
-fun dummyTrnValue(
+fun dummyValue(
     amount: Double = 0.0,
     currency: CurrencyCode = "USD"
-): TrnValue = TrnValue(
+): Value = Value(
     amount = amount,
     currency = currency,
 )
 
 fun dummyTransfer(
-    toValue: TrnValue = dummyTrnValue(),
+    toValue: Value = dummyValue(),
     toAccount: Account = dummyAcc()
 ): TransactionType.Transfer = TransactionType.Transfer(
     toValue = toValue,
