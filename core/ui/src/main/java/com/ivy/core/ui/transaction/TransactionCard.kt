@@ -54,7 +54,7 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.ItemStatistic
 
-//region Default click actions
+//region Default actions
 @Composable
 private fun defaultOnClick(): (Transaction) -> Unit {
     val nav = navigation()
@@ -91,6 +91,8 @@ private fun defaultOnCategoryClick(): (Category) -> Unit {
         )
     }
 }
+
+fun dummyDueActions() = DueActions({}, {})
 // endregion
 
 @Immutable
@@ -559,10 +561,7 @@ private fun Preview_UpcomingIncome() {
         )
         transaction.Card(
             modifier = Modifier.padding(horizontal = 16.dp),
-            dueActions = DueActions(
-                onSkip = {},
-                onPayGet = {}
-            )
+            dueActions = dummyDueActions()
         )
     }
 }
@@ -590,10 +589,7 @@ private fun Preview_OverdueIncome() {
         )
         transaction.Card(
             modifier = Modifier.padding(horizontal = 16.dp),
-            dueActions = DueActions(
-                onSkip = {},
-                onPayGet = {}
-            )
+            dueActions = dummyDueActions()
         )
     }
 }
@@ -621,10 +617,7 @@ private fun Preview_UpcomingExpense() {
         )
         transaction.Card(
             modifier = Modifier.padding(horizontal = 16.dp),
-            dueActions = DueActions(
-                onSkip = {},
-                onPayGet = {}
-            )
+            dueActions = dummyDueActions()
         )
     }
 }

@@ -8,68 +8,75 @@ import com.ivy.core.functions.transaction.actual
 import com.ivy.core.functions.transaction.overdue
 import com.ivy.core.functions.transaction.upcoming
 import com.ivy.data.CurrencyCode
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TrnListItem
-import com.ivy.data.transaction.TrnTime
-import com.ivy.data.transaction.Value
+import com.ivy.data.transaction.*
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
 class GroupTrnsAct @Inject constructor(
     private val calculateAct: CalculateAct,
     private val baseCurrencyAct: BaseCurrencyAct
-) : FPAction<List<Transaction>, List<TrnListItem>>() {
+) : FPAction<List<Transaction>, TransactionsList>() {
 
-    override suspend fun List<Transaction>.compose(): suspend () -> List<TrnListItem> = {
+    override suspend fun List<Transaction>.compose(): suspend () -> TransactionsList = {
         val baseCurrency = baseCurrencyAct(Unit)
-        val (dueGrouped, actualTrns) = groupDue(trns = this, baseCurrency = baseCurrency)
-        val historyGrouped = groupByDate(actualTrns = actualTrns, baseCurrency = baseCurrency)
-        dueGrouped.plus(historyGrouped)
+        val dueRes = groupDue(trns = this, baseCurrency = baseCurrency)
+        val historyGrouped =
+            groupByDate(actualTrns = dueRes.actualTrns, baseCurrency = baseCurrency)
+        TransactionsList(
+            upcoming = dueRes.upcomingSection,
+            overdue = dueRes.overdueSection,
+            history = historyGrouped
+        )
     }
 
     private suspend fun groupDue(
         trns: List<Transaction>,
         baseCurrency: CurrencyCode,
-    ): Pair<List<TrnListItem>, List<Transaction>> {
+    ): GroupDueResult {
         val timeNow = timeNowUTC()
-        val upcoming = trns.filter { upcoming(it, timeNow) }
-        val overdue = trns.filter { overdue(it, timeNow) }
-        val result = mutableListOf<TrnListItem>()
+        val upcomingTrns = trns.filter { upcoming(it, timeNow) }
+        val overdueTrns = trns.filter { overdue(it, timeNow) }
 
-        if (upcoming.isNotEmpty()) {
+        val upcomingSection = if (upcomingTrns.isNotEmpty()) {
             val stats = calculateAct(
                 CalculateAct.Input(
-                    trns = upcoming,
+                    trns = upcomingTrns,
                     outputCurrency = baseCurrency
                 )
             )
-            result.add(
-                TrnListItem.UpcomingSection(
-                    income = Value(stats.income, baseCurrency),
-                    expense = Value(stats.expense, baseCurrency),
-                )
+            UpcomingSection(
+                income = Value(stats.income, baseCurrency),
+                expense = Value(stats.expense, baseCurrency),
+                trns = upcomingTrns
             )
-            result.addAll(upcoming.map(TrnListItem::Trn))
-        }
+        } else null
 
-        if (overdue.isNotEmpty()) {
+        val overdueSection = if (overdueTrns.isNotEmpty()) {
             val stats = calculateAct(
                 CalculateAct.Input(
-                    trns = overdue,
+                    trns = overdueTrns,
                     outputCurrency = baseCurrency
                 )
             )
-            result.add(
-                TrnListItem.OverdueSection(
-                    income = Value(stats.income, baseCurrency),
-                    expense = Value(stats.expense, baseCurrency),
-                )
+            OverdueSection(
+                income = Value(stats.income, baseCurrency),
+                expense = Value(stats.expense, baseCurrency),
+                trns = overdueTrns
             )
-            result.addAll(overdue.map(TrnListItem::Trn))
-        }
+        } else null
 
-        return result to trns.filter(::actual)
+        return GroupDueResult(
+            upcomingSection = upcomingSection,
+            overdueSection = overdueSection,
+            actualTrns = trns.filter(::actual)
+        )
     }
+
+    private data class GroupDueResult(
+        val upcomingSection: UpcomingSection?,
+        val overdueSection: OverdueSection?,
+        val actualTrns: List<Transaction>
+    )
 
     private suspend fun groupByDate(
         actualTrns: List<Transaction>,

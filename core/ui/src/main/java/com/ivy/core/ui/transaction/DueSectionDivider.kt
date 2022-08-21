@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -21,7 +22,8 @@ import com.ivy.core.functions.transaction.dummyUpcomingSection
 import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.OverdueSection
+import com.ivy.data.transaction.UpcomingSection
 import com.ivy.data.transaction.Value
 import com.ivy.design.l0_system.*
 import com.ivy.design.l1_buildingBlocks.IvyIcon
@@ -32,8 +34,13 @@ import com.ivy.design.utils.clickableNoIndication
 import com.ivy.design.utils.springBounce
 
 @Composable
-fun TrnListItem.UpcomingSection.SectionDivider() {
+fun UpcomingSection.SectionDivider(
+    expanded: Boolean,
+    setExpanded: (Boolean) -> Unit
+) {
     DueSectionDivider(
+        expanded = expanded,
+        setExpanded = setExpanded,
         title = stringResource(R.string.upcoming),
         titleColor = Orange,
         income = income,
@@ -42,8 +49,13 @@ fun TrnListItem.UpcomingSection.SectionDivider() {
 }
 
 @Composable
-fun TrnListItem.OverdueSection.SectionDivider() {
+fun OverdueSection.SectionDivider(
+    expanded: Boolean,
+    setExpanded: (Boolean) -> Unit
+) {
     DueSectionDivider(
+        expanded = expanded,
+        setExpanded = setExpanded,
         title = stringResource(R.string.overdue),
         titleColor = Red,
         income = income,
@@ -53,18 +65,19 @@ fun TrnListItem.OverdueSection.SectionDivider() {
 
 @Composable
 private fun DueSectionDivider(
+    expanded: Boolean,
+    setExpanded: (Boolean) -> Unit,
+
     title: String,
     titleColor: Color,
     income: Value,
     expense: Value,
 ) {
-    var expanded by remember { mutableStateOf(false) }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickableNoIndication {
-                expanded = !expanded
+                setExpanded(!expanded)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -180,7 +193,10 @@ private fun Preview_Upcoming_IncomeExpenses() {
         dummyUpcomingSection(
             income = dummyValue(8043.23, "BGN"),
             expense = dummyValue(923.87, "BGN")
-        ).SectionDivider()
+        ).SectionDivider(
+            expanded = true,
+            setExpanded = {}
+        )
     }
 }
 
@@ -191,7 +207,10 @@ private fun Preview_Overdue_Expenses() {
         dummyOverdueSection(
             income = dummyValue(0.0, "BGN"),
             expense = dummyValue(923.87, "BGN")
-        ).SectionDivider()
+        ).SectionDivider(
+            expanded = false,
+            setExpanded = {}
+        )
     }
 }
 
@@ -202,7 +221,10 @@ private fun Preview_Upcoming_Income() {
         dummyUpcomingSection(
             income = dummyValue(8043.23, "BGN"),
             expense = dummyValue(0.0, "BGN")
-        ).SectionDivider()
+        ).SectionDivider(
+            expanded = false,
+            setExpanded = {}
+        )
     }
 }
 // endregion

@@ -9,6 +9,6 @@ sealed class TrnListItem {
         val cashflow: Value,
     ) : TrnListItem()
 
-    data class UpcomingSection(val income: Value, val expense: Value) : TrnListItem()
-    data class OverdueSection(val income: Value, val expense: Value) : TrnListItem()
+
 }
+
