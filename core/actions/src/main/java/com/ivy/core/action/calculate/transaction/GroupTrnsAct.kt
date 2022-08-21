@@ -74,10 +74,8 @@ class GroupTrnsAct @Inject constructor(
     ): List<TrnListItem> {
         if (actualTrns.isEmpty()) return emptyList()
 
-
         return actualTrns
             .groupBy { (it.time as? TrnTime.Actual)?.actual?.toLocalDate() }
-            .filterKeys { it != null }
             .toSortedMap { date1, date2 ->
                 if (date1 == null || date2 == null)
                     return@toSortedMap 0 //this case shouldn't happen
