@@ -8,7 +8,10 @@ import com.ivy.core.functions.transaction.actual
 import com.ivy.core.functions.transaction.overdue
 import com.ivy.core.functions.transaction.upcoming
 import com.ivy.data.CurrencyCode
-import com.ivy.data.transaction.*
+import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.TrnTime
+import com.ivy.data.transaction.Value
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
@@ -91,12 +94,9 @@ class GroupTrnsAct @Inject constructor(
                 )
 
                 listOf<TrnListItem>(
-                    TrnListItem.Divider(
-                        DateDivider(
-                            date = date!!,
-                            income = stats.income,
-                            expense = stats.expense
-                        )
+                    TrnListItem.DateDivider(
+                        date = date!!,
+                        cashflow = Value(stats.balance, baseCurrency),
                     )
                 ).plus(
                     trnsForDate.map(TrnListItem::Trn)
