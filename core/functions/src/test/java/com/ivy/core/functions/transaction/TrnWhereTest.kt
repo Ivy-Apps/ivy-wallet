@@ -22,7 +22,7 @@ import io.kotest.property.checkAll
 import io.kotest.property.exhaustive.exhaustive
 import java.util.*
 
-class TrnSelectQueryTest : StringSpec({
+class TrnWhereTest : StringSpec({
     //region generators
     val genById = arbitrary {
         val id = Arb.uuid().bind()
