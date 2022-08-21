@@ -108,6 +108,7 @@
     <string name="loans">Loans</string>
     <string name="set_currency">Set currency</string>
     <string name="no_transactions">No transactions</string>
+    <string name="no_transactions_desc">You don\'t have any transactions for the selected period.</string>
     <string name="no_transactions_description">You don\'t have any transactions for %1$s.\nYou can add one by tapping the \"+\" button.</string>
     <string name="add_loan">Add loan</string>
     <string name="no_loans">No loans</string>
