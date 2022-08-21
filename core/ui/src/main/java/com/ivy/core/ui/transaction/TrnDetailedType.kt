@@ -14,7 +14,7 @@ enum class TrnDetailedType {
 }
 
 @Composable
-fun detailedType(
+internal fun detailedType(
     type: TransactionType,
     time: TrnTime,
 ): TrnDetailedType = remember(type, time) {

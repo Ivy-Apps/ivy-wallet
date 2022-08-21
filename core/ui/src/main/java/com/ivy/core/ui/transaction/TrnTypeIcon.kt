@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.*
 import com.ivy.design.utils.ComponentPreview
 
 @Composable
-fun TrnTypeIcon(
+internal fun TrnTypeIcon(
     trnDetailedType: TrnDetailedType
 ) {
     val style = trnDetailedType.iconStyle()

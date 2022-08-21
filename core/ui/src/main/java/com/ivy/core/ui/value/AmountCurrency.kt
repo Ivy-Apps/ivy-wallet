@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,9 +17,6 @@ import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.ComponentPreview
-import com.ivy.wallet.utils.format
-import com.ivy.wallet.utils.shortenAmount
-import com.ivy.wallet.utils.shouldShortAmount
 
 @Composable
 fun Value.AmountCurrencyRow(
@@ -55,14 +51,6 @@ fun Value.AmountCurrency(
             color = color
         )
     )
-}
-
-@Composable
-fun Value.formatAmount(
-    shortenBigNumbers: Boolean
-) = remember(amount, shortenBigNumbers, currency) {
-    val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
-    if (shortAmount) shortenAmount(amount) else amount.format(currency)
 }
 
 @Preview
