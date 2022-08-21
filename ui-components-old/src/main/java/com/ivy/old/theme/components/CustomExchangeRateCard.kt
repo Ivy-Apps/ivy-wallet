@@ -100,7 +100,7 @@ fun CustomExchangeRateCard(
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomExchangeRateCard(
             fromCurrencyCode = "INR",
             toCurrencyCode = "EUR",

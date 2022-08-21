@@ -1258,7 +1258,7 @@ private fun SettingsDefaultButton(
 @Preview
 @Composable
 private fun Preview_synced() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1286,7 +1286,7 @@ private fun Preview_synced() {
 @Preview
 @Composable
 private fun Preview_notSynced() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1314,7 +1314,7 @@ private fun Preview_notSynced() {
 @Preview
 @Composable
 private fun Preview_loading() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1342,7 +1342,7 @@ private fun Preview_loading() {
 @Preview
 @Composable
 private fun Preview_localAccount() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = null,

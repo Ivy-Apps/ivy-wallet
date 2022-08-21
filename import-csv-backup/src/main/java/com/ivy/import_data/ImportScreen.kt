@@ -110,7 +110,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = Import(launchedFromOnboarding = true),
             importStep = ImportStep.IMPORT_FROM,

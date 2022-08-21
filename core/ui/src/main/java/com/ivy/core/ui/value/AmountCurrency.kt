@@ -16,7 +16,7 @@ import com.ivy.data.transaction.Value
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 
 @Composable
 fun Value.AmountCurrencyRow(
@@ -56,7 +56,7 @@ fun Value.AmountCurrency(
 @Preview
 @Composable
 private fun Preview_Default() {
-    ComponentPreview {
+    ComponentPreviewBase {
         Value(
             amount = 150.0,
             currency = "BGN"
@@ -67,7 +67,7 @@ private fun Preview_Default() {
 @Preview
 @Composable
 private fun Preview_Custom() {
-    ComponentPreview {
+    ComponentPreviewBase {
         Value(
             amount = 192_000.34,
             currency = "USD"

@@ -278,7 +278,7 @@ fun IconNameRow(
 @Preview
 @Composable
 private fun PreviewCategoryModal() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         CategoryModal(
             modal = CategoryModalData(null),
             onCreateCategory = { },

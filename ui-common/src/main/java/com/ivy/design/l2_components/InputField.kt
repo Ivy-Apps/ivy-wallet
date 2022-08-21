@@ -285,7 +285,7 @@ private fun cursorDrawable(
 @Preview
 @Composable
 private fun Preview() {
-    ComponentPreview {
+    ComponentPreviewBase {
         InputField(
             initialText = "Test"
         ) {

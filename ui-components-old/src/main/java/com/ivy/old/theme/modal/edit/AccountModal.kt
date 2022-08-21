@@ -319,7 +319,7 @@ private fun AccountCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         AccountModal(
             modal = AccountModalData(
                 account = null,

@@ -89,7 +89,7 @@ fun <T> WrapContentRow(
 @Preview
 @Composable
 private fun PreviewWrapContentRow() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         WrapContentRow(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 24.dp)

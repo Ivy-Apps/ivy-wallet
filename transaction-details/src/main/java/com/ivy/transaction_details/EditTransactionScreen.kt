@@ -584,7 +584,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = EditTransaction(null, TrnType.EXPENSE),
             initialTitle = "",

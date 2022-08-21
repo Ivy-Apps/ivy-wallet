@@ -162,7 +162,7 @@ private fun ColorItem(
 @Preview
 @Composable
 private fun PreviewIvyColorPicker() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column {
             IvyColorPicker(selectedColor = UI.colors.primary) {
 

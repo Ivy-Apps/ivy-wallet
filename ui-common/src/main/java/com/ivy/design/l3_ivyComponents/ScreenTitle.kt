@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 
 @Composable
 fun ScreenTitleLarge(
@@ -57,7 +57,7 @@ fun ScreenTitle(
 @Preview
 @Composable
 private fun Preview_Large() {
-    ComponentPreview {
+    ComponentPreviewBase {
         ScreenTitleLarge(text = "Home")
     }
 }
@@ -65,7 +65,7 @@ private fun Preview_Large() {
 @Preview
 @Composable
 private fun Preview_Standard() {
-    ComponentPreview {
+    ComponentPreviewBase {
         ScreenTitle(text = "Home")
     }
 }

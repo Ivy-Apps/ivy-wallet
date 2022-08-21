@@ -94,7 +94,7 @@ fun BoxWithConstraintsScope.CurrencyModal(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         CurrencyModal(
             title = "Set currency",
             initialCurrency = null,

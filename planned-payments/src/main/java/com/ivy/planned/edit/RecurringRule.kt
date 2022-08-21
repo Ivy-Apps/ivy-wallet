@@ -132,7 +132,7 @@ private fun RecurringRuleCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         RecurringRule(
             startDate = null,
             intervalN = null,
@@ -146,7 +146,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Repeat() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         RecurringRule(
             startDate = timeNowUTC(),
             intervalN = 1,
@@ -160,7 +160,7 @@ private fun Preview_Repeat() {
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         RecurringRule(
             startDate = timeNowUTC().plusDays(5),
             intervalN = null,

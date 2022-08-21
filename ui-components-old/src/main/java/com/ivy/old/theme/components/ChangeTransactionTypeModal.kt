@@ -197,7 +197,7 @@ private fun TransactionTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChangeTransactionTypeModal(
             includeTransferType = true,
             visible = true,

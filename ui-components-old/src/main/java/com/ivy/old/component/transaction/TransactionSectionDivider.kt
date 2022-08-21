@@ -149,7 +149,7 @@ private fun SectionDividerIncomeExpenseRow(
 @Preview
 @Composable
 private fun Preview_Income_Expenses() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",
@@ -166,7 +166,7 @@ private fun Preview_Income_Expenses() {
 @Preview
 @Composable
 private fun Preview_Expenses() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Overdue",
@@ -183,7 +183,7 @@ private fun Preview_Expenses() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",

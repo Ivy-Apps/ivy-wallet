@@ -314,7 +314,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = AccountState(
             baseCurrency = "BGN",
             accountsData = listOf(

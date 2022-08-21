@@ -788,7 +788,7 @@ private fun NoLoanRecordsEmptyState() {
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(
@@ -805,7 +805,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Records() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(

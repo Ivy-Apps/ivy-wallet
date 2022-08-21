@@ -97,7 +97,7 @@ fun TransactionDateTime(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         TransactionDateTime(
             dateTime = timeNowUTC(),
             dueDateTime = null

@@ -172,7 +172,7 @@ fun ImportResultUI(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ImportResultUI(
             result = ImportResult(
                 rowsFound = 356,

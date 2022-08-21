@@ -52,7 +52,7 @@ fun AddPrimaryAttributeButton(
 @Preview
 @Composable
 private fun PreviewAddPrimaryAttributeButton() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         AddPrimaryAttributeButton(
             icon = R.drawable.ic_description,
             text = "Add description"

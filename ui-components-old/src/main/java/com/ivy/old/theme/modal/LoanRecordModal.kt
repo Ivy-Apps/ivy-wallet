@@ -560,7 +560,7 @@ private fun AddAccount(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

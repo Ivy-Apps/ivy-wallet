@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.thenWhen
 
 @Composable
@@ -120,7 +120,7 @@ sealed class DividerSize {
 @Preview
 @Composable
 private fun PreviewHorizontalDivider_fillMax() {
-    ComponentPreview {
+    ComponentPreviewBase {
         DividerH(
             size = DividerSize.FillMax(
                 padding = 16.dp
@@ -132,7 +132,7 @@ private fun PreviewHorizontalDivider_fillMax() {
 @Preview
 @Composable
 private fun PreviewHorizontalDivider_fixed() {
-    ComponentPreview {
+    ComponentPreviewBase {
         DividerH(
             size = DividerSize.Fixed(
                 size = 32.dp
@@ -144,7 +144,7 @@ private fun PreviewHorizontalDivider_fixed() {
 @Preview
 @Composable
 private fun PreviewVerticalDivider_fillMax() {
-    ComponentPreview {
+    ComponentPreviewBase {
         DividerV(
             size = DividerSize.FillMax(
                 padding = 16.dp
@@ -156,7 +156,7 @@ private fun PreviewVerticalDivider_fillMax() {
 @Preview
 @Composable
 private fun PreviewVerticalDivider_fixed() {
-    ComponentPreview {
+    ComponentPreviewBase {
         DividerV(
             size = DividerSize.Fixed(
                 size = 16.dp
@@ -168,7 +168,7 @@ private fun PreviewVerticalDivider_fixed() {
 @Preview
 @Composable
 private fun PreviewDivider() {
-    ComponentPreview {
+    ComponentPreviewBase {
         Row {
             SpacerHor(16.dp)
 

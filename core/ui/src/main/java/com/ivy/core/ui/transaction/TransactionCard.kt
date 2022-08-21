@@ -31,8 +31,11 @@ import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.account.Badge
 import com.ivy.core.ui.category.Badge
 import com.ivy.core.ui.icon.ItemIcon
+import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.time.formatNicely
-import com.ivy.core.ui.transaction.TrnDetailedType.*
+import com.ivy.core.ui.transaction.util.TrnDetailedType
+import com.ivy.core.ui.transaction.util.TrnDetailedType.*
+import com.ivy.core.ui.transaction.util.detailedType
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.account.Account
@@ -47,8 +50,6 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.isInPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.ItemStatistic
@@ -56,7 +57,6 @@ import com.ivy.screens.ItemStatistic
 //region Default click actions
 @Composable
 private fun defaultOnClick(): (Transaction) -> Unit {
-    if (isInPreview()) return {} // crashes preview
     val nav = navigation()
     return { trn ->
         nav.navigateTo(
@@ -70,7 +70,6 @@ private fun defaultOnClick(): (Transaction) -> Unit {
 
 @Composable
 private fun defaultOnAccountClick(): (Account) -> Unit {
-    if (isInPreview()) return {} // crashes preview
     val nav = navigation()
     return { acc ->
         nav.navigateTo(
@@ -83,7 +82,6 @@ private fun defaultOnAccountClick(): (Account) -> Unit {
 
 @Composable
 private fun defaultOnCategoryClick(): (Category) -> Unit {
-    if (isInPreview()) return {} // crashes preview
     val nav = navigation()
     return { category ->
         nav.navigateTo(

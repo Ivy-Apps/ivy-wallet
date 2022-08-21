@@ -149,7 +149,7 @@ private fun IconEnd(
 @Preview
 @Composable
 private fun PreviewIvyBorderButton() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyBorderButton(
             text = "New label",
             iconStart = R.drawable.ic_label_hashtag

@@ -73,7 +73,7 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun PreviewDescription_Empty() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Description(
             description = null,
             onAddDescription = {}
@@ -86,7 +86,7 @@ private fun PreviewDescription_Empty() {
 @Preview
 @Composable
 private fun PreviewDescription_withText() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Description(
             description = "This is my sample description.",
             onAddDescription = {}

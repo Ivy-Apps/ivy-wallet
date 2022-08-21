@@ -15,10 +15,12 @@ import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.transaction.dummyActual
 import com.ivy.core.functions.transaction.dummyDue
 import com.ivy.core.functions.transaction.dummyTransfer
-import com.ivy.core.ui.transaction.TrnDetailedType.*
+import com.ivy.core.ui.transaction.util.TrnDetailedType
+import com.ivy.core.ui.transaction.util.TrnDetailedType.*
+import com.ivy.core.ui.transaction.util.detailedType
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.*
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 
 @Composable
 internal fun TrnTypeIcon(
@@ -76,7 +78,7 @@ private data class StyledIcon(
 @Preview
 @Composable
 private fun Preview_Income() {
-    ComponentPreview {
+    ComponentPreviewBase {
         TrnTypeIcon(
             detailedType(
                 type = TransactionType.Income,
@@ -89,7 +91,7 @@ private fun Preview_Income() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    ComponentPreview {
+    ComponentPreviewBase {
         TrnTypeIcon(
             detailedType(
                 type = dummyTransfer(),
@@ -102,7 +104,7 @@ private fun Preview_Transfer() {
 @Preview
 @Composable
 private fun Preview_ActualExpense() {
-    ComponentPreview {
+    ComponentPreviewBase {
         TrnTypeIcon(
             detailedType(
                 type = TransactionType.Expense,
@@ -115,7 +117,7 @@ private fun Preview_ActualExpense() {
 @Preview
 @Composable
 private fun Preview_UpcomingExpense() {
-    ComponentPreview {
+    ComponentPreviewBase {
         TrnTypeIcon(
             detailedType(
                 type = TransactionType.Expense,
@@ -128,7 +130,7 @@ private fun Preview_UpcomingExpense() {
 @Preview
 @Composable
 private fun Preview_OverdueExpense() {
-    ComponentPreview {
+    ComponentPreviewBase {
         TrnTypeIcon(
             detailedType(
                 type = TransactionType.Expense,

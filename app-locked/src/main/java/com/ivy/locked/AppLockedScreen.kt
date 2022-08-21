@@ -121,7 +121,7 @@ private fun osAuthentication(
 @Preview
 @Composable
 private fun Preview_Locked() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         AppLockedScreen(
             onContinueWithoutAuthentication = {},
             onShowOSBiometricsModal = {}

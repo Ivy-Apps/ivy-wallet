@@ -22,7 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.thenIf
 
 @Composable
@@ -65,7 +65,7 @@ fun BadgeComponent(
 @Preview
 @Composable
 private fun Preview_Badge() {
-    ComponentPreview {
+    ComponentPreviewBase {
         BadgeComponent(
             text = "Text",
             icon = IvyIcon.Unknown(

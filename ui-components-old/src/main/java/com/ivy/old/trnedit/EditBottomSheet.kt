@@ -735,7 +735,7 @@ private fun LabelAccountMini(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
@@ -774,7 +774,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
 

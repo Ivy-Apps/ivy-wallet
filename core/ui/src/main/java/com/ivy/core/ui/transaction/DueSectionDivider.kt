@@ -19,7 +19,7 @@ import com.ivy.base.R
 import com.ivy.core.functions.transaction.dummyOverdueSection
 import com.ivy.core.functions.transaction.dummyUpcomingSection
 import com.ivy.core.functions.transaction.dummyValue
-import com.ivy.core.ui.temp.IvyWalletComponentPreview
+import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.Value
@@ -32,7 +32,7 @@ import com.ivy.design.utils.clickableNoIndication
 import com.ivy.design.utils.springBounce
 
 @Composable
-fun TrnListItem.UpcomingSection.Divider() {
+fun TrnListItem.UpcomingSection.SectionDivider() {
     DueSectionDivider(
         title = stringResource(R.string.upcoming),
         titleColor = Orange,
@@ -42,7 +42,7 @@ fun TrnListItem.UpcomingSection.Divider() {
 }
 
 @Composable
-fun TrnListItem.OverdueSection.Divider() {
+fun TrnListItem.OverdueSection.SectionDivider() {
     DueSectionDivider(
         title = stringResource(R.string.overdue),
         titleColor = Red,
@@ -176,33 +176,33 @@ private fun Value.AmountCurrencyLabel(
 @Preview
 @Composable
 private fun Preview_Upcoming_IncomeExpenses() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyUpcomingSection(
             income = dummyValue(8043.23, "BGN"),
             expense = dummyValue(923.87, "BGN")
-        ).Divider()
+        ).SectionDivider()
     }
 }
 
 @Preview
 @Composable
 private fun Preview_Overdue_Expenses() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyOverdueSection(
             income = dummyValue(0.0, "BGN"),
             expense = dummyValue(923.87, "BGN")
-        ).Divider()
+        ).SectionDivider()
     }
 }
 
 @Preview
 @Composable
 private fun Preview_Upcoming_Income() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyUpcomingSection(
             income = dummyValue(8043.23, "BGN"),
             expense = dummyValue(0.0, "BGN")
-        ).Divider()
+        ).SectionDivider()
     }
 }
 // endregion

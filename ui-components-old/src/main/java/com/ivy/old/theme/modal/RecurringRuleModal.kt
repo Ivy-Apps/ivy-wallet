@@ -370,7 +370,7 @@ private fun com.ivy.core.ui.temp.IvyWalletCtx.pickDate(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
 
             RecurringRuleModal(
@@ -390,7 +390,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_multipleTimes() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
             RecurringRuleModal(
                 modal = RecurringRuleModalData(

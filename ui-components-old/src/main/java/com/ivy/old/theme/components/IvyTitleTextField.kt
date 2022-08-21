@@ -96,7 +96,7 @@ fun ColumnScope.IvyTitleTextField(
 @Preview
 @Composable
 private fun PreviewIvyTitleTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column(
             verticalArrangement = Arrangement.Center
         ) {

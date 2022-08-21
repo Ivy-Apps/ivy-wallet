@@ -215,7 +215,7 @@ private fun NumberView(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChooseStartDateOfMonthModal(
             visible = true,
             selectedStartDateOfMonth = 1,

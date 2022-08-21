@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction
+package com.ivy.core.ui.transaction.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

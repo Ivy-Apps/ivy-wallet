@@ -63,7 +63,7 @@ fun PrimaryAttributeColumn(
 @Preview
 @Composable
 private fun PreviewPrimaryAttributeColumn() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         PrimaryAttributeColumn(
             icon = R.drawable.ic_description,
             title = stringResource(R.string.description),

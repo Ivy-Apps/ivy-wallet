@@ -77,7 +77,7 @@ fun IvyCheckboxWithText(
 @Preview
 @Composable
 private fun PreviewIvyCheckboxWithText() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyCheckboxWithText(
             text = "Default category",
             checked = false,

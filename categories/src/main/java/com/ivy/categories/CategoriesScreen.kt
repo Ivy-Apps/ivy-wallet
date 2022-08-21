@@ -529,7 +529,7 @@ private fun SelectTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = listOf(

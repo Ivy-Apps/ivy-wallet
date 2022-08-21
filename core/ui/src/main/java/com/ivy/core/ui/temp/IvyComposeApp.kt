@@ -17,7 +17,7 @@ import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.ivyContext
 import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.IvyPreview
+import com.ivy.design.utils.PreviewBase
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
 
@@ -36,11 +36,11 @@ fun appDesign(context: IvyWalletCtx): IvyDesign = object : IvyWalletDesign() {
 }
 
 @Composable
-fun IvyWalletComponentPreview(
+fun ComponentPreview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxScope.() -> Unit
 ) {
-    IvyWalletPreview(
+    Preview(
         theme = theme
     ) {
         Box(
@@ -55,12 +55,12 @@ fun IvyWalletComponentPreview(
 }
 
 @Composable
-fun IvyWalletPreview(
+fun Preview(
     theme: Theme = Theme.LIGHT,
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     GlobalProvider.appContext = rootView().context
-    IvyPreview(
+    PreviewBase(
         theme = theme,
         design = appDesign(IvyWalletCtx()),
     ) {

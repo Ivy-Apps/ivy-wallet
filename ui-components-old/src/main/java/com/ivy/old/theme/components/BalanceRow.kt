@@ -205,7 +205,7 @@ private fun Currency(
 @Preview
 @Composable
 private fun Preview_Default() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -218,7 +218,7 @@ private fun Preview_Default() {
 @Preview
 @Composable
 private fun Preview_Medium() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRowMedium(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -231,7 +231,7 @@ private fun Preview_Medium() {
 @Preview
 @Composable
 private fun Preview_Mini() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRowMini(
             textColor = UI.colors.pureInverse,
             currency = "BGN",

@@ -31,7 +31,7 @@ internal fun BoxWithConstraintsScope.LoanBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         Column(
             Modifier
                 .fillMaxSize()

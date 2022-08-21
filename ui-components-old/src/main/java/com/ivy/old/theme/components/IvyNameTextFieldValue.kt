@@ -94,7 +94,7 @@ fun IvyNameTextField(
 @Preview
 @Composable
 private fun PreviewIvyNameTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column(
             verticalArrangement = Arrangement.Center
         ) {

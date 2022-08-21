@@ -38,7 +38,7 @@ fun IvyDividerLineRounded(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyDividerLine()
     }
 }

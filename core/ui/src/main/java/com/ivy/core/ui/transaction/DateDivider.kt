@@ -15,7 +15,7 @@ import com.ivy.common.dateNowUTC
 import com.ivy.common.formatLocal
 import com.ivy.core.functions.transaction.dummyDateDivider
 import com.ivy.core.functions.transaction.dummyValue
-import com.ivy.core.ui.temp.IvyWalletComponentPreview
+import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.Value
@@ -27,7 +27,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import java.time.LocalDate
 
 @Composable
-fun TrnListItem.DateDivider.Divider() {
+fun TrnListItem.DateDivider.DateDivider() {
     Row(
         modifier = Modifier
             .padding(start = 24.dp, end = 32.dp)
@@ -95,33 +95,33 @@ private fun Cashflow(
 @Preview
 @Composable
 private fun Preview_Today() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyDateDivider(
             date = dateNowUTC(),
             cashflow = dummyValue(154.32)
-        ).Divider()
+        ).DateDivider()
     }
 }
 
 @Preview
 @Composable
 private fun Preview_Yesterday() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyDateDivider(
             date = dateNowUTC().minusDays(1),
             cashflow = dummyValue(-1_000.23)
-        ).Divider()
+        ).DateDivider()
     }
 }
 
 @Preview
 @Composable
 private fun Preview_OneYear_Ago() {
-    IvyWalletComponentPreview {
+    ComponentPreview {
         dummyDateDivider(
             date = dateNowUTC().minusYears(1),
             cashflow = dummyValue(-132.0)
-        ).Divider()
+        ).DateDivider()
     }
 }
 // endregion

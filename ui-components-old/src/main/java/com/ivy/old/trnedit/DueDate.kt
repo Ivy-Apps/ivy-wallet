@@ -79,7 +79,7 @@ private fun DueDateCard(
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         DueDate(
             dueDate = timeNowUTC().plusDays(5),
         ) {

@@ -91,7 +91,7 @@ fun IvyDescriptionTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -106,7 +106,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .background(UI.colors.red)

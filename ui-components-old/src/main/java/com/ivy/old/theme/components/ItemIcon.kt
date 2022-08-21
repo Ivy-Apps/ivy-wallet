@@ -313,7 +313,7 @@ fun fallbackToNewIconFormat(
 @Preview
 @Composable
 private fun Preview_L() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         ItemIconL(iconName = "dna")
     }
 }
@@ -321,7 +321,7 @@ private fun Preview_L() {
 @Preview
 @Composable
 private fun Preview_M() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         ItemIconM(iconName = "document")
     }
 }
@@ -329,7 +329,7 @@ private fun Preview_M() {
 @Preview
 @Composable
 private fun Preview_S() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         ItemIconS(iconName = "fooddrink")
     }
 }

@@ -87,7 +87,7 @@ fun IvyNumberTextField(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyNumberTextField(
             value = TextFieldValue(),
             hint = "0"

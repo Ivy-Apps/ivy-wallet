@@ -155,7 +155,7 @@ private fun RowScope.IntervalTypeSelector(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IntervalPickerRow(
             intervalN = 1,
             intervalType = IntervalType.WEEK,

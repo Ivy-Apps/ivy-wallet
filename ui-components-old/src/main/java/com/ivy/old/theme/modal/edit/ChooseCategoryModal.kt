@@ -259,7 +259,7 @@ private class AddNewCategory
 @Preview
 @Composable
 private fun PreviewChooseCategoryModal() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val categories = mutableListOf(
             CategoryOld("Test", color = Ivy.toArgb()),
             CategoryOld("Second", color = Orange.toArgb()),

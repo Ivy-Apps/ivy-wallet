@@ -17,12 +17,12 @@ import com.ivy.design.l0_system.UI
 
 
 @Composable
-fun ComponentPreview(
+fun ComponentPreviewBase(
     design: IvyDesign = defaultDesign(),
     theme: com.ivy.data.Theme = com.ivy.data.Theme.LIGHT,
     content: @Composable BoxScope.() -> Unit
 ) {
-    IvyPreview(
+    PreviewBase(
         design = design,
         theme = theme
     ) {
@@ -38,7 +38,7 @@ fun ComponentPreview(
 }
 
 @Composable
-fun IvyPreview(
+fun PreviewBase(
     theme: com.ivy.data.Theme = com.ivy.data.Theme.LIGHT,
     design: IvyDesign,
     Content: @Composable BoxWithConstraintsScope.() -> Unit

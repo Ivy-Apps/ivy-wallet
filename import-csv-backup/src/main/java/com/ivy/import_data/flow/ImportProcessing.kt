@@ -106,7 +106,7 @@ private fun ProgressBar(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ImportProcessing(
             progressPercent = 49
         )

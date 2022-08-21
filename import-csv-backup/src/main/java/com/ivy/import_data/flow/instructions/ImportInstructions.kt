@@ -355,7 +355,7 @@ private fun App(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ImportInstructions(
             hasSkip = true,
             importType = ImportType.MONEY_MANAGER,
