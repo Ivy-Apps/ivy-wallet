@@ -11,17 +11,25 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.common.dateNowUTC
+import com.ivy.common.timeNowUTC
+import com.ivy.core.functions.account.dummyAcc
+import com.ivy.core.functions.category.dummyCategory
+import com.ivy.core.functions.icon.dummyIconSized
+import com.ivy.core.functions.icon.dummyIconUnknown
+import com.ivy.core.functions.transaction.dummyActual
+import com.ivy.core.functions.transaction.dummyDue
+import com.ivy.core.functions.transaction.dummyTrn
 import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
 import com.ivy.data.transaction.*
-import com.ivy.design.l0_system.Gray
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
+import com.ivy.design.l0_system.*
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.resources.R
@@ -126,7 +134,10 @@ private fun LazyListScope.dueTrns(
         key = { it.id.toString() }
     ) { trn ->
         SpacerVer(height = 12.dp)
-        trn.Card(dueActions = dueActions)
+        trn.Card(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            dueActions = dueActions
+        )
     }
 }
 
@@ -153,7 +164,9 @@ private fun LazyListScope.history(
             }
             is TrnListItem.Trn -> {
                 SpacerVer(height = 12.dp)
-                item.trn.Card()
+                item.trn.Card(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
             }
         }
     }
@@ -217,13 +230,121 @@ private fun Preview_Full() {
             val trnsList = TransactionsList(
                 upcoming = UpcomingSection(
                     income = dummyValue(16.99),
-                    expense = dummyValue(),
+                    expense = dummyValue(0.0),
                     trns = listOf(
-
+                        dummyTrn(
+                            title = "Upcoming payment",
+                            account = dummyAcc(
+                                name = "Revolut",
+                                color = Purple.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                            ),
+                            category = dummyCategory(
+                                name = "Investments",
+                                color = Blue2Light.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
+                            ),
+                            amount = 16.99,
+                            type = TransactionType.Income,
+                            time = dummyDue(timeNowUTC().plusDays(1))
+                        )
                     )
                 ),
-                overdue = null,
-                history = emptyList()
+                overdue = OverdueSection(
+                    income = dummyValue(0.0),
+                    expense = dummyValue(650.0),
+                    trns = listOf(
+                        dummyTrn(
+                            title = "Rent",
+                            amount = 650.0,
+                            account = dummyAcc(
+                                name = "Cash",
+                                color = Green.toArgb(),
+                                icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
+                            ),
+                            category = null,
+                            type = TransactionType.Expense,
+                            time = dummyDue(timeNowUTC().minusDays(1))
+                        )
+                    )
+                ),
+                history = listOf(
+                    TrnListItem.DateDivider(
+                        date = dateNowUTC(),
+                        cashflow = dummyValue(-30.0)
+                    ),
+                    TrnListItem.Trn(
+                        dummyTrn(
+                            title = "Food",
+                            account = dummyAcc(
+                                name = "Revolut",
+                                color = Purple.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                            ),
+                            category = dummyCategory(
+                                name = "Order food",
+                                color = Orange2.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_orderfood_s)
+                            ),
+                            amount = 30.0,
+                            type = TransactionType.Expense,
+                            time = dummyActual(timeNowUTC())
+                        )
+                    ),
+                    TrnListItem.DateDivider(
+                        date = dateNowUTC().minusDays(1),
+                        cashflow = dummyValue(105.33)
+                    ),
+                    TrnListItem.Trn(
+                        dummyTrn(
+                            title = "Buy some cool gadgets",
+                            description = "Premium tech!",
+                            account = dummyAcc(
+                                name = "Bank",
+                                color = Red.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_bank_s)
+                            ),
+                            category = dummyCategory(
+                                name = "Tech",
+                                color = Blue2Dark.toArgb(),
+                                icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
+                            ),
+                            amount = 55.23,
+                            type = TransactionType.Expense,
+                        )
+                    ),
+                    TrnListItem.Trn(
+                        dummyTrn(
+                            title = "Ivy Apps revenue",
+                            account = dummyAcc(
+                                name = "Revolut Business",
+                                color = Purple2Dark.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                            ),
+                            category = null,
+                            amount = 160.53,
+                            type = TransactionType.Income,
+                        )
+                    ),
+                    TrnListItem.Trn(
+                        dummyTrn(
+                            title = "Buy some cool gadgets",
+                            description = "Premium tech!",
+                            account = dummyAcc(
+                                name = "Bank",
+                                color = Red.toArgb(),
+                                icon = dummyIconSized(R.drawable.ic_custom_bank_s)
+                            ),
+                            category = dummyCategory(
+                                name = "Tech",
+                                color = Blue2Dark.toArgb(),
+                                icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
+                            ),
+                            amount = 55.23,
+                            type = TransactionType.Expense,
+                        )
+                    ),
+                )
             )
 
             transactionsList(

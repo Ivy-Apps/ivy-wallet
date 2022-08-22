@@ -40,7 +40,7 @@ fun BadgeComponent(
                     .clickable(onClick = onClick!!)
             }
             .padding(start = 8.dp, end = 18.dp)
-            .padding(vertical = 4.dp),
+            .padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val contrastColor = background.contrast()

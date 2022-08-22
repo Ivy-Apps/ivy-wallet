@@ -274,7 +274,7 @@ private fun Title(
     time: TrnTime
 ) {
     if (title != null) {
-        SpacerVer(height = if (time is TrnTime.Due) 8.dp else 12.dp)
+        SpacerVer(height = if (time is TrnTime.Due) 8.dp else 8.dp)
         Text(
             text = title,
             modifier = Modifier.padding(horizontal = 4.dp),
@@ -314,7 +314,7 @@ private fun TrnAmount(
     value: Value,
     time: TrnTime
 ) {
-    SpacerVer(height = if (time is TrnTime.Due) 12.dp else 16.dp)
+    SpacerVer(height = if (time is TrnTime.Due) 12.dp else 12.dp)
 
     Row(
         modifier = Modifier
