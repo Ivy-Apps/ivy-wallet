@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":data-model"))
     implementation(project(":app-base"))
+    implementation(project(":core:ui"))
 
     Billing(api = true)
 }

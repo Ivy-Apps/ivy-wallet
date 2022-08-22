@@ -23,9 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.AccountData
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.UiText
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -59,7 +57,7 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     LazyColumn(
         modifier = Modifier
@@ -316,7 +314,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = AccountState(
             baseCurrency = "BGN",
             accountsData = listOf(

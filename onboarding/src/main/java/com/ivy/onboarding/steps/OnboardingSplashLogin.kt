@@ -29,9 +29,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.Constants
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.onboarding.OnboardingState
@@ -80,7 +78,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         }
     }
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     val spacerTop by transition.animateDp(
         transitionSpec = {
@@ -219,7 +217,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 }
 
 private fun Modifier.animateXCenterToLeft(
-    ivyContext: com.ivy.base.IvyWalletCtx,
+    ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     percentTransition: Float
 ): Modifier {
     return this.layout { measurable, constraints ->
@@ -483,7 +481,7 @@ private fun LoginButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingSplashLogin(
             onboardingState = OnboardingState.SPLASH,
             opGoogleSignIn = null,

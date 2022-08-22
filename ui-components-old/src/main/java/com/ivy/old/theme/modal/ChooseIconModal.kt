@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerW
@@ -306,7 +305,7 @@ private fun Section(
 @Preview
 @Composable
 private fun ChooseIconModal() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChooseIconModal(
             visible = true,
             initialIcon = "gift",

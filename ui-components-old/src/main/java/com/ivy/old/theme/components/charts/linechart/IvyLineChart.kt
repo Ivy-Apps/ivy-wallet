@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.IvyWalletComponentPreview
-import com.ivy.base.Month
+import com.ivy.core.ui.temp.trash.Month
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
@@ -611,7 +610,7 @@ private tailrec fun horizontalLineYS(
 @Preview
 @Composable
 private fun Preview_IvyChart() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         val values = listOf(
             Value(
                 x = 0.0,

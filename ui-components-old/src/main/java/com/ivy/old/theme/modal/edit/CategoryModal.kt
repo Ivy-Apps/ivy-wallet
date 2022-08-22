@@ -26,7 +26,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
@@ -279,7 +278,7 @@ fun IconNameRow(
 @Preview
 @Composable
 private fun PreviewCategoryModal() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         CategoryModal(
             modal = CategoryModalData(null),
             onCreateCategory = { },

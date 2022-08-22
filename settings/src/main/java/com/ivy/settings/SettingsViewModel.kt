@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.RootScreen
-import com.ivy.base.refreshWidget
 import com.ivy.data.user.User
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
@@ -41,7 +39,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivySession: IvySession,
     private val userDao: UserDao,
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,
@@ -186,7 +184,7 @@ class SettingsViewModel @Inject constructor(
                     fileUri = fileUri
                 )
 
-                (context as RootScreen).shareCSVFile(
+                (context as com.ivy.core.ui.temp.RootScreen).shareCSVFile(
                     fileUri = fileUri
                 )
 
@@ -209,7 +207,7 @@ class SettingsViewModel @Inject constructor(
                 _progressState.value = false
 
                 uiThread {
-                    (context as RootScreen).shareZipFile(
+                    (context as com.ivy.core.ui.temp.RootScreen).shareZipFile(
                         fileUri = fileUri
                     )
                 }
@@ -301,7 +299,7 @@ class SettingsViewModel @Inject constructor(
 
             sharedPrefs.putBoolean(SharedPrefs.APP_LOCK_ENABLED, lockApp)
             _lockApp.value = lockApp
-            refreshWidget(WalletBalanceReceiver::class.java)
+            com.ivy.core.ui.temp.refreshWidget(WalletBalanceReceiver::class.java)
 
             TestIdlingResource.decrement()
         }
@@ -344,7 +342,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun requestFeature(
-        rootScreen: RootScreen,
+        rootScreen: com.ivy.core.ui.temp.RootScreen,
         title: String,
         body: String
     ) {

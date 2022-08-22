@@ -1,7 +1,7 @@
 import com.ivy.buildsrc.AndroidX
 import com.ivy.buildsrc.Compose
-import com.ivy.buildsrc.Lifecycle
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Lifecycle
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
@@ -56,7 +56,7 @@ android {
 
 dependencies {
     Hilt()
-    api(project(":common"))
+    implementation(project(":common"))
     implementation(project(":data-model"))
 
     Compose(api = true)

@@ -19,9 +19,7 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -133,7 +131,7 @@ fun VideoArticleRow(
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val rootScreen = rootScreen()
+        val rootScreen = com.ivy.core.ui.temp.rootScreen()
 
         Spacer(Modifier.width(16.dp))
 
@@ -322,7 +320,7 @@ fun StepTitle(
 private fun App(
     importType: ImportType
 ) {
-    val rootScreen = rootScreen()
+    val rootScreen = com.ivy.core.ui.temp.rootScreen()
 
     Row(
         modifier = Modifier
@@ -357,7 +355,7 @@ private fun App(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ImportInstructions(
             hasSkip = true,
             importType = ImportType.MONEY_MANAGER,

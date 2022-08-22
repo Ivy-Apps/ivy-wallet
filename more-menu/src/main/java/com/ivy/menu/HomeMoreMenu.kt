@@ -26,9 +26,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.Constants
-import com.ivy.base.IvyWalletPreview
-import com.ivy.base.ivyWalletCtx
-import com.ivy.base.rootScreen
 import com.ivy.data.Theme
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
@@ -65,7 +62,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
@@ -463,7 +460,7 @@ private fun QuickAccess(
 //            ivyContext.navigateTo(Screen.Charts)
 //        }
 
-        val rootScreen = rootScreen()
+        val rootScreen = com.ivy.core.ui.temp.rootScreen()
         MoreMenuButton(
             icon = R.drawable.home_more_menu_share,
             label = stringResource(R.string.share_ivy)
@@ -545,7 +542,7 @@ private fun MoreMenuButton(
 @Preview
 @Composable
 private fun Preview_Expanded() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -587,7 +584,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(

@@ -19,7 +19,6 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.ivy.base.stringRes
 
 @Composable
 fun WalletBalanceWidgetContent(
@@ -141,7 +140,10 @@ fun IncomeExpenseSection(
                 .background(ImageProvider(R.drawable.income_shape_widget_backgroud)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(ImageProvider(R.drawable.ic_income_white), stringRes(R.string.income))
+            Image(
+                ImageProvider(R.drawable.ic_income_white),
+                com.ivy.core.ui.temp.stringRes(R.string.income)
+            )
             Spacer(GlanceModifier.width(8.dp))
             Text(
                 text = income,
@@ -168,7 +170,10 @@ fun IncomeExpenseSection(
                 .background(ImageProvider(R.drawable.expense_shape_widget_backgroun)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(ImageProvider(R.drawable.ic_expense), stringRes(R.string.expense))
+            Image(
+                ImageProvider(R.drawable.ic_expense),
+                com.ivy.core.ui.temp.stringRes(R.string.expense)
+            )
             Spacer(GlanceModifier.width(8.dp))
             Text(
                 text = expense,

@@ -49,7 +49,7 @@ abstract class IvyComposeTest {
     private var idlingResource: IdlingResource? = null
 
     @Inject
-    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
+    lateinit var ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation

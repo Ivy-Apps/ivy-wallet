@@ -1,6 +1,6 @@
 package com.ivy.reports
 
-import com.ivy.base.TimePeriod
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnType

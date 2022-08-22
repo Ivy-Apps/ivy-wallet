@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.utils.decimalPartFormatted
@@ -206,7 +205,7 @@ private fun Currency(
 @Preview
 @Composable
 private fun Preview_Default() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRow(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -219,7 +218,7 @@ private fun Preview_Default() {
 @Preview
 @Composable
 private fun Preview_Medium() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRowMedium(
             textColor = UI.colors.pureInverse,
             currency = "BGN",
@@ -232,7 +231,7 @@ private fun Preview_Medium() {
 @Preview
 @Composable
 private fun Preview_Mini() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BalanceRowMini(
             textColor = UI.colors.pureInverse,
             currency = "BGN",

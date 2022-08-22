@@ -3,7 +3,6 @@ package com.ivy.wallet.domain.deprecated.logic
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.AccountBalance
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.*
@@ -27,7 +26,7 @@ class PreloadDataLogic(
 
     suspend fun preloadAccounts() {
         val cash = AccountOld(
-            name = stringRes(R.string.cash),
+            name = com.ivy.core.ui.temp.stringRes(R.string.cash),
             currency = null,
             color = Green.toArgb(),
             icon = "cash",
@@ -36,7 +35,7 @@ class PreloadDataLogic(
         )
 
         val bank = AccountOld(
-            name = stringRes(R.string.bank),
+            name = com.ivy.core.ui.temp.stringRes(R.string.bank),
             currency = null,
             color = IvyDark.toArgb(),
             icon = "bank",
@@ -50,21 +49,21 @@ class PreloadDataLogic(
 
     fun accountSuggestions(baseCurrency: String): List<CreateAccountData> = listOf(
         CreateAccountData(
-            name = stringRes(R.string.cash),
+            name = com.ivy.core.ui.temp.stringRes(R.string.cash),
             currency = baseCurrency,
             color = Green,
             icon = "cash",
             balance = 0.0
         ),
         CreateAccountData(
-            name = stringRes(R.string.bank),
+            name = com.ivy.core.ui.temp.stringRes(R.string.bank),
             currency = baseCurrency,
             color = IvyDark,
             icon = "bank",
             balance = 0.0
         ),
         CreateAccountData(
-            name = stringRes(R.string.revoult),
+            name = com.ivy.core.ui.temp.stringRes(R.string.revoult),
             currency = baseCurrency,
             color = Blue,
             icon = "revolut",
@@ -84,61 +83,61 @@ class PreloadDataLogic(
 
     private fun preloadCategoriesCreateData() = listOf(
         CreateCategoryData(
-            name = stringRes(R.string.food_drinks),
+            name = com.ivy.core.ui.temp.stringRes(R.string.food_drinks),
             color = Green,
             icon = "fooddrink"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.bills_fees),
+            name = com.ivy.core.ui.temp.stringRes(R.string.bills_fees),
             color = Red,
             icon = "bills"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.transport),
+            name = com.ivy.core.ui.temp.stringRes(R.string.transport),
             color = YellowLight,
             icon = "transport"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.groceries),
+            name = com.ivy.core.ui.temp.stringRes(R.string.groceries),
             color = GreenLight,
             icon = "groceries"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.entertainment),
+            name = com.ivy.core.ui.temp.stringRes(R.string.entertainment),
             color = Orange,
             icon = "game"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.shopping),
+            name = com.ivy.core.ui.temp.stringRes(R.string.shopping),
             color = Purple,
             icon = "shopping"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.gifts),
+            name = com.ivy.core.ui.temp.stringRes(R.string.gifts),
             color = RedLight,
             icon = "gift"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.health),
+            name = com.ivy.core.ui.temp.stringRes(R.string.health),
             color = IvyLight,
             icon = "health"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.investments),
+            name = com.ivy.core.ui.temp.stringRes(R.string.investments),
             color = IvyDark,
             icon = "leaf"
         ),
 
         CreateCategoryData(
-            name = stringRes(R.string.loans),
+            name = com.ivy.core.ui.temp.stringRes(R.string.loans),
             color = BlueDark,
             icon = "loan"
         ),
@@ -162,91 +161,91 @@ class PreloadDataLogic(
         .plus(
             listOf(
                 CreateCategoryData(
-                    name = stringRes(R.string.car),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.car),
                     color = Blue3,
                     icon = "vehicle"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.work),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.work),
                     color = Blue2Light,
                     icon = "work"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.home_category),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.home_category),
                     color = Green2,
                     icon = "house"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.restaurant),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.restaurant),
                     color = Orange3,
                     icon = "restaurant"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.family),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.family),
                     color = Red3Light,
                     icon = "family"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.social_life),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.social_life),
                     color = Blue2,
                     icon = "people"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.order_food),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.order_food),
                     color = Orange2,
                     icon = "orderfood2"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.travel),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.travel),
                     color = BlueLight,
                     icon = "travel"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.fitness),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.fitness),
                     color = Purple2,
                     icon = "fitness"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.self_development),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.self_development),
                     color = Yellow,
                     icon = "selfdevelopment"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.clothes),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.clothes),
                     color = Green2Light,
                     icon = "clothes2"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.beauty),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.beauty),
                     color = Red3,
                     icon = "makeup"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.education),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.education),
                     color = Blue,
                     icon = "education"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.pet),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.pet),
                     color = Orange3Light,
                     icon = "pet"
                 ),
 
                 CreateCategoryData(
-                    name = stringRes(R.string.sports),
+                    name = com.ivy.core.ui.temp.stringRes(R.string.sports),
                     color = Purple1,
                     icon = "sports"
                 ),

@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Gray
@@ -19,7 +19,6 @@ import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.formatLocal
 import java.time.LocalDate
-import com.ivy.base.R
 
 @Composable
 fun HistoryDateDivider(
@@ -94,7 +93,7 @@ fun HistoryDateDivider(
 @Preview
 @Composable
 private fun Preview_Today() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC(),
             spacerTop = 32.dp,
@@ -108,7 +107,7 @@ private fun Preview_Today() {
 @Preview
 @Composable
 private fun Preview_Yesterday() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusDays(1),
             spacerTop = 32.dp,
@@ -122,7 +121,7 @@ private fun Preview_Yesterday() {
 @Preview
 @Composable
 private fun Preview_OneYear_Ago() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusYears(1),
             spacerTop = 32.dp,

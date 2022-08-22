@@ -16,9 +16,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.rootView
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.utils.hideKeyboard
@@ -42,7 +40,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
     var descTextFieldValue by remember(description) {
         mutableStateOf(selectEndTextFieldValue(description))
     }
-    val view = rootView()
+    val view = com.ivy.core.ui.temp.rootView()
 
     IvyModal(
         id = id,
@@ -129,7 +127,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
 @Preview
 @Composable
 private fun PreviewDescriptionModal_emptyText() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         DescriptionModal(
             visible = true,
             description = "",

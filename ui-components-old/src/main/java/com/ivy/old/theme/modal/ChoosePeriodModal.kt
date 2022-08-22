@@ -15,10 +15,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.*
-import com.ivy.base.Month.Companion.fromMonthValue
-import com.ivy.base.Month.Companion.monthsList
+import com.ivy.base.FromToTimeRange
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.LastNTimeRange
+import com.ivy.core.ui.temp.trash.Month
+import com.ivy.core.ui.temp.trash.Month.Companion.fromMonthValue
+import com.ivy.core.ui.temp.trash.Month.Companion.monthsList
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -52,7 +55,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         mutableStateOf(modal?.period)
     }
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val modalScrollState = rememberScrollState()
 
     IvyModal(
@@ -317,7 +320,7 @@ private fun IntervalFromToDate(
     otherEndDateTime: LocalDateTime?,
     onSelected: (LocalDateTime?) -> Unit
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     Row(
         modifier = Modifier
@@ -493,7 +496,7 @@ private fun AllTime(
 @Preview
 @Composable
 private fun Preview_MonthSelected() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -510,7 +513,7 @@ private fun Preview_MonthSelected() {
 @Preview
 @Composable
 private fun Preview_FromTo() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -530,7 +533,7 @@ private fun Preview_FromTo() {
 @Preview
 @Composable
 private fun Preview_LastN() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(

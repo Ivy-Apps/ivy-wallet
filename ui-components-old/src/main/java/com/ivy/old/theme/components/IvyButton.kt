@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Gradient
@@ -27,7 +27,6 @@ import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.thenIf
-import com.ivy.base.R
 
 @Composable
 fun IvyButton(
@@ -175,7 +174,7 @@ private fun IconEnd(
 @Preview
 @Composable
 private fun PreviewIvyButtonWrapContentWithIconStart() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -192,7 +191,7 @@ private fun PreviewIvyButtonWrapContentWithIconStart() {
 @Preview
 @Composable
 private fun PreviewIvyButtonFillMaxWidthWithIconStart() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -209,7 +208,7 @@ private fun PreviewIvyButtonFillMaxWidthWithIconStart() {
 @Preview
 @Composable
 private fun PreviewIvyButtonWrapContentWithIconEnd() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -227,7 +226,7 @@ private fun PreviewIvyButtonWrapContentWithIconEnd() {
 @Preview
 @Composable
 private fun PreviewIvyButtonFillMaxWidthWithIconEnd() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)

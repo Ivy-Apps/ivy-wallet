@@ -20,8 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
+import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.onScreenStart
@@ -215,7 +215,7 @@ fun AmountInput(
                 firstInput = false
             } else {
                 if (amount.isNotEmpty()) {
-                    val formattedNumber = formatNumber(amount.dropLast(1))
+                    val formattedNumber = formatNumber(amount.dropLast(1), currency)
                     setAmount(formattedNumber ?: "")
                 }
             }
@@ -223,7 +223,7 @@ fun AmountInput(
     )
 }
 
-private fun formatNumber(number: String): String? {
+private fun formatNumber(number: String, currency: String): String? {
     val decimalPartString = number
         .split(localDecimalSeparator())
         .getOrNull(1)
@@ -231,7 +231,9 @@ private fun formatNumber(number: String): String? {
 
     val amountDouble = number.amountToDoubleOrNull()
 
-    if (newDecimalCount <= 2 && amountDouble != null) {
+    if ((newDecimalCount <= 2 || IvyCurrency.fromCode(currency)?.isCrypto == true) &&
+        amountDouble != null
+    ) {
         val intPart = truncate(amountDouble).toInt()
         val decimalFormatted = if (decimalPartString != null) {
             "${localDecimalSeparator()}${decimalPartString}"
@@ -476,7 +478,7 @@ private fun circleButtonModifier(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {

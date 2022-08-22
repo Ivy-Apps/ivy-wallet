@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.SortOrder
 import com.ivy.data.CategoryOld
@@ -530,7 +529,7 @@ private fun SelectTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = listOf(

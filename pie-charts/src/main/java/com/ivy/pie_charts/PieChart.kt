@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
@@ -263,7 +262,7 @@ private class PieChartView(context: Context) : View(context) {
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column(
             Modifier.fillMaxSize()
         ) {

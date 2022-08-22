@@ -285,7 +285,7 @@ private fun cursorDrawable(
 @Preview
 @Composable
 private fun Preview() {
-    IvyComponentPreview {
+    ComponentPreviewBase {
         InputField(
             initialText = "Test"
         ) {

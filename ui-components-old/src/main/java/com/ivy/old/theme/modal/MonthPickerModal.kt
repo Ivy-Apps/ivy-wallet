@@ -16,10 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
-import com.ivy.base.Month
-import com.ivy.base.Month.Companion.monthsList
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.Month
+import com.ivy.core.ui.temp.trash.Month.Companion.monthsList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.onScreenStart
@@ -144,7 +143,7 @@ private fun MonthButton(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         MonthPickerModal(
             initialDate = dateNowUTC(),
             visible = true,

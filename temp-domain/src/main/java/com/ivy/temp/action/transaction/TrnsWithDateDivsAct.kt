@@ -9,6 +9,7 @@ import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 
+@Deprecated("use GroupTrnsByDateAct")
 class TrnsWithDateDivsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val exchangeAct: ExchangeActOld

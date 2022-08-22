@@ -1,12 +1,11 @@
 package com.ivy.home
 
-import com.ivy.base.IvyWalletCtx
-import com.ivy.base.TimePeriod
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
-import com.ivy.data.pure.IncomeExpensePair
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.Theme
+import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.journey.domain.CustomerJourneyCardData
 import java.math.BigDecimal
 
@@ -31,7 +30,7 @@ data class HomeState(
     val hideCurrentBalance: Boolean
 ) {
     companion object {
-        fun initial(ivyWalletCtx: IvyWalletCtx): HomeState = HomeState(
+        fun initial(ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx): HomeState = HomeState(
             theme = Theme.AUTO,
             name = "",
             baseData = AppBaseData(

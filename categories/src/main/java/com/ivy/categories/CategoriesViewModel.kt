@@ -1,10 +1,9 @@
 package com.ivy.wallet.ui.category
 
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.IvyWalletCtx
 import com.ivy.base.SortOrder
-import com.ivy.base.TimePeriod
 import com.ivy.categories.CategoryData
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -38,7 +37,7 @@ class CategoriesViewModel @Inject constructor(
     private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesActOld,
-    private val ivyContext: IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyActOld,
     private val accountsAct: AccountsActOld,

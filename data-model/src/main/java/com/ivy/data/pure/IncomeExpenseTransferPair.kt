@@ -2,6 +2,7 @@ package com.ivy.data.pure
 
 import java.math.BigDecimal
 
+@Deprecated("don't use")
 data class IncomeExpenseTransferPair(
     val income: BigDecimal,
     val expense: BigDecimal,

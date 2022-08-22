@@ -1,5 +1,6 @@
 package com.ivy.sync.ivyserver.account
 
+import com.ivy.core.functions.icon.iconId
 import com.ivy.data.account.Account
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -48,7 +49,7 @@ class AccountIvyServerSync @Inject constructor(
         name = acc.name,
         currency = acc.currency,
         color = acc.color,
-        icon = acc.icon,
+        icon = acc.icon.iconId(),
         orderNum = acc.metadata.orderNum,
         includeInBalance = !acc.excluded,
     )

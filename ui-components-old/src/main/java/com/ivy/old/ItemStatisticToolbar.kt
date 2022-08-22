@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.Transparent
 import com.ivy.wallet.ui.theme.components.CircleButton
@@ -44,7 +43,7 @@ fun ItemStatisticToolbar(
 
         IvyOutlinedButton(
             iconStart = R.drawable.ic_edit,
-            text = stringRes(R.string.edit),
+            text = com.ivy.core.ui.temp.stringRes(R.string.edit),
             borderColor = contrastColor,
             iconTint = contrastColor,
             textColor = contrastColor,

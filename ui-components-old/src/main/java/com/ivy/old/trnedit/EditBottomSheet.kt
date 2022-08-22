@@ -29,9 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.base.Constants
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
@@ -267,7 +265,7 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     ActionsRow(
         modifier = Modifier
@@ -737,7 +735,7 @@ private fun LabelAccountMini(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
@@ -776,7 +774,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
 

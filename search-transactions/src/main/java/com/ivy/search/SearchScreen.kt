@@ -19,11 +19,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
-import com.ivy.base.ivyWalletCtx
-import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
@@ -100,7 +97,7 @@ private fun UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = ivyWalletCtx()
+        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
         val nav = navigation()
 
         LazyColumn(
@@ -120,8 +117,8 @@ private fun UI(
                 setOverdueExpanded = { },
                 history = transactions,
                 onPayOrGet = { },
-                emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(
+                emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
+                emptyStateText = com.ivy.core.ui.temp.stringRes(
                     R.string.no_transactions_for_query,
                     searchQueryTextFieldValue.text
                 ),
@@ -198,7 +195,7 @@ private fun SearchInput(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             transactions = emptyList(),
             baseCurrency = "BGN",

@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -74,7 +73,7 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun PreviewDescription_Empty() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Description(
             description = null,
             onAddDescription = {}
@@ -87,7 +86,7 @@ private fun PreviewDescription_Empty() {
 @Preview
 @Composable
 private fun PreviewDescription_withText() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Description(
             description = "This is my sample description.",
             onAddDescription = {}

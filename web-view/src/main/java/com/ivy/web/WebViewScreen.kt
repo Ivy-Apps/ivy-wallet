@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.Theme
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.IvyWebView
@@ -35,7 +34,7 @@ private fun BoxWithConstraintsScope.UI(url: String) {
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        val ivyContext = ivyWalletCtx()
+        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
         val nav = navigation()
         IvyToolbar(
             onBack = { nav.onBackPressed() },

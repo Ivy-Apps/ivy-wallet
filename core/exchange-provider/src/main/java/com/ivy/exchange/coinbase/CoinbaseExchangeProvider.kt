@@ -1,6 +1,7 @@
 package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
+import com.ivy.data.ExchangeRates
 import com.ivy.exchange.ExchangeProvider
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -15,7 +16,7 @@ class CoinbaseExchangeProvider @Inject constructor(
 ) : ExchangeProvider {
     override suspend fun fetchExchangeRates(
         baseCurrency: CurrencyCode
-    ): Map<CurrencyCode, Double> = tryOp(
+    ): ExchangeRates = tryOp(
         operation = CoinbaseService.exchangeRatesUrl(
             baseCurrency = baseCurrency
         ) asParamTo coinbaseService::getExchangeRates

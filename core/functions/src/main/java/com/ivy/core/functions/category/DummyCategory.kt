@@ -2,10 +2,10 @@ package com.ivy.core.functions.category
 
 import androidx.annotation.ColorInt
 import com.ivy.core.functions.sync.dummySync
-import com.ivy.data.IvyIcon
 import com.ivy.data.SyncMetadata
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryMetadata
+import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 fun dummyCategory(
@@ -15,7 +15,11 @@ fun dummyCategory(
 
     @ColorInt
     color: Int = 1,
-    icon: IvyIcon? = null,
+    icon: IvyIcon = IvyIcon.Unknown(
+        // TODO: Fix that after we create :resources
+        icon = -1,
+        iconId = null
+    ),
 
     metadata: CategoryMetadata = dummyCategoryMetadata(),
 ): Category = Category(

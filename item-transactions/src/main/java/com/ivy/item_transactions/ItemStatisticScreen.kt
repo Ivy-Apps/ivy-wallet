@@ -19,10 +19,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.*
+import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.Theme
@@ -60,7 +61,7 @@ import java.util.*
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val viewModel: ItemStatisticViewModel = viewModel()
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
 
     val period by viewModel.period.collectAsState()
@@ -221,7 +222,7 @@ private fun BoxWithConstraintsScope.UI(
     onSkipTransaction: (TransactionOld) -> Unit = {},
     onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
@@ -388,8 +389,8 @@ private fun BoxWithConstraintsScope.UI(
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction,
                 onSkipAllTransactions = { skipAllModalVisible = true },
-                emptyStateTitle = stringRes(R.string.no_transactions),
-                emptyStateText = stringRes(
+                emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
+                emptyStateText = com.ivy.core.ui.temp.stringRes(
                     R.string.no_transactions_for_period,
                     period.toDisplayLong(ivyContext.startDayOfMonth)
                 )
@@ -634,7 +635,7 @@ private fun Item(
                         modifier = Modifier
                             .align(Alignment.Bottom)
                             .padding(bottom = 12.dp),
-                        text = stringRes(R.string.excluded),
+                        text = com.ivy.core.ui.temp.stringRes(R.string.excluded),
                         style = UI.typo.c.style(
                             color = account.color.toComposeColor().dynamicContrast()
                         )
@@ -683,7 +684,7 @@ private fun Item(
 @Preview
 @Composable
 private fun Preview_empty() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -715,7 +716,7 @@ private fun Preview_empty() {
 @Preview
 @Composable
 private fun Preview_crypto() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -752,7 +753,7 @@ private fun Preview_crypto() {
 @Preview
 @Composable
 private fun Preview_empty_upcoming() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

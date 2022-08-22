@@ -17,9 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
-import com.ivy.base.ivyWalletCtx
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -303,7 +301,7 @@ private fun DateRow(
     ) {
         Spacer(Modifier.width(32.dp))
 
-        val ivyContext = ivyWalletCtx()
+        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
         Column(
             modifier = Modifier.clickableNoIndication {
@@ -355,7 +353,7 @@ private fun DateRow(
     }
 }
 
-private fun com.ivy.base.IvyWalletCtx.pickDate(
+private fun com.ivy.core.ui.temp.IvyWalletCtx.pickDate(
     initialDate: LocalDate,
     onDatePicked: (
         LocalDateTime
@@ -372,7 +370,7 @@ private fun com.ivy.base.IvyWalletCtx.pickDate(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
 
             RecurringRuleModal(
@@ -392,7 +390,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_multipleTimes() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
             RecurringRuleModal(
                 modal = RecurringRuleModalData(

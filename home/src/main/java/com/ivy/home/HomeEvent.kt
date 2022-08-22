@@ -1,6 +1,6 @@
 package com.ivy.home
 
-import com.ivy.base.TimePeriod
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.journey.domain.CustomerJourneyCardData
 

@@ -32,7 +32,6 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.unit.Density
-import com.ivy.base.ivyWalletCtx
 import com.ivy.wallet.utils.densityScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -54,7 +53,7 @@ fun Pager(
     var pageSize by remember { mutableStateOf(0) }
     val coroutineScope = rememberCoroutineScope()
 
-    val screenWidth = ivyWalletCtx().screenWidth
+    val screenWidth = com.ivy.core.ui.temp.ivyWalletCtx().screenWidth
 
     Layout(
         content = {

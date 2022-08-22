@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.base.humanReadableType
 import com.ivy.data.getDefaultFIATCurrency
@@ -398,7 +397,7 @@ private fun Preview() {
             )
         )
     )
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             state = state
         )

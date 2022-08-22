@@ -26,9 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.IvyWalletPreview
-import com.ivy.base.TimePeriod
-import com.ivy.base.ivyWalletCtx
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
@@ -269,7 +267,7 @@ private fun Header(
                     }
                 ),
                 iconStart = R.drawable.ic_calendar,
-                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth),
             ) {
                 onShowMonthModal()
             }
@@ -512,7 +510,7 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = PieChartStatisticState(
             transactionType = TrnType.EXPENSE,
             period = TimePeriod.currentMonth(
@@ -566,7 +564,7 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = PieChartStatisticState(
             transactionType = TrnType.INCOME,
             period = TimePeriod.currentMonth(

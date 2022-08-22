@@ -17,7 +17,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.background
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
-import com.ivy.design.utils.IvyComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.padding
 
 @Composable
@@ -53,7 +53,7 @@ fun Button(
 @Preview
 @Composable
 private fun Preview_Solid() {
-    IvyComponentPreview {
+    ComponentPreviewBase {
         Button(
             text = "Okay",
             background = Background.Solid(
@@ -74,7 +74,7 @@ private fun Preview_Solid() {
 @Preview
 @Composable
 private fun Preview_Outlined() {
-    IvyComponentPreview {
+    ComponentPreviewBase {
         Button(
             text = "Continue",
             background = Background.Outlined(
@@ -96,7 +96,7 @@ private fun Preview_Outlined() {
 @Preview
 @Composable
 private fun Preview_FillMaxWidth() {
-    IvyComponentPreview {
+    ComponentPreviewBase {
         Button(
             modifier = Modifier
                 .fillMaxWidth()

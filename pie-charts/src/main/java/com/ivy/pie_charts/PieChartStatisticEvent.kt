@@ -1,8 +1,8 @@
 package com.ivy.pie_charts
 
-import com.ivy.pie_charts.model.CategoryAmount
-import com.ivy.base.TimePeriod
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
+import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.screens.PieChartStatistic
 
 sealed class PieChartStatisticEvent {

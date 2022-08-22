@@ -3,7 +3,6 @@ package com.ivy.pie_charts.action
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.FromToTimeRange
 import com.ivy.base.R
-import com.ivy.base.stringRes
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -36,7 +35,11 @@ class PieChartAct @Inject constructor(
 ) : FPAction<PieChartAct.Input, PieChartAct.Output>() {
 
     private val accountTransfersCategory =
-        CategoryOld(stringRes(R.string.account_transfers), RedLight.toArgb(), "transfer")
+        CategoryOld(
+            com.ivy.core.ui.temp.stringRes(R.string.account_transfers),
+            RedLight.toArgb(),
+            "transfer"
+        )
 
     override suspend fun Input.compose(): suspend () -> Output = suspend {
         getUsableAccounts(

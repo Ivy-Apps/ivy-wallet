@@ -14,10 +14,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
 import com.ivy.base.R
-import com.ivy.base.TimePeriod
-import com.ivy.base.ivyWalletCtx
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -74,7 +72,7 @@ fun PeriodSelector(
             Spacer(Modifier.width(4.dp))
 
             Text(
-                text = period.toDisplayShort(ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth),
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Bold
@@ -104,7 +102,7 @@ fun PeriodSelector(
 @Preview
 @Composable
 private fun Preview() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         PeriodSelector(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

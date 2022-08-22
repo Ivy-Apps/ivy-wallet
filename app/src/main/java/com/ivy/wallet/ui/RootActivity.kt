@@ -41,10 +41,9 @@ import com.ivy.balance.BalanceScreen
 import com.ivy.base.Constants
 import com.ivy.base.Constants.SUPPORT_EMAIL
 import com.ivy.base.R
-import com.ivy.base.RootScreen
-import com.ivy.base.appDesign
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
+import com.ivy.core.ui.temp.RootScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
@@ -82,7 +81,7 @@ import javax.inject.Inject
 class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
-    lateinit var ivyContext: com.ivy.base.IvyWalletCtx
+    lateinit var ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation
@@ -130,7 +129,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
 
             IvyUI(
-                design = appDesign(ivyContext)
+                design = com.ivy.core.ui.temp.appDesign(ivyContext)
             ) {
                 UI(viewModel)
             }

@@ -20,8 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_PREMIUM
-import com.ivy.base.IvyWalletComponentPreview
-import com.ivy.base.ivyWalletCtx
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -93,7 +91,7 @@ fun ColumnScope.IvyColorPicker(
         }
     }
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val navigation = navigation()
 
     LazyRow(
@@ -135,7 +133,7 @@ private fun ColorItem(
         Spacer(Modifier.width(24.dp))
     }
 
-    val ivyContext = ivyWalletCtx()
+    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     Box(
         modifier = Modifier
             .clip(CircleShape)
@@ -164,7 +162,7 @@ private fun ColorItem(
 @Preview
 @Composable
 private fun PreviewIvyColorPicker() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column {
             IvyColorPicker(selectedColor = UI.colors.primary) {
 

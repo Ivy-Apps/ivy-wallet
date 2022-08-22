@@ -14,17 +14,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletComponentPreview
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.l3_ivyComponents.IvyDividerDot
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
-import com.ivy.wallet.ui.theme.components.IvyDividerDot
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.format
 import com.ivy.wallet.utils.springBounce
-import com.ivy.base.R
 
 @Composable
 fun SectionDivider(
@@ -150,7 +149,7 @@ private fun SectionDividerIncomeExpenseRow(
 @Preview
 @Composable
 private fun Preview_Income_Expenses() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",
@@ -167,7 +166,7 @@ private fun Preview_Income_Expenses() {
 @Preview
 @Composable
 private fun Preview_Expenses() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Overdue",
@@ -184,7 +183,7 @@ private fun Preview_Expenses() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         SectionDivider(
             expanded = true,
             title = "Upcoming",

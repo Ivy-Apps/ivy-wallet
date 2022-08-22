@@ -1,6 +1,6 @@
 package com.ivy.state
 
-import com.ivy.data.CurrencyCode
+import com.ivy.data.ExchangeRates
 import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
@@ -8,7 +8,10 @@ import com.ivy.data.category.Category
 private var state = IvyState(
     accounts = null,
     categories = null,
+
     period = null,
+    startDayOfMonth = null,
+
     baseCurrency = null,
     exchangeRates = null,
 )
@@ -16,12 +19,15 @@ private var state = IvyState(
 data class IvyState(
     val accounts: List<Account>?,
     val categories: List<Category>?,
+
     val period: Period?,
+    val startDayOfMonth: Int?,
+
     val baseCurrency: String?,
     /**
      * The exchange rate baseCurrency <> CurrencyCode.
      */
-    val exchangeRates: Map<CurrencyCode, Double>?
+    val exchangeRates: ExchangeRates?
 )
 
 fun readIvyState(): IvyState = state
@@ -55,7 +61,13 @@ fun periodUpdate(newPeriod: Period?): () -> IvyState = {
     )
 }
 
-fun exchangeRatesUpdate(newExchangeRates: Map<CurrencyCode, Double>?): () -> IvyState = {
+fun startDayOfMonth(newStartDay: Int?): () -> IvyState = {
+    readIvyState().copy(
+        startDayOfMonth = newStartDay
+    )
+}
+
+fun exchangeRatesUpdate(newExchangeRates: ExchangeRates?): () -> IvyState = {
     readIvyState().copy(
         exchangeRates = newExchangeRates
     )

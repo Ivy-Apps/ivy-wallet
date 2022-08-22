@@ -5,9 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.R
-import com.ivy.base.RootScreen
-import com.ivy.base.TimePeriod
-import com.ivy.base.stringRes
+import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -45,7 +43,7 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeActOld,
@@ -64,7 +62,7 @@ class ReportViewModel @Inject constructor(
     }
 
     private val unSpecifiedCategory =
-        CategoryOld(stringRes(R.string.unspecified), color = Gray.toArgb())
+        CategoryOld(com.ivy.core.ui.temp.stringRes(R.string.unspecified), color = Gray.toArgb())
 
     private val _period = MutableLiveData<TimePeriod>()
     val period = _period.asLiveData()
@@ -348,7 +346,7 @@ class ReportViewModel @Inject constructor(
                     }
                 )
 
-                (context as RootScreen).shareCSVFile(
+                (context as com.ivy.core.ui.temp.RootScreen).shareCSVFile(
                     fileUri = fileUri
                 )
 

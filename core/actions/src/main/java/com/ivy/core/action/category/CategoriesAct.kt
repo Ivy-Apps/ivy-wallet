@@ -1,5 +1,7 @@
 package com.ivy.core.action.category
 
+import com.ivy.core.action.icon.DefaultTo
+import com.ivy.core.action.icon.IconAct
 import com.ivy.data.SyncMetadata
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryMetadata
@@ -11,7 +13,8 @@ import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
 
 class CategoriesAct @Inject constructor(
-    private val categoryDao: CategoryDao
+    private val categoryDao: CategoryDao,
+    private val iconAct: IconAct,
 ) : FPAction<Unit, List<Category>>() {
     override suspend fun Unit.compose(): suspend () -> List<Category> = {
         // TODO: enable caching
@@ -26,7 +29,12 @@ class CategoriesAct @Inject constructor(
                 name = it.name,
                 parentCategoryId = it.parentCategoryId,
                 color = it.color,
-                icon = it.icon,
+                icon = iconAct(
+                    IconAct.Input(
+                        iconId = it.icon,
+                        defaultTo = DefaultTo.Category
+                    )
+                ),
                 metadata = CategoryMetadata(
                     orderNum = it.orderNum,
                     sync = SyncMetadata(

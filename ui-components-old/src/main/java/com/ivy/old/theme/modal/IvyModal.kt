@@ -18,8 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.ivy.base.IvyWalletPreview
-import com.ivy.base.ivyWalletCtx
 import com.ivy.design.l0_system.UI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
@@ -235,7 +233,7 @@ fun ModalActionsRow(
     PrimaryAction: @Composable () -> Unit
 ) {
     if (visible || modalPercentVisible > 0.01f) {
-        val ivyContext = ivyWalletCtx()
+        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
         ActionsRow(
             modifier = Modifier
                 .onSizeChanged {
@@ -283,7 +281,7 @@ fun ModalActionsRow(
 @Preview
 @Composable
 private fun PreviewIvyModal_minimal() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         IvyModal(
             id = UUID.randomUUID(),
             visible = true,

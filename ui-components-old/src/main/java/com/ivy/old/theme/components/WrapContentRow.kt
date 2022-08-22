@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.wallet.ui.theme.Ivy
@@ -90,7 +89,7 @@ fun <T> WrapContentRow(
 @Preview
 @Composable
 private fun PreviewWrapContentRow() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         WrapContentRow(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 24.dp)

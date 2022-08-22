@@ -28,9 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.ivy.base.*
+import com.ivy.base.Constants
 import com.ivy.base.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.base.R
+import com.ivy.base.names
 import com.ivy.data.IvyCurrency
 import com.ivy.data.user.AuthProviderType
 import com.ivy.data.user.User
@@ -75,7 +76,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
         viewModel.start()
     }
 
-    val rootScreen = rootScreen()
+    val rootScreen = com.ivy.core.ui.temp.rootScreen()
     val context = LocalContext.current
     UI(
         screen = screen,
@@ -350,7 +351,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val rootScreen = rootScreen()
+            val rootScreen = com.ivy.core.ui.temp.rootScreen()
             SettingsPrimaryButton(
                 icon = R.drawable.ic_custom_star_m,
                 text = stringResource(R.string.rate_us_on_google_play),
@@ -579,7 +580,7 @@ private fun StartDateOfMonth(
 
 @Composable
 private fun IvyTelegram() {
-    val rootActivity = rootScreen()
+    val rootActivity = com.ivy.core.ui.temp.rootScreen()
     SettingsPrimaryButton(
         icon = R.drawable.ic_telegram_24dp,
         text = stringResource(R.string.ivy_telegram),
@@ -630,7 +631,7 @@ private fun RequestFeature(
 
 @Composable
 private fun ContactSupport() {
-    val rootActivity = rootScreen()
+    val rootActivity = com.ivy.core.ui.temp.rootScreen()
     SettingsDefaultButton(
         icon = R.drawable.ic_support,
         text = stringResource(R.string.contact_support),
@@ -1257,7 +1258,7 @@ private fun SettingsDefaultButton(
 @Preview
 @Composable
 private fun Preview_synced() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1285,7 +1286,7 @@ private fun Preview_synced() {
 @Preview
 @Composable
 private fun Preview_notSynced() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1313,7 +1314,7 @@ private fun Preview_notSynced() {
 @Preview
 @Composable
 private fun Preview_loading() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1341,7 +1342,7 @@ private fun Preview_loading() {
 @Preview
 @Composable
 private fun Preview_localAccount() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = null,

@@ -2,11 +2,11 @@ package com.ivy.budgets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.TimePeriod
-import com.ivy.base.parseAccountIds
-import com.ivy.base.parseCategoryIds
 import com.ivy.base.toCloseTimeRange
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.core.ui.temp.trash.TimePeriod
+import com.ivy.core.ui.temp.trash.parseAccountIds
+import com.ivy.core.ui.temp.trash.parseCategoryIds
 import com.ivy.data.AccountOld
 import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
@@ -20,17 +20,14 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.budget.BudgetsAct
 import com.ivy.wallet.domain.action.category.CategoriesActOld
+import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.HistoryTrnsAct
 import com.ivy.wallet.domain.deprecated.logic.BudgetCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.domain.deprecated.sync.item.BudgetSync
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
-import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.BudgetDao
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.ioThread
 import com.ivy.wallet.utils.isNotNullOrBlank
@@ -42,20 +39,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
-    private val sharedPrefs: SharedPrefs,
-    private val settingsDao: SettingsDao,
     private val budgetDao: BudgetDao,
-    private val categoryDao: CategoryDao,
-    private val accountDao: AccountDao,
     private val budgetCreator: BudgetCreator,
     private val budgetSync: BudgetSync,
-    private val ivyContext: com.ivy.base.IvyWalletCtx,
+    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
     private val accountsAct: AccountsActOld,
     private val categoriesAct: CategoriesActOld,
     private val budgetsAct: BudgetsAct,
     private val baseCurrencyAct: BaseCurrencyActOld,
     private val historyTrnsAct: HistoryTrnsAct,
-    private val exchangeAct: ExchangeActOld
+    private val exchangeAct: ExchangeActOld,
+    private val startDayOfMonthAct: StartDayOfMonthAct,
 ) : ViewModel() {
 
     private val _timeRange = MutableStateFlow(ivyContext.selectedPeriod.toRange(1))
@@ -91,7 +85,7 @@ class BudgetViewModel @Inject constructor(
             val baseCurrency = baseCurrencyAct(Unit)
             _baseCurrencyCode.value = baseCurrency
 
-            val startDateOfMonth = ivyContext.initStartDayOfMonthInMemory(sharedPrefs = sharedPrefs)
+            val startDateOfMonth = startDayOfMonthAct(Unit)
             val timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = startDateOfMonth
             ).toRange(startDateOfMonth = startDateOfMonth)

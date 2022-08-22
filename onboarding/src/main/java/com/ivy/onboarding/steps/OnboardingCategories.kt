@@ -19,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.base.IvyWalletPreview
 import com.ivy.base.R
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
@@ -246,7 +245,7 @@ private fun CategoryCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -312,7 +311,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Categories() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -384,7 +383,7 @@ private fun Preview_Categories() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(

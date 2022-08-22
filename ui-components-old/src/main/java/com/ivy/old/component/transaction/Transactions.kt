@@ -16,7 +16,6 @@ import com.ivy.base.R
 import com.ivy.base.TransactionHistoryDateDivider
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
-import com.ivy.base.stringRes
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -35,7 +34,7 @@ fun LazyListScope.transactions(
     overdue: DueSection?,
     history: List<Any>,
 
-    emptyStateTitle: String = stringRes(R.string.no_transactions),
+    emptyStateTitle: String = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
     emptyStateText: String,
 
     dateDividerMarginTop: Dp? = null,
@@ -114,7 +113,7 @@ private fun LazyListScope.upcomingSection(
             SectionDivider(
                 expanded = upcoming.expanded,
                 setExpanded = setExpanded,
-                title = stringRes(R.string.upcoming),
+                title = com.ivy.core.ui.temp.stringRes(R.string.upcoming),
                 titleColor = Orange,
                 baseCurrency = baseData.baseCurrency,
                 income = upcoming.stats.income.toDouble(),
@@ -154,7 +153,7 @@ private fun LazyListScope.overdueSection(
             SectionDivider(
                 expanded = overdue.expanded,
                 setExpanded = setExpanded,
-                title = stringRes(R.string.overdue),
+                title = com.ivy.core.ui.temp.stringRes(R.string.overdue),
                 titleColor = Red,
                 baseCurrency = baseData.baseCurrency,
                 income = overdue.stats.income.toDouble(),
@@ -167,7 +166,7 @@ private fun LazyListScope.overdueSection(
                 val isLightTheme = UI.colors.pure == White
                 IvyButton(
                     modifier = Modifier.padding(horizontal = 24.dp),
-                    text = stringRes(R.string.skip_all),
+                    text = com.ivy.core.ui.temp.stringRes(R.string.skip_all),
                     wrapContentMode = false,
                     backgroundGradient = if (isLightTheme) Gradient(White, White) else Gradient(
                         Black,

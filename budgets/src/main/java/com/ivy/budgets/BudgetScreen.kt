@@ -14,8 +14,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.base.*
+import com.ivy.base.FromToTimeRange
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.core.ui.temp.trash.BudgetExt
+import com.ivy.core.ui.temp.trash.TimePeriod
+import com.ivy.core.ui.temp.trash.parseCategoryIds
 import com.ivy.data.AccountOld
 import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
@@ -376,7 +379,7 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -396,7 +399,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
