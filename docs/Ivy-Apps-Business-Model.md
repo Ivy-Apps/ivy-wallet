@@ -4,7 +4,7 @@
 
 ## 50% of our profit goes to contributors
 
-We'll share 50$ of our pure profit with contributors in the form of **"Contributors" fund**.
+We'll share 50% of our pure profit with contributors in the form of **"Contributors" fund**.
 
 > profit = revenue - taxes - fees - operational costs
 
