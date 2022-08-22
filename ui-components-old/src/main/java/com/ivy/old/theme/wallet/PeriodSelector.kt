@@ -102,7 +102,7 @@ fun PeriodSelector(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         PeriodSelector(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

@@ -117,7 +117,7 @@ fun BackButton(
 @Preview
 @Composable
 private fun PreviewCloseButton() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CloseButton {
 
         }
@@ -127,7 +127,7 @@ private fun PreviewCloseButton() {
 @Preview
 @Composable
 private fun PreviewBackButton() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         BackButton {
 
         }

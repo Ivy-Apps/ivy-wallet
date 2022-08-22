@@ -298,7 +298,7 @@ private fun CategoriesRow(
 @Preview
 @Composable
 private fun Preview_create() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(
@@ -324,7 +324,7 @@ private fun Preview_create() {
 @Preview
 @Composable
 private fun Preview_edit() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(

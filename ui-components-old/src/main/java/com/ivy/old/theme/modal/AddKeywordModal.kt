@@ -79,7 +79,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         AddKeywordModal(
             visible = true,
             keyword = "",

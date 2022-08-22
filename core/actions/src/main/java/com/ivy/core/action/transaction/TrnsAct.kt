@@ -86,8 +86,8 @@ class TrnsAct @Inject constructor(
             ),
             category = categories[entity.categoryId],
             time = trnTime(entity) ?: return null,
-            title = entity.title,
-            description = entity.description,
+            title = entity.title.takeIf { it.isNullOrBlank().not() },
+            description = entity.description.takeIf { it.isNullOrBlank().not() },
             attachmentUrl = entity.attachmentUrl,
             metadata = TrnMetadata(
                 recurringRuleId = entity.recurringRuleId,

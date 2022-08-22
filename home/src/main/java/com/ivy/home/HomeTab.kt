@@ -362,7 +362,7 @@ fun HomeLazyColumn(
 @Preview
 @Composable
 private fun PreviewHomeTab() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             state = HomeState.initial(com.ivy.core.ui.temp.ivyWalletCtx()),
             onEvent = {}

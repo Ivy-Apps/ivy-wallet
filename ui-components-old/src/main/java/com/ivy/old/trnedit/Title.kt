@@ -131,7 +131,7 @@ private fun Suggestion(
 @Preview
 @Composable
 private fun PreviewTitleWithSuggestions() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Column {
             Title(
                 type = TrnType.EXPENSE,

@@ -306,7 +306,7 @@ private fun AccountCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -340,7 +340,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Accounts() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -380,7 +380,7 @@ private fun Preview_Accounts() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(

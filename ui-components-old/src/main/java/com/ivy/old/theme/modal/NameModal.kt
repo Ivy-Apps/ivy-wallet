@@ -68,7 +68,7 @@ fun BoxWithConstraintsScope.NameModal(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         NameModal(
             visible = true,
             name = "Iliyan",

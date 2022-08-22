@@ -360,7 +360,7 @@ private fun Toolbar(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
@@ -402,7 +402,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_NO_FILTER() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")

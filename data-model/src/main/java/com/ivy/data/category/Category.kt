@@ -1,7 +1,7 @@
 package com.ivy.data.category
 
 import androidx.annotation.ColorInt
-import com.ivy.data.IvyIcon
+import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 data class Category(
@@ -12,7 +12,7 @@ data class Category(
 
     @ColorInt
     val color: Int,
-    val icon: IvyIcon?,
+    val icon: IvyIcon,
 
     val metadata: CategoryMetadata,
 )

@@ -1,3 +1,9 @@
 package com.ivy.core.ui.account
 
-// The Card from "Accounts" tab
+import androidx.compose.runtime.Composable
+import com.ivy.data.account.Account
+
+@Composable
+fun Account.Card() {
+
+}

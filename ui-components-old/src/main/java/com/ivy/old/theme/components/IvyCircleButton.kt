@@ -66,7 +66,7 @@ fun IvyCircleButton(
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Enabled() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,
@@ -80,7 +80,7 @@ private fun PreviewIvyCircleButton_Enabled() {
 @Preview
 @Composable
 private fun PreviewIvyCircleButton_Disabled() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyCircleButton(
             icon = R.drawable.ic_delete,
             backgroundGradient = GradientRed,

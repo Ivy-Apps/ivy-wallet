@@ -133,7 +133,7 @@ fun IvyOutlinedButtonFillMaxWidth(
 @Preview
 @Composable
 private fun Preview_FillMaxWidth() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyOutlinedButtonFillMaxWidth(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = "Import backup file",

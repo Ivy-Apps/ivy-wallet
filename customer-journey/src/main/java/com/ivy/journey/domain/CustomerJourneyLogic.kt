@@ -280,7 +280,7 @@ class CustomerJourneyLogic(
 @Preview
 @Composable
 private fun PreviewAdjustBalanceCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },
@@ -292,7 +292,7 @@ private fun PreviewAdjustBalanceCard() {
 @Preview
 @Composable
 private fun PreviewAddPlannedPaymentCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addPlannedPaymentCard(),
             onCTA = { },
@@ -304,7 +304,7 @@ private fun PreviewAddPlannedPaymentCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_pinAddTransactionWidgetCard(),
             onCTA = { },
@@ -316,7 +316,7 @@ private fun PreviewDidYouKnow_PinAddTransactionWidgetCard() {
 @Preview
 @Composable
 private fun PreviewAddBudgetCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.addBudgetCard(),
             onCTA = { },
@@ -328,7 +328,7 @@ private fun PreviewAddBudgetCard() {
 @Preview
 @Composable
 private fun PreviewDidYouKnow_ExpensesPieChart() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.didYouKnow_expensesPieChart(),
             onCTA = { },
@@ -340,7 +340,7 @@ private fun PreviewDidYouKnow_ExpensesPieChart() {
 @Preview
 @Composable
 private fun PreviewRateUsCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard(),
             onCTA = { },
@@ -352,7 +352,7 @@ private fun PreviewRateUsCard() {
 @Preview
 @Composable
 private fun PreviewShareIvyWallet() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard(),
             onCTA = { },
@@ -364,7 +364,7 @@ private fun PreviewShareIvyWallet() {
 @Preview
 @Composable
 private fun PreviewJoinTelegram() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.joinIvyTelegramCard(),
             onCTA = { },
@@ -376,7 +376,7 @@ private fun PreviewJoinTelegram() {
 @Preview
 @Composable
 private fun PreviewMakeReport() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.makeReportCard(),
             onCTA = { },
@@ -388,7 +388,7 @@ private fun PreviewMakeReport() {
 @Preview
 @Composable
 private fun PreviewRateUs_2() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.rateUsCard_2(),
             onCTA = { },
@@ -400,7 +400,7 @@ private fun PreviewRateUs_2() {
 @Preview
 @Composable
 private fun PreviewShaveIvyWallet_2() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.shareIvyWalletCard_2(),
             onCTA = { },
@@ -412,7 +412,7 @@ private fun PreviewShaveIvyWallet_2() {
 @Preview
 @Composable
 private fun PreviewIvyWallet_isOpenSource() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.ivyWalletIsOpenSource(),
             onCTA = { },
@@ -424,7 +424,7 @@ private fun PreviewIvyWallet_isOpenSource() {
 @Preview
 @Composable
 private fun PreviewDonateCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.donateIvyWallet(),
             onCTA = { },

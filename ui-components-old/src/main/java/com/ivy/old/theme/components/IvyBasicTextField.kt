@@ -84,7 +84,7 @@ fun IvyBasicTextField(
 @Preview
 @Composable
 private fun Preview_Hint() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue(""),
             hint = "Search transactions",
@@ -96,7 +96,7 @@ private fun Preview_Hint() {
 @Preview
 @Composable
 private fun Preview_Filled() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyBasicTextField(
             value = selectEndTextFieldValue("sfds"),
             hint = "Okay",

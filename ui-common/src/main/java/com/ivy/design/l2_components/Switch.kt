@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
-import com.ivy.design.utils.IvyComponentPreview
+import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.springBounce
 
 @Composable
@@ -77,7 +77,7 @@ fun Switch(
 @Preview
 @Composable
 private fun PreviewIvySwitch() {
-    IvyComponentPreview {
+    ComponentPreviewBase {
         var enabled by remember {
             mutableStateOf(false)
         }

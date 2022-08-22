@@ -123,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewMainScreen() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             screen = Main,
             tab = MainTab.HOME,

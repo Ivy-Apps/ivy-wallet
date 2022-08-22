@@ -95,7 +95,7 @@ fun OnboardingButton(
 @Preview
 @Composable
 private fun PreviewOnboardingTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue("iliyan.germanov971@gmail.com"),
@@ -108,7 +108,7 @@ private fun PreviewOnboardingTextField() {
 @Preview
 @Composable
 private fun PreviewOnboardingButton() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         OnboardingButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)

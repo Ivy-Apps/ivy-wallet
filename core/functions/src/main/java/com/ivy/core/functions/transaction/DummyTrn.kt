@@ -4,10 +4,12 @@ import com.ivy.common.timeNowLocal
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.sync.dummySync
+import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
+import java.time.LocalDateTime
 import java.util.*
 
 fun dummyTrn(
@@ -48,3 +50,28 @@ fun dummyTrnMetadata(
     loanRecordId = loanRecordId,
     sync = sync
 )
+
+fun dummyValue(
+    amount: Double = 0.0,
+    currency: CurrencyCode = "USD"
+): Value = Value(
+    amount = amount,
+    currency = currency,
+)
+
+fun dummyTransfer(
+    toValue: Value = dummyValue(),
+    toAccount: Account = dummyAcc()
+): TransactionType.Transfer = TransactionType.Transfer(
+    toValue = toValue,
+    toAccount = toAccount,
+)
+
+fun dummyActual(
+    time: LocalDateTime = timeNowLocal()
+): TrnTime.Actual = TrnTime.Actual(time)
+
+
+fun dummyDue(
+    time: LocalDateTime = timeNowLocal()
+): TrnTime.Due = TrnTime.Due(time)

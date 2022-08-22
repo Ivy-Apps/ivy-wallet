@@ -68,7 +68,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         PieChartStatisticBottomBar(
             type = TrnType.INCOME,
             bottomInset = 16.dp,

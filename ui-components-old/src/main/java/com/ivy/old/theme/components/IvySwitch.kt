@@ -71,7 +71,7 @@ fun IvySwitch(
 @Preview
 @Composable
 private fun PreviewIvySwitch() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         var enabled by remember {
             mutableStateOf(false)
         }

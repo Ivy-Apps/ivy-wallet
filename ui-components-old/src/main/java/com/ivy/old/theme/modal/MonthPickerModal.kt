@@ -143,7 +143,7 @@ private fun MonthButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         MonthPickerModal(
             initialDate = dateNowUTC(),
             visible = true,

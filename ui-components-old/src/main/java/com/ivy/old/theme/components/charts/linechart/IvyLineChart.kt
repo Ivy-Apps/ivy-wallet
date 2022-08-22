@@ -610,7 +610,7 @@ private tailrec fun horizontalLineYS(
 @Preview
 @Composable
 private fun Preview_IvyChart() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         val values = listOf(
             Value(
                 x = 0.0,

@@ -3,10 +3,10 @@ package com.ivy.core.functions.account
 import androidx.annotation.ColorInt
 import com.ivy.core.functions.sync.dummySync
 import com.ivy.data.CurrencyCode
-import com.ivy.data.IvyIcon
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.AccMetadata
 import com.ivy.data.account.Account
+import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 fun dummyAcc(
@@ -15,7 +15,11 @@ fun dummyAcc(
     currency: CurrencyCode = "USD",
     @ColorInt
     color: Int = 1,
-    icon: IvyIcon? = null,
+    icon: IvyIcon = IvyIcon.Unknown(
+        // TODO: Fix that after we create :resources
+        icon = -1,
+        iconId = null
+    ),
     excluded: Boolean = false,
     metadata: AccMetadata = dummyAccMetadata(),
 ): Account = Account(

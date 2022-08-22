@@ -292,7 +292,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(onEvent = {})
     }
 }

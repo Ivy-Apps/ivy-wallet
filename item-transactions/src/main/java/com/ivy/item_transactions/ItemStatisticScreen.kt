@@ -684,7 +684,7 @@ private fun Item(
 @Preview
 @Composable
 private fun Preview_empty() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -716,7 +716,7 @@ private fun Preview_empty() {
 @Preview
 @Composable
 private fun Preview_crypto() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -753,7 +753,7 @@ private fun Preview_crypto() {
 @Preview
 @Composable
 private fun Preview_empty_upcoming() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

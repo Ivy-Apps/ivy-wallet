@@ -136,7 +136,7 @@ private class AddNew
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         Suggestions(
             suggestions = listOf(
                 AccountOld("Cash", color = Green.toArgb()),

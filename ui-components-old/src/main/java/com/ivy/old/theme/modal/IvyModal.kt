@@ -281,7 +281,7 @@ fun ModalActionsRow(
 @Preview
 @Composable
 private fun PreviewIvyModal_minimal() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         IvyModal(
             id = UUID.randomUUID(),
             visible = true,

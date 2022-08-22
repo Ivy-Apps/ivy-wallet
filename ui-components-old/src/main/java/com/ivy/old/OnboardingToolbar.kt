@@ -51,7 +51,7 @@ fun OnboardingToolbar(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         OnboardingToolbar(
             hasSkip = true, onBack = {}
         ) {

@@ -245,7 +245,7 @@ private fun CategoryCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -311,7 +311,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Categories() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -383,7 +383,7 @@ private fun Preview_Categories() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(

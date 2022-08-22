@@ -12,7 +12,8 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     implementation(project(":ui-common"))
-
+    implementation(project(":core:functions"))
+    implementation(project(":screens"))
     implementation(project(":app-base")) // TODO: temp dependency, remove later
 
     Testing()

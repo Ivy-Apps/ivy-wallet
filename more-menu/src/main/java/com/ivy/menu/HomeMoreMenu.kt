@@ -542,7 +542,7 @@ private fun MoreMenuButton(
 @Preview
 @Composable
 private fun Preview_Expanded() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -584,7 +584,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(

@@ -478,7 +478,7 @@ private fun circleButtonModifier(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         BoxWithConstraints(
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {

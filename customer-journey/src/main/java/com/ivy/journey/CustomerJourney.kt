@@ -142,7 +142,7 @@ fun CustomerJourneyCard(
 @Preview
 @Composable
 private fun PreviewCard() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },

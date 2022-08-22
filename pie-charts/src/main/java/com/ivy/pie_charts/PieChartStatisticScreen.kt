@@ -510,7 +510,7 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = PieChartStatisticState(
             transactionType = TrnType.EXPENSE,
             period = TimePeriod.currentMonth(
@@ -564,7 +564,7 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         val state = PieChartStatisticState(
             transactionType = TrnType.INCOME,
             period = TimePeriod.currentMonth(

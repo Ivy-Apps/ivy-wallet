@@ -55,7 +55,7 @@ fun BoxWithConstraintsScope.PlannedPaymentsBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         PlannedPaymentsBottomBar(
             bottomInset = 16.dp,
             onAdd = {},

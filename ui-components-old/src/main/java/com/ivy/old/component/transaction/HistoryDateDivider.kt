@@ -93,7 +93,7 @@ fun HistoryDateDivider(
 @Preview
 @Composable
 private fun Preview_Today() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC(),
             spacerTop = 32.dp,
@@ -107,7 +107,7 @@ private fun Preview_Today() {
 @Preview
 @Composable
 private fun Preview_Yesterday() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusDays(1),
             spacerTop = 32.dp,
@@ -121,7 +121,7 @@ private fun Preview_Yesterday() {
 @Preview
 @Composable
 private fun Preview_OneYear_Ago() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         HistoryDateDivider(
             date = dateNowUTC().minusYears(1),
             spacerTop = 32.dp,

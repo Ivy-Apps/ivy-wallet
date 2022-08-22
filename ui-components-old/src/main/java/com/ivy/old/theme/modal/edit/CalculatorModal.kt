@@ -201,7 +201,7 @@ private fun calculate(expression: String): Double? {
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         CalculatorModal(
             visible = true,
             initialAmount = 50.23,

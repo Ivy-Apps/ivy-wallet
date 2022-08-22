@@ -248,7 +248,7 @@ private fun ColumnScope.CloseButton() {
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

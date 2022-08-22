@@ -117,7 +117,7 @@ fun IvyChecklistTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -132,7 +132,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .background(UI.colors.red)

@@ -174,7 +174,7 @@ private fun IconEnd(
 @Preview
 @Composable
 private fun PreviewIvyButtonWrapContentWithIconStart() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -191,7 +191,7 @@ private fun PreviewIvyButtonWrapContentWithIconStart() {
 @Preview
 @Composable
 private fun PreviewIvyButtonFillMaxWidthWithIconStart() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -208,7 +208,7 @@ private fun PreviewIvyButtonFillMaxWidthWithIconStart() {
 @Preview
 @Composable
 private fun PreviewIvyButtonWrapContentWithIconEnd() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -226,7 +226,7 @@ private fun PreviewIvyButtonWrapContentWithIconEnd() {
 @Preview
 @Composable
 private fun PreviewIvyButtonFillMaxWidthWithIconEnd() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)

@@ -305,7 +305,7 @@ private fun Section(
 @Preview
 @Composable
 private fun ChooseIconModal() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChooseIconModal(
             visible = true,
             initialIcon = "gift",

@@ -127,7 +127,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
 @Preview
 @Composable
 private fun PreviewDescriptionModal_emptyText() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         DescriptionModal(
             visible = true,
             description = "",

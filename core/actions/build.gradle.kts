@@ -14,4 +14,5 @@ dependencies {
     implementation(project(":core:functions"))
     implementation(project(":core:exchange-provider"))
     implementation(project(":sync:public"))
+    implementation(project(":app-base")) // TODO: migrate to :resources
 }

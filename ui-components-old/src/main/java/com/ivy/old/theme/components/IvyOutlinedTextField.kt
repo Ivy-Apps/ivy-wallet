@@ -108,7 +108,7 @@ fun IvyOutlinedTextField(
 @Preview
 @Composable
 private fun PreviewOutlineTextField() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue(),

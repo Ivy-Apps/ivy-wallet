@@ -391,7 +391,7 @@ private fun LetterDividerItem(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletComponentPreview {
+    com.ivy.core.ui.temp.ComponentPreview {
         CurrencyPicker(
             initialSelectedCurrency = null,
             includeKeyboardShownInsetSpacer = true

@@ -379,7 +379,7 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -399,7 +399,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1

@@ -496,7 +496,7 @@ private fun AllTime(
 @Preview
 @Composable
 private fun Preview_MonthSelected() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -513,7 +513,7 @@ private fun Preview_MonthSelected() {
 @Preview
 @Composable
 private fun Preview_FromTo() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -533,7 +533,7 @@ private fun Preview_FromTo() {
 @Preview
 @Composable
 private fun Preview_LastN() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(

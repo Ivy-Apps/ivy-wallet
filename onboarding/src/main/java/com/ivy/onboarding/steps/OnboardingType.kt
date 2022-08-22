@@ -123,7 +123,7 @@ fun OnboardingType(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.IvyWalletPreview {
+    com.ivy.core.ui.temp.Preview {
         OnboardingType(
             onStartImport = {}
         ) {
