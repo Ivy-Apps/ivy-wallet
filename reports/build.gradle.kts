@@ -18,4 +18,6 @@ dependencies {
     implementation(project(":temp-domain"))
     implementation(project(":temp-persistence"))
     implementation(project(":core:exchange-provider"))
+    implementation(project(":core:actions"))
+    implementation(project(":core:functions"))
 }

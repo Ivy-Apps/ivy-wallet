@@ -54,7 +54,7 @@ fun BoxWithConstraintsScope.ReportScreen(
 
     UI(
         state = state,
-        onEventHandler = viewModel::onEvent
+        onEventHandler = viewModel::onEventHand
     )
 }
 
@@ -176,7 +176,7 @@ private fun BoxWithConstraintsScope.UI(
                     checked = state.treatTransfersAsIncExp
                 ) {
                     onEventHandler.invoke(
-                        ReportScreenEvent.OnTreatTransfersAsIncomeExpense(
+                        ReportScreenEvent.OnTransfersAsIncomeExpense(
                             transfersAsIncomeExpense = it
                         )
                     )
@@ -228,7 +228,7 @@ private fun BoxWithConstraintsScope.UI(
                 lastItemSpacer = 48.dp,
 
                 onPayOrGet = {
-                    onEventHandler.invoke(ReportScreenEvent.OnPayOrGet(transaction = it))
+
                 },
                 emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
                 emptyStateText = com.ivy.core.ui.temp.stringRes(R.string.no_transactions_for_your_filter)

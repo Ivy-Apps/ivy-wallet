@@ -1,18 +1,42 @@
 package com.ivy.reports
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import arrow.core.NonEmptyList
+import arrow.core.getOrElse
 import com.ivy.base.R
+import com.ivy.common.atEndOfDay
+import com.ivy.core.action.account.AccountsAct
+import com.ivy.core.action.calculate.CalculateWithTransfersAct
+import com.ivy.core.action.calculate.ExtendedStats
+import com.ivy.core.action.calculate.transaction.GroupTrnsByDateAct
+import com.ivy.core.action.category.CategoriesAct
+import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.action.currency.exchange.ExchangeAct
+import com.ivy.core.action.transaction.TrnsAct
+import com.ivy.core.functions.category.dummyCategory
+import com.ivy.core.functions.transaction.TrnWhere
+import com.ivy.core.functions.transaction.TrnWhere.*
+import com.ivy.core.functions.transaction.and
+import com.ivy.core.functions.transaction.brackets
+import com.ivy.core.functions.transaction.or
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
-import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.CurrencyCode
+import com.ivy.data.Period
+import com.ivy.data.account.Account
+import com.ivy.data.category.Category
+import com.ivy.data.transaction.*
 import com.ivy.exchange.deprecated.ExchangeActOld
 import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.filterSuspend
+import com.ivy.frp.lambda
+import com.ivy.frp.then
+import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
@@ -35,7 +59,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,18 +74,21 @@ class ReportViewModel @Inject constructor(
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeActOld,
     private val accountsAct: AccountsActOld,
+    private val newAccountsAct: AccountsAct,
+    private val trnsAct: TrnsAct,
+    private val exchangeActNew: ExchangeAct,
+    private val calculateAct: CalculateWithTransfersAct,
     private val categoriesAct: CategoriesActOld,
     private val trnsWithDateDivsAct: TrnsWithDateDivsAct,
     private val calcTrnsIncomeExpenseAct: CalcTrnsIncomeExpenseAct,
-    private val baseCurrencyAct: BaseCurrencyActOld
-) : FRPViewModel<ReportScreenState, Nothing>() {
+    private val baseCurrencyAct: BaseCurrencyActOld,
+    private val baseCurrencyActNew: BaseCurrencyAct,
+    private val newCategoriesAct: CategoriesAct,
+    private val groupTrnsByDateAct: GroupTrnsByDateAct,
+) : FRPViewModel<ReportScreenState, ReportScreenEvent>() {
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
         ReportScreenState()
     )
-
-    override suspend fun handleEvent(event: Nothing): suspend () -> ReportScreenState {
-        TODO("Not yet implemented")
-    }
 
     private val unSpecifiedCategory =
         CategoryOld(com.ivy.core.ui.temp.stringRes(R.string.unspecified), color = Gray.toArgb())
@@ -80,6 +109,316 @@ class ReportViewModel @Inject constructor(
 
     private val _filter = MutableStateFlow<ReportFilter?>(null)
     val filter = _filter.readOnly()
+
+    //------------------------------------------ New Code ---------------------------------------------
+
+    private val allAcc = MutableStateFlow<List<Account>>(emptyList())
+    private val allCategories = MutableStateFlow<List<Category>>(emptyList())
+    private val transStatsGlobal = MutableStateFlow(ExtendedStats.empty())
+    private val allTransactions = MutableStateFlow<List<Transaction>>(emptyList())
+    private val categoryNone = dummyCategory(name = "None", color = Gray.toArgb())
+
+    override suspend fun handleEvent(event: ReportScreenEvent): suspend () -> ReportScreenState =
+        withContext(Dispatchers.Default) {
+            when (event) {
+                is ReportScreenEvent.Start -> initialiseData()
+                is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpandedNew(event.upcomingExpanded)
+                is ReportScreenEvent.OnOverdueExpanded -> setOnOverdueExpandedNew(event.overdueExpanded)
+                is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisibleNew(event.filterOverlayVisible)
+                is ReportScreenEvent.OnFilter -> onFilterNew(event.filter)
+                is ReportScreenEvent.OnTransfersAsIncomeExpense -> transfersAsIncomeExpense(event.transfersAsIncomeExpense)
+                is ReportScreenEvent.OnExport -> {
+                    stateVal().lambda()
+                }
+            }
+        }
+
+    private suspend fun initialiseData() = suspend {
+        _baseCurrency.value = baseCurrencyActNew(Unit)
+        allAcc.value = newAccountsAct(Unit)
+        allCategories.value = listOf(categoryNone) + newCategoriesAct(Unit)
+    } then {
+        updateState {
+            it.copy(
+                baseCurrency = _baseCurrency.value,
+                accountsNew = allAcc.value,
+                categoriesNew = allCategories.value
+            )
+        }
+    }
+
+    private suspend fun setUpcomingExpandedNew(expanded: Boolean) = updateState {
+        it.copy(upcomingExpanded = expanded)
+    }.lambda()
+
+    private suspend fun setOnOverdueExpandedNew(expanded: Boolean) = updateState {
+        it.copy(overdueExpanded = expanded)
+    }.lambda()
+
+    private suspend fun setFilterOverlayVisibleNew(visible: Boolean) = updateState {
+        it.copy(filterOverlayVisible = visible)
+    }.lambda()
+
+    private suspend fun onFilterNew(filter: ReportFilter?): suspend () -> ReportScreenState {
+        suspend fun List<Transaction>.plannedPayments(
+            baseCurrCode: CurrencyCode = _baseCurrency.value,
+            predicate: (LocalDateTime) -> Boolean
+        ): PlannedPaymentsStats {
+            val trans = this.filter {
+                val date = (it.time as? TrnTime.Due)?.due
+
+                date?.let(predicate) ?: false
+            }
+
+            val stats = calculateAct(
+                CalculateWithTransfersAct.Input(
+                    trns = trans,
+                    outputCurrency = baseCurrCode
+                )
+            )
+
+            return PlannedPaymentsStats(
+                income = stats.income,
+                expenses = stats.expense,
+                transactions = stats.trns
+            )
+        }
+
+
+        return scopedIOThread { scope ->
+            //clear filter
+            filter ?: return@scopedIOThread clearReportFilter()
+
+            //Report filter Validation
+            if (!filter.validateFilter()) return@scopedIOThread stateVal().lambda()
+
+            updateState {
+                it.copy(loading = true, filter = filter)
+            }
+
+            val timeNowUTC = timeNowUTC()
+            val (transactionStats, transactions) =
+                filterTransactionsNew(baseCurrency = _baseCurrency.value, filter = filter)
+
+            //Update Global Data
+            transStatsGlobal.value = transactionStats
+            allTransactions.value = transactions
+
+            val transactionsWithDateDividers = scope.async {
+                groupTrnsByDateAct(transactions)
+            }
+
+            val upcomingPayments = scope.async {
+                transactions.plannedPayments { it.isAfter(timeNowUTC) }
+            }
+
+            val overduePayments = scope.async {
+                transactions.plannedPayments { it.isBefore(timeNowUTC) }
+            }
+
+            updateState {
+                it.copy(
+                    balance = transactionStats.balance,
+                    income = transactionStats.income,
+                    expenses = transactionStats.expense,
+
+                    filter = filter,
+                    baseCurrency = _baseCurrency.value,
+                    accountsNew = allAcc.value,
+                    categoriesNew = allCategories.value,
+
+                    transactionsWithDateDividers = transactionsWithDateDividers.await(),
+                    upcomingPayments = upcomingPayments.await(),
+                    overduePayments = overduePayments.await(),
+
+                    loading = false,
+                    filterOverlayVisible = false
+                )
+            }.lambda()
+        }
+    }
+
+    private suspend fun transfersAsIncomeExpense(transfersAsIncomeExpense: Boolean): suspend () -> ReportScreenState {
+        val income = with(transStatsGlobal.value) {
+            income + if (transfersAsIncomeExpense) transfersInAmount else 0.0
+        }
+
+        val expense = with(transStatsGlobal.value) {
+            expense + if (transfersAsIncomeExpense) transfersOutAmount else 0.0
+        }
+
+        return updateState {
+            it.copy(income = income, expenses = expense)
+        }.lambda()
+    }
+
+    private suspend fun exportNew(context: Context, fileUri: Uri, onShareUI: (Uri) -> Unit) {
+        val filter = stateVal().filter
+
+        filter ?: return
+        if (!filter.validateFilter()) return
+
+        updateState {
+            it.copy(loading = true)
+        }
+
+        exportCSVLogic.exportToFile(
+            context = context,
+            fileUri = fileUri,
+            exportScope = {
+                allTransactions.value.toOld()
+            }
+        )
+
+        uiThread {
+            onShareUI(fileUri)
+        }
+
+        updateState {
+            it.copy(loading = false)
+        }
+    }
+
+    private suspend fun filterTransactionsNew(
+        baseCurrency: String,
+        filter: ReportFilter
+    ) = {
+        ByTypeIn(filter.trnTypes.toNonEmptyList()) and
+                ByAllDate(filter.period) and
+                ByAccountIn(allAcc.value.toNonEmptyList()) and
+                ByCategoryIn(allCategories.value.toNonEmptyList())
+    } then trnsAct then {
+        filterByAmount(baseCurrency = baseCurrency, filter = filter, transList = it)
+    } then {
+        filterByWords(filter, it)
+    } then { allTrans ->
+        val nonPlannedPaymentsTransactions = allTrans.filter { it.time is TrnTime.Actual }
+        val input = CalculateWithTransfersAct.Input(
+            trns = nonPlannedPaymentsTransactions,
+            outputCurrency = baseCurrency
+        )
+        Pair(input, allTrans)
+    } thenInvokeAfter {
+        val (input, allTrans) = it
+        val stats = calculateAct(input)
+
+        Pair(stats, allTrans)
+    }
+
+    @Suppress("FunctionName")
+    private fun ByAllDate(timePeriod: TimePeriod?): TrnWhere {
+        val datePeriod = timePeriod!!.toPeriodDate(1)
+
+        return brackets(ActualBetween(datePeriod) or DueBetween(datePeriod))
+    }
+
+    private suspend fun filterByAmount(
+        baseCurrency: String,
+        filter: ReportFilter,
+        transList: List<Transaction>
+    ): List<Transaction> {
+        suspend fun amountInBaseCurrency(
+            amount: Double?,
+            toCurr: CurrencyCode?,
+            baseCur: CurrencyCode = baseCurrency,
+        ): Double {
+            amount ?: return 0.0
+
+            return exchangeActNew(
+                ExchangeAct.Input(
+                    from = baseCur,
+                    to = toCurr ?: baseCur,
+                    amount = amount
+                )
+            ).getOrElse { amount }
+        }
+
+        suspend fun filterTrans(
+            transactionList: List<Transaction> = transList,
+            transFilter: (tAmount: Double) -> Boolean
+        ): List<Transaction> {
+            return transactionList.filter {
+                val tAmount =
+                    amountInBaseCurrency(amount = it.value.amount, toCurr = it.account.currency)
+
+                val transactionTransferValue = (it.type as? TransactionType.Transfer)?.toValue
+
+                val toAmountInBaseCurrency = amountInBaseCurrency(
+                    transactionTransferValue?.amount,
+                    toCurr = transactionTransferValue?.currency
+                )
+
+                transFilter(tAmount) || transFilter(toAmountInBaseCurrency)
+            }
+        }
+
+        return when {
+            filter.minAmount != null && filter.maxAmount != null ->
+                filterTrans { amt -> amt >= filter.minAmount && amt <= filter.maxAmount }
+            filter.minAmount != null -> filterTrans { amt -> amt >= filter.minAmount }
+            filter.maxAmount != null -> filterTrans { amt -> amt <= filter.maxAmount }
+            else -> {
+                transList
+            }
+        }
+    }
+
+    private fun filterByWords(
+        filter: ReportFilter,
+        transactionsList: List<Transaction>
+    ): List<Transaction> {
+        fun List<Transaction>.filterTrans(
+            keyWords: List<String>,
+            include: Boolean = true
+        ): List<Transaction> {
+            if (keyWords.isEmpty())
+                return this
+
+            return this.filter {
+                val title = it.title ?: ""
+                val description = it.description ?: ""
+
+                keyWords.forEach { k ->
+                    val key = k.trim()
+                    if (title.contains(key, ignoreCase = true) ||
+                        description.contains(key, ignoreCase = true)
+                    )
+                        return@filter include
+                }
+
+                false
+            }
+        }
+
+        return transactionsList
+            .filterTrans(filter.includeKeywords)
+            .filterTrans(filter.excludeKeywords, include = false)
+    }
+
+    private suspend fun clearReportFilter() = updateState {
+        it.copy(filter = null)
+    }.lambda()
+
+    private fun ReportFilter.validateFilter(): Boolean {
+        if (trnTypes.isEmpty()) return false
+
+        if (period == null) return false
+
+        if (accounts.isEmpty()) return false
+
+        if (categories.isEmpty()) return false
+
+        if (minAmount != null && maxAmount != null) {
+            if (minAmount > maxAmount) return false
+            if (maxAmount < minAmount) return false
+        }
+
+        return true
+    }
+
+    private fun <T> List<T>.toNonEmptyList() = NonEmptyList.fromListUnsafe(this)
+
+    //------------------------------------------ Old Code ---------------------------------------------
 
     fun start() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -370,11 +709,7 @@ class ReportViewModel @Inject constructor(
     }
 
     private suspend fun payOrGet(transaction: TransactionOld) {
-        uiThread {
-            plannedPaymentsLogic.payOrGet(transaction = transaction) {
-                start()
-            }
-        }
+
     }
 
     private fun setFilterOverlayVisible(filterOverlayVisible: Boolean) {
@@ -397,19 +732,57 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: ReportScreenEvent) {
+    fun onEventHand(event: ReportScreenEvent) {
         viewModelScope.launch(Dispatchers.Default) {
             when (event) {
                 is ReportScreenEvent.OnFilter -> setFilter(event.filter)
                 is ReportScreenEvent.OnExport -> export(event.context)
-                is ReportScreenEvent.OnPayOrGet -> payOrGet(event.transaction)
                 is ReportScreenEvent.OnOverdueExpanded -> setOverdueExpanded(event.overdueExpanded)
                 is ReportScreenEvent.OnUpcomingExpanded -> setUpcomingExpanded(event.upcomingExpanded)
                 is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisible(event.filterOverlayVisible)
-                is ReportScreenEvent.OnTreatTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
+                is ReportScreenEvent.OnTransfersAsIncomeExpense -> onTreatTransfersAsIncomeExpense(
                     event.transfersAsIncomeExpense
+                )
+                else -> {}
+            }
+        }
+    }
+
+    private fun List<Transaction>.toOld(): List<TransactionOld> {
+        return this.map { newTrans ->
+
+            val toOldTrans = TransactionOld(
+                accountId = newTrans.account.id,
+                type = TrnType.INCOME,
+                amount = newTrans.value.amount.toBigDecimal(),
+                title = newTrans.title,
+                description = newTrans.description,
+                dateTime = (newTrans.time as TrnTime.Actual).actual,
+                categoryId = newTrans.category?.id,
+                dueDate = (newTrans.time as TrnTime.Due).due,
+                recurringRuleId = newTrans.metadata.recurringRuleId,
+                loanId = newTrans.metadata.loanId,
+                loanRecordId = newTrans.metadata.loanRecordId,
+                id = newTrans.id,
+            )
+
+            when (newTrans.type) {
+                TransactionType.Income -> toOldTrans.copy(type = TrnType.INCOME)
+                TransactionType.Expense -> toOldTrans.copy(type = TrnType.EXPENSE)
+                is TransactionType.Transfer -> toOldTrans.copy(
+                    type = TrnType.TRANSFER,
+                    toAmount = (newTrans.type as TransactionType.Transfer).toValue.amount.toBigDecimal(),
+                    toAccountId = (newTrans.type as TransactionType.Transfer).toAccount.id
                 )
             }
         }
+    }
+
+    private fun TimePeriod.toPeriodDate(startDateOfMonth: Int) : Period {
+        val range = toRange(startDateOfMonth)
+        val from = range.from().toLocalDate().atStartOfDay()
+        val to = range.to().toLocalDate().atEndOfDay()
+
+        return Period.FromTo(from = from, to = to)
     }
 }
