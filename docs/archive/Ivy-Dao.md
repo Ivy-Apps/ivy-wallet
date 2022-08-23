@@ -1,6 +1,6 @@
 # Ivy DAO
 
-## :warning: WARNING: This business model is deprecated! :warning:
+## :warning: WARNING: This business model is deprecated! See [new model](../Ivy-Apps-Business-Model.md) :warning:
 
 ## High-level picture
 ```mermaid

@@ -1,5 +1,7 @@
 # Business Model
 
+## :warning: WARNING: this model is deprecated. See [new model](../Ivy-Apps-Business-Model.md) :warning:
+
 [![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 [![Feedback is welcome!](https://img.shields.io/badge/feedback-welcome-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
 [![Proposals are highly appreciated!](https://img.shields.io/badge/proposals-highly%20appreciated-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
