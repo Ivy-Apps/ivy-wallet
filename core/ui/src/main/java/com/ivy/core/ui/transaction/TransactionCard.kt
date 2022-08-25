@@ -56,7 +56,7 @@ import com.ivy.screens.ItemStatistic
 
 //region Default actions
 @Composable
-private fun defaultOnClick(): (Transaction) -> Unit {
+fun defaultOnTrnClick(): (Transaction) -> Unit {
     val nav = navigation()
     return { trn ->
         nav.navigateTo(
@@ -69,7 +69,7 @@ private fun defaultOnClick(): (Transaction) -> Unit {
 }
 
 @Composable
-private fun defaultOnAccountClick(): (Account) -> Unit {
+fun defaultOnAccountClick(): (Account) -> Unit {
     val nav = navigation()
     return { acc ->
         nav.navigateTo(
@@ -81,7 +81,7 @@ private fun defaultOnAccountClick(): (Account) -> Unit {
 }
 
 @Composable
-private fun defaultOnCategoryClick(): (Category) -> Unit {
+fun defaultOnCategoryClick(): (Category) -> Unit {
     val nav = navigation()
     return { category ->
         nav.navigateTo(
@@ -105,7 +105,7 @@ data class DueActions(
 fun Transaction.Card(
     modifier: Modifier = Modifier,
 
-    onClick: (Transaction) -> Unit = defaultOnClick(),
+    onClick: (Transaction) -> Unit = defaultOnTrnClick(),
     onAccountClick: (Account) -> Unit = defaultOnAccountClick(),
     onCategoryClick: (Category) -> Unit = defaultOnCategoryClick(),
     dueActions: DueActions? = null,
