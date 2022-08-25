@@ -26,22 +26,23 @@ import com.ivy.resources.R
 private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
 
 /**
- * Displays a transactions list (Upcoming, Overdue & History) efficiently in a `LazyColumn`.
- * Optionally persists scroll progress.
+ * Displays a list of transactions _(Upcoming, Overdue & History)_ efficiently in a **LazyColumn**.
+ * Optionally, **persists scroll progress** so when the user navigates back to the screen
+ * the list state is the same as the user left it.
  *
- * @param modifier a Modifier for the LazyColumn
- * @param scrollStateKey a unique key by which the `LazyListState` is cached
+ * @param modifier a Modifier for the LazyColumn.
+ * @param scrollStateKey an **unique key** by which the `LazyListState` is cached
  * so scroll progress is persisted. Set to **null** if you don't want to
  * persist scroll state.
- * @param dueActions (optional) skip or pay/get planned payment callbacks,
- * if null "Skip" and "Pay"/"Get" buttons won't appear
- * @param contentAboveTrns (optional) LazyColumn items above the transactions list
- * @param contentBelowTrns (optional) LazyColum items below the transactions list
- * @param emptyState (optional) empty state title and message
- * @param upcomingHandler (optional) custom expand/collapse handling for the "Upcoming" section
- * @param overdueHandler (optional) custom expand/collapse handling for the "Overdue" section
- * @param trnItemClickHandler (optional) handling for
- * transaction click, category & account click in trn item
+ * @param dueActions _(optional)_ skip or pay/get planned payment callbacks,
+ * if null "Skip" and "Pay"/"Get" buttons won't be shown.
+ * @param contentAboveTrns _(optional)_ LazyColumn items above the transactions list.
+ * @param contentBelowTrns _(optional)_ LazyColum items below the transactions list.
+ * @param emptyState _(optional)_ empty state title and message.
+ * @param upcomingHandler _(optional)_ custom expand/collapse handling for the "Upcoming" section.
+ * @param overdueHandler _(optional)_ custom expand/collapse handling for the "Overdue" section.
+ * @param trnItemClickHandler _(optional)_ handling for
+ * transaction click, category & account click in trn item.
  */
 @Composable
 fun TransactionsList.TrnsLazyColumn(
