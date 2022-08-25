@@ -42,7 +42,7 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
  * @param upcomingHandler _(optional)_ custom expand/collapse handling for the "Upcoming" section.
  * @param overdueHandler _(optional)_ custom expand/collapse handling for the "Overdue" section.
  * @param trnItemClickHandler _(optional)_ handling for
- * transaction click, category & account click in trn item.
+ * transaction click, category click and account click events for a transaction item in the list.
  */
 @Composable
 fun TransactionsList.TrnsLazyColumn(
