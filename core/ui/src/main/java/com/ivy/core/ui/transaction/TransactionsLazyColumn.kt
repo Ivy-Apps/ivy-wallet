@@ -26,11 +26,13 @@ import com.ivy.resources.R
 private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
 
 /**
- * Displays a transactions list efficiently in a `LazyColumn`.
- * Caches scroll progress by given `stateKey`.
+ * Displays a transactions list (Upcoming, Overdue & History) efficiently in a `LazyColumn`.
+ * Optionally persists scroll progress.
  *
- * @param modifier the LazyColumn Modifier
- * @param stateKey the key by which the `LazyColumnState` is cached.
+ * @param modifier a Modifier for the LazyColumn
+ * @param scrollStateKey a unique key by which the `LazyListState` is cached
+ * so scroll progress is persisted. Set to **null** if you don't want to
+ * persist scroll state.
  * @param dueActions (optional) skip or pay/get planned payment callbacks,
  * if null "Skip" and "Pay"/"Get" buttons won't appear
  * @param contentAboveTrns (optional) LazyColumn items above the transactions list
@@ -44,10 +46,10 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
 @Composable
 fun TransactionsList.TrnsLazyColumn(
     modifier: Modifier = Modifier,
-    stateKey: String,
+    scrollStateKey: String?,
     dueActions: DueActions? = null,
-    contentAboveTrns: (LazyListScope.() -> Unit)? = null,
-    contentBelowTrns: (LazyListScope.() -> Unit)? = null,
+    contentAboveTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
+    contentBelowTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
     emptyState: EmptyState = defaultEmptyState(),
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
@@ -55,16 +57,16 @@ fun TransactionsList.TrnsLazyColumn(
 ) {
     val state = rememberLazyListState(
         initialFirstVisibleItemIndex =
-        lazyStateCache[stateKey]?.firstVisibleItemIndex ?: 0,
+        lazyStateCache[scrollStateKey]?.firstVisibleItemIndex ?: 0,
         initialFirstVisibleItemScrollOffset =
-        lazyStateCache[stateKey]?.firstVisibleItemScrollOffset ?: 0
+        lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
     )
 
     LazyColumn(
         modifier = modifier,
         state = state
     ) {
-        contentAboveTrns?.invoke(this)
+        contentAboveTrns?.invoke(this, state)
         transactionsList(
             trnsList = this@TrnsLazyColumn,
             emptyState = emptyState,
@@ -73,7 +75,7 @@ fun TransactionsList.TrnsLazyColumn(
             dueActions = dueActions,
             trnClickHandler = trnItemClickHandler,
         )
-        contentBelowTrns?.invoke(this)
+        contentBelowTrns?.invoke(this, state)
     }
 }
 
@@ -202,7 +204,7 @@ private fun Preview_Full() {
             )
         )
 
-        trnsList.TrnsLazyColumn(stateKey = "preview1")
+        trnsList.TrnsLazyColumn(scrollStateKey = "preview1")
     }
 }
 
@@ -216,7 +218,7 @@ private fun Preview_EmptyState() {
             history = emptyList()
         )
 
-        trnsList.TrnsLazyColumn(stateKey = "preview2")
+        trnsList.TrnsLazyColumn(scrollStateKey = "preview2")
     }
 }
 // endregion
