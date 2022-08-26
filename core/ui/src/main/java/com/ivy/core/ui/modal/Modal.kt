@@ -16,7 +16,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -26,9 +25,12 @@ import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.mediumBlur
-import com.ivy.design.utils.*
+import com.ivy.design.utils.consumeClicks
+import com.ivy.design.utils.isKeyboardOpen
+import com.ivy.design.utils.thenIf
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import kotlin.math.roundToInt
@@ -36,16 +38,21 @@ import kotlin.math.roundToInt
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
 const val DURATION_MODAL_ANIM = 200
 
+private val MODAL_ACTIONS_HEIGHT = 96.dp
+
 @Composable
 fun BoxScope.Modal(
     modalId: String,
     visible: Boolean,
-    dismiss: () -> Unit,
+
+    scrollable: ScrollState? = rememberScrollState(),
+    keyboardShiftsContent: Boolean = true,
+
     SecondaryActions: (@Composable () -> Unit)? = null,
     PrimaryAction: @Composable () -> Unit,
-    scrollState: ScrollState? = rememberScrollState(),
-    shiftIfKeyboardShown: Boolean = true,
-    includeActionsRowPadding: Boolean = true,
+
+    dismiss: () -> Unit,
+
     Content: @Composable ColumnScope.() -> Unit
 ) {
     val percentVisible by animateFloatAsState(
@@ -88,22 +95,16 @@ fun BoxScope.Modal(
     }
 
     if (visible || percentVisible > 0.01f) {
-        var actionsRowHeight by remember { mutableStateOf(0) }
-
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
-
                     val height = placeable.height
                     val y = height * (1 - percentVisible)
 
                     layout(placeable.width, height) {
-                        placeable.placeRelative(
-                            0,
-                            y.roundToInt()
-                        )
+                        placeable.placeRelative(x = 0, y = y.roundToInt())
                     }
                 }
                 .fillMaxWidth()
@@ -111,10 +112,11 @@ fun BoxScope.Modal(
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
                 .background(UI.colors.pure, UI.shapes.r2Top)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .thenIf(scrollState != null) {
-                    verticalScroll(scrollState!!)
+                .thenIf(scrollable != null) { // scroll only content scrolling is allowed
+                    verticalScroll(scrollable!!)
                 }
                 .zIndex(1000f)
+                .padding(bottom = MODAL_ACTIONS_HEIGHT)
         ) {
             ModalBackHandling(
                 modalId = modalId,
@@ -124,12 +126,7 @@ fun BoxScope.Modal(
 
             Content()
 
-            // Bottom padding
-            if (includeActionsRowPadding) {
-                Spacer(Modifier.height(densityScope { actionsRowHeight.toDp() }))
-            }
-
-            if (shiftIfKeyboardShown) {
+            if (keyboardShiftsContent) {
                 Spacer(Modifier.height(keyboardInsetAnimated))
             }
         }
@@ -138,17 +135,107 @@ fun BoxScope.Modal(
             visible = visible,
             modalPercentVisible = percentVisible,
             keyboardShownInsetDp = keyboardInsetAnimated,
-            onHeightChanged = {
-                actionsRowHeight = it
-            },
+
+            PrimaryAction = PrimaryAction,
+            SecondaryActions = SecondaryActions,
+
             onClose = {
                 hideKeyboard(rootView)
                 dismiss()
             },
-            SecondaryActions = SecondaryActions,
-            PrimaryAction = PrimaryAction
         )
     }
+}
+
+@Composable
+private fun ModalActionsRow(
+    visible: Boolean,
+    modalPercentVisible: Float,
+    keyboardShownInsetDp: Dp,
+
+    PrimaryAction: @Composable () -> Unit,
+    SecondaryActions: (@Composable () -> Unit)? = null,
+
+    onClose: () -> Unit,
+) {
+    val systemInsetBottom = systemInsetBottom()
+    val navBarPadding by remember(modalPercentVisible) {
+        derivedStateOf {
+            lerp(0.dp, systemInsetBottom, modalPercentVisible)
+        }
+    }
+
+    if (visible || modalPercentVisible > 0.01f) {
+        // used only to get the screen height
+        val ivyContext = ivyContext()
+
+        ActionsRow(
+            modifier = Modifier
+                .height(MODAL_ACTIONS_HEIGHT)
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(constraints)
+
+                    val systemOffsetBottom = keyboardShownInsetDp.toPx() + navBarPadding.toPx()
+                    val visibleHeight = placeable.height * modalPercentVisible
+                    val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
+
+                    layout(placeable.width, placeable.height) {
+                        placeable.place(x = 0, y = y.roundToInt())
+                    }
+                }
+                .padding(top = 8.dp, bottom = 12.dp)
+                .padding(horizontal = 24.dp)
+                .zIndex(1100f)
+        ) {
+            CloseButton(
+                modifier = Modifier.testTag("modal_close_button"),
+                onClick = onClose
+            )
+            SecondaryActions?.invoke()
+            Spacer(Modifier.weight(1f))
+            PrimaryAction()
+        }
+    }
+}
+
+@Composable
+private fun ActionsRow(
+    modifier: Modifier = Modifier,
+    lineColor: Color = UI.colors.medium,
+    Content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .drawBehind {
+                val height = this.size.height
+                val width = this.size.width
+
+                drawLine(
+                    color = lineColor,
+                    strokeWidth = 2.dp.toPx(),
+                    start = Offset(
+                        x = 0f,
+                        y = height / 2
+                    ),
+                    end = Offset(
+                        x = width,
+                        y = height / 2
+                    )
+                )
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Content()
+    }
+}
+
+@Composable
+fun CloseButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    // TODO: Implement
 }
 
 @Composable
@@ -241,107 +328,6 @@ private fun removeLastBackHandlerSafe(nav: Navigation) {
     if (nav.modalBackHandling.isNotEmpty()) {
         nav.modalBackHandling.pop()
     }
-}
-
-@Composable
-fun ModalActionsRow(
-    visible: Boolean,
-    modalPercentVisible: Float,
-    keyboardShownInsetDp: Dp,
-
-    onHeightChanged: (Int) -> Unit,
-
-    onClose: () -> Unit,
-    SecondaryActions: (@Composable () -> Unit)? = null,
-    PrimaryAction: @Composable () -> Unit
-) {
-    val systemInsetBottom = systemInsetBottom()
-    val navBarPadding by remember(modalPercentVisible) {
-        derivedStateOf {
-            lerp(0.dp, systemInsetBottom, modalPercentVisible)
-        }
-    }
-
-    if (visible || modalPercentVisible > 0.01f) {
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
-        ActionsRow(
-            modifier = Modifier
-                .onSizeChanged {
-                    onHeightChanged(it.height)
-                }
-                .layout { measurable, constraints ->
-                    val placeable = measurable.measure(constraints)
-
-                    val systemOffsetBottom = keyboardShownInsetDp.toPx() + navBarPadding.toPx()
-                    val visibleHeight = placeable.height * modalPercentVisible
-                    val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
-
-                    layout(placeable.width, placeable.height) {
-                        placeable.place(
-                            0,
-                            y.roundToInt()
-                        )
-                    }
-                }
-                .padding(top = 8.dp, bottom = 12.dp)
-                .zIndex(1100f)
-        ) {
-            Spacer(Modifier.width(24.dp))
-
-            CloseButton(
-                modifier = Modifier.testTag("modal_close_button"),
-                onClick = onClose
-            )
-
-            SecondaryActions?.invoke()
-
-            Spacer(Modifier.weight(1f))
-
-            PrimaryAction()
-
-            Spacer(Modifier.width(24.dp))
-        }
-    }
-}
-
-@Composable
-fun ActionsRow(
-    modifier: Modifier = Modifier,
-    lineColor: Color = UI.colors.medium,
-    Content: @Composable RowScope.() -> Unit
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .drawBehind {
-                val height = this.size.height
-                val width = this.size.width
-
-                drawLine(
-                    color = lineColor,
-                    strokeWidth = 2.dp.toPx(),
-                    start = Offset(
-                        x = 0f,
-                        y = height / 2
-                    ),
-                    end = Offset(
-                        x = width,
-                        y = height / 2
-                    )
-                )
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Content()
-    }
-}
-
-@Composable
-fun CloseButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    // TODO: Implement
 }
 
 private fun hideKeyboard(view: View) {
