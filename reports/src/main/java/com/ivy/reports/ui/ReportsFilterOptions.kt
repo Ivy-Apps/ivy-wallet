@@ -1,5 +1,6 @@
 package com.ivy.reports.ui
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.spring
@@ -21,8 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import arrow.core.Option
-import arrow.core.toOption
 import com.ivy.base.R
 import com.ivy.core.functions.icon.dummyIconSized
 import com.ivy.core.ui.color.contrast
@@ -602,6 +601,7 @@ private fun SelectionBadges(
     selectedColor: Color?,
     onClick: (selected: Boolean) -> Unit
 ) {
+    Log.d("GGGG","Accounts\t"+text)
     val contrastColor = selectedColor?.contrast() ?: UI.colors.pureInverse
 
     Row(
@@ -661,10 +661,15 @@ private fun CategoriesFilter(
 
     Spacer(Modifier.height(16.dp))
 
-    LazyRow(modifier = Modifier.padding(horizontal = 24.dp)) {
-        items(items = allCategories, key = {
-            it.id.toString()
-        }) { category ->
+    LazyRow(
+        modifier = Modifier.padding(start = 24.dp)
+    ) {
+        items(
+            items = allCategories,
+            key = {
+                it.id.toString()
+            }
+        ) { category ->
             SelectionBadges(
                 icon = category.icon,
                 text = category.name,

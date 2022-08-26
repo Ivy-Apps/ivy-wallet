@@ -3,7 +3,6 @@ package com.ivy.reports
 import androidx.compose.runtime.Stable
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
-import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionsList
 import java.util.*
@@ -22,9 +21,6 @@ data class ReportScreenState(
     val accounts: List<Account> = emptyList(),
     val categories: List<Category> = emptyList(),
 
-    val upcomingPayments: PlannedPaymentsStats = PlannedPaymentsStats.empty(),
-    val overduePayments: PlannedPaymentsStats = PlannedPaymentsStats.empty(),
-
     val showTransfersAsIncExpCheckbox: Boolean = false,
     val treatTransfersAsIncExp: Boolean = false,
 
@@ -38,13 +34,3 @@ data class ReportScreenState(
     val accountIdFilters: List<UUID> = emptyList(),
     val transactionsOld: List<TransactionOld> = emptyList(),
 )
-
-data class PlannedPaymentsStats(
-    val income: Double,
-    val expenses: Double,
-    val transactions: List<Transaction>
-) {
-    companion object {
-        fun empty() = PlannedPaymentsStats(0.0, 0.0, emptyList())
-    }
-}

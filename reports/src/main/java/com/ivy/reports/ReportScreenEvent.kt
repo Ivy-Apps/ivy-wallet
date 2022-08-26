@@ -11,6 +11,6 @@ sealed class ReportScreenEvent {
     data class OnTransfersAsIncomeExpense(val transfersAsIncomeExpense: Boolean) :
         ReportScreenEvent()
 
-    data class OnExportNew(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
+    data class OnExport(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
         ReportScreenEvent()
 }

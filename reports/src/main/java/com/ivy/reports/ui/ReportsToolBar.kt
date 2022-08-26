@@ -67,7 +67,7 @@ fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
 
             ivyContext.createNewFile(fileName) { fileUri ->
                 onEventHandler(
-                    ReportScreenEvent.OnExportNew(
+                    ReportScreenEvent.OnExport(
                         context = context,
                         fileUri = fileUri,
                         onFinish = {
