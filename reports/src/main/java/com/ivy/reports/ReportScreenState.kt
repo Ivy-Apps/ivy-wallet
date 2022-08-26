@@ -1,6 +1,7 @@
 package com.ivy.reports
 
 import androidx.compose.runtime.Stable
+import com.ivy.data.CurrencyCode
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TransactionOld
@@ -9,7 +10,7 @@ import java.util.*
 
 @Stable
 data class ReportScreenState(
-    val baseCurrency: String = "",
+    val baseCurrency: CurrencyCode = "",
     val balance: Double = 0.0,
 
     val income: Double = 0.0,
@@ -28,7 +29,7 @@ data class ReportScreenState(
     val transactionsWithDateDividers: TransactionsList = emptyTransactionList(),
 
     val loading: Boolean = false,
-    val filterOverlayVisible: Boolean = false,
+    val filterOptionsVisibility: Boolean = false,
 
     // TODO(Reports): Need to remove the variables below, Kept for Reports->PieChart Screen Compatibility
     val accountIdFilters: List<UUID> = emptyList(),

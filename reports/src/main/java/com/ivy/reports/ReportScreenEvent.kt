@@ -4,13 +4,15 @@ import android.content.Context
 import android.net.Uri
 
 sealed class ReportScreenEvent {
+
     object Start : ReportScreenEvent()
 
-    data class OnFilterOverlayVisible(val filterOverlayVisible: Boolean) : ReportScreenEvent()
-    data class OnFilter(val filter: ReportFilter?) : ReportScreenEvent()
-    data class OnTransfersAsIncomeExpense(val transfersAsIncomeExpense: Boolean) :
+    data class Filter(val filter: ReportFilter?) : ReportScreenEvent()
+    data class FilterOptions(val visible: Boolean) : ReportScreenEvent()
+
+    data class TransfersAsIncomeExpense(val transfersAsIncomeExpense: Boolean) :
         ReportScreenEvent()
 
-    data class OnExport(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
+    data class Export(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
         ReportScreenEvent()
 }

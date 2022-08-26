@@ -24,7 +24,7 @@ class CalculateWithTransfersAct @Inject constructor(
     data class Input(
         val trns: List<Transaction>,
         val outputCurrency: CurrencyCode,
-        val selectedAccounts: List<Account>
+        val accounts: List<Account>
     )
 
     override suspend fun Input.compose(): suspend () -> ExtendedStats = {
@@ -40,7 +40,7 @@ class CalculateWithTransfersAct @Inject constructor(
                 ::transfersInAmount,
                 ::transfersOutAmount
             ),
-            arg = Pair(outputCurrency, selectedAccounts.toHashSet())
+            arg = Pair(outputCurrency, accounts.toHashSet())
         )
 
         val income = res[0]

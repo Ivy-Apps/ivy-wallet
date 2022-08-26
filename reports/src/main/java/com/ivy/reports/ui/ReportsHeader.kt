@@ -19,7 +19,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.reports.ReportScreenEvent
-import com.ivy.reports.ReportScreenEvent.OnTransfersAsIncomeExpense
+import com.ivy.reports.ReportScreenEvent.TransfersAsIncomeExpense
 import com.ivy.reports.ReportScreenState
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
@@ -41,7 +41,7 @@ fun ReportsHeader(state: ReportScreenState, onEventHandler: (ReportScreenEvent) 
 
     if (state.showTransfersAsIncExpCheckbox) {
         ReportsTransfersAsIncomeOption(checked = state.treatTransfersAsIncExp) {
-            onEventHandler(OnTransfersAsIncomeExpense(transfersAsIncomeExpense = it))
+            onEventHandler(TransfersAsIncomeExpense(transfersAsIncomeExpense = it))
         }
     } else
         Spacer(Modifier.height(32.dp))

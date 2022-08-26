@@ -28,6 +28,8 @@ import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.reports.ReportScreenEvent.Filter
+import com.ivy.reports.ReportScreenEvent.FilterOptions
 import com.ivy.reports.ui.ReportsFilterOptions
 import com.ivy.reports.ui.ReportsHeader
 import com.ivy.reports.ui.ReportsLoadingScreen
@@ -48,7 +50,7 @@ fun BoxWithConstraintsScope.ReportScreen(
 
     UI(
         state = state,
-        onEventHandler = viewModel::onEvent
+        onEvent = viewModel::onEvent
     )
 }
 
@@ -56,7 +58,7 @@ fun BoxWithConstraintsScope.ReportScreen(
 @Composable
 private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
-    onEventHandler: (ReportScreenEvent) -> Unit = {}
+    onEvent: (ReportScreenEvent) -> Unit = {}
 ) {
     ReportsLoadingScreen(visible = state.loading, text = stringResource(R.string.generating_report))
 
@@ -69,30 +71,26 @@ private fun BoxWithConstraintsScope.UI(
             emptyState = reportsEmptyState(),
             contentAboveTrns = {
                 stickyHeader {
-                    ReportsToolBar(onEventHandler = onEventHandler)
+                    ReportsToolBar(onEventHandler = onEvent)
                 }
 
                 item {
-                    ReportsHeader(state = state, onEventHandler = onEventHandler)
+                    ReportsHeader(state = state, onEventHandler = onEvent)
                 }
             }
         )
 
     ReportsFilterOptions(
         baseCurrency = state.baseCurrency,
-        visible = state.filterOverlayVisible,
+        visible = state.filterOptionsVisibility,
         filter = state.filter,
         accounts = state.accounts,
         categories = state.categories,
         onClose = {
-            onEventHandler.invoke(
-                ReportScreenEvent.OnFilterOverlayVisible(
-                    filterOverlayVisible = false
-                )
-            )
+            onEvent(FilterOptions(visible = false))
         },
         onSetFilter = {
-            onEventHandler(ReportScreenEvent.OnFilter(filter = it))
+            onEvent(Filter(filter = it))
         }
     )
 }
@@ -287,59 +285,3 @@ private fun Preview() {
 //        UI(state = state)
 //    }
 //}
-
-//        if (state.filter != null) {
-//            transactions(
-//                baseData = AppBaseData(
-//                    baseCurrency = state.baseCurrency,
-//                    categories = state.categories,
-//                    accounts = state.accounts,
-//                ),
-//
-//                upcoming = DueSection(
-//                    trns = state.upcomingTransactions,
-//                    stats = IncomeExpensePair(
-//                        income = state.upcomingIncome.toBigDecimal(),
-//                        expense = state.upcomingExpenses.toBigDecimal()
-//                    ),
-//                    expanded = state.upcomingExpanded
-//                ),
-//
-//                setUpcomingExpanded = {
-//                    onEventHandler.invoke(ReportScreenEvent.OnUpcomingExpanded(upcomingExpanded = it))
-//                },
-//
-//                overdue = DueSection(
-//                    trns = state.overdueTransactions,
-//                    stats = IncomeExpensePair(
-//                        income = state.overdueIncome.toBigDecimal(),
-//                        expense = state.overdueExpenses.toBigDecimal()
-//                    ),
-//                    expanded = state.overdueExpanded
-//                ),
-//                setOverdueExpanded = {
-//                    onEventHandler.invoke(ReportScreenEvent.OnOverdueExpanded(overdueExpanded = it))
-//                },
-//
-//                history = state.history,
-//                lastItemSpacer = 48.dp,
-//
-//                onPayOrGet = {
-//
-//                },
-//                emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
-//                emptyStateText = com.ivy.core.ui.temp.stringRes(R.string.no_transactions_for_your_filter)
-//            )
-//        } else {
-//            item {
-//                NoFilterEmptyState(
-//                    setFilterOverlayVisible = {
-//                        onEventHandler.invoke(
-//                            ReportScreenEvent.OnFilterOverlayVisible(
-//                                filterOverlayVisible = it
-//                            )
-//                        )
-//                    }
-//                )
-//            }
-//        }

@@ -17,11 +17,8 @@ import com.ivy.core.action.currency.exchange.ExchangeAct
 import com.ivy.core.action.transaction.TrnsAct
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.icon.dummyIconSized
-import com.ivy.core.functions.transaction.TrnWhere
+import com.ivy.core.functions.transaction.*
 import com.ivy.core.functions.transaction.TrnWhere.*
-import com.ivy.core.functions.transaction.and
-import com.ivy.core.functions.transaction.brackets
-import com.ivy.core.functions.transaction.or
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Period
@@ -48,11 +45,11 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
-    private val queryTransactionsAct: TrnsAct,
+    private val queryTrnsAct: TrnsAct,
     private val calculateAct: CalculateWithTransfersAct,
     private val exchangeAct: ExchangeAct,
     private val baseCurrencyAct: BaseCurrencyAct,
-    private val groupTransactionsAct: GroupTrnsAct,
+    private val groupTrnsAct: GroupTrnsAct,
     private val exportCSVLogic: ExportCSVLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
 ) : FRPViewModel<ReportScreenState, ReportScreenEvent>() {
@@ -60,13 +57,17 @@ class ReportViewModel @Inject constructor(
         ReportScreenState()
     )
 
-    private val _baseCurrency = MutableStateFlow("")
-    private val _filter = MutableStateFlow<ReportFilter?>(null)
-    private val allAcc = MutableStateFlow<List<Account>>(emptyList())
-    private val allCategories = MutableStateFlow<List<Category>>(emptyList())
-    private val transStatsGlobal = MutableStateFlow(ExtendedStats.empty())
-    private val allTransactions = MutableStateFlow<List<Transaction>>(emptyList())
-    private val categoryNone = dummyCategory(
+    // "_" (Underscore Prefix) for all global variables
+    private var _baseCurrency: CurrencyCode = ""
+    private var _filter: ReportFilter? = null
+
+    private var _allAccounts: List<Account> = emptyList()
+    private var _allCategories: List<Category> = emptyList()
+
+    private var _trnsStats: ExtendedStats = ExtendedStats.empty()
+    private var _allTrns: List<Transaction> = emptyList()
+
+    private val _categoryNone = dummyCategory(
         name = "None",
         color = Gray.toArgb(),
         icon = dummyIconSized(R.drawable.ic_custom_category_s)
@@ -76,35 +77,35 @@ class ReportViewModel @Inject constructor(
         withContext(Dispatchers.Default) {
             when (event) {
                 is ReportScreenEvent.Start -> initialiseData()
-                is ReportScreenEvent.OnFilterOverlayVisible -> setFilterOverlayVisible(event.filterOverlayVisible)
-                is ReportScreenEvent.OnFilter -> onFilter(event.filter)
-                is ReportScreenEvent.OnTransfersAsIncomeExpense -> transfersAsIncomeExpense(event.transfersAsIncomeExpense)
-                is ReportScreenEvent.OnExport -> {
+                is ReportScreenEvent.FilterOptions -> setFilterOptionsVisibility(event.visible)
+                is ReportScreenEvent.Filter -> setFilter(event.filter)
+                is ReportScreenEvent.TransfersAsIncomeExpense -> transfersAsIncomeExpense(event.transfersAsIncomeExpense)
+                is ReportScreenEvent.Export -> {
                     export(event.context, event.fileUri, event.onFinish)
                     stateVal().lambda()
                 }
             }
         }
 
-    private suspend fun initialiseData() = suspend {
-        _baseCurrency.value = baseCurrencyAct(Unit)
-        allAcc.value = accountsAct(Unit)
-        allCategories.value = listOf(categoryNone) + categoriesAct(Unit)
-    } then {
+    private fun initialiseData() = suspend {
+        _baseCurrency = baseCurrencyAct(Unit)
+        _allAccounts = accountsAct(Unit)
+        _allCategories = listOf(_categoryNone) + categoriesAct(Unit)
+
         updateState {
             it.copy(
-                baseCurrency = _baseCurrency.value,
-                accounts = allAcc.value,
-                categories = allCategories.value
+                baseCurrency = _baseCurrency,
+                accounts = _allAccounts,
+                categories = _allCategories
             )
         }
     }
 
-    private suspend fun setFilterOverlayVisible(visible: Boolean) = updateState {
-        it.copy(filterOverlayVisible = visible)
+    private suspend fun setFilterOptionsVisibility(visible: Boolean) = updateState {
+        it.copy(filterOptionsVisibility = visible)
     }.lambda()
 
-    private suspend fun onFilter(filter: ReportFilter?): suspend () -> ReportScreenState {
+    private suspend fun setFilter(filter: ReportFilter?): suspend () -> ReportScreenState {
         return scopedIOThread { scope ->
             //clear filter
             filter ?: return@scopedIOThread clearReportFilter()
@@ -113,18 +114,15 @@ class ReportViewModel @Inject constructor(
             if (!filter.validateFilter()) return@scopedIOThread stateVal().lambda()
 
             updateState {
-                it.copy(loading = true, filter = filter)
+                it.copy(loading = true)
             }
 
             val (transactionStats, transactions) =
-                filterTransactions(baseCurrency = _baseCurrency.value, filter = filter)
+                filterTransactions(baseCurrency = _baseCurrency, filter = filter)
 
-            //Update Global Data
-            transStatsGlobal.value = transactionStats
-            allTransactions.value = transactions
-            _filter.value = filter
+            updateGlobalData(transactionStats, transactions, filter)
 
-            val transactionsWithDateDividers = groupTransactionsAct(transactions)
+            val trnsList = groupTrnsAct(transactions)
 
             updateState {
                 it.copy(
@@ -132,57 +130,65 @@ class ReportViewModel @Inject constructor(
                     income = transactionStats.income,
                     expenses = transactionStats.expense,
 
-                    incomeTransactionsCount = transactionStats.incomesCount +
-                            if (it.treatTransfersAsIncExp) transactionStats.transfersInCount else 0,
-
-                    expenseTransactionsCount = transactionStats.expensesCount +
-                            if (it.treatTransfersAsIncExp) transactionStats.transfersOutCount else 0,
+                    incomeTransactionsCount = transactionStats.incomesCount,
+                    expenseTransactionsCount = transactionStats.expensesCount,
 
                     filter = filter,
-                    baseCurrency = _baseCurrency.value,
-                    accounts = allAcc.value,
-                    categories = allCategories.value,
+                    baseCurrency = _baseCurrency,
+                    accounts = _allAccounts,
+                    categories = _allCategories,
 
-                    transactionsWithDateDividers = transactionsWithDateDividers,
+                    transactionsWithDateDividers = trnsList,
 
                     loading = false,
-                    filterOverlayVisible = false,
+                    filterOptionsVisibility = false,
+                    treatTransfersAsIncExp = false,
                     showTransfersAsIncExpCheckbox = showTransfersAsIncExpOption(),
 
-                    transactionsOld = allTransactions.value.toOld(),
+                    transactionsOld = _allTrns.toOld(),
                     accountIdFilters = filter.accounts.map { a -> a.id }
                 )
             }.lambda()
         }
     }
 
+    private fun updateGlobalData(
+        transactionStats: ExtendedStats,
+        transactions: List<Transaction>,
+        filter: ReportFilter
+    ) {
+        _trnsStats = transactionStats
+        _allTrns = transactions
+        _filter = filter
+    }
+
+    /** Show Transfers As Income/Expense option if and only if
+     *  a) User has selected Transaction.Type == TransactionType.Transfer and
+     *  b) There are actual transfer transactions in the queried transactions
+     */
     private fun showTransfersAsIncExpOption(): Boolean {
-        if (_filter.value == null)
+        if (_filter == null)
             return false
 
-        /** Show Transfers As Income Expense value if and only if
-         *  a) User has selected Transaction.Type == TransactionType.Transfer and
-         *  b) There are actual transfer transactions in the queried range
-         */
-        return _filter.value!!.trnTypes.contains(TrnType.TRANSFER) &&
-                (transStatsGlobal.value.transfersInAmount != 0.0 ||
-                        transStatsGlobal.value.transfersOutAmount != 0.0)
+        return _filter!!.trnTypes.contains(TrnType.TRANSFER) &&
+                (_trnsStats.transfersInAmount != 0.0 ||
+                        _trnsStats.transfersOutAmount != 0.0)
     }
 
     private suspend fun transfersAsIncomeExpense(transfersAsIncomeExpense: Boolean): suspend () -> ReportScreenState {
-        val income = with(transStatsGlobal.value) {
+        val income = with(_trnsStats) {
             income + if (transfersAsIncomeExpense) transfersInAmount else 0.0
         }
 
-        val expense = with(transStatsGlobal.value) {
+        val expense = with(_trnsStats) {
             expense + if (transfersAsIncomeExpense) transfersOutAmount else 0.0
         }
 
-        val incomeCount = with(transStatsGlobal.value) {
+        val incomeCount = with(_trnsStats) {
             incomesCount + if (transfersAsIncomeExpense) transfersInCount else 0
         }
 
-        val expenseCount = with(transStatsGlobal.value) {
+        val expenseCount = with(_trnsStats) {
             expensesCount + if (transfersAsIncomeExpense) transfersOutCount else 0
         }
 
@@ -197,8 +203,8 @@ class ReportViewModel @Inject constructor(
         }.lambda()
     }
 
-    private suspend fun export(context: Context, fileUri: Uri, onShareUI: (Uri) -> Unit) {
-        val filter = stateVal().filter
+    private suspend fun export(context: Context, fileUri: Uri, onFinish: (Uri) -> Unit) {
+        val filter = _filter
 
         filter ?: return
         if (!filter.validateFilter()) return
@@ -211,12 +217,12 @@ class ReportViewModel @Inject constructor(
             context = context,
             fileUri = fileUri,
             exportScope = {
-                allTransactions.value.toOld()
+                _allTrns.toOld()
             }
         )
 
         uiThread {
-            onShareUI(fileUri)
+            onFinish(fileUri)
         }
 
         updateState {
@@ -225,47 +231,60 @@ class ReportViewModel @Inject constructor(
     }
 
     private suspend fun filterTransactions(
-        baseCurrency: String,
+        baseCurrency: CurrencyCode,
         filter: ReportFilter
     ) = {
         ByTypeIn(filter.trnTypes.toNonEmptyList()) and
-                ByAllDate(filter.period) and
-                filterByAccountIn(filter.accounts) and
+                ByDate(filter.period) and
+                ByAccount(filter.accounts) and
                 ByCategoryIn(filter.categories.noneCategoryFix().toNonEmptyList())
-    } then queryTransactionsAct then {
-        filterByAmount(baseCurrency = baseCurrency, filter = filter, transList = it)
-    } then {
-        filterByWords(filter, it)
-    } then { allTrans ->
-        val nonPlannedPaymentsTransactions = allTrans.filter { it.time is TrnTime.Actual }
-        val input = CalculateWithTransfersAct.Input(
-            trns = nonPlannedPaymentsTransactions,
-            outputCurrency = baseCurrency,
-            selectedAccounts = filter.accounts
+    } then queryTrnsAct then {
+        filterByAmount(
+            baseCurrency = baseCurrency,
+            minAmt = filter.minAmount,
+            maxAmt = filter.maxAmount,
+            transList = it
         )
-        Pair(input, allTrans)
-    } thenInvokeAfter {
-        val (input, allTrans) = it
-        val stats = calculateAct(input)
+    } then {
+        filterByWords(
+            includeKeywords = filter.includeKeywords,
+            excludeKeywords = filter.excludeKeywords,
+            transactionsList = it
+        )
+    } thenInvokeAfter { allTrans ->
+        /**
+         * [actualTrns] variable represents transactions without PlannedPayment Transactions
+         */
+        val actualTrns = allTrans.filter(::actual)
+
+        val stats = calculateAct(
+            CalculateWithTransfersAct.Input(
+                trns = actualTrns,
+                outputCurrency = baseCurrency,
+                accounts = filter.accounts
+            )
+        )
 
         Pair(stats, allTrans)
     }
 
     @Suppress("FunctionName")
-    private fun ByAllDate(timePeriod: TimePeriod?): TrnWhere {
+    private fun ByDate(timePeriod: TimePeriod?): TrnWhere {
         val datePeriod = timePeriod!!.toPeriodDate(1)
 
         return brackets(ActualBetween(datePeriod) or DueBetween(datePeriod))
     }
 
-    private fun filterByAccountIn(accounts: List<Account>): TrnWhere {
+    @Suppress("FunctionName")
+    private fun ByAccount(accounts: List<Account>): TrnWhere {
         val nonEmptyList = accounts.toNonEmptyList()
         return brackets(ByAccountIn(nonEmptyList) or ByToAccountIn(nonEmptyList))
     }
 
     private suspend fun filterByAmount(
-        baseCurrency: String,
-        filter: ReportFilter,
+        baseCurrency: CurrencyCode,
+        minAmt: Double?,
+        maxAmt: Double?,
         transList: List<Transaction>
     ): List<Transaction> {
         suspend fun amountInBaseCurrency(
@@ -286,28 +305,28 @@ class ReportViewModel @Inject constructor(
 
         suspend fun filterTrans(
             transactionList: List<Transaction> = transList,
-            transFilter: (tAmount: Double) -> Boolean
+            filterAmount: (Double) -> Boolean
         ): List<Transaction> {
             return transactionList.filter {
-                val tAmount =
+                val amt =
                     amountInBaseCurrency(amount = it.value.amount, toCurr = it.account.currency)
 
-                val transactionTransferValue = (it.type as? TransactionType.Transfer)?.toValue
+                val transferTrnsValue = (it.type as? TransactionType.Transfer)?.toValue
 
-                val toAmountInBaseCurrency = amountInBaseCurrency(
-                    transactionTransferValue?.amount,
-                    toCurr = transactionTransferValue?.currency
+                val toAmt = amountInBaseCurrency(
+                    transferTrnsValue?.amount,
+                    toCurr = transferTrnsValue?.currency
                 )
 
-                transFilter(tAmount) || transFilter(toAmountInBaseCurrency)
+                filterAmount(amt) || filterAmount(toAmt)
             }
         }
 
         return when {
-            filter.minAmount != null && filter.maxAmount != null ->
-                filterTrans { amt -> amt >= filter.minAmount && amt <= filter.maxAmount }
-            filter.minAmount != null -> filterTrans { amt -> amt >= filter.minAmount }
-            filter.maxAmount != null -> filterTrans { amt -> amt <= filter.maxAmount }
+            minAmt != null && maxAmt != null ->
+                filterTrans { amt -> amt >= minAmt && amt <= maxAmt }
+            minAmt != null -> filterTrans { amt -> amt >= minAmt }
+            maxAmt != null -> filterTrans { amt -> amt <= maxAmt }
             else -> {
                 transList
             }
@@ -315,7 +334,8 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun filterByWords(
-        filter: ReportFilter,
+        includeKeywords: List<String>,
+        excludeKeywords: List<String>,
         transactionsList: List<Transaction>
     ): List<Transaction> {
         fun List<Transaction>.filterTrans(
@@ -337,39 +357,40 @@ class ReportViewModel @Inject constructor(
                         return@filter include
                 }
 
-                false
+                !include
             }
         }
 
         return transactionsList
-            .filterTrans(filter.includeKeywords)
-            .filterTrans(filter.excludeKeywords, include = false)
+            .filterTrans(includeKeywords)
+            .filterTrans(excludeKeywords, include = false)
     }
 
     private fun clearReportFilter() = suspend {
         ReportScreenState(
-            baseCurrency = _baseCurrency.value,
-            accounts = allAcc.value,
-            categories = allCategories.value,
+            baseCurrency = _baseCurrency,
+            accounts = _allAccounts,
+            categories = _allCategories,
             transactionsWithDateDividers = emptyTransactionList()
         )
     }
 
-    private fun ReportFilter.validateFilter(): Boolean {
-        if (trnTypes.isEmpty()) return false
+    private fun ReportFilter.validateFilter() = when {
+        trnTypes.isEmpty() -> false
 
-        if (period == null) return false
+        period == null -> false
 
-        if (accounts.isEmpty()) return false
+        accounts.isEmpty() -> false
 
-        if (categories.isEmpty()) return false
+        categories.isEmpty() -> false
 
-        if (minAmount != null && maxAmount != null) {
-            if (minAmount > maxAmount) return false
-            if (maxAmount < minAmount) return false
+        minAmount != null && maxAmount != null -> when {
+            minAmount > maxAmount -> false
+            maxAmount < minAmount -> false
+            else -> true
         }
 
-        return true
+        else -> true
     }
 
     //-------------------------------------- Utility Functions -----------------------------------------
@@ -414,5 +435,5 @@ class ReportViewModel @Inject constructor(
         return Period.FromTo(from = from, to = to)
     }
 
-    private fun List<Category>.noneCategoryFix() = this.replace(categoryNone, null)
+    private fun List<Category>.noneCategoryFix() = this.replace(_categoryNone, null)
 }

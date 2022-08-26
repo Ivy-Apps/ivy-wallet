@@ -67,7 +67,7 @@ fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
 
             ivyContext.createNewFile(fileName) { fileUri ->
                 onEventHandler(
-                    ReportScreenEvent.OnExport(
+                    ReportScreenEvent.Export(
                         context = context,
                         fileUri = fileUri,
                         onFinish = {
@@ -79,8 +79,8 @@ fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
         },
         onFilter = {
             onEventHandler.invoke(
-                ReportScreenEvent.OnFilterOverlayVisible(
-                    filterOverlayVisible = true
+                ReportScreenEvent.FilterOptions(
+                    visible = true
                 )
             )
         },
