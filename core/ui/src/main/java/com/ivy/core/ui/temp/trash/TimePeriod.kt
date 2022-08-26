@@ -168,5 +168,4 @@ data class TimePeriod(
             month.name
         }
     }
-
 }

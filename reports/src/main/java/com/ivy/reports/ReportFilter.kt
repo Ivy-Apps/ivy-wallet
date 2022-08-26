@@ -1,8 +1,8 @@
 package com.ivy.reports
 
 import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.AccountOld
-import com.ivy.data.CategoryOld
+import com.ivy.data.account.Account
+import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
 import java.util.*
 
@@ -10,8 +10,8 @@ data class ReportFilter(
     val id: UUID = UUID.randomUUID(),
     val trnTypes: List<TrnType>,
     val period: TimePeriod?,
-    val accounts: List<AccountOld>,
-    val categories: List<CategoryOld>,
+    val accounts: List<Account> = emptyList(),
+    val categories: List<Category> = emptyList(),
     val currency: String,
     val minAmount: Double?,
     val maxAmount: Double?,

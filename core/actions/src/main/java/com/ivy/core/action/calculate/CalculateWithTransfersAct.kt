@@ -1,3 +1,5 @@
+@file:Suppress("RedundantSuspendModifier")
+
 package com.ivy.core.action.calculate
 
 import arrow.core.nonEmptyListOf
@@ -22,11 +24,10 @@ class CalculateWithTransfersAct @Inject constructor(
     data class Input(
         val trns: List<Transaction>,
         val outputCurrency: CurrencyCode,
-        val transfersAsIncomeExpense: Boolean = false
+        val selectedAccounts: List<Account>
     )
 
     override suspend fun Input.compose(): suspend () -> ExtendedStats = {
-        val availableAccounts = trns.map { it.account }.toHashSet()
         val res = foldTransactions(
             transactions = trns,
             valueFunctions = nonEmptyListOf(
@@ -34,24 +35,27 @@ class CalculateWithTransfersAct @Inject constructor(
                 ::expense,
                 ::incomeCount,
                 ::expenseCount,
-                ::transfersCount,
+                ::transfersInCount,
+                ::transfersOutCount,
                 ::transfersInAmount,
                 ::transfersOutAmount
             ),
-            arg = Pair(outputCurrency, availableAccounts)
+            arg = Pair(outputCurrency, selectedAccounts.toHashSet())
         )
 
         val income = res[0]
         val expense = res[1]
-        val tIn = res[5]
-        val tOut = res[6]
+        val tIn = res[6]
+        val tOut = res[7]
 
         ExtendedStats(
             balance = income - expense + tIn - tOut,
-            income = income + if (transfersAsIncomeExpense) tIn else 0.0,
-            expense = expense + if (transfersAsIncomeExpense) tOut else 0.0,
-            incomesCount = res[2].toInt() + if (transfersAsIncomeExpense) res[4].toInt() else 0,
-            expensesCount = res[3].toInt() + if (transfersAsIncomeExpense) res[4].toInt() else 0,
+            income = income,
+            expense = expense,
+            incomesCount = res[2].toInt(),
+            expensesCount = res[3].toInt(),
+            transfersInCount = res[4].toInt(),
+            transfersOutCount = res[5].toInt(),
             transfersInAmount = tIn,
             transfersOutAmount = tOut,
             trns = trns
@@ -72,6 +76,7 @@ class CalculateWithTransfersAct @Inject constructor(
         else -> 0.0
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private suspend fun incomeCount(
         trn: Transaction, arg: Pair<CurrencyCode, HashSet<Account>>
     ): Double = when (trn.type) {
@@ -79,6 +84,7 @@ class CalculateWithTransfersAct @Inject constructor(
         else -> 0.0
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private suspend fun expenseCount(
         trn: Transaction, arg: Pair<CurrencyCode, HashSet<Account>>
     ): Double = when (trn.type) {
@@ -86,10 +92,32 @@ class CalculateWithTransfersAct @Inject constructor(
         else -> 0.0
     }
 
-    private suspend fun transfersCount(
+    private suspend fun transfersInCount(
         trn: Transaction, arg: Pair<CurrencyCode, HashSet<Account>>
     ): Double = when (trn.type) {
-        is TransactionType.Transfer -> 1.0
+        is TransactionType.Transfer -> {
+            val availableAccounts = arg.second
+            val typeTransfer = trn.type as TransactionType.Transfer
+
+            if (availableAccounts.contains(typeTransfer.toAccount))
+                1.0
+            else
+                0.0
+        }
+        else -> 0.0
+    }
+
+    private suspend fun transfersOutCount(
+        trn: Transaction, arg: Pair<CurrencyCode, HashSet<Account>>
+    ): Double = when (trn.type) {
+        is TransactionType.Transfer -> {
+            val availableAccounts = arg.second
+
+            if (availableAccounts.contains(trn.account))
+                1.0
+            else
+                0.0
+        }
         else -> 0.0
     }
 
@@ -144,6 +172,8 @@ data class ExtendedStats(
     val expense: Double,
     val incomesCount: Int,
     val expensesCount: Int,
+    val transfersInCount: Int,
+    val transfersOutCount: Int,
     val transfersInAmount: Double,
     val transfersOutAmount: Double,
     val trns: List<Transaction>
@@ -155,6 +185,8 @@ data class ExtendedStats(
             expense = .0,
             incomesCount = 0,
             expensesCount = 0,
+            transfersInCount = 0,
+            transfersOutCount = 0,
             transfersInAmount = 0.0,
             transfersOutAmount = 0.0,
             trns = emptyList()
