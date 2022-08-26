@@ -6,7 +6,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,8 +31,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.mediumBlur
 import com.ivy.design.utils.consumeClicks
 import com.ivy.design.utils.isKeyboardOpen
-import com.ivy.design.utils.thenIf
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import kotlin.math.roundToInt
 
@@ -45,7 +44,6 @@ fun BoxScope.Modal(
     modalId: String,
     visible: Boolean,
 
-    scrollable: ScrollState? = rememberScrollState(),
     keyboardShiftsContent: Boolean = true,
 
     SecondaryActions: (@Composable () -> Unit)? = null,
@@ -61,12 +59,15 @@ fun BoxScope.Modal(
         visibilityThreshold = 0.01f
     )
 
-    val keyboardShown = keyboardShown(modalId = modalId)
-    val keyboardShownInset = keyboardInset()
-    val keyboardInsetAnimated by animateDpAsState(
-        targetValue = if (keyboardShown) keyboardShownInset else 0.dp,
-        animationSpec = tween(DURATION_MODAL_ANIM)
-    )
+    val keyboardInsetAnimated = if (keyboardShiftsContent) {
+        val keyboardShown = keyboardShown(modalId = modalId)
+        val keyboardShownInset = keyboardInset()
+
+        animateDpAsState(
+            targetValue = if (keyboardShown) keyboardShownInset else 0.dp,
+            animationSpec = tween(DURATION_MODAL_ANIM)
+        ).value
+    } else 0.dp
 
     // used only to hide the keyboard
     val rootView = LocalView.current
@@ -77,7 +78,7 @@ fun BoxScope.Modal(
         visibilityThreshold = 0.01f
     )
     if (visible || blurAlpha > 0.01f) {
-        Box(
+        Spacer(
             modifier = Modifier
                 .fillMaxSize()
                 .alpha(blurAlpha)
@@ -112,11 +113,8 @@ fun BoxScope.Modal(
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
                 .background(UI.colors.pure, UI.shapes.r2Top)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .thenIf(scrollable != null) { // scroll only content scrolling is allowed
-                    verticalScroll(scrollable!!)
-                }
+                .padding(bottom = MODAL_ACTIONS_HEIGHT + keyboardInsetAnimated)
                 .zIndex(1000f)
-                .padding(bottom = MODAL_ACTIONS_HEIGHT)
         ) {
             ModalBackHandling(
                 modalId = modalId,
@@ -125,10 +123,6 @@ fun BoxScope.Modal(
             )
 
             Content()
-
-            if (keyboardShiftsContent) {
-                Spacer(Modifier.height(keyboardInsetAnimated))
-            }
         }
 
         ModalActionsRow(
@@ -277,34 +271,19 @@ private fun ModalBackHandling(
     visible: Boolean,
     dismiss: () -> Unit
 ) {
-    AddModalBackHandling(
-        modalId = modalId,
-        visible = visible,
-        action = {
-            dismiss()
-        }
-    )
-}
-
-@Composable
-fun AddModalBackHandling(
-    modalId: String,
-    visible: Boolean,
-    action: () -> Unit
-) {
     val nav = navigation()
     DisposableEffect(visible) {
         if (visible) {
             val lastModalBackHandlingId = nav.lastModalBackHandlerId()
 
             if (modalId != lastModalBackHandlingId?.toString()) {
-                // TODO: Handle
+                // TODO: Implement using the new Navigation
 //                nav.modalBackHandling.add(
 //                    Navigation.ModalBackHandler(
 //                        id = modalId,
 //                        onBackPressed = {
 //                            if (visible) {
-//                                action()
+//                                dismiss()
 //                                true
 //                            } else {
 //                                false
@@ -318,17 +297,15 @@ fun AddModalBackHandling(
         onDispose {
             val lastModalBackHandlingId = nav.lastModalBackHandlerId()
             if (lastModalBackHandlingId.toString() == modalId) {
-                removeLastBackHandlerSafe(nav)
+                // remove modalBackHandling from nav
+                if (nav.modalBackHandling.isNotEmpty()) {
+                    nav.modalBackHandling.pop()
+                }
             }
         }
     }
 }
 
-private fun removeLastBackHandlerSafe(nav: Navigation) {
-    if (nav.modalBackHandling.isNotEmpty()) {
-        nav.modalBackHandling.pop()
-    }
-}
 
 private fun hideKeyboard(view: View) {
     try {
