@@ -5,9 +5,11 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.ivy.common.dateNowUTC
 import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.account.dummyAcc
@@ -21,6 +23,7 @@ import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
+import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.resources.R
 
 private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
@@ -38,6 +41,7 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
  * if null "Skip" and "Pay"/"Get" buttons won't be shown.
  * @param contentAboveTrns _(optional)_ LazyColumn items above the transactions list.
  * @param contentBelowTrns _(optional)_ LazyColum items below the transactions list.
+ * Defaults to 300.dp spacer so the transactions list can be scrollable.
  * @param emptyState _(optional)_ empty state title and message.
  * @param upcomingHandler _(optional)_ custom expand/collapse handling for the "Upcoming" section.
  * @param overdueHandler _(optional)_ custom expand/collapse handling for the "Overdue" section.
@@ -50,7 +54,7 @@ fun TransactionsList.TrnsLazyColumn(
     scrollStateKey: String?,
     dueActions: DueActions? = null,
     contentAboveTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
-    contentBelowTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
+    contentBelowTrns: (LazyListScope.(LazyListState) -> Unit)? = { scrollingSpace() },
     emptyState: EmptyState = defaultEmptyState(),
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
@@ -62,6 +66,14 @@ fun TransactionsList.TrnsLazyColumn(
         initialFirstVisibleItemScrollOffset =
         lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
     )
+
+    if (scrollStateKey != null) {
+        // Cache scrolling state
+        DisposableEffect(key1 = scrollStateKey) {
+            lazyStateCache[scrollStateKey] = state
+            onDispose {}
+        }
+    }
 
     LazyColumn(
         modifier = modifier,
@@ -77,6 +89,12 @@ fun TransactionsList.TrnsLazyColumn(
             trnClickHandler = trnItemClickHandler,
         )
         contentBelowTrns?.invoke(this, state)
+    }
+}
+
+private fun LazyListScope.scrollingSpace() {
+    item {
+        SpacerVer(height = 300.dp)
     }
 }
 
