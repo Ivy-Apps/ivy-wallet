@@ -153,7 +153,6 @@ fun colorLerp(start: Color, end: Color, fraction: Float): Color {
 
 fun hideKeyboard(view: View) {
     try {
-
         val imm: InputMethodManager =
             view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)

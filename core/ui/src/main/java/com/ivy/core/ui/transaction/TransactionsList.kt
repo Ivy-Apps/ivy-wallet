@@ -109,8 +109,6 @@ internal fun LazyListScope.transactionsList(
     if (isEmpty) {
         emptyState(emptyState)
     }
-
-    scrollingSpace()
 }
 
 
@@ -255,12 +253,6 @@ private fun LazyListScope.emptyState(emptyState: EmptyState) {
                 )
             )
         }
-    }
-}
-
-private fun LazyListScope.scrollingSpace() {
-    item {
-        SpacerVer(height = 300.dp)
     }
 }
 
