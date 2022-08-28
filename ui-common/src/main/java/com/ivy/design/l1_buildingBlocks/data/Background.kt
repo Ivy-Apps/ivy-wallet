@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.asBrush
-import com.ivy.design.utils.ivyPadding
+import com.ivy.design.utils.paddingIvy
 import com.ivy.design.utils.thenWhen
 
 sealed class Background {
@@ -52,21 +52,21 @@ sealed class Background {
     object None : Background()
 }
 
-fun Modifier.background(background: Background): Modifier {
+fun Modifier.backgroundIvy(background: Background): Modifier {
     return thenWhen {
         when (background) {
             is Background.Solid -> {
                 background(
                     brush = background.color,
                     shape = background.shape
-                ).ivyPadding(background.padding)
+                ).paddingIvy(background.padding)
             }
             is Background.Outlined -> {
                 border(
                     brush = background.color,
                     width = background.width,
                     shape = background.shape
-                ).ivyPadding(background.padding)
+                ).paddingIvy(background.padding)
             }
             is Background.None -> null
         }

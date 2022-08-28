@@ -13,7 +13,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.data.Background
-import com.ivy.design.l1_buildingBlocks.data.background
+import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.padding
@@ -36,7 +36,7 @@ fun IconButton(
             .clickable {
                 onClick()
             }
-            .background(background),
+            .backgroundIvy(background),
         icon = icon,
         tint = iconTint
     )
