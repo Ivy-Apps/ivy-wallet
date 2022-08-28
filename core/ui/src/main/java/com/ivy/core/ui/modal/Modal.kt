@@ -25,15 +25,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import com.ivy.core.ui.navigation.BackResult
 import com.ivy.core.ui.navigation.BackstackItem
-import com.ivy.core.ui.navigation.BackstackItemResult
 import com.ivy.core.ui.navigation.nav
 import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.mediumBlur
 import com.ivy.design.utils.consumeClicks
 import com.ivy.design.utils.isKeyboardOpen
-import com.ivy.frp.asParamTo2
+import java.util.*
 import kotlin.math.roundToInt
 
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
@@ -41,20 +41,28 @@ const val DURATION_MODAL_ANIM = 200
 
 private val MODAL_ACTIONS_HEIGHT = 96.dp
 
+data class IvyModal(
+    val id: String = UUID.randomUUID().toString(),
+    val visibilityState: MutableState<Boolean>
+)
+
 @Composable
 fun BoxScope.Modal(
-    modalId: String,
-    visible: Boolean,
+    modal: IvyModal,
     Actions: @Composable () -> Unit,
-    onBack: () -> BackstackItemResult = { BackstackItemResult.REMOVE },
+    onBack: () -> BackResult = {
+        modal.visibilityState.value = false
+        BackResult.REMOVE
+    },
     keyboardShiftsContent: Boolean = true,
     Content: @Composable ColumnScope.() -> Unit
 ) {
-    fun dismiss(rootVIew: View) {
+    fun dismiss(rootView: View) {
         nav.onBackPressed()
-        hideKeyboard(rootVIew)
+        hideKeyboard(rootView)
     }
 
+    val visible by modal.visibilityState
     val percentVisible by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(DURATION_MODAL_ANIM),
@@ -63,7 +71,7 @@ fun BoxScope.Modal(
 
     val systemBottomPadding = systemInsetBottom()
     val paddingBottomAnimated = if (keyboardShiftsContent) {
-        val keyboardShown = keyboardShown(modalId = modalId)
+        val keyboardShown = keyboardShown(modalId = modal.id)
         val keyboardShownInset = keyboardInset()
 
         animateDpAsState(
@@ -88,7 +96,7 @@ fun BoxScope.Modal(
                 .background(mediumBlur())
                 .testTag("modal_outside_blur")
                 .clickable(
-                    onClick = rootView asParamTo2 ::dismiss,
+                    onClick = { dismiss(rootView = rootView) },
                     enabled = visible
                 )
                 .zIndex(1000f)
@@ -117,7 +125,7 @@ fun BoxScope.Modal(
                 .zIndex(1000f)
         ) {
             HandleBackPressed(
-                modalId = modalId,
+                modalId = modal.id,
                 visible = visible,
                 onDismiss = onBack
             )
@@ -130,7 +138,7 @@ fun BoxScope.Modal(
             modalPercentVisible = percentVisible,
             paddingBottom = paddingBottomAnimated,
             Actions = Actions,
-            onClose = rootView asParamTo2 ::dismiss,
+            onClose = { dismiss(rootView = rootView) },
         )
     }
 }
@@ -248,7 +256,7 @@ private fun keyboardShown(modalId: String): Boolean {
 private fun HandleBackPressed(
     modalId: String,
     visible: Boolean,
-    onDismiss: () -> BackstackItemResult
+    onDismiss: () -> BackResult
 ) {
     DisposableEffect(visible, modalId) {
         if (visible) {

@@ -1,5 +1,5 @@
 package com.ivy.core.ui.navigation
 
-enum class BackstackItemResult {
+enum class BackResult {
     REMOVE, KEEP
 }

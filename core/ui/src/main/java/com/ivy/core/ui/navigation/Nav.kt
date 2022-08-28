@@ -13,9 +13,9 @@ class Nav {
         private set
 
     private val backstack: Stack<BackstackItem> = Stack()
-    private val onScreenBack: MutableMap<Screen, () -> BackstackItemResult> = mutableMapOf()
+    private val onScreenBack: MutableMap<Screen, () -> BackResult> = mutableMapOf()
 
-    fun handleBack(screen: Screen, onBack: () -> BackstackItemResult) {
+    fun handleBack(screen: Screen, onBack: () -> BackResult) {
         onScreenBack[screen] = onBack
     }
 
@@ -27,8 +27,8 @@ class Nav {
     fun onBackPressed(): OnBackPressedResult {
         fun overlayBack(overlay: BackstackItem.Overlay) {
             when (overlay.onBack()) {
-                BackstackItemResult.REMOVE -> backstack.pop()
-                BackstackItemResult.KEEP -> {
+                BackResult.REMOVE -> backstack.pop()
+                BackResult.KEEP -> {
                     // do nothing
                 }
             }
@@ -39,12 +39,12 @@ class Nav {
         when (val top = backstack.peek()) {
             is BackstackItem.FullScreen -> {
                 when (onScreenBack[top.screen]?.invoke()) {
-                    null, BackstackItemResult.REMOVE -> {
+                    null, BackResult.REMOVE -> {
                         // custom back handler not defined or doesn't want to keep the screen
                         // remove current screen from top
                         backstack.pop()
                     }
-                    BackstackItemResult.KEEP -> {
+                    BackResult.KEEP -> {
                         // keep the current screen and do nothing
                         return OnBackPressedResult.DoNothing
                     }
@@ -57,7 +57,7 @@ class Nav {
                     }
                     is BackstackItem.Overlay -> {
                         backstack.pop() // overlays doesn't survive change
-                        onBackPressed() // recuse because  no overlays should survive screen change
+                        onBackPressed() // recurse until a screen to navigate to is found
                     }
                     null -> {
                         // nowhere to navigate to, no items left in the backstack
