@@ -7,7 +7,6 @@ sealed class ReportScreenEvent {
 
     object Start : ReportScreenEvent()
 
-    data class Filter(val filter: ReportFilter?) : ReportScreenEvent()
     data class FilterOptions(val visible: Boolean) : ReportScreenEvent()
 
     data class TransfersAsIncomeExpense(val transfersAsIncomeExpense: Boolean) :
@@ -15,4 +14,6 @@ sealed class ReportScreenEvent {
 
     data class Export(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
         ReportScreenEvent()
+
+    data class FilterEvent(val filterEvent: ReportFilterEvent) : ReportScreenEvent()
 }

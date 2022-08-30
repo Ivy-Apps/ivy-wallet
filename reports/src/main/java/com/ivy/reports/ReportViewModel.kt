@@ -16,6 +16,7 @@ import com.ivy.core.action.currency.BaseCurrencyAct
 import com.ivy.core.action.currency.exchange.ExchangeAct
 import com.ivy.core.action.transaction.TrnsAct
 import com.ivy.core.functions.category.dummyCategory
+import com.ivy.core.functions.getDefaultCurrencyCode
 import com.ivy.core.functions.icon.dummyIconSized
 import com.ivy.core.functions.transaction.*
 import com.ivy.core.functions.transaction.TrnWhere.*
@@ -29,6 +30,7 @@ import com.ivy.frp.lambda
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.reports.ui.*
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.ui.theme.Gray
@@ -54,12 +56,12 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
 ) : FRPViewModel<ReportScreenState, ReportScreenEvent>() {
     override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
-        ReportScreenState()
+        emptyReportScreenState(baseCurrency = getDefaultCurrencyCode())
     )
 
     // "_" (Underscore Prefix) for all global variables
-    private var _baseCurrency: CurrencyCode = ""
-    private var _filter: ReportFilter? = null
+    private var _baseCurrency: CurrencyCode = getDefaultCurrencyCode()
+    private var _filter: ReportFilter = emptyReportFilter(_baseCurrency)
 
     private var _allAccounts: List<Account> = emptyList()
     private var _allCategories: List<Category> = emptyList()
@@ -78,11 +80,13 @@ class ReportViewModel @Inject constructor(
             when (event) {
                 is ReportScreenEvent.Start -> initialiseData()
                 is ReportScreenEvent.FilterOptions -> setFilterOptionsVisibility(event.visible)
-                is ReportScreenEvent.Filter -> setFilter(event.filter)
                 is ReportScreenEvent.TransfersAsIncomeExpense -> transfersAsIncomeExpense(event.transfersAsIncomeExpense)
                 is ReportScreenEvent.Export -> {
                     export(event.context, event.fileUri, event.onFinish)
                     stateVal().lambda()
+                }
+                is ReportScreenEvent.FilterEvent -> {
+                    handleFilterEvent(event.filterEvent)
                 }
             }
         }
@@ -92,11 +96,15 @@ class ReportViewModel @Inject constructor(
         _allAccounts = accountsAct(Unit)
         _allCategories = listOf(_categoryNone) + categoriesAct(Unit)
 
+        //Copy existing filter object with the new baseCurrency to preserve filterOptions state,
+        _filter = _filter.copy(currency = _baseCurrency)
+
         updateState {
             it.copy(
                 baseCurrency = _baseCurrency,
                 accounts = _allAccounts,
-                categories = _allCategories
+                categories = _allCategories,
+                filter = _filter
             )
         }
     }
@@ -105,10 +113,11 @@ class ReportViewModel @Inject constructor(
         it.copy(filterOptionsVisibility = visible)
     }.lambda()
 
-    private suspend fun setFilter(filter: ReportFilter?): suspend () -> ReportScreenState {
+    private suspend fun setFilter(filter: ReportFilter): suspend () -> ReportScreenState {
         return scopedIOThread { scope ->
             //clear filter
-            filter ?: return@scopedIOThread clearReportFilter()
+            if (filter.hasEmptyContents())
+                return@scopedIOThread clearReportFilter()
 
             //Report filter Validation
             if (!filter.validateFilter()) return@scopedIOThread stateVal().lambda()
@@ -138,7 +147,7 @@ class ReportViewModel @Inject constructor(
                     accounts = _allAccounts,
                     categories = _allCategories,
 
-                    transactionsWithDateDividers = trnsList,
+                    trnsList = trnsList,
 
                     loading = false,
                     filterOptionsVisibility = false,
@@ -151,6 +160,12 @@ class ReportViewModel @Inject constructor(
             }.lambda()
         }
     }
+
+    private fun ReportFilter.hasEmptyContents() =
+        this.trnTypes.isEmpty() && period == null &&
+                accounts.isEmpty() && categories.isEmpty() &&
+                minAmount == null && maxAmount == null &&
+                includeKeywords.isEmpty() && excludeKeywords.isEmpty()
 
     private fun updateGlobalData(
         transactionStats: ExtendedStats,
@@ -167,10 +182,7 @@ class ReportViewModel @Inject constructor(
      *  b) There are actual transfer transactions in the queried transactions
      */
     private fun showTransfersAsIncExpOption(): Boolean {
-        if (_filter == null)
-            return false
-
-        return _filter!!.trnTypes.contains(TrnType.TRANSFER) &&
+        return _filter.trnTypes.contains(TrnType.TRANSFER) &&
                 (_trnsStats.transfersInAmount != 0.0 ||
                         _trnsStats.transfersOutAmount != 0.0)
     }
@@ -206,7 +218,6 @@ class ReportViewModel @Inject constructor(
     private suspend fun export(context: Context, fileUri: Uri, onFinish: (Uri) -> Unit) {
         val filter = _filter
 
-        filter ?: return
         if (!filter.validateFilter()) return
 
         updateState {
@@ -367,12 +378,12 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun clearReportFilter() = suspend {
-        ReportScreenState(
-            baseCurrency = _baseCurrency,
-            accounts = _allAccounts,
-            categories = _allCategories,
-            transactionsWithDateDividers = emptyTransactionList()
-        )
+        emptyReportScreenState(_baseCurrency)
+            .copy(
+                accounts = _allAccounts,
+                categories = _allCategories,
+                trnsList = emptyTransactionList()
+            )
     }
 
     private fun ReportFilter.validateFilter() = when {
@@ -391,6 +402,165 @@ class ReportViewModel @Inject constructor(
         }
 
         else -> true
+    }
+
+    private suspend fun handleFilterEvent(filterEvent: ReportFilterEvent): suspend () -> ReportScreenState =
+        when (filterEvent) {
+            is ReportFilterEvent.SelectTrnsType -> updateTrnsTypeSelection(
+                stateVal().filter,
+                filterEvent.type,
+                filterEvent.checked
+            )
+
+            is ReportFilterEvent.SelectPeriod -> updatePeriodSelection(
+                filter = stateVal().filter,
+                timePeriod = filterEvent.timePeriod
+            )
+
+            is ReportFilterEvent.SelectAccount -> updateAccountSelection(
+                filter = stateVal().filter,
+                account = filterEvent.account,
+                add = filterEvent.add
+            )
+
+            is ReportFilterEvent.SelectCategory -> updateCategorySelection(
+                filter = stateVal().filter,
+                category = filterEvent.category,
+                add = filterEvent.add
+            )
+
+            is ReportFilterEvent.SelectAmount -> updateAmountSelection(
+                filter = stateVal().filter,
+                amt = filterEvent.amt,
+                amountFilterType = filterEvent.amountFilterType
+            )
+
+            is ReportFilterEvent.SelectKeyword -> updateIncludeExcludeKeywords(
+                filter = stateVal().filter,
+                keyword = filterEvent.keyword,
+                keywordsFilterType = filterEvent.keywordsFilterType,
+                add = filterEvent.add
+            )
+
+            is ReportFilterEvent.Clear -> onFilterClear(
+                filter = stateVal().filter,
+                type = filterEvent.type
+            )
+
+            is ReportFilterEvent.SelectAll -> onSelectAll(
+                filter = stateVal().filter,
+                type = filterEvent.type
+            )
+
+            is ReportFilterEvent.FilterSet -> setFilter(filter = filterEvent.filter)
+        }
+
+    private suspend fun updateTrnsTypeSelection(
+        filter: ReportFilter,
+        type: TrnType,
+        add: Boolean
+    ): suspend () -> ReportScreenState {
+        val selectedTrnsList = filter.trnTypes.addOrRemove(add = add, type)
+
+        return updateFilterAndState(filter.copy(trnTypes = selectedTrnsList)).lambda()
+    }
+
+    private suspend fun updatePeriodSelection(
+        filter: ReportFilter,
+        timePeriod: TimePeriod
+    ): suspend () -> ReportScreenState {
+        return updateFilterAndState(filter.copy(period = timePeriod)).lambda()
+    }
+
+    private suspend fun updateAccountSelection(
+        filter: ReportFilter,
+        account: Account,
+        add: Boolean
+    ): suspend () -> ReportScreenState {
+        val selectedAccounts = filter.accounts.addOrRemove(add = add, item = account)
+        return updateFilterAndState(filter.copy(accounts = selectedAccounts)).lambda()
+    }
+
+    private suspend fun updateCategorySelection(
+        filter: ReportFilter,
+        category: Category,
+        add: Boolean
+    ): suspend () -> ReportScreenState {
+        val selectedCategories = filter.categories.addOrRemove(add = add, item = category)
+        return updateFilterAndState(filter.copy(categories = selectedCategories)).lambda()
+    }
+
+    private suspend fun updateAmountSelection(
+        filter: ReportFilter,
+        amt: Double?,
+        amountFilterType: AmountFilterType
+    ): suspend () -> ReportScreenState {
+        val updatedFilter = when (amountFilterType) {
+            AmountFilterType.MIN -> filter.copy(minAmount = amt)
+            AmountFilterType.MAX -> filter.copy(maxAmount = amt)
+        }
+
+        return updateFilterAndState(updatedFilter).lambda()
+    }
+
+    private suspend fun updateIncludeExcludeKeywords(
+        filter: ReportFilter,
+        keyword: String,
+        keywordsFilterType: KeywordsFilterType,
+        add: Boolean
+    ): suspend () -> ReportScreenState {
+        val trimmedKeyword = keyword.trim()
+
+        val existingKeywords = when (keywordsFilterType) {
+            KeywordsFilterType.INCLUDE -> filter.includeKeywords
+            KeywordsFilterType.EXCLUDE -> filter.includeKeywords
+        }
+
+        val updatedKeywords = if (add && trimmedKeyword !in existingKeywords)
+            existingKeywords.addOrRemove(add = true, trimmedKeyword)
+        else if (!add)
+            existingKeywords.addOrRemove(add = false, trimmedKeyword)
+        else
+            existingKeywords
+
+
+        val updatedFilter = when (keywordsFilterType) {
+            KeywordsFilterType.INCLUDE -> filter.copy(includeKeywords = updatedKeywords)
+            KeywordsFilterType.EXCLUDE -> filter.copy(excludeKeywords = updatedKeywords)
+        }
+
+        return updateFilterAndState(updatedFilter).lambda()
+    }
+
+    private suspend fun onFilterClear(
+        filter: ReportFilter,
+        type: ClearType
+    ): suspend () -> ReportScreenState {
+        val updatedFilter = when (type) {
+            ClearType.ALL -> emptyReportFilter(baseCurrency = _baseCurrency)
+            ClearType.ACCOUNTS -> filter.copy(accounts = emptyList())
+            ClearType.CATEGORIES -> filter.copy(categories = emptyList())
+        }
+
+        return updateFilterAndState(filter = updatedFilter).lambda()
+    }
+
+    private suspend fun onSelectAll(
+        filter: ReportFilter,
+        type: SelectType
+    ): suspend () -> ReportScreenState {
+        val updatedFilter = when (type) {
+            SelectType.ACCOUNTS -> filter.copy(accounts = _allAccounts.toList())
+            SelectType.CATEGORIES -> filter.copy(categories = _allCategories.toList())
+        }
+
+        return updateFilterAndState(filter = updatedFilter).lambda()
+    }
+
+    private suspend fun updateFilterAndState(filter: ReportFilter): ReportScreenState {
+        return updateState {
+            it.copy(filter = filter)
+        }
     }
 
     //-------------------------------------- Utility Functions -----------------------------------------
@@ -436,4 +606,11 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun List<Category>.noneCategoryFix() = this.replace(_categoryNone, null)
+
+    private fun <T> List<T>.addOrRemove(add: Boolean, item: T): List<T> {
+        return if (add)
+            this + item
+        else
+            this - item
+    }
 }

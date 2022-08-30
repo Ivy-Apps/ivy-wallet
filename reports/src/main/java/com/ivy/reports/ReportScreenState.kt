@@ -1,6 +1,6 @@
 package com.ivy.reports
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import com.ivy.data.CurrencyCode
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
@@ -8,30 +8,30 @@ import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionsList
 import java.util.*
 
-@Stable
+@Immutable
 data class ReportScreenState(
-    val baseCurrency: CurrencyCode = "",
-    val balance: Double = 0.0,
+    val baseCurrency: CurrencyCode,
+    val balance: Double,
 
-    val income: Double = 0.0,
-    val incomeTransactionsCount: Int = 0,
+    val income: Double,
+    val incomeTransactionsCount: Int,
 
-    val expenses: Double = 0.0,
-    val expenseTransactionsCount: Int = 0,
+    val expenses: Double,
+    val expenseTransactionsCount: Int,
 
-    val accounts: List<Account> = emptyList(),
-    val categories: List<Category> = emptyList(),
+    val accounts: List<Account>,
+    val categories: List<Category>,
 
-    val showTransfersAsIncExpCheckbox: Boolean = false,
-    val treatTransfersAsIncExp: Boolean = false,
+    val showTransfersAsIncExpCheckbox: Boolean,
+    val treatTransfersAsIncExp: Boolean,
 
-    val filter: ReportFilter? = null,
-    val transactionsWithDateDividers: TransactionsList = emptyTransactionList(),
+    val filter: ReportFilter,
+    val trnsList: TransactionsList,
 
-    val loading: Boolean = false,
-    val filterOptionsVisibility: Boolean = false,
+    val loading: Boolean,
+    val filterOptionsVisibility: Boolean,
 
     // TODO(Reports): Need to remove the variables below, Kept for Reports->PieChart Screen Compatibility
-    val accountIdFilters: List<UUID> = emptyList(),
-    val transactionsOld: List<TransactionOld> = emptyList(),
+    val accountIdFilters: List<UUID>,
+    val transactionsOld: List<TransactionOld>,
 )

@@ -28,7 +28,6 @@ import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.reports.ReportScreenEvent.Filter
 import com.ivy.reports.ReportScreenEvent.FilterOptions
 import com.ivy.reports.ui.ReportsFilterOptions
 import com.ivy.reports.ui.ReportsHeader
@@ -57,12 +56,12 @@ fun BoxWithConstraintsScope.ReportScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: ReportScreenState = ReportScreenState(),
+    state: ReportScreenState,
     onEvent: (ReportScreenEvent) -> Unit = {}
 ) {
     ReportsLoadingScreen(visible = state.loading, text = stringResource(R.string.generating_report))
 
-    state.transactionsWithDateDividers
+    state.trnsList
         .TrnsLazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -89,8 +88,8 @@ private fun BoxWithConstraintsScope.UI(
         onClose = {
             onEvent(FilterOptions(visible = false))
         },
-        onSetFilter = {
-            onEvent(Filter(filter = it))
+        onFilterEvent = {
+            onEvent(ReportScreenEvent.FilterEvent(it))
         }
     )
 }
@@ -216,15 +215,14 @@ private fun Preview() {
                     amount = 55.23,
                     type = TransactionType.Expense,
                 )
-            ),
+            )
         )
     )
 
     val expense = 140.46
     val income = 160.53
 
-    val state = ReportScreenState(
-        baseCurrency = "USD",
+    val state = emptyReportScreenState(baseCurrency = "USD").copy(
         balance = 75.33,
         income = income,
         expenses = expense,
@@ -232,7 +230,7 @@ private fun Preview() {
         expenseTransactionsCount = 3,
         accounts = accountList,
         categories = categoryList,
-        transactionsWithDateDividers = transList
+        trnsList = transList
     )
 
 
