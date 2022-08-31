@@ -9,12 +9,9 @@ import androidx.compose.ui.res.stringResource
 import com.ivy.core.ui.transaction.EmptyState
 import com.ivy.core.ui.transaction.ExpandCollapseHandler
 import com.ivy.data.CurrencyCode
-import com.ivy.data.account.Account
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.reports.states.FilterState
 import com.ivy.reports.states.HeaderState
-import kotlinx.collections.immutable.toImmutableList
-import java.util.*
 
 fun ExpandCollapseHandler.expand() = this.setExpanded(true)
 fun ExpandCollapseHandler.collapse() = this.setExpanded(false)
@@ -41,20 +38,20 @@ inline fun LogCompositions(tag: String, msg: String) {
     }
 }
 
-fun emptyReportFilter(
-    baseCurrency: CurrencyCode
-) = ReportFilter(
-    id = UUID.randomUUID(),
-    trnTypes = emptyList(),
-    period = null,
-    accounts = emptyList<Account>().toImmutableList(),
-    categories = emptyList(),
-    currency = baseCurrency,
-    includeKeywords = emptyList(),
-    excludeKeywords = emptyList(),
-    minAmount = null,
-    maxAmount = null
-)
+//fun emptyReportFilter(
+//    baseCurrency: CurrencyCode
+//) = ReportFilter(
+//    id = UUID.randomUUID(),
+//    trnTypes = emptyList(),
+//    period = null,
+//    accounts = emptyList<Account>().toImmutableList(),
+//    categories = emptyList(),
+//    currency = baseCurrency,
+//    includeKeywords = emptyList(),
+//    excludeKeywords = emptyList(),
+//    minAmount = null,
+//    maxAmount = null
+//)
 
 fun emptyReportScreenState(baseCurrency: CurrencyCode): ReportScreenState {
     return ReportScreenState(
@@ -76,22 +73,21 @@ fun emptyHeaderState() = HeaderState(
 
 fun emptyFilterState() = FilterState(
     visible = false,
-    selectedTrnTypes = ImmutableItem(emptyList()),
-    period = ImmutableItem(null),
-    allAccounts = ImmutableItem(emptyList()),
-    selectedAcc = ImmutableItem(emptyList()),
-    allCategories = ImmutableItem(emptyList()),
-    selectedCat = ImmutableItem(emptyList()),
+    selectedTrnTypes = ImmutableData(emptyList()),
+    period = ImmutableData(null),
+    allAccounts = ImmutableData(emptyList()),
+    selectedAcc = ImmutableData(emptyList()),
+    allCategories = ImmutableData(emptyList()),
+    selectedCat = ImmutableData(emptyList()),
     minAmount = null,
     maxAmount = null,
-    includeKeywords = ImmutableItem(emptyList()),
-    excludeKeywords = ImmutableItem(emptyList()),
+    includeKeywords = ImmutableData(emptyList()),
+    excludeKeywords = ImmutableData(emptyList()),
 )
 
 @Immutable
-data class ImmutableItem<T>(val item: T)
-
-fun <T> T.toImmutableItem(): ImmutableItem<T> = ImmutableItem(this)
+data class ImmutableData<T>(val data: T)
+fun <T> T.toImmutableItem(): ImmutableData<T> = ImmutableData(this)
 
 //@Stable
 //fun interface StableClickListener<T, K> {

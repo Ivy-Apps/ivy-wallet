@@ -5,25 +5,25 @@ import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
-import com.ivy.reports.ImmutableItem
+import com.ivy.reports.ImmutableData
 
 @Immutable
 data class FilterState(
     val visible: Boolean,
 
-    val selectedTrnTypes: ImmutableItem<List<TrnType>>,
+    val selectedTrnTypes: ImmutableData<List<TrnType>>,
 
-    val period: ImmutableItem<TimePeriod?>,
+    val period: ImmutableData<TimePeriod?>,
 
-    val allAccounts: ImmutableItem<List<Account>>,
-    val selectedAcc: ImmutableItem<List<Account>>,
+    val allAccounts: ImmutableData<List<Account>>,
+    val selectedAcc: ImmutableData<List<Account>>,
 
-    val allCategories: ImmutableItem<List<Category>>,
-    val selectedCat: ImmutableItem<List<Category>>,
+    val allCategories: ImmutableData<List<Category>>,
+    val selectedCat: ImmutableData<List<Category>>,
 
     val minAmount: Double?,
     val maxAmount: Double?,
 
-    val includeKeywords: ImmutableItem<List<String>>,
-    val excludeKeywords: ImmutableItem<List<String>>,
+    val includeKeywords: ImmutableData<List<String>>,
+    val excludeKeywords: ImmutableData<List<String>>,
 )

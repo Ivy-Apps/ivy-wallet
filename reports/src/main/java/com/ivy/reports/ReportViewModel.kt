@@ -150,7 +150,7 @@ class ReportViewModel @Inject constructor(
                 showTransfersAsIncExpCheckbox = showTransfersAsIncExpOption(),
 
                 transactionsOld = _allTrns.toOld(),
-                accountIdFilters = filter.selectedAcc.item.map { a -> a.id }
+                accountIdFilters = filter.selectedAcc.data.map { a -> a.id }
             )
 
             updateState {
@@ -169,10 +169,10 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun FilterState.hasEmptyContents() =
-        this.selectedTrnTypes.item.isEmpty() && period == null &&
-                selectedAcc.item.isEmpty() && selectedCat.item.isEmpty() &&
+        this.selectedTrnTypes.data.isEmpty() && period == null &&
+                selectedAcc.data.isEmpty() && selectedCat.data.isEmpty() &&
                 minAmount == null && maxAmount == null &&
-                includeKeywords.item.isEmpty() && excludeKeywords.item.isEmpty()
+                includeKeywords.data.isEmpty() && excludeKeywords.data.isEmpty()
 
     private fun updateGlobalData(
         transactionStats: ExtendedStats,
@@ -189,7 +189,7 @@ class ReportViewModel @Inject constructor(
      *  b) There are actual transfer transactions in the queried transactions
      */
     private fun showTransfersAsIncExpOption(): Boolean {
-        return _filter.selectedTrnTypes.item.contains(TrnType.TRANSFER) &&
+        return _filter.selectedTrnTypes.data.contains(TrnType.TRANSFER) &&
                 (_trnsStats.transfersInAmount != 0.0 ||
                         _trnsStats.transfersOutAmount != 0.0)
     }
@@ -254,10 +254,10 @@ class ReportViewModel @Inject constructor(
         baseCurrency: CurrencyCode,
         filter: FilterState
     ) = {
-        ByTypeIn(filter.selectedTrnTypes.item.toNonEmptyList()) and
-                ByDate(filter.period.item) and
-                ByAccount(filter.selectedAcc.item) and
-                ByCategoryIn(filter.selectedCat.item.noneCategoryFix().toNonEmptyList())
+        ByTypeIn(filter.selectedTrnTypes.data.toNonEmptyList()) and
+                ByDate(filter.period.data) and
+                ByAccount(filter.selectedAcc.data) and
+                ByCategoryIn(filter.selectedCat.data.noneCategoryFix().toNonEmptyList())
     } then queryTrnsAct then {
         filterByAmount(
             baseCurrency = baseCurrency,
@@ -267,8 +267,8 @@ class ReportViewModel @Inject constructor(
         )
     } then {
         filterByWords(
-            includeKeywords = filter.includeKeywords.item,
-            excludeKeywords = filter.excludeKeywords.item,
+            includeKeywords = filter.includeKeywords.data,
+            excludeKeywords = filter.excludeKeywords.data,
             transactionsList = it
         )
     } thenInvokeAfter { allTrans ->
@@ -281,7 +281,7 @@ class ReportViewModel @Inject constructor(
             CalculateWithTransfersAct.Input(
                 trns = actualTrns,
                 outputCurrency = baseCurrency,
-                accounts = filter.selectedAcc.item
+                accounts = filter.selectedAcc.data
             )
         )
 
@@ -400,13 +400,13 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun FilterState.validateFilter() = when {
-        selectedTrnTypes.item.isEmpty() -> false
+        selectedTrnTypes.data.isEmpty() -> false
 
         period == null -> false
 
-        selectedAcc.item.isEmpty() -> false
+        selectedAcc.data.isEmpty() -> false
 
-        selectedCat.item.isEmpty() -> false
+        selectedCat.data.isEmpty() -> false
 
         minAmount != null && maxAmount != null -> when {
             minAmount > maxAmount -> false
@@ -473,7 +473,7 @@ class ReportViewModel @Inject constructor(
         type: TrnType,
         add: Boolean
     ): suspend () -> ReportScreenState {
-        val selectedTrnsList = filter.selectedTrnTypes.item.addOrRemove(add = add, type)
+        val selectedTrnsList = filter.selectedTrnTypes.data.addOrRemove(add = add, type)
 
         return updateFilterAndState(filter.copy(selectedTrnTypes = selectedTrnsList.toImmutableItem())).lambda()
     }
@@ -491,7 +491,7 @@ class ReportViewModel @Inject constructor(
         add: Boolean
     ): suspend () -> ReportScreenState {
         val selectedAccounts =
-            filter.selectedAcc.item.addOrRemove(add = add, item = account).toImmutableItem()
+            filter.selectedAcc.data.addOrRemove(add = add, item = account).toImmutableItem()
         return updateFilterAndState(filter.copy(selectedAcc = selectedAccounts)).lambda()
     }
 
@@ -501,7 +501,7 @@ class ReportViewModel @Inject constructor(
         add: Boolean
     ): suspend () -> ReportScreenState {
         val selectedCategories =
-            filter.selectedCat.item.addOrRemove(add = add, item = category).toImmutableItem()
+            filter.selectedCat.data.addOrRemove(add = add, item = category).toImmutableItem()
         return updateFilterAndState(filter.copy(selectedCat = selectedCategories)).lambda()
     }
 
@@ -527,8 +527,8 @@ class ReportViewModel @Inject constructor(
         val trimmedKeyword = keyword.trim()
 
         val existingKeywords = when (keywordsFilterType) {
-            KeywordsFilterType.INCLUDE -> filter.includeKeywords.item
-            KeywordsFilterType.EXCLUDE -> filter.includeKeywords.item
+            KeywordsFilterType.INCLUDE -> filter.includeKeywords.data
+            KeywordsFilterType.EXCLUDE -> filter.includeKeywords.data
         }
 
         val updatedKeywords = if (add && trimmedKeyword !in existingKeywords)

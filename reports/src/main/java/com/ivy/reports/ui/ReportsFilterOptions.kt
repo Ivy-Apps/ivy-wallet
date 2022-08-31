@@ -69,7 +69,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     val onPeriodClicked = remember {
         {
             choosePeriodModal = ChoosePeriodModalData(
-                period = state.period.item ?: ivyContext.selectedPeriod
+                period = state.period.data ?: ivyContext.selectedPeriod
             )
         }
     }
@@ -346,13 +346,13 @@ private fun FilterHeader(onClearFilter: () -> Unit) {
 
 @Composable
 private fun TypeFilter(
-    transactionTypes: ImmutableItem<List<TrnType>>,
+    transactionTypes: ImmutableData<List<TrnType>>,
     onChecked: (Boolean, TrnType) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Transaction Types")
     FilterTitleText(
         text = stringResource(R.string.by_type),
-        active = transactionTypes.item.isNotEmpty(),
+        active = transactionTypes.data.isNotEmpty(),
         inactiveColor = Red
     )
 
@@ -365,7 +365,7 @@ private fun TypeFilter(
 
         IvyCheckboxWithText(
             text = stringResource(id = R.string.income),
-            checked = transactionTypes.item.contains(TrnType.INCOME)
+            checked = transactionTypes.data.contains(TrnType.INCOME)
         ) {
             onChecked(it, TrnType.INCOME)
         }
@@ -374,7 +374,7 @@ private fun TypeFilter(
 
         IvyCheckboxWithText(
             text = stringResource(id = R.string.expense),
-            checked = transactionTypes.item.contains(TrnType.EXPENSE)
+            checked = transactionTypes.data.contains(TrnType.EXPENSE)
         ) {
             onChecked(it, TrnType.EXPENSE)
         }
@@ -385,7 +385,7 @@ private fun TypeFilter(
     IvyCheckboxWithText(
         modifier = Modifier.padding(start = 20.dp),
         text = stringResource(id = R.string.transfer),
-        checked = transactionTypes.item.contains(TrnType.TRANSFER)
+        checked = transactionTypes.data.contains(TrnType.TRANSFER)
     ) {
         onChecked(it, TrnType.TRANSFER)
     }
@@ -409,7 +409,7 @@ private fun FilterTitleText(
 
 @Composable
 private fun PeriodFilter(
-    period: ImmutableItem<TimePeriod?>,
+    period: ImmutableData<TimePeriod?>,
     onShowPeriodChooserModal: () -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "TimePeriod")
@@ -417,7 +417,7 @@ private fun PeriodFilter(
     val defaultText = stringResource(R.string.select_time_range)
     val text by remember(period) {
         mutableStateOf(
-            period.item?.toDisplayLong(ctx.startDayOfMonth)
+            period.data?.toDisplayLong(ctx.startDayOfMonth)
                 ?.capitalizeLocal()
                 ?: defaultText
         )
@@ -425,7 +425,7 @@ private fun PeriodFilter(
 
     FilterTitleText(
         text = stringResource(R.string.time_period),
-        active = period.item != null,
+        active = period.data != null,
         inactiveColor = Red
     )
 
@@ -445,17 +445,17 @@ private fun PeriodFilter(
 
 @Composable
 private fun AccountsFilter(
-    allAccounts: ImmutableItem<List<Account>>,
-    selectedAccounts: ImmutableItem<List<Account>>,
+    allAccounts: ImmutableData<List<Account>>,
+    selectedAccounts: ImmutableData<List<Account>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
     onItemClick: (Boolean, Account) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Accounts Filter")
     ListFilterTitle(
-        text = stringResource(R.string.accounts_number, selectedAccounts.item.size),
-        active = selectedAccounts.item.isNotEmpty(),
-        itemsSelected = selectedAccounts.item.size,
+        text = stringResource(R.string.accounts_number, selectedAccounts.data.size),
+        active = selectedAccounts.data.isNotEmpty(),
+        itemsSelected = selectedAccounts.data.size,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -464,7 +464,7 @@ private fun AccountsFilter(
 
     LazyRow(modifier = Modifier.padding(start = 24.dp)) {
         items(
-            items = allAccounts.item,
+            items = allAccounts.data,
             key = {
                 it.id.toString()
             }
@@ -474,7 +474,7 @@ private fun AccountsFilter(
                 text = account.name,
                 icon = account.icon,
                 selectedColor = account.color.toComposeColor().takeIf {
-                    selectedAccounts.item.contains(account)
+                    selectedAccounts.data.contains(account)
                 }
             ) { selected ->
                 onItemClick(selected, account)
@@ -532,17 +532,17 @@ private fun SelectionBadges(
 
 @Composable
 private fun CategoriesFilter(
-    allCategories: ImmutableItem<List<Category>>,
-    selectedCategories: ImmutableItem<List<Category>>,
+    allCategories: ImmutableData<List<Category>>,
+    selectedCategories: ImmutableData<List<Category>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
     onItemClick: (Boolean, Category) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Categories Filter")
     ListFilterTitle(
-        text = stringResource(R.string.categories_number, selectedCategories.item.size),
-        active = selectedCategories.item.isNotEmpty(),
-        itemsSelected = selectedCategories.item.size,
+        text = stringResource(R.string.categories_number, selectedCategories.data.size),
+        active = selectedCategories.data.isNotEmpty(),
+        itemsSelected = selectedCategories.data.size,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -553,7 +553,7 @@ private fun CategoriesFilter(
         modifier = Modifier.padding(start = 24.dp)
     ) {
         items(
-            items = allCategories.item,
+            items = allCategories.data,
             key = {
                 it.id.toString()
             }
@@ -563,7 +563,7 @@ private fun CategoriesFilter(
                 icon = category.icon,
                 text = category.name,
                 selectedColor = category.color.toComposeColor().takeIf {
-                    selectedCategories.item.contains(category)
+                    selectedCategories.data.contains(category)
                 }
             ) {
                 onItemClick(it, category)
@@ -679,23 +679,23 @@ private fun AmountFilter(
 
 @Composable
 private fun KeywordsFilter(
-    includedKeywords: ImmutableItem<List<String>>,
-    excludedKeywords: ImmutableItem<List<String>>,
+    includedKeywords: ImmutableData<List<String>>,
+    excludedKeywords: ImmutableData<List<String>>,
     onAdd: (KeywordsFilterType) -> Unit,
     onKeywordClick: (KeywordsFilterType, String) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Keywords Filter")
-    val localIncluded: List<Any> by remember(includedKeywords.item.size) {
-        mutableStateOf(includedKeywords.item + listOf(AddKeywordButton()))
+    val localIncluded: List<Any> by remember(includedKeywords.data.size) {
+        mutableStateOf(includedKeywords.data + listOf(AddKeywordButton()))
     }
 
-    val localExcluded: List<Any> by remember(excludedKeywords.item.size) {
-        mutableStateOf(excludedKeywords.item + listOf(AddKeywordButton()))
+    val localExcluded: List<Any> by remember(excludedKeywords.data.size) {
+        mutableStateOf(excludedKeywords.data + listOf(AddKeywordButton()))
     }
 
     FilterTitleText(
         text = stringResource(R.string.keywords_optional),
-        active = (includedKeywords.item.isNotEmpty() || excludedKeywords.item.isNotEmpty())
+        active = (includedKeywords.data.isNotEmpty() || excludedKeywords.data.isNotEmpty())
     )
 
     Spacer(Modifier.height(12.dp))
