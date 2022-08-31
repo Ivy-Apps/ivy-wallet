@@ -155,7 +155,7 @@ class ReportViewModel @Inject constructor(
 
             updateState {
                 it.copy(
-                    filterState = filter,
+                    filterState = filter.copy(visible = false),
                     baseCurrency = _baseCurrency,
 
                     trnsList = trnsList,
@@ -169,7 +169,7 @@ class ReportViewModel @Inject constructor(
     }
 
     private fun FilterState.hasEmptyContents() =
-        this.selectedTrnTypes.data.isEmpty() && period == null &&
+        this.selectedTrnTypes.data.isEmpty() && period.data == null &&
                 selectedAcc.data.isEmpty() && selectedCat.data.isEmpty() &&
                 minAmount == null && maxAmount == null &&
                 includeKeywords.data.isEmpty() && excludeKeywords.data.isEmpty()
@@ -388,8 +388,8 @@ class ReportViewModel @Inject constructor(
 
     private fun clearReportFilter() = suspend {
         val fState = emptyFilterState().copy(
-            selectedAcc = _allAccounts.toImmutableItem(),
-            selectedCat = _allCategories.toImmutableItem()
+            allAccounts = _allAccounts.toImmutableItem(),
+            allCategories = _allCategories.toImmutableItem()
         )
         _filter = fState
         emptyReportScreenState(_baseCurrency)
@@ -402,7 +402,7 @@ class ReportViewModel @Inject constructor(
     private fun FilterState.validateFilter() = when {
         selectedTrnTypes.data.isEmpty() -> false
 
-        period == null -> false
+        period.data == null -> false
 
         selectedAcc.data.isEmpty() -> false
 
@@ -552,7 +552,11 @@ class ReportViewModel @Inject constructor(
         type: ClearType
     ): suspend () -> ReportScreenState {
         val updatedFilter = when (type) {
-            ClearType.ALL -> emptyFilterState()
+            ClearType.ALL -> emptyFilterState().copy(
+                visible = true,
+                allAccounts = _allAccounts.toImmutableItem(),
+                allCategories = _allCategories.toImmutableItem()
+            )
             ClearType.ACCOUNTS -> filter.copy(selectedAcc = emptyList<Account>().toImmutableItem())
             ClearType.CATEGORIES -> filter.copy(selectedCat = emptyList<Category>().toImmutableItem())
         }
