@@ -20,24 +20,27 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.reports.ReportScreenEvent
 import com.ivy.reports.ReportScreenEvent.TransfersAsIncomeExpense
-import com.ivy.reports.ReportScreenState
+import com.ivy.reports.states.HeaderState
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.components.BalanceRow
 import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 
 @Composable
-fun ReportsHeader(state: ReportScreenState, onEventHandler: (ReportScreenEvent) -> Unit) {
-
+fun ReportsHeader(
+    baseCurrency: CurrencyCode,
+    state: HeaderState,
+    onEventHandler: (ReportScreenEvent) -> Unit
+) {
     ReportsTitle()
 
     Spacer(Modifier.height(8.dp))
 
-    ReportsBalance(baseCurrency = state.baseCurrency, balance = state.balance)
+    ReportsBalance(baseCurrency = baseCurrency, balance = state.balance)
 
     Spacer(Modifier.height(24.dp))
 
-    ReportsIncomeExpensesCards(state = state)
+    ReportsIncomeExpensesCards(state = state, baseCurrency = baseCurrency)
 
     if (state.showTransfersAsIncExpCheckbox) {
         ReportsTransfersAsIncomeOption(checked = state.treatTransfersAsIncExp) {
@@ -85,10 +88,10 @@ private fun ReportsBalance(baseCurrency: CurrencyCode, balance: Double) {
 }
 
 @Composable
-private fun ReportsIncomeExpensesCards(state: ReportScreenState) {
+private fun ReportsIncomeExpensesCards(state: HeaderState, baseCurrency: CurrencyCode) {
     val nav = navigation()
     ReportsIncomeExpenseCards(
-        currency = state.baseCurrency,
+        currency = baseCurrency,
         income = state.income,
         expenses = state.expenses,
         incomeCount = state.incomeTransactionsCount,

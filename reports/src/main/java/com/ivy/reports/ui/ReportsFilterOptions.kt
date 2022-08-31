@@ -40,6 +40,7 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.reports.*
+import com.ivy.reports.states.FilterState
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -52,13 +53,12 @@ import com.ivy.wallet.utils.capitalizeLocal
 import com.ivy.wallet.utils.thenIf
 import java.util.*
 
+private const val TAG = "ReportsUI"
+
 @Composable
 fun BoxWithConstraintsScope.ReportsFilterOptions(
-    visible: Boolean,
     baseCurrency: String,
-    accounts: List<Account>,
-    categories: List<Category>,
-    filter: ReportFilter,
+    state: FilterState,
     onClose: () -> Unit,
     onFilterEvent: (ReportFilterEvent) -> Unit
 ) {
@@ -66,10 +66,23 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     val modalId = remember { UUID.randomUUID() }
 
     var choosePeriodModal: ChoosePeriodModalData? by remember { mutableStateOf(null) }
+    val onPeriodClicked = remember {
+        {
+            choosePeriodModal = ChoosePeriodModalData(
+                period = state.period.item ?: ivyContext.selectedPeriod
+            )
+        }
+    }
 
     val amtFilterHandler = defaultExpandCollapseHandler()
     var amtFilterType: AmountFilterType by remember {
         mutableStateOf(AmountFilterType.MIN)  //Default value
+    }
+    val onAmountClick: (AmountFilterType) -> Unit = remember {
+        {
+            amtFilterType = it
+            amtFilterHandler.expand()
+        }
     }
 
     val keywordFilterHandler = defaultExpandCollapseHandler()
@@ -78,7 +91,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     }
 
     AnimatedVisibility(
-        visible = visible,
+        visible = state.visible,
         enter = slideInVertically(
             initialOffsetY = { it },
             animationSpec = tween(easing = LinearOutSlowInEasing)
@@ -98,7 +111,12 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         {
             LazyColumn {
                 item {
-                    AddBackHandlingSupport(id = modalId, visible = visible, action = onClose)
+                    LogCompositions(tag = TAG, msg = "ReportFilterOptions Backhandel")
+                    AddBackHandlingSupport(
+                        id = modalId,
+                        visible = state.visible,
+                        action = onClose
+                    )
 
                     Spacer(Modifier.height(24.dp))
                 }
@@ -114,7 +132,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                 }
 
                 item {
-                    TypeFilter(transactionTypes = filter.trnTypes) { checked, trnType ->
+                    TypeFilter(transactionTypes = state.selectedTrnTypes) { checked, trnType ->
                         onFilterEvent(
                             ReportFilterEvent.SelectTrnsType(
                                 type = trnType,
@@ -127,19 +145,18 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                 }
 
                 item {
-                    PeriodFilter(filter.period) {
-                        choosePeriodModal = ChoosePeriodModalData(
-                            period = filter.period ?: ivyContext.selectedPeriod
-                        )
-                    }
+                    PeriodFilter(
+                        period = state.period,
+                        onShowPeriodChooserModal = onPeriodClicked
+                    )
 
                     FilterDivider()
                 }
 
                 item {
                     AccountsFilter(
-                        allAccounts = accounts,
-                        selectedAccounts = filter.accounts,
+                        allAccounts = state.allAccounts,
+                        selectedAccounts = state.selectedAcc,
                         onClearAll = { onFilterEvent(ReportFilterEvent.Clear(ClearType.ACCOUNTS)) },
                         onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll(SelectType.ACCOUNTS)) }
                     ) { selected, account ->
@@ -156,8 +173,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
                 item {
                     CategoriesFilter(
-                        allCategories = categories,
-                        selectedCategories = filter.categories,
+                        allCategories = state.allCategories,
+                        selectedCategories = state.selectedCat,
                         onClearAll = { onFilterEvent(ReportFilterEvent.Clear(ClearType.CATEGORIES)) },
                         onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll(SelectType.CATEGORIES)) }
                     ) { selected, category ->
@@ -175,26 +192,23 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                 item {
                     AmountFilter(
                         baseCurrency = baseCurrency,
-                        minAmount = filter.minAmount,
-                        maxAmount = filter.maxAmount
-                    ) { filterType ->
-                        amtFilterType = filterType
-                        amtFilterHandler.expand()
-                    }
+                        minAmount = state.minAmount,
+                        maxAmount = state.maxAmount,
+                        onClick = onAmountClick
+                    )
 
                     FilterDivider()
                 }
 
                 item {
                     KeywordsFilter(
-                        includedKeywords = filter.includeKeywords,
-                        excludedKeywords = filter.excludeKeywords,
+                        includedKeywords = state.includeKeywords,
+                        excludedKeywords = state.excludeKeywords,
                         onAdd = {
                             keywordsFilterType = it
                             keywordFilterHandler.expand()
                         }
                     ) { actionType, item ->
-
                         onFilterEvent(
                             ReportFilterEvent.SelectKeyword(
                                 keywordsFilterType = actionType,
@@ -211,7 +225,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
             FilterOptions(
                 onClose = onClose,
                 onApplyFilter = {
-                    onFilterEvent(ReportFilterEvent.FilterSet(filter))
+                    onFilterEvent(ReportFilterEvent.FilterSet(state))
                     onClose()
                 }
             )
@@ -230,8 +244,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         visible = amtFilterHandler.expanded,
         currency = baseCurrency,
         initialAmount = when (amtFilterType) {
-            AmountFilterType.MIN -> filter.minAmount
-            AmountFilterType.MAX -> filter.maxAmount
+            AmountFilterType.MIN -> state.minAmount
+            AmountFilterType.MAX -> state.maxAmount
         },
         dismiss = {
             amtFilterHandler.collapse()
@@ -299,6 +313,7 @@ private fun AddBackHandlingSupport(id: UUID, visible: Boolean, action: () -> Uni
 
 @Composable
 private fun FilterHeader(onClearFilter: () -> Unit) {
+    LogCompositions(tag = TAG, msg = "Filter Header")
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -331,12 +346,13 @@ private fun FilterHeader(onClearFilter: () -> Unit) {
 
 @Composable
 private fun TypeFilter(
-    transactionTypes: List<TrnType>,
+    transactionTypes: ImmutableItem<List<TrnType>>,
     onChecked: (Boolean, TrnType) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Transaction Types")
     FilterTitleText(
         text = stringResource(R.string.by_type),
-        active = transactionTypes.isNotEmpty(),
+        active = transactionTypes.item.isNotEmpty(),
         inactiveColor = Red
     )
 
@@ -349,7 +365,7 @@ private fun TypeFilter(
 
         IvyCheckboxWithText(
             text = stringResource(id = R.string.income),
-            checked = transactionTypes.contains(TrnType.INCOME)
+            checked = transactionTypes.item.contains(TrnType.INCOME)
         ) {
             onChecked(it, TrnType.INCOME)
         }
@@ -358,7 +374,7 @@ private fun TypeFilter(
 
         IvyCheckboxWithText(
             text = stringResource(id = R.string.expense),
-            checked = transactionTypes.contains(TrnType.EXPENSE)
+            checked = transactionTypes.item.contains(TrnType.EXPENSE)
         ) {
             onChecked(it, TrnType.EXPENSE)
         }
@@ -369,7 +385,7 @@ private fun TypeFilter(
     IvyCheckboxWithText(
         modifier = Modifier.padding(start = 20.dp),
         text = stringResource(id = R.string.transfer),
-        checked = transactionTypes.contains(TrnType.TRANSFER)
+        checked = transactionTypes.item.contains(TrnType.TRANSFER)
     ) {
         onChecked(it, TrnType.TRANSFER)
     }
@@ -393,14 +409,15 @@ private fun FilterTitleText(
 
 @Composable
 private fun PeriodFilter(
-    period: TimePeriod?,
+    period: ImmutableItem<TimePeriod?>,
     onShowPeriodChooserModal: () -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "TimePeriod")
     val ctx = ivyWalletCtx()
     val defaultText = stringResource(R.string.select_time_range)
     val text by remember(period) {
         mutableStateOf(
-            period?.toDisplayLong(ctx.startDayOfMonth)
+            period.item?.toDisplayLong(ctx.startDayOfMonth)
                 ?.capitalizeLocal()
                 ?: defaultText
         )
@@ -408,7 +425,7 @@ private fun PeriodFilter(
 
     FilterTitleText(
         text = stringResource(R.string.time_period),
-        active = period != null,
+        active = period.item != null,
         inactiveColor = Red
     )
 
@@ -428,16 +445,17 @@ private fun PeriodFilter(
 
 @Composable
 private fun AccountsFilter(
-    allAccounts: List<Account>,
-    selectedAccounts: List<Account>,
+    allAccounts: ImmutableItem<List<Account>>,
+    selectedAccounts: ImmutableItem<List<Account>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
     onItemClick: (Boolean, Account) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Accounts Filter")
     ListFilterTitle(
-        text = stringResource(R.string.accounts_number, selectedAccounts.size),
-        active = selectedAccounts.isNotEmpty(),
-        itemsSelected = selectedAccounts.size,
+        text = stringResource(R.string.accounts_number, selectedAccounts.item.size),
+        active = selectedAccounts.item.isNotEmpty(),
+        itemsSelected = selectedAccounts.item.size,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -446,16 +464,17 @@ private fun AccountsFilter(
 
     LazyRow(modifier = Modifier.padding(start = 24.dp)) {
         items(
-            items = allAccounts,
+            items = allAccounts.item,
             key = {
                 it.id.toString()
             }
         ) { account ->
+            LogCompositions(tag = TAG, msg = "Accounts Filter LazyColumn")
             SelectionBadges(
                 text = account.name,
                 icon = account.icon,
                 selectedColor = account.color.toComposeColor().takeIf {
-                    selectedAccounts.contains(account)
+                    selectedAccounts.item.contains(account)
                 }
             ) { selected ->
                 onItemClick(selected, account)
@@ -513,16 +532,17 @@ private fun SelectionBadges(
 
 @Composable
 private fun CategoriesFilter(
-    allCategories: List<Category>,
-    selectedCategories: List<Category>,
+    allCategories: ImmutableItem<List<Category>>,
+    selectedCategories: ImmutableItem<List<Category>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
     onItemClick: (Boolean, Category) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Categories Filter")
     ListFilterTitle(
-        text = stringResource(R.string.categories_number, selectedCategories.size),
-        active = selectedCategories.isNotEmpty(),
-        itemsSelected = selectedCategories.size,
+        text = stringResource(R.string.categories_number, selectedCategories.item.size),
+        active = selectedCategories.item.isNotEmpty(),
+        itemsSelected = selectedCategories.item.size,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -533,16 +553,17 @@ private fun CategoriesFilter(
         modifier = Modifier.padding(start = 24.dp)
     ) {
         items(
-            items = allCategories,
+            items = allCategories.item,
             key = {
                 it.id.toString()
             }
         ) { category ->
+            LogCompositions(tag = TAG, msg = "Categories Filter LazyColumn")
             SelectionBadges(
                 icon = category.icon,
                 text = category.name,
                 selectedColor = category.color.toComposeColor().takeIf {
-                    selectedCategories.contains(category)
+                    selectedCategories.item.contains(category)
                 }
             ) {
                 onItemClick(it, category)
@@ -600,6 +621,7 @@ private fun AmountFilter(
     maxAmount: Double? = null,
     onClick: (AmountFilterType) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Amount Filter")
     FilterTitleText(
         text = stringResource(R.string.amount_optional),
         active = minAmount != null || maxAmount != null
@@ -657,22 +679,23 @@ private fun AmountFilter(
 
 @Composable
 private fun KeywordsFilter(
-    includedKeywords: List<String>,
-    excludedKeywords: List<String>,
+    includedKeywords: ImmutableItem<List<String>>,
+    excludedKeywords: ImmutableItem<List<String>>,
     onAdd: (KeywordsFilterType) -> Unit,
     onKeywordClick: (KeywordsFilterType, String) -> Unit
 ) {
-    val localIncluded: List<Any> by remember(includedKeywords.size) {
-        mutableStateOf(includedKeywords + listOf(AddKeywordButton()))
+    LogCompositions(tag = TAG, msg = "Keywords Filter")
+    val localIncluded: List<Any> by remember(includedKeywords.item.size) {
+        mutableStateOf(includedKeywords.item + listOf(AddKeywordButton()))
     }
 
-    val localExcluded: List<Any> by remember(excludedKeywords.size) {
-        mutableStateOf(excludedKeywords + listOf(AddKeywordButton()))
+    val localExcluded: List<Any> by remember(excludedKeywords.item.size) {
+        mutableStateOf(excludedKeywords.item + listOf(AddKeywordButton()))
     }
 
     FilterTitleText(
         text = stringResource(R.string.keywords_optional),
-        active = (includedKeywords.isNotEmpty() || excludedKeywords.isNotEmpty())
+        active = (includedKeywords.item.isNotEmpty() || excludedKeywords.item.isNotEmpty())
     )
 
     Spacer(Modifier.height(12.dp))
@@ -691,6 +714,7 @@ private fun KeywordsFilter(
         modifier = Modifier.padding(horizontal = 24.dp),
         items = localIncluded
     ) { item ->
+        LogCompositions(tag = TAG, msg = "Keywords Filter LazyRow Included")
         when (item) {
             is String -> {
                 Keyword(
@@ -724,6 +748,7 @@ private fun KeywordsFilter(
         modifier = Modifier.padding(horizontal = 24.dp),
         items = localExcluded
     ) { item ->
+        LogCompositions(tag = TAG, msg = "Keywords Filter LazyRow Excluded")
         when (item) {
             is String -> {
                 Keyword(
@@ -783,13 +808,6 @@ private fun FilterDivider() {
     )
 
     Spacer(modifier = Modifier.height(24.dp))
-}
-
-private fun <T> MutableList<T>.addOrRemove(add: Boolean, item: T) {
-    if (add)
-        this.add(item)
-    else
-        this.remove(item)
 }
 
 private class AddKeywordButton

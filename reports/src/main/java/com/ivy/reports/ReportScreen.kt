@@ -74,17 +74,18 @@ private fun BoxWithConstraintsScope.UI(
                 }
 
                 item {
-                    ReportsHeader(state = state, onEventHandler = onEvent)
+                    ReportsHeader(
+                        baseCurrency = state.baseCurrency,
+                        state = state.headerState,
+                        onEventHandler = onEvent
+                    )
                 }
             }
         )
 
     ReportsFilterOptions(
         baseCurrency = state.baseCurrency,
-        visible = state.filterOptionsVisibility,
-        filter = state.filter,
-        accounts = state.accounts,
-        categories = state.categories,
+        state = state.filterState,
         onClose = {
             onEvent(FilterOptions(visible = false))
         },
@@ -222,17 +223,22 @@ private fun Preview() {
     val expense = 140.46
     val income = 160.53
 
-    val state = emptyReportScreenState(baseCurrency = "USD").copy(
+    val headerState = emptyHeaderState().copy(
         balance = 75.33,
         income = income,
         expenses = expense,
         incomeTransactionsCount = 1,
         expenseTransactionsCount = 3,
-        accounts = accountList,
-        categories = categoryList,
-        trnsList = transList
     )
 
+    val state = emptyReportScreenState(baseCurrency = "USD").copy(
+        filterState = emptyFilterState().copy(
+            selectedAcc = accountList.toImmutableItem(),
+            selectedCat = categoryList.toImmutableItem()
+        ),
+        trnsList = transList,
+        headerState = headerState
+    )
 
     Preview {
         UI(state = state)

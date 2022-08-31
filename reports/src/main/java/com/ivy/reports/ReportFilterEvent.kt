@@ -4,6 +4,7 @@ import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
+import com.ivy.reports.states.FilterState
 
 sealed class ReportFilterEvent {
     data class SelectTrnsType(val type: TrnType, val checked: Boolean) : ReportFilterEvent()
@@ -21,7 +22,7 @@ sealed class ReportFilterEvent {
 
     data class Clear(val type: ClearType) : ReportFilterEvent()
     data class SelectAll(val type: SelectType) : ReportFilterEvent()
-    data class FilterSet(val filter: ReportFilter) : ReportFilterEvent()
+    data class FilterSet(val filter: FilterState) : ReportFilterEvent()
 }
 
 enum class ClearType {
