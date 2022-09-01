@@ -4,7 +4,6 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.data.transaction.TrnType
 import com.ivy.wallet.io.persistence.data.TransactionEntity
-import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.util.*
 
@@ -223,7 +222,4 @@ interface TransactionDao {
 
     @RawQuery
     suspend fun findByQuery(query: SupportSQLiteQuery): List<TransactionEntity>
-
-    @RawQuery
-    fun findByQueryFlow(query: SupportSQLiteQuery): Flow<List<TransactionEntity>>
 }
