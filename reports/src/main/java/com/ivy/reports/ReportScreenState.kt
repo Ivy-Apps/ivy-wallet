@@ -9,10 +9,9 @@ import com.ivy.reports.states.HeaderState
 @Immutable
 data class ReportScreenState(
     val baseCurrency: CurrencyCode,
-
+    val loading: Boolean,
     val headerState: HeaderState,
-    val filterState: FilterState,
-    val trnsList: TransactionsList,
+    val trnsList: ImmutableData<TransactionsList>,
 
-    val loading: Boolean
+    val filterState: FilterState,
 )

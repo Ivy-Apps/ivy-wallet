@@ -58,7 +58,7 @@ fun emptyReportScreenState(baseCurrency: CurrencyCode): ReportScreenState {
         baseCurrency = baseCurrency,
 
         filterState = emptyFilterState(),
-        trnsList = emptyTransactionList(),
+        trnsList = ImmutableData(emptyTransactionList()),
 
         loading = false,
 

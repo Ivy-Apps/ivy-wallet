@@ -18,8 +18,10 @@ import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.reports.LogCompositions
 import com.ivy.reports.ReportScreenEvent
 import com.ivy.reports.ReportScreenEvent.TransfersAsIncomeExpense
+import com.ivy.reports.TAG
 import com.ivy.reports.states.HeaderState
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
@@ -32,6 +34,7 @@ fun ReportsHeader(
     state: HeaderState,
     onEventHandler: (ReportScreenEvent) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Reports Header")
     ReportsTitle()
 
     Spacer(Modifier.height(8.dp))

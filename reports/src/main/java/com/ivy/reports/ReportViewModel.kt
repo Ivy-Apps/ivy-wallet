@@ -158,7 +158,7 @@ class ReportViewModel @Inject constructor(
                     filterState = filter.copy(visible = false),
                     baseCurrency = _baseCurrency,
 
-                    trnsList = trnsList,
+                    trnsList = trnsList.toImmutableItem(),
 
                     loading = false,
 
@@ -395,7 +395,7 @@ class ReportViewModel @Inject constructor(
         emptyReportScreenState(_baseCurrency)
             .copy(
                 filterState = fState,
-                trnsList = emptyTransactionList()
+                trnsList = emptyTransactionList().toImmutableItem()
             )
     }
 

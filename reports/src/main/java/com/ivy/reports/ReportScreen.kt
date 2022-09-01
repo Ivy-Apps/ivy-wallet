@@ -2,12 +2,9 @@ package com.ivy.reports
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,16 +21,16 @@ import com.ivy.core.functions.transaction.dummyDue
 import com.ivy.core.functions.transaction.dummyTrn
 import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
-import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.reports.ReportScreenEvent.FilterOptions
 import com.ivy.reports.ui.ReportsFilterOptions
-import com.ivy.reports.ui.ReportsHeader
 import com.ivy.reports.ui.ReportsLoadingScreen
-import com.ivy.reports.ui.ReportsToolBar
+import com.ivy.reports.ui.ReportsScreenUI
 import com.ivy.screens.Report
+
+const val TAG = "ReportsUI"
 
 @ExperimentalFoundationApi
 @Composable
@@ -61,27 +58,12 @@ private fun BoxWithConstraintsScope.UI(
 ) {
     ReportsLoadingScreen(visible = state.loading, text = stringResource(R.string.generating_report))
 
-    state.trnsList
-        .TrnsLazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .systemBarsPadding(),
-            scrollStateKey = "Reports",
-            emptyState = reportsEmptyState(),
-            contentAboveTrns = {
-                stickyHeader {
-                    ReportsToolBar(onEventHandler = onEvent)
-                }
-
-                item {
-                    ReportsHeader(
-                        baseCurrency = state.baseCurrency,
-                        state = state.headerState,
-                        onEventHandler = onEvent
-                    )
-                }
-            }
-        )
+    ReportsScreenUI(
+        baseCurrency = state.baseCurrency,
+        headerState = state.headerState,
+        trnsList = state.trnsList,
+        onEvent = onEvent
+    )
 
     ReportsFilterOptions(
         baseCurrency = state.baseCurrency,
@@ -236,7 +218,7 @@ private fun Preview() {
             selectedAcc = accountList.toImmutableItem(),
             selectedCat = categoryList.toImmutableItem()
         ),
-        trnsList = transList,
+        trnsList = transList.toImmutableItem(),
         headerState = headerState
     )
 

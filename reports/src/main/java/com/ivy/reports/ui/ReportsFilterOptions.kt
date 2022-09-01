@@ -53,8 +53,6 @@ import com.ivy.wallet.utils.capitalizeLocal
 import com.ivy.wallet.utils.thenIf
 import java.util.*
 
-private const val TAG = "ReportsUI"
-
 @Composable
 fun BoxWithConstraintsScope.ReportsFilterOptions(
     baseCurrency: String,
