@@ -12,6 +12,10 @@ import com.ivy.state.writeIvyState
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("CategoriesFlow")
+)
 class CategoriesAct @Inject constructor(
     private val categoryDao: CategoryDao,
     private val iconAct: IconAct,

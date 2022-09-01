@@ -14,6 +14,10 @@ import com.ivy.state.writeIvyState
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("AccountsFlow")
+)
 class AccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val baseCurrencyAct: BaseCurrencyAct,
@@ -37,21 +41,21 @@ class AccountsAct @Inject constructor(
                     icon = iconAct(
                         IconAct.Input(
                             iconId = it.icon,
-                        defaultTo = DefaultTo.Account
-                    )
-                ),
-                excluded = !it.includeInBalance,
-                metadata = AccMetadata(
-                    orderNum = it.orderNum,
-                    sync = SyncMetadata(
-                        isSynced = it.isSynced,
-                        isDeleted = it.isDeleted
+                            defaultTo = DefaultTo.Account
+                        )
+                    ),
+                    excluded = !it.includeInBalance,
+                    metadata = AccMetadata(
+                        orderNum = it.orderNum,
+                        sync = SyncMetadata(
+                            isSynced = it.isSynced,
+                            isDeleted = it.isDeleted
+                        )
                     )
                 )
-            )
+            }
+        } thenInvokeAfter { accounts ->
+            writeIvyState(accountsUpdate(newAccounts = accounts))
+            accounts
         }
-    } thenInvokeAfter { accounts ->
-        writeIvyState(accountsUpdate(newAccounts = accounts))
-        accounts
-    }
 }

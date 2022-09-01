@@ -23,6 +23,8 @@ class CalculateAct @Inject constructor(
         val outputCurrency: CurrencyCode
     )
 
+    // TODO: Rework to Flow so we react to exchange rates changes
+
     override suspend fun Input.compose(): suspend () -> Stats = {
         val res = foldTransactions(
             transactions = trns,

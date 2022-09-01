@@ -11,6 +11,10 @@ import com.ivy.state.readIvyState
 import com.ivy.state.writeIvyState
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("ExchangeRatesFlow")
+)
 class ExchangeRatesAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
 ) : FPAction<Unit, ExchangeRates>() {

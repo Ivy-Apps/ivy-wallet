@@ -2,36 +2,38 @@ package com.ivy.core.action.calculate.transaction
 
 import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochSeconds
+import com.ivy.core.action.FlowAction
 import com.ivy.core.action.calculate.CalculateAct
-import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.functions.transaction.actual
 import com.ivy.core.functions.transaction.overdue
 import com.ivy.core.functions.transaction.upcoming
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.*
-import com.ivy.frp.action.FPAction
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-@Deprecated(
-    message = "migrating to flows",
-    replaceWith = ReplaceWith("GroupTrnsFlow")
-)
-class GroupTrnsAct @Inject constructor(
+class GroupTrnsFlow @Inject constructor(
     private val calculateAct: CalculateAct,
-    private val baseCurrencyAct: BaseCurrencyAct
-) : FPAction<List<Transaction>, TransactionsList>() {
+    private val baseCurrencyFlow: BaseCurrencyFlow
+) : FlowAction<List<Transaction>, TransactionsList>() {
 
-    override suspend fun List<Transaction>.compose(): suspend () -> TransactionsList = {
-        val baseCurrency = baseCurrencyAct(Unit)
-        val dueRes = groupDue(trns = this, baseCurrency = baseCurrency)
-        val historyGrouped =
-            groupByDate(actualTrns = dueRes.actualTrns, baseCurrency = baseCurrency)
-        TransactionsList(
-            upcoming = dueRes.upcomingSection,
-            overdue = dueRes.overdueSection,
-            history = historyGrouped
-        )
-    }
+    override suspend fun List<Transaction>.createFlow(): Flow<TransactionsList> =
+        baseCurrencyFlow()
+            .flowOn(Dispatchers.Default)
+            .map { baseCurrency ->
+                val dueRes = groupDue(trns = this, baseCurrency = baseCurrency)
+                val historyGrouped =
+                    groupByDate(actualTrns = dueRes.actualTrns, baseCurrency = baseCurrency)
+                TransactionsList(
+                    upcoming = dueRes.upcomingSection,
+                    overdue = dueRes.overdueSection,
+                    history = historyGrouped
+                )
+            }
 
     private suspend fun groupDue(
         trns: List<Transaction>,

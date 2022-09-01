@@ -7,6 +7,10 @@ import com.ivy.frp.asParamTo
 import com.ivy.frp.then
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("AccBalanceFlow")
+)
 class AccBalanceAct @Inject constructor(
     private val accActualStatsAct: AccActualStatsAct
 ) : FPAction<Account, Double>() {

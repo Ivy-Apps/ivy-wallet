@@ -19,6 +19,10 @@ import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("AccStatsFlow")
+)
 class AccActualStatsAct @Inject constructor(
     private val calculateAct: CalculateAct,
     private val trnsAct: TrnsAct
