@@ -111,24 +111,12 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         {
             LazyColumn {
                 item {
-                    LogCompositions(tag = TAG, msg = "ReportFilterOptions Backhandel")
-                    AddBackHandlingSupport(
-                        id = modalId,
-                        visible = state.visible,
-                        action = onClose
-                    )
-
-                    Spacer(Modifier.height(24.dp))
-                }
-
-                item {
                     FilterHeader(
+                        modifier = Modifier.padding(vertical = 24.dp),
                         onClearFilter = {
                             onFilterEvent(ReportFilterEvent.Clear(ClearType.ALL))
                         }
                     )
-
-                    Spacer(Modifier.height(24.dp))
                 }
 
                 item {
@@ -263,6 +251,12 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         onFilterEvent(ReportFilterEvent.SelectKeyword(keywordsFilterType, keyword, add = true))
 
     }
+
+    AddBackHandlingSupport(
+        id = modalId,
+        visible = state.visible,
+        action = onClose
+    )
 }
 
 @Composable
@@ -312,9 +306,10 @@ private fun AddBackHandlingSupport(id: UUID, visible: Boolean, action: () -> Uni
 }
 
 @Composable
-private fun FilterHeader(onClearFilter: () -> Unit) {
+private fun FilterHeader(modifier: Modifier = Modifier, onClearFilter: () -> Unit) {
     LogCompositions(tag = TAG, msg = "Filter Header")
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -469,7 +464,7 @@ private fun AccountsFilter(
                 it.id.toString()
             }
         ) { account ->
-            LogCompositions(tag = TAG, msg = "Accounts Filter LazyColumn")
+            //LogCompositions(tag = TAG, msg = "Accounts Filter LazyColumn")
             SelectionBadges(
                 text = account.name,
                 icon = account.icon,
