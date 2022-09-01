@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.wallet.io.persistence.data.AccountEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
@@ -17,6 +18,9 @@ interface AccountDao {
 
     @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
     suspend fun findAll(): List<AccountEntity>
+
+    @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
+    fun findAllFlow(): Flow<List<AccountEntity>>
 
     @Query("SELECT * FROM accounts WHERE isSynced = :synced AND isDeleted = :deleted")
     suspend fun findByIsSyncedAndIsDeleted(
