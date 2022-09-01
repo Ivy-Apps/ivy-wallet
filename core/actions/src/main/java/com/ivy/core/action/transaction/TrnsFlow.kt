@@ -25,6 +25,7 @@ class TrnsFlow @Inject constructor(
     private val transactionDao: TransactionDao,
     private val trnsSignal: TrnsSignal
 ) : FlowAction<TrnWhere, List<Transaction>>() {
+
     override suspend fun TrnWhere.createFlow(): Flow<List<Transaction>> =
         combine(accountsFlow(), categoriesFlow(), trnsSignal.receive()) { accs, cats, _ ->
             val where = toWhereClause(this)

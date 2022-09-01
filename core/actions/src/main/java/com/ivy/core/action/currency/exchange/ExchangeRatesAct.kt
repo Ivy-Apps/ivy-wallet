@@ -19,7 +19,7 @@ class ExchangeRatesAct @Inject constructor(
     }
 
     private suspend fun retrieveRatesFromDB(): ExchangeRates =
-        exchangeRateDao::findAll thenMap {
+        exchangeRateDao::findAllSuspend thenMap {
             (it.currency to it.rate)
         } then { it.toMap() } thenInvokeAfter {
             writeIvyState(exchangeRatesUpdate(newExchangeRates = it))
