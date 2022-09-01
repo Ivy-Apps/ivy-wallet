@@ -10,5 +10,5 @@ class PreferenceAct<P : Preference<V>, V> @Inject constructor(
     private val dataStore: IvyDataStore
 ) : FPAction<P, V?>() {
     override suspend fun P.compose(): suspend () -> V? =
-        this.key asParamTo dataStore::get
+        this.key asParamTo dataStore::getSuspend
 }

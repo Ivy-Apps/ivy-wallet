@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -38,7 +39,9 @@ class IvyDataStore @Inject constructor(
         }
     }
 
-    suspend fun <T> get(key: Preferences.Key<T>): T? = appContext.dataStore.data.map {
+    fun <T> getFlow(key: Preferences.Key<T>): Flow<T?> = appContext.dataStore.data.map { it[key] }
+
+    suspend fun <T> getSuspend(key: Preferences.Key<T>): T? = appContext.dataStore.data.map {
         it[key]
     }.firstOrNull()
 }

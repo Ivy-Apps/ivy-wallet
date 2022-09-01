@@ -1,9 +1,9 @@
 package com.ivy.state
 
 import com.ivy.data.ExchangeRates
-import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
+import com.ivy.data.time.Period
 
 @Deprecated("in favor of SharedFlowAction")
 private var state = IvyState(

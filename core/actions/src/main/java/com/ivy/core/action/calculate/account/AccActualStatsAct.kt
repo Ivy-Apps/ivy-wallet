@@ -9,8 +9,8 @@ import com.ivy.core.functions.transaction.and
 import com.ivy.core.functions.transaction.chronological
 import com.ivy.core.functions.transaction.foldTransactions
 import com.ivy.core.functions.transaction.not
-import com.ivy.data.Period
 import com.ivy.data.account.Account
+import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnType

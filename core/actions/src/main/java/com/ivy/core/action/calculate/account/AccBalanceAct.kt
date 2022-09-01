@@ -1,6 +1,6 @@
 package com.ivy.core.action.calculate.account
 
-import com.ivy.core.functions.allTime
+import com.ivy.core.functions.time.allTime
 import com.ivy.data.account.Account
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.asParamTo

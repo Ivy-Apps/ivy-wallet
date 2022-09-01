@@ -7,8 +7,8 @@ import com.ivy.core.action.transaction.TrnsAct
 import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
 import com.ivy.core.functions.transaction.TrnWhere.ByCategory
 import com.ivy.core.functions.transaction.and
-import com.ivy.data.Period
 import com.ivy.data.category.Category
+import com.ivy.data.time.Period
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import javax.inject.Inject

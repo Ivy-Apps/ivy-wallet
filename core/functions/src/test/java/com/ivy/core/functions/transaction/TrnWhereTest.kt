@@ -7,9 +7,9 @@ import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochMilli
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
-import com.ivy.core.functions.toRange
+import com.ivy.core.functions.time.toRange
 import com.ivy.core.functions.transaction.TrnWhere.*
-import com.ivy.data.Period
+import com.ivy.data.time.Period
 import com.ivy.data.transaction.TrnType
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
