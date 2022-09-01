@@ -1,56 +1,53 @@
 package com.ivy.core.action.account
 
-import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.action.SharedFlowAction
+import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.action.icon.DefaultTo
 import com.ivy.core.action.icon.IconAct
+import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.AccMetadata
 import com.ivy.data.account.Account
-import com.ivy.frp.action.FPAction
-import com.ivy.frp.then
-import com.ivy.frp.thenInvokeAfter
-import com.ivy.state.accountsUpdate
-import com.ivy.state.writeIvyState
 import com.ivy.wallet.io.persistence.dao.AccountDao
+import com.ivy.wallet.io.persistence.data.AccountEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AccountsFlow @Inject constructor(
     private val accountDao: AccountDao,
-    private val baseCurrencyAct: BaseCurrencyAct,
+    private val baseCurrencyFlow: BaseCurrencyFlow,
     private val iconAct: IconAct,
-) : FPAction<Unit, List<Account>>() {
-    override suspend fun Unit.compose(): suspend () -> List<Account> = {
-        // TODO: enable caching
-        // readIvyState().accounts ?: loadAccounts()
-        loadAccounts()
-    }
+) : SharedFlowAction<List<Account>>() {
 
-    private suspend fun loadAccounts(): List<Account> = accountDao::findAll then { entities ->
-        val baseCurrency = baseCurrencyAct(Unit)
-        entities.map {
-            Account(
-                id = it.id,
-                name = it.name,
-                currency = it.currency ?: baseCurrency,
-                color = it.color,
-                icon = iconAct(
-                    IconAct.Input(
-                        iconId = it.icon,
-                        defaultTo = DefaultTo.Account
-                    )
-                ),
-                excluded = !it.includeInBalance,
-                metadata = AccMetadata(
-                    orderNum = it.orderNum,
-                    sync = SyncMetadata(
-                        isSynced = it.isSynced,
-                        isDeleted = it.isDeleted
-                    )
+    override suspend fun initialValue(): List<Account> = emptyList()
+
+    override suspend fun createFlow(): Flow<List<Account>> =
+        combine(accountDao.findAll(), baseCurrencyFlow()) { entities, baseCurrency ->
+            entities.map { toAccount(acc = it, baseCurrency = baseCurrency) }
+        }
+
+    private suspend fun toAccount(acc: AccountEntity, baseCurrency: CurrencyCode): Account =
+        Account(
+            id = acc.id,
+            name = acc.name,
+            currency = acc.currency ?: baseCurrency,
+            color = acc.color,
+            icon = iconAct(
+                IconAct.Input(
+                    iconId = acc.icon,
+                    defaultTo = DefaultTo.Account
+                )
+            ),
+            excluded = !acc.includeInBalance,
+            metadata = AccMetadata(
+                orderNum = acc.orderNum,
+                sync = SyncMetadata(
+                    isSynced = acc.isSynced,
+                    isDeleted = acc.isDeleted
                 )
             )
-        }
-    } thenInvokeAfter { accounts ->
-        writeIvyState(accountsUpdate(newAccounts = accounts))
-        accounts
-    }
+        )
 }

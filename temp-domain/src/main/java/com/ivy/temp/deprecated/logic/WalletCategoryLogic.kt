@@ -29,7 +29,7 @@ class WalletCategoryLogic(
         transactions: List<TransactionOld> = emptyList()
     ): Double {
         val baseCurrency = settingsDao.findFirst().currency
-        val accounts = accountDao.findAll().map { it.toDomain() }
+        val accounts = accountDao.findAllSuspend().map { it.toDomain() }
 
         return historyByCategory(
             category,

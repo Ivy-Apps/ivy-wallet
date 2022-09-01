@@ -12,7 +12,7 @@ class CategoriesActOld @Inject constructor(
 ) : FPAction<Unit, List<CategoryOld>>() {
     override suspend fun Unit.compose(): suspend () -> List<CategoryOld> = suspend {
         io {
-            categoryDao.findAll()
+            categoryDao.findAllSuspend()
         }
     } thenMap { it.toDomain() }
 }

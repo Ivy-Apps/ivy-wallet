@@ -17,10 +17,10 @@ interface AccountDao {
     suspend fun save(value: List<AccountEntity>)
 
     @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
-    suspend fun findAll(): List<AccountEntity>
+    suspend fun findAllSuspend(): List<AccountEntity>
 
     @Query("SELECT * FROM accounts WHERE isDeleted = 0 ORDER BY orderNum ASC")
-    fun findAllFlow(): Flow<List<AccountEntity>>
+    fun findAll(): Flow<List<AccountEntity>>
 
     @Query("SELECT * FROM accounts WHERE isSynced = :synced AND isDeleted = :deleted")
     suspend fun findByIsSyncedAndIsDeleted(

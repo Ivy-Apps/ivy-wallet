@@ -3,10 +3,11 @@ package com.ivy.core.action
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
 /**
- * Creates a flow which caches the last produced value.
+ * Creates a singleton flow which caches the last produced value.
  * Use it when you want to **execute the computation only once** for multiple collectors.
  * ## ATTENTION: For this to work, annotate the Action that extends it with "@Singleton".
  * Don't forget to annotate your class with [javax.inject.Singleton].
@@ -14,13 +15,15 @@ import kotlinx.coroutines.flow.stateIn
  * By default the created flow will start eagerly (immediately). To change that behavior
  * override [startType]. When the flow is started will return [initialValue].
  */
-abstract class SharedFlowAction<I, T> {
-    abstract suspend fun I.createFlow(): Flow<T>
+abstract class SharedFlowAction<T> {
+    private var cachedFlow: StateFlow<T>? = null
 
     /**
      * @return this initial value immediately after the flow is started.
      */
     abstract suspend fun initialValue(): T
+
+    abstract suspend fun createFlow(): Flow<T>
 
     /**
      * @return the mode in which the created flow will start.
@@ -29,10 +32,14 @@ abstract class SharedFlowAction<I, T> {
      */
     open fun startType(): SharingStarted = SharingStarted.Eagerly
 
-    suspend operator fun invoke(input: I): Flow<T> = input.createFlow()
-        .stateIn(
-            scope = MainScope(),
-            started = startType(),
-            initialValue = initialValue()
-        )
+    suspend operator fun invoke(): Flow<T> = cachedFlow ?: run {
+        val flowInstance = createFlow()
+            .stateIn(
+                scope = MainScope(),
+                started = startType(),
+                initialValue = initialValue()
+            )
+        cachedFlow = flowInstance
+        flowInstance
+    }
 }

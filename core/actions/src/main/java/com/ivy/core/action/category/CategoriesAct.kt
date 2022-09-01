@@ -23,7 +23,7 @@ class CategoriesAct @Inject constructor(
     }
 
     private suspend fun loadCategories(): List<Category> = suspend {
-        categoryDao.findAll().map {
+        categoryDao.findAllSuspend().map {
             Category(
                 id = it.id,
                 name = it.name,

@@ -25,17 +25,18 @@ class AccountsAct @Inject constructor(
         loadAccounts()
     }
 
-    private suspend fun loadAccounts(): List<Account> = accountDao::findAll then { entities ->
-        val baseCurrency = baseCurrencyAct(Unit)
-        entities.map {
-            Account(
-                id = it.id,
-                name = it.name,
-                currency = it.currency ?: baseCurrency,
-                color = it.color,
-                icon = iconAct(
-                    IconAct.Input(
-                        iconId = it.icon,
+    private suspend fun loadAccounts(): List<Account> =
+        accountDao::findAllSuspend then { entities ->
+            val baseCurrency = baseCurrencyAct(Unit)
+            entities.map {
+                Account(
+                    id = it.id,
+                    name = it.name,
+                    currency = it.currency ?: baseCurrency,
+                    color = it.color,
+                    icon = iconAct(
+                        IconAct.Input(
+                            iconId = it.icon,
                         defaultTo = DefaultTo.Account
                     )
                 ),
