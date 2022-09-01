@@ -24,7 +24,7 @@ import com.ivy.core.ui.temp.Preview
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.reports.ReportScreenEvent.FilterOptions
+import com.ivy.reports.ReportsEvent.FilterOptions
 import com.ivy.reports.ui.ReportsFilterOptions
 import com.ivy.reports.ui.ReportsLoadingScreen
 import com.ivy.reports.ui.ReportsScreenUI
@@ -41,7 +41,7 @@ fun BoxWithConstraintsScope.ReportScreen(
     val state by viewModel.state().collectAsState()
 
     onScreenStart {
-        viewModel.onEvent(ReportScreenEvent.Start)
+        viewModel.onEvent(ReportsEvent.Start)
     }
 
     UI(
@@ -53,8 +53,8 @@ fun BoxWithConstraintsScope.ReportScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: ReportScreenState,
-    onEvent: (ReportScreenEvent) -> Unit = {}
+    state: ReportState,
+    onEvent: (ReportsEvent) -> Unit = {}
 ) {
     ReportsLoadingScreen(visible = state.loading, text = stringResource(R.string.generating_report))
 
@@ -72,7 +72,7 @@ private fun BoxWithConstraintsScope.UI(
             onEvent(FilterOptions(visible = false))
         },
         onFilterEvent = {
-            onEvent(ReportScreenEvent.FilterEvent(it))
+            onEvent(ReportsEvent.FilterEvent(it))
         }
     )
 }

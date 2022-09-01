@@ -10,9 +10,9 @@ import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.reports.ImmutableData
-import com.ivy.reports.ReportScreenEvent
-import com.ivy.reports.reportsEmptyState
-import com.ivy.reports.states.HeaderState
+import com.ivy.reports.ReportsEvent
+import com.ivy.reports.reportsTrnsListEmptyState
+import com.ivy.reports.HeaderState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -20,7 +20,7 @@ fun BoxWithConstraintsScope.ReportsScreenUI(
     baseCurrency: CurrencyCode,
     headerState: HeaderState,
     trnsList: ImmutableData<TransactionsList>,
-    onEvent: (ReportScreenEvent) -> Unit = {}
+    onEvent: (ReportsEvent) -> Unit = {}
 ) {
     trnsList.data
         .TrnsLazyColumn(
@@ -28,7 +28,7 @@ fun BoxWithConstraintsScope.ReportsScreenUI(
                 .fillMaxSize()
                 .systemBarsPadding(),
             scrollStateKey = "Reports",
-            emptyState = reportsEmptyState(),
+            emptyState = reportsTrnsListEmptyState(),
             contentAboveTrns = {
                 stickyHeader {
                     ReportsToolBar(onEventHandler = onEvent)

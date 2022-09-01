@@ -30,8 +30,6 @@ import com.ivy.frp.lambda
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.reports.states.FilterState
-import com.ivy.reports.states.HeaderState
 import com.ivy.reports.ui.*
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
@@ -56,8 +54,8 @@ class ReportViewModel @Inject constructor(
     private val groupTrnsAct: GroupTrnsAct,
     private val exportCSVLogic: ExportCSVLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
-) : FRPViewModel<ReportScreenState, ReportScreenEvent>() {
-    override val _state: MutableStateFlow<ReportScreenState> = MutableStateFlow(
+) : FRPViewModel<ReportState, ReportsEvent>() {
+    override val _state: MutableStateFlow<ReportState> = MutableStateFlow(
         emptyReportScreenState(baseCurrency = getDefaultCurrencyCode())
     )
 
@@ -77,17 +75,17 @@ class ReportViewModel @Inject constructor(
         icon = dummyIconSized(R.drawable.ic_custom_category_s)
     )
 
-    override suspend fun handleEvent(event: ReportScreenEvent): suspend () -> ReportScreenState =
+    override suspend fun handleEvent(event: ReportsEvent): suspend () -> ReportState =
         withContext(Dispatchers.Default) {
             when (event) {
-                is ReportScreenEvent.Start -> initialiseData()
-                is ReportScreenEvent.FilterOptions -> setFilterOptionsVisibility(event.visible)
-                is ReportScreenEvent.TransfersAsIncomeExpense -> transfersAsIncomeExpense(event.transfersAsIncomeExpense)
-                is ReportScreenEvent.Export -> {
+                is ReportsEvent.Start -> initialiseData()
+                is ReportsEvent.FilterOptions -> setFilterOptionsVisibility(event.visible)
+                is ReportsEvent.TrnsAsIncomeExpense -> transfersAsIncomeExpense(event.trnsAsIncExp)
+                is ReportsEvent.Export -> {
                     export(event.context, event.fileUri, event.onFinish)
                     stateVal().lambda()
                 }
-                is ReportScreenEvent.FilterEvent -> {
+                is ReportsEvent.FilterEvent -> {
                     handleFilterEvent(event.filterEvent)
                 }
             }
@@ -118,7 +116,7 @@ class ReportViewModel @Inject constructor(
         )
     }.lambda()
 
-    private suspend fun setFilter(filter: FilterState): suspend () -> ReportScreenState {
+    private suspend fun setFilter(filter: FilterState): suspend () -> ReportState {
         return scopedIOThread { scope ->
             //clear filter
             if (filter.hasEmptyContents())
@@ -194,7 +192,7 @@ class ReportViewModel @Inject constructor(
                         _trnsStats.transfersOutAmount != 0.0)
     }
 
-    private suspend fun transfersAsIncomeExpense(transfersAsIncomeExpense: Boolean): suspend () -> ReportScreenState {
+    private suspend fun transfersAsIncomeExpense(transfersAsIncomeExpense: Boolean): suspend () -> ReportState {
         val income = with(_trnsStats) {
             income + if (transfersAsIncomeExpense) transfersInAmount else 0.0
         }
@@ -417,7 +415,7 @@ class ReportViewModel @Inject constructor(
         else -> true
     }
 
-    private suspend fun handleFilterEvent(filterEvent: ReportFilterEvent): suspend () -> ReportScreenState =
+    private suspend fun handleFilterEvent(filterEvent: ReportFilterEvent): suspend () -> ReportState =
         when (filterEvent) {
             is ReportFilterEvent.SelectTrnsType -> updateTrnsTypeSelection(
                 stateVal().filterState,
@@ -472,7 +470,7 @@ class ReportViewModel @Inject constructor(
         filter: FilterState,
         type: TrnType,
         add: Boolean
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val selectedTrnsList = filter.selectedTrnTypes.data.addOrRemove(add = add, type)
 
         return updateFilterAndState(filter.copy(selectedTrnTypes = selectedTrnsList.toImmutableItem())).lambda()
@@ -481,7 +479,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun updatePeriodSelection(
         filter: FilterState,
         timePeriod: TimePeriod
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         return updateFilterAndState(filter.copy(period = timePeriod.toImmutableItem())).lambda()
     }
 
@@ -489,7 +487,7 @@ class ReportViewModel @Inject constructor(
         filter: FilterState,
         account: Account,
         add: Boolean
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val selectedAccounts =
             filter.selectedAcc.data.addOrRemove(add = add, item = account).toImmutableItem()
         return updateFilterAndState(filter.copy(selectedAcc = selectedAccounts)).lambda()
@@ -499,7 +497,7 @@ class ReportViewModel @Inject constructor(
         filter: FilterState,
         category: Category,
         add: Boolean
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val selectedCategories =
             filter.selectedCat.data.addOrRemove(add = add, item = category).toImmutableItem()
         return updateFilterAndState(filter.copy(selectedCat = selectedCategories)).lambda()
@@ -509,7 +507,7 @@ class ReportViewModel @Inject constructor(
         filter: FilterState,
         amt: Double?,
         amountFilterType: AmountFilterType
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val updatedFilter = when (amountFilterType) {
             AmountFilterType.MIN -> filter.copy(minAmount = amt)
             AmountFilterType.MAX -> filter.copy(maxAmount = amt)
@@ -523,7 +521,7 @@ class ReportViewModel @Inject constructor(
         keyword: String,
         keywordsFilterType: KeywordsFilterType,
         add: Boolean
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val trimmedKeyword = keyword.trim()
 
         val existingKeywords = when (keywordsFilterType) {
@@ -550,7 +548,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun onFilterClear(
         filter: FilterState,
         type: ClearType
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val updatedFilter = when (type) {
             ClearType.ALL -> emptyFilterState().copy(
                 visible = true,
@@ -567,7 +565,7 @@ class ReportViewModel @Inject constructor(
     private suspend fun onSelectAll(
         filter: FilterState,
         type: SelectType
-    ): suspend () -> ReportScreenState {
+    ): suspend () -> ReportState {
         val updatedFilter = when (type) {
             SelectType.ACCOUNTS -> filter.copy(
                 selectedAcc = _allAccounts.toList().toImmutableItem()
@@ -580,7 +578,7 @@ class ReportViewModel @Inject constructor(
         return updateFilterAndState(filter = updatedFilter).lambda()
     }
 
-    private suspend fun updateFilterAndState(filter: FilterState): ReportScreenState {
+    private suspend fun updateFilterAndState(filter: FilterState): ReportState {
         return updateState {
             it.copy(filterState = filter)
         }

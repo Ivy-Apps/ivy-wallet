@@ -11,7 +11,7 @@ import com.ivy.base.R
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.core.ui.temp.ivyWalletCtx
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.reports.ReportScreenEvent
+import com.ivy.reports.ReportsEvent
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -56,7 +56,7 @@ private fun ReportsToolBarWrapper(
 }
 
 @Composable
-fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
+fun ReportsToolBar(onEventHandler: (ReportsEvent) -> Unit) {
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
     val context = LocalContext.current
@@ -67,7 +67,7 @@ fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
 
             ivyContext.createNewFile(fileName) { fileUri ->
                 onEventHandler(
-                    ReportScreenEvent.Export(
+                    ReportsEvent.Export(
                         context = context,
                         fileUri = fileUri,
                         onFinish = {
@@ -79,7 +79,7 @@ fun ReportsToolBar(onEventHandler: (ReportScreenEvent) -> Unit) {
         },
         onFilter = {
             onEventHandler.invoke(
-                ReportScreenEvent.FilterOptions(
+                ReportsEvent.FilterOptions(
                     visible = true
                 )
             )

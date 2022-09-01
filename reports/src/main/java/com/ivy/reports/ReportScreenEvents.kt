@@ -1,16 +1,40 @@
 package com.ivy.reports
 
+import android.content.Context
+import android.net.Uri
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
-import com.ivy.reports.states.FilterState
+
+/** ---------------------------------- ReportScreen Main Events ----------------------------------*/
+
+sealed class ReportsEvent {
+
+    object Start : ReportsEvent()
+
+    data class FilterOptions(val visible: Boolean) : ReportsEvent()
+
+    data class TrnsAsIncomeExpense(val trnsAsIncExp: Boolean) : ReportsEvent()
+
+    data class Export(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
+        ReportsEvent()
+
+    data class FilterEvent(val filterEvent: ReportFilterEvent) : ReportsEvent()
+}
+
+/** -------------------------------- ReportScreen Filter Events ----------------------------------*/
 
 sealed class ReportFilterEvent {
+
     data class SelectTrnsType(val type: TrnType, val checked: Boolean) : ReportFilterEvent()
+
     data class SelectPeriod(val timePeriod: TimePeriod) : ReportFilterEvent()
+
     data class SelectAccount(val account: Account, val add: Boolean) : ReportFilterEvent()
+
     data class SelectCategory(val category: Category, val add: Boolean) : ReportFilterEvent()
+
     data class SelectAmount(val amountFilterType: AmountFilterType, val amt: Double?) :
         ReportFilterEvent()
 
@@ -21,7 +45,9 @@ sealed class ReportFilterEvent {
     ) : ReportFilterEvent()
 
     data class Clear(val type: ClearType) : ReportFilterEvent()
+
     data class SelectAll(val type: SelectType) : ReportFilterEvent()
+
     data class FilterSet(val filter: FilterState) : ReportFilterEvent()
 }
 
