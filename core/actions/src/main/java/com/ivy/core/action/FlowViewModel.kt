@@ -16,7 +16,7 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
                 .onCompletion { TestIdlingResource.decrement() }
                 .stateIn(
                     scope = viewModelScope,
-                    started = SharingStarted.Lazily,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
                     initialValue = initialState(),
                 )
         }
