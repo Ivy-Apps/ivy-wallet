@@ -7,6 +7,7 @@ import arrow.core.NonEmptyList
 import arrow.core.getOrElse
 import com.ivy.base.R
 import com.ivy.common.atEndOfDay
+import com.ivy.common.timeNowUTC
 import com.ivy.core.action.account.AccountsAct
 import com.ivy.core.action.calculate.CalculateWithTransfersAct
 import com.ivy.core.action.calculate.ExtendedStats
@@ -30,11 +31,9 @@ import com.ivy.frp.lambda
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.reports.ReportFilterEvent.SelectAmount
-import com.ivy.reports.ReportFilterEvent.SelectAmount.*
-import com.ivy.reports.ReportFilterEvent.SelectKeyword
-import com.ivy.reports.ReportFilterEvent.SelectKeyword.*
-import com.ivy.reports.ui.*
+import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
+import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
+import com.ivy.reports.data.PlannedPaymentTypes
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.ui.theme.Gray
@@ -274,10 +273,12 @@ class ReportViewModel @Inject constructor(
             transactionsList = it
         )
     } thenInvokeAfter { allTrans ->
-        /**
-         * [actualTrns] variable represents transactions without PlannedPayment Transactions
-         */
-        val actualTrns = allTrans.filter(::actual)
+
+        val actualTrns =
+            getActualTrns(
+                selectedPlannedPayments = filter.selectedPlannedPayments.data,
+                allTrns = allTrans
+            )
 
         val stats = calculateAct(
             CalculateWithTransfersAct.Input(
@@ -288,6 +289,33 @@ class ReportViewModel @Inject constructor(
         )
 
         Pair(stats, allTrans)
+    }
+
+    private fun getActualTrns(
+        selectedPlannedPayments: List<PlannedPaymentTypes>,
+        allTrns: List<Transaction>
+    ): List<Transaction> {
+        return if (selectedPlannedPayments.isEmpty())
+            allTrns.filter(::actual)
+        else if (selectedPlannedPayments.contains(PlannedPaymentTypes.UPCOMING)
+            && selectedPlannedPayments.contains(PlannedPaymentTypes.OVERDUE)
+        )
+            allTrns
+        else {
+            val timeNow = timeNowUTC()
+            val type = selectedPlannedPayments.first()
+            allTrns.filter {
+                when (it.time) {
+                    is TrnTime.Due -> {
+                        when (type) {
+                            PlannedPaymentTypes.UPCOMING -> upcoming(it, timeNow)
+                            PlannedPaymentTypes.OVERDUE -> overdue(it, timeNow)
+                        }
+                    }
+                    else -> true
+                }
+            }
+        }
     }
 
     @Suppress("FunctionName")
@@ -444,16 +472,22 @@ class ReportViewModel @Inject constructor(
                 add = filterEvent.add
             )
 
-            is SelectAmount -> updateAmountSelection(
+            is ReportFilterEvent.SelectAmount -> updateAmountSelection(
                 filter = stateVal().filterState,
                 amt = filterEvent.amt,
                 amountType = filterEvent.amountType
             )
 
-            is SelectKeyword -> updateIncludeExcludeKeywords(
+            is ReportFilterEvent.SelectKeyword -> updateIncludeExcludeKeywords(
                 filter = stateVal().filterState,
                 keyword = filterEvent.keyword,
                 keywordsType = filterEvent.keywordsType,
+                add = filterEvent.add
+            )
+
+            is ReportFilterEvent.SelectPlannedPayment -> updatePlannedPaymentSelection(
+                filter = stateVal().filterState,
+                type = filterEvent.type,
                 add = filterEvent.add
             )
 
@@ -547,6 +581,17 @@ class ReportViewModel @Inject constructor(
         }
 
         return updateFilterAndState(updatedFilter).lambda()
+    }
+
+    private suspend fun updatePlannedPaymentSelection(
+        filter: FilterState,
+        type: PlannedPaymentTypes,
+        add: Boolean
+    ): suspend () -> ReportState {
+        val selectPlannedPayments =
+            filter.selectedPlannedPayments.data.addOrRemove(add = add, item = type)
+                .toImmutableItem()
+        return updateFilterAndState(filter.copy(selectedPlannedPayments = selectPlannedPayments)).lambda()
     }
 
     private suspend fun onFilterClear(

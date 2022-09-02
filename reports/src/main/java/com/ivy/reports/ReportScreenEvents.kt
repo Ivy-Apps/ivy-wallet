@@ -6,6 +6,7 @@ import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
+import com.ivy.reports.data.PlannedPaymentTypes
 
 /** ---------------------------------- ReportScreen Main Events ----------------------------------*/
 
@@ -53,6 +54,9 @@ sealed class ReportFilterEvent {
             INCLUDE, EXCLUDE
         }
     }
+
+    data class SelectPlannedPayment(val type: PlannedPaymentTypes, val add: Boolean) :
+        ReportFilterEvent()
 
     sealed class Clear : ReportFilterEvent() {
         object Accounts : Clear()

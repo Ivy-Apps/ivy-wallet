@@ -8,6 +8,7 @@ import com.ivy.data.category.Category
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnType
+import com.ivy.reports.data.PlannedPaymentTypes
 import java.util.*
 
 //------------------------------------------  Reports Main State -----------------------------------
@@ -64,4 +65,6 @@ data class FilterState(
 
     val includeKeywords: ImmutableData<List<String>>,
     val excludeKeywords: ImmutableData<List<String>>,
+
+    val selectedPlannedPayments : ImmutableData<List<PlannedPaymentTypes>>
 )

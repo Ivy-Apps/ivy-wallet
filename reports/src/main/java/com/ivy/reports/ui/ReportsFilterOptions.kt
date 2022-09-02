@@ -44,6 +44,7 @@ import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
+import com.ivy.reports.data.PlannedPaymentTypes
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -207,6 +208,23 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                         )
                     }
 
+                    FilterDivider()
+                }
+
+                item {
+                    PlannedPaymentFilter(
+                        selectedPlannedPayments = state.selectedPlannedPayments
+                    ) { add, type ->
+                        onFilterEvent(
+                            ReportFilterEvent.SelectPlannedPayment(
+                                type = type,
+                                add = add
+                            )
+                        )
+                    }
+                }
+
+                item {
                     FilterFooter()
                 }
             }
@@ -258,6 +276,45 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         visible = state.visible,
         action = onClose
     )
+}
+
+@Composable
+fun PlannedPaymentFilter(
+    selectedPlannedPayments: ImmutableData<List<PlannedPaymentTypes>>,
+    onChecked: (Boolean, PlannedPaymentTypes) -> Unit
+) {
+    FilterTitleText(
+        text = "Planned Payments (optional)",
+        active = selectedPlannedPayments.data.isNotEmpty()
+    )
+    Text(
+        modifier = Modifier.padding(horizontal = 32.dp, vertical = 4.dp),
+        text = "Include the following planned payments in reports",
+        style = UI.typo.nB2.style(
+            fontWeight = FontWeight.Normal
+        )
+    )
+
+    Row(
+        modifier = Modifier.padding(horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IvyCheckboxWithText(
+            modifier = Modifier.weight(1f),
+            text = "Upcoming",
+            checked = selectedPlannedPayments.data.contains(PlannedPaymentTypes.UPCOMING)
+        ) {
+            onChecked(it, PlannedPaymentTypes.UPCOMING)
+        }
+
+        IvyCheckboxWithText(
+            modifier = Modifier.weight(1f),
+            text = "Overdue",
+            checked = selectedPlannedPayments.data.contains(PlannedPaymentTypes.OVERDUE)
+        ) {
+            onChecked(it, PlannedPaymentTypes.OVERDUE)
+        }
+    }
 }
 
 @Composable

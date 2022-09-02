@@ -88,6 +88,7 @@ fun emptyFilterState() = FilterState(
     maxAmount = null,
     includeKeywords = ImmutableData(emptyList()),
     excludeKeywords = ImmutableData(emptyList()),
+    selectedPlannedPayments = ImmutableData(emptyList())
 )
 
 /** ---------------------------------- Utility Functions -----------------------------------------*/
