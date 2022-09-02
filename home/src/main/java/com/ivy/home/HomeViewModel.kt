@@ -13,9 +13,7 @@ import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
 import com.ivy.core.functions.transaction.TrnWhere.DueBetween
 import com.ivy.core.functions.transaction.or
 import com.ivy.core.ui.navigation.Nav
-import com.ivy.data.CurrencyCode
 import com.ivy.data.time.SelectedPeriod
-import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.screens.BalanceScreen
@@ -65,51 +63,50 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private suspend fun dataFlow(): Flow<DataHolder> =
-        combine(selectedPeriodFlow(), baseCurrencyFlow()) { selectedPeriod, baseCurrency ->
-            val balanceFlow = balanceFlow(baseCurrency = baseCurrency)
+    private suspend fun dataFlow(): Flow<DataHolder> = baseCurrencyFlow().map { baseCurrency ->
+        val balanceFlow = balanceFlow(
+            TotalBalanceFlow.Input(
+                withExcludedAccs = false,
+                outputCurrency = baseCurrency
+            )
+        )
 
+        val periodDataFlow = selectedPeriodFlow().map { selectedPeriod ->
             val period = selectedPeriod.period()
             val trnsListFlow = trnsListFlow(ActualBetween(period) or DueBetween(period))
 
-            val incomeExpenseFlow = trnsListFlow.flatMapMerge { trnsList ->
-                incomeExpenseFlow(
-                    trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
-                    baseCurrency = baseCurrency
+            val periodStats = trnsListFlow.flatMapMerge { trnsList ->
+                calculateFlow(
+                    CalculateFlow.Input(
+                        trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
+                        outputCurrency = baseCurrency
+                    )
                 )
             }
 
             combine(
-                balanceFlow, trnsListFlow, incomeExpenseFlow
-            ) { balance, trnsList, incomeExpense ->
-                DataHolder(
-                    period = selectedPeriod,
-                    balance = balance,
-                    income = incomeExpense.income,
-                    expense = incomeExpense.expense,
+                trnsListFlow, periodStats
+            ) { trnsList, stats ->
+                SelectedPeriodData(
+                    selectedPeriod = selectedPeriod,
                     trnsList = trnsList,
+                    income = stats.income,
+                    expense = stats.expense,
                 )
             }
         }.flattenMerge()
 
-    private suspend fun balanceFlow(baseCurrency: CurrencyCode): Flow<Double> = balanceFlow(
-        TotalBalanceFlow.Input(
-            withExcludedAccs = false,
-            outputCurrency = baseCurrency
-        )
-    )
+        combine(balanceFlow, periodDataFlow) { balance, periodData ->
+            DataHolder(
+                period = periodData.selectedPeriod,
+                balance = balance,
+                income = periodData.income,
+                expense = periodData.expense,
+                trnsList = periodData.trnsList,
+            )
+        }
+    }.flattenMerge()
 
-    private suspend fun incomeExpenseFlow(
-        trns: List<Transaction>,
-        baseCurrency: CurrencyCode
-    ): Flow<IncomeExpense> = calculateFlow(
-        CalculateFlow.Input(
-            trns = trns,
-            outputCurrency = baseCurrency
-        )
-    ).map {
-        IncomeExpense(income = it.income, expense = it.expense)
-    }
 
     private suspend fun hideBalanceFlow() =
         combine(
@@ -136,7 +133,10 @@ class HomeViewModel @Inject constructor(
         overrideShowBalance.value = false
     }
 
-    private data class IncomeExpense(
+
+    private data class SelectedPeriodData(
+        val selectedPeriod: SelectedPeriod,
+        val trnsList: TransactionsList,
         val income: Double,
         val expense: Double,
     )
