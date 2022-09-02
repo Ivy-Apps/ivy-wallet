@@ -1,10 +1,11 @@
 package com.ivy.home
 
 import com.ivy.core.action.FlowViewModel
-import com.ivy.core.action.calculate.CalculateAct
+import com.ivy.core.action.calculate.CalculateFlow
 import com.ivy.core.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.action.helper.TrnsListFlow
+import com.ivy.core.action.settings.NameFlow
 import com.ivy.core.action.time.SelectedPeriodFlow
 import com.ivy.core.functions.time.period
 import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
@@ -12,11 +13,10 @@ import com.ivy.core.functions.transaction.TrnWhere.DueBetween
 import com.ivy.core.functions.transaction.or
 import com.ivy.core.ui.navigation.Nav
 import com.ivy.data.transaction.TransactionsList
+import com.ivy.data.transaction.TrnListItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flattenMerge
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
@@ -26,7 +26,8 @@ class HomeViewModel @Inject constructor(
     private val trnsListFlow: TrnsListFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
-    private val calculateAct: CalculateAct
+    private val calculateFlow: CalculateFlow,
+    private val nameFlow: NameFlow,
 ) : FlowViewModel<HomeState, HomeState, HomeEvent>() {
     override fun initialState(): HomeState = HomeState(
         name = "",
@@ -49,11 +50,26 @@ class HomeViewModel @Inject constructor(
         }.flattenMerge()
         .map { trnsList ->
             baseCurrencyFlow().map { baseCurrency ->
+                combine(
+                    balanceFlow(
+                        TotalBalanceFlow.Input(
+                            withExcludedAccs = false,
+                            outputCurrency = baseCurrency
+                        )
+                    ),
+                    calculateFlow(
+                        CalculateFlow.Input(
+                            trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
+                            outputCurrency = baseCurrency
+                        )
+                    )
+                ) { balance, stats ->
 
+                }
             }
 
             TODO()
-        }
+        }.flowOn(Dispatchers.Default)
 
 
     override fun mapToUiState(state: StateFlow<HomeState>): StateFlow<HomeState> = state

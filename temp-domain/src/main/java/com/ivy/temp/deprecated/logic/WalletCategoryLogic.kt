@@ -28,7 +28,7 @@ class WalletCategoryLogic(
         accountFilterSet: Set<UUID> = emptySet(),
         transactions: List<TransactionOld> = emptyList()
     ): Double {
-        val baseCurrency = settingsDao.findFirst().currency
+        val baseCurrency = settingsDao.findFirstSuspend().currency
         val accounts = accountDao.findAllSuspend().map { it.toDomain() }
 
         return historyByCategory(

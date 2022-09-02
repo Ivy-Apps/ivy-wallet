@@ -20,10 +20,10 @@ interface SettingsDao {
     suspend fun updateBaseCurrency(currencyCode: String)
 
     @Query("SELECT * FROM settings LIMIT 1")
-    suspend fun findFirst(): SettingsEntity
+    suspend fun findFirstSuspend(): SettingsEntity
 
     @Query("SELECT * FROM settings LIMIT 1")
-    fun findFirstFlow(): Flow<SettingsEntity>
+    fun findFirst(): Flow<SettingsEntity>
 
     @Query("SELECT * FROM settings")
     suspend fun findAll(): List<SettingsEntity>

@@ -86,7 +86,7 @@ class CSVImporter(
         categories = categoryDao.findAllSuspend().map { it.toDomain() }
         val initialCategoriesCount = categories.size
 
-        val baseCurrency = settingsDao.findFirst().currency
+        val baseCurrency = settingsDao.findFirstSuspend().currency
 
         val failedRows = mutableListOf<CSVRow>()
 

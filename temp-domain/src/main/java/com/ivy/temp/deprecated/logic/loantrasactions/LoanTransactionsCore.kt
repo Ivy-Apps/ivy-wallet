@@ -73,7 +73,7 @@ class LoanTransactionsCore(
     }
 
     suspend fun baseCurrency(): String =
-        ioThread { baseCurrencyCode ?: settingsDao.findFirst().currency }
+        ioThread { baseCurrencyCode ?: settingsDao.findFirstSuspend().currency }
 
 
     suspend fun updateAssociatedTransaction(

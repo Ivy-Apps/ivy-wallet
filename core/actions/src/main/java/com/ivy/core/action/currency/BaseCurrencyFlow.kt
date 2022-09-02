@@ -13,7 +13,7 @@ class BaseCurrencyFlow @Inject constructor(
     private val settingsDao: SettingsDao
 ) : SharedFlowAction<CurrencyCode>() {
     override suspend fun createFlow(): Flow<CurrencyCode> =
-        settingsDao.findFirstFlow()
+        settingsDao.findFirst()
             .map { it.currency }
 
     override suspend fun initialValue(): CurrencyCode = ""

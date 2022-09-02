@@ -18,13 +18,13 @@ class IvyDataStore @Inject constructor(
 ) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "ivy_wallet")
 
-    suspend fun <T> insert(pair: Preferences.Pair<T>) {
+    suspend fun <T> put(pair: Preferences.Pair<T>) {
         appContext.dataStore.edit {
             it.putAll(pair)
         }
     }
 
-    suspend fun <T> insert(
+    suspend fun <T> put(
         key: Preferences.Key<T>,
         value: T
     ) {
@@ -39,7 +39,7 @@ class IvyDataStore @Inject constructor(
         }
     }
 
-    fun <T> getFlow(key: Preferences.Key<T>): Flow<T?> = appContext.dataStore.data.map { it[key] }
+    fun <T> get(key: Preferences.Key<T>): Flow<T?> = appContext.dataStore.data.map { it[key] }
 
     suspend fun <T> getSuspend(key: Preferences.Key<T>): T? = appContext.dataStore.data.map {
         it[key]

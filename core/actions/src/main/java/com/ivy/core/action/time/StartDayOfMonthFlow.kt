@@ -16,7 +16,7 @@ class StartDayOfMonthFlow @Inject constructor(
     override suspend fun initialValue(): Int = 1
 
     override suspend fun createFlow(): Flow<Int> =
-        dataStore.getFlow(key = dataStoreKeys.startDayOfMonth)
+        dataStore.get(key = dataStoreKeys.startDayOfMonth)
             .map {
                 it ?: initialValue()
             }

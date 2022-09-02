@@ -9,6 +9,10 @@ import java.time.LocalDateTime
 /**
  * Created by iliyan on 13.03.18.
  */
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("IvyDataStore")
+)
 class SharedPrefs(appContext: Context) {
     companion object {
         private const val PREFS_FILENAME = "ivy_wallet_prefs"

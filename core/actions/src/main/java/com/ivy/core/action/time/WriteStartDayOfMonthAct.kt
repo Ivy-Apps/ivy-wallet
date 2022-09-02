@@ -10,6 +10,6 @@ class WriteStartDayOfMonthAct @Inject constructor(
     private val dataStoreKeys: IvyDataStoreKeys,
 ) : Action<Int, Unit>() {
     override suspend fun Int.willDo() {
-        dataStore.insert(key = dataStoreKeys.startDayOfMonth, value = this)
+        dataStore.put(key = dataStoreKeys.startDayOfMonth, value = this)
     }
 }

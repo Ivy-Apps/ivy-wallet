@@ -61,7 +61,7 @@ class ExportCSVLogic(
                 .map { it.id to it }
                 .toMap()
 
-            val baseCurrency = settingsDao.findFirst().currency
+            val baseCurrency = settingsDao.findFirstSuspend().currency
             val csvRows = exportScope()
                 .joinToString("\n") {
                     it.toCSV(

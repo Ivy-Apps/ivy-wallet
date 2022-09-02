@@ -85,7 +85,7 @@ class LoanDetailsViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             defaultCurrencyCode = ioThread {
-                settingsDao.findFirst().currency
+                settingsDao.findFirstSuspend().currency
             }.also {
                 _baseCurrency.value = it
             }
