@@ -12,6 +12,11 @@ sealed class SelectedPeriod {
         val period: Period.FromTo
     ) : SelectedPeriod()
 
-    object AllTime : SelectedPeriod()
-    object CustomRange : SelectedPeriod()
+    data class AllTime(
+        val period: Period.FromTo
+    ) : SelectedPeriod()
+
+    data class CustomRange(
+        val period: Period.FromTo
+    ) : SelectedPeriod()
 }

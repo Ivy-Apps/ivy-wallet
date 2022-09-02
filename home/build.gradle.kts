@@ -18,6 +18,8 @@ dependencies {
     implementation(project(":data-model"))
     implementation(project(":screens"))
     implementation(project(":temp-domain"))
+    implementation(project(":core:actions"))
+    implementation(project(":core:functions"))
 
     implementation(project(":more-menu"))
     implementation(project(":customer-journey"))

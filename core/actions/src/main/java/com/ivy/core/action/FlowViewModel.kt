@@ -6,33 +6,39 @@ import com.ivy.frp.test.TestIdlingResource
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-abstract class FlowViewModel<S, E> : ViewModel() {
-    private val events = MutableSharedFlow<E>(replay = 0)
+abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
+    private val events = MutableSharedFlow<Event>(replay = 0)
 
     init {
+        viewModelScope.launch {
+            state = stateFlow()
+                .onStart { TestIdlingResource.increment() }
+                .onCompletion { TestIdlingResource.decrement() }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.Lazily,
+                    initialValue = initialState(),
+                )
+        }
         viewModelScope.launch {
             events.collect(::handleEvent)
         }
     }
 
-    abstract fun initialState(): S
+    abstract fun initialState(): State
 
-    abstract fun stateFlow(): Flow<S>
+    abstract suspend fun stateFlow(): Flow<State>
 
-    abstract suspend fun handleEvent(event: E)
+    abstract fun mapToUiState(state: StateFlow<State>): StateFlow<UiState>
 
-    val state: StateFlow<S> by lazy {
-        stateFlow()
-            .onStart { TestIdlingResource.increment() }
-            .onCompletion { TestIdlingResource.decrement() }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Lazily,
-                initialValue = initialState(),
-            )
-    }
+    abstract suspend fun handleEvent(event: Event)
 
-    fun onEvent(event: E) {
+    protected lateinit var state: StateFlow<State>
+        private set
+
+    val uiState: StateFlow<UiState> by lazy { mapToUiState(state) }
+
+    fun onEvent(event: Event) {
         viewModelScope.launch {
             events.emit(event)
         }

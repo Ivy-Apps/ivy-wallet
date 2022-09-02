@@ -60,7 +60,7 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
     val state by viewModel.state().collectAsState()
 
     onScreenStart {
-        viewModel.onEvent(HomeEvent.Start)
+        viewModel.onEvent(HomeEventOld.Start)
     }
 
     UI(state, viewModel::onEvent)
@@ -70,9 +70,9 @@ fun BoxWithConstraintsScope.HomeTab(screen: Main) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: HomeState,
+    state: HomeStateOld,
 
-    onEvent: (HomeEvent) -> Unit
+    onEvent: (HomeEventOld) -> Unit
 ) {
     val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
@@ -132,10 +132,10 @@ private fun BoxWithConstraintsScope.UI(
                     period = state.period
                 )
             },
-            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
-            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
-            onSelectNextMonth = HomeEvent.SelectNextMonth asParamTo2 onEvent,
-            onSelectPreviousMonth = HomeEvent.SelectPreviousMonth asParamTo2 onEvent
+            onBalanceClick = HomeEventOld.BalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = HomeEventOld.HiddenBalanceClick asParamTo2 onEvent,
+            onSelectNextMonth = HomeEventOld.SelectNextMonth asParamTo2 onEvent,
+            onSelectPreviousMonth = HomeEventOld.SelectPreviousMonth asParamTo2 onEvent
         )
 
         HomeLazyColumn(
@@ -145,8 +145,8 @@ private fun BoxWithConstraintsScope.UI(
             onOpenMoreMenu = {
                 setMoreMenuExpanded(true)
             },
-            onBalanceClick = HomeEvent.BalanceClick asParamTo2 onEvent,
-            onHiddenBalanceClick = HomeEvent.HiddenBalanceClick asParamTo2 onEvent,
+            onBalanceClick = HomeEventOld.BalanceClick asParamTo2 onEvent,
+            onHiddenBalanceClick = HomeEventOld.HiddenBalanceClick asParamTo2 onEvent,
 
             hideCurrentBalance = state.hideCurrentBalance,
 
@@ -165,19 +165,19 @@ private fun BoxWithConstraintsScope.UI(
             customerJourneyCards = state.customerJourneyCards,
 
             onPayOrGet = forward<TransactionOld>() then2 {
-                HomeEvent.PayOrGetPlanned(it)
+                HomeEventOld.PayOrGetPlanned(it)
             } then2 onEvent,
             onDismiss = forward<CustomerJourneyCardData>() then2 {
-                HomeEvent.DismissCustomerJourneyCard(it)
+                HomeEventOld.DismissCustomerJourneyCard(it)
             } then2 onEvent,
             onSkipTransaction = forward<TransactionOld>() then2 {
-                HomeEvent.SkipPlanned(it)
+                HomeEventOld.SkipPlanned(it)
             } then2 onEvent,
             setUpcomingExpanded = forward<Boolean>() then2 {
-                HomeEvent.SetUpcomingExpanded(it)
+                HomeEventOld.SetUpcomingExpanded(it)
             } then2 onEvent,
             setOverdueExpanded = forward<Boolean>() then2 {
-                HomeEvent.SetOverdueExpanded(it)
+                HomeEventOld.SetOverdueExpanded(it)
             } then2 onEvent,
             onSkipAllTransactions = { skipAllModalVisible = true }
         )
@@ -189,7 +189,7 @@ private fun BoxWithConstraintsScope.UI(
         balance = state.balance.toDouble(),
         currency = baseCurrency,
         buffer = state.buffer.amount.toDouble(),
-        onSwitchTheme = HomeEvent.SwitchTheme asParamTo2 onEvent,
+        onSwitchTheme = HomeEventOld.SwitchTheme asParamTo2 onEvent,
 
         setExpanded = setMoreMenuExpanded,
         onBufferClick = {
@@ -210,7 +210,7 @@ private fun BoxWithConstraintsScope.UI(
             bufferModalData = null
         },
         onBufferChanged = forward<Double>() then2 {
-            HomeEvent.SetBuffer(it)
+            HomeEventOld.SetBuffer(it)
         } then2 onEvent
     )
 
@@ -220,7 +220,7 @@ private fun BoxWithConstraintsScope.UI(
         visible = currencyModalVisible,
         dismiss = { currencyModalVisible = false },
         onSetCurrency = forward<String>() then2 {
-            HomeEvent.SetCurrency(it)
+            HomeEventOld.SetCurrency(it)
         } then2 onEvent
     )
 
@@ -230,7 +230,7 @@ private fun BoxWithConstraintsScope.UI(
             choosePeriodModal = null
         },
         onPeriodSelected = forward<TimePeriod>() then2 {
-            HomeEvent.SetPeriod(it)
+            HomeEventOld.SetPeriod(it)
         } then2 onEvent
     )
 
@@ -240,7 +240,7 @@ private fun BoxWithConstraintsScope.UI(
         description = stringResource(R.string.confirm_skip_all_description),
         dismiss = { skipAllModalVisible = false }
     ) {
-        onEvent(HomeEvent.SkipAllPlanned(state.overdue.trns))
+        onEvent(HomeEventOld.SkipAllPlanned(state.overdue.trns))
         skipAllModalVisible = false
     }
 }
@@ -366,7 +366,7 @@ fun HomeLazyColumn(
 private fun PreviewHomeTab() {
     com.ivy.core.ui.temp.Preview {
         UI(
-            state = HomeState.initial(ivyWalletCtx()),
+            state = HomeStateOld.initial(ivyWalletCtx()),
             onEvent = {}
         )
     }

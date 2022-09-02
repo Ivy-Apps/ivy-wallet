@@ -62,30 +62,31 @@ class HomeViewModel @Inject constructor(
     private val updateSettingsAct: UpdateSettingsAct,
     private val updateAccCacheAct: UpdateAccCacheAct,
     private val updateCategoriesCacheAct: UpdateCategoriesCacheAct
-) : FRPViewModel<HomeState, HomeEvent>() {
-    override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
-        HomeState.initial(ivyWalletCtx = ivyContext)
+) : FRPViewModel<HomeStateOld, HomeEventOld>() {
+    override val _state: MutableStateFlow<HomeStateOld> = MutableStateFlow(
+        HomeStateOld.initial(ivyWalletCtx = ivyContext)
     )
 
-    override suspend fun handleEvent(event: HomeEvent): suspend () -> HomeState = when (event) {
-        HomeEvent.Start -> start()
-        HomeEvent.BalanceClick -> onBalanceClick()
-        HomeEvent.HiddenBalanceClick -> onHiddenBalanceClick()
-        is HomeEvent.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
-        is HomeEvent.SkipPlanned -> skipPlanned(event.transaction)
-        is HomeEvent.SkipAllPlanned -> skipAllPlanned(event.transactions)
-        is HomeEvent.SetPeriod -> setPeriod(event.period)
-        HomeEvent.SelectNextMonth -> nextMonth()
-        HomeEvent.SelectPreviousMonth -> previousMonth()
-        is HomeEvent.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
-        is HomeEvent.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
-        is HomeEvent.SetBuffer -> setBuffer(event.buffer).fixUnit()
-        is HomeEvent.SetCurrency -> setCurrency(event.currency).fixUnit()
-        HomeEvent.SwitchTheme -> switchTheme().fixUnit()
-        is HomeEvent.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
-    }
+    override suspend fun handleEvent(event: HomeEventOld): suspend () -> HomeStateOld =
+        when (event) {
+            HomeEventOld.Start -> start()
+            HomeEventOld.BalanceClick -> onBalanceClick()
+            HomeEventOld.HiddenBalanceClick -> onHiddenBalanceClick()
+            is HomeEventOld.PayOrGetPlanned -> payOrGetPlanned(event.transaction)
+            is HomeEventOld.SkipPlanned -> skipPlanned(event.transaction)
+            is HomeEventOld.SkipAllPlanned -> skipAllPlanned(event.transactions)
+            is HomeEventOld.SetPeriod -> setPeriod(event.period)
+            HomeEventOld.SelectNextMonth -> nextMonth()
+            HomeEventOld.SelectPreviousMonth -> previousMonth()
+            is HomeEventOld.SetUpcomingExpanded -> setUpcomingExpanded(event.expanded)
+            is HomeEventOld.SetOverdueExpanded -> setOverdueExpanded(event.expanded)
+            is HomeEventOld.SetBuffer -> setBuffer(event.buffer).fixUnit()
+            is HomeEventOld.SetCurrency -> setCurrency(event.currency).fixUnit()
+            HomeEventOld.SwitchTheme -> switchTheme().fixUnit()
+            is HomeEventOld.DismissCustomerJourneyCard -> dismissCustomerJourneyCard(event.card)
+        }
 
-    private suspend fun start(): suspend () -> HomeState =
+    private suspend fun start(): suspend () -> HomeStateOld =
         suspend {
             val startDay = startDayOfMonthAct(Unit)
             ivyContext.initSelectedPeriodInMemory(
@@ -96,7 +97,7 @@ class HomeViewModel @Inject constructor(
     //-----------------------------------------------------------------------------------
     private suspend fun reload(
         period: TimePeriod = ivyContext.selectedPeriod
-    ): HomeState = suspend {
+    ): HomeStateOld = suspend {
         val settings = settingsAct(Unit)
         val hideBalance = shouldHideBalanceAct(Unit)
 
@@ -210,7 +211,7 @@ class HomeViewModel @Inject constructor(
 
     private suspend fun loadDueTrns(
         input: Pair<String, ClosedTimeRange>
-    ): HomeState = suspend {
+    ): HomeStateOld = suspend {
         UpcomingAct.Input(baseCurrency = input.first, range = input.second)
     } then upcomingAct then { result ->
         updateState {
@@ -237,8 +238,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun loadCustomerJourney(
-        input: HomeState
-    ): HomeState {
+        input: HomeStateOld
+    ): HomeStateOld {
         return updateState {
             it.copy(
                 customerJourneyCards = ioThread { customerJourneyLogic.loadCards() }

@@ -9,7 +9,7 @@ import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.journey.domain.CustomerJourneyCardData
 import java.math.BigDecimal
 
-data class HomeState(
+data class HomeStateOld(
     val theme: Theme,
     val name: String,
 
@@ -30,7 +30,7 @@ data class HomeState(
     val hideCurrentBalance: Boolean
 ) {
     companion object {
-        fun initial(ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx): HomeState = HomeState(
+        fun initial(ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx): HomeStateOld = HomeStateOld(
             theme = Theme.AUTO,
             name = "",
             baseData = AppBaseData(
