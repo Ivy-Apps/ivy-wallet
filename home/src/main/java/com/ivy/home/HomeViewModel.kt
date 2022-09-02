@@ -50,7 +50,7 @@ class HomeViewModel @Inject constructor(
     private val overrideShowBalance = MutableStateFlow(false)
 
     override suspend fun stateFlow(): Flow<HomeState> = combine(
-        nameFlow(Unit), hideBalanceFlow(), dataFlow()
+        nameFlow(Unit), showBalanceFlow(), dataFlow()
     ) { name, hideBalance, data ->
         HomeState(
             name = name,
@@ -63,19 +63,24 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private suspend fun dataFlow(): Flow<DataHolder> = baseCurrencyFlow().map { baseCurrency ->
-        val balanceFlow = balanceFlow(
-            TotalBalanceFlow.Input(
-                withExcludedAccs = false,
-                outputCurrency = baseCurrency
+    private suspend fun dataFlow(): Flow<DataHolder> = baseCurrencyFlow()
+        .flatMapMerge { baseCurrency ->
+            val balanceFlow = balanceFlow(
+                TotalBalanceFlow.Input(
+                    withExcludedAccs = false,
+                    outputCurrency = baseCurrency
+                )
             )
-        )
 
-        val periodDataFlow = selectedPeriodFlow().map { selectedPeriod ->
-            val period = selectedPeriod.period()
-            val trnsListFlow = trnsListFlow(ActualBetween(period) or DueBetween(period))
+            val selectedPeriodFlow = selectedPeriodFlow()
 
-            val periodStats = trnsListFlow.flatMapMerge { trnsList ->
+            val trnsListFlow = selectedPeriodFlow.flatMapMerge {
+                val period = it.period()
+                trnsListFlow(ActualBetween(period) or DueBetween(period))
+            }
+
+            // Income & Expense for the period
+            val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
                 calculateFlow(
                     CalculateFlow.Input(
                         trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
@@ -85,35 +90,24 @@ class HomeViewModel @Inject constructor(
             }
 
             combine(
-                trnsListFlow, periodStats
-            ) { trnsList, stats ->
-                SelectedPeriodData(
-                    selectedPeriod = selectedPeriod,
-                    trnsList = trnsList,
+                balanceFlow, selectedPeriodFlow, trnsListFlow, statsFlow
+            ) { balance, selectedPeriod, trnsList, stats ->
+                DataHolder(
+                    period = selectedPeriod,
+                    balance = balance,
                     income = stats.income,
                     expense = stats.expense,
+                    trnsList = trnsList,
                 )
             }
-        }.flattenMerge()
-
-        combine(balanceFlow, periodDataFlow) { balance, periodData ->
-            DataHolder(
-                period = periodData.selectedPeriod,
-                balance = balance,
-                income = periodData.income,
-                expense = periodData.expense,
-                trnsList = periodData.trnsList,
-            )
         }
-    }.flattenMerge()
 
-
-    private suspend fun hideBalanceFlow() =
+    private suspend fun showBalanceFlow() =
         combine(
             hideBalanceSettingFlow(Unit),
             overrideShowBalance
         ) { hideBalanceSettings, showBalance ->
-            showBalance || hideBalanceSettings
+            showBalance || !hideBalanceSettings
         }
 
     override fun mapToUiState(state: StateFlow<HomeState>): StateFlow<HomeState> = state
@@ -132,14 +126,6 @@ class HomeViewModel @Inject constructor(
         delay(3_000L)
         overrideShowBalance.value = false
     }
-
-
-    private data class SelectedPeriodData(
-        val selectedPeriod: SelectedPeriod,
-        val trnsList: TransactionsList,
-        val income: Double,
-        val expense: Double,
-    )
 
     private data class DataHolder(
         val period: SelectedPeriod,
