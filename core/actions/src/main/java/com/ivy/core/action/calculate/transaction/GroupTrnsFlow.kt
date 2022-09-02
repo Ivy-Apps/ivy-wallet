@@ -23,7 +23,6 @@ class GroupTrnsFlow @Inject constructor(
 
     override suspend fun List<Transaction>.createFlow(): Flow<TransactionsList> =
         baseCurrencyFlow()
-            .flowOn(Dispatchers.Default)
             .map { baseCurrency ->
                 val dueRes = groupDue(trns = this, baseCurrency = baseCurrency)
                 val historyGrouped =
@@ -33,7 +32,7 @@ class GroupTrnsFlow @Inject constructor(
                     overdue = dueRes.overdueSection,
                     history = historyGrouped
                 )
-            }
+            }.flowOn(Dispatchers.Default)
 
     private suspend fun groupDue(
         trns: List<Transaction>,

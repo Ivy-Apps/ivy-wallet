@@ -8,7 +8,9 @@ import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryMetadata
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.data.CategoryEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +25,7 @@ class CategoriesFlow @Inject constructor(
     override suspend fun createFlow(): Flow<List<Category>> =
         categoryDao.findAll().map { entities ->
             entities.map { toCategory(it) }
-        }
+        }.flowOn(Dispatchers.Default)
 
     private suspend fun toCategory(it: CategoryEntity) = Category(
         id = it.id,

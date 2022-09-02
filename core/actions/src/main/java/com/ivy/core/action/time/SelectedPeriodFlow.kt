@@ -6,8 +6,10 @@ import com.ivy.core.functions.time.currentMonthlyPeriod
 import com.ivy.core.functions.time.dateToSelectedMonthlyPeriod
 import com.ivy.data.time.SelectedPeriod
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Singleton
 
 /**
@@ -33,7 +35,7 @@ class SelectedPeriodFlow(
                 startDayOfMonth = startDayOfMonth
             )
         } else selectedPeriod
-    }
+    }.flowOn(Dispatchers.Default)
 
 
 }

@@ -14,8 +14,10 @@ import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
 import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.TransactionEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import java.util.*
 import javax.inject.Inject
 
@@ -48,7 +50,7 @@ class TrnsFlow @Inject constructor(
                     entity = it
                 )
             }
-        }
+        }.flowOn(Dispatchers.Default)
 
     private fun mapTransactionEntity(
         accounts: Map<UUID, Account>,

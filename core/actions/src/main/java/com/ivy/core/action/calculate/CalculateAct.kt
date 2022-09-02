@@ -9,6 +9,8 @@ import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.asParamTo
 import com.ivy.frp.thenInvokeAfter
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 /**
@@ -24,6 +26,8 @@ class CalculateAct @Inject constructor(
     )
 
     // TODO: Rework to Flow so we react to exchange rates changes
+
+    override fun dispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     override suspend fun Input.compose(): suspend () -> Stats = {
         val res = foldTransactions(

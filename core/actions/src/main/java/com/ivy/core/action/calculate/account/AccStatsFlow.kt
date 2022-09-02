@@ -15,8 +15,10 @@ import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -43,7 +45,7 @@ class AccStatsFlow @Inject constructor(
                 stats.expensesCount + tOut.size else stats.expensesCount,
             trns = chronological(stats.trns + tIn + tOut)
         )
-    }
+    }.flowOn(Dispatchers.Default)
 
     private suspend fun Input.incomeExpenseStats(): Flow<Stats> =
         trnsFlow(
@@ -55,7 +57,7 @@ class AccStatsFlow @Inject constructor(
                     outputCurrency = account.currency
                 )
             )
-        }
+        }.flowOn(Dispatchers.Default)
 
     private suspend fun Input.transfersIn(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
@@ -73,7 +75,7 @@ class AccStatsFlow @Inject constructor(
             ).head
 
             amount to transfersIn
-        }
+        }.flowOn(Dispatchers.Default)
 
     private suspend fun Input.transfersOut(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
@@ -90,6 +92,6 @@ class AccStatsFlow @Inject constructor(
             ).head
 
             amount to transfersOut
-        }
+        }.flowOn(Dispatchers.Default)
 
 }

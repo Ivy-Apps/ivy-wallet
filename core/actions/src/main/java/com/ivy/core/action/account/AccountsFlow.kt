@@ -10,8 +10,10 @@ import com.ivy.data.account.AccMetadata
 import com.ivy.data.account.Account
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.data.AccountEntity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,7 +29,7 @@ class AccountsFlow @Inject constructor(
     override suspend fun createFlow(): Flow<List<Account>> =
         combine(accountDao.findAll(), baseCurrencyFlow()) { entities, baseCurrency ->
             entities.map { toAccount(acc = it, baseCurrency = baseCurrency) }
-        }
+        }.flowOn(Dispatchers.IO)
 
     private suspend fun toAccount(acc: AccountEntity, baseCurrency: CurrencyCode): Account =
         Account(
