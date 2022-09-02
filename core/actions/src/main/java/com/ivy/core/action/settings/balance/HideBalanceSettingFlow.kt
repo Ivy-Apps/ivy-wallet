@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class HideBalanceFlow @Inject constructor(
+class HideBalanceSettingFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val dataStoreKeys: IvyDataStoreKeys
 ) : FlowAction<Unit, Boolean>() {
