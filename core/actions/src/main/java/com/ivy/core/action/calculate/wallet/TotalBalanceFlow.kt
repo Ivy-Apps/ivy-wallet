@@ -7,11 +7,9 @@ import com.ivy.core.action.calculate.account.AccBalanceFlow
 import com.ivy.core.action.currency.exchange.ExchangeFlow
 import com.ivy.data.CurrencyCode
 import com.ivy.data.account.Account
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flattenMerge
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
@@ -30,6 +28,7 @@ class TotalBalanceFlow @Inject constructor(
     }.map { includedAccs ->
         totalBalanceFlow(accs = includedAccs, outputCurrency = outputCurrency)
     }.flattenMerge()
+        .flowOn(Dispatchers.Default)
 
     private suspend fun totalBalanceFlow(
         accs: List<Account>,
