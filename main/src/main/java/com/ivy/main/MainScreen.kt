@@ -12,7 +12,7 @@ import com.ivy.base.MainTab
 import com.ivy.data.transaction.TrnType
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.home.HomeTab
+import com.ivy.home.old.HomeTab
 import com.ivy.screens.EditPlanned
 import com.ivy.screens.EditTransaction
 import com.ivy.screens.Main

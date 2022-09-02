@@ -1,4 +1,4 @@
-package com.ivy.home
+package com.ivy.home.old
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,6 +22,7 @@ import com.ivy.base.MainTab
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
+import com.ivy.core.ui.temp.ivyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.IvyCurrency
 import com.ivy.data.pure.IncomeExpensePair
@@ -31,6 +32,7 @@ import com.ivy.frp.forward
 import com.ivy.frp.then2
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.home.R
 import com.ivy.journey.CustomerJourney
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.menu.MoreMenu
@@ -364,7 +366,7 @@ fun HomeLazyColumn(
 private fun PreviewHomeTab() {
     com.ivy.core.ui.temp.Preview {
         UI(
-            state = HomeState.initial(com.ivy.core.ui.temp.ivyWalletCtx()),
+            state = HomeState.initial(ivyWalletCtx()),
             onEvent = {}
         )
     }
