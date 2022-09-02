@@ -40,6 +40,10 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.reports.*
+import com.ivy.reports.ReportFilterEvent.SelectAmount
+import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
+import com.ivy.reports.ReportFilterEvent.SelectKeyword
+import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -72,10 +76,10 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     }
 
     val amtFilterHandler = defaultExpandCollapseHandler()
-    var amtFilterType: AmountFilterType by remember {
-        mutableStateOf(AmountFilterType.MIN)  //Default value
+    var amtFilterType: AmountType by remember {
+        mutableStateOf(AmountType.MIN)  //Default value
     }
-    val onAmountClick: (AmountFilterType) -> Unit = remember {
+    val onAmountClick: (AmountType) -> Unit = remember {
         {
             amtFilterType = it
             amtFilterHandler.expand()
@@ -83,8 +87,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     }
 
     val keywordFilterHandler = defaultExpandCollapseHandler()
-    var keywordsFilterType: KeywordsFilterType by remember {
-        mutableStateOf(KeywordsFilterType.INCLUDE)
+    var keywordsType: KeywordsType by remember {
+        mutableStateOf(KeywordsType.INCLUDE)
     }
 
     AnimatedVisibility(
@@ -111,7 +115,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                     FilterHeader(
                         modifier = Modifier.padding(vertical = 24.dp),
                         onClearFilter = {
-                            onFilterEvent(ReportFilterEvent.Clear(ClearType.ALL))
+                            onFilterEvent(ReportFilterEvent.Clear.Filter)
                         }
                     )
                 }
@@ -142,8 +146,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                     AccountsFilter(
                         allAccounts = state.allAccounts,
                         selectedAccounts = state.selectedAcc,
-                        onClearAll = { onFilterEvent(ReportFilterEvent.Clear(ClearType.ACCOUNTS)) },
-                        onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll(SelectType.ACCOUNTS)) }
+                        onClearAll = { onFilterEvent(ReportFilterEvent.Clear.Accounts) },
+                        onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll.Accounts) }
                     ) { selected, account ->
                         onFilterEvent(
                             ReportFilterEvent.SelectAccount(
@@ -160,8 +164,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                     CategoriesFilter(
                         allCategories = state.allCategories,
                         selectedCategories = state.selectedCat,
-                        onClearAll = { onFilterEvent(ReportFilterEvent.Clear(ClearType.CATEGORIES)) },
-                        onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll(SelectType.CATEGORIES)) }
+                        onClearAll = { onFilterEvent(ReportFilterEvent.Clear.Categories) },
+                        onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll.Categories) }
                     ) { selected, category ->
                         onFilterEvent(
                             ReportFilterEvent.SelectCategory(
@@ -190,13 +194,13 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                         includedKeywords = state.includeKeywords,
                         excludedKeywords = state.excludeKeywords,
                         onAdd = {
-                            keywordsFilterType = it
+                            keywordsType = it
                             keywordFilterHandler.expand()
                         }
                     ) { actionType, item ->
                         onFilterEvent(
-                            ReportFilterEvent.SelectKeyword(
-                                keywordsFilterType = actionType,
+                            SelectKeyword(
+                                keywordsType = actionType,
                                 keyword = item,
                                 add = false
                             )
@@ -229,14 +233,14 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         visible = amtFilterHandler.expanded,
         currency = baseCurrency,
         initialAmount = when (amtFilterType) {
-            AmountFilterType.MIN -> state.minAmount
-            AmountFilterType.MAX -> state.maxAmount
+            AmountType.MIN -> state.minAmount
+            AmountType.MAX -> state.maxAmount
         },
         dismiss = {
             amtFilterHandler.collapse()
         },
         onAmountChanged = {
-            onFilterEvent(ReportFilterEvent.SelectAmount(amtFilterType, it))
+            onFilterEvent(SelectAmount(amtFilterType, it))
         }
     )
 
@@ -245,7 +249,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
         visible = keywordFilterHandler.expanded,
         dismiss = { keywordFilterHandler.collapse() }
     ) { keyword ->
-        onFilterEvent(ReportFilterEvent.SelectKeyword(keywordsFilterType, keyword, add = true))
+        onFilterEvent(SelectKeyword(keywordsType, keyword, add = true))
 
     }
 
@@ -611,7 +615,7 @@ private fun AmountFilter(
     baseCurrency: String,
     minAmount: Double? = null,
     maxAmount: Double? = null,
-    onClick: (AmountFilterType) -> Unit
+    onClick: (AmountType) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Amount Filter")
     FilterTitleText(
@@ -628,7 +632,7 @@ private fun AmountFilter(
 
         Column(
             modifier = Modifier.clickable {
-                onClick(AmountFilterType.MIN)
+                onClick(AmountType.MIN)
             },
             horizontalAlignment = Alignment.Start
         ) {
@@ -649,7 +653,7 @@ private fun AmountFilter(
 
         Column(
             modifier = Modifier.clickable {
-                onClick(AmountFilterType.MAX)
+                onClick(AmountType.MAX)
             },
             horizontalAlignment = Alignment.End
         ) {
@@ -673,8 +677,8 @@ private fun AmountFilter(
 private fun KeywordsFilter(
     includedKeywords: ImmutableData<List<String>>,
     excludedKeywords: ImmutableData<List<String>>,
-    onAdd: (KeywordsFilterType) -> Unit,
-    onKeywordClick: (KeywordsFilterType, String) -> Unit
+    onAdd: (KeywordsType) -> Unit,
+    onKeywordClick: (KeywordsType, String) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Keywords Filter")
     val localIncluded: List<Any> by remember(includedKeywords.data.size) {
@@ -713,12 +717,12 @@ private fun KeywordsFilter(
                     keyword = item,
                     borderColor = UI.colors.pureInverse
                 ) {
-                    onKeywordClick(KeywordsFilterType.INCLUDE, item)
+                    onKeywordClick(KeywordsType.INCLUDE, item)
                 }
             }
             is AddKeywordButton -> {
                 AddKeywordButton(text = stringResource(R.string.add_keyword)) {
-                    onAdd(KeywordsFilterType.INCLUDE)
+                    onAdd(KeywordsType.INCLUDE)
                 }
             }
         }
@@ -747,12 +751,12 @@ private fun KeywordsFilter(
                     keyword = item,
                     borderColor = UI.colors.pureInverse
                 ) {
-                    onKeywordClick(KeywordsFilterType.EXCLUDE, item)
+                    onKeywordClick(KeywordsType.EXCLUDE, item)
                 }
             }
             is AddKeywordButton -> {
                 AddKeywordButton(text = stringResource(R.string.add_keyword)) {
-                    onAdd(KeywordsFilterType.EXCLUDE)
+                    onAdd(KeywordsType.EXCLUDE)
                 }
             }
         }

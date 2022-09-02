@@ -30,6 +30,10 @@ import com.ivy.frp.lambda
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
 import com.ivy.frp.viewmodel.FRPViewModel
+import com.ivy.reports.ReportFilterEvent.SelectAmount
+import com.ivy.reports.ReportFilterEvent.SelectAmount.*
+import com.ivy.reports.ReportFilterEvent.SelectKeyword
+import com.ivy.reports.ReportFilterEvent.SelectKeyword.*
 import com.ivy.reports.ui.*
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
@@ -440,27 +444,27 @@ class ReportViewModel @Inject constructor(
                 add = filterEvent.add
             )
 
-            is ReportFilterEvent.SelectAmount -> updateAmountSelection(
+            is SelectAmount -> updateAmountSelection(
                 filter = stateVal().filterState,
                 amt = filterEvent.amt,
-                amountFilterType = filterEvent.amountFilterType
+                amountType = filterEvent.amountType
             )
 
-            is ReportFilterEvent.SelectKeyword -> updateIncludeExcludeKeywords(
+            is SelectKeyword -> updateIncludeExcludeKeywords(
                 filter = stateVal().filterState,
                 keyword = filterEvent.keyword,
-                keywordsFilterType = filterEvent.keywordsFilterType,
+                keywordsType = filterEvent.keywordsType,
                 add = filterEvent.add
             )
 
             is ReportFilterEvent.Clear -> onFilterClear(
                 filter = stateVal().filterState,
-                type = filterEvent.type
+                event = filterEvent
             )
 
             is ReportFilterEvent.SelectAll -> onSelectAll(
                 filter = stateVal().filterState,
-                type = filterEvent.type
+                event = filterEvent
             )
 
             is ReportFilterEvent.FilterSet -> setFilter(filter = filterEvent.filter)
@@ -506,11 +510,11 @@ class ReportViewModel @Inject constructor(
     private suspend fun updateAmountSelection(
         filter: FilterState,
         amt: Double?,
-        amountFilterType: AmountFilterType
+        amountType: AmountType
     ): suspend () -> ReportState {
-        val updatedFilter = when (amountFilterType) {
-            AmountFilterType.MIN -> filter.copy(minAmount = amt)
-            AmountFilterType.MAX -> filter.copy(maxAmount = amt)
+        val updatedFilter = when (amountType) {
+            AmountType.MIN -> filter.copy(minAmount = amt)
+            AmountType.MAX -> filter.copy(maxAmount = amt)
         }
 
         return updateFilterAndState(updatedFilter).lambda()
@@ -519,14 +523,14 @@ class ReportViewModel @Inject constructor(
     private suspend fun updateIncludeExcludeKeywords(
         filter: FilterState,
         keyword: String,
-        keywordsFilterType: KeywordsFilterType,
+        keywordsType: KeywordsType,
         add: Boolean
     ): suspend () -> ReportState {
         val trimmedKeyword = keyword.trim()
 
-        val existingKeywords = when (keywordsFilterType) {
-            KeywordsFilterType.INCLUDE -> filter.includeKeywords.data
-            KeywordsFilterType.EXCLUDE -> filter.includeKeywords.data
+        val existingKeywords = when (keywordsType) {
+            KeywordsType.INCLUDE -> filter.includeKeywords.data
+            KeywordsType.EXCLUDE -> filter.includeKeywords.data
         }
 
         val updatedKeywords = if (add && trimmedKeyword !in existingKeywords)
@@ -537,9 +541,9 @@ class ReportViewModel @Inject constructor(
             existingKeywords
 
 
-        val updatedFilter = when (keywordsFilterType) {
-            KeywordsFilterType.INCLUDE -> filter.copy(includeKeywords = updatedKeywords.toImmutableItem())
-            KeywordsFilterType.EXCLUDE -> filter.copy(excludeKeywords = updatedKeywords.toImmutableItem())
+        val updatedFilter = when (keywordsType) {
+            KeywordsType.INCLUDE -> filter.copy(includeKeywords = updatedKeywords.toImmutableItem())
+            KeywordsType.EXCLUDE -> filter.copy(excludeKeywords = updatedKeywords.toImmutableItem())
         }
 
         return updateFilterAndState(updatedFilter).lambda()
@@ -547,16 +551,16 @@ class ReportViewModel @Inject constructor(
 
     private suspend fun onFilterClear(
         filter: FilterState,
-        type: ClearType
+        event: ReportFilterEvent.Clear
     ): suspend () -> ReportState {
-        val updatedFilter = when (type) {
-            ClearType.ALL -> emptyFilterState().copy(
+        val updatedFilter = when (event) {
+            is ReportFilterEvent.Clear.Filter -> emptyFilterState().copy(
                 visible = true,
                 allAccounts = _allAccounts.toImmutableItem(),
                 allCategories = _allCategories.toImmutableItem()
             )
-            ClearType.ACCOUNTS -> filter.copy(selectedAcc = emptyList<Account>().toImmutableItem())
-            ClearType.CATEGORIES -> filter.copy(selectedCat = emptyList<Category>().toImmutableItem())
+            ReportFilterEvent.Clear.Accounts -> filter.copy(selectedAcc = emptyList<Account>().toImmutableItem())
+            ReportFilterEvent.Clear.Categories -> filter.copy(selectedCat = emptyList<Category>().toImmutableItem())
         }
 
         return updateFilterAndState(filter = updatedFilter).lambda()
@@ -564,13 +568,13 @@ class ReportViewModel @Inject constructor(
 
     private suspend fun onSelectAll(
         filter: FilterState,
-        type: SelectType
+        event: ReportFilterEvent.SelectAll
     ): suspend () -> ReportState {
-        val updatedFilter = when (type) {
-            SelectType.ACCOUNTS -> filter.copy(
+        val updatedFilter = when (event) {
+            is ReportFilterEvent.SelectAll.Accounts -> filter.copy(
                 selectedAcc = _allAccounts.toList().toImmutableItem()
             )
-            SelectType.CATEGORIES -> filter.copy(
+            ReportFilterEvent.SelectAll.Categories -> filter.copy(
                 selectedCat = _allCategories.toList().toImmutableItem()
             )
         }

@@ -35,34 +35,35 @@ sealed class ReportFilterEvent {
 
     data class SelectCategory(val category: Category, val add: Boolean) : ReportFilterEvent()
 
-    data class SelectAmount(val amountFilterType: AmountFilterType, val amt: Double?) :
-        ReportFilterEvent()
+    data class SelectAmount(
+        val amountType: AmountType,
+        val amt: Double?
+    ) : ReportFilterEvent() {
+        enum class AmountType {
+            MIN, MAX
+        }
+    }
 
     data class SelectKeyword(
-        val keywordsFilterType: KeywordsFilterType,
+        val keywordsType: KeywordsType,
         val keyword: String,
         val add: Boolean
-    ) : ReportFilterEvent()
+    ) : ReportFilterEvent() {
+        enum class KeywordsType {
+            INCLUDE, EXCLUDE
+        }
+    }
 
-    data class Clear(val type: ClearType) : ReportFilterEvent()
+    sealed class Clear : ReportFilterEvent() {
+        object Accounts : Clear()
+        object Categories : Clear()
+        object Filter : Clear()
+    }
 
-    data class SelectAll(val type: SelectType) : ReportFilterEvent()
+    sealed class SelectAll : ReportFilterEvent() {
+        object Accounts : SelectAll()
+        object Categories : SelectAll()
+    }
 
     data class FilterSet(val filter: FilterState) : ReportFilterEvent()
-}
-
-enum class ClearType {
-    ALL, ACCOUNTS, CATEGORIES
-}
-
-enum class SelectType {
-    ACCOUNTS, CATEGORIES
-}
-
-enum class KeywordsFilterType {
-    INCLUDE, EXCLUDE
-}
-
-enum class AmountFilterType {
-    MIN, MAX
 }
