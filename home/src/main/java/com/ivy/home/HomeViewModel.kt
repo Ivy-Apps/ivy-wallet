@@ -74,6 +74,7 @@ class HomeViewModel @Inject constructor(
 
             val selectedPeriodFlow = selectedPeriodFlow()
 
+            // Trns History, Upcoming & Overdue
             val trnsListFlow = selectedPeriodFlow.flatMapMerge {
                 val period = it.period()
                 trnsListFlow(ActualBetween(period) or DueBetween(period))
