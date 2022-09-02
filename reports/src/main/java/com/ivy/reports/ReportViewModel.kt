@@ -136,7 +136,7 @@ class ReportViewModel @Inject constructor(
             val (transactionStats, transactions) =
                 filterTransactions(baseCurrency = _baseCurrency, filter = filter)
 
-            updateGlobalData(transactionStats, transactions, filter)
+            updateGlobalData(transactionStats, transactions, filter.copy(visible = false))
 
             val trnsList = groupTrnsAct(transactions)
 
