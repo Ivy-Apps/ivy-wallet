@@ -18,16 +18,21 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
 
     protected abstract suspend fun handleEvent(event: Event)
 
+    private var stateFlow: StateFlow<State>? = null
+
     protected val state: StateFlow<State>
-        get() = stateFlow()
-            .onStart { TestIdlingResource.increment() }
-            .onCompletion { TestIdlingResource.decrement() }
-            .flowOn(Dispatchers.Default)
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-                initialValue = initialState(),
-            )
+        get() = stateFlow ?: run {
+            stateFlow = stateFlow()
+                .onStart { TestIdlingResource.increment() }
+                .onCompletion { TestIdlingResource.decrement() }
+                .flowOn(Dispatchers.Default)
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+                    initialValue = initialState(),
+                )
+            stateFlow!!
+        }
 
     val uiState: StateFlow<UiState>
         get() = mapToUiState(state)

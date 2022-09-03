@@ -25,7 +25,7 @@ class TrnsFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val categoriesFlow: CategoriesFlow,
     private val transactionDao: TransactionDao,
-    private val trnsSignal: TrnsSignal
+    private val trnsSignal: TrnsSignal,
 ) : FlowAction<TrnWhere, List<Transaction>>() {
 
     override fun TrnWhere.createFlow(): Flow<List<Transaction>> =
