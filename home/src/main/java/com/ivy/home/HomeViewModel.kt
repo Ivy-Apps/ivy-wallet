@@ -84,7 +84,7 @@ class HomeViewModel @Inject constructor(
             val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
                 calculateFlow(
                     CalculateFlow.Input(
-                        trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
+                        trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
                         outputCurrency = baseCurrency
                     )
                 )
