@@ -11,7 +11,7 @@ class SetPreferenceAct<P : Preference<V>, V> @Inject constructor(
 ) : FPAction<P, Unit>() {
     override suspend fun P.compose(): suspend () -> Unit =
         when (val newValue = value) {
-            newValue != null -> (key to newValue) asParamTo dataStore::insert
+            newValue != null -> (key to newValue) asParamTo dataStore::put
             else -> key asParamTo dataStore::remove
         }
 

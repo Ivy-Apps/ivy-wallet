@@ -1,8 +1,8 @@
-package com.ivy.core.functions
+package com.ivy.core.functions.time
 
 import com.ivy.common.beginningOfIvyTime
 import com.ivy.common.endOfIvyTime
-import com.ivy.data.Period
+import com.ivy.data.time.Period
 import java.time.LocalDateTime
 
 fun allTime(): Period = Period.FromTo(

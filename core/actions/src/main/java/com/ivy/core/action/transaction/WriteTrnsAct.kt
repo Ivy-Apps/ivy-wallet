@@ -14,13 +14,16 @@ import javax.inject.Inject
 
 class WriteTrnsAct @Inject constructor(
     private val transactionDao: TransactionDao,
-    private val syncTrnsAct: SyncTrnsAct
+    private val syncTrnsAct: SyncTrnsAct,
+    private val trnsSignal: TrnsSignal
 ) : FPAction<IOEffect<List<Transaction>>, SyncTask>() {
     override suspend fun IOEffect<List<Transaction>>.compose(): suspend () -> SyncTask = {
         when (this) {
             is IOEffect.Save -> save(trns = item)
             is IOEffect.Delete -> delete(trns = item)
         }
+
+        trnsSignal.send(Unit) // notify for changed transactions
 
         syncTaskFrom(this asParamTo syncTrnsAct)
     }

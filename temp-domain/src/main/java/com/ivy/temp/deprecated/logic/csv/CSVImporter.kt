@@ -80,13 +80,13 @@ class CSVImporter(
         newCategoryColorIndex = 0
         newAccountColorIndex = 0
 
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAllSuspend().map { it.toDomain() }
         val initialAccountsCount = accounts.size
 
-        categories = categoryDao.findAll().map { it.toDomain() }
+        categories = categoryDao.findAllSuspend().map { it.toDomain() }
         val initialCategoriesCount = categories.size
 
-        val baseCurrency = settingsDao.findFirst().currency
+        val baseCurrency = settingsDao.findFirstSuspend().currency
 
         val failedRows = mutableListOf<CSVRow>()
 
@@ -447,7 +447,7 @@ class CSVImporter(
             orderNum = orderNum ?: accountDao.findMaxOrderNum().nextOrderNum()
         )
         accountDao.save(newAccount.toEntity())
-        accounts = accountDao.findAll().map { it.toDomain() }
+        accounts = accountDao.findAllSuspend().map { it.toDomain() }
 
         return newAccount
     }
@@ -496,7 +496,7 @@ class CSVImporter(
             orderNum = orderNum ?: categoryDao.findMaxOrderNum().nextOrderNum()
         )
         categoryDao.save(newCategory.toEntity())
-        categories = categoryDao.findAll().map { it.toDomain() }
+        categories = categoryDao.findAllSuspend().map { it.toDomain() }
 
         return newCategory
     }

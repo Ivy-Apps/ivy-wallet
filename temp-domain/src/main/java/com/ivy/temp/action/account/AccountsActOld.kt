@@ -11,6 +11,6 @@ class AccountsActOld @Inject constructor(
 ) : FPAction<Unit, List<AccountOld>>() {
 
     override suspend fun Unit.compose(): suspend () -> List<AccountOld> = suspend {
-        io { accountDao.findAll().map { it.toDomain() } }
+        io { accountDao.findAllSuspend().map { it.toDomain() } }
     }
 }

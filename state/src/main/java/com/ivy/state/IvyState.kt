@@ -1,10 +1,11 @@
 package com.ivy.state
 
 import com.ivy.data.ExchangeRates
-import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
+import com.ivy.data.time.Period
 
+@Deprecated("in favor of SharedFlowAction")
 private var state = IvyState(
     accounts = null,
     categories = null,
@@ -16,6 +17,7 @@ private var state = IvyState(
     exchangeRates = null,
 )
 
+@Deprecated("in favor of SharedFlowAction")
 data class IvyState(
     val accounts: List<Account>?,
     val categories: List<Category>?,
@@ -30,8 +32,10 @@ data class IvyState(
     val exchangeRates: ExchangeRates?
 )
 
+@Deprecated("in favor of SharedFlowAction")
 fun readIvyState(): IvyState = state
 
+@Deprecated("in favor of SharedFlowAction")
 fun writeIvyState(update: () -> IvyState) {
     state = update()
 }

@@ -155,7 +155,8 @@ class EditPlannedViewModel @Inject constructor(
         _currency.value = account.currency ?: baseCurrency()
     }
 
-    private suspend fun baseCurrency(): String = ioThread { settingsDao.findFirst().currency }
+    private suspend fun baseCurrency(): String =
+        ioThread { settingsDao.findFirstSuspend().currency }
 
 
     fun onRuleChanged(

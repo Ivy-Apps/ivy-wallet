@@ -33,8 +33,8 @@ class PlannedPaymentsLogic(
     }
 
     suspend fun plannedPaymentsAmountFor(range: FromToTimeRange): Double {
-        val baseCurrency = settingsDao.findFirst().currency
-        val accounts = accountDao.findAll()
+        val baseCurrency = settingsDao.findFirstSuspend().currency
+        val accounts = accountDao.findAllSuspend()
 
         return transactionDao.findAllDueToBetween(
             startDate = range.from(),
@@ -94,8 +94,8 @@ class PlannedPaymentsLogic(
     }
 
     private suspend fun Iterable<PlannedPaymentRule>.sumByDoubleRecurringForMonthInBaseCurrency(): Double {
-        val accounts = accountDao.findAll()
-        val baseCurrency = settingsDao.findFirst().currency
+        val accounts = accountDao.findAllSuspend()
+        val baseCurrency = settingsDao.findFirstSuspend().currency
 
         return sumOf {
             amountForMonthInBaseCurrency(

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.wallet.io.persistence.data.SettingsEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
@@ -19,7 +20,10 @@ interface SettingsDao {
     suspend fun updateBaseCurrency(currencyCode: String)
 
     @Query("SELECT * FROM settings LIMIT 1")
-    suspend fun findFirst(): SettingsEntity
+    suspend fun findFirstSuspend(): SettingsEntity
+
+    @Query("SELECT * FROM settings LIMIT 1")
+    fun findFirst(): Flow<SettingsEntity>
 
     @Query("SELECT * FROM settings")
     suspend fun findAll(): List<SettingsEntity>

@@ -73,7 +73,7 @@ class PieChartStatisticViewModel @Inject constructor(
         screen: PieChartStatistic,
         ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
     ) = suspend {
-        val baseCurrency = ioThread { settingsDao.findFirst() }.currency
+        val baseCurrency = ioThread { settingsDao.findFirstSuspend() }.currency
         baseCurrency
     } thenInvokeAfter { baseCurrency ->
         updateState {

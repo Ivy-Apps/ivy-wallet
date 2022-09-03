@@ -1,8 +1,5 @@
 package com.ivy.core.ui.modal
 
-import android.app.Activity
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -11,67 +8,101 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.lerp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import com.ivy.base.R
+import com.ivy.core.ui.navigation.BackResult
+import com.ivy.core.ui.navigation.BackstackItem
+import com.ivy.core.ui.navigation.nav
+import com.ivy.core.ui.temp.Preview
 import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.mediumBlur
+import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l1_buildingBlocks.SpacerWeight
+import com.ivy.design.l2_components.Button
+import com.ivy.design.l3_ivyComponents.button.CircleButton
 import com.ivy.design.utils.consumeClicks
 import com.ivy.design.utils.isKeyboardOpen
-import com.ivy.frp.view.navigation.navigation
+import java.util.*
 import kotlin.math.roundToInt
 
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
 const val DURATION_MODAL_ANIM = 200
 
-private val MODAL_ACTIONS_HEIGHT = 96.dp
+private val MODAL_ACTIONS_PADDING_BOTTOM = 12.dp
+private val MODAL_ACTIONS_HEIGHT = 48.dp
+private val MODAL_ACTIONS_OFFSET = MODAL_ACTIONS_HEIGHT + MODAL_ACTIONS_PADDING_BOTTOM
+
+@OptIn(ExperimentalComposeUiApi::class)
+data class IvyModal(
+    val id: String = UUID.randomUUID().toString(),
+    val visibilityState: MutableState<Boolean> = mutableStateOf(false)
+) {
+    @Composable
+    fun onDismiss(): () -> Unit {
+        val keyboardController = LocalSoftwareKeyboardController.current
+        return remember {
+            {
+                nav.onBackPressed()
+                keyboardController?.hide()
+            }
+        }
+    }
+
+    fun show() {
+        visibilityState.value = true
+    }
+}
 
 @Composable
 fun BoxScope.Modal(
-    modalId: String,
-    visible: Boolean,
-
+    modal: IvyModal,
+    Actions: @Composable RowScope.() -> Unit,
+    onBack: () -> BackResult = {
+        modal.visibilityState.value = false
+        BackResult.REMOVE
+    },
     keyboardShiftsContent: Boolean = true,
-
-    SecondaryActions: (@Composable () -> Unit)? = null,
-    PrimaryAction: @Composable () -> Unit,
-
-    dismiss: () -> Unit,
-
     Content: @Composable ColumnScope.() -> Unit
 ) {
+    val visible by modal.visibilityState
     val percentVisible by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(DURATION_MODAL_ANIM),
         visibilityThreshold = 0.01f
     )
 
-    val keyboardInsetAnimated = if (keyboardShiftsContent) {
-        val keyboardShown = keyboardShown(modalId = modalId)
+    val systemBottomPadding = systemPaddingBottom()
+    val paddingBottomAnimated = if (keyboardShiftsContent) {
+        val keyboardShown = keyboardShown(modalId = modal.id)
         val keyboardShownInset = keyboardInset()
 
         animateDpAsState(
-            targetValue = if (keyboardShown) keyboardShownInset else 0.dp,
+            targetValue = if (keyboardShown) keyboardShownInset else systemBottomPadding,
             animationSpec = tween(DURATION_MODAL_ANIM)
         ).value
-    } else 0.dp
+    } else systemBottomPadding
 
-    // used only to hide the keyboard
-    val rootView = LocalView.current
-
+    val onDismiss = modal.onDismiss()
     val blurAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(DURATION_BACKGROUND_BLUR_ANIM),
@@ -85,10 +116,7 @@ fun BoxScope.Modal(
                 .background(mediumBlur())
                 .testTag("modal_outside_blur")
                 .clickable(
-                    onClick = {
-                        hideKeyboard(rootView)
-                        dismiss()
-                    },
+                    onClick = onDismiss,
                     enabled = visible
                 )
                 .zIndex(1000f)
@@ -112,14 +140,15 @@ fun BoxScope.Modal(
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
                 .background(UI.colors.pure, UI.shapes.r2Top)
+                .clip(UI.shapes.r2Top)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .padding(bottom = MODAL_ACTIONS_HEIGHT + keyboardInsetAnimated)
+                .padding(bottom = MODAL_ACTIONS_OFFSET + paddingBottomAnimated)
                 .zIndex(1000f)
         ) {
-            ModalBackHandling(
-                modalId = modalId,
+            HandleBackPressed(
+                modalId = modal.id,
                 visible = visible,
-                dismiss = dismiss
+                onBack = onBack
             )
 
             Content()
@@ -128,15 +157,9 @@ fun BoxScope.Modal(
         ModalActionsRow(
             visible = visible,
             modalPercentVisible = percentVisible,
-            keyboardShownInsetDp = keyboardInsetAnimated,
-
-            PrimaryAction = PrimaryAction,
-            SecondaryActions = SecondaryActions,
-
-            onClose = {
-                hideKeyboard(rootView)
-                dismiss()
-            },
+            paddingBottom = paddingBottomAnimated,
+            Actions = Actions,
+            onClose = onDismiss,
         )
     }
 }
@@ -145,55 +168,44 @@ fun BoxScope.Modal(
 private fun ModalActionsRow(
     visible: Boolean,
     modalPercentVisible: Float,
-    keyboardShownInsetDp: Dp,
+    paddingBottom: Dp,
 
-    PrimaryAction: @Composable () -> Unit,
-    SecondaryActions: (@Composable () -> Unit)? = null,
-
+    Actions: @Composable RowScope.() -> Unit,
     onClose: () -> Unit,
 ) {
-    val systemInsetBottom = systemInsetBottom()
-    val navBarPadding by remember(modalPercentVisible) {
-        derivedStateOf {
-            lerp(0.dp, systemInsetBottom, modalPercentVisible)
-        }
-    }
-
     if (visible || modalPercentVisible > 0.01f) {
         // used only to get the screen height
         val ivyContext = ivyContext()
 
-        ActionsRow(
+        RowWithLine(
             modifier = Modifier
                 .height(MODAL_ACTIONS_HEIGHT)
                 .layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
 
-                    val systemOffsetBottom = keyboardShownInsetDp.toPx() + navBarPadding.toPx()
+                    val bottomOffset = paddingBottom.toPx() + MODAL_ACTIONS_PADDING_BOTTOM.toPx()
                     val visibleHeight = placeable.height * modalPercentVisible
-                    val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
+                    val y = ivyContext.screenHeight - visibleHeight - bottomOffset
 
                     layout(placeable.width, placeable.height) {
                         placeable.place(x = 0, y = y.roundToInt())
                     }
                 }
-                .padding(top = 8.dp, bottom = 12.dp)
-                .padding(horizontal = 24.dp)
                 .zIndex(1100f)
         ) {
+            SpacerHor(width = 24.dp)
             CloseButton(
                 modifier = Modifier.testTag("modal_close_button"),
                 onClick = onClose
             )
-            SecondaryActions?.invoke()
-            Spacer(Modifier.weight(1f))
-            PrimaryAction()
+            Actions()
+            SpacerHor(width = 24.dp)
         }
     }
 }
 
 @Composable
-private fun ActionsRow(
+private fun RowWithLine(
     modifier: Modifier = Modifier,
     lineColor: Color = UI.colors.medium,
     Content: @Composable RowScope.() -> Unit
@@ -208,14 +220,8 @@ private fun ActionsRow(
                 drawLine(
                     color = lineColor,
                     strokeWidth = 2.dp.toPx(),
-                    start = Offset(
-                        x = 0f,
-                        y = height / 2
-                    ),
-                    end = Offset(
-                        x = width,
-                        y = height / 2
-                    )
+                    start = Offset(x = 0f, y = height / 2),
+                    end = Offset(x = width, y = height / 2)
                 )
             },
         verticalAlignment = Alignment.CenterVertically
@@ -229,7 +235,12 @@ fun CloseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    // TODO: Implement
+    CircleButton(
+        modifier = modifier,
+        icon = R.drawable.ic_dismiss,
+        contentDescription = "close",
+        onClick = onClick
+    )
 }
 
 @Composable
@@ -266,61 +277,32 @@ private fun keyboardShown(modalId: String): Boolean {
 }
 
 @Composable
-private fun ModalBackHandling(
+private fun HandleBackPressed(
     modalId: String,
     visible: Boolean,
-    dismiss: () -> Unit
+    onBack: () -> BackResult
 ) {
-    val nav = navigation()
-    DisposableEffect(visible) {
+    DisposableEffect(visible, modalId) {
         if (visible) {
-            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
-
-            if (modalId != lastModalBackHandlingId?.toString()) {
-                // TODO: Implement using the new Navigation
-//                nav.modalBackHandling.add(
-//                    Navigation.ModalBackHandler(
-//                        id = modalId,
-//                        onBackPressed = {
-//                            if (visible) {
-//                                dismiss()
-//                                true
-//                            } else {
-//                                false
-//                            }
-//                        }
-//                    )
-//                )
-            }
+            nav.addToBackstack(
+                BackstackItem.Overlay(
+                    id = modalId,
+                    onBack = onBack
+                )
+            )
         }
 
         onDispose {
-            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
-            if (lastModalBackHandlingId.toString() == modalId) {
-                // remove modalBackHandling from nav
-                if (nav.modalBackHandling.isNotEmpty()) {
-                    nav.modalBackHandling.pop()
-                }
-            }
         }
     }
 }
 
-
-private fun hideKeyboard(view: View) {
-    try {
-        val imm: InputMethodManager =
-            view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    } catch (ignore: Exception) {
-    }
-}
-
+// region Insets
 /**
  * @return system's bottom inset (nav buttons or bottom nav)
  */
 @Composable
-private fun systemInsetBottom(): Dp {
+private fun systemPaddingBottom(): Dp {
     val rootView = LocalView.current
     val densityScope = LocalDensity.current
     return remember(rootView) {
@@ -344,3 +326,58 @@ private fun keyboardInset(): Dp {
         with(densityScope) { insetPx.toDp() }
     }
 }
+// endregion
+
+// region Previews
+@Preview
+@Composable
+private fun Preview_FullScreen() {
+    val modal = IvyModal()
+    modal.show()
+
+    Preview {
+        Modal(
+            modal = modal,
+            Actions = {
+                SpacerWeight(weight = 1f)
+                Button(text = "Okay") {
+
+                }
+            }
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Red)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Partial() {
+    val modal = IvyModal()
+    modal.show()
+
+    Preview {
+        Modal(
+            modal = modal,
+            Actions = {
+                SpacerWeight(weight = 1f)
+                Button(text = "Got it") {
+
+                }
+            }
+        ) {
+            SpacerVer(height = 32.dp)
+            IvyText(
+                modifier = Modifier.padding(start = 24.dp),
+                text = "Title",
+                typo = UI.typo.h2
+            )
+            SpacerVer(height = 32.dp)
+        }
+    }
+}
+// endregion

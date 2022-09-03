@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Lifecycle
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -15,4 +16,6 @@ dependencies {
     implementation(project(":core:exchange-provider"))
     implementation(project(":sync:public"))
     implementation(project(":app-base")) // TODO: migrate to :resources
+
+    Lifecycle(api = false)
 }

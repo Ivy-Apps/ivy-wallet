@@ -27,7 +27,7 @@ suspend fun List<TransactionOld>.withDateDividers(
 ): List<Any> {
     return transactionsWithDateDividers(
         transactions = this,
-        baseCurrencyCode = settingsDao.findFirst().currency,
+        baseCurrencyCode = settingsDao.findFirstSuspend().currency,
         getAccount = accountDao::findById then { it?.toDomain() },
         exchange = { data, amount ->
             exchangeRatesLogic.convertAmount(

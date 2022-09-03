@@ -56,9 +56,9 @@ class ExportZipLogic(
 
     private suspend fun generateJsonString(): String {
         return scopedIOThread {
-            val accounts = it.async { accountDao.findAll() }
+            val accounts = it.async { accountDao.findAllSuspend() }
             val budgets = it.async { budgetDao.findAll() }
-            val categories = it.async { categoryDao.findAll() }
+            val categories = it.async { categoryDao.findAllSuspend() }
             val loanRecords = it.async { loanRecordDao.findAll() }
             val loans = it.async { loanDao.findAll() }
             val plannedPaymentRules =
@@ -286,8 +286,8 @@ class ExportZipLogic(
         completeData: IvyWalletCompleteData
     ): List<Pair<UUID, UUID>> {
         return scopedIOThread { scope ->
-            val existingAccountsList = accountDao.findAll()
-            val existingCategoryList = categoryDao.findAll()
+            val existingAccountsList = accountDao.findAllSuspend()
+            val existingCategoryList = categoryDao.findAllSuspend()
 
             val backupAccountsList = completeData.accounts
             val backupCategoryList = completeData.categories

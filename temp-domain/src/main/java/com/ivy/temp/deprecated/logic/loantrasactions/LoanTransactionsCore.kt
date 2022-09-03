@@ -73,7 +73,7 @@ class LoanTransactionsCore(
     }
 
     suspend fun baseCurrency(): String =
-        ioThread { baseCurrencyCode ?: settingsDao.findFirst().currency }
+        ioThread { baseCurrencyCode ?: settingsDao.findFirstSuspend().currency }
 
 
     suspend fun updateAssociatedTransaction(
@@ -188,7 +188,7 @@ class LoanTransactionsCore(
             return existingCategoryId
 
         val categoryList = ioThread {
-            categoryDao.findAll().map { it.toDomain() }
+            categoryDao.findAllSuspend().map { it.toDomain() }
         }
 
         var addCategoryToDb = false
@@ -270,7 +270,7 @@ class LoanTransactionsCore(
     }
 
     suspend fun fetchAccounts() = ioThread {
-        accountsDao.findAll()
+        accountsDao.findAllSuspend()
     }
 
     suspend fun saveLoanRecords(loanRecords: List<LoanRecord>) = ioThread {

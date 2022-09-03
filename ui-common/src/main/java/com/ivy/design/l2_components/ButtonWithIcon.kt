@@ -24,7 +24,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
-import com.ivy.design.l1_buildingBlocks.data.background
+import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.utils.ComponentPreviewBase
 import com.ivy.design.utils.padding
@@ -58,7 +58,7 @@ fun Button(
             .clickable(
                 onClick = onClick
             )
-            .background(background),
+            .backgroundIvy(background),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

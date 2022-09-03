@@ -10,8 +10,6 @@ import com.ivy.frp.asParamTo
 import com.ivy.frp.fixUnit
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
-import com.ivy.state.exchangeRatesUpdate
-import com.ivy.state.writeIvyState
 import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
@@ -24,7 +22,6 @@ class SyncExchangeRatesAct @Inject constructor(
 
     private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) =
         baseCurrency asParamTo exchangeProvider::fetchExchangeRates then {
-            writeIvyState(exchangeRatesUpdate(newExchangeRates = it))
             it.map { (currency, rate) ->
                 ExchangeRateEntity(
                     baseCurrency = baseCurrency,

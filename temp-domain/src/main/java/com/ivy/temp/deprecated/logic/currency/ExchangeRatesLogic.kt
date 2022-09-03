@@ -153,8 +153,8 @@ suspend fun Iterable<TransactionOld>.sumInBaseCurrency(
     settingsDao: SettingsDao,
     accountDao: AccountDao,
 ): Double {
-    val baseCurrency = settingsDao.findFirst().currency
-    val accounts = accountDao.findAll()
+    val baseCurrency = settingsDao.findFirstSuspend().currency
+    val accounts = accountDao.findAllSuspend()
 
     return sumOf {
         exchangeRatesLogic.amountBaseCurrency(
@@ -171,8 +171,8 @@ suspend fun Iterable<PlannedPaymentRule>.sumByDoublePlannedInBaseCurrency(
     settingsDao: SettingsDao,
     accountDao: AccountDao,
 ): Double {
-    val baseCurrency = settingsDao.findFirst().currency
-    val accounts = accountDao.findAll()
+    val baseCurrency = settingsDao.findFirstSuspend().currency
+    val accounts = accountDao.findAllSuspend()
 
     return sumOf {
         exchangeRatesLogic.amountBaseCurrency(

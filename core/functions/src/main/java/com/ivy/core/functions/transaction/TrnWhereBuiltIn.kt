@@ -4,7 +4,7 @@ import com.ivy.common.beginningOfIvyTime
 import com.ivy.common.timeNowUTC
 import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
 import com.ivy.core.functions.transaction.TrnWhere.DueBetween
-import com.ivy.data.Period
+import com.ivy.data.time.Period
 import java.time.LocalDateTime
 
 /**
