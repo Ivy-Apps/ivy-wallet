@@ -23,7 +23,7 @@ class TotalBalanceFlow @Inject constructor(
         val outputCurrency: CurrencyCode,
     )
 
-    override suspend fun Input.createFlow(): Flow<Double> = accountsFlow().map { accs ->
+    override fun Input.createFlow(): Flow<Double> = accountsFlow().map { accs ->
         if (!withExcludedAccs) accs.filter { !it.excluded } else accs
     }.map { includedAccs ->
         totalBalanceFlow(accs = includedAccs, outputCurrency = outputCurrency)

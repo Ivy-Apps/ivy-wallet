@@ -3,40 +3,40 @@ package com.ivy.core.action
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
     private val events = MutableSharedFlow<Event>(replay = 0)
 
+    protected abstract fun initialState(): State
+
+    protected abstract fun stateFlow(): Flow<State>
+
+    protected abstract fun mapToUiState(state: StateFlow<State>): StateFlow<UiState>
+
+    protected abstract suspend fun handleEvent(event: Event)
+
+    protected val state: StateFlow<State>
+        get() = stateFlow()
+            .onStart { TestIdlingResource.increment() }
+            .onCompletion { TestIdlingResource.decrement() }
+            .flowOn(Dispatchers.Default)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+                initialValue = initialState(),
+            )
+
+    val uiState: StateFlow<UiState>
+        get() = mapToUiState(state)
+
     init {
-        viewModelScope.launch {
-            state = stateFlow()
-                .onStart { TestIdlingResource.increment() }
-                .onCompletion { TestIdlingResource.decrement() }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-                    initialValue = initialState(),
-                )
-        }
         viewModelScope.launch {
             events.collect(::handleEvent)
         }
     }
-
-    abstract fun initialState(): State
-
-    abstract suspend fun stateFlow(): Flow<State>
-
-    abstract fun mapToUiState(state: StateFlow<State>): StateFlow<UiState>
-
-    abstract suspend fun handleEvent(event: Event)
-
-    protected lateinit var state: StateFlow<State>
-        private set
-
-    val uiState: StateFlow<UiState> by lazy { mapToUiState(state) }
 
     fun onEvent(event: Event) {
         viewModelScope.launch {

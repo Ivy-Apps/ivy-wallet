@@ -10,7 +10,7 @@ import javax.inject.Inject
 class AccBalanceFlow @Inject constructor(
     private val accStatsFlow: AccStatsFlow,
 ) : FlowAction<Account, Double>() {
-    override suspend fun Account.createFlow(): Flow<Double> = accStatsFlow(
+    override fun Account.createFlow(): Flow<Double> = accStatsFlow(
         AccStatsFlow.Input(
             account = this,
             period = allTime(),

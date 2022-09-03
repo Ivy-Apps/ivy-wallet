@@ -32,7 +32,7 @@ class AccStatsFlow @Inject constructor(
         val transfersAsIncomeExpense: Boolean = false
     )
 
-    override suspend fun Input.createFlow(): Flow<Stats> = combine(
+    override fun Input.createFlow(): Flow<Stats> = combine(
         incomeExpenseStats(), transfersIn(), transfersOut()
     ) { stats, (tInAmount, tIn), (tOutAmount, tOut) ->
         Stats(
@@ -47,7 +47,7 @@ class AccStatsFlow @Inject constructor(
         )
     }.flowOn(Dispatchers.Default)
 
-    private suspend fun Input.incomeExpenseStats(): Flow<Stats> =
+    private fun Input.incomeExpenseStats(): Flow<Stats> =
         trnsFlow(
             ByAccount(account) and ActualBetween(period) and not(ByType(TrnType.TRANSFER))
         ).map { trns ->
@@ -59,7 +59,7 @@ class AccStatsFlow @Inject constructor(
             )
         }.flowOn(Dispatchers.Default)
 
-    private suspend fun Input.transfersIn(): Flow<Pair<Double, List<Transaction>>> =
+    private fun Input.transfersIn(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
             ByType(TrnType.TRANSFER) and ActualBetween(period) and ByToAccount(account)
         ).map { transfersIn ->
@@ -77,7 +77,7 @@ class AccStatsFlow @Inject constructor(
             amount to transfersIn
         }.flowOn(Dispatchers.Default)
 
-    private suspend fun Input.transfersOut(): Flow<Pair<Double, List<Transaction>>> =
+    private fun Input.transfersOut(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
             ByAccount(account) and ActualBetween(period) and ByType(TrnType.TRANSFER)
         ).map { transfersOut ->
@@ -93,5 +93,4 @@ class AccStatsFlow @Inject constructor(
 
             amount to transfersOut
         }.flowOn(Dispatchers.Default)
-
 }

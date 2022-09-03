@@ -24,9 +24,9 @@ class AccountsFlow @Inject constructor(
     private val iconAct: IconAct,
 ) : SharedFlowAction<List<Account>>() {
 
-    override suspend fun initialValue(): List<Account> = emptyList()
+    override fun initialValue(): List<Account> = emptyList()
 
-    override suspend fun createFlow(): Flow<List<Account>> =
+    override fun createFlow(): Flow<List<Account>> =
         combine(accountDao.findAll(), baseCurrencyFlow()) { entities, baseCurrency ->
             entities.map { toAccount(acc = it, baseCurrency = baseCurrency) }
         }.flowOn(Dispatchers.IO)

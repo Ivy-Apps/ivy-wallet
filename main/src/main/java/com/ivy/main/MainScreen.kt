@@ -55,7 +55,7 @@ private fun BoxWithConstraintsScope.UI(
     onCreateAccount: (CreateAccountData) -> Unit,
 ) {
     when (tab) {
-        MainTab.HOME -> HomeTab(screen = screen)
+        MainTab.HOME -> if (true) com.ivy.home.HomeTab() else HomeTab(screen = screen)
         MainTab.ACCOUNTS -> AccountsTab(screen = screen)
     }
 

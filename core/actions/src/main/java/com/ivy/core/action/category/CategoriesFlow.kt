@@ -20,9 +20,9 @@ class CategoriesFlow @Inject constructor(
     private val categoryDao: CategoryDao,
     private val iconAct: IconAct
 ) : SharedFlowAction<List<Category>>() {
-    override suspend fun initialValue(): List<Category> = emptyList()
+    override fun initialValue(): List<Category> = emptyList()
 
-    override suspend fun createFlow(): Flow<List<Category>> =
+    override fun createFlow(): Flow<List<Category>> =
         categoryDao.findAll().map { entities ->
             entities.map { toCategory(it) }
         }.flowOn(Dispatchers.Default)

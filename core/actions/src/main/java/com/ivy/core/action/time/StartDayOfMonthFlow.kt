@@ -13,9 +13,9 @@ class StartDayOfMonthFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val dataStoreKeys: IvyDataStoreKeys,
 ) : SharedFlowAction<Int>() {
-    override suspend fun initialValue(): Int = 1
+    override fun initialValue(): Int = 1
 
-    override suspend fun createFlow(): Flow<Int> =
+    override fun createFlow(): Flow<Int> =
         dataStore.get(key = dataStoreKeys.startDayOfMonth)
             .map {
                 it ?: initialValue()

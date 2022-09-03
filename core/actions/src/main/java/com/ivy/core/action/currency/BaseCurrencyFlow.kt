@@ -12,9 +12,9 @@ import javax.inject.Singleton
 class BaseCurrencyFlow @Inject constructor(
     private val settingsDao: SettingsDao
 ) : SharedFlowAction<CurrencyCode>() {
-    override suspend fun createFlow(): Flow<CurrencyCode> =
+    override fun initialValue(): CurrencyCode = ""
+
+    override fun createFlow(): Flow<CurrencyCode> =
         settingsDao.findFirst()
             .map { it.currency }
-
-    override suspend fun initialValue(): CurrencyCode = ""
 }

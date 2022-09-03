@@ -14,9 +14,9 @@ import javax.inject.Singleton
 class ExchangeRatesFlow @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
 ) : SharedFlowAction<ExchangeRates>() {
-    override suspend fun initialValue(): ExchangeRates = emptyMap()
+    override fun initialValue(): ExchangeRates = emptyMap()
 
-    override suspend fun createFlow(): Flow<ExchangeRates> = exchangeRateDao.findAll()
+    override fun createFlow(): Flow<ExchangeRates> = exchangeRateDao.findAll()
         .map { entities ->
             entities.associate { it.currency to it.rate }
         }.flowOn(Dispatchers.Default)

@@ -27,7 +27,7 @@ class CalculateFlow @Inject constructor(
         val outputCurrency: CurrencyCode
     )
 
-    override suspend fun Input.createFlow(): Flow<Stats> =
+    override fun Input.createFlow(): Flow<Stats> =
         combine(exchangeRatesFlow(), baseCurrencyFlow()) { rates, baseCurrency ->
             calculate(rates = rates, baseCurrency = baseCurrency)
         }

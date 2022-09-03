@@ -1,9 +1,7 @@
 package com.ivy.core.action
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.withContext
 
 // TODO: add KDoc
 abstract class SignalFlow<T> {
@@ -16,11 +14,9 @@ abstract class SignalFlow<T> {
         sharedFlow.emit(signal)
     }
 
-    suspend fun receive(): Flow<T> {
+    fun receive(): Flow<T> {
         if (!initialSignalSent) {
-            withContext(Dispatchers.Default) {
-                sharedFlow.emit(initialSignal())
-            }
+            sharedFlow.tryEmit(initialSignal())
             initialSignalSent = true
         }
         return sharedFlow
