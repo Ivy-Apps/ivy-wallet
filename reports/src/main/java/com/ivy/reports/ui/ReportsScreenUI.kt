@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionsList
+import com.ivy.reports.HeaderState
 import com.ivy.reports.ImmutableData
 import com.ivy.reports.ReportsEvent
 import com.ivy.reports.reportsTrnsListEmptyState
-import com.ivy.reports.HeaderState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

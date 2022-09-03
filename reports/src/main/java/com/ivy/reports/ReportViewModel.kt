@@ -150,8 +150,8 @@ class ReportViewModel @Inject constructor(
                 treatTransfersAsIncExp = false,
                 showTransfersAsIncExpCheckbox = showTransfersAsIncExpOption(),
 
-                transactionsOld = _allTrns.toOld(),
-                accountIdFilters = filter.selectedAcc.data.map { a -> a.id }
+                transactionsOld = _allTrns.toOld().toImmutableItem(),
+                accountIdFilters = filter.selectedAcc.data.map { a -> a.id }.toImmutableItem()
             )
 
             updateState {

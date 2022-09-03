@@ -11,7 +11,9 @@ import com.ivy.base.R
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.core.ui.temp.ivyWalletCtx
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.reports.LogCompositions
 import com.ivy.reports.ReportsEvent
+import com.ivy.reports.TAG
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -57,6 +59,7 @@ private fun ReportsToolBarWrapper(
 
 @Composable
 fun ReportsToolBar(onEventHandler: (ReportsEvent) -> Unit) {
+    LogCompositions(tag = TAG, msg = "Reports ToolBar")
     val ivyContext = ivyWalletCtx()
     val nav = navigation()
     val context = LocalContext.current

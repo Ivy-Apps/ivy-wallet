@@ -18,11 +18,11 @@ import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.reports.HeaderState
 import com.ivy.reports.LogCompositions
 import com.ivy.reports.ReportsEvent
 import com.ivy.reports.ReportsEvent.TrnsAsIncomeExpense
 import com.ivy.reports.TAG
-import com.ivy.reports.HeaderState
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -72,6 +72,7 @@ private fun ReportsTitle() {
 
 @Composable
 private fun ReportsBalance(baseCurrency: CurrencyCode, balance: Double) {
+    LogCompositions(tag = TAG, msg = "Reports Header + Balance")
     val amtBal by remember(balance) {
         mutableStateOf(
             when {
@@ -102,23 +103,23 @@ private fun ReportsIncomeExpensesCards(state: HeaderState, baseCurrency: Currenc
         hasAddButtons = false,
         itemColor = UI.colors.pure,
         incomeHeaderCardClicked = {
-            if (state.transactionsOld.isNotEmpty())
+            if (state.transactionsOld.data.isNotEmpty())
                 nav.navigateTo(
                     PieChartStatistic(
                         type = TrnType.INCOME,
-                        transactions = state.transactionsOld,
-                        accountList = state.accountIdFilters,
+                        transactions = state.transactionsOld.data,
+                        accountList = state.accountIdFilters.data,
                         treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                     )
                 )
         },
         expenseHeaderCardClicked = {
-            if (state.transactionsOld.isNotEmpty())
+            if (state.transactionsOld.data.isNotEmpty())
                 nav.navigateTo(
                     PieChartStatistic(
                         type = TrnType.EXPENSE,
-                        transactions = state.transactionsOld,
-                        accountList = state.accountIdFilters,
+                        transactions = state.transactionsOld.data,
+                        accountList = state.accountIdFilters.data,
                         treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
                     )
                 )
@@ -131,6 +132,7 @@ private fun ReportsTransfersAsIncomeOption(
     checked: Boolean,
     onSelected: (Boolean) -> Unit
 ) {
+    LogCompositions(tag = TAG, msg = "Reports Header + TransfersAsIncomeOption")
     IvyCheckboxWithText(
         modifier = Modifier
             .padding(16.dp),

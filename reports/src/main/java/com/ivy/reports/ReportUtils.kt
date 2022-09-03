@@ -70,8 +70,8 @@ fun emptyHeaderState() = HeaderState(
     showTransfersAsIncExpCheckbox = false,
     treatTransfersAsIncExp = false,
 
-    accountIdFilters = emptyList(),
-    transactionsOld = emptyList()
+    accountIdFilters = ImmutableData(emptyList()),
+    transactionsOld = ImmutableData(emptyList())
 )
 
 fun emptyTransactionList() = TransactionsList(null, null, emptyList())

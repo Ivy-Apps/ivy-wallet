@@ -40,8 +40,8 @@ data class HeaderState(
 
     // TODO(Reports): Need to remove the variables below,
     //  Kept for Reports -> PieChart Screen Compatibility
-    val accountIdFilters: List<UUID>,
-    val transactionsOld: List<TransactionOld>,
+    val accountIdFilters: ImmutableData<List<UUID>>,
+    val transactionsOld: ImmutableData<List<TransactionOld>>,
 )
 
 //----------------------------------------  Reports Filter State -----------------------------------
