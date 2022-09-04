@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
 
     override fun stateFlow(): Flow<HomeState> = combine(
         nameFlow(Unit), showBalanceFlow(), balanceFlow(), periodDataFlow()
-    ) { name, hideBalance, balance, periodData ->
+    ) { name, showBalance, balance, periodData ->
         HomeState(
             name = name,
             period = periodData.period,
@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
             balance = balance,
             income = periodData.income,
             expense = periodData.expense,
-            hideBalance = hideBalance,
+            hideBalance = !showBalance,
         )
     }
 
