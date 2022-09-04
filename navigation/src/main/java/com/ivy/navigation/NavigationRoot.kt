@@ -1,14 +1,16 @@
 package com.ivy.navigation
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ivy.navigation.destinations.Destination
 import kotlinx.coroutines.flow.collectLatest
-
-const val DestinationNone = ""
 
 @Composable
 fun NavigationRoot(
@@ -18,15 +20,19 @@ fun NavigationRoot(
     val navController = rememberNavController()
     LaunchedEffect(Unit) {
         navigator.commands.collectLatest { command ->
-            navController.navigate(command.destination)
+            navController.navigate(command.route)
         }
     }
     NavHost(
         navController = navController,
-        startDestination = DestinationNone
+        startDestination = Destination.root.route
     ) {
-        composable(DestinationNone) {
+        composable(Destination.root.route) {
             // start destination
+            val activity = LocalContext.current as Activity
+            BackHandler(enabled = true) {
+                activity.finish()
+            }
         }
         navGraph()
     }

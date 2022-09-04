@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import com.ivy.base.R
 import com.ivy.design.l0_system.*
 
-enum class ImportType {
+enum class ImportApp {
     IVY,
     MONEY_MANAGER,
     WALLET_BY_BUDGET_BAKERS,

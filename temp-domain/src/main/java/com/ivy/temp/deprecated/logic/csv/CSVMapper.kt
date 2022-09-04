@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnType
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
 import com.ivy.wallet.domain.deprecated.logic.csv.model.JoinResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping
 import com.ivy.wallet.utils.toLowerCaseLocal
@@ -10,24 +10,24 @@ import com.ivy.wallet.utils.toLowerCaseLocal
 class CSVMapper {
 
     @ExperimentalStdlibApi
-    fun mapping(type: ImportType, headerRow: String?) = when (type) {
-        ImportType.IVY -> {
+    fun mapping(type: ImportApp, headerRow: String?) = when (type) {
+        ImportApp.IVY -> {
             if (headerRow?.contains("Currency") == true) {
                 ivyMappingV2()
             } else {
                 ivyMappingV1()
             }
         }
-        ImportType.MONEY_MANAGER -> moneyManager()
-        ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
-        ImportType.SPENDEE -> spendee()
-        ImportType.MONEFY -> monefy()
-        ImportType.ONE_MONEY -> oneMoney()
-        ImportType.BLUE_COINS -> blueCoins()
-        ImportType.KTW_MONEY_MANAGER -> ktwMoneyManager()
-        ImportType.FORTUNE_CITY -> fortuneCity()
-        ImportType.FINANCISTO -> financisto()
-        ImportType.MONEY_WALLET -> moneyWallet()
+        ImportApp.MONEY_MANAGER -> moneyManager()
+        ImportApp.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers()
+        ImportApp.SPENDEE -> spendee()
+        ImportApp.MONEFY -> monefy()
+        ImportApp.ONE_MONEY -> oneMoney()
+        ImportApp.BLUE_COINS -> blueCoins()
+        ImportApp.KTW_MONEY_MANAGER -> ktwMoneyManager()
+        ImportApp.FORTUNE_CITY -> fortuneCity()
+        ImportApp.FINANCISTO -> financisto()
+        ImportApp.MONEY_WALLET -> moneyWallet()
     }
 
     private fun ivyMappingV1() = RowMapping(
