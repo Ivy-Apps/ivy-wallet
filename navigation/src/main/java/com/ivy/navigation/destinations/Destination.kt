@@ -10,7 +10,7 @@ object Destination {
         override val arguments = emptyList<NamedNavArgument>()
     }
 
-    val onboarding = Onboarding.root
+    val onboarding = Onboarding
 
 
 }

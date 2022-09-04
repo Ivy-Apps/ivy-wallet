@@ -19,8 +19,14 @@ fun NavigationRoot(
 ) {
     val navController = rememberNavController()
     LaunchedEffect(Unit) {
-        navigator.commands.collectLatest { command ->
-            navController.navigate(command.route)
+        navigator.actions.collectLatest { action ->
+            when (action) {
+                NavigatorAction.Back -> navController.popBackStack()
+                is NavigatorAction.Navigate -> navController.navigate(
+                    action.command.route,
+                    action.navOptions
+                )
+            }
         }
     }
     NavHost(
