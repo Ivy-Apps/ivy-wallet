@@ -25,7 +25,7 @@ class ExchangeFlow @Inject constructor(
         val amount: Double
     )
 
-    override suspend fun Input.createFlow(): Flow<Option<Double>> =
+    override fun Input.createFlow(): Flow<Option<Double>> =
         combine(exchangeRatesFlow(), baseCurrencyFlow()) { rates, baseCurrency ->
             exchange(rates = rates, baseCurrency = baseCurrency)
         }.flowOn(Dispatchers.Default)

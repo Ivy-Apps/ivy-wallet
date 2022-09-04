@@ -7,8 +7,7 @@ import com.ivy.core.functions.transaction.TrnWhere
 import com.ivy.data.transaction.TransactionsList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flattenMerge
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flatMapMerge
 import javax.inject.Inject
 
 class TrnsListFlow @Inject constructor(
@@ -17,8 +16,8 @@ class TrnsListFlow @Inject constructor(
 ) : FlowAction<TrnWhere, TransactionsList>() {
 
     @OptIn(FlowPreview::class)
-    override suspend fun TrnWhere.createFlow(): Flow<TransactionsList> = trnsFlow(this)
-        .map {
+    override fun TrnWhere.createFlow(): Flow<TransactionsList> = trnsFlow(this)
+        .flatMapMerge {
             groupTrnsFlow(it)
-        }.flattenMerge()
+        }
 }

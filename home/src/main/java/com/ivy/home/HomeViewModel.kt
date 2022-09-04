@@ -17,12 +17,14 @@ import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.screens.BalanceScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
+@HiltViewModel
 class HomeViewModel @Inject constructor(
     private val nav: Nav,
     private val balanceFlow: TotalBalanceFlow,
@@ -49,7 +51,7 @@ class HomeViewModel @Inject constructor(
 
     private val overrideShowBalance = MutableStateFlow(false)
 
-    override suspend fun stateFlow(): Flow<HomeState> = combine(
+    override fun stateFlow(): Flow<HomeState> = combine(
         nameFlow(Unit), showBalanceFlow(), dataFlow()
     ) { name, hideBalance, data ->
         HomeState(
@@ -63,7 +65,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private suspend fun dataFlow(): Flow<DataHolder> = baseCurrencyFlow()
+    private fun dataFlow(): Flow<DataHolder> = baseCurrencyFlow()
         .flatMapMerge { baseCurrency ->
             val balanceFlow = balanceFlow(
                 TotalBalanceFlow.Input(
@@ -84,7 +86,7 @@ class HomeViewModel @Inject constructor(
             val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
                 calculateFlow(
                     CalculateFlow.Input(
-                        trns = trnsList.history.map { (it as TrnListItem.Trn).trn },
+                        trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
                         outputCurrency = baseCurrency
                     )
                 )
@@ -103,7 +105,7 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    private suspend fun showBalanceFlow() =
+    private fun showBalanceFlow() =
         combine(
             hideBalanceSettingFlow(Unit),
             overrideShowBalance
@@ -136,3 +138,4 @@ class HomeViewModel @Inject constructor(
         val trnsList: TransactionsList,
     )
 }
+

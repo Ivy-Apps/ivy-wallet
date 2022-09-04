@@ -21,9 +21,9 @@ abstract class SharedFlowAction<T> {
     /**
      * @return this initial value immediately after the flow is started.
      */
-    abstract suspend fun initialValue(): T
+    abstract fun initialValue(): T
 
-    abstract suspend fun createFlow(): Flow<T>
+    abstract fun createFlow(): Flow<T>
 
     /**
      * @return the mode in which the created flow will start.
@@ -32,7 +32,7 @@ abstract class SharedFlowAction<T> {
      */
     open fun startType(): SharingStarted = SharingStarted.Eagerly
 
-    suspend operator fun invoke(): Flow<T> = cachedFlow ?: run {
+    operator fun invoke(): Flow<T> = cachedFlow ?: run {
         val flowInstance = createFlow()
             .stateIn(
                 scope = MainScope(),

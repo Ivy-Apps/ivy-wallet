@@ -21,7 +21,7 @@ class GroupTrnsFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
-    override suspend fun List<Transaction>.createFlow(): Flow<TransactionsList> =
+    override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
         baseCurrencyFlow()
             .map { baseCurrency ->
                 val dueRes = groupDue(trns = this, baseCurrency = baseCurrency)

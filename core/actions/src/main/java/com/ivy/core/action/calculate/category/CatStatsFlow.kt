@@ -24,11 +24,11 @@ class CatStatsFlow @Inject constructor(
         val category: Category?
     )
 
-    override suspend fun Input.createFlow(): Flow<Stats> =
+    override fun Input.createFlow(): Flow<Stats> =
         combine(categoryTransactions(), baseCurrencyFlow()) { trns, baseCurrency ->
             calculateAct(CalculateAct.Input(trns = trns, outputCurrency = baseCurrency))
         }
 
-    private suspend fun Input.categoryTransactions() =
+    private fun Input.categoryTransactions() =
         trnsFlow(ByCategory(category) and ActualBetween(period))
 }

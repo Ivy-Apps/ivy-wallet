@@ -11,7 +11,7 @@ class HideBalanceSettingFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val dataStoreKeys: IvyDataStoreKeys
 ) : FlowAction<Unit, Boolean>() {
-    override suspend fun Unit.createFlow(): Flow<Boolean> =
+    override fun Unit.createFlow(): Flow<Boolean> =
         dataStore.get(dataStoreKeys.hideBalance).map {
             it ?: false
         }
