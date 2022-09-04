@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.flow.collectLatest
 
+const val DestinationNone = ""
 
 @Composable
 fun NavigationRoot(
@@ -20,12 +21,11 @@ fun NavigationRoot(
             navController.navigate(command.destination)
         }
     }
-    navController.popBackStack()
     NavHost(
         navController = navController,
-        startDestination = "none"
+        startDestination = DestinationNone
     ) {
-        composable("none") {
+        composable(DestinationNone) {
             // start destination
         }
         navGraph()
