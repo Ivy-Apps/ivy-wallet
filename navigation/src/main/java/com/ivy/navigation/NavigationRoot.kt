@@ -18,8 +18,8 @@ fun NavigationRoot(
     LaunchedEffect(Unit) {
         navigator.actions.collectLatest { action ->
             when (action) {
-                NavigatorAction.Back -> navController.popBackStack()
-                is NavigatorAction.Navigate -> navController.navigate(
+                Navigator.Action.Back -> navController.popBackStack()
+                is Navigator.Action.Navigate -> navController.navigate(
                     action.route,
                     action.navOptions
                 )

@@ -10,19 +10,28 @@ import javax.inject.Singleton
 @Stable
 @Singleton
 class Navigator @Inject constructor() {
-    private val _actions = MutableSharedFlow<NavigatorAction>(
+    private val _actions = MutableSharedFlow<Action>(
         replay = 0,
         extraBufferCapacity = 10
     )
-    internal val actions: Flow<NavigatorAction> = _actions
+    internal val actions: Flow<Action> = _actions
 
-    fun navigate(route: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    fun navigate(destinationRoute: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
         _actions.tryEmit(
-            NavigatorAction.Navigate(route = route, navOptions = navOptions)
+            Action.Navigate(route = destinationRoute, navOptions = navOptions)
         )
     }
 
     fun back() {
-        _actions.tryEmit(NavigatorAction.Back)
+        _actions.tryEmit(Action.Back)
+    }
+
+    internal sealed class Action {
+        data class Navigate(
+            val route: String,
+            val navOptions: NavOptionsBuilder.() -> Unit
+        ) : Action()
+
+        object Back : Action()
     }
 }

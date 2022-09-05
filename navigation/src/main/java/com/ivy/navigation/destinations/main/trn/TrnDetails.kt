@@ -1,4 +1,4 @@
-package com.ivy.navigation.destinations.main
+package com.ivy.navigation.destinations.main.trn
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
@@ -9,7 +9,9 @@ import com.ivy.navigation.arg
 import java.util.*
 
 object TrnDetails : NavNode, NavDestination<UUID> {
-    override val route = "trn/{trnId}"
+    private const val ARG_TRN_ID = "trnId"
+
+    override val route = "trn/{$ARG_TRN_ID}"
 
     override val arguments = listOf(
         navArgument("trnId") {
@@ -21,6 +23,6 @@ object TrnDetails : NavNode, NavDestination<UUID> {
     override fun route(arg: UUID): String = "trn/$arg"
 
     override fun parse(entry: NavBackStackEntry): UUID =
-        entry.arg("trnId") { UUID.fromString(it) }
+        entry.arg(ARG_TRN_ID) { UUID.fromString(it) }
 
 }
