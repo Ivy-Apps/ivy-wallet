@@ -1,4 +1,4 @@
-package com.ivy.navigation
+package com.ivy.navigation.util
 
 import androidx.navigation.NavBackStackEntry
 

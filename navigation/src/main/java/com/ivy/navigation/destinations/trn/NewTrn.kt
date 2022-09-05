@@ -1,16 +1,16 @@
-package com.ivy.navigation.destinations.main.trn
+package com.ivy.navigation.destinations.trn
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.ivy.data.transaction.TrnType
-import com.ivy.navigation.NavDestination
-import com.ivy.navigation.NavNode
-import com.ivy.navigation.arg
-import com.ivy.navigation.optionalArg
+import com.ivy.navigation.DestinationRoute
+import com.ivy.navigation.Screen
+import com.ivy.navigation.util.arg
+import com.ivy.navigation.util.optionalArg
 import java.util.*
 
-object NewTrn : NavNode, NavDestination<NewTrn.Arg> {
+object NewTrn : Screen<NewTrn.Arg> {
     data class Arg(
         val categoryId: UUID?,
         val accountId: UUID?,
@@ -45,7 +45,7 @@ object NewTrn : NavNode, NavDestination<NewTrn.Arg> {
         accountId = entry.optionalArg(ARG_ACCOUNT_ID) { UUID.fromString(it) },
     )
 
-    override fun route(arg: Arg): String {
+    override fun destination(arg: Arg): DestinationRoute {
         val route = StringBuilder("new/trn?$ARG_TRN_TYPE=${arg.trnType.name}")
         if (arg.categoryId != null) {
             route.append("&$ARG_CATEGORY_ID=${arg.categoryId}")

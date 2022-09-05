@@ -1,14 +1,14 @@
-package com.ivy.navigation.destinations.main.trn
+package com.ivy.navigation.destinations.trn
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.ivy.navigation.NavDestination
-import com.ivy.navigation.NavNode
-import com.ivy.navigation.arg
+import com.ivy.navigation.DestinationRoute
+import com.ivy.navigation.Screen
+import com.ivy.navigation.util.arg
 import java.util.*
 
-object TrnDetails : NavNode, NavDestination<UUID> {
+object TrnDetails : Screen<UUID> {
     private const val ARG_TRN_ID = "trnId"
 
     override val route = "trn/{$ARG_TRN_ID}"
@@ -20,7 +20,7 @@ object TrnDetails : NavNode, NavDestination<UUID> {
         }
     )
 
-    override fun route(arg: UUID): String = "trn/$arg"
+    override fun destination(arg: UUID): DestinationRoute = "trn/$arg"
 
     override fun parse(entry: NavBackStackEntry): UUID =
         entry.arg(ARG_TRN_ID) { UUID.fromString(it) }

@@ -16,9 +16,9 @@ class Navigator @Inject constructor() {
     )
     internal val actions: Flow<Action> = _actions
 
-    fun navigate(destinationRoute: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    fun navigate(destination: DestinationRoute, navOptions: NavOptionsBuilder.() -> Unit = {}) {
         _actions.tryEmit(
-            Action.Navigate(route = destinationRoute, navOptions = navOptions)
+            Action.Navigate(destination = destination, navOptions = navOptions)
         )
     }
 
@@ -28,7 +28,7 @@ class Navigator @Inject constructor() {
 
     internal sealed class Action {
         data class Navigate(
-            val route: String,
+            val destination: DestinationRoute,
             val navOptions: NavOptionsBuilder.() -> Unit
         ) : Action()
 

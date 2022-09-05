@@ -1,16 +1,14 @@
 package com.ivy.navigation.destinations
 
-import androidx.navigation.NamedNavArgument
-import com.ivy.navigation.NavNode
-import com.ivy.navigation.destinations.onboarding.Onboarding
+import com.ivy.navigation.destinations.imports.ImportGraph
+import com.ivy.navigation.destinations.onboarding.OnboardingGraph
+import com.ivy.navigation.destinations.trn.NewTrn
+import com.ivy.navigation.destinations.trn.TrnDetails
 
 object Destination {
-    val root = object : NavNode {
-        override val route = ""
-        override val arguments = emptyList<NamedNavArgument>()
-    }
+    val onboarding = OnboardingGraph
+    val import = ImportGraph
 
-    val onboarding = Onboarding
-
-
+    val trnDetails = TrnDetails
+    val newTrn = NewTrn
 }
