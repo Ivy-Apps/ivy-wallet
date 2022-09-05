@@ -37,8 +37,8 @@ const val TAG = "ReportsUI"
 fun BoxWithConstraintsScope.ReportScreen(
     screen: Report
 ) {
-    val viewModel: ReportViewModel = viewModel()
-    val state by viewModel.state().collectAsState()
+    val viewModel: ReportFlowViewModel = viewModel()
+    val state by viewModel.uiState.collectAsState(initial = emptyReportScreenState(""))
 
     onScreenStart {
         viewModel.onEvent(ReportsEvent.Start)
