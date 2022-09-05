@@ -1,6 +1,9 @@
 package com.ivy.wallet.ui.theme.modal.edit
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -253,7 +257,6 @@ fun AmountKeyboard(
     SecondRowExtra: (@Composable RowScope.() -> Unit)? = null,
     ThirdRowExtra: (@Composable RowScope.() -> Unit)? = null,
     FourthRowExtra: (@Composable RowScope.() -> Unit)? = null,
-
     onNumberPressed: (String) -> Unit,
     onDecimalPoint: () -> Unit,
     onBackspace: () -> Unit,
@@ -402,7 +405,7 @@ fun AmountKeyboard(
         Spacer(Modifier.width(16.dp))
 
         IvyIcon(
-            modifier = circleButtonModifier(onClick = onBackspace)
+            modifier = circleButtonModifier(onClick = onBackspace, shouldPerformHapticFeedback = true)
                 .padding(all = 16.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
@@ -441,7 +444,7 @@ fun KeypadCircleButton(
     onClick: () -> Unit
 ) {
     Text(
-        modifier = circleButtonModifier(onClick = onClick)
+        modifier = circleButtonModifier(onClick = onClick, shouldPerformHapticFeedback = true)
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
@@ -454,23 +457,25 @@ fun KeypadCircleButton(
     )
 }
 
-@SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction")
+@SuppressLint("ComposableModifierFactory", "ModifierFactoryExtensionFunction", "MissingPermission")
 @Composable
 private fun circleButtonModifier(
     size: Dp = 64.dp,
+    shouldPerformHapticFeedback: Boolean = false,
     onClick: () -> Unit
 ): Modifier {
+    val context = LocalContext.current
+    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
     return Modifier
         .size(size)
-//        .drawColoredShadow(
-//            color = Black,
-//            alpha = if (UI.colors.isLight) 0.05f else 0.5f,
-//            borderRadius = 32.dp
-//        )
         .clip(CircleShape)
-        .clickable(
-            onClick = onClick
-        )
+        .clickable {
+            onClick()
+            if(shouldPerformHapticFeedback) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, 1))
+            }
+        }
         .background(UI.colors.pure, UI.shapes.rFull)
         .border(2.dp, UI.colors.medium, UI.shapes.rFull)
 }
