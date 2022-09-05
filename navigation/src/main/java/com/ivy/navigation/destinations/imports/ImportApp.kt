@@ -1,17 +1,18 @@
 package com.ivy.navigation.destinations.imports
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.ivy.navigation.NavigationCommand
+import com.ivy.navigation.NavNode
 
-class ImportApp : NavigationCommand {
-    companion object {
-        const val argFromApp = "fromApp"
-    }
+object ImportApp : NavNode {
+    fun parse(entry: NavBackStackEntry): String =
+        entry.arguments?.getString("importApp") ?: error("argument missing")
 
-    override val route = "import/{$argFromApp}"
+    override val route = "import/{importApp}"
+
     override val arguments = listOf(
-        navArgument(argFromApp) {
+        navArgument("importApp") {
             type = NavType.StringType
             nullable = false
         }

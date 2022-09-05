@@ -16,9 +16,9 @@ class Navigator @Inject constructor() {
     )
     internal val actions: Flow<NavigatorAction> = _actions
 
-    fun navigate(command: NavigationCommand, navOptions: NavOptionsBuilder.() -> Unit = {}) {
+    fun navigate(route: String, navOptions: NavOptionsBuilder.() -> Unit = {}) {
         _actions.tryEmit(
-            NavigatorAction.Navigate(command = command, navOptions = navOptions)
+            NavigatorAction.Navigate(route = route, navOptions = navOptions)
         )
     }
 

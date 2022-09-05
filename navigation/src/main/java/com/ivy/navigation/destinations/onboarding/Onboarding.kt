@@ -1,16 +1,17 @@
 package com.ivy.navigation.destinations.onboarding
 
 import androidx.navigation.NamedNavArgument
-import com.ivy.navigation.NavigationCommand
+import com.ivy.navigation.NavNode
 
 object Onboarding {
-    val root = object : NavigationCommand {
-        override val route = "onboarding"
+
+    val root = object : NavNode {
+        override val route = ""
         override val arguments = emptyList<NamedNavArgument>()
     }
 
-    val importPrompt = object : NavigationCommand {
-        override val route = "onboarding/import-prompt"
+    val importPrompt = object : NavNode {
+        override val route = "import-prompt"
         override val arguments = emptyList<NamedNavArgument>()
     }
 }

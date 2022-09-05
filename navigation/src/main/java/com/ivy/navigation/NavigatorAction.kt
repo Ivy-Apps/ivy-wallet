@@ -4,7 +4,7 @@ import androidx.navigation.NavOptionsBuilder
 
 internal sealed class NavigatorAction {
     data class Navigate(
-        val command: NavigationCommand,
+        val route: String,
         val navOptions: NavOptionsBuilder.() -> Unit
     ) : NavigatorAction()
 

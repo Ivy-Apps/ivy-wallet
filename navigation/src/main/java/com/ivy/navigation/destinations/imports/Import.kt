@@ -1,13 +1,13 @@
 package com.ivy.navigation.destinations.imports
 
 import androidx.navigation.NamedNavArgument
-import com.ivy.navigation.NavigationCommand
+import com.ivy.navigation.NavNode
 
 object Import {
-    val root = object : NavigationCommand {
+    val root = object : NavNode {
         override val route = "import"
         override val arguments = emptyList<NamedNavArgument>()
     }
 
-    val importApp = ImportApp()
+    val importApp = ImportApp
 }
