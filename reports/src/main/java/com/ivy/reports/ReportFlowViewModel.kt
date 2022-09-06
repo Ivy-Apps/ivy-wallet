@@ -38,7 +38,6 @@ import com.ivy.wallet.utils.replace
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
@@ -296,8 +295,6 @@ class ReportFlowViewModel @Inject constructor(
             .flatMapMerge { og ->
                 Log.d("ReportsUIGGGG", "" + a.incrementAndGet())
                 headerStateFlow(og)
-            }.catch { ec->
-                Log.d("ReportsUIGGGG",""+ec.message)
             }
     }.onStart { emit(state.value.headerState) }
 

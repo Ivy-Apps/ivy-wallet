@@ -17,7 +17,6 @@ import com.ivy.data.IvyCurrency
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.reports.LogCompositions
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.utils.drawColoredShadow
@@ -39,7 +38,6 @@ fun ReportsIncomeExpenseCards(
     expenseHeaderCardClicked: () -> Unit = {},
     onAddTransaction: (TrnType) -> Unit = {},
 ) {
-    LogCompositions(tag = "GGGG", msg = "Sub + ReportsIncomeExpensesCardsFunction")
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically

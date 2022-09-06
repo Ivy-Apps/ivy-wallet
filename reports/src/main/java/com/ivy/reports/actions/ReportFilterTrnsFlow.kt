@@ -1,6 +1,5 @@
 package com.ivy.reports.actions
 
-import android.util.Log
 import arrow.core.NonEmptyList
 import arrow.core.getOrElse
 import com.ivy.common.atEndOfDay
@@ -39,10 +38,7 @@ class ReportFilterTrnsFlow @Inject constructor(
         combine(transactionFlow(), statsDataFlow()) { trnsList, transactionStats ->
             val (allTrns, actualTrns) = trnsList
 
-//            val y = this.transactionFlow().first().first.size
-//            Log.d("GGGG",""+y)
-
-            val x = HeaderState(
+            HeaderState(
                 balance = transactionStats.balance,
                 income = transactionStats.income,
                 expenses = transactionStats.expenses,
@@ -57,8 +53,6 @@ class ReportFilterTrnsFlow @Inject constructor(
                 accountIdFilters = this.selectedAcc.data.map { a -> a.id }
                     .toImmutableItem()
             )
-            Log.d("ReportsUIGGGG",""+x)
-            x
         }.flowOn(Dispatchers.Default)
 
 
@@ -67,7 +61,6 @@ class ReportFilterTrnsFlow @Inject constructor(
         trnsFlow(whereClause(this)),
         exchangeRates()
     ) { baseCurrency, trnsList, rates ->
-        Log.d("ReportsUIGGGG","ByTrnsList " +trnsList.size)
         filterByAmount(
             baseCurrency = baseCurrency,
             minAmt = this.minAmount,
@@ -76,7 +69,6 @@ class ReportFilterTrnsFlow @Inject constructor(
             transList = trnsList
         )
     }.map {
-        Log.d("ReportsUIGGGG","ByWords " +it.size)
         filterByWords(
             includeKeywords = this.includeKeywords.data,
             excludeKeywords = this.excludeKeywords.data,
