@@ -56,6 +56,7 @@ fun emptyReportScreenState(baseCurrency: CurrencyCode): ReportState {
         headerState = emptyHeaderState(),
         trnsList = ImmutableData(emptyTransactionList()),
 
+        filterVisible = false,
         filterState = emptyFilterState()
     )
 }
@@ -79,7 +80,6 @@ fun emptyHeaderState() = HeaderState(
 fun emptyTransactionList() = TransactionsList(null, null, emptyList())
 
 fun emptyFilterState() = FilterState(
-    visible = false,
     selectedTrnTypes = ImmutableData(emptyList()),
     period = ImmutableData(null),
     allAccounts = ImmutableData(emptyList()),
@@ -102,6 +102,7 @@ fun ExpandCollapseHandler.collapse() = this.setExpanded(false)
  * Returns a [Flow] whose values are generated with [transform] function by combining
  * the most recently emitted values by each flow.
  */
+@Suppress("UNCHECKED_CAST")
 fun <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> combineMultiple(
     flow: Flow<T1>,
     flow2: Flow<T2>,

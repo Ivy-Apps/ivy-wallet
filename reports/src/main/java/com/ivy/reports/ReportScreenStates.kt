@@ -20,6 +20,7 @@ data class ReportState(
     val headerState: HeaderState,
     val trnsList: ImmutableData<TransactionsList>,
 
+    val filterVisible: Boolean,
     val filterState: FilterState,
 )
 
@@ -48,7 +49,7 @@ data class HeaderState(
 
 @Immutable
 data class FilterState(
-    val visible: Boolean,
+    val visible: Boolean = false,
 
     val selectedTrnTypes: ImmutableData<List<TrnType>>,
 
@@ -66,5 +67,5 @@ data class FilterState(
     val includeKeywords: ImmutableData<List<String>>,
     val excludeKeywords: ImmutableData<List<String>>,
 
-    val selectedPlannedPayments : ImmutableData<List<PlannedPaymentTypes>>
+    val selectedPlannedPayments: ImmutableData<List<PlannedPaymentTypes>>
 )

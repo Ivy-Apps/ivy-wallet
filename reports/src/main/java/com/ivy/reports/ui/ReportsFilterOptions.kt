@@ -59,6 +59,7 @@ import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.ReportsFilterOptions(
+    visible: Boolean,
     baseCurrency: String,
     state: FilterState,
     onClose: () -> Unit,
@@ -93,7 +94,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
     }
 
     AnimatedVisibility(
-        visible = state.visible,
+        visible = visible,
         enter = slideInVertically(
             initialOffsetY = { it },
             animationSpec = tween(easing = LinearOutSlowInEasing)
@@ -273,7 +274,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
     AddBackHandlingSupport(
         id = modalId,
-        visible = state.visible,
+        visible = visible,
         action = onClose
     )
 }

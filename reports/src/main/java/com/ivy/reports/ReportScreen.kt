@@ -66,6 +66,7 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     ReportsFilterOptions(
+        visible = state.filterVisible,
         baseCurrency = state.baseCurrency,
         state = state.filterState,
         onClose = {
