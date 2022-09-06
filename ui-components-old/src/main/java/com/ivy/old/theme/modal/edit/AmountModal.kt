@@ -405,7 +405,7 @@ fun AmountKeyboard(
         Spacer(Modifier.width(16.dp))
 
         IvyIcon(
-            modifier = circleButtonModifier(onClick = onBackspace, shouldPerformHapticFeedback = true)
+            modifier = circleButtonModifier(onClick = onBackspace, hapticFeedback = true)
                 .padding(all = 16.dp)
                 .testTag("key_del"),
             icon = R.drawable.ic_backspace,
@@ -444,7 +444,7 @@ fun KeypadCircleButton(
     onClick: () -> Unit
 ) {
     Text(
-        modifier = circleButtonModifier(onClick = onClick, shouldPerformHapticFeedback = true)
+        modifier = circleButtonModifier(onClick = onClick, hapticFeedback = true)
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
@@ -461,18 +461,18 @@ fun KeypadCircleButton(
 @Composable
 private fun circleButtonModifier(
     size: Dp = 64.dp,
-    shouldPerformHapticFeedback: Boolean = false,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ): Modifier {
     val context = LocalContext.current
-    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    val vibrator = remember {context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator}
 
     return Modifier
         .size(size)
         .clip(CircleShape)
         .clickable {
             onClick()
-            if(shouldPerformHapticFeedback) {
+            if(hapticFeedback) {
                 vibrator.vibrate(VibrationEffect.createOneShot(100, 1))
             }
         }
