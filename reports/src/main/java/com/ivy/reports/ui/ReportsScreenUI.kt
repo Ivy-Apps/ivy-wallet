@@ -18,7 +18,7 @@ import com.ivy.reports.reportsTrnsListEmptyState
 @Composable
 fun BoxWithConstraintsScope.ReportsScreenUI(
     baseCurrency: CurrencyCode,
-    headerState: HeaderState,
+    headerState: ImmutableData<HeaderState>,
     trnsList: ImmutableData<TransactionsList>,
     onEvent: (ReportsEvent) -> Unit = {}
 ) {
@@ -37,7 +37,7 @@ fun BoxWithConstraintsScope.ReportsScreenUI(
                 item {
                     ReportsHeader(
                         baseCurrency = baseCurrency,
-                        state = headerState,
+                        headerState = headerState,
                         onEventHandler = onEvent
                     )
                 }

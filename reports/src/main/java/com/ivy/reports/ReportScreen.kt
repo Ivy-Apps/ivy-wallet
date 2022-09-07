@@ -3,7 +3,6 @@ package com.ivy.reports
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -23,7 +22,6 @@ import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.reports.ReportsEvent.FilterOptions
 import com.ivy.reports.ui.ReportsFilterOptions
 import com.ivy.reports.ui.ReportsLoadingScreen
@@ -38,11 +36,7 @@ fun BoxWithConstraintsScope.ReportScreen(
     screen: Report
 ) {
     val viewModel: ReportFlowViewModel = viewModel()
-    val state by viewModel.uiState.collectAsState(initial = emptyReportScreenState(""))
-
-    onScreenStart {
-        viewModel.onEvent(ReportsEvent.Start)
-    }
+    val state by rememberStateWithLifecycle(viewModel.uiState)
 
     UI(
         state = state,
@@ -220,7 +214,7 @@ private fun Preview() {
             selectedCat = categoryList.toImmutableItem()
         ),
         trnsList = transList.toImmutableItem(),
-        headerState = headerState
+        headerState = headerState.toImmutableItem()
     )
 
     Preview {

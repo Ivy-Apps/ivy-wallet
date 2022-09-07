@@ -233,7 +233,6 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
             FilterOptions(
                 onClose = onClose,
                 onApplyFilter = {
-                    onFilterEvent(ReportFilterEvent.FilterSet(state))
                     onClose()
                 }
             )

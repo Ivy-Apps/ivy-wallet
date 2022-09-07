@@ -12,11 +12,11 @@ import com.ivy.reports.data.PlannedPaymentTypes
 
 sealed class ReportsEvent {
 
-    object Start : ReportsEvent()
+    //object Start : ReportsEvent()
 
     data class FilterOptions(val visible: Boolean) : ReportsEvent()
 
-    data class TrnsAsIncomeExpense(val trnsAsIncExp: Boolean) : ReportsEvent()
+    //data class TrnsAsIncomeExpense(val trnsAsIncExp: Boolean) : ReportsEvent()
 
     data class Export(val context: Context, val fileUri: Uri, val onFinish: (Uri) -> Unit) :
         ReportsEvent()
@@ -69,5 +69,5 @@ sealed class ReportFilterEvent {
         object Categories : SelectAll()
     }
 
-    data class FilterSet(val filter: FilterState) : ReportFilterEvent()
+    //data class FilterSet(val filter: FilterState) : ReportFilterEvent()
 }

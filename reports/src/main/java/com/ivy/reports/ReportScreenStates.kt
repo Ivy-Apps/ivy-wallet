@@ -17,7 +17,7 @@ import java.util.*
 data class ReportState(
     val baseCurrency: CurrencyCode,
     val loading: Boolean,
-    val headerState: HeaderState,
+    val headerState: ImmutableData<HeaderState>,
     val trnsList: ImmutableData<TransactionsList>,
 
     val filterVisible: Boolean,

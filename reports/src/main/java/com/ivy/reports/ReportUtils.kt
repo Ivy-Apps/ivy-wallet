@@ -2,17 +2,18 @@ package com.ivy.reports
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.ivy.base.R
 import com.ivy.core.ui.transaction.EmptyState
 import com.ivy.core.ui.transaction.ExpandCollapseHandler
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionsList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 
 /** ------------------------------------ Compose UI Logging --------------------------------------*/
@@ -53,7 +54,7 @@ fun emptyReportScreenState(baseCurrency: CurrencyCode): ReportState {
         baseCurrency = baseCurrency,
         loading = false,
 
-        headerState = emptyHeaderState(),
+        headerState = emptyHeaderState().toImmutableItem(),
         trnsList = ImmutableData(emptyTransactionList()),
 
         filterVisible = false,
@@ -103,33 +104,21 @@ fun ExpandCollapseHandler.collapse() = this.setExpanded(false)
  * the most recently emitted values by each flow.
  */
 @Suppress("UNCHECKED_CAST")
-fun <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> combineMultiple(
+fun <T1, T2, T3, T4, T5, T6, R> combineMultiple(
     flow: Flow<T1>,
     flow2: Flow<T2>,
     flow3: Flow<T3>,
     flow4: Flow<T4>,
     flow5: Flow<T5>,
     flow6: Flow<T6>,
-    flow7: Flow<T7>,
-    flow8: Flow<T8>,
-    flow9: Flow<T9>,
-    flow10: Flow<T10>,
-    flow11: Flow<T11>,
-    flow12: Flow<T12>,
-    transform: suspend (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12) -> R
+    transform: suspend (T1, T2, T3, T4, T5, T6) -> R
 ): Flow<R> = combine(
     flow,
     flow2,
     flow3,
     flow4,
     flow5,
-    flow6,
-    flow7,
-    flow8,
-    flow9,
-    flow10,
-    flow11,
-    flow12
+    flow6
 ) { args: Array<*> ->
     transform(
         args[0] as T1,
@@ -137,12 +126,27 @@ fun <T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, R> combineMultiple(
         args[2] as T3,
         args[3] as T4,
         args[4] as T5,
-        args[5] as T6,
-        args[6] as T7,
-        args[7] as T8,
-        args[8] as T9,
-        args[9] as T10,
-        args[10] as T11,
-        args[11] as T12,
+        args[5] as T6
     )
+}
+
+@Composable
+fun <T> rememberStateWithLifecycle(
+    stateFlow: StateFlow<T>,
+    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
+): State<T> {
+    val initialValue = remember(stateFlow) { stateFlow.value }
+    return produceState(
+        key1 = stateFlow,
+        key2 = lifecycle,
+        key3 = minActiveState,
+        initialValue = initialValue
+    ) {
+        lifecycle.repeatOnLifecycle(minActiveState) {
+            stateFlow.collect {
+                this@produceState.value = it
+            }
+        }
+    }
 }

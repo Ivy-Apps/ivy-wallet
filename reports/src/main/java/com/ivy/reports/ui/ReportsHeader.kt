@@ -18,11 +18,7 @@ import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.reports.HeaderState
-import com.ivy.reports.LogCompositions
-import com.ivy.reports.ReportsEvent
-import com.ivy.reports.ReportsEvent.TrnsAsIncomeExpense
-import com.ivy.reports.TAG
+import com.ivy.reports.*
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -31,9 +27,13 @@ import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 @Composable
 fun ReportsHeader(
     baseCurrency: CurrencyCode,
-    state: HeaderState,
+    headerState: ImmutableData<HeaderState>,
     onEventHandler: (ReportsEvent) -> Unit
 ) {
+    val state  = remember(headerState) {
+        headerState.data
+    }
+
     LogCompositions(tag = TAG, msg = "Reports Header")
     ReportsTitle()
 
@@ -45,11 +45,11 @@ fun ReportsHeader(
 
     ReportsIncomeExpensesCards(state = state, baseCurrency = baseCurrency)
 
-    if (state.showTransfersAsIncExpCheckbox) {
-        ReportsTransfersAsIncomeOption(checked = state.treatTransfersAsIncExp) {
-            onEventHandler(TrnsAsIncomeExpense(trnsAsIncExp = it))
-        }
-    } else
+//    if (state.showTransfersAsIncExpCheckbox) {
+//        ReportsTransfersAsIncomeOption(checked = state.treatTransfersAsIncExp) {
+//            onEventHandler(TrnsAsIncomeExpense(trnsAsIncExp = it))
+//        }
+//    } else
         Spacer(Modifier.height(32.dp))
 
     TransactionsDividerLine(paddingHorizontal = 0.dp)
