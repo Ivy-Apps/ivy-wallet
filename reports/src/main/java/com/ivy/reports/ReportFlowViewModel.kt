@@ -1,6 +1,5 @@
 package com.ivy.reports
 
-import android.util.Log
 import androidx.compose.ui.graphics.toArgb
 import arrow.core.NonEmptyList
 import arrow.core.getOrElse
@@ -31,7 +30,7 @@ import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
-import com.ivy.reports.actions.ReportFilterTrnsFlow
+import com.ivy.reports.actions.ReportsDataFlow
 import com.ivy.reports.data.PlannedPaymentTypes
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.utils.replace
@@ -53,7 +52,7 @@ class ReportFlowViewModel @Inject constructor(
     private val exchangeAct: ExchangeAct,
     private val calculateAct: CalculateWithTransfersAct,
     private val selectedPeriodFlow: SelectedPeriodFlow,
-    private val headerStateFlow: ReportFilterTrnsFlow
+    private val headerStateFlow: ReportsDataFlow
 ) : FlowViewModel<ReportState, ReportState, ReportsEvent>() {
     override fun initialState(): ReportState =
         emptyReportScreenState("")
@@ -70,11 +69,12 @@ class ReportFlowViewModel @Inject constructor(
 
     override fun stateFlow(): Flow<ReportState> = combine(
         baseCurrencyFlow(), reportFilterStateFlow(), headerStateFlow(), filterVisible
-    ) { baseCurr, filterState, headerState, visible ->
+    ) { baseCurr, filterState, dataHolder, visible ->
         emptyReportScreenState(baseCurr).copy(
             filterState = filterState,
-            headerState = headerState,
-            filterVisible = visible
+            headerState = dataHolder.headerState,
+            filterVisible = visible,
+            trnsList = dataHolder.trnsList.toImmutableItem()
         )
     }
 
@@ -83,10 +83,6 @@ class ReportFlowViewModel @Inject constructor(
 
     override suspend fun handleEvent(event: ReportsEvent) {
         when (event) {
-//            is ReportsEvent.FilterOptions -> setFilterOptionsVisibility(
-//                filter.value,
-//                visible = event.visible
-//            )
             is ReportsEvent.FilterOptions -> filterVisible.update { event.visible }
             is ReportsEvent.FilterEvent -> {
                 handleFilterEvent(event.filterEvent)
@@ -289,14 +285,8 @@ class ReportFlowViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun headerStateFlow() = reportFilterStateFlow().flatMapLatest {
-        flowOf(it)
-            .debounce(300)
-            .filter { fil -> fil.isValid() }
-            .flatMapMerge { og ->
-                Log.d("ReportsUIGGGG", "" + a.incrementAndGet())
-                headerStateFlow(og)
-            }
-    }.onStart { emit(state.value.headerState) }
+        headerStateFlow(it)
+    }.onStart { emit(ReportsDataFlow.DataHolder.empty()) }
 
 //    @OptIn(ExperimentalCoroutinesApi::class)
 //    private fun headerStateFlow() = reportFilterStateFlow().flatMapLatest {

@@ -5,6 +5,7 @@ import arrow.core.getOrElse
 import com.ivy.common.atEndOfDay
 import com.ivy.common.timeNowUTC
 import com.ivy.core.action.FlowAction
+import com.ivy.core.action.calculate.transaction.GroupTrnsFlow
 import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.action.currency.exchange.ExchangeRatesFlow
 import com.ivy.core.action.transaction.TrnsFlow
@@ -17,43 +18,55 @@ import com.ivy.data.ExchangeRates
 import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.*
-import com.ivy.reports.FilterState
-import com.ivy.reports.HeaderState
+import com.ivy.reports.*
+import com.ivy.reports.actions.ReportsDataFlow.DataHolder
 import com.ivy.reports.data.PlannedPaymentTypes
-import com.ivy.reports.toImmutableItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
-class ReportFilterTrnsFlow @Inject constructor(
+class ReportsDataFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val calculateWithTransfersFlow: CalculateWithTransfersFlow,
     private val trnsFlow: TrnsFlow,
-    private val exchangeRates: ExchangeRatesFlow
-) : FlowAction<FilterState, HeaderState>() {
+    private val exchangeRates: ExchangeRatesFlow,
+    private val groupTrnsFlow: GroupTrnsFlow
+) : FlowAction<FilterState, DataHolder>() {
 
-    override fun FilterState.createFlow(): Flow<HeaderState> =
-        combine(transactionFlow(), statsDataFlow()) { trnsList, transactionStats ->
-            val (allTrns, actualTrns) = trnsList
+    override fun FilterState.createFlow(): Flow<DataHolder> = state().flatMapMerge {
+        if (!it.isValid() || it.hasEmptyContents()) {
+            flowOf(DataHolder.empty())
+        } else {
+            combine(
+                transactionFlow(),
+                statsDataFlow(),
+                groupTrnsListFlow()
+            ) { trnsList, transactionStats, grpTrnsList ->
+                val (allTrns, actualTrns) = trnsList
 
-            HeaderState(
-                balance = transactionStats.balance,
-                income = transactionStats.income,
-                expenses = transactionStats.expenses,
+                val header = HeaderState(
+                    balance = transactionStats.balance,
+                    income = transactionStats.income,
+                    expenses = transactionStats.expense,
 
-                incomeTransactionsCount = transactionStats.incomeTransactionsCount,
-                expenseTransactionsCount = transactionStats.incomeTransactionsCount,
+                    incomeTransactionsCount = transactionStats.incomesCount,
+                    expenseTransactionsCount = transactionStats.expensesCount,
 
-                treatTransfersAsIncExp = false,
-                showTransfersAsIncExpCheckbox = false,
+                    treatTransfersAsIncExp = false,
+                    showTransfersAsIncExpCheckbox = false,
 
-                transactionsOld = allTrns.toOld().toImmutableItem(),
-                accountIdFilters = this.selectedAcc.data.map { a -> a.id }
-                    .toImmutableItem()
-            )
-        }.flowOn(Dispatchers.Default)
+                    transactionsOld = allTrns.toOld().toImmutableItem(),
+                    accountIdFilters = this.selectedAcc.data.map { a -> a.id }
+                        .toImmutableItem()
+                )
+
+                DataHolder(headerState = header, trnsList = grpTrnsList)
+            }
+        }
+    }.distinctUntilChanged()
+
+    private fun FilterState.state() = flowOf(this)
 
 
     private fun FilterState.transactionFlow() = combine(
@@ -85,31 +98,20 @@ class ReportFilterTrnsFlow @Inject constructor(
     private fun FilterState.statsDataFlow() =
         combine(baseCurrencyFlow(), transactionFlow()) { baseCurr, trnsList ->
             val (allTrns, actualTrns) = trnsList
-
             calculateWithTransfersFlow(
                 CalculateWithTransfersFlow.Input(
                     trns = actualTrns,
                     outputCurrency = baseCurr,
                     accounts = this.selectedAcc.data
                 )
-            ).map { transactionStats ->
-                HeaderState(
-                    balance = transactionStats.balance,
-                    income = transactionStats.income,
-                    expenses = transactionStats.expense,
-
-                    incomeTransactionsCount = transactionStats.incomesCount,
-                    expenseTransactionsCount = transactionStats.expensesCount,
-
-                    treatTransfersAsIncExp = false,
-                    showTransfersAsIncExpCheckbox = false,
-
-                    transactionsOld = allTrns.toOld().toImmutableItem(),
-                    accountIdFilters = this.selectedAcc.data.map { a -> a.id }
-                        .toImmutableItem()
-                )
-            }
+            )
         }.flattenConcat()
+
+
+    private fun FilterState.groupTrnsListFlow() = transactionFlow().flatMapMerge { data ->
+        val (allTrns, actualTrns) = data
+        groupTrnsFlow(allTrns)
+    }
 
 
     private fun getActualTrns(
@@ -285,6 +287,36 @@ class ReportFilterTrnsFlow @Inject constructor(
                     toAccountId = (newTrans.type as TransactionType.Transfer).toAccount.id
                 )
             }
+        }
+    }
+
+    private fun FilterState.isValid() = when {
+        selectedTrnTypes.data.isEmpty() -> false
+
+        period.data == null -> false
+
+        selectedAcc.data.isEmpty() -> false
+
+        selectedCat.data.isEmpty() -> false
+
+        minAmount != null && maxAmount != null -> when {
+            minAmount > maxAmount -> false
+            maxAmount < minAmount -> false
+            else -> true
+        }
+
+        else -> true
+    }
+
+    private fun FilterState.hasEmptyContents() =
+        this.selectedTrnTypes.data.isEmpty() && period.data == null &&
+                selectedAcc.data.isEmpty() && selectedCat.data.isEmpty() &&
+                minAmount == null && maxAmount == null &&
+                includeKeywords.data.isEmpty() && excludeKeywords.data.isEmpty()
+
+    data class DataHolder(val headerState: HeaderState, val trnsList: TransactionsList) {
+        companion object {
+            fun empty() = DataHolder(emptyHeaderState(), emptyTransactionList())
         }
     }
 }
