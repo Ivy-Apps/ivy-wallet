@@ -44,8 +44,8 @@ import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
-import com.ivy.reports.data.PlannedPaymentTypes
-import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.data.ReportPlannedPaymenttType
+import com.ivy.reports.data.ReportCategoryType
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.wallet.ui.theme.*
@@ -281,8 +281,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
 @Composable
 fun PlannedPaymentFilter(
-    selectedPlannedPayments: ImmutableData<List<PlannedPaymentTypes>>,
-    onChecked: (Boolean, PlannedPaymentTypes) -> Unit
+    selectedPlannedPayments: ImmutableData<List<ReportPlannedPaymenttType>>,
+    onChecked: (Boolean, ReportPlannedPaymenttType) -> Unit
 ) {
     FilterTitleText(
         text = "Planned Payments (optional)",
@@ -303,17 +303,17 @@ fun PlannedPaymentFilter(
         IvyCheckboxWithText(
             modifier = Modifier.weight(1f),
             text = "Upcoming",
-            checked = selectedPlannedPayments.data.contains(PlannedPaymentTypes.UPCOMING)
+            checked = selectedPlannedPayments.data.contains(ReportPlannedPaymenttType.UPCOMING)
         ) {
-            onChecked(it, PlannedPaymentTypes.UPCOMING)
+            onChecked(it, ReportPlannedPaymenttType.UPCOMING)
         }
 
         IvyCheckboxWithText(
             modifier = Modifier.weight(1f),
             text = "Overdue",
-            checked = selectedPlannedPayments.data.contains(PlannedPaymentTypes.OVERDUE)
+            checked = selectedPlannedPayments.data.contains(ReportPlannedPaymenttType.OVERDUE)
         ) {
-            onChecked(it, PlannedPaymentTypes.OVERDUE)
+            onChecked(it, ReportPlannedPaymenttType.OVERDUE)
         }
     }
 }
@@ -618,7 +618,7 @@ private fun CategoriesFilter(
             items = selectableCategories.data,
             key = {
                 when (it.selectableCategory) {
-                    is ReportsCatType.Cat -> it.selectableCategory.cat.id.toString()
+                    is ReportCategoryType.Cat -> it.selectableCategory.cat.id.toString()
                     else -> {
                         "noneCategory"
                     }
@@ -628,7 +628,7 @@ private fun CategoriesFilter(
             LogCompositions(tag = TAG, msg = "Categories Filter LazyColumn")
 
             val cat = when (reportsCat.selectableCategory) {
-                is ReportsCatType.Cat -> reportsCat.selectableCategory.cat
+                is ReportCategoryType.Cat -> reportsCat.selectableCategory.cat
                 else -> dummyCategory(
                     name = "None",
                     color = Gray.toArgb(),

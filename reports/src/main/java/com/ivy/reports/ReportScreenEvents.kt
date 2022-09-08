@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.transaction.TrnType
-import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.ReportPlannedPaymenttType
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
 
@@ -56,7 +56,7 @@ sealed class ReportFilterEvent {
         }
     }
 
-    data class SelectPlannedPayment(val type: PlannedPaymentTypes, val add: Boolean) :
+    data class SelectPlannedPayment(val type: ReportPlannedPaymenttType, val add: Boolean) :
         ReportFilterEvent()
 
     sealed class Clear : ReportFilterEvent() {

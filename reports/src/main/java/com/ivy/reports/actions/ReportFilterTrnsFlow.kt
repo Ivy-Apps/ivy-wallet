@@ -20,58 +20,57 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
 import com.ivy.reports.FilterState
-import com.ivy.reports.data.PlannedPaymentTypes
-import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.data.ReportCategoryType
+import com.ivy.reports.data.ReportPlannedPaymenttType
+import com.ivy.reports.data.ReportPlannedPaymenttType.OVERDUE
+import com.ivy.reports.data.ReportPlannedPaymenttType.UPCOMING
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
-import com.ivy.wallet.utils.replace
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
-class ReportsFilterTrnsFlow @Inject constructor(
+class ReportFilterTrnsFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val trnsFlow: TrnsFlow,
     private val exchangeRates: ExchangeRatesFlow,
-) : FlowAction<ReportsFilterTrnsFlow.Input, List<Transaction>>() {
+) : FlowAction<FilterState, List<Transaction>>() {
 
-    data class Input(val filterState: FilterState, val noneCategory: Category? = null)
-
-    override fun Input.createFlow(): Flow<List<Transaction>> =
+    override fun FilterState.createFlow(): Flow<List<Transaction>> =
         filterStateFlow()
             .filter { it.isValid() && !it.hasEmptyContents() }
             .flatMapMerge { transactionFlow() }
             .onEmpty { emit(emptyList()) }
 
-    private fun Input.filterStateFlow() = flowOf(this.filterState)
+    private fun FilterState.filterStateFlow() = flowOf(this)
 
-    private fun Input.transactionFlow() = combine(
+    private fun FilterState.transactionFlow() = combine(
         baseCurrencyFlow(),
-        trnsFlow(whereClause(this.filterState, this.noneCategory)),
+        trnsFlow(whereClause(this)),
         exchangeRates()
     ) { baseCurrency, trnsList, rates ->
         filterByAmount(
             baseCurrency = baseCurrency,
-            minAmt = this.filterState.minAmount,
-            maxAmt = this.filterState.maxAmount,
+            minAmt = this.minAmount,
+            maxAmt = this.maxAmount,
             exchangeRates = rates,
             transList = trnsList
         )
     }.map {
         filterByWords(
-            includeKeywords = this.filterState.includeKeywords.data,
-            excludeKeywords = this.filterState.excludeKeywords.data,
+            includeKeywords = this.includeKeywords.data,
+            excludeKeywords = this.excludeKeywords.data,
             transactionsList = it
         )
     }.map {
         getActualTrns(
-            selectedPlannedPayments = this.filterState.selectedPlannedPayments.data,
+            selectedPlannedPayments = this.selectedPlannedPayments.data,
             allTrns = it
         )
     }
 
-    private fun whereClause(filter: FilterState, noneCategory: Category?): TrnWhere {
+    private fun whereClause(filter: FilterState): TrnWhere {
         @Suppress("FunctionName")
         fun ByDate(timePeriod: TimePeriod?): TrnWhere {
             val datePeriod = timePeriod!!.toPeriodDate(1)
@@ -185,13 +184,13 @@ class ReportsFilterTrnsFlow @Inject constructor(
     }
 
     private fun getActualTrns(
-        selectedPlannedPayments: List<PlannedPaymentTypes>,
+        selectedPlannedPayments: List<ReportPlannedPaymenttType>,
         allTrns: List<Transaction>
     ): List<Transaction> {
         return if (selectedPlannedPayments.isEmpty())
             allTrns.filter(::actual)
-        else if (selectedPlannedPayments.contains(PlannedPaymentTypes.UPCOMING)
-            && selectedPlannedPayments.contains(PlannedPaymentTypes.OVERDUE)
+        else if (selectedPlannedPayments.contains(UPCOMING)
+            && selectedPlannedPayments.contains(OVERDUE)
         )
             allTrns
         else {
@@ -201,8 +200,8 @@ class ReportsFilterTrnsFlow @Inject constructor(
                 when (it.time) {
                     is TrnTime.Due -> {
                         when (type) {
-                            PlannedPaymentTypes.UPCOMING -> upcoming(it, timeNow)
-                            PlannedPaymentTypes.OVERDUE -> overdue(it, timeNow)
+                            UPCOMING -> upcoming(it, timeNow)
+                            OVERDUE -> overdue(it, timeNow)
                         }
                     }
                     else -> true
@@ -245,17 +244,10 @@ class ReportsFilterTrnsFlow @Inject constructor(
         return Period.FromTo(from = from, to = to)
     }
 
-    private fun List<Category>.noneCategoryFix(noneCategory: Category?): List<Category?> {
-        return if (noneCategory == null)
-            this
-        else
-            this.replace(noneCategory, null)
-    }
-
     private fun List<SelectableReportsCategory>.toCatList(): List<Category?> {
         return this.filter { it.selected }.map { c ->
             when (c.selectableCategory) {
-                is ReportsCatType.Cat -> c.selectableCategory.cat
+                is ReportCategoryType.Cat -> c.selectableCategory.cat
                 else -> null
             }
         }

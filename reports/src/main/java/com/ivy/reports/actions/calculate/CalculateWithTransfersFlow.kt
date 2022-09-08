@@ -1,4 +1,4 @@
-package com.ivy.reports.actions
+package com.ivy.reports.actions.calculate
 
 import arrow.core.nonEmptyListOf
 import com.ivy.core.action.FlowAction

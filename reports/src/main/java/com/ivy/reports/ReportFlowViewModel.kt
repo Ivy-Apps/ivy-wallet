@@ -2,33 +2,26 @@ package com.ivy.reports
 
 import android.content.Context
 import android.net.Uri
-import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.viewModelScope
-import com.ivy.base.R
 import com.ivy.core.action.FlowViewModel
-import com.ivy.core.action.account.AccountsFlow
 import com.ivy.core.action.calculate.transaction.GroupTrnsFlow
-import com.ivy.core.action.category.CategoriesFlow
 import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.action.time.SelectedPeriodFlow
-import com.ivy.core.functions.category.dummyCategory
-import com.ivy.core.functions.icon.dummyIconSized
 import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.account.Account
 import com.ivy.data.transaction.*
 import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
-import com.ivy.reports.actions.CalculateWithTransfersFlow
-import com.ivy.reports.actions.ReportsCatFlow
-import com.ivy.reports.actions.ReportsFilterTrnsFlow
-import com.ivy.reports.data.PlannedPaymentTypes
-import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.actions.ReportAccountsFlow
+import com.ivy.reports.actions.ReportCategoriesFlow
+import com.ivy.reports.actions.ReportFilterTrnsFlow
+import com.ivy.reports.actions.calculate.CalculateWithTransfersFlow
+import com.ivy.reports.data.ReportCategoryType
+import com.ivy.reports.data.ReportPlannedPaymenttType
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
-import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.utils.replace
 import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,12 +35,11 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 class ReportFlowViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
-    private val categoryFlow: CategoriesFlow,
-    private val reportsCatFLow: ReportsCatFlow,
-    private val accountsFLow: AccountsFlow,
+    private val reportCategoriesFLow: ReportCategoriesFlow,
+    private val reportsAccountsFlow: ReportAccountsFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val calculateWithTransfersFlow: CalculateWithTransfersFlow,
-    private val reportsFilterTrnsFlow: ReportsFilterTrnsFlow,
+    private val reportFilterTrnsFlow: ReportFilterTrnsFlow,
     private val groupTrnsFlow: GroupTrnsFlow,
     private val exportCSVLogic: ExportCSVLogic,
 ) : FlowViewModel<ReportState, ReportState, ReportsEvent>() {
@@ -57,12 +49,6 @@ class ReportFlowViewModel @Inject constructor(
 
     private val loading = MutableStateFlow(false)
     private val trnsList = MutableStateFlow<List<Transaction>>(emptyList())
-
-    private val _categoryNone = dummyCategory(
-        name = "None",
-        color = Gray.toArgb(),
-        icon = dummyIconSized(R.drawable.ic_custom_category_s)
-    )
 
     init {
         initialiseData()
@@ -124,12 +110,7 @@ class ReportFlowViewModel @Inject constructor(
         .onStart { emptyTransactionList() }
 
     private fun trnsFlow() = filter.flatMapLatest {
-        reportsFilterTrnsFlow(
-            ReportsFilterTrnsFlow.Input(
-                filterState = it,
-                noneCategory = _categoryNone
-            )
-        )
+        reportFilterTrnsFlow(it)
     }.onEach { list ->
         trnsList.value = list
     }.onStart { emit(emptyList()) }
@@ -271,8 +252,8 @@ class ReportFlowViewModel @Inject constructor(
         val newCategory = category.copy(selected = !category.selected)
         val allCats = filter.selectedCat.data.replace(oldComp = { c ->
             when {
-                (newCategory.selectableCategory is ReportsCatType.Cat) && (c.selectableCategory is ReportsCatType.Cat) && c.selectableCategory.cat.id == newCategory.selectableCategory.cat.id -> true
-                newCategory.selectableCategory is ReportsCatType.None && c.selectableCategory is ReportsCatType.None -> true
+                (newCategory.selectableCategory is ReportCategoryType.Cat) && (c.selectableCategory is ReportCategoryType.Cat) && c.selectableCategory.cat.id == newCategory.selectableCategory.cat.id -> true
+                newCategory.selectableCategory is ReportCategoryType.None && c.selectableCategory is ReportCategoryType.None -> true
                 else -> false
             }
         }, newCategory)
@@ -328,7 +309,7 @@ class ReportFlowViewModel @Inject constructor(
 
     private fun updatePlannedPaymentSelection(
         filter: FilterState,
-        type: PlannedPaymentTypes,
+        type: ReportPlannedPaymenttType,
         add: Boolean
     ) {
         val selectPlannedPayments =
@@ -382,15 +363,13 @@ class ReportFlowViewModel @Inject constructor(
     }
 
     private fun initialiseData() {
-        combine(accountsFLow(), reportsCatFLow(Unit)) { a, c ->
+        combine(reportsAccountsFlow(Unit), reportCategoriesFLow(Unit)) { a, c ->
             Pair(a, c)
         }.onEach { pair ->
             filter.update {
                 it.copy(
-                    selectedAcc = pair.first.map { acc -> SelectableAccount(acc) }
-                        .toImmutableItem(),
-                    selectedCat = pair.second.map { c -> SelectableReportsCategory(c) }
-                        .toImmutableItem()
+                    selectedAcc = pair.first.toImmutableItem(),
+                    selectedCat = pair.second.toImmutableItem()
                 )
             }
         }.flowOn(Dispatchers.Default)
