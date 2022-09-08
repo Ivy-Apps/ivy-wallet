@@ -3,12 +3,12 @@ package com.ivy.reports
 import androidx.compose.runtime.Immutable
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CurrencyCode
-import com.ivy.data.account.Account
-import com.ivy.data.category.Category
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnType
 import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 import java.util.*
 
 //------------------------------------------  Reports Main State -----------------------------------
@@ -55,11 +55,9 @@ data class FilterState(
 
     val period: ImmutableData<TimePeriod?>,
 
-    val allAccounts: ImmutableData<List<Account>>,
-    val selectedAcc: ImmutableData<List<Account>>,
+    val selectedAcc: ImmutableData<List<SelectableAccount>>,
 
-    val allCategories: ImmutableData<List<Category>>,
-    val selectedCat: ImmutableData<List<Category>>,
+    val selectedCat: ImmutableData<List<SelectableReportsCategory>>,
 
     val minAmount: Double?,
     val maxAmount: Double?,

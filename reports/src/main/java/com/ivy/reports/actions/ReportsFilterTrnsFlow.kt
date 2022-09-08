@@ -21,6 +21,9 @@ import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
 import com.ivy.reports.FilterState
 import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.wallet.utils.replace
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -87,9 +90,9 @@ class ReportsFilterTrnsFlow @Inject constructor(
 
         return TrnWhere.ByTypeIn(filter.selectedTrnTypes.data.toNonEmptyList()) and
                 ByDate(filter.period.data) and
-                ByAccount(filter.selectedAcc.data) and
+                ByAccount(filter.selectedAcc.data.toAccountList()) and
                 TrnWhere.ByCategoryIn(
-                    filter.selectedCat.data.noneCategoryFix(noneCategory).toNonEmptyList()
+                    filter.selectedCat.data.toCatList().toNonEmptyList()
                 )
     }
 
@@ -214,9 +217,9 @@ class ReportsFilterTrnsFlow @Inject constructor(
 
         period.data == null -> false
 
-        selectedAcc.data.isEmpty() -> false
+        selectedAcc.data.none { it.selected } -> false
 
-        selectedCat.data.isEmpty() -> false
+        selectedCat.data.none { it.selected } -> false
 
         minAmount != null && maxAmount != null -> when {
             minAmount > maxAmount -> false
@@ -229,7 +232,7 @@ class ReportsFilterTrnsFlow @Inject constructor(
 
     private fun FilterState.hasEmptyContents() =
         this.selectedTrnTypes.data.isEmpty() && period.data == null &&
-                selectedAcc.data.isEmpty() && selectedCat.data.isEmpty() &&
+                selectedAcc.data.none { it.selected } && selectedCat.data.none { it.selected } &&
                 minAmount == null && maxAmount == null &&
                 includeKeywords.data.isEmpty() && excludeKeywords.data.isEmpty()
 
@@ -248,4 +251,16 @@ class ReportsFilterTrnsFlow @Inject constructor(
         else
             this.replace(noneCategory, null)
     }
+
+    private fun List<SelectableReportsCategory>.toCatList(): List<Category?> {
+        return this.filter { it.selected }.map { c ->
+            when (c.selectableCategory) {
+                is ReportsCatType.Cat -> c.selectableCategory.cat
+                else -> null
+            }
+        }
+    }
+
+    private fun List<SelectableAccount>.toAccountList() =
+        this.filter { it.selected }.map { it.account }
 }

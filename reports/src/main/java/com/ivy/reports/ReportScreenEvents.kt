@@ -3,10 +3,10 @@ package com.ivy.reports
 import android.content.Context
 import android.net.Uri
 import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.account.Account
-import com.ivy.data.category.Category
 import com.ivy.data.transaction.TrnType
 import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 
 /** ---------------------------------- ReportScreen Main Events ----------------------------------*/
 
@@ -32,9 +32,10 @@ sealed class ReportFilterEvent {
 
     data class SelectPeriod(val timePeriod: TimePeriod) : ReportFilterEvent()
 
-    data class SelectAccount(val account: Account, val add: Boolean) : ReportFilterEvent()
+    data class SelectAccount(val account: SelectableAccount, val add: Boolean) : ReportFilterEvent()
 
-    data class SelectCategory(val category: Category, val add: Boolean) : ReportFilterEvent()
+    data class SelectCategory(val category: SelectableReportsCategory, val add: Boolean) :
+        ReportFilterEvent()
 
     data class SelectAmount(
         val amountType: AmountType,

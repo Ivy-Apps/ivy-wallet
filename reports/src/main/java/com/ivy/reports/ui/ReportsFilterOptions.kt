@@ -18,19 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.R
+import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.icon.dummyIconSized
 import com.ivy.core.ui.color.contrast
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.temp.ivyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.core.ui.transaction.defaultExpandCollapseHandler
-import com.ivy.data.account.Account
-import com.ivy.data.category.Category
 import com.ivy.data.icon.IconSize
 import com.ivy.data.icon.IvyIcon
 import com.ivy.data.transaction.TrnType
@@ -45,6 +45,9 @@ import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
 import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -146,8 +149,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
                 item {
                     AccountsFilter(
-                        allAccounts = state.allAccounts,
-                        selectedAccounts = state.selectedAcc,
+                        selectableAccounts = state.selectedAcc,
                         onClearAll = { onFilterEvent(ReportFilterEvent.Clear.Accounts) },
                         onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll.Accounts) }
                     ) { selected, account ->
@@ -164,14 +166,13 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
                 item {
                     CategoriesFilter(
-                        allCategories = state.allCategories,
-                        selectedCategories = state.selectedCat,
+                        selectableCategories = state.selectedCat,
                         onClearAll = { onFilterEvent(ReportFilterEvent.Clear.Categories) },
                         onSelectAll = { onFilterEvent(ReportFilterEvent.SelectAll.Categories) }
-                    ) { selected, category ->
+                    ) { selected, reportsCat ->
                         onFilterEvent(
                             ReportFilterEvent.SelectCategory(
-                                category = category,
+                                category = reportsCat,
                                 add = selected
                             )
                         )
@@ -498,17 +499,21 @@ private fun PeriodFilter(
 
 @Composable
 private fun AccountsFilter(
-    allAccounts: ImmutableData<List<Account>>,
-    selectedAccounts: ImmutableData<List<Account>>,
+    selectableAccounts: ImmutableData<List<SelectableAccount>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
-    onItemClick: (Boolean, Account) -> Unit
+    onItemClick: (Boolean, SelectableAccount) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Accounts Filter")
+
+    val selectableAccountsSize = remember(selectableAccounts.data) {
+        selectableAccounts.data.count { c -> c.selected }
+    }
+
     ListFilterTitle(
-        text = stringResource(R.string.accounts_number, selectedAccounts.data.size),
-        active = selectedAccounts.data.isNotEmpty(),
-        itemsSelected = selectedAccounts.data.size,
+        text = stringResource(R.string.accounts_number, selectableAccountsSize),
+        active = selectableAccountsSize != 0,
+        itemsSelected = selectableAccountsSize,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -517,20 +522,20 @@ private fun AccountsFilter(
 
     LazyRow(modifier = Modifier.padding(start = 24.dp)) {
         items(
-            items = allAccounts.data,
+            items = selectableAccounts.data,
             key = {
-                it.id.toString()
+                it.account.id.toString()
             }
-        ) { account ->
+        ) { selectableAcc ->
             //LogCompositions(tag = TAG, msg = "Accounts Filter LazyColumn")
             SelectionBadges(
-                text = account.name,
-                icon = account.icon,
-                selectedColor = account.color.toComposeColor().takeIf {
-                    selectedAccounts.data.contains(account)
+                text = selectableAcc.account.name,
+                icon = selectableAcc.account.icon,
+                selectedColor = selectableAcc.account.color.toComposeColor().takeIf {
+                    selectableAcc.selected
                 }
             ) { selected ->
-                onItemClick(selected, account)
+                onItemClick(selected, selectableAcc)
             }
         }
     }
@@ -585,17 +590,21 @@ private fun SelectionBadges(
 
 @Composable
 private fun CategoriesFilter(
-    allCategories: ImmutableData<List<Category>>,
-    selectedCategories: ImmutableData<List<Category>>,
+    selectableCategories: ImmutableData<List<SelectableReportsCategory>>,
     onClearAll: () -> Unit,
     onSelectAll: () -> Unit,
-    onItemClick: (Boolean, Category) -> Unit
+    onItemClick: (Boolean, SelectableReportsCategory) -> Unit
 ) {
     LogCompositions(tag = TAG, msg = "Categories Filter")
+
+    val selectedCategorySize = remember(selectableCategories.data) {
+        selectableCategories.data.count { c -> c.selected }
+    }
+
     ListFilterTitle(
-        text = stringResource(R.string.categories_number, selectedCategories.data.size),
-        active = selectedCategories.data.isNotEmpty(),
-        itemsSelected = selectedCategories.data.size,
+        text = stringResource(R.string.categories_number, selectedCategorySize),
+        active = selectedCategorySize != 0,
+        itemsSelected = selectedCategorySize,
         onClearAll = onClearAll,
         onSelectAll = onSelectAll
     )
@@ -606,20 +615,35 @@ private fun CategoriesFilter(
         modifier = Modifier.padding(start = 24.dp)
     ) {
         items(
-            items = allCategories.data,
+            items = selectableCategories.data,
             key = {
-                it.id.toString()
+                when (it.selectableCategory) {
+                    is ReportsCatType.Cat -> it.selectableCategory.cat.id.toString()
+                    else -> {
+                        "noneCategory"
+                    }
+                }
             }
-        ) { category ->
+        ) { reportsCat ->
             LogCompositions(tag = TAG, msg = "Categories Filter LazyColumn")
+
+            val cat = when (reportsCat.selectableCategory) {
+                is ReportsCatType.Cat -> reportsCat.selectableCategory.cat
+                else -> dummyCategory(
+                    name = "None",
+                    color = Gray.toArgb(),
+                    icon = dummyIconSized(R.drawable.ic_custom_category_s)
+                )
+            }
+
             SelectionBadges(
-                icon = category.icon,
-                text = category.name,
-                selectedColor = category.color.toComposeColor().takeIf {
-                    selectedCategories.data.contains(category)
+                icon = cat.icon,
+                text = cat.name,
+                selectedColor = cat.color.toComposeColor().takeIf {
+                    reportsCat.selected
                 }
             ) {
-                onItemClick(it, category)
+                onItemClick(it, reportsCat)
             }
         }
     }

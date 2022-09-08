@@ -23,6 +23,7 @@ import com.ivy.core.ui.temp.Preview
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.reports.ReportsEvent.FilterOptions
+import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.ui.ReportsFilterOptions
 import com.ivy.reports.ui.ReportsLoadingScreen
 import com.ivy.reports.ui.ReportsScreenUI
@@ -210,8 +211,8 @@ private fun Preview() {
 
     val state = emptyReportScreenState(baseCurrency = "USD").copy(
         filterState = emptyFilterState().copy(
-            selectedAcc = accountList.toImmutableItem(),
-            selectedCat = categoryList.toImmutableItem()
+            selectedAcc = accountList.map { SelectableAccount(it) }.toImmutableItem(),
+            selectedCat = ImmutableData(emptyList())
         ),
         trnsList = transList.toImmutableItem(),
         headerState = headerState.toImmutableItem()

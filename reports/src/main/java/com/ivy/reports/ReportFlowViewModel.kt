@@ -15,17 +15,21 @@ import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.icon.dummyIconSized
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.account.Account
-import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
 import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
 import com.ivy.reports.actions.CalculateWithTransfersFlow
+import com.ivy.reports.actions.ReportsCatFlow
 import com.ivy.reports.actions.ReportsFilterTrnsFlow
 import com.ivy.reports.data.PlannedPaymentTypes
+import com.ivy.reports.data.ReportsCatType
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.utils.replace
 import com.ivy.wallet.utils.uiThread
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +43,7 @@ import javax.inject.Inject
 class ReportFlowViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val categoryFlow: CategoriesFlow,
+    private val reportsCatFLow: ReportsCatFlow,
     private val accountsFLow: AccountsFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val calculateWithTransfersFlow: CalculateWithTransfersFlow,
@@ -241,30 +246,40 @@ class ReportFlowViewModel @Inject constructor(
 
     private fun updateAccountSelection(
         filter: FilterState,
-        account: Account,
+        account: SelectableAccount,
         add: Boolean
     ) {
+
+        val newAccount = account.copy(selected = !account.selected)
+        val selectableAccounts = filter.selectedAcc.data.replace(oldComp = { a ->
+            a.account.id == newAccount.account.id
+        }, newAccount)
+
         updateFilter(
             filter.copy(
-                selectedAcc = filter.selectedAcc.data.addOrRemove(
-                    add = add,
-                    item = account
-                ).toImmutableItem()
+                selectedAcc = selectableAccounts.toImmutableItem()
             )
         )
     }
 
     private fun updateCategorySelection(
         filter: FilterState,
-        category: Category,
+        category: SelectableReportsCategory,
         add: Boolean
     ) {
+
+        val newCategory = category.copy(selected = !category.selected)
+        val allCats = filter.selectedCat.data.replace(oldComp = { c ->
+            when {
+                (newCategory.selectableCategory is ReportsCatType.Cat) && (c.selectableCategory is ReportsCatType.Cat) && c.selectableCategory.cat.id == newCategory.selectableCategory.cat.id -> true
+                newCategory.selectableCategory is ReportsCatType.None && c.selectableCategory is ReportsCatType.None -> true
+                else -> false
+            }
+        }, newCategory)
+
         updateFilter(
             newFilter = filter.copy(
-                selectedCat = filter.selectedCat.data.addOrRemove(
-                    add = add,
-                    item = category
-                ).toImmutableItem()
+                selectedCat = allCats.toImmutableItem()
             )
         )
     }
@@ -329,8 +344,16 @@ class ReportFlowViewModel @Inject constructor(
     ) {
         val newFilter = when (event) {
             is ReportFilterEvent.Clear.Filter -> emptyFilterState()
-            ReportFilterEvent.Clear.Accounts -> filter.copy(selectedAcc = emptyList<Account>().toImmutableItem())
-            ReportFilterEvent.Clear.Categories -> filter.copy(selectedCat = emptyList<Category>().toImmutableItem())
+            ReportFilterEvent.Clear.Accounts -> filter.copy(selectedAcc = filter.selectedAcc.data.map { a ->
+                a.copy(
+                    selected = false
+                )
+            }.toImmutableItem())
+            ReportFilterEvent.Clear.Categories -> filter.copy(selectedCat = filter.selectedCat.data.map {
+                it.copy(
+                    selected = false
+                )
+            }.toImmutableItem())
         }
         updateFilter(newFilter)
     }
@@ -342,10 +365,12 @@ class ReportFlowViewModel @Inject constructor(
     ) {
         val newFilter = when (event) {
             is ReportFilterEvent.SelectAll.Accounts -> filter.copy(
-                selectedAcc = filter.allAccounts.data.toList().toImmutableItem()
+                selectedAcc = filter.selectedAcc.data.map { a -> a.copy(selected = true) }
+                    .toImmutableItem()
             )
             ReportFilterEvent.SelectAll.Categories -> filter.copy(
-                selectedCat = filter.allCategories.data.toList().toImmutableItem()
+                selectedCat = filter.selectedCat.data.map { c -> c.copy(selected = true) }
+                    .toImmutableItem()
             )
         }
 
@@ -357,13 +382,15 @@ class ReportFlowViewModel @Inject constructor(
     }
 
     private fun initialiseData() {
-        combine(accountsFLow(), categoryFlow()) { a, c ->
+        combine(accountsFLow(), reportsCatFLow(Unit)) { a, c ->
             Pair(a, c)
         }.onEach { pair ->
             filter.update {
                 it.copy(
-                    allAccounts = pair.first.toImmutableItem(),
-                    allCategories = (listOf(_categoryNone) + pair.second).toImmutableItem()
+                    selectedAcc = pair.first.map { acc -> SelectableAccount(acc) }
+                        .toImmutableItem(),
+                    selectedCat = pair.second.map { c -> SelectableReportsCategory(c) }
+                        .toImmutableItem()
                 )
             }
         }.flowOn(Dispatchers.Default)
@@ -371,7 +398,8 @@ class ReportFlowViewModel @Inject constructor(
     }
 
 
-    private fun getSelectedAccounts() = filter.value.selectedAcc.data
+    private fun getSelectedAccounts() =
+        filter.value.selectedAcc.data.filter { it.selected }.map { it.account }
 
     private fun <T> List<T>.addOrRemove(add: Boolean, item: T): List<T> {
         return if (add)
