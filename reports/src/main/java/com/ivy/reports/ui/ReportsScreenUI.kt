@@ -37,7 +37,7 @@ fun BoxWithConstraintsScope.ReportsScreenUI(
                 item {
                     ReportsHeader(
                         baseCurrency = baseCurrency,
-                        headerState = headerState,
+                        headerState = headerState.data,
                         onEventHandler = onEvent
                     )
                 }
