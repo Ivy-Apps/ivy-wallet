@@ -18,38 +18,30 @@ import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.reports.HeaderState
-import com.ivy.reports.LogCompositions
-import com.ivy.reports.ReportsEvent
+import com.ivy.reports.HeaderUiState
 import com.ivy.reports.TAG
+import com.ivy.reports.extensions.LogCompositions
 import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.components.BalanceRow
-import com.ivy.wallet.ui.theme.components.IvyCheckboxWithText
 
 @Composable
 fun ReportsHeader(
     baseCurrency: CurrencyCode,
-    headerState: HeaderState,
-    onEventHandler: (ReportsEvent) -> Unit
+    headerUiState: HeaderUiState
 ) {
-
     LogCompositions(tag = TAG, msg = "Reports Header")
+
     ReportsTitle()
 
     Spacer(Modifier.height(8.dp))
 
-    ReportsBalance(baseCurrency = baseCurrency, balance = headerState.balance)
+    ReportsBalance(baseCurrency = baseCurrency, balance = headerUiState.balance)
 
     Spacer(Modifier.height(24.dp))
 
-    ReportsIncomeExpensesCards(state = headerState, baseCurrency = baseCurrency)
+    IncomeExpensesCards(state = headerUiState, baseCurrency = baseCurrency)
 
-//    if (state.showTransfersAsIncExpCheckbox) {
-//        ReportsTransfersAsIncomeOption(checked = state.treatTransfersAsIncExp) {
-//            onEventHandler(TrnsAsIncomeExpense(trnsAsIncExp = it))
-//        }
-//    } else
     Spacer(Modifier.height(32.dp))
 
     TransactionsDividerLine(paddingHorizontal = 0.dp)
@@ -92,7 +84,7 @@ private fun ReportsBalance(baseCurrency: CurrencyCode, balance: Double) {
 }
 
 @Composable
-private fun ReportsIncomeExpensesCards(state: HeaderState, baseCurrency: CurrencyCode) {
+private fun IncomeExpensesCards(state: HeaderUiState, baseCurrency: CurrencyCode) {
     val nav = navigation()
     ReportsIncomeExpenseCards(
         currency = baseCurrency,
@@ -124,20 +116,5 @@ private fun ReportsIncomeExpensesCards(state: HeaderState, baseCurrency: Currenc
                     )
                 )
         }
-    )
-}
-
-@Composable
-private fun ReportsTransfersAsIncomeOption(
-    checked: Boolean,
-    onSelected: (Boolean) -> Unit
-) {
-    LogCompositions(tag = TAG, msg = "Reports Header + TransfersAsIncomeOption")
-    IvyCheckboxWithText(
-        modifier = Modifier
-            .padding(16.dp),
-        text = stringResource(R.string.transfers_as_income_expense),
-        checked = checked,
-        onCheckedChange = onSelected
     )
 }

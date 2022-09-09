@@ -26,7 +26,8 @@ class CalculateWithTransfersFlow @Inject constructor(
     data class Input(
         val trns: List<Transaction>,
         val outputCurrency: CurrencyCode,
-        val accounts: List<Account>
+        val accounts: List<Account>,
+        val treatTransfersAsIncExp: Boolean = false
     )
 
     override fun Input.createFlow(): Flow<ExtendedStats> =
@@ -63,12 +64,15 @@ class CalculateWithTransfersFlow @Inject constructor(
         val tIn = res[6]
         val tOut = res[7]
 
+        val tInCount = res[4].toInt()
+        val tOutCount = res[5].toInt()
+
         return ExtendedStats(
             balance = income - expense + tIn - tOut,
-            income = income,
-            expense = expense,
-            incomesCount = res[2].toInt(),
-            expensesCount = res[3].toInt(),
+            income = income + if (treatTransfersAsIncExp) tIn else 0.0,
+            expense = expense + if (treatTransfersAsIncExp) tOut else 0.0,
+            incomesCount = res[2].toInt() + if (treatTransfersAsIncExp) tInCount else 0,
+            expensesCount = res[3].toInt() + if (treatTransfersAsIncExp) tOutCount else 0,
             transfersInCount = res[4].toInt(),
             transfersOutCount = res[5].toInt(),
             transfersInAmount = tIn,

@@ -1,4 +1,4 @@
-package com.ivy.reports.ui
+package com.ivy.reports
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -39,15 +39,20 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.reports.*
 import com.ivy.reports.ReportFilterEvent.SelectAmount
 import com.ivy.reports.ReportFilterEvent.SelectAmount.AmountType
 import com.ivy.reports.ReportFilterEvent.SelectKeyword
 import com.ivy.reports.ReportFilterEvent.SelectKeyword.KeywordsType
-import com.ivy.reports.data.ReportPlannedPaymenttType
 import com.ivy.reports.data.ReportCategoryType
+import com.ivy.reports.data.ReportPlannedPaymentType
+import com.ivy.reports.data.ReportPlannedPaymentType.OVERDUE
+import com.ivy.reports.data.ReportPlannedPaymentType.UPCOMING
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
+import com.ivy.reports.extensions.ImmutableData
+import com.ivy.reports.extensions.LogCompositions
+import com.ivy.reports.extensions.collapse
+import com.ivy.reports.extensions.expand
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.AddKeywordModal
@@ -64,7 +69,7 @@ import java.util.*
 fun BoxWithConstraintsScope.ReportsFilterOptions(
     visible: Boolean,
     baseCurrency: String,
-    state: FilterState,
+    state: FilterUiState,
     onClose: () -> Unit,
     onFilterEvent: (ReportFilterEvent) -> Unit
 ) {
@@ -224,6 +229,14 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
                             )
                         )
                     }
+
+                    FilterDivider()
+                }
+
+                item {
+                    TransfersAsIncomeExpense(checked = state.treatTransfersAsIncExp) { checked ->
+                        onFilterEvent(ReportFilterEvent.TreatTransfersAsIncExp(transfersAsIncExp = checked))
+                    }
                 }
 
                 item {
@@ -281,8 +294,8 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
 
 @Composable
 fun PlannedPaymentFilter(
-    selectedPlannedPayments: ImmutableData<List<ReportPlannedPaymenttType>>,
-    onChecked: (Boolean, ReportPlannedPaymenttType) -> Unit
+    selectedPlannedPayments: ImmutableData<List<ReportPlannedPaymentType>>,
+    onChecked: (Boolean, ReportPlannedPaymentType) -> Unit
 ) {
     FilterTitleText(
         text = "Planned Payments (optional)",
@@ -303,20 +316,36 @@ fun PlannedPaymentFilter(
         IvyCheckboxWithText(
             modifier = Modifier.weight(1f),
             text = "Upcoming",
-            checked = selectedPlannedPayments.data.contains(ReportPlannedPaymenttType.UPCOMING)
+            checked = selectedPlannedPayments.data.contains(UPCOMING)
         ) {
-            onChecked(it, ReportPlannedPaymenttType.UPCOMING)
+            onChecked(it, UPCOMING)
         }
 
         IvyCheckboxWithText(
             modifier = Modifier.weight(1f),
             text = "Overdue",
-            checked = selectedPlannedPayments.data.contains(ReportPlannedPaymenttType.OVERDUE)
+            checked = selectedPlannedPayments.data.contains(OVERDUE)
         ) {
-            onChecked(it, ReportPlannedPaymenttType.OVERDUE)
+            onChecked(it, OVERDUE)
         }
     }
 }
+
+@Composable
+fun TransfersAsIncomeExpense(checked: Boolean, onChecked: (Boolean) -> Unit) {
+    FilterTitleText(
+        text = "Others (optional)",
+        active = checked
+    )
+
+    IvyCheckboxWithText(
+        modifier = Modifier.padding(horizontal = 18.dp, vertical = 0.dp),
+        text = stringResource(R.string.transfers_as_income_expense),
+        checked = checked,
+        onCheckedChange = onChecked
+    )
+}
+
 
 @Composable
 fun FilterFooter() {

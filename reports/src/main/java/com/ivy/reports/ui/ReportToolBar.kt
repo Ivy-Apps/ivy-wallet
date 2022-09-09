@@ -11,7 +11,7 @@ import com.ivy.base.R
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.core.ui.temp.ivyWalletCtx
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.reports.LogCompositions
+import com.ivy.reports.extensions.LogCompositions
 import com.ivy.reports.ReportsEvent
 import com.ivy.reports.TAG
 import com.ivy.wallet.ui.theme.Green

@@ -19,13 +19,10 @@ import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
-import com.ivy.reports.FilterState
-import com.ivy.reports.data.ReportCategoryType
-import com.ivy.reports.data.ReportPlannedPaymenttType
-import com.ivy.reports.data.ReportPlannedPaymenttType.OVERDUE
-import com.ivy.reports.data.ReportPlannedPaymenttType.UPCOMING
-import com.ivy.reports.data.SelectableAccount
-import com.ivy.reports.data.SelectableReportsCategory
+import com.ivy.reports.data.*
+import com.ivy.reports.data.ReportPlannedPaymentType.OVERDUE
+import com.ivy.reports.data.ReportPlannedPaymentType.UPCOMING
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -35,17 +32,18 @@ class ReportFilterTrnsFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val trnsFlow: TrnsFlow,
     private val exchangeRates: ExchangeRatesFlow,
-) : FlowAction<FilterState, List<Transaction>>() {
+) : FlowAction<ReportFilterState, List<Transaction>>() {
 
-    override fun FilterState.createFlow(): Flow<List<Transaction>> =
+    override fun ReportFilterState.createFlow(): Flow<List<Transaction>> =
         filterStateFlow()
-            .filter { it.isValid() && !it.hasEmptyContents() }
+            .filter { it.isValid() }
             .flatMapMerge { transactionFlow() }
             .onEmpty { emit(emptyList()) }
+            .flowOn(Dispatchers.Default)
 
-    private fun FilterState.filterStateFlow() = flowOf(this)
+    private fun ReportFilterState.filterStateFlow() = flowOf(this)
 
-    private fun FilterState.transactionFlow() = combine(
+    private fun ReportFilterState.transactionFlow() = combine(
         baseCurrencyFlow(),
         trnsFlow(whereClause(this)),
         exchangeRates()
@@ -59,18 +57,18 @@ class ReportFilterTrnsFlow @Inject constructor(
         )
     }.map {
         filterByWords(
-            includeKeywords = this.includeKeywords.data,
-            excludeKeywords = this.excludeKeywords.data,
+            includeKeywords = this.includeKeywords,
+            excludeKeywords = this.excludeKeywords,
             transactionsList = it
         )
     }.map {
         getActualTrns(
-            selectedPlannedPayments = this.selectedPlannedPayments.data,
+            selectedPlannedPayments = this.selectedPlannedPayments,
             allTrns = it
         )
     }
 
-    private fun whereClause(filter: FilterState): TrnWhere {
+    private fun whereClause(filter: ReportFilterState): TrnWhere {
         @Suppress("FunctionName")
         fun ByDate(timePeriod: TimePeriod?): TrnWhere {
             val datePeriod = timePeriod!!.toPeriodDate(1)
@@ -87,11 +85,11 @@ class ReportFilterTrnsFlow @Inject constructor(
             )
         }
 
-        return TrnWhere.ByTypeIn(filter.selectedTrnTypes.data.toNonEmptyList()) and
-                ByDate(filter.period.data) and
-                ByAccount(filter.selectedAcc.data.toAccountList()) and
+        return TrnWhere.ByTypeIn(filter.selectedTrnTypes.toNonEmptyList()) and
+                ByDate(filter.period) and
+                ByAccount(filter.selectedAccounts.toAccountList()) and
                 TrnWhere.ByCategoryIn(
-                    filter.selectedCat.data.toCatList().toNonEmptyList()
+                    filter.selectedCategories.toCatNonEmptyList()
                 )
     }
 
@@ -184,7 +182,7 @@ class ReportFilterTrnsFlow @Inject constructor(
     }
 
     private fun getActualTrns(
-        selectedPlannedPayments: List<ReportPlannedPaymenttType>,
+        selectedPlannedPayments: List<ReportPlannedPaymentType>,
         allTrns: List<Transaction>
     ): List<Transaction> {
         return if (selectedPlannedPayments.isEmpty())
@@ -211,14 +209,14 @@ class ReportFilterTrnsFlow @Inject constructor(
     }
 
 
-    private fun FilterState.isValid() = when {
-        selectedTrnTypes.data.isEmpty() -> false
+    private fun ReportFilterState.isValid() = when {
+        selectedTrnTypes.isEmpty() -> false
 
-        period.data == null -> false
+        period == null -> false
 
-        selectedAcc.data.none { it.selected } -> false
+        selectedAccounts.none { it.selected } -> false
 
-        selectedCat.data.none { it.selected } -> false
+        selectedCategories.none { it.selected } -> false
 
         minAmount != null && maxAmount != null -> when {
             minAmount > maxAmount -> false
@@ -229,11 +227,11 @@ class ReportFilterTrnsFlow @Inject constructor(
         else -> true
     }
 
-    private fun FilterState.hasEmptyContents() =
-        this.selectedTrnTypes.data.isEmpty() && period.data == null &&
-                selectedAcc.data.none { it.selected } && selectedCat.data.none { it.selected } &&
+    private fun ReportFilterState.hasEmptyContents() =
+        this.selectedTrnTypes.isEmpty() && period == null &&
+                selectedAccounts.none { it.selected } && selectedCategories.none { it.selected } &&
                 minAmount == null && maxAmount == null &&
-                includeKeywords.data.isEmpty() && excludeKeywords.data.isEmpty()
+                includeKeywords.isEmpty() && excludeKeywords.isEmpty()
 
     private fun <T> List<T>.toNonEmptyList() = NonEmptyList.fromListUnsafe(this)
     private fun TimePeriod.toPeriodDate(startDateOfMonth: Int): Period {
@@ -244,13 +242,13 @@ class ReportFilterTrnsFlow @Inject constructor(
         return Period.FromTo(from = from, to = to)
     }
 
-    private fun List<SelectableReportsCategory>.toCatList(): List<Category?> {
+    private fun List<SelectableReportsCategory>.toCatNonEmptyList(): NonEmptyList<Category?> {
         return this.filter { it.selected }.map { c ->
             when (c.selectableCategory) {
                 is ReportCategoryType.Cat -> c.selectableCategory.cat
                 else -> null
             }
-        }
+        }.toNonEmptyList()
     }
 
     private fun List<SelectableAccount>.toAccountList() =

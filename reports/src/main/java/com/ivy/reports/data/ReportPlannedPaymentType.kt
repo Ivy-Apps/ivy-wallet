@@ -1,5 +1,5 @@
 package com.ivy.reports.data
 
-enum class ReportPlannedPaymenttType {
+enum class ReportPlannedPaymentType {
     UPCOMING, OVERDUE
 }

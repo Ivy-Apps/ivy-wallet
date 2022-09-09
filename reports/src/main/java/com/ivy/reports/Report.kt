@@ -1,12 +1,21 @@
 package com.ivy.reports
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.R
 import com.ivy.common.dateNowUTC
@@ -20,23 +29,27 @@ import com.ivy.core.functions.transaction.dummyDue
 import com.ivy.core.functions.transaction.dummyTrn
 import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
+import com.ivy.core.ui.transaction.TrnsLazyColumn
+import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.reports.ReportsEvent.FilterOptions
 import com.ivy.reports.data.SelectableAccount
-import com.ivy.reports.ui.ReportsFilterOptions
-import com.ivy.reports.ui.ReportsLoadingScreen
-import com.ivy.reports.ui.ReportsScreenUI
+import com.ivy.reports.extensions.*
+import com.ivy.reports.ui.ReportsHeader
+import com.ivy.reports.ui.ReportsToolBar
 import com.ivy.screens.Report
+import com.ivy.wallet.utils.clickableNoIndication
 
 const val TAG = "ReportsUI"
 
+@Suppress("UNUSED_PARAMETER")
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen(
     screen: Report
 ) {
-    val viewModel: ReportFlowViewModel = viewModel()
+    val viewModel: ReportViewModel = viewModel()
     val state by rememberStateWithLifecycle(viewModel.uiState)
 
     UI(
@@ -48,14 +61,14 @@ fun BoxWithConstraintsScope.ReportScreen(
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    state: ReportState,
+    state: ReportUiState,
     onEvent: (ReportsEvent) -> Unit = {}
 ) {
-    ReportsLoadingScreen(visible = state.loading, text = stringResource(R.string.generating_report))
+    ReportLoading(visible = state.loading, text = stringResource(R.string.generating_report))
 
     ReportsScreenUI(
         baseCurrency = state.baseCurrency,
-        headerState = state.headerState,
+        headerUiState = state.headerUiState,
         trnsList = state.trnsList,
         onEvent = onEvent
     )
@@ -63,7 +76,7 @@ private fun BoxWithConstraintsScope.UI(
     ReportsFilterOptions(
         visible = state.filterVisible,
         baseCurrency = state.baseCurrency,
-        state = state.filterState,
+        state = state.filterUiState,
         onClose = {
             onEvent(FilterOptions(visible = false))
         },
@@ -72,6 +85,61 @@ private fun BoxWithConstraintsScope.UI(
         }
     )
 }
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ReportsScreenUI(
+    baseCurrency: CurrencyCode,
+    headerUiState: ImmutableData<HeaderUiState>,
+    trnsList: ImmutableData<TransactionsList>,
+    onEvent: (ReportsEvent) -> Unit = {}
+) {
+    trnsList.data
+        .TrnsLazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .systemBarsPadding(),
+            scrollStateKey = "Reports",
+            emptyState = reportEmptyTrnsList(),
+            contentAboveTrns = {
+                stickyHeader {
+                    ReportsToolBar(onEventHandler = onEvent)
+                }
+
+                item {
+                    ReportsHeader(
+                        baseCurrency = baseCurrency,
+                        headerUiState = headerUiState.data
+                    )
+                }
+            }
+        )
+}
+
+@Composable
+fun ReportLoading(visible: Boolean, text: String) {
+    if (visible) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .zIndex(1000f)
+                .background(com.ivy.wallet.ui.theme.pureBlur())
+                .clickableNoIndication {
+                    //consume clicks
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = text,
+                style = UI.typo.b1.style(
+                    fontWeight = FontWeight.ExtraBold,
+                    color = com.ivy.wallet.ui.theme.Orange
+                )
+            )
+        }
+    }
+}
+
 
 @ExperimentalFoundationApi
 @Preview
@@ -201,7 +269,7 @@ private fun Preview() {
     val expense = 140.46
     val income = 160.53
 
-    val headerState = emptyHeaderState().copy(
+    val headerState = emptyHeaderUiState().copy(
         balance = 75.33,
         income = income,
         expenses = expense,
@@ -209,13 +277,13 @@ private fun Preview() {
         expenseTransactionsCount = 3,
     )
 
-    val state = emptyReportScreenState(baseCurrency = "USD").copy(
-        filterState = emptyFilterState().copy(
+    val state = emptyReportUiState(baseCurrency = "USD").copy(
+        filterUiState = emptyFilterUiState().copy(
             selectedAcc = accountList.map { SelectableAccount(it) }.toImmutableItem(),
             selectedCat = ImmutableData(emptyList())
         ),
         trnsList = transList.toImmutableItem(),
-        headerState = headerState.toImmutableItem()
+        headerUiState = headerState.toImmutableItem()
     )
 
     Preview {

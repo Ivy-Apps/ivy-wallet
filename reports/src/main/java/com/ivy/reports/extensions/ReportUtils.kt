@@ -1,4 +1,4 @@
-package com.ivy.reports
+package com.ivy.reports.extensions
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -12,9 +12,36 @@ import com.ivy.core.ui.transaction.EmptyState
 import com.ivy.core.ui.transaction.ExpandCollapseHandler
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionsList
-import kotlinx.coroutines.flow.Flow
+import com.ivy.reports.BuildConfig
+import com.ivy.reports.FilterUiState
+import com.ivy.reports.HeaderUiState
+import com.ivy.reports.ReportUiState
+import com.ivy.reports.data.SelectableAccount
+import com.ivy.reports.data.SelectableReportsCategory
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+
+/** ---------------------------------------- Flows -----------------------------------------------*/
+
+@Composable
+fun <T> rememberStateWithLifecycle(
+    stateFlow: StateFlow<T>,
+    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
+): State<T> {
+    val initialValue = remember(stateFlow) { stateFlow.value }
+    return produceState(
+        key1 = stateFlow,
+        key2 = lifecycle,
+        key3 = minActiveState,
+        initialValue = initialValue
+    ) {
+        lifecycle.repeatOnLifecycle(minActiveState) {
+            stateFlow.collect {
+                this@produceState.value = it
+            }
+        }
+    }
+}
 
 /** ------------------------------------ Compose UI Logging --------------------------------------*/
 
@@ -44,25 +71,25 @@ fun <T> T.toImmutableItem(): ImmutableData<T> = ImmutableData(this)
 /** --------------------------------------- Empty States -----------------------------------------*/
 
 @Composable
-fun reportsTrnsListEmptyState() = EmptyState(
+fun reportEmptyTrnsList() = EmptyState(
     title = stringResource(R.string.no_filter),
     description = stringResource(R.string.invalid_filter_warning)
 )
 
-fun emptyReportScreenState(baseCurrency: CurrencyCode): ReportState {
-    return ReportState(
+fun emptyReportUiState(baseCurrency: CurrencyCode): ReportUiState {
+    return ReportUiState(
         baseCurrency = baseCurrency,
         loading = false,
 
-        headerState = emptyHeaderState().toImmutableItem(),
+        headerUiState = emptyHeaderUiState().toImmutableItem(),
         trnsList = ImmutableData(emptyTransactionList()),
 
         filterVisible = false,
-        filterState = emptyFilterState()
+        filterUiState = emptyFilterUiState()
     )
 }
 
-fun emptyHeaderState() = HeaderState(
+fun emptyHeaderUiState() = HeaderUiState(
     balance = 0.0,
 
     income = 0.0,
@@ -71,16 +98,14 @@ fun emptyHeaderState() = HeaderState(
     incomeTransactionsCount = 0,
     expenseTransactionsCount = 0,
 
-    showTransfersAsIncExpCheckbox = false,
-    treatTransfersAsIncExp = false,
-
     accountIdFilters = ImmutableData(emptyList()),
-    transactionsOld = ImmutableData(emptyList())
+    transactionsOld = ImmutableData(emptyList()),
+    treatTransfersAsIncExp = false
 )
 
 fun emptyTransactionList() = TransactionsList(null, null, emptyList())
 
-fun emptyFilterState() = FilterState(
+fun emptyFilterUiState() = FilterUiState(
     selectedTrnTypes = ImmutableData(emptyList()),
     period = ImmutableData(null),
     selectedAcc = ImmutableData(emptyList()),
@@ -89,7 +114,8 @@ fun emptyFilterState() = FilterState(
     maxAmount = null,
     includeKeywords = ImmutableData(emptyList()),
     excludeKeywords = ImmutableData(emptyList()),
-    selectedPlannedPayments = ImmutableData(emptyList())
+    selectedPlannedPayments = ImmutableData(emptyList()),
+    treatTransfersAsIncExp = false
 )
 
 /** ---------------------------------- Utility Functions -----------------------------------------*/
@@ -97,54 +123,5 @@ fun emptyFilterState() = FilterState(
 fun ExpandCollapseHandler.expand() = this.setExpanded(true)
 fun ExpandCollapseHandler.collapse() = this.setExpanded(false)
 
-/**
- * Returns a [Flow] whose values are generated with [transform] function by combining
- * the most recently emitted values by each flow.
- */
-@Suppress("UNCHECKED_CAST")
-fun <T1, T2, T3, T4, T5, T6, R> combineMultiple(
-    flow: Flow<T1>,
-    flow2: Flow<T2>,
-    flow3: Flow<T3>,
-    flow4: Flow<T4>,
-    flow5: Flow<T5>,
-    flow6: Flow<T6>,
-    transform: suspend (T1, T2, T3, T4, T5, T6) -> R
-): Flow<R> = combine(
-    flow,
-    flow2,
-    flow3,
-    flow4,
-    flow5,
-    flow6
-) { args: Array<*> ->
-    transform(
-        args[0] as T1,
-        args[1] as T2,
-        args[2] as T3,
-        args[3] as T4,
-        args[4] as T5,
-        args[5] as T6
-    )
-}
-
-@Composable
-fun <T> rememberStateWithLifecycle(
-    stateFlow: StateFlow<T>,
-    lifecycle: Lifecycle = LocalLifecycleOwner.current.lifecycle,
-    minActiveState: Lifecycle.State = Lifecycle.State.STARTED
-): State<T> {
-    val initialValue = remember(stateFlow) { stateFlow.value }
-    return produceState(
-        key1 = stateFlow,
-        key2 = lifecycle,
-        key3 = minActiveState,
-        initialValue = initialValue
-    ) {
-        lifecycle.repeatOnLifecycle(minActiveState) {
-            stateFlow.collect {
-                this@produceState.value = it
-            }
-        }
-    }
-}
+fun SelectableAccount.switchSelected() = this.copy(selected = !this.selected)
+fun SelectableReportsCategory.switchSelected() = this.copy(selected = !this.selected)
