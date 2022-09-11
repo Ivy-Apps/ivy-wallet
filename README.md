@@ -7,22 +7,14 @@
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
-Personal finance and spending tracker app which helps you manage your money.
+|          |             |                |       |
+| :---:    |    :----:   |          :---: | :---: |
+| ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png)
+| ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) |![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png)
 
-<div align="center">
-<img src="https://play-lh.googleusercontent.com/fxNeMm4BRWJ4ZozX5m8CSBbjZhcx0rKJM2cbiTgjKw4zxt8Pf_2BZBWp5L19R0XFdg=w720-h310-rw" alt="ivy-wallet-money-manager">
-<img src="https://play-lh.googleusercontent.com/gtQQvucrc1dU7KRWj8iZW9n24aw_qY8M0W2J_rFLeYf9WVCyIL-hAWAz3mkcjTnNmw=w720-h310-rw" alt="ivy-wallet-spending-tracker">
-<img src="https://play-lh.googleusercontent.com/dFuAvUVBF8wCB-yAcDQQDbrAJNXF_l-gy__yhB5MK9l7e7-NtTgvMh1U7UEC5PC06u7M=w720-h310-rw" alt="ivy-wallet-expense-tracker">
-<img src="https://play-lh.googleusercontent.com/EmHhqdjylPK9K5Wh39vPFzUewNXOMNSNdVKhQze1G36mfm-ZEEqcbpzVU0bqX9MA5A=w720-h310-rw" alt="ivy-wallet-screenshot-4">
-<img src="https://play-lh.googleusercontent.com/BCvcfsvWvomB3K24ZKxRgQ2Wvj8HlP-q1gXHwD8ShXlUPFzWGNVn5bMHos2tO3z-0w=w720-h310-rw" alt="ivy-wallet-screenshot-5"/>
-<img src="https://play-lh.googleusercontent.com/bItT3JQsWq1iBcN7EpW4ceSgVuVzQUuIQX4zd2ZME7eXrHXEM1_vgUkeQaL56LTSqao=w720-h310-rw" alt="ivy-wallet-screenshot-6"/>
-<img src="https://play-lh.googleusercontent.com/FqosJyCWk4IlalUubEuwXNIeyCABavgZ4C523rfwnM7VgO0ABDT7hWvlhQIDbxO41iI=w720-h310-rw" alt="ivy-wallet-screenshot-7"/>
-<img src="https://play-lh.googleusercontent.com/BwrC-_rmIkmy0od5ebHh_8IvLoTV7-Ci3-M5cPQ62Q9ZeSI3CBWR8OHtajXAEOTFN24=w720-h310-rw" alt="ivy-wallet-screenshot-8"/>
-</div>
+Ivy Wallet is a free money manager android app that'll hep you track your personal finance with ease.
 
-Ivy Wallet is a free budget manager and spending tracker app that’ll help you manage your personal finances with ease.
-
-Imagine Ivy Wallet as a digital financial notebook (manual expense tracker) in which you’ll track your income, expenses, and budget.
+Imagine Ivy Wallet as a digital financial notebook (manual expense tracker) in which you can track your income, expenses, and account balances.
 
 You'll get an answer to these three essential questions:
 
@@ -32,7 +24,7 @@ You'll get an answer to these three essential questions:
 
 3) How much money can I spend and still reach my financial goals? _(budget manager)_
 
-<a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
 ## Ideology :earth_africa:
 
