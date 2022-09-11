@@ -32,19 +32,18 @@ Track your expenses - fast and on-the-go: t get an answer to these 3 essential q
 
 
 ## Architecture
-
-Our goal is to make this repo the **go-to project to learn about Android Development best practices and architecture**.
+We strive to keep our architecture "perfect" by putting software-design and code quality first. We read a lot of CS papers, books, blogs and latest research in the field. Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
 
 ### High-level view:
 - Modular architecture
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - MVVM
 
-We've documented any major design change as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs that you'll see what went well and what not!
+We've documented every major software design change as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs is that you'll see what went well and also what not!
 
-We're also linking **great learning materials (books, videos, articles, papers)** in **[docs/resources](docs/resources/)**.
+We're also linking **great learning materials (books, videos, articles, papers)** in **[docs/resources 📚](docs/resources/)**.
 
-> Have ideas how we can make our code better? 🚀
+> Have ideas how we can make our project better? 🚀
 
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 
@@ -99,6 +98,7 @@ and free software that can make the world a better place.
 - Challenging the status quo.
 - Technical excellence and **eliminating complexity at any cost**.
 
+> We're always open to new ideas and proposals! Have an idea? 💡 Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk) or [submit us a PR](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md) - we appreacite both!
 
 ## Community
 Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), star our GitHub repo [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers), and
@@ -128,13 +128,14 @@ Follow our
 compact **[Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)**
 to begin.
 
-TL;DR:
+**TL;DR:**
 - Submit pull requests for bug fixes, code improvements and features to the `develop` branch.
 - Implement and submit PRs for opened issues.
 - Report (or fix) bugs/glitches.
 - Create new issues to give us ideas and feedback.
 - [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review ⭐⭐⭐⭐⭐.
 - Star our GitHub repo [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet).
+- Fix typos in READMEs (.md files), Docs and broken links - we have a lot of them as you'll see and fixing them helps a lot, too!
 
 I hope a lot more profile pictures are going to show up here, soon!
 
