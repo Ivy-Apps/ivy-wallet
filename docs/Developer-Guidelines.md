@@ -1,6 +1,6 @@
 # Ivy Developer Guidelines
 
-## :warning: WARNING: This guidelines are deprecated and obsoloete. We'll provide new ones soon... :warning:
+## _:warning: WARNING: This guidelines are deprecated and obsoloete. Ignore this and go to **[docs/architecture](architecture/)** :warning:_
 
 A short guide _(that'll evolve with time)_ with one and only goal - to **make us better developers.**
 
