@@ -17,13 +17,15 @@ Ivy Wallet is a **free money manager android app** written using 100% Jetpack Co
 
 Imagine Ivy Wallet as a manual expense tracker that will replace the good old Spreadsheet.
 
-Track your expenses - fast and on-the-go: t get an answer to these 3 essential questions:
+Track your expenses - fast and on-the-go: to get an answer to these three essential questions:
 
 1) Exactly how much money do I have right now in all accounts combined?
 
 2) How much did I spend this month and where?
 
 3) How much money can I spend and still reach my financial goals?
+
+Ivy Wallet biggest advantage is its UI/UX, simplicity and customization which was recognized 10+ times as ["Best Android App in 2021/2022"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) by the YouTube tech community.
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
