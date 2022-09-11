@@ -1,8 +1,8 @@
-# Architecture Decision Record (ADR) #1: Modularization
+# Architecture Decision Record (ADR) #1: Modularization ✅
 
 Split the `:app` monolith into many small modules by feature or responsibility.
 
-Goal: divide, refactor and conquer.
+**Goal:** divide, refactor and conquer.
 
 ## Problem
 

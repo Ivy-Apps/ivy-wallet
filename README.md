@@ -23,7 +23,7 @@ and free software that can make the world a better place.
 - Freedom.
 - Creativity & Innovation.
 - Challenging the status quo.
-- Technical excellence and cutting-edge software design.
+- Technical excellence and **eliminating complexity at any cost**.
 - Decentralization.
 - Having the right to do what you believe in, not what you're told to.
 
@@ -130,6 +130,9 @@ To understand more about Ivy Wallet and its data model please visit [Ivy Wallet 
 - _If any build problems occurr, please [open a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new?assignees=&labels=dev&template=dev-contributor-request.yml) including the logs._
 
 ## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
+
+> To support our open-source project, please ⭐ this repo - that means a lot for us! Thank you! 🙏
+
 ### Why to contribute?
 - It's a win-win!
 - You'll appear as an Ivy Wallet contributor in our public repo
