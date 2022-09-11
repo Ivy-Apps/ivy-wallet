@@ -29,7 +29,7 @@ Remove `TransactionType.TRANSFER` and support only `Income` and `Expense` transc
 - removes `treatTransfersAsIncExp` complex settings => simpler UX.
 - reduce complexity.
 
-## Draw Backs
+## Drawbacks
 - data migration might be tricky.
 - Ivy Cloud won't support it.
 - `TrnsBatchFlow` might be tricky.

@@ -1,6 +1,6 @@
 # Architecture Decision Record (ADR) #4: `:core` module and modules re-structure 🚧
 
-## _🚧 This ADT is WIP and will change..._
+## _This ADR is WIP and will likely change..._
 
 After executing [ADR#1: Modularization](ADR#1%20Modularization%20(Done).md) we ended up with confusing modules structure and a lot of `:temp`, `:app-base` and other "workaround" modules required to build the app successfully.
 
@@ -64,3 +64,8 @@ See [ADR#3: Jetpack Navigation](ADR#3%20Jetpack%20Navigation%20(WIP).md). TL;DR;
 - `:data-model` -> `:core:data-domain`.
 
 ## Benefits
+- clear module structure.
+- de-coupling.
+- easier navigation between modules.
+- faster builds.
+- reduces overall complexity.
