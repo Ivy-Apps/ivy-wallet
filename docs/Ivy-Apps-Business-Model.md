@@ -10,9 +10,9 @@ We'll share 50% of our pure profit with contributors in the form of **"Contribut
 
 _Example: $10,000 revenue is ~$6k in profit. (15-20% GooglePlay fee, ~20% Bulgarian taxes, operational costs)_
 
-The money from the Contributors fund will be assigned as a bounty for `paid` tasks. Each `paid` task is labeled will "paid" and will continue `bounty`, details & success criteria.
+The money from the Contributors fund will be assigned as a bounty for `paid` tasks. Each `paid` task is labeled with "paid" and will have `bounty`, details & success criteria.
 
-Contributors can show interest in the comments of a `paid` tasks and @founders will approve and assign the task to a contributor.
+Contributors can show interest in the comments of a `paid` tasks and `@founders` will approve and assign the task to a contributor.
 
 Each task will have milestones and deadline. If the task is solved successfully and passes success criteria the `bounty` will be paid to the contributor who solved it.
 

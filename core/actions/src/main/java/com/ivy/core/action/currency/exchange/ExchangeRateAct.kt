@@ -8,6 +8,8 @@ import com.ivy.core.action.currency.BaseCurrencyAct
 import com.ivy.data.CurrencyCode
 import com.ivy.frp.Pure
 import com.ivy.frp.action.FPAction
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class ExchangeRateAct @Inject constructor(
@@ -18,6 +20,8 @@ class ExchangeRateAct @Inject constructor(
         val from: CurrencyCode,
         val to: CurrencyCode
     )
+
+    override fun dispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     override suspend fun Input.compose(): suspend () -> Option<Double> = {
         findRate()

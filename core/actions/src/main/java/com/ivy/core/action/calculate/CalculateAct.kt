@@ -9,6 +9,8 @@ import com.ivy.data.transaction.TransactionType
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.asParamTo
 import com.ivy.frp.thenInvokeAfter
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 /**
@@ -22,6 +24,8 @@ class CalculateAct @Inject constructor(
         val trns: List<Transaction>,
         val outputCurrency: CurrencyCode
     )
+
+    override fun dispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     override suspend fun Input.compose(): suspend () -> Stats = {
         val res = foldTransactions(

@@ -1,12 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic.csv
 
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
 
 class CSVNormalizer {
 
-    fun normalize(rawCSV: String, importType: ImportType): String {
-        return when (importType) {
-            ImportType.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers(rawCSV)
+    fun normalize(rawCSV: String, importApp: ImportApp): String {
+        return when (importApp) {
+            ImportApp.WALLET_BY_BUDGET_BAKERS -> walletByBudgetBakers(rawCSV)
             else -> rawCSV
         }
     }

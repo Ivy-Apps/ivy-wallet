@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":ui-common"))
     implementation(project(":core:functions"))
+    implementation(project(":core:actions"))
     implementation(project(":screens"))
     implementation(project(":app-base")) // TODO: temp dependency, remove later
 

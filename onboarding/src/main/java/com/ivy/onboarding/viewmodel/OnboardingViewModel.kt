@@ -184,7 +184,7 @@ class OnboardingViewModel @Inject constructor(
             session.initiate(authResponse)
 
             settingsDao.save(
-                settingsDao.findFirst().copy(
+                settingsDao.findFirstSuspend().copy(
                     name = authResponse.user.firstName
                 )
             )
@@ -244,7 +244,7 @@ class OnboardingViewModel @Inject constructor(
             TestIdlingResource.increment()
 
             settingsDao.save(
-                settingsDao.findFirst().copy(
+                settingsDao.findFirstSuspend().copy(
                     currency = baseCurrency.code
                 )
             )

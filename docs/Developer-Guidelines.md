@@ -1,5 +1,7 @@
 # Ivy Developer Guidelines
 
+## _:warning: WARNING: This guidelines are deprecated and obsoloete. Ignore this and go to **[docs/architecture](architecture/)** :warning:_
+
 A short guide _(that'll evolve with time)_ with one and only goal - to **make us better developers.**
 
 [![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)

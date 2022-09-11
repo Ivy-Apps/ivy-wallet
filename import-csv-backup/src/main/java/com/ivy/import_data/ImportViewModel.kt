@@ -13,8 +13,8 @@ import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
 import com.ivy.wallet.domain.deprecated.logic.csv.IvyFileReader
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.utils.asLiveData
 import com.ivy.wallet.utils.getFileName
@@ -39,8 +39,8 @@ class ImportViewModel @Inject constructor(
     private val _importStep = MutableLiveData<ImportStep>()
     val importStep = _importStep.asLiveData()
 
-    private val _importType = MutableLiveData<ImportType>()
-    val importType = _importType.asLiveData()
+    private val _importApp = MutableLiveData<ImportApp>()
+    val importType = _importApp.asLiveData()
 
     private val _importProgressPercent = MutableLiveData<Int>()
     val importProgressPercent = _importProgressPercent.asLiveData()
@@ -80,7 +80,7 @@ class ImportViewModel @Inject constructor(
                 _importStep.value = ImportStep.LOADING
 
                 _importResult.value = if (hasCSVExtension(context, fileUri))
-                    restoreCSVFile(fileUri = fileUri, importType = importType)
+                    restoreCSVFile(fileUri = fileUri, importApp = importType)
                 else {
                     exportZipLogic.import(
                         context = context,
@@ -101,12 +101,12 @@ class ImportViewModel @Inject constructor(
     }
 
     @ExperimentalStdlibApi
-    private suspend fun restoreCSVFile(fileUri: Uri, importType: ImportType): ImportResult {
+    private suspend fun restoreCSVFile(fileUri: Uri, importApp: ImportApp): ImportResult {
         return ioThread {
             val rawCSV = fileReader.read(
                 uri = fileUri,
-                charset = when (importType) {
-                    ImportType.IVY -> Charsets.UTF_16
+                charset = when (importApp) {
+                    ImportApp.IVY -> Charsets.UTF_16
                     else -> Charsets.UTF_8
                 }
             )
@@ -122,11 +122,11 @@ class ImportViewModel @Inject constructor(
 
             val normalizedCSV = csvNormalizer.normalize(
                 rawCSV = rawCSV,
-                importType = importType
+                importApp = importApp
             )
 
             val mapping = csvMapper.mapping(
-                type = importType,
+                type = importApp,
                 headerRow = normalizedCSV.split("\n").getOrNull(0)
             )
 
@@ -160,8 +160,8 @@ class ImportViewModel @Inject constructor(
         }
     }
 
-    fun setImportType(importType: ImportType) {
-        _importType.value = importType
+    fun setImportType(importApp: ImportApp) {
+        _importApp.value = importApp
         _importStep.value = ImportStep.INSTRUCTIONS
     }
 

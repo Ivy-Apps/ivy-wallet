@@ -12,6 +12,10 @@ import com.ivy.data.transaction.*
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("GroupTrnsFlow")
+)
 class GroupTrnsAct @Inject constructor(
     private val calculateAct: CalculateAct,
     private val baseCurrencyAct: BaseCurrencyAct

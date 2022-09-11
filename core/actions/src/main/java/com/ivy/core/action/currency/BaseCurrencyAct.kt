@@ -8,11 +8,14 @@ import com.ivy.state.writeIvyState
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("BaseCurrencyFlow")
+)
 class BaseCurrencyAct @Inject constructor(
     private val settingsDao: SettingsDao
 ) : FPAction<Unit, CurrencyCode>() {
     override suspend fun Unit.compose(): suspend () -> CurrencyCode = {
-        // TODO: Enable caching
         // readIvyState().baseCurrency ?: loadBaseCurrency()
         loadBaseCurrency()
     }

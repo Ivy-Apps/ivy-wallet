@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,7 +56,7 @@ import com.ivy.screens.ItemStatistic
 
 //region Default actions
 @Composable
-private fun defaultOnClick(): (Transaction) -> Unit {
+fun defaultOnTrnClick(): (Transaction) -> Unit {
     val nav = navigation()
     return { trn ->
         nav.navigateTo(
@@ -69,7 +69,7 @@ private fun defaultOnClick(): (Transaction) -> Unit {
 }
 
 @Composable
-private fun defaultOnAccountClick(): (Account) -> Unit {
+fun defaultOnAccountClick(): (Account) -> Unit {
     val nav = navigation()
     return { acc ->
         nav.navigateTo(
@@ -81,7 +81,7 @@ private fun defaultOnAccountClick(): (Account) -> Unit {
 }
 
 @Composable
-private fun defaultOnCategoryClick(): (Category) -> Unit {
+fun defaultOnCategoryClick(): (Category) -> Unit {
     val nav = navigation()
     return { category ->
         nav.navigateTo(
@@ -95,17 +95,17 @@ private fun defaultOnCategoryClick(): (Category) -> Unit {
 fun dummyDueActions() = DueActions({}, {})
 // endregion
 
-@Immutable
+@Stable
 data class DueActions(
-    val onSkip: (Transaction) -> Unit = {},
-    val onPayGet: (Transaction) -> Unit = {}
+    val onSkip: (Transaction) -> Unit,
+    val onPayGet: (Transaction) -> Unit,
 )
 
 @Composable
 fun Transaction.Card(
     modifier: Modifier = Modifier,
 
-    onClick: (Transaction) -> Unit = defaultOnClick(),
+    onClick: (Transaction) -> Unit = defaultOnTrnClick(),
     onAccountClick: (Account) -> Unit = defaultOnAccountClick(),
     onCategoryClick: (Category) -> Unit = defaultOnCategoryClick(),
     dueActions: DueActions? = null,

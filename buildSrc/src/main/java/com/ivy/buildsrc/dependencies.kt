@@ -50,6 +50,9 @@ object Versions {
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
     const val composeFoundation = "1.2.0-rc03"
 
+    //https://developer.android.com/jetpack/compose/navigation
+    const val navigationCompose = "2.5.1"
+
     //https://developer.android.com/jetpack/androidx/releases/activity
     const val composeActivity = "1.5.0"
 
@@ -168,6 +171,10 @@ fun DependencyHandler.Compose(api: Boolean) {
     dependency("androidx.compose.material:material-icons-extended:$version", api = api)
     dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
     dependency("androidx.compose.ui:ui-tooling:$version", api = api)
+
+    dependency(
+        "androidx.navigation:navigation-compose:${Versions.navigationCompose}", api = api
+    )
 
     dependency(
         "androidx.activity:activity-compose:${Versions.composeActivity}", api = api

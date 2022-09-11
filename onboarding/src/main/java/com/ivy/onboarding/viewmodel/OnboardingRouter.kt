@@ -124,7 +124,7 @@ class OnboardingRouter(
     }
 
     private suspend fun isLogin(): Boolean {
-        isLoginCache = ioThread { accountDao.findAll().isNotEmpty() }
+        isLoginCache = ioThread { accountDao.findAllSuspend().isNotEmpty() }
         return isLoginCache
     }
 
@@ -222,7 +222,7 @@ class OnboardingRouter(
     }
 
     private suspend fun routeToCategories() {
-        _categories.value = ioThread { categoryDao.findAll().map { it.toDomain() } }!!
+        _categories.value = ioThread { categoryDao.findAllSuspend().map { it.toDomain() } }!!
         _categorySuggestions.value = preloadDataLogic.categorySuggestions()
 
         _state.value = OnboardingState.CATEGORIES

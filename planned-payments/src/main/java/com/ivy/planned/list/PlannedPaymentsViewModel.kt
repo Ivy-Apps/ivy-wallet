@@ -63,7 +63,7 @@ class PlannedPaymentsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val settings = ioThread { settingsDao.findFirst() }
+            val settings = ioThread { settingsDao.findFirstSuspend() }
 
             _currency.value = settings.currency
 

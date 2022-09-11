@@ -90,7 +90,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            val settings = ioThread { settingsDao.findFirst() }
+            val settings = ioThread { settingsDao.findFirstSuspend() }
 
             _nameLocalAccount.value = settings.name
 
@@ -140,7 +140,7 @@ class SettingsViewModel @Inject constructor(
 
             ioThread {
                 settingsDao.save(
-                    settingsDao.findFirst().copy(
+                    settingsDao.findFirstSuspend().copy(
                         name = newName
                     )
                 )
@@ -157,7 +157,7 @@ class SettingsViewModel @Inject constructor(
 
             ioThread {
                 settingsDao.save(
-                    settingsDao.findFirst().copy(
+                    settingsDao.findFirstSuspend().copy(
                         currency = newCurrency
                     )
                 )
@@ -271,7 +271,7 @@ class SettingsViewModel @Inject constructor(
                             ivySession.initiate(authResponse)
 
                             settingsDao.save(
-                                settingsDao.findFirst().copy(
+                                settingsDao.findFirstSuspend().copy(
                                     name = authResponse.user.firstName
                                 )
                             )

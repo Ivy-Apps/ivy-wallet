@@ -28,6 +28,8 @@ import com.ivy.core.functions.transaction.dummyDue
 import com.ivy.core.functions.transaction.dummyTrn
 import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.Preview
+import com.ivy.data.account.Account
+import com.ivy.data.category.Category
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
 import com.ivy.design.l1_buildingBlocks.IvyIcon
@@ -50,6 +52,21 @@ fun defaultExpandCollapseHandler(): ExpandCollapseHandler {
 }
 // endregion
 
+// region Transaction Item Click Handling
+data class TrnItemClickHandler(
+    val onTrnClick: (Transaction) -> Unit,
+    val onAccountClick: (Account) -> Unit,
+    val onCategoryClick: (Category) -> Unit,
+)
+
+@Composable
+fun defaultTrnItemClickHandler(): TrnItemClickHandler = TrnItemClickHandler(
+    onTrnClick = defaultOnTrnClick(),
+    onCategoryClick = defaultOnCategoryClick(),
+    onAccountClick = defaultOnAccountClick(),
+)
+// endregion
+
 // region EmptyState data
 data class EmptyState(
     val title: String,
@@ -63,16 +80,28 @@ fun defaultEmptyState() = EmptyState(
 )
 // endregion
 
-fun LazyListScope.transactionsList(
+internal fun LazyListScope.transactionsList(
     trnsList: TransactionsList,
     emptyState: EmptyState,
+
     upcomingHandler: ExpandCollapseHandler,
     overdueHandler: ExpandCollapseHandler,
-    dueActions: DueActions?
+    dueActions: DueActions?,
+    trnClickHandler: TrnItemClickHandler
 ) {
-    upcoming(upcoming = trnsList.upcoming, handler = upcomingHandler, dueActions = dueActions)
-    overdue(overdue = trnsList.overdue, handler = overdueHandler, dueActions = dueActions)
-    history(history = trnsList.history)
+    upcoming(
+        upcoming = trnsList.upcoming,
+        handler = upcomingHandler,
+        dueActions = dueActions,
+        trnClickHandler = trnClickHandler
+    )
+    overdue(
+        overdue = trnsList.overdue,
+        handler = overdueHandler,
+        dueActions = dueActions,
+        trnClickHandler = trnClickHandler
+    )
+    history(history = trnsList.history, trnClickHandler = trnClickHandler)
 
     val isEmpty by derivedStateOf {
         trnsList.history.isEmpty() && trnsList.upcoming == null && trnsList.overdue == null
@@ -80,15 +109,14 @@ fun LazyListScope.transactionsList(
     if (isEmpty) {
         emptyState(emptyState)
     }
-
-    scrollingSpace()
 }
 
 
 private fun LazyListScope.upcoming(
     upcoming: UpcomingSection?,
     handler: ExpandCollapseHandler,
-    dueActions: DueActions?
+    dueActions: DueActions?,
+    trnClickHandler: TrnItemClickHandler,
 ) {
     if (upcoming != null) {
         item {
@@ -100,7 +128,11 @@ private fun LazyListScope.upcoming(
         }
 
         if (handler.expanded) {
-            dueTrns(trns = upcoming.trns, dueActions = dueActions)
+            dueTrns(
+                trns = upcoming.trns,
+                dueActions = dueActions,
+                trnClickHandler = trnClickHandler
+            )
         }
     }
 }
@@ -108,7 +140,8 @@ private fun LazyListScope.upcoming(
 private fun LazyListScope.overdue(
     overdue: OverdueSection?,
     handler: ExpandCollapseHandler,
-    dueActions: DueActions?
+    dueActions: DueActions?,
+    trnClickHandler: TrnItemClickHandler,
 ) {
     if (overdue != null) {
         item {
@@ -120,7 +153,11 @@ private fun LazyListScope.overdue(
         }
 
         if (handler.expanded) {
-            dueTrns(trns = overdue.trns, dueActions = dueActions)
+            dueTrns(
+                trns = overdue.trns,
+                dueActions = dueActions,
+                trnClickHandler = trnClickHandler
+            )
         }
     }
 }
@@ -128,6 +165,7 @@ private fun LazyListScope.overdue(
 private fun LazyListScope.dueTrns(
     trns: List<Transaction>,
     dueActions: DueActions?,
+    trnClickHandler: TrnItemClickHandler,
 ) {
     items(
         items = trns,
@@ -136,13 +174,17 @@ private fun LazyListScope.dueTrns(
         SpacerVer(height = 12.dp)
         trn.Card(
             modifier = Modifier.padding(horizontal = 16.dp),
-            dueActions = dueActions
+            dueActions = dueActions,
+            onClick = trnClickHandler.onTrnClick,
+            onAccountClick = trnClickHandler.onAccountClick,
+            onCategoryClick = trnClickHandler.onCategoryClick
         )
     }
 }
 
 private fun LazyListScope.history(
     history: List<TrnListItem>,
+    trnClickHandler: TrnItemClickHandler
 ) {
     itemsIndexed(
         items = history,
@@ -166,6 +208,9 @@ private fun LazyListScope.history(
                 SpacerVer(height = 12.dp)
                 item.trn.Card(
                     modifier = Modifier.padding(horizontal = 16.dp),
+                    onClick = trnClickHandler.onTrnClick,
+                    onAccountClick = trnClickHandler.onAccountClick,
+                    onCategoryClick = trnClickHandler.onCategoryClick,
                 )
             }
         }
@@ -211,12 +256,6 @@ private fun LazyListScope.emptyState(emptyState: EmptyState) {
     }
 }
 
-private fun LazyListScope.scrollingSpace() {
-    item {
-        SpacerVer(height = 300.dp)
-    }
-}
-
 // region Previews
 @Preview
 @Composable
@@ -225,6 +264,7 @@ private fun Preview_Full() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
+        val trnClickHandler = defaultTrnItemClickHandler()
 
         LazyColumn {
             val trnsList = TransactionsList(
@@ -352,7 +392,8 @@ private fun Preview_Full() {
                 emptyState = emptyState,
                 upcomingHandler = upcomingHandler,
                 overdueHandler = overdueHandler,
-                dueActions = dummyDueActions()
+                dueActions = dummyDueActions(),
+                trnClickHandler = trnClickHandler,
             )
         }
     }
@@ -365,6 +406,7 @@ private fun Preview_EmptyState() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
+        val trnClickHandler = defaultTrnItemClickHandler()
 
         LazyColumn {
             val trnsList = TransactionsList(
@@ -378,7 +420,8 @@ private fun Preview_EmptyState() {
                 emptyState = emptyState,
                 upcomingHandler = upcomingHandler,
                 overdueHandler = overdueHandler,
-                dueActions = dummyDueActions()
+                dueActions = dummyDueActions(),
+                trnClickHandler = trnClickHandler,
             )
         }
     }

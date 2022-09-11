@@ -53,15 +53,15 @@ class ExportCSVLogic(
     ): String {
         return ioThread {
             val accountMap = accountDao
-                .findAll()
+                .findAllSuspend()
                 .map { it.id to it }
                 .toMap()
             val categoryMap = categoryDao
-                .findAll()
+                .findAllSuspend()
                 .map { it.id to it }
                 .toMap()
 
-            val baseCurrency = settingsDao.findFirst().currency
+            val baseCurrency = settingsDao.findFirstSuspend().currency
             val csvRows = exportScope()
                 .joinToString("\n") {
                     it.toCSV(

@@ -11,6 +11,10 @@ import com.ivy.state.readIvyState
 import com.ivy.state.writeIvyState
 import javax.inject.Inject
 
+@Deprecated(
+    message = "migrating to flows",
+    replaceWith = ReplaceWith("ExchangeRatesFlow")
+)
 class ExchangeRatesAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
 ) : FPAction<Unit, ExchangeRates>() {
@@ -19,7 +23,7 @@ class ExchangeRatesAct @Inject constructor(
     }
 
     private suspend fun retrieveRatesFromDB(): ExchangeRates =
-        exchangeRateDao::findAll thenMap {
+        exchangeRateDao::findAllSuspend thenMap {
             (it.currency to it.rate)
         } then { it.toMap() } thenInvokeAfter {
             writeIvyState(exchangeRatesUpdate(newExchangeRates = it))

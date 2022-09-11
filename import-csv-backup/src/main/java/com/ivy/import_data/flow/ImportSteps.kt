@@ -2,52 +2,52 @@ package com.ivy.import_data.flow
 
 import androidx.compose.runtime.Composable
 import com.ivy.import_data.flow.instructions.*
-import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportType
+import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
 import com.ivy.wallet.ui.csvimport.flow.instructions.MoneyWalletSteps
 
 @Composable
 fun ImportSteps(
-    type: ImportType,
+    type: ImportApp,
     onUploadClick: () -> Unit
 ) {
     when (type) {
-        ImportType.IVY -> {
+        ImportApp.IVY -> {
             IvyWalletSteps(
                 onUploadClick = onUploadClick
             )
         }
-        ImportType.MONEY_MANAGER -> {
+        ImportApp.MONEY_MANAGER -> {
             MoneyManagerPraseSteps(
                 onUploadClick = onUploadClick
             )
         }
-        ImportType.WALLET_BY_BUDGET_BAKERS -> {
+        ImportApp.WALLET_BY_BUDGET_BAKERS -> {
             WalletByBudgetBakersSteps(
                 onUploadClick = onUploadClick
             )
         }
-        ImportType.SPENDEE -> SpendeeSteps(
+        ImportApp.SPENDEE -> SpendeeSteps(
             onUploadClick = onUploadClick
         )
-        ImportType.MONEFY -> MonefySteps(
+        ImportApp.MONEFY -> MonefySteps(
             onUploadClick = onUploadClick
         )
-        ImportType.ONE_MONEY -> OneMoneySteps(
+        ImportApp.ONE_MONEY -> OneMoneySteps(
             onUploadClick = onUploadClick
         )
-        ImportType.BLUE_COINS -> DefaultImportSteps(
+        ImportApp.BLUE_COINS -> DefaultImportSteps(
             onUploadClick = onUploadClick
         )
-        ImportType.KTW_MONEY_MANAGER -> KTWMoneyManagerSteps(
+        ImportApp.KTW_MONEY_MANAGER -> KTWMoneyManagerSteps(
             onUploadClick = onUploadClick
         )
-        ImportType.FORTUNE_CITY -> FortuneCitySteps(
+        ImportApp.FORTUNE_CITY -> FortuneCitySteps(
             onUploadClick = onUploadClick
         )
-        ImportType.FINANCISTO -> FinancistoSteps(
+        ImportApp.FINANCISTO -> FinancistoSteps(
             onUploadClick = onUploadClick
         )
-        ImportType.MONEY_WALLET -> MoneyWalletSteps(
+        ImportApp.MONEY_WALLET -> MoneyWalletSteps(
             onUploadClick = onUploadClick
         )
     }

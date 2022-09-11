@@ -2,11 +2,11 @@ package com.ivy.core.functions.transaction
 
 import arrow.core.NonEmptyList
 import com.ivy.common.toEpochMilli
-import com.ivy.core.functions.toRange
+import com.ivy.core.functions.time.toRange
 import com.ivy.core.functions.transaction.TrnWhere.*
-import com.ivy.data.Period
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
+import com.ivy.data.time.Period
 import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*

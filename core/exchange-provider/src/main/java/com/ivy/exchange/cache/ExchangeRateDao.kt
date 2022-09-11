@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ExchangeRateDao {
@@ -14,7 +15,10 @@ interface ExchangeRateDao {
     suspend fun save(values: List<ExchangeRateEntity>)
 
     @Query("SELECT * FROM exchange_rates")
-    suspend fun findAll(): List<ExchangeRateEntity>
+    suspend fun findAllSuspend(): List<ExchangeRateEntity>
+
+    @Query("SELECT * FROM exchange_rates")
+    fun findAll(): Flow<List<ExchangeRateEntity>>
 
     @Query("SELECT * FROM exchange_rates WHERE baseCurrency = :baseCurrency AND currency = :currency")
     suspend fun findByBaseCurrencyAndCurrency(

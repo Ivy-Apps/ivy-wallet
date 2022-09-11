@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.billing.IvyBilling
+import com.ivy.core.ui.navigation.Nav
+import com.ivy.core.ui.navigation.nav
 import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.journey.domain.CustomerJourneyLogic
@@ -647,4 +649,8 @@ object AppModuleDI {
     fun provideTransactionService(
         restClient: RestClient
     ): TransactionService = restClient.transactionService
+
+    @Provides
+    @Singleton
+    fun provideNav(): Nav = nav
 }
