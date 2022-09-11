@@ -44,7 +44,7 @@ We're far from this and we live in an every changing dynamic world => our softwa
 
 But fear not, we'll document major design change as ADRs (Architecture Decision Records) in **[docs/architecture](docs/architecture/)**.
 
-> The best things of ADRs that you'll also be able to our wrong decisions and how we fixed them!
+> The best things of ADRs that you'll also be able to see our wrong decisions and how we fixed them!
 
 We're also linking great learning materials (books, videos, articles, papers) in **[docs/resources](docs/resources/)**.
 
