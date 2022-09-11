@@ -17,7 +17,7 @@ Ivy Wallet is a **free money manager android app** written using 100% Jetpack Co
 
 Imagine Ivy Wallet as a manual expense tracker that will replace the good old Spreadsheet.
 
-Track your expenses - fast, on-the-go, and get answer to these 3 essential questions:
+Track your expenses - fast and on-the-go: t get an answer to these 3 essential questions:
 
 1) Exactly how much money do I have right now in all accounts combined?
 
@@ -33,16 +33,16 @@ Track your expenses - fast, on-the-go, and get answer to these 3 essential quest
 
 ## Architecture
 
-Our goal is to make this repo the **go-to project to learn about Android Development best practices** and experience deligthful software architecture and design.
+Our goal is to make this repo the **go-to project to learn about Android Development best practices and architecture**.
 
 ### High-level view:
 - Modular architecture
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - MVVM
 
-We'll document any major design change as ADRs (Architecture Decision Records) in **[docs/architecture](docs/architecture/)**. _The best things about ADRs that you'll also be able to see our wrong decisions and how we fixed them!_
+We've documented any major design change as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs that you'll see what went well and what not!
 
-We're also linking great learning materials (books, videos, articles, papers) in **[docs/resources](docs/resources/)**.
+We're also linking **great learning materials (books, videos, articles, papers)** in **[docs/resources](docs/resources/)**.
 
 > Have ideas how we can make our code better? 🚀
 
@@ -113,19 +113,14 @@ tell us how we can create a better environment for developers & creators to work
 
 ### Why to contribute?
 - It's a win-win!
-- You'll appear as an Ivy Wallet contributor in our public repo
-- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_
-- You'll make Ivy Wallet better
-- You can develop the features that you want yourself, the way you want them
-- You'll play around and learn cutting-edge technologies
+- You'll appear as an Ivy Wallet contributor in our public repo.
+- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_.
+- You'll make Ivy Wallet better.
+- You can develop the features that you miss in the app yourself, the way you want them.
+- You'll play around and learn cutting-edge technologies.
 - It's the easiest way to learn [Jetpack Compose](https://developer.android.com/jetpack/compose) in
-  a production environment
-- You can see Android Development Best Practices in 2022 (and also help us improve our code)
-- When we merge your first PR
-  I ([Iliyan Germanov](https://www.linkedin.com/in/iliyan-germanov-3963b5b9/)) will endorse you on
-  LinkedIn for Android Development and Kotlin
-- Personal recommendation on your LinkedIn profile after 10 successfully merged PRs - make sure that
-  you notify us because we don't count your PRs :)
+  a production environment.
+- You can see Android Development Best Practices in 2022 (and also help us improve our code).
 
 ### How to contribute?
 
@@ -134,11 +129,12 @@ compact **[Contributors Guide](https://github.com/ILIYANGERMANOV/ivy-wallet/blob
 to begin.
 
 TL;DR:
-- Submit pull requests for bug fixes / code improvements to the `develop` branch
-- Implement and submit PRs for opened issues
-- Report (or fix) bugs/glitches 
-- Create new issues to give us ideas and feedback
-- [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review
+- Submit pull requests for bug fixes, code improvements and features to the `develop` branch.
+- Implement and submit PRs for opened issues.
+- Report (or fix) bugs/glitches.
+- Create new issues to give us ideas and feedback.
+- [Download Ivy Wallet](https://play.google.com/store/apps/details?id=com.ivy.wallet) and leave us a review ⭐⭐⭐⭐⭐.
+- Star our GitHub repo [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet).
 
 I hope a lot more profile pictures are going to show up here, soon!
 
