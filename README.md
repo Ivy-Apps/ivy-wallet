@@ -16,14 +16,14 @@ and free software that can make the world a better place.
 
 - A place where you can excel and have fun while contributing to something meaningful.
 - A community where you can express yourself freely and build the future that you want to live in.
-- An open-source project that'll inspire a movement where people can build the software they want
-  and eventually become a DAO where hundreds of developers can work on their own terms.
+- An open-source project with zero-tolerance to "bad" code and putting code quality first. 
 
 **We believe in:**
 
 - Freedom.
 - Creativity & Innovation.
 - Challenging the status quo.
+- Technical excellence and cutting-edge software design.
 - Decentralization.
 - Having the right to do what you believe in, not what you're told to.
 
@@ -36,11 +36,20 @@ tell us how we can create a better environment for developers & creators to work
 
 ### [Ivy Telegram News](https://t.me/ivywallet)
 
-## Ivy Developer Guidelines
+## Architecture
 
-A short and helpful guide on Android Architecture, Functional Reactive Programming (FRP) and Ivy best practices - **[Ivy Developer Guidelines](docs/Developer-Guidelines.md)**.
+Our goal is to make this repo the **go-to project to learn about Android Development best practices** and experience deligthful software architecture and design.
 
-> Tip: Read it -> make proposals -> make the project better! :rocket:
+We're far from this and we live in an every changing dynamic world => our software design will change a lot! :rocket:
+
+But fear not, we'll document major design change as ADRs (Architecture Decision Records) in **[docs/architecture](docs/architecture/)**.
+
+> The best things of ADRs that you'll also be able to our wrong decisions and how we fixed them!
+
+We're also linking great learning materials (books, videos, articles, papers) in **[docs/resources](docs/resources/)**.
+
+> Have ideas how we can make our code better? [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+
 
 ## The Ivy Wallet App
 
@@ -60,11 +69,7 @@ Ivy Wallet is a free budget manager and spending tracker app that’ll help you 
 
 Imagine Ivy Wallet as a digital financial notebook (manual expense tracker) in which you’ll track your income, expenses, and budget.
 
-The advantage that our money manager gives you is that you can track expenses on the go with an intuitive and simple user interface (UI).
-
-Once your transactions make their way into Ivy Wallet, the spending tracker app will give you insight into your monthly spending and help you plan your budgets.
-
-When you enter more income and expenses in the money manager app you'll have an answer to three essential questions:
+You'll have an answer to three essential questions:
 
 1) Exactly how much money do I have right now in all accounts combined? (money manager)
 
@@ -72,54 +77,57 @@ When you enter more income and expenses in the money manager app you'll have an 
 
 3) How much money can I spend and still reach my financial goals? (budget manager)
 
-$Track. $Budget. $Save
-
 [<img src="https://lh3.googleusercontent.com/qF9r3ZjtgG-qyHdmjecArtKiulz1gmwL_xl9R3_fzk6igSeoN0wYbJSKEX5d_fxJRwYZJpHbqcLB3i9atl-9dOfUl9an7U43TfZ9PtQ=s0">](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
-## Design
+<!-- ## Design
 - **[Design System](https://www.figma.com/file/kSwIa07jcHEHZXo6rzx7dn/Design-System)**
 - **[Icon Pack](https://www.figma.com/file/wKAAh6pN7fZmyehHRXxewD/Icon_pack)**
 - **[Android App](https://www.figma.com/file/dz45jBNcLJYi0ehMLq7zMO/Android_APP)**
 
-_..Migration from Adobe XD to public Figma project IN PROGRESS!_
+_..Migration from Adobe XD to public Figma project IN PROGRESS!_ -->
 
-
-## [Documentation](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki)
-To understand more about Ivy Wallet and its data model please visit [Ivy Wallet Wiki](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki).
+<!-- ## [Documentation](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki)
+To understand more about Ivy Wallet and its data model please visit [Ivy Wallet Wiki](https://github.com/ILIYANGERMANOV/ivy-wallet/wiki). -->
 
 ## Technologies
+
+### Architecture
+- Modular
+- [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
+- MVVM
+
 ### Core
-- Kotlin
-- Jetpack Compose (UI & navigation)
-- MVVM architecture with LiveData
-- Hilt (DI)
-- Kotlin Coroutines
-- Functional Programming with Arrow
+- 100% [Kotlin](https://kotlinlang.org/)
+- 100% [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
+- [Kotlin Flow](https://kotlinlang.org/docs/flow.html)
+- [Hilt](https://dagger.dev/hilt/) (DI)
+- [Jetpack Navigation](https://developer.android.com/jetpack/compose/navigation)
+- [ArrowKt](https://arrow-kt.io/) (Functional Programming)
 ### Networking
-- Retrofit (REST API)
-- OkHttp 3 (REST client)
-- Gson (JSON serialization)
+- [Retrofit](https://square.github.io/retrofit/) (REST)
+- [OkHttp3](https://square.github.io/okhttp/) (REST client)
+- [Gson](https://github.com/google/gson) (JSON serialization)
 ### Local Persistence
-- Shared Prefences
-- Room DB (SQLite ORM)
+- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage, Shared Preferences replacement)
+- [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
 ### Other
-- EventBus (cross component communication)
-- Timber (Logging)
-- Firebase Crashlytics (crashes, logging)
+- [Timber](https://github.com/JakeWharton/timber) (Logging)
+- [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (crashes, logging)
 ### CI/CD
-- Gradle KTS
-- Fastlane (upload to Google PlayStore)
-- Github Actions (CI/CD server)
+- [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
+- [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
+- [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
 
 ## Project Requirements
-- Java 11
-- Android Studio Arctic Fox (for easy download - [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+- Java 11+
+- Android Studio Dolphin+ (for easy install use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
 
 ## How to build?
 1. Clone the repository
 2. Open with Android Studio
 3. Everything should sync and build automatically
-- _If any build problems occurr, please open a new issue including the logs._
+- _If any build problems occurr, please [open a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new?assignees=&labels=dev&template=dev-contributor-request.yml) including the logs._
 
 ## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
 ### Why to contribute?
