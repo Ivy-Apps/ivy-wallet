@@ -4,7 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
-![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)
+[![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
 
 # [Ivy Wallet: money manager](https://play.google.com/store/apps/details?id=com.ivy.wallet)
 
@@ -13,69 +13,42 @@
 | ![1](https://user-images.githubusercontent.com/5564499/189540998-4d6cdcd3-ab4d-40f7-85d4-c82fe8a017d1.png) | ![2](https://user-images.githubusercontent.com/5564499/189541011-1ebbd8b6-50fe-432a-91e2-59206efe99ce.png) | ![3](https://user-images.githubusercontent.com/5564499/189541023-35e7f163-d639-4466-9a91-c56890d5a28e.png) | ![4](https://user-images.githubusercontent.com/5564499/189541027-d352314c-fd5c-43eb-82ad-4aba14c7b0fa.png)
 | ![5](https://user-images.githubusercontent.com/5564499/189541030-1a0d7948-33af-420b-b126-936d0211c93f.png) | ![6](https://user-images.githubusercontent.com/5564499/189541035-621c4511-5ec7-4d3f-b08e-925d8da95472.png) |![7](https://user-images.githubusercontent.com/5564499/189541127-7adf5bfa-0652-461c-80f1-076b7179eb6c.png) | ![8](https://user-images.githubusercontent.com/5564499/189541040-7cab633e-be4c-40b2-a2c6-890a15edf805.png)
 
-Ivy Wallet is a **free money manager android app** that'll hep you track your personal finance with ease.
+Ivy Wallet is a **free money manager android app** written using 100% Jetpack Compose and Kotlin, that'll hep you track your personal finance with ease.
 
-Imagine Ivy Wallet as a manual expense tracker that'll help you replace the good old Spreadsheet.
+Imagine Ivy Wallet as a manual expense tracker that will replace the good old Spreadsheet.
 
-Track your expenses, fast on-the-go, and get answer to these 3 essential questions:
+Track your expenses - fast, on-the-go, and get answer to these 3 essential questions:
 
-1) Exactly how much money do I have right now in all accounts combined? _(money manager)_
+1) Exactly how much money do I have right now in all accounts combined?
 
-2) How much did I spend this month and where? _(expense tracker)_
+2) How much did I spend this month and where?
 
-3) How much money can I spend and still reach my financial goals? _(budget manager)_
+3) How much money can I spend and still reach my financial goals?
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
-## Ideology :earth_africa:
+> To support our free open-source project, please star ⭐ our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+ 🙏
 
-We believe that people _(not corporations or business entities)_ can create innovative, open-source,
-and free software that can make the world a better place.
-
-**We want Ivy to be:**
-
-- A place where you can excel and have fun while contributing to something meaningful.
-- A community where you can express yourself freely and build the future that you want to live in.
-- An open-source project with zero-tolerance to "bad" code and putting code quality first. 
-
-**We believe in:**
-
-- Freedom.
-- Creativity & Innovation.
-- Challenging the status quo.
-- Technical excellence and **eliminating complexity at any cost**.
-- Decentralization.
-- Having the right to do what you believe in, not what you're told to.
-
-## Community
-
-Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), comment on GitHub, and
-tell us how we can create a better environment for developers & creators to work together.
-
-### [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk)
-
-### [Ivy Telegram News](https://t.me/ivywallet)
 
 ## Architecture
 
 Our goal is to make this repo the **go-to project to learn about Android Development best practices** and experience deligthful software architecture and design.
 
-We're far from this and we live in an every changing dynamic world => our software design will change a lot! :rocket:
-
-But fear not, we'll document major design change as ADRs (Architecture Decision Records) in **[docs/architecture](docs/architecture/)**.
-
-> The best things of ADRs that you'll also be able to see our wrong decisions and how we fixed them!
-
-We're also linking great learning materials (books, videos, articles, papers) in **[docs/resources](docs/resources/)**.
-
-> Have ideas how we can make our code better? [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
-
-## Tech Stack
-
-### Paradigms
+### High-level view:
 - Modular architecture
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - MVVM
+
+We'll document any major design change as ADRs (Architecture Decision Records) in **[docs/architecture](docs/architecture/)**. _The best things about ADRs that you'll also be able to see our wrong decisions and how we fixed them!_
+
+We're also linking great learning materials (books, videos, articles, papers) in **[docs/resources](docs/resources/)**.
+
+> Have ideas how we can make our code better? 🚀
+
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+
+## Tech Stack
 
 ### Core
 - 100% [Kotlin](https://kotlinlang.org/)
@@ -100,6 +73,7 @@ We're also linking great learning materials (books, videos, articles, papers) in
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
 - [Github Actions](https://github.com/Ivy-Apps/ivy-wallet/actions) (CI/CD)
 
+
 ## Project Requirements
 - Java 11+
 - Android Studio Dolphin+ (for easy install use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
@@ -110,9 +84,32 @@ We're also linking great learning materials (books, videos, articles, papers) in
 3. Everything should sync and build automatically
 - _If any build problems occurr, please [open a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new?assignees=&labels=dev&template=dev-contributor-request.yml) including the logs._
 
-## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
+## Ideology :earth_africa:
+We believe that people _(not corporations)_ can create innovative, open-source,
+and free software that can make the world a better place.
 
-> To support our open-source project, please ⭐ this repo - that means a lot for us! Thank you! 🙏
+**We want Ivy to be:**
+- A place where you can excel and have fun while contributing to something meaningful.
+- A community where you can express yourself freely and build the future that you want to live in.
+- An open-source project with zero-tolerance to "bad" code and putting code quality first. 
+
+**We believe in:**
+- Freedom.
+- Creativity & Innovation.
+- Challenging the status quo.
+- Technical excellence and **eliminating complexity at any cost**.
+
+
+## Community
+Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), star our GitHub repo [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers), and
+tell us how we can create a better environment for developers & creators to work together.
+
+### [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk)
+
+### [Ivy Telegram News](https://t.me/ivywallet)
+
+
+## Contributors [(see graph)](https://github.com/ILIYANGERMANOV/ivy-wallet/graphs/contributors)
 
 ### Why to contribute?
 - It's a win-win!
