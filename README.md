@@ -17,7 +17,7 @@ Ivy Wallet is a **free money manager android app** written using 100% Jetpack Co
 
 Imagine Ivy Wallet as a manual expense tracker that will replace the good old spreadsheet for managing your personal finance.
 
-Track your expenses - fast and on-the-go! ⚡ Discover powerful insights about your spending.
+Track your expenses, fast and on-the-go! ⚡ Discover powerful insights about your spending.
 
 **Do you know? Ask yoursef.**
 
@@ -27,27 +27,31 @@ Track your expenses - fast and on-the-go! ⚡ Discover powerful insights about y
 
 3) How much money can I spend and still reach my financial goals?
 
-A money manager app can help you answer those questions.
+A money manager app can help you answer these questions.
 
-Ivy Wallet biggest advantage is its UI/UX, simplicity, customization and privacy which was recognized 10+ times in ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) by the YouTube tech community.
+Ivy Wallet biggest advantage is its UI/UX, simplicity, and customization which was recognized in the ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) 10+ times by the YouTube tech community.
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
-> To support our free open-source project, please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+> To support our freem open-source project please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
  🙏
 
 
 ## Architecture
-We strive to keep our architecture "perfect" by putting software-design and code quality first. We read a lot of books, CS papers, blogs and latest research in the industry. Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
+We strive to keep our architecture "perfect" by putting software-design and code quality first. 
+
+We read a lot of books, CS papers, blogs and follow latest research in the industry. 
+
+Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
 
 ### High-level view:
-- Modular architecture
+- [Modular architecture](https://android-developers.googleblog.com/2022/09/announcing-new-guide-to-android-app-modularization.html)
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
-- MVVM
+- [MVVM (Model-View-ViewModel)](https://www.techtarget.com/whatis/definition/Model-View-ViewModel#:~:text=Model%2DView%2DViewModel%20(MVVM)%20is%20a%20software%20design,Ken%20Cooper%20and%20John%20Gossman.)
 
-We've documented every major architecture decision as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs is that you'll see what went well and also what didn't!
+We've documented every major architecture decision as **ADR (Architecture Decision Record)** in **[docs/architecture](docs/architecture/)**. The best thing about ADRs is that you can see not only what went well but also what didn't!
 
-We're also linking **great learning materials (books, videos, articles, papers)** in **[docs/resources 📚](docs/resources/)**.
+We're linking **great learning materials (books, videos, articles, papers)** in **[docs/resources 📚](docs/resources/)**.
 
 > Have ideas/proposals how we can make our project better? Please, get in touch! 🚀
 
