@@ -15,40 +15,41 @@
 
 Ivy Wallet is a **free money manager android app** written using 100% Jetpack Compose and Kotlin. It's designed to help you track your personal finance with ease.
 
-Imagine Ivy Wallet as a manual expense tracker that will replace the good old Google Sheets/Excel spreadsheet.
+Imagine Ivy Wallet as a manual expense tracker that will replace the good old spreadsheet for managing your personal finance.
 
-Track your expenses - fast and on-the-go; to discover powerful insights about your spending.
+Track your expenses - fast and on-the-go! ⚡ Discover powerful insights about your spending.
 
-**Do you know?:**
+**Do you know? Ask yoursef.**
+
 1) How much money do I have right now in all accounts combined?
 
 2) How much did I spend this month and where?
 
 3) How much money can I spend and still reach my financial goals?
 
-A money manager app can help you answer those three above.
+A money manager app can help you answer those questions.
 
-Ivy Wallet biggest advantage is its UI/UX, simplicity and customization which was recognized 10+ times in ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) by the YouTube tech community.
+Ivy Wallet biggest advantage is its UI/UX, simplicity, customization and privacy which was recognized 10+ times in ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) by the YouTube tech community.
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
-> To support our free open-source project, please star ⭐ our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
+> To support our free open-source project, please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
  🙏
 
 
 ## Architecture
-We strive to keep our architecture "perfect" by putting software-design and code quality first. We read a lot of CS papers, books, blogs and latest research in the field. Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
+We strive to keep our architecture "perfect" by putting software-design and code quality first. We read a lot of books, CS papers, blogs and latest research in the industry. Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
 
 ### High-level view:
 - Modular architecture
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - MVVM
 
-We've documented every major software design change as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs is that you'll see what went well and also what not!
+We've documented every major architecture decision as **ADRs (Architecture Decision Records)** in **[docs/architecture](docs/architecture/)**. The best things about ADRs is that you'll see what went well and also what didn't!
 
 We're also linking **great learning materials (books, videos, articles, papers)** in **[docs/resources 📚](docs/resources/)**.
 
-> Have ideas how we can make our project better? 🚀
+> Have ideas/proposals how we can make our project better? Please, get in touch! 🚀
 
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
 
@@ -60,18 +61,22 @@ We're also linking **great learning materials (books, videos, articles, papers)*
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 - [Kotlin Flow](https://kotlinlang.org/docs/flow.html)
 - [Hilt](https://dagger.dev/hilt/) (DI)
-- [Jetpack Navigation](https://developer.android.com/jetpack/compose/navigation)
+- [Jetpack Compose Navigation](https://developer.android.com/jetpack/compose/navigation)
 - [ArrowKt](https://arrow-kt.io/) (Functional Programming)
+
+### Local Persistence
+- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage, Shared Preferences replacement)
+- [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
+
 ### Networking
 - [Retrofit](https://square.github.io/retrofit/) (REST)
 - [OkHttp3](https://square.github.io/okhttp/) (REST client)
 - [Gson](https://github.com/google/gson) (JSON serialization)
-### Local Persistence
-- [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) (key-value storage, Shared Preferences replacement)
-- [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
+
 ### Other
 - [Timber](https://github.com/JakeWharton/timber) (Logging)
 - [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (crashes, logging)
+
 ### CI/CD
 - [Gradle KTS](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [Fastlane](https://fastlane.tools/) (upload to Google PlayStore)
@@ -95,7 +100,7 @@ and free software that can make the world a better place.
 **We want Ivy to be:**
 - A place where you can excel and have fun while contributing to something meaningful.
 - A community where you can express yourself freely and build the future that you want to live in.
-- An open-source project with zero-tolerance to "bad" code and putting code quality first. 
+- An open-source project with zero-tolerance to "bad" code and putting code quality above everything. 
 
 **We believe in:**
 - Freedom.
@@ -118,8 +123,8 @@ tell us how we can create a better environment for developers & creators to work
 
 ### Why to contribute?
 - It's a win-win!
-- You'll appear as an Ivy Wallet contributor in our public repo.
-- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to our app _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_.
+- You'll appear in our contributors wall.
+- You can **include it in your CV/LinkedIn** and show recruiters that you contribute to open-source projects _(counts as +1 released app in the [Google PlayStore](https://play.google.com/store/apps/details?id=com.ivy.wallet))_.
 - You'll make Ivy Wallet better.
 - You can develop the features that you miss in the app yourself, the way you want them.
 - You'll play around and learn cutting-edge technologies.
