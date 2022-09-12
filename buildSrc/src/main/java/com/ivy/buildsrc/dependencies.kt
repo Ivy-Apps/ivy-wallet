@@ -129,9 +129,12 @@ object Versions {
     //https://developer.android.com/jetpack/androidx/releases/datastore
     const val dataStore = "1.0.0"
 
-
     //https://developer.android.com/google/play/billing/getting-ready
     const val googleBilling = "4.0.0"
+
+    //WARNING: Version must be also updated in buildSrc
+    //https://www.mongodb.com/docs/realm/sdk/kotlin/install/android/
+    const val realm = "1.0.2"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -408,6 +411,10 @@ fun DependencyHandler.Timber(api: Boolean) {
 
 fun DependencyHandler.FunctionalProgramming(api: Boolean) {
     Arrow(api)
+}
+
+fun DependencyHandler.RealmDb() {
+    implementation("io.realm.kotlin:library-base:${Versions.realm}")
 }
 
 /**
