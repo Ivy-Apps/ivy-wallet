@@ -26,7 +26,7 @@ dependencies {
 
     //https://www.mongodb.com/docs/realm/sdk/kotlin/install/android/
     // Must match Versions.realm from dependencies.kt
-    implementation("io.realm.kotlin:gradle-plugin:1.0.2")
+//    implementation("io.realm.kotlin:gradle-plugin:1.0.2")
 
     implementation("com.google.firebase:firebase-crashlytics-gradle:2.9.1")
 }
