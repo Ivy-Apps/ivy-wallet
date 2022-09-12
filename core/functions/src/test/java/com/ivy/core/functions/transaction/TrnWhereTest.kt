@@ -10,7 +10,7 @@ import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.time.toRange
 import com.ivy.core.functions.transaction.TrnWhere.*
 import com.ivy.data.time.Period
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -48,7 +48,7 @@ class TrnWhereTest : StringSpec({
         ByToAccount(genAcc.bind())
     }
 
-    val genTrnType = Arb.enum<TrnType>()
+    val genTrnType = Arb.enum<TrnTypeOld>()
 
     val genByType = arbitrary {
         ByType(
@@ -219,7 +219,7 @@ class TrnWhereTest : StringSpec({
         val cat3 = dummyCategory()
 
         val where = toWhereClause(
-            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnType.EXPENSE)
+            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnTypeOld.EXPENSE)
         )
 
         where.query shouldBe "(categoryId IN (?, ?, ?) OR categoryId IS NULL) AND type = ?"

@@ -5,7 +5,7 @@ import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
 import com.ivy.data.loan.LoanType
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.scopedIOThread
@@ -102,7 +102,7 @@ class LTLoanMapper(
             val modifiedLoan = loan.copy(
                 amount = transaction.amount.toDouble(),
                 name = if (transaction.title.isNullOrEmpty()) loan.name else transaction.title!!,
-                type = if (transaction.type == TrnType.INCOME) LoanType.BORROW else LoanType.LEND,
+                type = if (transaction.type == TrnTypeOld.INCOME) LoanType.BORROW else LoanType.LEND,
                 accountId = transaction.accountId
             )
 

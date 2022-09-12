@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
 import com.ivy.base.R
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.*
 import com.ivy.journey.CustomerJourneyCard
 import com.ivy.screens.*
@@ -91,7 +91,7 @@ class CustomerJourneyLogic(
             onAction = { navigation, _, _ ->
                 navigation.navigateTo(
                     EditPlanned(
-                        type = TrnType.EXPENSE,
+                        type = TrnTypeOld.EXPENSE,
                         plannedPaymentRuleId = null
                     )
                 )
@@ -142,7 +142,7 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Red),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(PieChartStatistic(type = TrnType.EXPENSE))
+                navigation.navigateTo(PieChartStatistic(type = TrnTypeOld.EXPENSE))
             }
         )
 

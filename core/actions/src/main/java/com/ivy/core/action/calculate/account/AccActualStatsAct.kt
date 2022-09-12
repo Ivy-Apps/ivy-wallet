@@ -13,7 +13,7 @@ import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
 import com.ivy.frp.thenInvokeAfter
@@ -51,7 +51,7 @@ class AccActualStatsAct @Inject constructor(
     }
 
     private suspend fun Input.transfersInStats(): Pair<Double, List<Transaction>> = {
-        ByType(TrnType.TRANSFER) and ActualBetween(period) and ByToAccount(account)
+        ByType(TrnTypeOld.TRANSFER) and ActualBetween(period) and ByToAccount(account)
     } then trnsAct thenInvokeAfter { transfersIn ->
         suspend fun transferInAmount(trn: Transaction, arg: Unit): Double =
             (trn.type as? TransactionType.Transfer)?.toValue?.amount ?: 0.0
@@ -68,7 +68,7 @@ class AccActualStatsAct @Inject constructor(
     }
 
     private suspend fun Input.transfersOutStats(): Pair<Double, List<Transaction>> = {
-        ByAccount(account) and ActualBetween(period) and ByType(TrnType.TRANSFER)
+        ByAccount(account) and ActualBetween(period) and ByType(TrnTypeOld.TRANSFER)
     } then trnsAct thenInvokeAfter { transfersOut ->
         suspend fun transferOutAmount(trn: Transaction, arg: Unit): Double = trn.value.amount
 
@@ -84,7 +84,7 @@ class AccActualStatsAct @Inject constructor(
     }
 
     private suspend fun Input.nonTransferStats(): Stats = {
-        ByAccount(account) and ActualBetween(period) and not(ByType(TrnType.TRANSFER))
+        ByAccount(account) and ActualBetween(period) and not(ByType(TrnTypeOld.TRANSFER))
     } then trnsAct then { trns ->
         CalculateAct.Input(
             trns = trns,

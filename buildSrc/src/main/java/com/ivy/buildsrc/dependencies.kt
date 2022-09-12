@@ -135,6 +135,9 @@ object Versions {
     //WARNING: Version must be also updated in buildSrc
     //https://www.mongodb.com/docs/realm/sdk/kotlin/install/android/
     const val realm = "1.0.2"
+
+    //https://github.com/Kotlin/kotlinx.serialization#introduction-and-references
+    const val kotlinSerialization = "1.4.0"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -326,6 +329,11 @@ fun DependencyHandler.Ktor(api: Boolean) {
 fun DependencyHandler.Gson(api: Boolean) {
     //URL: https://github.com/google/gson
     dependency("com.google.code.gson:gson:${Versions.gson}", api = api)
+}
+
+fun DependencyHandler.SerializationJson() {
+    //https://github.com/Kotlin/kotlinx.serialization#introduction-and-references
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}")
 }
 
 /**

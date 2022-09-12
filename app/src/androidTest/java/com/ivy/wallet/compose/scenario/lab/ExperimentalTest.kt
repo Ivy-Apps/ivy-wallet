@@ -1,6 +1,6 @@
 package com.ivy.wallet.compose.scenario.lab
 
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.edittrn.ChooseCategoryModal
 import com.ivy.wallet.compose.component.planned.EditPlannedScreen
@@ -16,7 +16,7 @@ class ExperimentalTest : IvyComposeTest() {
         quickOnboarding()
             .clickAddFAB()
             .clickAddPlannedPayment()
-            .setPaymentType(TrnType.EXPENSE)
+            .setPaymentType(TrnTypeOld.EXPENSE)
             .enterNumber(number = "10", next = ChooseCategoryModal(composeTestRule))
             .selectCategory("Food & Drinks", next = EditPlannedScreen(composeTestRule))
             .clickRecurringModalPickDate()

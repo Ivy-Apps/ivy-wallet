@@ -3,7 +3,7 @@ package com.ivy.navigation.destinations.trn
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.navigation.DestinationRoute
 import com.ivy.navigation.Screen
 import com.ivy.navigation.util.arg
@@ -14,7 +14,7 @@ object NewTrn : Screen<NewTrn.Arg> {
     data class Arg(
         val categoryId: UUID?,
         val accountId: UUID?,
-        val trnType: TrnType,
+        val trnType: TrnTypeOld,
     )
 
     private const val ARG_TRN_TYPE = "trnType"
@@ -40,7 +40,7 @@ object NewTrn : Screen<NewTrn.Arg> {
     )
 
     override fun parse(entry: NavBackStackEntry): Arg = Arg(
-        trnType = entry.arg(ARG_TRN_TYPE) { TrnType.valueOf(it) },
+        trnType = entry.arg(ARG_TRN_TYPE) { TrnTypeOld.valueOf(it) },
         categoryId = entry.optionalArg(ARG_CATEGORY_ID) { UUID.fromString(it) },
         accountId = entry.optionalArg(ARG_ACCOUNT_ID) { UUID.fromString(it) },
     )

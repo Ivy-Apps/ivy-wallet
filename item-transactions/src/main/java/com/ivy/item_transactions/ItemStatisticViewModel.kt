@@ -10,7 +10,7 @@ import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.exchange.deprecated.ExchangeActOld
 import com.ivy.exchange.deprecated.ExchangeData
@@ -351,7 +351,7 @@ class ItemStatisticViewModel @Inject constructor(
             _initWithTransactions.value = true
 
             val trans = transactions.filter {
-                it.type != TrnType.TRANSFER && it.categoryId == categoryId
+                it.type != TrnTypeOld.TRANSFER && it.categoryId == categoryId
             }
 
             val accountFilterSet = accountFilterList.toSet()
@@ -362,11 +362,11 @@ class ItemStatisticViewModel @Inject constructor(
             val range = period.value.toRange(ivyContext.startDayOfMonth)
 
             val incomeTrans = transactions.filter {
-                it.categoryId == categoryId && it.type == TrnType.INCOME
+                it.categoryId == categoryId && it.type == TrnTypeOld.INCOME
             }
 
             val expenseTrans = transactions.filter {
-                it.categoryId == categoryId && it.type == TrnType.EXPENSE
+                it.categoryId == categoryId && it.type == TrnTypeOld.EXPENSE
             }
 
             _balance.value = ioThread {
@@ -485,7 +485,7 @@ class ItemStatisticViewModel @Inject constructor(
         val trans = transactions.filter {
             it.categoryId == null && (accountFilterIdSet.contains(it.accountId) || accountFilterIdSet.contains(
                 it.toAccountId
-            )) && it.type == TrnType.TRANSFER
+            )) && it.type == TrnTypeOld.TRANSFER
         }
 
         val historyIncomeExpense = calcTrnsIncomeExpenseAct(

@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import java.math.BigDecimal
 import java.util.*
 
@@ -15,9 +15,9 @@ object AccountValueFunctions {
         if (this.accountId == accountId) {
             //Account's transactions
             when (type) {
-                TrnType.INCOME -> amount
-                TrnType.EXPENSE -> amount.negate()
-                TrnType.TRANSFER -> {
+                TrnTypeOld.INCOME -> amount
+                TrnTypeOld.EXPENSE -> amount.negate()
+                TrnTypeOld.TRANSFER -> {
                     if (toAccountId != accountId) {
                         //transfer to another account
                         amount.negate()
@@ -38,7 +38,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TrnType.INCOME)
+        if (this.accountId == accountId && type == TrnTypeOld.INCOME)
             amount else BigDecimal.ZERO
     }
 
@@ -46,7 +46,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.toAccountId == accountId && type == TrnType.TRANSFER)
+        if (this.toAccountId == accountId && type == TrnTypeOld.TRANSFER)
             toAmount else BigDecimal.ZERO
     }
 
@@ -54,7 +54,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TrnType.EXPENSE)
+        if (this.accountId == accountId && type == TrnTypeOld.EXPENSE)
             amount else BigDecimal.ZERO
     }
 
@@ -62,7 +62,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TrnType.TRANSFER)
+        if (this.accountId == accountId && type == TrnTypeOld.TRANSFER)
             amount else BigDecimal.ZERO
     }
 
@@ -71,7 +71,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TrnType.INCOME)
+        if (this.accountId == accountId && type == TrnTypeOld.INCOME)
             BigDecimal.ONE else BigDecimal.ZERO
     }
 
@@ -79,7 +79,7 @@ object AccountValueFunctions {
         transaction: TransactionOld,
         accountId: UUID
     ): BigDecimal = with(transaction) {
-        if (this.accountId == accountId && type == TrnType.EXPENSE)
+        if (this.accountId == accountId && type == TrnTypeOld.EXPENSE)
             BigDecimal.ONE else BigDecimal.ZERO
     }
 }

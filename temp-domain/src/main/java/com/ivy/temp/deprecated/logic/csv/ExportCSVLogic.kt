@@ -7,7 +7,7 @@ import com.ivy.common.formatLocal
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.CategoryDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
@@ -113,9 +113,9 @@ class ExportCSVLogic(
         //Amount
         csv.appendValue(amount) {
             val amountFormatted = when (type) {
-                TrnType.INCOME -> it
-                TrnType.EXPENSE -> -it
-                TrnType.TRANSFER -> 0.0
+                TrnTypeOld.INCOME -> it
+                TrnTypeOld.EXPENSE -> -it
+                TrnTypeOld.TRANSFER -> 0.0
             }.toDouble().formatAmountCSV(currency)
             append(amountFormatted)
         }
@@ -131,12 +131,12 @@ class ExportCSVLogic(
         }
 
         //Transfer Amount
-        csv.appendValue(if (type == TrnType.TRANSFER) amount else null) {
+        csv.appendValue(if (type == TrnTypeOld.TRANSFER) amount else null) {
             append(it.toDouble().formatAmountCSV(currency))
         }
 
         //Transfer Currency
-        csv.appendValue(if (type == TrnType.TRANSFER) currency else null) {
+        csv.appendValue(if (type == TrnTypeOld.TRANSFER) currency else null) {
             append(it)
         }
 

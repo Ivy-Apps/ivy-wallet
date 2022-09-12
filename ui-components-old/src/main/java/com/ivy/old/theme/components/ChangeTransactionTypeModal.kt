@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.Gradient
@@ -33,10 +33,10 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
     title: String = stringResource(R.string.set_transaction_type),
     visible: Boolean,
     includeTransferType: Boolean,
-    initialType: TrnType,
+    initialType: TrnTypeOld,
     id: UUID = UUID.randomUUID(),
     dismiss: () -> Unit,
-    onTransactionTypeChanged: (TrnType) -> Unit
+    onTransactionTypeChanged: (TrnTypeOld) -> Unit
 ) {
     var transactionType by remember(id) {
         mutableStateOf(initialType)
@@ -63,12 +63,12 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
         Spacer(Modifier.height(32.dp))
 
         TransactionTypeButton(
-            transactionType = TrnType.INCOME,
-            selected = transactionType == TrnType.INCOME,
+            transactionType = TrnTypeOld.INCOME,
+            selected = transactionType == TrnTypeOld.INCOME,
             selectedGradient = GradientGreen,
             textSelectedColor = White
         ) {
-            transactionType = TrnType.INCOME
+            transactionType = TrnTypeOld.INCOME
             save(
                 transactionType = transactionType,
                 onTransactionTypeChanged = onTransactionTypeChanged,
@@ -79,12 +79,12 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
         Spacer(Modifier.height(12.dp))
 
         TransactionTypeButton(
-            transactionType = TrnType.EXPENSE,
-            selected = transactionType == TrnType.EXPENSE,
+            transactionType = TrnTypeOld.EXPENSE,
+            selected = transactionType == TrnTypeOld.EXPENSE,
             selectedGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
             textSelectedColor = UI.colors.pure
         ) {
-            transactionType = TrnType.EXPENSE
+            transactionType = TrnTypeOld.EXPENSE
             save(
                 transactionType = transactionType,
                 onTransactionTypeChanged = onTransactionTypeChanged,
@@ -96,12 +96,12 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
             Spacer(Modifier.height(12.dp))
 
             TransactionTypeButton(
-                transactionType = TrnType.TRANSFER,
-                selected = transactionType == TrnType.TRANSFER,
+                transactionType = TrnTypeOld.TRANSFER,
+                selected = transactionType == TrnTypeOld.TRANSFER,
                 selectedGradient = GradientIvy,
                 textSelectedColor = White
             ) {
-                transactionType = TrnType.TRANSFER
+                transactionType = TrnTypeOld.TRANSFER
                 save(
                     transactionType = transactionType,
                     onTransactionTypeChanged = onTransactionTypeChanged,
@@ -115,8 +115,8 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
 }
 
 private fun save(
-    transactionType: TrnType,
-    onTransactionTypeChanged: (TrnType) -> Unit,
+    transactionType: TrnTypeOld,
+    onTransactionTypeChanged: (TrnTypeOld) -> Unit,
     dismiss: () -> Unit
 ) {
     onTransactionTypeChanged(transactionType)
@@ -125,7 +125,7 @@ private fun save(
 
 @Composable
 private fun TransactionTypeButton(
-    transactionType: TrnType,
+    transactionType: TrnTypeOld,
     selected: Boolean,
     selectedGradient: Gradient,
     textSelectedColor: Color,
@@ -153,9 +153,9 @@ private fun TransactionTypeButton(
 
         IvyIcon(
             icon = when (transactionType) {
-                TrnType.INCOME -> R.drawable.ic_income
-                TrnType.EXPENSE -> R.drawable.ic_expense
-                TrnType.TRANSFER -> R.drawable.ic_transfer
+                TrnTypeOld.INCOME -> R.drawable.ic_income
+                TrnTypeOld.EXPENSE -> R.drawable.ic_expense
+                TrnTypeOld.TRANSFER -> R.drawable.ic_transfer
             },
             tint = textColor
         )
@@ -164,9 +164,9 @@ private fun TransactionTypeButton(
 
         Text(
             text = when (transactionType) {
-                TrnType.INCOME -> stringResource(R.string.income)
-                TrnType.EXPENSE -> stringResource(R.string.expense)
-                TrnType.TRANSFER -> stringResource(R.string.transfer)
+                TrnTypeOld.INCOME -> stringResource(R.string.income)
+                TrnTypeOld.EXPENSE -> stringResource(R.string.expense)
+                TrnTypeOld.TRANSFER -> stringResource(R.string.transfer)
             },
             style = UI.typo.b1.style(
                 color = textColor
@@ -201,7 +201,7 @@ private fun Preview() {
         ChangeTransactionTypeModal(
             includeTransferType = true,
             visible = true,
-            initialType = TrnType.INCOME,
+            initialType = TrnTypeOld.INCOME,
             dismiss = {}
         ) {
 

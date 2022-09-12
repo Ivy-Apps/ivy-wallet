@@ -4,24 +4,24 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.Pure
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import java.time.LocalDate
 
 @Pure
 fun expenses(transactions: List<TransactionOld>): List<TransactionOld> {
-    return transactions.filter { it.type == TrnType.EXPENSE }
+    return transactions.filter { it.type == TrnTypeOld.EXPENSE }
 }
 
 @Pure
 fun incomes(transactions: List<TransactionOld>): List<TransactionOld> {
-    return transactions.filter { it.type == TrnType.INCOME }
+    return transactions.filter { it.type == TrnTypeOld.INCOME }
 }
 
 @Pure
 fun transfers(transactions: List<TransactionOld>): List<TransactionOld> {
-    return transactions.filter { it.type == TrnType.TRANSFER }
+    return transactions.filter { it.type == TrnTypeOld.TRANSFER }
 }
 
 @Pure

@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
@@ -18,7 +18,7 @@ import java.util.*
 
 @Composable
 fun Toolbar(
-    type: TrnType,
+    type: TrnTypeOld,
     initialTransactionId: UUID?,
 
     onDeleteTrnModal: () -> Unit,
@@ -37,7 +37,7 @@ fun Toolbar(
         Spacer(Modifier.weight(1f))
 
         when (type) {
-            TrnType.INCOME -> {
+            TrnTypeOld.INCOME -> {
                 IvyOutlinedButton(
                     text = stringResource(R.string.income),
                     iconStart = R.drawable.ic_income
@@ -47,7 +47,7 @@ fun Toolbar(
 
                 Spacer(Modifier.width(12.dp))
             }
-            TrnType.EXPENSE -> {
+            TrnTypeOld.EXPENSE -> {
                 IvyOutlinedButton(
                     text = stringResource(R.string.expense),
                     iconStart = R.drawable.ic_expense

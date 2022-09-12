@@ -7,7 +7,7 @@ import java.util.*
 @Deprecated("use Transaction")
 data class TransactionOld(
     val accountId: UUID,
-    val type: TrnType,
+    val type: TrnTypeOld,
     val amount: BigDecimal,
     val toAccountId: UUID? = null,
     val toAmount: BigDecimal = amount,

@@ -24,7 +24,7 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -152,7 +152,7 @@ fun TransactionCard(
             amount = transaction.amount.toDouble()
         )
 
-        if (transaction.type == TrnType.TRANSFER && toAccountCurrency != transactionCurrency) {
+        if (transaction.type == TrnTypeOld.TRANSFER && toAccountCurrency != transactionCurrency) {
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
@@ -167,7 +167,7 @@ fun TransactionCard(
             //Pay/Get button
             Spacer(Modifier.height(16.dp))
 
-            val isExpense = transaction.type == TrnType.EXPENSE
+            val isExpense = transaction.type == TrnTypeOld.EXPENSE
             Row {
                 IvyButton(
                     modifier = Modifier
@@ -216,7 +216,7 @@ private fun TransactionHeaderRow(
 ) {
     val nav = navigation()
 
-    if (transaction.type == TrnType.TRANSFER) {
+    if (transaction.type == TrnTypeOld.TRANSFER) {
         TransferHeader(
             accounts = accounts,
             transaction = transaction
@@ -379,7 +379,7 @@ private fun TransferHeader(
 
 @Composable
 fun TypeAmountCurrency(
-    transactionType: TrnType,
+    transactionType: TrnTypeOld,
     dueDate: LocalDateTime?,
     currency: String,
     amount: Double
@@ -392,7 +392,7 @@ fun TypeAmountCurrency(
         Spacer(Modifier.width(24.dp))
 
         val style = when (transactionType) {
-            TrnType.INCOME -> {
+            TrnTypeOld.INCOME -> {
                 AmountTypeStyle(
                     icon = R.drawable.ic_income,
                     gradient = GradientGreen,
@@ -400,7 +400,7 @@ fun TypeAmountCurrency(
                     textColor = Green
                 )
             }
-            TrnType.EXPENSE -> {
+            TrnTypeOld.EXPENSE -> {
                 when {
                     dueDate != null && dueDate.isAfter(timeNowUTC()) -> {
                         //Upcoming Expense
@@ -431,7 +431,7 @@ fun TypeAmountCurrency(
                     }
                 }
             }
-            TrnType.TRANSFER -> {
+            TrnTypeOld.TRANSFER -> {
                 //Transfer
                 AmountTypeStyle(
                     icon = R.drawable.ic_transfer,
@@ -490,7 +490,7 @@ private fun PreviewUpcomingExpense() {
                         amount = 250.75.toBigDecimal(),
                         dueDate = timeNowUTC().plusDays(5),
                         dateTime = null,
-                        type = TrnType.EXPENSE,
+                        type = TrnTypeOld.EXPENSE,
                     ),
                     onPayOrGet = {},
                 ) {
@@ -523,7 +523,7 @@ private fun PreviewOverdueExpense() {
                         amount = 500.0.toBigDecimal(),
                         dueDate = timeNowUTC().minusDays(5),
                         dateTime = null,
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     ),
                     onPayOrGet = {},
                 ) {
@@ -559,7 +559,7 @@ private fun PreviewNormalExpense() {
                         categoryId = food.id,
                         amount = 32.51.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     ),
                     onPayOrGet = {},
                 ) {
@@ -590,7 +590,7 @@ private fun PreviewIncome() {
                         categoryId = category.id,
                         amount = 8049.70.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TrnType.INCOME
+                        type = TrnTypeOld.INCOME
                     ),
                     onPayOrGet = {},
                 ) {
@@ -622,7 +622,7 @@ private fun PreviewTransfer() {
                         title = "Top-up revolut",
                         amount = 1000.0.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TrnType.TRANSFER
+                        type = TrnTypeOld.TRANSFER
                     ),
                     onPayOrGet = {},
                 ) {
@@ -661,7 +661,7 @@ private fun PreviewTransfer_differentCurrency() {
                         amount = 1000.0.toBigDecimal(),
                         toAmount = 510.toBigDecimal(),
                         dateTime = timeNowUTC(),
-                        type = TrnType.TRANSFER
+                        type = TrnTypeOld.TRANSFER
                     ),
                     onPayOrGet = {},
                 ) {

@@ -1,10 +1,10 @@
 package com.ivy.common
 
 import com.ivy.data.transaction.TransactionType
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 
-fun mapToTrnType(transactionType: TransactionType): TrnType = when (transactionType) {
-    TransactionType.Expense -> TrnType.EXPENSE
-    TransactionType.Income -> TrnType.INCOME
-    is TransactionType.Transfer -> TrnType.TRANSFER
+fun mapToTrnType(transactionType: TransactionType): TrnTypeOld = when (transactionType) {
+    TransactionType.Expense -> TrnTypeOld.EXPENSE
+    TransactionType.Income -> TrnTypeOld.INCOME
+    is TransactionType.Transfer -> TrnTypeOld.TRANSFER
 }

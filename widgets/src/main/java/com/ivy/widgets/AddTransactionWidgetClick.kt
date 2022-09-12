@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import androidx.annotation.IdRes
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 
 class AddTransactionWidgetClick {
     companion object {
@@ -22,7 +22,7 @@ class AddTransactionWidgetClick {
                 context.startActivity(
                     com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TrnType.INCOME
+                        type = TrnTypeOld.INCOME
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
@@ -32,7 +32,7 @@ class AddTransactionWidgetClick {
                 context.startActivity(
                     com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
@@ -42,7 +42,7 @@ class AddTransactionWidgetClick {
                 context.startActivity(
                     com.ivy.core.ui.temp.GlobalProvider.rootIntent.addTransactionStart(
                         context = context,
-                        type = TrnType.TRANSFER
+                        type = TrnTypeOld.TRANSFER
                     ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }

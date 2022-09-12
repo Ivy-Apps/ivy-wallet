@@ -2,7 +2,7 @@ package com.ivy.wallet.domain.pure.transaction
 
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.SideEffect
 import com.ivy.wallet.domain.pure.exchange.ExchangeEffect
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
@@ -22,7 +22,7 @@ object WalletValueFunctions {
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
-            TrnType.INCOME -> exchangeInBaseCurrency(
+            TrnTypeOld.INCOME -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -38,7 +38,7 @@ object WalletValueFunctions {
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.toAccountId }
         when {
-            type == TrnType.TRANSFER && condition ->
+            type == TrnTypeOld.TRANSFER && condition ->
                 exchangeInBaseCurrency(
                     transaction = this.copy(
                         amount = this.toAmount,
@@ -57,7 +57,7 @@ object WalletValueFunctions {
         arg: Argument
     ): BigDecimal = with(transaction) {
         when (type) {
-            TrnType.EXPENSE -> exchangeInBaseCurrency(
+            TrnTypeOld.EXPENSE -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,
@@ -73,7 +73,7 @@ object WalletValueFunctions {
     ): BigDecimal = with(transaction) {
         val condition = arg.accounts.any { it.id == this.accountId }
         when {
-            type == TrnType.TRANSFER && condition -> exchangeInBaseCurrency(
+            type == TrnTypeOld.TRANSFER && condition -> exchangeInBaseCurrency(
                 transaction = this,
                 accounts = arg.accounts,
                 baseCurrency = arg.baseCurrency,

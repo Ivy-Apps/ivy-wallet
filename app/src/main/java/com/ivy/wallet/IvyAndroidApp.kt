@@ -8,7 +8,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.ivy.base.RootIntent
 import com.ivy.common.BuildConfig
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.RootViewModel
 import dagger.hilt.android.HiltAndroidApp
@@ -44,7 +44,7 @@ class IvyAndroidApp : Application(), Configuration.Provider {
             override fun getIntent(context: Context): Intent =
                 Intent(context, RootActivity::class.java)
 
-            override fun addTransactionStart(context: Context, type: TrnType): Intent =
+            override fun addTransactionStart(context: Context, type: TrnTypeOld): Intent =
                 Intent(context, RootActivity::class.java).apply {
                     putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
                 }
