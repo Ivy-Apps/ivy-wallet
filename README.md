@@ -29,7 +29,7 @@ Track your expenses, fast and on-the-go! ⚡ Discover powerful insights about yo
 
 A money manager app can help you answer these questions.
 
-Ivy Wallet biggest advantage is its UI/UX, simplicity, and customization which was recognized in the ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) 10+ times by the YouTube tech community.
+Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which was recognized in the ["Top/Best Android App in 2021/2022 charts"](https://youtube.com/playlist?list=PLguJN0waG1-eSzKMuFMIULrR3MlqJ3cAE) 10+ times by the YouTube tech community.
 
 <a href='https://play.google.com/store/apps/details?id=com.ivy.wallet&utm_source=github&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="323" height="125"/></a>
 
