@@ -1,4 +1,4 @@
-# Architecture Decision Record (ADR) #5: No Transfer type data model 💡
+# Architecture Decision Record (ADR) #5: New data model 💡
 
 ## _Ideation: might be rejected at any point 🔴_
 
