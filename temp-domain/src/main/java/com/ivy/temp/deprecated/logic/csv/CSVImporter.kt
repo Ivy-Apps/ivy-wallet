@@ -8,7 +8,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.IvyDark
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
@@ -144,7 +144,7 @@ class CSVImporter(
             rowMapping = rowMapping
         ) ?: return null
 
-        val toAccount = if (type == TrnType.TRANSFER) {
+        val toAccount = if (type == TrnTypeOld.TRANSFER) {
             mapAccount(
                 baseCurrency = baseCurrency,
                 accountNameString = row.extract(rowMapping.toAccount),
@@ -155,7 +155,7 @@ class CSVImporter(
             )
         } else null
 
-        val csvAmount = if (type != TrnType.TRANSFER) {
+        val csvAmount = if (type != TrnTypeOld.TRANSFER) {
             mapAmount(row.extract(rowMapping.amount))
         } else {
             mapAmount(row.extract(rowMapping.transferAmount))
@@ -167,7 +167,7 @@ class CSVImporter(
             return null
         }
 
-        val toAmount = if (type == TrnType.TRANSFER) {
+        val toAmount = if (type == TrnTypeOld.TRANSFER) {
             mapAmount(row.extract(rowMapping.toAmount))
         } else null
 
@@ -232,25 +232,25 @@ class CSVImporter(
     private fun mapType(
         row: List<String>,
         rowMapping: RowMapping
-    ): TrnType? {
+    ): TrnTypeOld? {
         //Return Expense for intentionally set Type mapping to null
         //Example: Fortune City
-        if (rowMapping.type == null) return TrnType.EXPENSE
+        if (rowMapping.type == null) return TrnTypeOld.EXPENSE
 
         val type = row.extract(rowMapping.type) ?: return null
         // default is expense as some apps only declare transfers
-        if (type.isBlank()) return TrnType.EXPENSE
+        if (type.isBlank()) return TrnTypeOld.EXPENSE
 
         val normalizedType = type.toLowerCaseLocal()
 
         return when {
-            normalizedType.contains("income") -> TrnType.INCOME
-            normalizedType.contains("expense") -> TrnType.EXPENSE
-            normalizedType.contains("transfer") -> TrnType.TRANSFER
+            normalizedType.contains("income") -> TrnTypeOld.INCOME
+            normalizedType.contains("expense") -> TrnTypeOld.EXPENSE
+            normalizedType.contains("transfer") -> TrnTypeOld.TRANSFER
             else -> {
                 // Default to Expense because Financisto messed up its CSV Export
                 // and mixes it with another (ignored) column
-                if (rowMapping.defaultTypeToExpense) TrnType.EXPENSE else null
+                if (rowMapping.defaultTypeToExpense) TrnTypeOld.EXPENSE else null
             }
         }
     }

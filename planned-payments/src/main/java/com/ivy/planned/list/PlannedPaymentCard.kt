@@ -23,7 +23,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -112,7 +112,7 @@ private fun PlannedPaymentHeaderRow(
 ) {
     val nav = navigation()
 
-    if (plannedPayment.type != TrnType.TRANSFER) {
+    if (plannedPayment.type != TrnTypeOld.TRANSFER) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -262,7 +262,7 @@ private fun Preview_oneTime() {
                         oneTime = true,
                         intervalType = null,
                         intervalN = null,
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     )
                 ) {
 
@@ -296,7 +296,7 @@ private fun Preview_recurring() {
                         oneTime = false,
                         intervalType = IntervalType.MONTH,
                         intervalN = 1,
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     )
                 ) {
 
@@ -330,7 +330,7 @@ private fun Preview_recurringError() {
                         oneTime = false,
                         intervalType = null,
                         intervalN = null,
-                        type = TrnType.EXPENSE
+                        type = TrnTypeOld.EXPENSE
                     )
                 ) {
 

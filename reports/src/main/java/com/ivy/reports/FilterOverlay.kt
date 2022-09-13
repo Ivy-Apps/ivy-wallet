@@ -24,7 +24,7 @@ import androidx.compose.ui.zIndex
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.old.ListItem
@@ -358,7 +358,7 @@ private fun TypeFilter(
         Spacer(Modifier.width(20.dp))
 
         TypeFilterCheckbox(
-            trnType = TrnType.INCOME,
+            trnType = TrnTypeOld.INCOME,
             filter = filter,
             nonFilter = nonNullFilter,
             onSetFilter = onSetFilter
@@ -367,7 +367,7 @@ private fun TypeFilter(
         Spacer(Modifier.width(20.dp))
 
         TypeFilterCheckbox(
-            trnType = TrnType.EXPENSE,
+            trnType = TrnTypeOld.EXPENSE,
             filter = filter,
             nonFilter = nonNullFilter,
             onSetFilter = onSetFilter
@@ -378,7 +378,7 @@ private fun TypeFilter(
 
     TypeFilterCheckbox(
         modifier = Modifier.padding(start = 20.dp),
-        trnType = TrnType.TRANSFER,
+        trnType = TrnTypeOld.TRANSFER,
         filter = filter,
         nonFilter = nonNullFilter,
         onSetFilter = onSetFilter
@@ -388,7 +388,7 @@ private fun TypeFilter(
 @Composable
 private fun TypeFilterCheckbox(
     modifier: Modifier = Modifier,
-    trnType: TrnType,
+    trnType: TrnTypeOld,
     filter: ReportFilter?,
     nonFilter: (ReportFilter?) -> ReportFilter,
     onSetFilter: (ReportFilter) -> Unit
@@ -396,9 +396,9 @@ private fun TypeFilterCheckbox(
     IvyCheckboxWithText(
         modifier = modifier,
         text = when (trnType) {
-            TrnType.INCOME -> stringResource(R.string.incomes)
-            TrnType.EXPENSE -> stringResource(R.string.expenses)
-            TrnType.TRANSFER -> stringResource(R.string.account_transfers)
+            TrnTypeOld.INCOME -> stringResource(R.string.incomes)
+            TrnTypeOld.EXPENSE -> stringResource(R.string.expenses)
+            TrnTypeOld.TRANSFER -> stringResource(R.string.account_transfers)
         },
         checked = filter != null && filter.trnTypes.contains(trnType),
     ) { checked ->

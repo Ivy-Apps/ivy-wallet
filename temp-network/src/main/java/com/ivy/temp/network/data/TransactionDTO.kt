@@ -1,14 +1,14 @@
 package com.ivy.wallet.io.network.data
 
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.io.persistence.data.TransactionEntity
 import java.time.LocalDateTime
 import java.util.*
 
 data class TransactionDTO(
     val accountId: UUID,
-    val type: TrnType,
+    val type: TrnTypeOld,
     val amount: Double,
     val toAccountId: UUID? = null,
     val toAmount: Double? = null,

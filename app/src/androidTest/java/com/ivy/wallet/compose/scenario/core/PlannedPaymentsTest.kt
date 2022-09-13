@@ -3,7 +3,7 @@ package com.ivy.wallet.compose.scenario.core
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.ivy.data.planned.IntervalType
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.account.AccountsTab
 import com.ivy.wallet.compose.component.edittrn.screen.IncomeExpenseScreen
@@ -30,7 +30,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
 
         EditPlannedScreen(composeTestRule)
             .addPlannedPayment(
-                type = TrnType.INCOME,
+                type = TrnTypeOld.INCOME,
                 oneTime = false,
                 amount = "2,000",
                 category = "Bills & Fees",
@@ -72,7 +72,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddFAB()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "530.25",
                 category = "Transport",
@@ -105,7 +105,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddFAB()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = false,
                 amount = "650",
                 category = "Bills & Fees",
@@ -149,7 +149,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickPlannedPayments()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = false,
                 amount = "650",
                 category = "Bills & Fees",
@@ -189,7 +189,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddFAB()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.INCOME,
+                type = TrnTypeOld.INCOME,
                 oneTime = false,
                 amount = "5,250.33",
                 category = "Bills & Fees",
@@ -208,7 +208,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddFAB()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = false,
                 amount = "12.99",
                 category = "Entertainment",
@@ -227,7 +227,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddFAB()
             .clickAddPlannedPayment()
             .addPlannedPayment(
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "2,000",
                 category = "Transport",
@@ -259,7 +259,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddPlannedPayment()
             .addPlannedPayment(
                 next = HomeTab(composeTestRule),
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "530.25",
                 category = "Transport",
@@ -280,7 +280,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddPlannedPayment()
             .addPlannedPayment(
                 next = HomeTab(composeTestRule),
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "530.25",
                 category = "Transport",
@@ -305,7 +305,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddPlannedPayment()
             .addPlannedPayment(
                 next = HomeTab(composeTestRule),
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "530.25",
                 category = "Transport",
@@ -330,7 +330,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
             .clickAddPlannedPayment()
             .addPlannedPayment(
                 next = HomeTab(composeTestRule),
-                type = TrnType.EXPENSE,
+                type = TrnTypeOld.EXPENSE,
                 oneTime = true,
                 amount = "530.25",
                 category = "Transport",

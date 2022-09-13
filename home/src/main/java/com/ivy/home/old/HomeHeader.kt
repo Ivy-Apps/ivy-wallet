@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.base.Constants
 import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -283,7 +283,7 @@ private fun IncomeExpenses(
         ) {
             nav.navigateTo(
                 PieChartStatistic(
-                    type = TrnType.INCOME,
+                    type = TrnTypeOld.INCOME,
                 )
             )
         }
@@ -302,7 +302,7 @@ private fun IncomeExpenses(
         ) {
             nav.navigateTo(
                 PieChartStatistic(
-                    type = TrnType.EXPENSE,
+                    type = TrnTypeOld.EXPENSE,
                 )
             )
         }

@@ -14,7 +14,7 @@ import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -49,7 +49,7 @@ class AccStatsFlow @Inject constructor(
 
     private fun Input.incomeExpenseStats(): Flow<Stats> =
         trnsFlow(
-            ByAccount(account) and ActualBetween(period) and not(ByType(TrnType.TRANSFER))
+            ByAccount(account) and ActualBetween(period) and not(ByType(TrnTypeOld.TRANSFER))
         ).map { trns ->
             calculateAct(
                 CalculateAct.Input(
@@ -61,7 +61,7 @@ class AccStatsFlow @Inject constructor(
 
     private fun Input.transfersIn(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
-            ByType(TrnType.TRANSFER) and ActualBetween(period) and ByToAccount(account)
+            ByType(TrnTypeOld.TRANSFER) and ActualBetween(period) and ByToAccount(account)
         ).map { transfersIn ->
             suspend fun transferInAmount(trn: Transaction, arg: Unit): Double =
                 (trn.type as? TransactionType.Transfer)?.toValue?.amount ?: 0.0
@@ -79,7 +79,7 @@ class AccStatsFlow @Inject constructor(
 
     private fun Input.transfersOut(): Flow<Pair<Double, List<Transaction>>> =
         trnsFlow(
-            ByAccount(account) and ActualBetween(period) and ByType(TrnType.TRANSFER)
+            ByAccount(account) and ActualBetween(period) and ByType(TrnTypeOld.TRANSFER)
         ).map { transfersOut ->
             suspend fun transferOutAmount(trn: Transaction, arg: Unit): Double = trn.value.amount
 

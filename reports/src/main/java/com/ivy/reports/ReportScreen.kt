@@ -26,7 +26,7 @@ import com.ivy.base.data.DueSection
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
@@ -148,7 +148,7 @@ private fun BoxWithConstraintsScope.UI(
                     if (state.transactions.isNotEmpty())
                         nav.navigateTo(
                             PieChartStatistic(
-                                type = TrnType.INCOME,
+                                type = TrnTypeOld.INCOME,
                                 transactions = state.transactions,
                                 accountList = state.accountIdFilters,
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
@@ -159,7 +159,7 @@ private fun BoxWithConstraintsScope.UI(
                     if (state.transactions.isNotEmpty())
                         nav.navigateTo(
                             PieChartStatistic(
-                                type = TrnType.EXPENSE,
+                                type = TrnTypeOld.EXPENSE,
                                 transactions = state.transactions,
                                 accountList = state.accountIdFilters,
                                 treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp

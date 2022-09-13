@@ -7,7 +7,7 @@ import com.ivy.core.functions.transaction.TrnWhere.*
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.time.Period
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import java.time.LocalDateTime
 import java.util.*
 
@@ -24,8 +24,8 @@ sealed class TrnWhere {
     data class ByToAccount(val toAccount: Account) : TrnWhere()
     data class ByToAccountIn(val toAccs: NonEmptyList<Account>) : TrnWhere()
 
-    data class ByType(val trnType: TrnType) : TrnWhere()
-    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere()
+    data class ByType(val trnType: TrnTypeOld) : TrnWhere()
+    data class ByTypeIn(val types: NonEmptyList<TrnTypeOld>) : TrnWhere()
 
     /**
      * Inclusive period [from, to]
@@ -67,7 +67,7 @@ fun toWhereClause(where: TrnWhere): WhereClause {
 
     fun uuid(id: UUID): String = id.toString()
     fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochMilli()
-    fun trnType(type: TrnType): String = type.name
+    fun trnType(type: TrnTypeOld): String = type.name
 
     val result = when (where) {
         is ById -> "id = ?" to arg(uuid(where.id))

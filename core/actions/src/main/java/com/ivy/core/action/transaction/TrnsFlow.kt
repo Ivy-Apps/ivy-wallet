@@ -95,9 +95,9 @@ class TrnsFlow @Inject constructor(
         entity: TransactionEntity
     ): Either<Invalid, TransactionType> {
         return when (entity.type) {
-            TrnType.INCOME -> Either.Right(TransactionType.Income)
-            TrnType.EXPENSE -> Either.Right(TransactionType.Expense)
-            TrnType.TRANSFER -> {
+            TrnTypeOld.INCOME -> Either.Right(TransactionType.Income)
+            TrnTypeOld.EXPENSE -> Either.Right(TransactionType.Expense)
+            TrnTypeOld.TRANSFER -> {
                 val toAccount =
                     entity.toAccountId?.let(accounts::get) ?: return Either.Left(Invalid)
                 val toAmount = entity.toAmount ?: entity.amount

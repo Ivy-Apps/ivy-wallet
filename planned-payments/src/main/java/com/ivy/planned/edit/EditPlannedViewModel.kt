@@ -7,7 +7,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.EditPlanned
@@ -49,7 +49,7 @@ class EditPlannedViewModel @Inject constructor(
     private val categoriesAct: CategoriesActOld
 ) : ViewModel() {
 
-    private val _transactionType = MutableLiveData<TrnType>()
+    private val _transactionType = MutableLiveData<TrnTypeOld>()
     val transactionType = _transactionType
 
     private val _startDate = MutableLiveData<LocalDateTime?>()
@@ -228,7 +228,7 @@ class EditPlannedViewModel @Inject constructor(
         saveIfEditMode()
     }
 
-    fun onSetTransactionType(newTransactionType: TrnType) {
+    fun onSetTransactionType(newTransactionType: TrnTypeOld) {
         loadedRule = loadedRule().copy(
             type = newTransactionType
         )
@@ -288,7 +288,7 @@ class EditPlannedViewModel @Inject constructor(
     }
 
     private fun validate(): Boolean {
-        if (transactionType.value == TrnType.TRANSFER) {
+        if (transactionType.value == TrnTypeOld.TRANSFER) {
             return false
         }
 

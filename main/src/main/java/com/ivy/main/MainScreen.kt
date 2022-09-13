@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.accounts.AccountsTab
 import com.ivy.base.MainTab
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.home.old.HomeTab
@@ -70,7 +70,7 @@ private fun BoxWithConstraintsScope.UI(
             nav.navigateTo(
                 EditTransaction(
                     initialTransactionId = null,
-                    type = TrnType.INCOME
+                    type = TrnTypeOld.INCOME
                 )
             )
         },
@@ -78,7 +78,7 @@ private fun BoxWithConstraintsScope.UI(
             nav.navigateTo(
                 EditTransaction(
                     initialTransactionId = null,
-                    type = TrnType.EXPENSE
+                    type = TrnTypeOld.EXPENSE
                 )
             )
         },
@@ -86,14 +86,14 @@ private fun BoxWithConstraintsScope.UI(
             nav.navigateTo(
                 EditTransaction(
                     initialTransactionId = null,
-                    type = TrnType.TRANSFER
+                    type = TrnTypeOld.TRANSFER
                 )
             )
         },
         onAddPlannedPayment = {
             nav.navigateTo(
                 EditPlanned(
-                    type = TrnType.EXPENSE,
+                    type = TrnTypeOld.EXPENSE,
                     plannedPaymentRuleId = null
                 )
             )

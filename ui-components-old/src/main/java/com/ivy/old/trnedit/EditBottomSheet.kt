@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.data.AccountOld
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.test.TestingContext
@@ -50,7 +50,7 @@ import kotlin.math.roundToInt
 @Composable
 fun BoxWithConstraintsScope.EditBottomSheet(
     initialTransactionId: UUID?,
-    type: TrnType,
+    type: TrnTypeOld,
     accounts: List<AccountOld>,
     selectedAccount: AccountOld?,
     toAccount: AccountOld?,
@@ -102,7 +102,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     val percentCollapsed = 1f - percentExpanded
 
     val showConvertedAmountText by remember(convertedAmount) {
-        if (type == TrnType.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
+        if (type == TrnTypeOld.TRANSFER && convertedAmount != null && convertedAmountCurrencyCode != null)
             mutableStateOf("${convertedAmount.format(2)} $convertedAmountCurrencyCode")
         else
             mutableStateOf(null)
@@ -140,9 +140,9 @@ fun BoxWithConstraintsScope.EditBottomSheet(
     ) {
         //Accounts label
         val label = when (type) {
-            TrnType.INCOME -> stringResource(R.string.add_money_to)
-            TrnType.EXPENSE -> stringResource(R.string.pay_with)
-            TrnType.TRANSFER -> stringResource(R.string.from)
+            TrnTypeOld.INCOME -> stringResource(R.string.add_money_to)
+            TrnTypeOld.EXPENSE -> stringResource(R.string.pay_with)
+            TrnTypeOld.TRANSFER -> stringResource(R.string.from)
         }
 
         SheetHeader(
@@ -160,7 +160,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
         val spacerAboveAmount = lerp(40, 16, percentCollapsed)
         Spacer(Modifier.height(spacerAboveAmount.dp))
 
-        if (type == TrnType.TRANSFER && percentExpanded < 1f) {
+        if (type == TrnTypeOld.TRANSFER && percentExpanded < 1f) {
             TransferRowMini(
                 percentCollapsed = percentCollapsed,
                 fromAccount = selectedAccount,
@@ -392,7 +392,7 @@ private fun TransferRowMini(
 private fun SheetHeader(
     percentExpanded: Float,
     label: String,
-    type: TrnType,
+    type: TrnTypeOld,
     accounts: List<AccountOld>,
     selectedAccount: AccountOld?,
     toAccount: AccountOld?,
@@ -429,7 +429,7 @@ private fun SheetHeader(
                 )
             )
 
-            Spacer(Modifier.height(if (type == TrnType.TRANSFER) 8.dp else 16.dp))
+            Spacer(Modifier.height(if (type == TrnTypeOld.TRANSFER) 8.dp else 16.dp))
 
             AccountsRow(
                 accounts = accounts,
@@ -439,7 +439,7 @@ private fun SheetHeader(
                 childrenTestTag = "from_account"
             )
 
-            if (type == TrnType.TRANSFER) {
+            if (type == TrnTypeOld.TRANSFER) {
                 Spacer(Modifier.height(24.dp))
 
                 Text(
@@ -608,7 +608,7 @@ private fun AddAccount(
 
 @Composable
 private fun Amount(
-    type: TrnType,
+    type: TrnTypeOld,
     amount: Double,
     currency: String,
     percentExpanded: Float,
@@ -672,7 +672,7 @@ private fun Amount(
 
         Spacer(Modifier.weight(1f))
 
-        if (percentExpanded < 1f && type != TrnType.TRANSFER) {
+        if (percentExpanded < 1f && type != TrnTypeOld.TRANSFER) {
             LabelAccountMini(
                 percentExpanded = percentExpanded,
                 label = label,
@@ -746,7 +746,7 @@ private fun Preview() {
                 amountModalShown = false,
                 setAmountModalShown = {},
                 initialTransactionId = null,
-                type = TrnType.INCOME,
+                type = TrnTypeOld.INCOME,
                 ActionButton = {
                     ModalSet() {
 
@@ -791,7 +791,7 @@ private fun Preview_Transfer() {
 
                     }
                 },
-                type = TrnType.TRANSFER,
+                type = TrnTypeOld.TRANSFER,
                 accounts = listOf(
                     acc1,
                     acc2,
