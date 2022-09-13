@@ -5,10 +5,10 @@ import kotlinx.coroutines.runBlocking
 fun <Ctx, Result> testCase(
     context: Ctx,
     given: suspend (Ctx) -> Unit = {},
-    executeTest: suspend (Ctx) -> Result,
+    test: suspend (Ctx) -> Result,
     verifyResult: suspend Result.(Ctx) -> Unit
 ): Unit = runBlocking {
     given(context)
-    val res = executeTest(context)
+    val res = test(context)
     res.verifyResult(context)
 }

@@ -22,7 +22,6 @@ fun dummyTrnEntity(
     categoryId: String? = null,
     attachmentUrl: String? = null,
     purpose: TrnPurpose? = null,
-    metadata: Map<String, String> = emptyMap(),
     isSynced: Boolean = true,
     isDeleted: Boolean = false,
 ): TrnEntity = TrnEntity(
@@ -38,7 +37,6 @@ fun dummyTrnEntity(
     categoryId = categoryId,
     attachmentUrl = attachmentUrl,
     purpose = purpose,
-    metadata = metadata,
     isSynced = isSynced,
     isDeleted = isDeleted,
 )

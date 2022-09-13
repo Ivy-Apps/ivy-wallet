@@ -32,8 +32,9 @@ data class TrnEntity(
 
     // region Metadata
     val purpose: TrnPurpose?,
-    // TODO: Metadata concern, can it be selected properly?
-    val metadata: Map<String, String>,
+    // TODO: Trn Metadata will be saved in another table "trn_metadata"
+    // One transaction can have many metadata records to it
+    // TODO: Make a decision on transaciton metadata
     val isSynced: Boolean,
     val isDeleted: Boolean,
     // endregion
