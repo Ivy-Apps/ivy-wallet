@@ -57,5 +57,5 @@ jobs:
 
       # RUN
       - name: Test (unitTest)
-        run: ./gradlew test
+        run: ./gradlew testDebugUnitTest
       #------------------------------------------------------------------
