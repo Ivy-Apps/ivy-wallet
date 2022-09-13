@@ -14,6 +14,9 @@ abstract class IvyPlugin : Plugin<Project> {
         setProjectSdkVersions(project)
 
         kotest(project)
+        // Robolectric doesn't integrate well with JUnit5 and Kotest
+//        robolectric(project)
+        androidTest(project)
         lint(project)
     }
 
@@ -23,6 +26,18 @@ abstract class IvyPlugin : Plugin<Project> {
             unitTests.all {
                 it.useJUnitPlatform()
             }
+        }
+    }
+
+//    private fun robolectric(project: Project) {
+//        project.androidLibrary().testOptions {
+//            unitTests.isIncludeAndroidResources = true
+//        }
+//    }
+
+    private fun androidTest(project: Project) {
+        project.androidLibrary().defaultConfig {
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
     }
 

@@ -138,6 +138,14 @@ object Versions {
 
     //https://github.com/Kotlin/kotlinx.serialization#introduction-and-references
     const val kotlinSerialization = "1.4.0"
+
+    // region http://robolectric.org/getting-started/
+    const val robolectric = "4.8"
+    const val robolectricJunit = "4.13.2"
+
+    // endregion
+    //https://kotest.io/docs/extensions/robolectric.html
+    const val robolectricKotestExt = "0.5.0"
 }
 
 fun DependencyHandler.IvyFRP(
@@ -440,6 +448,8 @@ fun DependencyHandler.Arrow(
 
 fun DependencyHandler.Testing() {
     Kotest()
+    // Robolectric doesn't integrate well with JUnit5 and Kotest
+//    Robolectric(api = false)
 }
 
 /**
@@ -461,5 +471,14 @@ fun DependencyHandler.Kotest() {
 
     testDependency(
         "io.kotest.extensions:kotest-property-arrow:${Versions.arrow}", api = api
+    )
+}
+
+fun DependencyHandler.Robolectric(api: Boolean) {
+    testDependency("org.robolectric:robolectric:${Versions.robolectric}", api = api)
+    testDependency("junit:junit:${Versions.robolectricJunit}", api = api)
+    testDependency(
+        "io.kotest.extensions:kotest-extensions-robolectric:${Versions.robolectricKotestExt}",
+        api = api,
     )
 }

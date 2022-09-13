@@ -6,7 +6,7 @@ import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 
-class TrnEntityTypeConverters {
+class TrnTypeConverters {
     companion object {
         const val NONE = 0
     }
