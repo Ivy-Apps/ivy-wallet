@@ -12,6 +12,8 @@ data class TrnAttachmentEntity(
     val id: String,
     @ColumnInfo(name = "trnId", index = true)
     val trnId: String,
+    @ColumnInfo(name = "type")
+    val type: AttachmentType,
     @ColumnInfo(name = "attachment")
-    val attachment: AttachmentType,
+    val attachment: String,
 )
