@@ -362,8 +362,7 @@ fun DependencyHandler.Lifecycle(
 }
 
 fun DependencyHandler.AndroidX(api: Boolean) {
-    //https://developer.android.com/jetpack/androidx/releases/appcompat
-    dependency("androidx.appcompat:appcompat:${Versions.appCompat}", api = api)
+    AppCompat(api)
 
     //URL: https://developer.android.com/jetpack/androidx/releases/core
     dependency("androidx.core:core-ktx:${Versions.coreKtx}", api = api)
@@ -379,6 +378,11 @@ fun DependencyHandler.AndroidX(api: Boolean) {
 
     //https://developer.android.com/jetpack/androidx/releases/webkit
     dependency("androidx.webkit:webkit:${Versions.webkit}", api = api)
+}
+
+fun DependencyHandler.AppCompat(api: Boolean) {
+    //https://developer.android.com/jetpack/androidx/releases/appcompat
+    dependency("androidx.appcompat:appcompat:${Versions.appCompat}", api = api)
 }
 
 fun DependencyHandler.Coroutines(

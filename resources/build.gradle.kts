@@ -1,3 +1,4 @@
+import com.ivy.buildsrc.AppCompat
 import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyPlugin>()
@@ -9,4 +10,5 @@ plugins {
 
 dependencies {
     Hilt()
+    AppCompat(api = false)
 }

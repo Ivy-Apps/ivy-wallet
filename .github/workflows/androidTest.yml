@@ -1,10 +1,12 @@
-name: Build
+name: Android Test
 
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  androidTest:
+    # The type of runner that the job will run on
+    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
+    runs-on: macos-latest
 
     # Fix GitHub Actions crashing with:
     # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
@@ -35,6 +37,10 @@ jobs:
       #---------------------------------------------------
 
       # RUN
-      - name: Build (Debug)
-        run: ./gradlew buildDebug
+      - name: Run e2e androidTest
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          profile: pixel_3_xl
+          script: ./gradlew connectedDebugAndroidTest -x :app:connectedDebugAndroidTest
       #------------------------------------------------------------------
