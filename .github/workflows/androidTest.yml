@@ -32,6 +32,9 @@ jobs:
       #---------------------------------------------------
 
       # RUN
+      - name: Build (Debug)
+        run: ./gradlew buildDebug
+
       - name: Run e2e androidTest
         uses: reactivecircus/android-emulator-runner@v2
         with:
