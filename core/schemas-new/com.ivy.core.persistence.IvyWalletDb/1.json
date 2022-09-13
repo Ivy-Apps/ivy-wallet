@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "abdbd22decb033c57de37018a89cce03",
+    "identityHash": "ec05d9350068b4cee9563afa7b4e1833",
     "entities": [
       {
         "tableName": "transactions_v2",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `accountId` TEXT NOT NULL, `type` INTEGER NOT NULL, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `dateTime` INTEGER NOT NULL, `dateTimeType` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `categoryId` TEXT, `tags` TEXT, `attachmentUrl` TEXT, `purpose` INTEGER, `metadata` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `accountId` TEXT NOT NULL, `type` INTEGER NOT NULL, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `dateTime` INTEGER NOT NULL, `dateTimeType` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `categoryId` TEXT, `attachmentUrl` TEXT, `purpose` INTEGER, `metadata` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -69,12 +69,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "tags",
-            "columnName": "tags",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "attachmentUrl",
             "columnName": "attachmentUrl",
             "affinity": "TEXT",
@@ -118,7 +112,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'abdbd22decb033c57de37018a89cce03')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ec05d9350068b4cee9563afa7b4e1833')"
     ]
   }
 }

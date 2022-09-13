@@ -7,6 +7,7 @@ import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 
+// TODO: Add indices
 @Entity(tableName = "transactions_v2")
 data class TrnEntity(
     @PrimaryKey
@@ -31,6 +32,7 @@ data class TrnEntity(
 
     // region Metadata
     val purpose: TrnPurpose?,
+    // TODO: Metadata concern, can it be selected properly?
     val metadata: Map<String, String>,
     val isSynced: Boolean,
     val isDeleted: Boolean,

@@ -1,20 +1,27 @@
 package com.ivy.core.persistence.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.core.persistence.entity.trn.TrnEntity
 
 @Dao
 interface TrnDao {
+    // region Insert/Update
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: TrnEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: List<TrnEntity>)
+    // endregion
 
-    // TODO: Just for testing
-    @Query("SELECT * FROM transactions_v2")
-    suspend fun findAll(): List<TrnEntity>
+    @RawQuery
+    suspend fun findBySQL(query: SupportSQLiteQuery): List<TrnEntity>
+
+    // region Delete
+    @Query("DELETE FROM transactions_v2 WHERE id IN (:ids)")
+    suspend fun delete(ids: List<String>)
+
+    @Query("DELETE FROM transactions_v2")
+    suspend fun deleteAll()
+    // endregion
 }

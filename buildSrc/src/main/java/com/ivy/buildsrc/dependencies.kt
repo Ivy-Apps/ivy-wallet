@@ -495,7 +495,10 @@ fun DependencyHandler.Kotest() {
     //junit5 is required!
     testDependency("org.junit.jupiter:junit-jupiter:${Versions.junitJupiter}", api = api)
     testDependency("io.kotest:kotest-runner-junit5:${Versions.kotest}", api = api)
+
     testDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
+    androidTestDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
+
     testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-framework-api-jvm:${Versions.kotest}", api = api)
     testImplementation("io.kotest:kotest-framework-engine-jvm:${Versions.kotest}")
