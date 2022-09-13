@@ -8,11 +8,6 @@ jobs:
     # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
     runs-on: macos-latest
 
-    # Fix GitHub Actions crashing with:
-    # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
-    env:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
-
     steps:
       - name: Checkout GIT
         uses: actions/checkout@v2
