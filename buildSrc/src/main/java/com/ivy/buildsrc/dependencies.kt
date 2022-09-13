@@ -17,6 +17,7 @@
 package com.ivy.buildsrc
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.project
 
 
 object Project {
@@ -450,10 +451,15 @@ fun DependencyHandler.Arrow(
 //    dependency("io.arrow-kt:arrow-optics")
 }
 
-fun DependencyHandler.Testing() {
+fun DependencyHandler.Testing(commonTest: Boolean = true) {
     Kotest()
     // Robolectric doesn't integrate well with JUnit5 and Kotest
 //    Robolectric(api = false)
+
+    if (commonTest) {
+        testImplementation(project(":common-test"))
+        androidTestImplementation(project(":common-test"))
+    }
 }
 
 /**
