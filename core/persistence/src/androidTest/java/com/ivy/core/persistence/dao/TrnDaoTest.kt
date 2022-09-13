@@ -80,8 +80,8 @@ class TrnDaoTest : RoomDbTest() {
         test = {
             dao.findBySQL(queryFindAll())
         },
-        verifyResult = { savedTrns ->
-            this shouldBe savedTrns.sortedBy { it.id }
+        verifyResult = { trns ->
+            this shouldBe trns.sortedBy { it.id }
         }
     )
     // endregion
