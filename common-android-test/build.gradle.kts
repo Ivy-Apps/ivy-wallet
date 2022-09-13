@@ -1,6 +1,4 @@
-import com.ivy.buildsrc.AndroidXTest
-import com.ivy.buildsrc.Hilt
-import com.ivy.buildsrc.Testing
+import com.ivy.buildsrc.*
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -13,6 +11,8 @@ dependencies {
     Hilt()
 
     Testing(commonTest = false)
+    Kotlin(api = false)
+    Coroutines(api = false)
     AndroidXTest(dependency = { dep ->
         api(dep)
     })
