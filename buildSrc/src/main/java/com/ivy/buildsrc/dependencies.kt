@@ -147,6 +147,13 @@ object Versions {
     // endregion
     //https://kotest.io/docs/extensions/robolectric.html
     const val robolectricKotestExt = "0.5.0"
+
+    // region AndroidX Test
+    //https://developer.android.com/jetpack/androidx/releases/test
+    const val testCore = "1.4.0"
+    const val testJunitExt = "1.1.3"
+    const val testRunner = "1.4.0"
+    // endregion
 }
 
 fun DependencyHandler.IvyFRP(
@@ -457,9 +464,27 @@ fun DependencyHandler.Testing(commonTest: Boolean = true) {
 //    Robolectric(api = false)
 
     if (commonTest) {
-        testImplementation(project(":common-test"))
-        androidTestImplementation(project(":common-test"))
+        androidTestImplementation(project(":common-android-test"))
     }
+}
+
+fun DependencyHandler.AndroidXTest(
+    dependency: DependencyHandler.(String) -> Unit = { dep ->
+        androidTestImplementation(dep)
+    }
+) {
+    // To use the androidx.test.core APIs
+    dependency("androidx.test:core:${Versions.testCore}")
+    // Kotlin extensions for androidx.test.core
+    dependency("androidx.test:core-ktx:${Versions.testCore}")
+
+    // To use the JUnit Extension APIs
+    dependency("androidx.test.ext:junit:${Versions.testJunitExt}")
+    // Kotlin extensions for androidx.test.ext.junit
+    dependency("androidx.test.ext:junit-ktx:${Versions.testJunitExt}")
+
+    // To use the androidx.test.runner APIs
+    dependency("androidx.test:runner:${Versions.testRunner}")
 }
 
 /**
