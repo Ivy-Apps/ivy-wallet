@@ -13,7 +13,7 @@ class GeneralTypeConverters {
     fun ser(instant: Instant): Long = instant.epochSecond
 
     @TypeConverter
-    fun instant(epochSecond: Long) = Instant.ofEpochSecond(epochSecond)
+    fun instant(epochSecond: Long): Instant = Instant.ofEpochSecond(epochSecond)
     // endregion
 
 
