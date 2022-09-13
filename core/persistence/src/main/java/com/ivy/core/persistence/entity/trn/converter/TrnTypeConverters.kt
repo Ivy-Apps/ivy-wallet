@@ -1,7 +1,6 @@
 package com.ivy.core.persistence.entity.trn.converter
 
 import androidx.room.TypeConverter
-import com.ivy.core.persistence.entity.trn.TrnTags
 import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
@@ -34,16 +33,5 @@ class TrnTypeConverters {
 
     @TypeConverter
     fun trnTimeType(code: Int): TrnTimeType = TrnTimeType.fromCode(code)!!
-    // endregion
-
-    // region TrnTags
-    @TypeConverter
-    fun ser(trnTags: TrnTags?): String? = trnTags?.tagIds?.joinToString(separator = ",")
-
-    @TypeConverter
-    fun trnTags(str: String): TrnTags? =
-        str.split(",")
-            .takeIf { it.isNotEmpty() }
-            ?.let { TrnTags(tagIds = it) }
     // endregion
 }

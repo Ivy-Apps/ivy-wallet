@@ -25,7 +25,6 @@ data class TrnEntity(
     val title: String?,
     val description: String?,
     val categoryId: String?,
-    val tags: TrnTags?,
     val attachmentUrl: String?,
     // endregion
 
