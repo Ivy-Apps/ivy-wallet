@@ -10,6 +10,7 @@ import com.ivy.core.persistence.RoomDbTest
 import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 import io.kotest.matchers.shouldBe
@@ -18,7 +19,6 @@ import java.time.Instant
 
 @AndroidTest
 class TrnDaoTest : RoomDbTest() {
-
     private lateinit var dao: TrnDao
 
     override fun setUp(db: IvyWalletDb) {
@@ -49,15 +49,13 @@ class TrnDaoTest : RoomDbTest() {
             type = TrnType.Expense,
             amount = 0.43,
             currency = "USD",
-            dateTime = Instant.now().epochSeconds(),
-            dateTimeType = TrnTimeType.Due,
+            time = Instant.now().epochSeconds(),
+            timeType = TrnTimeType.Due,
             title = "Title",
             description = "a\nb\nc\nd",
             categoryId = uuidString(),
-            attachmentUrl = "https://...",
             purpose = TrnPurpose.TransferFrom,
-            isSynced = false,
-            isDeleted = true
+            syncState = SyncState.Syncing,
         ),
         given = {
             dao.save(it)

@@ -1,9 +1,7 @@
 package com.ivy.core.persistence
 
 import androidx.room.TypeConverter
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.ivy.data.SyncState
 import java.time.Instant
 
 
@@ -16,13 +14,11 @@ class GeneralTypeConverters {
     fun instant(epochSecond: Long): Instant = Instant.ofEpochSecond(epochSecond)
     // endregion
 
-
-    // region Map<String,String>
-    //TODO: Make sure that this works
+    // region SyncState
     @TypeConverter
-    fun ser(metadata: Map<String, String>): String = Json.encodeToString(metadata)
+    fun ser(syncState: SyncState): Int = syncState.code
 
     @TypeConverter
-    fun map(json: String): Map<String, String> = Json.decodeFromString(json)
+    fun syncState(code: Int): SyncState = SyncState.fromCode(code)
     // endregion
 }

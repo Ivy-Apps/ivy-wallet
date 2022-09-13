@@ -2,6 +2,7 @@ package com.ivy.core.persistence.entity.trn.converter
 
 import androidx.room.TypeConverter
 import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.data.transaction.AttachmentType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 
@@ -32,6 +33,14 @@ class TrnTypeConverters {
     fun ser(timeType: TrnTimeType): Int = timeType.code
 
     @TypeConverter
-    fun trnTimeType(code: Int): TrnTimeType = TrnTimeType.fromCode(code)!!
+    fun trnTimeType(code: Int): TrnTimeType = TrnTimeType.fromCode(code)
+    // endregion
+
+    // region AttachmentType
+    @TypeConverter
+    fun ser(attachmentType: AttachmentType): Int = attachmentType.code
+
+    @TypeConverter
+    fun attachmentType(code: Int): AttachmentType = AttachmentType.fromCode(code)
     // endregion
 }
