@@ -1,4 +1,4 @@
-package com.ivy.core.functions.transaction
+package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
@@ -8,7 +8,7 @@ import com.ivy.common.toEpochMilli
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.time.toRange
-import com.ivy.core.functions.transaction.TrnWhere.*
+import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.TrnTypeOld
 import io.kotest.assertions.fail

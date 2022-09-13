@@ -20,6 +20,7 @@ dependencies {
     implementation(project(":temp-domain"))
     implementation(project(":core:actions"))
     implementation(project(":core:functions"))
+    implementation(project(":core:persistence"))
 
     implementation(project(":more-menu"))
     implementation(project(":customer-journey"))

@@ -1,9 +1,9 @@
-package com.ivy.core.functions.transaction
+package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
 import com.ivy.common.toEpochMilli
 import com.ivy.core.functions.time.toRange
-import com.ivy.core.functions.transaction.TrnWhere.*
+import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.time.Period

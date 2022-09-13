@@ -5,9 +5,9 @@ import com.ivy.core.action.calculate.CalculateAct
 import com.ivy.core.action.calculate.Stats
 import com.ivy.core.action.currency.BaseCurrencyFlow
 import com.ivy.core.action.transaction.TrnsFlow
-import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
-import com.ivy.core.functions.transaction.TrnWhere.ByCategory
-import com.ivy.core.functions.transaction.and
+import com.ivy.core.persistence.query.TrnWhere.ActualBetween
+import com.ivy.core.persistence.query.TrnWhere.ByCategory
+import com.ivy.core.persistence.query.and
 import com.ivy.data.category.Category
 import com.ivy.data.time.Period
 import kotlinx.coroutines.flow.Flow

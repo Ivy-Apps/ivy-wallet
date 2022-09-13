@@ -9,9 +9,9 @@ import com.ivy.core.action.settings.NameFlow
 import com.ivy.core.action.settings.balance.HideBalanceSettingFlow
 import com.ivy.core.action.time.SelectedPeriodFlow
 import com.ivy.core.functions.time.period
-import com.ivy.core.functions.transaction.TrnWhere.ActualBetween
-import com.ivy.core.functions.transaction.TrnWhere.DueBetween
-import com.ivy.core.functions.transaction.or
+import com.ivy.core.persistence.query.TrnWhere.ActualBetween
+import com.ivy.core.persistence.query.TrnWhere.DueBetween
+import com.ivy.core.persistence.query.or
 import com.ivy.core.ui.navigation.Nav
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList

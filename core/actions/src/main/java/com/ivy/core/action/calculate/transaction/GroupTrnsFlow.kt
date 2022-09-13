@@ -5,9 +5,9 @@ import com.ivy.common.toEpochSeconds
 import com.ivy.core.action.FlowAction
 import com.ivy.core.action.calculate.CalculateAct
 import com.ivy.core.action.currency.BaseCurrencyFlow
-import com.ivy.core.functions.transaction.actual
-import com.ivy.core.functions.transaction.overdue
-import com.ivy.core.functions.transaction.upcoming
+import com.ivy.core.persistence.query.actual
+import com.ivy.core.persistence.query.overdue
+import com.ivy.core.persistence.query.upcoming
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers

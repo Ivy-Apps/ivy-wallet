@@ -23,6 +23,7 @@ android {
 dependencies {
     Hilt()
     implementation(project(":common"))
+    implementation(project(":core:functions"))
     RoomDB(api = false)
 
     Testing()

@@ -5,8 +5,8 @@ import arrow.core.Either
 import com.ivy.core.action.FlowAction
 import com.ivy.core.action.account.AccountsFlow
 import com.ivy.core.action.category.CategoriesFlow
-import com.ivy.core.functions.transaction.TrnWhere
-import com.ivy.core.functions.transaction.toWhereClause
+import com.ivy.core.persistence.query.TrnWhere
+import com.ivy.core.persistence.query.toWhereClause
 import com.ivy.data.Invalid
 import com.ivy.data.SyncMetadata
 import com.ivy.data.account.Account
@@ -21,6 +21,25 @@ import kotlinx.coroutines.flow.flowOn
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Builds a list of domain **[[Transaction]]** by a given query.
+ * ## Query
+ *
+ * ### Filters
+ * - [TrnWhere.ByAccount]
+ * - [TrnWhere.ByCategory]
+ * - [TrnWhere.ByType]
+ * - [TrnWhere.ActualBetween]
+ * - [TrnWhere.DueBetween]
+ * - [TrnWhere.ById]
+ * - see [TrnWhere]
+ *
+ * ### Building more complex query:
+ * - and()
+ * - or()
+ * - not()
+ * - brackets()
+ */
 class TrnsFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val categoriesFlow: CategoriesFlow,

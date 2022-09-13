@@ -3,7 +3,7 @@ package com.ivy.core.action.helper
 import com.ivy.core.action.FlowAction
 import com.ivy.core.action.calculate.transaction.GroupTrnsFlow
 import com.ivy.core.action.transaction.TrnsFlow
-import com.ivy.core.functions.transaction.TrnWhere
+import com.ivy.core.persistence.query.TrnWhere
 import com.ivy.data.transaction.TransactionsList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow

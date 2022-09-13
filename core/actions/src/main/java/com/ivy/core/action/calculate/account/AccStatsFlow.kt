@@ -5,11 +5,11 @@ import com.ivy.core.action.FlowAction
 import com.ivy.core.action.calculate.CalculateAct
 import com.ivy.core.action.calculate.Stats
 import com.ivy.core.action.transaction.TrnsFlow
-import com.ivy.core.functions.transaction.TrnWhere.*
-import com.ivy.core.functions.transaction.and
 import com.ivy.core.functions.transaction.chronological
 import com.ivy.core.functions.transaction.foldTransactions
-import com.ivy.core.functions.transaction.not
+import com.ivy.core.persistence.query.TrnWhere.*
+import com.ivy.core.persistence.query.and
+import com.ivy.core.persistence.query.not
 import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
