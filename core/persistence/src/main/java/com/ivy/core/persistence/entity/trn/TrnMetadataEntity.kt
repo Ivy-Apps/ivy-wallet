@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 
 @Entity(tableName = "trn_metadata")
-class TrnMetadataEntity(
+data class TrnMetadataEntity(
     /**
      * record id for uniqueness in the records table
      */

@@ -8,7 +8,7 @@ import com.ivy.data.account.AccountState
 
 
 @Entity(tableName = "accounts")
-class AccountEntity(
+data class AccountEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
     val id: String,

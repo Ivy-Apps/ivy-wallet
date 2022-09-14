@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 
 @Entity(tableName = "account_folders")
-class AccountFolderEntity(
+data class AccountFolderEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
     val id: String,

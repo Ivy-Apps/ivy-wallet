@@ -7,7 +7,7 @@ import com.ivy.data.SyncState
 import com.ivy.data.category.CategoryState
 
 @Entity(tableName = "categories")
-class CategoryEntity(
+data class CategoryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
     val id: String,

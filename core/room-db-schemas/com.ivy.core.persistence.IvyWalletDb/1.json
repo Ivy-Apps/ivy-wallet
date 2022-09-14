@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6103367c4ec6f5995416d92570b12a58",
+    "identityHash": "b05136c6c3323bf1170846593703c3fa",
     "entities": [
       {
         "tableName": "transactions",
@@ -590,6 +590,81 @@
         "foreignKeys": []
       },
       {
+        "tableName": "account_folder_links",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `folderId` TEXT NOT NULL, `accountId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "folderId",
+            "columnName": "folderId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_account_folder_links_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_account_folder_links_folderId",
+            "unique": false,
+            "columnNames": [
+              "folderId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_folderId` ON `${TABLE_NAME}` (`folderId`)"
+          },
+          {
+            "name": "index_account_folder_links_accountId",
+            "unique": false,
+            "columnNames": [
+              "accountId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_accountId` ON `${TABLE_NAME}` (`accountId`)"
+          },
+          {
+            "name": "index_account_folder_links_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_sync` ON `${TABLE_NAME}` (`sync`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
         "tableName": "categories",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `parentCategoryId` TEXT, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
@@ -701,7 +776,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6103367c4ec6f5995416d92570b12a58')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b05136c6c3323bf1170846593703c3fa')"
     ]
   }
 }
