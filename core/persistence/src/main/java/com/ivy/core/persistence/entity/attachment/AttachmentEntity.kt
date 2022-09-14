@@ -3,6 +3,7 @@ package com.ivy.core.persistence.entity.attachment
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.data.SyncState
 import com.ivy.data.attachment.AttachmentSource
 import com.ivy.data.attachment.AttachmentType
 
@@ -21,4 +22,7 @@ data class AttachmentEntity(
     val filename: String?,
     @ColumnInfo(name = "type")
     val type: AttachmentType?,
+
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
 )

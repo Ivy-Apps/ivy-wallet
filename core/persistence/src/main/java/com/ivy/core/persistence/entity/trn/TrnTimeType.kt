@@ -4,6 +4,6 @@ enum class TrnTimeType(val code: Int) {
     Actual(1), Due(2);
 
     companion object {
-        fun fromCode(code: Int) = values().first { it.code == code }
+        fun fromCode(code: Int): TrnTimeType? = values().firstOrNull { it.code == code }
     }
 }

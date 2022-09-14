@@ -11,8 +11,11 @@ import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.entity.account.AccountEntity
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
+import com.ivy.core.persistence.entity.account.converter.AccountTypeConverter
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
 import com.ivy.core.persistence.entity.attachment.converter.AttachmentTypeConverters
+import com.ivy.core.persistence.entity.category.CategoryEntity
+import com.ivy.core.persistence.entity.category.converter.CategoryTypeConverter
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
@@ -23,6 +26,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
         TrnEntity::class, TrnLinkRecordEntity::class,
         TrnMetadataEntity::class, AttachmentEntity::class,
         AccountEntity::class, AccountFolderEntity::class,
+        CategoryEntity::class
     ],
     version = 1,
     exportSchema = true,
@@ -30,6 +34,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
 @TypeConverters(
     GeneralTypeConverters::class,
     TrnTypeConverters::class, AttachmentTypeConverters::class,
+    AccountTypeConverter::class, CategoryTypeConverter::class,
 )
 abstract class IvyWalletDb : RoomDatabase() {
     abstract fun trnDao(): TrnDao

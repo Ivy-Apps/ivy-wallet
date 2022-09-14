@@ -1,6 +1,7 @@
 package com.ivy.core.persistence.dummy.attachment
 
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
+import com.ivy.data.SyncState
 import com.ivy.data.attachment.AttachmentSource
 import com.ivy.data.attachment.AttachmentType
 import java.util.*
@@ -12,6 +13,7 @@ fun dummyAttachmentEntity(
     source: AttachmentSource = AttachmentSource.Remote,
     type: AttachmentType? = null,
     filename: String? = null,
+    sync: SyncState = SyncState.Synced,
 ): AttachmentEntity = AttachmentEntity(
     id = id,
     associatedId = associatedId,
@@ -19,4 +21,5 @@ fun dummyAttachmentEntity(
     source = source,
     type = type,
     filename = filename,
+    sync = sync,
 )

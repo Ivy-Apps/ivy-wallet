@@ -5,6 +5,7 @@ import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -21,8 +22,9 @@ fun dummyTrnEntity(
     title: String? = null,
     description: String? = null,
     categoryId: String? = null,
+    state: TrnState = TrnState.Default,
     purpose: TrnPurpose? = null,
-    syncState: SyncState = SyncState.Synced,
+    sync: SyncState = SyncState.Synced,
 ): TrnEntity = TrnEntity(
     id = id,
     accountId = accountId,
@@ -34,6 +36,7 @@ fun dummyTrnEntity(
     title = title,
     description = description,
     categoryId = categoryId,
+    state = state,
     purpose = purpose,
-    syncState = syncState,
+    sync = sync,
 )

@@ -19,6 +19,6 @@ class GeneralTypeConverters {
     fun ser(syncState: SyncState): Int = syncState.code
 
     @TypeConverter
-    fun syncState(code: Int): SyncState = SyncState.fromCode(code)
+    fun syncState(code: Int): SyncState = SyncState.fromCode(code) ?: SyncState.Syncing
     // endregion
 }

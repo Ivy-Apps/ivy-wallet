@@ -13,6 +13,7 @@ import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import io.kotest.matchers.shouldBe
 import org.junit.Test
@@ -56,7 +57,8 @@ class TrnDaoTest : RoomDbTest() {
             description = "a\nb\nc\nd",
             categoryId = uuidString(),
             purpose = TrnPurpose.TransferFrom,
-            syncState = SyncState.Syncing,
+            state = TrnState.Hidden,
+            sync = SyncState.Syncing,
         ),
         given = {
             dao.save(it)

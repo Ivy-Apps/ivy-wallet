@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
+import com.ivy.data.account.AccountState
 
 
 @Entity(tableName = "accounts")
@@ -30,8 +31,8 @@ class AccountEntity(
     @ColumnInfo(name = "excluded")
     val excluded: Boolean,
 
-    @ColumnInfo(name = "archived", index = true)
-    val archived: Boolean,
-    @ColumnInfo(name = "syncState", index = true)
-    val syncState: SyncState,
+    @ColumnInfo(name = "state", index = true)
+    val state: AccountState,
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
 )

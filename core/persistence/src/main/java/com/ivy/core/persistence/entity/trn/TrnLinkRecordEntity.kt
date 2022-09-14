@@ -3,6 +3,7 @@ package com.ivy.core.persistence.entity.trn
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.data.SyncState
 
 @Entity(tableName = "trn_links")
 data class TrnLinkRecordEntity(
@@ -16,4 +17,7 @@ data class TrnLinkRecordEntity(
     val trnId: String,
     @ColumnInfo(name = "linkId")
     val linkId: String,
+
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
 )

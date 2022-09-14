@@ -1,6 +1,32 @@
 package com.ivy.core.persistence.entity.category
 
-class CategoryEntity {
-    // TODO: add archived
-    // TODO: handle parent categories (maybe use current solution with "parentCategoryId")
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.ivy.data.SyncState
+import com.ivy.data.category.CategoryState
+
+@Entity(tableName = "categories")
+class CategoryEntity(
+    @PrimaryKey
+    @ColumnInfo(name = "id", index = true)
+    val id: String,
+
+    @ColumnInfo(name = "name")
+    val name: String,
+
+    @ColumnInfo(name = "color")
+    val color: Int,
+    @ColumnInfo(name = "icon")
+    val icon: String?,
+
+    @ColumnInfo(name = "orderNum", index = true)
+    val orderNum: Double,
+    @ColumnInfo(name = "parentCategoryId", index = true)
+    val parentCategoryId: String?,
+
+    @ColumnInfo(name = "state", index = true)
+    val state: CategoryState,
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
+)

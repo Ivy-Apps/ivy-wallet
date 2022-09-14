@@ -20,6 +20,6 @@ class AccountFolderEntity(
     @ColumnInfo(name = "orderNum", index = true)
     val orderNum: Double,
 
-    @ColumnInfo(name = "syncState", index = true)
-    val syncState: SyncState
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState
 )

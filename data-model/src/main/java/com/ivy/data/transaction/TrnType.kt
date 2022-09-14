@@ -4,6 +4,6 @@ enum class TrnType(val code: Int) {
     Income(1), Expense(-1);
 
     companion object {
-        fun fromCode(code: Int) = values().first { it.code == code }
+        fun fromCode(code: Int): TrnType? = values().firstOrNull { it.code == code }
     }
 }

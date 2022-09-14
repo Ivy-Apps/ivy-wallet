@@ -19,6 +19,6 @@ class AttachmentTypeConverters {
     fun ser(source: AttachmentSource): Int = source.code
 
     @TypeConverter
-    fun attachmentSource(code: Int): AttachmentSource = AttachmentSource.fromCode(code)
+    fun attachmentSource(code: Int): AttachmentSource = AttachmentSource.fromCode(code)!!
     // endregion
 }

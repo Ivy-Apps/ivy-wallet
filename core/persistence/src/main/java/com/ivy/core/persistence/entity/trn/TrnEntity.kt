@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 
@@ -57,9 +58,11 @@ data class TrnEntity(
      * [TrnMetadataEntity]
      */
 
+    @ColumnInfo(name = "state")
+    val state: TrnState,
     @ColumnInfo(name = "purpose")
     val purpose: TrnPurpose?,
-    @ColumnInfo(name = "syncState", index = true)
-    val syncState: SyncState,
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
     // endregion
 )

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "937ded81c7c80d04fa406e9f4d3d27c2",
+    "identityHash": "6103367c4ec6f5995416d92570b12a58",
     "entities": [
       {
         "tableName": "transactions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `accountId` TEXT NOT NULL, `type` INTEGER NOT NULL, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `time` INTEGER NOT NULL, `timeType` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `categoryId` TEXT, `purpose` INTEGER, `syncState` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `accountId` TEXT NOT NULL, `type` INTEGER NOT NULL, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `time` INTEGER NOT NULL, `timeType` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `categoryId` TEXT, `state` TEXT NOT NULL, `purpose` INTEGER, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -69,14 +69,20 @@
             "notNull": false
           },
           {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "purpose",
             "columnName": "purpose",
             "affinity": "INTEGER",
             "notNull": false
           },
           {
-            "fieldPath": "syncState",
-            "columnName": "syncState",
+            "fieldPath": "sync",
+            "columnName": "sync",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -143,20 +149,20 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
           },
           {
-            "name": "index_transactions_syncState",
+            "name": "index_transactions_sync",
             "unique": false,
             "columnNames": [
-              "syncState"
+              "sync"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_syncState` ON `${TABLE_NAME}` (`syncState`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_transactions_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "trn_links",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `linkId` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `linkId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -174,6 +180,12 @@
             "fieldPath": "linkId",
             "columnName": "linkId",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -201,13 +213,22 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_links_trnId` ON `${TABLE_NAME}` (`trnId`)"
+          },
+          {
+            "name": "index_trn_links_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_links_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "trn_metadata",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -231,6 +252,12 @@
             "fieldPath": "value",
             "columnName": "value",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -276,13 +303,22 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_metadata_value` ON `${TABLE_NAME}` (`value`)"
+          },
+          {
+            "name": "index_trn_metadata_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_metadata_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "attachments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `associatedId` TEXT NOT NULL, `uri` TEXT NOT NULL, `source` INTEGER NOT NULL, `filename` TEXT, `type` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `associatedId` TEXT NOT NULL, `uri` TEXT NOT NULL, `source` INTEGER NOT NULL, `filename` TEXT, `type` INTEGER, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -319,6 +355,12 @@
             "columnName": "type",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -336,13 +378,22 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_attachments_associatedId` ON `${TABLE_NAME}` (`associatedId`)"
+          },
+          {
+            "name": "index_attachments_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attachments_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "accounts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `currency` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `folderId` TEXT, `orderNum` REAL NOT NULL, `excluded` INTEGER NOT NULL, `archived` INTEGER NOT NULL, `syncState` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `currency` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `folderId` TEXT, `orderNum` REAL NOT NULL, `excluded` INTEGER NOT NULL, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -393,14 +444,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "archived",
-            "columnName": "archived",
+            "fieldPath": "state",
+            "columnName": "state",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "syncState",
-            "columnName": "syncState",
+            "fieldPath": "sync",
+            "columnName": "sync",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -440,29 +491,29 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_orderNum` ON `${TABLE_NAME}` (`orderNum`)"
           },
           {
-            "name": "index_accounts_archived",
+            "name": "index_accounts_state",
             "unique": false,
             "columnNames": [
-              "archived"
+              "state"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_archived` ON `${TABLE_NAME}` (`archived`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_state` ON `${TABLE_NAME}` (`state`)"
           },
           {
-            "name": "index_accounts_syncState",
+            "name": "index_accounts_sync",
             "unique": false,
             "columnNames": [
-              "syncState"
+              "sync"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_syncState` ON `${TABLE_NAME}` (`syncState`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_accounts_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "account_folders",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `syncState` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -495,8 +546,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "syncState",
-            "columnName": "syncState",
+            "fieldPath": "sync",
+            "columnName": "sync",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -527,13 +578,121 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folders_orderNum` ON `${TABLE_NAME}` (`orderNum`)"
           },
           {
-            "name": "index_account_folders_syncState",
+            "name": "index_account_folders_sync",
             "unique": false,
             "columnNames": [
-              "syncState"
+              "sync"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folders_syncState` ON `${TABLE_NAME}` (`syncState`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folders_sync` ON `${TABLE_NAME}` (`sync`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `parentCategoryId` TEXT, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orderNum",
+            "columnName": "orderNum",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentCategoryId",
+            "columnName": "parentCategoryId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_categories_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_categories_orderNum",
+            "unique": false,
+            "columnNames": [
+              "orderNum"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_orderNum` ON `${TABLE_NAME}` (`orderNum`)"
+          },
+          {
+            "name": "index_categories_parentCategoryId",
+            "unique": false,
+            "columnNames": [
+              "parentCategoryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_parentCategoryId` ON `${TABLE_NAME}` (`parentCategoryId`)"
+          },
+          {
+            "name": "index_categories_state",
+            "unique": false,
+            "columnNames": [
+              "state"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_state` ON `${TABLE_NAME}` (`state`)"
+          },
+          {
+            "name": "index_categories_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_sync` ON `${TABLE_NAME}` (`sync`)"
           }
         ],
         "foreignKeys": []
@@ -542,7 +701,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '937ded81c7c80d04fa406e9f4d3d27c2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6103367c4ec6f5995416d92570b12a58')"
     ]
   }
 }
