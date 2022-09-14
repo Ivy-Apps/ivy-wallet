@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cfae80d60d2abf2eee034ea4b76c6377",
+    "identityHash": "4f967371ef1ccb69dcb995abf3748858",
     "entities": [
       {
         "tableName": "transactions_v2",
@@ -281,8 +281,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "trn_attachments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `type` INTEGER NOT NULL, `attachment` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "attachments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `associatedId` TEXT NOT NULL, `uri` TEXT NOT NULL, `source` INTEGER NOT NULL, `filename` TEXT, `type` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -291,22 +291,34 @@
             "notNull": true
           },
           {
-            "fieldPath": "trnId",
-            "columnName": "trnId",
+            "fieldPath": "associatedId",
+            "columnName": "associatedId",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "filename",
+            "columnName": "filename",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "type",
             "columnName": "type",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "attachment",
-            "columnName": "attachment",
-            "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -317,13 +329,13 @@
         },
         "indices": [
           {
-            "name": "index_trn_attachments_trnId",
+            "name": "index_attachments_associatedId",
             "unique": false,
             "columnNames": [
-              "trnId"
+              "associatedId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_attachments_trnId` ON `${TABLE_NAME}` (`trnId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attachments_associatedId` ON `${TABLE_NAME}` (`associatedId`)"
           }
         ],
         "foreignKeys": []
@@ -332,7 +344,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cfae80d60d2abf2eee034ea4b76c6377')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4f967371ef1ccb69dcb995abf3748858')"
     ]
   }
 }
