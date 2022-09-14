@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b05136c6c3323bf1170846593703c3fa",
+    "identityHash": "9f3450199cd9a44c921e51f84adb8d2d",
     "entities": [
       {
         "tableName": "transactions",
@@ -590,81 +590,6 @@
         "foreignKeys": []
       },
       {
-        "tableName": "account_folder_links",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `folderId` TEXT NOT NULL, `accountId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "folderId",
-            "columnName": "folderId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "accountId",
-            "columnName": "accountId",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "sync",
-            "columnName": "sync",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [
-          {
-            "name": "index_account_folder_links_id",
-            "unique": false,
-            "columnNames": [
-              "id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_id` ON `${TABLE_NAME}` (`id`)"
-          },
-          {
-            "name": "index_account_folder_links_folderId",
-            "unique": false,
-            "columnNames": [
-              "folderId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_folderId` ON `${TABLE_NAME}` (`folderId`)"
-          },
-          {
-            "name": "index_account_folder_links_accountId",
-            "unique": false,
-            "columnNames": [
-              "accountId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_accountId` ON `${TABLE_NAME}` (`accountId`)"
-          },
-          {
-            "name": "index_account_folder_links_sync",
-            "unique": false,
-            "columnNames": [
-              "sync"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_account_folder_links_sync` ON `${TABLE_NAME}` (`sync`)"
-          }
-        ],
-        "foreignKeys": []
-      },
-      {
         "tableName": "categories",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `parentCategoryId` TEXT, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
@@ -771,12 +696,146 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "exchange_rates",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`baseCurrency` TEXT NOT NULL, `currency` TEXT NOT NULL, `rate` REAL NOT NULL, `provider` INTEGER, PRIMARY KEY(`baseCurrency`, `currency`))",
+        "fields": [
+          {
+            "fieldPath": "baseCurrency",
+            "columnName": "baseCurrency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rate",
+            "columnName": "rate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "provider",
+            "columnName": "provider",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "baseCurrency",
+            "currency"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_exchange_rates_baseCurrency",
+            "unique": false,
+            "columnNames": [
+              "baseCurrency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_baseCurrency` ON `${TABLE_NAME}` (`baseCurrency`)"
+          },
+          {
+            "name": "index_exchange_rates_currency",
+            "unique": false,
+            "columnNames": [
+              "currency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_currency` ON `${TABLE_NAME}` (`currency`)"
+          },
+          {
+            "name": "index_exchange_rates_provider",
+            "unique": false,
+            "columnNames": [
+              "provider"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_provider` ON `${TABLE_NAME}` (`provider`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exchange_rates_override",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`baseCurrency` TEXT NOT NULL, `currency` TEXT NOT NULL, `rate` REAL NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`baseCurrency`, `currency`))",
+        "fields": [
+          {
+            "fieldPath": "baseCurrency",
+            "columnName": "baseCurrency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rate",
+            "columnName": "rate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "baseCurrency",
+            "currency"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_exchange_rates_override_baseCurrency",
+            "unique": false,
+            "columnNames": [
+              "baseCurrency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_override_baseCurrency` ON `${TABLE_NAME}` (`baseCurrency`)"
+          },
+          {
+            "name": "index_exchange_rates_override_currency",
+            "unique": false,
+            "columnNames": [
+              "currency"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_override_currency` ON `${TABLE_NAME}` (`currency`)"
+          },
+          {
+            "name": "index_exchange_rates_override_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exchange_rates_override_sync` ON `${TABLE_NAME}` (`sync`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b05136c6c3323bf1170846593703c3fa')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f3450199cd9a44c921e51f84adb8d2d')"
     ]
   }
 }

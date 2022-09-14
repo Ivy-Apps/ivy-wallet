@@ -6,17 +6,22 @@ import androidx.room.TypeConverters
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
+import com.ivy.core.persistence.dao.category.CategoryDao
+import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
+import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.entity.account.AccountEntity
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
-import com.ivy.core.persistence.entity.account.AccountFolderLinkEntity
 import com.ivy.core.persistence.entity.account.converter.AccountTypeConverter
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
 import com.ivy.core.persistence.entity.attachment.converter.AttachmentTypeConverters
 import com.ivy.core.persistence.entity.category.CategoryEntity
 import com.ivy.core.persistence.entity.category.converter.CategoryTypeConverter
+import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
+import com.ivy.core.persistence.entity.exchange.ExchangeRateOverrideEntity
+import com.ivy.core.persistence.entity.exchange.converter.ExchangeRateTypeConverter
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
@@ -27,7 +32,8 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
         TrnEntity::class, TrnLinkRecordEntity::class,
         TrnMetadataEntity::class, AttachmentEntity::class,
         AccountEntity::class, AccountFolderEntity::class,
-        AccountFolderLinkEntity::class, CategoryEntity::class
+        CategoryEntity::class, ExchangeRateEntity::class,
+        ExchangeRateOverrideEntity::class,
     ],
     version = 1,
     exportSchema = true,
@@ -36,6 +42,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
     GeneralTypeConverters::class,
     TrnTypeConverters::class, AttachmentTypeConverters::class,
     AccountTypeConverter::class, CategoryTypeConverter::class,
+    ExchangeRateTypeConverter::class
 )
 abstract class IvyWalletDb : RoomDatabase() {
     abstract fun trnDao(): TrnDao
@@ -49,4 +56,10 @@ abstract class IvyWalletDb : RoomDatabase() {
     abstract fun accountDao(): AccountDao
 
     abstract fun accountFolderDao(): AccountFolderDao
+
+    abstract fun categoryDao(): CategoryDao
+
+    abstract fun exchangeRateDao(): ExchangeRateDao
+
+    abstract fun exchangeRateOverrideDao(): ExchangeRateOverrideDao
 }
