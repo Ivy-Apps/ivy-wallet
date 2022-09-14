@@ -5,33 +5,21 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 
-
-@Entity(tableName = "accounts")
-class AccountEntity(
+@Entity(tableName = "account_folders")
+class AccountFolderEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
     val id: String,
 
     @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "currency")
-    val currency: String,
-
     @ColumnInfo(name = "color")
     val color: Int,
     @ColumnInfo(name = "icon")
     val icon: String?,
-
-    @ColumnInfo(name = "folderId", index = true)
-    val folderId: String?,
-
     @ColumnInfo(name = "orderNum", index = true)
     val orderNum: Double,
-    @ColumnInfo(name = "excluded")
-    val excluded: Boolean,
 
-    @ColumnInfo(name = "archived", index = true)
-    val archived: Boolean,
     @ColumnInfo(name = "syncState", index = true)
-    val syncState: SyncState,
+    val syncState: SyncState
 )

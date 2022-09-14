@@ -7,6 +7,7 @@ import com.ivy.common.test.testCase
 import com.ivy.common.test.uuidString
 import com.ivy.core.persistence.IvyWalletDb
 import com.ivy.core.persistence.RoomDbTest
+import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnTimeType
@@ -92,7 +93,7 @@ class TrnDaoTest : RoomDbTest() {
     // endregion
 
     private fun queryFindAll() = SimpleSQLiteQuery(
-        "SELECT * FROM transactions_v2 ORDER BY id",
+        "SELECT * FROM transactions ORDER BY id",
         emptyArray()
     )
 }

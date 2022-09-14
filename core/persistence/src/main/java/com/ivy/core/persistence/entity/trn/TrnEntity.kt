@@ -9,7 +9,7 @@ import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 
-@Entity(tableName = "transactions_v2")
+@Entity(tableName = "transactions")
 data class TrnEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
@@ -27,7 +27,7 @@ data class TrnEntity(
     @ColumnInfo(name = "time", index = true)
     val time: Instant,
     /**
-     * actual or due dateTime
+     * actual (happened) or due (planned)
      */
     @ColumnInfo(name = "timeType", index = true)
     val timeType: TrnTimeType,
@@ -42,7 +42,7 @@ data class TrnEntity(
     val categoryId: String?,
     /**
      * attachments are handled via
-     * [com.ivy.core.persistence.entity.trn.attachment.TrnAttachmentEntity]
+     * [com.ivy.core.persistence.entity.attachment.AttachmentEntity]
      */
     // endregion
 

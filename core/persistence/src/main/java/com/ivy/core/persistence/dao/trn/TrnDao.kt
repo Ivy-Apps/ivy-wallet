@@ -1,4 +1,4 @@
-package com.ivy.core.persistence.dao
+package com.ivy.core.persistence.dao.trn
 
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
@@ -18,10 +18,10 @@ interface TrnDao {
     suspend fun findBySQL(query: SupportSQLiteQuery): List<TrnEntity>
 
     // region Delete
-    @Query("DELETE FROM transactions_v2 WHERE id IN (:ids)")
+    @Query("DELETE FROM transactions WHERE id IN (:ids)")
     suspend fun delete(ids: List<String>)
 
-    @Query("DELETE FROM transactions_v2")
+    @Query("DELETE FROM transactions")
     suspend fun deleteAll()
     // endregion
 }
