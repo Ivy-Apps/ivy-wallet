@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
-import com.ivy.core.functions.account.dummyAcc
+import com.ivy.core.domain.functions.dummy.dummyAcc
 import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
 import com.ivy.core.ui.temp.ComponentPreview

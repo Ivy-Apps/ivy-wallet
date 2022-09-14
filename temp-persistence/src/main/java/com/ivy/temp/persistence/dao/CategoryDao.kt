@@ -8,6 +8,7 @@ import com.ivy.wallet.io.persistence.data.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
+@Deprecated("use `:core:persistence`")
 @Dao
 interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

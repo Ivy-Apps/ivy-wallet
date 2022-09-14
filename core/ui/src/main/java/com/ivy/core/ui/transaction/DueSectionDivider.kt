@@ -17,9 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
+import com.ivy.core.domain.functions.dummy.dummyValue
 import com.ivy.core.functions.transaction.dummyOverdueSection
 import com.ivy.core.functions.transaction.dummyUpcomingSection
-import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.transaction.OverdueSection

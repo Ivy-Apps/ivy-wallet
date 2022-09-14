@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.AccountOld
 import java.util.*
 
+@Deprecated("use `:core:persistence`")
 @Entity(tableName = "accounts")
 data class AccountEntity(
     val name: String,

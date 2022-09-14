@@ -21,13 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.common.mapToTrnType
 import com.ivy.common.timeNowUTC
-import com.ivy.core.functions.account.dummyAcc
-import com.ivy.core.functions.category.dummyCategory
-import com.ivy.core.functions.icon.dummyIconSized
-import com.ivy.core.functions.icon.dummyIconUnknown
-import com.ivy.core.functions.transaction.dummyDue
-import com.ivy.core.functions.transaction.dummyTrn
-import com.ivy.core.functions.transaction.dummyValue
+import com.ivy.core.domain.functions.dummy.*
 import com.ivy.core.ui.account.Badge
 import com.ivy.core.ui.category.Badge
 import com.ivy.core.ui.icon.ItemIcon
@@ -42,7 +36,6 @@ import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.icon.IconSize
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
 import com.ivy.data.transaction.Value
 import com.ivy.design.l0_system.*

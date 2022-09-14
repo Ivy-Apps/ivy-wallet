@@ -2,7 +2,6 @@ package com.ivy.sync.ivyserver.transaction
 
 import com.ivy.common.mapToTrnType
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res

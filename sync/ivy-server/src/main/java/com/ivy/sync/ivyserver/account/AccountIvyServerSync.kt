@@ -1,6 +1,6 @@
 package com.ivy.sync.ivyserver.account
 
-import com.ivy.core.functions.icon.iconId
+import com.ivy.core.domain.functions.icon.iconId
 import com.ivy.data.account.Account
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res

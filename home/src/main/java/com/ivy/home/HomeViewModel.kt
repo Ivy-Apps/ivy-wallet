@@ -1,6 +1,5 @@
 package com.ivy.home
 
-import com.ivy.core.action.FlowViewModel
 import com.ivy.core.action.calculate.CalculateFlow
 import com.ivy.core.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.action.currency.BaseCurrencyFlow
@@ -8,7 +7,7 @@ import com.ivy.core.action.helper.TrnsListFlow
 import com.ivy.core.action.settings.NameFlow
 import com.ivy.core.action.settings.balance.HideBalanceSettingFlow
 import com.ivy.core.action.time.SelectedPeriodFlow
-import com.ivy.core.functions.time.period
+import com.ivy.core.domain.functions.time.period
 import com.ivy.core.persistence.query.TrnWhere.ActualBetween
 import com.ivy.core.persistence.query.TrnWhere.DueBetween
 import com.ivy.core.persistence.query.or
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val nameFlow: NameFlow,
     private val hideBalanceSettingFlow: HideBalanceSettingFlow,
-) : FlowViewModel<HomeState, HomeState, HomeEvent>() {
+) : com.ivy.core.domain.action.FlowViewModel<HomeState, HomeState, HomeEvent>() {
     override fun initialState(): HomeState = HomeState(
         name = "",
         period = null,

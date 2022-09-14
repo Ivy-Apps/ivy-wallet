@@ -2,12 +2,10 @@ package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
 import com.ivy.common.toEpochSeconds
-import com.ivy.core.functions.time.toRange
+import com.ivy.common.toRange
 import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
-import com.ivy.data.account.Account
-import com.ivy.data.category.Category
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
@@ -18,11 +16,11 @@ sealed class TrnWhere {
     data class ById(val id: String) : TrnWhere()
     data class ByIdIn(val ids: NonEmptyList<String>) : TrnWhere()
 
-    data class ByCategory(val category: Category?) : TrnWhere()
-    data class ByCategoryIn(val categories: NonEmptyList<Category?>) : TrnWhere()
+    data class ByCategoryId(val categoryId: String?) : TrnWhere()
+    data class ByCategoryIdIn(val categoryIds: NonEmptyList<String?>) : TrnWhere()
 
-    data class ByAccount(val account: Account) : TrnWhere()
-    data class ByAccountIn(val accs: NonEmptyList<Account>) : TrnWhere()
+    data class ByAccountId(val accountId: String) : TrnWhere()
+    data class ByAccountIdIn(val accountIds: NonEmptyList<String>) : TrnWhere()
 
     data class ByType(val trnType: TrnType) : TrnWhere()
     data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere()
@@ -88,29 +86,29 @@ fun toWhereClause(where: TrnWhere): WhereClause {
             "purpose = ?" to arg(where.purpose.code)
         } ?: ("purpose IS NULL" to noArg())
 
-        is ByAccount -> "accountId = ?" to arg(uuid(where.account.id))
-        is ByAccountIn ->
-            "accountId IN (${placeholders(where.accs.size)})" to arg(where.accs.map { uuid(it.id) })
+        is ByAccountId -> "accountId = ?" to arg(where.accountId)
+        is ByAccountIdIn ->
+            "accountId IN (${placeholders(where.accountIds.size)})" to arg(
+                where.accountIds.toList()
+            )
 
-        is ByCategory -> {
-            where.category?.id?.let {
-                "categoryId = ?" to arg(uuid(it))
+        is ByCategoryId -> {
+            where.categoryId?.let {
+                "categoryId = ?" to arg(it)
             } ?: ("categoryId IS NULL" to noArg())
         }
-        is ByCategoryIn -> {
-            val nonNullArgs = where.categories.filterNotNull()
+        is ByCategoryIdIn -> {
+            val nonNullArgs = where.categoryIds.filterNotNull()
             when (nonNullArgs.size) {
                 0 -> "categoryId is NULL" to nonNullArgs
-                where.categories.size ->
+                where.categoryIds.size ->
                     // only non-null args
-                    "categoryId IN (${placeholders(nonNullArgs.size)})" to arg(
-                        nonNullArgs.map { uuid(it.id) }
-                    )
+                    "categoryId IN (${placeholders(nonNullArgs.size)})" to
+                            arg(nonNullArgs)
                 else ->
                     // non-null args + null
-                    "(categoryId IN (${placeholders(nonNullArgs.size)}) OR categoryId IS NULL)" to arg(
-                        nonNullArgs.map { uuid(it.id) }
-                    )
+                    "(categoryId IN (${placeholders(nonNullArgs.size)}) OR categoryId IS NULL)" to
+                            arg(nonNullArgs)
             }
         }
 

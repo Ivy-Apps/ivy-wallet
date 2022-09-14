@@ -3,7 +3,6 @@ package com.ivy.core.ui.transaction.util
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.ivy.common.timeNowUTC
-import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
 import java.time.LocalDateTime
 

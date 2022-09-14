@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.common.dateNowUTC
 import com.ivy.common.formatLocal
+import com.ivy.core.domain.functions.dummy.dummyValue
 import com.ivy.core.functions.transaction.dummyDateDivider
-import com.ivy.core.functions.transaction.dummyValue
 import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.transaction.TrnListItem

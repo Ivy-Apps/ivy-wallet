@@ -12,13 +12,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.R
 import com.ivy.common.timeNowUTC
-import com.ivy.core.functions.transaction.dummyActual
-import com.ivy.core.functions.transaction.dummyDue
-import com.ivy.core.functions.transaction.dummyTransfer
+import com.ivy.core.domain.functions.dummy.dummyActual
+import com.ivy.core.domain.functions.dummy.dummyDue
+import com.ivy.core.domain.functions.dummy.dummyTransfer
 import com.ivy.core.ui.transaction.util.TrnDetailedType
 import com.ivy.core.ui.transaction.util.TrnDetailedType.*
 import com.ivy.core.ui.transaction.util.detailedType
-import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.*
 import com.ivy.design.utils.ComponentPreviewBase
 

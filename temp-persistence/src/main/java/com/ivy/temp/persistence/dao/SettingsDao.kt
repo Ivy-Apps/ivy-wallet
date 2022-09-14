@@ -8,6 +8,7 @@ import com.ivy.wallet.io.persistence.data.SettingsEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
+@Deprecated("replaced with DataStore")
 @Dao
 interface SettingsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

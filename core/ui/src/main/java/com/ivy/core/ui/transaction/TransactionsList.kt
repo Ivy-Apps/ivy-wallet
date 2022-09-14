@@ -19,14 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.dateNowUTC
 import com.ivy.common.timeNowUTC
-import com.ivy.core.functions.account.dummyAcc
-import com.ivy.core.functions.category.dummyCategory
-import com.ivy.core.functions.icon.dummyIconSized
-import com.ivy.core.functions.icon.dummyIconUnknown
-import com.ivy.core.functions.transaction.dummyActual
-import com.ivy.core.functions.transaction.dummyDue
-import com.ivy.core.functions.transaction.dummyTrn
-import com.ivy.core.functions.transaction.dummyValue
+import com.ivy.core.domain.functions.dummy.*
 import com.ivy.core.ui.temp.Preview
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category

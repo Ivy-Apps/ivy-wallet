@@ -5,9 +5,7 @@ import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochSeconds
-import com.ivy.core.functions.account.dummyAcc
-import com.ivy.core.functions.category.dummyCategory
-import com.ivy.core.functions.time.toRange
+import com.ivy.common.toRange
 import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
@@ -32,20 +30,12 @@ class TrnWhereTest : StringSpec({
         ById(id.toString())
     }
 
-    val genCategory = arbitrary {
-        dummyCategory()
-    }
+    val genId = Arb.uuid().map { it.toString() }
 
-    val genByCategory = listOf(ByCategory(null), ByCategory(genCategory.next()))
+    val genByCategory = listOf(ByCategoryId(null), ByCategoryId(genId.next()))
         .exhaustive()
 
-    val genAcc = arbitrary {
-        dummyAcc()
-    }
-
-    val genByAccount = arbitrary {
-        ByAccount(genAcc.bind())
-    }
+    val genByAccount = arbitrary { ByAccountId(genId.bind()) }
 
 
     val genTrnType = Arb.enum<TrnType>()
@@ -87,14 +77,14 @@ class TrnWhereTest : StringSpec({
     }
 
     val genByAccountIn = arbitrary {
-        ByAccountIn(Arb.nonEmptyList(genAcc, 1..10).bind())
+        ByAccountIdIn(Arb.nonEmptyList(genId, 1..10).bind())
     }
 
     val genByCategoryIn = arbitrary {
-        val categories = Arb.nonEmptyList(genCategory, 1..10).bind()
+        val categories = Arb.nonEmptyList(genId, 1..10).bind()
         val maybeNullableCats = if (Arb.boolean().bind())
             NonEmptyList.fromListUnsafe(categories.plus(null).shuffled()) else categories
-        ByCategoryIn(maybeNullableCats)
+        ByCategoryIdIn(maybeNullableCats)
     }
 
     val genByTypeIn = arbitrary {
@@ -174,9 +164,9 @@ class TrnWhereTest : StringSpec({
     //region test cases
     "case 'Upcoming By Category' query" {
         val theFuture = timeNowUTC().plusSeconds(1)
-        val category = dummyCategory()
+        val categoryId = genId.next()
 
-        val query = DueBetween(Period.After(theFuture)) and ByCategory(category)
+        val query = DueBetween(Period.After(theFuture)) and ByCategoryId(categoryId)
         val where = toWhereClause(query)
 
         where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
@@ -184,15 +174,15 @@ class TrnWhereTest : StringSpec({
         where.args shouldBe listOf(
             theFuture.toEpochSeconds(),
             endOfIvyTime().toEpochSeconds(),
-            category.id.toString()
+            categoryId
         )
     }
 
     "case complex query" {
-        val acc1 = dummyAcc()
-        val acc2 = dummyAcc()
+        val accId1 = genId.next()
+        val accId2 = genId.next()
         val purpose = TrnPurpose.TransferFrom
-        val cat = dummyCategory()
+        val catId = genId.next()
         val dueStart = timeNowUTC()
         val dueEnd = dueStart.plusYears(3)
         val id1 = UUID.randomUUID().toString()
@@ -200,11 +190,11 @@ class TrnWhereTest : StringSpec({
         val id3 = UUID.randomUUID().toString()
 
         val query = brackets(
-            ByAccountIn(
-                nonEmptyListOf(acc1, acc2)
+            ByAccountIdIn(
+                nonEmptyListOf(accId1, accId2)
             ) and not(ByPurpose(purpose))
         ) or brackets(
-            ByCategory(cat) and ActualBetween(Period.FromTo(dueStart, dueEnd))
+            ByCategoryId(catId) and ActualBetween(Period.FromTo(dueStart, dueEnd))
         ) or ByIdIn(nonEmptyListOf(id1, id2, id3))
 
         val where = toWhereClause(query)
@@ -214,36 +204,38 @@ class TrnWhereTest : StringSpec({
                 "AND time >= ? AND time <= ?)) OR " +
                 "id IN (?, ?, ?)"
         where.args shouldBe listOf(
-            acc1.id.toString(), acc2.id.toString(), purpose.code,
-            cat.id.toString(), dueStart.toEpochSeconds(), dueEnd.toEpochSeconds(),
+            accId1, accId2, purpose.code,
+            catId, dueStart.toEpochSeconds(), dueEnd.toEpochSeconds(),
             id1, id2, id3
         )
     }
 
     "case 'ByCategoryIdIn' happy path 1" {
-        val cat1 = dummyCategory()
-        val cat2 = dummyCategory()
-        val cat3 = dummyCategory()
+        val catId1 = genId.next()
+        val catId2 = genId.next()
+        val catId3 = genId.next()
 
         val where = toWhereClause(
-            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnType.Expense)
+            ByCategoryIdIn(
+                nonEmptyListOf(catId1, catId2, catId3, null)
+            ) and ByType(TrnType.Expense)
         )
 
         where.query shouldBe "(categoryId IN (?, ?, ?) OR categoryId IS NULL) AND type = ?"
         where.args shouldBe listOf(
-            cat1.id.toString(), cat2.id.toString(), cat3.id.toString(), TrnType.Expense.code
+            catId1, catId2, catId3, TrnType.Expense.code
         )
     }
 
     "case 'ByCategoryIdIn' happy path 2" {
-        val cat1 = dummyCategory()
-        val cat2 = dummyCategory()
-        val cat3 = dummyCategory()
+        val catId1 = genId.next()
+        val catId2 = genId.next()
+        val catId3 = genId.next()
 
-        val where = toWhereClause(ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3)))
+        val where = toWhereClause(ByCategoryIdIn(nonEmptyListOf(catId1, catId2, catId3)))
 
         where.query shouldBe "categoryId IN (?, ?, ?)"
-        where.args shouldBe listOf(cat1.id.toString(), cat2.id.toString(), cat3.id.toString())
+        where.args shouldBe listOf(catId1, catId2, catId3)
     }
     //endregion
 
@@ -259,13 +251,13 @@ class TrnWhereTest : StringSpec({
     "generate ByCategory" {
         checkAll(genByCategory) { byCategory ->
             val where = toWhereClause(byCategory)
-            val category = byCategory.category
-            if (category == null) {
+            val categoryId = byCategory.categoryId
+            if (categoryId == null) {
                 where.query shouldBe "categoryId IS NULL"
                 where.args shouldBe emptyList()
             } else {
                 where.query shouldBe "categoryId = ?"
-                where.args shouldBe listOf(category.id.toString())
+                where.args shouldBe listOf(categoryId)
             }
         }
     }
@@ -274,7 +266,7 @@ class TrnWhereTest : StringSpec({
         val byAccount = genByAccount.next()
         toWhereClause(byAccount) shouldBe WhereClause(
             query = "accountId = ?",
-            args = listOf(byAccount.account.id.toString())
+            args = listOf(byAccount.accountId)
         )
     }
 
@@ -327,30 +319,30 @@ class TrnWhereTest : StringSpec({
     "generate ByAccountIn" {
         checkAll(genByAccountIn) { byAccountIn ->
             val where = toWhereClause(byAccountIn)
-            where.query shouldBe "accountId IN (${placeholders(byAccountIn.accs.size)})"
-            where.args shouldBe byAccountIn.accs.map { it.id.toString() }.toList()
+            where.query shouldBe "accountId IN (${placeholders(byAccountIn.accountIds.size)})"
+            where.args shouldBe byAccountIn.accountIds.toList()
         }
     }
 
     "generate ByCategoryIn" {
         checkAll(genByCategoryIn) { byCategoryIn ->
             val where = toWhereClause(byCategoryIn)
-            val categories = byCategoryIn.categories
-            val nonNullCategories = categories.filterNotNull()
+            val categoryIds = byCategoryIn.categoryIds
+            val nonNullCategoryIds = categoryIds.filterNotNull()
 
             val expectedQuery = when {
-                categories.size == 1 && categories.first() == null -> {
+                categoryIds.size == 1 && categoryIds.first() == null -> {
                     "categoryId IS NULL"
                 }
-                categories.size == nonNullCategories.size -> {
-                    "categoryId IN (${placeholders(byCategoryIn.categories.size)})"
+                categoryIds.size == nonNullCategoryIds.size -> {
+                    "categoryId IN (${placeholders(byCategoryIn.categoryIds.size)})"
                 }
                 else -> {
-                    "(categoryId IN (${placeholders(nonNullCategories.size)}) OR categoryId IS NULL)"
+                    "(categoryId IN (${placeholders(nonNullCategoryIds.size)}) OR categoryId IS NULL)"
                 }
             }
             where.query shouldBe expectedQuery
-            where.args shouldBe byCategoryIn.categories.mapNotNull { it?.id?.toString() }
+            where.args shouldBe byCategoryIn.categoryIds.filterNotNull()
         }
     }
 

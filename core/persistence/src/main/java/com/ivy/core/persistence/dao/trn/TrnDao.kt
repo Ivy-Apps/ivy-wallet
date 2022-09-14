@@ -3,10 +3,11 @@ package com.ivy.core.persistence.dao.trn
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.data.SyncState
 
 @Dao
 interface TrnDao {
-    // region Insert/Update
+    // region Save
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: TrnEntity)
 
@@ -14,8 +15,15 @@ interface TrnDao {
     suspend fun save(value: List<TrnEntity>)
     // endregion
 
+    // region Select
     @RawQuery
     suspend fun findBySQL(query: SupportSQLiteQuery): List<TrnEntity>
+    // endregion
+
+    // region Update
+    @Query("UPDATE transactions SET sync = :sync WHERE accountId = :accountId")
+    suspend fun updateSyncByAccountId(accountId: String, sync: SyncState)
+    // endregion
 
     // region Delete
     @Query("DELETE FROM transactions WHERE id IN (:ids)")

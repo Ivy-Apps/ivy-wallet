@@ -1,4 +1,5 @@
 package com.ivy.sync.category
+/*
 
 import com.ivy.data.SyncMetadata
 import com.ivy.data.category.Category
@@ -44,16 +45,4 @@ class SyncCategoriesAct @Inject constructor(
     private suspend fun persist(item: Category) {
         categoryDao.save(mapToEntity(item))
     }
-}
-
-fun Category.mark(
-    isSynced: Boolean,
-    isDeleted: Boolean
-): Category = this.copy(
-    metadata = this.metadata.copy(
-        sync = SyncMetadata(
-            isSynced = isSynced,
-            isDeleted = isDeleted,
-        )
-    )
-)
+}*/

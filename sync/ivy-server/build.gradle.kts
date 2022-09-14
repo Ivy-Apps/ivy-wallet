@@ -13,5 +13,5 @@ dependencies {
     implementation(project(":temp-persistence"))
     implementation(project(":network"))
     implementation(project(":sync:base"))
-    implementation(project(":core:functions"))
+    implementation(project(":core:domain"))
 }

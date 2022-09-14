@@ -16,11 +16,16 @@ Ivy Wallet's business logic. Flows, actions and functions designed to be used by
 
 ### :core:persistence
 
-Ivy Wallet's local persistence - `Room DB` and `Datastore`. Designed to be used only by `:core:domain` and not features.
+Ivy Wallet's local persistence - `Room DB` and `Datastore`. Designed to be used only
+by `:core:domain` and not features.
 
 ### :core:ui
 
 UI data models and components for visualing domain data.
+
+## :exchange-rates
+
+Provides latest exchange rates.
 
 ## :design-system
 
@@ -28,7 +33,8 @@ Ivy Design system containg Color Science, Typography, design language and key co
 
 ## :navigation
 
-Handles the navigation within the app. Provides a `Navigator` component for changing screens and dependency inversion between for screen's implementation.
+Handles the navigation within the app. Provides a `Navigator` component for changing screens and
+dependency inversion between for screen's implementation.
 
 ## :sync
 

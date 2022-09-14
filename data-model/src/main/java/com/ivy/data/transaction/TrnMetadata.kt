@@ -1,6 +1,5 @@
 package com.ivy.data.transaction
 
-import com.ivy.data.SyncMetadata
 import java.util.*
 
 data class TrnMetadata(
@@ -18,6 +17,4 @@ data class TrnMetadata(
      * This refers to the loan record id that is linked with a transaction
      */
     val loanRecordId: UUID?,
-
-    val sync: SyncMetadata,
 )
