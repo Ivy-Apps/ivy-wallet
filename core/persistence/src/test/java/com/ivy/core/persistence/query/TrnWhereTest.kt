@@ -4,13 +4,16 @@ import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
-import com.ivy.common.toEpochMilli
+import com.ivy.common.toEpochSeconds
 import com.ivy.core.functions.account.dummyAcc
 import com.ivy.core.functions.category.dummyCategory
 import com.ivy.core.functions.time.toRange
+import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
+import com.ivy.data.SyncState
 import com.ivy.data.time.Period
-import com.ivy.data.transaction.TrnTypeOld
+import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnType
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -26,7 +29,7 @@ class TrnWhereTest : StringSpec({
     //region generators
     val genById = arbitrary {
         val id = Arb.uuid().bind()
-        ById(id)
+        ById(id.toString())
     }
 
     val genCategory = arbitrary {
@@ -44,15 +47,18 @@ class TrnWhereTest : StringSpec({
         ByAccount(genAcc.bind())
     }
 
-    val genByToAccount = arbitrary {
-        ByToAccount(genAcc.bind())
-    }
 
-    val genTrnType = Arb.enum<TrnTypeOld>()
+    val genTrnType = Arb.enum<TrnType>()
 
     val genByType = arbitrary {
         ByType(
             trnType = genTrnType.bind()
+        )
+    }
+
+    val genBySync = arbitrary {
+        BySync(
+            sync = Arb.enum<SyncState>().bind()
         )
     }
 
@@ -73,15 +79,15 @@ class TrnWhereTest : StringSpec({
     }
 
     val genByIdIn = arbitrary {
-        ByIdIn(Arb.nonEmptyList(Arb.uuid(), 1..20).bind())
+        ByIdIn(
+            Arb.nonEmptyList(
+                Arb.uuid().map { it.toString() }, 1..20
+            ).bind()
+        )
     }
 
     val genByAccountIn = arbitrary {
         ByAccountIn(Arb.nonEmptyList(genAcc, 1..10).bind())
-    }
-
-    val genByToAccountIn = arbitrary {
-        ByToAccountIn(Arb.nonEmptyList(genAcc, 1..10).bind())
     }
 
     val genByCategoryIn = arbitrary {
@@ -99,15 +105,14 @@ class TrnWhereTest : StringSpec({
         genById,
         genByType,
         genByAccount,
-        genByToAccount,
         genByCategory.toArb(),
         genActualBetween,
         genDueBetween,
         genByIdIn,
         genByAccountIn,
-        genByToAccountIn,
         genByCategoryIn,
-        genByTypeIn
+        genByTypeIn,
+        genBySync,
     )
 
     val genNonRecursiveAnd = arbitrary {
@@ -174,10 +179,11 @@ class TrnWhereTest : StringSpec({
         val query = DueBetween(Period.After(theFuture)) and ByCategory(category)
         val where = toWhereClause(query)
 
-        where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?) AND categoryId = ?"
+        where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
+                " AND time >= ? AND time <= ?) AND categoryId = ?"
         where.args shouldBe listOf(
-            theFuture.toEpochMilli(),
-            endOfIvyTime().toEpochMilli(),
+            theFuture.toEpochSeconds(),
+            endOfIvyTime().toEpochSeconds(),
             category.id.toString()
         )
     }
@@ -185,31 +191,32 @@ class TrnWhereTest : StringSpec({
     "case complex query" {
         val acc1 = dummyAcc()
         val acc2 = dummyAcc()
-        val acc3 = dummyAcc()
+        val purpose = TrnPurpose.TransferFrom
         val cat = dummyCategory()
         val dueStart = timeNowUTC()
         val dueEnd = dueStart.plusYears(3)
-        val id1 = UUID.randomUUID()
-        val id2 = UUID.randomUUID()
-        val id3 = UUID.randomUUID()
+        val id1 = UUID.randomUUID().toString()
+        val id2 = UUID.randomUUID().toString()
+        val id3 = UUID.randomUUID().toString()
 
         val query = brackets(
             ByAccountIn(
                 nonEmptyListOf(acc1, acc2)
-            ) and not(ByToAccount(acc3))
+            ) and not(ByPurpose(purpose))
         ) or brackets(
             ByCategory(cat) and ActualBetween(Period.FromTo(dueStart, dueEnd))
         ) or ByIdIn(nonEmptyListOf(id1, id2, id3))
 
         val where = toWhereClause(query)
 
-        where.query shouldBe "(accountId IN (?, ?) AND NOT(toAccountId = ?)) OR " +
-                "(categoryId = ? AND (dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)) OR " +
+        where.query shouldBe "(accountId IN (?, ?) AND NOT(purpose = ?)) OR " +
+                "(categoryId = ? AND (timeType = ${TrnTimeType.Actual.code} " +
+                "AND time >= ? AND time <= ?)) OR " +
                 "id IN (?, ?, ?)"
         where.args shouldBe listOf(
-            acc1.id.toString(), acc2.id.toString(), acc3.id.toString(),
-            cat.id.toString(), dueStart.toEpochMilli(), dueEnd.toEpochMilli(),
-            id1.toString(), id2.toString(), id3.toString()
+            acc1.id.toString(), acc2.id.toString(), purpose.code,
+            cat.id.toString(), dueStart.toEpochSeconds(), dueEnd.toEpochSeconds(),
+            id1, id2, id3
         )
     }
 
@@ -219,12 +226,12 @@ class TrnWhereTest : StringSpec({
         val cat3 = dummyCategory()
 
         val where = toWhereClause(
-            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnTypeOld.EXPENSE)
+            ByCategoryIn(nonEmptyListOf(cat1, cat2, cat3, null)) and ByType(TrnType.Expense)
         )
 
         where.query shouldBe "(categoryId IN (?, ?, ?) OR categoryId IS NULL) AND type = ?"
         where.args shouldBe listOf(
-            cat1.id.toString(), cat2.id.toString(), cat3.id.toString(), "EXPENSE"
+            cat1.id.toString(), cat2.id.toString(), cat3.id.toString(), TrnType.Expense.code
         )
     }
 
@@ -271,37 +278,39 @@ class TrnWhereTest : StringSpec({
         )
     }
 
-    "generate ByToAccount" {
-        val byToAccount = genByToAccount.next()
-        toWhereClause(byToAccount) shouldBe WhereClause(
-            query = "toAccountId = ?",
-            args = listOf(byToAccount.toAccount.id.toString())
-        )
-    }
-
     "generate ByType" {
         checkAll(genByType) { byType ->
             val where = toWhereClause(byType)
             where.query shouldBe "type = ?"
-            where.args shouldBe listOf(byType.trnType.name)
+            where.args shouldBe listOf(byType.trnType.code)
+        }
+    }
+
+    "generate BySync" {
+        checkAll(genBySync) { bySync ->
+            val where = toWhereClause(bySync)
+            where.query shouldBe "sync = ?"
+            where.args shouldBe listOf(bySync.sync.code)
         }
     }
 
     "generate ActualBetween" {
         checkAll(genActualBetween) { actualBetween ->
             val where = toWhereClause(actualBetween)
-            where.query shouldBe "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)"
+            where.query shouldBe "(timeType = ${TrnTimeType.Actual.code}" +
+                    " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe actualBetween.period.toRange().toList().map { it.toEpochMilli() }
+            where.args shouldBe actualBetween.period.toRange().toList().map { it.toEpochSeconds() }
         }
     }
 
     "generate DueBetween" {
         checkAll(genDueBetween) { dueBetween ->
             val where = toWhereClause(dueBetween)
-            where.query shouldBe "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)"
+            where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
+                    " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe dueBetween.period.toRange().toList().map { it.toEpochMilli() }
+            where.args shouldBe dueBetween.period.toRange().toList().map { it.toEpochSeconds() }
         }
     }
 
@@ -320,14 +329,6 @@ class TrnWhereTest : StringSpec({
             val where = toWhereClause(byAccountIn)
             where.query shouldBe "accountId IN (${placeholders(byAccountIn.accs.size)})"
             where.args shouldBe byAccountIn.accs.map { it.id.toString() }.toList()
-        }
-    }
-
-    "generate ByToAccountIn" {
-        checkAll(genByToAccountIn) { byToAccountIn ->
-            val where = toWhereClause(byToAccountIn)
-            where.query shouldBe "toAccountId IN (${placeholders(byToAccountIn.toAccs.size)})"
-            where.args shouldBe byToAccountIn.toAccs.map { it.id.toString() }.toList()
         }
     }
 
@@ -357,7 +358,7 @@ class TrnWhereTest : StringSpec({
         checkAll(genByTypeIn) { byTypeIn ->
             val where = toWhereClause(byTypeIn)
             where.query shouldBe "type IN (${placeholders(byTypeIn.types.size)})"
-            where.args shouldBe byTypeIn.types.toList().map { it.name }
+            where.args shouldBe byTypeIn.types.toList().map { it.code }
         }
     }
 
@@ -445,7 +446,7 @@ class TrnWhereTest : StringSpec({
             // Things that query args can be:
             where.args.forEach {
                 val acceptedType = when (it) {
-                    is String, is Long, is Boolean -> true
+                    is String, is Long, is Boolean, is Int -> true
                     else -> false
                 }
                 if (!acceptedType) {

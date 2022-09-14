@@ -1,19 +1,22 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
-import com.ivy.common.toEpochMilli
+import com.ivy.common.toEpochSeconds
 import com.ivy.core.functions.time.toRange
+import com.ivy.core.persistence.entity.trn.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
+import com.ivy.data.SyncState
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
 import com.ivy.data.time.Period
-import com.ivy.data.transaction.TrnTypeOld
+import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*
 
 sealed class TrnWhere {
-    data class ById(val id: UUID) : TrnWhere()
-    data class ByIdIn(val ids: NonEmptyList<UUID>) : TrnWhere()
+    data class ById(val id: String) : TrnWhere()
+    data class ByIdIn(val ids: NonEmptyList<String>) : TrnWhere()
 
     data class ByCategory(val category: Category?) : TrnWhere()
     data class ByCategoryIn(val categories: NonEmptyList<Category?>) : TrnWhere()
@@ -21,11 +24,11 @@ sealed class TrnWhere {
     data class ByAccount(val account: Account) : TrnWhere()
     data class ByAccountIn(val accs: NonEmptyList<Account>) : TrnWhere()
 
-    data class ByToAccount(val toAccount: Account) : TrnWhere()
-    data class ByToAccountIn(val toAccs: NonEmptyList<Account>) : TrnWhere()
+    data class ByType(val trnType: TrnType) : TrnWhere()
+    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere()
 
-    data class ByType(val trnType: TrnTypeOld) : TrnWhere()
-    data class ByTypeIn(val types: NonEmptyList<TrnTypeOld>) : TrnWhere()
+    data class BySync(val sync: SyncState) : TrnWhere()
+    data class ByPurpose(val purpose: TrnPurpose?) : TrnWhere()
 
     /**
      * Inclusive period [from, to]
@@ -66,13 +69,13 @@ fun toWhereClause(where: TrnWhere): WhereClause {
     fun noArg() = arg(EmptyArg)
 
     fun uuid(id: UUID): String = id.toString()
-    fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochMilli()
-    fun trnType(type: TrnTypeOld): String = type.name
+    fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochSeconds()
+    fun trnType(type: TrnType): Int = type.code
 
     val result = when (where) {
-        is ById -> "id = ?" to arg(uuid(where.id))
+        is ById -> "id = ?" to arg(where.id)
         is ByIdIn ->
-            "id IN (${placeholders(where.ids.size)})" to arg(where.ids.map(::uuid).toList())
+            "id IN (${placeholders(where.ids.size)})" to arg(where.ids.toList())
 
         is ByType -> "type = ?" to arg(trnType(where.trnType))
         is ByTypeIn ->
@@ -80,14 +83,14 @@ fun toWhereClause(where: TrnWhere): WhereClause {
                 where.types.map(::trnType).toList()
             )
 
+        is BySync -> "sync = ?" to arg(where.sync.code)
+        is ByPurpose -> where.purpose?.let {
+            "purpose = ?" to arg(where.purpose.code)
+        } ?: ("purpose IS NULL" to noArg())
+
         is ByAccount -> "accountId = ?" to arg(uuid(where.account.id))
         is ByAccountIn ->
             "accountId IN (${placeholders(where.accs.size)})" to arg(where.accs.map { uuid(it.id) })
-        is ByToAccount -> "toAccountId = ?" to arg(uuid(where.toAccount.id))
-        is ByToAccountIn ->
-            "toAccountId IN (${placeholders(where.toAccs.size)})" to arg(
-                where.toAccs.map { uuid(it.id) }
-            )
 
         is ByCategory -> {
             where.category?.id?.let {
@@ -112,13 +115,14 @@ fun toWhereClause(where: TrnWhere): WhereClause {
         }
 
         is DueBetween -> {
-            "(dueDate IS NOT NULL AND dueDate >= ? AND dueDate <= ?)" to arg(
+            "(timeType = ${TrnTimeType.Due.code} AND time >= ? AND time <= ?)" to arg(
                 where.period.toRange().toList().map(::timestamp)
             )
         }
-        is ActualBetween -> "(dateTime IS NOT NULL AND dateTime >= ? AND dateTime <= ?)" to arg(
-            where.period.toRange().toList().map(::timestamp)
-        )
+        is ActualBetween ->
+            "(timeType = ${TrnTimeType.Actual.code} AND time >= ? AND time <= ?)" to arg(
+                where.period.toRange().toList().map(::timestamp)
+            )
 
         is Brackets -> {
             val clause = toWhereClause(where.cond)
