@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.entity.trn.converter
 
 import androidx.room.TypeConverter
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
 

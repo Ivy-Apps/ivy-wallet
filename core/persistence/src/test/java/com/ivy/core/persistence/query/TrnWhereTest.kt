@@ -6,7 +6,7 @@ import com.ivy.common.endOfIvyTime
 import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochSeconds
 import com.ivy.common.toRange
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
 import com.ivy.data.time.Period

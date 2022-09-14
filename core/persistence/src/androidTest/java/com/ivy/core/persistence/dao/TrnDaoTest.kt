@@ -10,7 +10,7 @@ import com.ivy.core.persistence.RoomDbTest
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
 import com.ivy.core.persistence.entity.trn.TrnEntity
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnState

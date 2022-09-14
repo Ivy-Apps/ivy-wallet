@@ -8,6 +8,7 @@ import java.util.*
 data class Category(
     val id: UUID,
     val name: String,
+    val type: CategoryType,
     val parentCategoryId: UUID?,
     @ColorInt
     val color: Int,

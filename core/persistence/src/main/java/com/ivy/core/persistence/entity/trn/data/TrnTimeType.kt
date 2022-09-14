@@ -1,4 +1,4 @@
-package com.ivy.core.persistence.entity.trn
+package com.ivy.core.persistence.entity.trn.data
 
 enum class TrnTimeType(val code: Int) {
     Actual(1), Due(2);

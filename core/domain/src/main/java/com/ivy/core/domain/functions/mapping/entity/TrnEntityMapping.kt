@@ -2,7 +2,7 @@ package com.ivy.core.domain.functions.mapping.entity
 
 import com.ivy.common.time
 import com.ivy.core.persistence.entity.trn.TrnEntity
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnTime
 import java.time.ZoneOffset

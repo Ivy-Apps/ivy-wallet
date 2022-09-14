@@ -3,7 +3,7 @@ package com.ivy.core.persistence.query
 import arrow.core.NonEmptyList
 import com.ivy.common.toEpochSeconds
 import com.ivy.common.toRange
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
 import com.ivy.data.time.Period

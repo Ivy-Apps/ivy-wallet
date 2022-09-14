@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.dummy.trn
 
 import com.ivy.core.persistence.entity.trn.TrnEntity
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose

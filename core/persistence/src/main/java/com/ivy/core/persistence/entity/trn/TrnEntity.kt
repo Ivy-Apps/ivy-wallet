@@ -3,6 +3,7 @@ package com.ivy.core.persistence.entity.trn
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
