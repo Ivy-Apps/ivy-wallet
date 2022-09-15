@@ -10,10 +10,13 @@ import com.ivy.frp.Pure
 /**
  * Helpful annotations:
  *
- * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")"
+ * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
  */
 typealias ValueFunction<A> = suspend (Transaction, A) -> Double
 
+/**
+ * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
+ */
 @Pure
 suspend fun <Arg> foldTransactions(
     transactions: List<Transaction>,
