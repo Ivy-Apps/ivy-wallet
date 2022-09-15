@@ -21,8 +21,8 @@ interface TrnDao {
     // endregion
 
     // region Update
-    @Query("UPDATE transactions SET sync = :sync WHERE accountId = :accountId")
-    suspend fun updateSyncByAccountId(accountId: String, sync: SyncState)
+    @Query("UPDATE transactions SET sync = :sync WHERE id = :trnId")
+    suspend fun updateSyncById(trnId: String, sync: SyncState)
     // endregion
 
     // region Delete
