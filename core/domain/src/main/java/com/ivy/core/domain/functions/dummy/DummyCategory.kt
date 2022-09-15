@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
+import com.ivy.data.category.CategoryType
 import com.ivy.data.icon.IvyIcon
 import java.util.*
 
@@ -20,6 +21,7 @@ fun dummyCategory(
     ),
     sync: SyncState = SyncState.Synced,
     orderNum: Double = 0.0,
+    type: CategoryType = CategoryType.Both,
     state: CategoryState = CategoryState.Default,
 ): Category = Category(
     id = id,
@@ -29,5 +31,6 @@ fun dummyCategory(
     icon = icon,
     sync = sync,
     orderNum = orderNum,
+    type = type,
     state = state,
 )

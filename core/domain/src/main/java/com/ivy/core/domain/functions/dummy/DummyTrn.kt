@@ -4,7 +4,9 @@ import com.ivy.common.timeNowLocal
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
+import com.ivy.data.attachment.Attachment
 import com.ivy.data.category.Category
+import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.*
 import java.time.LocalDateTime
 import java.util.*
@@ -18,7 +20,8 @@ fun dummyTrn(
     time: TrnTime = TrnTime.Actual(timeNowLocal()),
     title: String? = "Dummy trn",
     description: String? = null,
-    attachmentUrl: String? = null,
+    tags: List<Tag> = emptyList(),
+    attachments: List<Attachment> = emptyList(),
     metadata: TrnMetadata = dummyTrnMetadata(),
     state: TrnState = TrnState.Default,
     purpose: TrnPurpose? = null,
@@ -35,11 +38,12 @@ fun dummyTrn(
     time = time,
     title = title,
     description = description,
-    attachmentUrl = attachmentUrl,
     metadata = metadata,
     state = state,
     purpose = purpose,
     sync = sync,
+    tags = tags,
+    attachments = attachments,
 )
 
 fun dummyValue(

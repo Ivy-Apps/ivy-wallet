@@ -6,6 +6,7 @@ import com.ivy.core.domain.action.calculate.account.AccStatsFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.functions.time.allTime
 import com.ivy.data.CurrencyCode
+import com.ivy.data.transaction.Value
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -16,13 +17,13 @@ class TotalBalanceFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val accStatsFlow: AccStatsFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
-) : FlowAction<TotalBalanceFlow.Input, Double>() {
+) : FlowAction<TotalBalanceFlow.Input, Value>() {
     data class Input(
         val withExcludedAccs: Boolean,
         val outputCurrency: CurrencyCode,
     )
 
-    override fun Input.createFlow(): Flow<Double> = accountsFlow().map { accs ->
+    override fun Input.createFlow(): Flow<Value> = accountsFlow().map { accs ->
         if (!withExcludedAccs) accs.filter { !it.excluded } else accs
     }.map { accs ->
         baseCurrencyFlow().flatMapMerge { baseCurrency ->
@@ -35,9 +36,13 @@ class TotalBalanceFlow @Inject constructor(
                     )
                 )
             }) { stats ->
-                stats.fold(initial = 0.0) { totalBalance, accStats ->
-                    totalBalance + accStats.balance
+                val totalBalance = stats.fold(initial = 0.0) { totalBalance, accStats ->
+                    totalBalance + accStats.balance.amount
                 }
+                Value(
+                    amount = totalBalance,
+                    currency = baseCurrency
+                )
             }
         }
     }.flattenMerge()

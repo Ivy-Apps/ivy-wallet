@@ -37,7 +37,8 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
         TrnMetadataEntity::class, AttachmentEntity::class,
         AccountEntity::class, AccountFolderEntity::class,
         CategoryEntity::class, ExchangeRateEntity::class,
-        ExchangeRateOverrideEntity::class,
+        ExchangeRateOverrideEntity::class, TagEntity::class,
+        TrnTagEntity::class,
     ],
     version = 1,
     exportSchema = true,
@@ -46,8 +47,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
     GeneralTypeConverters::class,
     TrnTypeConverters::class, AttachmentTypeConverters::class,
     AccountTypeConverter::class, CategoryTypeConverter::class,
-    ExchangeRateTypeConverter::class, TagEntity::class,
-    TrnTagEntity::class,
+    ExchangeRateTypeConverter::class,
 )
 abstract class IvyWalletDb : RoomDatabase() {
     abstract fun trnDao(): TrnDao

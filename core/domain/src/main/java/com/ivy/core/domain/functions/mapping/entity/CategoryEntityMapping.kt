@@ -13,6 +13,7 @@ fun mapToEntity(category: Category) = with(category) {
         orderNum = orderNum,
         parentCategoryId = parentCategoryId?.toString(),
         state = state,
+        type = type,
         sync = sync,
     )
 }

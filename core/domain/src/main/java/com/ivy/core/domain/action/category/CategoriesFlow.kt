@@ -38,6 +38,7 @@ class CategoriesFlow @Inject constructor(
         ),
         orderNum = it.orderNum,
         sync = it.sync,
+        type = it.type,
         state = it.state,
     )
 }

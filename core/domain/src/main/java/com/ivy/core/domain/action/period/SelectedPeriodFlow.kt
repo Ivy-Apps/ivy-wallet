@@ -1,7 +1,7 @@
 package com.ivy.core.domain.action.period
 
 import android.content.Context
-import com.ivy.core.action.SharedFlowAction
+import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.functions.time.currentMonthlyPeriod
 import com.ivy.core.domain.functions.time.dateToSelectedMonthlyPeriod
