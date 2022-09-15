@@ -1,4 +1,4 @@
-package com.ivy.core.persistence.query
+package com.ivy.core.domain.functions.transaction
 
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnTime

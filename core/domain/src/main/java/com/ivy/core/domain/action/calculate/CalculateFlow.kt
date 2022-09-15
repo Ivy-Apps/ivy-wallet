@@ -10,6 +10,7 @@ import com.ivy.data.exchange.ExchangeRates
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnPurpose.*
 import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.Value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -26,8 +27,8 @@ class CalculateFlow @Inject constructor(
      */
     data class Input(
         val trns: List<Transaction>,
-        val outputCurrency: CurrencyCode?,
         val includeTransfers: Boolean,
+        val outputCurrency: CurrencyCode? = null,
     )
 
     override fun Input.createFlow(): Flow<Stats> = exchangeRatesFlow().map { rates ->
@@ -37,6 +38,7 @@ class CalculateFlow @Inject constructor(
     suspend fun Input.calculate(
         rates: ExchangeRates,
     ): Stats {
+        val outputCurrency = this.outputCurrency ?: rates.baseCurrency
         val res = foldTransactions(
             transactions = trns.filter {
                 if (!includeTransfers) {
@@ -55,7 +57,7 @@ class CalculateFlow @Inject constructor(
             ),
             arg = FoldArg(
                 rates = rates,
-                outputCurrency = outputCurrency ?: rates.baseCurrency,
+                outputCurrency = outputCurrency,
             )
         )
 
@@ -63,9 +65,9 @@ class CalculateFlow @Inject constructor(
         val expense = res[1]
 
         return Stats(
-            balance = income - expense,
-            income = income,
-            expense = expense,
+            balance = Value(amount = income - expense, currency = outputCurrency),
+            income = Value(amount = income, currency = outputCurrency),
+            expense = Value(amount = expense, currency = outputCurrency),
             incomesCount = res[2].toInt(),
             expensesCount = res[3].toInt(),
         )

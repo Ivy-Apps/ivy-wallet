@@ -5,13 +5,20 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
+import com.ivy.data.DELETING
 import com.ivy.data.SyncState
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrnLinkRecordDao {
     // region Save
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: List<TrnLinkRecordEntity>)
+    // endregion
+
+    // region Select
+    @Query("SELECT * FROM trn_links WHERE sync != $DELETING")
+    fun findAll(): Flow<List<TrnLinkRecordEntity>>
     // endregion
 
     // region Update

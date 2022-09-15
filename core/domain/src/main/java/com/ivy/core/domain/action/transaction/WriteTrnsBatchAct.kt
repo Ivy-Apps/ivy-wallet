@@ -26,6 +26,8 @@ class WriteTrnsBatchAct @Inject constructor(
             is Input.Save -> save(batch)
         }
 
+        //writeTrnsAct will notify of update
+
         // TODO: Implement
         return syncTaskFrom {}
     }
