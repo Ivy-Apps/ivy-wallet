@@ -21,9 +21,12 @@ import javax.inject.Inject
 class CalculateFlow @Inject constructor(
     private val exchangeRatesFlow: ExchangeRatesFlow,
 ) : FlowAction<CalculateFlow.Input, Stats>() {
+    /**
+     * @param outputCurrency the desired currency or null for base currency
+     */
     data class Input(
         val trns: List<Transaction>,
-        val outputCurrency: CurrencyCode,
+        val outputCurrency: CurrencyCode?,
         val includeTransfers: Boolean,
     )
 
@@ -52,7 +55,7 @@ class CalculateFlow @Inject constructor(
             ),
             arg = FoldArg(
                 rates = rates,
-                outputCurrency = outputCurrency,
+                outputCurrency = outputCurrency ?: rates.baseCurrency,
             )
         )
 

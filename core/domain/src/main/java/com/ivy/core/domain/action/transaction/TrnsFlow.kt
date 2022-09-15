@@ -77,7 +77,7 @@ class TrnsFlow @Inject constructor(
                     )
                 }
             ) { trns ->
-                trns.filterNotNull()
+                trns.toList()
             }
         }.flattenMerge()
             .flowOn(Dispatchers.Default)
@@ -86,8 +86,8 @@ class TrnsFlow @Inject constructor(
         accounts: Map<UUID, Account>,
         categories: Map<UUID, Category>,
         trn: TrnEntity,
-    ): Flow<Transaction?> {
-        val account = accounts[trn.accountId.toUUID()] ?: return flow { emit(null) }
+    ): Flow<Transaction> {
+        val account = accounts[trn.accountId.toUUID()] ?: return flow {}
 
         val trnId = trn.id
         val tagsFlow = trnTagDao.findByTrnId(trnId = trnId).flatMapMerge { trnTags ->
