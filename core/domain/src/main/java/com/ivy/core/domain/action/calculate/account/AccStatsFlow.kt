@@ -4,7 +4,7 @@ import arrow.core.getOrElse
 import arrow.core.nonEmptyListOf
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.calculate.Stats
-import com.ivy.core.domain.action.currency.exchange.ExchangeRatesFlow
+import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
 import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
 import com.ivy.core.domain.action.transaction.TrnQuery.ByAccountId
 import com.ivy.core.domain.action.transaction.TrnsFlow

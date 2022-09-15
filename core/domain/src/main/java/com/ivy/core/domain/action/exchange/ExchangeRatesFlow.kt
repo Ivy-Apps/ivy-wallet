@@ -1,7 +1,7 @@
-package com.ivy.core.domain.action.currency.exchange
+package com.ivy.core.domain.action.exchange
 
 import com.ivy.core.domain.action.SharedFlowAction
-import com.ivy.core.domain.action.currency.BaseCurrencyFlow
+import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.data.exchange.ExchangeRates
 import com.ivy.exchange.cache.ExchangeRateDao
 import kotlinx.coroutines.Dispatchers

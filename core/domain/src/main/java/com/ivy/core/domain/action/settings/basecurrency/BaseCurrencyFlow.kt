@@ -1,20 +1,21 @@
-package com.ivy.core.domain.action.currency
+package com.ivy.core.domain.action.settings.basecurrency
 
 import com.ivy.core.domain.action.SharedFlowAction
+import com.ivy.core.persistence.datastore.IvyDataStore
+import com.ivy.core.persistence.datastore.keys.SettingsKeys
 import com.ivy.data.CurrencyCode
-import com.ivy.wallet.io.persistence.dao.SettingsDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.filterNotNull
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class BaseCurrencyFlow @Inject constructor(
-    private val settingsDao: SettingsDao
+    private val dataStore: IvyDataStore,
+    private val settingsKeys: SettingsKeys,
 ) : SharedFlowAction<CurrencyCode>() {
     override fun initialValue(): CurrencyCode = ""
 
     override fun createFlow(): Flow<CurrencyCode> =
-        settingsDao.findFirst()
-            .map { it.currency }
+        dataStore.get(settingsKeys.baseCurrency).filterNotNull()
 }

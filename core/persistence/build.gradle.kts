@@ -1,3 +1,4 @@
+import com.ivy.buildsrc.DataStore
 import com.ivy.buildsrc.Hilt
 import com.ivy.buildsrc.RoomDB
 import com.ivy.buildsrc.Testing
@@ -24,6 +25,7 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     RoomDB(api = false)
+    DataStore(api = false)
 
     Testing()
 }

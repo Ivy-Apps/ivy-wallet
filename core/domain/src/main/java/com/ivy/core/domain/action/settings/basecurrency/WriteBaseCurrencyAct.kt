@@ -1,16 +1,15 @@
-package com.ivy.core.domain.action.settings.balance
+package com.ivy.core.domain.action.settings.basecurrency
 
 import com.ivy.core.persistence.datastore.IvyDataStore
 import com.ivy.core.persistence.datastore.keys.SettingsKeys
 import com.ivy.frp.action.Action
 import javax.inject.Inject
 
-class WriteHideBalanceAct @Inject constructor(
+class WriteBaseCurrencyAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
-) : Action<Boolean, Unit>() {
-
-    override suspend fun Boolean.willDo() {
-        dataStore.put(key = settingsKeys.hideBalance, this)
+) : Action<String, Unit>() {
+    override suspend fun String.willDo() {
+        dataStore.put(key = settingsKeys.baseCurrency, value = this)
     }
 }

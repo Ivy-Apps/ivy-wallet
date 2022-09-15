@@ -1,4 +1,4 @@
-package com.ivy.core.domain.action.time
+package com.ivy.core.domain.action.period
 
 import android.content.Context
 import com.ivy.core.action.SignalFlow
