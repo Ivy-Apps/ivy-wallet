@@ -5,7 +5,7 @@ import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import javax.inject.Inject
 
-class TrnQuery @Inject constructor(
+class TrnQueryExecutor @Inject constructor(
     private val trnDao: TrnDao
 ) {
     suspend fun query(where: TrnWhere): List<TrnEntity> {

@@ -5,7 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
+import com.ivy.data.DELETING
 import com.ivy.data.SyncState
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrnMetadataDao {
@@ -17,6 +19,10 @@ interface TrnMetadataDao {
     suspend fun save(value: List<TrnMetadataEntity>)
     // endregion
 
+    // region Select
+    @Query("SELECT * FROM trn_metadata WHERE trnId = :trnId AND sync != $DELETING")
+    fun findByTrnId(trnId: String): Flow<List<TrnMetadataEntity>>
+    // endregion
 
     // region Update
     @Query("UPDATE trn_metadata SET sync = :sync WHERE trnId = :trnId")

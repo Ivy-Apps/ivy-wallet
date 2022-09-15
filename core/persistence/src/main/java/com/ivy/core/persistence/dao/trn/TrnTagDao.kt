@@ -5,7 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.core.persistence.entity.trn.TrnTagEntity
+import com.ivy.data.DELETING
 import com.ivy.data.SyncState
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrnTagDao {
@@ -15,6 +17,11 @@ interface TrnTagDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(values: List<TrnTagEntity>)
+    // endregion
+
+    // region Select
+    @Query("SELECT * FROM trn_tags WHERE trnId = :trnId AND sync != $DELETING")
+    fun findByTrnId(trnId: String): Flow<List<TrnTagEntity>>
     // endregion
 
 

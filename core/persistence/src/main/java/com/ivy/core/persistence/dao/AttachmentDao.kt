@@ -5,7 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
+import com.ivy.data.DELETING
 import com.ivy.data.SyncState
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AttachmentDao {
@@ -15,6 +17,11 @@ interface AttachmentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(values: List<AttachmentEntity>)
+    // endregion
+
+    // region Select
+    @Query("SELECT * FROM attachments WHERE associatedId = :associatedId AND sync != $DELETING")
+    fun findByAssociatedId(associatedId: String): Flow<List<AttachmentEntity>>
     // endregion
 
 

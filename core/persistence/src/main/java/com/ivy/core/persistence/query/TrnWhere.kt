@@ -12,36 +12,36 @@ import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*
 
-sealed class TrnWhere {
-    data class ById(val id: String) : TrnWhere()
-    data class ByIdIn(val ids: NonEmptyList<String>) : TrnWhere()
+sealed interface TrnWhere {
+    data class ById(val id: String) : TrnWhere
+    data class ByIdIn(val ids: NonEmptyList<String>) : TrnWhere
 
-    data class ByCategoryId(val categoryId: String?) : TrnWhere()
-    data class ByCategoryIdIn(val categoryIds: NonEmptyList<String?>) : TrnWhere()
+    data class ByCategoryId(val categoryId: String?) : TrnWhere
+    data class ByCategoryIdIn(val categoryIds: NonEmptyList<String?>) : TrnWhere
 
-    data class ByAccountId(val accountId: String) : TrnWhere()
-    data class ByAccountIdIn(val accountIds: NonEmptyList<String>) : TrnWhere()
+    data class ByAccountId(val accountId: String) : TrnWhere
+    data class ByAccountIdIn(val accountIds: NonEmptyList<String>) : TrnWhere
 
-    data class ByType(val trnType: TrnType) : TrnWhere()
-    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere()
+    data class ByType(val trnType: TrnType) : TrnWhere
+    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere
 
-    data class BySync(val sync: SyncState) : TrnWhere()
-    data class ByPurpose(val purpose: TrnPurpose?) : TrnWhere()
-
-    /**
-     * Inclusive period [from, to]
-     */
-    data class DueBetween(val period: Period) : TrnWhere()
+    data class BySync(val sync: SyncState) : TrnWhere
+    data class ByPurpose(val purpose: TrnPurpose?) : TrnWhere
 
     /**
      * Inclusive period [from, to]
      */
-    data class ActualBetween(val period: Period) : TrnWhere()
+    data class DueBetween(val period: Period) : TrnWhere
 
-    data class Brackets(val cond: TrnWhere) : TrnWhere()
-    data class And(val cond1: TrnWhere, val cond2: TrnWhere) : TrnWhere()
-    data class Or(val cond1: TrnWhere, val cond2: TrnWhere) : TrnWhere()
-    data class Not(val cond: TrnWhere) : TrnWhere()
+    /**
+     * Inclusive period [from, to]
+     */
+    data class ActualBetween(val period: Period) : TrnWhere
+
+    data class Brackets(val cond: TrnWhere) : TrnWhere
+    data class And(val cond1: TrnWhere, val cond2: TrnWhere) : TrnWhere
+    data class Or(val cond1: TrnWhere, val cond2: TrnWhere) : TrnWhere
+    data class Not(val cond: TrnWhere) : TrnWhere
 }
 
 fun brackets(cond: TrnWhere): Brackets = Brackets(cond)
@@ -56,7 +56,7 @@ data class WhereClause(
 
 private object EmptyArg
 
-fun toWhereClause(where: TrnWhere): WhereClause {
+internal fun toWhereClause(where: TrnWhere): WhereClause {
     fun placeholders(argsCount: Int): String = when (argsCount) {
         0 -> ""
         1 -> "?"
