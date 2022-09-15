@@ -1,6 +1,6 @@
 package com.ivy.exchange.di
 
-import com.ivy.exchange.ExchangeProvider
+import com.ivy.exchange.RemoteExchangeProvider
 import com.ivy.exchange.coinbase.CoinbaseExchangeProvider
 import dagger.Binds
 import dagger.Module
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class ExchangeModule {
     @Binds
-    abstract fun exchangeProvider(coinbase: CoinbaseExchangeProvider): ExchangeProvider
+    abstract fun exchangeProvider(coinbase: CoinbaseExchangeProvider): RemoteExchangeProvider
 }

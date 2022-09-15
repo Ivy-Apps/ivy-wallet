@@ -1,20 +1,17 @@
 package com.ivy.core.domain.action.exchange
 
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
+import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
+import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
 import com.ivy.data.CurrencyCode
-import com.ivy.exchange.ExchangeProvider
-import com.ivy.exchange.cache.ExchangeRateDao
-import com.ivy.exchange.cache.ExchangeRateEntity
+import com.ivy.exchange.RemoteExchangeProvider
 import com.ivy.frp.action.Action
-import com.ivy.frp.asParamTo
-import com.ivy.frp.then
-import com.ivy.frp.thenInvokeAfter
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
-    private val exchangeProvider: ExchangeProvider,
+    private val exchangeProvider: RemoteExchangeProvider,
     private val exchangeRateDao: ExchangeRateDao
 ) : Action<Unit, Unit>() {
     override suspend fun Unit.willDo() {
@@ -22,15 +19,18 @@ class SyncExchangeRatesAct @Inject constructor(
         if (baseCurrency == "") willDo() else syncExchangeRates(baseCurrency)
     }
 
-    private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) =
-        baseCurrency asParamTo exchangeProvider::fetchExchangeRates then {
-            it.map { (currency, rate) ->
+    private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) {
+        val result = exchangeProvider.fetchExchangeRates(baseCurrency = baseCurrency)
+        exchangeRateDao.save(
+            result.ratesMap.map { (currency, rate) ->
                 ExchangeRateEntity(
                     baseCurrency = baseCurrency,
                     currency = currency,
-                    rate = rate
+                    rate = rate,
+                    provider = result.provider
                 )
             }
-        } thenInvokeAfter exchangeRateDao::save
+        )
+    }
 }
 

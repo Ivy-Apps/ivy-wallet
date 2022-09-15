@@ -1,4 +1,4 @@
-package com.ivy.exchange.cache
+package com.ivy.exchange.deprecated
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
+@Deprecated("old")
 @Dao
 interface ExchangeRateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

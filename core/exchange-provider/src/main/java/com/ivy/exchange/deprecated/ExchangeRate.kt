@@ -1,5 +1,6 @@
-package com.ivy.exchange.cache
+package com.ivy.exchange.deprecated
 
+@Deprecated("old")
 data class ExchangeRate(
     val baseCurrency: String,
     val currency: String,

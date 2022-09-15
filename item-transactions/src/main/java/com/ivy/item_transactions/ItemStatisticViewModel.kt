@@ -11,9 +11,9 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.exchange.deprecated.ExchangeActOld
 import com.ivy.exchange.deprecated.ExchangeData
+import com.ivy.exchange.deprecated.ExchangeRateDao
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.frp.view.navigation.Navigation
