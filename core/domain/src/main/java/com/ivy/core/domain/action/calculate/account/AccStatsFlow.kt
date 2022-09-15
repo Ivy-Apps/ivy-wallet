@@ -11,6 +11,7 @@ import com.ivy.core.domain.action.transaction.TrnsFlow
 import com.ivy.core.domain.action.transaction.and
 import com.ivy.core.domain.functions.exchange.exchange
 import com.ivy.core.domain.functions.transaction.foldTransactions
+import com.ivy.data.CurrencyCode
 import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
@@ -28,6 +29,7 @@ class AccStatsFlow @Inject constructor(
     data class Input(
         val account: Account,
         val period: Period,
+        val outputCurrency: CurrencyCode = account.currency,
     )
 
     override fun Input.createFlow(): Flow<Stats> = combine(
@@ -40,7 +42,7 @@ class AccStatsFlow @Inject constructor(
                 exchange(
                     rates = rates,
                     from = trn.value.currency,
-                    to = account.currency,
+                    to = outputCurrency,
                     amount = trn.value.amount,
                 ).getOrElse { 0.0 }
             } else 0.0
