@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9f3450199cd9a44c921e51f84adb8d2d",
+    "identityHash": "57157e79e5344cd9fcd3177d22c70523",
     "entities": [
       {
         "tableName": "transactions",
@@ -162,7 +162,7 @@
       },
       {
         "tableName": "trn_links",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `linkId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `trnId` TEXT NOT NULL, `batchId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -177,8 +177,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "linkId",
-            "columnName": "linkId",
+            "fieldPath": "batchId",
+            "columnName": "batchId",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -591,7 +591,7 @@
       },
       {
         "tableName": "categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `parentCategoryId` TEXT, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `icon` TEXT, `orderNum` REAL NOT NULL, `parentCategoryId` TEXT, `type` INTEGER NOT NULL, `state` INTEGER NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -628,6 +628,12 @@
             "columnName": "parentCategoryId",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "state",
@@ -675,6 +681,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_parentCategoryId` ON `${TABLE_NAME}` (`parentCategoryId`)"
+          },
+          {
+            "name": "index_categories_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_categories_type` ON `${TABLE_NAME}` (`type`)"
           },
           {
             "name": "index_categories_state",
@@ -830,12 +845,160 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "tags",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `color` INTEGER NOT NULL, `name` TEXT NOT NULL, `orderNum` REAL NOT NULL, `state` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderNum",
+            "columnName": "orderNum",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_tags_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tags_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_tags_orderNum",
+            "unique": false,
+            "columnNames": [
+              "orderNum"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tags_orderNum` ON `${TABLE_NAME}` (`orderNum`)"
+          },
+          {
+            "name": "index_tags_state",
+            "unique": false,
+            "columnNames": [
+              "state"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tags_state` ON `${TABLE_NAME}` (`state`)"
+          },
+          {
+            "name": "index_tags_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_tags_sync` ON `${TABLE_NAME}` (`sync`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "trn_tags",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trnId` TEXT NOT NULL, `tagId` TEXT NOT NULL, `sync` INTEGER NOT NULL, PRIMARY KEY(`trnId`, `tagId`))",
+        "fields": [
+          {
+            "fieldPath": "trnId",
+            "columnName": "trnId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tagId",
+            "columnName": "tagId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sync",
+            "columnName": "sync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "trnId",
+            "tagId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_trn_tags_trnId",
+            "unique": false,
+            "columnNames": [
+              "trnId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_tags_trnId` ON `${TABLE_NAME}` (`trnId`)"
+          },
+          {
+            "name": "index_trn_tags_tagId",
+            "unique": false,
+            "columnNames": [
+              "tagId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_tags_tagId` ON `${TABLE_NAME}` (`tagId`)"
+          },
+          {
+            "name": "index_trn_tags_sync",
+            "unique": false,
+            "columnNames": [
+              "sync"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_trn_tags_sync` ON `${TABLE_NAME}` (`sync`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f3450199cd9a44c921e51f84adb8d2d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '57157e79e5344cd9fcd3177d22c70523')"
     ]
   }
 }
