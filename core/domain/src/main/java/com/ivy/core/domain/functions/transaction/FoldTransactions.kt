@@ -6,6 +6,12 @@ import com.ivy.core.domain.functions.nonEmptyListOfZeros
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.Pure
 
+
+/**
+ * Helpful annotations:
+ *
+ * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")"
+ */
 typealias ValueFunction<A> = suspend (Transaction, A) -> Double
 
 @Pure

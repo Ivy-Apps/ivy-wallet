@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.currency.exchange
 
-import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.domain.action.currency.BaseCurrencyAct
 import com.ivy.data.CurrencyCode
 import com.ivy.exchange.ExchangeProvider
 import com.ivy.exchange.cache.ExchangeRateDao

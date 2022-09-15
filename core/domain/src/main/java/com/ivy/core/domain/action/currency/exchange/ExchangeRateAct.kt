@@ -4,7 +4,7 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
-import com.ivy.core.action.currency.BaseCurrencyAct
+import com.ivy.core.domain.action.currency.BaseCurrencyAct
 import com.ivy.data.CurrencyCode
 import com.ivy.frp.Pure
 import com.ivy.frp.action.FPAction

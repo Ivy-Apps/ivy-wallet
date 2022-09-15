@@ -5,16 +5,17 @@ import com.ivy.core.persistence.query.TrnWhere
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnType
+import java.util.*
 
 sealed interface TrnQuery {
-    data class ById(val id: String) : TrnQuery
-    data class ByIdIn(val ids: NonEmptyList<String>) : TrnQuery
+    data class ById(val id: UUID) : TrnQuery
+    data class ByIdIn(val ids: NonEmptyList<UUID>) : TrnQuery
 
-    data class ByCategoryId(val categoryId: String?) : TrnQuery
-    data class ByCategoryIdIn(val categoryIds: NonEmptyList<String?>) : TrnQuery
+    data class ByCategoryId(val categoryId: UUID?) : TrnQuery
+    data class ByCategoryIdIn(val categoryIds: NonEmptyList<UUID?>) : TrnQuery
 
-    data class ByAccountId(val accountId: String) : TrnQuery
-    data class ByAccountIdIn(val accountIds: NonEmptyList<String>) : TrnQuery
+    data class ByAccountId(val accountId: UUID) : TrnQuery
+    data class ByAccountIdIn(val accountIds: NonEmptyList<UUID>) : TrnQuery
 
     data class ByType(val trnType: TrnType) : TrnQuery
     data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnQuery
@@ -46,12 +47,12 @@ fun TrnQuery.toTrnWhere(): TrnWhere = when (this) {
     is TrnQuery.ActualBetween -> TrnWhere.ActualBetween(period)
     is TrnQuery.And -> TrnWhere.And(cond1.toTrnWhere(), cond2.toTrnWhere())
     is TrnQuery.Brackets -> TrnWhere.Brackets(cond.toTrnWhere())
-    is TrnQuery.ByAccountId -> TrnWhere.ByAccountId(accountId)
-    is TrnQuery.ByAccountIdIn -> TrnWhere.ByAccountIdIn(accountIds)
-    is TrnQuery.ByCategoryId -> TrnWhere.ByCategoryId(categoryId)
-    is TrnQuery.ByCategoryIdIn -> TrnWhere.ByCategoryIdIn(categoryIds)
-    is TrnQuery.ById -> TrnWhere.ById(id)
-    is TrnQuery.ByIdIn -> TrnWhere.ByIdIn(ids)
+    is TrnQuery.ByAccountId -> TrnWhere.ByAccountId(accountId.toString())
+    is TrnQuery.ByAccountIdIn -> TrnWhere.ByAccountIdIn(accountIds.map { it.toString() })
+    is TrnQuery.ByCategoryId -> TrnWhere.ByCategoryId(categoryId?.toString())
+    is TrnQuery.ByCategoryIdIn -> TrnWhere.ByCategoryIdIn(categoryIds.map { it?.toString() })
+    is TrnQuery.ById -> TrnWhere.ById(id.toString())
+    is TrnQuery.ByIdIn -> TrnWhere.ByIdIn(ids.map { it.toString() })
     is TrnQuery.ByPurpose -> TrnWhere.ByPurpose(purpose)
     is TrnQuery.ByType -> TrnWhere.ByType(trnType)
     is TrnQuery.ByTypeIn -> TrnWhere.ByTypeIn(types)

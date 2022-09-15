@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.currency
 
-import com.ivy.core.action.SharedFlowAction
+import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.data.CurrencyCode
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import kotlinx.coroutines.flow.Flow

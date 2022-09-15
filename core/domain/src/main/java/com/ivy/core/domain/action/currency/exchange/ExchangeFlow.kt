@@ -4,9 +4,9 @@ import arrow.core.None
 import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
-import com.ivy.core.action.currency.BaseCurrencyFlow
+import com.ivy.core.domain.action.currency.BaseCurrencyFlow
 import com.ivy.data.CurrencyCode
-import com.ivy.data.ExchangeRates
+import com.ivy.data.ExchangeRatesMap
 import com.ivy.frp.Pure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +30,7 @@ class ExchangeFlow @Inject constructor(
         }.flowOn(Dispatchers.Default)
 
     private suspend fun Input.exchange(
-        rates: ExchangeRates,
+        rates: ExchangeRatesMap,
         baseCurrency: CurrencyCode,
     ) = option {
         if (from == to) return@option amount
@@ -47,7 +47,7 @@ class ExchangeFlow @Inject constructor(
     }
 
     private suspend fun findRate(
-        rates: ExchangeRates,
+        rates: ExchangeRatesMap,
         from: CurrencyCode,
         to: CurrencyCode,
         baseCurrency: CurrencyCode,

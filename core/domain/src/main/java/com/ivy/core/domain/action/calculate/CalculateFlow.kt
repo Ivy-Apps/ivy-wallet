@@ -6,7 +6,7 @@ import com.ivy.core.action.currency.exchange.ExchangeRatesFlow
 import com.ivy.core.domain.functions.exchange.exchange
 import com.ivy.core.domain.functions.transaction.foldTransactions
 import com.ivy.data.CurrencyCode
-import com.ivy.data.ExchangeRates
+import com.ivy.data.ExchangeRatesMap
 import com.ivy.data.transaction.Transaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -31,7 +31,7 @@ class CalculateFlow @Inject constructor(
         }
 
     suspend fun Input.calculate(
-        rates: ExchangeRates,
+        rates: ExchangeRatesMap,
         baseCurrency: CurrencyCode,
     ): Stats {
         val res = foldTransactions(
@@ -102,7 +102,7 @@ class CalculateFlow @Inject constructor(
     ).orNull() ?: 0.0
 
     private data class FoldArg(
-        val rates: ExchangeRates,
+        val rates: ExchangeRatesMap,
         val baseCurrency: CurrencyCode,
         val outputCurrency: CurrencyCode,
     )

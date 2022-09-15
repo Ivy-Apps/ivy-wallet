@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.currency.exchange
 
-import com.ivy.data.ExchangeRates
+import com.ivy.data.ExchangeRatesMap
 import com.ivy.exchange.cache.ExchangeRateDao
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
@@ -17,12 +17,12 @@ import javax.inject.Inject
 )
 class ExchangeRatesAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
-) : FPAction<Unit, ExchangeRates>() {
-    override suspend fun Unit.compose(): suspend () -> ExchangeRates = {
+) : FPAction<Unit, ExchangeRatesMap>() {
+    override suspend fun Unit.compose(): suspend () -> ExchangeRatesMap = {
         readIvyState().exchangeRates ?: retrieveRatesFromDB()
     }
 
-    private suspend fun retrieveRatesFromDB(): ExchangeRates =
+    private suspend fun retrieveRatesFromDB(): ExchangeRatesMap =
         exchangeRateDao::findAllSuspend thenMap {
             (it.currency to it.rate)
         } then { it.toMap() } thenInvokeAfter {

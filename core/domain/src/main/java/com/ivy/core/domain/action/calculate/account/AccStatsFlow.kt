@@ -1,94 +1,90 @@
 package com.ivy.core.domain.action.calculate.account
 
+import arrow.core.getOrElse
 import arrow.core.nonEmptyListOf
-import com.ivy.core.action.calculate.CalculateAct
-import com.ivy.core.action.calculate.Stats
-import com.ivy.core.action.transaction.TrnsFlow
-import com.ivy.core.domain.functions.transaction.chronological
+import com.ivy.core.domain.action.FlowAction
+import com.ivy.core.domain.action.calculate.Stats
+import com.ivy.core.domain.action.currency.exchange.ExchangeRatesFlow
+import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
+import com.ivy.core.domain.action.transaction.TrnQuery.ByAccountId
+import com.ivy.core.domain.action.transaction.TrnsFlow
+import com.ivy.core.domain.action.transaction.and
+import com.ivy.core.domain.functions.exchange.exchange
 import com.ivy.core.domain.functions.transaction.foldTransactions
-import com.ivy.core.persistence.query.TrnWhere.*
-import com.ivy.core.persistence.query.and
-import com.ivy.core.persistence.query.not
 import com.ivy.data.account.Account
 import com.ivy.data.time.Period
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TrnTypeOld
+import com.ivy.data.transaction.TrnType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AccStatsFlow @Inject constructor(
-    private val calculateAct: CalculateAct,
     private val trnsFlow: TrnsFlow,
-) : com.ivy.core.domain.action.FlowAction<AccStatsFlow.Input, Stats>() {
+    private val exchangeRatesFlow: ExchangeRatesFlow,
+) : FlowAction<AccStatsFlow.Input, Stats>() {
     data class Input(
         val account: Account,
         val period: Period,
-        val transfersAsIncomeExpense: Boolean = false
     )
 
     override fun Input.createFlow(): Flow<Stats> = combine(
-        incomeExpenseStats(), transfersIn(), transfersOut()
-    ) { stats, (tInAmount, tIn), (tOutAmount, tOut) ->
+        trnsFlow(ByAccountId(account.id) and ActualBetween(period)),
+        exchangeRatesFlow()
+    ) { trns, rates ->
+        @Suppress("UNUSED_PARAMETER")
+        suspend fun income(trn: Transaction, ignored: Unit) =
+            if (trn.type == TrnType.Income) {
+                exchange(
+                    rates = rates,
+                    from = trn.value.currency,
+                    to = account.currency,
+                    amount = trn.value.amount,
+                ).getOrElse { 0.0 }
+            } else 0.0
+
+        @Suppress("UNUSED_PARAMETER")
+        suspend fun expense(trn: Transaction, ignored: Unit) =
+            if (trn.type == TrnType.Expense) {
+                exchange(
+                    rates = rates,
+                    from = trn.value.currency,
+                    to = account.currency,
+                    amount = trn.value.amount,
+                ).getOrElse { 0.0 }
+            } else 0.0
+
+
+        @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
+        suspend fun countIncome(trn: Transaction, ignored: Unit) =
+            if (trn.type == TrnType.Income) 1.0 else 0.0
+
+        @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
+        suspend fun countExpense(trn: Transaction, ignored: Unit) =
+            if (trn.type == TrnType.Expense) 1.0 else 0.0
+
+
+        val res = foldTransactions(
+            transactions = trns,
+            valueFunctions = nonEmptyListOf(
+                ::income,
+                ::expense,
+                ::countIncome,
+                ::countExpense
+            ),
+            arg = Unit
+        )
+        val income = res[0]
+        val expense = res[1]
+
         Stats(
-            balance = stats.balance + tInAmount - tOutAmount,
-            income = if (transfersAsIncomeExpense) stats.income + tInAmount else stats.income,
-            expense = if (transfersAsIncomeExpense) stats.expense + tOutAmount else stats.expense,
-            incomesCount = if (transfersAsIncomeExpense)
-                stats.incomesCount + tIn.size else stats.incomesCount,
-            expensesCount = if (transfersAsIncomeExpense)
-                stats.expensesCount + tOut.size else stats.expensesCount,
-            trns = chronological(stats.trns + tIn + tOut)
+            balance = income - expense,
+            income = income,
+            expense = expense,
+            incomesCount = res[2].toInt(),
+            expensesCount = res[3].toInt(),
         )
     }.flowOn(Dispatchers.Default)
-
-    private fun Input.incomeExpenseStats(): Flow<Stats> =
-        trnsFlow(
-            ByAccountId(account) and ActualBetween(period) and not(ByType(TrnTypeOld.TRANSFER))
-        ).map { trns ->
-            calculateAct(
-                CalculateAct.Input(
-                    trns = trns,
-                    outputCurrency = account.currency
-                )
-            )
-        }.flowOn(Dispatchers.Default)
-
-    private fun Input.transfersIn(): Flow<Pair<Double, List<Transaction>>> =
-        trnsFlow(
-            ByType(TrnTypeOld.TRANSFER) and ActualBetween(period) and ByToAccount(account)
-        ).map { transfersIn ->
-            suspend fun transferInAmount(trn: Transaction, arg: Unit): Double =
-                (trn.type as? TransactionType.Transfer)?.toValue?.amount ?: 0.0
-
-            val amount = foldTransactions(
-                transactions = transfersIn,
-                valueFunctions = nonEmptyListOf(
-                    ::transferInAmount
-                ),
-                arg = Unit
-            ).head
-
-            amount to transfersIn
-        }.flowOn(Dispatchers.Default)
-
-    private fun Input.transfersOut(): Flow<Pair<Double, List<Transaction>>> =
-        trnsFlow(
-            ByAccountId(account) and ActualBetween(period) and ByType(TrnTypeOld.TRANSFER)
-        ).map { transfersOut ->
-            suspend fun transferOutAmount(trn: Transaction, arg: Unit): Double = trn.value.amount
-
-            val amount = foldTransactions(
-                transactions = transfersOut,
-                valueFunctions = nonEmptyListOf(
-                    ::transferOutAmount
-                ),
-                arg = Unit
-            ).head
-
-            amount to transfersOut
-        }.flowOn(Dispatchers.Default)
 }

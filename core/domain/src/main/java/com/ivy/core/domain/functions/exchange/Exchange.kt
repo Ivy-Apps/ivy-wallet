@@ -5,12 +5,12 @@ import arrow.core.Option
 import arrow.core.Some
 import arrow.core.computations.option
 import com.ivy.data.CurrencyCode
-import com.ivy.data.ExchangeRates
+import com.ivy.data.ExchangeRatesMap
+import com.ivy.data.exchange.ExchangeRates
 import com.ivy.frp.Pure
 
 suspend fun exchange(
     rates: ExchangeRates,
-    baseCurrency: CurrencyCode,
     from: CurrencyCode,
     to: CurrencyCode,
     amount: Double,
@@ -19,17 +19,17 @@ suspend fun exchange(
     if (amount == 0.0) return@option 0.0
 
     val rate = findRate(
-        rates = rates,
+        rates = rates.rates,
         from = from,
         to = to,
-        baseCurrency = baseCurrency,
+        baseCurrency = rates.baseCurrency,
     ).bind()
 
     rate * amount
 }
 
 suspend fun findRate(
-    rates: ExchangeRates,
+    rates: ExchangeRatesMap,
     from: CurrencyCode,
     to: CurrencyCode,
     baseCurrency: CurrencyCode,

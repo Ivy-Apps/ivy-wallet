@@ -1,8 +1,8 @@
 package com.ivy.exchange
 
 import com.ivy.data.CurrencyCode
-import com.ivy.data.ExchangeRates
+import com.ivy.data.ExchangeRatesMap
 
 interface ExchangeProvider {
-    suspend fun fetchExchangeRates(baseCurrency: CurrencyCode): ExchangeRates
+    suspend fun fetchExchangeRates(baseCurrency: CurrencyCode): ExchangeRatesMap
 }

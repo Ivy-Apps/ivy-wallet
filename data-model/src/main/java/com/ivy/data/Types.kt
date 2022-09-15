@@ -4,4 +4,4 @@ typealias IvyIconId = String
 
 typealias CurrencyCode = String
 
-typealias ExchangeRates = Map<CurrencyCode, Double>
+typealias ExchangeRatesMap = Map<CurrencyCode, Double>
