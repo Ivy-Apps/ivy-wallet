@@ -10,5 +10,5 @@ fun dummyTrnLinkRecordEntity(
     linkId: String = UUID.randomUUID().toString(),
     sync: SyncState = SyncState.Synced,
 ) = TrnLinkRecordEntity(
-    id = id, trnId = trnId, linkId = linkId, sync = sync,
+    id = id, trnId = trnId, batchId = linkId, sync = sync,
 )

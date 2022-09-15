@@ -15,8 +15,8 @@ data class TrnLinkRecordEntity(
     val id: String,
     @ColumnInfo(name = "trnId", index = true)
     val trnId: String,
-    @ColumnInfo(name = "linkId")
-    val linkId: String,
+    @ColumnInfo(name = "batchId")
+    val batchId: String,
 
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
