@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":data-model"))
+    api(project(":core:data-model"))
     api(project(":resources"))
 
     Hilt()

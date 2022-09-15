@@ -57,7 +57,7 @@ android {
 dependencies {
     Hilt()
     implementation(project(":common"))
-    implementation(project(":data-model"))
+    implementation(project(":core:data-model"))
 
     Compose(api = true)
     AndroidX(api = true)

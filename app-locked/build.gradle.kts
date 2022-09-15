@@ -15,5 +15,5 @@ dependencies {
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":ui-components-old"))
-    implementation(project(":data-model"))
+    implementation(project(":core:data-model"))
 }

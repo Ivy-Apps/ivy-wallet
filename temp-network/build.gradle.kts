@@ -1,5 +1,5 @@
-import com.ivy.buildsrc.Networking
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Networking
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -11,7 +11,7 @@ plugins {
 dependencies {
     Hilt()
     implementation(project(":common"))
-    implementation(project(":data-model"))
+    implementation(project(":core:data-model"))
     implementation(project(":temp-persistence"))
     Networking(api = true)
 

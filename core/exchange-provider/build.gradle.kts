@@ -12,7 +12,7 @@ plugins {
 dependencies {
     Hilt()
     implementation(project(":common"))
-    implementation(project(":data-model"))
+    implementation(project(":core:data-model"))
     RoomDB(api = true)
     Networking(api = false)
 }

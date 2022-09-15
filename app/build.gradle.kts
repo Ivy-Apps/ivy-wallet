@@ -140,7 +140,7 @@ dependencies {
     implementation(project(":settings"))
     implementation(project(":search-transactions"))
     implementation(project(":transaction-details"))
-    implementation(project(":data-model"))
+    implementation(project(":core:data-model"))
     implementation(project(":ui-components-old"))
     implementation(project(":customer-journey"))
     implementation(project(":widgets"))
