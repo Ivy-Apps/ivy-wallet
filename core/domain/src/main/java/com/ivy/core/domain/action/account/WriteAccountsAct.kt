@@ -1,7 +1,7 @@
 package com.ivy.core.domain.action.account
 
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.functions.mapping.entity.mapToEntity
+import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.query.TrnQueryExecutor
 import com.ivy.core.persistence.query.TrnWhere

@@ -1,7 +1,7 @@
 package com.ivy.core.domain.action.transaction
 
-import com.ivy.core.domain.functions.mapping.entity.mapToEntity
-import com.ivy.core.domain.functions.mapping.entity.mapToTrnTagEntity
+import com.ivy.core.domain.pure.mapping.entity.mapToEntity
+import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao

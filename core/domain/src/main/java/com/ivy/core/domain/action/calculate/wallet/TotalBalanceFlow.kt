@@ -4,7 +4,7 @@ import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.calculate.account.AccStatsFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.domain.functions.time.allTime
+import com.ivy.core.domain.pure.time.allTime
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.Value
 import kotlinx.coroutines.Dispatchers

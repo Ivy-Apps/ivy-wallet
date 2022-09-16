@@ -10,7 +10,7 @@ import com.ivy.core.domain.action.settings.name.NameFlow
 import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
 import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
 import com.ivy.core.domain.action.transaction.or
-import com.ivy.core.domain.functions.time.period
+import com.ivy.core.domain.pure.time.period
 import com.ivy.core.ui.navigation.Nav
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList

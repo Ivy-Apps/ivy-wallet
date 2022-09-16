@@ -3,10 +3,10 @@ package com.ivy.core.domain.action.calculate
 import arrow.core.nonEmptyListOf
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
-import com.ivy.core.domain.functions.exchange.exchange
-import com.ivy.core.domain.functions.transaction.foldTransactions
+import com.ivy.core.domain.pure.exchange.exchange
+import com.ivy.core.domain.pure.transaction.foldTransactions
 import com.ivy.data.CurrencyCode
-import com.ivy.data.exchange.ExchangeRates
+import com.ivy.data.exchange.ExchangeRatesData
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnPurpose.*
 import com.ivy.data.transaction.TrnType
@@ -36,7 +36,7 @@ class CalculateFlow @Inject constructor(
     }
 
     suspend fun Input.calculate(
-        rates: ExchangeRates,
+        rates: ExchangeRatesData,
     ): Stats {
         val outputCurrency = this.outputCurrency ?: rates.baseCurrency
         val res = foldTransactions(
@@ -107,14 +107,14 @@ class CalculateFlow @Inject constructor(
         trn: Transaction,
         arg: FoldArg,
     ): Double = exchange(
-        rates = arg.rates,
+        ratesData = arg.rates,
         from = trn.value.currency,
         to = arg.outputCurrency,
         amount = trn.value.amount,
     ).orNull() ?: 0.0
 
     private data class FoldArg(
-        val rates: ExchangeRates,
+        val rates: ExchangeRatesData,
         val outputCurrency: CurrencyCode,
     )
 }

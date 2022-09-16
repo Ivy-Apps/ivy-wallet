@@ -5,8 +5,8 @@ import com.ivy.common.timeNowLocal
 import com.ivy.common.toEpochSeconds
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.calculate.CalculateFlow
-import com.ivy.core.domain.functions.transaction.overdue
-import com.ivy.core.domain.functions.transaction.upcoming
+import com.ivy.core.domain.pure.transaction.overdue
+import com.ivy.core.domain.pure.transaction.upcoming
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.data.transaction.*

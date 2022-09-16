@@ -4,7 +4,7 @@ import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
-import com.ivy.data.exchange.ExchangeRates
+import com.ivy.data.exchange.ExchangeRatesData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -19,20 +19,20 @@ class ExchangeRatesFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val exchangeRateDao: ExchangeRateDao,
     private val exchangeRateOverrideDao: ExchangeRateOverrideDao,
-) : SharedFlowAction<ExchangeRates>() {
-    override fun initialValue(): ExchangeRates = ExchangeRates(
+) : SharedFlowAction<ExchangeRatesData>() {
+    override fun initialValue(): ExchangeRatesData = ExchangeRatesData(
         baseCurrency = "",
         rates = emptyMap()
     )
 
     @OptIn(FlowPreview::class)
-    override fun createFlow(): Flow<ExchangeRates> =
+    override fun createFlow(): Flow<ExchangeRatesData> =
         baseCurrencyFlow().flatMapMerge { baseCurrency ->
             combine(
                 exchangeRateDao.findAllByBaseCurrency(baseCurrency),
                 exchangeRateOverrideDao.findAllByBaseCurrency(baseCurrency)
-            ) { rates, ratesOverride ->
-                val ratesMap = rates
+            ) { rateEntities, ratesOverride ->
+                val ratesMap = rateEntities
                     .filter { it.baseCurrency == baseCurrency }
                     .associate { it.currency to it.rate }
                     .toMutableMap()
@@ -43,11 +43,10 @@ class ExchangeRatesFlow @Inject constructor(
                         ratesMap[it.currency] = it.rate
                     }
 
-                ExchangeRates(
+                ExchangeRatesData(
                     baseCurrency = baseCurrency,
                     rates = ratesMap,
                 )
             }
         }.flowOn(Dispatchers.Default)
-
 }

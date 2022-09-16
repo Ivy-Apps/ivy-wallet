@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.category
 
-import com.ivy.core.domain.functions.mapping.entity.mapToEntity
+import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.category.CategoryDao
 import com.ivy.data.Modify
 import com.ivy.data.SyncState
