@@ -14,7 +14,5 @@ interface CoinbaseService {
     }
 
     @GET
-    suspend fun getExchangeRates(
-        @Url url: String,
-    ): CoinbaseRatesResponse
+    suspend fun getExchangeRates(@Url url: String): CoinbaseRatesResponse
 }

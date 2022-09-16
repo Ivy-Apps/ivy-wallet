@@ -1,6 +1,7 @@
 package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
+import com.ivy.data.exchange.ExchangeProvider
 import com.ivy.exchange.RemoteExchangeProvider
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -29,7 +30,7 @@ class CoinbaseExchangeProvider @Inject constructor(
                 is Res.Ok -> it.data
                 is Res.Err -> it.error
             },
-            provider = com.ivy.data.exchange.ExchangeProvider.Coinbase
+            provider = ExchangeProvider.Coinbase
         )
     }
 
