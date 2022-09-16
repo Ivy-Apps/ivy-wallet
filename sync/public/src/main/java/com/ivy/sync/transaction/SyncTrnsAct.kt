@@ -1,4 +1,5 @@
 package com.ivy.sync.transaction
+/*
 
 import com.ivy.data.SyncMetadata
 import com.ivy.data.transaction.Transaction
@@ -49,18 +50,4 @@ class SyncTrnsAct @Inject constructor(
     private suspend fun persist(item: Transaction) {
         transactionDao.save(mapToEntity(item))
     }
-
-
-}
-
-fun Transaction.mark(
-    isSynced: Boolean,
-    isDeleted: Boolean
-): Transaction = this.copy(
-    metadata = this.metadata.copy(
-        sync = SyncMetadata(
-            isSynced = isSynced,
-            isDeleted = isDeleted,
-        )
-    )
-)
+}*/

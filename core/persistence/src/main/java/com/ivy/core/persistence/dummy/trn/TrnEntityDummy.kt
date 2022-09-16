@@ -1,9 +1,11 @@
 package com.ivy.core.persistence.dummy.trn
 
 import com.ivy.core.persistence.entity.trn.TrnEntity
-import com.ivy.core.persistence.entity.trn.TrnTimeType
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
+import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -20,23 +22,21 @@ fun dummyTrnEntity(
     title: String? = null,
     description: String? = null,
     categoryId: String? = null,
-    attachmentUrl: String? = null,
+    state: TrnState = TrnState.Default,
     purpose: TrnPurpose? = null,
-    isSynced: Boolean = true,
-    isDeleted: Boolean = false,
+    sync: SyncState = SyncState.Synced,
 ): TrnEntity = TrnEntity(
     id = id,
     accountId = accountId,
     type = type,
     amount = amount,
     currency = currency,
-    dateTime = dateTime,
-    dateTimeType = dateTimeType,
+    time = dateTime,
+    timeType = dateTimeType,
     title = title,
     description = description,
     categoryId = categoryId,
-    attachmentUrl = attachmentUrl,
+    state = state,
     purpose = purpose,
-    isSynced = isSynced,
-    isDeleted = isDeleted,
+    sync = sync,
 )

@@ -3,13 +3,14 @@ package com.ivy.wallet.io.persistence
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import com.ivy.exchange.cache.ExchangeRateDao
-import com.ivy.exchange.cache.ExchangeRateEntity
+import com.ivy.temp.persistence.ExchangeRateDao
+import com.ivy.temp.persistence.ExchangeRateEntity
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
 
 
+@Deprecated("don't use! it'll be deleted after data migration")
 @Database(
     entities = [
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
@@ -50,7 +51,7 @@ abstract class IvyRoomDatabase : RoomDatabase() {
     abstract fun loanRecordDao(): LoanRecordDao
 
     companion object {
-        const val DB_NAME = "ivywallet.db"
+        private const val DB_NAME = "ivywallet.db"
 
         fun create(applicationContext: Context): IvyRoomDatabase {
             return Room

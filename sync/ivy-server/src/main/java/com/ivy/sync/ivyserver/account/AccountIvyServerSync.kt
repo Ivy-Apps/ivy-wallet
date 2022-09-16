@@ -1,6 +1,5 @@
 package com.ivy.sync.ivyserver.account
 
-import com.ivy.core.functions.icon.iconId
 import com.ivy.data.account.Account
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -44,14 +43,6 @@ class AccountIvyServerSync @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private fun mapToDTO(acc: Account): AccountDTO = AccountDTO(
-        id = acc.id,
-        name = acc.name,
-        currency = acc.currency,
-        color = acc.color,
-        icon = acc.icon.iconId(),
-        orderNum = acc.metadata.orderNum,
-        includeInBalance = !acc.excluded,
-    )
+    private fun mapToDTO(acc: Account): AccountDTO = TODO()
 }
 

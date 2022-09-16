@@ -10,12 +10,12 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.filterSuspend
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.frp.viewmodel.readOnly
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld

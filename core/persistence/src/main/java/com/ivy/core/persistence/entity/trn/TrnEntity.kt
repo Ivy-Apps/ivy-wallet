@@ -1,41 +1,69 @@
 package com.ivy.core.persistence.entity.trn
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
+import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnPurpose
+import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import java.time.Instant
 
-// TODO: Add indices
-@Entity(tableName = "transactions_v2")
+@Entity(tableName = "transactions")
 data class TrnEntity(
     @PrimaryKey
+    @ColumnInfo(name = "id", index = true)
     val id: String,
 
     // region Mandatory
+    @ColumnInfo(name = "accountId", index = true)
     val accountId: String,
+    @ColumnInfo(name = "type", index = true)
     val type: TrnType,
+    @ColumnInfo(name = "amount")
     val amount: Double,
+    @ColumnInfo(name = "currency")
     val currency: CurrencyCode,
-    val dateTime: Instant,
-    val dateTimeType: TrnTimeType,
+    @ColumnInfo(name = "time", index = true)
+    val time: Instant,
+    /**
+     * actual (happened) or due (planned)
+     */
+    @ColumnInfo(name = "timeType", index = true)
+    val timeType: TrnTimeType,
     // endregion
 
     // region Optional
+    @ColumnInfo(name = "title")
     val title: String?,
+    @ColumnInfo(name = "description")
     val description: String?,
+    @ColumnInfo(name = "categoryId", index = true)
     val categoryId: String?,
-    val attachmentUrl: String?,
+    /**
+     * attachments are handled via
+     * [com.ivy.core.persistence.entity.attachment.AttachmentEntity]
+     */
     // endregion
 
-
     // region Metadata
+    /**
+     * transactions are linked together (batched) via
+     * [TrnLinkRecordEntity]
+     */
+
+    /**
+     * additional transaction metadata is stored in
+     * [TrnMetadataEntity]
+     */
+
+    @ColumnInfo(name = "state")
+    val state: TrnState,
+    @ColumnInfo(name = "purpose")
     val purpose: TrnPurpose?,
-    // TODO: Trn Metadata will be saved in another table "trn_metadata"
-    // One transaction can have many metadata records to it
-    // TODO: Make a decision on transaciton metadata
-    val isSynced: Boolean,
-    val isDeleted: Boolean,
+    @ColumnInfo(name = "sync", index = true)
+    val sync: SyncState,
     // endregion
 )

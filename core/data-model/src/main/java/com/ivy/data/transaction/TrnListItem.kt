@@ -1,0 +1,21 @@
+package com.ivy.data.transaction
+
+import java.time.LocalDate
+
+sealed interface TrnListItem {
+    data class Trn(val trn: Transaction) : TrnListItem
+
+    data class Transfer(
+        val batchId: String,
+        val time: TrnTime,
+        val from: Transaction,
+        val to: Transaction,
+        val fee: Transaction?
+    ) : TrnListItem
+
+    data class DateDivider(
+        val date: LocalDate,
+        val cashflow: Value,
+    ) : TrnListItem
+}
+

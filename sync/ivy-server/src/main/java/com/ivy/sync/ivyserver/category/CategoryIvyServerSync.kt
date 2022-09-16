@@ -1,6 +1,5 @@
 package com.ivy.sync.ivyserver.category
 
-import com.ivy.core.functions.icon.iconId
 import com.ivy.data.category.Category
 import com.ivy.frp.asParamTo
 import com.ivy.frp.monad.Res
@@ -44,12 +43,5 @@ class CategoryIvyServerSync @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private fun mapToDTO(cat: Category): CategoryDTO = CategoryDTO(
-        id = cat.id,
-        name = cat.name,
-        //TODO: Handle parentCategoryId
-        color = cat.color,
-        icon = cat.icon.iconId(),
-        orderNum = cat.metadata.orderNum,
-    )
+    private fun mapToDTO(cat: Category): CategoryDTO = TODO()
 }

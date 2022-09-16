@@ -4,16 +4,18 @@ import arrow.core.Option
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.pure.account.accountCurrency
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
 import java.math.BigDecimal
 import java.util.*
 
+@Deprecated("old")
 typealias ExchangeEffect = suspend (ExchangeData, BigDecimal) -> Option<BigDecimal>
 
+@Deprecated("old")
 data class ExchangeTrnArgument(
     val baseCurrency: String,
     @SideEffect
@@ -22,6 +24,7 @@ data class ExchangeTrnArgument(
     val exchange: ExchangeEffect
 )
 
+@Deprecated("old")
 @Pure
 suspend fun exchangeInBaseCurrency(
     transaction: TransactionOld,

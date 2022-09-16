@@ -1,10 +1,10 @@
 package com.ivy.wallet.domain.action.transaction
 
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.actInput
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.then
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.actInput
 import com.ivy.wallet.domain.pure.transaction.transactionsWithDateDividers
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import javax.inject.Inject

@@ -4,11 +4,11 @@ import arrow.core.nonEmptyListOf
 import arrow.core.toOption
 import com.ivy.data.AccountOld
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.then
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.pure.account.filterExcluded
 import com.ivy.wallet.domain.pure.transaction.AccountValueFunctions

@@ -1,6 +1,6 @@
+import com.ivy.buildsrc.DataStore
 import com.ivy.buildsrc.Hilt
 import com.ivy.buildsrc.RoomDB
-import com.ivy.buildsrc.SerializationJson
 import com.ivy.buildsrc.Testing
 
 apply<com.ivy.buildsrc.IvyPlugin>()
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         kapt {
             arguments {
-                arg("room.schemaLocation", "$projectDir/../schemas-new")
+                arg("room.schemaLocation", "$projectDir/../room-db-schemas")
             }
         }
     }
@@ -25,7 +25,7 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     RoomDB(api = false)
-    SerializationJson()
+    DataStore(api = false)
 
     Testing()
 }

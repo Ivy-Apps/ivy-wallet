@@ -7,6 +7,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import java.time.LocalDateTime
 import java.util.*
 
+@Deprecated("use `:core:persistence`")
 @Entity(tableName = "transactions")
 data class TransactionEntity(
     val accountId: UUID,

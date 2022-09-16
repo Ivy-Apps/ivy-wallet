@@ -11,13 +11,13 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.exchange.cache.ExchangeRateDao
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.screens.ItemStatistic
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.ExchangeData
+import com.ivy.temp.persistence.ExchangeRateDao
 import com.ivy.wallet.domain.action.account.AccTrnsAct
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct

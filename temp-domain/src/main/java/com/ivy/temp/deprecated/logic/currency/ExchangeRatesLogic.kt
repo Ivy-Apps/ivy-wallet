@@ -3,8 +3,8 @@ package com.ivy.wallet.domain.deprecated.logic.currency
 import com.ivy.data.AccountOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.cache.ExchangeRate
-import com.ivy.exchange.cache.ExchangeRateDao
+import com.ivy.temp.persistence.ExchangeRate
+import com.ivy.temp.persistence.ExchangeRateDao
 import com.ivy.wallet.io.network.RestClient
 import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.io.persistence.dao.AccountDao

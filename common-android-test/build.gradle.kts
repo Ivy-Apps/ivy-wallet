@@ -9,11 +9,13 @@ plugins {
 
 dependencies {
     Hilt()
+    HiltTesting(
+        dependency = { api(it) },
+        kaptProcessor = { kapt(it) }
+    )
 
     Testing(commonTest = false)
     Kotlin(api = false)
     Coroutines(api = false)
-    AndroidXTest(dependency = { dep ->
-        api(dep)
-    })
+    AndroidXTest(dependency = { api(it) })
 }
