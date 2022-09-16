@@ -1,0 +1,22 @@
+package com.ivy.core.domain.pure.calculate.transaction
+
+import com.ivy.common.toEpochSeconds
+import com.ivy.core.domain.pure.util.actualDate
+import com.ivy.data.transaction.TrnListItem
+import java.time.LocalDate
+
+fun groupActualTrnsByDate(actualTrns: List<TrnListItem>): Map<LocalDate, List<TrnListItem>> {
+    if (actualTrns.isEmpty()) return emptyMap()
+
+    return actualTrns
+        .groupBy { actualDate(it) }
+        .filterKeys { it != null }
+        .toSortedMap { date1, date2 ->
+            if (date1 == null || date2 == null)
+                return@toSortedMap 0 //this case shouldn't happen
+            (date2.atStartOfDay().toEpochSeconds() - date1.atStartOfDay()
+                .toEpochSeconds()).toInt()
+        }.mapKeys { (key, _) ->
+            key!!
+        }
+}

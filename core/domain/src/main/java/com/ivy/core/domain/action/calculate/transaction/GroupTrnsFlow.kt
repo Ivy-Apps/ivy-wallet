@@ -2,12 +2,15 @@ package com.ivy.core.domain.action.calculate.transaction
 
 import com.ivy.common.time
 import com.ivy.common.timeNowLocal
-import com.ivy.common.toEpochSeconds
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.pure.calculate.transaction.batchTrns
+import com.ivy.core.domain.pure.calculate.transaction.groupActualTrnsByDate
 import com.ivy.core.domain.pure.transaction.overdue
 import com.ivy.core.domain.pure.transaction.upcoming
+import com.ivy.core.domain.pure.util.actualDate
+import com.ivy.core.domain.pure.util.actualTrns
+import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers
@@ -68,13 +71,13 @@ class GroupTrnsFlow @Inject constructor(
                 trns = dueTrns,
                 includeTransfers = false,
             )
-        ).map { upcomingStats ->
+        ).map { dueStats ->
             // the soonest due date should appear first
             val sortedTrns = dueTrns.sortedBy { it.time.time() }
 
             createSection(
-                upcomingStats.income,
-                upcomingStats.expense,
+                dueStats.income,
+                dueStats.expense,
                 sortedTrns
             )
         }.flowOn(Dispatchers.Default)
@@ -85,35 +88,18 @@ class GroupTrnsFlow @Inject constructor(
     private fun historyFlow(
         trnListItems: List<TrnListItem>
     ): Flow<List<TrnListItem>> {
-        val actualTrns = trnListItems.filter {
-            when (it) {
-                is TrnListItem.DateDivider -> false
-                is TrnListItem.Transfer -> it.time is TrnTime.Actual
-                is TrnListItem.Trn -> it.trn.time is TrnTime.Actual
-            }
-        }
+        val actualTrns = actualTrns(trnItems = trnListItems)
+        val trnsByDay = groupActualTrnsByDate(actualTrns = actualTrns)
 
-        return groupByDateFlow(actualTrns = actualTrns)
-    }
+        // emit so the waiting for it "combine" doesn't get stuck
+        if (trnsByDay.isEmpty()) return flow { emit(emptyList()) }
 
-    private fun groupByDateFlow(
-        actualTrns: List<TrnListItem>,
-    ): Flow<List<TrnListItem>> {
-        if (actualTrns.isEmpty()) return flow { emptyList<TrnListItem>() }
-
-        val historyDateTrnsMap = actualTrns
-            .groupBy { actualDate(it) }
-            .toSortedMap { date1, date2 ->
-                if (date1 == null || date2 == null)
-                    return@toSortedMap 0 //this case shouldn't happen
-                (date2.atStartOfDay().toEpochSeconds() - date1.atStartOfDay()
-                    .toEpochSeconds()).toInt()
-            }
+        // calculate stats for each trn history day
         return combine(
-            historyDateTrnsMap.map { (date, trnsForDay) ->
+            trnsByDay.map { (day, trnsForTheDay) ->
                 trnHistoryDayFlow(
-                    date = date!!,
-                    trnsForDay = trnsForDay,
+                    day = day,
+                    unsortedTrns = trnsForTheDay,
                 )
             }
         ) { trnsPerDay ->
@@ -122,38 +108,24 @@ class GroupTrnsFlow @Inject constructor(
     }
 
     private fun trnHistoryDayFlow(
-        date: LocalDate,
-        trnsForDay: List<TrnListItem>
-    ): Flow<List<TrnListItem>> {
-        fun trns(item: TrnListItem): List<Transaction> = when (item) {
-            is TrnListItem.DateDivider -> emptyList()
-            is TrnListItem.Transfer -> listOfNotNull(item.from, item.to, item.fee)
-            is TrnListItem.Trn -> listOf(item.trn)
-        }
-
-        return calculateFlow(
-            CalculateFlow.Input(
-                trns = trnsForDay.flatMap(::trns),
-                outputCurrency = null,
-                includeTransfers = true,
+        day: LocalDate,
+        unsortedTrns: List<TrnListItem>
+    ): Flow<List<TrnListItem>> = calculateFlow(
+        CalculateFlow.Input(
+            trns = unsortedTrns.flatMap(::extractTrns),
+            outputCurrency = null,
+            includeTransfers = true,
+        )
+    ).map { statsForTheDay ->
+        listOf(
+            TrnListItem.DateDivider(
+                date = day,
+                cashflow = statsForTheDay.balance,
             )
-        ).map { dayStats ->
-            listOf<TrnListItem>(
-                TrnListItem.DateDivider(
-                    date = date,
-                    cashflow = dayStats.balance,
-                )
-            ).plus(
-                // Newest transactions appear at the top
-                trnsForDay.sortedByDescending(::actualDate)
-            )
-        }
+        ).plus(
+            // Newest transactions should appear at the top
+            unsortedTrns.sortedByDescending(::actualDate)
+        )
     }
-
-    private fun actualDate(item: TrnListItem): LocalDate? = when (item) {
-        is TrnListItem.DateDivider -> null
-        is TrnListItem.Transfer -> (item.time as? TrnTime.Actual)
-        is TrnListItem.Trn -> (item.trn.time as? TrnTime.Actual)
-    }?.run { actual.toLocalDate() }
     // endregion
 }
