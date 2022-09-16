@@ -71,7 +71,9 @@ class GroupTrnsFlow @Inject constructor(
                 includeTransfers = false,
             )
         ).map { dueStats ->
-            // the soonest due date should appear first
+            // the sooner due date, the higher in the list the transaction should appear
+            // upcoming: the most near upcoming trn will appear first
+            // overdue: the most overdue trn will appear first
             val sortedTrns = dueTrns.sortedBy { it.time.time() }
 
             createSection(
