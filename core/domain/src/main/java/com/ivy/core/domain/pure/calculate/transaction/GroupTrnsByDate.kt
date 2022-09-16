@@ -6,6 +6,12 @@ import com.ivy.core.domain.pure.util.actualTime
 import com.ivy.data.transaction.TrnListItem
 import java.time.LocalDate
 
+/**
+ * Groups actual transactions by date and sorts them DESC
+ * (the latest transactions will appear first).
+ * @param actualTrns list containing only [TrnListItem.Trn] or [TrnListItem.Transfer] with
+ * actual time [com.ivy.data.transaction.TrnTime.Actual].
+ */
 fun groupActualTrnsByDate(actualTrns: List<TrnListItem>): Map<LocalDate, List<TrnListItem>> {
     if (actualTrns.isEmpty()) return emptyMap()
 

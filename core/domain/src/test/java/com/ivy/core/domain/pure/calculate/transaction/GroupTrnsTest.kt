@@ -41,7 +41,7 @@ class GroupTrnsTest : StringSpec({
     )
     // endregion
 
-    "group transactions by date and sort them" {
+    "group trns by date and sort them" {
         val today = trn(daysFromNow = 0, hour24h = 12)
         val yesterday1 = trn(daysFromNow = -1, hour24h = 22)
         val yesterday2 = transfer(daysFromNow = -1, hour24h = 20)
@@ -54,14 +54,36 @@ class GroupTrnsTest : StringSpec({
             fiveDaysBefore1, fiveDaysBefore2, fiveDaysBefore3
         ).shuffled()
 
-        val trnsByDay = groupActualTrnsByDate(actualTrns = trns)
+        val res = groupActualTrnsByDate(actualTrns = trns)
 
-        trnsByDay shouldBe mapOf(
+        res shouldBe mapOf(
             date(0) to listOf(today),
             date(-1) to listOf(yesterday1, yesterday2),
             date(-5) to listOf(
                 fiveDaysBefore1, fiveDaysBefore2, fiveDaysBefore3
             )
         )
+    }
+
+    "group trns from different years by date" {
+        val today = trn(daysFromNow = 0, hour24h = 12)
+        val lastYear1 = trn(daysFromNow = -400, hour24h = 12)
+        val lastYear2 = trn(daysFromNow = -400, hour24h = 10)
+        val twoYearsAgo = transfer(daysFromNow = -800, hour24h = 10)
+        val trns = listOf(today, lastYear1, lastYear2, twoYearsAgo).shuffled()
+
+        val res = groupActualTrnsByDate(trns)
+
+        res shouldBe mapOf(
+            date(0) to listOf(today),
+            date(-400) to listOf(lastYear1, lastYear2),
+            date(-800) to listOf(twoYearsAgo)
+        )
+    }
+
+    "group empty trns list" {
+        val res = groupActualTrnsByDate(emptyList())
+
+        res shouldBe emptyMap()
     }
 })
