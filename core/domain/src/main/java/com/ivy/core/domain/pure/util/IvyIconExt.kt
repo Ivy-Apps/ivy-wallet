@@ -1,4 +1,4 @@
-package com.ivy.core.domain.pure.icon
+package com.ivy.core.domain.pure.util
 
 import com.ivy.data.IvyIconId
 import com.ivy.data.icon.IvyIcon

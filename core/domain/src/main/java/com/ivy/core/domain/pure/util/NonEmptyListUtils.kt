@@ -1,4 +1,4 @@
-package com.ivy.core.domain.pure
+package com.ivy.core.domain.pure.util
 
 import arrow.core.NonEmptyList
 
@@ -13,8 +13,5 @@ suspend fun <T> NonEmptyList<T>.mapIndexedNel(
     )
 }
 
-fun nonEmptyListOfZeros(n: Int): NonEmptyList<Double> {
-    return NonEmptyList.fromListUnsafe(
-        List(n) { 0.0 }
-    )
-}
+fun nonEmptyListOfZeros(n: Int): NonEmptyList<Double> =
+    NonEmptyList.fromListUnsafe(List(n) { 0.0 })

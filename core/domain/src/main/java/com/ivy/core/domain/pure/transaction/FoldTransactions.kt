@@ -1,8 +1,8 @@
 package com.ivy.core.domain.pure.transaction
 
 import arrow.core.NonEmptyList
-import com.ivy.core.domain.pure.mapIndexedNel
-import com.ivy.core.domain.pure.nonEmptyListOfZeros
+import com.ivy.core.domain.pure.util.mapIndexedNel
+import com.ivy.core.domain.pure.util.nonEmptyListOfZeros
 import com.ivy.data.transaction.Transaction
 import com.ivy.frp.Pure
 

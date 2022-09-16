@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.mapping.entity
 
-import com.ivy.core.domain.pure.icon.iconId
+import com.ivy.core.domain.pure.util.iconId
 import com.ivy.core.persistence.entity.account.AccountEntity
 import com.ivy.data.account.Account
 
