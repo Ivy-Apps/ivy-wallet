@@ -7,10 +7,10 @@ import com.ivy.common.convertUTCtoLocal
 import com.ivy.common.toEpochSeconds
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TransactionOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.then
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.pure.exchange.ExchangeTrnArgument
 import com.ivy.wallet.domain.pure.exchange.exchangeInBaseCurrency
@@ -40,6 +40,7 @@ suspend fun List<TransactionOld>.withDateDividers(
     )
 }
 
+@Deprecated("old")
 @Pure
 suspend fun transactionsWithDateDividers(
     transactions: List<TransactionOld>,

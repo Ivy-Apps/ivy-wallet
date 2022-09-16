@@ -1,13 +1,13 @@
 package com.ivy.wallet.domain.action.wallet
 
 import arrow.core.toOption
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenFilter
 import com.ivy.frp.action.thenMap
 import com.ivy.frp.action.thenSum
 import com.ivy.frp.fixUnit
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import java.math.BigDecimal

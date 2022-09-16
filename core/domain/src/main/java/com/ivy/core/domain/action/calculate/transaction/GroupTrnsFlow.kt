@@ -56,7 +56,7 @@ class GroupTrnsFlow @Inject constructor(
         trnListItems: List<TrnListItem>,
         dueFilter: (Transaction, now: LocalDateTime) -> Boolean,
         createSection: (income: Value, expense: Value, trns: List<Transaction>) -> T
-    ): Flow<T> {
+    ): Flow<T?> {
         val now = timeNowLocal()
         val dueTrns = trnListItems.mapNotNull {
             when (it) {
@@ -64,6 +64,9 @@ class GroupTrnsFlow @Inject constructor(
                 else -> null
             }
         }.filter { dueFilter(it, now) }
+
+        // short circuit & emit null so combine doesn't get stuck
+        if (dueTrns.isEmpty()) return flowOf(null)
 
         return calculateFlow(
             CalculateFlow.Input(
@@ -93,7 +96,7 @@ class GroupTrnsFlow @Inject constructor(
         val trnsByDay = groupActualTrnsByDate(actualTrns = actualTrns)
 
         // emit so the waiting for it "combine" doesn't get stuck
-        if (trnsByDay.isEmpty()) return flow { emit(emptyList()) }
+        if (trnsByDay.isEmpty()) return flowOf(emptyList())
 
         // calculate stats for each trn history day
         return combine(

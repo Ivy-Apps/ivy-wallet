@@ -1,4 +1,4 @@
-package com.ivy.exchange.deprecated
+package com.ivy.temp.persistence
 
 import arrow.core.None
 import arrow.core.Option
@@ -23,7 +23,7 @@ suspend fun exchangeOld(
     amount: BigDecimal,
 
     @SideEffect
-    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
+    getExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> com.ivy.temp.persistence.ExchangeRate?,
 ): Option<BigDecimal> = option {
     if (amount == BigDecimal.ZERO) {
         return@option BigDecimal.ZERO
@@ -104,7 +104,7 @@ private fun String.validateCurrency(): Option<String> {
 suspend fun validExchangeRateOld(
     baseCurrency: String,
     toCurrency: String,
-    retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> ExchangeRate?,
+    retrieveExchangeRate: suspend (baseCurrency: String, toCurrency: String) -> com.ivy.temp.persistence.ExchangeRate?,
 ): Option<BigDecimal> = option {
     retrieveExchangeRate(
         baseCurrency, toCurrency
@@ -115,7 +115,7 @@ suspend fun validExchangeRateOld(
 
 @Deprecated("old")
 @Pure
-fun ExchangeRate.validateRate(): Option<Double> {
+fun com.ivy.temp.persistence.ExchangeRate.validateRate(): Option<Double> {
     //exchange rate which <= 0 is invalid!
     return if (rate > 0) return Some(rate) else None
 }

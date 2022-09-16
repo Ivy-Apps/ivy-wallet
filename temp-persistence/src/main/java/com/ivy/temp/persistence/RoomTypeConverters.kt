@@ -11,6 +11,7 @@ import com.ivy.data.user.AuthProviderType
 import java.time.LocalDateTime
 import java.util.*
 
+@Deprecated("old")
 @SuppressWarnings("unused")
 class RoomTypeConverters {
     @TypeConverter

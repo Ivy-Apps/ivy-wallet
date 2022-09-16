@@ -1,4 +1,4 @@
-package com.ivy.exchange.deprecated
+package com.ivy.temp.persistence
 
 import arrow.core.Option
 import com.ivy.frp.action.FPAction

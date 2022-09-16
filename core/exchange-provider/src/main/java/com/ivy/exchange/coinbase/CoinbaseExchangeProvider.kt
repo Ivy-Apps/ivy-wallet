@@ -1,37 +1,34 @@
 package com.ivy.exchange.coinbase
 
 import com.ivy.data.CurrencyCode
+import com.ivy.data.ExchangeRatesMap
 import com.ivy.data.exchange.ExchangeProvider
 import com.ivy.exchange.RemoteExchangeProvider
-import com.ivy.frp.asParamTo
-import com.ivy.frp.monad.Res
-import com.ivy.frp.monad.mapError
-import com.ivy.frp.monad.mapSuccess
-import com.ivy.frp.monad.tryOp
-import com.ivy.frp.thenInvokeAfter
+import com.ivy.network.ktorClient
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import javax.inject.Inject
 
-class CoinbaseExchangeProvider @Inject constructor(
-    private val coinbaseService: CoinbaseService,
-) : RemoteExchangeProvider {
+class CoinbaseExchangeProvider @Inject constructor() : RemoteExchangeProvider {
     override suspend fun fetchExchangeRates(
         baseCurrency: CurrencyCode
-    ): RemoteExchangeProvider.Result = tryOp(
-        operation = CoinbaseService.exchangeRatesUrl(
-            baseCurrency = baseCurrency
-        ) asParamTo coinbaseService::getExchangeRates
-    ) mapSuccess {
-        it.data.rates
-    } mapError {
-        emptyMap<CurrencyCode, Double>()
-    } thenInvokeAfter {
-        RemoteExchangeProvider.Result(
-            ratesMap = when (it) {
-                is Res.Ok -> it.data
-                is Res.Err -> it.error
-            },
-            provider = ExchangeProvider.Coinbase
-        )
+    ): RemoteExchangeProvider.Result = RemoteExchangeProvider.Result(
+        ratesMap = fetchRates(baseCurrency),
+        provider = ExchangeProvider.Coinbase
+    )
+
+    private suspend fun fetchRates(baseCurrency: CurrencyCode): ExchangeRatesMap {
+        val response = ktorClient().get("https://api.coinbase.com/v2/exchange-rates") {
+            parameter("currency", baseCurrency)
+        }
+
+        return if (response.status.isSuccess()) {
+            response.body<CoinbaseRatesResponse>().data.rates
+        } else {
+            // error
+            emptyMap()
+        }
     }
 
 

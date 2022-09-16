@@ -3,10 +3,10 @@ package com.ivy.wallet.domain.action.viewmodel.account
 import arrow.core.toOption
 import com.ivy.base.AccountData
 import com.ivy.data.AccountOld
-import com.ivy.exchange.deprecated.ExchangeActOld
-import com.ivy.exchange.deprecated.ExchangeData
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.action.thenMap
+import com.ivy.temp.persistence.ExchangeActOld
+import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.action.account.CalcAccBalanceAct
 import com.ivy.wallet.domain.action.account.CalcAccIncomeExpenseAct
 import javax.inject.Inject

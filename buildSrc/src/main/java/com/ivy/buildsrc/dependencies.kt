@@ -35,9 +35,7 @@ object Project {
 }
 
 object Versions {
-    //TODO: Copy comments URLs and add them here
-
-    //URL: https://kotlinlang.org/docs/releases.html#release-details
+    //https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
     const val kotlin = "1.7.0"
     const val coroutines = "1.6.3"
@@ -70,6 +68,7 @@ object Versions {
     //https://coil-kt.github.io/coil/compose/
     const val composeCoil = "2.1.0"
 
+    //https://arrow-kt.io/docs/quickstart/
     const val arrow: String = "1.0.1"
 
     //https://kotest.io/
@@ -335,7 +334,8 @@ fun DependencyHandler.Ktor(api: Boolean) {
     dependency("io.ktor:ktor-client-okhttp:${Versions.ktor}", api = api)
     dependency("io.ktor:ktor-client-logging:${Versions.ktor}", api = api)
     dependency("io.ktor:ktor-client-content-negotiation:${Versions.ktor}", api = api)
-    dependency("io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}", api = api)
+    dependency("io.ktor:ktor-serialization-gson:${Versions.ktor}", api = api)
+
 }
 
 fun DependencyHandler.Gson(api: Boolean) {

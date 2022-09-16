@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ExchangeModule {
+abstract class ExchangeBindingDI {
     @Binds
     abstract fun exchangeProvider(coinbase: CoinbaseExchangeProvider): RemoteExchangeProvider
 }

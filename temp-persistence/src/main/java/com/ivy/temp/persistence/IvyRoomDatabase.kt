@@ -3,13 +3,14 @@ package com.ivy.wallet.io.persistence
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
-import com.ivy.exchange.deprecated.ExchangeRateDao
-import com.ivy.exchange.deprecated.ExchangeRateEntity
+import com.ivy.temp.persistence.ExchangeRateDao
+import com.ivy.temp.persistence.ExchangeRateEntity
 import com.ivy.wallet.io.persistence.dao.*
 import com.ivy.wallet.io.persistence.data.*
 import com.ivy.wallet.io.persistence.migration.*
 
 
+@Deprecated("don't use! it'll be deleted after data migration")
 @Database(
     entities = [
         AccountEntity::class, TransactionEntity::class, CategoryEntity::class,
