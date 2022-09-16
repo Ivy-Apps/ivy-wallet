@@ -54,8 +54,8 @@ class TrnDaoTest : RoomDbTest() {
 
     private fun saveTestCase(transactionEntity: TrnEntity) = runBlocking {
         dao.save(transactionEntity)
-        val result = dao.findBySQL(queryFindAll())
 
+        val result = dao.findBySQL(queryFindAll())
         result shouldBe listOf(transactionEntity)
     }
 
