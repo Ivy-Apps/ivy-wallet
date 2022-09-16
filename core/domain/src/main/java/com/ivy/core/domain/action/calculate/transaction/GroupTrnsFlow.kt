@@ -8,7 +8,6 @@ import com.ivy.core.domain.pure.calculate.transaction.batchTrns
 import com.ivy.core.domain.pure.calculate.transaction.groupActualTrnsByDate
 import com.ivy.core.domain.pure.transaction.overdue
 import com.ivy.core.domain.pure.transaction.upcoming
-import com.ivy.core.domain.pure.util.actualDate
 import com.ivy.core.domain.pure.util.actualTrns
 import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
@@ -99,7 +98,7 @@ class GroupTrnsFlow @Inject constructor(
             trnsByDay.map { (day, trnsForTheDay) ->
                 trnHistoryDayFlow(
                     day = day,
-                    unsortedTrns = trnsForTheDay,
+                    trnsForTheDay = trnsForTheDay,
                 )
             }
         ) { trnsPerDay ->
@@ -109,10 +108,10 @@ class GroupTrnsFlow @Inject constructor(
 
     private fun trnHistoryDayFlow(
         day: LocalDate,
-        unsortedTrns: List<TrnListItem>
+        trnsForTheDay: List<TrnListItem>
     ): Flow<List<TrnListItem>> = calculateFlow(
         CalculateFlow.Input(
-            trns = unsortedTrns.flatMap(::extractTrns),
+            trns = trnsForTheDay.flatMap(::extractTrns),
             outputCurrency = null,
             includeTransfers = true,
         )
@@ -122,10 +121,7 @@ class GroupTrnsFlow @Inject constructor(
                 date = day,
                 cashflow = statsForTheDay.balance,
             )
-        ).plus(
-            // Newest transactions should appear at the top
-            unsortedTrns.sortedByDescending(::actualDate)
-        )
+        ).plus(trnsForTheDay)
     }
     // endregion
 }

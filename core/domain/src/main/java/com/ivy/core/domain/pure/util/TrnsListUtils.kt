@@ -4,6 +4,7 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.TrnTime
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 // Trivial, doesn't require testing
 /**
@@ -31,10 +32,16 @@ fun extractTrns(item: TrnListItem): List<Transaction> = when (item) {
 }
 
 /**
- * @return the actual date of the [TrnListItem] or null
+ * @return the actual time of the [TrnListItem] or null
  */
-fun actualDate(item: TrnListItem): LocalDate? = when (item) {
+fun actualTime(item: TrnListItem): LocalDateTime? = when (item) {
     is TrnListItem.DateDivider -> null
     is TrnListItem.Transfer -> (item.time as? TrnTime.Actual)
     is TrnListItem.Trn -> (item.trn.time as? TrnTime.Actual)
-}?.run { actual.toLocalDate() }
+}?.run { actual }
+
+
+/**
+ * @return the actual date of the [TrnListItem] or null
+ */
+fun actualDate(item: TrnListItem): LocalDate? = actualTime(item)?.toLocalDate()

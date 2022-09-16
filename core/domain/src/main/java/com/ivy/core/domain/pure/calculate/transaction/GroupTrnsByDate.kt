@@ -2,6 +2,7 @@ package com.ivy.core.domain.pure.calculate.transaction
 
 import com.ivy.common.toEpochSeconds
 import com.ivy.core.domain.pure.util.actualDate
+import com.ivy.core.domain.pure.util.actualTime
 import com.ivy.data.transaction.TrnListItem
 import java.time.LocalDate
 
@@ -16,7 +17,8 @@ fun groupActualTrnsByDate(actualTrns: List<TrnListItem>): Map<LocalDate, List<Tr
                 return@toSortedMap 0 //this case shouldn't happen
             (date2.atStartOfDay().toEpochSeconds() - date1.atStartOfDay()
                 .toEpochSeconds()).toInt()
-        }.mapKeys { (key, _) ->
-            key!!
-        }
+        }.map { (date, trns) ->
+            // Newest transactions should appear at the top
+            date!! to trns.sortedByDescending(::actualTime)
+        }.toMap()
 }
