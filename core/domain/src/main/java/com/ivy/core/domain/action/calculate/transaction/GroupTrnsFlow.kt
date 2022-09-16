@@ -26,19 +26,19 @@ class GroupTrnsFlow @Inject constructor(
     override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
         trnLinkRecordDao.findAll().map { links ->
             batchTrns(trns = this, links = links)
-        }.flatMapMerge { trnListItems ->
+        }.flatMapMerge { batchedTrnItems ->
             combine(
                 dueSectionFlow(
-                    trnListItems = trnListItems,
-                    trnFilter = ::upcoming,
+                    trnListItems = batchedTrnItems,
+                    dueFilter = ::upcoming,
                     createSection = ::UpcomingSection
                 ),
                 dueSectionFlow(
-                    trnListItems = trnListItems,
-                    trnFilter = ::overdue,
+                    trnListItems = batchedTrnItems,
+                    dueFilter = ::overdue,
                     createSection = ::OverdueSection
                 ),
-                historyFlow(trnListItems = trnListItems),
+                historyFlow(trnListItems = batchedTrnItems),
             ) { upcomingSection, overdueSection, history ->
                 TransactionsList(
                     upcoming = upcomingSection,
@@ -52,27 +52,25 @@ class GroupTrnsFlow @Inject constructor(
     // region Upcoming & Overdue sections
     private fun <T> dueSectionFlow(
         trnListItems: List<TrnListItem>,
-        trnFilter: (Transaction, now: LocalDateTime) -> Boolean,
+        dueFilter: (Transaction, now: LocalDateTime) -> Boolean,
         createSection: (income: Value, expense: Value, trns: List<Transaction>) -> T
     ): Flow<T> {
         val now = timeNowLocal()
-        val upcomingTrns = trnListItems.mapNotNull {
+        val dueTrns = trnListItems.mapNotNull {
             when (it) {
                 is TrnListItem.Trn -> it.trn
                 else -> null
             }
-        }.filter {
-            trnFilter(it, now)
-        }
+        }.filter { dueFilter(it, now) }
 
         return calculateFlow(
             CalculateFlow.Input(
-                trns = upcomingTrns,
+                trns = dueTrns,
                 includeTransfers = false,
             )
         ).map { upcomingStats ->
-            // sort by the sooner the due date is
-            val sortedTrns = upcomingTrns.sortedBy { it.time.time() }
+            // the soonest due date should appear first
+            val sortedTrns = dueTrns.sortedBy { it.time.time() }
 
             createSection(
                 upcomingStats.income,

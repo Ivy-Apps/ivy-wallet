@@ -10,7 +10,7 @@ import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 
 class BatchTrnsTest : StringSpec({
-    "batch a transfer without fee" {
+    "group trns into a transfer without a fee" {
         val from = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.TransferFrom)
         val to = dummyTrn(type = TrnType.Income, purpose = TrnPurpose.TransferTo)
         val trns = listOf(from, to)
@@ -32,7 +32,7 @@ class BatchTrnsTest : StringSpec({
         )
     }
 
-    "batch a transfer with fee" {
+    "group trns into a transfer with a fee" {
         val from = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.TransferFrom)
         val to = dummyTrn(type = TrnType.Income, purpose = TrnPurpose.TransferTo)
         val fee = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.Fee)
@@ -56,7 +56,7 @@ class BatchTrnsTest : StringSpec({
         )
     }
 
-    "batch a transfer while preserving other transactions" {
+    "group a transfer while preserving other trns" {
         val from = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.TransferFrom)
         val to = dummyTrn(type = TrnType.Income, purpose = TrnPurpose.TransferTo)
         val trn1 = dummyTrn(type = TrnType.Expense)
@@ -82,7 +82,7 @@ class BatchTrnsTest : StringSpec({
         )
     }
 
-    "don't batch an unknown batch type" {
+    "don't group trns into an unknown batch type" {
         val from = dummyTrn(type = TrnType.Expense)
         val to = dummyTrn(type = TrnType.Income, purpose = TrnPurpose.TransferFrom)
         val trns = listOf(from, to)
@@ -99,7 +99,7 @@ class BatchTrnsTest : StringSpec({
         )
     }
 
-    "batch 2 transfers + other transactions" {
+    "group 2 transfers while preserving other trns" {
         val from1 = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.TransferFrom)
         val to1 = dummyTrn(type = TrnType.Income, purpose = TrnPurpose.TransferTo)
         val from2 = dummyTrn(type = TrnType.Expense, purpose = TrnPurpose.TransferFrom)

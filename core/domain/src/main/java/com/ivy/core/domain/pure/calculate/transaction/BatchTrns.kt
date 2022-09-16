@@ -3,6 +3,13 @@ package com.ivy.core.domain.pure.calculate.transaction
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.data.transaction.*
 
+/**
+ * Groups transactions together into a list of [TrnListItem.Transfer] and [TrnListItem.Trn]
+ * based on the provided [links] and domain batching rules.
+ * Resulting list **order isn't guaranteed**.
+ *
+ * @return an unordered list of [TrnListItem]
+ */
 internal fun batchTrns(
     trns: List<Transaction>,
     links: List<TrnLinkRecordEntity>
