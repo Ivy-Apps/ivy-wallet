@@ -16,6 +16,7 @@ class BatchTrnsTest : StringSpec({
         val to = dummyTrn(
             type = TrnType.Income, purpose = TrnPurpose.TransferTo
         )
+        val trns = listOf(from, to)
         val links = listOf(
             dummyTrnLinkRecordEntity(
                 batchId = "1", trnId = from.id.toString()
@@ -25,7 +26,7 @@ class BatchTrnsTest : StringSpec({
             )
         )
 
-        val result = batchTrns(trns = listOf(from, to), links = links)
+        val result = batchTrns(trns = trns, links = links)
 
         result shouldBe listOf(
             TrnListItem.Transfer(
@@ -34,6 +35,42 @@ class BatchTrnsTest : StringSpec({
                 from = from,
                 to = to,
                 fee = null,
+            )
+        )
+    }
+
+    "batch a transfer with fee" {
+        val from = dummyTrn(
+            type = TrnType.Expense, purpose = TrnPurpose.TransferFrom
+        )
+        val to = dummyTrn(
+            type = TrnType.Income, purpose = TrnPurpose.TransferTo
+        )
+        val fee = dummyTrn(
+            type = TrnType.Expense, purpose = TrnPurpose.Fee
+        )
+        val trns = listOf(from, to, fee)
+        val links = listOf(
+            dummyTrnLinkRecordEntity(
+                batchId = "1", trnId = from.id.toString()
+            ),
+            dummyTrnLinkRecordEntity(
+                batchId = "1", trnId = to.id.toString()
+            ),
+            dummyTrnLinkRecordEntity(
+                batchId = "1", trnId = fee.id.toString()
+            )
+        )
+
+        val result = batchTrns(trns = trns, links = links)
+
+        result shouldBe listOf(
+            TrnListItem.Transfer(
+                batchId = "1",
+                time = from.time,
+                from = from,
+                to = to,
+                fee = fee,
             )
         )
     }
