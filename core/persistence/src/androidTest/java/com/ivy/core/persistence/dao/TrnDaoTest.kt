@@ -3,7 +3,6 @@ package com.ivy.core.persistence.dao
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ivy.common.test.AndroidTest
 import com.ivy.common.test.epochSeconds
-import com.ivy.common.test.testCase
 import com.ivy.common.test.uuidString
 import com.ivy.core.persistence.IvyWalletDb
 import com.ivy.core.persistence.RoomDbTest
@@ -16,6 +15,7 @@ import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnState
 import com.ivy.data.transaction.TrnType
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import java.time.Instant
 
@@ -27,25 +27,15 @@ class TrnDaoTest : RoomDbTest() {
         dao = db.trnDao()
     }
 
-    // region save(): Insert/Update
+    // region Save
     @Test
-    fun save_simpleTrn() = testCase(
-        context = dummyTrnEntity(amount = 13.43, type = TrnType.Income),
-        given = {
-            dao.save(it)
-        },
-        test = {
-            dao.findBySQL(queryFindAll())
-        },
-        verifyResult = { trn ->
-            size shouldBe 1
-            first() shouldBe trn
-        }
+    fun save_a_simple_transaction() = saveTestCase(
+        transactionEntity = dummyTrnEntity(amount = 13.43, type = TrnType.Income)
     )
 
     @Test
-    fun save_complexTrn() = testCase(
-        context = TrnEntity(
+    fun save_a_complex_transaction() = saveTestCase(
+        transactionEntity = TrnEntity(
             id = uuidString(),
             accountId = uuidString(),
             type = TrnType.Expense,
@@ -59,40 +49,15 @@ class TrnDaoTest : RoomDbTest() {
             purpose = TrnPurpose.TransferFrom,
             state = TrnState.Hidden,
             sync = SyncState.Syncing,
-        ),
-        given = {
-            dao.save(it)
-        },
-        test = {
-            dao.findBySQL(queryFindAll())
-        },
-        verifyResult = { trn ->
-            size shouldBe 1
-            first() shouldBe trn
-        }
+        )
     )
 
-    @Test
-    fun save_trnsList() = testCase(
-        context = listOf(dummyTrnEntity(), dummyTrnEntity()),
-        given = {
-            dao.save(it)
-        },
-        test = {
-            dao.findBySQL(queryFindAll())
-        },
-        verifyResult = { trns ->
-            this shouldBe trns.sortedBy { it.id }
-        }
-    )
-    // endregion
+    private fun saveTestCase(transactionEntity: TrnEntity) = runBlocking {
+        dao.save(transactionEntity)
+        val result = dao.findBySQL(queryFindAll())
 
-    // region findBySQL(): Query
-
-    // endregion
-
-    // region delete()
-    // endregion
+        result shouldBe listOf(transactionEntity)
+    }
 
     private fun queryFindAll() = SimpleSQLiteQuery(
         "SELECT * FROM transactions ORDER BY id",
