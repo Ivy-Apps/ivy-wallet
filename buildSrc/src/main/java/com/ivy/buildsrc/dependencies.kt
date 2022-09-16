@@ -83,8 +83,6 @@ object Versions {
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
 
-    const val androidXTestRunner = "1.4.0"
-
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
 
@@ -143,10 +141,9 @@ object Versions {
     // region http://robolectric.org/getting-started/
     const val robolectric = "4.8"
     const val robolectricJunit = "4.13.2"
-
-    // endregion
     //https://kotest.io/docs/extensions/robolectric.html
     const val robolectricKotestExt = "0.5.0"
+    // endregion
 
     // region AndroidX Test
     //https://developer.android.com/jetpack/androidx/releases/test
@@ -294,17 +291,16 @@ fun DependencyHandler.Hilt() {
     HiltTesting()
 }
 
-private fun DependencyHandler.HiltTesting() {
-    val api = true
-    androidTestDependency(
-        "com.google.dagger:hilt-android-testing:${Versions.hilt}", api = api
-    )
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
-
-    //TODO: Investigate why this is not test dependency
-    dependency(
-        "androidx.test:runner:${Versions.androidXTestRunner}", api = api
-    )
+fun DependencyHandler.HiltTesting(
+    dependency: DependencyHandler.(String) -> Unit = { dep ->
+        androidTestImplementation(dep)
+    },
+    kaptProcessor: DependencyHandler.(String) -> Unit = { dep ->
+        kaptAndroidTest(dep)
+    }
+) {
+    dependency("com.google.dagger:hilt-android-testing:${Versions.hilt}")
+    kaptProcessor("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
 }
 
 /**

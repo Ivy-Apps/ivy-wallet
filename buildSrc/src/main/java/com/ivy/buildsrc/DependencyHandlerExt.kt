@@ -36,7 +36,7 @@ internal fun DependencyHandler.kapt(dependency: Any) {
     this.add("kapt", dependency)
 }
 
-internal fun DependencyHandler.kapt(value: String) {
+fun DependencyHandler.kapt(value: String) {
     this.kapt(dependency = value)
 }
 

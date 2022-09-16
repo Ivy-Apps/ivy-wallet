@@ -21,7 +21,7 @@ android {
         versionCode = com.ivy.buildsrc.Project.versionCode
         versionName = com.ivy.buildsrc.Project.versionName
 
-        testInstrumentationRunner = "com.ivy.wallet.HiltTestRunner"
+        testInstrumentationRunner = "com.ivy.wallet.IvyAppTestRunner"
 
         kapt {
             arguments {

@@ -37,7 +37,7 @@ abstract class IvyPlugin : Plugin<Project> {
 
     private fun androidTest(project: Project) {
         project.androidLibrary().defaultConfig {
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            testInstrumentationRunner = "com.ivy.common.test.IvyTestRunner"
         }
     }
 

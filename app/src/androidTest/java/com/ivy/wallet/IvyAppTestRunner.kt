@@ -10,8 +10,8 @@ import com.ivy.wallet.ui.RootActivity
 import com.ivy.wallet.ui.RootViewModel
 import dagger.hilt.android.testing.HiltTestApplication
 
-// A custom runner to set up the instrumented application class for tests.
-class HiltTestRunner : AndroidJUnitRunner() {
+@Suppress("UNUSED")
+class IvyAppTestRunner : AndroidJUnitRunner() {
 
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context): Application {
         IvyAndroidApp.appContext = context
