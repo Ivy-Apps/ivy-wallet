@@ -16,6 +16,7 @@ fun dummyTrn(
     account: Account = dummyAcc(),
     type: TrnType = TrnType.Income,
     amount: Double = 0.0,
+    currency: CurrencyCode? = null,
     category: Category? = dummyCategory(),
     time: TrnTime = TrnTime.Actual(timeNowLocal()),
     title: String? = "Dummy trn",
@@ -32,7 +33,7 @@ fun dummyTrn(
     type = type,
     value = Value(
         amount = amount,
-        currency = account.currency,
+        currency = currency ?: account.currency,
     ),
     category = category,
     time = time,

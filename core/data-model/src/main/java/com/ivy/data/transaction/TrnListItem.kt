@@ -17,7 +17,5 @@ sealed interface TrnListItem {
         val date: LocalDate,
         val cashflow: Value,
     ) : TrnListItem
-
-
 }
 

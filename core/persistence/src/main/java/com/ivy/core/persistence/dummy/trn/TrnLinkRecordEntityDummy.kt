@@ -7,8 +7,8 @@ import java.util.*
 fun dummyTrnLinkRecordEntity(
     id: String = UUID.randomUUID().toString(),
     trnId: String = UUID.randomUUID().toString(),
-    linkId: String = UUID.randomUUID().toString(),
+    batchId: String = UUID.randomUUID().toString(),
     sync: SyncState = SyncState.Synced,
 ) = TrnLinkRecordEntity(
-    id = id, trnId = trnId, batchId = linkId, sync = sync,
+    id = id, trnId = trnId, batchId = batchId, sync = sync,
 )
