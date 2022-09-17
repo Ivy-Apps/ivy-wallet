@@ -6,11 +6,11 @@ import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
 import com.ivy.core.domain.pure.exchange.exchange
 import com.ivy.core.domain.pure.transaction.foldTransactions
 import com.ivy.data.CurrencyCode
+import com.ivy.data.Value
 import com.ivy.data.exchange.ExchangeRatesData
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnPurpose.*
 import com.ivy.data.transaction.TrnType
-import com.ivy.data.transaction.Value
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

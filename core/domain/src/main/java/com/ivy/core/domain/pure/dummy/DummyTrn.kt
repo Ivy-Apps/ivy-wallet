@@ -3,6 +3,7 @@ package com.ivy.core.domain.pure.dummy
 import com.ivy.common.timeNowLocal
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
+import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.attachment.Attachment
 import com.ivy.data.category.Category

@@ -6,7 +6,7 @@ import com.ivy.core.domain.action.calculate.account.AccStatsFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.data.CurrencyCode
-import com.ivy.data.transaction.Value
+import com.ivy.data.Value
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

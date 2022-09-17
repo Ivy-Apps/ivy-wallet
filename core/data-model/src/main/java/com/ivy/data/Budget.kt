@@ -2,6 +2,7 @@ package com.ivy.data
 
 import java.util.*
 
+@Deprecated("should not be in :core")
 data class Budget(
     val name: String,
     val amount: Double,

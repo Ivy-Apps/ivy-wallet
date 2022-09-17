@@ -1,6 +1,4 @@
-package com.ivy.data.transaction
-
-import com.ivy.data.CurrencyCode
+package com.ivy.data
 
 data class Value(
     val amount: Double,

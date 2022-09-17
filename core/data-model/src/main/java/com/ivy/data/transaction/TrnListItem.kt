@@ -1,5 +1,6 @@
 package com.ivy.data.transaction
 
+import com.ivy.data.Value
 import java.time.LocalDate
 
 sealed interface TrnListItem {

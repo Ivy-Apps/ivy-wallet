@@ -22,9 +22,9 @@ import com.ivy.core.functions.transaction.dummyOverdueSection
 import com.ivy.core.functions.transaction.dummyUpcomingSection
 import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
+import com.ivy.data.Value
 import com.ivy.data.transaction.OverdueSection
 import com.ivy.data.transaction.UpcomingSection
-import com.ivy.data.transaction.Value
 import com.ivy.design.l0_system.*
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor

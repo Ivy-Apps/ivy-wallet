@@ -41,18 +41,26 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 ## Architecture
 We strive to keep our architecture "perfect" by putting software-design and code quality first. 
 
-We read a lot of books, CS papers, blogs and follow latest research in the industry. 
+We read a lot of books, CS papers, blogs and follow latest research in the industry.
 
-Our goal is to make this repo **the go-to project to learn about Android Development latest best practices** and **software architecture.**
+Our goal is to make this repo **the go-to project to learn about Android Development latest best
+practices** and **software architecture.**
 
 ### High-level view:
+
 - [Modular architecture](https://android-developers.googleblog.com/2022/09/announcing-new-guide-to-android-app-modularization.html)
 - [FRP (Functional Reactive Programming)](https://www.toptal.com/android/functional-reactive-programming-part-1)
 - [MVVM (Model-View-ViewModel)](https://www.techtarget.com/whatis/definition/Model-View-ViewModel#:~:text=Model%2DView%2DViewModel%20(MVVM)%20is%20a%20software%20design,Ken%20Cooper%20and%20John%20Gossman.)
 
-We've documented every major architecture decision as **ADR (Architecture Decision Record)** in **[docs/architecture](docs/architecture/)**. The best thing about ADRs is that you can see not only what went well but also what didn't!
+We've documented every major architecture decision as **ADR (Architecture Decision Record)**
+in **[docs/architecture](docs/architecture/)**. The best thing about ADRs is that you can see not
+only what went well but also what didn't!
 
-We're linking **great learning materials (books, videos, articles, papers)** in **[docs/resources 📚](docs/resources/)**.
+If you're starting out with the Ivy Wallet project first have a look at our **[:core](core/)**
+module.
+
+We're also linking **great learning materials (books, videos, articles, papers)**
+in **[docs/resources 📚](docs/resources/)**.
 
 > Have ideas/proposals how we can make our project better? Please, get in touch! 🚀
 
@@ -61,6 +69,7 @@ We're linking **great learning materials (books, videos, articles, papers)** in 
 ## Tech Stack
 
 ### Core
+
 - 100% [Kotlin](https://kotlinlang.org/)
 - 100% [Jetpack Compose](https://developer.android.com/jetpack/compose)
 - [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
