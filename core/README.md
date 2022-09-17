@@ -82,5 +82,5 @@ Income & Expense for accounts:
 
 ### Categories' Income & Expense
 
-- > Category Income = $\Sigma$ all incomes, exluding transfers
+- > Category Income = $\Sigma$ all incomes, excluding transfers
 - > Category Expense = $\Sigma$ all expenses, excluding transfers
