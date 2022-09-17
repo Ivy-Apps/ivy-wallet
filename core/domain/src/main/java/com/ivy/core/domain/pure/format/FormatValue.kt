@@ -1,52 +1,48 @@
-package com.ivy.wallet.utils
+package com.ivy.core.domain.pure.format
 
+import com.ivy.core.domain.pure.isCrypto
 import com.ivy.data.IvyCurrency
+import com.ivy.data.Value
+import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.format
 import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
 import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.truncate
 
-const val MILLION = 1000000
-const val N_100K = 100000
-const val THOUSAND = 1000
+fun format(
+    value: Value,
+    shortenNonCrypto: Boolean,
+): FormattedValue = if (isCrypto(value.currency))
+    formatCrypto(value) else formatFiat(value = value, shorten = shortenNonCrypto)
 
-fun String.amountToDoubleOrNull(): Double? {
-    return this.normalizeAmount().toDoubleOrNull()
+private fun formatCrypto(value: Value): FormattedValue {
+    tailrec fun removeTrailingZeros(number: String): String = if (number.last() != '0')
+        number else removeTrailingZeros(number.dropLast(1))
+
+    val df = DecimalFormat("###,###,##0.${"0".repeat(12)}")
+    val amountTrailingZeros = df.format(value.amount)
+    return FormattedValue(
+        amount = removeTrailingZeros(amountTrailingZeros),
+        currency = value.currency
+    )
 }
 
-fun String.amountToDouble(): Double {
-    return this.normalizeAmount().toDouble()
+private fun formatFiat(
+    value: Value,
+    shorten: Boolean
+): FormattedValue = if (shorten) {
+    // shorten to 10k, 10M, etc
+    TODO()
+} else {
+    val df = DecimalFormat("#,##0.00")
+    FormattedValue(
+        amount = df.format(value.amount),
+        currency = value.currency
+    )
 }
 
-fun String.normalizeAmount(): String {
-    return this.removeGroupingSeparator()
-        .normalizeDecimalSeparator()
-}
-
-fun String.normalizeExpression(): String {
-    return this.removeGroupingSeparator()
-        .normalizeDecimalSeparator()
-}
-
-fun String.removeGroupingSeparator(): String {
-    return replace(localGroupingSeparator(), "")
-}
-
-fun String.normalizeDecimalSeparator(): String {
-    return replace(localDecimalSeparator(), ".")
-}
-
-fun localDecimalSeparator(): String {
-    return DecimalFormatSymbols.getInstance().decimalSeparator.toString()
-}
-
-fun localGroupingSeparator(): String {
-    return DecimalFormatSymbols.getInstance().groupingSeparator.toString()
-}
-
-//Display Formatting
-@Deprecated("don't use!")
+// region Old
 fun Double.format(digits: Int) = "%.${digits}f".format(this)
 
 fun Double.format(currencyCode: String): String {
@@ -190,3 +186,4 @@ fun removeExtraDecimals(
     .split(localDecimalSeparator())
     .take(2)
     .joinToString(separator = localDecimalSeparator())
+// endregion

@@ -9,7 +9,8 @@ import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 import com.ivy.data.exchange.ExchangeRatesData
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TrnPurpose.*
+import com.ivy.data.transaction.TrnPurpose.TransferFrom
+import com.ivy.data.transaction.TrnPurpose.TransferTo
 import com.ivy.data.transaction.TrnType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -45,7 +46,7 @@ class CalculateFlow @Inject constructor(
                     // filters transfer transactions
                     when (it.purpose) {
                         TransferFrom, TransferTo -> false
-                        null, Fee -> true
+                        else -> true
                     }
                 } else true
             },

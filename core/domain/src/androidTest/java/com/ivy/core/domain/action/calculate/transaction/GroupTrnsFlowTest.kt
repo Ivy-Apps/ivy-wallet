@@ -1,7 +1,6 @@
 package com.ivy.core.domain.action.calculate.transaction
 
 import com.ivy.common.dateNowUTC
-import com.ivy.common.test.AndroidTest
 import com.ivy.common.timeNowUTC
 import com.ivy.core.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
@@ -22,7 +21,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@AndroidTest
 @HiltAndroidTest
 class GroupTrnsFlowTest {
 
