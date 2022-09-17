@@ -14,4 +14,4 @@ fun getDefaultCurrency(): CurrencyCode =
 fun isFiat(currency: CurrencyCode): Boolean = !isCrypto(currency)
 
 fun isCrypto(currency: CurrencyCode): Boolean =
-    IvyCurrency.fromCode(currency)?.isCrypto ?: false
+    IvyCurrency.CRYPTO.map { it.code }.contains(currency)

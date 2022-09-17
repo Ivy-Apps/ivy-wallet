@@ -11,10 +11,10 @@ class SplitDoubleTest : StringSpec({
         res.decimalPart shouldBe 0.24
     }
 
-    "split 1024.0 into 1 and 0.0" {
-        val res = split(1024.0)
+    "split 154,024.0 into 154,024 and 0.0" {
+        val res = split(154_024.0)
 
-        res.intPart shouldBe 1024
+        res.intPart shouldBe 154_024
         res.decimalPart shouldBe 0.0
     }
 
