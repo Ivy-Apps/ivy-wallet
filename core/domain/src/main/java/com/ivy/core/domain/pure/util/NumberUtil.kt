@@ -11,6 +11,11 @@ import kotlin.math.roundToInt
  */
 fun isSignificant(number: Double) = abs(number) > 0.009
 
+/**
+ * Not [isSignificant].
+ */
+fun isInsignificant(number: Double) = !isSignificant(number)
+
 // region Split double into int part and decimal part
 data class SplitDouble(
     val intPart: Int,

@@ -2,6 +2,7 @@ package com.ivy.core.domain.pure.account
 
 import com.ivy.common.timeNowLocal
 import com.ivy.core.domain.pure.isFiat
+import com.ivy.core.domain.pure.util.isInsignificant
 import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -9,19 +10,19 @@ import com.ivy.data.transaction.*
 import java.util.*
 import kotlin.math.abs
 
-fun adjustBalanceTran(
+fun adjustBalanceTrn(
     account: Account,
     currentBalance: Double,
     desiredBalance: Double,
-    hiddenTransactions: Boolean
+    hiddenTrn: Boolean
 ): Transaction? {
-    // if the acc has 50$ and we want it to have 40%
+    // if the acc has 50$ and we want to adjust it to 40$
     // => we need to create an Expense for $10
-    val adjustTrnAmount = currentBalance - desiredBalance
+    val amountMissing = currentBalance - desiredBalance
 
-    if (!isFiat(account.currency) && abs(adjustTrnAmount) < 0.009) {
-        // Note: Crypto cannot be considered insignificant in any case.
-        // balance diff is insignificant, don't adjust
+    if (isFiat(account.currency) && isInsignificant(amountMissing)) {
+        // Balance diff is insignificant less than 1 "penny" (0.01)
+        // no need to adjust
         return null
     }
 
@@ -29,12 +30,12 @@ fun adjustBalanceTran(
         id = UUID.randomUUID(),
         account = account,
         category = null, // unspecified
-        type = if (adjustTrnAmount > 0) TrnType.Income else TrnType.Expense,
-        value = Value(amount = adjustTrnAmount, currency = account.currency),
+        type = if (amountMissing > 0) TrnType.Expense else TrnType.Income,
+        value = Value(amount = abs(amountMissing), currency = account.currency),
         title = "Adjust balance",
-        description = TODO(),
+        description = null,
         time = TrnTime.Actual(timeNowLocal()),
-        state = if (hiddenTransactions) TrnState.Hidden else TrnState.Default,
+        state = if (hiddenTrn) TrnState.Hidden else TrnState.Default,
         purpose = TrnPurpose.AdjustBalance,
 
         attachments = emptyList(),
