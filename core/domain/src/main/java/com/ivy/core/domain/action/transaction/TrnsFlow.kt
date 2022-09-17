@@ -14,6 +14,7 @@ import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnQueryExecutor
+import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.attachment.Attachment
 import com.ivy.data.category.Category
@@ -21,7 +22,6 @@ import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnTime
-import com.ivy.data.transaction.Value
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

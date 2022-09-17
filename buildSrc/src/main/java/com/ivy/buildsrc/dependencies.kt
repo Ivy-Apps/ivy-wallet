@@ -401,6 +401,9 @@ fun DependencyHandler.Coroutines(
     androidTestDependency(
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version", api = api
     )
+    testDependency(
+        "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version", api = api
+    )
 }
 
 fun DependencyHandler.ThirdParty() {

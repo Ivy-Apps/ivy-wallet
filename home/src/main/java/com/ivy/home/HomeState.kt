@@ -1,8 +1,8 @@
 package com.ivy.home
 
+import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
-import com.ivy.data.transaction.Value
 
 data class HomeState(
     val name: String,

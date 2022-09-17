@@ -11,47 +11,58 @@ const val MILLION = 1000000
 const val N_100K = 100000
 const val THOUSAND = 1000
 
+@Deprecated("don't use!")
 fun String.amountToDoubleOrNull(): Double? {
     return this.normalizeAmount().toDoubleOrNull()
 }
 
+@Deprecated("don't use!")
 fun String.amountToDouble(): Double {
     return this.normalizeAmount().toDouble()
 }
 
+@Deprecated("don't use!")
 fun String.normalizeAmount(): String {
     return this.removeGroupingSeparator()
         .normalizeDecimalSeparator()
 }
 
+@Deprecated("don't use!")
 fun String.normalizeExpression(): String {
     return this.removeGroupingSeparator()
         .normalizeDecimalSeparator()
 }
 
+@Deprecated("don't use!")
 fun String.removeGroupingSeparator(): String {
     return replace(localGroupingSeparator(), "")
 }
 
+@Deprecated("don't use!")
 fun String.normalizeDecimalSeparator(): String {
     return replace(localDecimalSeparator(), ".")
 }
 
+@Deprecated("don't use!")
 fun localDecimalSeparator(): String {
     return DecimalFormatSymbols.getInstance().decimalSeparator.toString()
 }
 
+@Deprecated("don't use!")
 fun localGroupingSeparator(): String {
     return DecimalFormatSymbols.getInstance().groupingSeparator.toString()
 }
 
 //Display Formatting
+@Deprecated("don't use!")
 fun Double.format(digits: Int) = "%.${digits}f".format(this)
 
+@Deprecated("don't use!")
 fun Double.format(currencyCode: String): String {
     return this.format(IvyCurrency.fromCode(currencyCode))
 }
 
+@Deprecated("don't use!")
 fun Double.format(currency: IvyCurrency?): String {
     return if (currency?.isCrypto == true) {
         val result = this.formatCrypto()
@@ -70,6 +81,7 @@ fun Double.format(currency: IvyCurrency?): String {
     }
 }
 
+@Deprecated("don't use!")
 fun Double.formatCrypto(): String {
     val pattern = "###,###,##0.${"0".repeat(9)}"
     val format = DecimalFormat(pattern)
@@ -88,8 +100,10 @@ fun Double.formatCrypto(): String {
         numberStringWithZeros.substring(0, lastTrailingZeroIndex) else numberStringWithZeros
 }
 
+@Deprecated("don't use!")
 private fun Double.formatFIAT(): String = DecimalFormat("#,##0.00").format(this)
 
+@Deprecated("don't use!")
 fun shortenAmount(amount: Double): String {
     return when {
         abs(amount) >= MILLION -> {
@@ -102,6 +116,7 @@ fun shortenAmount(amount: Double): String {
     }
 }
 
+@Deprecated("don't use!")
 private fun formatShortenedNumber(
     number: Double,
     extension: String
@@ -113,20 +128,24 @@ private fun formatShortenedNumber(
     }
 }
 
+@Deprecated("don't use!")
 fun hasSignificantDecimalPart(number: Double): Boolean {
     //TODO: Review, might cause trouble when integrating crypto
     val intPart = number.toInt()
     return abs(number - intPart) >= 0.009
 }
 
+@Deprecated("don't use!")
 fun shouldShortAmount(amount: Double): Boolean {
     return abs(amount) >= N_100K
 }
 
+@Deprecated("don't use!")
 fun formatInt(number: Int): String {
     return DecimalFormat("#,###,###,###").format(number)
 }
 
+@Deprecated("don't use!")
 fun decimalPartFormatted(currency: String, value: Double): String {
     return if (IvyCurrency.fromCode(currency)?.isCrypto == true) {
         val decimalPartFormatted = value.formatCrypto()
@@ -139,6 +158,7 @@ fun decimalPartFormatted(currency: String, value: Double): String {
     }
 }
 
+@Deprecated("don't use!")
 private fun decimalPartFormattedFIAT(value: Double): String {
     return DecimalFormat(".00").format(value)
         .split(localDecimalSeparator())

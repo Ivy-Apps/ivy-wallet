@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.calculate
 
-import com.ivy.data.transaction.Value
+import com.ivy.data.Value
 
 data class Stats(
     val balance: Value,

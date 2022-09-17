@@ -1,5 +1,6 @@
 package com.ivy.data
 
+@Deprecated("move in design-system")
 enum class Theme {
     LIGHT, DARK, AUTO;
 

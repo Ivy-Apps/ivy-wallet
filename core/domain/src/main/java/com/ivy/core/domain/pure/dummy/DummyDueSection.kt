@@ -1,9 +1,9 @@
 package com.ivy.core.functions.transaction
 
+import com.ivy.data.Value
 import com.ivy.data.transaction.OverdueSection
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.UpcomingSection
-import com.ivy.data.transaction.Value
 
 fun dummyUpcomingSection(
     income: Value = com.ivy.core.domain.pure.dummy.dummyValue(),

@@ -9,7 +9,7 @@ data class IvyCurrency(
     val isCrypto: Boolean
 ) {
     companion object {
-        private val CRYPTO = setOf(
+        val CRYPTO = setOf(
             IvyCurrency(
                 code = "BTC",
                 name = "Bitcoin",

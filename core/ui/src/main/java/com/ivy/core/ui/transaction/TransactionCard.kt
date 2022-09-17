@@ -41,7 +41,7 @@ import javax.annotation.concurrent.Immutable
 //import com.ivy.data.icon.IconSize
 //import com.ivy.data.transaction.Transaction
 //import com.ivy.data.transaction.TrnTime
-//import com.ivy.data.transaction.Value
+//import com.ivy.data.Value
 //import com.ivy.design.l0_system.*
 //import com.ivy.design.l1_buildingBlocks.IvyIcon
 //import com.ivy.design.l1_buildingBlocks.IvyText

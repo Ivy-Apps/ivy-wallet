@@ -1,12 +1,15 @@
 package com.ivy.core.domain.action.calculate.transaction
 
 import com.ivy.common.dateNowUTC
-import com.ivy.common.test.AndroidTest
 import com.ivy.common.timeNowUTC
 import com.ivy.core.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.pure.dummy.dummyTrn
-import com.ivy.data.transaction.*
+import com.ivy.data.Value
+import com.ivy.data.transaction.TransactionsList
+import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.TrnTime
+import com.ivy.data.transaction.TrnType
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.matchers.shouldBe
@@ -18,7 +21,6 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
-@AndroidTest
 @HiltAndroidTest
 class GroupTrnsFlowTest {
 

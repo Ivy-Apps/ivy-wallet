@@ -17,8 +17,8 @@ import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.functions.transaction.dummyDateDivider
 import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
+import com.ivy.data.Value
 import com.ivy.data.transaction.TrnListItem
-import com.ivy.data.transaction.Value
 import com.ivy.design.l0_system.Gray
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.UI
