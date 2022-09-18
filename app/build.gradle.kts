@@ -126,7 +126,7 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":common"))
-    implementation(project(":ui-common"))
+    implementation(project(":design-system"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":screens"))

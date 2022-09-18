@@ -9,7 +9,7 @@ dependencyResolutionManagement {
 rootProject.name = "Ivy Wallet"
 include(":app")
 include(":common")
-include(":ui-common")
+include(":design-system")
 include(":reports")
 include(":accounts")
 include(":categories")

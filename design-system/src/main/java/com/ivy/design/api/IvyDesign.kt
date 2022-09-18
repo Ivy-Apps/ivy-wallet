@@ -4,7 +4,6 @@ import com.ivy.design.IvyContext
 import com.ivy.design.l0_system.IvyColors
 import com.ivy.design.l0_system.IvyShapes
 import com.ivy.design.l0_system.IvyTypography
-import com.ivy.data.Theme
 
 interface IvyDesign {
     fun context(): IvyContext

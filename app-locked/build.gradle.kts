@@ -11,7 +11,7 @@ dependencies {
     Hilt()
 
     implementation(project(":common"))
-    implementation(project(":ui-common"))
+    implementation(project(":design-system"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":ui-components-old"))
