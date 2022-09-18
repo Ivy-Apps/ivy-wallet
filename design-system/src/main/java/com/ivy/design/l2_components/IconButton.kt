@@ -15,7 +15,7 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
-import com.ivy.design.utils.ComponentPreviewBase
+import com.ivy.design.utils.ComponentPreview
 import com.ivy.design.utils.padding
 
 @Composable
@@ -45,7 +45,7 @@ fun IconButton(
 @Preview
 @Composable
 private fun Preview() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IconButton(
             icon = R.drawable.ic_add
         ) {

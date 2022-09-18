@@ -33,6 +33,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l2_components.IconButton
+import com.ivy.design.utils.IvyPreview
 import com.ivy.design.utils.padding
 import com.ivy.donate.data.DonateOption
 import com.ivy.frp.view.navigation.navigation
@@ -292,7 +293,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(onEvent = {})
     }
 }

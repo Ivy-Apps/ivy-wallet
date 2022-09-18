@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
+import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
 val LocalIvyTypography = compositionLocalOf<IvyTypography> { error("No IvyTypography") }
 val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No IvyShapes") }
-
 
 object UI {
     val colors: IvyColors
@@ -35,7 +35,7 @@ object UI {
 
 @Composable
 fun IvyTheme(
-    theme: com.ivy.data.Theme,
+    theme: Theme,
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {

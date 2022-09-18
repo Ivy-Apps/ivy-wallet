@@ -1,7 +1,9 @@
 package com.ivy.design.l0_system
 
 import androidx.compose.ui.text.TextStyle
+import javax.annotation.concurrent.Immutable
 
+@Immutable
 interface IvyTypography {
     val h1: TextStyle
     val h2: TextStyle

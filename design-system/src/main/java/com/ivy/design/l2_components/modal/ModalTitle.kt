@@ -1,4 +1,4 @@
-package com.ivy.core.ui.modal
+package com.ivy.design.l2_components.modal
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
@@ -8,10 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.ui.temp.Preview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.utils.IvyPreview
 
 @Composable
 fun ColumnScope.ModalTitle(
@@ -33,7 +33,7 @@ fun ColumnScope.ModalTitle(
 private fun Preview() {
     val modal = IvyModal()
     modal.show()
-    Preview {
+    IvyPreview {
         Modal(modal = modal, Actions = {}) {
             ModalTitle(text = "Title")
             SpacerVer(height = 32.dp)

@@ -9,15 +9,15 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.design.R
+import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 
-abstract class IvyWalletDesign : IvyDesign {
+class IvyWalletDesign : IvyDesign {
     companion object {
         const val OPEN_SANS_BASELINE_SHIFT = 0.075f
         const val RALEWAY_BASELINE_SHIFT = 0.2f
     }
-
 
     override fun typography(): IvyTypography {
         val openSans = FontFamily(
@@ -110,56 +110,56 @@ abstract class IvyWalletDesign : IvyDesign {
         }
     }
 
-    override fun colors(theme: com.ivy.data.Theme, isDarkModeEnabled: Boolean): IvyColors {
-        return when (theme) {
-            com.ivy.data.Theme.LIGHT -> object : IvyColors {
-                override val pure = White
-                override val pureInverse = Black
-                override val gray = Gray
-                override val medium = MediumWhite
-                override val mediumInverse = MediumBlack
+    override fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when (theme) {
+        Theme.Light -> object : IvyColors {
+            override val pure = White
+            override val pureInverse = Black
+            override val gray = Gray
+            override val medium = MediumWhite
+            override val mediumInverse = MediumBlack
 
-                override val primary = Purple
-                override val primary1 = IvyDark
+            override val primary = Purple
+            override val primary1 = IvyDark
 
-                override val green = Green
-                override val green1 = GreenLight
+            override val green = Green
+            override val green1 = GreenLight
 
-                override val orange = Orange
-                override val orange1 = OrangeLight
+            override val orange = Orange
+            override val orange1 = OrangeLight
 
-                override val red = Red
-                override val red1 = RedLight
-                override val red1Inverse = RedDark
+            override val red = Red
+            override val red1 = RedLight
+            override val red1Inverse = RedDark
 
-                override val isLight = true
-            }
-            com.ivy.data.Theme.DARK -> object : IvyColors {
-                override val pure = Black
-                override val pureInverse = White
-                override val gray = Gray
-                override val medium = MediumBlack
-                override val mediumInverse = MediumWhite
-
-                override val primary = Purple
-                override val primary1 = IvyLight
-
-                override val green = Green
-                override val green1 = GreenDark
-
-                override val orange = Orange
-                override val orange1 = OrangeDark
-
-                override val red = Red
-                override val red1 = RedDark
-                override val red1Inverse = RedLight
-
-                override val isLight = false
-            }
-            com.ivy.data.Theme.AUTO -> if(isDarkModeEnabled) colors(com.ivy.data.Theme.DARK,true) else colors(
-                com.ivy.data.Theme.LIGHT,false)
+            override val isLight = true
         }
+        Theme.Dark -> object : IvyColors {
+            override val pure = Black
+            override val pureInverse = White
+            override val gray = Gray
+            override val medium = MediumBlack
+            override val mediumInverse = MediumWhite
+
+            override val primary = Purple
+            override val primary1 = IvyLight
+
+            override val green = Green
+            override val green1 = GreenDark
+
+            override val orange = Orange
+            override val orange1 = OrangeDark
+
+            override val red = Red
+            override val red1 = RedDark
+            override val red1Inverse = RedLight
+
+            override val isLight = false
+        }
+        Theme.Auto -> if (isSystemInDarkTheme)
+            colors(Theme.Dark, true) else
+            colors(Theme.Light, false)
     }
+
 
     override fun shapes(): IvyShapes {
         return object : IvyShapes() {

@@ -26,7 +26,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
-import com.ivy.design.utils.ComponentPreviewBase
+import com.ivy.design.utils.ComponentPreview
 import com.ivy.design.utils.padding
 
 @Composable
@@ -96,7 +96,7 @@ enum class Mode {
 @Preview
 @Composable
 private fun Preview_IconLeft_Wrap() {
-    ComponentPreviewBase {
+    ComponentPreview {
         Button(
             text = "Button",
             mode = Mode.WRAP_CONTENT,
@@ -110,7 +110,7 @@ private fun Preview_IconLeft_Wrap() {
 @Preview
 @Composable
 private fun Preview_IconRight_Wrap() {
-    ComponentPreviewBase {
+    ComponentPreview {
         Button(
             text = "Button",
             mode = Mode.WRAP_CONTENT,
@@ -124,7 +124,7 @@ private fun Preview_IconRight_Wrap() {
 @Preview
 @Composable
 private fun Preview_IconLeft_FillMax() {
-    ComponentPreviewBase {
+    ComponentPreview {
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -141,7 +141,7 @@ private fun Preview_IconLeft_FillMax() {
 @Preview
 @Composable
 private fun Preview_IconRight_FillMax() {
-    ComponentPreviewBase {
+    ComponentPreview {
         Button(
             modifier = Modifier
                 .fillMaxWidth()

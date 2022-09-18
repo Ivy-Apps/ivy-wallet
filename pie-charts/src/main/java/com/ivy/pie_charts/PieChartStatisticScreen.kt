@@ -31,6 +31,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
@@ -267,7 +268,7 @@ private fun Header(
                     }
                 ),
                 iconStart = R.drawable.ic_calendar,
-                text = period.toDisplayShort(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(1),
             ) {
                 onShowMonthModal()
             }
@@ -510,7 +511,7 @@ private fun PercentText(
 @Preview
 @Composable
 private fun Preview_Expense() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val state = PieChartStatisticState(
             transactionType = TrnTypeOld.EXPENSE,
             period = TimePeriod.currentMonth(
@@ -564,7 +565,7 @@ private fun Preview_Expense() {
 @Preview
 @Composable
 private fun Preview_Income() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val state = PieChartStatisticState(
             transactionType = TrnTypeOld.INCOME,
             period = TimePeriod.currentMonth(

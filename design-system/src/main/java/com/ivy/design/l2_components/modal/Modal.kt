@@ -1,5 +1,6 @@
-package com.ivy.core.ui.modal
+package com.ivy.design.l2_components.modal
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -8,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -16,8 +16,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,12 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
-import com.ivy.base.R
-import com.ivy.core.ui.navigation.BackResult
-import com.ivy.core.ui.navigation.BackstackItem
-import com.ivy.core.ui.navigation.nav
-import com.ivy.core.ui.temp.Preview
-import com.ivy.design.api.ivyContext
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.mediumBlur
 import com.ivy.design.l1_buildingBlocks.IvyText
@@ -40,9 +34,10 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.Button
 import com.ivy.design.l3_ivyComponents.button.CircleButton
+import com.ivy.design.utils.IvyPreview
 import com.ivy.design.utils.consumeClicks
 import com.ivy.design.utils.isKeyboardOpen
-import java.util.*
+import com.ivy.resources.R
 import kotlin.math.roundToInt
 
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
@@ -52,20 +47,12 @@ private val MODAL_ACTIONS_PADDING_BOTTOM = 12.dp
 private val MODAL_ACTIONS_HEIGHT = 48.dp
 private val MODAL_ACTIONS_OFFSET = MODAL_ACTIONS_HEIGHT + MODAL_ACTIONS_PADDING_BOTTOM
 
-@OptIn(ExperimentalComposeUiApi::class)
+@Immutable
 data class IvyModal(
-    val id: String = UUID.randomUUID().toString(),
     val visibilityState: MutableState<Boolean> = mutableStateOf(false)
 ) {
-    @Composable
-    fun onDismiss(): () -> Unit {
-        val keyboardController = LocalSoftwareKeyboardController.current
-        return remember {
-            {
-                nav.onBackPressed()
-                keyboardController?.hide()
-            }
-        }
+    fun hide() {
+        visibilityState.value = false
     }
 
     fun show() {
@@ -77,10 +64,7 @@ data class IvyModal(
 fun BoxScope.Modal(
     modal: IvyModal,
     Actions: @Composable RowScope.() -> Unit,
-    onBack: () -> BackResult = {
-        modal.visibilityState.value = false
-        BackResult.REMOVE
-    },
+
     keyboardShiftsContent: Boolean = true,
     Content: @Composable ColumnScope.() -> Unit
 ) {
@@ -93,7 +77,7 @@ fun BoxScope.Modal(
 
     val systemBottomPadding = systemPaddingBottom()
     val paddingBottomAnimated = if (keyboardShiftsContent) {
-        val keyboardShown = keyboardShown(modalId = modal.id)
+        val keyboardShown = keyboardShown()
         val keyboardShownInset = keyboardInset()
 
         animateDpAsState(
@@ -102,7 +86,6 @@ fun BoxScope.Modal(
         ).value
     } else systemBottomPadding
 
-    val onDismiss = modal.onDismiss()
     val blurAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(DURATION_BACKGROUND_BLUR_ANIM),
@@ -116,7 +99,9 @@ fun BoxScope.Modal(
                 .background(mediumBlur())
                 .testTag("modal_outside_blur")
                 .clickable(
-                    onClick = onDismiss,
+                    onClick = {
+                        modal.hide()
+                    },
                     enabled = visible
                 )
                 .zIndex(1000f)
@@ -145,11 +130,11 @@ fun BoxScope.Modal(
                 .padding(bottom = MODAL_ACTIONS_OFFSET + paddingBottomAnimated)
                 .zIndex(1000f)
         ) {
-            HandleBackPressed(
-                modalId = modal.id,
-                visible = visible,
-                onBack = onBack
-            )
+            BackHandler(
+                enabled = modal.visibilityState.value
+            ) {
+                modal.hide()
+            }
 
             Content()
         }
@@ -159,7 +144,7 @@ fun BoxScope.Modal(
             modalPercentVisible = percentVisible,
             paddingBottom = paddingBottomAnimated,
             Actions = Actions,
-            onClose = onDismiss,
+            onClose = { modal.hide() },
         )
     }
 }
@@ -175,7 +160,7 @@ private fun ModalActionsRow(
 ) {
     if (visible || modalPercentVisible > 0.01f) {
         // used only to get the screen height
-        val ivyContext = ivyContext()
+        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
         RowWithLine(
             modifier = Modifier
@@ -185,7 +170,7 @@ private fun ModalActionsRow(
 
                     val bottomOffset = paddingBottom.toPx() + MODAL_ACTIONS_PADDING_BOTTOM.toPx()
                     val visibleHeight = placeable.height * modalPercentVisible
-                    val y = ivyContext.screenHeight - visibleHeight - bottomOffset
+                    val y = screenHeight.toPx() - visibleHeight - bottomOffset
 
                     layout(placeable.width, placeable.height) {
                         placeable.place(x = 0, y = y.roundToInt())
@@ -244,11 +229,11 @@ fun CloseButton(
 }
 
 @Composable
-private fun keyboardShown(modalId: String): Boolean {
+private fun keyboardShown(): Boolean {
     var keyboardOpen by remember { mutableStateOf(false) }
     val rootView = LocalView.current
 
-    DisposableEffect(modalId) {
+    DisposableEffect(Unit) {
         val keyboardListener = {
             // check keyboard state after this layout
             val isOpenNew = isKeyboardOpen(rootView)
@@ -274,27 +259,6 @@ private fun keyboardShown(modalId: String): Boolean {
     }
 
     return keyboardOpen
-}
-
-@Composable
-private fun HandleBackPressed(
-    modalId: String,
-    visible: Boolean,
-    onBack: () -> BackResult
-) {
-    DisposableEffect(visible, modalId) {
-        if (visible) {
-            nav.addToBackstack(
-                BackstackItem.Overlay(
-                    id = modalId,
-                    onBack = onBack
-                )
-            )
-        }
-
-        onDispose {
-        }
-    }
 }
 
 // region Insets
@@ -335,7 +299,7 @@ private fun Preview_FullScreen() {
     val modal = IvyModal()
     modal.show()
 
-    Preview {
+    IvyPreview {
         Modal(
             modal = modal,
             Actions = {
@@ -360,7 +324,7 @@ private fun Preview_Partial() {
     val modal = IvyModal()
     modal.show()
 
-    Preview {
+    IvyPreview {
         Modal(
             modal = modal,
             Actions = {

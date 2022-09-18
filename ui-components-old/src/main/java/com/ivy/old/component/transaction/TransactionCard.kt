@@ -29,9 +29,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.old.component.transaction.account
-import com.ivy.old.component.transaction.category
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -226,10 +225,7 @@ private fun TransactionHeaderRow(
             modifier = Modifier.padding(horizontal = 20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val category = category(
-                categoryId = transaction.categoryId,
-                categories = categories
-            )
+            val category: CategoryOld? = null
 
             if (category != null) {
                 TransactionBadge(
@@ -249,10 +245,7 @@ private fun TransactionHeaderRow(
                 Spacer(Modifier.width(12.dp))
             }
 
-            val account = account(
-                accountId = transaction.accountId,
-                accounts = accounts
-            )
+            val account: AccountOld = TODO()
 
             TransactionBadge(
                 text = account?.name ?: stringResource(R.string.deleted),
@@ -471,7 +464,7 @@ private data class AmountTypeStyle(
 @Preview
 @Composable
 private fun PreviewUpcomingExpense() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Food", color = Green.toArgb())
@@ -504,7 +497,7 @@ private fun PreviewUpcomingExpense() {
 @Preview
 @Composable
 private fun PreviewOverdueExpense() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Rent", color = Green.toArgb())
@@ -537,7 +530,7 @@ private fun PreviewOverdueExpense() {
 @Preview
 @Composable
 private fun PreviewNormalExpense() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(
@@ -572,7 +565,7 @@ private fun PreviewNormalExpense() {
 @Preview
 @Composable
 private fun PreviewIncome() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "DSK Bank", color = Green.toArgb())
             val category = CategoryOld(name = "Salary", color = GreenDark.toArgb())
@@ -604,7 +597,7 @@ private fun PreviewIncome() {
 @Preview
 @Composable
 private fun PreviewTransfer() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = AccountOld(name = "Revolut", color = IvyDark.toArgb(), icon = "revolut")
@@ -637,7 +630,7 @@ private fun PreviewTransfer() {
 @Preview
 @Composable
 private fun PreviewTransfer_differentCurrency() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val acc1 = AccountOld(name = "DSK Bank", color = Green.toArgb(), icon = "bank")
             val acc2 = AccountOld(

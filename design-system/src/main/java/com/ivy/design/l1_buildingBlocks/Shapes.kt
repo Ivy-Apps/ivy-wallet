@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreviewBase
+import com.ivy.design.utils.ComponentPreview
 
 @Composable
 fun Shape(
@@ -53,7 +53,7 @@ fun ShapeOutlined(
 @Preview
 @Composable
 private fun Preview_Circle() {
-    ComponentPreviewBase {
+    ComponentPreview {
         Shape(
             size = 32.dp,
             shape = UI.shapes.circle,
@@ -65,7 +65,7 @@ private fun Preview_Circle() {
 @Preview
 @Composable
 private fun PreviewOutlined() {
-    ComponentPreviewBase {
+    ComponentPreview {
         ShapeOutlined(
             size = 64.dp,
             shape = UI.shapes.r3,

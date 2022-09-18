@@ -22,6 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
+import com.ivy.design.utils.ComponentPreview
 import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -262,7 +263,7 @@ private class PieChartView(context: Context) : View(context) {
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         Column(
             Modifier.fillMaxSize()
         ) {

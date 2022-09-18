@@ -1,7 +1,9 @@
 package com.ivy.design.l0_system
 
 import androidx.compose.ui.graphics.Color
+import javax.annotation.concurrent.Immutable
 
+@Immutable
 interface IvyColors {
     val pure: Color
     val pureInverse: Color

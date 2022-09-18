@@ -32,6 +32,7 @@ import com.ivy.data.loan.LoanType
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.ItemStatisticToolbar
@@ -788,7 +789,7 @@ private fun NoLoanRecordsEmptyState() {
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(
@@ -805,7 +806,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Records() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             baseCurrency = "BGN",
             loan = Loan(

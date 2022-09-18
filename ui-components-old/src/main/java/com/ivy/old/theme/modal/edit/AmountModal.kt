@@ -28,6 +28,7 @@ import com.ivy.base.R
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -472,7 +473,7 @@ private fun circleButtonModifier(
         .clip(CircleShape)
         .clickable {
             onClick()
-            if(hapticFeedback) {
+            if (hapticFeedback) {
                 vibrator.vibrate(VibrationEffect.createOneShot(100, 1))
             }
         }
@@ -483,7 +484,7 @@ private fun circleButtonModifier(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         BoxWithConstraints(
             modifier = Modifier.padding(bottom = modalPreviewActionRowHeight())
         ) {

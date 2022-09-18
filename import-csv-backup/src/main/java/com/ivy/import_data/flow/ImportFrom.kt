@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.OnboardingToolbar
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
@@ -126,7 +127,7 @@ private fun ImportOption(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ImportFrom(
             hasSkip = true,
         )

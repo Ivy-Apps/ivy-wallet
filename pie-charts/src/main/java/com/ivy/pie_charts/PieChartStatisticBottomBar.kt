@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.utils.IvyPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.White
@@ -68,7 +69,7 @@ fun BoxWithConstraintsScope.PieChartStatisticBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         PieChartStatisticBottomBar(
             type = TrnTypeOld.INCOME,
             bottomInset = 16.dp,
