@@ -8,8 +8,8 @@ jobs:
 
     # Fix GitHub Actions crashing with:
     # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
-    env:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+    # env:
+    #  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
