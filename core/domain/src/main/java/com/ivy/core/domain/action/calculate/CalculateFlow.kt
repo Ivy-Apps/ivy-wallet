@@ -56,7 +56,7 @@ class CalculateFlow @Inject constructor(
                     }
                 } else true
             },
-            selectorFunctions = nonEmptyListOf(
+            selectors = nonEmptyListOf(
                 ::income,
                 ::expense,
                 ::countIncome,

@@ -59,7 +59,7 @@ class SumTransactionsTest : StringSpec({
         // Act
         val res = sumTransactions(
             transactions = trns,
-            selectorFunctions = nonEmptyListOf(
+            selectors = nonEmptyListOf(
                 ::income,
                 ::expense,
                 ::countIncome,
