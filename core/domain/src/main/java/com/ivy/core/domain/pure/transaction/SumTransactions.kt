@@ -12,28 +12,28 @@ import com.ivy.frp.Pure
  *
  * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
  */
-typealias ValueFunction<A> = suspend (Transaction, A) -> Double
+typealias SelectorFunction<A> = suspend (Transaction, A) -> Double
 
 /**
  * ## @Suppress("RedundantSuspendModifier", "UNUSED_PARAMETER")
  */
 @Pure
-suspend fun <Arg> foldTransactions(
+suspend fun <Arg> sumTransactions(
     transactions: List<Transaction>,
-    valueFunctions: NonEmptyList<ValueFunction<Arg>>,
+    selectorFunctions: NonEmptyList<SelectorFunction<Arg>>,
     arg: Arg
 ): NonEmptyList<Double> = sumTransactionsInternal(
     valueFunctionArgument = arg,
     transactions = transactions,
-    valueFunctions = valueFunctions
+    selectorFunctions = selectorFunctions
 )
 
 @Pure
-internal tailrec suspend fun <A> sumTransactionsInternal(
+private tailrec suspend fun <A> sumTransactionsInternal(
     transactions: List<Transaction>,
     valueFunctionArgument: A,
-    valueFunctions: NonEmptyList<ValueFunction<A>>,
-    sum: NonEmptyList<Double> = nonEmptyListOfZeros(n = valueFunctions.size)
+    selectorFunctions: NonEmptyList<SelectorFunction<A>>,
+    sum: NonEmptyList<Double> = nonEmptyListOfZeros(n = selectorFunctions.size)
 ): NonEmptyList<Double> {
     return if (transactions.isEmpty())
         sum
@@ -41,9 +41,9 @@ internal tailrec suspend fun <A> sumTransactionsInternal(
         sumTransactionsInternal(
             valueFunctionArgument = valueFunctionArgument,
             transactions = transactions.drop(1),
-            valueFunctions = valueFunctions,
+            selectorFunctions = selectorFunctions,
             sum = sum.mapIndexedNel { index, sumValue ->
-                val valueFunction = valueFunctions[index]
+                val valueFunction = selectorFunctions[index]
                 sumValue + valueFunction(transactions.first(), valueFunctionArgument)
             }
         )
