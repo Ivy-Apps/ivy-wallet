@@ -41,6 +41,6 @@ jobs:
       - name: Upload Ivy Wallet APK
         uses: actions/upload-artifact@v2
         with:
-          name: "Ivy-Wallet-${{ GITHUB_SHA }}.apk"
+          name: "Ivy-Wallet-${{ github.GITHUB_SHA }}.apk"
           path: app/build/outputs/apk/debug/app-debug.apk
       #------------------------------------------------------------------
