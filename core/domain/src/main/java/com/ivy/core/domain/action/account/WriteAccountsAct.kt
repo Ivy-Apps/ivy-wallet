@@ -11,18 +11,15 @@ import com.ivy.data.account.Account
 import com.ivy.frp.action.Action
 import javax.inject.Inject
 
+/**
+ * Persists _(saves or deletes)_ accounts locally.
+ * Use [Modify.save], [Modify.saveMany], [Modify.delete] or [Modify.deleteMany].
+ */
 class WriteAccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val writeTrnsAct: WriteTrnsAct,
     private val trnQueryExecutor: TrnQueryExecutor,
 ) : Action<Modify<Account>, Unit>() {
-    companion object {
-        fun save(account: Account) = Modify.Save(listOf(account))
-        fun saveMany(accounts: Iterable<Account>) = Modify.Save(accounts.toList())
-
-        fun delete(accountId: String) = Modify.Delete<Account>(listOf(accountId))
-        fun deleteMany(accIds: Iterable<String>) = Modify.Delete<Account>(accIds.toList())
-    }
 
     override suspend fun Modify<Account>.willDo() {
         when (this) {
@@ -39,7 +36,7 @@ class WriteAccountsAct @Inject constructor(
 
     private suspend fun deleteTrns(accountId: String) {
         val trns = trnQueryExecutor.query(TrnWhere.ByAccountId(accountId))
-        writeTrnsAct(WriteTrnsAct.deleteMany(trns.map { it.id }))
+        writeTrnsAct(Modify.deleteMany(trns.map { it.id }))
     }
 
     private suspend fun save(accounts: List<Account>) {

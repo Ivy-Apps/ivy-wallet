@@ -19,6 +19,25 @@ import com.ivy.frp.action.Action
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Persists transactions locally. Supports sync out-of-the-box.
+ * See [Modify].
+ *
+ * ## Save transactions
+ * ```
+ * val writeTrnsAct: WriteTrnsAct // init via DI
+ *
+ * writeTrnsAct(Modify.save(trn)) // save a single transaction
+ * writeTrnsAct(Modify.saveMany(trns)) // saves multiple transactions
+ * ```
+ * ## Delete transactions
+ * ```
+ * val writeTrnsAct: WriteTrnsAct // init via DI
+ *
+ * writeTrnsAct(Modify.delete(trn.id.toString())) // deletes a transaction
+ * writeTrnsAct(Modify.deleteMany(trnIds.map { it.id.toString() })) // deletes multiple transactions
+ * ```
+ */
 class WriteTrnsAct @Inject constructor(
     private val trnDao: TrnDao,
     private val trnsSignal: TrnsSignal,
@@ -27,13 +46,6 @@ class WriteTrnsAct @Inject constructor(
     private val trnMetadataDao: TrnMetadataDao,
     private val attachmentDao: AttachmentDao,
 ) : Action<Modify<Transaction>, Unit>() {
-    companion object {
-        fun save(trn: Transaction) = Modify.Save(listOf(trn))
-        fun saveMany(trns: Iterable<Transaction>) = Modify.Save(trns.toList())
-
-        fun delete(trnId: String) = Modify.Delete<Transaction>(listOf(trnId))
-        fun deleteMany(trnIds: Iterable<String>) = Modify.Delete<Transaction>(trnIds.toList())
-    }
 
     override suspend fun Modify<Transaction>.willDo() {
         when (this) {

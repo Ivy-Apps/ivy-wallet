@@ -8,17 +8,13 @@ import com.ivy.data.category.Category
 import com.ivy.frp.action.Action
 import javax.inject.Inject
 
+/**
+ * Persists _(saves or deletes)_ categories locally.
+ * Use [Modify.save], [Modify.saveMany], [Modify.delete] or [Modify.deleteMany].
+ */
 class WriteCategoriesAct @Inject constructor(
     private val categoryDao: CategoryDao,
 ) : Action<Modify<Category>, Unit>() {
-    companion object {
-        fun save(category: Category) = Modify.Save(listOf(category))
-        fun saveMany(categories: Iterable<Category>) = Modify.Save(categories.toList())
-
-        fun delete(categoryId: String) = Modify.Delete<Category>(listOf(categoryId))
-        fun deleteMany(categoryIds: Iterable<String>) =
-            Modify.Delete<Category>(categoryIds.toList())
-    }
 
     override suspend fun Modify<Category>.willDo() {
         when (this) {

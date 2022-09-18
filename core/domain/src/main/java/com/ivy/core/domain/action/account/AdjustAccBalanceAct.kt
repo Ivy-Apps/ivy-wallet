@@ -1,8 +1,8 @@
 package com.ivy.core.domain.action.account
 
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
+import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.action.transaction.WriteTrnsAct.Companion.save
 import com.ivy.core.domain.pure.account.adjustBalanceTrn
 import com.ivy.data.account.Account
 import com.ivy.frp.action.Action
@@ -30,7 +30,7 @@ class AdjustAccBalanceAct @Inject constructor(
         )
 
         if (adjustTrn != null) {
-            writeTrnsAct(save(adjustTrn))
+            writeTrnsAct(Modify.save(adjustTrn))
         }
     }
 }
