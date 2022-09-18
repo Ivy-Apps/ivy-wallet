@@ -38,9 +38,13 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
+      - name: Set commit SHA as an output so it can be included in the APK filename
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Upload Ivy Wallet APK
         uses: actions/upload-artifact@v2
         with:
-          name: "Ivy-Wallet-${{ github.GITHUB_SHA }}.apk"
+          name: "Ivy-Wallet-${{ steps.vars.outputs.sha_short }}.apk"
           path: app/build/outputs/apk/debug/app-debug.apk
       #------------------------------------------------------------------
