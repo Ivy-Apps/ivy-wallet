@@ -36,8 +36,8 @@ jobs:
       #---------------------------------------------------
 
       # RUN: Lint
-      - name: Lint
-        run: ./gradlew lint
+      - name: Lint (Debug)
+        run: ./gradlew lintDebug
 
       - name: Upload Lint report to GitHub (see artificats)
         if: always()

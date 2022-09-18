@@ -1,15 +1,12 @@
-name: Test
+name: Integration Test
 
 on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    # Fix GitHub Actions crashing with:
-    # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
-    env:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+  integrationTest:
+    # The type of runner that the job will run on
+    # Runs on macos-latest because Android Emulator won't HAXM hardware acceleration on Ubuntu
+    runs-on: macos-latest
 
     steps:
       - name: Checkout GIT
@@ -35,6 +32,14 @@ jobs:
       #---------------------------------------------------
 
       # RUN
-      - name: Test (unitTest)
-        run: ./gradlew testDebugUnitTest
+      # so the CI doesn't have to build while the emulator is started which is way slower...
+      - name: Build (Debug)
+        run: ./gradlew buildDebug
+
+      - name: Run integration tests (androidTest)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          profile: pixel_3_xl
+          script: ./gradlew connectedDebugAndroidTest -x :app:connectedDebugAndroidTest
       #------------------------------------------------------------------
