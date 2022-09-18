@@ -15,19 +15,19 @@ A brief overview at how our app is implemented.
 
 ### Transactions
 
-Everything is a transaction! A transaction represents a movement of [Value](data-model/src/main/java/com/ivy/data/Value.kt) _(money, amount + currency)_. In the real world you can either get money `TrnType.Income` or give money `TrnType.Expense`.
+Everything is a transaction! A transaction represents a movement of [Value](data-model/src/main/java/com/ivy/data/Value.kt) _(money, amount + currency)_. In the real world you can either get money which is `TrnType.Income` or spend money - `TrnType.Expense`.
 
 Everything in Ivy Wallet is represented using just "Income" and "Expense" transactions.
 
 ### Accounts
 
-For a transaction _(movement of value)_ to happen, the value must either come from somewhere _(e.g. a pocket with cash when paying your rent)_ and go to somewhere _(e.g. a bank account when receiving your salary)_.
+For a transaction _(movement of value)_ to happen: the value must either come from somewhere _(e.g. a pocket with cash when paying your rent)_ or go to somewhere _(e.g. a bank account when receiving your salary)_.
 
 Simply said, transactions must be stored somewhere and the perfect place for the is the [Account](data-model/src/main/java/com/ivy/data/account/Account.kt).
 
 ### Balance
 
-Your balance is the sum of the balances your accounts.
+Your balance is the sum of the balances of your accounts.
 
 > balance = $\Sigma$ of	 account balances
 
