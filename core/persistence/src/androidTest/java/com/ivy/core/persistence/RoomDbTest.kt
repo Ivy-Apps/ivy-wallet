@@ -8,14 +8,14 @@ import java.io.IOException
 
 
 abstract class RoomDbTest {
-    protected lateinit var db: IvyWalletDb
+    protected lateinit var db: IvyWalletCoreDb
 
-    abstract fun setUp(db: IvyWalletDb)
+    abstract fun setUp(db: IvyWalletCoreDb)
 
     @Before
     fun createDb() {
         db = Room.inMemoryDatabaseBuilder(
-            testContext(), IvyWalletDb::class.java
+            testContext(), IvyWalletCoreDb::class.java
         ).build()
         setUp(db)
     }

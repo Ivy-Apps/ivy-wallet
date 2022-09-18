@@ -51,7 +51,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
     AccountTypeConverter::class, CategoryTypeConverter::class,
     ExchangeRateTypeConverter::class,
 )
-abstract class IvyWalletDb : RoomDatabase() {
+abstract class IvyWalletCoreDb : RoomDatabase() {
     abstract fun trnDao(): TrnDao
 
     abstract fun trnLinkRecordDao(): TrnLinkRecordDao
@@ -75,11 +75,11 @@ abstract class IvyWalletDb : RoomDatabase() {
     abstract fun exchangeRateOverrideDao(): ExchangeRateOverrideDao
 
     companion object {
-        private const val DB_NAME = "ivywallet.db"
+        private const val DB_NAME = "ivy-wallet-core.db"
 
-        fun create(applicationContext: Context): IvyWalletDb {
+        fun create(applicationContext: Context): IvyWalletCoreDb {
             return Room.databaseBuilder(
-                applicationContext, IvyWalletDb::class.java, DB_NAME
+                applicationContext, IvyWalletCoreDb::class.java, DB_NAME
             ).build()
         }
     }
