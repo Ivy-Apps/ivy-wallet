@@ -32,7 +32,7 @@ jobs:
 
       # RUN: Lint
       - name: Lint (Debug)
-        run: ./gradlew lintDebug --no-daemon
+        run: ./gradlew lintDebug
 
       - name: Upload Lint report to GitHub (see artificats)
         if: always()
