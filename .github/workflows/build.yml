@@ -35,6 +35,12 @@ jobs:
       #---------------------------------------------------
 
       # RUN
-      - name: Build (Debug)
-        run: ./gradlew buildDebug
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload Ivy Wallet APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Ivy-Wallet-$GITHUB_SHA.apk"
+          path: app/build/outputs/apk/debug/app-debug.apk
       #------------------------------------------------------------------
