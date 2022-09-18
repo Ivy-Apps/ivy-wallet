@@ -2,8 +2,8 @@ package com.ivy.core.domain.action.account
 
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
+import com.ivy.core.domain.action.transaction.WriteTrnsAct.Companion.save
 import com.ivy.core.domain.pure.account.adjustBalanceTrn
-import com.ivy.data.Modify
 import com.ivy.data.account.Account
 import com.ivy.frp.action.Action
 import kotlinx.coroutines.flow.first
@@ -30,7 +30,7 @@ class AdjustAccBalanceAct @Inject constructor(
         )
 
         if (adjustTrn != null) {
-            writeTrnsAct(Modify.Save(listOf(adjustTrn)))
+            writeTrnsAct(save(adjustTrn))
         }
     }
 }

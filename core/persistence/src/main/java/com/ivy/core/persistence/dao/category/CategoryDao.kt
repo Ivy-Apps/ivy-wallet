@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
     // region Save
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(values: List<CategoryEntity>)
+    suspend fun save(values: Iterable<CategoryEntity>)
     // endregion
 
     // region Select

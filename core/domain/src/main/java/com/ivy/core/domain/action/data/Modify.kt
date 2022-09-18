@@ -1,4 +1,4 @@
-package com.ivy.data
+package com.ivy.core.domain.action.data
 
 sealed interface Modify<T> {
     data class Save<T>(val items: List<T>) : Modify<T>
