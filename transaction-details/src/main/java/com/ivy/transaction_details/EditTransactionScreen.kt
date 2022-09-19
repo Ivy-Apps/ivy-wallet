@@ -26,7 +26,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.hideKeyboard
+import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.hideKeyboard
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditPlanned
@@ -40,8 +41,6 @@ import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.components.CustomExchangeRateCard
 import com.ivy.wallet.ui.theme.modal.*
 import com.ivy.wallet.ui.theme.modal.edit.*
-import com.ivy.wallet.utils.convertUTCtoLocal
-import com.ivy.wallet.utils.getTrueDate
 import com.ivy.wallet.utils.timeNowLocal
 import java.time.LocalDateTime
 import java.util.*
@@ -283,15 +282,14 @@ private fun BoxWithConstraintsScope.UI(
 
         Spacer(Modifier.height(32.dp))
 
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
         if (dueDate != null) {
             DueDate(dueDate = dueDate) {
-                ivyContext.datePicker(
-                    initialDate = dueDate.toLocalDate()
-                ) {
-                    onDueDateChanged(it.atTime(12, 0))
-                }
+//                ivyContext.datePicker(
+//                    initialDate = dueDate.toLocalDate()
+//                ) {
+//                    onDueDateChanged(it.atTime(12, 0))
+//                }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -307,35 +305,35 @@ private fun BoxWithConstraintsScope.UI(
             dateTime = dateTime,
             dueDateTime = dueDate,
             onEditDate = {
-                ivyContext.datePicker(
-                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
-                ) { date ->
-                    onSetDateTime(
-                        getTrueDate(
-                            date, dateTime?.toLocalTime()
-                                ?: timeNowLocal().toLocalTime()
-                        )
-                    )
-                }
+//                ivyContext.datePicker(
+//                    initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate()
+//                ) { date ->
+//                    onSetDateTime(
+//                        getTrueDate(
+//                            date, dateTime?.toLocalTime()
+//                                ?: timeNowLocal().toLocalTime()
+//                        )
+//                    )
+//                }
             },
             onEditTime = {
-                ivyContext.timePicker { time ->
-                    onSetDateTime(
-                        getTrueDate(
-                            dateTime?.toLocalDate()
-                                ?: timeNowLocal().toLocalDate(), time
-                        )
-                    )
-                }
+//                ivyContext.timePicker { time ->
+//                    onSetDateTime(
+//                        getTrueDate(
+//                            dateTime?.toLocalDate()
+//                                ?: timeNowLocal().toLocalDate(), time
+//                        )
+//                    )
+//                }
             }
         ) {
-            ivyContext.datePicker(
-                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate(),
-            ) { date ->
-                ivyContext.timePicker { time ->
-                    onSetDateTime(getTrueDate(date, time))
-                }
-            }
+//            ivyContext.datePicker(
+//                initialDate = dateTime?.convertUTCtoLocal()?.toLocalDate(),
+//            ) { date ->
+//                ivyContext.timePicker { time ->
+//                    onSetDateTime(getTrueDate(date, time))
+//                }
+//            }
         }
 
         if (transactionType == TrnTypeOld.TRANSFER && customExchangeRateState.showCard) {
@@ -584,7 +582,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = EditTransaction(null, TrnTypeOld.EXPENSE),
             initialTitle = "",

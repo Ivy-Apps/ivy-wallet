@@ -23,8 +23,8 @@ import com.ivy.base.IVY_COLOR_PICKER_COLORS_PREMIUM
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.utils.densityScope
@@ -91,9 +91,6 @@ fun ColumnScope.IvyColorPicker(
         }
     }
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
-    val navigation = navigation()
-
     LazyRow(
          modifier = Modifier
                 .fillMaxWidth(),
@@ -133,7 +130,6 @@ private fun ColorItem(
         Spacer(Modifier.width(24.dp))
     }
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     Box(
         modifier = Modifier
             .clip(CircleShape)
@@ -148,7 +144,7 @@ private fun ColorItem(
             .testTag("color_item_${ivyColor.color.value}"),
         contentAlignment = Alignment.Center
     ) {
-        if (ivyColor.premium && !ivyContext.isPremium) {
+        if (ivyColor.premium && false) {
             IvyIcon(
                 icon = R.drawable.ic_custom_safe_s,
                 tint = color.dynamicContrast()
@@ -162,7 +158,7 @@ private fun ColorItem(
 @Preview
 @Composable
 private fun PreviewIvyColorPicker() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         Column {
             IvyColorPicker(selectedColor = UI.colors.primary) {
 

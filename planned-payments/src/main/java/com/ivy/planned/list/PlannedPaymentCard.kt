@@ -26,6 +26,7 @@ import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
@@ -241,7 +242,7 @@ private fun RuleTextRow(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val cash = AccountOld(name = "Cash", color = Green.toArgb())
             val food = CategoryOld(name = "Food", color = Green.toArgb())
@@ -275,7 +276,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_recurring() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = AccountOld(name = "Revolut", color = Green.toArgb())
             val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())
@@ -309,7 +310,7 @@ private fun Preview_recurring() {
 @Preview
 @Composable
 private fun Preview_recurringError() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LazyColumn(Modifier.fillMaxSize()) {
             val account = AccountOld(name = "Revolut", color = Green.toArgb())
             val shisha = CategoryOld(name = "Shisha", color = Orange.toArgb())

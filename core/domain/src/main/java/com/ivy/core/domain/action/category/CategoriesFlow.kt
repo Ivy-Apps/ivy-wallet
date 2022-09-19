@@ -14,6 +14,9 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * @return a flow of latest [Category]ies by transforming db entities into domain objects.
+ */
 @Singleton
 class CategoriesFlow @Inject constructor(
     private val categoryDao: CategoryDao,

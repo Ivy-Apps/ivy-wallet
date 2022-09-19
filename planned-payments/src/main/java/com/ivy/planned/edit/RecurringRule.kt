@@ -17,6 +17,7 @@ import com.ivy.core.ui.temp.trash.forDisplay
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -132,7 +133,7 @@ private fun RecurringRuleCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         RecurringRule(
             startDate = null,
             intervalN = null,
@@ -146,7 +147,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Repeat() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         RecurringRule(
             startDate = timeNowUTC(),
             intervalN = 1,
@@ -160,7 +161,7 @@ private fun Preview_Repeat() {
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         RecurringRule(
             startDate = timeNowUTC().plusDays(5),
             intervalN = null,

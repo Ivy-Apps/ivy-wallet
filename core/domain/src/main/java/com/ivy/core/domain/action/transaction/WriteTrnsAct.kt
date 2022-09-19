@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
 import com.ivy.core.persistence.dao.AttachmentDao
@@ -8,19 +9,35 @@ import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.dao.trn.TrnTagDao
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
-import com.ivy.data.Modify
 import com.ivy.data.SyncState.Deleting
 import com.ivy.data.SyncState.Syncing
 import com.ivy.data.attachment.Attachment
 import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
-import com.ivy.frp.action.FPAction
-import com.ivy.sync.SyncTask
-import com.ivy.sync.syncTaskFrom
+import com.ivy.frp.action.Action
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Persists transactions locally. Supports sync out-of-the-box.
+ * See [Modify].
+ *
+ * ## Save transactions
+ * ```
+ * val writeTrnsAct: WriteTrnsAct // init via DI
+ *
+ * writeTrnsAct(Modify.save(trn)) // save a single transaction
+ * writeTrnsAct(Modify.saveMany(trns)) // saves multiple transactions
+ * ```
+ * ## Delete transactions
+ * ```
+ * val writeTrnsAct: WriteTrnsAct // init via DI
+ *
+ * writeTrnsAct(Modify.delete(trn.id.toString())) // deletes a transaction
+ * writeTrnsAct(Modify.deleteMany(trnIds.map { it.id.toString() })) // deletes multiple transactions
+ * ```
+ */
 class WriteTrnsAct @Inject constructor(
     private val trnDao: TrnDao,
     private val trnsSignal: TrnsSignal,
@@ -28,18 +45,15 @@ class WriteTrnsAct @Inject constructor(
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val trnMetadataDao: TrnMetadataDao,
     private val attachmentDao: AttachmentDao,
-//    private val syncTrnsAct: SyncTrnsAct,
-) : FPAction<Modify<Transaction>, SyncTask>() {
-    override suspend fun Modify<Transaction>.compose(): suspend () -> SyncTask = {
+) : Action<Modify<Transaction>, Unit>() {
+
+    override suspend fun Modify<Transaction>.willDo() {
         when (this) {
             is Modify.Save -> save(trns = items)
             is Modify.Delete -> delete(trnIds = itemIds)
         }
 
         trnsSignal.send(Unit) // notify for changed transactions
-
-        // TODO: Implement sync
-        syncTaskFrom {}
     }
 
     // region Save

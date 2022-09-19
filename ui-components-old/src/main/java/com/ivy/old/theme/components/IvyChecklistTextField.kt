@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
@@ -117,7 +118,7 @@ fun IvyChecklistTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -132,7 +133,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyChecklistTextField(
             modifier = Modifier
                 .background(UI.colors.red)

@@ -26,6 +26,7 @@ import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.LoanDetails
@@ -397,7 +398,7 @@ private fun Preview() {
             )
         )
     )
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             state = state
         )

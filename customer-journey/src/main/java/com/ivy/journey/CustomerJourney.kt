@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.findContrastTextColor
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.journey.domain.CustomerJourneyLogic
@@ -29,7 +30,6 @@ fun CustomerJourney(
     customerJourneyCards: List<CustomerJourneyCardData>,
     onDismiss: (CustomerJourneyCardData) -> Unit
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
     val rootScreen = com.ivy.core.ui.temp.rootScreen()
 
@@ -46,7 +46,7 @@ fun CustomerJourney(
                 onDismiss(card)
             }
         ) {
-            card.onAction(nav, ivyContext, rootScreen)
+//            card.onAction(nav, ivyContext, rootScreen)
         }
     }
 }
@@ -142,7 +142,7 @@ fun CustomerJourneyCard(
 @Preview
 @Composable
 private fun PreviewCard() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.adjustBalanceCard(),
             onCTA = { },

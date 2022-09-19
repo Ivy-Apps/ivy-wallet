@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.accounts.AccountsTab
 import com.ivy.base.MainTab
 import com.ivy.data.transaction.TrnTypeOld
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.home.old.HomeTab
@@ -32,10 +33,9 @@ fun BoxWithConstraintsScope.MainScreen(screen: Main) {
         viewModel.start(screen)
     }
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     UI(
         screen = screen,
-        tab = ivyContext.mainTab,
+        tab = MainTab.HOME,
         baseCurrency = currency,
         selectTab = viewModel::selectTab,
         onCreateAccount = viewModel::createAccount
@@ -55,7 +55,7 @@ private fun BoxWithConstraintsScope.UI(
     onCreateAccount: (CreateAccountData) -> Unit,
 ) {
     when (tab) {
-        MainTab.HOME -> if (true) com.ivy.home.HomeTab() else HomeTab(screen = screen)
+        MainTab.HOME -> if (false) com.ivy.home.HomeTab() else HomeTab(screen = screen)
         MainTab.ACCOUNTS -> AccountsTab(screen = screen)
     }
 
@@ -123,7 +123,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewMainScreen() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = Main,
             tab = MainTab.HOME,

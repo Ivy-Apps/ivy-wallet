@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
@@ -91,7 +92,7 @@ fun IvyDescriptionTextField(
 @Preview
 @Composable
 private fun PreviewIvyTextField() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .align(Alignment.CenterStart)
@@ -106,7 +107,7 @@ private fun PreviewIvyTextField() {
 @Preview
 @Composable
 private fun PreviewIvyTextField_longText() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyDescriptionTextField(
             modifier = Modifier
                 .background(UI.colors.red)

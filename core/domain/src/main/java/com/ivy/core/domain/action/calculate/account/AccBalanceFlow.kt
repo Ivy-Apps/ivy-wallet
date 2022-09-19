@@ -9,9 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Calculates account's balance. Including hidden and transfer transactions.
+ */
 class AccBalanceFlow @Inject constructor(
     private val accStatsFlow: AccStatsFlow,
 ) : FlowAction<AccBalanceFlow.Input, Value>() {
+
     data class Input(
         val account: Account,
         val outputCurrency: CurrencyCode = account.currency,
@@ -21,6 +25,7 @@ class AccBalanceFlow @Inject constructor(
         AccStatsFlow.Input(
             account = account,
             period = allTime(),
+            includeHidden = true,
             outputCurrency = outputCurrency
         )
     ).map { stats ->

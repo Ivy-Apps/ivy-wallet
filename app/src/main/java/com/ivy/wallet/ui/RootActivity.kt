@@ -45,6 +45,7 @@ import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.design.api.IvyUI
+import com.ivy.design.api.systems.IvyWalletDesign
 import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.NavigationRoot
@@ -129,7 +130,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
 
             IvyUI(
-                design = com.ivy.core.ui.temp.appDesign(ivyContext)
+                design = IvyWalletDesign()
             ) {
                 UI(viewModel)
             }

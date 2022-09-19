@@ -13,6 +13,7 @@ import com.ivy.base.R
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
@@ -105,7 +106,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         OnboardingSetCurrency(
             preselectedCurrency = IvyCurrency.getDefault()
         ) {

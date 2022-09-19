@@ -4,7 +4,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ivy.common.test.AndroidTest
 import com.ivy.common.test.epochSeconds
 import com.ivy.common.test.uuidString
-import com.ivy.core.persistence.IvyWalletDb
+import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.RoomDbTest
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
@@ -23,7 +23,7 @@ import java.time.Instant
 class TrnDaoTest : RoomDbTest() {
     private lateinit var dao: TrnDao
 
-    override fun setUp(db: IvyWalletDb) {
+    override fun setUp(db: IvyWalletCoreDb) {
         dao = db.trnDao()
     }
 

@@ -19,7 +19,7 @@ import com.ivy.core.ui.R
 import com.ivy.data.icon.IconSize
 import com.ivy.data.icon.IvyIcon
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreviewBase
+import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun IvyIcon.ItemIcon(
@@ -88,7 +88,7 @@ private fun Icon(
 @Preview
 @Composable
 private fun Preview_Sized_S() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Sized(
             iconS = R.drawable.ic_custom_account_s,
             iconM = 0,
@@ -101,7 +101,7 @@ private fun Preview_Sized_S() {
 @Preview
 @Composable
 private fun Preview_Sized_M() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Sized(
             iconS = 0,
             iconM = R.drawable.ic_custom_account_m,
@@ -114,7 +114,7 @@ private fun Preview_Sized_M() {
 @Preview
 @Composable
 private fun Preview_Sized_L() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Sized(
             iconS = 0,
             iconM = 0,
@@ -127,7 +127,7 @@ private fun Preview_Sized_L() {
 @Preview
 @Composable
 private fun Preview_Unknown_S() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Unknown(
             icon = R.drawable.ic_vue_crypto_cardano,
             iconId = null
@@ -138,7 +138,7 @@ private fun Preview_Unknown_S() {
 @Preview
 @Composable
 private fun Preview_Unknown_M() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Unknown(
             icon = R.drawable.ic_vue_crypto_cardano,
             iconId = null
@@ -149,7 +149,7 @@ private fun Preview_Unknown_M() {
 @Preview
 @Composable
 private fun Preview_Unknown_L() {
-    ComponentPreviewBase {
+    ComponentPreview {
         IvyIcon.Unknown(
             icon = R.drawable.ic_vue_crypto_cardano,
             iconId = null

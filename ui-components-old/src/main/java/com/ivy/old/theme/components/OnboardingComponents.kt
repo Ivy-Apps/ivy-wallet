@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.utils.drawColoredShadow
@@ -95,7 +96,7 @@ fun OnboardingButton(
 @Preview
 @Composable
 private fun PreviewOnboardingTextField() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue("iliyan.germanov971@gmail.com"),
@@ -108,7 +109,7 @@ private fun PreviewOnboardingTextField() {
 @Preview
 @Composable
 private fun PreviewOnboardingButton() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         OnboardingButton(
             modifier = Modifier
                 .padding(horizontal = 24.dp)

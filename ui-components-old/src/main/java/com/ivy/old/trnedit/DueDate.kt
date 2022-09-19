@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.formatDateOnly
 import com.ivy.wallet.utils.timeNowUTC
@@ -79,7 +80,7 @@ private fun DueDateCard(
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         DueDate(
             dueDate = timeNowUTC().plusDays(5),
         ) {

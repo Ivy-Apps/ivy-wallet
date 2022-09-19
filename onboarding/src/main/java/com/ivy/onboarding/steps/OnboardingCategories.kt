@@ -23,6 +23,7 @@ import com.ivy.base.R
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
@@ -245,7 +246,7 @@ private fun CategoryCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -311,7 +312,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Categories() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(
@@ -383,7 +384,7 @@ private fun Preview_Categories() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         OnboardingCategories(
             suggestions = listOf(
                 CreateCategoryData(

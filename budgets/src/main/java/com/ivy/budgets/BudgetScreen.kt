@@ -24,6 +24,7 @@ import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.BudgetScreen
@@ -379,7 +380,7 @@ private fun NoBudgetsEmptyState(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -399,7 +400,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Budgets() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             timeRange = TimePeriod.currentMonth(
                 startDayOfMonth = 1

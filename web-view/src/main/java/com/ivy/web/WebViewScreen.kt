@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.ivy.data.Theme
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.IvyWebView
 import com.ivy.wallet.ui.theme.components.BackButtonType
@@ -34,7 +33,6 @@ private fun BoxWithConstraintsScope.UI(url: String) {
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
         val nav = navigation()
         IvyToolbar(
             onBack = { nav.onBackPressed() },
@@ -51,7 +49,7 @@ private fun BoxWithConstraintsScope.UI(url: String) {
             update = { webView ->
                 //Activate Dark mode if the user uses Dark theme & it's supported
                 if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-                    val forceDarkMode = if (ivyContext.theme == Theme.DARK)
+                    val forceDarkMode = if (false)
                         WebSettingsCompat.FORCE_DARK_ON else WebSettingsCompat.FORCE_DARK_OFF
                     WebSettingsCompat.setForceDark(
                         webView.settings,

@@ -12,6 +12,7 @@ import com.ivy.base.AccountBalance
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.onboarding.steps.*
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
@@ -159,7 +160,7 @@ private fun BoxWithConstraintsScope.UI(
 @Preview
 @Composable
 private fun PreviewOnboarding() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             accountSuggestions = listOf(),
             accounts = listOf(),

@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.utils.format
 
@@ -100,7 +101,7 @@ fun CustomExchangeRateCard(
 @Preview
 @Composable
 private fun Preview_OneTime() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         CustomExchangeRateCard(
             fromCurrencyCode = "INR",
             toCurrencyCode = "EUR",

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -121,7 +122,7 @@ private fun osAuthentication(
 @Preview
 @Composable
 private fun Preview_Locked() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         AppLockedScreen(
             onContinueWithoutAuthentication = {},
             onShowOSBiometricsModal = {}

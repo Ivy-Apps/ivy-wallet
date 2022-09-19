@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -106,7 +107,7 @@ private fun ProgressBar(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ImportProcessing(
             progressPercent = 49
         )

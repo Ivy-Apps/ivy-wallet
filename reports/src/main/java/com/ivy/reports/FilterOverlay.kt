@@ -27,6 +27,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.old.ListItem
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -164,12 +165,11 @@ fun BoxWithConstraintsScope.FilterOverlay(
 
             FilterDivider()
 
-            val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
             PeriodFilter(
                 filter = localFilter,
                 onShowPeriodChooserModal = {
                     choosePeriodModal = ChoosePeriodModalData(
-                        period = filter?.period ?: ivyContext.selectedPeriod
+                        period = filter?.period!!
                     )
                 }
             )
@@ -439,7 +439,7 @@ private fun PeriodFilter(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         iconStart = R.drawable.ic_calendar,
-        text = filter?.period?.toDisplayLong(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth)
+        text = filter?.period?.toDisplayLong(1)
             ?.capitalizeLocal()
             ?: stringResource(R.string.select_time_range),
         padding = 12.dp,
@@ -851,7 +851,7 @@ private fun FilterTitleText(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")

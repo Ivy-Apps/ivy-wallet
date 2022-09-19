@@ -23,6 +23,7 @@ import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.ItemIconS
@@ -305,7 +306,7 @@ private fun Section(
 @Preview
 @Composable
 private fun ChooseIconModal() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ChooseIconModal(
             visible = true,
             initialIcon = "gift",

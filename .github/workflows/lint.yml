@@ -6,11 +6,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
-    # Fix GitHub Actions crashing with:
-    # CRASH: Gradle build daemon disappeared unexpectedly (it may have been killed or may have crashed)
-    env:
-      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
-
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout GIT
@@ -36,8 +31,8 @@ jobs:
       #---------------------------------------------------
 
       # RUN: Lint
-      - name: Lint
-        run: ./gradlew lint
+      - name: Lint (Debug)
+        run: ./gradlew lintDebug
 
       - name: Upload Lint report to GitHub (see artificats)
         if: always()

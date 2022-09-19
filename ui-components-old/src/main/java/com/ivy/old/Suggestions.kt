@@ -18,6 +18,7 @@ import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Green
@@ -136,7 +137,7 @@ private class AddNew
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         Suggestions(
             suggestions = listOf(
                 AccountOld("Cash", color = Green.toArgb()),

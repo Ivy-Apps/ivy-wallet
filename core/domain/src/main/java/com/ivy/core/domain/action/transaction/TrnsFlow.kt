@@ -31,7 +31,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Builds a list of domain **[[Transaction]]** by a given query.
+ * @return a flow of domain **[[Transaction]]** by a given query.
  * ## Query
  *
  * ### Filters

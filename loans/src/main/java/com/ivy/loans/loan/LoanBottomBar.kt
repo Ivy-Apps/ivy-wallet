@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.R
+import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.components.BackBottomBar
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -31,7 +32,7 @@ internal fun BoxWithConstraintsScope.LoanBottomBar(
 @Preview
 @Composable
 private fun PreviewBottomBar() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         Column(
             Modifier
                 .fillMaxSize()

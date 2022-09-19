@@ -28,6 +28,7 @@ import com.ivy.base.SortOrder
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.Categories
@@ -529,7 +530,7 @@ private fun SelectTypeButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val state = CategoriesScreenState(
             baseCurrency = "BGN",
             categories = listOf(

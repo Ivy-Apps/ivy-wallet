@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 
 
@@ -117,7 +118,7 @@ fun BackButton(
 @Preview
 @Composable
 private fun PreviewCloseButton() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         CloseButton {
 
         }
@@ -127,7 +128,7 @@ private fun PreviewCloseButton() {
 @Preview
 @Composable
 private fun PreviewBackButton() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         BackButton {
 
         }

@@ -36,6 +36,7 @@ import com.ivy.base.R
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -391,7 +392,7 @@ private fun LetterDividerItem(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         CurrencyPicker(
             initialSelectedCurrency = null,
             includeKeyboardShownInsetSpacer = true

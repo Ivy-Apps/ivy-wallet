@@ -29,7 +29,7 @@ import javax.annotation.concurrent.Immutable
 //import com.ivy.core.ui.account.Badge
 //import com.ivy.core.ui.category.Badge
 //import com.ivy.core.ui.icon.ItemIcon
-//import com.ivy.core.ui.temp.ComponentPreview
+//import ComponentPreview
 //import com.ivy.core.ui.time.formatNicely
 //import com.ivy.core.ui.transaction.util.TrnDetailedType
 //import com.ivy.core.ui.transaction.util.TrnDetailedType.*

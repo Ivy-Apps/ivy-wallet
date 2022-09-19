@@ -22,6 +22,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.Gray
@@ -319,7 +320,7 @@ private fun AccountCurrency(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         AccountModal(
             modal = AccountModalData(
                 account = null,

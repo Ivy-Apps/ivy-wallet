@@ -14,6 +14,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
+@Deprecated("don't use, it's bad!")
 class IvyWalletCtx : IvyContext() {
     //------------------------------------------ State ---------------------------------------------
     var startDayOfMonth = 1

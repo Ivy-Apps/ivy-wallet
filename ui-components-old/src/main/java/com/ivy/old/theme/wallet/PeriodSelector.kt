@@ -18,6 +18,7 @@ import com.ivy.base.R
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyIcon
 
 @Composable
@@ -72,7 +73,7 @@ fun PeriodSelector(
             Spacer(Modifier.width(4.dp))
 
             Text(
-                text = period.toDisplayShort(com.ivy.core.ui.temp.ivyWalletCtx().startDayOfMonth),
+                text = period.toDisplayShort(1),
                 style = UI.typo.b2.style(
                     color = UI.colors.pureInverse,
                     fontWeight = FontWeight.Bold
@@ -102,7 +103,7 @@ fun PeriodSelector(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         PeriodSelector(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

@@ -25,6 +25,7 @@ import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
@@ -55,7 +56,6 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
         mutableStateOf(modal?.period)
     }
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val modalScrollState = rememberScrollState()
 
     IvyModal(
@@ -68,7 +68,7 @@ fun BoxWithConstraintsScope.ChoosePeriodModal(
                 enabled = period != null && period!!.isValid()
             ) {
                 if (period != null) {
-                    ivyContext.updateSelectedPeriodInMemory(period!!)
+//                    ivyContext.updateSelectedPeriodInMemory(period!!)
                     dismiss()
                     onPeriodSelected(period!!)
                 }
@@ -320,7 +320,6 @@ private fun IntervalFromToDate(
     otherEndDateTime: LocalDateTime?,
     onSelected: (LocalDateTime?) -> Unit
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     Row(
         modifier = Modifier
@@ -329,19 +328,19 @@ private fun IntervalFromToDate(
             .clip(UI.shapes.rFull)
             .border(2.dp, UI.colors.medium, UI.shapes.rFull)
             .clickable {
-                ivyContext.datePicker(
-                    minDate = if (border == IntervalBorder.TO)
-                        otherEndDateTime
-                            ?.toLocalDate()
-                            ?.plusDays(1) else null,
-                    maxDate = if (border == IntervalBorder.FROM)
-                        otherEndDateTime
-                            ?.toLocalDate()
-                            ?.minusDays(1) else null,
-                    initialDate = dateTime?.toLocalDate()
-                ) {
-                    onSelected(it.atStartOfDay())
-                }
+//                ivyContext.datePicker(
+//                    minDate = if (border == IntervalBorder.TO)
+//                        otherEndDateTime
+//                            ?.toLocalDate()
+//                            ?.plusDays(1) else null,
+//                    maxDate = if (border == IntervalBorder.FROM)
+//                        otherEndDateTime
+//                            ?.toLocalDate()
+//                            ?.minusDays(1) else null,
+//                    initialDate = dateTime?.toLocalDate()
+//                ) {
+//                    onSelected(it.atStartOfDay())
+//                }
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -496,7 +495,7 @@ private fun AllTime(
 @Preview
 @Composable
 private fun Preview_MonthSelected() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -513,7 +512,7 @@ private fun Preview_MonthSelected() {
 @Preview
 @Composable
 private fun Preview_FromTo() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(
@@ -533,7 +532,7 @@ private fun Preview_FromTo() {
 @Preview
 @Composable
 private fun Preview_LastN() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         ChoosePeriodModal(
             modal = ChoosePeriodModalData(
                 period = TimePeriod(

@@ -26,12 +26,12 @@ import com.ivy.base.data.DueSection
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
-import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.IncomeExpensesCards
@@ -61,7 +61,6 @@ import java.util.*
 fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val viewModel: ItemStatisticViewModel = viewModel()
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
 
     val period by viewModel.period.collectAsState()
@@ -103,7 +102,7 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
         nav.onBackPressed[screen] = {
             setStatusBarDarkTextCompat(
                 view = view,
-                darkText = ivyContext.theme == Theme.LIGHT
+                darkText = true
             )
             false
         }
@@ -222,7 +221,6 @@ private fun BoxWithConstraintsScope.UI(
     onSkipTransaction: (TransactionOld) -> Unit = {},
     onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
     val nav = navigation()
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
@@ -382,9 +380,7 @@ private fun BoxWithConstraintsScope.UI(
                 setOverdueExpanded = setOverdueExpanded,
 
                 history = history,
-                lastItemSpacer = with(density) {
-                    (ivyContext.screenHeight * 0.7f).toDp()
-                },
+                lastItemSpacer = 48.dp,
 
                 onPayOrGet = onPayOrGet,
                 onSkipTransaction = onSkipTransaction,
@@ -392,7 +388,7 @@ private fun BoxWithConstraintsScope.UI(
                 emptyStateTitle = com.ivy.core.ui.temp.stringRes(R.string.no_transactions),
                 emptyStateText = com.ivy.core.ui.temp.stringRes(
                     R.string.no_transactions_for_period,
-                    period.toDisplayLong(ivyContext.startDayOfMonth)
+                    period.toDisplayLong(1)
                 )
             )
         }
@@ -684,7 +680,7 @@ private fun Item(
 @Preview
 @Composable
 private fun Preview_empty() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -716,7 +712,7 @@ private fun Preview_empty() {
 @Preview
 @Composable
 private fun Preview_crypto() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1
@@ -753,7 +749,7 @@ private fun Preview_crypto() {
 @Preview
 @Composable
 private fun Preview_empty_upcoming() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

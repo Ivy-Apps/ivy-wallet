@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.transaction_details.PrimaryAttributeColumn
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.utils.isNotNullOrBlank
@@ -73,7 +74,7 @@ private fun DescriptionText(
 @Preview
 @Composable
 private fun PreviewDescription_Empty() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         Description(
             description = null,
             onAddDescription = {}
@@ -86,7 +87,7 @@ private fun PreviewDescription_Empty() {
 @Preview
 @Composable
 private fun PreviewDescription_withText() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         Description(
             description = "This is my sample description.",
             onAddDescription = {}

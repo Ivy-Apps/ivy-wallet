@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.testTag
@@ -30,6 +31,7 @@ import com.ivy.data.Theme
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.screens.*
 import com.ivy.wallet.ui.theme.Blue
@@ -62,7 +64,7 @@ fun BoxWithConstraintsScope.MoreMenu(
     onBufferClick: () -> Unit,
     onCurrencyClick: () -> Unit
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+//    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     val percentExpanded by animateFloatAsState(
         targetValue = if (expanded) 1f else 0f,
@@ -75,9 +77,11 @@ fun BoxWithConstraintsScope.MoreMenu(
 
     val buttonSizePx = 40.dp.toDensityPx()
 
-    val xBase = ivyContext.screenWidth - 24.dp.toDensityPx()
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp.toDensityPx()
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp.toDensityPx()
+    val xBase = screenWidth - 24.dp.toDensityPx()
     val yBaseCollapsed = 20.dp.toDensityPx() + statusBarInset()
-    val yBaseExpanded = ivyContext.screenHeight - 48.dp.toDensityPx() - navigationBarInset()
+    val yBaseExpanded = screenHeight - 48.dp.toDensityPx() - navigationBarInset()
 
     val yButton = lerp(
         start = yBaseCollapsed,
@@ -97,7 +101,7 @@ fun BoxWithConstraintsScope.MoreMenu(
                 .zIndex(500f)
         ) {
             val radiusCollapsed = buttonSizePx / 2f
-            val radiusExpanded = ivyContext.screenHeight * 1.5f
+            val radiusExpanded = screenHeight * 1.5f
             val radius = lerp(radiusCollapsed, radiusExpanded, percentExpanded)
 
             val yBackground = lerp(
@@ -542,7 +546,7 @@ private fun MoreMenuButton(
 @Preview
 @Composable
 private fun Preview_Expanded() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         MoreMenu(
             expanded = true,
             balance = 7523.43,
@@ -584,7 +588,7 @@ private fun BoxWithConstraintsScope.DonateButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         var expanded by remember { mutableStateOf(false) }
 
         MoreMenu(

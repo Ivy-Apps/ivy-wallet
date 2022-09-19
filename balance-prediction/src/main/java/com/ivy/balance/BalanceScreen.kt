@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.BalanceScreen
@@ -248,7 +249,7 @@ private fun ColumnScope.CloseButton() {
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             period = TimePeriod.currentMonth(
                 startDayOfMonth = 1

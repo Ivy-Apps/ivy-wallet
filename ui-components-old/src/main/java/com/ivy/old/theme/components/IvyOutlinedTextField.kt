@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.utils.isNotNullOrBlank
 import com.ivy.wallet.utils.thenIf
 
@@ -108,7 +109,7 @@ fun IvyOutlinedTextField(
 @Preview
 @Composable
 private fun PreviewOutlineTextField() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyOutlinedTextField(
             modifier = Modifier.padding(horizontal = 24.dp),
             value = TextFieldValue(),

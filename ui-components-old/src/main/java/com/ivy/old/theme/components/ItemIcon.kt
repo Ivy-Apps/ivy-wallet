@@ -16,7 +16,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.thenWhen
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.thenWhen
 import com.ivy.wallet.utils.toLowerCaseLocal
 
 @Deprecated("use IvyIcon.ItemIcon()")
@@ -313,7 +314,7 @@ fun fallbackToNewIconFormat(
 @Preview
 @Composable
 private fun Preview_L() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         ItemIconL(iconName = "dna")
     }
 }
@@ -321,7 +322,7 @@ private fun Preview_L() {
 @Preview
 @Composable
 private fun Preview_M() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         ItemIconM(iconName = "document")
     }
 }
@@ -329,7 +330,7 @@ private fun Preview_M() {
 @Preview
 @Composable
 private fun Preview_S() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         ItemIconS(iconName = "fooddrink")
     }
 }

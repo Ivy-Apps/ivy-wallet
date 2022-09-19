@@ -27,6 +27,7 @@ import com.ivy.base.UiText
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.ItemStatistic
@@ -57,7 +58,6 @@ private fun BoxWithConstraintsScope.UI(
     onEventHandler: (AccountsEvent) -> Unit = {}
 ) {
     val nav = navigation()
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     LazyColumn(
         modifier = Modifier
@@ -67,10 +67,10 @@ private fun BoxWithConstraintsScope.UI(
             .horizontalSwipeListener(
                 sensitivity = 200,
                 onSwipeLeft = {
-                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
+//                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
                 },
                 onSwipeRight = {
-                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
+//                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
                 }
             ),
     ) {
@@ -314,7 +314,7 @@ private fun AccountHeader(
 @Preview
 @Composable
 private fun PreviewAccountsTab() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val state = AccountState(
             baseCurrency = "BGN",
             accountsData = listOf(

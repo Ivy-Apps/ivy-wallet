@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,11 +28,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
@@ -78,7 +81,8 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         }
     }
 
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val spacerTop by transition.animateDp(
         transitionSpec = {
@@ -88,7 +92,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
     ) {
         when (it) {
             OnboardingState.SPLASH -> {
-                (ivyContext.screenHeight / 2f - logoHeight.toDensityPx() / 2f).toDensityDp()
+                (screenHeight.toDensityPx() / 2f - logoHeight.toDensityPx() / 2f).toDensityDp()
             }
             else -> 56.dp
         }
@@ -136,7 +140,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
                 .layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
 
-                    val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
+                    val xSplash = screenWidth.toPx() / 2f - placeable.width / 2
                     val xLogin = 24.dp.toPx()
 
 
@@ -159,7 +163,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 
         Text(
             modifier = Modifier.animateXCenterToLeft(
-                ivyContext = ivyContext,
+                screenWidth = screenWidth,
                 percentTransition = percentTransition
             ),
             text = "Ivy Wallet",
@@ -174,7 +178,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 
         Text(
             modifier = Modifier.animateXCenterToLeft(
-                ivyContext = ivyContext,
+                screenWidth = screenWidth,
                 percentTransition = percentTransition
             ),
             text = stringResource(R.string.your_personal_money_manager),
@@ -188,7 +192,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
         Text(
             modifier = Modifier
                 .animateXCenterToLeft(
-                    ivyContext = ivyContext,
+                    screenWidth = screenWidth,
                     percentTransition = percentTransition
                 )
                 .clickable {
@@ -217,14 +221,14 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
 }
 
 private fun Modifier.animateXCenterToLeft(
-    ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    screenWidth: Dp,
     percentTransition: Float
 ): Modifier {
     return this.layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
 
         layout(placeable.width, placeable.height) {
-            val xSplash = ivyContext.screenWidth / 2f - placeable.width / 2
+            val xSplash = screenWidth.toPx() / 2f - placeable.width / 2
             val xLogin = 32.dp.toPx()
 
             placeable.placeRelative(
@@ -481,7 +485,7 @@ private fun LoginButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         OnboardingSplashLogin(
             onboardingState = OnboardingState.SPLASH,
             opGoogleSignIn = null,

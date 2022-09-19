@@ -19,6 +19,7 @@ import com.ivy.core.ui.temp.trash.forDisplay
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
@@ -155,7 +156,7 @@ private fun RowScope.IntervalTypeSelector(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IntervalPickerRow(
             intervalN = 1,
             intervalType = IntervalType.WEEK,

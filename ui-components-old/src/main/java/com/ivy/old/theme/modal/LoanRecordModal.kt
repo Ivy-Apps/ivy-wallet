@@ -24,6 +24,7 @@ import com.ivy.data.getDefaultFIATCurrency
 import com.ivy.data.loan.LoanRecord
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -333,7 +334,6 @@ private fun DateTimeRow(
     dateTime: LocalDateTime,
     onSetDateTime: (LocalDateTime) -> Unit
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -345,11 +345,11 @@ private fun DateTimeRow(
             text = dateTime.formatNicely(),
             iconStart = R.drawable.ic_date
         ) {
-            ivyContext.datePicker(
-                initialDate = dateTime.convertUTCtoLocal().toLocalDate()
-            ) {
-                onSetDateTime(getTrueDate(it, dateTime.toLocalTime()))
-            }
+//            ivyContext.datePicker(
+//                initialDate = dateTime.convertUTCtoLocal().toLocalDate()
+//            ) {
+//                onSetDateTime(getTrueDate(it, dateTime.toLocalTime()))
+//            }
         }
 
         Spacer(Modifier.weight(1f))
@@ -358,9 +358,9 @@ private fun DateTimeRow(
             text = dateTime.formatLocalTime(),
             iconStart = R.drawable.ic_date
         ) {
-            ivyContext.timePicker {
-                onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
-            }
+//            ivyContext.timePicker {
+//                onSetDateTime(getTrueDate(dateTime.convertUTCtoLocal().toLocalDate(), it))
+//            }
         }
 
         Spacer(Modifier.width(24.dp))
@@ -560,7 +560,7 @@ private fun AddAccount(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LoanRecordModal(
             modal = LoanRecordModalData(
                 loanRecord = null,

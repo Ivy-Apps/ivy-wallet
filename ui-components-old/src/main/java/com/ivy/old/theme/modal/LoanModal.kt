@@ -29,6 +29,7 @@ import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -569,7 +570,7 @@ private fun save(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         LoanModal(
             modal = LoanModalData(
                 loan = null,

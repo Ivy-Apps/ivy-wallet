@@ -20,7 +20,7 @@ package com.ivy.core.ui.transaction
 //import com.ivy.common.dateNowUTC
 //import com.ivy.common.timeNowUTC
 //import com.ivy.core.domain.functions.dummy.*
-//import com.ivy.core.ui.temp.Preview
+//import Preview
 //import com.ivy.data.account.Account
 //import com.ivy.data.category.Category
 //import com.ivy.data.transaction.*

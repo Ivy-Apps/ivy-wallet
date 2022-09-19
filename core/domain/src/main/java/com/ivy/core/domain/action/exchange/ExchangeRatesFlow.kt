@@ -14,6 +14,13 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * @return [ExchangeRatesData], the latest exchange rates and base currency,
+ * considering manually overridden rates.
+ *
+ * _Note: Initially emits empty base currency and rates. In most cases that won't happen
+ * because this is a [SharedFlowAction] and it might be already initialized._
+ */
 @Singleton
 class ExchangeRatesFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,

@@ -1,32 +1,32 @@
 package com.ivy.core.domain.action.account
 
+import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.query.TrnQueryExecutor
 import com.ivy.core.persistence.query.TrnWhere
-import com.ivy.data.Modify
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
-import com.ivy.frp.action.FPAction
-import com.ivy.sync.SyncTask
-import com.ivy.sync.syncTaskFrom
+import com.ivy.frp.action.Action
 import javax.inject.Inject
 
+/**
+ * Persists _(saves or deletes)_ accounts locally. See [Modify].
+ *
+ * Use [Modify.save], [Modify.saveMany], [Modify.delete] or [Modify.deleteMany].
+ */
 class WriteAccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val writeTrnsAct: WriteTrnsAct,
     private val trnQueryExecutor: TrnQueryExecutor,
-//    private val syncAccountsAct: SyncAccountsAct
-) : FPAction<Modify<Account>, SyncTask>() {
-    override suspend fun Modify<Account>.compose(): suspend () -> SyncTask = {
+) : Action<Modify<Account>, Unit>() {
+
+    override suspend fun Modify<Account>.willDo() {
         when (this) {
             is Modify.Delete -> itemIds.forEach { delete(it) }
             is Modify.Save -> save(items)
         }
-
-        // TODO: Implement sync
-        syncTaskFrom {}
     }
 
     private suspend fun delete(accountId: String) {
@@ -37,7 +37,7 @@ class WriteAccountsAct @Inject constructor(
 
     private suspend fun deleteTrns(accountId: String) {
         val trns = trnQueryExecutor.query(TrnWhere.ByAccountId(accountId))
-        writeTrnsAct(Modify.Delete(trns.map { it.id }))
+        writeTrnsAct(Modify.deleteMany(trns.map { it.id }))
     }
 
     private suspend fun save(accounts: List<Account>) {

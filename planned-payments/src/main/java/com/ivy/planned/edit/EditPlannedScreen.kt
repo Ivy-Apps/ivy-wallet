@@ -20,6 +20,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditPlanned
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -430,7 +431,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = EditPlanned(null, TrnTypeOld.EXPENSE),
             oneTime = false,

@@ -20,6 +20,17 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+/**
+ * Groups transactions into:
+ * - **Upcoming:** due transactions in the future
+ * - **Overdue:** due transactions in the past
+ * - **History:** actual transactions grouped by date (days).
+ * Each date has calculated cashflow for that date.
+ *
+ * @return [TransactionsList]
+ *
+ * _Note: all calculations are done in base currency._
+ */
 @OptIn(FlowPreview::class)
 class GroupTrnsFlow @Inject constructor(
     private val calculateFlow: CalculateFlow,
@@ -73,6 +84,7 @@ class GroupTrnsFlow @Inject constructor(
             CalculateFlow.Input(
                 trns = dueTrns,
                 includeTransfers = false,
+                includeHidden = false,
             )
         ).map { dueStats ->
             // the sooner due date, the higher in the list the transaction should appear
@@ -120,6 +132,7 @@ class GroupTrnsFlow @Inject constructor(
             trns = trnsForTheDay.flatMap(::extractTrns),
             outputCurrency = null,
             includeTransfers = true,
+            includeHidden = false,
         )
     ).map { statsForTheDay ->
         listOf(

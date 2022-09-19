@@ -40,6 +40,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.*
@@ -1258,7 +1259,7 @@ private fun SettingsDefaultButton(
 @Preview
 @Composable
 private fun Preview_synced() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1286,7 +1287,7 @@ private fun Preview_synced() {
 @Preview
 @Composable
 private fun Preview_notSynced() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1314,7 +1315,7 @@ private fun Preview_notSynced() {
 @Preview
 @Composable
 private fun Preview_loading() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
@@ -1342,7 +1343,7 @@ private fun Preview_loading() {
 @Preview
 @Composable
 private fun Preview_localAccount() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = null,

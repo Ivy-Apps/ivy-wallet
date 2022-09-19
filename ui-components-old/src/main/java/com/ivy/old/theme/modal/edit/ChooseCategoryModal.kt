@@ -22,6 +22,7 @@ import com.ivy.base.R
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
@@ -259,7 +260,7 @@ private class AddNewCategory
 @Preview
 @Composable
 private fun PreviewChooseCategoryModal() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val categories = mutableListOf(
             CategoryOld("Test", color = Ivy.toArgb()),
             CategoryOld("Second", color = Orange.toArgb()),

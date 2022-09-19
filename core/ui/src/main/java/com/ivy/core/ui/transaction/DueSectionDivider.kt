@@ -20,7 +20,6 @@ import com.ivy.base.R
 import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.functions.transaction.dummyOverdueSection
 import com.ivy.core.functions.transaction.dummyUpcomingSection
-import com.ivy.core.ui.temp.ComponentPreview
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.Value
 import com.ivy.data.transaction.OverdueSection
@@ -30,8 +29,9 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
-import com.ivy.design.utils.clickableNoIndication
-import com.ivy.design.utils.springBounce
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.clickableNoIndication
+import com.ivy.design.util.springBounce
 
 @Composable
 fun UpcomingSection.SectionDivider(

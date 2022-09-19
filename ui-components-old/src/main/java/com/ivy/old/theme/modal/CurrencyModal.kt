@@ -14,6 +14,7 @@ import com.ivy.base.R
 import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.CurrencyPicker
 import java.util.*
@@ -94,7 +95,7 @@ fun BoxWithConstraintsScope.CurrencyModal(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         CurrencyModal(
             title = "Set currency",
             initialCurrency = null,

@@ -24,7 +24,7 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
-import com.ivy.frp.view.navigation.navigation
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.Search
 import com.ivy.wallet.ui.component.transaction.transactions
@@ -97,8 +97,6 @@ private fun UI(
 
         Spacer(Modifier.height(16.dp))
 
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
-        val nav = navigation()
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -195,7 +193,7 @@ private fun SearchInput(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         UI(
             transactions = emptyList(),
             baseCurrency = "BGN",

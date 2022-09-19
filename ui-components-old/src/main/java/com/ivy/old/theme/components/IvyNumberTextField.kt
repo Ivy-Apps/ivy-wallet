@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.isNotNullOrBlank
 
@@ -87,7 +88,7 @@ fun IvyNumberTextField(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.ComponentPreview {
+    ComponentPreview {
         IvyNumberTextField(
             value = TextFieldValue(),
             hint = "0"

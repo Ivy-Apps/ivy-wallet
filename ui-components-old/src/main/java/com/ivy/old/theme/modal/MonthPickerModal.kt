@@ -21,6 +21,7 @@ import com.ivy.core.ui.temp.trash.Month
 import com.ivy.core.ui.temp.trash.Month.Companion.monthsList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
@@ -143,7 +144,7 @@ private fun MonthButton(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         MonthPickerModal(
             initialDate = dateNowUTC(),
             visible = true,

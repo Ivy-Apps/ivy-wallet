@@ -21,6 +21,7 @@ import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
@@ -190,7 +191,7 @@ fun PremiumInfo(
                 fontWeight = FontWeight.Bold, color = if (freeItemsLeft > 2) Green else Orange
             )
         )
-    } else if (!com.ivy.core.ui.temp.ivyWalletCtx().isPremium) {
+    } else if (false) {
         Spacer(Modifier.height(24.dp))
 
         BuyPremiumRow(
@@ -306,7 +307,7 @@ private fun AccountCard(
 @Preview
 @Composable
 private fun Preview_Empty() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -340,7 +341,7 @@ private fun Preview_Empty() {
 @Preview
 @Composable
 private fun Preview_Accounts() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(
@@ -380,7 +381,7 @@ private fun Preview_Accounts() {
 @Preview
 @Composable
 private fun Preview_Premium() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val baseCurrency = "BGN"
         OnboardingAccounts(
             baseCurrency = baseCurrency, suggestions = listOf(

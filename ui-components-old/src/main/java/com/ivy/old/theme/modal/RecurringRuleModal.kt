@@ -21,6 +21,7 @@ import com.ivy.base.R
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
@@ -301,11 +302,11 @@ private fun DateRow(
     ) {
         Spacer(Modifier.width(32.dp))
 
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+//        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
 
         Column(
             modifier = Modifier.clickableNoIndication {
-                ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
+//                ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
             }
         ) {
             val date = dateTime.toLocalDate()
@@ -346,7 +347,7 @@ private fun DateRow(
             backgroundGradient = Gradient.solid(UI.colors.pureInverse),
             tint = UI.colors.pure
         ) {
-            ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
+//            ivyContext.pickDate(dateTime.toLocalDate(), onDatePicked)
         }
 
         Spacer(Modifier.width(32.dp))
@@ -370,7 +371,7 @@ private fun com.ivy.core.ui.temp.IvyWalletCtx.pickDate(
 @Preview
 @Composable
 private fun Preview_oneTime() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
 
             RecurringRuleModal(
@@ -390,7 +391,7 @@ private fun Preview_oneTime() {
 @Preview
 @Composable
 private fun Preview_multipleTimes() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         BoxWithConstraints(Modifier.padding(bottom = 48.dp)) {
             RecurringRuleModal(
                 modal = RecurringRuleModalData(

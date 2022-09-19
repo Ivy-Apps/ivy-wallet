@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.design.l0_system.UI
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
@@ -233,7 +235,9 @@ fun ModalActionsRow(
     PrimaryAction: @Composable () -> Unit
 ) {
     if (visible || modalPercentVisible > 0.01f) {
-        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+//        val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
         ActionsRow(
             modifier = Modifier
                 .onSizeChanged {
@@ -244,7 +248,7 @@ fun ModalActionsRow(
 
                     val systemOffsetBottom = keyboardShownInsetDp.toPx()
                     val visibleHeight = placeable.height * modalPercentVisible
-                    val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
+                    val y = screenHeight.toPx() - visibleHeight - systemOffsetBottom
 
                     layout(placeable.width, placeable.height) {
                         placeable.place(
@@ -281,7 +285,7 @@ fun ModalActionsRow(
 @Preview
 @Composable
 private fun PreviewIvyModal_minimal() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         IvyModal(
             id = UUID.randomUUID(),
             visible = true,

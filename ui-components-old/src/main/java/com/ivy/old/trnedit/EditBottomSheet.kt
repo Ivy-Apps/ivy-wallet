@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -34,6 +35,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
@@ -265,7 +267,8 @@ private fun BottomBar(
     navBarPadding: Dp,
     ActionButton: @Composable () -> Unit
 ) {
-    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+//    val ivyContext = com.ivy.core.ui.temp.ivyWalletCtx()
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     ActionsRow(
         modifier = Modifier
@@ -277,7 +280,7 @@ private fun BottomBar(
 
                 val systemOffsetBottom = keyboardShownInsetDp.toPx()
                 val visibleHeight = placeable.height * 1f
-                val y = ivyContext.screenHeight - visibleHeight - systemOffsetBottom
+                val y = screenHeight.toPx() - visibleHeight - systemOffsetBottom
 
                 layout(placeable.width, placeable.height) {
                     placeable.place(
@@ -735,7 +738,7 @@ private fun LabelAccountMini(
 @Preview
 @Composable
 private fun Preview() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
 
         BoxWithConstraints(
@@ -774,7 +777,7 @@ private fun Preview() {
 @Preview
 @Composable
 private fun Preview_Transfer() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val acc1 = AccountOld("Cash", color = Green.toArgb())
         val acc2 = AccountOld("DSK", color = GreenDark.toArgb())
 

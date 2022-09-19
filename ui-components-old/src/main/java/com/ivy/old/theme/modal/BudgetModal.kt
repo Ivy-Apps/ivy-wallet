@@ -31,6 +31,7 @@ import com.ivy.data.Budget
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.ListItem
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
@@ -298,7 +299,7 @@ private fun CategoriesRow(
 @Preview
 @Composable
 private fun Preview_create() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(
@@ -324,7 +325,7 @@ private fun Preview_create() {
 @Preview
 @Composable
 private fun Preview_edit() {
-    com.ivy.core.ui.temp.Preview {
+    IvyPreview {
         val cat1 = CategoryOld("Science", color = Purple1Dark.toArgb(), icon = "atom")
 
         BudgetModal(

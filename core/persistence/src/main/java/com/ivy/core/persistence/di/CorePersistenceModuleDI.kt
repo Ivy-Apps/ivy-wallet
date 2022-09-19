@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.di
 
 import android.content.Context
-import com.ivy.core.persistence.IvyWalletDb
+import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -26,51 +26,51 @@ import javax.inject.Singleton
 object CorePersistenceModuleDI {
     @Provides
     @Singleton
-    fun provideIvyWalletDb(@ApplicationContext appContext: Context): IvyWalletDb =
-        IvyWalletDb.create(appContext)
+    fun provideIvyWalletDb(@ApplicationContext appContext: Context): IvyWalletCoreDb =
+        IvyWalletCoreDb.create(appContext)
 
     @Provides
     @Singleton
-    fun provideAccountDao(db: IvyWalletDb): AccountDao = db.accountDao()
+    fun provideAccountDao(db: IvyWalletCoreDb): AccountDao = db.accountDao()
 
     @Provides
     @Singleton
-    fun provideAccountFolderDao(db: IvyWalletDb): AccountFolderDao = db.accountFolderDao()
+    fun provideAccountFolderDao(db: IvyWalletCoreDb): AccountFolderDao = db.accountFolderDao()
 
     @Provides
     @Singleton
-    fun provideCategoryDao(db: IvyWalletDb): CategoryDao = db.categoryDao()
+    fun provideCategoryDao(db: IvyWalletCoreDb): CategoryDao = db.categoryDao()
 
     @Provides
     @Singleton
-    fun provideExchangeRateDao(db: IvyWalletDb): ExchangeRateDao = db.exchangeRateDao()
+    fun provideExchangeRateDao(db: IvyWalletCoreDb): ExchangeRateDao = db.exchangeRateDao()
 
     @Provides
     @Singleton
-    fun provideExchangeRateOverrideDao(db: IvyWalletDb): ExchangeRateOverrideDao =
+    fun provideExchangeRateOverrideDao(db: IvyWalletCoreDb): ExchangeRateOverrideDao =
         db.exchangeRateOverrideDao()
 
     @Provides
     @Singleton
-    fun provideTagDao(db: IvyWalletDb): TagDao = db.tagDao()
+    fun provideTagDao(db: IvyWalletCoreDb): TagDao = db.tagDao()
 
     @Provides
     @Singleton
-    fun provideTrnDao(db: IvyWalletDb): TrnDao = db.trnDao()
+    fun provideTrnDao(db: IvyWalletCoreDb): TrnDao = db.trnDao()
 
     @Provides
     @Singleton
-    fun provideTrnLinkRecordDao(db: IvyWalletDb): TrnLinkRecordDao = db.trnLinkRecordDao()
+    fun provideTrnLinkRecordDao(db: IvyWalletCoreDb): TrnLinkRecordDao = db.trnLinkRecordDao()
 
     @Provides
     @Singleton
-    fun provideTrnMetadataDao(db: IvyWalletDb): TrnMetadataDao = db.trnMetadataDao()
+    fun provideTrnMetadataDao(db: IvyWalletCoreDb): TrnMetadataDao = db.trnMetadataDao()
 
     @Provides
     @Singleton
-    fun provideTrnTagDao(db: IvyWalletDb): TrnTagDao = db.trnTagDao()
+    fun provideTrnTagDao(db: IvyWalletCoreDb): TrnTagDao = db.trnTagDao()
 
     @Provides
     @Singleton
-    fun provideAttachmentDao(db: IvyWalletDb): AttachmentDao = db.attachmentDao()
+    fun provideAttachmentDao(db: IvyWalletCoreDb): AttachmentDao = db.attachmentDao()
 }
