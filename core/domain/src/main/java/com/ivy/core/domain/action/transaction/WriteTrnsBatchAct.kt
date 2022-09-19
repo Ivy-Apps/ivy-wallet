@@ -9,6 +9,13 @@ import com.ivy.frp.action.Action
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Saves or deletes a batch of transactions.
+ *
+ * Use:
+ * - [WriteTrnsBatchAct.save]: to save a [TrnBatch]
+ * - [WriteTrnsBatchAct.delete]: to delete a [TrnBatch]
+ */
 class WriteTrnsBatchAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val trnLinkRecordDao: TrnLinkRecordDao,

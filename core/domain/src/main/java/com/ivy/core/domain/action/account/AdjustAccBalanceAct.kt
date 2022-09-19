@@ -9,10 +9,17 @@ import com.ivy.frp.action.Action
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
+/**
+ * Adjusts [Account] balance by adding a new "adjust" transaction. The user of the API
+ * can choose whether this "adjust" transaction to be hidden or not.
+ */
 class AdjustAccBalanceAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val accBalanceFlow: AccBalanceFlow,
 ) : Action<AdjustAccBalanceAct.Input, Unit>() {
+    /**
+     * @param hideTransaction whether to hide the adjust transactions
+     */
     data class Input(
         val account: Account,
         val desiredBalance: Double,

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
- * Calculates account's balance.
+ * Calculates account's balance. Including hidden and transfer transactions.
  */
 class AccBalanceFlow @Inject constructor(
     private val accStatsFlow: AccStatsFlow,

@@ -14,6 +14,9 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * @return a flow of latest [Account]s by transforming db entities into domain objects.
+ */
 @Singleton
 class AccountsFlow @Inject constructor(
     private val accountDao: AccountDao,

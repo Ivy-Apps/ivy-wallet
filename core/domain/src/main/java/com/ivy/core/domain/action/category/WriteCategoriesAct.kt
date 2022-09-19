@@ -9,7 +9,8 @@ import com.ivy.frp.action.Action
 import javax.inject.Inject
 
 /**
- * Persists _(saves or deletes)_ categories locally.
+ * Persists _(saves or deletes)_ categories locally. See [Modify].
+ *
  * Use [Modify.save], [Modify.saveMany], [Modify.delete] or [Modify.deleteMany].
  */
 class WriteCategoriesAct @Inject constructor(

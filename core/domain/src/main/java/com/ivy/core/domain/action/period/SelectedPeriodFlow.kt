@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Gets currently selected period.
+ * @return a flow of the currently selected period [SelectedPeriod].
  */
 @Singleton
 class SelectedPeriodFlow @Inject constructor(

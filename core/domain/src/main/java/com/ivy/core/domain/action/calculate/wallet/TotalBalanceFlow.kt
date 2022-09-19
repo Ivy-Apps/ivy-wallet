@@ -3,6 +3,7 @@ package com.ivy.core.domain.action.calculate.wallet
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.calculate.account.AccStatsFlow
+import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow.Input
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.data.CurrencyCode
@@ -12,6 +13,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+/**
+ * Calculates Ivy Wallet's balance by summing the balances of all accounts.
+ * The user of the API can decide whether to include excluded accounts
+ * by setting [Input.withExcludedAccs].
+ */
 @OptIn(FlowPreview::class)
 class TotalBalanceFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
@@ -20,15 +26,16 @@ class TotalBalanceFlow @Inject constructor(
 ) : FlowAction<TotalBalanceFlow.Input, Value>() {
 
     /**
-     * @param outputCurrency - pass **null** for base currency
+     * @param withExcludedAccs whether to include excluded accounts in the balance calculation
+     * @param outputCurrency pass **null** for base currency
      */
     data class Input(
         val withExcludedAccs: Boolean,
         val outputCurrency: CurrencyCode? = null,
     )
 
-    override fun Input.createFlow(): Flow<Value> = accountsFlow().map { accs ->
-        if (!withExcludedAccs) accs.filter { !it.excluded } else accs
+    override fun Input.createFlow(): Flow<Value> = accountsFlow().map { allAccounts ->
+        if (withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
     }.map { accs ->
         outputCurrencyFlow().flatMapMerge { outputCurrency ->
             combine(accs.map {
