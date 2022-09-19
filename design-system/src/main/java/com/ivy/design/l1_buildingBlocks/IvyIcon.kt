@@ -19,8 +19,8 @@ import com.ivy.design.util.thenWhen
 
 @Composable
 fun IvyIcon(
-    modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
+    modifier: Modifier = Modifier,
     tint: Color = UI.colors.pureInverse,
     contentDescription: String = "icon"
 ) {

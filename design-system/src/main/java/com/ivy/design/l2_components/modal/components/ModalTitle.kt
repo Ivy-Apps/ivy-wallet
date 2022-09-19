@@ -1,6 +1,5 @@
-package com.ivy.design.l2_components.modal
+package com.ivy.design.l2_components.modal.components
 
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,11 +10,15 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.util.IvyPreview
 
+@Suppress("unused")
 @Composable
-fun ColumnScope.ModalTitle(
-    text: String
+fun ModalScope.Title(
+    text: String,
 ) {
     SpacerVer(height = 24.dp)
     Text(
@@ -35,7 +38,7 @@ private fun Preview() {
     modal.show()
     IvyPreview {
         Modal(modal = modal, Actions = {}) {
-            ModalTitle(text = "Title")
+            Title(text = "Title")
             SpacerVer(height = 32.dp)
         }
     }

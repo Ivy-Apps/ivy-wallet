@@ -1,8 +1,8 @@
 package com.ivy.design.l2_components.modal
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,13 +11,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -37,19 +34,15 @@ import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
 import com.ivy.design.l2_components.button.Btn
 import com.ivy.design.l2_components.button.Icon
 import com.ivy.design.l2_components.button.Text
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
+import com.ivy.design.l2_components.modal.scope.ModalActionsScopeImpl
+import com.ivy.design.l2_components.modal.scope.ModalScope
+import com.ivy.design.l2_components.modal.scope.ModalScopeImpl
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.consumeClicks
 import com.ivy.design.util.isKeyboardOpen
 import com.ivy.design.util.padding
 import com.ivy.resources.R
-import kotlin.math.roundToInt
-
-private const val DURATION_BACKGROUND_BLUR_ANIM = 400
-const val DURATION_MODAL_ANIM = 200
-
-private val MODAL_ACTIONS_PADDING_BOTTOM = 12.dp
-private val MODAL_ACTIONS_HEIGHT = 48.dp
-private val MODAL_ACTIONS_OFFSET = MODAL_ACTIONS_HEIGHT + MODAL_ACTIONS_PADDING_BOTTOM
 
 @Immutable
 data class IvyModal(
@@ -67,39 +60,22 @@ data class IvyModal(
 @Composable
 fun BoxScope.Modal(
     modal: IvyModal,
-    Actions: @Composable RowScope.() -> Unit,
 
+    Actions: @Composable ModalActionsScope.() -> Unit,
     keyboardShiftsContent: Boolean = true,
-    Content: @Composable ColumnScope.() -> Unit
+    Content: @Composable ModalScope.() -> Unit
 ) {
     val visible by modal.visibilityState
-    val percentVisible by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(DURATION_MODAL_ANIM),
-        visibilityThreshold = 0.01f
-    )
 
-    val systemBottomPadding = systemPaddingBottom()
-    val paddingBottomAnimated = if (keyboardShiftsContent) {
-        val keyboardShown = keyboardShown()
-        val keyboardShownInset = keyboardInset()
-
-        animateDpAsState(
-            targetValue = if (keyboardShown) keyboardShownInset else systemBottomPadding,
-            animationSpec = tween(DURATION_MODAL_ANIM)
-        ).value
-    } else systemBottomPadding
-
-    val blurAlpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(DURATION_BACKGROUND_BLUR_ANIM),
-        visibilityThreshold = 0.01f
-    )
-    if (visible || blurAlpha > 0.01f) {
+    AnimatedVisibility(
+        modifier = Modifier.fillMaxSize(),
+        visible = visible,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(blurAlpha)
                 .background(mediumBlur())
                 .testTag("modal_outside_blur")
                 .clickable(
@@ -108,87 +84,78 @@ fun BoxScope.Modal(
                     },
                     enabled = visible
                 )
-                .zIndex(1000f)
+                .zIndex(10f)
         )
     }
 
-    if (visible || percentVisible > 0.01f) {
+    AnimatedVisibility(
+        modifier = Modifier.align(Alignment.BottomCenter),
+        visible = visible,
+        enter = slideInVertically(),
+        exit = slideOutVertically()
+    ) {
+        val systemBottomPadding = systemPaddingBottom()
+        val paddingBottomAnimated = if (keyboardShiftsContent) {
+            val keyboardShown = keyboardShown()
+            val keyboardShownInset = keyboardInset()
+
+            animateDpAsState(
+                targetValue = if (keyboardShown) keyboardShownInset else systemBottomPadding,
+                animationSpec = tween(durationMillis = 200)
+            ).value
+        } else systemBottomPadding
+
         Column(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .layout { measurable, constraints ->
-                    val placeable = measurable.measure(constraints)
-                    val height = placeable.height
-                    val y = height * (1 - percentVisible)
-
-                    layout(placeable.width, height) {
-                        placeable.placeRelative(x = 0, y = y.roundToInt())
-                    }
-                }
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
                 .background(UI.colors.pure, UI.shapes.r2Top)
                 .clip(UI.shapes.r2Top)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .padding(bottom = MODAL_ACTIONS_OFFSET + paddingBottomAnimated)
-                .zIndex(1001f)
+                .padding(paddingBottomAnimated)
+                .zIndex(11f)
         ) {
             BackHandler(enabled = modal.visibilityState.value) {
                 modal.hide()
             }
 
-            Content()
-        }
+            with(ModalScopeImpl(this)) {
+                Content()
+            }
 
-        ModalActionsRow(
-            visible = visible,
-            modalPercentVisible = percentVisible,
-            paddingBottom = paddingBottomAnimated,
-            Actions = Actions,
-            onClose = { modal.hide() },
-        )
+            ModalActionsRow(
+                paddingBottom = paddingBottomAnimated,
+                Actions = Actions,
+                onClose = { modal.hide() },
+            )
+        }
     }
 }
 
 @Composable
 private fun ModalActionsRow(
-    visible: Boolean,
-    modalPercentVisible: Float,
     paddingBottom: Dp,
-
-    Actions: @Composable RowScope.() -> Unit,
+    Actions: @Composable ModalActionsScope.() -> Unit,
+    modifier: Modifier = Modifier,
     onClose: () -> Unit,
 ) {
-    if (visible || modalPercentVisible > 0.01f) {
-        // used only to get the screen height
-        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-
-        RowWithLine(
-            modifier = Modifier
-                .height(MODAL_ACTIONS_HEIGHT)
-                .layout { measurable, constraints ->
-                    val placeable = measurable.measure(constraints)
-
-                    val bottomOffset = paddingBottom.toPx() + MODAL_ACTIONS_PADDING_BOTTOM.toPx()
-                    val visibleHeight = placeable.height * modalPercentVisible
-                    val y = screenHeight.toPx() - visibleHeight - bottomOffset
-
-                    layout(placeable.width, placeable.height) {
-                        placeable.place(x = 0, y = y.roundToInt())
-                    }
-                }
-                .zIndex(1100f)
-        ) {
-            SpacerHor(width = 24.dp)
-            CloseButton(
-                modifier = Modifier.testTag("modal_close_button"),
-                onClick = onClose
-            )
+    RowWithLine(
+        modifier = modifier
+            .padding(bottom = paddingBottom)
+            .padding(bottom = 12.dp)
+    ) {
+        SpacerHor(width = 24.dp)
+        CloseButton(
+            modifier = Modifier.testTag("modal_close_button"),
+            onClick = onClose
+        )
+        with(ModalActionsScopeImpl(this)) {
             Actions()
-            SpacerHor(width = 24.dp)
         }
+        SpacerHor(width = 24.dp)
     }
+
 }
 
 @Composable
