@@ -32,7 +32,8 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.data.outlined
-import com.ivy.design.l2_components.IconButton
+import com.ivy.design.l2_components.button.Btn
+import com.ivy.design.l2_components.button.Icon
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.padding
 import com.ivy.donate.data.DonateOption
@@ -82,7 +83,7 @@ private fun BoxWithConstraintsScope.UI(
         SpacerVer(height = 16.dp)
 
         val nav = navigation()
-        IconButton(
+        Btn.Icon(
             modifier = Modifier.padding(start = 16.dp),
             icon = R.drawable.ic_back_android,
             background = outlined(

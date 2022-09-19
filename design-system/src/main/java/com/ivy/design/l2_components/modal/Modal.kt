@@ -34,8 +34,9 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
-import com.ivy.design.l2_components.Button
-import com.ivy.design.l2_components.IconButton
+import com.ivy.design.l2_components.button.Btn
+import com.ivy.design.l2_components.button.Icon
+import com.ivy.design.l2_components.button.Text
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.consumeClicks
 import com.ivy.design.util.isKeyboardOpen
@@ -221,7 +222,8 @@ fun CloseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    IconButton(
+    Btn.Icon(
+        modifier = modifier,
         icon = R.drawable.ic_dismiss,
         iconTint = UI.colors.pureInverse,
         background = solidWithBorder(
@@ -311,7 +313,7 @@ private fun Preview_FullScreen() {
             modal = modal,
             Actions = {
                 SpacerWeight(weight = 1f)
-                Button(text = "Okay") {
+                Btn.Text(text = "Okay") {
 
                 }
             }
@@ -336,7 +338,7 @@ private fun Preview_Partial() {
             modal = modal,
             Actions = {
                 SpacerWeight(weight = 1f)
-                Button(text = "Got it") {
+                Btn.Text(text = "Got it") {
 
                 }
             }

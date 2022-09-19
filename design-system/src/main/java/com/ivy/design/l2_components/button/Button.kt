@@ -1,4 +1,4 @@
-package com.ivy.design.l2_components
+package com.ivy.design.l2_components.button
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,10 +18,11 @@ import com.ivy.design.l1_buildingBlocks.data.*
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
+@Suppress("unused")
 @Composable
-fun Button(
-    modifier: Modifier = Modifier,
+fun Btn.Text(
     text: String,
+    modifier: Modifier = Modifier,
     background: Background = solid(
         color = UI.colors.primary,
         shape = UI.shapes.rFull,
@@ -39,20 +40,19 @@ fun Button(
     Text(
         modifier = modifier
             .clipBackground(background)
-            .clickable(
-                onClick = onClick
-            )
+            .clickable(onClick = onClick)
             .applyBackground(background),
         text = text,
         style = textStyle
     )
 }
 
+// region Previews
 @Preview
 @Composable
 private fun Preview_Solid() {
     ComponentPreview {
-        Button(
+        Btn.Text(
             text = "Okay",
             background = solid(
                 color = UI.colors.primary,
@@ -73,7 +73,7 @@ private fun Preview_Solid() {
 @Composable
 private fun Preview_Outlined() {
     ComponentPreview {
-        Button(
+        Btn.Text(
             text = "Continue",
             background = outlined(
                 color = UI.colors.pureInverse,
@@ -95,7 +95,7 @@ private fun Preview_Outlined() {
 @Composable
 private fun Preview_FillMaxWidth() {
     ComponentPreview {
-        Button(
+        Btn.Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -105,4 +105,5 @@ private fun Preview_FillMaxWidth() {
         }
     }
 }
+// endregion
 

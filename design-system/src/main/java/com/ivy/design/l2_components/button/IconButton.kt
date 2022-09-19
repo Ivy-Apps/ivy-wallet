@@ -1,7 +1,8 @@
-package com.ivy.design.l2_components
+package com.ivy.design.l2_components.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,10 +20,11 @@ import com.ivy.design.l1_buildingBlocks.data.solid
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
+@Suppress("unused")
 @Composable
-fun IconButton(
-    modifier: Modifier = Modifier,
+fun Btn.Icon(
     @DrawableRes icon: Int,
+    modifier: Modifier = Modifier,
     iconTint: Color = White,
     background: Background = solid(
         color = UI.colors.primary,
@@ -35,9 +37,7 @@ fun IconButton(
     IvyIcon(
         modifier = modifier
             .clipBackground(background)
-            .clickable {
-                onClick()
-            }
+            .clickable(onClick = onClick)
             .applyBackground(background),
         icon = icon,
         tint = iconTint,
@@ -49,8 +49,12 @@ fun IconButton(
 @Composable
 private fun Preview() {
     ComponentPreview {
-        IconButton(
-            icon = R.drawable.ic_add
+        Btn.Icon(
+            icon = R.drawable.ic_popup_add,
+            modifier = Modifier.size(48.dp),
+            background = solid(
+                CircleShape, UI.colors.primary, padding(all = 12.dp)
+            )
         ) {
 
         }

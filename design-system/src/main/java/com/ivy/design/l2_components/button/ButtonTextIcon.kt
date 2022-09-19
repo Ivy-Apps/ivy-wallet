@@ -1,4 +1,4 @@
-package com.ivy.design.l2_components
+package com.ivy.design.l2_components.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
@@ -30,11 +30,12 @@ import com.ivy.design.l1_buildingBlocks.data.solid
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
+@Suppress("unused")
 @Composable
-fun Button(
-    modifier: Modifier = Modifier,
+fun Btn.TextIcon(
     text: String,
-    mode: Mode = Mode.WRAP_CONTENT,
+    modifier: Modifier = Modifier,
+    mode: Mode = Mode.WrapContent,
     background: Background = solid(
         color = UI.colors.primary,
         shape = UI.shapes.rFull,
@@ -56,21 +57,19 @@ fun Button(
     Row(
         modifier = modifier
             .clipBackground(background)
-            .clickable(
-                onClick = onClick
-            )
+            .clickable(onClick = onClick)
             .applyBackground(background),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val icon = iconLeft ?: iconRight ?: error("If you don't add icon, use Button()")
+        val icon = iconLeft ?: iconRight ?: error("If you don't add an icon, use Btn.Text()")
 
-        if (mode != Mode.WRAP_CONTENT || iconLeft != null) {
+        if (mode == Mode.FillMaxWidth || iconLeft != null) {
+            // for FillMaxWidth add an invisible icon so the text looks centered
             IvyIcon(
                 icon = icon,
                 tint = if (iconLeft != null) iconTint else Transparent
             )
-
             SpacerHor(width = iconPadding)
         }
 
@@ -79,9 +78,9 @@ fun Button(
             style = textStyle
         )
 
-        if (mode != Mode.WRAP_CONTENT || iconRight != null) {
+        if (mode == Mode.FillMaxWidth || iconRight != null) {
+            // for FillMaxWidth add an invisible icon so the text looks centered
             SpacerHor(width = iconPadding)
-
             IvyIcon(
                 icon = icon,
                 tint = if (iconRight != null) iconTint else Transparent
@@ -91,16 +90,16 @@ fun Button(
 }
 
 enum class Mode {
-    WRAP_CONTENT, FILL_MAX_WIDTH
+    WrapContent, FillMaxWidth
 }
 
 @Preview
 @Composable
 private fun Preview_IconLeft_Wrap() {
     ComponentPreview {
-        Button(
+        Btn.TextIcon(
             text = "Button",
-            mode = Mode.WRAP_CONTENT,
+            mode = Mode.WrapContent,
             iconLeft = R.drawable.ic_vue_crypto_icon
         ) {
 
@@ -112,9 +111,9 @@ private fun Preview_IconLeft_Wrap() {
 @Composable
 private fun Preview_IconRight_Wrap() {
     ComponentPreview {
-        Button(
+        Btn.TextIcon(
             text = "Button",
-            mode = Mode.WRAP_CONTENT,
+            mode = Mode.WrapContent,
             iconRight = R.drawable.ic_vue_crypto_icon
         ) {
 
@@ -126,12 +125,12 @@ private fun Preview_IconRight_Wrap() {
 @Composable
 private fun Preview_IconLeft_FillMax() {
     ComponentPreview {
-        Button(
+        Btn.TextIcon(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = "Button",
-            mode = Mode.FILL_MAX_WIDTH,
+            mode = Mode.FillMaxWidth,
             iconLeft = R.drawable.ic_vue_crypto_icon
         ) {
 
@@ -143,12 +142,12 @@ private fun Preview_IconLeft_FillMax() {
 @Composable
 private fun Preview_IconRight_FillMax() {
     ComponentPreview {
-        Button(
+        Btn.TextIcon(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = "Button",
-            mode = Mode.FILL_MAX_WIDTH,
+            mode = Mode.FillMaxWidth,
             iconRight = R.drawable.ic_vue_crypto_icon
         ) {
 

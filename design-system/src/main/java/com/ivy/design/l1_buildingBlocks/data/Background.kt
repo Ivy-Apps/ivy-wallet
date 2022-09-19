@@ -16,8 +16,8 @@ import com.ivy.design.util.thenWhen
 
 // region constructor functions
 fun solid(
-    color: Brush,
     shape: Shape,
+    color: Brush,
     padding: IvyPadding? = null
 ) = Background.Solid(
     color = color,
@@ -26,8 +26,8 @@ fun solid(
 )
 
 fun solid(
-    color: Color,
     shape: Shape,
+    color: Color,
     padding: IvyPadding? = null
 ) = Background.Solid(
     color = color.asBrush(),
@@ -36,8 +36,8 @@ fun solid(
 )
 
 fun outlined(
-    color: Brush,
     shape: Shape,
+    color: Brush,
     width: Dp = 1.dp,
     padding: IvyPadding? = null
 ) = Background.Outlined(
@@ -48,8 +48,8 @@ fun outlined(
 )
 
 fun outlined(
-    color: Color,
     shape: Shape,
+    color: Color,
     width: Dp = 1.dp,
     padding: IvyPadding? = null
 ) = Background.Outlined(
