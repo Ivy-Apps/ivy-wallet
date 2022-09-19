@@ -18,7 +18,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.transaction_details.PrimaryAttributeColumn
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.utils.isNotNullOrBlank

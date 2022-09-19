@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.thenWhen
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.thenWhen
 
 @Composable
 fun DividerH(

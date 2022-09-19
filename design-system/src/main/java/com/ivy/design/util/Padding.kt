@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

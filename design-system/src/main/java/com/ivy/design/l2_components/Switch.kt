@@ -18,18 +18,18 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.springBounce
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.springBounce
 
 @Composable
 fun Switch(
-    modifier: Modifier = Modifier,
     enabled: Boolean,
+    modifier: Modifier = Modifier,
     enabledColor: Color = UI.colors.green,
     disabledColor: Color = UI.colors.gray,
     animationColor: AnimationSpec<Color> = springBounce(),
     animationMove: AnimationSpec<Float> = springBounce(),
-    onEnabledChange: (checked: Boolean) -> Unit
+    onEnabledChange: (checked: Boolean) -> Unit,
 ) {
     val color by animateColorAsState(
         targetValue = if (enabled) enabledColor else disabledColor,

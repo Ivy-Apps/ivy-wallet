@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalView

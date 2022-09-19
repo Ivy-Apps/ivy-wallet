@@ -26,8 +26,8 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.padding
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.padding
 
 @Composable
 fun Button(

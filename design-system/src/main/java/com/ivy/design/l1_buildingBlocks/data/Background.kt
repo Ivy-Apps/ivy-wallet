@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.asBrush
-import com.ivy.design.utils.paddingIvy
-import com.ivy.design.utils.thenWhen
+import com.ivy.design.util.paddingIvy
+import com.ivy.design.util.thenWhen
 
 sealed class Background {
     data class Solid(

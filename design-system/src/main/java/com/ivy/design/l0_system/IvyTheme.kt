@@ -49,15 +49,15 @@ fun IvyTheme(
         LocalIvyShapes provides shapes
     ) {
         MaterialTheme(
-            colors = adaptColors(colors),
-            typography = adaptTypography(typography),
-            shapes = adaptShapes(shapes),
+            colors = toMaterial(colors),
+            typography = toMaterial(typography),
+            shapes = toMaterial(shapes),
             content = content
         )
     }
 }
 
-fun adaptColors(colors: IvyColors): Colors {
+fun toMaterial(colors: IvyColors): Colors {
     return Colors(
         primary = colors.primary,
         primaryVariant = colors.primary1,
@@ -75,7 +75,7 @@ fun adaptColors(colors: IvyColors): Colors {
     )
 }
 
-fun adaptTypography(typography: IvyTypography): Typography {
+fun toMaterial(typography: IvyTypography): Typography {
     return Typography(
         h1 = typography.h1,
         h2 = typography.h2,
@@ -85,7 +85,7 @@ fun adaptTypography(typography: IvyTypography): Typography {
     )
 }
 
-fun adaptShapes(shapes: IvyShapes): Shapes {
+fun toMaterial(shapes: IvyShapes): Shapes {
     return Shapes(
         large = shapes.r1,
         medium = shapes.r2,

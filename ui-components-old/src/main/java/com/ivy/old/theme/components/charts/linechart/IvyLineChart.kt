@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ivy.core.ui.temp.trash.Month
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy

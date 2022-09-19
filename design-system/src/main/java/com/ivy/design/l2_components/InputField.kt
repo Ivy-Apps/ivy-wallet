@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
 import com.ivy.design.l0_system.*
-import com.ivy.design.utils.*
+import com.ivy.design.util.*
 import kotlin.math.roundToInt
 
 
@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
  * - font cannot be set
  * - handles color must be set Theme XML `accentColor`
  */
-@Deprecated("A new better componenet would be created soon.")
+@Deprecated("Don't use!")
 @Composable
 fun InputField(
     modifier: Modifier = Modifier,
@@ -152,6 +152,7 @@ private fun EditText.dynamicStyle(
     setSelection(originalSelection)
 }
 
+@Deprecated("don't use")
 fun EditText.setupInputType(
     inputType: IvyInputType,
     imeAction: IvyImeAction,
@@ -218,10 +219,12 @@ fun EditText.setupInputType(
     }
 }
 
+@Deprecated("don't use")
 fun EditText.selectTextEnd() {
     setSelection(text.length)
 }
 
+@Deprecated("don't use")
 enum class IvyInputType {
     SHORT_TEXT,
     LONG_TEXT,
@@ -235,11 +238,13 @@ enum class IvyInputType {
     PASSWORD_NUMBER_VISIBLE
 }
 
+@Deprecated("don't use")
 enum class IvyImeAction {
     DONE,
     NEXT
 }
 
+@Deprecated("don't use")
 class InputFieldFocus {
     var requestFocus: Boolean by mutableStateOf(false)
         private set
@@ -258,6 +263,7 @@ class InputFieldFocus {
     }
 }
 
+@Deprecated("don't use")
 fun EditText.setCursorColor(color: Color) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         textCursorDrawable = cursorDrawable(
@@ -269,6 +275,7 @@ fun EditText.setCursorColor(color: Color) {
     }
 }
 
+@Deprecated("don't use")
 private fun cursorDrawable(
     context: Context,
     widthDp: Float = 3f,

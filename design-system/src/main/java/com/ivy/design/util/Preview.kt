@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

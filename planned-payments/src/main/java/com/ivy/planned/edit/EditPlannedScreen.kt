@@ -20,7 +20,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.design.utils.IvyPreview
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.screens.EditPlanned
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData

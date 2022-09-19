@@ -34,9 +34,9 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.Button
 import com.ivy.design.l3_ivyComponents.button.CircleButton
-import com.ivy.design.utils.IvyPreview
-import com.ivy.design.utils.consumeClicks
-import com.ivy.design.utils.isKeyboardOpen
+import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.consumeClicks
+import com.ivy.design.util.isKeyboardOpen
 import com.ivy.resources.R
 import kotlin.math.roundToInt
 

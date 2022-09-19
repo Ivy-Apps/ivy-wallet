@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.findContrastTextColor
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.journey.domain.CustomerJourneyLogic

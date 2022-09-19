@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -18,16 +18,20 @@ fun <T> densityScope(densityScope: @Composable Density.() -> T): T {
     return with(LocalDensity.current) { densityScope() }
 }
 
+// TODO: Investigate if that's efficient
+@SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.thenIf(
     condition: Boolean,
     otherModifier: @Composable Modifier.() -> Modifier
 ): Modifier = composed {
-    //Cannot use Modifier#then() because it stacks the previous modifiers multiple times
     if (condition) {
-        this.otherModifier()
+        this.then(otherModifier())
     } else this
 }
 
+
+// TODO: Investigate if that's efficient
+@SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.thenWhen(
     logic: @Composable Modifier.() -> Modifier?
 ): Modifier = composed {
@@ -49,6 +53,7 @@ fun Modifier.clickableNoIndication(
     )
 }
 
+@Deprecated("Just use DisposableEffect or SideEffect")
 @SuppressLint("ComposableNaming")
 @Composable
 fun onEvent(

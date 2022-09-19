@@ -34,7 +34,7 @@ import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.IvyPreview
+import com.ivy.design.util.IvyPreview
 import com.ivy.onboarding.OnboardingState
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyDividerLine

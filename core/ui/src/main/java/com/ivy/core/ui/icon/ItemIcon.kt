@@ -19,7 +19,7 @@ import com.ivy.core.ui.R
 import com.ivy.data.icon.IconSize
 import com.ivy.data.icon.IvyIcon
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun IvyIcon.ItemIcon(

@@ -12,7 +12,7 @@ import com.ivy.data.icon.IvyIcon
 import com.ivy.design.l0_system.Black
 import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.toComposeColor
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun Account.Badge(

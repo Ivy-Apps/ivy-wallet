@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring

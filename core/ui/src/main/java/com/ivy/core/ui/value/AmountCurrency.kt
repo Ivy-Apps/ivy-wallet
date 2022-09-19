@@ -16,7 +16,7 @@ import com.ivy.data.Value
 import com.ivy.design.l0_system.Orange
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun Value.AmountCurrencyRow(

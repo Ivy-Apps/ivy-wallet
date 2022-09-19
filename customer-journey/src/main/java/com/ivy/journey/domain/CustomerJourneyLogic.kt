@@ -6,7 +6,7 @@ import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.*
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.journey.CustomerJourneyCard
 import com.ivy.screens.*
 import com.ivy.wallet.io.persistence.SharedPrefs

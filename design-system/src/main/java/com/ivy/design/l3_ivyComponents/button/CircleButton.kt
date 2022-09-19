@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 
+@Deprecated("don't use")
 @Composable
 fun CircleButton(
     modifier: Modifier = Modifier,

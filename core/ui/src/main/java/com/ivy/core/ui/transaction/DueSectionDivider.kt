@@ -29,9 +29,9 @@ import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.clickableNoIndication
-import com.ivy.design.utils.springBounce
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.clickableNoIndication
+import com.ivy.design.util.springBounce
 
 @Composable
 fun UpcomingSection.SectionDivider(

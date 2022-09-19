@@ -1,4 +1,4 @@
-package com.ivy.design.utils
+package com.ivy.design.util
 
 import android.content.Context
 import android.util.DisplayMetrics

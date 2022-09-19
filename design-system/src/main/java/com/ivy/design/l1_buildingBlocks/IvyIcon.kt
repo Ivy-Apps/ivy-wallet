@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.thenWhen
+import com.ivy.design.util.thenWhen
 
 @Composable
 fun IvyIcon(
@@ -32,6 +32,7 @@ fun IvyIcon(
     )
 }
 
+@Deprecated("don't use")
 @Composable
 fun IvyIconScaled(
     modifier: Modifier = Modifier,
@@ -66,6 +67,7 @@ fun IvyIconScaled(
     )
 }
 
+@Deprecated("don't use")
 enum class IconScale {
     S, M, L
 }

@@ -11,8 +11,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.colorAs
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 
+@Deprecated("don't use")
 @Composable
 fun ScreenTitleLarge(
     text: String,
@@ -27,6 +28,7 @@ fun ScreenTitleLarge(
     )
 }
 
+@Deprecated("don't use")
 @Composable
 fun ScreenTitle(
     text: String,
@@ -41,6 +43,7 @@ fun ScreenTitle(
     )
 }
 
+@Deprecated("don't use")
 @Composable
 fun ScreenTitle(
     modifier: Modifier = Modifier,

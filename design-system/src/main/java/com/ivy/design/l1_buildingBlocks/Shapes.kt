@@ -12,17 +12,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun Shape(
-    modifier: Modifier = Modifier,
     size: Dp,
     shape: Shape,
     color: Color,
+    modifier: Modifier = Modifier,
 ) {
     Spacer(
-        modifier = Modifier
+        modifier = modifier
             .size(size)
             .background(
                 color = color,
@@ -33,14 +33,14 @@ fun Shape(
 
 @Composable
 fun ShapeOutlined(
-    modifier: Modifier = Modifier,
     size: Dp,
     shape: Shape,
     borderColor: Color,
+    modifier: Modifier = Modifier,
     borderWidth: Dp = 1.dp,
 ) {
     Spacer(
-        modifier = Modifier
+        modifier = modifier
             .size(size)
             .border(
                 color = borderColor,

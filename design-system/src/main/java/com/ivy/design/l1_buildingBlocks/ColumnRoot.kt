@@ -4,8 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.ivy.design.utils.thenIf
+import com.ivy.design.util.thenIf
 
+@Deprecated("don't use")
 @Composable
 fun ColumnRoot(
     modifier: Modifier = Modifier,

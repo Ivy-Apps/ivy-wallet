@@ -35,7 +35,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.IvyPreview
+import com.ivy.design.util.IvyPreview
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*

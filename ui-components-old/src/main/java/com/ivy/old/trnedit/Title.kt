@@ -28,7 +28,7 @@ import com.ivy.base.R
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.utils.ComponentPreview
+import com.ivy.design.util.ComponentPreview
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.utils.keyboardVisibleState
 import com.ivy.wallet.utils.selectEndTextFieldValue

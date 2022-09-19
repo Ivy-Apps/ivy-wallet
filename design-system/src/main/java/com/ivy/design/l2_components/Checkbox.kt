@@ -20,8 +20,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.utils.ComponentPreview
-import com.ivy.design.utils.clickableNoIndication
+import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.clickableNoIndication
 
 @Composable
 fun Checkbox(
