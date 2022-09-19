@@ -6,14 +6,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l1_buildingBlocks.data.IvyPadding
 
-fun Modifier.paddingIvy(ivyPadding: IvyPadding): Modifier {
-    return this.padding(
-        top = ivyPadding.top ?: 0.dp,
-        bottom = ivyPadding.bottom ?: 0.dp,
-        start = ivyPadding.start ?: 0.dp,
-        end = ivyPadding.end ?: 0.dp
+fun Modifier.paddingIvy(ivyPadding: IvyPadding?): Modifier = ivyPadding?.let {
+    this.padding(
+        top = it.top ?: 0.dp,
+        bottom = it.bottom ?: 0.dp,
+        start = it.start ?: 0.dp,
+        end = it.end ?: 0.dp
     )
-}
+} ?: this
 
 fun padding(
     top: Dp? = null,

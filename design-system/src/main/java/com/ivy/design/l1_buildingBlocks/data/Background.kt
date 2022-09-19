@@ -13,46 +13,107 @@ import com.ivy.design.l0_system.asBrush
 import com.ivy.design.util.paddingIvy
 import com.ivy.design.util.thenWhen
 
-sealed class Background {
-    data class Solid(
-        val color: Brush,
-        val shape: Shape,
-        val padding: IvyPadding
-    ) : Background() {
-        constructor(
-            color: Color,
-            shape: Shape,
-            padding: IvyPadding
-        ) : this(
-            color = color.asBrush(),
-            shape = shape,
-            padding = padding
-        )
-    }
 
-    data class Outlined(
-        val color: Brush,
-        val width: Dp = 1.dp,
-        val shape: Shape,
-        val padding: IvyPadding
-    ) : Background() {
-        constructor(
-            color: Color,
-            width: Dp = 1.dp,
-            shape: Shape,
-            padding: IvyPadding
-        ) : this(
-            color = color.asBrush(),
-            width = width,
-            shape = shape,
-            padding = padding
-        )
-    }
+// region constructor functions
+fun solid(
+    color: Brush,
+    shape: Shape,
+    padding: IvyPadding? = null
+) = Background.Solid(
+    color = color,
+    shape = shape,
+    padding = padding
+)
 
-    object None : Background()
+fun solid(
+    color: Color,
+    shape: Shape,
+    padding: IvyPadding? = null
+) = Background.Solid(
+    color = color.asBrush(),
+    shape = shape,
+    padding = padding
+)
+
+fun outlined(
+    color: Brush,
+    shape: Shape,
+    width: Dp = 1.dp,
+    padding: IvyPadding? = null
+) = Background.Outlined(
+    color = color,
+    shape = shape,
+    width = width,
+    padding = padding
+)
+
+fun outlined(
+    color: Color,
+    shape: Shape,
+    width: Dp = 1.dp,
+    padding: IvyPadding? = null
+) = Background.Outlined(
+    color = color.asBrush(),
+    shape = shape,
+    width = width,
+    padding = padding
+)
+
+fun solidWithBorder(
+    shape: Shape,
+    solid: Brush,
+    borderColor: Brush,
+    borderWidth: Dp = 1.dp,
+    padding: IvyPadding? = null,
+) = Background.SolidWithBorder(
+    shape = shape,
+    solid = solid,
+    borderColor = borderColor,
+    borderWidth = borderWidth,
+    padding = padding
+)
+
+fun solidWithBorder(
+    shape: Shape,
+    solid: Color,
+    borderColor: Color,
+    borderWidth: Dp = 1.dp,
+    padding: IvyPadding? = null,
+) = Background.SolidWithBorder(
+    shape = shape,
+    solid = solid.asBrush(),
+    borderColor = borderColor.asBrush(),
+    borderWidth = borderWidth,
+    padding = padding
+)
+// endregion
+
+sealed interface Background {
+    data class Solid internal constructor(
+        val shape: Shape,
+        val color: Brush,
+        val padding: IvyPadding?
+    ) : Background
+
+    data class Outlined internal constructor(
+        val shape: Shape,
+        val color: Brush,
+        val width: Dp,
+        val padding: IvyPadding?
+    ) : Background
+
+    data class SolidWithBorder internal constructor(
+        val shape: Shape,
+        val solid: Brush,
+        val borderColor: Brush,
+        val borderWidth: Dp,
+        val padding: IvyPadding?,
+    ) : Background
+
+    object None : Background
 }
 
-fun Modifier.backgroundIvy(background: Background): Modifier {
+fun Modifier.applyBackground(background: Background): Modifier {
     return thenWhen {
         when (background) {
             is Background.Solid -> {
@@ -68,6 +129,15 @@ fun Modifier.backgroundIvy(background: Background): Modifier {
                     shape = background.shape
                 ).paddingIvy(background.padding)
             }
+            is Background.SolidWithBorder -> {
+                background(brush = background.solid, shape = background.shape)
+                    .border(
+                        brush = background.borderColor,
+                        width = background.borderWidth,
+                        shape = background.shape
+                    )
+                    .paddingIvy(background.padding)
+            }
             is Background.None -> null
         }
     }
@@ -80,6 +150,9 @@ fun Modifier.clipBackground(background: Background): Modifier {
                 clip(background.shape)
             }
             is Background.Outlined -> {
+                clip(background.shape)
+            }
+            is Background.SolidWithBorder -> {
                 clip(background.shape)
             }
             is Background.None -> null

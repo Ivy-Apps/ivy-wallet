@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 
@@ -147,9 +148,7 @@ fun isDarkColor(@ColorInt color: Int): Boolean {
     return ColorUtils.calculateLuminance(color) <= 0.5
 }
 
-fun Color.asBrush(): Brush {
-    return Brush.horizontalGradient(listOf(this, this))
-}
+fun Color.asBrush(): Brush = SolidColor(this)
 
 @Deprecated("use @Composable `:core:ui` Color#dynamicContrast()")
 fun Color.dynamicContrast(): Color {

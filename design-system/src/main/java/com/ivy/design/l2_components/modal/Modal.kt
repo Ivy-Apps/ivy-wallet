@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,11 +33,13 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
+import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
 import com.ivy.design.l2_components.Button
-import com.ivy.design.l3_ivyComponents.button.CircleButton
+import com.ivy.design.l2_components.IconButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.consumeClicks
 import com.ivy.design.util.isKeyboardOpen
+import com.ivy.design.util.padding
 import com.ivy.resources.R
 import kotlin.math.roundToInt
 
@@ -128,11 +131,9 @@ fun BoxScope.Modal(
                 .clip(UI.shapes.r2Top)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
                 .padding(bottom = MODAL_ACTIONS_OFFSET + paddingBottomAnimated)
-                .zIndex(1000f)
+                .zIndex(1001f)
         ) {
-            BackHandler(
-                enabled = modal.visibilityState.value
-            ) {
+            BackHandler(enabled = modal.visibilityState.value) {
                 modal.hide()
             }
 
@@ -220,10 +221,16 @@ fun CloseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    CircleButton(
-        modifier = modifier,
+    IconButton(
         icon = R.drawable.ic_dismiss,
-        contentDescription = "close",
+        iconTint = UI.colors.pureInverse,
+        background = solidWithBorder(
+            solid = UI.colors.pure,
+            borderColor = UI.colors.medium,
+            borderWidth = 2.dp,
+            shape = CircleShape,
+            padding = padding(all = 6.dp)
+        ),
         onClick = onClick
     )
 }

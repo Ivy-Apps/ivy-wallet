@@ -24,8 +24,9 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
-import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
+import com.ivy.design.l1_buildingBlocks.data.applyBackground
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
+import com.ivy.design.l1_buildingBlocks.data.solid
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
@@ -34,7 +35,7 @@ fun Button(
     modifier: Modifier = Modifier,
     text: String,
     mode: Mode = Mode.WRAP_CONTENT,
-    background: Background = Background.Solid(
+    background: Background = solid(
         color = UI.colors.primary,
         shape = UI.shapes.rFull,
         padding = padding(
@@ -58,7 +59,7 @@ fun Button(
             .clickable(
                 onClick = onClick
             )
-            .backgroundIvy(background),
+            .applyBackground(background),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

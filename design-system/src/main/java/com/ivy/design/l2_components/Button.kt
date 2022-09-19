@@ -14,9 +14,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.White
 import com.ivy.design.l0_system.colorAs
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.data.Background
-import com.ivy.design.l1_buildingBlocks.data.backgroundIvy
-import com.ivy.design.l1_buildingBlocks.data.clipBackground
+import com.ivy.design.l1_buildingBlocks.data.*
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
@@ -24,7 +22,7 @@ import com.ivy.design.util.padding
 fun Button(
     modifier: Modifier = Modifier,
     text: String,
-    background: Background = Background.Solid(
+    background: Background = solid(
         color = UI.colors.primary,
         shape = UI.shapes.rFull,
         padding = padding(
@@ -44,7 +42,7 @@ fun Button(
             .clickable(
                 onClick = onClick
             )
-            .backgroundIvy(background),
+            .applyBackground(background),
         text = text,
         style = textStyle
     )
@@ -56,7 +54,7 @@ private fun Preview_Solid() {
     ComponentPreview {
         Button(
             text = "Okay",
-            background = Background.Solid(
+            background = solid(
                 color = UI.colors.primary,
                 shape = UI.shapes.rFull,
                 padding = padding(
@@ -77,7 +75,7 @@ private fun Preview_Outlined() {
     ComponentPreview {
         Button(
             text = "Continue",
-            background = Background.Outlined(
+            background = outlined(
                 color = UI.colors.pureInverse,
                 width = 1.dp,
                 shape = UI.shapes.rFull,
