@@ -15,13 +15,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapMerge
 import javax.inject.Inject
 
+/**
+ * Calculates account's incomes and expenses **including transfer transactions**.
+ * The inclusion of hidden transactions is chosen by the user of this API.
+ */
 class AccStatsFlow @Inject constructor(
     private val trnsFlow: TrnsFlow,
     private val calculateFlow: CalculateFlow,
 ) : FlowAction<AccStatsFlow.Input, Stats>() {
+    /**
+     * @param outputCurrency the desired currency of the result, **defaults to account's currency**
+     */
     data class Input(
         val account: Account,
         val period: Period,
+        val includeHidden: Boolean,
         val outputCurrency: CurrencyCode = account.currency,
     )
 
@@ -33,6 +41,7 @@ class AccStatsFlow @Inject constructor(
                     CalculateFlow.Input(
                         trns = trns,
                         outputCurrency = outputCurrency,
+                        includeHidden = includeHidden,
                         includeTransfers = true
                     )
                 )

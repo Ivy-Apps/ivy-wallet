@@ -65,15 +65,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun balanceFlow(): Flow<Value> = baseCurrencyFlow().flatMapMerge { baseCurrency ->
-        // long heavy calculation, going through all saved transactions
-        balanceFlow(
-            TotalBalanceFlow.Input(
-                withExcludedAccs = false,
-                outputCurrency = baseCurrency
-            )
+    private fun balanceFlow(): Flow<Value> = balanceFlow(
+        TotalBalanceFlow.Input(
+            withExcludedAccs = false,
         )
-    }.onStart {
+    ).onStart {
         // emit initial balance so combine doesn't wait for this long calculation to complete
         emit(Value(amount = 0.0, currency = ""))
     }
@@ -95,6 +91,7 @@ class HomeViewModel @Inject constructor(
                         trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
                         outputCurrency = baseCurrency,
                         includeTransfers = false,
+                        includeHidden = false,
                     )
                 )
             }

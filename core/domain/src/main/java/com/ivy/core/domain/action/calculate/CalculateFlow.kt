@@ -4,6 +4,7 @@ import arrow.core.getOrElse
 import arrow.core.nonEmptyListOf
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
+import com.ivy.core.domain.pure.calculate.filter
 import com.ivy.core.domain.pure.exchange.exchange
 import com.ivy.core.domain.pure.transaction.sumTransactions
 import com.ivy.data.CurrencyCode
@@ -30,11 +31,13 @@ class CalculateFlow @Inject constructor(
      * @param includeTransfers whether to include transfer transactions in the calculation.
      * - **false** to exclude transactions with purpose [TransferFrom] and [TransferTo]
      * - **true** to include all [trns] in the calculation
-     * @param outputCurrency use **null** for base currency.
+     * @param includeHidden whether to include hidde transactions in the calculation.
+     * @param outputCurrency pass **null** for base currency.
      */
     data class Input(
         val trns: List<Transaction>,
         val includeTransfers: Boolean,
+        val includeHidden: Boolean,
         val outputCurrency: CurrencyCode? = null,
     )
 
@@ -47,15 +50,10 @@ class CalculateFlow @Inject constructor(
     ): Stats {
         val outputCurrency = this.outputCurrency ?: rates.baseCurrency
         val res = sumTransactions(
-            transactions = trns.filter {
-                if (!includeTransfers) {
-                    // don't include transfer transactions
-                    when (it.purpose) {
-                        TransferFrom, TransferTo -> false
-                        else -> true
-                    }
-                } else true
-            },
+            transactions = trns.filter(
+                includeTransfers = includeTransfers,
+                includeHidden = includeHidden,
+            ),
             selectors = nonEmptyListOf(
                 ::income,
                 ::expense,

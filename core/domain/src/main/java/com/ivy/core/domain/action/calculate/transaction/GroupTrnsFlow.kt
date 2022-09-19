@@ -73,6 +73,7 @@ class GroupTrnsFlow @Inject constructor(
             CalculateFlow.Input(
                 trns = dueTrns,
                 includeTransfers = false,
+                includeHidden = false,
             )
         ).map { dueStats ->
             // the sooner due date, the higher in the list the transaction should appear
@@ -120,6 +121,7 @@ class GroupTrnsFlow @Inject constructor(
             trns = trnsForTheDay.flatMap(::extractTrns),
             outputCurrency = null,
             includeTransfers = true,
+            includeHidden = false,
         )
     ).map { statsForTheDay ->
         listOf(
