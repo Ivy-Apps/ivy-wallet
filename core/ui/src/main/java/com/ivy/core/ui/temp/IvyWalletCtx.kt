@@ -17,9 +17,11 @@ import java.util.*
 @Deprecated("don't use, it's bad!")
 class IvyWalletCtx : IvyContext() {
     //------------------------------------------ State ---------------------------------------------
+    @Deprecated("don't use, it's bad!")
     var startDayOfMonth = 1
         private set
 
+    @Deprecated("don't use, it's bad!")
     fun setStartDayOfMonth(day: Int) {
         startDayOfMonth = day
     }
@@ -36,6 +38,8 @@ class IvyWalletCtx : IvyContext() {
     var selectedPeriod: TimePeriod = TimePeriod.currentMonth(
         startDayOfMonth = startDayOfMonth //this is default value
     )
+
+    @Deprecated("don't use, it's bad!")
     private var selectedPeriodInitialized = false
 
     @Deprecated("use IvyState")
@@ -61,16 +65,20 @@ class IvyWalletCtx : IvyContext() {
     @Deprecated("use IvyState")
     var transactionsListState: LazyListState? = null
 
+    @Deprecated("don't use, it's bad!")
     var mainTab by mutableStateOf(MainTab.HOME)
         private set
 
+    @Deprecated("don't use, it's bad!")
     fun selectMainTab(tab: MainTab) {
         mainTab = tab
     }
 
+    @Deprecated("don't use, it's bad!")
     var moreMenuExpanded = false
         private set
 
+    @Deprecated("don't use, it's bad!")
     fun setMoreMenuExpanded(expanded: Boolean) {
         moreMenuExpanded = expanded
     }
@@ -78,14 +86,18 @@ class IvyWalletCtx : IvyContext() {
 
 
     //Activity help -------------------------------------------------------------------------------
+    @Deprecated("don't use, it's bad!")
     lateinit var onShowDatePicker: (
         minDate: LocalDate?,
         maxDate: LocalDate?,
         initialDate: LocalDate?,
         onDatePicked: (LocalDate) -> Unit
     ) -> Unit
+
+    @Deprecated("don't use, it's bad!")
     lateinit var onShowTimePicker: (onDatePicked: (LocalTime) -> Unit) -> Unit
 
+    @Deprecated("don't use, it's bad!")
     fun datePicker(
         minDate: LocalDate? = null,
         maxDate: LocalDate? = null,
@@ -95,6 +107,7 @@ class IvyWalletCtx : IvyContext() {
         onShowDatePicker(minDate, maxDate, initialDate, onDatePicked)
     }
 
+    @Deprecated("don't use, it's bad!")
     fun timePicker(onTimePicked: (LocalTime) -> Unit) {
         onShowTimePicker(onTimePicked)
     }
@@ -102,16 +115,21 @@ class IvyWalletCtx : IvyContext() {
 
 
     // Billing -------------------------------------------------------------------------------------
+    @Deprecated("don't use, it's bad!")
     var isPremium = true //if (BuildConfig.DEBUG) Constants.PREMIUM_INITIAL_VALUE_DEBUG else false
     // Billing -------------------------------------------------------------------------------------
 
+    @Deprecated("don't use, it's bad!")
     lateinit var googleSignIn: (idTokenResult: (String?) -> Unit) -> Unit
 
+    @Deprecated("don't use, it's bad!")
     lateinit var createNewFile: (fileName: String, onCreated: (Uri) -> Unit) -> Unit
 
+    @Deprecated("don't use, it's bad!")
     lateinit var openFile: (onOpened: (Uri) -> Unit) -> Unit
 
     //Testing --------------------------------------------------------------------------------------
+    @Deprecated("don't use, it's bad!")
     fun reset() {
         mainTab = MainTab.HOME
         startDayOfMonth = 1

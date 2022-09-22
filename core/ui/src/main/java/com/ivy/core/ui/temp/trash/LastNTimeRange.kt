@@ -5,20 +5,24 @@ import com.ivy.common.timeNowUTC
 import com.ivy.data.planned.IntervalType
 import java.time.LocalDateTime
 
+@Deprecated("don't use, it's bad!")
 data class LastNTimeRange(
     val periodN: Int,
     val periodType: IntervalType,
 )
 
+@Deprecated("don't use, it's bad!")
 fun LastNTimeRange.fromDate(): LocalDateTime = periodType.incrementDate(
     date = timeNowUTC(),
     intervalN = -periodN.toLong()
 )
 
+@Deprecated("don't use, it's bad!")
 fun LastNTimeRange.forDisplay(): String =
     "$periodN ${periodType.forDisplay(periodN)}"
 
 
+@Deprecated("don't use, it's bad!")
 fun IntervalType.forDisplay(intervalN: Int): String {
     val plural = intervalN > 1 || intervalN == 0
     return when (this) {
@@ -37,6 +41,7 @@ fun IntervalType.forDisplay(intervalN: Int): String {
     }
 }
 
+@Deprecated("don't use, it's bad!")
 fun IntervalType.incrementDate(date: LocalDateTime, intervalN: Long): LocalDateTime {
     return when (this) {
         IntervalType.DAY -> date.plusDays(intervalN)

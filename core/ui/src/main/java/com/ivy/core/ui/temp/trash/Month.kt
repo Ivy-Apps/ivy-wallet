@@ -5,11 +5,13 @@ import com.ivy.common.dateNowUTC
 import com.ivy.core.ui.temp.stringRes
 import java.time.LocalDate
 
+@Deprecated("don't use, it's bad!")
 data class Month(
     val monthValue: Int,
     val name: String
 ) {
     companion object {
+        @Deprecated("don't use, it's bad!")
         fun monthsList(): MutableList<Month> = mutableListOf(
             Month(1, stringRes(R.string.january)),
             Month(2, stringRes(R.string.february)),
