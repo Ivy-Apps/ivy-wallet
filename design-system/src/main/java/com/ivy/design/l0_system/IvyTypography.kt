@@ -4,16 +4,16 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle
 
 @Immutable
-interface IvyTypography {
-    val h1: TextStyle
-    val h2: TextStyle
-    val b1: TextStyle
-    val b2: TextStyle
-    val c: TextStyle
+data class IvyTypography(
+    val h1: TextStyle,
+    val h2: TextStyle,
+    val b1: TextStyle,
+    val b2: TextStyle,
+    val c: TextStyle,
 
-    val nH1: TextStyle
-    val nH2: TextStyle
-    val nB1: TextStyle
-    val nB2: TextStyle
-    val nC: TextStyle
-}
+    val nH1: TextStyle,
+    val nH2: TextStyle,
+    val nB1: TextStyle,
+    val nB2: TextStyle,
+    val nC: TextStyle,
+)

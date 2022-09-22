@@ -1,12 +1,10 @@
 package com.ivy.design.l0_system
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
 import androidx.compose.runtime.*
-import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
@@ -32,16 +30,12 @@ object UI {
 
 @Composable
 fun IvyTheme(
-    theme: Theme,
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {
-    val isSystemInDarkTheme = isSystemInDarkTheme()
-    val colors = remember(design, theme, isSystemInDarkTheme) {
-        design.colors(theme, isSystemInDarkTheme)
-    }
-    val typography = remember(design) { design.typography() }
-    val shapes = remember(design) { design.shapes() }
+    val colors = design.colors
+    val typography = design.typography
+    val shapes = design.shapes
 
     CompositionLocalProvider(
         LocalIvyColors provides colors,

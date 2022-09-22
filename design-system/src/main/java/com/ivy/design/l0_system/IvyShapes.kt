@@ -6,24 +6,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 
 @Immutable
-abstract class IvyShapes {
+data class IvyShapes(
     // TODO: Define shapes better
-    abstract val r1: CornerBasedShape
-    abstract val r1Top: CornerBasedShape
-    abstract val r1Bot: CornerBasedShape
+    val r1: CornerBasedShape,
+    val r1Top: CornerBasedShape,
+    val r1Bot: CornerBasedShape,
 
-    abstract val r2: CornerBasedShape
-    abstract val r2Top: CornerBasedShape
-    abstract val r2Bot: CornerBasedShape
+    val r2: CornerBasedShape,
+    val r2Top: CornerBasedShape,
+    val r2Bot: CornerBasedShape,
 
-    abstract val r3: CornerBasedShape
-    abstract val r3Top: CornerBasedShape
-    abstract val r3Bot: CornerBasedShape
+    val r3: CornerBasedShape,
+    val r3Top: CornerBasedShape,
+    val r3Bot: CornerBasedShape,
 
-    abstract val r4: CornerBasedShape
-    abstract val r4Top: CornerBasedShape
-    abstract val r4Bot: CornerBasedShape
+    val r4: CornerBasedShape,
+    val r4Top: CornerBasedShape,
+    val r4Bot: CornerBasedShape,
 
-    val rFull: CornerBasedShape = RoundedCornerShape(percent = 50)
-    val circle = CircleShape
-}
+    val rFull: CornerBasedShape = RoundedCornerShape(percent = 50),
+    val circle: CornerBasedShape = CircleShape,
+)
