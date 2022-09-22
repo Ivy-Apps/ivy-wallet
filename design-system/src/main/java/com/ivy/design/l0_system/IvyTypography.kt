@@ -1,7 +1,7 @@
 package com.ivy.design.l0_system
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle
-import javax.annotation.concurrent.Immutable
 
 @Immutable
 interface IvyTypography {

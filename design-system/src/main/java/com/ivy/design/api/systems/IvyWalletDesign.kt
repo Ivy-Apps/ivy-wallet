@@ -1,6 +1,7 @@
 package com.ivy.design.api.systems
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -13,6 +14,7 @@ import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.l0_system.*
 
+@Immutable
 class IvyWalletDesign : IvyDesign {
     companion object {
         const val OPEN_SANS_BASELINE_SHIFT = 0.075f

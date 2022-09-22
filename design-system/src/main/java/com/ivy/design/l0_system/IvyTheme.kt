@@ -87,7 +87,7 @@ fun toMaterial(typography: IvyTypography): Typography {
 
 fun toMaterial(shapes: IvyShapes): Shapes {
     return Shapes(
-        large = shapes.r1,
+        large = shapes.rFull,
         medium = shapes.r2,
         small = shapes.r3
     )

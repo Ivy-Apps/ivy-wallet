@@ -3,10 +3,11 @@ package com.ivy.design.l0_system
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import javax.annotation.concurrent.Immutable
+import androidx.compose.runtime.Immutable
 
 @Immutable
 abstract class IvyShapes {
+    // TODO: Define shapes better
     abstract val r1: CornerBasedShape
     abstract val r1Top: CornerBasedShape
     abstract val r1Bot: CornerBasedShape
