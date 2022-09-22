@@ -2,17 +2,23 @@ package com.ivy.design.l0_system
 
 import androidx.annotation.ColorInt
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
 
-
+// region Monochrome
 val White = Color(0xFFFAFAFA)
 val Black = Color(0xFF111114)
+val MediumBlack = Color(0xFF2B2C2D)
+val Gray = Color(0xFF939199)
+val MediumWhite = Color(0xFFEFEEF0)
+val Transparent = Color(0x00000000)
+// endregion
 
-//Primary
+// region Primary
 val Purple = Color(0xFF6B4DFF)
 val Purple1 = Color(0xFFC34CFF)
 val Purple2 = Color(0xFFFF4CFF)
@@ -35,9 +41,9 @@ val Orange3 = Color(0xFFFFC34C)
 val Red = Color(0xFFFF4060)
 val Red2 = Color(0xFFE62E2E)
 val Red3 = Color(0xFFFF4CA6)
+// endregion
 
-
-//Light
+// region Light variants of primary
 val IvyLight = Color(0xFFD5CCFF)
 val Purple1Light = Color(0xFFEECCFF)
 val Purple2Light = Color(0xFFFFBFFF)
@@ -60,9 +66,9 @@ val Orange3Light = Color(0xFFFFDC99)
 val RedLight = Color(0xFFFFCCD5)
 val Red2Light = Color(0xFFFFB3B3)
 val Red3Light = Color(0xFFFFCCE6)
+// endregion
 
-
-//Dark
+// region Dark variations of primary
 val IvyDark = Color(0xFF352680)
 val Purple1Dark = Color(0xFF622680)
 val Purple2Dark = Color(0xFF802680)
@@ -85,16 +91,9 @@ val Orange3Dark = Color(0xFF806226)
 val RedDark = Color(0xFF801919)
 val Red2Dark = Color(0xFF802030)
 val Red3Dark = Color(0xFF802653)
-//--------------------------------------------------------------------------------------------------
+// endregion
 
-
-val MediumBlack = Color(0xFF2B2C2D)
-val Gray = Color(0xFF939199)
-val MediumWhite = Color(0xFFEFEEF0)
-
-
-val Transparent = Color(0x00000000)
-
+// region Gradients
 val GradientRed = Gradient(Red, Color(0xFFFF99AB))
 val GradientGreen = Gradient(Green, Color(0xFF49F2C8))
 val GradientOrange = Gradient(Orange, OrangeLight)
@@ -103,12 +102,7 @@ val GradientOrangeRevert = Gradient(Color(0xFFF2CD9E), Orange)
 val GradientPurple = Gradient(Purple, Color(0xFFAA99FF))
 val SunsetNight = Gradient(Red, Orange)
 
-@Composable
-fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
-
-@Composable
-fun mediumBlur() = UI.colors.medium.copy(alpha = 0.95f)
-
+@Immutable
 data class Gradient(
     val startColor: Color,
     val endColor: Color
@@ -134,7 +128,15 @@ data class Gradient(
 
     fun asVerticalBrush() = Brush.verticalGradient(colors = listOf(startColor, endColor))
 }
+// endregion
 
+@Composable
+fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
+
+@Composable
+fun mediumBlur() = UI.colors.medium.copy(alpha = 0.95f)
+
+// region Color utils
 @Deprecated("Use `:core:ui` @Composable Color#contrastColor")
 fun findContrastTextColor(backgroundColor: Color): Color {
     return if (isDarkColor(backgroundColor.toArgb())) White else Black
@@ -228,3 +230,4 @@ fun Color.hsv(
 }
 
 fun Int.toComposeColor() = Color(this)
+// endregion

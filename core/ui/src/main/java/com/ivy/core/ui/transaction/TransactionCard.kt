@@ -1,7 +1,7 @@
 package com.ivy.core.ui.transaction
 
+import androidx.compose.runtime.Immutable
 import com.ivy.data.transaction.Transaction
-import javax.annotation.concurrent.Immutable
 
 //
 //import androidx.compose.foundation.background
