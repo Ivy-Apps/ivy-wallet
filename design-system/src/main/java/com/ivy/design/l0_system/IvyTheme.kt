@@ -5,10 +5,7 @@ import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.*
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 
@@ -39,19 +36,26 @@ fun IvyTheme(
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {
-    val colors = design.colors(theme, isSystemInDarkTheme())
-    val typography = design.typography()
-    val shapes = design.shapes()
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+    val colors = remember(design, theme, isSystemInDarkTheme) {
+        design.colors(theme, isSystemInDarkTheme)
+    }
+    val typography = remember(design) { design.typography() }
+    val shapes = remember(design) { design.shapes() }
 
     CompositionLocalProvider(
         LocalIvyColors provides colors,
         LocalIvyTypography provides typography,
         LocalIvyShapes provides shapes
     ) {
+        val materialColors = remember(colors) { toMaterial(colors) }
+        val materialTypography = remember(typography) { toMaterial(typography) }
+        val materialShapes = remember(shapes) { toMaterial(shapes) }
+
         MaterialTheme(
-            colors = toMaterial(colors),
-            typography = toMaterial(typography),
-            shapes = toMaterial(shapes),
+            colors = materialColors,
+            typography = materialTypography,
+            shapes = materialShapes,
             content = content
         )
     }

@@ -49,7 +49,6 @@ fun IvyPreview(
         setAppTheme(theme)
     }
     IvyUI(
-        design = design,
         Content = Content
     )
 }
