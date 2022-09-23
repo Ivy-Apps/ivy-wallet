@@ -32,7 +32,7 @@ val Green2 = Color(0xFF45E67B)
 val Green3 = Color(0xFF96E645)
 val Green4 = Color(0xFFC7E62E)
 
-val Yellow = Color(0xFFFFEE33)
+val Yellow = Color(0xFFF2E230)
 
 val Orange = Color(0xFFF29F30)
 val Orange2 = Color(0xFFE67B45)
@@ -57,7 +57,8 @@ val Green2Light = Color(0xFF99FFBB)
 val Green3Light = Color(0xFFCCFF99)
 val Green4Light = Color(0xFFEEFF99)
 
-val YellowLight = Color(0xFFFFF799)
+val YellowLight = Color(0xFFFFF9B2)
+val YellowP1Light = Color(0xFFFFF266)
 
 val OrangeLight = Color(0xFFFFDEB3)
 val Orange2Light = Color(0xFFFFCCB3)
@@ -82,7 +83,9 @@ val Green2Dark = Color(0xFF22733D)
 val Green3Dark = Color(0xFF66804D)
 val Green4Dark = Color(0xFF637317)
 
-val YellowDark = Color(0xFF807719)
+val YellowDark = Color(0xFF806A00)
+val YellowP1Dark = Color(0xFFBFA730)
+
 
 val OrangeDark = Color(0xFF734B17)
 val Orange2Dark = Color(0xFF66371F)
@@ -121,7 +124,7 @@ data class Gradient(
         )
 
         @Composable
-        fun black() = Gradient(UI.colors.gray, UI.colors.pureInverse)
+        fun black() = Gradient(UI.colors.neutral, UI.colorsInverse.pure)
     }
 
     fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(startColor, endColor))

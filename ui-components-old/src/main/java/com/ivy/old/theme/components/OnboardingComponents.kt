@@ -54,7 +54,7 @@ fun OnboardingButton(
             .clip(UI.shapes.rFull)
             .background(
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.neutral),
                 shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),

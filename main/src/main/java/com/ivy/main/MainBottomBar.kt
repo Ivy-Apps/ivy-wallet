@@ -208,7 +208,7 @@ fun BoxWithConstraintsScope.BottomBar(
         icon = R.drawable.ic_add,
         backgroundGradient = when (tab) {
             com.ivy.base.MainTab.HOME -> {
-                if (!expanded) GradientIvy else Gradient.solid(UI.colors.gray)
+                if (!expanded) GradientIvy else Gradient.solid(UI.colors.neutral)
             }
             com.ivy.base.MainTab.ACCOUNTS -> {
                 GradientGreen

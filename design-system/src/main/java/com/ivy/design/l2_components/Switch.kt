@@ -26,7 +26,7 @@ fun Switch(
     enabled: Boolean,
     modifier: Modifier = Modifier,
     enabledColor: Color = UI.colors.green,
-    disabledColor: Color = UI.colors.gray,
+    disabledColor: Color = UI.colors.neutral,
     animationColor: AnimationSpec<Color> = springBounce(),
     animationMove: AnimationSpec<Float> = springBounce(),
     onEnabledChange: (checked: Boolean) -> Unit,

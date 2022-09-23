@@ -40,7 +40,7 @@ fun Checkbox(
             .padding(all = 12.dp),
         icon = if (checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked,
         contentDescription = contentDescription,
-        tint = if (checked) Color.Unspecified else UI.colors.gray
+        tint = if (checked) Color.Unspecified else UI.colors.neutral
     )
 }
 

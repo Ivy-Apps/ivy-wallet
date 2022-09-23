@@ -9,5 +9,6 @@ import com.ivy.design.l0_system.IvyTypography
 data class IvyDesign(
     val typography: IvyTypography,
     val colors: IvyColors,
+    val colorsInverse: IvyColors,
     val shapes: IvyShapes,
 )

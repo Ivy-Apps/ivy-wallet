@@ -252,7 +252,7 @@ private class Adapter<T : Reorderable>(
                                 }
                                 .testTag("reorder_drag_handle"),
                             icon = R.drawable.ic_drag_handle,
-                            tint = UI.colors.gray,
+                            tint = UI.colors.neutral,
                             contentDescription = "reorder_${position}"
                         )
 

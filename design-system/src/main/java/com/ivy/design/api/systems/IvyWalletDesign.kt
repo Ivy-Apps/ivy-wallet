@@ -17,11 +17,19 @@ import com.ivy.design.l0_system.*
 fun ivyWalletDesign(theme: Theme, isSystemInDarkTheme: Boolean): IvyDesign = IvyDesign(
     typography = typography(),
     colors = colors(theme = theme, isSystemInDarkTheme = isSystemInDarkTheme),
+    colorsInverse = colors(
+        theme = when (theme) {
+            Theme.Light -> Theme.Dark
+            Theme.Dark -> Theme.Light
+            Theme.Auto -> Theme.Auto
+        },
+        isSystemInDarkTheme = !isSystemInDarkTheme
+    ),
     shapes = shapes()
 )
 
 private const val OPEN_SANS_BASELINE_SHIFT = 0.075f
-private const val RALEWAY_BASELINE_SHIFT = 0.2f
+private const val RALE_WAY_BASELINE_SHIFT = 0.2f
 
 private fun typography(): IvyTypography {
     val openSans = FontFamily(
@@ -54,31 +62,31 @@ private fun typography(): IvyTypography {
             fontFamily = raleWay,
             fontWeight = FontWeight.Black,
             fontSize = h1,
-            baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
         h2 = TextStyle(
             fontFamily = raleWay,
             fontWeight = FontWeight.ExtraBold,
             fontSize = h2,
-            baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
         b1 = TextStyle(
             fontFamily = raleWay,
             fontWeight = FontWeight.Bold,
             fontSize = b1,
-            baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
         b2 = TextStyle(
             fontFamily = raleWay,
             fontWeight = FontWeight.Medium,
             fontSize = b2,
-            baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
         c = TextStyle(
             fontFamily = raleWay,
             fontWeight = FontWeight.ExtraBold,
             fontSize = c,
-            baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
 
         nH1 = TextStyle(
@@ -117,45 +125,71 @@ private fun typography(): IvyTypography {
 private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when (theme) {
     Theme.Light -> IvyColors(
         pure = White,
-        pureInverse = Black,
-        gray = Gray,
+        neutral = Gray,
         medium = MediumWhite,
-        mediumInverse = MediumBlack,
 
         primary = Purple,
-        primary1 = IvyDark,
-
-        green = Green,
-        green1 = GreenLight,
-
-        orange = Orange,
-        orange1 = OrangeLight,
+        primaryP1 = Purple2Light,
+        primaryP2 = Purple1Light,
 
         red = Red,
-        red1 = RedLight,
-        red1Inverse = RedDark,
+        redP1 = Red2Light,
+        redP2 = RedLight,
+
+        orange = Orange,
+        orangeP1 = Orange2Light,
+        orangeP2 = OrangeLight,
+
+        yellow = Yellow,
+        yellowP1 = YellowP1Light,
+        yellowP2 = YellowLight,
+
+        green = Green,
+        greenP1 = Green2Light,
+        greenP2 = GreenLight,
+
+        blue = Blue,
+        blueP1 = Blue2Light,
+        blueP2 = BlueLight,
+
+        purple = Purple,
+        purpleP1 = Purple2Light,
+        purpleP2 = Purple1Light,
 
         isLight = true
     )
     Theme.Dark -> IvyColors(
         pure = Black,
-        pureInverse = White,
-        gray = Gray,
+        neutral = Gray,
         medium = MediumBlack,
-        mediumInverse = MediumWhite,
 
         primary = Purple,
-        primary1 = IvyLight,
-
-        green = Green,
-        green1 = GreenDark,
-
-        orange = Orange,
-        orange1 = OrangeDark,
+        primaryP1 = Purple2Dark,
+        primaryP2 = Purple1Dark,
 
         red = Red,
-        red1 = RedDark,
-        red1Inverse = RedLight,
+        redP1 = Red2Dark,
+        redP2 = RedDark,
+
+        orange = Orange,
+        orangeP1 = Orange2Dark,
+        orangeP2 = OrangeDark,
+
+        yellow = Yellow,
+        yellowP1 = YellowP1Dark,
+        yellowP2 = YellowDark,
+
+        green = Green,
+        greenP1 = Green2Dark,
+        greenP2 = GreenDark,
+
+        blue = Blue,
+        blueP1 = Blue2Dark,
+        blueP2 = BlueDark,
+
+        purple = Purple,
+        purpleP1 = Purple2Dark,
+        purpleP2 = Purple1Dark,
 
         isLight = false
     )
@@ -166,19 +200,7 @@ private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when
 
 
 private fun shapes(): IvyShapes = IvyShapes(
-    r1 = RoundedCornerShape(32.dp),
-    r1Top = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-    r1Bot = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp),
-
-    r2 = RoundedCornerShape(24.dp),
-    r2Top = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-    r2Bot = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp),
-
-    r3 = RoundedCornerShape(20.dp),
-    r3Top = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-    r3Bot = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp),
-
-    r4 = RoundedCornerShape(16.dp),
-    r4Top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-    r4Bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
+    square = RoundedCornerShape(4.dp),
+    rounded = RoundedCornerShape(24.dp),
+    full = RoundedCornerShape(percent = 50),
 )

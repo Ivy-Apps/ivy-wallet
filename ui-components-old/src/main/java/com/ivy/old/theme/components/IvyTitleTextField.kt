@@ -53,7 +53,7 @@ fun ColumnScope.IvyTitleTextField(
                 modifier = Modifier,
                 text = hint!!,
                 style = UI.typo.h2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Start
                 ),

@@ -235,7 +235,7 @@ private fun ScreenContent() {
                     .padding(horizontal = 32.dp),
                 text = "BIG THANKS to all Ivy contributors who made Ivy Wallet possible! That's why we opened a donations channel to sustain and improve our small project.",
                 typo = UI.typo.b2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Medium
                 )
             )

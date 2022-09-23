@@ -52,7 +52,7 @@ fun IvyBorderButton(
             .border(
                 width = 2.dp,
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.neutral),
                 shape = UI.shapes.rFull
             )
             .clickable(onClick = onClick, enabled = enabled),

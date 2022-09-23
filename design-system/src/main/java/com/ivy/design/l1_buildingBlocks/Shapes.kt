@@ -70,7 +70,7 @@ private fun PreviewOutlined() {
             size = 64.dp,
             shape = UI.shapes.r3,
             borderWidth = 2.dp,
-            borderColor = UI.colors.gray
+            borderColor = UI.colors.neutral
         )
     }
 }

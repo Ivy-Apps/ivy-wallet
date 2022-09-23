@@ -82,7 +82,7 @@ fun BoxWithConstraintsScope.ChangeTransactionTypeModal(
         TransactionTypeButton(
             transactionType = TrnTypeOld.EXPENSE,
             selected = transactionType == TrnTypeOld.EXPENSE,
-            selectedGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            selectedGradient = Gradient(UI.colors.pureInverse, UI.colors.neutral),
             textSelectedColor = UI.colors.pure
         ) {
             transactionType = TrnTypeOld.EXPENSE

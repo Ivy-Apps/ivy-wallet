@@ -52,7 +52,7 @@ fun IvyCircleButton(
                     if (horizontalGradient)
                         backgroundGradient.asHorizontalBrush() else backgroundGradient.asVerticalBrush()
                 } else {
-                    SolidColor(UI.colors.gray)
+                    SolidColor(UI.colors.neutral)
                 },
                 shape = UI.shapes.rFull
             )

@@ -95,7 +95,7 @@ fun TransactionCard(
                 ).uppercase(),
                 style = UI.typo.nC.style(
                     color = if (transaction.dueDate!!.isAfter(timeNowUTC()))
-                        Orange else UI.colors.gray,
+                        Orange else UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -130,7 +130,7 @@ fun TransactionCard(
                 text = transaction.description!!,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = UI.typo.nC.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 ),
                 maxLines = 3,

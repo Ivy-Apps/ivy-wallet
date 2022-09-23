@@ -293,7 +293,7 @@ private fun IncomeExpenses(
         HeaderCard(
             percentVisible = percentExpanded,
             icon = R.drawable.ic_expense,
-            backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.gray),
+            backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.neutral),
             textColor = UI.colors.pure,
             label = stringResource(R.string.expenses),
             currency = currency,

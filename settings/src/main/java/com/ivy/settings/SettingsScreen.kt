@@ -192,7 +192,7 @@ private fun BoxWithConstraintsScope.UI(
                     },
                     text = "${screen.versionName} (${screen.versionCode})",
                     style = UI.typo.nC.style(
-                        color = UI.colors.gray,
+                        color = UI.colors.neutral,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -749,7 +749,7 @@ private fun AccountCard(
                 text = stringResource(R.string.account_uppercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
-                    color = UI.colors.gray
+                    color = UI.colors.neutral
                 )
             )
 

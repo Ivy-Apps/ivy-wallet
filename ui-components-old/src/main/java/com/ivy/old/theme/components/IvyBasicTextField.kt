@@ -51,7 +51,7 @@ fun IvyBasicTextField(
                 modifier = Modifier,
                 text = hint!!,
                 style = UI.typo.b2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Start
                 ),

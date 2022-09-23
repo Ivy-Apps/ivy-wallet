@@ -56,7 +56,7 @@ fun TransactionDateTime(
             Text(
                 text = stringResource(R.string.created_on),
                 style = UI.typo.b2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 )
             )

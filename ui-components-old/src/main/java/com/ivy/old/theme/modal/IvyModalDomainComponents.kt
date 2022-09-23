@@ -43,7 +43,7 @@ fun ModalAmountSection(
         Text(
             text = label,
             style = UI.typo.c.style(
-                color = UI.colors.gray,
+                color = UI.colors.neutral,
                 fontWeight = FontWeight.ExtraBold
             )
         )
