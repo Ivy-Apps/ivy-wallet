@@ -5,14 +5,11 @@ import com.ivy.base.R
 import com.ivy.common.dateNowUTC
 import com.ivy.common.formatLocal
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 fun LocalDateTime.formatNicely(
     context: Context,
     includeWeekDay: Boolean = true,
 ): String {
-    val zone: ZoneId = ZoneOffset.systemDefault()
     val today = dateNowUTC()
     val isThisYear = today.year == this.year
 
