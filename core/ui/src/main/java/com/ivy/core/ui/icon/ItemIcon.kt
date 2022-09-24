@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
-import com.ivy.data.icon.IconSize
-import com.ivy.data.icon.IvyIcon
+import com.ivy.core.ui.data.icon.IconSize
+import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.ComponentPreview
 
@@ -28,19 +28,19 @@ fun IvyIcon.ItemIcon(
 ) {
     when (this) {
         is IvyIcon.Sized -> when (size) {
-            IconSize.S -> Icon(
+            com.ivy.core.ui.data.icon.IconSize.S -> Icon(
                 modifier = Modifier
                     .size(size.toDp()),
                 icon = iconS,
                 tint = tint,
             )
-            IconSize.M -> Icon(
+            com.ivy.core.ui.data.icon.IconSize.M -> Icon(
                 modifier = Modifier
                     .size(size.toDp()),
                 icon = iconM,
                 tint = tint,
             )
-            IconSize.L -> Icon(
+            com.ivy.core.ui.data.icon.IconSize.L -> Icon(
                 modifier = Modifier
                     .size(size.toDp()),
                 icon = iconL,

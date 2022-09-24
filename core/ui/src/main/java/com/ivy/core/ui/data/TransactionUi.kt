@@ -1,4 +1,5 @@
 package com.ivy.core.ui.data
 
-class TransactionUi {
-}
+data class TransactionUi(
+    val id: String,
+)

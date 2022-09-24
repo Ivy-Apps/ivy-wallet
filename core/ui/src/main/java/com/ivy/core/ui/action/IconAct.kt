@@ -1,29 +1,25 @@
-package com.ivy.core.domain.action.icon
+package com.ivy.core.ui.action
 
 import android.content.Context
 import androidx.annotation.DrawableRes
 import com.ivy.base.R
+import com.ivy.core.ui.data.icon.IconSize
+import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.data.IvyIconId
-import com.ivy.data.icon.IconSize
-import com.ivy.data.icon.IvyIcon
-import com.ivy.frp.action.FPAction
+import com.ivy.frp.action.Action
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IconAct @Inject constructor(
     @ApplicationContext
     private val appContext: Context
-) : FPAction<IconAct.Input, IvyIcon>() {
+) : Action<IconAct.Input, IvyIcon>() {
     data class Input(
         val iconId: IvyIconId?,
         val defaultTo: DefaultTo
     )
 
-    override suspend fun Input.compose(): suspend () -> IvyIcon = {
-        parseIvyIcon()
-    }
-
-    private fun Input.parseIvyIcon(): IvyIcon {
+    override suspend fun Input.willDo(): IvyIcon {
         fun Input.default(): IvyIcon = IvyIcon.Sized(
             iconS = when (defaultTo) {
                 DefaultTo.Account -> R.drawable.ic_custom_account_s

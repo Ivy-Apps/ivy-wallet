@@ -2,21 +2,19 @@ package com.ivy.core.ui.category
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
-import com.ivy.core.domain.pure.dummy.dummyCategory
 import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
-import com.ivy.data.category.Category
-import com.ivy.data.icon.IvyIcon
+import com.ivy.core.ui.data.CategoryUi
+import com.ivy.core.ui.data.dummyCategoryUi
+import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.design.l0_system.color.Black
 import com.ivy.design.l0_system.color.Purple
-import com.ivy.design.l0_system.color.toComposeColor
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun Category.Badge(
-    background: Color = color.toComposeColor(),
+fun CategoryUi.Badge(
+    background: Color = color,
     onClick: (() -> Unit)? = null
 ) {
     BadgeComponent(
@@ -31,7 +29,7 @@ fun Category.Badge(
 @Composable
 private fun Preview_Black() {
     ComponentPreview {
-        dummyCategory(
+        dummyCategoryUi(
             name = "Cash",
             icon = IvyIcon.Unknown(
                 icon = R.drawable.ic_vue_building_house,
@@ -47,7 +45,7 @@ private fun Preview_Black() {
 @Composable
 private fun Preview_Color() {
     ComponentPreview {
-        dummyCategory(
+        dummyCategoryUi(
             name = "Cash",
             icon = IvyIcon.Sized(
                 iconS = R.drawable.ic_custom_category_s,
@@ -55,7 +53,7 @@ private fun Preview_Color() {
                 iconL = 0,
                 iconId = null
             ),
-            color = Purple.toArgb(),
+            color = Purple,
         ).Badge()
     }
 }

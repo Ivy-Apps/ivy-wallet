@@ -1,7 +1,6 @@
-package com.ivy.core.domain.pure.dummy
+package com.ivy.core.ui.data.icon
 
 import androidx.annotation.DrawableRes
-import com.ivy.data.icon.IvyIcon
 
 fun dummyIconSized(
     @DrawableRes

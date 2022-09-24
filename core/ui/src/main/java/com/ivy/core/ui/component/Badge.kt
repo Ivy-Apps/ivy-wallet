@@ -13,9 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.data.icon.IconSize
+import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.core.ui.icon.ItemIcon
-import com.ivy.data.icon.IconSize
-import com.ivy.data.icon.IvyIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l0_system.color.rememberContrastColor

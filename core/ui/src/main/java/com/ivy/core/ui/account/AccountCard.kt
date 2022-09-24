@@ -1,9 +1,9 @@
 package com.ivy.core.ui.account
 
 import androidx.compose.runtime.Composable
-import com.ivy.data.account.Account
+import com.ivy.core.ui.data.AccountUi
 
 @Composable
-fun Account.Card() {
+fun AccountUi.Card() {
 
 }

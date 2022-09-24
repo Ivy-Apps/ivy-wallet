@@ -1,10 +1,12 @@
-package com.ivy.data.icon
+package com.ivy.core.ui.data.icon
 
 import androidx.annotation.DrawableRes
+import androidx.compose.runtime.Immutable
 import com.ivy.data.IvyIconId
 
-sealed class IvyIcon {
-
+@Immutable
+sealed interface IvyIcon {
+    @Immutable
     data class Sized(
         @DrawableRes
         val iconS: Int,
@@ -13,12 +15,13 @@ sealed class IvyIcon {
         @DrawableRes
         val iconL: Int,
         val iconId: IvyIconId?,
-    ) : IvyIcon()
+    ) : IvyIcon
 
+    @Immutable
     data class Unknown(
         @DrawableRes
         val icon: Int,
         val iconId: IvyIconId?,
-    ) : IvyIcon()
+    ) : IvyIcon
 }
 

@@ -1,11 +1,11 @@
 package com.ivy.core.domain.pure.dummy
 
 import androidx.annotation.ColorInt
+import com.ivy.data.IvyIconId
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
-import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 fun dummyCategory(
@@ -14,11 +14,7 @@ fun dummyCategory(
     parentCategoryId: UUID? = null,
     @ColorInt
     color: Int = 1,
-    icon: IvyIcon = IvyIcon.Unknown(
-        // TODO: Fix that after we create :resources
-        icon = -1,
-        iconId = null
-    ),
+    icon: IvyIconId = "category",
     sync: SyncState = SyncState.Synced,
     orderNum: Double = 0.0,
     type: CategoryType = CategoryType.Both,
