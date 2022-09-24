@@ -1,6 +1,5 @@
 package com.ivy.wallet.utils
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.*
@@ -25,7 +24,6 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import com.ivy.frp.view.navigation.navigation
 import com.ivy.wallet.ui.theme.Gradient
 
 fun Modifier.horizontalGradientBackground(
@@ -139,6 +137,7 @@ fun Modifier.clickableNoIndication(
     )
 }
 
+@Deprecated("use :design-system equivalent")
 fun Modifier.drawColoredShadow(
     color: Color,
     alpha: Float = 0.15f,

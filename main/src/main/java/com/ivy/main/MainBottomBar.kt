@@ -205,7 +205,7 @@ fun BoxWithConstraintsScope.BottomBar(
             }
             .testTag("fab_add"),
         backgroundPadding = 8.dp,
-        icon = R.drawable.ic_add,
+        icon = R.drawable.ic_round_add_24,
         backgroundGradient = when (tab) {
             com.ivy.base.MainTab.HOME -> {
                 if (!expanded) GradientIvy else Gradient.solid(UI.colors.neutral)

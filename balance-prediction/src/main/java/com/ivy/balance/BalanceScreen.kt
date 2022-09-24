@@ -237,7 +237,7 @@ private fun ColumnScope.CloseButton() {
             .rotate(45f)
             .zIndex(200f),
         backgroundPadding = 8.dp,
-        icon = R.drawable.ic_add,
+        icon = R.drawable.ic_round_add_24,
         backgroundGradient = Gradient.solid(Gray),
         hasShadow = false,
         tint = White

@@ -41,4 +41,6 @@ data class IvyColors(
     val purpleP2: Color,
 
     val isLight: Boolean,
+
+    val transparent: Color = Transparent
 )
