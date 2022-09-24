@@ -22,8 +22,8 @@ import com.ivy.core.functions.transaction.dummyOverdueSection
 import com.ivy.core.functions.transaction.dummyUpcomingSection
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.Value
+import com.ivy.data.transaction.DueSection
 import com.ivy.data.transaction.OverdueSection
-import com.ivy.data.transaction.UpcomingSection
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Green
 import com.ivy.design.l0_system.color.Orange
@@ -38,7 +38,7 @@ import com.ivy.design.util.clickableNoIndication
 import com.ivy.design.util.springBounce
 
 @Composable
-fun UpcomingSection.SectionDivider(
+fun DueSection.SectionDivider(
     expanded: Boolean,
     setExpanded: (Boolean) -> Unit
 ) {

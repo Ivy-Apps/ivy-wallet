@@ -2,7 +2,7 @@ package com.ivy.data.transaction
 
 import com.ivy.data.Value
 
-data class UpcomingSection(
+data class DueSection(
     val income: Value,
     val expense: Value,
     val trns: List<Transaction>,

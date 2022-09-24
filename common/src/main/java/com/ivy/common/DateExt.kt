@@ -15,6 +15,8 @@ fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 @Total
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 
+fun dateNowLocal(): LocalDate = LocalDate.now()
+
 fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()
 
 fun endOfDayNowUTC() = dateNowUTC().atEndOfDay()
@@ -46,8 +48,8 @@ fun LocalDate.formatDateWeekDayLong(): String =
 
 fun LocalDateTime.formatLocal(
     pattern: String = "dd MMM yyyy, HH:mm",
-    zone: ZoneId = ZoneOffset.systemDefault()
 ): String {
+    val zone = ZoneOffset.systemDefault()
     val localDateTime = this.convertUTCtoLocal(zone)
     return localDateTime.atZone(zone).format(
         DateTimeFormatter

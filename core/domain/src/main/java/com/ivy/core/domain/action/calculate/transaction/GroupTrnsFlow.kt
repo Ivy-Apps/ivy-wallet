@@ -11,8 +11,10 @@ import com.ivy.core.domain.pure.transaction.upcoming
 import com.ivy.core.domain.pure.util.actualTrns
 import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
-import com.ivy.data.Value
-import com.ivy.data.transaction.*
+import com.ivy.data.transaction.DueSection
+import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionsList
+import com.ivy.data.transaction.TrnListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -45,12 +47,10 @@ class GroupTrnsFlow @Inject constructor(
                 dueSectionFlow(
                     trnListItems = batchedTrnItems,
                     dueFilter = ::upcoming,
-                    createSection = ::UpcomingSection
                 ),
                 dueSectionFlow(
                     trnListItems = batchedTrnItems,
                     dueFilter = ::overdue,
-                    createSection = ::OverdueSection
                 ),
                 historyFlow(trnListItems = batchedTrnItems),
             ) { upcomingSection, overdueSection, history ->
@@ -64,11 +64,10 @@ class GroupTrnsFlow @Inject constructor(
 
 
     // region Upcoming & Overdue sections
-    private fun <T> dueSectionFlow(
+    private fun dueSectionFlow(
         trnListItems: List<TrnListItem>,
         dueFilter: (Transaction, now: LocalDateTime) -> Boolean,
-        createSection: (income: Value, expense: Value, trns: List<Transaction>) -> T
-    ): Flow<T?> {
+    ): Flow<DueSection?> {
         val now = timeNowLocal()
         val dueTrns = trnListItems.mapNotNull {
             when (it) {
@@ -92,10 +91,10 @@ class GroupTrnsFlow @Inject constructor(
             // overdue: the most overdue trn will appear first
             val sortedTrns = dueTrns.sortedBy { it.time.time() }
 
-            createSection(
-                dueStats.income,
-                dueStats.expense,
-                sortedTrns
+            DueSection(
+                income = dueStats.income,
+                expense = dueStats.expense,
+                trns = sortedTrns
             )
         }.flowOn(Dispatchers.Default)
     }

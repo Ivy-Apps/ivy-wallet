@@ -1,7 +1,7 @@
 package com.ivy.data.transaction
 
 data class TransactionsList(
-    val upcoming: UpcomingSection?,
-    val overdue: OverdueSection?,
+    val upcoming: DueSection?,
+    val overdue: DueSection?,
     val history: List<TrnListItem>,
 )
