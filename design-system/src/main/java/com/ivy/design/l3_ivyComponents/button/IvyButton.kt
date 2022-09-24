@@ -71,7 +71,7 @@ fun IvyButton(
             else -> UI.colors.pure
         }
     )
-    val textStyle = UI.typo.b1.style(
+    val textStyle = UI.typo.b2.style(
         color = textColor,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
