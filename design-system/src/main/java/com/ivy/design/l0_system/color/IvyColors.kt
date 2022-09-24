@@ -1,4 +1,4 @@
-package com.ivy.design.l0_system
+package com.ivy.design.l0_system.color
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color

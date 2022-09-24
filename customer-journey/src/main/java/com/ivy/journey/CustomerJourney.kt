@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.findContrastTextColor
+import com.ivy.design.l0_system.color.contrastColor
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.ComponentPreview
 import com.ivy.frp.view.navigation.navigation
@@ -81,7 +81,7 @@ fun CustomerJourneyCard(
                 text = cardData.title,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = findContrastTextColor(cardData.background.startColor)
+                    color = contrastColor(cardData.background.startColor)
                 )
             )
 
@@ -110,7 +110,7 @@ fun CustomerJourneyCard(
             text = cardData.description,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Medium,
-                color = findContrastTextColor(cardData.background.startColor)
+                color = contrastColor(cardData.background.startColor)
             )
         )
 
@@ -130,7 +130,7 @@ fun CustomerJourneyCard(
                 fontWeight = FontWeight.Bold
             ),
             padding = 8.dp,
-            backgroundGradient = Gradient.solid(findContrastTextColor(cardData.background.startColor))
+            backgroundGradient = Gradient.solid(contrastColor(cardData.background.startColor))
         ) {
             onCTA()
         }

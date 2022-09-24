@@ -18,9 +18,9 @@ import com.ivy.core.functions.transaction.dummyDateDivider
 import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.Value
 import com.ivy.data.transaction.TrnListItem
-import com.ivy.design.l0_system.Gray
-import com.ivy.design.l0_system.Green
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.Gray
+import com.ivy.design.l0_system.color.Green
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview

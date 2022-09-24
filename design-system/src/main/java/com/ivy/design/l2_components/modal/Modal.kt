@@ -25,7 +25,7 @@ import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.mediumBlur
+import com.ivy.design.l0_system.color.mediumBlur
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer

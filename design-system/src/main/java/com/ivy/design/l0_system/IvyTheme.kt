@@ -6,6 +6,8 @@ import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import com.ivy.design.api.IvyDesign
+import com.ivy.design.l0_system.color.IvyColors
+import com.ivy.design.l0_system.color.contrastColor
 
 val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
 val LocalIvyColorsInverse = compositionLocalOf<IvyColors> { error("No IvyCInverseColors") }
@@ -73,10 +75,10 @@ fun toMaterial(colors: IvyColors, colorsInverse: IvyColors): Colors {
         surface = colors.pure,
         onSurface = colorsInverse.pure,
         error = colors.red,
-        onPrimary = findContrastTextColor(colors.primary),
-        onSecondary = findContrastTextColor(colors.primary),
+        onPrimary = contrastColor(colors.primary),
+        onSecondary = contrastColor(colors.primary),
         onBackground = colorsInverse.pure,
-        onError = findContrastTextColor(colors.red),
+        onError = contrastColor(colors.red),
         isLight = colors.isLight
     )
 }
@@ -93,7 +95,7 @@ fun toMaterial(typography: IvyTypography): Typography {
 
 fun toMaterial(shapes: IvyShapes): Shapes {
     return Shapes(
-        large = shapes.full,
+        large = shapes.rFull,
         medium = shapes.rounded,
         small = shapes.square
     )

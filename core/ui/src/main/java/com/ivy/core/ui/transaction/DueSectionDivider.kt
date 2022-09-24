@@ -25,6 +25,9 @@ import com.ivy.data.Value
 import com.ivy.data.transaction.OverdueSection
 import com.ivy.data.transaction.UpcomingSection
 import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.color.Green
+import com.ivy.design.l0_system.color.Orange
+import com.ivy.design.l0_system.color.Red
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer

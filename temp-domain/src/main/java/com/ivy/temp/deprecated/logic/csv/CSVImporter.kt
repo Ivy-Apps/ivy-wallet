@@ -9,8 +9,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.design.l0_system.Green
-import com.ivy.design.l0_system.IvyDark
+import com.ivy.design.l0_system.color.Green
+import com.ivy.design.l0_system.color.IvyDark
 import com.ivy.wallet.domain.deprecated.logic.csv.model.CSVRow
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.domain.deprecated.logic.csv.model.RowMapping

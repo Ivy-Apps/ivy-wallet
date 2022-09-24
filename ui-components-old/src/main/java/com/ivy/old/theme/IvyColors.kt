@@ -180,7 +180,7 @@ data class Gradient(
     val endColor: Color
 ) {
     companion object {
-        fun from(gradient: com.ivy.design.l0_system.Gradient) =
+        fun from(gradient: com.ivy.design.l0_system.color.Gradient) =
             Gradient(gradient.startColor, gradient.endColor)
 
         fun from(startColor: Int, endColor: Int?) = Gradient(

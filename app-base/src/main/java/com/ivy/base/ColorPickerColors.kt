@@ -1,6 +1,6 @@
 package com.ivy.base
 
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.color.*
 
 val IVY_COLOR_PICKER_COLORS_FREE = listOf(
     //Primary

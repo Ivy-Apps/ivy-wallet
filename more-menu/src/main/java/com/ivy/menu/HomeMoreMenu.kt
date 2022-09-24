@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.Constants
 import com.ivy.data.Theme
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation

@@ -11,7 +11,9 @@ import androidx.compose.ui.unit.sp
 import com.ivy.design.R
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.IvyShapes
+import com.ivy.design.l0_system.IvyTypography
+import com.ivy.design.l0_system.color.*
 
 
 fun ivyWalletDesign(theme: Theme, isSystemInDarkTheme: Boolean): IvyDesign = IvyDesign(
@@ -202,5 +204,5 @@ private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when
 private fun shapes(): IvyShapes = IvyShapes(
     square = RoundedCornerShape(4.dp),
     rounded = RoundedCornerShape(24.dp),
-    full = RoundedCornerShape(percent = 50),
+    rFull = RoundedCornerShape(percent = 50),
 )

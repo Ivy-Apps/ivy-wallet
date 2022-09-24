@@ -7,5 +7,5 @@ import androidx.compose.runtime.Immutable
 data class IvyShapes(
     val square: CornerBasedShape,
     val rounded: CornerBasedShape,
-    val full: CornerBasedShape,
+    val rFull: CornerBasedShape,
 )

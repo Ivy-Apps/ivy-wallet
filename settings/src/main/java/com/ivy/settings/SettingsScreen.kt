@@ -35,8 +35,8 @@ import com.ivy.base.names
 import com.ivy.data.IvyCurrency
 import com.ivy.data.user.AuthProviderType
 import com.ivy.data.user.User
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled

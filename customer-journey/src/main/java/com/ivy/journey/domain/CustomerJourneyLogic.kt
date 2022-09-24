@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.color.*
 import com.ivy.design.util.ComponentPreview
 import com.ivy.journey.CustomerJourneyCard
 import com.ivy.screens.*

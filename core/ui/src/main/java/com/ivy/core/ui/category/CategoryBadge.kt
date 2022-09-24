@@ -9,9 +9,9 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
 import com.ivy.data.category.Category
 import com.ivy.data.icon.IvyIcon
-import com.ivy.design.l0_system.Black
-import com.ivy.design.l0_system.Purple
-import com.ivy.design.l0_system.toComposeColor
+import com.ivy.design.l0_system.color.Black
+import com.ivy.design.l0_system.color.Purple
+import com.ivy.design.l0_system.color.toComposeColor
 import com.ivy.design.util.ComponentPreview
 
 @Composable
