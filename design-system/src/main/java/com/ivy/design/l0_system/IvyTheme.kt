@@ -55,7 +55,9 @@ fun IvyTheme(
 
     CompositionLocalProvider(
         LocalIvyColors provides colors,
+        LocalIvyColorsInverted provides colorsInverted,
         LocalIvyTypo provides typography,
+        LocalIvyTypoSecondary provides design.typographySecondary,
         LocalIvyShapes provides shapes
     ) {
         val materialColors = remember(colors, colorsInverted) { toMaterial(colors, colorsInverted) }

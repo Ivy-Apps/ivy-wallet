@@ -118,9 +118,9 @@ fun String.C(
 }
 // endregion
 
-// region Numbers typography
+// region Secondary typography
 @Composable
-fun String.NH1(
+fun String.H1Second(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -140,7 +140,7 @@ fun String.NH1(
 }
 
 @Composable
-fun String.NH2(
+fun String.H2Second(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -160,7 +160,7 @@ fun String.NH2(
 }
 
 @Composable
-fun String.NB1(
+fun String.B1Second(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -180,7 +180,7 @@ fun String.NB1(
 }
 
 @Composable
-fun String.NB2(
+fun String.B2Second(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -200,7 +200,7 @@ fun String.NB2(
 }
 
 @Composable
-fun String.NC(
+fun String.CSecond(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -256,11 +256,11 @@ private fun Preview() {
 
             SpacerVer(height = 8.dp)
 
-            "1".NH1()
-            "2".NH2()
-            "3".NB1()
-            "4".NB2()
-            "5".NC()
+            "1".H1Second()
+            "2".H2Second()
+            "3".B1Second()
+            "4".B2Second()
+            "5".CSecond()
         }
     }
 }

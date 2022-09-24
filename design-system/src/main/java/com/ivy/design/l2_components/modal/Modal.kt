@@ -26,14 +26,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.mediumBlur
-import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
 import com.ivy.design.l2_components.button.Btn
 import com.ivy.design.l2_components.button.Icon
-import com.ivy.design.l2_components.button.Text
+import com.ivy.design.l2_components.modal.components.Positive
+import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l2_components.modal.scope.ModalActionsScopeImpl
 import com.ivy.design.l2_components.modal.scope.ModalScope
@@ -120,7 +120,8 @@ fun BoxScope.Modal(
                 modal.hide()
             }
 
-            with(ModalScopeImpl(this)) {
+            val modalScope = remember { ModalScopeImpl(this) }
+            with(modalScope) {
                 Content()
             }
 
@@ -150,7 +151,9 @@ private fun ModalActionsRow(
             modifier = Modifier.testTag("modal_close_button"),
             onClick = onClose
         )
-        with(ModalActionsScopeImpl(this)) {
+        SpacerWeight(weight = 1f)
+        val actionsScope = remember { ModalActionsScopeImpl(this) }
+        with(actionsScope) {
             Actions()
         }
         SpacerHor(width = 24.dp)
@@ -280,7 +283,7 @@ private fun Preview_FullScreen() {
             modal = modal,
             Actions = {
                 SpacerWeight(weight = 1f)
-                Btn.Text(text = "Okay") {
+                Positive(text = "Okay") {
 
                 }
             }
@@ -304,18 +307,13 @@ private fun Preview_Partial() {
         Modal(
             modal = modal,
             Actions = {
-                SpacerWeight(weight = 1f)
-                Btn.Text(text = "Got it") {
+                Positive(text = "Got it") {
 
                 }
             }
         ) {
             SpacerVer(height = 32.dp)
-            IvyText(
-                modifier = Modifier.padding(start = 24.dp),
-                text = "Title",
-                typo = UI.typo.h2
-            )
+            Title(text = "Title")
             SpacerVer(height = 32.dp)
         }
     }
