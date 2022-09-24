@@ -110,8 +110,8 @@ fun BoxScope.Modal(
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
-                .background(UI.colors.pure, UI.shapes.r2Top)
-                .clip(UI.shapes.r2Top)
+                .background(UI.colors.pure, UI.shapes.roundedTop)
+                .clip(UI.shapes.roundedTop)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
                 .padding(paddingBottomAnimated)
                 .zIndex(11f)
@@ -192,7 +192,7 @@ fun CloseButton(
     Btn.Icon(
         modifier = modifier,
         icon = R.drawable.ic_dismiss,
-        iconTint = UI.colors.pureInverse,
+        iconTint = UI.colorsInverted.pure,
         background = solidWithBorder(
             solid = UI.colors.pure,
             borderColor = UI.colors.medium,

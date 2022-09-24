@@ -121,7 +121,7 @@ data class Gradient(
         )
 
         @Composable
-        fun black() = Gradient(UI.colors.neutral, UI.colorsInverse.pure)
+        fun black() = Gradient(UI.colors.neutral, UI.colorsInverted.pure)
     }
 
     fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(startColor, endColor))

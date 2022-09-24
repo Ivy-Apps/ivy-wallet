@@ -28,7 +28,7 @@ import com.ivy.wallet.utils.selectEndTextFieldValue
 fun IvyBasicTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -66,11 +66,11 @@ fun IvyBasicTextField(
             onValueChange = onValueChanged,
             textStyle = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(UI.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colorsInverted.pure),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(

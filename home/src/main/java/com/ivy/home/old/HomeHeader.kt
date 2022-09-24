@@ -126,7 +126,7 @@ private fun HeaderStickyRow(
                 ) else stringResource(R.string.hi),
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
 
@@ -243,7 +243,7 @@ fun CashFlowInfo(
                     cashflow.format(currency),
                     currency
                 ),
-                style = UI.typo.nB2.style(
+                style = UI.typoSecond.b2.style(
                     color = if (cashflow < 0) Gray else Green
                 )
             )
@@ -293,7 +293,7 @@ private fun IncomeExpenses(
         HeaderCard(
             percentVisible = percentExpanded,
             icon = R.drawable.ic_expense,
-            backgroundGradient = Gradient(UI.colors.pureInverse, UI.colors.neutral),
+            backgroundGradient = Gradient(UI.colorsInverted.pure, UI.colors.neutral),
             textColor = UI.colors.pure,
             label = stringResource(R.string.expenses),
             currency = currency,
@@ -329,7 +329,7 @@ private fun RowScope.HeaderCard(
             .thenIf(percentVisible == 1f) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(backgroundGradient.asHorizontalBrush())
             .testTag(testTag)
             .clickable(

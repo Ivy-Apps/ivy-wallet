@@ -726,7 +726,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = UI.colors.pureInverse
+                    borderColor = UI.colorsInverted.pure
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -766,7 +766,7 @@ private fun KeywordsFilter(
             is String -> {
                 Keyword(
                     keyword = item,
-                    borderColor = UI.colors.pureInverse
+                    borderColor = UI.colorsInverted.pure
                 ) {
                     //Remove keyword
                     onSetFilter(
@@ -843,7 +843,7 @@ private fun FilterTitleText(
         text = text,
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = if (active) UI.colors.pureInverse else inactiveColor
+            color = if (active) UI.colorsInverted.pure else inactiveColor
         )
     )
 }

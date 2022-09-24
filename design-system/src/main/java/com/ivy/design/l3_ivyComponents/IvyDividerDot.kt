@@ -17,7 +17,7 @@ fun IvyDividerDot() {
     Spacer(
         modifier = Modifier
             .size(4.dp)
-            .background(UI.colors.mediumInverse, CircleShape)
+            .background(UI.colorsInverted.medium, CircleShape)
     )
 }
 

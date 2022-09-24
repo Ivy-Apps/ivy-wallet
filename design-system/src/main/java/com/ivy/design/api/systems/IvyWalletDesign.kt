@@ -18,8 +18,9 @@ import com.ivy.design.l0_system.color.*
 
 fun ivyWalletDesign(theme: Theme, isSystemInDarkTheme: Boolean): IvyDesign = IvyDesign(
     typography = typography(),
+    typographySecondary = typographySecondary(),
     colors = colors(theme = theme, isSystemInDarkTheme = isSystemInDarkTheme),
-    colorsInverse = colors(
+    colorsInverted = colors(
         theme = when (theme) {
             Theme.Light -> Theme.Dark
             Theme.Dark -> Theme.Light
@@ -30,19 +31,18 @@ fun ivyWalletDesign(theme: Theme, isSystemInDarkTheme: Boolean): IvyDesign = Ivy
     shapes = shapes()
 )
 
+// region Typography
 private const val OPEN_SANS_BASELINE_SHIFT = 0.075f
 private const val RALE_WAY_BASELINE_SHIFT = 0.2f
 
-private fun typography(): IvyTypography {
-    val openSans = FontFamily(
-        Font(R.font.opensans_regular, FontWeight.Normal),
-        Font(R.font.opensans_regular, FontWeight.Medium),
-        Font(R.font.opensans_bold, FontWeight.Black),
-        Font(R.font.opensans_semibold, FontWeight.SemiBold),
-        Font(R.font.opensans_bold, FontWeight.Bold),
-        Font(R.font.opensans_extrabold, FontWeight.ExtraBold),
-    )
+private val h1 = 40.sp
+private val h2 = 32.sp
+private val b1 = 20.sp
+private val b2 = 16.sp
+private val c = 12.sp
 
+
+private fun typography(): IvyTypography {
     val raleWay = FontFamily(
         Font(R.font.raleway_regular, FontWeight.Normal),
         Font(R.font.raleway_medium, FontWeight.Medium),
@@ -52,12 +52,6 @@ private fun typography(): IvyTypography {
         Font(R.font.raleway_bold, FontWeight.Bold),
         Font(R.font.raleway_extrabold, FontWeight.ExtraBold),
     )
-
-    val h1 = 40.sp
-    val h2 = 32.sp
-    val b1 = 20.sp
-    val b2 = 16.sp
-    val c = 12.sp
 
     return IvyTypography(
         h1 = TextStyle(
@@ -90,32 +84,45 @@ private fun typography(): IvyTypography {
             fontSize = c,
             baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
         ),
+    )
+}
 
-        nH1 = TextStyle(
+private fun typographySecondary(): IvyTypography {
+    val openSans = FontFamily(
+        Font(R.font.opensans_regular, FontWeight.Normal),
+        Font(R.font.opensans_regular, FontWeight.Medium),
+        Font(R.font.opensans_bold, FontWeight.Black),
+        Font(R.font.opensans_semibold, FontWeight.SemiBold),
+        Font(R.font.opensans_bold, FontWeight.Bold),
+        Font(R.font.opensans_extrabold, FontWeight.ExtraBold),
+    )
+
+    return IvyTypography(
+        h1 = TextStyle(
             fontFamily = openSans,
             fontWeight = FontWeight.Bold,
             fontSize = h1,
             baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
-        nH2 = TextStyle(
+        h2 = TextStyle(
             fontFamily = openSans,
             fontWeight = FontWeight.Bold,
             fontSize = h2,
             baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
-        nB1 = TextStyle(
+        b1 = TextStyle(
             fontFamily = openSans,
             fontWeight = FontWeight.Bold,
             fontSize = b1,
             baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
-        nB2 = TextStyle(
+        b2 = TextStyle(
             fontFamily = openSans,
             fontWeight = FontWeight.Normal,
             fontSize = b2,
             baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         ),
-        nC = TextStyle(
+        c = TextStyle(
             fontFamily = openSans,
             fontWeight = FontWeight.Bold,
             fontSize = c,
@@ -123,7 +130,9 @@ private fun typography(): IvyTypography {
         )
     )
 }
+// endregion
 
+// region Colors
 private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when (theme) {
     Theme.Light -> IvyColors(
         pure = White,
@@ -199,10 +208,19 @@ private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when
         colors(Theme.Dark, true) else
         colors(Theme.Light, false)
 }
+// endregion
 
+private fun shapes(): IvyShapes {
+    val rSquared = 4.dp
+    val rRounded = 24.dp
 
-private fun shapes(): IvyShapes = IvyShapes(
-    square = RoundedCornerShape(4.dp),
-    rounded = RoundedCornerShape(24.dp),
-    rFull = RoundedCornerShape(percent = 50),
-)
+    return IvyShapes(
+        squared = RoundedCornerShape(rSquared),
+        squaredTop = RoundedCornerShape(topStart = rSquared, topEnd = rSquared),
+        squaredBottom = RoundedCornerShape(bottomStart = rSquared, bottomEnd = rSquared),
+        rounded = RoundedCornerShape(rRounded),
+        roundedTop = RoundedCornerShape(topStart = rRounded, topEnd = rRounded),
+        roundedBottom = RoundedCornerShape(bottomStart = rRounded, bottomEnd = rRounded),
+        fullyRounded = RoundedCornerShape(percent = 50),
+    )
+}

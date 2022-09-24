@@ -63,8 +63,8 @@ fun CustomerJourneyCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .drawColoredShadow(cardData.background.startColor)
-            .background(cardData.background.asHorizontalBrush(), UI.shapes.r3)
-            .clip(UI.shapes.r3)
+            .background(cardData.background.asHorizontalBrush(), UI.shapes.rounded)
+            .clip(UI.shapes.rounded)
             .clickable {
                 onCTA()
             }

@@ -8,9 +8,10 @@ import androidx.compose.ui.text.style.TextAlign
 
 fun TextStyle.colorAs(color: Color) = this.copy(color = color)
 
+
 @Composable
 fun TextStyle.style(
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     fontWeight: FontWeight = FontWeight.Bold,
     textAlign: TextAlign = TextAlign.Start
 ) = this.copy(

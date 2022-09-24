@@ -46,7 +46,7 @@ fun IvyCircleButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .background(
                 brush = if (enabled) {
                     if (horizontalGradient)
@@ -54,7 +54,7 @@ fun IvyCircleButton(
                 } else {
                     SolidColor(UI.colors.neutral)
                 },
-                shape = UI.shapes.rFull
+                shape = UI.shapes.fullyRounded
             )
             .clickable(onClick = onClick, enabled = enabled)
             .padding(all = backgroundPadding),

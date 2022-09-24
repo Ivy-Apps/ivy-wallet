@@ -168,7 +168,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             ),
             text = "Ivy Wallet",
             style = UI.typo.h2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -183,7 +183,7 @@ fun BoxWithConstraintsScope.OnboardingSplashLogin(
             ),
             text = stringResource(R.string.your_personal_money_manager),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -292,7 +292,7 @@ private fun LoginSection(
             LoginButton(
                 icon = R.drawable.ic_local_account,
                 text = stringResource(R.string.offline_account),
-                textColor = UI.colors.pureInverse,
+                textColor = UI.colorsInverted.pure,
                 backgroundGradient = Gradient.solid(UI.colors.medium),
                 hasShadow = false
             ) {
@@ -337,7 +337,7 @@ private fun LoginWithGoogleExplanation() {
             Text(
                 text = stringResource(R.string.data_integrity_protection_warning),
                 style = UI.typo.c.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Medium
                 )
             )
@@ -423,7 +423,7 @@ private fun PrivacyPolicyAndTC() {
             .padding(horizontal = 32.dp),
         text = annotatedString,
         style = UI.typo.c.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         ),
@@ -453,8 +453,8 @@ private fun LoginButton(
             .thenIf(hasShadow) {
                 drawColoredShadow(backgroundGradient.startColor)
             }
-            .clip(UI.shapes.r4)
-            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.squared)
             .clickable {
                 onClick()
             },

@@ -171,7 +171,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(vertical = 8.dp),
             text = item.budget.name,
             style = UI.typo.b1.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -209,7 +209,7 @@ private fun Toolbar(
             Text(
                 text = stringResource(R.string.budgets),
                 style = UI.typo.h2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -220,7 +220,7 @@ private fun Toolbar(
                 Text(
                     text = timeRange.toDisplay(),
                     style = UI.typo.b2.style(
-                        color = UI.colors.pureInverse,
+                        color = UI.colorsInverted.pure,
                         fontWeight = FontWeight.Medium
                     )
                 )
@@ -256,7 +256,7 @@ private fun Toolbar(
                             appBudgetMaxText
                         )
                     else stringResource(R.string.budget_info, categoryBudgetText, appBudgetMaxText),
-                    style = UI.typo.nC.style(
+                    style = UI.typoSecond.c.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -296,7 +296,7 @@ private fun BudgetItem(
             Text(
                 text = displayBudget.budget.name,
                 style = UI.typo.b1.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )

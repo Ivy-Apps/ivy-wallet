@@ -43,7 +43,7 @@ fun BoxWithConstraintsScope.AppLockedScreen(
 
         Text(
             modifier = Modifier
-                .background(UI.colors.medium, UI.shapes.rFull)
+                .background(UI.colors.medium, UI.shapes.fullyRounded)
                 .padding(vertical = 12.dp)
                 .padding(horizontal = 32.dp),
             text = stringResource(R.string.app_locked),

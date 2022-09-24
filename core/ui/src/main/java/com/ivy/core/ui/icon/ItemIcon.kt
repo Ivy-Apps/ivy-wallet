@@ -24,7 +24,7 @@ import com.ivy.design.util.ComponentPreview
 @Composable
 fun IvyIcon.ItemIcon(
     size: IconSize,
-    tint: Color = UI.colors.pureInverse
+    tint: Color = UI.colorsInverted.pure
 ) {
     when (this) {
         is IvyIcon.Sized -> when (size) {

@@ -126,7 +126,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .padding(top = 16.dp)
-                .clip(UI.shapes.r1Top)
+                .clip(UI.shapes.roundedTop)
                 .background(UI.colors.pure),
             state = listState,
         ) {
@@ -179,7 +179,7 @@ private fun BoxWithConstraintsScope.UI(
                         .height(32.dp)
                         .fillMaxWidth()
                         .background(itemColor) //itemColor is displayed below the clip
-                        .background(UI.colors.pure, UI.shapes.r1Top)
+                        .background(UI.colors.pure, UI.shapes.roundedTop)
                 )
             }
 
@@ -396,7 +396,7 @@ private fun LoanInfoCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, UI.shapes.r2),
+            .background(backgroundColor, UI.shapes.rounded),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -447,7 +447,7 @@ private fun LoanInfoCard(
                 .padding(horizontal = 24.dp)
                 .testTag("amount_paid"),
             text = "${amountPaid.format(baseCurrency)} / ${loan.amount.format(baseCurrency)}",
-            style = UI.typo.nB1.style(
+            style = UI.typoSecond.b1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -474,7 +474,7 @@ private fun LoanInfoCard(
                 modifier = Modifier
                     .testTag("percent_paid"),
                 text = "${percentPaid.times(100).format(2)}%",
-                style = UI.typo.nB1.style(
+                style = UI.typoSecond.b1.style(
                     color = contrastColor,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -490,7 +490,7 @@ private fun LoanInfoCard(
                     leftToPay.format(baseCurrency),
                     baseCurrency
                 ),
-                style = UI.typo.nB2.style(
+                style = UI.typoSecond.b2.style(
                     color = Gray,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -539,7 +539,7 @@ private fun LoanInfoCard(
                     modifier = Modifier
                         .testTag("loan_interest_percent_paid"),
                     text = "${loanPercentPaid.times(100).format(2)}%",
-                    style = UI.typo.nB1.style(
+                    style = UI.typoSecond.b1.style(
                         color = contrastColor,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -555,7 +555,7 @@ private fun LoanInfoCard(
                         loanAmountPaid.format(baseCurrency),
                         baseCurrency
                     ),
-                    style = UI.typo.nB2.style(
+                    style = UI.typoSecond.b2.style(
                         color = Gray,
                         fontWeight = FontWeight.ExtraBold
                     )
@@ -634,11 +634,11 @@ private fun LoanRecordItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .clickable {
                 onClick()
             }
-            .background(UI.colors.medium, UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.squared)
             .testTag("loan_record_item")
     ) {
 
@@ -648,14 +648,14 @@ private fun LoanRecordItem(
                     IvyButton(
                         backgroundGradient = Gradient.solid(UI.colors.pure),
                         hasGlow = false,
-                        iconTint = UI.colors.pureInverse,
+                        iconTint = UI.colorsInverted.pure,
                         text = account.name,
                         iconStart = getCustomIconIdS(
                             iconName = account.icon,
                             defaultIcon = R.drawable.ic_custom_account_s
                         ),
                         textStyle = UI.typo.c.style(
-                            color = UI.colors.pureInverse,
+                            color = UI.colorsInverted.pure,
                             fontWeight = FontWeight.ExtraBold
                         ),
                         padding = 8.dp,
@@ -705,7 +705,7 @@ private fun LoanRecordItem(
             text = loanRecord.dateTime.formatNicelyWithTime(
                 noWeekDay = false
             ).uppercase(),
-            style = UI.typo.nC.style(
+            style = UI.typoSecond.c.style(
                 color = Gray,
                 fontWeight = FontWeight.Bold
             )
@@ -717,7 +717,7 @@ private fun LoanRecordItem(
                 text = loanRecord.note!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
         }
@@ -736,7 +736,7 @@ private fun LoanRecordItem(
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = loanRecord.convertedAmount!!.format(baseCurrency) + " $loanBaseCurrency",
-                style = UI.typo.nB2.style(
+                style = UI.typoSecond.b2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
                 )

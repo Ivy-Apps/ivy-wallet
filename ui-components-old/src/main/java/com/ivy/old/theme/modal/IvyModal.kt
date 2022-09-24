@@ -120,7 +120,7 @@ fun BoxScope.IvyModal(
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp)
-                .background(UI.colors.pure, UI.shapes.r2Top)
+                .background(UI.colors.pure, UI.shapes.roundedTop)
                 .consumeClicks()
                 .thenIf(scrollState != null) {
                     verticalScroll(scrollState!!)

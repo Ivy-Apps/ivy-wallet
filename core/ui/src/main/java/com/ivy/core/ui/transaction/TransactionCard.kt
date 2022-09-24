@@ -110,8 +110,8 @@ data class DueActions(
 //    Column(
 //        modifier = modifier
 //            .fillMaxWidth()
-//            .clip(UI.shapes.r4)
-//            .background(UI.colors.medium, UI.shapes.r4)
+//            .clip(UI.shapes.square)
+//            .background(UI.colors.medium, UI.shapes.square)
 //            .clickable(onClick = {
 //                onClick(this@Card)
 //            })
@@ -205,13 +205,13 @@ data class DueActions(
 //    fun Account.IconName() {
 //        icon.ItemIcon(
 //            size = IconSize.S,
-//            tint = UI.colors.pureInverse,
+//            tint = UI.colorsInverted.pure,
 //        )
 //        SpacerHor(width = 4.dp)
 //        IvyText(
 //            text = name,
 //            typo = UI.typo.c.style(
-//                color = UI.colors.pureInverse,
+//                color = UI.colorsInverted.pure,
 //                fontWeight = FontWeight.ExtraBold
 //            )
 //        )
@@ -251,7 +251,7 @@ data class DueActions(
 //                R.string.due_on,
 //                formattedTime,
 //            ).uppercase(),
-//            style = UI.typo.nC.style(
+//            style = UI.typoSecond.c.style(
 //                color = when (detailedType) {
 //                    UpcomingExpense, UpcomingIncome -> Orange
 //                    OverdueExpense, OverdueIncome -> Red
@@ -277,7 +277,7 @@ data class DueActions(
 //            modifier = Modifier.padding(horizontal = 4.dp),
 //            style = UI.typo.b1.style(
 //                fontWeight = FontWeight.ExtraBold,
-//                color = UI.colors.pureInverse
+//                color = UI.colorsInverted.pure
 //            )
 //        )
 //    }
@@ -293,7 +293,7 @@ data class DueActions(
 //        Text(
 //            text = description,
 //            modifier = Modifier.padding(horizontal = 4.dp),
-//            style = UI.typo.nC.style(
+//            style = UI.typoSecond.c.style(
 //                color = UI.colors.gray,
 //                fontWeight = FontWeight.Bold
 //            ),
@@ -325,7 +325,7 @@ data class DueActions(
 //            color = when (detailedType) {
 //                ActualIncome, OverdueIncome, UpcomingIncome -> Green
 //                Transfer -> Purple
-//                ActualExpense -> UI.colors.pureInverse
+//                ActualExpense -> UI.colorsInverted.pure
 //                UpcomingExpense -> Orange
 //                OverdueExpense -> Red
 //            }
@@ -346,7 +346,7 @@ data class DueActions(
 //        Text(
 //            modifier = Modifier.padding(start = 54.dp),
 //            text = "$toAmountFormatted ${type.toValue.currency}",
-//            style = UI.typo.nB2.style(
+//            style = UI.typoSecond.b2.style(
 //                color = Gray,
 //                fontWeight = FontWeight.Normal
 //            )
@@ -392,7 +392,7 @@ data class DueActions(
 //            .padding(vertical = 8.dp),
 //        text = stringResource(R.string.skip),
 //        style = UI.typo.b2.style(
-//            color = UI.colors.pureInverse,
+//            color = UI.colorsInverted.pure,
 //            fontWeight = FontWeight.Bold,
 //            textAlign = TextAlign.Center,
 //        )
@@ -410,7 +410,7 @@ data class DueActions(
 //            .weight(1f)
 //            .clip(UI.shapes.rFull)
 //            .background(
-//                color = if (isIncome) Green else UI.colors.pureInverse,
+//                color = if (isIncome) Green else UI.colorsInverted.pure,
 //                shape = UI.shapes.rFull
 //            )
 //            .clickable(onClick = onClick)

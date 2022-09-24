@@ -25,7 +25,7 @@ fun ModalScope.Title(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = text,
         style = UI.typo.b1.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
     )

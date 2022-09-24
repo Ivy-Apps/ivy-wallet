@@ -107,7 +107,7 @@ private fun RowScope.HeaderCard(
                 color = backgroundColor,
                 alpha = 0.1f
             )
-            .background(backgroundColor, UI.shapes.r2)
+            .background(backgroundColor, UI.shapes.rounded)
             .clickable { onHeaderCardClicked() },
     ) {
         Spacer(Modifier.height(24.dp))
@@ -126,7 +126,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = amount.format(currencyCode),
-            style = UI.typo.nB1.style(
+            style = UI.typoSecond.b1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )
@@ -145,7 +145,7 @@ private fun RowScope.HeaderCard(
         Text(
             modifier = Modifier.padding(horizontal = 24.dp),
             text = transactionCount.toString(),
-            style = UI.typo.nB1.style(
+            style = UI.typoSecond.b1.style(
                 color = contrastColor,
                 fontWeight = FontWeight.ExtraBold
             )

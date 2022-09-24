@@ -65,10 +65,10 @@ fun BoxWithConstraintsScope.CalculatorModal(
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp),
             text = if (isEmpty) stringResource(R.string.calculator_empty_expression) else expression,
-            style = UI.typo.nH2.style(
+            style = UI.typoSecond.h2.style(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = if (isEmpty) Gray else UI.colors.pureInverse
+                color = if (isEmpty) Gray else UI.colorsInverted.pure
             )
         )
 

@@ -32,7 +32,7 @@ fun OnboardingToolbar(
 
             Text(
                 modifier = Modifier
-                    .clip(UI.shapes.rFull)
+                    .clip(UI.shapes.fullyRounded)
                     .clickable {
                         onSkip()
                     }

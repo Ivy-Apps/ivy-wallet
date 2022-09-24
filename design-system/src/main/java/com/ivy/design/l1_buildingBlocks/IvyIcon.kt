@@ -21,7 +21,7 @@ import com.ivy.design.util.thenWhen
 fun IvyIcon(
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     contentDescription: String = "icon"
 ) {
     Icon(
@@ -37,7 +37,7 @@ fun IvyIcon(
 fun IvyIconScaled(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconScale: IconScale,
     padding: Dp = when (iconScale) {
         IconScale.S -> 4.dp

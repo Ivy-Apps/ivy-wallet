@@ -25,7 +25,7 @@ fun Btn.Text(
     modifier: Modifier = Modifier,
     background: Background = solid(
         color = UI.colors.primary,
-        shape = UI.shapes.rFull,
+        shape = UI.shapes.fullyRounded,
         padding = padding(
             horizontal = 24.dp,
             vertical = 12.dp
@@ -56,7 +56,7 @@ private fun Preview_Solid() {
             text = "Okay",
             background = solid(
                 color = UI.colors.primary,
-                shape = UI.shapes.rFull,
+                shape = UI.shapes.fullyRounded,
                 padding = padding(
                     horizontal = 24.dp,
                     vertical = 12.dp
@@ -76,15 +76,15 @@ private fun Preview_Outlined() {
         Btn.Text(
             text = "Continue",
             background = outlined(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 width = 1.dp,
-                shape = UI.shapes.rFull,
+                shape = UI.shapes.fullyRounded,
                 padding = padding(
                     horizontal = 24.dp,
                     vertical = 12.dp
                 )
             ),
-            textStyle = UI.typo.b1.colorAs(UI.colors.pureInverse)
+            textStyle = UI.typo.b1.colorAs(UI.colorsInverted.pure)
         ) {
 
         }

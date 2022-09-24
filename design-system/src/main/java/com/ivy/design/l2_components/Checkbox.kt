@@ -50,7 +50,7 @@ fun CheckboxWithText(
     checked: Boolean,
     text: String,
     textStyle: TextStyle = UI.typo.b2.style(
-        color = UI.colors.pureInverse,
+        color = UI.colorsInverted.pure,
         fontWeight = FontWeight.SemiBold
     ),
     onCheckedChange: (checked: Boolean) -> Unit

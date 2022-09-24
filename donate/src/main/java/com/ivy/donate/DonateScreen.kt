@@ -163,7 +163,7 @@ private fun DonateOptionPicker(
                     DonateOption.DONATE_100 -> 100
                 }
             }",
-            typo = UI.typo.nH1.style(
+            typo = UI.typoSecond.h1.style(
                 fontWeight = FontWeight.Bold,
                 color = White
             )
@@ -199,7 +199,7 @@ private fun OptionPickerButton(
 ) {
     Image(
         modifier = Modifier
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(Black)
             .clickable { onClick() }
             .padding(horizontal = 8.dp, vertical = 4.dp),
@@ -220,7 +220,7 @@ private fun ScreenContent() {
                     .padding(horizontal = 32.dp),
                 text = "It seems like you enjoy free and open-source software. We too!",
                 typo = UI.typo.b1.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -248,12 +248,12 @@ private fun ScreenContent() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .background(UI.colors.medium, UI.shapes.r4)
+                    .background(UI.colors.medium, UI.shapes.squared)
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 text = "If you want to support us feel free to donate whatever amount you're comfortable with - it all helps! (local taxes may apply)".uppercase(),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Bold,
-                    color = UI.colors.red1Inverse
+                    color = UI.colorsInverted.red
                 )
             )
         }
@@ -281,7 +281,7 @@ private fun BoxWithConstraintsScope.DonateButton(
         iconTint = UI.colors.pure,
         iconEdgePadding = 16.dp,
         text = "Donate",
-        backgroundGradient = Gradient.solid(UI.colors.pureInverse),
+        backgroundGradient = Gradient.solid(UI.colorsInverted.pure),
         textStyle = UI.typo.b1.style(
             fontWeight = FontWeight.Bold,
             color = UI.colors.pure

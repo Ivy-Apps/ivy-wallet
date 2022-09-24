@@ -32,8 +32,8 @@ fun PrimaryAttributeColumn(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .clickableNoIndication(onClick = onClick),
     ) {
         Spacer(modifier = Modifier.height(12.dp))
@@ -49,7 +49,7 @@ fun PrimaryAttributeColumn(
             Text(
                 text = title,
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -83,7 +83,7 @@ private fun PreviewPrimaryAttributeColumn() {
                         "Use '--warning-mode all' to show the individual deprecation warnings.\n" +
                         "See https://docs.gradle.org/7.0-rc-1/userguide/command_line_interface.html#sec:command_line_warnings",
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Medium
                 )
             )

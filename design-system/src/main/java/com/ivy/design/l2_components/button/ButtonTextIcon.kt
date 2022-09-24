@@ -38,7 +38,7 @@ fun Btn.TextIcon(
     mode: Mode = Mode.WrapContent,
     background: Background = solid(
         color = UI.colors.primary,
-        shape = UI.shapes.rFull,
+        shape = UI.shapes.fullyRounded,
         padding = padding(
             horizontal = 24.dp,
             vertical = 12.dp

@@ -70,8 +70,8 @@ private fun Suggestion(
 ) {
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.medium, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .background(UI.colors.medium, UI.shapes.fullyRounded)
             .clickable {
                 onClick()
             },
@@ -101,9 +101,9 @@ private fun AddNewButton(
 ) {
     Row(
         modifier = Modifier
-            .drawColoredShadow(color = UI.colors.mediumInverse)
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.mediumInverse, UI.shapes.rFull)
+            .drawColoredShadow(color = UI.colorsInverted.medium)
+            .clip(UI.shapes.fullyRounded)
+            .background(UI.colorsInverted.medium, UI.shapes.fullyRounded)
             .clickable {
                 onClick()
             },

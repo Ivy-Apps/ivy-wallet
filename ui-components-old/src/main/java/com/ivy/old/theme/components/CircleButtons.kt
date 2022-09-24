@@ -41,7 +41,7 @@ fun CircleButton(
     contentDescription: String = "icon",
     backgroundColor: Color = UI.colors.pure,
     borderColor: Color = UI.colors.medium,
-    tint: Color? = UI.colors.pureInverse,
+    tint: Color? = UI.colorsInverted.pure,
     onClick: () -> Unit
 ) {
     Icon(
@@ -63,7 +63,7 @@ fun CircleButtonFilled(
     @DrawableRes icon: Int,
     contentDescription: String = "icon",
     backgroundColor: Color = UI.colors.medium,
-    tint: Color? = UI.colors.pureInverse,
+    tint: Color? = UI.colorsInverted.pure,
     clickAreaPadding: Dp = 8.dp,
     onClick: () -> Unit
 ) {
@@ -86,7 +86,7 @@ fun CircleButtonFilledGradient(
     contentDescription: String = "icon",
     iconPadding: Dp = 8.dp,
     backgroundGradient: Gradient = Gradient.solid(UI.colors.medium),
-    tint: Color? = UI.colors.pureInverse,
+    tint: Color? = UI.colorsInverted.pure,
     onClick: () -> Unit
 ) {
     Icon(

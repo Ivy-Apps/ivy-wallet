@@ -10,11 +10,4 @@ data class IvyTypography(
     val b1: TextStyle,
     val b2: TextStyle,
     val c: TextStyle,
-
-    // TODO: Rename to sH1, sH2...
-    val nH1: TextStyle,
-    val nH2: TextStyle,
-    val nB1: TextStyle,
-    val nB2: TextStyle,
-    val nC: TextStyle,
 )

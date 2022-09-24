@@ -34,9 +34,9 @@ fun BadgeComponent(
 ) {
     Row(
         modifier = Modifier
-            .background(background, UI.shapes.rFull)
+            .background(background, UI.shapes.fullyRounded)
             .thenIf(onClick != null) {
-                clip(UI.shapes.rFull)
+                clip(UI.shapes.fullyRounded)
                     .clickable(onClick = onClick!!)
             }
             .padding(start = 8.dp, end = 18.dp)

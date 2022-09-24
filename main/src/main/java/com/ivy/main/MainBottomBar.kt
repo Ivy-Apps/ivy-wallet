@@ -373,7 +373,7 @@ private fun AddIncomeButton(
             .zIndex(200f),
         text = stringResource(R.string.add_income_uppercase),
         style = UI.typo.c.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -459,7 +459,7 @@ private fun AddExpenseButton(
             .zIndex(200f),
         text = stringResource(R.string.add_expense_uppercase),
         style = UI.typo.c.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -545,7 +545,7 @@ private fun AddTransferButton(
             .zIndex(200f),
         text = stringResource(R.string.account_transfer),
         style = UI.typo.c.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center
         )
@@ -586,7 +586,7 @@ private fun RowScope.Tab(
     Row(
         modifier = Modifier
             .weight(1f)
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .clickable(onClick = onClick)
             .padding(top = 12.dp, bottom = 16.dp)
             .testTag(name.lowercase()),
@@ -595,7 +595,7 @@ private fun RowScope.Tab(
     ) {
         IvyIcon(
             icon = icon,
-            tint = if (selected) selectedColor else UI.colors.pureInverse
+            tint = if (selected) selectedColor else UI.colorsInverted.pure
         )
 
         if (selected) {

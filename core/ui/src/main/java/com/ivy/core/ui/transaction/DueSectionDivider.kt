@@ -24,10 +24,11 @@ import com.ivy.core.ui.value.formatAmount
 import com.ivy.data.Value
 import com.ivy.data.transaction.OverdueSection
 import com.ivy.data.transaction.UpcomingSection
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Green
 import com.ivy.design.l0_system.color.Orange
 import com.ivy.design.l0_system.color.Red
+import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyIcon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -142,7 +143,7 @@ private fun DueIncomeExpense(
             expense.AmountCurrencyLabel(
                 testTag = "upcoming_expense",
                 label = stringResource(R.string.expenses_lowercase),
-                amountColor = UI.colors.pureInverse,
+                amountColor = UI.colorsInverted.pure,
             )
         }
 
@@ -172,7 +173,7 @@ private fun Value.AmountCurrencyLabel(
     Text(
         modifier = Modifier.testTag(testTag),
         text = "$formattedAmount $currency",
-        style = UI.typo.nC.style(
+        style = UI.typoSecond.c.style(
             fontWeight = FontWeight.ExtraBold,
             color = amountColor,
         )
@@ -182,7 +183,7 @@ private fun Value.AmountCurrencyLabel(
         text = label,
         style = UI.typo.c.style(
             fontWeight = FontWeight.Normal,
-            color = UI.colors.pureInverse
+            color = UI.colorsInverted.pure
         )
     )
 }

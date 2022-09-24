@@ -148,9 +148,9 @@ private fun SearchInput(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .background(UI.colors.pure)
-            .border(1.dp, Gray, UI.shapes.rFull),
+            .border(1.dp, Gray, UI.shapes.fullyRounded),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))

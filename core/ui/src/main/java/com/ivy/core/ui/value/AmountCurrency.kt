@@ -20,7 +20,7 @@ import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun Value.AmountCurrencyRow(
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     shortenBigNumbers: Boolean = false
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -30,7 +30,7 @@ fun Value.AmountCurrencyRow(
 
 @Composable
 fun Value.AmountCurrency(
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     shortenBigNumbers: Boolean = false
 ) {
     val amountText = formatAmount(shortenBigNumbers = shortenBigNumbers)
@@ -38,7 +38,7 @@ fun Value.AmountCurrency(
     Text(
         modifier = Modifier.testTag("amount_currency_b1"),
         text = amountText,
-        style = UI.typo.nB1.style(
+        style = UI.typoSecond.b1.style(
             fontWeight = FontWeight.Bold,
             color = color
         )
@@ -46,7 +46,7 @@ fun Value.AmountCurrency(
     Spacer(modifier = Modifier.width(4.dp))
     Text(
         text = currency,
-        style = UI.typo.nB1.style(
+        style = UI.typoSecond.b1.style(
             fontWeight = FontWeight.Normal,
             color = color
         )

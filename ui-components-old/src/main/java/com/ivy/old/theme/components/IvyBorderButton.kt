@@ -33,13 +33,13 @@ fun IvyBorderButton(
     modifier: Modifier = Modifier,
     text: String,
     textStyle: TextStyle = UI.typo.b2.style(
-        color = UI.colors.pureInverse,
+        color = UI.colorsInverted.pure,
         fontWeight = FontWeight.Bold
     ),
-    backgroundGradient: Gradient = Gradient.solid(UI.colors.mediumInverse),
+    backgroundGradient: Gradient = Gradient.solid(UI.colorsInverted.medium),
     @DrawableRes iconStart: Int? = null,
     @DrawableRes iconEnd: Int? = null,
-    iconTint: Color = UI.colors.pureInverse,
+    iconTint: Color = UI.colorsInverted.pure,
     enabled: Boolean = true,
     wrapContentMode: Boolean = true,
 
@@ -48,12 +48,12 @@ fun IvyBorderButton(
 ) {
     Row(
         modifier = modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .border(
                 width = 2.dp,
                 brush = if (enabled)
                     backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.neutral),
-                shape = UI.shapes.rFull
+                shape = UI.shapes.fullyRounded
             )
             .clickable(onClick = onClick, enabled = enabled),
         verticalAlignment = Alignment.CenterVertically

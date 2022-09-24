@@ -38,8 +38,8 @@ fun IvyChecklistTextField(
     readOnly: Boolean = false,
     fontWeight: FontWeight = FontWeight.Medium,
     hintFontWeight: FontWeight = FontWeight.Medium,
-    textColor: Color = UI.colors.pureInverse,
-    hintColor: Color = UI.colors.mediumInverse,
+    textColor: Color = UI.colorsInverted.pure,
+    hintColor: Color = UI.colorsInverted.medium,
     textAlign: TextAlign = TextAlign.Start,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions? = KeyboardOptions.Default,
@@ -97,7 +97,7 @@ fun IvyChecklistTextField(
                 textAlign = textAlign
             ),
             singleLine = false,
-            cursorBrush = SolidColor(UI.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colorsInverted.pure),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions ?: KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,

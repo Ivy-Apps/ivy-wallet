@@ -141,7 +141,7 @@ private fun ChooseMonth(
             .padding(start = 32.dp),
         text = stringResource(R.string.choose_month),
         style = UI.typo.b1.style(
-            color = if (selectedMonthYear != null) UI.colors.pureInverse else Gray,
+            color = if (selectedMonthYear != null) UI.colorsInverted.pure else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -235,10 +235,10 @@ private fun MonthButton(
     val background = if (selected) GradientIvy else Gradient.solid(UI.colors.medium)
     Text(
         modifier = modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .background(
                 brush = background.asHorizontalBrush(),
-                shape = UI.shapes.rFull
+                shape = UI.shapes.fullyRounded
             )
             .clickable {
                 onClick()
@@ -265,7 +265,7 @@ private fun FromToRange(
             .padding(start = 32.dp),
         text = stringResource(R.string.or_custom_range),
         style = UI.typo.b1.style(
-            color = if (timeRange != null) UI.colors.pureInverse else Gray,
+            color = if (timeRange != null) UI.colorsInverted.pure else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -325,8 +325,8 @@ private fun IntervalFromToDate(
         modifier = Modifier
             .padding(horizontal = 24.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.rFull)
-            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             .clickable {
 //                ivyContext.datePicker(
 //                    minDate = if (border == IntervalBorder.TO)
@@ -356,7 +356,7 @@ private fun IntervalFromToDate(
             ),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (dateTime != null) Green else UI.colors.pureInverse
+                color = if (dateTime != null) Green else UI.colorsInverted.pure
             )
         )
 
@@ -369,9 +369,9 @@ private fun IntervalFromToDate(
         Text(
             text = dateTime?.toLocalDate()?.formatDateOnlyWithYear()
                 ?: stringResource(R.string.add_date),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = if (dateTime != null) UI.colors.pureInverse else Gray
+                color = if (dateTime != null) UI.colorsInverted.pure else Gray
             )
         )
 
@@ -421,7 +421,7 @@ private fun LastNPeriod(
             .padding(start = 32.dp),
         text = stringResource(R.string.or_in_the_last),
         style = UI.typo.b1.style(
-            color = if (lastNTimeRange != null) UI.colors.pureInverse else Gray,
+            color = if (lastNTimeRange != null) UI.colorsInverted.pure else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )
@@ -467,7 +467,7 @@ private fun AllTime(
             .padding(start = 32.dp),
         text = stringResource(R.string.or_all_time),
         style = UI.typo.b1.style(
-            color = if (active) UI.colors.pureInverse else Gray,
+            color = if (active) UI.colorsInverted.pure else Gray,
             fontWeight = FontWeight.ExtraBold
         )
     )

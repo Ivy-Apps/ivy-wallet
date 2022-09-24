@@ -150,7 +150,7 @@ fun pureBlur() = UI.colors.pure.copy(alpha = 0.95f)
 fun mediumBlur() = UI.colors.medium.copy(alpha = 0.95f)
 
 @Composable
-fun gradientExpenses() = Gradient(UI.colors.pureInverse, UI.colors.neutral)
+fun gradientExpenses() = Gradient(UI.colorsInverted.pure, UI.colors.neutral)
 
 data class IvyColors(
     val pure: Color,
@@ -191,7 +191,7 @@ data class Gradient(
         fun solid(color: Color) = Gradient(color, color)
 
         @Composable
-        fun black() = Gradient(UI.colors.neutral, UI.colors.pureInverse)
+        fun black() = Gradient(UI.colors.neutral, UI.colorsInverted.pure)
     }
 
     fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(startColor, endColor))

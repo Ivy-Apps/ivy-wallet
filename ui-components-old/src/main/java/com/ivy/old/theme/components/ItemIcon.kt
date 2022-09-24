@@ -25,7 +25,7 @@ import com.ivy.wallet.utils.toLowerCaseLocal
 fun ItemIconL(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
@@ -45,7 +45,7 @@ fun ItemIconL(
 fun ItemIconMDefaultIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     @DrawableRes defaultIcon: Int
 ) {
     ItemIconM(
@@ -68,7 +68,7 @@ fun ItemIconMDefaultIcon(
 fun ItemIconM(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
@@ -88,7 +88,7 @@ fun ItemIconM(
 fun ItemIconSDefaultIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     @DrawableRes defaultIcon: Int
 ) {
     ItemIconS(
@@ -111,7 +111,7 @@ fun ItemIconSDefaultIcon(
 fun ItemIconS(
     modifier: Modifier = Modifier,
     iconName: String?,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {
@@ -132,7 +132,7 @@ private fun ItemIcon(
     modifier: Modifier = Modifier,
     iconName: String?,
     size: String,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconContentScale: ContentScale? = null,
     Default: (@Composable () -> Unit)? = null
 ) {

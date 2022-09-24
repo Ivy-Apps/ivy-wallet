@@ -275,7 +275,7 @@ private fun Icon(
             .padding(all = 8.dp)
             .testTag(icon),
         iconName = icon,
-        tint = if (selected) color.dynamicContrast() else UI.colors.mediumInverse
+        tint = if (selected) color.dynamicContrast() else UI.colorsInverted.medium
     )
 }
 

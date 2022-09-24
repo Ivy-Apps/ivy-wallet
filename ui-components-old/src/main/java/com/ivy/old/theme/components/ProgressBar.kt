@@ -26,7 +26,7 @@ fun ProgressBar(
 ) {
     Spacer(
         modifier = modifier
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(notFilledColor)
             .drawBehind {
                 drawRect(

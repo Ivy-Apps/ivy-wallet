@@ -262,8 +262,8 @@ private fun BoxWithConstraintsScope.UI(
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = loanData.loanCaption!!,
-                style = UI.typo.nB2.style(
-                    color = UI.colors.mediumInverse,
+                style = UI.typoSecond.b2.style(
+                    color = UI.colorsInverted.medium,
                     fontWeight = FontWeight.Normal
                 )
             )

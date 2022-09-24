@@ -58,7 +58,7 @@ fun OnboardingType(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.from_ivy_or_another_app),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )

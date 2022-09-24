@@ -31,16 +31,16 @@ fun ListItem(
     onClick: (selected: Boolean) -> Unit
 ) {
     val textColor =
-        if (selectedColor != null) contrastColor(selectedColor) else UI.colors.pureInverse
+        if (selectedColor != null) contrastColor(selectedColor) else UI.colorsInverted.pure
 
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .thenIf(selectedColor == null) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             }
             .thenIf(selectedColor != null) {
-                background(selectedColor!!, UI.shapes.rFull)
+                background(selectedColor!!, UI.shapes.fullyRounded)
             }
             .clickable(
                 onClick = {

@@ -33,7 +33,7 @@ fun PeriodSelector(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .border(2.dp, UI.colors.medium, UI.shapes.rFull),
+            .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(20.dp))
@@ -58,7 +58,7 @@ fun PeriodSelector(
             modifier = Modifier
                 .height(48.dp)
                 .defaultMinSize(minWidth = 48.dp)
-                .clip(UI.shapes.rFull)
+                .clip(UI.shapes.fullyRounded)
                 .clickable {
                     onShowChoosePeriodModal()
                 },
@@ -67,7 +67,7 @@ fun PeriodSelector(
         ) {
             IvyIcon(
                 icon = R.drawable.ic_calendar,
-                tint = UI.colors.pureInverse
+                tint = UI.colorsInverted.pure
             )
 
             Spacer(Modifier.width(4.dp))
@@ -75,7 +75,7 @@ fun PeriodSelector(
             Text(
                 text = period.toDisplayShort(1),
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Bold
                 )
             )

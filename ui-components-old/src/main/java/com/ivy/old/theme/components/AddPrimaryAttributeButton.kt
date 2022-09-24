@@ -28,8 +28,8 @@ fun AddPrimaryAttributeButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .background(UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .background(UI.colors.medium, UI.shapes.squared)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -43,7 +43,7 @@ fun AddPrimaryAttributeButton(
         Text(
             text = text,
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Bold
             )
         )

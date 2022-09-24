@@ -45,7 +45,7 @@ fun ColumnScope.IvyColorPicker(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = "Choose color",
         style = UI.typo.b2.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
     )

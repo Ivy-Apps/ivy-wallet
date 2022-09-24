@@ -204,9 +204,9 @@ private fun NumberView(
     ) {
         Text(
             text = number.toString(),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = if (selected) White else UI.colors.pureInverse,
+                color = if (selected) White else UI.colorsInverted.pure,
                 textAlign = TextAlign.Center
             )
         )

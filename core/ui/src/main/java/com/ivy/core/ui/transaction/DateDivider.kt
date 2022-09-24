@@ -84,7 +84,7 @@ private fun Cashflow(
     val formattedCashFlow = cashflow.formatAmount(shortenBigNumbers = false)
     Text(
         text = "$formattedCashFlow ${cashflow.currency}",
-        style = UI.typo.nB2.style(
+        style = UI.typoSecond.b2.style(
             fontWeight = FontWeight.Bold,
             color = if (cashflow.amount > 0) Green else Gray
         )

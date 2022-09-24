@@ -10,9 +10,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.GradientRed
@@ -231,7 +231,7 @@ fun ModalTitle(
         modifier = Modifier.padding(horizontal = 32.dp),
         text = text,
         style = UI.typo.b1.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
     )

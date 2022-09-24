@@ -8,7 +8,8 @@ import com.ivy.design.l0_system.color.IvyColors
 @Immutable
 data class IvyDesign(
     val typography: IvyTypography,
+    val typographySecondary: IvyTypography,
     val colors: IvyColors,
-    val colorsInverse: IvyColors,
+    val colorsInverted: IvyColors,
     val shapes: IvyShapes,
 )

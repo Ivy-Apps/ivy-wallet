@@ -23,7 +23,7 @@ fun CircleButton(
     contentDescription: String = "icon",
     backgroundColor: Color = UI.colors.pure,
     borderColor: Color = UI.colors.medium,
-    tint: Color? = UI.colors.pureInverse,
+    tint: Color? = UI.colorsInverted.pure,
     onClick: () -> Unit
 ) {
     Icon(

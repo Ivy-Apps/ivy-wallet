@@ -10,10 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.base.R
-
 import com.ivy.wallet.ui.theme.Red
 import java.util.*
 
@@ -58,7 +57,7 @@ fun BoxWithConstraintsScope.DeleteModal(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = description,
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Medium
             )
         )

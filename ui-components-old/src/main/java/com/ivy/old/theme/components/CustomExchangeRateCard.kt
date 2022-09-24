@@ -34,8 +34,8 @@ fun CustomExchangeRateCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .background(UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .background(UI.colors.medium, UI.shapes.squared)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +55,7 @@ fun CustomExchangeRateCard(
                 text = title,
                 style = UI.typo.b2.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
 
@@ -74,14 +74,14 @@ fun CustomExchangeRateCard(
                 IvyIcon(icon = R.drawable.ic_arrow_right, tint = Orange)
                 Text(
                     text = "$toCurrencyCode \t\t:\t\t",
-                    style = UI.typo.nB2.style(
+                    style = UI.typoSecond.b2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
                     )
                 )
                 Text(
                     text = exchangeRate.format(4),
-                    style = UI.typo.nB2.style(
+                    style = UI.typoSecond.b2.style(
                         fontWeight = FontWeight.ExtraBold,
                         color = Orange
                     )

@@ -21,7 +21,7 @@ import com.ivy.design.util.ComponentPreview
 fun String.H1(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
@@ -41,7 +41,7 @@ fun String.H1(
 fun String.H2(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
@@ -61,7 +61,7 @@ fun String.H2(
 fun String.B1(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
@@ -81,7 +81,7 @@ fun String.B1(
 fun String.B2(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
@@ -101,7 +101,7 @@ fun String.B2(
 fun String.C(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
@@ -123,13 +123,13 @@ fun String.C(
 fun String.NH1(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
-        typo = UI.typo.nH1,
+        typo = UI.typoSecond.h1,
         modifier = modifier,
         fontWeight = fontWeight,
         color = color,
@@ -143,13 +143,13 @@ fun String.NH1(
 fun String.NH2(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
-        typo = UI.typo.nH2,
+        typo = UI.typoSecond.h2,
         modifier = modifier,
         fontWeight = fontWeight,
         color = color,
@@ -163,13 +163,13 @@ fun String.NH2(
 fun String.NB1(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
-        typo = UI.typo.nB1,
+        typo = UI.typoSecond.b1,
         modifier = modifier,
         fontWeight = fontWeight,
         color = color,
@@ -183,13 +183,13 @@ fun String.NB1(
 fun String.NB2(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
-        typo = UI.typo.nB2,
+        typo = UI.typoSecond.b2,
         modifier = modifier,
         fontWeight = fontWeight,
         color = color,
@@ -203,13 +203,13 @@ fun String.NB2(
 fun String.NC(
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
-        typo = UI.typo.nC,
+        typo = UI.typoSecond.c,
         modifier = modifier,
         fontWeight = fontWeight,
         color = color,
@@ -225,7 +225,7 @@ fun String.Text(
     typo: TextStyle,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
-    color: Color = UI.colors.pureInverse,
+    color: Color = UI.colorsInverted.pure,
     textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int = Int.MAX_VALUE,

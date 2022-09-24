@@ -205,8 +205,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             Text(
                 text = "${currentBalance.format(2)} $currency",
-                style = UI.typo.nC.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.c.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Normal
                 )
             )
@@ -216,8 +216,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
                 text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
-                style = UI.typo.nC.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.c.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )

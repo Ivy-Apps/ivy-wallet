@@ -68,7 +68,7 @@ fun IvyCheckboxWithText(
         Text(
             text = text,
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.SemiBold
             )
         )
