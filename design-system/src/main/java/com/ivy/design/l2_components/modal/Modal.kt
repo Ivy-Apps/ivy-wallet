@@ -305,6 +305,7 @@ private fun Preview_FullScreen() {
 private fun Preview_Partial() {
     IvyPreview {
         val modal = remember { IvyModal() }
+        val modal2 = remember { IvyModal() }
         if (isInPreview()) {
             modal.show()
         }
@@ -322,7 +323,9 @@ private fun Preview_Partial() {
                     feeling = ButtonFeeling.Neutral,
                     text = null,
                     icon = R.drawable.ic_round_calculate_24
-                ) {}
+                ) {
+                    modal2.show()
+                }
                 SpacerHor(width = 12.dp)
                 Positive(text = "Got it") {
                     modal.hide()
@@ -332,6 +335,20 @@ private fun Preview_Partial() {
             Title(text = "Title")
             SpacerVer(height = 24.dp)
             Body(text = "This is a test modal!")
+            SpacerVer(height = 48.dp)
+        }
+
+        Modal(
+            modal = modal2,
+            Actions = {
+                Positive(text = "Calculate", icon = R.drawable.ic_round_calculate_24) {
+
+                }
+            }
+        ) {
+            Title(text = "Calculate")
+            SpacerVer(height = 24.dp)
+            Body(text = "Do you calculations here...")
             SpacerVer(height = 48.dp)
         }
     }
