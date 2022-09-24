@@ -43,23 +43,26 @@ fun IvyButton(
         ButtonFeeling.Neutral -> UI.colors.medium
     }
 
-    val padding = padding(horizontal = 24.dp, vertical = 12.dp)
+    val iconOnly = icon != null && text == null
+    val padding = if (iconOnly)
+        padding(all = 12.dp) else padding(horizontal = 24.dp, vertical = 12.dp)
+    val shape = if (iconOnly) UI.shapes.circle else UI.shapes.fullyRounded
 
     val background = when (visibility) {
         ButtonVisibility.Focused, ButtonVisibility.High -> solid(
-            shape = UI.shapes.fullyRounded,
+            shape = shape,
             color = bgColor,
             padding = padding,
         )
         ButtonVisibility.Medium -> solidWithBorder(
-            shape = UI.shapes.fullyRounded,
+            shape = shape,
             solid = UI.colors.pure,
             borderWidth = 2.dp,
             borderColor = bgColor,
             padding = padding,
         )
         ButtonVisibility.Low -> solid(
-            shape = UI.shapes.fullyRounded,
+            shape = shape,
             color = UI.colors.transparent,
             padding = padding,
         )
