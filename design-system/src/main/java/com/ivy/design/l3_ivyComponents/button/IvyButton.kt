@@ -54,7 +54,7 @@ fun IvyButton(
         ButtonVisibility.Medium -> solidWithBorder(
             shape = UI.shapes.fullyRounded,
             solid = UI.colors.pure,
-            borderWidth = 1.dp,
+            borderWidth = 2.dp,
             borderColor = bgColor,
             padding = padding,
         )
