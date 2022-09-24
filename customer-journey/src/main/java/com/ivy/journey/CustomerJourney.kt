@@ -62,7 +62,7 @@ fun CustomerJourneyCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .drawColoredShadow(cardData.background.startColor)
+            .drawColoredShadow(cardData.background.start)
             .background(cardData.background.asHorizontalBrush(), UI.shapes.rounded)
             .clip(UI.shapes.rounded)
             .clickable {
@@ -81,7 +81,7 @@ fun CustomerJourneyCard(
                 text = cardData.title,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = contrastColor(cardData.background.startColor)
+                    color = contrastColor(cardData.background.start)
                 )
             )
 
@@ -93,7 +93,7 @@ fun CustomerJourneyCard(
                         }
                         .padding(8.dp), //enlarge click area
                     icon = R.drawable.ic_dismiss,
-                    tint = cardData.background.startColor.dynamicContrast(),
+                    tint = cardData.background.start.dynamicContrast(),
                     contentDescription = "prompt_dismiss",
                 )
 
@@ -110,7 +110,7 @@ fun CustomerJourneyCard(
             text = cardData.description,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Medium,
-                color = contrastColor(cardData.background.startColor)
+                color = contrastColor(cardData.background.start)
             )
         )
 
@@ -124,13 +124,13 @@ fun CustomerJourneyCard(
             text = cardData.cta,
             shadowAlpha = 0f,
             iconStart = cardData.ctaIcon,
-            iconTint = cardData.background.startColor,
+            iconTint = cardData.background.start,
             textStyle = UI.typo.b2.style(
-                color = cardData.background.startColor,
+                color = cardData.background.start,
                 fontWeight = FontWeight.Bold
             ),
             padding = 8.dp,
-            backgroundGradient = Gradient.solid(contrastColor(cardData.background.startColor))
+            backgroundGradient = Gradient.solid(contrastColor(cardData.background.start))
         ) {
             onCTA()
         }

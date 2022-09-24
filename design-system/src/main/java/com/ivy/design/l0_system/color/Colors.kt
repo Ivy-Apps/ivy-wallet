@@ -104,29 +104,29 @@ val SunsetNight = Gradient(Red, Orange)
 
 @Immutable
 data class Gradient(
-    val startColor: Color,
-    val endColor: Color
+    val start: Color,
+    val end: Color
 ) {
     companion object {
         fun from(startColor: Int, endColor: Int? = null) = Gradient(
-            startColor = startColor.toComposeColor(),
-            endColor = (endColor ?: startColor).toComposeColor()
+            start = startColor.toComposeColor(),
+            end = (endColor ?: startColor).toComposeColor()
         )
 
         fun solid(color: Color) = Gradient(color, color)
 
         fun neutral(lightTheme: Boolean) = Gradient(
-            startColor = Gray,
-            endColor = if (lightTheme) Black else White
+            start = Gray,
+            end = if (lightTheme) Black else White
         )
 
         @Composable
         fun black() = Gradient(UI.colors.neutral, UI.colorsInverted.pure)
     }
 
-    fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(startColor, endColor))
+    fun asHorizontalBrush() = Brush.horizontalGradient(colors = listOf(start, end))
 
-    fun asVerticalBrush() = Brush.verticalGradient(colors = listOf(startColor, endColor))
+    fun asVerticalBrush() = Brush.verticalGradient(colors = listOf(start, end))
 }
 // endregion
 

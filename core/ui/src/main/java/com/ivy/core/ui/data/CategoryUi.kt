@@ -17,7 +17,7 @@ data class CategoryUi(
 )
 
 fun dummyCategoryUi(
-    name: String,
+    name: String = "Category",
     @ColorInt
     color: Color = Purple,
     icon: IvyIcon = dummyIconSized(R.drawable.ic_custom_category_s)

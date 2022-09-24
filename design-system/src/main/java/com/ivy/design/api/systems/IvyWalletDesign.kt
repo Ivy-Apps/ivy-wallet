@@ -211,7 +211,7 @@ private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when
 // endregion
 
 private fun shapes(): IvyShapes {
-    val rSquared = 4.dp
+    val rSquared = 8.dp
     val rRounded = 24.dp
 
     return IvyShapes(

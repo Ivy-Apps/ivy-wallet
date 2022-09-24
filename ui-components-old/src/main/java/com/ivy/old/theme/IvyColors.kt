@@ -181,7 +181,7 @@ data class Gradient(
 ) {
     companion object {
         fun from(gradient: com.ivy.design.l0_system.color.Gradient) =
-            Gradient(gradient.startColor, gradient.endColor)
+            Gradient(gradient.start, gradient.end)
 
         fun from(startColor: Int, endColor: Int?) = Gradient(
             startColor = startColor.toComposeColor(),
