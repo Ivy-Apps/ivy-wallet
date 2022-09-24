@@ -316,6 +316,14 @@ private fun Preview_Partial() {
         Modal(
             modal = modal,
             Actions = {
+                IvyButton(
+                    size = ButtonSize.Small,
+                    visibility = ButtonVisibility.Medium,
+                    feeling = ButtonFeeling.Neutral,
+                    text = null,
+                    icon = R.drawable.ic_round_calculate_24
+                ) {}
+                SpacerHor(width = 12.dp)
                 Positive(text = "Got it") {
                     modal.hide()
                 }
