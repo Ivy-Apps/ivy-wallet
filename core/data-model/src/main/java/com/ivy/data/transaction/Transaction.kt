@@ -25,6 +25,6 @@ data class Transaction(
     val sync: SyncState,
 
     val tags: List<Tag>,
-    val metadata: TrnMetadata,
     val attachments: List<Attachment>,
+    val metadata: TrnMetadata,
 )

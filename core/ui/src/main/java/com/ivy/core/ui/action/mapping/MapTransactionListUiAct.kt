@@ -4,10 +4,12 @@ import android.content.Context
 import com.ivy.common.dateNowLocal
 import com.ivy.common.formatLocal
 import com.ivy.common.timeNowLocal
+import com.ivy.core.domain.pure.format.FormattedValue
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.*
 import com.ivy.core.ui.time.formatNicely
+import com.ivy.data.Value
 import com.ivy.data.transaction.*
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
@@ -22,11 +24,11 @@ class MapTransactionListUiAct @Inject constructor(
     override suspend fun transform(domain: TransactionsList): TransactionsListUi =
         TransactionsListUi(
             upcoming = mapDueSection(
-                name = appContext.getString(R.string.upcoming),
+                dueType = DueSectionUiType.Upcoming,
                 domain = domain.upcoming
             ),
             overdue = mapDueSection(
-                name = appContext.getString(R.string.overdue),
+                dueType = DueSectionUiType.Overdue,
                 domain = domain.overdue
             ),
             history = domain.history.map { mapTrnListItem(it) }
@@ -34,15 +36,20 @@ class MapTransactionListUiAct @Inject constructor(
 
 
     private suspend fun mapDueSection(
-        name: String,
+        dueType: DueSectionUiType,
         domain: DueSection?,
-    ): DueSectionUi? = domain?.let {
-        DueSectionUi(
-            name = name,
-            income = format(value = domain.income, shortenFiat = false),
-            expense = format(value = domain.expense, shortenFiat = false),
-            trns = domain.trns.map { mapTransaction(it) }
-        )
+    ): DueSectionUi? {
+        fun formatNonZero(value: Value): FormattedValue? =
+            if (value.amount > 0.0) format(value, shortenFiat = false) else null
+
+        return domain?.let {
+            DueSectionUi(
+                dueType = dueType,
+                income = formatNonZero(value = domain.income),
+                expense = formatNonZero(value = domain.expense),
+                trns = domain.trns.map { mapTransaction(it) }
+            )
+        }
     }
 
     private suspend fun mapTrnListItem(domain: TrnListItem): TrnListItemUi = when (domain) {
