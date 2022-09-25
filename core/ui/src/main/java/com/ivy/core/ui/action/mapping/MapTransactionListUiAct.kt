@@ -80,6 +80,7 @@ class MapTransactionListUiAct @Inject constructor(
                 else -> null
             } ?: today.formatLocal("EEEE"),
             cashflow = format(value = domain.cashflow, shortenFiat = true),
+            positiveCashflow = domain.cashflow.amount > 0
         )
     }
 

@@ -48,7 +48,6 @@ fun Transfer.Card(
     }
 }
 
-
 @Composable
 private fun TransferHeader(
     account: AccountUi,

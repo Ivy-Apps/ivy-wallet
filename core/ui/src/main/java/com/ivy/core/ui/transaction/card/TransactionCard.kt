@@ -90,6 +90,7 @@ internal fun Description(
 }
 //endregion
 
+// region Amount Row
 @Composable
 internal fun TransactionCardAmountRow(
     modifier: Modifier = Modifier,
@@ -103,6 +104,7 @@ internal fun TransactionCardAmountRow(
         content = content
     )
 }
+// endregion
 
 // region Due Payment CTAs
 @Composable

@@ -22,6 +22,7 @@ sealed interface TrnListItemUi {
         val date: String,
         val day: String,
         val cashflow: FormattedValue,
+        val positiveCashflow: Boolean,
     ) : TrnListItemUi
 }
 
