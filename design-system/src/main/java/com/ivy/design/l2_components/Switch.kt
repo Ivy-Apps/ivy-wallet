@@ -26,7 +26,7 @@ fun Switch(
     enabled: Boolean,
     modifier: Modifier = Modifier,
     enabledColor: Color = UI.colors.green,
-    disabledColor: Color = UI.colors.gray,
+    disabledColor: Color = UI.colors.neutral,
     animationColor: AnimationSpec<Color> = springBounce(),
     animationMove: AnimationSpec<Float> = springBounce(),
     onEnabledChange: (checked: Boolean) -> Unit,
@@ -39,8 +39,8 @@ fun Switch(
     Row(
         modifier = modifier
             .width(40.dp)
-            .clip(UI.shapes.rFull)
-            .border(2.dp, color, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .border(2.dp, color, UI.shapes.fullyRounded)
             .clickable {
                 onEnabledChange(!enabled)
             }

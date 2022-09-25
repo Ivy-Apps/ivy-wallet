@@ -117,7 +117,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .statusBarsPadding()
             .padding(top = 24.dp)
 //            .drawColoredShadow(
-//                color = UI.colors.mediumInverse,
+//                color = UI.colorsInverted.medium,
 //                alpha = if (UI.colors.isLight) 0.3f else 0.2f,
 //                borderRadius = 24.dp,
 //                shadowRadius = 24.dp
@@ -125,9 +125,9 @@ fun BoxWithConstraintsScope.EditBottomSheet(
             .border(
                 width = 2.dp,
                 color = UI.colors.medium,
-                shape = UI.shapes.r2Top
+                shape = UI.shapes.roundedTop
             )
-            .background(UI.colors.pure, UI.shapes.r2Top)
+            .background(UI.colors.pure, UI.shapes.roundedTop)
             .verticalSwipeListener(
                 sensitivity = Constants.SWIPE_UP_EXPANDED_THRESHOLD,
                 onSwipeUp = {
@@ -232,7 +232,7 @@ fun BoxWithConstraintsScope.EditBottomSheet(
                 modifier = Modifier.padding(start = 32.dp),
                 text = stringResource(R.string.account),
                 style = UI.typo.b1.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -365,7 +365,7 @@ private fun TransferRowMini(
 
         IvyIcon(
             icon = R.drawable.ic_arrow_right,
-            tint = UI.colors.pureInverse
+            tint = UI.colorsInverted.pure
         )
 
         val toColor = toAccount?.color?.toComposeColor() ?: Ivy
@@ -427,7 +427,7 @@ private fun SheetHeader(
                 modifier = Modifier.padding(start = 32.dp),
                 text = label,
                 style = UI.typo.b1.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -449,7 +449,7 @@ private fun SheetHeader(
                     modifier = Modifier.padding(start = 32.dp),
                     text = stringResource(R.string.to),
                     style = UI.typo.b1.style(
-                        color = UI.colors.pureInverse,
+                        color = UI.colorsInverted.pure,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -534,16 +534,16 @@ private fun Account(
 ) {
     val accountColor = account.color.toComposeColor()
     val textColor =
-        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
+        if (selected) findContrastTextColor(accountColor) else UI.colorsInverted.pure
 
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             }
             .thenIf(selected) {
-                background(accountColor, UI.shapes.rFull)
+                background(accountColor, UI.shapes.fullyRounded)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -580,8 +580,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -589,7 +589,7 @@ private fun AddAccount(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = UI.colors.pureInverse
+            tint = UI.colorsInverted.pure
         )
 
         Spacer(Modifier.width(4.dp))
@@ -598,7 +598,7 @@ private fun AddAccount(
             modifier = Modifier.padding(vertical = 10.dp),
             text = stringResource(R.string.add_account),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -665,8 +665,8 @@ private fun Amount(
             if (showConvertedAmountText != null) {
                 Text(
                     text = showConvertedAmountText,
-                    style = UI.typo.nB2.style(
-                        color = UI.colors.pureInverse,
+                    style = UI.typoSecond.b2.style(
+                        color = UI.colorsInverted.pure,
                         fontWeight = FontWeight.SemiBold
                     )
                 )
@@ -717,8 +717,8 @@ private fun LabelAccountMini(
     ) {
         Text(
             text = label,
-            style = UI.typo.nC.style(
-                color = UI.colors.mediumInverse,
+            style = UI.typoSecond.c.style(
+                color = UI.colorsInverted.medium,
                 fontWeight = FontWeight.Medium
             )
         )
@@ -727,8 +727,8 @@ private fun LabelAccountMini(
 
         Text(
             text = account?.name?.toUpperCase(Locale.getDefault()) ?: "",
-            style = UI.typo.nB2.style(
-                color = UI.colors.pureInverse,
+            style = UI.typoSecond.b2.style(
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )

@@ -175,18 +175,18 @@ private fun CategoryButton(
             .thenIf(selected) {
                 drawColoredShadow(categoryColor)
             }
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
             )
             .border(
                 width = 2.dp,
-                color = if (selected) UI.colors.pureInverse else UI.colors.medium,
-                shape = UI.shapes.rFull
+                color = if (selected) UI.colorsInverted.pure else UI.colors.medium,
+                shape = UI.shapes.fullyRounded
             )
             .thenIf(selected) {
-                background(categoryColor, UI.shapes.rFull)
+                background(categoryColor, UI.shapes.fullyRounded)
             }
             .testTag("choose_category_button"),
         verticalAlignment = Alignment.CenterVertically
@@ -211,7 +211,7 @@ private fun CategoryButton(
             text = category.name,
             style = UI.typo.b2.style(
                 color = if (selected)
-                    findContrastTextColor(categoryColor) else UI.colors.pureInverse,
+                    findContrastTextColor(categoryColor) else UI.colorsInverted.pure,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -242,13 +242,13 @@ fun AddNewButton(
     IvyBorderButton(
         modifier = modifier,
         text = stringResource(R.string.add_new),
-        backgroundGradient = Gradient.solid(UI.colors.mediumInverse),
+        backgroundGradient = Gradient.solid(UI.colorsInverted.medium),
         iconStart = R.drawable.ic_plus,
         textStyle = UI.typo.b2.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.Bold
         ),
-        iconTint = UI.colors.pureInverse,
+        iconTint = UI.colorsInverted.pure,
         padding = 10.dp,
         onClick = onClick
     )

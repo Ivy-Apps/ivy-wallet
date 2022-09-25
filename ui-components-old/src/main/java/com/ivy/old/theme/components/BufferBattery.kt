@@ -43,7 +43,7 @@ fun BufferBattery(
 
     val textColor = when {
         bufferExceededPercent <= 0.25 -> {
-            UI.colors.pureInverse
+            UI.colorsInverted.pure
         }
         bufferExceededPercent <= 0.50 -> {
             White
@@ -57,7 +57,7 @@ fun BufferBattery(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(backgroundNotFilled)
             .drawBehind {
                 drawRect(

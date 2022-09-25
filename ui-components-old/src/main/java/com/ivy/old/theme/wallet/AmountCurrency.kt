@@ -23,14 +23,14 @@ fun AmountCurrencyB2Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = UI.colors.pureInverse
+    textColor: Color = UI.colorsInverted.pure
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = amount.format(currency),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = amountFontWeight,
                 color = textColor
             )
@@ -38,7 +38,7 @@ fun AmountCurrencyB2Row(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = currency,
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Normal,
                 color = textColor
             )
@@ -51,7 +51,7 @@ fun AmountCurrencyB1Row(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = UI.colors.pureInverse
+    textColor: Color = UI.colorsInverted.pure
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
@@ -71,7 +71,7 @@ fun AmountCurrencyB1(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.Bold,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     shortenBigNumbers: Boolean = false
 ) {
     val shortAmount = shortenBigNumbers && shouldShortAmount(amount)
@@ -79,7 +79,7 @@ fun AmountCurrencyB1(
     Text(
         modifier = Modifier.testTag("amount_currency_b1"),
         text = if (shortAmount) shortenAmount(amount) else amount.format(currency),
-        style = UI.typo.nB1.style(
+        style = UI.typoSecond.b1.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -87,7 +87,7 @@ fun AmountCurrencyB1(
     Spacer(modifier = Modifier.width(4.dp))
     Text(
         text = currency,
-        style = UI.typo.nB1.style(
+        style = UI.typoSecond.b1.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -98,11 +98,11 @@ fun AmountCurrencyB1(
 fun AmountCurrencyH1(
     amount: Double,
     currency: String,
-    textColor: Color = UI.colors.pureInverse
+    textColor: Color = UI.colorsInverted.pure
 ) {
     Text(
         text = amount.format(currency),
-        style = UI.typo.nH1.style(
+        style = UI.typoSecond.h1.style(
             fontWeight = FontWeight.Bold,
             color = textColor
         )
@@ -110,7 +110,7 @@ fun AmountCurrencyH1(
     Spacer(modifier = Modifier.width(4.dp))
     Text(
         text = currency,
-        style = UI.typo.nH2.style(
+        style = UI.typoSecond.h2.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )
@@ -121,14 +121,14 @@ fun AmountCurrencyH1(
 fun AmountCurrencyH2Row(
     amount: Double,
     currency: String,
-    textColor: Color = UI.colors.pureInverse
+    textColor: Color = UI.colorsInverted.pure
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = amount.format(currency),
-            style = UI.typo.nH2.style(
+            style = UI.typoSecond.h2.style(
                 fontWeight = FontWeight.Bold,
                 color = textColor
             )
@@ -149,11 +149,11 @@ fun AmountCurrencyCaption(
     amount: Double,
     currency: String,
     amountFontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = UI.colors.pureInverse
+    textColor: Color = UI.colorsInverted.pure
 ) {
     Text(
         text = amount.format(currency),
-        style = UI.typo.nC.style(
+        style = UI.typoSecond.c.style(
             fontWeight = amountFontWeight,
             color = textColor
         )
@@ -161,7 +161,7 @@ fun AmountCurrencyCaption(
     Spacer(modifier = Modifier.width(4.dp))
     Text(
         text = currency,
-        style = UI.typo.nC.style(
+        style = UI.typoSecond.c.style(
             fontWeight = FontWeight.Normal,
             color = textColor
         )

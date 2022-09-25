@@ -35,8 +35,8 @@ import com.ivy.base.names
 import com.ivy.data.IvyCurrency
 import com.ivy.data.user.AuthProviderType
 import com.ivy.data.user.User
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
@@ -191,8 +191,8 @@ private fun BoxWithConstraintsScope.UI(
                         nav.navigateTo(Test)
                     },
                     text = "${screen.versionName} (${screen.versionCode})",
-                    style = UI.typo.nC.style(
-                        color = UI.colors.gray,
+                    style = UI.typoSecond.c.style(
+                        color = UI.colors.neutral,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -548,7 +548,7 @@ private fun StartDateOfMonth(
 
         IvyIconScaled(
             icon = R.drawable.ic_custom_calendar_m,
-            tint = UI.colors.pureInverse,
+            tint = UI.colorsInverted.pure,
             iconScale = IconScale.M,
             padding = 0.dp
         )
@@ -559,7 +559,7 @@ private fun StartDateOfMonth(
             modifier = Modifier.padding(vertical = 20.dp),
             text = stringResource(R.string.start_date_of_month),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -568,9 +568,9 @@ private fun StartDateOfMonth(
 
         Text(
             text = startDateOfMonth.toString(),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -672,7 +672,7 @@ private fun AppSwitch(
 
         IvyIconScaled(
             icon = icon,
-            tint = UI.colors.pureInverse,
+            tint = UI.colorsInverted.pure,
             iconScale = IconScale.M,
             padding = 0.dp
         )
@@ -687,7 +687,7 @@ private fun AppSwitch(
             Text(
                 text = text,
                 style = UI.typo.b2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -695,7 +695,7 @@ private fun AppSwitch(
                 Text(
                     modifier = Modifier.padding(end = 8.dp),
                     text = description,
-                    style = UI.typo.nB2.style(
+                    style = UI.typoSecond.b2.style(
                         color = Gray,
                         fontWeight = FontWeight.Normal
                     ).copy(fontSize = 14.sp)
@@ -729,8 +729,8 @@ private fun AccountCard(
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r2)
-            .background(UI.colors.medium, UI.shapes.r2)
+            .clip(UI.shapes.rounded)
+            .background(UI.colors.medium, UI.shapes.rounded)
             .clickable {
                 onCardClick()
             }
@@ -749,7 +749,7 @@ private fun AccountCard(
                 text = stringResource(R.string.account_uppercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Black,
-                    color = UI.colors.gray
+                    color = UI.colors.neutral
                 )
             )
 
@@ -822,7 +822,7 @@ private fun AccountCardUser(
             text = localName ?: user.names(),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -848,7 +848,7 @@ private fun AccountCardUser(
             text = user.email,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -996,8 +996,8 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(UI.shapes.rFull)
-                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                .clip(UI.shapes.fullyRounded)
+                .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
                 .clickable {
                     uriHandler.openUri(Constants.URL_TC)
                 }
@@ -1005,7 +1005,7 @@ private fun TCAndPrivacyPolicy() {
             text = stringResource(R.string.terms_conditions),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 textAlign = TextAlign.Center
             )
         )
@@ -1015,8 +1015,8 @@ private fun TCAndPrivacyPolicy() {
         Text(
             modifier = Modifier
                 .weight(1f)
-                .clip(UI.shapes.rFull)
-                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                .clip(UI.shapes.fullyRounded)
+                .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
                 .clickable {
                     uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
                 }
@@ -1024,7 +1024,7 @@ private fun TCAndPrivacyPolicy() {
             text = stringResource(R.string.privacy_policy),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 textAlign = TextAlign.Center
             )
         )
@@ -1084,8 +1084,8 @@ private fun SettingsButtonRow(
                 drawColoredShadow(color = backgroundGradient.startColor)
             }
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.squared)
             .thenIf(onClick != null) {
                 clickable {
                     onClick?.invoke()
@@ -1105,8 +1105,8 @@ private fun AccountCardButton(
 ) {
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.pure, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .background(UI.colors.pure, UI.shapes.fullyRounded)
             .clickable {
                 onClick()
             },
@@ -1127,7 +1127,7 @@ private fun AccountCardButton(
             text = text,
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -1144,8 +1144,8 @@ private fun CurrencyButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .clickable {
                 onClick()
             },
@@ -1165,7 +1165,7 @@ private fun CurrencyButton(
             modifier = Modifier.padding(vertical = 20.dp),
             text = stringResource(R.string.set_currency),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -1175,7 +1175,7 @@ private fun CurrencyButton(
         Text(
             text = currency,
             style = UI.typo.b1.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -1248,7 +1248,7 @@ private fun SettingsDefaultButton(
         icon = icon,
         text = text,
         backgroundGradient = Gradient.solid(UI.colors.medium),
-        textColor = UI.colors.pureInverse,
+        textColor = UI.colorsInverted.pure,
         iconPadding = iconPadding
     ) {
         onClick()

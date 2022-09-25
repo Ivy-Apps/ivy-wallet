@@ -21,7 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.addTextChangedListener
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.Purple1Dark
+import com.ivy.design.l0_system.color.Purple1Light
+import com.ivy.design.l0_system.color.Transparent
+import com.ivy.design.l0_system.style
 import com.ivy.design.util.*
 import kotlin.math.roundToInt
 
@@ -38,7 +42,7 @@ fun InputField(
     initialText: String = "",
     hint: String = "",
     textStyle: TextStyle = UI.typo.b1.style(
-        color = UI.colors.pureInverse,
+        color = UI.colorsInverted.pure,
         textAlign = TextAlign.Start
     ),
     hintStyle: TextStyle = UI.typo.b1.style(
@@ -48,7 +52,7 @@ fun InputField(
     inputType: IvyInputType = IvyInputType.SHORT_TEXT,
     imeAction: IvyImeAction = IvyImeAction.DONE,
     onImeActionListener: ((EditText) -> Unit)? = null,
-    cursorColor: Color = UI.colors.pureInverse,
+    cursorColor: Color = UI.colorsInverted.pure,
     highlightColor: Color = if (UI.colors.isLight) Purple1Light else Purple1Dark,
     focus: InputFieldFocus? = null,
     onTextChanged: (String) -> Unit

@@ -30,7 +30,7 @@ fun ColumnScope.IvyTitleTextField(
     modifier: Modifier = Modifier,
     dividerModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -53,7 +53,7 @@ fun ColumnScope.IvyTitleTextField(
                 modifier = Modifier,
                 text = hint!!,
                 style = UI.typo.h2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Start
                 ),
@@ -72,7 +72,7 @@ fun ColumnScope.IvyTitleTextField(
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(UI.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colorsInverted.pure),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions ?: KeyboardActions(
@@ -89,7 +89,7 @@ fun ColumnScope.IvyTitleTextField(
         modifier = dividerModifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(UI.colors.medium, UI.shapes.rFull),
+            .background(UI.colors.medium, UI.shapes.fullyRounded),
     )
 }
 

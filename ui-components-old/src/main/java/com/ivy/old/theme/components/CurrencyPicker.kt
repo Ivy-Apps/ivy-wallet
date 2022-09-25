@@ -127,8 +127,8 @@ private fun SearchInput(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.rFull)
-            .border(2.dp, UI.colors.mediumInverse, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .border(2.dp, UI.colorsInverted.medium, UI.shapes.fullyRounded)
             .clickable {
                 inputFocus.requestFocus()
             },
@@ -173,7 +173,7 @@ private fun SearchInput(
                     textAlign = TextAlign.Start
                 ),
                 singleLine = true,
-                cursorBrush = SolidColor(UI.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colorsInverted.pure),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         hideKeyboard(view)
@@ -198,10 +198,10 @@ private fun SelectedCurrencyCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r3)
+            .clip(UI.shapes.rounded)
             .background(
                 brush = (if (preselected) GradientGreen else GradientIvy).asHorizontalBrush(),
-                shape = UI.shapes.r3
+                shape = UI.shapes.rounded
             )
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -333,10 +333,10 @@ private fun CurrencyItemCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(
                 color = if (selected) Ivy else UI.colors.medium,
-                shape = UI.shapes.r4
+                shape = UI.shapes.squared
             )
             .clickable {
                 onClick()
@@ -349,7 +349,7 @@ private fun CurrencyItemCard(
         Text(
             text = currency.code,
             style = UI.typo.b1.style(
-                color = if (selected) White else UI.colors.pureInverse,
+                color = if (selected) White else UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -359,7 +359,7 @@ private fun CurrencyItemCard(
         Text(
             text = currency.name.take(20),
             style = UI.typo.b2.style(
-                color = if (selected) White else UI.colors.pureInverse,
+                color = if (selected) White else UI.colorsInverted.pure,
                 fontWeight = FontWeight.SemiBold
             )
         )
@@ -381,7 +381,7 @@ private fun LetterDividerItem(
         modifier = Modifier.padding(start = 32.dp),
         text = letterDivider.letter,
         style = UI.typo.c.style(
-            color = UI.colors.pureInverse,
+            color = UI.colorsInverted.pure,
             fontWeight = FontWeight.SemiBold
         )
     )

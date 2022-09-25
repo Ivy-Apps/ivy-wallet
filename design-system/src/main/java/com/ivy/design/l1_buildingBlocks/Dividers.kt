@@ -19,8 +19,8 @@ fun DividerH(
         padding = 16.dp
     ),
     width: Dp = 1.dp,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    color: Color = UI.colors.neutral,
+    shape: Shape = UI.shapes.fullyRounded
 ) {
     Spacer(
         modifier = Modifier
@@ -46,8 +46,8 @@ fun DividerV(
         padding = 16.dp
     ),
     width: Dp = 1.dp,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    color: Color = UI.colors.neutral,
+    shape: Shape = UI.shapes.fullyRounded
 ) {
     Spacer(
         modifier = Modifier
@@ -71,8 +71,8 @@ fun DividerV(
 fun RowScope.DividerW(
     weight: Float = 1f,
     height: Dp = 1.dp,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    color: Color = UI.colors.neutral,
+    shape: Shape = UI.shapes.fullyRounded
 ) {
     Divider(
         modifier = Modifier
@@ -87,8 +87,8 @@ fun RowScope.DividerW(
 fun ColumnScope.DividerW(
     weight: Float = 1f,
     width: Dp = 1.dp,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    color: Color = UI.colors.neutral,
+    shape: Shape = UI.shapes.fullyRounded
 ) {
     Divider(
         modifier = Modifier
@@ -102,8 +102,8 @@ fun ColumnScope.DividerW(
 @Composable
 fun Divider(
     modifier: Modifier = Modifier,
-    color: Color = UI.colors.gray,
-    shape: Shape = UI.shapes.rFull
+    color: Color = UI.colors.neutral,
+    shape: Shape = UI.shapes.fullyRounded
 ) {
     Spacer(
         modifier = modifier

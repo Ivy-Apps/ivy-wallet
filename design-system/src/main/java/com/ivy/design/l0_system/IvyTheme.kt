@@ -1,20 +1,19 @@
 package com.ivy.design.l0_system
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.compositionLocalOf
-import com.ivy.design.Theme
+import androidx.compose.runtime.*
 import com.ivy.design.api.IvyDesign
+import com.ivy.design.l0_system.color.IvyColors
+import com.ivy.design.l0_system.color.contrastColor
 
-val LocalIvyColors = compositionLocalOf<IvyColors> { error("No IvyColors") }
-val LocalIvyTypography = compositionLocalOf<IvyTypography> { error("No IvyTypography") }
-val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No IvyShapes") }
+val LocalIvyColors = compositionLocalOf<IvyColors> { error("No colors") }
+val LocalIvyColorsInverted = compositionLocalOf<IvyColors> { error("No inverted colors") }
+val LocalIvyTypo = compositionLocalOf<IvyTypography> { error("No typography") }
+val LocalIvyTypoSecondary = compositionLocalOf<IvyTypography> { error("No secondary typography") }
+val LocalIvyShapes = compositionLocalOf<IvyShapes> { error("No shapes") }
 
 object UI {
     val colors: IvyColors
@@ -22,10 +21,21 @@ object UI {
         @ReadOnlyComposable
         get() = LocalIvyColors.current
 
+    val colorsInverted: IvyColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalIvyColorsInverted.current
+
     val typo: IvyTypography
         @Composable
         @ReadOnlyComposable
-        get() = LocalIvyTypography.current
+        get() = LocalIvyTypo.current
+
+    val typoSecond: IvyTypography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalIvyTypoSecondary.current
+
 
     val shapes: IvyShapes
         @Composable
@@ -35,42 +45,48 @@ object UI {
 
 @Composable
 fun IvyTheme(
-    theme: Theme,
     design: IvyDesign,
     content: @Composable () -> Unit
 ) {
-    val colors = design.colors(theme, isSystemInDarkTheme())
-    val typography = design.typography()
-    val shapes = design.shapes()
+    val colors = design.colors
+    val colorsInverted = design.colorsInverted
+    val typography = design.typography
+    val shapes = design.shapes
 
     CompositionLocalProvider(
         LocalIvyColors provides colors,
-        LocalIvyTypography provides typography,
+        LocalIvyColorsInverted provides colorsInverted,
+        LocalIvyTypo provides typography,
+        LocalIvyTypoSecondary provides design.typographySecondary,
         LocalIvyShapes provides shapes
     ) {
+        val materialColors = remember(colors, colorsInverted) { toMaterial(colors, colorsInverted) }
+        val materialTypography = remember(typography) { toMaterial(typography) }
+        val materialShapes = remember(shapes) { toMaterial(shapes) }
+
         MaterialTheme(
-            colors = toMaterial(colors),
-            typography = toMaterial(typography),
-            shapes = toMaterial(shapes),
+            colors = materialColors,
+            typography = materialTypography,
+            shapes = materialShapes,
             content = content
         )
     }
 }
 
-fun toMaterial(colors: IvyColors): Colors {
+fun toMaterial(colors: IvyColors, colorsInverted: IvyColors): Colors {
     return Colors(
         primary = colors.primary,
-        primaryVariant = colors.primary1,
+        primaryVariant = colors.primaryP1,
         secondary = colors.primary,
-        secondaryVariant = colors.primary1,
+        secondaryVariant = colors.primaryP1,
         background = colors.pure,
         surface = colors.pure,
-        onSurface = colors.pureInverse,
+        onSurface = colorsInverted.pure,
         error = colors.red,
-        onPrimary = White,
-        onSecondary = White,
-        onBackground = colors.pureInverse,
-        onError = White,
+        onPrimary = contrastColor(colors.primary),
+        onSecondary = contrastColor(colors.primary),
+        onBackground = colorsInverted.pure,
+        onError = contrastColor(colors.red),
         isLight = colors.isLight
     )
 }
@@ -87,8 +103,8 @@ fun toMaterial(typography: IvyTypography): Typography {
 
 fun toMaterial(shapes: IvyShapes): Shapes {
     return Shapes(
-        large = shapes.r1,
-        medium = shapes.r2,
-        small = shapes.r3
+        large = shapes.fullyRounded,
+        medium = shapes.rounded,
+        small = shapes.squared
     )
 }

@@ -38,7 +38,7 @@ fun BudgetBattery(
 
     val textColor = when {
         percentSpent <= 0.30 -> {
-            UI.colors.pureInverse
+            UI.colorsInverted.pure
         }
         percentSpent <= 0.50 -> {
             White
@@ -51,7 +51,7 @@ fun BudgetBattery(
 
     val captionTextColor = when {
         percentSpent <= 0.30 -> {
-            UI.colors.mediumInverse
+            UI.colorsInverted.medium
         }
         percentSpent <= 0.50 -> {
             White
@@ -65,7 +65,7 @@ fun BudgetBattery(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(backgroundNotFilled)
             .drawBehind {
                 drawRect(
@@ -129,7 +129,7 @@ fun BudgetBattery(
 
             Text(
                 text = "${expenses.format(currency)}/${budget.format(currency)} $currency",
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = captionTextColor
                 )

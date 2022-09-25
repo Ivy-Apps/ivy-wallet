@@ -118,24 +118,24 @@ private fun MonthButton(
             .thenIf(selected) {
                 drawColoredShadow(monthColor)
             }
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .clickable(onClick = onClick)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             }
             .thenIf(selected) {
                 background(
                     brush = Gradient
                         .solid(monthColor)
                         .asHorizontalBrush(),
-                    UI.shapes.rFull
+                    UI.shapes.fullyRounded
                 )
             }
             .padding(horizontal = 40.dp, vertical = 12.dp),
         text = month.name,
         style = UI.typo.b2.style(
             color = if (selected)
-                findContrastTextColor(monthColor) else UI.colors.pureInverse,
+                findContrastTextColor(monthColor) else UI.colorsInverted.pure,
             fontWeight = FontWeight.SemiBold
         )
     )

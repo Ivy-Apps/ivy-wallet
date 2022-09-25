@@ -88,7 +88,7 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.planned_payments_inline),
                 style = UI.typo.h2.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
 

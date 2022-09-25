@@ -51,13 +51,13 @@ fun LazyItemScope.PlannedPaymentCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .clickable {
                 if (accounts.find { it.id == plannedPayment.accountId } != null) {
                     onClick(plannedPayment)
                 }
             }
-            .background(UI.colors.medium, UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.squared)
             .testTag("planned_payment_card")
     ) {
         val currency = accounts.find { it.id == plannedPayment.accountId }?.currency ?: baseCurrency
@@ -87,7 +87,7 @@ fun LazyItemScope.PlannedPaymentCard(
                 text = plannedPayment.title!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
         }
@@ -123,7 +123,7 @@ private fun PlannedPaymentHeaderRow(
                 modifier = Modifier
                     .background(UI.colors.pure, CircleShape),
                 icon = R.drawable.ic_planned_payments,
-                tint = UI.colors.pureInverse
+                tint = UI.colorsInverted.pure
             )
 
             Spacer(Modifier.width(12.dp))
@@ -158,10 +158,10 @@ private fun PlannedPaymentHeaderRow(
             IvyButton(
                 backgroundGradient = Gradient.solid(UI.colors.pure),
                 text = account?.name ?: stringResource(R.string.deleted),
-                iconTint = UI.colors.pureInverse,
+                iconTint = UI.colorsInverted.pure,
                 iconStart = getCustomIconIdS(account?.icon, R.drawable.ic_custom_account_s),
                 textStyle = UI.typo.c.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 padding = 8.dp,
@@ -196,7 +196,7 @@ private fun RuleTextRow(
         if (oneTime) {
             Text(
                 text = stringResource(R.string.planned_for_uppercase),
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -205,7 +205,7 @@ private fun RuleTextRow(
                 modifier = Modifier.padding(bottom = 1.dp),
                 text = startDate?.toLocalDate()?.formatDateOnlyWithYear()?.uppercaseLocal()
                     ?: stringResource(R.string.null_text),
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -214,7 +214,7 @@ private fun RuleTextRow(
             val startDateFormatted = startDate?.toLocalDate()?.formatDateOnly()?.uppercaseLocal()
             Text(
                 text = stringResource(R.string.starts_date, startDateFormatted ?: ""),
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     color = Orange,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -227,7 +227,7 @@ private fun RuleTextRow(
                     intervalN ?: 0,
                     intervalTypeFormatted ?: ""
                 ),
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     color = Orange,
                     fontWeight = FontWeight.ExtraBold
                 )

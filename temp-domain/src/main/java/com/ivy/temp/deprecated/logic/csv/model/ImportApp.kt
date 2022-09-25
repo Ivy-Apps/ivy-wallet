@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv.model
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import com.ivy.base.R
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.color.*
 
 enum class ImportApp {
     IVY,

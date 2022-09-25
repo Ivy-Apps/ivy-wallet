@@ -79,7 +79,7 @@ fun HistoryDateDivider(
         val cashflow = income - expenses
         Text(
             text = "${cashflow.format(baseCurrency)} $baseCurrency",
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = if (cashflow > 0) Green else Gray
             )

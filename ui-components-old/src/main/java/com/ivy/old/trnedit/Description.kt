@@ -62,7 +62,7 @@ private fun DescriptionText(
                 .padding(horizontal = 24.dp)
                 .testTag("trn_description"),
             text = description,
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 textAlign = TextAlign.Left
             ),
         )

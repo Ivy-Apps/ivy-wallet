@@ -284,8 +284,8 @@ private fun AccountCurrency(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .background(UI.colors.medium, UI.shapes.r4)
-            .clip(UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.squared)
+            .clip(UI.shapes.squared)
             .clickable {
                 onClick()
             }

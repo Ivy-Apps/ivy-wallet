@@ -2,10 +2,10 @@ package com.ivy.core.domain.pure.dummy
 
 import androidx.annotation.ColorInt
 import com.ivy.data.CurrencyCode
+import com.ivy.data.IvyIconId
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
 import com.ivy.data.account.AccountState
-import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 fun dummyAcc(
@@ -14,11 +14,7 @@ fun dummyAcc(
     currency: CurrencyCode = "USD",
     @ColorInt
     color: Int = 1,
-    icon: IvyIcon = IvyIcon.Unknown(
-        // TODO: Fix that after we create :resources
-        icon = -1,
-        iconId = null
-    ),
+    icon: IvyIconId = "account",
     folderId: UUID? = null,
     excluded: Boolean = false,
     orderNum: Double = 0.0,

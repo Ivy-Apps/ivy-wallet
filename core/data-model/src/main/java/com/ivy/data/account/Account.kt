@@ -2,8 +2,8 @@ package com.ivy.data.account
 
 import androidx.annotation.ColorInt
 import com.ivy.data.CurrencyCode
+import com.ivy.data.IvyIconId
 import com.ivy.data.SyncState
-import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 data class Account(
@@ -12,7 +12,7 @@ data class Account(
     val currency: CurrencyCode,
     @ColorInt
     val color: Int,
-    val icon: IvyIcon,
+    val icon: IvyIconId?,
     val excluded: Boolean,
     val folderId: UUID?,
     val orderNum: Double,

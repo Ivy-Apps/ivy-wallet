@@ -398,8 +398,8 @@ private fun CategoryAmountCard(
             .thenIf(selectedState) {
                 drawColoredShadow(backgroundColor)
             }
-            .clip(UI.shapes.r3)
-            .background(backgroundColor, UI.shapes.r3)
+            .clip(UI.shapes.rounded)
+            .background(backgroundColor, UI.shapes.rounded)
             .clickable {
                 onClick()
             }
@@ -500,8 +500,8 @@ private fun PercentText(
         text = if (totalAmount != 0.0)
             stringResource(R.string.percent, ((amount / totalAmount) * 100).format(2))
         else stringResource(R.string.percent, "0"),
-        style = UI.typo.nB2.style(
-            color = if (selectedState) contrastColor else UI.colors.pureInverse,
+        style = UI.typoSecond.b2.style(
+            color = if (selectedState) contrastColor else UI.colorsInverted.pure,
             fontWeight = FontWeight.Normal
         )
     )

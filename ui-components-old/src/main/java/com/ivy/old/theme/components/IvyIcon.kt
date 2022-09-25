@@ -13,7 +13,7 @@ import com.ivy.design.l0_system.UI
 fun IvyIcon(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     contentDescription: String = "icon"
 ) {
     Icon(

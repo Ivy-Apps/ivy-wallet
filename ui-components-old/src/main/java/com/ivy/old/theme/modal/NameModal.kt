@@ -47,7 +47,7 @@ fun BoxWithConstraintsScope.NameModal(
             text = stringResource(R.string.edit_name),
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 

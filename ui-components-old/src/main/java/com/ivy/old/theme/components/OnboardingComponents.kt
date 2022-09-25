@@ -51,11 +51,11 @@ fun OnboardingButton(
                     offsetY = 8.dp
                 )
             }
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .background(
                 brush = if (enabled)
-                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.gray),
-                shape = UI.shapes.rFull
+                    backgroundGradient.asHorizontalBrush() else SolidColor(UI.colors.neutral),
+                shape = UI.shapes.fullyRounded
             )
             .clickable(onClick = onClick, enabled = enabled),
         contentAlignment = Alignment.Center

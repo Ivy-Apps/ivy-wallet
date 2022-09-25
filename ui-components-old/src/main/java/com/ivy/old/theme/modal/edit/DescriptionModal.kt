@@ -74,7 +74,7 @@ fun BoxWithConstraintsScope.DescriptionModal(
                 .padding(start = 32.dp),
             text = stringResource(R.string.description),
             style = UI.typo.b1.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )

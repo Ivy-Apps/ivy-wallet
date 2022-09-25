@@ -43,7 +43,7 @@ fun <T : Reorderable> BoxScope.ReorderModalSingleType(
             modifier = Modifier.padding(start = 32.dp),
             text = stringResource(R.string.reorder),
             style = UI.typo.b1.style(
-                UI.colors.pureInverse,
+                UI.colorsInverted.pure,
                 FontWeight.ExtraBold
             )
         )
@@ -83,7 +83,7 @@ fun <T : Reorderable> BoxScope.ReorderModal(
             modifier = Modifier.padding(start = 32.dp),
             text = stringResource(R.string.reorder),
             style = UI.typo.b1.style(
-                UI.colors.pureInverse,
+                UI.colorsInverted.pure,
                 FontWeight.ExtraBold
             )
         )
@@ -252,7 +252,7 @@ private class Adapter<T : Reorderable>(
                                 }
                                 .testTag("reorder_drag_handle"),
                             icon = R.drawable.ic_drag_handle,
-                            tint = UI.colors.gray,
+                            tint = UI.colors.neutral,
                             contentDescription = "reorder_${position}"
                         )
 

@@ -30,7 +30,7 @@ fun IvyNumberTextField(
     value: TextFieldValue,
     hint: String?,
     fontWeight: FontWeight = FontWeight.ExtraBold,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     hintColor: Color = Color.Gray,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions? = null,
@@ -48,7 +48,7 @@ fun IvyNumberTextField(
                 modifier = textModifier,
                 text = hint!!,
                 textAlign = TextAlign.Start,
-                style = UI.typo.nB2.style(
+                style = UI.typoSecond.b2.style(
                     color = hintColor,
                     fontWeight = fontWeight,
                     textAlign = TextAlign.Center
@@ -62,13 +62,13 @@ fun IvyNumberTextField(
                 .testTag("base_number_input"),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = UI.typo.nB2.style(
+            textStyle = UI.typoSecond.b2.style(
                 color = textColor,
                 fontWeight = fontWeight,
                 textAlign = TextAlign.Center
             ),
             singleLine = true,
-            cursorBrush = SolidColor(UI.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colorsInverted.pure),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions ?: KeyboardOptions(
                 capitalization = KeyboardCapitalization.Characters,

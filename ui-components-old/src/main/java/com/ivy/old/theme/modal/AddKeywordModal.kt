@@ -50,7 +50,7 @@ fun BoxWithConstraintsScope.AddKeywordModal(
             text = stringResource(R.string.add_keyword),
             style = UI.typo.b1.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 

@@ -126,7 +126,7 @@ private fun BoxWithConstraintsScope.UI(
             BalanceRow(
                 modifier = Modifier
                     .padding(start = 32.dp),
-                textColor = UI.colors.pureInverse,
+                textColor = UI.colorsInverted.pure,
                 currency = state.baseCurrency,
                 balance = state.balance,
                 balanceAmountPrefix = when {

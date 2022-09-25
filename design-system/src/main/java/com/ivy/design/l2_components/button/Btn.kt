@@ -1,6 +1,6 @@
 package com.ivy.design.l2_components.button
 
-import javax.annotation.concurrent.Immutable
+import androidx.compose.runtime.Immutable
 
 @Immutable
 object Btn

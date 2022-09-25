@@ -1,6 +1,5 @@
 package com.ivy.core.domain.pure.mapping.entity
 
-import com.ivy.core.domain.pure.util.iconId
 import com.ivy.core.persistence.entity.account.AccountEntity
 import com.ivy.data.account.Account
 
@@ -10,7 +9,7 @@ fun mapToEntity(acc: Account): AccountEntity = with(acc) {
         name = name,
         currency = currency,
         color = color,
-        icon = icon.iconId(),
+        icon = icon,
         folderId = folderId?.toString(),
         orderNum = orderNum,
         excluded = excluded,

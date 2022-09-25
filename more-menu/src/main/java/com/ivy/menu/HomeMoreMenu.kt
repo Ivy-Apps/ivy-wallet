@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.base.Constants
 import com.ivy.data.Theme
-import com.ivy.design.l0_system.SunsetNight
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
@@ -241,9 +241,9 @@ private fun SearchButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .background(UI.colors.pure)
-            .border(1.dp, Gray, UI.shapes.rFull)
+            .border(1.dp, Gray, UI.shapes.fullyRounded)
             .clickable {
                 onClick()
             },
@@ -262,7 +262,7 @@ private fun SearchButton(
             text = stringResource(R.string.search_transactions),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.SemiBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -277,7 +277,7 @@ private fun ColumnScope.OpenSource() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(UI.colors.pure)
             .clickable {
                 openUrl(
@@ -341,7 +341,7 @@ private fun ColumnScope.Buffer(
         Text(
             text = stringResource(R.string.savings_goal),
             style = UI.typo.b1.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -422,13 +422,13 @@ private fun QuickAccess(
             },
             backgroundColor = when (theme) {
                 Theme.LIGHT -> UI.colors.pure
-                Theme.DARK -> UI.colors.pureInverse
+                Theme.DARK -> UI.colorsInverted.pure
                 Theme.AUTO -> UI.colors.pure
             },
             tint = when (theme) {
-                Theme.LIGHT -> UI.colors.pureInverse
+                Theme.LIGHT -> UI.colorsInverted.pure
                 Theme.DARK -> UI.colors.pure
-                Theme.AUTO -> UI.colors.pureInverse
+                Theme.AUTO -> UI.colorsInverted.pure
             }
         ) {
             onSwitchTheme()
@@ -509,7 +509,7 @@ private fun MoreMenuButton(
     label: String,
 
     backgroundColor: Color = UI.colors.pure,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     expandPadding: Dp = 14.dp,
 
     onClick: () -> Unit
@@ -535,7 +535,7 @@ private fun MoreMenuButton(
                 },
             text = label,
             style = UI.typo.c.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center
             )

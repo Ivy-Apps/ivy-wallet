@@ -46,7 +46,7 @@ fun BoxWithConstraintsScope.ProgressModal(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = description,
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Medium
             )
         )
@@ -59,7 +59,7 @@ fun BoxWithConstraintsScope.ProgressModal(
                 .padding(horizontal = 32.dp)
                 .height(8.dp)
                 .clip(
-                    UI.shapes.rFull
+                    UI.shapes.fullyRounded
                 ),
             color = color
         )

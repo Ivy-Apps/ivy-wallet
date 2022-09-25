@@ -36,11 +36,11 @@ fun IvyOutlinedTextField(
     modifier: Modifier = Modifier,
     value: TextFieldValue,
     hint: String?,
-    hintColor: Color = UI.colors.gray,
+    hintColor: Color = UI.colors.neutral,
     backgroundColor: Color = UI.colors.primary,
-    emptyBorderColor: Color = UI.colors.gray,
-    textColor: Color = UI.colors.pureInverse,
-    cursorColor: Color = UI.colors.pureInverse,
+    emptyBorderColor: Color = UI.colors.neutral,
+    textColor: Color = UI.colorsInverted.pure,
+    cursorColor: Color = UI.colorsInverted.pure,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -51,14 +51,14 @@ fun IvyOutlinedTextField(
 
     Box(
         modifier = modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .border(
                 width = 2.dp,
                 color = if (isEmpty) emptyBorderColor else backgroundColor,
-                shape = UI.shapes.rFull
+                shape = UI.shapes.fullyRounded
             )
             .thenIf(validateInput(value)) {
-                background(backgroundColor.copy(alpha = 0.1f), UI.shapes.rFull)
+                background(backgroundColor.copy(alpha = 0.1f), UI.shapes.fullyRounded)
             },
         contentAlignment = Alignment.Center
     ) {

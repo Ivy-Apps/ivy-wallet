@@ -11,13 +11,12 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.ComponentPreview
 
-@Deprecated("don't use")
 @Composable
 fun IvyDividerDot() {
     Spacer(
         modifier = Modifier
             .size(4.dp)
-            .background(UI.colors.mediumInverse, CircleShape)
+            .background(UI.colorsInverted.medium, CircleShape)
     )
 }
 

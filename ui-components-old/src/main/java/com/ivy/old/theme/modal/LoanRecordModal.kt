@@ -186,7 +186,7 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.associated_account),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )
@@ -481,16 +481,16 @@ private fun Account(
 ) {
     val accountColor = account.color.toComposeColor()
     val textColor =
-        if (selected) findContrastTextColor(accountColor) else UI.colors.pureInverse
+        if (selected) findContrastTextColor(accountColor) else UI.colorsInverted.pure
 
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .thenIf(!selected) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             }
             .thenIf(selected) {
-                background(accountColor, UI.shapes.rFull)
+                background(accountColor, UI.shapes.fullyRounded)
             }
             .clickable(onClick = onClick)
             .testTag(testTag),
@@ -527,8 +527,8 @@ private fun AddAccount(
 ) {
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -536,7 +536,7 @@ private fun AddAccount(
 
         IvyIcon(
             icon = R.drawable.ic_plus,
-            tint = UI.colors.pureInverse
+            tint = UI.colorsInverted.pure
         )
 
         Spacer(Modifier.width(4.dp))
@@ -545,7 +545,7 @@ private fun AddAccount(
             modifier = Modifier.padding(vertical = 10.dp),
             text = stringResource(R.string.add_account),
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.ExtraBold
             )
         )

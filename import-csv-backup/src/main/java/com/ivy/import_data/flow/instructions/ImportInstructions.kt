@@ -201,8 +201,8 @@ fun InstructionButton(
 ) {
     Row(
         modifier = modifier
-            .clip(UI.shapes.r3)
-            .background(UI.colors.medium, UI.shapes.r3)
+            .clip(UI.shapes.rounded)
+            .background(UI.colors.medium, UI.shapes.rounded)
             .clickable {
                 onClick()
             }
@@ -285,7 +285,7 @@ fun StepTitle(
                 .size(24.dp)
                 .background(UI.colors.medium, CircleShape),
             text = number.toString(),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = Bold,
                 textAlign = TextAlign.Center
             )

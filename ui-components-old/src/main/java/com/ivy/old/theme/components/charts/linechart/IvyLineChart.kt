@@ -302,8 +302,8 @@ fun IvyLineChart(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .clip(UI.shapes.r2)
-            .border(2.dp, Gray, UI.shapes.r2),
+            .clip(UI.shapes.rounded)
+            .border(2.dp, Gray, UI.shapes.rounded),
         title = title,
         allValues = allValues,
         xLabel = xLabel,
@@ -333,7 +333,7 @@ private fun IvyChart(
         mutableStateOf(emptyList())
     }
 
-    val xLabelColor = UI.colors.pureInverse
+    val xLabelColor = UI.colorsInverted.pure
 
     Canvas(
         modifier = modifier

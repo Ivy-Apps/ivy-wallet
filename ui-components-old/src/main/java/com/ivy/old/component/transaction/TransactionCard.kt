@@ -58,13 +58,13 @@ fun TransactionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .clickable {
                 if (baseData.accounts.find { it.id == transaction.accountId } != null) {
                     onClick(transaction)
                 }
             }
-            .background(UI.colors.medium, UI.shapes.r4)
+            .background(UI.colors.medium, UI.shapes.squared)
             .testTag("transaction_card")
     ) {
         //TODO: Optimize this
@@ -93,9 +93,9 @@ fun TransactionCard(
                     R.string.due_on,
                     transaction.dueDate!!.formatNicely()
                 ).uppercase(),
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     color = if (transaction.dueDate!!.isAfter(timeNowUTC()))
-                        Orange else UI.colors.gray,
+                        Orange else UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -113,7 +113,7 @@ fun TransactionCard(
                 text = transaction.title!!,
                 style = UI.typo.b1.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
 
@@ -129,8 +129,8 @@ fun TransactionCard(
             Text(
                 text = transaction.description!!,
                 modifier = Modifier.padding(horizontal = 24.dp),
-                style = UI.typo.nC.style(
-                    color = UI.colors.gray,
+                style = UI.typoSecond.c.style(
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 ),
                 maxLines = 3,
@@ -155,7 +155,7 @@ fun TransactionCard(
             Text(
                 modifier = Modifier.padding(start = 68.dp),
                 text = "${transaction.toAmount.toDouble().format(2)} $toAccountCurrency",
-                style = UI.typo.nB2.style(
+                style = UI.typoSecond.b2.style(
                     color = Gray,
                     fontWeight = FontWeight.Normal
                 )
@@ -176,7 +176,7 @@ fun TransactionCard(
                     wrapContentMode = false,
                     backgroundGradient = Gradient.solid(UI.colors.pure),
                     textStyle = UI.typo.b2.style(
-                        color = UI.colors.pureInverse,
+                        color = UI.colorsInverted.pure,
                         fontWeight = FontWeight.Bold
                     )
                 ) {
@@ -278,8 +278,8 @@ private fun TransactionBadge(
 ) {
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .background(backgroundColor, UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
+            .background(backgroundColor, UI.shapes.fullyRounded)
             .clickable {
                 onClick()
             },
@@ -317,7 +317,7 @@ private fun TransferHeader(
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
-            .background(UI.colors.pure, UI.shapes.rFull),
+            .background(UI.colors.pure, UI.shapes.fullyRounded),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(8.dp))
@@ -337,7 +337,7 @@ private fun TransferHeader(
             text = account?.name.toString(),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -362,7 +362,7 @@ private fun TransferHeader(
             text = toAccount?.name.toString(),
             style = UI.typo.c.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -419,7 +419,7 @@ fun TypeAmountCurrency(
                             icon = R.drawable.ic_expense,
                             gradient = Gradient.black(),
                             iconTint = White,
-                            textColor = UI.colors.pureInverse
+                            textColor = UI.colorsInverted.pure
                         )
                     }
                 }

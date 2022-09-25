@@ -26,7 +26,7 @@ import java.text.DecimalFormat
 @Composable
 fun BalanceRowMedium(
     modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     currency: String,
     balance: Double,
     balanceAmountPrefix: String? = null,
@@ -57,7 +57,7 @@ fun BalanceRowMedium(
 @Composable
 fun BalanceRowMini(
     modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     currency: String,
     balance: Double,
     balanceAmountPrefix: String? = null,
@@ -92,7 +92,7 @@ fun BalanceRow(
     balance: Double,
     hiddenMode: Boolean = false,
 
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     decimalPaddingTop: Dp = 12.dp,
     spacerCurrency: Dp = 12.dp,
     spacerDecimal: Dp = 8.dp,
@@ -134,12 +134,12 @@ fun BalanceRow(
                 else -> integerPartFormatted
             },
             style = if (integerFontSize == null) {
-                UI.typo.nH1.style(
+                UI.typoSecond.h1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
                 )
             } else {
-                UI.typo.nH1.style(
+                UI.typoSecond.h1.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = textColor
                 ).copy(fontSize = integerFontSize)
@@ -155,12 +155,12 @@ fun BalanceRow(
                     .padding(top = decimalPaddingTop),
                 text = if (hiddenMode) "" else decimalPartFormatted(currency, balance),
                 style = if (decimalFontSize == null) {
-                    UI.typo.nB1.style(
+                    UI.typoSecond.b1.style(
                         fontWeight = FontWeight.Bold,
                         color = textColor
                     )
                 } else {
-                    UI.typo.nB1.style(
+                    UI.typoSecond.b1.style(
                         fontWeight = FontWeight.Bold,
                         color = textColor
                     ).copy(fontSize = decimalFontSize)
@@ -208,7 +208,7 @@ private fun Currency(
 private fun Preview_Default() {
     ComponentPreview {
         BalanceRow(
-            textColor = UI.colors.pureInverse,
+            textColor = UI.colorsInverted.pure,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null
@@ -221,7 +221,7 @@ private fun Preview_Default() {
 private fun Preview_Medium() {
     ComponentPreview {
         BalanceRowMedium(
-            textColor = UI.colors.pureInverse,
+            textColor = UI.colorsInverted.pure,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null
@@ -234,7 +234,7 @@ private fun Preview_Medium() {
 private fun Preview_Mini() {
     ComponentPreview {
         BalanceRowMini(
-            textColor = UI.colors.pureInverse,
+            textColor = UI.colorsInverted.pure,
             currency = "BGN",
             balance = 3520.60,
             balanceAmountPrefix = null

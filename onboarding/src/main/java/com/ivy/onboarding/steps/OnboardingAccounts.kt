@@ -187,7 +187,7 @@ fun PremiumInfo(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = if (itemsCount == 0) "Up to $freeItemsCount free $itemLabelPlural" else "$freeItemsLeft $itemLabelPlural left",
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold, color = if (freeItemsLeft > 2) Green else Orange
             )
         )
@@ -209,8 +209,8 @@ fun BuyPremiumRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .clickable {
 //                nav.navigateTo(
 //                    Paywall(
@@ -265,8 +265,8 @@ private fun AccountCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r3)
-            .background(accountColor, UI.shapes.r3)
+            .clip(UI.shapes.rounded)
+            .background(accountColor, UI.shapes.rounded)
             .clickable {
                 onClick()
             }, verticalAlignment = Alignment.CenterVertically

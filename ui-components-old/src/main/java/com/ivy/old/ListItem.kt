@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.findContrastTextColor
+import com.ivy.design.l0_system.color.contrastColor
 import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.utils.thenIf
@@ -31,16 +31,16 @@ fun ListItem(
     onClick: (selected: Boolean) -> Unit
 ) {
     val textColor =
-        if (selectedColor != null) findContrastTextColor(selectedColor) else UI.colors.pureInverse
+        if (selectedColor != null) contrastColor(selectedColor) else UI.colorsInverted.pure
 
     Row(
         modifier = Modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .thenIf(selectedColor == null) {
-                border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
             }
             .thenIf(selectedColor != null) {
-                background(selectedColor!!, UI.shapes.rFull)
+                background(selectedColor!!, UI.shapes.fullyRounded)
             }
             .clickable(
                 onClick = {

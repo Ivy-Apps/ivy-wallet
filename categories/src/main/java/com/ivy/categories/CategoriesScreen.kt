@@ -87,7 +87,7 @@ private fun BoxWithConstraintsScope.UI(
                 Text(
                     text = stringResource(R.string.categories),
                     style = UI.typo.h2.style(
-                        color = UI.colors.pureInverse,
+                        color = UI.colorsInverted.pure,
                         fontWeight = FontWeight.ExtraBold
                     )
                 )
@@ -219,8 +219,8 @@ private fun CategoryCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .clickable(
                 onClick = onClick
             )
@@ -246,7 +246,7 @@ private fun CategoryCard(
 @Composable
 fun AddedSpent(
     modifier: Modifier = Modifier,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     dividerColor: Color = UI.colors.medium,
     monthlyIncome: Double,
     monthlyExpenses: Double,
@@ -283,7 +283,7 @@ fun AddedSpent(
             modifier = Modifier
                 .width(2.dp)
                 .height(48.dp)
-                .background(dividerColor, UI.shapes.rFull)
+                .background(dividerColor, UI.shapes.fullyRounded)
         )
 
         if (center) {
@@ -354,7 +354,7 @@ private fun CategoryHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(category.color.toComposeColor(), UI.shapes.r4Top)
+            .background(category.color.toComposeColor(), UI.shapes.squaredTop)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -473,10 +473,10 @@ private fun SelectTypeButton(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .height(64.dp)
-            .clip(UI.shapes.r4)
+            .clip(UI.shapes.squared)
             .background(
                 brush = if (selected) selectedGradient.asHorizontalBrush() else SolidColor(UI.colors.medium),
-                shape = UI.shapes.r4
+                shape = UI.shapes.squared
             )
             .clickable {
                 onClick()
@@ -486,7 +486,7 @@ private fun SelectTypeButton(
     ) {
         Spacer(Modifier.width(16.dp))
 
-        val textColor = if (selected) textSelectedColor else UI.colors.pureInverse
+        val textColor = if (selected) textSelectedColor else UI.colorsInverted.pure
 
         IvyIcon(
             icon = icon,

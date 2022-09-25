@@ -205,8 +205,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
 
             Text(
                 text = "${currentBalance.format(2)} $currency",
-                style = UI.typo.nC.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.c.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.Normal
                 )
             )
@@ -216,8 +216,8 @@ private fun ColumnScope.BalanceAfterPlannedPayments(
             val plusSign = if (plannedPaymentsAmount >= 0) "+" else ""
             Text(
                 text = "${plusSign}${plannedPaymentsAmount.format(2)} $currency",
-                style = UI.typo.nC.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.c.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -237,7 +237,7 @@ private fun ColumnScope.CloseButton() {
             .rotate(45f)
             .zIndex(200f),
         backgroundPadding = 8.dp,
-        icon = R.drawable.ic_add,
+        icon = R.drawable.ic_round_add_24,
         backgroundGradient = Gradient.solid(Gray),
         hasShadow = false,
         tint = White

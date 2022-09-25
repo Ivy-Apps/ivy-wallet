@@ -13,12 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
-import com.ivy.core.ui.color.contrast
+import com.ivy.core.ui.data.icon.IconSize
+import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.core.ui.icon.ItemIcon
-import com.ivy.data.icon.IconSize
-import com.ivy.data.icon.IvyIcon
-import com.ivy.design.l0_system.Blue2Dark
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.Blue2Dark
+import com.ivy.design.l0_system.color.rememberContrastColor
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -34,16 +34,16 @@ fun BadgeComponent(
 ) {
     Row(
         modifier = Modifier
-            .background(background, UI.shapes.rFull)
+            .background(background, UI.shapes.fullyRounded)
             .thenIf(onClick != null) {
-                clip(UI.shapes.rFull)
+                clip(UI.shapes.fullyRounded)
                     .clickable(onClick = onClick!!)
             }
             .padding(start = 8.dp, end = 18.dp)
             .padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val contrastColor = background.contrast()
+        val contrastColor = rememberContrastColor(background)
 
         icon.ItemIcon(
             size = IconSize.S,

@@ -80,7 +80,7 @@ fun BoxWithConstraintsScope.AmountModal(
                     .testTag("btn_calculator")
                     .padding(all = 4.dp),
                 icon = R.drawable.ic_custom_calculator_m,
-                tint = UI.colors.pureInverse
+                tint = UI.colorsInverted.pure
             )
 
             Spacer(Modifier.width(16.dp))
@@ -155,17 +155,17 @@ fun AmountCurrency(
 
         Text(
             text = amount.ifBlank { "0" },
-            style = UI.typo.nH1.style(
+            style = UI.typoSecond.h1.style(
                 fontWeight = FontWeight.Bold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
         Spacer(Modifier.width(4.dp))
         Text(
             text = currency,
-            style = UI.typo.nH2.style(
+            style = UI.typoSecond.h2.style(
                 fontWeight = FontWeight.Normal,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -440,7 +440,7 @@ fun CircleNumberButton(
 @Composable
 fun KeypadCircleButton(
     text: String,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     testTag: String,
     onClick: () -> Unit
 ) {
@@ -449,7 +449,7 @@ fun KeypadCircleButton(
             .padding(top = 10.dp)
             .testTag(testTag),
         text = text,
-        style = UI.typo.nH2.style(
+        style = UI.typoSecond.h2.style(
             color = textColor,
             fontWeight = FontWeight.Bold
         ).copy(
@@ -477,8 +477,8 @@ private fun circleButtonModifier(
                 vibrator.vibrate(VibrationEffect.createOneShot(100, 1))
             }
         }
-        .background(UI.colors.pure, UI.shapes.rFull)
-        .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+        .background(UI.colors.pure, UI.shapes.fullyRounded)
+        .border(2.dp, UI.colors.medium, UI.shapes.fullyRounded)
 }
 
 @Preview

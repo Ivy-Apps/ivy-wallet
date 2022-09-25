@@ -1,79 +1,39 @@
 package com.ivy.core.ui.value
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.data.Value
-import com.ivy.design.l0_system.Orange
+import com.ivy.core.domain.pure.format.FormattedValue
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.style
-import com.ivy.design.util.ComponentPreview
+import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l2_components.B1Second
 
 @Composable
-fun Value.AmountCurrencyRow(
-    color: Color = UI.colors.pureInverse,
-    shortenBigNumbers: Boolean = false
+fun FormattedValue.AmountCurrencyRow(
+    color: Color = UI.colorsInverted.pure,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        AmountCurrency(color = color, shortenBigNumbers = shortenBigNumbers)
+        AmountCurrency(color = color)
     }
 }
 
 @Composable
-fun Value.AmountCurrency(
-    color: Color = UI.colors.pureInverse,
-    shortenBigNumbers: Boolean = false
+fun FormattedValue.AmountCurrency(
+    color: Color = UI.colorsInverted.pure,
 ) {
-    val amountText = formatAmount(shortenBigNumbers = shortenBigNumbers)
-
-    Text(
+    amount.B1Second(
         modifier = Modifier.testTag("amount_currency_b1"),
-        text = amountText,
-        style = UI.typo.nB1.style(
-            fontWeight = FontWeight.Bold,
-            color = color
-        )
+        fontWeight = FontWeight.Bold,
+        color = color,
     )
-    Spacer(modifier = Modifier.width(4.dp))
-    Text(
-        text = currency,
-        style = UI.typo.nB1.style(
-            fontWeight = FontWeight.Normal,
-            color = color
-        )
+    SpacerHor(width = 4.dp)
+    currency.B1Second(
+        fontWeight = FontWeight.Normal,
+        color = color,
     )
-}
-
-@Preview
-@Composable
-private fun Preview_Default() {
-    ComponentPreview {
-        Value(
-            amount = 150.0,
-            currency = "BGN"
-        ).AmountCurrencyRow()
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_Custom() {
-    ComponentPreview {
-        Value(
-            amount = 192_000.34,
-            currency = "USD"
-        ).AmountCurrencyRow(
-            color = Orange,
-            shortenBigNumbers = true
-        )
-    }
 }

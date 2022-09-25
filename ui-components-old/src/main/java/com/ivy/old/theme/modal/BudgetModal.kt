@@ -258,7 +258,7 @@ private fun CategoriesRow(
         text = BudgetExt.type(budgetCategoryIds.size),
         style = UI.typo.b1.style(
             fontWeight = FontWeight.Medium,
-            color = UI.colors.pureInverse
+            color = UI.colorsInverted.pure
         )
     )
 

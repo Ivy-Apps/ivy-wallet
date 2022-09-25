@@ -2,21 +2,19 @@ package com.ivy.core.ui.account
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
-import com.ivy.core.domain.pure.dummy.dummyAcc
 import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
-import com.ivy.data.account.Account
-import com.ivy.data.icon.IvyIcon
-import com.ivy.design.l0_system.Black
-import com.ivy.design.l0_system.Green
-import com.ivy.design.l0_system.toComposeColor
+import com.ivy.core.ui.data.AccountUi
+import com.ivy.core.ui.data.dummyAccountUi
+import com.ivy.core.ui.data.icon.IvyIcon
+import com.ivy.design.l0_system.color.Black
+import com.ivy.design.l0_system.color.Green
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun Account.Badge(
-    background: Color = color.toComposeColor(),
+fun AccountUi.Badge(
+    background: Color = color,
     onClick: (() -> Unit)? = null
 ) {
     BadgeComponent(
@@ -31,7 +29,7 @@ fun Account.Badge(
 @Composable
 private fun Preview_Black() {
     ComponentPreview {
-        dummyAcc(
+        dummyAccountUi(
             name = "Cash",
             icon = IvyIcon.Sized(
                 iconS = R.drawable.ic_custom_account_s,
@@ -49,7 +47,7 @@ private fun Preview_Black() {
 @Composable
 private fun Preview_Color() {
     ComponentPreview {
-        dummyAcc(
+        dummyAccountUi(
             name = "Cash",
             icon = IvyIcon.Sized(
                 iconS = R.drawable.ic_custom_account_s,
@@ -57,7 +55,7 @@ private fun Preview_Color() {
                 iconL = 0,
                 iconId = null
             ),
-            color = Green.toArgb(),
+            color = Green,
         ).Badge()
     }
 }

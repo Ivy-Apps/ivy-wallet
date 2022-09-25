@@ -82,7 +82,7 @@ private fun ProgressBar(
             .fillMaxWidth()
             .height(32.dp)
             .padding(horizontal = 24.dp)
-            .background(UI.colors.medium, UI.shapes.rFull),
+            .background(UI.colors.medium, UI.shapes.fullyRounded),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (progressPercent > 0) {
@@ -90,7 +90,7 @@ private fun ProgressBar(
                 modifier = Modifier
                     .weight(progressPercent.toFloat())
                     .height(32.dp)
-                    .background(GradientGreen.asHorizontalBrush(), UI.shapes.rFull),
+                    .background(GradientGreen.asHorizontalBrush(), UI.shapes.fullyRounded),
             )
         }
 

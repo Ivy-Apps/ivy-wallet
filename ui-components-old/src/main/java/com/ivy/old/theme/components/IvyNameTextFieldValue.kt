@@ -29,7 +29,7 @@ fun IvyNameTextField(
     modifier: Modifier = Modifier,
     underlineModifier: Modifier = Modifier,
     value: TextFieldValue,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     hint: String?,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
@@ -53,7 +53,7 @@ fun IvyNameTextField(
                     modifier = Modifier,
                     text = hint!!,
                     style = UI.typo.b2.style(
-                        color = UI.colors.gray,
+                        color = UI.colors.neutral,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Start
                     ),
@@ -72,7 +72,7 @@ fun IvyNameTextField(
                     textAlign = TextAlign.Start
                 ),
                 singleLine = false,
-                cursorBrush = SolidColor(UI.colors.pureInverse),
+                cursorBrush = SolidColor(UI.colorsInverted.pure),
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions ?: KeyboardActions(

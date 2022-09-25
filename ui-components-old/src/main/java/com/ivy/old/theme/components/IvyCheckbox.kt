@@ -40,7 +40,7 @@ fun IvyCheckbox(
             id = if (checked) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_unchecked
         ),
         contentDescription = null,
-        tint = if (checked) Color.Unspecified else UI.colors.gray
+        tint = if (checked) Color.Unspecified else UI.colors.neutral
     )
 }
 
@@ -68,7 +68,7 @@ fun IvyCheckboxWithText(
         Text(
             text = text,
             style = UI.typo.b2.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.SemiBold
             )
         )

@@ -48,6 +48,6 @@ private fun Line(
     Spacer(
         modifier = Modifier
             .size(width = width, height = 4.dp)
-            .background(color, UI.shapes.rFull)
+            .background(color, UI.shapes.fullyRounded)
     )
 }

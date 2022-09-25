@@ -39,8 +39,8 @@ fun TransactionDateTime(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                .clip(UI.shapes.r4)
-                .background(UI.colors.medium, UI.shapes.r4)
+                .clip(UI.shapes.squared)
+                .background(UI.colors.medium, UI.shapes.squared)
                 .clickable {
                     onEditDateTime()
                 }
@@ -56,7 +56,7 @@ fun TransactionDateTime(
             Text(
                 text = stringResource(R.string.created_on),
                 style = UI.typo.b2.style(
-                    color = UI.colors.gray,
+                    color = UI.colors.neutral,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -68,8 +68,8 @@ fun TransactionDateTime(
                 text = (dateTime ?: timeNowUTC()).formatNicely(
                     noWeekDay = true
                 ),
-                style = UI.typo.nB2.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.b2.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 modifier = Modifier.clickable {
@@ -81,8 +81,8 @@ fun TransactionDateTime(
 
             Text(
                 text = (dateTime ?: timeNowUTC()).formatLocalTime(),
-                style = UI.typo.nB2.style(
-                    color = UI.colors.pureInverse,
+                style = UI.typoSecond.b2.style(
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 ),
                 modifier = Modifier.clickable {

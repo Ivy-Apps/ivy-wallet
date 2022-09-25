@@ -1,22 +1,21 @@
 package com.ivy.core.ui.time
 
+import android.content.Context
 import com.ivy.base.R
 import com.ivy.common.dateNowUTC
 import com.ivy.common.formatLocal
 import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 
 fun LocalDateTime.formatNicely(
-    noWeekDay: Boolean = false,
-    zone: ZoneId = ZoneOffset.systemDefault()
+    context: Context,
+    includeWeekDay: Boolean = true,
 ): String {
     val today = dateNowUTC()
     val isThisYear = today.year == this.year
 
     val patternNoWeekDay = "dd MMM"
 
-    if (noWeekDay) {
+    if (!includeWeekDay) {
         return if (isThisYear) {
             this.formatLocal(patternNoWeekDay)
         } else {
@@ -26,28 +25,28 @@ fun LocalDateTime.formatNicely(
 
     return when (this.toLocalDate()) {
         today -> {
-            com.ivy.core.ui.temp.stringRes(
+            context.getString(
                 R.string.today_date,
-                this.formatLocal(patternNoWeekDay, zone)
+                this.formatLocal(patternNoWeekDay)
             )
         }
         today.minusDays(1) -> {
-            com.ivy.core.ui.temp.stringRes(
+            context.getString(
                 R.string.yesterday_date,
-                this.formatLocal(patternNoWeekDay, zone)
+                this.formatLocal(patternNoWeekDay)
             )
         }
         today.plusDays(1) -> {
-            com.ivy.core.ui.temp.stringRes(
+            context.getString(
                 R.string.tomorrow_date,
-                this.formatLocal(patternNoWeekDay, zone)
+                this.formatLocal(patternNoWeekDay)
             )
         }
         else -> {
             if (isThisYear) {
-                this.formatLocal("EEE, dd MMM", zone)
+                this.formatLocal("EEE, dd MMM")
             } else {
-                this.formatLocal("dd MMM, yyyy", zone)
+                this.formatLocal("dd MMM, yyyy")
             }
         }
     }

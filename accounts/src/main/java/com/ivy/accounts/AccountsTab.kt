@@ -87,7 +87,7 @@ private fun BoxWithConstraintsScope.UI(
                     Text(
                         text = stringResource(R.string.accounts),
                         style = UI.typo.b1.style(
-                            color = UI.colors.pureInverse,
+                            color = UI.colorsInverted.pure,
                             fontWeight = FontWeight.ExtraBold
                         )
                     )
@@ -96,7 +96,7 @@ private fun BoxWithConstraintsScope.UI(
 
                     Text(
                         text = state.totalBalanceWithExcludedText.asString(),
-                        style = UI.typo.nB2.style(
+                        style = UI.typoSecond.b2.style(
                             color = Gray,
                             fontWeight = FontWeight.Bold
                         )
@@ -186,8 +186,8 @@ private fun AccountCard(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .clickable(
                 onClick = onClick
             )
@@ -231,7 +231,7 @@ private fun AccountHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(account.color.toComposeColor(), UI.shapes.r4Top)
+            .background(account.color.toComposeColor(), UI.shapes.squaredTop)
     ) {
         Spacer(Modifier.height(16.dp))
 

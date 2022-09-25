@@ -34,8 +34,8 @@ fun IvyDescriptionTextField(
     value: TextFieldValue,
     hint: String?,
     fontWeight: FontWeight = FontWeight.Medium,
-    textColor: Color = UI.colors.pureInverse,
-    hintColor: Color = UI.colors.mediumInverse,
+    textColor: Color = UI.colorsInverted.pure,
+    hintColor: Color = UI.colorsInverted.medium,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions? = KeyboardOptions.Default,
     keyboardActions: KeyboardActions? = KeyboardActions.Default,
@@ -65,13 +65,13 @@ fun IvyDescriptionTextField(
             modifier = textModifier.testTag(testTag),
             value = value,
             onValueChange = onValueChanged,
-            textStyle = UI.typo.nB2.style(
+            textStyle = UI.typoSecond.b2.style(
                 color = textColor,
                 fontWeight = fontWeight,
                 textAlign = TextAlign.Start
             ),
             singleLine = false,
-            cursorBrush = SolidColor(UI.colors.pureInverse),
+            cursorBrush = SolidColor(UI.colorsInverted.pure),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions ?: KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,

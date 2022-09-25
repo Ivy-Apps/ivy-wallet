@@ -110,7 +110,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = oneTimeExpanded,
                 setExpanded = setOneTimeExpanded,
                 title = stringResource(R.string.one_time_payments),
-                titleColor = UI.colors.pureInverse,
+                titleColor = UI.colorsInverted.pure,
                 baseCurrency = currency,
                 income = oneTimeIncome,
                 expenses = oneTimeExpenses.absoluteValue
@@ -142,7 +142,7 @@ private fun LazyListScope.plannedPaymentItems(
                 expanded = recurringExpanded,
                 setExpanded = setRecurringExpanded,
                 title = stringResource(R.string.recurring_payments),
-                titleColor = UI.colors.pureInverse,
+                titleColor = UI.colorsInverted.pure,
                 baseCurrency = currency,
                 income = recurringIncome,
                 expenses = recurringExpenses.absoluteValue

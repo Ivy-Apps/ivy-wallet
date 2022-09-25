@@ -13,21 +13,17 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
-import com.ivy.design.api.setAppTheme
-import com.ivy.design.api.systems.IvyWalletDesign
+import com.ivy.design.api.setAppDesign
+import com.ivy.design.api.systems.ivyWalletDesign
 import com.ivy.design.l0_system.UI
 
 
 @Composable
 fun ComponentPreview(
-    design: IvyDesign = defaultDesign(),
-    theme: Theme = Theme.Auto,
+    design: IvyDesign = ivyWalletDesign(theme = Theme.Auto, isSystemInDarkTheme = false),
     content: @Composable BoxScope.() -> Unit
 ) {
-    IvyPreview(
-        design = design,
-        theme = theme
-    ) {
+    IvyPreview(design = design) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -41,20 +37,17 @@ fun ComponentPreview(
 
 @Composable
 fun IvyPreview(
-    design: IvyDesign = defaultDesign(),
-    theme: Theme = Theme.Auto,
+    design: IvyDesign = ivyWalletDesign(theme = Theme.Auto, isSystemInDarkTheme = false),
     Content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
     SideEffect {
-        setAppTheme(theme)
+        setAppDesign(design)
     }
     IvyUI(
-        design = design,
         Content = Content
     )
 }
 
-fun defaultDesign() = IvyWalletDesign()
 
 @Composable
 fun isInPreview(): Boolean = LocalInspectionMode.current

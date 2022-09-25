@@ -114,7 +114,7 @@ private fun PreviewWrapContentRow() {
                     .padding(horizontal = 20.dp, vertical = 12.dp),
                 text = it.name,
                 style = TextStyle(
-                    color = UI.colors.mediumInverse,
+                    color = UI.colorsInverted.medium,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
                 )

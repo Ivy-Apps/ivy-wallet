@@ -49,7 +49,7 @@ fun ImportResultUI(
             text = if (importSuccess) stringResource(R.string.success) else stringResource(R.string.failure),
             style = UI.typo.h2.style(
                 fontWeight = FontWeight.Black,
-                color = if (importSuccess) UI.colors.pureInverse else Red
+                color = if (importSuccess) UI.colorsInverted.pure else Red
             )
         )
 
@@ -71,7 +71,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${successPercent.format(2)}%",
-            style = UI.typo.nH2.style(
+            style = UI.typoSecond.h2.style(
                 fontWeight = FontWeight.Normal
             )
         )
@@ -79,7 +79,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.transactions_imported, result.transactionsImported),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -90,7 +90,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.accounts_imported, result.accountsImported),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -101,7 +101,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = stringResource(R.string.categories_imported, result.categoriesImported),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )
@@ -131,7 +131,7 @@ fun ImportResultUI(
         Text(
             modifier = Modifier.padding(horizontal = 32.dp),
             text = "${(100 - successPercent).format(2)}%",
-            style = UI.typo.nH2.style(
+            style = UI.typoSecond.h2.style(
                 fontWeight = FontWeight.Normal
             )
         )
@@ -142,7 +142,7 @@ fun ImportResultUI(
                 R.string.rows_from_csv_not_recognized,
                 result.rowsFound - result.transactionsImported
             ),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.Bold,
                 color = Gray
             )

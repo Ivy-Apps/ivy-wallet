@@ -1,7 +1,7 @@
 package com.ivy.core.ui.temp.trash
 
 import androidx.annotation.DrawableRes
-import com.ivy.design.l0_system.Gradient
+import com.ivy.design.l0_system.color.Gradient
 import com.ivy.frp.view.navigation.Navigation
 
 data class CustomerJourneyCardData(

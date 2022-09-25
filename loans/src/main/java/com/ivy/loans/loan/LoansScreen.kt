@@ -130,7 +130,7 @@ private fun BoxWithConstraintsScope.UI(
                 .padding(vertical = 8.dp),
             text = item.loan.name,
             style = UI.typo.b1.style(
-                color = UI.colors.pureInverse,
+                color = UI.colorsInverted.pure,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -168,7 +168,7 @@ private fun Toolbar(
             Text(
                 text = stringResource(R.string.loans),
                 style = UI.typo.h2.style(
-                    color = UI.colors.pureInverse,
+                    color = UI.colorsInverted.pure,
                     fontWeight = FontWeight.ExtraBold
                 )
             )
@@ -194,8 +194,8 @@ private fun LoanItem(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .border(2.dp, UI.colors.medium, UI.shapes.squared)
             .testTag("loan_item")
             .clickable(
                 onClick = onClick
@@ -226,7 +226,7 @@ private fun LoanHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(loan.color.toComposeColor(), UI.shapes.r4Top)
+            .background(loan.color.toComposeColor(), UI.shapes.squaredTop)
     ) {
         Spacer(Modifier.height(16.dp))
 
@@ -297,7 +297,7 @@ private fun ColumnScope.LoanInfo(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         text = displayLoan.formattedDisplayText,
-        style = UI.typo.nB2.style(
+        style = UI.typoSecond.b2.style(
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )

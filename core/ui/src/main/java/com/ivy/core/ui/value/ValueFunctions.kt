@@ -8,6 +8,7 @@ import com.ivy.wallet.utils.shortenAmount
 import com.ivy.wallet.utils.shouldShortAmount
 
 
+@Deprecated("don't use!")
 @Composable
 fun Value.formatAmount(
     shortenBigNumbers: Boolean

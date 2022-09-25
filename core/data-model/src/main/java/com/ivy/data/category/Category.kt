@@ -1,8 +1,8 @@
 package com.ivy.data.category
 
 import androidx.annotation.ColorInt
+import com.ivy.data.IvyIconId
 import com.ivy.data.SyncState
-import com.ivy.data.icon.IvyIcon
 import java.util.*
 
 data class Category(
@@ -12,7 +12,7 @@ data class Category(
     val parentCategoryId: UUID?,
     @ColorInt
     val color: Int,
-    val icon: IvyIcon,
+    val icon: IvyIconId?,
     val orderNum: Double,
     val state: CategoryState,
     val sync: SyncState,

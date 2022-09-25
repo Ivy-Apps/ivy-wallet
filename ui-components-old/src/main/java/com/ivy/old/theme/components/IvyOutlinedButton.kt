@@ -29,21 +29,21 @@ fun IvyOutlinedButton(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = UI.colors.pureInverse,
+    iconTint: Color = UI.colorsInverted.pure,
     borderColor: Color = UI.colors.medium,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     padding: Dp = 12.dp,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, UI.shapes.rFull)
+            .border(2.dp, borderColor, UI.shapes.fullyRounded)
             .thenIf(solidBackground) {
-                background(UI.colors.pure, UI.shapes.rFull)
+                background(UI.colors.pure, UI.shapes.fullyRounded)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -79,22 +79,22 @@ fun IvyOutlinedButtonFillMaxWidth(
     text: String,
     @DrawableRes iconStart: Int?,
     solidBackground: Boolean = false,
-    iconTint: Color = UI.colors.pureInverse,
+    iconTint: Color = UI.colorsInverted.pure,
     borderColor: Color = UI.colors.medium,
-    textColor: Color = UI.colors.pureInverse,
+    textColor: Color = UI.colorsInverted.pure,
     padding: Dp = 16.dp,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(UI.shapes.rFull)
+            .clip(UI.shapes.fullyRounded)
             .clickable(
                 onClick = onClick
             )
-            .border(2.dp, borderColor, UI.shapes.rFull)
+            .border(2.dp, borderColor, UI.shapes.fullyRounded)
             .thenIf(solidBackground) {
-                background(UI.colors.pure, UI.shapes.rFull)
+                background(UI.colors.pure, UI.shapes.fullyRounded)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {

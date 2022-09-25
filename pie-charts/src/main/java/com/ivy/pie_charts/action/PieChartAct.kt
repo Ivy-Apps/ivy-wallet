@@ -7,7 +7,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.design.l0_system.RedLight
+import com.ivy.design.l0_system.color.RedLight
 import com.ivy.frp.Pure
 import com.ivy.frp.SideEffect
 import com.ivy.frp.action.FPAction

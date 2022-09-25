@@ -94,8 +94,8 @@ private fun ImportOption(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r3)
-            .background(UI.colors.medium, UI.shapes.r3)
+            .clip(UI.shapes.rounded)
+            .background(UI.colors.medium, UI.shapes.rounded)
             .clickable {
                 onImportFrom(importApp)
             }
@@ -115,7 +115,7 @@ private fun ImportOption(
             text = importApp.listName(),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.Bold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
     }

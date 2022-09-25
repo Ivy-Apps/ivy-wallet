@@ -44,8 +44,8 @@ private fun DueDateCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .background(UI.colors.medium, UI.shapes.r4)
+            .clip(UI.shapes.squared)
+            .background(UI.colors.medium, UI.shapes.squared)
             .clickable(onClick = onClick)
             .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -60,7 +60,7 @@ private fun DueDateCard(
             text = stringResource(R.string.planned_for),
             style = UI.typo.b2.style(
                 fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse
+                color = UI.colorsInverted.pure
             )
         )
 
@@ -68,7 +68,7 @@ private fun DueDateCard(
 
         Text(
             text = dueDate.toLocalDate().formatDateOnly(),
-            style = UI.typo.nB2.style(
+            style = UI.typoSecond.b2.style(
                 fontWeight = FontWeight.ExtraBold
             )
         )

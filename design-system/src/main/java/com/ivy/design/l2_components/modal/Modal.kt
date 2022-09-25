@@ -7,7 +7,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,23 +24,27 @@ import androidx.compose.ui.zIndex
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.mediumBlur
-import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l0_system.color.mediumBlur
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
-import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
 import com.ivy.design.l2_components.button.Btn
-import com.ivy.design.l2_components.button.Icon
 import com.ivy.design.l2_components.button.Text
+import com.ivy.design.l2_components.modal.components.Body
+import com.ivy.design.l2_components.modal.components.Positive
+import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l2_components.modal.scope.ModalActionsScopeImpl
 import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.l2_components.modal.scope.ModalScopeImpl
+import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.consumeClicks
+import com.ivy.design.util.isInPreview
 import com.ivy.design.util.isKeyboardOpen
-import com.ivy.design.util.padding
 import com.ivy.resources.R
 
 @Immutable
@@ -91,8 +94,12 @@ fun BoxScope.Modal(
     AnimatedVisibility(
         modifier = Modifier.align(Alignment.BottomCenter),
         visible = visible,
-        enter = slideInVertically(),
-        exit = slideOutVertically()
+        enter = slideInVertically(
+            initialOffsetY = { fullHeight: Int -> fullHeight }
+        ),
+        exit = slideOutVertically(
+            targetOffsetY = { fullHeight: Int -> fullHeight }
+        )
     ) {
         val systemBottomPadding = systemPaddingBottom()
         val paddingBottomAnimated = if (keyboardShiftsContent) {
@@ -110,22 +117,22 @@ fun BoxScope.Modal(
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
-                .background(UI.colors.pure, UI.shapes.r2Top)
-                .clip(UI.shapes.r2Top)
+                .background(UI.colors.pure, UI.shapes.roundedTop)
+                .clip(UI.shapes.roundedTop)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .padding(paddingBottomAnimated)
+                .padding(bottom = paddingBottomAnimated)
                 .zIndex(11f)
         ) {
             BackHandler(enabled = modal.visibilityState.value) {
                 modal.hide()
             }
 
-            with(ModalScopeImpl(this)) {
+            val modalScope = remember { ModalScopeImpl(this) }
+            with(modalScope) {
                 Content()
             }
 
             ModalActionsRow(
-                paddingBottom = paddingBottomAnimated,
                 Actions = Actions,
                 onClose = { modal.hide() },
             )
@@ -135,22 +142,21 @@ fun BoxScope.Modal(
 
 @Composable
 private fun ModalActionsRow(
-    paddingBottom: Dp,
     Actions: @Composable ModalActionsScope.() -> Unit,
     modifier: Modifier = Modifier,
     onClose: () -> Unit,
 ) {
     RowWithLine(
         modifier = modifier
-            .padding(bottom = paddingBottom)
-            .padding(bottom = 12.dp)
     ) {
         SpacerHor(width = 24.dp)
         CloseButton(
             modifier = Modifier.testTag("modal_close_button"),
             onClick = onClose
         )
-        with(ModalActionsScopeImpl(this)) {
+        SpacerWeight(weight = 1f)
+        val actionsScope = remember { ModalActionsScopeImpl(this) }
+        with(actionsScope) {
             Actions()
         }
         SpacerHor(width = 24.dp)
@@ -189,17 +195,12 @@ fun CloseButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Btn.Icon(
-        modifier = modifier,
-        icon = R.drawable.ic_dismiss,
-        iconTint = UI.colors.pureInverse,
-        background = solidWithBorder(
-            solid = UI.colors.pure,
-            borderColor = UI.colors.medium,
-            borderWidth = 2.dp,
-            shape = CircleShape,
-            padding = padding(all = 6.dp)
-        ),
+    IvyButton(
+        size = ButtonSize.Small,
+        visibility = ButtonVisibility.Medium,
+        feeling = ButtonFeeling.Neutral,
+        text = null,
+        icon = R.drawable.ic_round_close_24,
         onClick = onClick
     )
 }
@@ -272,16 +273,21 @@ private fun keyboardInset(): Dp {
 @Preview
 @Composable
 private fun Preview_FullScreen() {
-    val modal = IvyModal()
-    modal.show()
-
     IvyPreview {
+        val modal = remember { IvyModal() }
+        if (isInPreview()) {
+            modal.show()
+        }
+
+        Btn.Text(text = "Show modal") {
+            modal.show()
+        }
+
         Modal(
             modal = modal,
             Actions = {
-                SpacerWeight(weight = 1f)
-                Btn.Text(text = "Okay") {
-
+                Positive(text = "Okay") {
+                    modal.hide()
                 }
             }
         ) {
@@ -297,26 +303,53 @@ private fun Preview_FullScreen() {
 @Preview
 @Composable
 private fun Preview_Partial() {
-    val modal = IvyModal()
-    modal.show()
-
     IvyPreview {
+        val modal = remember { IvyModal() }
+        val modal2 = remember { IvyModal() }
+        if (isInPreview()) {
+            modal.show()
+        }
+
+        Btn.Text(text = "Show modal") {
+            modal.show()
+        }
+
         Modal(
             modal = modal,
             Actions = {
-                SpacerWeight(weight = 1f)
-                Btn.Text(text = "Got it") {
+                IvyButton(
+                    size = ButtonSize.Small,
+                    visibility = ButtonVisibility.Medium,
+                    feeling = ButtonFeeling.Neutral,
+                    text = null,
+                    icon = R.drawable.ic_round_calculate_24
+                ) {
+                    modal2.show()
+                }
+                SpacerHor(width = 12.dp)
+                Positive(text = "Got it") {
+                    modal.hide()
+                }
+            }
+        ) {
+            Title(text = "Title")
+            SpacerVer(height = 24.dp)
+            Body(text = "This is a test modal!")
+            SpacerVer(height = 48.dp)
+        }
+
+        Modal(
+            modal = modal2,
+            Actions = {
+                Positive(text = "Calculate", icon = R.drawable.ic_round_calculate_24) {
 
                 }
             }
         ) {
-            SpacerVer(height = 32.dp)
-            IvyText(
-                modifier = Modifier.padding(start = 24.dp),
-                text = "Title",
-                typo = UI.typo.h2
-            )
-            SpacerVer(height = 32.dp)
+            Title(text = "Calculate")
+            SpacerVer(height = 24.dp)
+            Body(text = "Do you calculations here...")
+            SpacerVer(height = 48.dp)
         }
     }
 }

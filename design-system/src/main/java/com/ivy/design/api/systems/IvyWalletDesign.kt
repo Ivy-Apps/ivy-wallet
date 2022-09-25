@@ -11,173 +11,216 @@ import androidx.compose.ui.unit.sp
 import com.ivy.design.R
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.IvyShapes
+import com.ivy.design.l0_system.IvyTypography
+import com.ivy.design.l0_system.color.*
 
-class IvyWalletDesign : IvyDesign {
-    companion object {
-        const val OPEN_SANS_BASELINE_SHIFT = 0.075f
-        const val RALEWAY_BASELINE_SHIFT = 0.2f
-    }
 
-    override fun typography(): IvyTypography {
-        val openSans = FontFamily(
-            Font(R.font.opensans_regular, FontWeight.Normal),
-            Font(R.font.opensans_regular, FontWeight.Medium),
-            Font(R.font.opensans_bold, FontWeight.Black),
-            Font(R.font.opensans_semibold, FontWeight.SemiBold),
-            Font(R.font.opensans_bold, FontWeight.Bold),
-            Font(R.font.opensans_extrabold, FontWeight.ExtraBold),
+fun ivyWalletDesign(theme: Theme, isSystemInDarkTheme: Boolean): IvyDesign = IvyDesign(
+    typography = typography(),
+    typographySecondary = typographySecondary(),
+    colors = colors(theme = theme, isSystemInDarkTheme = isSystemInDarkTheme),
+    colorsInverted = colors(
+        theme = when (theme) {
+            Theme.Light -> Theme.Dark
+            Theme.Dark -> Theme.Light
+            Theme.Auto -> Theme.Auto
+        },
+        isSystemInDarkTheme = !isSystemInDarkTheme
+    ),
+    shapes = shapes()
+)
+
+// region Typography
+private const val OPEN_SANS_BASELINE_SHIFT = 0.075f
+private const val RALE_WAY_BASELINE_SHIFT = 0.2f
+
+private val h1 = 40.sp
+private val h2 = 32.sp
+private val b1 = 20.sp
+private val b2 = 16.sp
+private val c = 12.sp
+
+
+private fun typography(): IvyTypography {
+    val raleWay = FontFamily(
+        Font(R.font.raleway_regular, FontWeight.Normal),
+        Font(R.font.raleway_medium, FontWeight.Medium),
+        Font(R.font.raleway_black, FontWeight.Black),
+        Font(R.font.raleway_light, FontWeight.Light),
+        Font(R.font.raleway_semibold, FontWeight.SemiBold),
+        Font(R.font.raleway_bold, FontWeight.Bold),
+        Font(R.font.raleway_extrabold, FontWeight.ExtraBold),
+    )
+
+    return IvyTypography(
+        h1 = TextStyle(
+            fontFamily = raleWay,
+            fontWeight = FontWeight.Black,
+            fontSize = h1,
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
+        ),
+        h2 = TextStyle(
+            fontFamily = raleWay,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = h2,
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
+        ),
+        b1 = TextStyle(
+            fontFamily = raleWay,
+            fontWeight = FontWeight.Bold,
+            fontSize = b1,
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
+        ),
+        b2 = TextStyle(
+            fontFamily = raleWay,
+            fontWeight = FontWeight.Medium,
+            fontSize = b2,
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
+        ),
+        c = TextStyle(
+            fontFamily = raleWay,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = c,
+            baselineShift = BaselineShift(RALE_WAY_BASELINE_SHIFT),
+        ),
+    )
+}
+
+private fun typographySecondary(): IvyTypography {
+    val openSans = FontFamily(
+        Font(R.font.opensans_regular, FontWeight.Normal),
+        Font(R.font.opensans_regular, FontWeight.Medium),
+        Font(R.font.opensans_bold, FontWeight.Black),
+        Font(R.font.opensans_semibold, FontWeight.SemiBold),
+        Font(R.font.opensans_bold, FontWeight.Bold),
+        Font(R.font.opensans_extrabold, FontWeight.ExtraBold),
+    )
+
+    return IvyTypography(
+        h1 = TextStyle(
+            fontFamily = openSans,
+            fontWeight = FontWeight.Bold,
+            fontSize = h1,
+            baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
+        ),
+        h2 = TextStyle(
+            fontFamily = openSans,
+            fontWeight = FontWeight.Bold,
+            fontSize = h2,
+            baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
+        ),
+        b1 = TextStyle(
+            fontFamily = openSans,
+            fontWeight = FontWeight.Bold,
+            fontSize = b1,
+            baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
+        ),
+        b2 = TextStyle(
+            fontFamily = openSans,
+            fontWeight = FontWeight.Normal,
+            fontSize = b2,
+            baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
+        ),
+        c = TextStyle(
+            fontFamily = openSans,
+            fontWeight = FontWeight.Bold,
+            fontSize = c,
+            baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
         )
+    )
+}
+// endregion
 
-        val raleWay = FontFamily(
-            Font(R.font.raleway_regular, FontWeight.Normal),
-            Font(R.font.raleway_medium, FontWeight.Medium),
-            Font(R.font.raleway_black, FontWeight.Black),
-            Font(R.font.raleway_light, FontWeight.Light),
-            Font(R.font.raleway_semibold, FontWeight.SemiBold),
-            Font(R.font.raleway_bold, FontWeight.Bold),
-            Font(R.font.raleway_extrabold, FontWeight.ExtraBold),
-        )
+// region Colors
+private fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when (theme) {
+    Theme.Light -> IvyColors(
+        pure = White,
+        neutral = Gray,
+        medium = MediumWhite,
 
-        val h1 = 40.sp
-        val h2 = 32.sp
-        val b1 = 20.sp
-        val b2 = 16.sp
-        val c = 12.sp
+        primary = Purple,
+        primaryP1 = Purple2Light,
+        primaryP2 = Purple1Light,
 
-        return object : IvyTypography {
-            override val h1 = TextStyle(
-                fontFamily = raleWay,
-                fontWeight = FontWeight.Black,
-                fontSize = h1,
-                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
-            )
-            override val h2 = TextStyle(
-                fontFamily = raleWay,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = h2,
-                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
-            )
-            override val b1 = TextStyle(
-                fontFamily = raleWay,
-                fontWeight = FontWeight.Bold,
-                fontSize = b1,
-                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
-            )
-            override val b2 = TextStyle(
-                fontFamily = raleWay,
-                fontWeight = FontWeight.Medium,
-                fontSize = b2,
-                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
-            )
-            override val c = TextStyle(
-                fontFamily = raleWay,
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = c,
-                baselineShift = BaselineShift(RALEWAY_BASELINE_SHIFT),
-            )
+        red = Red,
+        redP1 = Red2Light,
+        redP2 = RedLight,
 
-            override val nH1 = TextStyle(
-                fontFamily = openSans,
-                fontWeight = FontWeight.Bold,
-                fontSize = h1,
-                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
-            )
-            override val nH2 = TextStyle(
-                fontFamily = openSans,
-                fontWeight = FontWeight.Bold,
-                fontSize = h2,
-                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
-            )
-            override val nB1 = TextStyle(
-                fontFamily = openSans,
-                fontWeight = FontWeight.Bold,
-                fontSize = b1,
-                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
-            )
-            override val nB2 = TextStyle(
-                fontFamily = openSans,
-                fontWeight = FontWeight.Normal,
-                fontSize = b2,
-                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
-            )
-            override val nC = TextStyle(
-                fontFamily = openSans,
-                fontWeight = FontWeight.Bold,
-                fontSize = c,
-                baselineShift = BaselineShift(OPEN_SANS_BASELINE_SHIFT),
-            )
-        }
-    }
+        orange = Orange,
+        orangeP1 = Orange2Light,
+        orangeP2 = OrangeLight,
 
-    override fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors = when (theme) {
-        Theme.Light -> object : IvyColors {
-            override val pure = White
-            override val pureInverse = Black
-            override val gray = Gray
-            override val medium = MediumWhite
-            override val mediumInverse = MediumBlack
+        yellow = Yellow,
+        yellowP1 = YellowP1Light,
+        yellowP2 = YellowLight,
 
-            override val primary = Purple
-            override val primary1 = IvyDark
+        green = Green,
+        greenP1 = Green2Light,
+        greenP2 = GreenLight,
 
-            override val green = Green
-            override val green1 = GreenLight
+        blue = Blue,
+        blueP1 = Blue2Light,
+        blueP2 = BlueLight,
 
-            override val orange = Orange
-            override val orange1 = OrangeLight
+        purple = Purple,
+        purpleP1 = Purple2Light,
+        purpleP2 = Purple1Light,
 
-            override val red = Red
-            override val red1 = RedLight
-            override val red1Inverse = RedDark
+        isLight = true
+    )
+    Theme.Dark -> IvyColors(
+        pure = Black,
+        neutral = Gray,
+        medium = MediumBlack,
 
-            override val isLight = true
-        }
-        Theme.Dark -> object : IvyColors {
-            override val pure = Black
-            override val pureInverse = White
-            override val gray = Gray
-            override val medium = MediumBlack
-            override val mediumInverse = MediumWhite
+        primary = Purple,
+        primaryP1 = Purple2Dark,
+        primaryP2 = Purple1Dark,
 
-            override val primary = Purple
-            override val primary1 = IvyLight
+        red = Red,
+        redP1 = Red2Dark,
+        redP2 = RedDark,
 
-            override val green = Green
-            override val green1 = GreenDark
+        orange = Orange,
+        orangeP1 = Orange2Dark,
+        orangeP2 = OrangeDark,
 
-            override val orange = Orange
-            override val orange1 = OrangeDark
+        yellow = Yellow,
+        yellowP1 = YellowP1Dark,
+        yellowP2 = YellowDark,
 
-            override val red = Red
-            override val red1 = RedDark
-            override val red1Inverse = RedLight
+        green = Green,
+        greenP1 = Green2Dark,
+        greenP2 = GreenDark,
 
-            override val isLight = false
-        }
-        Theme.Auto -> if (isSystemInDarkTheme)
-            colors(Theme.Dark, true) else
-            colors(Theme.Light, false)
-    }
+        blue = Blue,
+        blueP1 = Blue2Dark,
+        blueP2 = BlueDark,
 
+        purple = Purple,
+        purpleP1 = Purple2Dark,
+        purpleP2 = Purple1Dark,
 
-    override fun shapes(): IvyShapes {
-        return object : IvyShapes() {
-            override val r1 = RoundedCornerShape(32.dp)
-            override val r1Top = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
-            override val r1Bot = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
+        isLight = false
+    )
+    Theme.Auto -> if (isSystemInDarkTheme)
+        colors(Theme.Dark, true) else
+        colors(Theme.Light, false)
+}
+// endregion
 
-            override val r2 = RoundedCornerShape(24.dp)
-            override val r2Top = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-            override val r2Bot = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+private fun shapes(): IvyShapes {
+    val rSquared = 8.dp
+    val rRounded = 24.dp
 
-            override val r3 = RoundedCornerShape(20.dp)
-            override val r3Top = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
-            override val r3Bot = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-
-            override val r4 = RoundedCornerShape(16.dp)
-            override val r4Top = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-            override val r4Bot = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-        }
-    }
+    return IvyShapes(
+        squared = RoundedCornerShape(rSquared),
+        squaredTop = RoundedCornerShape(topStart = rSquared, topEnd = rSquared),
+        squaredBottom = RoundedCornerShape(bottomStart = rSquared, bottomEnd = rSquared),
+        rounded = RoundedCornerShape(rRounded),
+        roundedTop = RoundedCornerShape(topStart = rRounded, topEnd = rRounded),
+        roundedBottom = RoundedCornerShape(bottomStart = rRounded, bottomEnd = rRounded),
+        fullyRounded = RoundedCornerShape(percent = 50),
+    )
 }

@@ -1,14 +1,15 @@
 package com.ivy.design.api
 
-import com.ivy.design.Theme
-import com.ivy.design.l0_system.IvyColors
+import androidx.compose.runtime.Immutable
 import com.ivy.design.l0_system.IvyShapes
 import com.ivy.design.l0_system.IvyTypography
+import com.ivy.design.l0_system.color.IvyColors
 
-interface IvyDesign {
-    fun typography(): IvyTypography
-
-    fun colors(theme: Theme, isSystemInDarkTheme: Boolean): IvyColors
-
-    fun shapes(): IvyShapes
-}
+@Immutable
+data class IvyDesign(
+    val typography: IvyTypography,
+    val typographySecondary: IvyTypography,
+    val colors: IvyColors,
+    val colorsInverted: IvyColors,
+    val shapes: IvyShapes,
+)

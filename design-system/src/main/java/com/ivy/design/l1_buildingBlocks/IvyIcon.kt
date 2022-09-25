@@ -18,10 +18,25 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.util.thenWhen
 
 @Composable
+fun Int.Icon(
+    modifier: Modifier = Modifier,
+    tint: Color = UI.colorsInverted.pure,
+    contentDescription: String = "icon"
+) {
+    Icon(
+        modifier = modifier,
+        painter = painterResource(id = this),
+        contentDescription = contentDescription,
+        tint = tint
+    )
+}
+
+@Deprecated("use Int.Icon")
+@Composable
 fun IvyIcon(
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     contentDescription: String = "icon"
 ) {
     Icon(
@@ -37,7 +52,7 @@ fun IvyIcon(
 fun IvyIconScaled(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    tint: Color = UI.colors.pureInverse,
+    tint: Color = UI.colorsInverted.pure,
     iconScale: IconScale,
     padding: Dp = when (iconScale) {
         IconScale.S -> 4.dp

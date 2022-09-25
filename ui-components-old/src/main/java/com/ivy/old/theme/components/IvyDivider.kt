@@ -32,7 +32,7 @@ fun IvyDividerLineRounded(
         modifier = modifier
             .fillMaxWidth()
             .height(2.dp)
-            .background(UI.colors.medium, UI.shapes.rFull)
+            .background(UI.colors.medium, UI.shapes.fullyRounded)
     )
 }
 

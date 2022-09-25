@@ -5,7 +5,7 @@ import com.ivy.base.AccountBalance
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
-import com.ivy.design.l0_system.*
+import com.ivy.design.l0_system.color.*
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.io.persistence.dao.AccountDao

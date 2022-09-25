@@ -103,9 +103,9 @@ private fun SectionDividerIncomeExpenseRow(
             Text(
                 modifier = Modifier.testTag("upcoming_expense"),
                 text = "${expenses.format(baseCurrency)} $baseCurrency",
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     fontWeight = FontWeight.ExtraBold,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
             Spacer(modifier = Modifier.width(4.dp))
@@ -113,7 +113,7 @@ private fun SectionDividerIncomeExpenseRow(
                 text = stringResource(com.ivy.base.R.string.expenses_lowercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
         }
@@ -130,7 +130,7 @@ private fun SectionDividerIncomeExpenseRow(
             Text(
                 modifier = Modifier.testTag("upcoming_income"),
                 text = "${income.format(baseCurrency)} $baseCurrency",
-                style = UI.typo.nC.style(
+                style = UI.typoSecond.c.style(
                     fontWeight = FontWeight.ExtraBold,
                     color = UI.colors.green
                 )
@@ -140,7 +140,7 @@ private fun SectionDividerIncomeExpenseRow(
                 text = stringResource(com.ivy.base.R.string.income_lowercase),
                 style = UI.typo.c.style(
                     fontWeight = FontWeight.Normal,
-                    color = UI.colors.pureInverse
+                    color = UI.colorsInverted.pure
                 )
             )
         }

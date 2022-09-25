@@ -257,7 +257,7 @@ private fun BoxWithConstraintsScope.UI(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .padding(top = 16.dp)
-                .clip(UI.shapes.r1Top)
+                .clip(UI.shapes.roundedTop)
                 .background(UI.colors.pure)
                 .testTag("item_stats_lazy_column"),
             state = listState,
@@ -337,7 +337,7 @@ private fun BoxWithConstraintsScope.UI(
                             .height(32.dp)
                             .fillMaxWidth()
                             .background(itemColor) //itemColor is displayed below the clip
-                            .background(UI.colors.pure, UI.shapes.r1Top)
+                            .background(UI.colors.pure, UI.shapes.roundedTop)
                     )
 
                     PeriodSelector(
