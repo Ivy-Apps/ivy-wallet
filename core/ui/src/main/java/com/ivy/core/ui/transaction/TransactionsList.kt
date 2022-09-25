@@ -63,12 +63,11 @@ data class TrnItemClickHandler(
     val onCategoryClick: (CategoryUi) -> Unit,
 )
 
-@Composable
-fun defaultTrnItemClickHandler(): TrnItemClickHandler = TrnItemClickHandler(
-    onTrnClick = { },
-    onTransferClick = { },
-    onCategoryClick = { },
-    onAccountClick = { },
+fun dummyTrnItemClickHandler(): TrnItemClickHandler = TrnItemClickHandler(
+    onTrnClick = {},
+    onTransferClick = {},
+    onCategoryClick = {},
+    onAccountClick = {},
 )
 // endregion
 
@@ -243,7 +242,7 @@ private fun Preview_Full() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
-        val trnClickHandler = defaultTrnItemClickHandler()
+        val trnClickHandler = dummyTrnItemClickHandler()
 
         val trnsList = TransactionsListUi(
             upcoming = DueSectionUi(
@@ -391,7 +390,7 @@ private fun Preview_EmptyState() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
-        val trnClickHandler = defaultTrnItemClickHandler()
+        val trnClickHandler = dummyTrnItemClickHandler()
 
         LazyColumn {
             val trnsList = TransactionsListUi(
