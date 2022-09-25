@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -32,12 +31,6 @@ import com.ivy.design.l1_buildingBlocks.Icon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
-
-@Immutable
-data class DueActions(
-    val onSkip: (TransactionUi) -> Unit,
-    val onPayGet: (TransactionUi) -> Unit,
-)
 
 @Composable
 fun TransactionUi.Card(
@@ -230,7 +223,7 @@ private fun Preview_UpcomingExpense() {
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {},
-            dueActions = DueActions({}, {})
+            dueActions = dummyDueActions()
         )
     }
 }

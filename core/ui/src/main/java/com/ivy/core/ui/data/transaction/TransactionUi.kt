@@ -8,6 +8,7 @@ import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.data.transaction.TrnType
+import java.util.*
 
 @Immutable
 data class TransactionUi(
@@ -31,7 +32,7 @@ fun dummyTransactionUi(
     description: String? = null,
     time: TrnTimeUi = dummyTrnTimeActualUi(),
 ) = TransactionUi(
-    id = "",
+    id = UUID.randomUUID().toString(),
     type = type,
     value = value,
     account = account,
