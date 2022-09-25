@@ -1,20 +1,15 @@
-package com.ivy.core.ui.transaction
+package com.ivy.core.ui.transaction.card
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.FormattedValue
@@ -36,12 +31,6 @@ import com.ivy.design.l0_system.color.asBrush
 import com.ivy.design.l1_buildingBlocks.Icon
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.CSecond
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 
 @Immutable
@@ -59,18 +48,10 @@ fun TransactionUi.Card(
     modifier: Modifier = Modifier,
     dueActions: DueActions? = null,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(UI.shapes.rounded)
-            .background(UI.colors.medium, UI.shapes.rounded)
-            .clickable(onClick = {
-                onClick(this@Card)
-            })
-            .padding(all = 20.dp)
-            .testTag("transaction_card")
+    TransactionCard(
+        modifier = modifier,
+        onClick = { onClick(this@Card) }
     ) {
-
         IncomeExpenseHeader(
             account = account,
             category = category,
@@ -123,50 +104,6 @@ private fun IncomeExpenseHeader(
 }
 // endregion
 
-// region Due Date ("DUE ON ...")
-@Composable
-private fun DueDate(time: TrnTimeUi) {
-    if (time is TrnTimeUi.Due) {
-        SpacerVer(height = 12.dp)
-        time.dueOn.CSecond(
-            color = if (time.upcoming) UI.colors.orange else UI.colors.red,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-//endregion
-
-// region Title & Description
-@Composable
-private fun Title(
-    title: String?,
-    time: TrnTimeUi
-) {
-    if (title != null) {
-        SpacerVer(height = if (time is TrnTimeUi.Due) 8.dp else 8.dp)
-        title.B1(
-            fontWeight = FontWeight.ExtraBold
-        )
-    }
-}
-
-@Composable
-private fun Description(
-    description: String?,
-    title: String?
-) {
-    if (description != null) {
-        SpacerVer(height = if (title != null) 4.dp else 8.dp)
-        description.CSecond(
-            color = UI.colors.neutral,
-            fontWeight = FontWeight.Bold,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-//endregion
-
 // region TrnType & Amount
 @Composable
 private fun TrnValue(
@@ -174,13 +111,8 @@ private fun TrnValue(
     type: TrnType,
     time: TrnTimeUi,
 ) {
-    SpacerVer(height = if (time is TrnTimeUi.Due) 12.dp else 12.dp)
-    Row(
-        modifier = Modifier
-            .testTag("type_amount_currency")
-            .padding(horizontal = 4.dp), // additional padding to look better?
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    SpacerVer(height = 12.dp)
+    TransactionCardAmountRow {
         TrnTypeIcon(type = type, time = time)
         SpacerHor(width = 12.dp)
         value.AmountCurrency(
@@ -188,7 +120,8 @@ private fun TrnValue(
                 TrnType.Income -> UI.colors.green
                 TrnType.Expense -> when (time) {
                     is TrnTimeUi.Actual -> UI.colorsInverted.pure
-                    is TrnTimeUi.Due -> if (time.upcoming) UI.colors.orange else UI.colors.red
+                    is TrnTimeUi.Due -> if (time.upcoming)
+                        UI.colors.orange else UI.colors.red
                 }
             }
         )
@@ -237,64 +170,6 @@ private fun TrnTypeIcon(
     )
 }
 // endregion
-
-// region Due Payment CTAs
-@Composable
-private fun DuePaymentCTAs(
-    time: TrnTimeUi,
-    type: TrnType,
-    onSkip: () -> Unit,
-    onPayGet: () -> Unit,
-) {
-    if (time is TrnTimeUi.Due) {
-        SpacerVer(height = 12.dp)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp), // additional padding to look better
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            SkipButton(onClick = onSkip)
-            SpacerHor(width = 12.dp)
-            PayGetButton(type = type, onClick = onPayGet)
-        }
-    }
-}
-
-@Composable
-private fun RowScope.SkipButton(
-    onClick: () -> Unit
-) {
-    IvyButton(
-        modifier = Modifier.weight(1f),
-        size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Negative,
-        text = stringResource(R.string.skip),
-        icon = null,
-        onClick = onClick,
-    )
-}
-
-@Composable
-private fun RowScope.PayGetButton(
-    type: TrnType,
-    onClick: () -> Unit
-) {
-    val isIncome = type == TrnType.Income
-    IvyButton(
-        modifier = Modifier.weight(1f),
-        size = ButtonSize.Big,
-        visibility = ButtonVisibility.High,
-        feeling = ButtonFeeling.Positive,
-        text = stringResource(if (isIncome) R.string.get else R.string.pay),
-        icon = null,
-        onClick = onClick,
-    )
-}
-// endregion
-
 
 // region Previews
 @Preview
