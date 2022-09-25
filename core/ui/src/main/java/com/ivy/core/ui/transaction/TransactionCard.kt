@@ -26,6 +26,7 @@ import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.core.ui.data.transaction.dummyTransactionUi
+import com.ivy.core.ui.data.transaction.dummyTrnTimeDueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.transaction.TrnType
 import com.ivy.design.l0_system.UI
@@ -285,7 +286,7 @@ private fun RowScope.PayGetButton(
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
+        visibility = ButtonVisibility.High,
         feeling = ButtonFeeling.Positive,
         text = stringResource(if (isIncome) R.string.get else R.string.pay),
         icon = null,
@@ -332,6 +333,29 @@ private fun Preview_Income() {
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_UpcomingExpense() {
+    ComponentPreview {
+        dummyTransactionUi(
+            type = TrnType.Expense,
+            value = FormattedValue(
+                amount = "1,005.00",
+                currency = "USD"
+            ),
+            title = "Upcoming Expense",
+            description = "Description",
+            time = dummyTrnTimeDueUi(),
+        ).Card(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            onClick = {},
+            onAccountClick = {},
+            onCategoryClick = {},
+            dueActions = DueActions({}, {})
         )
     }
 }

@@ -22,10 +22,10 @@ sealed interface TrnTimeUi {
 @Composable
 fun dummyTrnTimeActualUi(
     time: LocalDateTime = timeNowLocal()
-) = TrnTimeUi.Actual(time.formatNicely(LocalContext.current))
+) = TrnTimeUi.Actual(time.formatNicely(LocalContext.current).uppercase())
 
 @Composable
 fun dummyTrnTimeDueUi(
     time: LocalDateTime = timeNowLocal().plusHours(1),
     upcoming: Boolean = true,
-) = TrnTimeUi.Due(time.formatNicely(LocalContext.current), upcoming = upcoming)
+) = TrnTimeUi.Due(time.formatNicely(LocalContext.current).uppercase(), upcoming = upcoming)

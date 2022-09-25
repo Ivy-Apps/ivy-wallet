@@ -100,7 +100,7 @@ class MapTransactionListUiAct @Inject constructor(
 
         return when (domain) {
             is TrnTime.Actual -> TrnTimeUi.Actual(
-                actual = formatTime(domain.actual)
+                actual = formatTime(domain.actual).uppercase()
             )
             is TrnTime.Due -> TrnTimeUi.Due(
                 dueOn = appContext.getString(
