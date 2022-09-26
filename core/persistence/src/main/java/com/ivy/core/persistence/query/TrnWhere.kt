@@ -10,7 +10,6 @@ import com.ivy.data.time.Period
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import java.time.LocalDateTime
-import java.util.*
 
 sealed interface TrnWhere {
     data class ById(val id: String) : TrnWhere
@@ -66,7 +65,6 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
     fun <T> arg(arg: T): List<T> = listOf(arg)
     fun noArg() = arg(EmptyArg)
 
-    fun uuid(id: UUID): String = id.toString()
     fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochSeconds()
     fun trnType(type: TransactionType): Int = type.code
 
