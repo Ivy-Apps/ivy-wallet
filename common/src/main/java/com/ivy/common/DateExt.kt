@@ -19,8 +19,6 @@ fun dateNowLocal(): LocalDate = LocalDate.now()
 
 fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()
 
-fun endOfDayNowUTC() = dateNowUTC().atEndOfDay()
-
 fun Long.epochSecondToDateTime(): LocalDateTime =
     LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
 
@@ -34,16 +32,6 @@ fun LocalDateTime.toEpochMilli(): Long = millis()
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
 fun LocalDate.formatDateOnly(): String = this.formatPattern("MMM. dd", ZoneOffset.systemDefault())
-
-fun LocalDate.formatDateOnlyWithYear(): String =
-    this.formatPattern("dd MMM, yyyy", ZoneOffset.systemDefault())
-
-
-fun LocalDate.formatDateWeekDay(): String =
-    this.formatPattern("EEE, dd MMM", ZoneOffset.systemDefault())
-
-fun LocalDate.formatDateWeekDayLong(): String =
-    this.formatPattern("EEEE, dd MMM", ZoneOffset.systemDefault())
 
 
 fun LocalDateTime.formatPattern(pattern: String): String {
@@ -71,11 +59,6 @@ fun LocalDateTime.convertUTCtoLocal(zone: ZoneId = ZoneOffset.systemDefault()): 
 
 fun LocalDateTime.convertUTCto(zone: ZoneId): LocalDateTime {
     return plusSeconds(atZone(zone).offset.totalSeconds.toLong())
-}
-
-fun LocalTime.convertLocalToUTC(): LocalTime {
-    val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
-    return this.minusSeconds(offset)
 }
 
 fun LocalTime.convertUTCToLocal(): LocalTime {
