@@ -7,7 +7,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,8 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.timeNowUTC
 import com.ivy.core.domain.pure.format.dummyFormattedValue
-import com.ivy.core.ui.data.AccountUi
-import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
@@ -27,6 +28,10 @@ import com.ivy.core.ui.data.transaction.*
 import com.ivy.core.ui.transaction.card.Card
 import com.ivy.core.ui.transaction.card.DueActions
 import com.ivy.core.ui.transaction.card.dummyDueActions
+import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
+import com.ivy.core.ui.transaction.handling.defaultExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.*
@@ -36,40 +41,6 @@ import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.B2
 import com.ivy.design.util.IvyPreview
 import com.ivy.resources.R
-
-// region Expand & Collapse Handling
-@Immutable
-data class ExpandCollapseHandler(
-    val expanded: Boolean,
-    val setExpanded: (Boolean) -> Unit,
-)
-
-@Composable
-fun defaultExpandCollapseHandler(): ExpandCollapseHandler {
-    var expanded by remember { mutableStateOf(false) }
-    return ExpandCollapseHandler(
-        expanded = expanded,
-        setExpanded = { expanded = it }
-    )
-}
-// endregion
-
-// region Transaction Item Click Handling
-@Immutable
-data class TrnItemClickHandler(
-    val onTrnClick: (TransactionUi) -> Unit,
-    val onTransferClick: (TrnListItemUi.Transfer) -> Unit,
-    val onAccountClick: (AccountUi) -> Unit,
-    val onCategoryClick: (CategoryUi) -> Unit,
-)
-
-fun dummyTrnItemClickHandler(): TrnItemClickHandler = TrnItemClickHandler(
-    onTrnClick = {},
-    onTransferClick = {},
-    onCategoryClick = {},
-    onAccountClick = {},
-)
-// endregion
 
 // region EmptyState data
 @Immutable
@@ -242,7 +213,7 @@ private fun Preview_Full() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
-        val trnClickHandler = dummyTrnItemClickHandler()
+        val trnClickHandler = defaultTrnItemClickHandler()
 
         val trnsList = TransactionsListUi(
             upcoming = DueSectionUi(
@@ -390,7 +361,7 @@ private fun Preview_EmptyState() {
         val upcomingHandler = defaultExpandCollapseHandler()
         val overdueHandler = defaultExpandCollapseHandler()
         val emptyState = defaultEmptyState()
-        val trnClickHandler = dummyTrnItemClickHandler()
+        val trnItemClickHandler = defaultTrnItemClickHandler()
 
         LazyColumn {
             val trnsList = TransactionsListUi(
@@ -405,7 +376,7 @@ private fun Preview_EmptyState() {
                 upcomingHandler = upcomingHandler,
                 overdueHandler = overdueHandler,
                 dueActions = dummyDueActions(),
-                trnClickHandler = trnClickHandler,
+                trnClickHandler = trnItemClickHandler,
             )
         }
     }

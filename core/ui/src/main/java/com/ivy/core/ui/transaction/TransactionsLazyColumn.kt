@@ -17,6 +17,10 @@ import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.data.icon.dummyIconUnknown
 import com.ivy.core.ui.data.transaction.*
 import com.ivy.core.ui.transaction.card.DueActions
+import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
+import com.ivy.core.ui.transaction.handling.defaultExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -42,7 +46,7 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
  * @param emptyState _(optional)_ empty state title and message.
  * @param upcomingHandler _(optional)_ custom expand/collapse handling for the "Upcoming" section.
  * @param overdueHandler _(optional)_ custom expand/collapse handling for the "Overdue" section.
- * @param trnItemClickHandler _(optional)_ handling for
+ * @param trnItemClickHandler _(optional)_ custom handling for
  * transaction click, category click and account click events for a transaction item in the list.
  */
 @Composable
@@ -55,7 +59,7 @@ fun TransactionsListUi.TrnsLazyColumn(
     emptyState: EmptyState = defaultEmptyState(),
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
-    trnItemClickHandler: TrnItemClickHandler = dummyTrnItemClickHandler(),
+    trnItemClickHandler: TrnItemClickHandler = defaultTrnItemClickHandler(),
 ) {
     val state = rememberLazyListState(
         initialFirstVisibleItemIndex =

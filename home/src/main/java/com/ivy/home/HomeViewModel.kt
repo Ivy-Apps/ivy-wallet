@@ -11,12 +11,10 @@ import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
 import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
 import com.ivy.core.domain.action.transaction.or
 import com.ivy.core.domain.pure.time.period
-import com.ivy.core.ui.navigation.Nav
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
-import com.ivy.screens.BalanceScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -26,7 +24,6 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val nav: Nav,
     private val balanceFlow: TotalBalanceFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val trnsListFlow: TrnsListFlow,
@@ -124,7 +121,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleBalanceClick() {
-        nav.navigateTo(BalanceScreen)
+//        nav.navigateTo(BalanceScreen)
     }
 
     private suspend fun handleHiddenBalanceClick() {
