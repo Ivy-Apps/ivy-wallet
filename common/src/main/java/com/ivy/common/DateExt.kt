@@ -33,7 +33,7 @@ fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
 fun LocalDate.formatDateOnly(): String = this.formatPattern("MMM. dd", ZoneOffset.systemDefault())
 
-
+@Deprecated("use LocalDateTime.format(String)")
 fun LocalDateTime.formatPattern(pattern: String): String {
     val zone = ZoneOffset.systemDefault()
     val localDateTime = this.convertUTCtoLocal(zone)
@@ -45,13 +45,8 @@ fun LocalDateTime.formatPattern(pattern: String): String {
     )
 }
 
-fun LocalDateTime.format(
-    pattern: String
-): String {
-    return this.format(
-        DateTimeFormatter.ofPattern(pattern)
-    )
-}
+fun LocalDateTime.format(pattern: String): String =
+    this.format(DateTimeFormatter.ofPattern(pattern))
 
 fun LocalDateTime.convertUTCtoLocal(zone: ZoneId = ZoneOffset.systemDefault()): LocalDateTime {
     return this.convertUTCto(zone)

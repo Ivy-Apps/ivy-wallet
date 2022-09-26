@@ -9,6 +9,7 @@ import com.ivy.core.domain.action.FlowViewModel
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.pure.time.allTime
+import com.ivy.core.domain.pure.time.currentMonthlyPeriod
 import com.ivy.core.domain.pure.time.dateToSelectedMonthlyPeriod
 import com.ivy.core.domain.pure.time.shiftTime
 import com.ivy.core.ui.data.period.MonthUi
@@ -66,7 +67,8 @@ class SelectedPeriodHandlerViewModel @Inject constructor(
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
                 startDayOfMonth = state.value.startDayOfMonth
             )
-            is PeriodModalEvent.SetPeriod -> TODO()
+            PeriodModalEvent.ResetToCurrentPeriod ->
+                currentMonthlyPeriod(startDayOfMonth = state.value.startDayOfMonth)
         }
 
         setSelectedPeriodAct(selectedPeriod)

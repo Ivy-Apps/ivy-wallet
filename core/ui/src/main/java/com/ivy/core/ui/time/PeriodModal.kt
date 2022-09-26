@@ -1,30 +1,34 @@
 package com.ivy.core.ui.time
 
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.dateNowLocal
+import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
-import com.ivy.core.ui.data.period.MonthUi
-import com.ivy.core.ui.data.period.SelectedPeriodUi
-import com.ivy.core.ui.data.period.monthsList
+import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.time.handling.PeriodModalEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodHandlerViewModel
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.DividerH
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l1_buildingBlocks.SpacerWeight
+import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Set
-import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
@@ -33,6 +37,7 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.viewModelPreviewSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
 
 @Composable
 fun BoxScope.PeriodModal(
@@ -56,41 +61,58 @@ private fun BoxScope.UI(
     state: SelectedPeriodHandlerViewModel.State,
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
-    var internalPeriod by remember(selectedPeriod) {
-        mutableStateOf(selectedPeriod)
-    }
-
     Modal(
         modal = modal,
         actions = {
             Set {
-                onEvent(PeriodModalEvent.SetPeriod(internalPeriod))
+                modal.hide()
             }
         }
     ) {
-        val setSelected = { newPeriod: SelectedPeriodUi ->
-            internalPeriod = newPeriod
-        }
+        ChooseMonth(months = state.months, selected = selectedPeriod, onEvent = onEvent)
 
-        ChooseMonth(months = state.months, selected = internalPeriod, setSelected = setSelected)
-        FromToRange(selected = internalPeriod, setSelected = setSelected)
-        InTheLast(selected = internalPeriod, setSelected = setSelected)
-        AllTime(selected = internalPeriod, setSelected = setSelected)
+        SpacerVer(height = 16.dp)
+        DividerH(width = 1.dp)
+        SpacerVer(height = 12.dp)
+
+        FromToRange(selected = selectedPeriod, onEvent = onEvent)
+
+        InTheLast(selected = selectedPeriod)
+        AllTime(selected = selectedPeriod)
     }
 }
 
 // region Choose month
 @Composable
-private fun ModalScope.ChooseMonth(
+private fun ChooseMonth(
     months: List<MonthUi>,
     selected: SelectedPeriodUi,
-    setSelected: (SelectedPeriodUi) -> Unit
+    onEvent: (PeriodModalEvent) -> Unit,
 ) {
-    Title(
-        text = stringResource(R.string.choose_month),
-        color = if (selected is SelectedPeriodUi.Monthly)
-            UI.colors.primary else UI.colorsInverted.pure
-    )
+    SpacerVer(height = 16.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        "Month".B1(
+            fontWeight = FontWeight.ExtraBold,
+            color = if (selected is SelectedPeriodUi.Monthly)
+                UI.colors.primary else UI.colorsInverted.pure
+        )
+        SpacerWeight(weight = 1f)
+        IvyButton(
+            modifier = Modifier.alignByBaseline(),
+            size = ButtonSize.Small,
+            visibility = ButtonVisibility.Low,
+            feeling = ButtonFeeling.Positive,
+            text = "RESET",
+            icon = null,
+        ) {
+            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
+        }
+    }
     SpacerVer(height = 8.dp)
 
     val state = rememberLazyListState()
@@ -114,7 +136,7 @@ private fun ModalScope.ChooseMonth(
         }
         items(months) { month ->
             MonthItem(month = month, selected = month == selectedMonth) {
-                setSelected(SelectedPeriodUi.Monthly(month = it))
+                onEvent(PeriodModalEvent.Monthly(month))
             }
             SpacerHor(width = 8.dp)
         }
@@ -139,26 +161,89 @@ private fun MonthItem(
 }
 // endregion
 
+// region From - To
 @Composable
 private fun FromToRange(
     selected: SelectedPeriodUi,
-    setSelected: (SelectedPeriodUi) -> Unit
+    onEvent: (PeriodModalEvent) -> Unit,
 ) {
-
+    val periodUi = selected.periodUi()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        PeriodClosureColumn(
+            label = "From",
+            dateText = periodUi.fromText,
+            onDateSelected = {
+                // TODO
+            }
+        )
+        SpacerHor(width = 16.dp)
+        PeriodClosureColumn(
+            label = "To",
+            dateText = periodUi.toText,
+            onDateSelected = {
+                // TODO
+            }
+        )
+    }
 }
 
 @Composable
+private fun RowScope.PeriodClosureColumn(
+    label: String,
+    dateText: String,
+    onDateSelected: (LocalDateTime) -> Unit
+) {
+    Column(
+        modifier = Modifier.weight(1f)
+    ) {
+        label.B1(
+            modifier = Modifier.padding(start = 16.dp),
+            fontWeight = FontWeight.Bold
+        )
+        SpacerVer(height = 4.dp)
+        DateButton(
+            dateText = dateText,
+            onDateSelected = onDateSelected,
+        )
+    }
+}
+
+@Composable
+private fun DateButton(
+    modifier: Modifier = Modifier,
+    dateText: String,
+    onDateSelected: (LocalDateTime) -> Unit
+) {
+    IvyButton(
+        modifier = modifier,
+        size = ButtonSize.Big,
+        visibility = ButtonVisibility.Medium,
+        feeling = ButtonFeeling.Positive,
+        text = dateText,
+        icon = R.drawable.ic_round_calendar_month_24
+    ) {
+        // TODO: Pick a date
+    }
+
+}
+
+// endregion
+
+@Composable
 private fun InTheLast(
-    selected: SelectedPeriodUi,
-    setSelected: (SelectedPeriodUi) -> Unit
+    selected: SelectedPeriodUi
 ) {
 
 }
 
 @Composable
 private fun AllTime(
-    selected: SelectedPeriodUi,
-    setSelected: (SelectedPeriodUi) -> Unit
+    selected: SelectedPeriodUi
 ) {
 
 }
@@ -171,7 +256,21 @@ private fun Preview() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
-        PeriodModal(modal = modal, selectedPeriod = SelectedPeriodUi.AllTime)
+        PeriodModal(
+            modal = modal,
+            selectedPeriod = SelectedPeriodUi.Monthly(
+                month = MonthUi(
+                    number = 2,
+                    year = dateNowLocal().year,
+                    fullName = fullMonthName(LocalContext.current, monthNumber = 2),
+                ),
+                periodUi = PeriodUi(
+                    period = allTime(),
+                    fromText = "Feb. 01",
+                    toText = "Feb. 28"
+                )
+            )
+        )
     }
 }
 

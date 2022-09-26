@@ -3,15 +3,18 @@ package com.ivy.core.ui.action.mapping
 import android.content.Context
 import androidx.annotation.StringRes
 import com.ivy.common.dateNowLocal
-import com.ivy.common.formatPattern
+import com.ivy.common.format
+import com.ivy.core.domain.pure.time.period
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.MonthUi
+import com.ivy.core.ui.data.period.PeriodUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.fullMonthName
 import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeUnit
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MapSelectedPeriodAct @Inject constructor(
@@ -19,24 +22,24 @@ class MapSelectedPeriodAct @Inject constructor(
     private val appContext: Context,
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {
     override suspend fun transform(domain: SelectedPeriod): SelectedPeriodUi = when (domain) {
-        is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime
-//            text = appContext.getString(R.string.all_time)
+        is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime(
+            periodUi = periodUi(domain)
+        )
         is SelectedPeriod.CustomRange -> SelectedPeriodUi.CustomRange(
-//            text = formatFromToPeriod(domain.period),
-            period = domain.period,
+            periodUi = periodUi(domain)
         )
         is SelectedPeriod.InTheLast -> SelectedPeriodUi.InTheLast(
-//            text = formatInTheLast(domain),
             n = domain.n,
             unit = domain.unit,
+            periodUi = periodUi(domain)
         )
         is SelectedPeriod.Monthly -> SelectedPeriodUi.Monthly(
-//            text = formatMonthly(domain),
             month = MonthUi(
                 number = domain.month.number,
                 year = domain.month.year,
                 fullName = fullMonthName(appContext, monthNumber = domain.month.number)
-            )
+            ),
+            periodUi = periodUi(domain)
         )
     }
 
@@ -60,14 +63,28 @@ class MapSelectedPeriodAct @Inject constructor(
         } else {
             val month = monthly.period.from
             val thisYear = month.year == dateNowLocal().year
-            val pattern = if (thisYear) "MMM" else "MMM yyyy"
-            month.formatPattern(pattern)
+            val pattern = if (thisYear) "MMM" else "MMM. yyyy"
+            month.format(pattern)
         }
 
     private fun formatFromToPeriod(period: Period.FromTo): String {
         val pattern = "MMM dd"
-        val from = period.from.formatPattern(pattern)
-        val to = period.to.formatPattern(pattern)
+        val from = period.from.format(pattern)
+        val to = period.to.format(pattern)
         return "$from - $to"
+    }
+
+    private fun periodUi(selectedPeriod: SelectedPeriod): PeriodUi {
+        fun format(time: LocalDateTime, currentYear: Int): String =
+            time.format(if (time.year == currentYear) "MMM. dd" else "MMM. dd, yyyy")
+
+        val period = selectedPeriod.period()
+        val currentYear = dateNowLocal().year
+
+        return PeriodUi(
+            period = period,
+            fromText = format(period.from, currentYear),
+            toText = format(period.to, currentYear)
+        )
     }
 }
