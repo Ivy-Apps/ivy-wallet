@@ -203,7 +203,7 @@ fun CloseButton(
     IvyButton(
         size = ButtonSize.Small,
         visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Neutral,
+        feeling = ButtonFeeling.Disabled,
         text = null,
         icon = R.drawable.ic_round_close_24,
         onClick = onClick
@@ -325,7 +325,7 @@ private fun Preview_Partial() {
                 IvyButton(
                     size = ButtonSize.Small,
                     visibility = ButtonVisibility.Medium,
-                    feeling = ButtonFeeling.Neutral,
+                    feeling = ButtonFeeling.Disabled,
                     text = null,
                     icon = R.drawable.ic_round_calculate_24
                 ) {

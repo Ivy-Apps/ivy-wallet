@@ -46,6 +46,19 @@ fun ModalActionsScope.Set(
     )
 }
 
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Done(
+    onClick: () -> Unit
+) {
+    Positive(
+        text = "Done",
+        icon = R.drawable.ic_round_check_24,
+        visibility = ButtonVisibility.Focused,
+        onClick = onClick
+    )
+}
+
 
 @Suppress("unused")
 @Composable

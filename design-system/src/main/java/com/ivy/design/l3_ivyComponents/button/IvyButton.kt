@@ -40,7 +40,8 @@ fun IvyButton(
     val bgColor = when (feeling) {
         ButtonFeeling.Positive -> UI.colors.primary
         ButtonFeeling.Negative -> UI.colors.red
-        ButtonFeeling.Neutral -> UI.colors.medium
+        ButtonFeeling.Neutral -> UI.colors.neutral
+        ButtonFeeling.Disabled -> UI.colors.medium
     }
 
     val iconOnly = icon != null && text == null
@@ -171,7 +172,7 @@ private fun PreviewCommon() {
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
                 visibility = ButtonVisibility.Focused,
-                feeling = ButtonFeeling.Neutral,
+                feeling = ButtonFeeling.Disabled,
                 text = "Disabled button",
                 icon = null,
             ) {}

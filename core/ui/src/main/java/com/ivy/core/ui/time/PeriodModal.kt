@@ -23,11 +23,10 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerH
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
-import com.ivy.design.l2_components.modal.components.Set
+import com.ivy.design.l2_components.modal.components.Done
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
@@ -64,7 +63,7 @@ private fun BoxScope.UI(
     Modal(
         modal = modal,
         actions = {
-            Set {
+            Done {
                 modal.hide()
             }
         }
@@ -72,13 +71,18 @@ private fun BoxScope.UI(
         ChooseMonth(months = state.months, selected = selectedPeriod, onEvent = onEvent)
 
         SpacerVer(height = 16.dp)
-        DividerH(width = 1.dp)
+        DividerH(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
         FromToRange(selected = selectedPeriod, onEvent = onEvent)
 
-        InTheLast(selected = selectedPeriod)
-        AllTime(selected = selectedPeriod)
+        SpacerVer(height = 16.dp)
+        DividerH(width = 1.dp, color = UI.colors.neutral)
+        SpacerVer(height = 12.dp)
+
+        MoreOptions(selected = selectedPeriod, onEvent = onEvent)
+
+        SpacerVer(height = 48.dp)
     }
 }
 
@@ -90,29 +94,12 @@ private fun ChooseMonth(
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
     SpacerVer(height = 16.dp)
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        "Month".B1(
-            fontWeight = FontWeight.ExtraBold,
-            color = if (selected is SelectedPeriodUi.Monthly)
-                UI.colors.primary else UI.colorsInverted.pure
-        )
-        SpacerWeight(weight = 1f)
-        IvyButton(
-            modifier = Modifier.alignByBaseline(),
-            size = ButtonSize.Small,
-            visibility = ButtonVisibility.Low,
-            feeling = ButtonFeeling.Positive,
-            text = "RESET",
-            icon = null,
-        ) {
-            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
-        }
-    }
+    "Month".B1(
+        modifier = Modifier.padding(start = 24.dp),
+        fontWeight = FontWeight.ExtraBold,
+        color = if (selected is SelectedPeriodUi.Monthly)
+            UI.colors.primary else UI.colorsInverted.pure
+    )
     SpacerVer(height = 8.dp)
 
     val state = rememberLazyListState()
@@ -152,7 +139,7 @@ private fun MonthItem(
     IvyButton(
         size = ButtonSize.Small,
         visibility = if (selected) ButtonVisibility.High else ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        feeling = if (selected) ButtonFeeling.Positive else ButtonFeeling.Neutral,
         text = month.fullName,
         icon = null
     ) {
@@ -223,7 +210,7 @@ private fun DateButton(
         modifier = modifier,
         size = ButtonSize.Big,
         visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        feeling = ButtonFeeling.Neutral,
         text = dateText,
         icon = R.drawable.ic_round_calendar_month_24
     ) {
@@ -234,19 +221,60 @@ private fun DateButton(
 
 // endregion
 
+// region More Options
 @Composable
-private fun InTheLast(
-    selected: SelectedPeriodUi
+private fun MoreOptions(
+    selected: SelectedPeriodUi,
+    onEvent: (PeriodModalEvent) -> Unit
 ) {
-
+    "More options".B1(
+        modifier = Modifier.padding(start = 24.dp),
+        fontWeight = FontWeight.Bold,
+        color = UI.colorsInverted.pure
+    )
+    SpacerVer(height = 8.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = if (selected is SelectedPeriodUi.AllTime)
+                ButtonVisibility.High else ButtonVisibility.Medium,
+            feeling = ButtonFeeling.Positive,
+            text = "All-time",
+            icon = null
+        ) {
+            onEvent(PeriodModalEvent.AllTime)
+        }
+        SpacerHor(width = 8.dp)
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = ButtonVisibility.Medium,
+            feeling = ButtonFeeling.Neutral,
+            text = "Common",
+            icon = null
+        ) {
+            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
+        }
+        SpacerHor(width = 8.dp)
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = ButtonVisibility.Medium,
+            feeling = ButtonFeeling.Negative,
+            text = "Reset",
+            icon = null
+        ) {
+            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
+        }
+    }
 }
-
-@Composable
-private fun AllTime(
-    selected: SelectedPeriodUi
-) {
-
-}
+// endregion
 
 
 // region Previews
