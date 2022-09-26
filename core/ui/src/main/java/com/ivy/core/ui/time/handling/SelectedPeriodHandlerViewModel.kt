@@ -49,6 +49,7 @@ class SelectedPeriodHandlerViewModel @Inject constructor(
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
                 startDayOfMonth = state.value.startDayOfMonth
             )
+            is PeriodModalEvent.SetPeriod -> TODO()
         }
 
         setSelectedPeriodAct(selectedPeriod)
