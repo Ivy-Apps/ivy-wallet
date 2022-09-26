@@ -37,10 +37,10 @@ class MapSelectedPeriodAct @Inject constructor(
 
         // TODO: Re-work using String resource plurals
         val unit = when (period.unit) {
-            TimeUnit.DAY -> unit(one = R.string.day, many = R.string.days)
-            TimeUnit.WEEK -> unit(one = R.string.week, many = R.string.weeks)
-            TimeUnit.MONTH -> unit(one = R.string.month, many = R.string.months)
-            TimeUnit.YEAR -> unit(one = R.string.year, many = R.string.years)
+            TimeUnit.Day -> unit(one = R.string.day, many = R.string.days)
+            TimeUnit.Week -> unit(one = R.string.week, many = R.string.weeks)
+            TimeUnit.Month -> unit(one = R.string.month, many = R.string.months)
+            TimeUnit.Year -> unit(one = R.string.year, many = R.string.years)
         }
         return "Last ${period.n} $unit"
     }
