@@ -4,7 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.ivy.navigation.destinations.debug.DebugGraph
+import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
+import com.ivy.navigation.graph.debug
 import com.ivy.navigation.graph.onboardingGraph
 import kotlinx.coroutines.flow.collectLatest
 
@@ -12,6 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun NavigationRoot(
     navigator: Navigator,
     onboardingScreens: OnboardingScreens,
+    debugScreens: DebugScreens,
 ) {
     val navController = rememberNavController()
     LaunchedEffect(Unit) {
@@ -27,8 +31,9 @@ fun NavigationRoot(
     }
     NavHost(
         navController = navController,
-        startDestination = "onboarding"
+        startDestination = DebugGraph.route
     ) {
         onboardingGraph(onboardingScreens)
+        debug(debugScreens)
     }
 }

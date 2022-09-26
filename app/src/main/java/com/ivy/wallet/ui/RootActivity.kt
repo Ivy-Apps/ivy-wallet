@@ -45,15 +45,19 @@ import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
+import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.NavigationRoot
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.import_data.ImportCSVScreen
 import com.ivy.item_transactions.ItemStatisticScreen
 import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.main.MainScreen
+import com.ivy.navigation.NavigationRoot
+import com.ivy.navigation.Navigator
+import com.ivy.navigation.graph.DebugScreens
+import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.onboarding.OnboardingScreen
 import com.ivy.pie_charts.PieChartStatisticScreen
 import com.ivy.reports.ReportScreen
@@ -89,6 +93,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var customerJourneyLogic: CustomerJourneyLogic
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
@@ -158,9 +165,21 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 )
             }
             false -> {
-                NavigationRoot(navigation = navigation) { screen ->
-                    Screens(screen)
-                }
+                NavigationRoot(
+                    navigator = navigator,
+                    onboardingScreens = OnboardingScreens(
+                        loginOrOffline = {},
+                        importBackup = {},
+                        setCurrency = {},
+                        addAccounts = {},
+                        addCategories = {}
+                    ),
+                    debugScreens = DebugScreens(
+                        test = {
+                            TestScreen()
+                        }
+                    )
+                )
             }
         }
     }
@@ -512,4 +531,38 @@ class RootActivity : AppCompatActivity(), RootScreen {
         val addTransactionWidget = ComponentName(this, widget)
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
+
+    // region New
+    override fun datePicker(
+        minDate: LocalDate?,
+        maxDate: LocalDate?,
+        initialDate: LocalDate?,
+        onDatePicked: (LocalDate) -> Unit
+    ) {
+        val picker = DatePickerDialog(this)
+
+        if (minDate != null) {
+            picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
+        }
+
+        if (maxDate != null) {
+            picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
+        }
+
+        picker.setOnDateSetListener { _, year, month, dayOfMonth ->
+            Timber.i("Date picked: $year year $month month day $dayOfMonth")
+            onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
+        }
+        picker.show()
+
+        if (initialDate != null) {
+            picker.updateDate(
+                initialDate.year,
+                //month - 1 because LocalDate start from 1 and date picker starts from 0
+                initialDate.monthValue - 1,
+                initialDate.dayOfMonth
+            )
+        }
+    }
+    // endregion
 }

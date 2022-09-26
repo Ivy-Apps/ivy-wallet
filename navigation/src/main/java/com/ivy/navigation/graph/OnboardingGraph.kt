@@ -1,13 +1,13 @@
 package com.ivy.navigation.graph
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.ivy.navigation.destinations.onboarding.OnboardingGraph
 
-@Stable
+@Immutable
 data class OnboardingScreens(
     val loginOrOffline: @Composable () -> Unit,
     val importBackup: @Composable () -> Unit,
@@ -16,7 +16,7 @@ data class OnboardingScreens(
     val addCategories: @Composable () -> Unit,
 )
 
-fun NavGraphBuilder.onboardingGraph(
+internal fun NavGraphBuilder.onboardingGraph(
     screens: OnboardingScreens
 ) {
     navigation(

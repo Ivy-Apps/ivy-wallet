@@ -141,6 +141,7 @@ fun BoxScope.Modal(
                 Actions = actions,
                 onClose = { modal.hide() },
             )
+            SpacerVer(height = 12.dp)
         }
     }
 }

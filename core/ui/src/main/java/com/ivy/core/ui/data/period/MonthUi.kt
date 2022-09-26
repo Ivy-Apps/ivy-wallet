@@ -8,14 +8,18 @@ import com.ivy.resources.R
 data class MonthUi(
     val number: Int,
     val year: Int,
+    val currentYear: Boolean,
     val fullName: String,
 )
 
-fun monthsList(context: Context, year: Int): List<MonthUi> =
+fun monthsList(
+    context: Context, year: Int, currentYear: Boolean
+): List<MonthUi> =
     (1..12).map { number ->
         MonthUi(
             number = number,
             year = year,
+            currentYear = currentYear,
             fullName = fullMonthName(context = context, monthNumber = number)
         )
     }

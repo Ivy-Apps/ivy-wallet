@@ -82,6 +82,9 @@ object Versions {
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
 
+    //https://developer.android.com/jetpack/androidx/releases/hilt
+    const val hiltNavigationCompose = "1.0.0"
+
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
 
@@ -140,6 +143,7 @@ object Versions {
     // region http://robolectric.org/getting-started/
     const val robolectric = "4.8"
     const val robolectricJunit = "4.13.2"
+
     //https://kotest.io/docs/extensions/robolectric.html
     const val robolectricKotestExt = "0.5.0"
     // endregion
@@ -278,7 +282,7 @@ fun DependencyHandler.Firebase() {
  * https://developer.android.com/training/dependency-injection/hilt-android
  */
 fun DependencyHandler.Hilt() {
-    val api = true
+    val api = false
     dependency("com.google.dagger:hilt-android:${Versions.hilt}", api = api)
     kapt("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
 
@@ -286,6 +290,11 @@ fun DependencyHandler.Hilt() {
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
     dependency("androidx.hilt:hilt-work:${Versions.hiltX}", api = api)
+
+    dependency(
+        "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}",
+        api = api
+    )
 
     HiltTesting()
 }

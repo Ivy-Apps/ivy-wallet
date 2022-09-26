@@ -37,7 +37,8 @@ class MapSelectedPeriodAct @Inject constructor(
             month = MonthUi(
                 number = domain.month.number,
                 year = domain.month.year,
-                fullName = fullMonthName(appContext, monthNumber = domain.month.number)
+                currentYear = domain.month.year == dateNowLocal().year,
+                fullName = fullMonthName(appContext, monthNumber = domain.month.number),
             ),
             periodUi = periodUi(domain)
         )

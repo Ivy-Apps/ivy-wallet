@@ -1,6 +1,7 @@
 package com.ivy.core.ui.temp
 
 import android.net.Uri
+import java.time.LocalDate
 
 interface RootScreen {
     fun shareIvyWallet()
@@ -16,4 +17,11 @@ interface RootScreen {
     fun shareCSVFile(fileUri: Uri)
 
     fun shareZipFile(fileUri: Uri)
+
+    fun datePicker(
+        minDate: LocalDate?,
+        maxDate: LocalDate?,
+        initialDate: LocalDate?,
+        onDatePicked: (LocalDate) -> Unit
+    )
 }

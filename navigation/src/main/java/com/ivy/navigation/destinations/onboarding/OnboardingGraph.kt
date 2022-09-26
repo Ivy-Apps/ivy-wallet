@@ -6,7 +6,7 @@ import com.ivy.navigation.destinations.onboarding.screen.*
 object OnboardingGraph : NavGraph {
     override val route = "onboarding"
     override val startDestination
-        get() = loginOrOffline.route
+        get() = loginOrOffline.destination(Unit)
 
     val loginOrOffline = LoginOffline
     val importBackup = Backup

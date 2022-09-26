@@ -13,12 +13,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.common.atEndOfDay
 import com.ivy.common.dateNowLocal
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
+import com.ivy.core.ui.temp.rootScreen
 import com.ivy.core.ui.time.handling.PeriodModalEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodHandlerViewModel
+import com.ivy.data.time.Period
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerH
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -33,17 +36,16 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.viewModelPreviewSafe
+import com.ivy.design.util.hiltViewmodelPreviewSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 
 @Composable
 fun BoxScope.PeriodModal(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi
 ) {
-    val viewModel: SelectedPeriodHandlerViewModel? = viewModelPreviewSafe()
+    val viewModel: SelectedPeriodHandlerViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
     UI(
         modal = modal,
@@ -140,7 +142,7 @@ private fun MonthItem(
         size = ButtonSize.Small,
         visibility = if (selected) ButtonVisibility.High else ButtonVisibility.Medium,
         feeling = if (selected) ButtonFeeling.Positive else ButtonFeeling.Neutral,
-        text = month.fullName,
+        text = if (month.currentYear) month.fullName else "${month.fullName}, ${month.year}",
         icon = null
     ) {
         onClick(month)
@@ -161,21 +163,46 @@ private fun FromToRange(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val rootScreen = rootScreen()
         PeriodClosureColumn(
             label = "From",
             dateText = periodUi.fromText,
-            onDateSelected = {
-                // TODO
+        ) {
+            rootScreen.datePicker(
+                minDate = null,
+                maxDate = periodUi.period.to.toLocalDate(),
+                initialDate = periodUi.period.from.toLocalDate()
+            ) { pickedDate ->
+                onEvent(
+                    PeriodModalEvent.CustomRange(
+                        period = Period.FromTo(
+                            from = pickedDate.atStartOfDay(),
+                            to = periodUi.period.to
+                        )
+                    )
+                )
             }
-        )
+        }
         SpacerHor(width = 16.dp)
         PeriodClosureColumn(
             label = "To",
             dateText = periodUi.toText,
-            onDateSelected = {
-                // TODO
+        ) {
+            rootScreen.datePicker(
+                minDate = periodUi.period.from.toLocalDate(),
+                maxDate = null,
+                initialDate = periodUi.period.to.toLocalDate()
+            ) { pickedDate ->
+                onEvent(
+                    PeriodModalEvent.CustomRange(
+                        period = Period.FromTo(
+                            from = periodUi.period.from,
+                            to = pickedDate.atEndOfDay()
+                        )
+                    )
+                )
             }
-        )
+        }
     }
 }
 
@@ -183,7 +210,7 @@ private fun FromToRange(
 private fun RowScope.PeriodClosureColumn(
     label: String,
     dateText: String,
-    onDateSelected: (LocalDateTime) -> Unit
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.weight(1f)
@@ -195,7 +222,7 @@ private fun RowScope.PeriodClosureColumn(
         SpacerVer(height = 4.dp)
         DateButton(
             dateText = dateText,
-            onDateSelected = onDateSelected,
+            onClick = onClick,
         )
     }
 }
@@ -204,7 +231,7 @@ private fun RowScope.PeriodClosureColumn(
 private fun DateButton(
     modifier: Modifier = Modifier,
     dateText: String,
-    onDateSelected: (LocalDateTime) -> Unit
+    onClick: () -> Unit
 ) {
     IvyButton(
         modifier = modifier,
@@ -212,10 +239,9 @@ private fun DateButton(
         visibility = ButtonVisibility.Medium,
         feeling = ButtonFeeling.Neutral,
         text = dateText,
-        icon = R.drawable.ic_round_calendar_month_24
-    ) {
-        // TODO: Pick a date
-    }
+        icon = R.drawable.ic_round_calendar_month_24,
+        onClick = onClick
+    )
 
 }
 
@@ -246,7 +272,7 @@ private fun MoreOptions(
                 ButtonVisibility.High else ButtonVisibility.Medium,
             feeling = ButtonFeeling.Positive,
             text = "All-time",
-            icon = null
+            icon = R.drawable.ic_baseline_all_inclusive_24
         ) {
             onEvent(PeriodModalEvent.AllTime)
         }
@@ -255,23 +281,23 @@ private fun MoreOptions(
             modifier = Modifier.weight(1f),
             size = ButtonSize.Big,
             visibility = ButtonVisibility.Medium,
-            feeling = ButtonFeeling.Neutral,
-            text = "Common",
-            icon = null
-        ) {
-            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
-        }
-        SpacerHor(width = 8.dp)
-        IvyButton(
-            modifier = Modifier.weight(1f),
-            size = ButtonSize.Big,
-            visibility = ButtonVisibility.Medium,
             feeling = ButtonFeeling.Negative,
             text = "Reset",
-            icon = null
+            icon = R.drawable.ic_round_undo_24
         ) {
             onEvent(PeriodModalEvent.ResetToCurrentPeriod)
         }
+    }
+    SpacerVer(height = 8.dp)
+    IvyButton(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        size = ButtonSize.Big,
+        visibility = ButtonVisibility.Low,
+        feeling = ButtonFeeling.Neutral,
+        text = "See more",
+        icon = R.drawable.ic_round_expand_less_24
+    ) {
+        // TODO: Implement
     }
 }
 // endregion
@@ -290,6 +316,7 @@ private fun Preview() {
                 month = MonthUi(
                     number = 2,
                     year = dateNowLocal().year,
+                    currentYear = true,
                     fullName = fullMonthName(LocalContext.current, monthNumber = 2),
                 ),
                 periodUi = PeriodUi(
@@ -305,6 +332,6 @@ private fun Preview() {
 @Composable
 private fun previewState() = SelectedPeriodHandlerViewModel.State(
     startDayOfMonth = 1,
-    months = monthsList(LocalContext.current, year = dateNowLocal().year)
+    months = monthsList(LocalContext.current, year = dateNowLocal().year, currentYear = true)
 )
 // endregion

@@ -152,13 +152,14 @@ dependencies {
     implementation(project(":web-view"))
     implementation(project(":settings"))
     implementation(project(":import-csv-backup"))
-
     implementation(project(":temp-domain"))
     implementation(project(":temp-persistence"))
     implementation(project(":temp-network"))
     implementation(project(":billing"))
     implementation(project(":android-notifications"))
     implementation(project(":core:exchange-provider"))
+    implementation(project(":debug"))
+    implementation(project(":navigation"))
 
     Hilt()
 

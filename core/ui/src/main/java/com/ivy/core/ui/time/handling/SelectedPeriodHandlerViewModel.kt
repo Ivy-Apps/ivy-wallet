@@ -48,9 +48,9 @@ class SelectedPeriodHandlerViewModel @Inject constructor(
 
         State(
             startDayOfMonth = it,
-            months = monthsList(appContext, year = currentYear - 1) +
-                    monthsList(appContext, year = currentYear) +
-                    monthsList(appContext, year = currentYear + 1)
+            months = monthsList(appContext, year = currentYear - 1, currentYear = false) +
+                    monthsList(appContext, year = currentYear, currentYear = true) +
+                    monthsList(appContext, year = currentYear + 1, currentYear = false)
         )
     }
 
