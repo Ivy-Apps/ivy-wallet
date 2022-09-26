@@ -47,6 +47,7 @@ import com.ivy.design.util.isInPreview
 import com.ivy.design.util.isKeyboardOpen
 import com.ivy.resources.R
 
+// region Ivy Modal
 @Immutable
 data class IvyModal(
     val visibilityState: MutableState<Boolean> = mutableStateOf(false)
@@ -59,6 +60,10 @@ data class IvyModal(
         visibilityState.value = true
     }
 }
+
+@Composable
+fun rememberIvyModal(): IvyModal = remember { IvyModal() }
+// endregion
 
 @Composable
 fun BoxScope.Modal(

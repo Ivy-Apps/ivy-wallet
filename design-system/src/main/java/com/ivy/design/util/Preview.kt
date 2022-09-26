@@ -10,6 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
@@ -48,6 +49,8 @@ fun IvyPreview(
     )
 }
 
+@Composable
+fun <VM> viewModelPreviewSafe(): VM? = if (isInPreview()) null else viewModel()
 
 @Composable
 fun isInPreview(): Boolean = LocalInspectionMode.current

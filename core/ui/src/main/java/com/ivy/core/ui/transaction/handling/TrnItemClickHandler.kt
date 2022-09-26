@@ -2,12 +2,12 @@ package com.ivy.core.ui.transaction.handling
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.core.domain.action.HandlerViewModel
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
+import com.ivy.design.util.viewModelPreviewSafe
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,20 +58,20 @@ class TrnItemClickHandlerViewModel @Inject constructor(
 
 @Composable
 fun defaultTrnItemClickHandler(): TrnItemClickHandler {
-    val viewModel: TrnItemClickHandlerViewModel = viewModel()
+    val viewModel: TrnItemClickHandlerViewModel? = viewModelPreviewSafe()
 
     return TrnItemClickHandler(
         onAccountClick = {
-            viewModel.onEvent(TrnItemClickEvent.AccountClick(it))
+            viewModel?.onEvent(TrnItemClickEvent.AccountClick(it))
         },
         onCategoryClick = {
-            viewModel.onEvent(TrnItemClickEvent.CategoryClick(it))
+            viewModel?.onEvent(TrnItemClickEvent.CategoryClick(it))
         },
         onTrnClick = {
-            viewModel.onEvent(TrnItemClickEvent.TransactionClick(it))
+            viewModel?.onEvent(TrnItemClickEvent.TransactionClick(it))
         },
         onTransferClick = {
-            viewModel.onEvent(TrnItemClickEvent.TransferClick(it))
+            viewModel?.onEvent(TrnItemClickEvent.TransferClick(it))
         }
     )
 }

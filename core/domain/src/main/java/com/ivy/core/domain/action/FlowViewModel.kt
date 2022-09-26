@@ -41,11 +41,12 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
         get() = uiStateFlow ?: run {
             uiStateFlow = state.map {
                 mapToUiState(it)
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-                initialValue = initialUiState(),
-            )
+            }.flowOn(Dispatchers.Default)
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+                    initialValue = initialUiState(),
+                )
             uiStateFlow!!
         }
 

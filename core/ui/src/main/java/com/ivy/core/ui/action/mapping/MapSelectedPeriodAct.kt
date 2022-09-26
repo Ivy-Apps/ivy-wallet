@@ -7,6 +7,7 @@ import com.ivy.common.formatPattern
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
+import com.ivy.core.ui.data.period.fullMonthName
 import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeUnit
@@ -18,23 +19,23 @@ class MapSelectedPeriodAct @Inject constructor(
     private val appContext: Context,
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {
     override suspend fun transform(domain: SelectedPeriod): SelectedPeriodUi = when (domain) {
-        is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime(
-            text = appContext.getString(R.string.all_time)
-        )
+        is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime
+//            text = appContext.getString(R.string.all_time)
         is SelectedPeriod.CustomRange -> SelectedPeriodUi.CustomRange(
-            text = formatFromToPeriod(domain.period),
+//            text = formatFromToPeriod(domain.period),
             period = domain.period,
         )
         is SelectedPeriod.InTheLast -> SelectedPeriodUi.InTheLast(
-            text = formatInTheLast(domain),
+//            text = formatInTheLast(domain),
             n = domain.n,
             unit = domain.unit,
         )
         is SelectedPeriod.Monthly -> SelectedPeriodUi.Monthly(
-            text = formatMonthly(domain),
+//            text = formatMonthly(domain),
             month = MonthUi(
                 number = domain.month.number,
-                year = domain.month.year
+                year = domain.month.year,
+                fullName = fullMonthName(appContext, monthNumber = domain.month.number)
             )
         )
     }
