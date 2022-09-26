@@ -24,7 +24,7 @@ fun BoxScope.DeleteConfirmationModal(
 ) {
     Modal(
         modal = modal,
-        Actions = {
+        actions = {
             Negative(
                 text = "Delete",
                 icon = R.drawable.ic_round_delete_forever_24,

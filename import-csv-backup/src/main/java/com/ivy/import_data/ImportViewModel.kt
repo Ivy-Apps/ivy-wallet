@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
@@ -28,7 +29,7 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,

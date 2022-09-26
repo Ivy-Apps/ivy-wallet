@@ -38,6 +38,4 @@ class SelectedPeriodFlow @Inject constructor(
             )
         } else selectedPeriod
     }.flowOn(Dispatchers.Default)
-
-
 }

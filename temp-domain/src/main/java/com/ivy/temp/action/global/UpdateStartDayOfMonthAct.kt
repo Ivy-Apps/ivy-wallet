@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.action.global
 
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.action.FPAction
 import com.ivy.frp.monad.Res
 import com.ivy.frp.monad.thenIfSuccess
@@ -8,7 +9,7 @@ import javax.inject.Inject
 
 class UpdateStartDayOfMonthAct @Inject constructor(
     private val sharedPrefs: SharedPrefs,
-    private val ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx
+    private val ivyWalletCtx: IvyWalletCtx
 ) : FPAction<Int, Res<String, Int>>() {
 
     override suspend fun Int.compose(): suspend () -> Res<String, Int> = suspend {

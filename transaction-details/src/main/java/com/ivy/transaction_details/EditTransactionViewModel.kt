@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.CustomExchangeRateState
 import com.ivy.base.EditTransactionDisplayLoan
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -50,7 +51,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,

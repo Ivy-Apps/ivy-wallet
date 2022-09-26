@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.billing.IvyBilling
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.notifications.NotificationService
@@ -45,8 +46,8 @@ import javax.inject.Singleton
 object AppModuleDI {
     @Provides
     @Singleton
-    fun provideIvyContext(): com.ivy.core.ui.temp.IvyWalletCtx {
-        return com.ivy.core.ui.temp.IvyWalletCtx()
+    fun provideIvyContext(): IvyWalletCtx {
+        return IvyWalletCtx()
     }
 
     @Provides
@@ -542,7 +543,7 @@ object AppModuleDI {
         transactionDao: TransactionDao,
         plannedPaymentRuleDao: PlannedPaymentRuleDao,
         sharedPrefs: SharedPrefs,
-        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
+        ivyContext: IvyWalletCtx
     ): CustomerJourneyLogic {
         return CustomerJourneyLogic(
             transactionDao = transactionDao,
@@ -580,7 +581,7 @@ object AppModuleDI {
         categoryDao: CategoryDao,
         transactionUploader: TransactionUploader,
         transactionDao: TransactionDao,
-        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+        ivyContext: IvyWalletCtx,
         loanDao: LoanDao,
         loanRecordDao: LoanRecordDao,
         exchangeRatesLogic: ExchangeRatesLogic,

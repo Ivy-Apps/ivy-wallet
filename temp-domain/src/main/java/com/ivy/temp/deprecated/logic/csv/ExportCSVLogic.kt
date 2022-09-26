@@ -3,7 +3,7 @@ package com.ivy.wallet.domain.deprecated.logic.csv
 import android.content.Context
 import android.net.Uri
 import com.ivy.base.writeToFile
-import com.ivy.common.formatLocal
+import com.ivy.common.formatPattern
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -89,7 +89,7 @@ class ExportCSVLogic(
 
         //Date
         csv.appendValue(dateTime) {
-            append(it.formatLocal(CSV_DATETIME_FORMAT))
+            append(it.formatPattern(CSV_DATETIME_FORMAT))
         }
 
         //Title
@@ -163,7 +163,7 @@ class ExportCSVLogic(
 
         //Due Date
         csv.appendValue(dueDate) {
-            append(it.formatLocal(CSV_DATETIME_FORMAT))
+            append(it.formatPattern(CSV_DATETIME_FORMAT))
         }
 
         //ID

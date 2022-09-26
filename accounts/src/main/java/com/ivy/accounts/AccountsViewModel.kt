@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.AccountData
 import com.ivy.base.UiText
 import com.ivy.base.toCloseTimeRange
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.frp.test.TestIdlingResource
@@ -33,7 +34,7 @@ class AccountsViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val accountSync: AccountSync,
     private val accountCreator: AccountCreator,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val accountsAct: AccountsActOld,
     private val calcWalletBalanceAct: CalcWalletBalanceAct,

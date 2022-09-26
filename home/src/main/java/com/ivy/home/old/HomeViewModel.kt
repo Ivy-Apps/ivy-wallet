@@ -6,6 +6,7 @@ import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
 import com.ivy.base.toCloseTimeRange
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.Settings
@@ -42,7 +43,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val plannedPaymentsLogic: PlannedPaymentsLogic,

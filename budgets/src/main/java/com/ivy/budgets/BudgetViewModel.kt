@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.toCloseTimeRange
 import com.ivy.budgets.model.DisplayBudget
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.core.ui.temp.trash.parseAccountIds
 import com.ivy.core.ui.temp.trash.parseCategoryIds
@@ -42,7 +43,7 @@ class BudgetViewModel @Inject constructor(
     private val budgetDao: BudgetDao,
     private val budgetCreator: BudgetCreator,
     private val budgetSync: BudgetSync,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val accountsAct: AccountsActOld,
     private val categoriesAct: CategoriesActOld,
     private val budgetsAct: BudgetsAct,

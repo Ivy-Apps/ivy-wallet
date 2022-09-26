@@ -35,7 +35,7 @@ private fun Preview() {
     val modal = IvyModal()
     modal.show()
     IvyPreview {
-        Modal(modal = modal, Actions = {}) {
+        Modal(modal = modal, actions = {}) {
             Title(text = "Title")
             SpacerVer(height = 32.dp)
         }

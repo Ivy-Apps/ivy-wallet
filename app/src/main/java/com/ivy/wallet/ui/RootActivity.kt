@@ -44,6 +44,7 @@ import com.ivy.base.R
 import com.ivy.budgets.BudgetScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.core.ui.temp.RootScreen
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.design.api.IvyUI
 import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
@@ -81,7 +82,7 @@ import javax.inject.Inject
 class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
-    lateinit var ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
+    lateinit var ivyContext: IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation

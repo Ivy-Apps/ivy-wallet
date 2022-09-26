@@ -2,7 +2,7 @@ package com.ivy.core.ui.action.mapping
 
 import android.content.Context
 import com.ivy.common.dateNowLocal
-import com.ivy.common.formatLocal
+import com.ivy.common.formatPattern
 import com.ivy.common.timeNowLocal
 import com.ivy.core.domain.pure.format.FormattedValue
 import com.ivy.core.domain.pure.format.format
@@ -70,7 +70,7 @@ class MapTransactionListUiAct @Inject constructor(
         val today = dateNowLocal()
 
         return TrnListItemUi.DateDivider(
-            date = domain.date.formatLocal(
+            date = domain.date.formatPattern(
                 if (today.year == domain.date.year) "MMMM dd." else "MMM dd. yyyy"
             ),
             day = when (domain.date) {
@@ -78,7 +78,7 @@ class MapTransactionListUiAct @Inject constructor(
                 today.minusDays(1) -> appContext.getString(R.string.yesterday)
                 today.plusDays(1) -> appContext.getString(R.string.tomorrow)
                 else -> null
-            } ?: today.formatLocal("EEEE"),
+            } ?: today.formatPattern("EEEE"),
             cashflow = format(value = domain.cashflow, shortenFiat = true),
             positiveCashflow = domain.cashflow.amount > 0
         )

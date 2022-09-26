@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.billing.IvyBilling
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.Theme
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
@@ -31,7 +32,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RootViewModel @Inject constructor(
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,

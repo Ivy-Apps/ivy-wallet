@@ -33,29 +33,27 @@ fun LocalDateTime.toEpochMilli(): Long = millis()
 
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
-fun LocalDate.formatDateOnly(): String = this.formatLocal("MMM. dd", ZoneOffset.systemDefault())
+fun LocalDate.formatDateOnly(): String = this.formatPattern("MMM. dd", ZoneOffset.systemDefault())
 
 fun LocalDate.formatDateOnlyWithYear(): String =
-    this.formatLocal("dd MMM, yyyy", ZoneOffset.systemDefault())
+    this.formatPattern("dd MMM, yyyy", ZoneOffset.systemDefault())
 
 
 fun LocalDate.formatDateWeekDay(): String =
-    this.formatLocal("EEE, dd MMM", ZoneOffset.systemDefault())
+    this.formatPattern("EEE, dd MMM", ZoneOffset.systemDefault())
 
 fun LocalDate.formatDateWeekDayLong(): String =
-    this.formatLocal("EEEE, dd MMM", ZoneOffset.systemDefault())
+    this.formatPattern("EEEE, dd MMM", ZoneOffset.systemDefault())
 
 
-fun LocalDateTime.formatLocal(
-    pattern: String = "dd MMM yyyy, HH:mm",
-): String {
+fun LocalDateTime.formatPattern(pattern: String): String {
     val zone = ZoneOffset.systemDefault()
     val localDateTime = this.convertUTCtoLocal(zone)
     return localDateTime.atZone(zone).format(
         DateTimeFormatter
             .ofPattern(pattern)
             .withLocale(Locale.getDefault())
-            .withZone(zone) //this is if you want to display the Zone in the pattern
+            .withZone(zone) //this is only if you want to display the Zone in the pattern
     )
 }
 
@@ -107,7 +105,7 @@ fun getTrueDate(date: LocalDate, time: LocalTime, convert: Boolean = true): Loca
 }
 
 
-fun LocalDate.formatLocal(
+fun LocalDate.formatPattern(
     pattern: String = "dd MMM yyyy",
     zone: ZoneId = ZoneOffset.systemDefault()
 ): String {

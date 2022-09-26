@@ -3,7 +3,7 @@ package com.ivy.core.ui.time
 import android.content.Context
 import com.ivy.base.R
 import com.ivy.common.dateNowUTC
-import com.ivy.common.formatLocal
+import com.ivy.common.formatPattern
 import java.time.LocalDateTime
 
 fun LocalDateTime.formatNicely(
@@ -17,9 +17,9 @@ fun LocalDateTime.formatNicely(
 
     if (!includeWeekDay) {
         return if (isThisYear) {
-            this.formatLocal(patternNoWeekDay)
+            this.formatPattern(patternNoWeekDay)
         } else {
-            this.formatLocal("dd MMM, yyyy")
+            this.formatPattern("dd MMM, yyyy")
         }
     }
 
@@ -27,26 +27,26 @@ fun LocalDateTime.formatNicely(
         today -> {
             context.getString(
                 R.string.today_date,
-                this.formatLocal(patternNoWeekDay)
+                this.formatPattern(patternNoWeekDay)
             )
         }
         today.minusDays(1) -> {
             context.getString(
                 R.string.yesterday_date,
-                this.formatLocal(patternNoWeekDay)
+                this.formatPattern(patternNoWeekDay)
             )
         }
         today.plusDays(1) -> {
             context.getString(
                 R.string.tomorrow_date,
-                this.formatLocal(patternNoWeekDay)
+                this.formatPattern(patternNoWeekDay)
             )
         }
         else -> {
             if (isThisYear) {
-                this.formatLocal("EEE, dd MMM")
+                this.formatPattern("EEE, dd MMM")
             } else {
-                this.formatLocal("dd MMM, yyyy")
+                this.formatPattern("dd MMM, yyyy")
             }
         }
     }

@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.loandetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.loan.Loan
 import com.ivy.data.loan.LoanRecord
@@ -38,7 +39,7 @@ class LoanDetailsViewModel @Inject constructor(
     private val loanCreator: LoanCreator,
     private val loanRecordCreator: LoanRecordCreator,
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,
     private val accountCreator: AccountCreator,

@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toArgb
 import com.ivy.base.IVY_COLOR_PICKER_COLORS_FREE
 import com.ivy.base.R
 import com.ivy.common.timeNowUTC
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.loan.Loan
@@ -27,7 +28,7 @@ class LoanTransactionsCore(
     private val categoryDao: CategoryDao,
     private val transactionUploader: TransactionUploader,
     private val transactionDao: TransactionDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val loanRecordDao: LoanRecordDao,
     private val loanDao: LoanDao,
     private val settingsDao: SettingsDao,

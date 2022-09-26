@@ -44,9 +44,10 @@ fun dateToSelectedMonthlyPeriod(
 ): SelectedPeriod.Monthly = SelectedPeriod.Monthly(
     month = Month(
         number = dateInPeriod.monthValue,
-        name = monthName(context, dateInPeriod.monthValue),
+        fullName = monthFullName(context, dateInPeriod.monthValue),
         year = dateInPeriod.year,
     ),
+    startDayOfMonth = startDayOfMonth,
     period = dateToMonthlyPeriod(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
 )
 
@@ -81,7 +82,7 @@ private fun customStartDayOfMonthPeriodRange(
     return Period.FromTo(from = from, to = to)
 }
 
-fun monthName(context: Context, monthNumber: Int): String = when (monthNumber) {
+fun monthFullName(context: Context, monthNumber: Int): String = when (monthNumber) {
     1 -> context.getString(R.string.january)
     2 -> context.getString(R.string.february)
     3 -> context.getString(R.string.march)

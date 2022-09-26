@@ -12,13 +12,16 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
 
     protected abstract fun initialState(): State
 
+    protected abstract fun initialUiState(): UiState
+
     protected abstract fun stateFlow(): Flow<State>
 
-    protected abstract fun mapToUiState(state: StateFlow<State>): StateFlow<UiState>
+    protected abstract suspend fun mapToUiState(state: State): UiState
 
     protected abstract suspend fun handleEvent(event: Event)
 
     private var stateFlow: StateFlow<State>? = null
+    private var uiStateFlow: StateFlow<UiState>? = null
 
     protected val state: StateFlow<State>
         get() = stateFlow ?: run {
@@ -35,7 +38,16 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
         }
 
     val uiState: StateFlow<UiState>
-        get() = mapToUiState(state)
+        get() = uiStateFlow ?: run {
+            uiStateFlow = state.map {
+                mapToUiState(it)
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+                initialValue = initialUiState(),
+            )
+            uiStateFlow!!
+        }
 
     init {
         viewModelScope.launch {

@@ -3,6 +3,7 @@ package com.ivy.home.old
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
 import com.ivy.base.data.DueSection
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.Theme
 import com.ivy.data.pure.IncomeExpensePair
@@ -30,7 +31,7 @@ data class HomeStateOld(
     val hideCurrentBalance: Boolean
 ) {
     companion object {
-        fun initial(ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx): HomeStateOld = HomeStateOld(
+        fun initial(ivyWalletCtx: IvyWalletCtx): HomeStateOld = HomeStateOld(
             theme = Theme.AUTO,
             name = "",
             baseData = AppBaseData(

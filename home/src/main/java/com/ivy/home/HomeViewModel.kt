@@ -1,5 +1,6 @@
 package com.ivy.home
 
+import com.ivy.core.domain.action.FlowViewModel
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.helper.TrnsListFlow
@@ -31,7 +32,7 @@ class HomeViewModel @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val nameFlow: NameFlow,
     private val hideBalanceSettingFlow: HideBalanceSettingFlow,
-) : com.ivy.core.domain.action.FlowViewModel<HomeState, HomeState, HomeEvent>() {
+) : FlowViewModel<HomeState, HomeState, HomeEvent>() {
     override fun initialState(): HomeState = HomeState(
         name = "",
         period = null,
@@ -45,6 +46,8 @@ class HomeViewModel @Inject constructor(
         expense = Value(amount = 0.0, currency = ""),
         hideBalance = false,
     )
+
+    override fun initialUiState() = initialState()
 
     private val overrideShowBalance = MutableStateFlow(false)
 
@@ -61,6 +64,8 @@ class HomeViewModel @Inject constructor(
             hideBalance = !showBalance,
         )
     }
+
+    override suspend fun mapToUiState(state: HomeState): HomeState = state
 
     private fun balanceFlow(): Flow<Value> = balanceFlow(
         TotalBalanceFlow.Input(
@@ -112,8 +117,6 @@ class HomeViewModel @Inject constructor(
         ) { hideBalanceSettings, showBalance ->
             showBalance || !hideBalanceSettings
         }
-
-    override fun mapToUiState(state: StateFlow<HomeState>): StateFlow<HomeState> = state
 
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
         HomeEvent.BalanceClick -> handleBalanceClick()

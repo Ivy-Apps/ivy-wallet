@@ -2,6 +2,7 @@ package com.ivy.pie_charts
 
 import com.ivy.base.FromToTimeRange
 import com.ivy.base.isSubCategory
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
 import com.ivy.frp.then
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PieChartStatisticViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val pieChartAct: PieChartAct,
     private val subCategoryAct: SubCategoryAct,
     private val sharedPrefs: SharedPrefs
@@ -71,7 +72,7 @@ class PieChartStatisticViewModel @Inject constructor(
 
     private suspend fun initializePreliminaryData(
         screen: PieChartStatistic,
-        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
+        ivyContext: IvyWalletCtx
     ) = suspend {
         val baseCurrency = ioThread { settingsDao.findFirstSuspend() }.currency
         baseCurrency

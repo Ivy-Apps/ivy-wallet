@@ -1,11 +1,12 @@
 package com.ivy.wallet.domain.action.viewmodel.home
 
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.frp.action.FPAction
 import javax.inject.Inject
 
 class UpdateAccCacheAct @Inject constructor(
-    private val ivyWalletCtx: com.ivy.core.ui.temp.IvyWalletCtx
+    private val ivyWalletCtx: IvyWalletCtx
 ) : FPAction<List<AccountOld>, List<AccountOld>>() {
     override suspend fun List<AccountOld>.compose(): suspend () -> List<AccountOld> = suspend {
         val accounts = this

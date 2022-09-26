@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.planned.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
@@ -37,7 +38,7 @@ class EditPlannedViewModel @Inject constructor(
     private val accountDao: AccountDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,

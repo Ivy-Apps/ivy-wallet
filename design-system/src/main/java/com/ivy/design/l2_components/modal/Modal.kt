@@ -64,9 +64,9 @@ data class IvyModal(
 fun BoxScope.Modal(
     modal: IvyModal,
 
-    Actions: @Composable ModalActionsScope.() -> Unit,
+    actions: @Composable ModalActionsScope.() -> Unit,
     keyboardShiftsContent: Boolean = true,
-    Content: @Composable ModalScope.() -> Unit
+    content: @Composable ModalScope.() -> Unit
 ) {
     val visible by modal.visibilityState
 
@@ -129,11 +129,11 @@ fun BoxScope.Modal(
 
             val modalScope = remember { ModalScopeImpl(this) }
             with(modalScope) {
-                Content()
+                content()
             }
 
             ModalActionsRow(
-                Actions = Actions,
+                Actions = actions,
                 onClose = { modal.hide() },
             )
         }
@@ -285,7 +285,7 @@ private fun Preview_FullScreen() {
 
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 Positive(text = "Okay") {
                     modal.hide()
                 }
@@ -316,7 +316,7 @@ private fun Preview_Partial() {
 
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 IvyButton(
                     size = ButtonSize.Small,
                     visibility = ButtonVisibility.Medium,
@@ -340,7 +340,7 @@ private fun Preview_Partial() {
 
         Modal(
             modal = modal2,
-            Actions = {
+            actions = {
                 Positive(text = "Calculate", icon = R.drawable.ic_round_calculate_24) {
 
                 }

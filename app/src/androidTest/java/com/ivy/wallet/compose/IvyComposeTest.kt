@@ -17,6 +17,7 @@ import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.common.timeNowUTC
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.test.TestingContext
 import com.ivy.frp.view.navigation.Navigation
@@ -49,7 +50,7 @@ abstract class IvyComposeTest {
     private var idlingResource: IdlingResource? = null
 
     @Inject
-    lateinit var ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
+    lateinit var ivyContext: IvyWalletCtx
 
     @Inject
     lateinit var navigation: Navigation

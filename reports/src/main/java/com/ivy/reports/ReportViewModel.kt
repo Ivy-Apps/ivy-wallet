@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -43,7 +44,7 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeActOld,

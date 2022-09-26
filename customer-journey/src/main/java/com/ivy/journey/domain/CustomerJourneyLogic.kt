@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.util.ComponentPreview
@@ -20,7 +21,7 @@ class CustomerJourneyLogic(
     private val transactionDao: TransactionDao,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val sharedPrefs: SharedPrefs,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx
+    private val ivyContext: IvyWalletCtx
 ) {
 
     suspend fun loadCards(): List<CustomerJourneyCardData> {
