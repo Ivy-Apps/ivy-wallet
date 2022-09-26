@@ -3,10 +3,10 @@ package com.ivy.core.ui.action
 import android.content.Context
 import androidx.annotation.DrawableRes
 import com.ivy.base.R
+import com.ivy.core.domain.action.Action
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.IvyIcon
 import com.ivy.data.IvyIconId
-import com.ivy.frp.action.Action
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

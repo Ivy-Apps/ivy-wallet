@@ -1,12 +1,10 @@
 package com.ivy.core.domain.action.period
 
-import android.content.Context
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.pure.time.currentMonthlyPeriod
 import com.ivy.core.domain.pure.time.dateToSelectedMonthlyPeriod
 import com.ivy.data.time.SelectedPeriod
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -19,20 +17,17 @@ import javax.inject.Singleton
  */
 @Singleton
 class SelectedPeriodFlow @Inject constructor(
-    @ApplicationContext
-    private val appContext: Context,
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
     private val selectedPeriodSignal: SelectedPeriodSignal,
 ) : SharedFlowAction<SelectedPeriod>() {
     override fun initialValue(): SelectedPeriod =
-        currentMonthlyPeriod(context = appContext, startDayOfMonth = 1)
+        currentMonthlyPeriod(startDayOfMonth = 1)
 
     override fun createFlow(): Flow<SelectedPeriod> = combine(
         startDayOfMonthFlow(), selectedPeriodSignal.receive()
     ) { startDayOfMonth, selectedPeriod ->
         if (selectedPeriod is SelectedPeriod.Monthly) {
             dateToSelectedMonthlyPeriod(
-                context = appContext,
                 dateInPeriod = selectedPeriod.period.to.minusDays(2).toLocalDate(),
                 startDayOfMonth = startDayOfMonth
             )

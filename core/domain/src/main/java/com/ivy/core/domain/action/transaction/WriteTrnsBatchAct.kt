@@ -1,11 +1,11 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnBatch
-import com.ivy.frp.action.Action
 import java.util.*
 import javax.inject.Inject
 

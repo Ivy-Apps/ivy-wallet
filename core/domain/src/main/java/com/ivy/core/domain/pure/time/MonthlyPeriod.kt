@@ -12,7 +12,6 @@ import java.time.LocalDate
 
 // TODO: Fix edge-cases when re-working time
 fun currentMonthlyPeriod(
-    context: Context,
     startDayOfMonth: Int
 ): SelectedPeriod {
     val dateNowUTC = dateNowUTC()
@@ -31,20 +30,17 @@ fun currentMonthlyPeriod(
     }
 
     return dateToSelectedMonthlyPeriod(
-        context = context,
         dateInPeriod = periodDate,
         startDayOfMonth = startDayOfMonth,
     )
 }
 
 fun dateToSelectedMonthlyPeriod(
-    context: Context,
     dateInPeriod: LocalDate,
     startDayOfMonth: Int,
 ): SelectedPeriod.Monthly = SelectedPeriod.Monthly(
     month = Month(
         number = dateInPeriod.monthValue,
-        fullName = monthFullName(context, dateInPeriod.monthValue),
         year = dateInPeriod.year,
     ),
     startDayOfMonth = startDayOfMonth,

@@ -14,5 +14,5 @@ class SelectedPeriodSignal @Inject constructor(
     private val appContext: Context,
 ) : SignalFlow<SelectedPeriod>() {
     override fun initialSignal(): SelectedPeriod =
-        currentMonthlyPeriod(context = appContext, startDayOfMonth = 1)
+        currentMonthlyPeriod(startDayOfMonth = 1)
 }
