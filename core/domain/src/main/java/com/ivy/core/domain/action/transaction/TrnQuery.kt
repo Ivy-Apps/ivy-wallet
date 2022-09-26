@@ -3,8 +3,8 @@ package com.ivy.core.domain.action.transaction
 import arrow.core.NonEmptyList
 import com.ivy.core.persistence.query.TrnWhere
 import com.ivy.data.time.Period
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
-import com.ivy.data.transaction.TrnType
 import java.util.*
 
 sealed interface TrnQuery {
@@ -17,8 +17,8 @@ sealed interface TrnQuery {
     data class ByAccountId(val accountId: UUID) : TrnQuery
     data class ByAccountIdIn(val accountIds: NonEmptyList<UUID>) : TrnQuery
 
-    data class ByType(val trnType: TrnType) : TrnQuery
-    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnQuery
+    data class ByType(val trnType: TransactionType) : TrnQuery
+    data class ByTypeIn(val types: NonEmptyList<TransactionType>) : TrnQuery
 
     data class ByPurpose(val purpose: TrnPurpose?) : TrnQuery
 

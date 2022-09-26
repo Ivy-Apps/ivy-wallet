@@ -3,7 +3,7 @@ package com.ivy.core.domain.pure.transaction
 import arrow.core.nonEmptyListOf
 import com.ivy.core.domain.pure.dummy.dummyTrn
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
@@ -18,7 +18,7 @@ class SumTransactionsTest : StringSpec({
     suspend fun income(
         trn: Transaction, arg: TestArg
     ): Double = when (trn.type) {
-        TrnType.Income -> trnAmountMultiplied(trn, arg)
+        TransactionType.Income -> trnAmountMultiplied(trn, arg)
         else -> 0.0
     }
 
@@ -26,7 +26,7 @@ class SumTransactionsTest : StringSpec({
     suspend fun expense(
         trn: Transaction, arg: TestArg
     ): Double = when (trn.type) {
-        TrnType.Expense -> trnAmountMultiplied(trn, arg)
+        TransactionType.Expense -> trnAmountMultiplied(trn, arg)
         else -> 0.0
     }
 
@@ -34,7 +34,7 @@ class SumTransactionsTest : StringSpec({
     suspend fun countIncome(
         trn: Transaction, arg: TestArg
     ): Double = when (trn.type) {
-        TrnType.Income -> 1.0
+        TransactionType.Income -> 1.0
         else -> 0.0
     }
 
@@ -42,17 +42,17 @@ class SumTransactionsTest : StringSpec({
     suspend fun countExpense(
         trn: Transaction, arg: TestArg
     ): Double = when (trn.type) {
-        TrnType.Expense -> 1.0
+        TransactionType.Expense -> 1.0
         else -> 0.0
     }
 
     "sum trns': income, expense, incomes count and expenses count" {
         // Arrange
-        val income1 = dummyTrn(type = TrnType.Income, amount = 10.0)
-        val income2 = dummyTrn(type = TrnType.Income, amount = 0.50)
-        val income3 = dummyTrn(type = TrnType.Income, amount = 100.0)
-        val expense1 = dummyTrn(type = TrnType.Expense, amount = 7.50)
-        val expense2 = dummyTrn(type = TrnType.Expense, amount = 30.05)
+        val income1 = dummyTrn(type = TransactionType.Income, amount = 10.0)
+        val income2 = dummyTrn(type = TransactionType.Income, amount = 0.50)
+        val income3 = dummyTrn(type = TransactionType.Income, amount = 100.0)
+        val expense1 = dummyTrn(type = TransactionType.Expense, amount = 7.50)
+        val expense2 = dummyTrn(type = TransactionType.Expense, amount = 30.05)
         val trns = listOf(income1, income2, income3, expense1, expense2)
         val arg = TestArg(multiplier = 2)
 

@@ -10,8 +10,8 @@ import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
 import com.ivy.data.time.Period
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
-import com.ivy.data.transaction.TrnType
 import io.kotest.assertions.fail
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -38,7 +38,7 @@ class TrnWhereTest : StringSpec({
     val genByAccount = arbitrary { ByAccountId(genId.bind()) }
 
 
-    val genTrnType = Arb.enum<TrnType>()
+    val genTrnType = Arb.enum<TransactionType>()
 
     val genByType = arbitrary {
         ByType(
@@ -218,12 +218,12 @@ class TrnWhereTest : StringSpec({
         val where = toWhereClause(
             ByCategoryIdIn(
                 nonEmptyListOf(catId1, catId2, catId3, null)
-            ) and ByType(TrnType.Expense)
+            ) and ByType(TransactionType.Expense)
         )
 
         where.query shouldBe "(categoryId IN (?, ?, ?) OR categoryId IS NULL) AND type = ?"
         where.args shouldBe listOf(
-            catId1, catId2, catId3, TrnType.Expense.code
+            catId1, catId2, catId3, TransactionType.Expense.code
         )
     }
 

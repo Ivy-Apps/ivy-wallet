@@ -30,7 +30,7 @@ fun adjustBalanceTrn(
         id = UUID.randomUUID(),
         account = account,
         category = null, // unspecified
-        type = if (amountMissing > 0) TrnType.Expense else TrnType.Income,
+        type = if (amountMissing > 0) TransactionType.Expense else TransactionType.Income,
         value = Value(amount = abs(amountMissing), currency = account.currency),
         title = "Adjust balance",
         description = null,

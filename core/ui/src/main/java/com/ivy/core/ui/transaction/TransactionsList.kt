@@ -27,7 +27,7 @@ import com.ivy.core.ui.data.transaction.*
 import com.ivy.core.ui.transaction.card.Card
 import com.ivy.core.ui.transaction.card.DueActions
 import com.ivy.core.ui.transaction.card.dummyDueActions
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.l1_buildingBlocks.Icon
@@ -263,7 +263,7 @@ private fun Preview_Full() {
                             icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
                         ),
                         value = dummyFormattedValue("16.99"),
-                        type = TrnType.Income,
+                        type = TransactionType.Income,
                         time = dummyTrnTimeDueUi(timeNowUTC().plusDays(1))
                     )
                 )
@@ -282,7 +282,7 @@ private fun Preview_Full() {
                             icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
                         ),
                         category = null,
-                        type = TrnType.Expense,
+                        type = TransactionType.Expense,
                         time = dummyTrnTimeDueUi()
                     )
                 )
@@ -308,7 +308,7 @@ private fun Preview_Full() {
                             icon = dummyIconSized(R.drawable.ic_custom_orderfood_s)
                         ),
                         value = dummyFormattedValue("30.0"),
-                        type = TrnType.Expense,
+                        type = TransactionType.Expense,
                         time = dummyTrnTimeActualUi()
                     )
                 ),
@@ -333,7 +333,7 @@ private fun Preview_Full() {
                             icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
                         ),
                         value = dummyFormattedValue("55.23"),
-                        type = TrnType.Expense,
+                        type = TransactionType.Expense,
                     )
                 ),
                 TrnListItemUi.Trn(
@@ -346,7 +346,7 @@ private fun Preview_Full() {
                         ),
                         category = null,
                         value = dummyFormattedValue("160.53"),
-                        type = TrnType.Income,
+                        type = TransactionType.Income,
                     )
                 ),
                 TrnListItemUi.Trn(
@@ -364,7 +364,7 @@ private fun Preview_Full() {
                             icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
                         ),
                         value = dummyFormattedValue("55.23"),
-                        type = TrnType.Expense,
+                        type = TransactionType.Expense,
                     )
                 ),
             )

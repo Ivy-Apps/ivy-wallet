@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnState
-import com.ivy.data.transaction.TrnType
 import java.time.Instant
 
 @Entity(tableName = "transactions")
@@ -21,7 +21,7 @@ data class TrnEntity(
     @ColumnInfo(name = "accountId", index = true)
     val accountId: String,
     @ColumnInfo(name = "type", index = true)
-    val type: TrnType,
+    val type: TransactionType,
     @ColumnInfo(name = "amount")
     val amount: Double,
     @ColumnInfo(name = "currency")

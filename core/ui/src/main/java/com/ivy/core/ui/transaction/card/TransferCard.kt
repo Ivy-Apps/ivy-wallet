@@ -20,7 +20,7 @@ import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.CurrencyCode
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
 import com.ivy.design.l1_buildingBlocks.Icon
@@ -122,11 +122,11 @@ private fun Preview_SameCurrency() {
             batchId = "",
             time = dummyTrnTimeActualUi(),
             from = dummyTransactionUi(
-                type = TrnType.Expense,
+                type = TransactionType.Expense,
                 value = dummyFormattedValue(amount = "400")
             ),
             to = dummyTransactionUi(
-                type = TrnType.Expense,
+                type = TransactionType.Expense,
                 value = dummyFormattedValue(amount = "400")
             ),
             fee = null
@@ -147,11 +147,11 @@ private fun Preview_Detailed() {
             from = dummyTransactionUi(
                 title = "Withdrawing cash",
                 description = "So I can pay rent",
-                type = TrnType.Expense,
+                type = TransactionType.Expense,
                 value = dummyFormattedValue(amount = "400", currency = "EUR")
             ),
             to = dummyTransactionUi(
-                type = TrnType.Expense,
+                type = TransactionType.Expense,
                 value = dummyFormattedValue(amount = "800", currency = "BGN")
             ),
             fee = null

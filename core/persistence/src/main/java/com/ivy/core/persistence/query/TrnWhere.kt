@@ -7,8 +7,8 @@ import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
 import com.ivy.data.time.Period
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
-import com.ivy.data.transaction.TrnType
 import java.time.LocalDateTime
 import java.util.*
 
@@ -22,8 +22,8 @@ sealed interface TrnWhere {
     data class ByAccountId(val accountId: String) : TrnWhere
     data class ByAccountIdIn(val accountIds: NonEmptyList<String>) : TrnWhere
 
-    data class ByType(val trnType: TrnType) : TrnWhere
-    data class ByTypeIn(val types: NonEmptyList<TrnType>) : TrnWhere
+    data class ByType(val trnType: TransactionType) : TrnWhere
+    data class ByTypeIn(val types: NonEmptyList<TransactionType>) : TrnWhere
 
     data class BySync(val sync: SyncState) : TrnWhere
     data class ByPurpose(val purpose: TrnPurpose?) : TrnWhere
@@ -68,7 +68,7 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
 
     fun uuid(id: UUID): String = id.toString()
     fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochSeconds()
-    fun trnType(type: TrnType): Int = type.code
+    fun trnType(type: TransactionType): Int = type.code
 
     val result = when (where) {
         is ById -> "id = ?" to arg(where.id)

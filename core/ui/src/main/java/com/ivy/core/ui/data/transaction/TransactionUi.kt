@@ -7,13 +7,13 @@ import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import java.util.*
 
 @Immutable
 data class TransactionUi(
     val id: String,
-    val type: TrnType,
+    val type: TransactionType,
     val value: FormattedValue,
     val account: AccountUi,
     val category: CategoryUi?,
@@ -24,7 +24,7 @@ data class TransactionUi(
 
 @Composable
 fun dummyTransactionUi(
-    type: TrnType,
+    type: TransactionType,
     value: FormattedValue,
     account: AccountUi = dummyAccountUi(),
     category: CategoryUi? = dummyCategoryUi(),
