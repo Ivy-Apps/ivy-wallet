@@ -7,6 +7,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import com.ivy.design.util.isInPreview
 import java.time.LocalDate
+import java.time.LocalTime
 
 @Composable
 fun rootView(): View = LocalView.current
@@ -37,4 +38,6 @@ private fun dummyRootScreen(): RootScreen = object : RootScreen {
         onDatePicked: (LocalDate) -> Unit
     ) {
     }
+
+    override fun timePicker(onTimePicked: (LocalTime) -> Unit) {}
 }

@@ -532,7 +532,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         appWidgetManager.requestPinAppWidget(addTransactionWidget, null, null)
     }
 
-    // region New
+    // region Date Picker
     override fun datePicker(
         minDate: LocalDate?,
         maxDate: LocalDate?,
@@ -563,6 +563,20 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 initialDate.dayOfMonth
             )
         }
+    }
+    // endregion
+
+    // region Time Picker
+    override fun timePicker(onTimePicked: (LocalTime) -> Unit) {
+        val nowLocal = timeNowLocal()
+        val picker = TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                onTimePicked(LocalTime.of(hourOfDay, minute).withSecond(0))
+            },
+            nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
+        )
+        picker.show()
     }
     // endregion
 }
