@@ -3,15 +3,13 @@ package com.ivy.core.ui.time.handling
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Immutable
+import com.ivy.common.atEndOfDay
 import com.ivy.common.dateNowLocal
 import com.ivy.common.timeNowLocal
 import com.ivy.core.domain.action.FlowViewModel
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
-import com.ivy.core.domain.pure.time.allTime
-import com.ivy.core.domain.pure.time.currentMonthlyPeriod
-import com.ivy.core.domain.pure.time.dateToSelectedMonthlyPeriod
-import com.ivy.core.domain.pure.time.shiftTime
+import com.ivy.core.domain.pure.time.*
 import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.monthsList
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.State
@@ -69,6 +67,8 @@ class SelectedPeriodViewModel @Inject constructor(
             )
             PeriodModalEvent.ResetToCurrentPeriod ->
                 currentMonthlyPeriod(startDayOfMonth = state.value.startDayOfMonth)
+            PeriodModalEvent.LastYear -> yearPeriod(dateNowLocal().year - 1)
+            PeriodModalEvent.ThisYear -> yearPeriod(dateNowLocal().year)
         }
 
         setSelectedPeriodAct(selectedPeriod)
@@ -76,13 +76,15 @@ class SelectedPeriodViewModel @Inject constructor(
 
     private fun toSelectedPeriod(event: PeriodModalEvent.InTheLast): SelectedPeriod.InTheLast {
         val now = timeNowLocal()
+        val n = event.n
         return SelectedPeriod.InTheLast(
-            n = event.n,
+            n = n,
             unit = event.unit,
             period = Period.FromTo(
-                // -n because we want to start from the **last** N unit
-                from = shiftTime(time = now, n = -event.n, unit = event.unit),
-                to = now,
+                // n - 1 because we count today
+                // Negate: -n because we want to start from the **last** N unit
+                from = shiftTime(time = now, n = -(n - 1), unit = event.unit),
+                to = dateNowLocal().atEndOfDay(),
             )
         )
     }

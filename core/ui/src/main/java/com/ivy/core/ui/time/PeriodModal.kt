@@ -1,9 +1,7 @@
 package com.ivy.core.ui.time
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,7 @@ import com.ivy.core.ui.temp.rootScreen
 import com.ivy.core.ui.time.handling.PeriodModalEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.data.time.Period
+import com.ivy.data.time.TimeUnit
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerH
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -28,6 +27,7 @@ import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Done
+import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
@@ -60,6 +60,7 @@ private fun BoxScope.UI(
     state: SelectedPeriodViewModel.State,
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
+    val moreOptionsModal = rememberIvyModal()
     Modal(
         modal = modal,
         actions = {
@@ -80,10 +81,18 @@ private fun BoxScope.UI(
         DividerH(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
-        MoreOptions(selected = selectedPeriod, onEvent = onEvent)
+        MoreOptions(
+            selected = selectedPeriod,
+            onEvent = onEvent,
+            onShowMoreOptionsModal = {
+                moreOptionsModal.show()
+            }
+        )
 
         SpacerVer(height = 48.dp)
     }
+
+    MoreOptionsModal(modal = moreOptionsModal, onEvent = onEvent)
 }
 
 // region Choose month
@@ -259,7 +268,8 @@ private fun DateButton(
 @Composable
 private fun MoreOptions(
     selected: SelectedPeriodUi,
-    onEvent: (PeriodModalEvent) -> Unit
+    onEvent: (PeriodModalEvent) -> Unit,
+    onShowMoreOptionsModal: () -> Unit,
 ) {
     val selectedMore = selected is SelectedPeriodUi.AllTime ||
             selected is SelectedPeriodUi.InTheLast
@@ -305,16 +315,88 @@ private fun MoreOptions(
         visibility = ButtonVisibility.Low,
         feeling = ButtonFeeling.Neutral,
         text = "See more",
-        icon = R.drawable.ic_round_expand_less_24
-    ) {
-        // TODO: Implement
+        icon = R.drawable.ic_round_expand_less_24,
+        onClick = onShowMoreOptionsModal
+    )
+}
+// endregion
+
+// region More Options modal
+@Composable
+private fun BoxScope.MoreOptionsModal(
+    modal: IvyModal,
+    onEvent: (PeriodModalEvent) -> Unit
+) {
+    Modal(modal = modal, actions = {}) {
+        Title(text = "More Options")
+        SpacerVer(height = 24.dp)
+        val thisYear = remember { dateNowLocal().year.toString() }
+        val lastYear = remember { (dateNowLocal().year - 1).toString() }
+        LazyColumn {
+            optionItem(text = thisYear) {
+                onEvent(PeriodModalEvent.ThisYear)
+                modal.hide()
+            }
+            optionItem(text = lastYear) {
+                onEvent(PeriodModalEvent.LastYear)
+                modal.hide()
+            }
+            optionItem(text = "Last 6 months") {
+                onEvent(PeriodModalEvent.InTheLast(n = 6, unit = TimeUnit.Month))
+                modal.hide()
+            }
+            optionItem(text = "Last 3 months") {
+                onEvent(PeriodModalEvent.InTheLast(n = 3, unit = TimeUnit.Month))
+                modal.hide()
+            }
+            optionItem(text = "Last 30 days") {
+                onEvent(PeriodModalEvent.InTheLast(n = 30, unit = TimeUnit.Day))
+                modal.hide()
+            }
+            optionItem(text = "Last 15 days") {
+                onEvent(PeriodModalEvent.InTheLast(n = 15, unit = TimeUnit.Day))
+                modal.hide()
+            }
+            optionItem(text = "Last 7 days") {
+                onEvent(PeriodModalEvent.InTheLast(n = 7, unit = TimeUnit.Day))
+                modal.hide()
+            }
+            optionItem(text = "Last 3 days") {
+                onEvent(PeriodModalEvent.InTheLast(n = 3, unit = TimeUnit.Day))
+                modal.hide()
+            }
+        }
+        SpacerVer(height = 48.dp)
     }
+}
+
+private fun LazyListScope.optionItem(text: String, onClick: () -> Unit) {
+    item {
+        MoreOptionsButton(text = text, onClick = onClick)
+        SpacerVer(height = 8.dp)
+    }
+}
+
+@Composable
+private fun MoreOptionsButton(
+    text: String,
+    onClick: () -> Unit
+) {
+    IvyButton(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        size = ButtonSize.Big,
+        visibility = ButtonVisibility.Medium,
+        feeling = ButtonFeeling.Positive,
+        text = text,
+        icon = null,
+        onClick = onClick
+    )
 }
 // endregion
 
 // region Components
 @Composable
-fun SectionText(
+private fun SectionText(
     text: String,
     selected: Boolean,
     modifier: Modifier = Modifier

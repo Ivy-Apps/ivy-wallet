@@ -14,4 +14,8 @@ sealed interface PeriodModalEvent {
     data class CustomRange(val period: Period.FromTo) : PeriodModalEvent
 
     object ResetToCurrentPeriod : PeriodModalEvent
+
+    object ThisYear : PeriodModalEvent
+
+    object LastYear : PeriodModalEvent
 }
