@@ -10,12 +10,13 @@ repositories {
 
 dependencies {
     //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-    implementation("com.android.tools.build:gradle:7.3.0-beta04")
+    implementation("com.android.tools.build:gradle:7.4.0-beta01")
 
     //https://kotlinlang.org/docs/releases.html#release-details
     // Must match kotlinVersion from dependencies.kt
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0")
-    implementation(kotlin("serialization", version = "1.7.0"))
+    val kotlinVersion = "1.7.10"
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+    implementation(kotlin("serialization", version = kotlinVersion))
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     // Must match hiltVersion from dependencies.kt

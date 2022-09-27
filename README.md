@@ -100,7 +100,8 @@ in **[docs/resources 📚](docs/resources/)**.
 
 ## Project Requirements
 - Java 11+
-- Android Studio Dolphin+ (for easy install use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
+- **Android Studio Electric Eel+** (for easy install
+  use [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/))
 
 ## How to build?
 1. Clone the repository

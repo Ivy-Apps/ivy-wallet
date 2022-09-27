@@ -26,7 +26,7 @@ object Project {
     const val versionCode = 117
 
     //Compile SDK & Build Tools
-    const val compileSdkVersion = 32
+    const val compileSdkVersion = 33
 
     //App
     const val applicationId = "com.ivy.wallet"
@@ -37,14 +37,14 @@ object Project {
 object Versions {
     //https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.7.0"
+    const val kotlin = "1.7.10"
     const val coroutines = "1.6.3"
 
     //https://developer.android.com/jetpack/androidx/releases/compose
-    const val compose = "1.2.0-rc03"
+    const val compose = "1.3.0-beta03"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-compiler
-    const val composeCompilerVersion = "1.2.0"
+    const val composeCompilerVersion = "1.3.1"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
     const val composeFoundation = "1.2.0-rc03"
@@ -192,7 +192,8 @@ fun DependencyHandler.Compose(api: Boolean) {
     dependency("androidx.compose.material:material:$version", api = api)
     dependency("androidx.compose.material:material-icons-extended:$version", api = api)
     dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
-    dependency("androidx.compose.ui:ui-tooling:$version", api = api)
+    debugDependency("androidx.compose.ui:ui-tooling:$version", api = api)
+    dependency("androidx.compose.ui:ui-tooling-preview:$version", api = api)
 
     dependency(
         "androidx.navigation:navigation-compose:${Versions.navigationCompose}", api = api

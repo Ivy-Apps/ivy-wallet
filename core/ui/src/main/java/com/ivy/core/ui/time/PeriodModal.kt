@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -96,11 +94,11 @@ private fun ChooseMonth(
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
     SpacerVer(height = 16.dp)
+    val selectedMonthly by derivedStateOf { selected is SelectedPeriodUi.Monthly }
     "Month".B1(
         modifier = Modifier.padding(start = 24.dp),
         fontWeight = FontWeight.ExtraBold,
-        color = if (selected is SelectedPeriodUi.Monthly)
-            UI.colors.primary else UI.colorsInverted.pure
+        color = if (selectedMonthly) UI.colors.primary else UI.colorsInverted.pure
     )
     SpacerVer(height = 8.dp)
 
@@ -163,10 +161,12 @@ private fun FromToRange(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val selectedCustom by derivedStateOf { selected is SelectedPeriodUi.CustomRange }
         val rootScreen = rootScreen()
         PeriodClosureColumn(
             label = "From",
             dateText = periodUi.fromText,
+            selectedCustom = selectedCustom,
         ) {
             rootScreen.datePicker(
                 minDate = null,
@@ -187,6 +187,7 @@ private fun FromToRange(
         PeriodClosureColumn(
             label = "To",
             dateText = periodUi.toText,
+            selectedCustom = selectedCustom,
         ) {
             rootScreen.datePicker(
                 minDate = periodUi.period.from.toLocalDate(),
@@ -208,6 +209,7 @@ private fun FromToRange(
 
 @Composable
 private fun RowScope.PeriodClosureColumn(
+    selectedCustom: Boolean,
     label: String,
     dateText: String,
     onClick: () -> Unit
@@ -217,7 +219,8 @@ private fun RowScope.PeriodClosureColumn(
     ) {
         label.B1(
             modifier = Modifier.padding(start = 16.dp),
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = if (selectedCustom) UI.colors.primary else UI.colorsInverted.pure
         )
         SpacerVer(height = 4.dp)
         DateButton(
@@ -253,10 +256,13 @@ private fun MoreOptions(
     selected: SelectedPeriodUi,
     onEvent: (PeriodModalEvent) -> Unit
 ) {
+    val selectedMore by derivedStateOf {
+        selected is SelectedPeriodUi.AllTime || selected is SelectedPeriodUi.InTheLast
+    }
     "More options".B1(
         modifier = Modifier.padding(start = 24.dp),
         fontWeight = FontWeight.Bold,
-        color = UI.colorsInverted.pure
+        color = if (selectedMore) UI.colors.primary else UI.colorsInverted.pure
     )
     SpacerVer(height = 8.dp)
     Row(

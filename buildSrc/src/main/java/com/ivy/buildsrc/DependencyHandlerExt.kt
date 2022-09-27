@@ -6,6 +6,10 @@ internal fun DependencyHandler.dependency(dependency: Any, api: Boolean) {
     if (api) api(dependency) else implementation(dependency)
 }
 
+internal fun DependencyHandler.debugDependency(dependency: Any, api: Boolean) {
+    if (api) debugApi(dependency) else debugImplementation(dependency)
+}
+
 internal fun DependencyHandler.testDependency(dependency: Any, api: Boolean) {
     if (api) testApi(dependency) else testImplementation(dependency)
 }
@@ -20,12 +24,20 @@ internal fun DependencyHandler.implementation(dependency: Any) {
     this.add("implementation", dependency)
 }
 
+internal fun DependencyHandler.debugImplementation(dependency: Any) {
+    this.add("debugImplementation", dependency)
+}
+
 internal fun DependencyHandler.implementation(value: String) {
     this.implementation(dependency = value)
 }
 
 internal fun DependencyHandler.api(dependency: Any) {
     this.add("api", dependency)
+}
+
+internal fun DependencyHandler.debugApi(dependency: Any) {
+    this.add("debugApi", dependency)
 }
 
 internal fun DependencyHandler.api(value: String) {
