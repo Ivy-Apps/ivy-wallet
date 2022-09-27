@@ -18,7 +18,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.temp.rootScreen
 import com.ivy.core.ui.time.handling.PeriodModalEvent
-import com.ivy.core.ui.time.handling.SelectedPeriodHandlerViewModel
+import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.data.time.Period
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerH
@@ -43,7 +43,7 @@ fun BoxScope.PeriodModal(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi
 ) {
-    val viewModel: SelectedPeriodHandlerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
     UI(
         modal = modal,
@@ -57,7 +57,7 @@ fun BoxScope.PeriodModal(
 private fun BoxScope.UI(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi,
-    state: SelectedPeriodHandlerViewModel.State,
+    state: SelectedPeriodViewModel.State,
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
     Modal(
@@ -355,7 +355,7 @@ private fun Preview() {
 }
 
 @Composable
-private fun previewState() = SelectedPeriodHandlerViewModel.State(
+private fun previewState() = SelectedPeriodViewModel.State(
     startDayOfMonth = 1,
     months = monthsList(LocalContext.current, year = dateNowLocal().year, currentYear = true)
 )

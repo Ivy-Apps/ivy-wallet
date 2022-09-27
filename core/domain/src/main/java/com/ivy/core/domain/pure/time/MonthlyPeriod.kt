@@ -62,7 +62,6 @@ private fun customStartDayOfMonthPeriodRange(
     val from = date
         .withDayOfMonthSafe(startDateOfMonth)
         .atStartOfDay()
-        .convertLocalToUTC()
 
     val to = date
         //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
@@ -71,7 +70,6 @@ private fun customStartDayOfMonthPeriodRange(
         //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
         .minusDays(1)
         .atEndOfDay()
-        .convertLocalToUTC()
 
     return Period.FromTo(from = from, to = to)
 }

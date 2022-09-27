@@ -96,10 +96,10 @@ fun LocalDate.formatPattern(
 }
 
 fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay().convertLocalToUTC()
+    date.withDayOfMonth(1).atStartOfDay()
 
 fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay().convertLocalToUTC()
+    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay()
 
 fun LocalDate.atEndOfDay(): LocalDateTime =
     this.atTime(23, 59, 59)

@@ -14,7 +14,7 @@ import com.ivy.core.domain.pure.time.dateToSelectedMonthlyPeriod
 import com.ivy.core.domain.pure.time.shiftTime
 import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.monthsList
-import com.ivy.core.ui.time.handling.SelectedPeriodHandlerViewModel.State
+import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.State
 import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
-class SelectedPeriodHandlerViewModel @Inject constructor(
+class SelectedPeriodViewModel @Inject constructor(
     @ApplicationContext
     private val appContext: Context,
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
