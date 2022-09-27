@@ -23,17 +23,21 @@ class MapSelectedPeriodAct @Inject constructor(
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {
     override suspend fun transform(domain: SelectedPeriod): SelectedPeriodUi = when (domain) {
         is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime(
+            btnText = appContext.getString(R.string.all_time),
             periodUi = periodUi(domain)
         )
         is SelectedPeriod.CustomRange -> SelectedPeriodUi.CustomRange(
+            btnText = formatFromToPeriod(domain.period),
             periodUi = periodUi(domain)
         )
         is SelectedPeriod.InTheLast -> SelectedPeriodUi.InTheLast(
+            btnText = formatInTheLast(domain),
             n = domain.n,
             unit = domain.unit,
             periodUi = periodUi(domain)
         )
         is SelectedPeriod.Monthly -> SelectedPeriodUi.Monthly(
+            btnText = formatMonthly(domain),
             month = MonthUi(
                 number = domain.month.number,
                 year = domain.month.year,
@@ -69,9 +73,12 @@ class MapSelectedPeriodAct @Inject constructor(
         }
 
     private fun formatFromToPeriod(period: Period.FromTo): String {
-        val pattern = "MMM dd"
-        val from = period.from.format(pattern)
-        val to = period.to.format(pattern)
+        fun format(time: LocalDateTime, currentYear: Int): String =
+            time.format(if (time.year == currentYear) "MMM dd" else "MMM dd, yyyy")
+
+        val currentYear = dateNowLocal().year
+        val from = format(period.from, currentYear)
+        val to = format(period.to, currentYear)
         return "$from - $to"
     }
 

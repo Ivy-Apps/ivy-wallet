@@ -1,19 +1,19 @@
 package com.ivy.debug
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ivy.core.ui.time.PeriodButton
 import com.ivy.core.ui.time.PeriodModal
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 
 @Composable
 fun BoxScope.TestScreen() {
@@ -23,14 +23,10 @@ fun BoxScope.TestScreen() {
 
     ColumnRoot {
         SpacerVer(height = 24.dp)
-        IvyButton(
-            size = ButtonSize.Big,
-            visibility = ButtonVisibility.Focused,
-            feeling = ButtonFeeling.Positive,
-            text = "Show period modal",
-            icon = null
-        ) {
-            periodModal.show()
+        Row {
+            SpacerWeight(weight = 1f)
+            PeriodButton(selectedPeriod = state.selectedPeriodUi, periodModal = periodModal)
+            SpacerHor(width = 16.dp)
         }
     }
 

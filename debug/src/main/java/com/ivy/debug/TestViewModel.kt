@@ -17,7 +17,10 @@ class TestViewModel @Inject constructor(
     private val mapSelectedPeriodAct: MapSelectedPeriodAct
 ) : FlowViewModel<TestStateUi, TestStateUi, Unit>() {
     override fun initialState() = TestStateUi(
-        selectedPeriodUi = SelectedPeriodUi.AllTime(PeriodUi(allTime(), "", ""))
+        selectedPeriodUi = SelectedPeriodUi.AllTime(
+            btnText = "",
+            periodUi = PeriodUi(allTime(), "", "")
+        )
     )
 
     override fun initialUiState(): TestStateUi = initialState()

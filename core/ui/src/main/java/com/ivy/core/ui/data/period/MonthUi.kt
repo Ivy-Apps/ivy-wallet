@@ -39,3 +39,5 @@ fun fullMonthName(context: Context, monthNumber: Int): String = when (monthNumbe
     12 -> context.getString(R.string.december)
     else -> error("Invalid month with num $monthNumber. Must be in [1,12].")
 }
+
+fun dummyMonthUi() = MonthUi(number = 1, year = 1, currentYear = true, fullName = "")
