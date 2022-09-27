@@ -176,7 +176,8 @@ private fun FromToRange(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val selectedCustom = selected is SelectedPeriodUi.CustomRange
+        val selectedCustom = selected is SelectedPeriodUi.CustomRange ||
+                selected is SelectedPeriodUi.InTheLast
         val rootScreen = rootScreen()
         PeriodClosureColumn(
             label = "From",
@@ -271,8 +272,7 @@ private fun MoreOptions(
     onEvent: (SelectPeriodEvent) -> Unit,
     onShowMoreOptionsModal: () -> Unit,
 ) {
-    val selectedMore = selected is SelectedPeriodUi.AllTime ||
-            selected is SelectedPeriodUi.InTheLast
+    val selectedMore = selected is SelectedPeriodUi.AllTime
     SectionText(
         text = "More options",
         selected = selectedMore,
