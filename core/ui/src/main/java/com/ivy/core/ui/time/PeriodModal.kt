@@ -94,7 +94,7 @@ private fun ChooseMonth(
     onEvent: (PeriodModalEvent) -> Unit,
 ) {
     SpacerVer(height = 16.dp)
-    val selectedMonthly by derivedStateOf { selected is SelectedPeriodUi.Monthly }
+    val selectedMonthly = selected is SelectedPeriodUi.Monthly
     "Month".B1(
         modifier = Modifier.padding(start = 24.dp),
         fontWeight = FontWeight.ExtraBold,
@@ -104,13 +104,19 @@ private fun ChooseMonth(
 
     val state = rememberLazyListState()
     val selectedMonth = (selected as? SelectedPeriodUi.Monthly)?.month
+    var firstTimeScrolling by remember { mutableStateOf(true) }
     LaunchedEffect(selected) {
         if (selectedMonth != null) {
             val selectedMonthIndex = withContext(Dispatchers.Default) {
                 months.indexOf(selectedMonth).takeIf { it != -1 }
             }
             if (selectedMonthIndex != null) {
-                state.animateScrollToItem(selectedMonthIndex)
+                if (firstTimeScrolling) {
+                    state.scrollToItem(selectedMonthIndex)
+                    firstTimeScrolling = false
+                } else {
+                    state.animateScrollToItem(selectedMonthIndex)
+                }
             }
         }
     }
@@ -161,7 +167,7 @@ private fun FromToRange(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val selectedCustom by derivedStateOf { selected is SelectedPeriodUi.CustomRange }
+        val selectedCustom = selected is SelectedPeriodUi.CustomRange
         val rootScreen = rootScreen()
         PeriodClosureColumn(
             label = "From",
@@ -256,9 +262,8 @@ private fun MoreOptions(
     selected: SelectedPeriodUi,
     onEvent: (PeriodModalEvent) -> Unit
 ) {
-    val selectedMore by derivedStateOf {
+    val selectedMore =
         selected is SelectedPeriodUi.AllTime || selected is SelectedPeriodUi.InTheLast
-    }
     "More options".B1(
         modifier = Modifier.padding(start = 24.dp),
         fontWeight = FontWeight.Bold,
