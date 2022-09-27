@@ -23,6 +23,7 @@ fun BoxScope.TestScreen() {
 
     ColumnRoot {
         SpacerVer(height = 24.dp)
+
         Row {
             SpacerWeight(weight = 1f)
             PeriodButton(selectedPeriod = state.selectedPeriodUi, periodModal = periodModal)

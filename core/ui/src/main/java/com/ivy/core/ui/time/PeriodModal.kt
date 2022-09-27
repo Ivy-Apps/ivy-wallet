@@ -15,7 +15,7 @@ import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.temp.rootScreen
-import com.ivy.core.ui.time.handling.PeriodModalEvent
+import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.data.time.Period
 import com.ivy.data.time.TimeUnit
@@ -57,8 +57,8 @@ fun BoxScope.PeriodModal(
 private fun BoxScope.UI(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi,
-    state: SelectedPeriodViewModel.State,
-    onEvent: (PeriodModalEvent) -> Unit,
+    state: SelectedPeriodViewModel.UiState,
+    onEvent: (SelectPeriodEvent) -> Unit,
 ) {
     val moreOptionsModal = rememberIvyModal()
     Modal(
@@ -100,7 +100,7 @@ private fun BoxScope.UI(
 private fun ChooseMonth(
     months: List<MonthUi>,
     selected: SelectedPeriodUi,
-    onEvent: (PeriodModalEvent) -> Unit,
+    onEvent: (SelectPeriodEvent) -> Unit,
 ) {
     SpacerVer(height = 16.dp)
     val selectedMonthly = selected is SelectedPeriodUi.Monthly
@@ -138,7 +138,7 @@ private fun ChooseMonth(
         }
         items(months) { month ->
             MonthItem(month = month, selected = month == selectedMonth) {
-                onEvent(PeriodModalEvent.Monthly(month))
+                onEvent(SelectPeriodEvent.Monthly(month))
             }
             SpacerHor(width = 8.dp)
         }
@@ -167,7 +167,7 @@ private fun MonthItem(
 @Composable
 private fun FromToRange(
     selected: SelectedPeriodUi,
-    onEvent: (PeriodModalEvent) -> Unit,
+    onEvent: (SelectPeriodEvent) -> Unit,
 ) {
     val periodUi = selected.periodUi()
     Row(
@@ -189,7 +189,7 @@ private fun FromToRange(
                 initialDate = periodUi.period.from.toLocalDate()
             ) { pickedDate ->
                 onEvent(
-                    PeriodModalEvent.CustomRange(
+                    SelectPeriodEvent.CustomRange(
                         period = Period.FromTo(
                             from = pickedDate.atStartOfDay(),
                             to = periodUi.period.to
@@ -210,7 +210,7 @@ private fun FromToRange(
                 initialDate = periodUi.period.to.toLocalDate()
             ) { pickedDate ->
                 onEvent(
-                    PeriodModalEvent.CustomRange(
+                    SelectPeriodEvent.CustomRange(
                         period = Period.FromTo(
                             from = periodUi.period.from,
                             to = pickedDate.atEndOfDay()
@@ -268,7 +268,7 @@ private fun DateButton(
 @Composable
 private fun MoreOptions(
     selected: SelectedPeriodUi,
-    onEvent: (PeriodModalEvent) -> Unit,
+    onEvent: (SelectPeriodEvent) -> Unit,
     onShowMoreOptionsModal: () -> Unit,
 ) {
     val selectedMore = selected is SelectedPeriodUi.AllTime ||
@@ -294,7 +294,7 @@ private fun MoreOptions(
             text = "All-time",
             icon = R.drawable.ic_baseline_all_inclusive_24
         ) {
-            onEvent(PeriodModalEvent.AllTime)
+            onEvent(SelectPeriodEvent.AllTime)
         }
         SpacerHor(width = 8.dp)
         IvyButton(
@@ -305,7 +305,7 @@ private fun MoreOptions(
             text = "Reset",
             icon = R.drawable.ic_round_undo_24
         ) {
-            onEvent(PeriodModalEvent.ResetToCurrentPeriod)
+            onEvent(SelectPeriodEvent.ResetToCurrentPeriod)
         }
     }
     SpacerVer(height = 8.dp)
@@ -325,7 +325,7 @@ private fun MoreOptions(
 @Composable
 private fun BoxScope.MoreOptionsModal(
     modal: IvyModal,
-    onEvent: (PeriodModalEvent) -> Unit
+    onEvent: (SelectPeriodEvent) -> Unit
 ) {
     Modal(modal = modal, actions = {}) {
         Title(text = "More Options")
@@ -334,35 +334,35 @@ private fun BoxScope.MoreOptionsModal(
         val lastYear = remember { (dateNowLocal().year - 1).toString() }
         LazyColumn {
             optionItem(text = thisYear) {
-                onEvent(PeriodModalEvent.ThisYear)
+                onEvent(SelectPeriodEvent.ThisYear)
                 modal.hide()
             }
             optionItem(text = lastYear) {
-                onEvent(PeriodModalEvent.LastYear)
+                onEvent(SelectPeriodEvent.LastYear)
                 modal.hide()
             }
             optionItem(text = "Last 6 months") {
-                onEvent(PeriodModalEvent.InTheLast(n = 6, unit = TimeUnit.Month))
+                onEvent(SelectPeriodEvent.InTheLast(n = 6, unit = TimeUnit.Month))
                 modal.hide()
             }
             optionItem(text = "Last 3 months") {
-                onEvent(PeriodModalEvent.InTheLast(n = 3, unit = TimeUnit.Month))
+                onEvent(SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Month))
                 modal.hide()
             }
             optionItem(text = "Last 30 days") {
-                onEvent(PeriodModalEvent.InTheLast(n = 30, unit = TimeUnit.Day))
+                onEvent(SelectPeriodEvent.InTheLast(n = 30, unit = TimeUnit.Day))
                 modal.hide()
             }
             optionItem(text = "Last 15 days") {
-                onEvent(PeriodModalEvent.InTheLast(n = 15, unit = TimeUnit.Day))
+                onEvent(SelectPeriodEvent.InTheLast(n = 15, unit = TimeUnit.Day))
                 modal.hide()
             }
             optionItem(text = "Last 7 days") {
-                onEvent(PeriodModalEvent.InTheLast(n = 7, unit = TimeUnit.Day))
+                onEvent(SelectPeriodEvent.InTheLast(n = 7, unit = TimeUnit.Day))
                 modal.hide()
             }
             optionItem(text = "Last 3 days") {
-                onEvent(PeriodModalEvent.InTheLast(n = 3, unit = TimeUnit.Day))
+                onEvent(SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Day))
                 modal.hide()
             }
         }
@@ -420,6 +420,7 @@ private fun Preview() {
         PeriodModal(
             modal = modal,
             selectedPeriod = SelectedPeriodUi.Monthly(
+                btnText = "",
                 month = MonthUi(
                     number = 2,
                     year = dateNowLocal().year,
@@ -437,7 +438,7 @@ private fun Preview() {
 }
 
 @Composable
-private fun previewState() = SelectedPeriodViewModel.State(
+private fun previewState() = SelectedPeriodViewModel.UiState(
     startDayOfMonth = 1,
     months = monthsList(LocalContext.current, year = dateNowLocal().year, currentYear = true)
 )

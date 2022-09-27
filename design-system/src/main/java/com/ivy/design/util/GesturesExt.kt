@@ -18,12 +18,8 @@ fun Modifier.verticalSwipeListener(
     onSwipeUp: () -> Unit = {},
     onSwipeDown: () -> Unit = {}
 ): Modifier = composed {
-    var swipeOffset by remember {
-        mutableStateOf(0f)
-    }
-    var gestureConsumed by remember {
-        mutableStateOf(false)
-    }
+    var swipeOffset by remember { mutableStateOf(0f) }
+    var gestureConsumed by remember { mutableStateOf(false) }
 
     this.pointerInput(Unit) {
         detectVerticalDragGestures(
@@ -66,12 +62,8 @@ fun Modifier.horizontalSwipeListener(
     onSwipeLeft: () -> Unit = {},
     onSwipeRight: () -> Unit = {}
 ): Modifier = composed {
-    var swipeOffset by remember {
-        mutableStateOf(0f)
-    }
-    var gestureConsumed by remember {
-        mutableStateOf(false)
-    }
+    var swipeOffset by remember { mutableStateOf(0f) }
+    var gestureConsumed by remember { mutableStateOf(false) }
 
     this.pointerInput(Unit) {
         detectHorizontalDragGestures(
