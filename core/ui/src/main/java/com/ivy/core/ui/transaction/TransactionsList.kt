@@ -186,14 +186,16 @@ private fun LazyListScope.emptyState(emptyState: EmptyState) {
         ) {
             R.drawable.ic_notransactions.Icon(tint = UI.colors.neutral)
             SpacerVer(height = 24.dp)
-            emptyState.title.B1(
+            B1(
+                text = emptyState.title,
                 modifier = Modifier.fillMaxWidth(),
                 color = UI.colors.neutral,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center,
             )
             SpacerVer(height = 8.dp)
-            emptyState.description.B2(
+            B2(
+                text = emptyState.description,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 32.dp),

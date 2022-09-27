@@ -38,9 +38,9 @@ private fun RowScope.Date(
     Column(
         modifier = Modifier.weight(1f)
     ) {
-        date.B1(fontWeight = FontWeight.ExtraBold)
+        B1(text = date, fontWeight = FontWeight.ExtraBold)
         SpacerVer(height = 4.dp)
-        day.C(fontWeight = FontWeight.Bold)
+        C(text = day, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -49,7 +49,8 @@ private fun Cashflow(
     cashflow: FormattedValue,
     positiveCashflow: Boolean,
 ) {
-    "${cashflow.amount} ${cashflow.currency}".B2Second(
+    B2Second(
+        text = "${cashflow.amount} ${cashflow.currency}",
         color = if (positiveCashflow) UI.colors.green else UI.colors.neutral
     )
 }

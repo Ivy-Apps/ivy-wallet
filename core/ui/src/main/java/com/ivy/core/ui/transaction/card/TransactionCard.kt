@@ -51,7 +51,8 @@ internal fun TransactionCard(
 internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
-        time.dueOn.CSecond(
+        CSecond(
+            text = time.dueOn,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
             fontWeight = FontWeight.Bold
         )
@@ -67,7 +68,8 @@ internal fun Title(
 ) {
     if (title != null) {
         SpacerVer(height = if (time is TrnTimeUi.Due) 8.dp else 8.dp)
-        title.B1(
+        B1(
+            text = title,
             fontWeight = FontWeight.ExtraBold
         )
     }
@@ -80,7 +82,8 @@ internal fun Description(
 ) {
     if (description != null) {
         SpacerVer(height = if (title != null) 4.dp else 8.dp)
-        description.CSecond(
+        CSecond(
+            text = description,
             color = UI.colors.neutral,
             fontWeight = FontWeight.Bold,
             maxLines = 3,

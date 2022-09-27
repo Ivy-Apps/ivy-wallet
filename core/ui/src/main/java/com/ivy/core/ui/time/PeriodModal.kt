@@ -95,10 +95,10 @@ private fun ChooseMonth(
 ) {
     SpacerVer(height = 16.dp)
     val selectedMonthly = selected is SelectedPeriodUi.Monthly
-    "Month".B1(
+    SectionText(
+        text = "Month",
+        selected = selectedMonthly,
         modifier = Modifier.padding(start = 24.dp),
-        fontWeight = FontWeight.ExtraBold,
-        color = if (selectedMonthly) UI.colors.primary else UI.colorsInverted.pure
     )
     SpacerVer(height = 8.dp)
 
@@ -223,10 +223,10 @@ private fun RowScope.PeriodClosureColumn(
     Column(
         modifier = Modifier.weight(1f)
     ) {
-        label.B1(
+        SectionText(
+            text = label,
+            selected = selectedCustom,
             modifier = Modifier.padding(start = 16.dp),
-            fontWeight = FontWeight.Bold,
-            color = if (selectedCustom) UI.colors.primary else UI.colorsInverted.pure
         )
         SpacerVer(height = 4.dp)
         DateButton(
@@ -253,7 +253,6 @@ private fun DateButton(
     )
 
 }
-
 // endregion
 
 // region More Options
@@ -262,12 +261,12 @@ private fun MoreOptions(
     selected: SelectedPeriodUi,
     onEvent: (PeriodModalEvent) -> Unit
 ) {
-    val selectedMore =
-        selected is SelectedPeriodUi.AllTime || selected is SelectedPeriodUi.InTheLast
-    "More options".B1(
+    val selectedMore = selected is SelectedPeriodUi.AllTime ||
+            selected is SelectedPeriodUi.InTheLast
+    SectionText(
+        text = "More options",
+        selected = selectedMore,
         modifier = Modifier.padding(start = 24.dp),
-        fontWeight = FontWeight.Bold,
-        color = if (selectedMore) UI.colors.primary else UI.colorsInverted.pure
     )
     SpacerVer(height = 8.dp)
     Row(
@@ -313,6 +312,21 @@ private fun MoreOptions(
 }
 // endregion
 
+// region Components
+@Composable
+fun SectionText(
+    text: String,
+    selected: Boolean,
+    modifier: Modifier = Modifier
+) {
+    B1(
+        text = text,
+        modifier = modifier,
+        fontWeight = if (selected) FontWeight.ExtraBold else FontWeight.Bold,
+        color = if (selected) UI.colors.primary else UI.colorsInverted.pure
+    )
+}
+// endregion
 
 // region Previews
 @Preview

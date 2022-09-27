@@ -22,7 +22,8 @@ fun ModalScope.Title(
     color: Color = UI.colorsInverted.pure
 ) {
     SpacerVer(height = 24.dp)
-    text.B1(
+    B1(
+        text = text,
         modifier = Modifier.padding(start = 32.dp),
         fontWeight = FontWeight.ExtraBold,
         color = color

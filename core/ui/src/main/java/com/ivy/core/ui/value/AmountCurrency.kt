@@ -26,13 +26,15 @@ fun FormattedValue.AmountCurrencyRow(
 fun FormattedValue.AmountCurrency(
     color: Color = UI.colorsInverted.pure,
 ) {
-    amount.B1Second(
+    B1Second(
+        text = amount,
         modifier = Modifier.testTag("amount_currency_b1"),
         fontWeight = FontWeight.Bold,
         color = color,
     )
     SpacerHor(width = 4.dp)
-    currency.B1Second(
+    B1Second(
+        text = currency,
         fontWeight = FontWeight.Normal,
         color = color,
     )

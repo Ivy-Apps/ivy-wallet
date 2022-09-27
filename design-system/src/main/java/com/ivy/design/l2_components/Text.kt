@@ -18,7 +18,8 @@ import com.ivy.design.util.ComponentPreview
 
 // region Text typography
 @Composable
-fun String.H1(
+fun H1(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -27,6 +28,7 @@ fun String.H1(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typo.h1,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -38,7 +40,8 @@ fun String.H1(
 }
 
 @Composable
-fun String.H2(
+fun H2(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -47,6 +50,7 @@ fun String.H2(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typo.h2,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -58,7 +62,8 @@ fun String.H2(
 }
 
 @Composable
-fun String.B1(
+fun B1(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -67,6 +72,7 @@ fun String.B1(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typo.b1,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -78,7 +84,8 @@ fun String.B1(
 }
 
 @Composable
-fun String.B2(
+fun B2(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -87,6 +94,7 @@ fun String.B2(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typo.b2,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -98,7 +106,8 @@ fun String.B2(
 }
 
 @Composable
-fun String.C(
+fun C(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -107,6 +116,7 @@ fun String.C(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typo.c,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -120,7 +130,8 @@ fun String.C(
 
 // region Secondary typography
 @Composable
-fun String.H1Second(
+fun H1Second(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -129,6 +140,7 @@ fun String.H1Second(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typoSecond.h1,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -140,7 +152,8 @@ fun String.H1Second(
 }
 
 @Composable
-fun String.H2Second(
+fun H2Second(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -149,6 +162,7 @@ fun String.H2Second(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typoSecond.h2,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -160,7 +174,8 @@ fun String.H2Second(
 }
 
 @Composable
-fun String.B1Second(
+fun B1Second(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -169,6 +184,7 @@ fun String.B1Second(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typoSecond.b1,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -180,7 +196,8 @@ fun String.B1Second(
 }
 
 @Composable
-fun String.B2Second(
+fun B2Second(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -189,6 +206,7 @@ fun String.B2Second(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typoSecond.b2,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -200,7 +218,8 @@ fun String.B2Second(
 }
 
 @Composable
-fun String.CSecond(
+fun CSecond(
+    text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = UI.colorsInverted.pure,
@@ -209,6 +228,7 @@ fun String.CSecond(
     maxLines: Int = Int.MAX_VALUE,
 ) {
     Text(
+        text = text,
         typo = UI.typoSecond.c,
         modifier = modifier,
         fontWeight = fontWeight,
@@ -221,7 +241,8 @@ fun String.CSecond(
 // endregion
 
 @Composable
-fun String.Text(
+fun Text(
+    text: String,
     typo: TextStyle,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
@@ -232,7 +253,7 @@ fun String.Text(
 ) {
     Text(
         modifier = modifier,
-        text = this,
+        text = text,
         style = typo.style(
             fontWeight = fontWeight,
             color = color,
@@ -248,19 +269,19 @@ fun String.Text(
 private fun Preview() {
     ComponentPreview {
         Column {
-            "Heading 1".H1()
-            "Heading 2".H2()
-            "Body 1".B1()
-            "Body 2".B2()
-            "Caption".C()
+            H1("Heading 1")
+            H2("Heading 2")
+            B1("Body 1")
+            B2("Body 2")
+            C("Caption")
 
             SpacerVer(height = 8.dp)
 
-            "1".H1Second()
-            "2".H2Second()
-            "3".B1Second()
-            "4".B2Second()
-            "5".CSecond()
+            H1Second("1")
+            H2Second("2")
+            B1Second("3")
+            B2Second("4")
+            CSecond("5")
         }
     }
 }

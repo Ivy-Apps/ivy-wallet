@@ -11,7 +11,8 @@ import com.ivy.design.l2_components.modal.scope.ModalScope
 @Suppress("unused")
 @Composable
 fun ModalScope.Body(text: String) {
-    text.B2(
+    B2(
+        text = text,
         modifier = Modifier.padding(horizontal = 32.dp),
         fontWeight = FontWeight.Medium,
     )

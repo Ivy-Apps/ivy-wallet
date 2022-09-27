@@ -76,7 +76,8 @@ private fun Title(
     title: String,
     color: Color,
 ) {
-    title.B1(
+    B1(
+        text = title,
         modifier = Modifier
             // TODO: Rename this to "due_title"
             .testTag("upcoming_title"),

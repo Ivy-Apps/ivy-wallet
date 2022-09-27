@@ -60,7 +60,8 @@ private fun TransferHeader(
             tint = UI.colorsInverted.pure,
         )
         SpacerHor(width = 4.dp)
-        name.C(
+        C(
+            text = name,
             color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
@@ -104,7 +105,8 @@ private fun ToAmountDifferentCurrency(
     toValue: FormattedValue,
 ) {
     if (fromCurrency != toValue.currency) {
-        "${toValue.amount} ${toValue.currency}".B2Second(
+        B2Second(
+            text = "${toValue.amount} ${toValue.currency}",
             modifier = Modifier.padding(start = 48.dp),
             color = UI.colors.neutral,
             fontWeight = FontWeight.Normal,
