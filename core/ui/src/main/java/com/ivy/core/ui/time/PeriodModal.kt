@@ -112,7 +112,7 @@ private fun ChooseMonth(
                 months.indexOf(selectedMonth).takeIf { it != -1 }
             }
             if (selectedMonthIndex != null) {
-                state.scrollToItem(selectedMonthIndex)
+                state.animateScrollToItem(selectedMonthIndex)
             }
         }
     }
