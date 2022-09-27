@@ -1,9 +1,12 @@
 package com.ivy.core.domain.pure.time
 
+import com.ivy.common.atEndOfDay
 import com.ivy.common.beginningOfIvyTime
 import com.ivy.common.endOfIvyTime
 import com.ivy.data.time.Period
+import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeUnit
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 fun allTime(): Period.FromTo = Period.FromTo(
@@ -20,3 +23,10 @@ fun shiftTime(time: LocalDateTime, n: Int, unit: TimeUnit): LocalDateTime {
         TimeUnit.Year -> time.plusYears(nLong)
     }
 }
+
+fun yearPeriod(year: Int): SelectedPeriod.CustomRange = SelectedPeriod.CustomRange(
+    period = Period.FromTo(
+        from = LocalDate.of(year, 1, 1).atStartOfDay(),
+        to = LocalDate.of(year, 12, 31).atEndOfDay()
+    )
+)

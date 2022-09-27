@@ -45,13 +45,6 @@ fun dateToSelectedMonthlyPeriod(
     period = dateToMonthlyPeriod(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
 )
 
-fun yearPeriod(year: Int): SelectedPeriod.CustomRange = SelectedPeriod.CustomRange(
-    period = Period.FromTo(
-        from = LocalDate.of(year, 1, 1).atStartOfDay(),
-        to = LocalDate.of(year, 12, 31).atEndOfDay()
-    )
-)
-
 private fun dateToMonthlyPeriod(date: LocalDate, startDayOfMonth: Int): Period.FromTo =
     if (startDayOfMonth != 1) {
         customStartDayOfMonthPeriodRange(
