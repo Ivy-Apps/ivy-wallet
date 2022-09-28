@@ -24,8 +24,8 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
@@ -44,10 +44,6 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen() {
     val recurring by viewModel.recurring.observeAsState(emptyList())
     val recurringIncome by viewModel.recurringIncome.observeAsState(0.0)
     val recurringExpenses by viewModel.recurringExpenses.observeAsState(0.0)
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     UI(
         currency = currency,
@@ -104,10 +100,10 @@ private fun BoxWithConstraintsScope.UI(
         recurringExpenses = recurringExpenses
     )
 
-    val nav = navigation()
+
     PlannedPaymentsBottomBar(
         onClose = {
-            nav.back()
+
         },
         onAdd = {
 //            nav.navigateTo(

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
@@ -29,7 +29,7 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class ImportViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
-    private val nav: Navigation,
+    private val
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
@@ -172,7 +172,7 @@ class ImportViewModel @Inject constructor(
 //            onboardingViewModel.importSkip()
 //        }
 
-        nav.back()
+
         resetState()
     }
 
@@ -186,7 +186,7 @@ class ImportViewModel @Inject constructor(
 //            )
 //        }
 
-        nav.back()
+
         resetState()
     }
 

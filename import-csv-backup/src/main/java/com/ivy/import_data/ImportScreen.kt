@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.import_data.flow.ImportFrom
 import com.ivy.import_data.flow.ImportProcessing
 import com.ivy.import_data.flow.ImportResultUI
@@ -31,9 +31,6 @@ fun BoxWithConstraintsScope.ImportCSVScreen() {
 
     val onboardingViewModel: OnboardingViewModel = hiltViewModel()
 
-    onScreenStart {
-//        viewModel.start(screen)
-    }
     val context = LocalContext.current
 
     UI(

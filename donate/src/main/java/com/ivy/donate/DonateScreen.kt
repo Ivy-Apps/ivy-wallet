@@ -37,8 +37,8 @@ import com.ivy.design.l2_components.button.Icon
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.padding
 import com.ivy.donate.data.DonateOption
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.components.IvyButton
 
@@ -54,9 +54,6 @@ fun BoxWithConstraintsScope.DonateScreen() {
 //    val state by viewModel.state().collectAsState()
 
     val activity = LocalContext.current as Activity
-    onScreenStart {
-        viewModel.onEvent(DonateEvent.Load(activity))
-    }
 
     UI(viewModel::onEvent)
 }
@@ -81,7 +78,7 @@ private fun BoxWithConstraintsScope.UI(
     ColumnRoot {
         SpacerVer(height = 16.dp)
 
-        val nav = navigation()
+
         Btn.Icon(
             modifier = Modifier.padding(start = 16.dp),
             icon = R.drawable.ic_back_android,
@@ -92,7 +89,7 @@ private fun BoxWithConstraintsScope.UI(
                 padding = padding(all = 12.dp)
             )
         ) {
-            nav.back()
+
         }
 
         SpacerVer(height = 16.dp)

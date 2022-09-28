@@ -10,7 +10,6 @@ import com.ivy.base.RootIntent
 import com.ivy.common.BuildConfig
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.RootViewModel
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -46,7 +45,7 @@ class IvyAndroidApp : Application(), Configuration.Provider {
 
             override fun addTransactionStart(context: Context, type: TrnTypeOld): Intent =
                 Intent(context, RootActivity::class.java).apply {
-                    putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
+//                    putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
                 }
         }
 

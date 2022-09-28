@@ -1,12 +1,12 @@
 package com.ivy.wallet.compose.scenario.core
 
+import com.ivy.design.l0_system.color.Blue
+import com.ivy.design.l0_system.color.Purple1
+import com.ivy.design.l0_system.color.Purple2
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.ItemStatisticScreen
 import com.ivy.wallet.compose.component.account.AccountModal
 import com.ivy.wallet.compose.component.account.AccountsTab
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Purple1
-import com.ivy.wallet.ui.theme.Purple2
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Ignore
 import org.junit.Test

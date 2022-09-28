@@ -10,17 +10,13 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryByIdAct
 import com.ivy.wallet.domain.action.transaction.TrnByIdAct
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
-import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
-import com.ivy.wallet.domain.deprecated.logic.SmartTitleSuggestionsLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -47,7 +43,7 @@ class EditTransactionViewModel @Inject constructor(
     private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
     private val settingsDao: SettingsDao,
-    private val nav: Navigation,
+    private val
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,
     private val exchangeRatesLogic: ExchangeRatesLogic,
@@ -569,7 +565,7 @@ class EditTransactionViewModel @Inject constructor(
             nav.resetBackStack()
 //            nav.navigateTo(Main)
         } else {
-            nav.back()
+
         }
     }
 

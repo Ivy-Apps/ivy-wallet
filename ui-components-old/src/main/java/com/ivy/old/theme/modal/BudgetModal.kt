@@ -32,7 +32,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.old.ListItem
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Green
@@ -215,12 +215,6 @@ fun ModalNameInput(
     setTextFieldValue: (TextFieldValue) -> Unit,
 ) {
     val nameFocus = FocusRequester()
-
-    onScreenStart {
-        if (autoFocusKeyboard) {
-            nameFocus.requestFocus()
-        }
-    }
 
     val view = LocalView.current
     IvyNameTextField(

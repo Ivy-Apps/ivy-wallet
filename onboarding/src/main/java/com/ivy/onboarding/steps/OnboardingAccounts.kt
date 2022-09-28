@@ -22,7 +22,7 @@ import com.ivy.data.AccountOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
 import com.ivy.old.Suggestions
@@ -60,7 +60,7 @@ fun BoxWithConstraintsScope.OnboardingAccounts(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val nav = navigation()
+
             OnboardingToolbar(
                 hasSkip = accounts.isEmpty(), onBack = { nav.onBackPressed() }, onSkip = onSkip
             )
@@ -204,7 +204,7 @@ fun PremiumInfo(
 fun BuyPremiumRow(
     itemLabelPlural: String,
 ) {
-    val nav = navigation()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()

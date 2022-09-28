@@ -29,8 +29,8 @@ import com.ivy.data.pure.IncomeExpensePair
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.old.IncomeExpensesCards
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
@@ -44,10 +44,6 @@ fun BoxWithConstraintsScope.ReportScreen() {
     val viewModel: ReportViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
-        viewModel.start()
-    }
-
     UI(
         state = state,
         onEventHandler = viewModel::onEvent
@@ -60,7 +56,7 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
@@ -317,11 +313,11 @@ private fun Toolbar(
     onExport: () -> Unit,
     onFilter: () -> Unit
 ) {
-    val nav = navigation()
+
     IvyToolbar(
         backButtonType = BackButtonType.CLOSE,
         onBack = {
-            nav.back()
+
         }
     ) {
         Spacer(Modifier.weight(1f))

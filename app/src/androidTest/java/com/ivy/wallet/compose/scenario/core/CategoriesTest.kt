@@ -1,12 +1,12 @@
 package com.ivy.wallet.compose.scenario.core
 
+import com.ivy.design.l0_system.color.Blue
+import com.ivy.design.l0_system.color.Blue2
+import com.ivy.design.l0_system.color.Purple
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.ItemStatisticScreen
 import com.ivy.wallet.compose.component.category.CategoriesScreen
 import com.ivy.wallet.compose.component.category.CategoryModal
-import com.ivy.wallet.ui.theme.Blue
-import com.ivy.wallet.ui.theme.Blue2
-import com.ivy.wallet.ui.theme.Ivy
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Ignore
 import org.junit.Test
@@ -60,7 +60,7 @@ class CategoriesTest : IvyComposeTest() {
             .chooseIcon(
                 icon = "restaurant"
             )
-            .chooseColor(Ivy)
+            .chooseColor(Purple)
             .clickSave(next = ItemStatisticScreen(composeTestRule))
             .clickClose(next = CategoriesScreen(composeTestRule))
             .assertCategory(

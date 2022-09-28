@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.text.format.DateFormat
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResultLauncher
@@ -25,27 +24,23 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.base.Constants
 import com.ivy.base.Constants.SUPPORT_EMAIL
 import com.ivy.base.R
+import com.ivy.common.timeNowLocal
+import com.ivy.common.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
-import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.main.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
@@ -53,8 +48,8 @@ import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.ui.applocked.AppLockedScreen
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.activityForResultLauncher
+import com.ivy.wallet.utils.simpleActivityForResultLauncher
 import com.ivy.widgets.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -66,15 +61,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
-
-    @Inject
-    lateinit var ivyContext: IvyWalletCtx
-
-    @Inject
-    lateinit var navigation: Navigation
-
-    @Inject
-    lateinit var customerJourneyLogic: CustomerJourneyLogic
 
     @Inject
     lateinit var navigator: Navigator
@@ -104,9 +90,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setupDatePicker()
-        setupTimePicker()
-
         AddTransactionWidget.updateBroadcast(this)
 
         setContent {
@@ -114,8 +97,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
             LaunchedEffect(isSystemInDarkTheme) {
-                viewModel.start(isSystemInDarkTheme, intent)
-                viewModel.initBilling(this@RootActivity)
             }
 
             IvyUI {
@@ -128,100 +109,30 @@ class RootActivity : AppCompatActivity(), RootScreen {
     @ExperimentalAnimationApi
     @Composable
     private fun BoxWithConstraintsScope.UI(viewModel: RootViewModel) {
-        val appLocked by viewModel.appLocked.collectAsState()
-
-        when (appLocked) {
-            null -> {
-                //display nothing
-            }
-            true -> {
-                AppLockedScreen(
-                    onShowOSBiometricsModal = {
-                        authenticateWithOSBiometricsModal(
-                            biometricPromptCallback = viewModel.handleBiometricAuthResult()
-                        )
-                    },
-                    onContinueWithoutAuthentication = {
-                        viewModel.unlockApp()
-                    }
-                )
-            }
-            false -> {
-                NavigationRoot(
-                    navigator = navigator,
-                    onboardingScreens = OnboardingScreens(
-                        loginOrOffline = {},
-                        importBackup = {},
-                        setCurrency = {},
-                        addAccounts = {},
-                        addCategories = {}
-                    ),
-                    main = { MainScreen(main = it) },
-                    transactionScreens = TransactionScreens(
-                        accountTransactions = {},
-                        categoryTransactions = {},
-                        newTransaction = {},
-                        newTransfer = {},
-                        transaction = {},
-                        transfer = {}
-                    ),
-                    debugScreens = DebugScreens(
-                        test = {
-                            TestScreen()
-                        }
-                    )
-                )
-            }
-        }
-    }
-
-    private fun setupDatePicker() {
-        ivyContext.onShowDatePicker = { minDate,
-                                        maxDate,
-                                        initialDate,
-                                        onDatePicked ->
-            val picker = DatePickerDialog(this)
-
-            if (minDate != null) {
-                picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
-            }
-
-            if (maxDate != null) {
-                picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
-            }
-
-            picker.setOnDateSetListener { _, year, month, dayOfMonth ->
-                Timber.i("Date picked: $year year $month month day $dayOfMonth")
-                onDatePicked(LocalDate.of(year, month + 1, dayOfMonth))
-            }
-            picker.show()
-
-            if (initialDate != null) {
-                picker.updateDate(
-                    initialDate.year,
-                    //month-1 because LocalDate start from 1 and date picker starts from 0
-                    initialDate.monthValue - 1,
-                    initialDate.dayOfMonth
-                )
-            }
-        }
-    }
-
-    private fun setupTimePicker() {
-        ivyContext.onShowTimePicker = { onTimePicked ->
-            val nowLocal = timeNowLocal()
-            val picker = TimePickerDialog(
-                this,
-                { _, hourOfDay, minute ->
-                    onTimePicked(
-                        LocalTime.of(hourOfDay, minute)
-                            .convertLocalToUTC().withSecond(0)
-                    )
-                },
-                nowLocal.hour, nowLocal.minute, DateFormat.is24HourFormat(this)
+        NavigationRoot(
+            navigator = navigator,
+            onboardingScreens = OnboardingScreens(
+                loginOrOffline = {},
+                importBackup = {},
+                setCurrency = {},
+                addAccounts = {},
+                addCategories = {}
+            ),
+            main = { MainScreen(main = it) },
+            transactionScreens = TransactionScreens(
+                accountTransactions = {},
+                categoryTransactions = {},
+                newTransaction = {},
+                newTransfer = {},
+                transaction = {},
+                transfer = {}
+            ),
+            debugScreens = DebugScreens(
+                test = {
+                    TestScreen()
+                }
             )
-            picker.show()
-        }
+        )
     }
 
     private fun setupActivityForResultLaunchers() {
@@ -252,17 +163,17 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
         }
 
-        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
-            onGoogleSignInIdTokenResult = idTokenResult
-
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-            googleSignInLauncher.launch(googleSignInClient)
-        }
+//        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
+//            onGoogleSignInIdTokenResult = idTokenResult
+//
+//            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .requestProfile()
+//                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
+//                .build()
+//            val googleSignInClient = GoogleSignIn.getClient(this, gso)
+//            googleSignInLauncher.launch(googleSignInClient)
+//        }
     }
 
     private fun createFileLauncher() {
@@ -288,11 +199,11 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
         }
 
-        ivyContext.createNewFile = { fileName, onFileCreatedCallback ->
-            onFileCreated = onFileCreatedCallback
-
-            createFileLauncher.launch(fileName)
-        }
+//        ivyContext.createNewFile = { fileName, onFileCreatedCallback ->
+//            onFileCreated = onFileCreatedCallback
+//
+//            createFileLauncher.launch(fileName)
+//        }
     }
 
     private fun openFileLauncher() {
@@ -307,35 +218,35 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
         }
 
-        ivyContext.openFile = { onFileOpenedCallback ->
-            onFileOpened = onFileOpenedCallback
-
-            openFileLauncher.launch(Unit)
-        }
+//        ivyContext.openFile = { onFileOpenedCallback ->
+//            onFileOpened = onFileOpenedCallback
+//
+//            openFileLauncher.launch(Unit)
+//        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (viewModel.isAppLockEnabled() && !hasFocus) {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE
-            )
-        } else {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
-        }
+//        if (viewModel.isAppLockEnabled() && !hasFocus) {
+//            window.setFlags(
+//                WindowManager.LayoutParams.FLAG_SECURE,
+//                WindowManager.LayoutParams.FLAG_SECURE
+//            )
+//        } else {
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+//        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (viewModel.isAppLockEnabled())
-            viewModel.checkUserInactiveTimeStatus()
+//        if (viewModel.isAppLockEnabled())
+//            viewModel.checkUserInactiveTimeStatus()
     }
 
     override fun onPause() {
         super.onPause()
-        if (viewModel.isAppLockEnabled())
-            viewModel.startUserInactiveTimeCounter()
+//        if (viewModel.isAppLockEnabled())
+//            viewModel.startUserInactiveTimeCounter()
     }
 
     private fun authenticateWithOSBiometricsModal(
@@ -363,17 +274,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
         biometricPrompt.authenticate(promptInfo)
     }
-
-    override fun onBackPressed() {
-        if (viewModel.isAppLocked()) {
-            super.onBackPressed()
-        } else {
-            if (!navigation.onBackPressed()) {
-                super.onBackPressed()
-            }
-        }
-    }
-
 
     //Helpers for Compose UI
     fun contactSupport() {
@@ -478,7 +378,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                     // reviewed or not, or even whether the review dialog was shown. Thus, no
                     // matter the result, we continue our app flow.
                     if (dismissReviewCard) {
-                        customerJourneyLogic.dismissCard(CustomerJourneyLogic.rateUsCard())
+//                        customerJourneyLogic.dismissCard(CustomerJourneyLogic.rateUsCard())
                     }
 
                     openIvyWalletGooglePlayPage()

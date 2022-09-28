@@ -14,7 +14,7 @@ import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.temp.persistence.ExchangeActOld
 import com.ivy.temp.persistence.ExchangeData
 import com.ivy.temp.persistence.ExchangeRateDao
@@ -50,7 +50,7 @@ class ItemStatisticViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
-    private val nav: Navigation,
+    private val
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,
     private val accountLogic: WalletAccountLogic,
@@ -573,7 +573,6 @@ class ItemStatisticViewModel @Inject constructor(
             plannedPaymentRuleDao.flagDeletedByAccountId(accountId = accountId)
             accountDao.flagDeleted(accountId)
 
-            nav.back()
 
             //the server deletes transactions + planned payments for the account
             accountUploader.delete(accountId)
@@ -584,7 +583,7 @@ class ItemStatisticViewModel @Inject constructor(
         ioThread {
             categoryDao.flagDeleted(categoryId)
 
-            nav.back()
+
 
             categoryUploader.delete(categoryId)
         }

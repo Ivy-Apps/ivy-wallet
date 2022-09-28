@@ -32,9 +32,8 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.pie_charts.model.CategoryAmount
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
@@ -49,9 +48,6 @@ fun BoxWithConstraintsScope.PieChartStatisticScreen(
     val viewModel: PieChartStatisticViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
-//        viewModel.onEvent(PieChartStatisticEvent.Start())
-    }
 
     UI(
         state = state,
@@ -65,7 +61,7 @@ private fun BoxWithConstraintsScope.UI(
     state: PieChartStatisticState = PieChartStatisticState(),
     onEventHandler: (PieChartStatisticEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val lazyState = rememberLazyListState()
     val expanded by remember { derivedStateOf { lazyState.firstVisibleItemIndex < 1 } }
     val percentExpanded by animateFloatAsState(
@@ -100,7 +96,7 @@ private fun BoxWithConstraintsScope.UI(
                 showCloseButtonOnly = state.showCloseButtonOnly,
 
                 onClose = {
-                    nav.back()
+
                 },
                 onAdd = { trnType ->
 //                    nav.navigateTo(
@@ -184,7 +180,7 @@ private fun BoxWithConstraintsScope.UI(
                     currency = state.baseCurrency,
                     totalAmount = state.totalAmount,
                     selectedCategory = state.selectedCategory,
-                    nav = nav,
+
                     state = state,
                     onEventHandler = onEventHandler
                 )
@@ -303,7 +299,7 @@ private fun CategoryAmountCardWithSub(
     totalAmount: Double,
 
     selectedCategory: SelectedCategory?,
-    nav: Navigation,
+
     state: PieChartStatisticState,
 
     onEventHandler: (PieChartStatisticEvent) -> Unit = {},

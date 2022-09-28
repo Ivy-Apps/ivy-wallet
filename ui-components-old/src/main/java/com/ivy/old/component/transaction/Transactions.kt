@@ -19,8 +19,8 @@ import com.ivy.base.data.DueSection
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
+
+
 import com.ivy.old.component.transaction.SectionDivider
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -204,7 +204,7 @@ private fun LazyListScope.trnItems(
         items = transactions,
         key = { it.id }
     ) {
-        val nav = navigation()
+
         TransactionCard(
             baseData = baseData,
 
@@ -213,7 +213,7 @@ private fun LazyListScope.trnItems(
             onSkipTransaction = onSkipTransaction
         ) { trn ->
             onTransactionClick(
-                nav = nav,
+
                 transaction = trn
             )
         }
@@ -242,7 +242,7 @@ private fun LazyListScope.historySection(
         ) {
             when (it) {
                 is TransactionOld -> {
-                    val nav = navigation()
+
 
                     TransactionCard(
                         baseData = baseData,
@@ -251,7 +251,7 @@ private fun LazyListScope.historySection(
                         onPayOrGet = onPayOrGet
                     ) { trn ->
                         onTransactionClick(
-                            nav = nav,
+
                             transaction = trn
                         )
                     }
@@ -273,7 +273,7 @@ private fun LazyListScope.historySection(
 }
 
 private fun onTransactionClick(
-    nav: Navigation,
+
     transaction: TransactionOld
 ) {
 //    nav.navigateTo(

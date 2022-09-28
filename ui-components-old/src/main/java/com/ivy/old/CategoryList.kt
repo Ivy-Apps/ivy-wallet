@@ -13,10 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.data.CategoryOld
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.ListItem
 import com.ivy.wallet.ui.theme.toComposeColor
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun CategoryList(
@@ -32,15 +30,6 @@ internal fun CategoryList(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    onScreenStart {
-        val scrollPos =
-            categoryList.indexOfFirst { it.id == selectedCat?.id }
-        if (scrollPos != -1) {
-            coroutineScope.launch {
-                listState.scrollToItem(index = scrollPos)
-            }
-        }
-    }
 
     Spacer(Modifier.height(16.dp))
 

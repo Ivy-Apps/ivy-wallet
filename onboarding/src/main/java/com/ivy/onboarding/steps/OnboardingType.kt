@@ -15,7 +15,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.CloseButton
@@ -36,7 +36,7 @@ fun OnboardingType(
     ) {
         Spacer(Modifier.height(16.dp))
 
-        val nav = navigation()
+
         CloseButton(
             modifier = Modifier.padding(start = 20.dp)
         ) {

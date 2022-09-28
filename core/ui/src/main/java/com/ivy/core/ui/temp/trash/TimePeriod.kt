@@ -122,7 +122,7 @@ data class TimePeriod(
                 } else {
                     val range = toRange(startDateOfMonth)
                     val pattern = "MMM dd"
-                    "${range.from?.formatPattern(pattern)} - ${range.to?.formatPattern(pattern)}"
+                    "${range.from?.format(pattern)} - ${range.to?.format(pattern)}"
                 }
             }
             fromToRange != null -> {

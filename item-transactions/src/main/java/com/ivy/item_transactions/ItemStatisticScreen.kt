@@ -32,8 +32,8 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.old.IncomeExpensesCards
 import com.ivy.old.ItemStatisticToolbar
 import com.ivy.wallet.ui.component.transaction.transactions
@@ -58,7 +58,6 @@ import java.util.*
 fun BoxWithConstraintsScope.ItemStatisticScreen() {
     val viewModel: ItemStatisticViewModel = hiltViewModel()
 
-    val nav = navigation()
 
     val period by viewModel.period.collectAsState()
     val baseCurrency by viewModel.baseCurrency.collectAsState()
@@ -93,17 +92,6 @@ fun BoxWithConstraintsScope.ItemStatisticScreen() {
     val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
 
     val view = LocalView.current
-    onScreenStart {
-        viewModel.start()
-
-//        nav.onBackPressed[screen] = {
-//            setStatusBarDarkTextCompat(
-//                view = view,
-//                darkText = true
-//            )
-//            false
-//        }
-    }
 
     UI(
         period = period,
@@ -217,7 +205,7 @@ private fun BoxWithConstraintsScope.UI(
     onSkipTransaction: (TransactionOld) -> Unit = {},
     onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
@@ -527,7 +515,7 @@ private fun Header(
 
         Spacer(Modifier.height(20.dp))
 
-        val nav = navigation()
+
         IncomeExpensesCards(
             history = history,
             currency = currency,

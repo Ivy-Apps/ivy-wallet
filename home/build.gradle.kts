@@ -23,5 +23,5 @@ dependencies {
 
     implementation(project(":more-menu"))
     implementation(project(":customer-journey"))
-    implementation(project(":pie-charts"))
+//    implementation(project(":pie-charts"))
 }

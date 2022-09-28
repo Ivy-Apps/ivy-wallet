@@ -27,7 +27,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -110,7 +110,7 @@ private fun PlannedPaymentHeaderRow(
     categories: List<CategoryOld>,
     accounts: List<AccountOld>
 ) {
-    val nav = navigation()
+
 
     if (plannedPayment.type != TrnTypeOld.TRANSFER) {
         Row(

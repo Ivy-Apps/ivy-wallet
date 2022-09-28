@@ -36,8 +36,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
@@ -72,12 +71,6 @@ fun BoxWithConstraintsScope.EditBottomSheet(
 ) {
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
-
-    onScreenStart {
-        rootView.addKeyboardListener {
-            keyboardShown = it
-        }
-    }
 
     val keyboardShownInsetDp by animateDpAsState(
         targetValue = densityScope {
@@ -484,7 +477,7 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+//                    if (TestingContext.inTest) return@launch //breaks UI tests
 
                     lazyState.scrollToItem(
                         index = selectedIndex, //+1 because Spacer width 24.dp

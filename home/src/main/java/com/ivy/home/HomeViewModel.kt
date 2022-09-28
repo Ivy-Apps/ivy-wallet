@@ -1,6 +1,6 @@
 package com.ivy.home
 
-import com.ivy.core.domain.action.FlowViewModel
+import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.helper.TrnsListFlow

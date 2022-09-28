@@ -12,7 +12,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BackButton
@@ -33,7 +33,7 @@ fun ImportResultUI(
     ) {
         Spacer(Modifier.height(16.dp))
 
-        val nav = navigation()
+
         BackButton(
             modifier = Modifier.padding(start = 20.dp)
         ) {

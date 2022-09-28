@@ -159,7 +159,7 @@ object Versions {
 fun DependencyHandler.IvyFRP(
     api: Boolean = false
 ) {
-    dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
+//    dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
 }
 
 fun DependencyHandler.DataStore(api: Boolean) {

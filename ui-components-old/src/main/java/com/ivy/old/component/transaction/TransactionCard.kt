@@ -30,7 +30,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -212,7 +212,7 @@ private fun TransactionHeaderRow(
     categories: List<CategoryOld>,
     accounts: List<AccountOld>
 ) {
-    val nav = navigation()
+
 
     if (transaction.type == TrnTypeOld.TRANSFER) {
         TransferHeader(

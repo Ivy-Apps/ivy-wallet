@@ -17,7 +17,6 @@ import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
-import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.persistence.SharedPrefs

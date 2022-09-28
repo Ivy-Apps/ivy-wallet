@@ -10,13 +10,10 @@ import com.ivy.data.planned.IntervalType
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
-import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsGenerator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.TransactionSync
@@ -38,7 +35,7 @@ class EditPlannedViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
     private val ivyContext: IvyWalletCtx,
-    private val nav: Navigation,
+    private val
     private val transactionSync: TransactionSync,
     private val plannedPaymentRuleDao: PlannedPaymentRuleDao,
     private val plannedPaymentRuleUploader: PlannedPaymentRuleUploader,
@@ -101,7 +98,7 @@ class EditPlannedViewModel @Inject constructor(
 
             val accounts = accountsAct(Unit)
             if (accounts.isEmpty()) {
-                nav.back()
+
                 return@launch
             }
             _accounts.value = accounts
@@ -272,7 +269,7 @@ class EditPlannedViewModel @Inject constructor(
                 }
 
                 if (closeScreen) {
-                    nav.back()
+
 
                     ioThread {
                         plannedPaymentRuleUploader.sync(loadedRule())
@@ -319,7 +316,7 @@ class EditPlannedViewModel @Inject constructor(
                         recurringRuleId = it.id
                     )
                 }
-                nav.back()
+
 
                 loadedRule?.let {
                     plannedPaymentRuleUploader.delete(it.id)

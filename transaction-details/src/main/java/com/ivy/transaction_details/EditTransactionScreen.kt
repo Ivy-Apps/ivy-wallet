@@ -28,8 +28,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hideKeyboard
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.*
@@ -69,10 +69,6 @@ fun BoxWithConstraintsScope.EditTransactionScreen() {
     val accounts by viewModel.accounts.collectAsState(emptyList())
 
     val hasChanges by viewModel.hasChanges.collectAsState(false)
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     val view = com.ivy.core.ui.temp.rootView()
 
@@ -354,12 +350,12 @@ private fun BoxWithConstraintsScope.UI(
         if (dueDate == null && transactionType != TrnTypeOld.TRANSFER && dateTime == null) {
             Spacer(Modifier.height(12.dp))
 
-            val nav = navigation()
+
             AddPrimaryAttributeButton(
                 icon = R.drawable.ic_planned_payments,
                 text = stringResource(R.string.add_planned_date_payment),
                 onClick = {
-                    nav.back()
+
 //                    nav.navigateTo(
 //                        EditPlanned(
 //                            plannedPaymentRuleId = null,
@@ -376,12 +372,6 @@ private fun BoxWithConstraintsScope.UI(
         }
 
         Spacer(Modifier.height(600.dp)) //scroll hack
-    }
-
-    onScreenStart {
-//        if (screen.initialTransactionId == null) {
-//            amountModalShown = true
-//        }
     }
 
     EditBottomSheet(

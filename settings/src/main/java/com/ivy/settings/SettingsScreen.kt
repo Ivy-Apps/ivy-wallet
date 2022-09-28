@@ -40,8 +40,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -70,10 +70,6 @@ fun BoxWithConstraintsScope.SettingsScreen() {
 
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
     val opFetchTrns by viewModel.opFetchTrns.collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     val rootScreen = com.ivy.core.ui.temp.rootScreen()
     val context = LocalContext.current
@@ -178,7 +174,7 @@ private fun BoxWithConstraintsScope.UI(
             .testTag("settings_lazy_column")
     ) {
         stickyHeader {
-            val nav = navigation()
+
             IvyToolbar(
                 onBack = { nav.onBackPressed() },
             ) {
@@ -251,7 +247,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val nav = navigation()
+
             ExportCSV {
                 onExportToCSV()
             }
@@ -336,7 +332,7 @@ private fun BoxWithConstraintsScope.UI(
 //
 //            Spacer(Modifier.height(16.dp))
 //
-//            val nav = navigation()
+//            
 //            SettingsDefaultButton(
 //                icon = R.drawable.ic_custom_atom_m,
 //                text = stringResource(R.string.experimental_settings)
@@ -371,7 +367,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            val nav = navigation()
+
             SettingsPrimaryButton(
                 icon = R.drawable.ic_donate_crown,
                 text = "Donate",
@@ -592,7 +588,7 @@ private fun IvyTelegram() {
 
 @Composable
 private fun HelpCenter() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = stringResource(R.string.help_center),
@@ -605,7 +601,7 @@ private fun HelpCenter() {
 
 @Composable
 private fun Roadmap() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = stringResource(R.string.roadmap),
@@ -641,7 +637,7 @@ private fun ContactSupport() {
 
 @Composable
 private fun ProjectContributors() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),

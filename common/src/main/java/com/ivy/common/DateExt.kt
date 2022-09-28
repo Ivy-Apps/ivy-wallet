@@ -1,29 +1,27 @@
 package com.ivy.common
 
 
-import com.ivy.frp.Total
 import java.time.*
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
-fun timeNowLocal() = LocalDateTime.now()
+fun timeNowLocal(): LocalDateTime = LocalDateTime.now()
 
-@Total
 fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 
-@Total
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 
 fun dateNowLocal(): LocalDate = LocalDate.now()
 
-fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()
+@Deprecated("don't use")
+fun startOfDayNowUTC(): LocalDateTime = dateNowUTC().atStartOfDay()
 
 fun Long.epochSecondToDateTime(): LocalDateTime =
     LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
 
 fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
 
+@Deprecated("don't use")
 fun Long.epochMilliToDateTime(): LocalDateTime =
     Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDateTime()
 
@@ -31,51 +29,30 @@ fun LocalDateTime.toEpochMilli(): Long = millis()
 
 fun LocalDateTime.millis() = this.toInstant(ZoneOffset.UTC).toEpochMilli()
 
-fun LocalDate.formatDateOnly(): String = this.formatPattern("MMM. dd", ZoneOffset.systemDefault())
-
-@Deprecated("use LocalDateTime.format(String)")
-fun LocalDateTime.formatPattern(pattern: String): String {
-    val zone = ZoneOffset.systemDefault()
-    val localDateTime = this.convertUTCtoLocal(zone)
-    return localDateTime.atZone(zone).format(
-        DateTimeFormatter
-            .ofPattern(pattern)
-            .withLocale(Locale.getDefault())
-            .withZone(zone) //this is only if you want to display the Zone in the pattern
-    )
-}
+@Deprecated("don't use")
+fun LocalDate.formatDateOnly(): String = this.format("MMM. dd")
 
 fun LocalDateTime.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
 
+fun LocalDate.format(pattern: String): String =
+    this.format(DateTimeFormatter.ofPattern(pattern))
+
+@Deprecated("don't use")
 fun LocalDateTime.convertUTCtoLocal(zone: ZoneId = ZoneOffset.systemDefault()): LocalDateTime {
     return this.convertUTCto(zone)
 }
 
+@Deprecated("don't use")
 fun LocalDateTime.convertUTCto(zone: ZoneId): LocalDateTime {
     return plusSeconds(atZone(zone).offset.totalSeconds.toLong())
 }
 
-fun LocalTime.convertUTCToLocal(): LocalTime {
-    val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
-    return this.plusSeconds(offset)
-}
 
+@Deprecated("don't use")
 fun LocalDateTime.convertLocalToUTC(): LocalDateTime {
     val offset = timeNowLocal().atZone(ZoneOffset.systemDefault()).offset.totalSeconds.toLong()
     return this.minusSeconds(offset)
-}
-
-fun LocalDate.formatPattern(
-    pattern: String = "dd MMM yyyy",
-    zone: ZoneId = ZoneOffset.systemDefault()
-): String {
-    return this.format(
-        DateTimeFormatter
-            .ofPattern(pattern)
-            .withLocale(Locale.getDefault())
-            .withZone(zone) //this is if you want to display the Zone in the pattern
-    )
 }
 
 fun startOfMonth(date: LocalDate): LocalDateTime =

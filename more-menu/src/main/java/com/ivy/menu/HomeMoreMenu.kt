@@ -32,7 +32,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -202,7 +202,7 @@ private fun ColumnScope.Content(
 ) {
     Spacer(Modifier.height(24.dp))
 
-    val nav = navigation()
+
     SearchButton {
 //        nav.navigateTo(
 //            screen = Search
@@ -373,7 +373,7 @@ private fun QuickAccess(
     theme: Theme,
     onSwitchTheme: () -> Unit
 ) {
-    val nav = navigation()
+
 
     Text(
         modifier = Modifier.padding(start = 24.dp),
@@ -566,7 +566,7 @@ private fun Preview_Expanded() {
 private fun BoxWithConstraintsScope.DonateButton(
     percentExpanded: Float
 ) {
-    val nav = navigation()
+
     IvyButton(
         modifier = Modifier
             .align(Alignment.BottomCenter)

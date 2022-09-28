@@ -23,7 +23,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.import_data.flow.ImportSteps
 import com.ivy.old.OnboardingToolbar
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
@@ -52,7 +52,7 @@ fun BoxWithConstraintsScope.ImportInstructions(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val nav = navigation()
+
             OnboardingToolbar(
                 hasSkip = hasSkip,
                 onBack = { nav.onBackPressed() },

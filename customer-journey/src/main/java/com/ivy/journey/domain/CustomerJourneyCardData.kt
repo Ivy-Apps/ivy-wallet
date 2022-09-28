@@ -3,7 +3,7 @@ package com.ivy.journey.domain
 import androidx.annotation.DrawableRes
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.design.l0_system.color.Gradient
-import com.ivy.frp.view.navigation.Navigation
+
 
 data class CustomerJourneyCardData(
     val id: String,
@@ -17,5 +17,5 @@ data class CustomerJourneyCardData(
     val hasDismiss: Boolean = true,
 
     val background: Gradient,
-    val onAction: (Navigation, IvyWalletCtx, com.ivy.core.ui.temp.RootScreen) -> Unit
+//    val onAction: (Navigation, IvyWalletCtx, com.ivy.core.ui.temp.RootScreen) -> Unit
 )

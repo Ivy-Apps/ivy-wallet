@@ -17,17 +17,16 @@ import androidx.work.Configuration
 import androidx.work.impl.utils.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.ivy.common.timeNowUTC
+import com.ivy.common.toEpochMilli
+import com.ivy.common.toEpochSeconds
+import com.ivy.core.domain.test.TestIdlingResource
+import com.ivy.core.domain.test.TestingContext
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.compose.component.OnboardingFlow
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.utils.toEpochMilli
-import com.ivy.wallet.utils.toEpochSeconds
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
@@ -51,9 +50,6 @@ abstract class IvyComposeTest {
 
     @Inject
     lateinit var ivyContext: IvyWalletCtx
-
-    @Inject
-    lateinit var navigation: Navigation
 
     @Inject
     lateinit var ivyRoomDatabase: IvyRoomDatabase
@@ -116,7 +112,6 @@ abstract class IvyComposeTest {
 
     private fun resetIvyContext() {
         ivyContext.reset()
-        navigation.reset()
     }
 
     private fun context(): Context {

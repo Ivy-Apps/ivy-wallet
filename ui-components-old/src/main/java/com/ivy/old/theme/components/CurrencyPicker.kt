@@ -37,13 +37,15 @@ import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.ComponentPreview
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.GradientGreen
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM
-import com.ivy.wallet.utils.*
+import com.ivy.wallet.utils.densityScope
+import com.ivy.wallet.utils.hideKeyboard
+import com.ivy.wallet.utils.keyboardOnlyWindowInsets
+import com.ivy.wallet.utils.toLowerCaseLocal
 import java.util.*
 
 @Composable
@@ -61,13 +63,6 @@ fun CurrencyPicker(
 ) {
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
-
-    onScreenStart {
-        rootView.addKeyboardListener {
-            keyboardShown = it
-            onKeyboardShown(it)
-        }
-    }
 
     val keyboardShownInsetDp by animateDpAsState(
         targetValue = densityScope {

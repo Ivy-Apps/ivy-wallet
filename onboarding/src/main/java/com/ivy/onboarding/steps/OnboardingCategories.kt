@@ -24,7 +24,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.old.OnboardingProgressSlider
 import com.ivy.old.OnboardingToolbar
 import com.ivy.old.Suggestions
@@ -51,7 +51,7 @@ fun BoxWithConstraintsScope.OnboardingCategories(
 ) {
     var categoryModalData: CategoryModalData? by remember { mutableStateOf(null) }
 
-    val nav = navigation()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

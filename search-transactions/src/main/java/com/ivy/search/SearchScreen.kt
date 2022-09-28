@@ -25,7 +25,7 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
@@ -44,10 +44,6 @@ fun SearchScreen() {
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
-
-    onScreenStart {
-        viewModel.search("")
-    }
 
     UI(
         transactions = transactions,
@@ -169,10 +165,6 @@ private fun SearchInput(
                 onSetSearchQueryTextField(it)
             }
         )
-
-        onScreenStart {
-            searchFocus.requestFocus()
-        }
 
         Spacer(Modifier.weight(1f))
 

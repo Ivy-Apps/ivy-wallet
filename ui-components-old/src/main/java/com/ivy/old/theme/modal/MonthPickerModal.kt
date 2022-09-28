@@ -22,14 +22,12 @@ import com.ivy.core.ui.temp.trash.Month.Companion.monthsList
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.components.WrapContentRow
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.thenIf
 import java.time.LocalDate
 import java.util.*
@@ -58,9 +56,6 @@ fun BoxWithConstraintsScope.MonthPickerModal(
         }
     ) {
         val view = LocalView.current
-        onScreenStart {
-            hideKeyboard(view)
-        }
 
         Spacer(Modifier.height(32.dp))
 

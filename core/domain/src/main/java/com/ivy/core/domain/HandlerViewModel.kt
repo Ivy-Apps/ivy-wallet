@@ -1,4 +1,4 @@
-package com.ivy.core.domain.action
+package com.ivy.core.domain
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

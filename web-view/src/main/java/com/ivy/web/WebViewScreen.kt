@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
@@ -32,9 +32,11 @@ private fun BoxWithConstraintsScope.UI(url: String) {
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        val nav = navigation()
+
         IvyToolbar(
-            onBack = { nav.onBackPressed() },
+            onBack = {
+//                nav.onBackPressed()
+            },
             backButtonType = BackButtonType.CLOSE,
             paddingTop = 8.dp,
             paddingBottom = 8.dp

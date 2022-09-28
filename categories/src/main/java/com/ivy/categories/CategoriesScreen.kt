@@ -29,8 +29,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.ui.category.CategoriesScreenEvent
 import com.ivy.wallet.ui.category.CategoriesScreenState
 import com.ivy.wallet.ui.category.CategoriesViewModel
@@ -50,10 +50,6 @@ fun BoxWithConstraintsScope.CategoriesScreen() {
     val viewModel: CategoriesViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
-        viewModel.start()
-    }
-
     UI(
         state = state,
         onEvent = viewModel::onEvent
@@ -65,7 +61,7 @@ private fun BoxWithConstraintsScope.UI(
     state: CategoriesScreenState = CategoriesScreenState(),
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
 
     LazyColumn(
         modifier = Modifier
@@ -149,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            nav.back()
+
         },
     )
 

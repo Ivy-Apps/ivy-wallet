@@ -16,8 +16,8 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
+
+
 import com.ivy.old.component.transaction.SectionDivider
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -42,7 +42,7 @@ fun PlannedPaymentsLazyColumn(
     recurringIncome: Double,
     recurringExpenses: Double,
 ) {
-    val nav = navigation()
+
     var oneTimeExpanded by remember { mutableStateOf(true) }
     var recurringExpanded by remember { mutableStateOf(true) }
 
@@ -57,7 +57,7 @@ fun PlannedPaymentsLazyColumn(
         }
 
         plannedPaymentItems(
-            nav = nav,
+
             currency = currency,
             categories = categories,
             accounts = accounts,
@@ -83,7 +83,7 @@ fun PlannedPaymentsLazyColumn(
 }
 
 private fun LazyListScope.plannedPaymentItems(
-    nav: Navigation,
+
     currency: String,
     categories: List<CategoryOld>,
     accounts: List<AccountOld>,
@@ -125,7 +125,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        nav = nav,
+
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -157,7 +157,7 @@ private fun LazyListScope.plannedPaymentItems(
                     plannedPayment = item,
                 ) { plannedPaymentRule ->
                     onPlannedPaymentClick(
-                        nav = nav,
+
                         listState = listState,
                         rule = plannedPaymentRule
                     )
@@ -179,7 +179,7 @@ private fun LazyListScope.plannedPaymentItems(
 }
 
 private fun onPlannedPaymentClick(
-    nav: Navigation,
+
     listState: LazyListState,
     rule: PlannedPaymentRule
 ) {

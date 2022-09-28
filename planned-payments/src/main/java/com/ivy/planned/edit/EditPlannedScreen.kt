@@ -21,7 +21,7 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.*
@@ -55,10 +55,6 @@ fun BoxWithConstraintsScope.EditPlannedScreen() {
 
     val categories by viewModel.categories.observeAsState(emptyList())
     val accounts by viewModel.accounts.observeAsState(emptyList())
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     UI(
 //        screen = screen,
@@ -237,24 +233,6 @@ private fun BoxWithConstraintsScope.UI(
         )
 
         Spacer(Modifier.height(600.dp))//scroll hack
-    }
-
-    onScreenStart {
-//        if (screen.plannedPaymentRuleId == null) {
-//            //Create mode
-//            if (screen.mandatoryFilled()) {
-//                //Flow Convert (Amount, Account, Category)
-//                recurringRuleModal = RecurringRuleModalData(
-//                    initialStartDate = startDate,
-//                    initialIntervalN = intervalN,
-//                    initialIntervalType = intervalType,
-//                    initialOneTime = oneTime
-//                )
-//            } else {
-//                //Flow Empty
-//                changeTransactionTypeModalVisible = true
-//            }
-//        }
     }
 
     EditBottomSheet(

@@ -23,7 +23,6 @@ import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
@@ -33,7 +32,6 @@ import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
 import com.ivy.wallet.utils.drawColoredShadow
-import com.ivy.wallet.utils.hideKeyboard
 import com.ivy.wallet.utils.thenIf
 import java.util.*
 
@@ -68,9 +66,6 @@ fun BoxWithConstraintsScope.ChooseCategoryModal(
         }
     ) {
         val view = LocalView.current
-        onScreenStart {
-            hideKeyboard(view)
-        }
 
         Spacer(Modifier.height(32.dp))
 

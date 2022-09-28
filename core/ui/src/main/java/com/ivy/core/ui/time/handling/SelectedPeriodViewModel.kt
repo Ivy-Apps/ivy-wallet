@@ -6,7 +6,7 @@ import androidx.compose.runtime.Immutable
 import com.ivy.common.atEndOfDay
 import com.ivy.common.dateNowLocal
 import com.ivy.common.timeNowLocal
-import com.ivy.core.domain.action.FlowViewModel
+import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow

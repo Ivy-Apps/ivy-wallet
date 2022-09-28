@@ -21,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.wallet.ui.theme.components.ActionsRow
 import com.ivy.wallet.ui.theme.components.CloseButton
 import com.ivy.wallet.ui.theme.gradientCutBackgroundTop
@@ -50,12 +49,6 @@ fun BoxScope.IvyModal(
 ) {
     val rootView = LocalView.current
     var keyboardShown by remember { mutableStateOf(false) }
-
-    onScreenStart {
-        rootView.addKeyboardListener {
-            keyboardShown = it
-        }
-    }
 
     val keyboardShownInsetDp by animateDpAsState(
         targetValue = densityScope {
@@ -184,41 +177,7 @@ fun AddModalBackHandling(
     visible: Boolean,
     action: () -> Unit
 ) {
-    val nav = navigation()
-    DisposableEffect(visible) {
-        if (visible) {
-            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
 
-            if (modalId != null && modalId != lastModalBackHandlingId) {
-                nav.modalBackHandling.add(
-                    Navigation.ModalBackHandler(
-                        id = modalId,
-                        onBackPressed = {
-                            if (visible) {
-                                action()
-                                true
-                            } else {
-                                false
-                            }
-                        }
-                    )
-                )
-            }
-        }
-
-        onDispose {
-            val lastModalBackHandlingId = nav.lastModalBackHandlerId()
-            if (modalId != null && lastModalBackHandlingId == modalId) {
-                removeLastBackHandlerSafe(nav)
-            }
-        }
-    }
-}
-
-private fun removeLastBackHandlerSafe(nav: Navigation) {
-    if (nav.modalBackHandling.isNotEmpty()) {
-        nav.modalBackHandling.pop()
-    }
 }
 
 @Composable

@@ -7,7 +7,6 @@ import androidx.test.runner.AndroidJUnitRunner
 import com.ivy.base.RootIntent
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.ui.RootActivity
-import com.ivy.wallet.ui.RootViewModel
 import dagger.hilt.android.testing.HiltTestApplication
 
 @Suppress("UNUSED")
@@ -22,7 +21,6 @@ class IvyAppTestRunner : AndroidJUnitRunner() {
 
             override fun addTransactionStart(context: Context, type: TrnTypeOld): Intent =
                 Intent(context, RootActivity::class.java).apply {
-                    putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
                 }
         }
         return super.newApplication(cl, HiltTestApplication::class.java.name, context)

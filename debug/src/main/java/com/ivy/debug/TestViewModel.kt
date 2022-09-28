@@ -1,6 +1,6 @@
 package com.ivy.debug
 
-import com.ivy.core.domain.action.FlowViewModel
+import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodAct

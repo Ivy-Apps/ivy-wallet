@@ -14,7 +14,7 @@ import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.ui.theme.components.BackButton
@@ -44,7 +44,7 @@ fun BoxWithConstraintsScope.OnboardingSetCurrency(
             mutableStateOf(false)
         }
 
-        val nav = navigation()
+
         BackButton(
             modifier = Modifier.padding(start = 20.dp)
         ) {

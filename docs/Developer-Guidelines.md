@@ -390,11 +390,11 @@ The `pure` layer must consist of only pure functions without side-effects. If th
 
     ```Kotlin
     //It's defined in all cases but with each call returns a different output
-    @Total
+    
     fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 
     //Produces logging side-effect which can be seen in Logcat
-    @Total
+    
     fun logMessage(
         msg: String
     ) {

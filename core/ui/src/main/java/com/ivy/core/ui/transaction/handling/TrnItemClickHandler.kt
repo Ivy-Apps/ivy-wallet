@@ -2,7 +2,7 @@ package com.ivy.core.ui.transaction.handling
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import com.ivy.core.domain.action.HandlerViewModel
+import com.ivy.core.domain.HandlerViewModel
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.transaction.TransactionUi

@@ -5,17 +5,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ivy.billing.IvyBilling
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.journey.domain.CustomerJourneyLogic
 import com.ivy.notifications.NotificationService
 import com.ivy.temp.persistence.ExchangeRateDao
-import com.ivy.wallet.domain.deprecated.logic.*
-import com.ivy.wallet.domain.deprecated.logic.csv.*
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanMapper
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LTLoanRecordMapper
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsCore
-import com.ivy.wallet.domain.deprecated.logic.loantrasactions.LoanTransactionsLogic
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.domain.deprecated.sync.IvySync
@@ -48,12 +39,6 @@ object AppModuleDI {
     @Singleton
     fun provideIvyContext(): IvyWalletCtx {
         return IvyWalletCtx()
-    }
-
-    @Provides
-    @Singleton
-    fun provideNavigation(): Navigation {
-        return Navigation()
     }
 
     @Provides
@@ -126,40 +111,6 @@ object AppModuleDI {
     @Provides
     fun provideTrnRecurringRuleDao(db: IvyRoomDatabase): PlannedPaymentRuleDao =
         db.plannedPaymentRuleDao()
-
-
-    @Provides
-    fun provideWalletAccountLogic(
-        transactionDao: TransactionDao,
-        exchangeRatesLogic: ExchangeRatesLogic,
-        accountDao: AccountDao,
-        settingsDao: SettingsDao
-    ): WalletAccountLogic = WalletAccountLogic(
-        transactionDao = transactionDao,
-        exchangeRatesLogic = exchangeRatesLogic,
-        accountDao = accountDao,
-        settingsDao = settingsDao
-    )
-
-    @Provides
-    fun provideWalletCategoryLogic(
-        accountDao: AccountDao,
-        settingsDao: SettingsDao,
-        exchangeRatesLogic: ExchangeRatesLogic,
-        transactionDao: TransactionDao
-    ): WalletCategoryLogic = WalletCategoryLogic(
-        accountDao = accountDao,
-        settingsDao = settingsDao,
-        exchangeRatesLogic = exchangeRatesLogic,
-        transactionDao = transactionDao
-    )
-
-    @Provides
-    fun provideRecurringGenerator(
-        transactionDao: TransactionDao,
-    ): PlannedPaymentsGenerator = PlannedPaymentsGenerator(
-        transactionDao = transactionDao,
-    )
 
     //Sync
     @Provides
@@ -399,46 +350,10 @@ object AppModuleDI {
     }
 
     @Provides
-    fun providePlannedPaymentsLogic(
-        plannedPaymentRuleDao: PlannedPaymentRuleDao,
-        transactionDao: TransactionDao,
-        transactionUploader: TransactionUploader,
-        exchangeRatesLogic: ExchangeRatesLogic,
-        accountDao: AccountDao,
-        settingsDao: SettingsDao,
-        plannedPaymentRuleUploader: PlannedPaymentRuleUploader
-    ): PlannedPaymentsLogic {
-        return PlannedPaymentsLogic(
-            plannedPaymentRuleDao = plannedPaymentRuleDao,
-            transactionDao = transactionDao,
-            transactionUploader = transactionUploader,
-            accountDao = accountDao,
-            exchangeRatesLogic = exchangeRatesLogic,
-            settingsDao = settingsDao,
-            plannedPaymentRuleUploader = plannedPaymentRuleUploader
-        )
-    }
-
-    @Provides
     @Singleton
     fun provideIvyBilling(
     ): IvyBilling {
         return IvyBilling()
-    }
-
-    @Provides
-    fun provideExportCSVLogic(
-        settingsDao: SettingsDao,
-        transactionDao: TransactionDao,
-        categoryDao: CategoryDao,
-        accountDao: AccountDao
-    ): ExportCSVLogic {
-        return ExportCSVLogic(
-            settingsDao = settingsDao,
-            transactionDao = transactionDao,
-            categoryDao = categoryDao,
-            accountDao = accountDao
-        )
     }
 
     @Provides
@@ -460,106 +375,10 @@ object AppModuleDI {
     }
 
     @Provides
-    fun provideFileReader(
-        @ApplicationContext appContext: Context
-    ): IvyFileReader {
-        return IvyFileReader(
-            appContext = appContext
-        )
-    }
-
-    @Provides
-    fun provideCSMNormalizer(): CSVNormalizer {
-        return CSVNormalizer()
-    }
-
-    @Provides
-    fun provideCSVMapper(): CSVMapper {
-        return CSVMapper()
-    }
-
-    @Provides
-    fun provideCSMImporter(
-        settingsDao: SettingsDao,
-        accountDao: AccountDao,
-        categoryDao: CategoryDao,
-        transactionDao: TransactionDao
-    ): CSVImporter {
-        return CSVImporter(
-            settingsDao = settingsDao,
-            accountDao = accountDao,
-            categoryDao = categoryDao,
-            transactionDao = transactionDao
-        )
-    }
-
-    @Provides
-    fun providePreloadDataLogic(
-        accountDao: AccountDao,
-        categoryDao: CategoryDao
-    ): PreloadDataLogic {
-        return PreloadDataLogic(
-            accountsDao = accountDao,
-            categoryDao = categoryDao
-        )
-    }
-
-    @Provides
     fun provideExchangeRatesDao(
         roomDatabase: IvyRoomDatabase
     ): ExchangeRateDao {
         return roomDatabase.exchangeRatesDao()
-    }
-
-    @Provides
-    fun provideExchangeRatesLogic(
-        restClient: RestClient,
-        exchangeRateDao: ExchangeRateDao
-    ): ExchangeRatesLogic {
-        return ExchangeRatesLogic(
-            restClient = restClient,
-            exchangeRateDao = exchangeRateDao
-        )
-    }
-
-
-    @Provides
-    fun provideLogoutLogic(
-        ivyRoomDatabase: IvyRoomDatabase,
-        ivySession: IvySession,
-        sharedPrefs: SharedPrefs,
-        navigation: Navigation
-    ): LogoutLogic {
-        return LogoutLogic(
-            ivyDb = ivyRoomDatabase,
-            ivySession = ivySession,
-            sharedPrefs = sharedPrefs,
-            navigation = navigation
-        )
-    }
-
-    @Provides
-    fun provideCustomerJourneyLogic(
-        transactionDao: TransactionDao,
-        plannedPaymentRuleDao: PlannedPaymentRuleDao,
-        sharedPrefs: SharedPrefs,
-        ivyContext: IvyWalletCtx
-    ): CustomerJourneyLogic {
-        return CustomerJourneyLogic(
-            transactionDao = transactionDao,
-            plannedPaymentRuleDao = plannedPaymentRuleDao,
-            sharedPrefs = sharedPrefs,
-            ivyContext = ivyContext
-        )
-    }
-
-    @Provides
-    fun provideSmartTitleSuggestionsLogic(
-        transactionDao: TransactionDao
-    ): SmartTitleSuggestionsLogic {
-        return SmartTitleSuggestionsLogic(
-            transactionDao = transactionDao
-        )
     }
 
     @Provides
@@ -572,40 +391,6 @@ object AppModuleDI {
             accountDao = accountDao,
             transactionDao = transactionDao,
             exchangeRateDao = exchangeRateDao
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun loanTransactionsCore(
-        categoryDao: CategoryDao,
-        transactionUploader: TransactionUploader,
-        transactionDao: TransactionDao,
-        ivyContext: IvyWalletCtx,
-        loanDao: LoanDao,
-        loanRecordDao: LoanRecordDao,
-        exchangeRatesLogic: ExchangeRatesLogic,
-        settingsDao: SettingsDao,
-        accountDao: AccountDao
-    ): LoanTransactionsCore {
-        return LoanTransactionsCore(
-            categoryDao = categoryDao,
-            transactionUploader = transactionUploader,
-            transactionDao = transactionDao,
-            ivyContext = ivyContext,
-            loanDao = loanDao,
-            loanRecordDao = loanRecordDao,
-            settingsDao = settingsDao,
-            accountsDao = accountDao,
-            exchangeRatesLogic = exchangeRatesLogic
-        )
-    }
-
-    @Provides
-    fun loanTransactionsLogic(loanTransactionsCore: LoanTransactionsCore): LoanTransactionsLogic {
-        return LoanTransactionsLogic(
-            Loan = LTLoanMapper(ltCore = loanTransactionsCore),
-            LoanRecord = LTLoanRecordMapper(ltCore = loanTransactionsCore)
         )
     }
 
