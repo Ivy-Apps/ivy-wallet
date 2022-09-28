@@ -5,11 +5,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
-import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.util.ComponentPreview
 import com.ivy.journey.CustomerJourneyCard
-import com.ivy.screens.*
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.PlannedPaymentRuleDao
 import com.ivy.wallet.io.persistence.dao.TransactionDao
@@ -91,12 +89,12 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Orange),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(
-                    EditPlanned(
-                        type = TrnTypeOld.EXPENSE,
-                        plannedPaymentRuleId = null
-                    )
-                )
+//                navigation.navigateTo(
+//                    EditPlanned(
+//                        type = TrnTypeOld.EXPENSE,
+//                        plannedPaymentRuleId = null
+//                    )
+//                )
             }
         )
 
@@ -128,7 +126,7 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Green2),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(BudgetScreen)
+//                navigation.navigateTo(BudgetScreen)
             }
         )
 
@@ -144,7 +142,7 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Red),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(PieChartStatistic(type = TrnTypeOld.EXPENSE))
+//                navigation.navigateTo(PieChartStatistic(type = TrnTypeOld.EXPENSE))
             }
         )
 
@@ -208,7 +206,7 @@ class CustomerJourneyLogic(
             background = Gradient.solid(Green2),
             hasDismiss = true,
             onAction = { navigation, _, _ ->
-                navigation.navigateTo(Report)
+//                navigation.navigateTo(Report)
             }
         )
 
@@ -273,7 +271,7 @@ class CustomerJourneyLogic(
             background = SunsetNight,
             hasDismiss = true,
             onAction = { nav, _, _ ->
-                nav.navigateTo(DonateScreen)
+//                nav.navigateTo(DonateScreen)
             }
         )
     }

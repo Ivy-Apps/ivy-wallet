@@ -7,9 +7,6 @@ import com.ivy.data.CategoryOld
 import com.ivy.data.IvyCurrency
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.screens.Import
-import com.ivy.screens.Main
-import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.PreloadDataLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
@@ -24,7 +21,6 @@ import com.ivy.wallet.utils.OpResult
 import com.ivy.wallet.utils.ioThread
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class OnboardingRouter(
     private val _opGoogleSignIn: MutableLiveData<OpResult<Unit>?>,
@@ -49,53 +45,52 @@ class OnboardingRouter(
     var isLoginCache = false
 
     fun initBackHandling(
-        screen: Onboarding,
         viewModelScope: CoroutineScope,
         restartOnboarding: () -> Unit
     ) {
-        nav.onBackPressed[screen] = {
-            when (_state.value) {
-                OnboardingState.SPLASH -> {
-                    //do nothing, consume back
-                    true
-                }
-                OnboardingState.LOGIN -> {
-                    //let the user exit the app
-                    false
-                }
-                OnboardingState.CHOOSE_PATH -> {
-                    _state.value = OnboardingState.LOGIN
-                    true
-                }
-                OnboardingState.CURRENCY -> {
-                    if (isLoginCache) {
-                        //user with Ivy account
-                        viewModelScope.launch {
-                            logoutLogic.logout()
-                            isLoginCache = false
-                            restartOnboarding()
-                            _state.value = OnboardingState.LOGIN
-                        }
-                    } else {
-                        //fresh user
-                        _state.value = OnboardingState.CHOOSE_PATH
-                    }
-                    true
-                }
-                OnboardingState.ACCOUNTS -> {
-                    _state.value = OnboardingState.CURRENCY
-                    true
-                }
-                OnboardingState.CATEGORIES -> {
-                    _state.value = OnboardingState.ACCOUNTS
-                    true
-                }
-                null -> {
-                    //do nothing, consume back
-                    true
-                }
-            }
-        }
+//        nav.onBackPressed[screen] = {
+//            when (_state.value) {
+//                OnboardingState.SPLASH -> {
+//                    //do nothing, consume back
+//                    true
+//                }
+//                OnboardingState.LOGIN -> {
+//                    //let the user exit the app
+//                    false
+//                }
+//                OnboardingState.CHOOSE_PATH -> {
+//                    _state.value = OnboardingState.LOGIN
+//                    true
+//                }
+//                OnboardingState.CURRENCY -> {
+//                    if (isLoginCache) {
+//                        //user with Ivy account
+//                        viewModelScope.launch {
+//                            logoutLogic.logout()
+//                            isLoginCache = false
+//                            restartOnboarding()
+//                            _state.value = OnboardingState.LOGIN
+//                        }
+//                    } else {
+//                        //fresh user
+//                        _state.value = OnboardingState.CHOOSE_PATH
+//                    }
+//                    true
+//                }
+//                OnboardingState.ACCOUNTS -> {
+//                    _state.value = OnboardingState.CURRENCY
+//                    true
+//                }
+//                OnboardingState.CATEGORIES -> {
+//                    _state.value = OnboardingState.ACCOUNTS
+//                    true
+//                }
+//                null -> {
+//                    //do nothing, consume back
+//                    true
+//                }
+//            }
+//        }
     }
 
     //------------------------------------- Step 0 - Splash ----------------------------------------
@@ -137,11 +132,11 @@ class OnboardingRouter(
 
     //------------------------------------- Step 2 - Choose path -----------------------------------
     fun startImport() {
-        nav.navigateTo(
-            Import(
-                launchedFromOnboarding = true
-            )
-        )
+//        nav.navigateTo(
+//            Import(
+//                launchedFromOnboarding = true
+//            )
+//        )
     }
 
     fun importSkip() {
@@ -256,7 +251,7 @@ class OnboardingRouter(
 
     private fun navigateOutOfOnboarding() {
         nav.resetBackStack()
-        nav.navigateTo(Main)
+//        nav.navigateTo(Main)
     }
     //-------------------------------------- Routes ------------------------------------------------
 }

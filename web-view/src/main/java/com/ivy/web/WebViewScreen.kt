@@ -12,15 +12,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.screens.IvyWebView
 import com.ivy.wallet.ui.theme.components.BackButtonType
 import com.ivy.wallet.ui.theme.components.IvyToolbar
 
 @SuppressLint("SetJavaScriptEnabled")
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.WebViewScreen(screen: IvyWebView) {
-    UI(url = screen.url)
+fun BoxWithConstraintsScope.WebViewScreen() {
+//    UI(url = screen.url)
 }
 
 @SuppressLint("SetJavaScriptEnabled")

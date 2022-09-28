@@ -36,9 +36,6 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.pie_charts.model.CategoryAmount
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
@@ -48,13 +45,12 @@ import com.ivy.wallet.utils.*
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: PieChartStatistic
 ) {
     val viewModel: PieChartStatisticViewModel = viewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {
-        viewModel.onEvent(PieChartStatisticEvent.Start(screen))
+//        viewModel.onEvent(PieChartStatisticEvent.Start())
     }
 
     UI(
@@ -107,12 +103,12 @@ private fun BoxWithConstraintsScope.UI(
                     nav.back()
                 },
                 onAdd = { trnType ->
-                    nav.navigateTo(
-                        EditTransaction(
-                            initialTransactionId = null,
-                            type = trnType
-                        )
-                    )
+//                    nav.navigateTo(
+//                        EditTransaction(
+//                            initialTransactionId = null,
+//                            type = trnType
+//                        )
+//                    )
                 }
             )
         }
@@ -326,14 +322,14 @@ private fun CategoryAmountCardWithSub(
             )
         }
     ) {
-        nav.navigateTo(
-            ItemStatistic(
-                categoryId = categoryAmount.category?.id,
-                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
-                accountIdFilterList = state.accountIdFilterList,
-                transactions = categoryAmount.associatedTransactions
-            )
-        )
+//        nav.navigateTo(
+//            ItemStatistic(
+//                categoryId = categoryAmount.category?.id,
+//                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
+//                accountIdFilterList = state.accountIdFilterList,
+//                transactions = categoryAmount.associatedTransactions
+//            )
+//        )
     }
     if (categoryAmount.subCategoryState.subCategoryListExpanded) {
         Column(modifier = Modifier.padding(start = 24.dp)) {
@@ -345,14 +341,14 @@ private fun CategoryAmountCardWithSub(
                     totalAmount = totalAmount,
                     selectedCategory = selectedCategory
                 ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            categoryId = it.category?.id,
-                            unspecifiedCategory = it.isCategoryUnspecified,
-                            accountIdFilterList = state.accountIdFilterList,
-                            transactions = it.associatedTransactions
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            categoryId = it.category?.id,
+//                            unspecifiedCategory = it.isCategoryUnspecified,
+//                            accountIdFilterList = state.accountIdFilterList,
+//                            transactions = it.associatedTransactions
+//                        )
+//                    )
                 }
             }
         }

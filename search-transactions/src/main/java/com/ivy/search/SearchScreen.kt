@@ -26,7 +26,6 @@ import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.Search
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
@@ -38,7 +37,7 @@ import com.ivy.wallet.utils.keyboardVisibleState
 import com.ivy.wallet.utils.selectEndTextFieldValue
 
 @Composable
-fun SearchScreen(screen: Search) {
+fun SearchScreen() {
     val viewModel: SearchViewModel = viewModel()
 
     val transactions by viewModel.transactions.collectAsState()

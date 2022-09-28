@@ -13,9 +13,6 @@ import com.ivy.data.Theme
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.Main
-import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvySession
@@ -80,7 +77,7 @@ class RootViewModel @Inject constructor(
                 if (isOnboardingCompleted()) {
                     navigateOnboardedUser(intent)
                 } else {
-                    nav.navigateTo(Onboarding)
+//                    nav.navigateTo(Onboarding)
                 }
 
             }
@@ -91,7 +88,7 @@ class RootViewModel @Inject constructor(
 
     private fun navigateOnboardedUser(intent: Intent) {
         if (!handleSpecialStart(intent)) {
-            nav.navigateTo(Main)
+//            nav.navigateTo(Main)
             transactionReminderLogic.scheduleReminder()
         }
     }
@@ -106,12 +103,12 @@ class RootViewModel @Inject constructor(
 
 
         if (addTrnType != null) {
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = addTrnType
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = addTrnType
+//                )
+//            )
 
             return true
         }

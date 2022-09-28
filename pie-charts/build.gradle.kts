@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":core:data-model"))
     implementation(project(":temp-domain"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":temp-persistence"))

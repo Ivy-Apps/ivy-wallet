@@ -7,7 +7,6 @@ import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.screens.PlannedPayments
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
@@ -59,7 +58,7 @@ class PlannedPaymentsViewModel @Inject constructor(
     private val _recurringExpenses = MutableLiveData<Double>()
     val recurringExpenses = _recurringExpenses.asLiveData()
 
-    fun start(screen: PlannedPayments) {
+    fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
 

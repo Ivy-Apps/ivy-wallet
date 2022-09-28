@@ -19,7 +19,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.component.transaction.SectionDivider
-import com.ivy.screens.EditPlanned
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import kotlin.math.absoluteValue
@@ -184,12 +183,12 @@ private fun onPlannedPaymentClick(
     listState: LazyListState,
     rule: PlannedPaymentRule
 ) {
-    nav.navigateTo(
-        EditPlanned(
-            plannedPaymentRuleId = rule.id,
-            type = rule.type
-        )
-    )
+//    nav.navigateTo(
+//        EditPlanned(
+//            plannedPaymentRuleId = rule.id,
+//            type = rule.type
+//        )
+//    )
 }
 
 

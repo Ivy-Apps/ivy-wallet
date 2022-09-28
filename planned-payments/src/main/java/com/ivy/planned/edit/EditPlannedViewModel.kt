@@ -11,7 +11,6 @@ import com.ivy.data.planned.PlannedPaymentRule
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.EditPlanned
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
@@ -94,11 +93,11 @@ class EditPlannedViewModel @Inject constructor(
 
     var title: String? = null
 
-    fun start(screen: EditPlanned) {
+    fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            editMode = screen.plannedPaymentRuleId != null
+//            editMode = screen.plannedPaymentRuleId != null
 
             val accounts = accountsAct(Unit)
             if (accounts.isEmpty()) {
@@ -111,20 +110,20 @@ class EditPlannedViewModel @Inject constructor(
 
             reset()
 
-            loadedRule = screen.plannedPaymentRuleId?.let {
-                ioThread { plannedPaymentRuleDao.findById(it)!!.toDomain() }
-            } ?: PlannedPaymentRule(
-                startDate = null,
-                intervalN = null,
-                intervalType = null,
-                oneTime = false,
-                type = screen.type,
-                amount = screen.amount ?: 0.0,
-                accountId = screen.accountId ?: accounts.first().id,
-                categoryId = screen.categoryId,
-                title = screen.title,
-                description = screen.description
-            )
+//            loadedRule = screen.plannedPaymentRuleId?.let {
+//                ioThread { plannedPaymentRuleDao.findById(it)!!.toDomain() }
+//            } ?: PlannedPaymentRule(
+//                startDate = null,
+//                intervalN = null,
+//                intervalType = null,
+//                oneTime = false,
+//                type = screen.type,
+//                amount = screen.amount ?: 0.0,
+//                accountId = screen.accountId ?: accounts.first().id,
+//                categoryId = screen.categoryId,
+//                title = screen.title,
+//                description = screen.description
+//            )
 
             display(loadedRule!!)
 

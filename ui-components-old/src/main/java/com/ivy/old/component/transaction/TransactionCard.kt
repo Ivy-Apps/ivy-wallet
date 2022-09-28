@@ -31,7 +31,6 @@ import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.screens.ItemStatistic
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -234,12 +233,12 @@ private fun TransactionHeaderRow(
                     icon = category.icon,
                     defaultIcon = R.drawable.ic_custom_category_s
                 ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = null,
-                            categoryId = category.id
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = null,
+//                            categoryId = category.id
+//                        )
+//                    )
                 }
 
                 Spacer(Modifier.width(12.dp))
@@ -254,12 +253,12 @@ private fun TransactionHeaderRow(
                 defaultIcon = R.drawable.ic_custom_account_s
             ) {
                 account?.let {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = account.id,
-                            categoryId = null
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = account.id,
+//                            categoryId = null
+//                        )
+//                    )
                 }
             }
         }

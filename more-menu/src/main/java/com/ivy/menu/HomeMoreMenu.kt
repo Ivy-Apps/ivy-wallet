@@ -33,7 +33,6 @@ import com.ivy.design.l0_system.color.SunsetNight
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
-import com.ivy.screens.*
 import com.ivy.wallet.ui.theme.Blue
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Gray
@@ -205,9 +204,9 @@ private fun ColumnScope.Content(
 
     val nav = navigation()
     SearchButton {
-        nav.navigateTo(
-            screen = Search
-        )
+//        nav.navigateTo(
+//            screen = Search
+//        )
     }
 
     Spacer(Modifier.height(16.dp))
@@ -395,7 +394,7 @@ private fun QuickAccess(
             label = stringResource(R.string.settings)
         ) {
             //TODO: Fix that
-            nav.navigateTo(SettingsScreen(versionName = "WIP", versionCode = "???"))
+//            nav.navigateTo(SettingsScreen(versionName = "WIP", versionCode = "???"))
         }
 
         Spacer(Modifier.weight(1f))
@@ -404,7 +403,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_categories,
             label = stringResource(R.string.categories)
         ) {
-            nav.navigateTo(Categories)
+//            nav.navigateTo(Categories)
         }
 
         Spacer(Modifier.weight(1f))
@@ -440,7 +439,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_planned_payments,
             label = stringResource(R.string.planned_payments)
         ) {
-            nav.navigateTo(PlannedPayments)
+//            nav.navigateTo(PlannedPayments)
         }
 
         Spacer(Modifier.weight(1f))
@@ -478,7 +477,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_reports,
             label = stringResource(R.string.reports),
         ) {
-            nav.navigateTo(Report)
+//            nav.navigateTo(Report)
         }
 
         Spacer(Modifier.weight(1f))
@@ -487,7 +486,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_budgets,
             label = stringResource(R.string.budgets),
         ) {
-            nav.navigateTo(BudgetScreen)
+//            nav.navigateTo(BudgetScreen)
         }
 
         Spacer(Modifier.weight(1f))
@@ -496,7 +495,7 @@ private fun QuickAccess(
             icon = R.drawable.home_more_menu_loans,
             label = stringResource(R.string.loans),
         ) {
-            nav.navigateTo(Loans)
+//            nav.navigateTo(Loans)
         }
 
         Spacer(Modifier.weight(1f))
@@ -581,7 +580,7 @@ private fun BoxWithConstraintsScope.DonateButton(
         iconTextPadding = 12.dp,
         backgroundGradient = Gradient.from(SunsetNight)
     ) {
-        nav.navigateTo(DonateScreen)
+//        nav.navigateTo(DonateScreen)
     }
 }
 

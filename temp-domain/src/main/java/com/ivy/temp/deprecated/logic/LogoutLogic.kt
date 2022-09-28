@@ -1,8 +1,6 @@
 package com.ivy.wallet.domain.deprecated.logic
 
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.Main
-import com.ivy.screens.Onboarding
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.persistence.IvyRoomDatabase
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -22,7 +20,7 @@ class LogoutLogic(
             sharedPrefs.removeAll()
         }
 
-        navigation.navigateTo(Onboarding)
+//        navigation.navigateTo(Onboarding)
         navigation.resetBackStack()
     }
 
@@ -31,6 +29,6 @@ class LogoutLogic(
             ivySession.logout()
         }
 
-        navigation.navigateTo(Main)
+//        navigation.navigateTo(Main)
     }
 }

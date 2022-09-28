@@ -30,8 +30,6 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hideKeyboard
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.EditPlanned
-import com.ivy.screens.EditTransaction
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.*
@@ -39,7 +37,8 @@ import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.AddPrimaryAttributeButton
 import com.ivy.wallet.ui.theme.components.ChangeTransactionTypeModal
 import com.ivy.wallet.ui.theme.components.CustomExchangeRateCard
-import com.ivy.wallet.ui.theme.modal.*
+import com.ivy.wallet.ui.theme.modal.DeleteModal
+import com.ivy.wallet.ui.theme.modal.ProgressModal
 import com.ivy.wallet.ui.theme.modal.edit.*
 import com.ivy.wallet.utils.timeNowLocal
 import java.time.LocalDateTime
@@ -48,10 +47,10 @@ import kotlin.math.roundToInt
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
+fun BoxWithConstraintsScope.EditTransactionScreen() {
     val viewModel: EditTransactionViewModel = viewModel()
 
-    val transactionType by viewModel.transactionType.observeAsState(screen.type)
+    val transactionType by viewModel.transactionType.observeAsState()
     val initialTitle by viewModel.initialTitle.collectAsState()
     val titleSuggestions by viewModel.titleSuggestions.collectAsState()
     val currency by viewModel.currency.collectAsState()
@@ -72,14 +71,13 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
     val hasChanges by viewModel.hasChanges.collectAsState(false)
 
     onScreenStart {
-        viewModel.start(screen)
+        viewModel.start()
     }
 
     val view = com.ivy.core.ui.temp.rootView()
 
     UI(
-        screen = screen,
-        transactionType = transactionType,
+        transactionType = TrnTypeOld.TRANSFER,
         baseCurrency = currency,
         initialTitle = initialTitle,
         titleSuggestions = titleSuggestions,
@@ -128,7 +126,6 @@ fun BoxWithConstraintsScope.EditTransactionScreen(screen: EditTransaction) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: EditTransaction,
     transactionType: TrnTypeOld,
     baseCurrency: String,
     initialTitle: String?,
@@ -185,7 +182,7 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     val amountModalId =
-        remember(screen.initialTransactionId, customExchangeRateState.exchangeRate) {
+        remember(customExchangeRateState.exchangeRate) {
             UUID.randomUUID()
         }
 
@@ -220,7 +217,7 @@ private fun BoxWithConstraintsScope.UI(
             //Setting the transaction type to TransactionType.TRANSFER for transactions associated
             // with loan record to hide the ChangeTransactionType Button
             type = if (loanData.isLoanRecord) TrnTypeOld.TRANSFER else transactionType,
-            initialTransactionId = screen.initialTransactionId,
+            initialTransactionId = UUID.randomUUID(),
             onDeleteTrnModal = {
                 deleteTrnModalVisible = true
             },
@@ -234,7 +231,7 @@ private fun BoxWithConstraintsScope.UI(
         Title(
             type = transactionType,
             titleFocus = titleFocus,
-            initialTransactionId = screen.initialTransactionId,
+            initialTransactionId = UUID.randomUUID(),
 
             titleTextFieldValue = titleTextFieldValue,
             setTitleTextFieldValue = {
@@ -363,17 +360,17 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.add_planned_date_payment),
                 onClick = {
                     nav.back()
-                    nav.navigateTo(
-                        EditPlanned(
-                            plannedPaymentRuleId = null,
-                            type = transactionType,
-                            amount = amount,
-                            accountId = account?.id,
-                            categoryId = category?.id,
-                            title = titleTextFieldValue.text,
-                            description = description,
-                        )
-                    )
+//                    nav.navigateTo(
+//                        EditPlanned(
+//                            plannedPaymentRuleId = null,
+//                            type = transactionType,
+//                            amount = amount,
+//                            accountId = account?.id,
+//                            categoryId = category?.id,
+//                            title = titleTextFieldValue.text,
+//                            description = description,
+//                        )
+//                    )
                 }
             )
         }
@@ -382,13 +379,13 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     onScreenStart {
-        if (screen.initialTransactionId == null) {
-            amountModalShown = true
-        }
+//        if (screen.initialTransactionId == null) {
+//            amountModalShown = true
+//        }
     }
 
     EditBottomSheet(
-        initialTransactionId = screen.initialTransactionId,
+        initialTransactionId = UUID.randomUUID(),
         type = transactionType,
         accounts = accounts,
         selectedAccount = account,
@@ -399,38 +396,38 @@ private fun BoxWithConstraintsScope.UI(
         convertedAmountCurrencyCode = customExchangeRateState.toCurrencyCode,
 
         ActionButton = {
-            if (screen.initialTransactionId != null) {
-                //Edit mode
-                if (dueDate != null) {
-                    //due date stuff
-                    if (hasChanges) {
-                        //has changes
-                        ModalSave {
-                            onSave(false)
-                            onSetHasChanges(false)
-                        }
-                    } else {
-                        //no changes, pay
-                        ModalCheck(
-                            label = if (transactionType == TrnTypeOld.EXPENSE) stringResource(
-                                R.string.pay
-                            ) else stringResource(R.string.get)
-                        ) {
-                            onPayPlannedPayment()
-                        }
-                    }
-                } else {
-                    //normal transaction
-                    ModalSave {
-                        onSave(true)
-                    }
-                }
-            } else {
-                //create new mode
-                ModalAdd {
-                    onSave(true)
-                }
-            }
+//            if (screen.initialTransactionId != null) {
+//                //Edit mode
+//                if (dueDate != null) {
+//                    //due date stuff
+//                    if (hasChanges) {
+//                        //has changes
+//                        ModalSave {
+//                            onSave(false)
+//                            onSetHasChanges(false)
+//                        }
+//                    } else {
+//                        //no changes, pay
+//                        ModalCheck(
+//                            label = if (transactionType == TrnTypeOld.EXPENSE) stringResource(
+//                                R.string.pay
+//                            ) else stringResource(R.string.get)
+//                        ) {
+//                            onPayPlannedPayment()
+//                        }
+//                    }
+//                } else {
+//                    //normal transaction
+//                    ModalSave {
+//                        onSave(true)
+//                    }
+//                }
+//            } else {
+//                //create new mode
+//                ModalAdd {
+//                    onSave(true)
+//                }
+//            }
         },
 
         amountModalShown = amountModalShown,
@@ -584,7 +581,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyPreview {
         UI(
-            screen = EditTransaction(null, TrnTypeOld.EXPENSE),
+//            screen = EditTransaction(null, TrnTypeOld.EXPENSE),
             initialTitle = "",
             titleSuggestions = emptySet(),
             baseCurrency = "BGN",

@@ -17,7 +17,7 @@ dependencies {
     implementation(project(":core:exchange-provider"))
     implementation(project(":common"))
     implementation(project(":design-system"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
     ThirdParty()
 
     implementation(project(":temp-persistence"))

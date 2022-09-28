@@ -22,7 +22,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.old.component.transaction.SectionDivider
-import com.ivy.screens.EditTransaction
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvyIcon
@@ -277,12 +276,12 @@ private fun onTransactionClick(
     nav: Navigation,
     transaction: TransactionOld
 ) {
-    nav.navigateTo(
-        EditTransaction(
-            initialTransactionId = transaction.id,
-            type = transaction.type
-        )
-    )
+//    nav.navigateTo(
+//        EditTransaction(
+//            initialTransactionId = transaction.id,
+//            type = transaction.type
+//        )
+//    )
 }
 
 @Composable

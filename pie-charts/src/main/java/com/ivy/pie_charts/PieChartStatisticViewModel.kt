@@ -11,7 +11,6 @@ import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.pie_charts.action.PieChartAct
 import com.ivy.pie_charts.action.SubCategoryAct
 import com.ivy.pie_charts.model.CategoryAmount
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModalData
@@ -44,7 +43,7 @@ class PieChartStatisticViewModel @Inject constructor(
     override suspend fun handleEvent(event: PieChartStatisticEvent): suspend () -> PieChartStatisticState =
         withContext(Dispatchers.Default) {
             when (event) {
-                is PieChartStatisticEvent.Start -> startNew(event.screen)
+                is PieChartStatisticEvent.Start -> startNew()
                 is PieChartStatisticEvent.OnSelectNextMonth -> nextMonthNew()
                 is PieChartStatisticEvent.OnSelectPreviousMonth -> previousMonthNew()
                 is PieChartStatisticEvent.OnSetPeriod -> onSetPeriodNew(event.timePeriod)
@@ -58,38 +57,37 @@ class PieChartStatisticViewModel @Inject constructor(
             }
         }
 
-    private suspend fun startNew(screen: PieChartStatistic) = suspend {
-        updateGlobalVariables(screen)
+    private suspend fun startNew() = suspend {
+        updateGlobalVariables()
     } then {
-        initializePreliminaryData(screen, ivyContext)
+        initializePreliminaryData(ivyContext)
     } then {
         loadNew(ivyContext.selectedPeriod)
     }
 
-    private fun updateGlobalVariables(screen: PieChartStatistic) {
-        _treatTransfersAsIncomeExpense.value = screen.treatTransfersAsIncomeExpense
+    private fun updateGlobalVariables() {
+//        _treatTransfersAsIncomeExpense.value = screen.treatTransfersAsIncomeExpense
     }
 
     private suspend fun initializePreliminaryData(
-        screen: PieChartStatistic,
         ivyContext: IvyWalletCtx
     ) = suspend {
         val baseCurrency = ioThread { settingsDao.findFirstSuspend() }.currency
         baseCurrency
     } thenInvokeAfter { baseCurrency ->
-        updateState {
-            it.copy(
-                period = ivyContext.selectedPeriod,
-                transactionType = screen.type,
-                accountIdFilterList = screen.accountList,
-                filterExcluded = screen.filterExcluded,
-                transactions = screen.transactions,
-                showCloseButtonOnly = screen.transactions.isNotEmpty(),
-                baseCurrency = baseCurrency,
-                unpackAllSubCategories = false,
-                showUnpackOption = false
-            )
-        }
+//        updateState {
+//            it.copy(
+//                period = ivyContext.selectedPeriod,
+//                transactionType = screen.type,
+//                accountIdFilterList = screen.accountList,
+//                filterExcluded = screen.filterExcluded,
+//                transactions = screen.transactions,
+//                showCloseButtonOnly = screen.transactions.isNotEmpty(),
+//                baseCurrency = baseCurrency,
+//                unpackAllSubCategories = false,
+//                showUnpackOption = false
+//            )
+//        }
     }
 
     //-----------------------------------------------------------------------------------

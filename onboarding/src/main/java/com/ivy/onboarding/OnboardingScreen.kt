@@ -16,14 +16,13 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.onboarding.steps.*
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.utils.OpResult
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.OnboardingScreen(screen: Onboarding) {
+fun BoxWithConstraintsScope.OnboardingScreen() {
     val viewModel: OnboardingViewModel = viewModel()
 
     val state by viewModel.state.observeAsState(OnboardingState.SPLASH)
@@ -39,7 +38,6 @@ fun BoxWithConstraintsScope.OnboardingScreen(screen: Onboarding) {
     val isSystemDarkTheme = isSystemInDarkTheme()
     onScreenStart {
         viewModel.start(
-            screen = screen,
             isSystemDarkMode = isSystemDarkTheme
         )
     }

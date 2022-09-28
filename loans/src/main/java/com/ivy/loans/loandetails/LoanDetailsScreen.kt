@@ -36,8 +36,6 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.ItemStatisticToolbar
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.LoanDetails
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
@@ -50,7 +48,7 @@ import com.ivy.wallet.utils.*
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
+fun BoxWithConstraintsScope.LoanDetailsScreen() {
     val viewModel: LoanDetailsViewModel = viewModel()
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()
@@ -63,7 +61,7 @@ fun BoxWithConstraintsScope.LoanDetailsScreen(screen: LoanDetails) {
     val createLoanTransaction by viewModel.createLoanTransaction.collectAsState()
 
     onScreenStart {
-        viewModel.start(screen = screen)
+        viewModel.start()
     }
 
     UI(
@@ -429,12 +427,12 @@ private fun LoanInfoCard(
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = selectedLoanAccount.id,
-                            categoryId = null
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = selectedLoanAccount.id,
+//                            categoryId = null
+//                        )
+//                    )
                 }
         }
 
@@ -661,12 +659,12 @@ private fun LoanRecordItem(
                         padding = 8.dp,
                         iconEdgePadding = 10.dp
                     ) {
-                        nav.navigateTo(
-                            ItemStatistic(
-                                accountId = account.id,
-                                categoryId = null
-                            )
-                        )
+//                        nav.navigateTo(
+//                            ItemStatistic(
+//                                accountId = account.id,
+//                                categoryId = null
+//                            )
+//                        )
                     }
                 }
 

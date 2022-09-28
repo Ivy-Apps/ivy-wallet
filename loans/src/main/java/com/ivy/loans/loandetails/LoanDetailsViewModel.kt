@@ -9,7 +9,6 @@ import com.ivy.data.loan.LoanRecord
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.LoanDetails
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.loan.LoanByIdAct
@@ -77,8 +76,8 @@ class LoanDetailsViewModel @Inject constructor(
 
     private var defaultCurrencyCode = ""
 
-    fun start(screen: LoanDetails) {
-        load(loanId = screen.loanId)
+    fun start() {
+//        load(loanId = screen.loanId)
     }
 
     private fun load(loanId: UUID) {

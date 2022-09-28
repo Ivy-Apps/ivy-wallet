@@ -26,15 +26,13 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.EditPlanned
-import com.ivy.screens.PlannedPayments
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.utils.timeNowUTC
 
 @Composable
-fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
+fun BoxWithConstraintsScope.PlannedPaymentsScreen() {
     val viewModel: PlannedPaymentsViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
@@ -48,7 +46,7 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
     val recurringExpenses by viewModel.recurringExpenses.observeAsState(0.0)
 
     onScreenStart {
-        viewModel.start(screen)
+        viewModel.start()
     }
 
     UI(
@@ -112,12 +110,12 @@ private fun BoxWithConstraintsScope.UI(
             nav.back()
         },
         onAdd = {
-            nav.navigateTo(
-                EditPlanned(
-                    type = TrnTypeOld.EXPENSE,
-                    plannedPaymentRuleId = null
-                )
-            )
+//            nav.navigateTo(
+//                EditPlanned(
+//                    type = TrnTypeOld.EXPENSE,
+//                    plannedPaymentRuleId = null
+//                )
+//            )
         }
     )
 }

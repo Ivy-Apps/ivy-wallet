@@ -36,9 +36,6 @@ import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.old.IncomeExpensesCards
 import com.ivy.old.ItemStatisticToolbar
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -58,7 +55,7 @@ import java.util.*
 
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
+fun BoxWithConstraintsScope.ItemStatisticScreen() {
     val viewModel: ItemStatisticViewModel = viewModel()
 
     val nav = navigation()
@@ -97,15 +94,15 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
 
     val view = LocalView.current
     onScreenStart {
-        viewModel.start(screen)
+        viewModel.start()
 
-        nav.onBackPressed[screen] = {
-            setStatusBarDarkTextCompat(
-                view = view,
-                darkText = true
-            )
-            false
-        }
+//        nav.onBackPressed[screen] = {
+//            setStatusBarDarkTextCompat(
+//                view = view,
+//                darkText = true
+//            )
+//            false
+//        }
     }
 
     UI(
@@ -146,31 +143,30 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
 
         onSetPeriod = {
             viewModel.setPeriod(
-                screen = screen,
                 period = it
             )
         },
         onNextMonth = {
-            viewModel.nextMonth(screen)
+            viewModel.nextMonth()
         },
         onPreviousMonth = {
-            viewModel.previousMonth(screen)
+            viewModel.previousMonth()
         },
         onDelete = {
-            viewModel.delete(screen)
+            viewModel.delete()
         },
         onEditCategory = viewModel::editCategory,
         onEditAccount = { acc, newBalance ->
-            viewModel.editAccount(screen, acc, newBalance)
+            viewModel.editAccount(acc, newBalance)
         },
         onPayOrGet = { transaction ->
-            viewModel.payOrGet(screen, transaction)
+            viewModel.payOrGet(transaction)
         },
         onSkipTransaction = { transaction ->
-            viewModel.skipTransaction(screen, transaction)
+            viewModel.skipTransaction(transaction)
         },
         onSkipAllTransactions = { transactions ->
-            viewModel.skipTransactions(screen, transactions)
+            viewModel.skipTransactions(transactions)
         }
     )
 }
@@ -543,37 +539,37 @@ private fun Header(
             itemColor = itemColor,
             incomeHeaderCardClicked = {
                 if (account != null) {
-                    nav.navigateTo(
-                        PieChartStatistic(
-                            type = TrnTypeOld.INCOME,
-                            accountList = listOf(account.id),
-                            filterExcluded = false,
-                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
-                        )
-                    )
+//                    nav.navigateTo(
+//                        PieChartStatistic(
+//                            type = TrnTypeOld.INCOME,
+//                            accountList = listOf(account.id),
+//                            filterExcluded = false,
+//                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
+//                        )
+//                    )
                 }
             },
             expenseHeaderCardClicked = {
                 if (account != null) {
-                    nav.navigateTo(
-                        PieChartStatistic(
-                            type = TrnTypeOld.EXPENSE,
-                            accountList = listOf(account.id),
-                            filterExcluded = false,
-                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
-                        )
-                    )
+//                    nav.navigateTo(
+//                        PieChartStatistic(
+//                            type = TrnTypeOld.EXPENSE,
+//                            accountList = listOf(account.id),
+//                            filterExcluded = false,
+//                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
+//                        )
+//                    )
                 }
             }
         ) { trnType ->
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = trnType,
-                    accountId = account?.id,
-                    categoryId = category?.id
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = trnType,
+//                    accountId = account?.id,
+//                    categoryId = category?.id
+//                )
+//            )
         }
 
         Spacer(Modifier.height(20.dp))

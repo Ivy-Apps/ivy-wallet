@@ -129,7 +129,7 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
     implementation(project(":budgets"))
     implementation(project(":categories"))
     implementation(project(":loans"))

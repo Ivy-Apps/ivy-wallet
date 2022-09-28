@@ -9,7 +9,6 @@ import com.ivy.data.*
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.onboarding.OnboardingState
-import com.ivy.screens.Onboarding
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.deprecated.logic.*
@@ -100,19 +99,19 @@ class OnboardingViewModel @Inject constructor(
         logoutLogic = logoutLogic
     )
 
-    fun start(screen: Onboarding, isSystemDarkMode: Boolean) {
+    fun start(isSystemDarkMode: Boolean) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             initiateSettings(isSystemDarkMode)
 
-            router.initBackHandling(
-                screen = screen,
-                viewModelScope = viewModelScope,
-                restartOnboarding = {
-                    start(screen, isSystemDarkMode)
-                }
-            )
+//            router.initBackHandling(
+//                screen = screen,
+//                viewModelScope = viewModelScope,
+//                restartOnboarding = {
+//                    start(isSystemDarkMode)
+//                }
+//            )
 
             router.splashNext()
 

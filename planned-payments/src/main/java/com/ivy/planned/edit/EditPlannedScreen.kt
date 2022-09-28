@@ -22,7 +22,6 @@ import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.EditPlanned
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.edit.core.*
@@ -34,10 +33,11 @@ import com.ivy.wallet.ui.theme.modal.RecurringRuleModal
 import com.ivy.wallet.ui.theme.modal.RecurringRuleModalData
 import com.ivy.wallet.ui.theme.modal.edit.*
 import java.time.LocalDateTime
+import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
+fun BoxWithConstraintsScope.EditPlannedScreen() {
     val viewModel: EditPlannedViewModel = viewModel()
 
     val startDate by viewModel.startDate.observeAsState()
@@ -45,7 +45,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
     val intervalType by viewModel.intervalType.observeAsState()
     val oneTime by viewModel.oneTime.observeAsState(false)
 
-    val transactionType by viewModel.transactionType.observeAsState(screen.type)
+    val transactionType by viewModel.transactionType.observeAsState()
     val initialTitle by viewModel.initialTitle.observeAsState()
     val currency by viewModel.currency.observeAsState("")
     val description by viewModel.description.observeAsState()
@@ -57,16 +57,16 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
     val accounts by viewModel.accounts.observeAsState(emptyList())
 
     onScreenStart {
-        viewModel.start(screen)
+        viewModel.start()
     }
 
     UI(
-        screen = screen,
+//        screen = screen,
         startDate = startDate,
         intervalN = intervalN,
         intervalType = intervalType,
         oneTime = oneTime,
-        type = transactionType,
+        type = TrnTypeOld.TRANSFER,
         currency = currency,
         initialTitle = initialTitle,
         description = description,
@@ -100,7 +100,7 @@ fun BoxWithConstraintsScope.EditPlannedScreen(screen: EditPlanned) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: EditPlanned,
+//    screen: EditPlanned,
 
     startDate: LocalDateTime?,
     intervalN: Int?,
@@ -160,7 +160,7 @@ private fun BoxWithConstraintsScope.UI(
 
         Toolbar(
             type = type,
-            initialTransactionId = screen.plannedPaymentRuleId,
+            initialTransactionId = UUID.randomUUID(),
             onDeleteTrnModal = {
                 deleteTrnModalVisible = true
             },
@@ -174,7 +174,7 @@ private fun BoxWithConstraintsScope.UI(
         Title(
             type = type,
             titleFocus = titleFocus,
-            initialTransactionId = screen.plannedPaymentRuleId,
+            initialTransactionId = UUID.randomUUID(),
 
             titleTextFieldValue = titleTextFieldValue,
             setTitleTextFieldValue = {
@@ -240,25 +240,25 @@ private fun BoxWithConstraintsScope.UI(
     }
 
     onScreenStart {
-        if (screen.plannedPaymentRuleId == null) {
-            //Create mode
-            if (screen.mandatoryFilled()) {
-                //Flow Convert (Amount, Account, Category)
-                recurringRuleModal = RecurringRuleModalData(
-                    initialStartDate = startDate,
-                    initialIntervalN = intervalN,
-                    initialIntervalType = intervalType,
-                    initialOneTime = oneTime
-                )
-            } else {
-                //Flow Empty
-                changeTransactionTypeModalVisible = true
-            }
-        }
+//        if (screen.plannedPaymentRuleId == null) {
+//            //Create mode
+//            if (screen.mandatoryFilled()) {
+//                //Flow Convert (Amount, Account, Category)
+//                recurringRuleModal = RecurringRuleModalData(
+//                    initialStartDate = startDate,
+//                    initialIntervalN = intervalN,
+//                    initialIntervalType = intervalType,
+//                    initialOneTime = oneTime
+//                )
+//            } else {
+//                //Flow Empty
+//                changeTransactionTypeModalVisible = true
+//            }
+//        }
     }
 
     EditBottomSheet(
-        initialTransactionId = screen.plannedPaymentRuleId,
+        initialTransactionId = UUID.randomUUID(),
         type = type,
         accounts = accounts,
         selectedAccount = account,
@@ -433,7 +433,7 @@ private fun shouldFocusAmount(amount: Double) = amount == 0.0
 private fun Preview() {
     IvyPreview {
         UI(
-            screen = EditPlanned(null, TrnTypeOld.EXPENSE),
+//            screen = EditPlanned(null, TrnTypeOld.EXPENSE),
             oneTime = false,
             startDate = null,
             intervalN = null,

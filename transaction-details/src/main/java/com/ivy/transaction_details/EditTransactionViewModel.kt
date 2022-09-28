@@ -12,8 +12,6 @@ import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.Main
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.account.AccountByIdAct
 import com.ivy.wallet.domain.action.account.AccountsActOld
@@ -39,7 +37,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
-import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
@@ -131,11 +128,11 @@ class EditTransactionViewModel @Inject constructor(
     var title: String? = null
     private lateinit var baseUserCurrency: String
 
-    fun start(screen: EditTransaction) {
+    fun start() {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
-            editMode = screen.initialTransactionId != null
+//            editMode = screen.initialTransactionId != null
 
             baseUserCurrency = baseCurrency()
 
@@ -150,18 +147,18 @@ class EditTransactionViewModel @Inject constructor(
 
             reset()
 
-            loadedTransaction = screen.initialTransactionId?.let {
-                trnByIdAct(it)
-            } ?: TransactionOld(
-                accountId = defaultAccountId(
-                    screen = screen,
-                    accounts = accounts
-                ),
-                categoryId = screen.categoryId,
-                type = screen.type,
-                amount = BigDecimal.ZERO,
-                toAmount = BigDecimal.ZERO
-            )
+//            loadedTransaction = screen.initialTransactionId?.let {
+//                trnByIdAct(it)
+//            } ?: TransactionOld(
+//                accountId = defaultAccountId(
+//                    screen = screen,
+//                    accounts = accounts
+//                ),
+//                categoryId = screen.categoryId,
+//                type = screen.type,
+//                amount = BigDecimal.ZERO,
+//                toAmount = BigDecimal.ZERO
+//            )
 
             display(loadedTransaction!!)
 
@@ -200,13 +197,12 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun defaultAccountId(
-        screen: EditTransaction,
         accounts: List<AccountOld>,
     ): UUID {
-        val accountId = screen.accountId
-        if (accountId != null) {
-            return accountId
-        }
+//        val accountId = screen.accountId
+//        if (accountId != null) {
+//            return accountId
+//        }
 
         val lastSelectedId = sharedPrefs.getString(SharedPrefs.LAST_SELECTED_ACCOUNT_ID, null)
             ?.let { UUID.fromString(it) }
@@ -573,7 +569,7 @@ class EditTransactionViewModel @Inject constructor(
     private fun closeScreen() {
         if (nav.backStackEmpty()) {
             nav.resetBackStack()
-            nav.navigateTo(Main)
+//            nav.navigateTo(Main)
         } else {
             nav.back()
         }

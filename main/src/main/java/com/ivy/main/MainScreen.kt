@@ -8,12 +8,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.MainTab
-import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.EditPlanned
-import com.ivy.screens.EditTransaction
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -64,36 +61,36 @@ private fun BoxWithConstraintsScope.UI(
         selectTab = selectTab,
 
         onAddIncome = {
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = TrnTypeOld.INCOME
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = TrnTypeOld.INCOME
+//                )
+//            )
         },
         onAddExpense = {
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = TrnTypeOld.EXPENSE
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = TrnTypeOld.EXPENSE
+//                )
+//            )
         },
         onAddTransfer = {
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = TrnTypeOld.TRANSFER
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = TrnTypeOld.TRANSFER
+//                )
+//            )
         },
         onAddPlannedPayment = {
-            nav.navigateTo(
-                EditPlanned(
-                    type = TrnTypeOld.EXPENSE,
-                    plannedPaymentRuleId = null
-                )
-            )
+//            nav.navigateTo(
+//                EditPlanned(
+//                    type = TrnTypeOld.EXPENSE,
+//                    plannedPaymentRuleId = null
+//                )
+//            )
         },
 
         showAddAccountModal = {

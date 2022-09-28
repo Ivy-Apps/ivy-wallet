@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.Main
 import com.ivy.temp.event.AccountsUpdatedEvent
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
@@ -33,16 +32,16 @@ class MainViewModel @Inject constructor(
     private val _currency = MutableLiveData<String>()
     val currency = _currency.asLiveData()
 
-    fun start(screen: Main) {
-        nav.onBackPressed[screen] = {
-            if (ivyContext.mainTab == com.ivy.base.MainTab.ACCOUNTS) {
-                ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
-                true
-            } else {
-                //Exiting (the backstack will close the app)
-                false
-            }
-        }
+    fun start() {
+//        nav.onBackPressed[screen] = {
+//            if (ivyContext.mainTab == com.ivy.base.MainTab.ACCOUNTS) {
+//                ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
+//                true
+//            } else {
+//                //Exiting (the backstack will close the app)
+//                false
+//            }
+//        }
 
         viewModelScope.launch {
             TestIdlingResource.increment()

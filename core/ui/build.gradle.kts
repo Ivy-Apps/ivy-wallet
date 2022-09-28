@@ -13,7 +13,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":design-system"))
     implementation(project(":core:domain"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
     implementation(project(":app-base")) // TODO: temp dependency, remove later
     implementation(project(":navigation"))
 
