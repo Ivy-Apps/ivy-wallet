@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.AccountData
 import com.ivy.base.UiText
 import com.ivy.data.AccountOld
@@ -30,16 +30,14 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.Main
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.horizontalSwipeListener
 
 @Composable
-fun BoxWithConstraintsScope.AccountsTab(screen: Main) {
-    val viewModel: AccountsViewModel = viewModel()
+fun BoxWithConstraintsScope.AccountsTab() {
+    val viewModel: AccountsViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {
@@ -120,23 +118,23 @@ private fun BoxWithConstraintsScope.UI(
                 baseCurrency = state.baseCurrency,
                 accountData = it,
                 onBalanceClick = {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = it.account.id,
-                            categoryId = null
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = it.account.id,
+//                            categoryId = null
+//                        )
+//                    )
                 },
                 onLongClick = {
                     onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
                 }
             ) {
-                nav.navigateTo(
-                    ItemStatistic(
-                        accountId = it.account.id,
-                        categoryId = null
-                    )
-                )
+//                nav.navigateTo(
+//                    ItemStatistic(
+//                        accountId = it.account.id,
+//                        categoryId = null
+//                    )
+//                )
             }
         }
 

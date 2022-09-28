@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.Constants
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.BufferInfo
@@ -34,7 +34,6 @@ import com.ivy.home.R
 import com.ivy.journey.CustomerJourney
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.menu.MoreMenu
-import com.ivy.screens.Main
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.modal.*
@@ -47,14 +46,14 @@ private const val SWIPE_HORIZONTAL_THRESHOLD = 200
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.HomeTab(screen: Main) {
+fun BoxWithConstraintsScope.HomeTab() {
     //TODO: For some weird reason FRP<>() crashes, so I workaround it
 //    FRP<HomeState, HomeEvent, HomeViewModel>(
 //        initialEvent = HomeEvent.Start
 //    ) { state, onEvent ->
 //        UI(state = state, onEvent = onEvent)
 //    }
-    val viewModel: HomeViewModel = viewModel()
+    val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {

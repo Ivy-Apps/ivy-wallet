@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.FromToTimeRange
 import com.ivy.budgets.model.DisplayBudget
 import com.ivy.core.ui.temp.trash.BudgetExt
@@ -27,7 +27,6 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.BudgetScreen
 import com.ivy.wallet.domain.deprecated.logic.model.CreateBudgetData
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.BudgetBattery
@@ -41,8 +40,8 @@ import com.ivy.wallet.utils.clickableNoIndication
 import com.ivy.wallet.utils.format
 
 @Composable
-fun BoxWithConstraintsScope.BudgetScreen(screen: BudgetScreen) {
-    val viewModel: BudgetViewModel = viewModel()
+fun BoxWithConstraintsScope.BudgetScreen() {
+    val viewModel: BudgetViewModel = hiltViewModel()
 
     val timeRange by viewModel.timeRange.collectAsState()
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()

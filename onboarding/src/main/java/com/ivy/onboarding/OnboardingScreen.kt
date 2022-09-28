@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.AccountBalance
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -23,7 +23,7 @@ import com.ivy.wallet.utils.OpResult
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.OnboardingScreen() {
-    val viewModel: OnboardingViewModel = viewModel()
+    val viewModel: OnboardingViewModel = hiltViewModel()
 
     val state by viewModel.state.observeAsState(OnboardingState.SPLASH)
     val currency by viewModel.currency.observeAsState(IvyCurrency.getDefault())

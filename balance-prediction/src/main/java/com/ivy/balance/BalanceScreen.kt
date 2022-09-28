@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
@@ -35,7 +35,7 @@ val FAB_BUTTON_SIZE = 56.dp
 
 @Composable
 fun BoxWithConstraintsScope.BalanceScreen() {
-    val viewModel: BalanceViewModel = viewModel()
+    val viewModel: BalanceViewModel = hiltViewModel()
 
     val period by viewModel.period.collectAsState()
     val baseCurrencyCode by viewModel.baseCurrencyCode.collectAsState()

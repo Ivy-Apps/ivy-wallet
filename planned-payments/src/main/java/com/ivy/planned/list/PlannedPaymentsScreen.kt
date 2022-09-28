@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -33,7 +33,7 @@ import com.ivy.wallet.utils.timeNowUTC
 
 @Composable
 fun BoxWithConstraintsScope.PlannedPaymentsScreen() {
-    val viewModel: PlannedPaymentsViewModel = viewModel()
+    val viewModel: PlannedPaymentsViewModel = hiltViewModel()
 
     val currency by viewModel.currency.observeAsState("")
     val categories by viewModel.categories.observeAsState(emptyList())

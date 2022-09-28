@@ -21,12 +21,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.base.Constants
 import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.home.R
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -281,11 +279,11 @@ private fun IncomeExpenses(
             amount = monthlyIncome,
             testTag = "home_card_income"
         ) {
-            nav.navigateTo(
-                PieChartStatistic(
-                    type = TrnTypeOld.INCOME,
-                )
-            )
+//            nav.navigateTo(
+//                PieChartStatistic(
+//                    type = TrnTypeOld.INCOME,
+//                )
+//            )
         }
 
         Spacer(Modifier.width(12.dp))
@@ -300,11 +298,11 @@ private fun IncomeExpenses(
             amount = monthlyExpenses.absoluteValue,
             testTag = "home_card_expense"
         ) {
-            nav.navigateTo(
-                PieChartStatistic(
-                    type = TrnTypeOld.EXPENSE,
-                )
-            )
+//            nav.navigateTo(
+//                PieChartStatistic(
+//                    type = TrnTypeOld.EXPENSE,
+//                )
+//            )
         }
 
         Spacer(Modifier.width(16.dp))

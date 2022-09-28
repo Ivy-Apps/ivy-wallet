@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.SortOrder
 import com.ivy.data.CategoryOld
@@ -47,7 +47,7 @@ import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.CategoriesScreen() {
-    val viewModel: CategoriesViewModel = viewModel()
+    val viewModel: CategoriesViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {

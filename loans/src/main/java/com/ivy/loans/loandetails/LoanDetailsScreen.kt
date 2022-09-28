@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.humanReadableType
 import com.ivy.data.AccountOld
@@ -49,7 +49,7 @@ import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.LoanDetailsScreen() {
-    val viewModel: LoanDetailsViewModel = viewModel()
+    val viewModel: LoanDetailsViewModel = hiltViewModel()
 
     val baseCurrency by viewModel.baseCurrency.collectAsState()
     val loan by viewModel.loan.collectAsState()

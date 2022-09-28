@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -38,7 +38,7 @@ import java.util.*
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.EditPlannedScreen() {
-    val viewModel: EditPlannedViewModel = viewModel()
+    val viewModel: EditPlannedViewModel = hiltViewModel()
 
     val startDate by viewModel.startDate.observeAsState()
     val intervalN by viewModel.intervalN.observeAsState()

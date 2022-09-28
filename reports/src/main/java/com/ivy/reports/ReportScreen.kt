@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
@@ -41,7 +41,7 @@ import com.ivy.wallet.utils.clickableNoIndication
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ReportScreen() {
-    val viewModel: ReportViewModel = viewModel()
+    val viewModel: ReportViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {

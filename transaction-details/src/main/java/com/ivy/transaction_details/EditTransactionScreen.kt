@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.CustomExchangeRateState
 import com.ivy.base.EditTransactionDisplayLoan
 import com.ivy.base.R
@@ -48,7 +48,7 @@ import kotlin.math.roundToInt
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.EditTransactionScreen() {
-    val viewModel: EditTransactionViewModel = viewModel()
+    val viewModel: EditTransactionViewModel = hiltViewModel()
 
     val transactionType by viewModel.transactionType.observeAsState()
     val initialTitle by viewModel.initialTitle.collectAsState()

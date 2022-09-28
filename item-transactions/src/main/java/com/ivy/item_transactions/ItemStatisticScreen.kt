@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
@@ -56,7 +56,7 @@ import java.util.*
 
 @Composable
 fun BoxWithConstraintsScope.ItemStatisticScreen() {
-    val viewModel: ItemStatisticViewModel = viewModel()
+    val viewModel: ItemStatisticViewModel = hiltViewModel()
 
     val nav = navigation()
 

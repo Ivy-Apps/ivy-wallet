@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ivy.base.Constants
 import com.ivy.base.R
@@ -56,7 +56,7 @@ import java.util.*
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.SettingsScreen() {
-    val viewModel: SettingsViewModel = viewModel()
+    val viewModel: SettingsViewModel = hiltViewModel()
 
     val user by viewModel.user.observeAsState()
     val opSync by viewModel.opSync.observeAsState()

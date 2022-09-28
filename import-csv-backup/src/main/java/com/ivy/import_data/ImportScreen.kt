@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.import_data.flow.ImportFrom
@@ -22,14 +22,14 @@ import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.ImportCSVScreen() {
-    val viewModel: ImportViewModel = viewModel()
+    val viewModel: ImportViewModel = hiltViewModel()
 
     val importStep by viewModel.importStep.observeAsState(ImportStep.IMPORT_FROM)
     val importType by viewModel.importType.observeAsState()
     val importProgressPercent by viewModel.importProgressPercent.observeAsState(0)
     val importResult by viewModel.importResult.observeAsState()
 
-    val onboardingViewModel: OnboardingViewModel = viewModel()
+    val onboardingViewModel: OnboardingViewModel = hiltViewModel()
 
     onScreenStart {
 //        viewModel.start(screen)

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.MainTab
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
@@ -20,7 +20,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.MainScreen(main: Main.Tab?) {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: MainViewModel = hiltViewModel()
 
     val currency by viewModel.currency.observeAsState("")
 

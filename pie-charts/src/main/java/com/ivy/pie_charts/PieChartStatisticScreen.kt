@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
@@ -46,7 +46,7 @@ import com.ivy.wallet.utils.*
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
 ) {
-    val viewModel: PieChartStatisticViewModel = viewModel()
+    val viewModel: PieChartStatisticViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
     onScreenStart {

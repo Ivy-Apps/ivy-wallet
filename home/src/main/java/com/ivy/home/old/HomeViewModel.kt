@@ -19,8 +19,6 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.journey.domain.CustomerJourneyCardData
 import com.ivy.journey.domain.CustomerJourneyLogic
-import com.ivy.screens.BalanceScreen
-import com.ivy.screens.Main
 import com.ivy.wallet.domain.action.account.AccountsActOld
 import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
@@ -261,11 +259,11 @@ class HomeViewModel @Inject constructor(
         val hasTransactions = hasTrnsAct(Unit)
         if (hasTransactions) {
             //has transactions show him "Balance" screen
-            nav.navigateTo(BalanceScreen)
+//            nav.navigateTo(BalanceScreen)
         } else {
             //doesn't have transactions lead him to adjust balance
             ivyContext.selectMainTab(MainTab.ACCOUNTS)
-            nav.navigateTo(Main)
+//            nav.navigateTo(Main)
         }
 
         stateVal()
