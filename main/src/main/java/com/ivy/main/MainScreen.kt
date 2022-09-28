@@ -7,16 +7,13 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ivy.accounts.AccountsTab
 import com.ivy.base.MainTab
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.home.old.HomeTab
 import com.ivy.screens.EditPlanned
 import com.ivy.screens.EditTransaction
-import com.ivy.screens.Main
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -24,17 +21,17 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen(screen: Main) {
+fun BoxWithConstraintsScope.MainScreen() {
     val viewModel: MainViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")
 
     onScreenStart {
-        viewModel.start(screen)
+//        viewModel.start(screen)
     }
 
     UI(
-        screen = screen,
+//        screen = screen,
         tab = MainTab.HOME,
         baseCurrency = currency,
         selectTab = viewModel::selectTab,
@@ -46,7 +43,7 @@ fun BoxWithConstraintsScope.MainScreen(screen: Main) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: Main,
+//    screen: Main,
     tab: MainTab,
 
     baseCurrency: String,
@@ -55,8 +52,8 @@ private fun BoxWithConstraintsScope.UI(
     onCreateAccount: (CreateAccountData) -> Unit,
 ) {
     when (tab) {
-        MainTab.HOME -> if (false) com.ivy.home.HomeTab() else HomeTab(screen = screen)
-        MainTab.ACCOUNTS -> AccountsTab(screen = screen)
+        MainTab.HOME -> com.ivy.home.HomeTab()
+        MainTab.ACCOUNTS -> TODO() //AccountsTab(screen = screen)
     }
 
     var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
@@ -125,7 +122,6 @@ private fun BoxWithConstraintsScope.UI(
 private fun PreviewMainScreen() {
     IvyPreview {
         UI(
-            screen = Main,
             tab = MainTab.HOME,
             baseCurrency = "BGN",
             selectTab = {},

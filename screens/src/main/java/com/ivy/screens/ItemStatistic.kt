@@ -5,6 +5,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.view.navigation.Screen
 import java.util.*
 
+@Deprecated("will be deleted")
 data class ItemStatistic(
     val accountId: UUID? = null,
     val categoryId: UUID? = null,

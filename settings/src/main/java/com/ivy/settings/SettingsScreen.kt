@@ -43,7 +43,10 @@ import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.*
+import com.ivy.screens.DonateScreen
+import com.ivy.screens.Import
+import com.ivy.screens.IvyWebView
+import com.ivy.screens.SettingsScreen
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -188,7 +191,7 @@ private fun BoxWithConstraintsScope.UI(
 
                 Text(
                     modifier = Modifier.clickableNoIndication {
-                        nav.navigateTo(Test)
+//                        nav.navigateTo(Test)
                     },
                     text = "${screen.versionName} (${screen.versionCode})",
                     style = UI.typoSecond.c.style(

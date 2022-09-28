@@ -4,6 +4,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.view.navigation.Screen
 import java.util.*
 
+@Deprecated("will be deleted")
 data class EditPlanned(
     val plannedPaymentRuleId: UUID?,
     val type: TrnTypeOld,

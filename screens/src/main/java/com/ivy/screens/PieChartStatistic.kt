@@ -5,6 +5,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.view.navigation.Screen
 import java.util.*
 
+@Deprecated("will be deleted")
 data class PieChartStatistic(
     val type: TrnTypeOld,
     val filterExcluded: Boolean = true,

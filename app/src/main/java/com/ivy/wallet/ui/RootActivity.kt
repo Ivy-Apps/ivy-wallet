@@ -37,42 +37,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.balance.BalanceScreen
 import com.ivy.base.Constants
 import com.ivy.base.Constants.SUPPORT_EMAIL
 import com.ivy.base.R
-import com.ivy.budgets.BudgetScreen
-import com.ivy.categories.CategoriesScreen
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
-import com.ivy.donate.DonateScreen
 import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.Screen
-import com.ivy.import_data.ImportCSVScreen
-import com.ivy.item_transactions.ItemStatisticScreen
 import com.ivy.journey.domain.CustomerJourneyLogic
-import com.ivy.main.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
-import com.ivy.onboarding.OnboardingScreen
-import com.ivy.pie_charts.PieChartStatisticScreen
-import com.ivy.reports.ReportScreen
-import com.ivy.screens.*
-import com.ivy.search.SearchScreen
-import com.ivy.settings.SettingsScreen
-import com.ivy.transaction_details.EditTransactionScreen
+import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.ui.applocked.AppLockedScreen
-import com.ivy.wallet.ui.loan.LoansScreen
-import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
-import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
-import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.utils.*
-import com.ivy.web.WebViewScreen
 import com.ivy.widgets.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -174,40 +155,21 @@ class RootActivity : AppCompatActivity(), RootScreen {
                         addAccounts = {},
                         addCategories = {}
                     ),
+                    main = {},
+                    transactionScreens = TransactionScreens(
+                        accountTransactions = {},
+                        categoryTransactions = {},
+                        newTransaction = {},
+                        newTransfer = {},
+                        transaction = {},
+                        transfer = {}
+                    ),
                     debugScreens = DebugScreens(
                         test = {
                             TestScreen()
                         }
                     )
                 )
-            }
-        }
-    }
-
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
-    @Composable
-    private fun BoxWithConstraintsScope.Screens(screen: Screen?) {
-        when (screen) {
-            is Main -> MainScreen(screen = screen)
-            is Onboarding -> OnboardingScreen(screen = screen)
-            is EditTransaction -> EditTransactionScreen(screen = screen)
-            is ItemStatistic -> ItemStatisticScreen(screen = screen)
-            is PieChartStatistic -> PieChartStatisticScreen(screen = screen)
-            is Categories -> CategoriesScreen(screen = screen)
-            is SettingsScreen -> SettingsScreen(screen = screen)
-            is PlannedPayments -> PlannedPaymentsScreen(screen = screen)
-            is EditPlanned -> EditPlannedScreen(screen = screen)
-            is BalanceScreen -> BalanceScreen(screen = screen)
-            is Import -> ImportCSVScreen(screen = screen)
-            is Report -> ReportScreen(screen = screen)
-            is BudgetScreen -> BudgetScreen(screen = screen)
-            is Loans -> LoansScreen(screen = screen)
-            is LoanDetails -> LoanDetailsScreen(screen = screen)
-            is Search -> SearchScreen(screen = screen)
-            is IvyWebView -> WebViewScreen(screen = screen)
-            is DonateScreen -> DonateScreen(screen = screen)
-            null -> {
             }
         }
     }
