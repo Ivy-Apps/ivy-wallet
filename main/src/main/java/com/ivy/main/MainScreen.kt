@@ -11,6 +11,7 @@ import com.ivy.base.MainTab
 import com.ivy.design.util.IvyPreview
 import com.ivy.frp.view.navigation.navigation
 import com.ivy.frp.view.navigation.onScreenStart
+import com.ivy.navigation.destinations.main.Main
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.modal.edit.AccountModal
 import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
@@ -18,7 +19,7 @@ import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen() {
+fun BoxWithConstraintsScope.MainScreen(main: Main.Tab?) {
     val viewModel: MainViewModel = viewModel()
 
     val currency by viewModel.currency.observeAsState("")

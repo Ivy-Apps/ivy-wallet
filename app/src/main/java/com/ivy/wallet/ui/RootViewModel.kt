@@ -12,7 +12,6 @@ import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.Theme
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.deprecated.logic.notification.TransactionReminderLogic
 import com.ivy.wallet.io.network.IvySession
@@ -30,7 +29,6 @@ import javax.inject.Inject
 @HiltViewModel
 class RootViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
-    private val nav: Navigation,
     private val settingsDao: SettingsDao,
     private val sharedPrefs: SharedPrefs,
     private val ivySession: IvySession,

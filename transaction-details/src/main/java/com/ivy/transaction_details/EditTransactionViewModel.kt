@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.CustomExchangeRateState
 import com.ivy.base.EditTransactionDisplayLoan
-import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
@@ -28,7 +27,9 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.*
+import com.ivy.wallet.io.persistence.dao.LoanDao
+import com.ivy.wallet.io.persistence.dao.SettingsDao
+import com.ivy.wallet.io.persistence.dao.TransactionDao
 import com.ivy.wallet.io.persistence.data.toEntity
 import com.ivy.wallet.utils.*
 import com.ivy.widgets.WalletBalanceReceiver
@@ -45,10 +46,7 @@ import javax.inject.Inject
 class EditTransactionViewModel @Inject constructor(
     private val loanDao: LoanDao,
     private val transactionDao: TransactionDao,
-    private val accountDao: AccountDao,
-    private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: IvyWalletCtx,
     private val nav: Navigation,
     private val transactionUploader: TransactionUploader,
     private val sharedPrefs: SharedPrefs,

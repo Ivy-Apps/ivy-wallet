@@ -46,6 +46,7 @@ import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.journey.domain.CustomerJourneyLogic
+import com.ivy.main.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
@@ -155,7 +156,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                         addAccounts = {},
                         addCategories = {}
                     ),
-                    main = {},
+                    main = { MainScreen(main = it) },
                     transactionScreens = TransactionScreens(
                         accountTransactions = {},
                         categoryTransactions = {},
