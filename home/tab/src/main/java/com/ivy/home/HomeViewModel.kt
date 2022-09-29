@@ -156,6 +156,8 @@ class HomeViewModel @Inject constructor(
         HomeEvent.BalanceClick -> handleBalanceClick()
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
         is HomeEvent.BottomBarAction -> TODO()
+        HomeEvent.ExpenseClick -> TODO()
+        HomeEvent.IncomeClick -> TODO()
     }
 
     private fun handleBalanceClick() {

@@ -96,7 +96,7 @@ private fun TransferAmount(
             tint = rememberContrastColor(UI.colors.primary),
         )
         SpacerHor(width = 12.dp)
-        fromValue.AmountCurrency(color = UI.colors.primary)
+        AmountCurrency(value = fromValue, color = UI.colors.primary)
     }
 }
 

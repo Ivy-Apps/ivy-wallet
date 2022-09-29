@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.IconRes
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.B2
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
@@ -59,6 +60,7 @@ internal fun BottomBar(
             modifier = Modifier.weight(1f),
             onClick = onHomeClick
         )
+        SpacerHor(width = 4.dp)
         ActionButton(
             onSwipeUp = onActionSwipeUp,
             onSwipeDiagonalLeft = onActionSwipeDiagonalLeft,
@@ -66,6 +68,7 @@ internal fun BottomBar(
         ) {
             onActionClick(selectedTab)
         }
+        SpacerHor(width = 4.dp)
         Tab(
             text = stringResource(R.string.accounts),
             selected = selectedTab == Tab.Accounts,
@@ -171,6 +174,23 @@ private fun Preview_Home() {
         BottomBar(
             modifier = Modifier.padding(horizontal = 16.dp),
             selectedTab = Tab.Home,
+            onActionClick = {},
+            onActionSwipeUp = {},
+            onActionSwipeDiagonalLeft = {},
+            onActionSwipeDiagonalRight = {},
+            onHomeClick = { },
+            onAccountsClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Account() {
+    ComponentPreview {
+        BottomBar(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            selectedTab = Tab.Accounts,
             onActionClick = {},
             onActionSwipeUp = {},
             onActionSwipeDiagonalLeft = {},

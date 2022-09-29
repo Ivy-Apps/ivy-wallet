@@ -24,11 +24,12 @@ import com.ivy.wallet.utils.horizontalSwipeListener
 fun PeriodButton(
     selectedPeriod: SelectedPeriodUi,
     periodModal: IvyModal,
+    modifier: Modifier = Modifier,
 ) {
     val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
 
     IvyButton(
-        modifier = Modifier.horizontalSwipeListener(
+        modifier = modifier.horizontalSwipeListener(
             sensitivity = 75,
             onSwipeLeft = {
                 // next month

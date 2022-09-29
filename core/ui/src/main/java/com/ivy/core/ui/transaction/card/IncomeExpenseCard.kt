@@ -108,7 +108,8 @@ private fun TrnValue(
     TransactionCardAmountRow {
         TrnTypeIcon(type = type, time = time)
         SpacerHor(width = 12.dp)
-        value.AmountCurrency(
+        AmountCurrency(
+            value = value,
             color = when (type) {
                 TransactionType.Income -> UI.colors.green
                 TransactionType.Expense -> when (time) {
