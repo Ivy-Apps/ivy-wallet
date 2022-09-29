@@ -1,5 +1,6 @@
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import com.ivy.design.util.ScreenPlaceholder
 
 //package com.ivy.accounts
 //
@@ -41,7 +42,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun BoxScope.AccountTab() {
-
+    ScreenPlaceholder(text = "Accounts")
 }
 
 //@Composable

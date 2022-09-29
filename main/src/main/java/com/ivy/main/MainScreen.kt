@@ -2,7 +2,6 @@ package com.ivy.main
 
 
 import AccountTab
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,16 +9,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.accounts.AccBottomBarAction
 import com.ivy.accounts.AccountEvent
 import com.ivy.accounts.AccountViewModel
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l2_components.H1
 import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.ScreenPlaceholder
 import com.ivy.design.util.isInPreview
 import com.ivy.home.HomeTab
 import com.ivy.home.HomeViewModel
@@ -161,13 +158,7 @@ private fun BoxScope.PreviewSafeTab(
     realTab: @Composable BoxScope.() -> Unit
 ) {
     if (isInPreview()) {
-        H1(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(UI.colors.pure),
-            text = text,
-            textAlign = TextAlign.Center
-        )
+        ScreenPlaceholder(text = text)
     } else {
         realTab()
     }
