@@ -29,14 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ivy.base.Constants
 import com.ivy.base.R
+import com.ivy.common.Constants
 import com.ivy.data.AccountOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.DURATION_MODAL_ANIM

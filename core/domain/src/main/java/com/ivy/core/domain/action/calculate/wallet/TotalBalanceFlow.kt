@@ -38,6 +38,9 @@ class TotalBalanceFlow @Inject constructor(
         if (withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
     }.map { accs ->
         outputCurrencyFlow().flatMapMerge { outputCurrency ->
+            if (accs.isEmpty()) {
+                return@flatMapMerge flowOf(Value(amount = 0.0, currency = outputCurrency))
+            }
             combine(accs.map {
                 accStatsFlow(
                     AccStatsFlow.Input(

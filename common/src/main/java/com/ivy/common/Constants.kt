@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.common
 
 object Constants {
     const val ENABLE_PAYWALL_ON_DEBUG = false

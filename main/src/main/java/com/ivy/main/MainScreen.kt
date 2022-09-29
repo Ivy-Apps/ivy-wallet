@@ -25,6 +25,7 @@ import com.ivy.home.HomeTab
 import com.ivy.home.HomeViewModel
 import com.ivy.home.event.HomeBottomBarAction
 import com.ivy.home.event.HomeEvent
+import com.ivy.main.components.BottomBar
 import com.ivy.navigation.destinations.main.Main.Tab
 import com.ivy.wallet.utils.horizontalSwipeListener
 

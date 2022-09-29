@@ -125,7 +125,6 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":common"))
     implementation(project(":design-system"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
@@ -159,6 +158,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":debug"))
     implementation(project(":navigation"))
+    implementation(project(":onboarding"))
 
     Hilt()
 

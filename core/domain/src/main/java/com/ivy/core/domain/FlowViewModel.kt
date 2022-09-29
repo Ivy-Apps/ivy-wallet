@@ -2,10 +2,10 @@ package com.ivy.core.domain
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivy.core.domain.test.TestIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
     private val events = MutableSharedFlow<Event>(replay = 0)
@@ -26,9 +26,10 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
     protected val state: StateFlow<State>
         get() = stateFlow ?: run {
             stateFlow = stateFlow()
-                .onStart { TestIdlingResource.increment() }
-                .onCompletion { TestIdlingResource.decrement() }
                 .flowOn(Dispatchers.Default)
+                .onEach {
+                    Timber.d("State = $it")
+                }
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
@@ -40,11 +41,13 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
     val uiState: StateFlow<UiState>
         get() = uiStateFlow ?: run {
             uiStateFlow = state
-                .onStart { TestIdlingResource.increment() }
-                .onCompletion { TestIdlingResource.decrement() }
                 .map {
                     mapToUiState(it)
-                }.flowOn(Dispatchers.Default)
+                }
+                .onEach {
+                    Timber.d("UI state = $it")
+                }
+                .flowOn(Dispatchers.Default)
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),

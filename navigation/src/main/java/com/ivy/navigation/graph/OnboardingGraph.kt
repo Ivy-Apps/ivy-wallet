@@ -14,6 +14,7 @@ data class OnboardingScreens(
     val setCurrency: @Composable () -> Unit,
     val addAccounts: @Composable () -> Unit,
     val addCategories: @Composable () -> Unit,
+    val debug: @Composable () -> Unit,
 )
 
 internal fun NavGraphBuilder.onboardingGraph(
@@ -23,6 +24,9 @@ internal fun NavGraphBuilder.onboardingGraph(
         route = OnboardingGraph.route,
         startDestination = OnboardingGraph.startDestination,
     ) {
+        composable(OnboardingGraph.debug.route) {
+            screens.debug()
+        }
         composable(OnboardingGraph.loginOrOffline.route) {
             screens.loginOrOffline()
         }

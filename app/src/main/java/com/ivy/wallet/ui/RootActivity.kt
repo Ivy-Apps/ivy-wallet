@@ -18,8 +18,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
@@ -33,9 +31,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.base.Constants
-import com.ivy.base.Constants.SUPPORT_EMAIL
 import com.ivy.base.R
+import com.ivy.common.Constants
+import com.ivy.common.Constants.SUPPORT_EMAIL
 import com.ivy.common.timeNowLocal
 import com.ivy.common.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
@@ -47,6 +45,7 @@ import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
+import com.ivy.onboarding.screen.debug.OnboardingDebug
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.simpleActivityForResultLauncher
@@ -77,11 +76,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private val viewModel: RootViewModel by viewModels()
 
-
-    @OptIn(
-        ExperimentalAnimationApi::class,
-        ExperimentalFoundationApi::class
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -100,18 +94,19 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
 
             IvyUI {
-                UI(viewModel)
+                NavigationRoot(viewModel)
             }
         }
+
+        viewModel.onEvent(RootEvent.AppOpen)
     }
 
-    @ExperimentalFoundationApi
-    @ExperimentalAnimationApi
     @Composable
-    private fun BoxWithConstraintsScope.UI(viewModel: RootViewModel) {
+    private fun BoxWithConstraintsScope.NavigationRoot(viewModel: RootViewModel) {
         NavigationRoot(
             navigator = navigator,
             onboardingScreens = OnboardingScreens(
+                debug = { OnboardingDebug() },
                 loginOrOffline = {},
                 importBackup = {},
                 setCurrency = {},
@@ -128,9 +123,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 transfer = {}
             ),
             debugScreens = DebugScreens(
-                test = {
-                    TestScreen()
-                }
+                test = { TestScreen() }
             )
         )
     }

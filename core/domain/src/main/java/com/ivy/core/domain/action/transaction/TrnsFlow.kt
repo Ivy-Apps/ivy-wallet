@@ -64,6 +64,9 @@ class TrnsFlow @Inject constructor(
     override fun TrnQuery.createFlow(): Flow<List<Transaction>> =
         combine(accountsFlow(), categoriesFlow(), trnsSignal.receive()) { accs, cats, _ ->
             val entities = queryExecutor.query(this.toTrnWhere())
+            if (entities.isEmpty()) {
+                return@combine flowOf(emptyList())
+            }
 
             val accsMap = accs.associateBy { it.id }
             val catsMap = cats.associateBy { it.id }

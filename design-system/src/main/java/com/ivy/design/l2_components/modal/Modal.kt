@@ -76,7 +76,9 @@ fun BoxScope.Modal(
     val visible by modal.visibilityState
 
     AnimatedVisibility(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .zIndex(1_000f),
         visible = visible,
         enter = fadeIn(),
         exit = fadeOut()
@@ -92,12 +94,13 @@ fun BoxScope.Modal(
                     },
                     enabled = visible
                 )
-                .zIndex(10f)
         )
     }
 
     AnimatedVisibility(
-        modifier = Modifier.align(Alignment.BottomCenter),
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .zIndex(1_100f),
         visible = visible,
         enter = slideInVertically(
             initialOffsetY = { fullHeight: Int -> fullHeight }
@@ -126,7 +129,6 @@ fun BoxScope.Modal(
                 .clip(UI.shapes.roundedTop)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
                 .padding(bottom = paddingBottomAnimated)
-                .zIndex(11f)
         ) {
             BackHandler(enabled = modal.visibilityState.value) {
                 modal.hide()

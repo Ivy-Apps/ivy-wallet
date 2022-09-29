@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.main.Main
 import com.ivy.navigation.graph.*
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +32,7 @@ fun NavigationRoot(
     }
     NavHost(
         navController = navController,
-        startDestination = Main.route
+        startDestination = Destination.main.route
     ) {
         onboardingGraph(onboardingScreens)
         composable(Main.route) {
