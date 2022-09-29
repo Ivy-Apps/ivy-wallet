@@ -66,6 +66,15 @@ private fun UI(
                     Tab.Accounts -> TODO()
                 }
             },
+            onActionSwipeUp = {
+                // TODO
+            },
+            onActionSwipeDiagonalLeft = {
+                // TODO
+            },
+            onActionSwipeDiagonalRight = {
+                // TODO
+            },
             onHomeClick = { onEvent(MainEvent.SelectTab(Tab.Home)) },
             onAccountsClick = { onEvent(MainEvent.SelectTab(Tab.Accounts)) })
     }

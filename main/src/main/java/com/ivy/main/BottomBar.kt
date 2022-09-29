@@ -3,14 +3,17 @@ package com.ivy.main
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,11 +28,15 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.consumeClicks
 import com.ivy.navigation.destinations.main.Main.Tab
+import kotlin.math.abs
 
 @Composable
 internal fun BottomBar(
     selectedTab: Tab,
     onActionClick: (Tab) -> Unit,
+    onActionSwipeUp: () -> Unit,
+    onActionSwipeDiagonalLeft: () -> Unit,
+    onActionSwipeDiagonalRight: () -> Unit,
     onHomeClick: () -> Unit,
     onAccountsClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -52,7 +59,11 @@ internal fun BottomBar(
             modifier = Modifier.weight(1f),
             onClick = onHomeClick
         )
-        ActionButton {
+        ActionButton(
+            onSwipeUp = onActionSwipeUp,
+            onSwipeDiagonalLeft = onActionSwipeDiagonalLeft,
+            onSwipeDiagonalRight = onActionSwipeDiagonalRight,
+        ) {
             onActionClick(selectedTab)
         }
         Tab(
@@ -98,9 +109,50 @@ private fun Tab(
 
 @Composable
 private fun ActionButton(
+    onSwipeUp: () -> Unit,
+    onSwipeDiagonalLeft: () -> Unit,
+    onSwipeDiagonalRight: () -> Unit,
     onClick: () -> Unit
 ) {
+    var dragOffset by remember { mutableStateOf(Offset.Zero) }
     IvyButton(
+        modifier = Modifier.pointerInput(Unit) {
+            detectDragGestures(
+                onDragCancel = {
+                    dragOffset = Offset.Zero
+                },
+                onDragEnd = {
+                    dragOffset = Offset.Zero
+                },
+                onDrag = { _, dragAmount ->
+                    dragOffset += dragAmount
+
+                    val horizontalThreshold = 40
+                    val verticalThreshold = 60
+
+                    when {
+                        abs(dragOffset.x) < horizontalThreshold &&
+                                dragOffset.y < -verticalThreshold -> {
+                            // swipe up
+                            dragOffset = Offset.Zero // prevent double open of the screen
+                            onSwipeUp()
+                        }
+                        dragOffset.x < -horizontalThreshold &&
+                                dragOffset.y < -verticalThreshold -> {
+                            //swipe up left
+                            dragOffset = Offset.Zero // prevent double open of the screen
+                            onSwipeDiagonalLeft()
+                        }
+                        dragOffset.x > horizontalThreshold &&
+                                dragOffset.y < -verticalThreshold -> {
+                            // swipe up right
+                            dragOffset = Offset.Zero // prevent double open of the screen
+                            onSwipeDiagonalRight()
+                        }
+                    }
+                }
+            )
+        },
         size = ButtonSize.Small,
         visibility = ButtonVisibility.Focused,
         feeling = ButtonFeeling.Positive,
@@ -120,6 +172,9 @@ private fun Preview_Home() {
             modifier = Modifier.padding(horizontal = 16.dp),
             selectedTab = Tab.Home,
             onActionClick = {},
+            onActionSwipeUp = {},
+            onActionSwipeDiagonalLeft = {},
+            onActionSwipeDiagonalRight = {},
             onHomeClick = { },
             onAccountsClick = {}
         )
