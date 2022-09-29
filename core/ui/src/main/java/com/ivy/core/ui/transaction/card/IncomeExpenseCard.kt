@@ -27,7 +27,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Gradient
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.asBrush
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
@@ -155,9 +155,10 @@ private fun TrnTypeIcon(
         }
     }
 
-    style.iconId.Icon(
+    IconRes(
         modifier = Modifier
             .background(style.bgColor, UI.shapes.circle),
+        icon = style.iconId,
         tint = style.tint,
         contentDescription = "transactionType"
     )

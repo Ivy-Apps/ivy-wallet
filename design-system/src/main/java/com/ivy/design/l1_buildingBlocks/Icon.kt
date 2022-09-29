@@ -17,15 +17,32 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.thenWhen
 
+@Deprecated("use :design-system Ic()")
 @Composable
 fun Int.Icon(
     modifier: Modifier = Modifier,
     tint: Color = UI.colorsInverted.pure,
     contentDescription: String = "icon"
 ) {
+    IconRes(
+        modifier = modifier,
+        icon = this,
+        contentDescription = contentDescription,
+        tint = tint
+    )
+}
+
+@Composable
+fun IconRes(
+    @DrawableRes
+    icon: Int,
+    modifier: Modifier = Modifier,
+    tint: Color = UI.colorsInverted.pure,
+    contentDescription: String = "icon"
+) {
     Icon(
         modifier = modifier,
-        painter = painterResource(id = this),
+        painter = painterResource(id = icon),
         contentDescription = contentDescription,
         tint = tint
     )

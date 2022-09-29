@@ -1,113 +1,115 @@
 package com.ivy.main
 
 
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.runtime.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ivy.base.MainTab
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l2_components.H1
 import com.ivy.design.util.IvyPreview
-import com.ivy.navigation.destinations.main.Main
-import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.ui.theme.modal.edit.AccountModal
-import com.ivy.wallet.ui.theme.modal.edit.AccountModalData
+import com.ivy.design.util.isInPreview
+import com.ivy.home.HomeTab
+import com.ivy.navigation.destinations.main.Main.Tab
+import com.ivy.wallet.utils.horizontalSwipeListener
 
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.MainScreen(main: Main.Tab?) {
+fun MainScreen(tab: Tab?) {
     val viewModel: MainViewModel = hiltViewModel()
-}
-
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
-@Composable
-private fun BoxWithConstraintsScope.UI(
-//    screen: Main,
-    tab: MainTab,
-
-    baseCurrency: String,
-
-    selectTab: (MainTab) -> Unit,
-    onCreateAccount: (CreateAccountData) -> Unit,
-) {
-    when (tab) {
-        MainTab.HOME -> com.ivy.home.HomeTab()
-        MainTab.ACCOUNTS -> TODO() //AccountsTab(screen = screen)
+    val state by viewModel.uiState.collectAsState()
+    LaunchedEffect(tab) {
+        viewModel.onEvent(MainEvent.SelectTab(tab))
     }
-
-    var accountModalData: AccountModalData? by remember { mutableStateOf(null) }
-
-
-    BottomBar(
-        tab = tab,
-        selectTab = selectTab,
-
-        onAddIncome = {
-//            nav.navigateTo(
-//                EditTransaction(
-//                    initialTransactionId = null,
-//                    type = TrnTypeOld.INCOME
-//                )
-//            )
-        },
-        onAddExpense = {
-//            nav.navigateTo(
-//                EditTransaction(
-//                    initialTransactionId = null,
-//                    type = TrnTypeOld.EXPENSE
-//                )
-//            )
-        },
-        onAddTransfer = {
-//            nav.navigateTo(
-//                EditTransaction(
-//                    initialTransactionId = null,
-//                    type = TrnTypeOld.TRANSFER
-//                )
-//            )
-        },
-        onAddPlannedPayment = {
-//            nav.navigateTo(
-//                EditPlanned(
-//                    type = TrnTypeOld.EXPENSE,
-//                    plannedPaymentRuleId = null
-//                )
-//            )
-        },
-
-        showAddAccountModal = {
-            accountModalData = AccountModalData(
-                account = null,
-                balance = 0.0,
-                baseCurrency = baseCurrency
-            )
-        }
-    )
-
-    AccountModal(
-        modal = accountModalData,
-        onCreateAccount = onCreateAccount,
-        onEditAccount = { _, _ -> },
-        dismiss = {
-            accountModalData = null
-        }
+    UI(
+        selectedTab = state.selectedTab,
+        onEvent = viewModel::onEvent,
     )
 }
 
-@ExperimentalAnimationApi
-@ExperimentalFoundationApi
+@Composable
+private fun UI(
+    selectedTab: Tab,
+    onEvent: (MainEvent) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .horizontalSwipeListener(
+                sensitivity = 200,
+                onSwipeLeft = { onEvent(MainEvent.SwitchSelectedTab) },
+                onSwipeRight = { onEvent(MainEvent.SwitchSelectedTab) }
+            )
+    ) {
+        when (selectedTab) {
+            Tab.Home -> HomePreviewSafeTab()
+            Tab.Accounts -> AccountsPreviewSafeTab()
+        }
+
+        BottomBar(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 8.dp)
+                .systemBarsPadding(),
+            selectedTab = selectedTab,
+            onActionClick = {
+                when (it) {
+                    Tab.Home -> TODO()
+                    Tab.Accounts -> TODO()
+                }
+            },
+            onHomeClick = { onEvent(MainEvent.SelectTab(Tab.Home)) },
+            onAccountsClick = { onEvent(MainEvent.SelectTab(Tab.Accounts)) })
+    }
+}
+
+@Composable
+private fun BoxScope.HomePreviewSafeTab() {
+    PreviewSafeTab(text = "Home") {
+        HomeTab()
+    }
+}
+
+@Composable
+private fun BoxScope.AccountsPreviewSafeTab() {
+    PreviewSafeTab(text = "Home") {
+        HomeTab()
+    }
+}
+
+@Composable
+private fun BoxScope.PreviewSafeTab(
+    text: String,
+    realTab: @Composable BoxScope.() -> Unit
+) {
+    if (isInPreview()) {
+        H1(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(UI.colors.pure),
+            text = text,
+            textAlign = TextAlign.Center
+        )
+    } else {
+        realTab()
+    }
+}
+
+
+// region Previews
 @Preview
 @Composable
-private fun PreviewMainScreen() {
+private fun Preview() {
     IvyPreview {
-        UI(
-            tab = MainTab.HOME,
-            baseCurrency = "BGN",
-            selectTab = {},
-            onCreateAccount = { }
-        )
+        UI(selectedTab = Tab.Home) {}
     }
 }
+// endregion

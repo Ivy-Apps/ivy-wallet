@@ -118,7 +118,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 addAccounts = {},
                 addCategories = {}
             ),
-            main = { MainScreen(main = it) },
+            main = { MainScreen(it) },
             transactionScreens = TransactionScreens(
                 accountTransactions = {},
                 categoryTransactions = {},

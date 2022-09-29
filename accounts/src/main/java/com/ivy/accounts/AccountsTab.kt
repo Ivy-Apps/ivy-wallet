@@ -1,3 +1,6 @@
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.runtime.Composable
+
 //package com.ivy.accounts
 //
 //import androidx.compose.foundation.background
@@ -35,6 +38,12 @@
 //import com.ivy.wallet.utils.clickableNoIndication
 //import com.ivy.wallet.utils.horizontalSwipeListener
 //
+
+@Composable
+fun BoxScope.AccountsTab() {
+
+}
+
 //@Composable
 //fun BoxWithConstraintsScope.AccountsTab() {
 //    val viewModel: AccountsViewModel = hiltViewModel()

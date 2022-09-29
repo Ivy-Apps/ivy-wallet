@@ -35,7 +35,7 @@ import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.*
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.B2
@@ -184,7 +184,7 @@ private fun LazyListScope.emptyState(emptyState: EmptyState) {
                 .padding(vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            R.drawable.ic_notransactions.Icon(tint = UI.colors.neutral)
+            IconRes(icon = R.drawable.ic_notransactions, tint = UI.colors.neutral)
             SpacerVer(height = 24.dp)
             B1(
                 text = emptyState.title,

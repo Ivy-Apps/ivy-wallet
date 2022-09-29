@@ -23,7 +23,7 @@ import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.B2Second
@@ -77,7 +77,7 @@ private fun TransferHeader(
         account.IconName()
 
         SpacerHor(width = 12.dp)
-        R.drawable.ic_arrow_right.Icon()
+        IconRes(R.drawable.ic_arrow_right)
         SpacerHor(width = 8.dp)
 
         toAccount.IconName()
@@ -90,8 +90,9 @@ private fun TransferAmount(
 ) {
     SpacerVer(height = 12.dp)
     TransactionCardAmountRow {
-        R.drawable.ic_transfer.Icon(
+        IconRes(
             modifier = Modifier.background(UI.colors.primary, UI.shapes.circle),
+            icon = R.drawable.ic_transfer,
             tint = rememberContrastColor(UI.colors.primary),
         )
         SpacerHor(width = 12.dp)

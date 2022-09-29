@@ -1,5 +1,6 @@
 package com.ivy.navigation.destinations.main
 
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
@@ -10,6 +11,7 @@ import com.ivy.navigation.util.optionalArg
 import com.ivy.navigation.util.string
 
 object Main : Screen<Main.Tab?> {
+    @Immutable
     enum class Tab {
         Home, Accounts
     }

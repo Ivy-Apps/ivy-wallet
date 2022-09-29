@@ -24,7 +24,7 @@ import com.ivy.core.ui.data.transaction.DueSectionUiType
 import com.ivy.core.ui.data.transaction.dummyDueSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.B1
@@ -94,7 +94,8 @@ private fun ExpandCollapseIcon(
         targetValue = if (expanded) 180f else 0f,
         animationSpec = springBounce()
     )
-    R.drawable.ic_expand_less.Icon(
+    IconRes(
+        icon = R.drawable.ic_expand_less,
         modifier = Modifier.rotate(expandIconRotation)
     )
 }
