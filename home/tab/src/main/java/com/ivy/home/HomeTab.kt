@@ -1,12 +1,13 @@
 package com.ivy.home
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,12 +20,20 @@ import com.ivy.core.ui.time.PeriodButton
 import com.ivy.core.ui.time.PeriodModal
 import com.ivy.core.ui.transaction.TransactionsLazyColumn
 import com.ivy.core.ui.transaction.sampleTransactionListUi
+import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerH
+import com.ivy.design.l1_buildingBlocks.DividerSize
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.home.components.Balance
+import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeStateUi
@@ -64,6 +73,12 @@ private fun BoxScope.UI(
                 onExpenseClick = { onEvent(HomeEvent.ExpenseClick) },
             )
         },
+        contentBelowTrns = {
+            item {
+                // TODO: Remove that later
+                SpacerVer(height = 1000.dp)
+            }
+        }
     )
 
     Modals(
@@ -84,9 +99,15 @@ fun LazyListScope.header(
     onIncomeClick: () -> Unit,
     onExpenseClick: () -> Unit,
 ) {
-    stickyHeader(period, periodModal, listState)
+    stickyHeader(
+        period = period,
+        periodModal = periodModal,
+        balance = balance,
+        listState = listState,
+        onBalanceClick = onBalanceClick
+    )
     item {
-        SpacerVer(height = 12.dp)
+        SpacerVer(height = 4.dp)
         Balance(balance = balance, onClick = onBalanceClick)
     }
     item {
@@ -108,32 +129,67 @@ fun LazyListScope.header(
 private fun LazyListScope.stickyHeader(
     period: SelectedPeriodUi?,
     periodModal: IvyModal,
-    listState: LazyListState
+    balance: ValueUi,
+    listState: LazyListState,
+    onBalanceClick: () -> Unit
 ) {
     stickyHeader(
         key = "home_tab_header",
         contentType = null
     ) {
-        SpacerVer(height = 12.dp)
-        if (period != null) {
-            PeriodButton(
-                modifier = Modifier.padding(start = 16.dp),
-                selectedPeriod = period,
-                periodModal = periodModal
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(UI.colors.pure)
+                .padding(top = 12.dp, bottom = 4.dp)
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (period != null) {
+                PeriodButton(
+                    selectedPeriod = period,
+                    periodModal = periodModal
+                )
+            }
+            SpacerWeight(weight = 1f)
+            SpacerWeight(weight = 1f)
+            MoreMenuButton {
+                // TODO: Implement
+            }
         }
 
-        val balanceNotVisible by remember {
-            derivedStateOf { listState.firstVisibleItemIndex > 2 }
+        val headerCollapsed by remember {
+            derivedStateOf { listState.firstVisibleItemIndex > 1 }
         }
-        if (balanceNotVisible) {
-            SpacerVer(height = 8.dp)
-            DividerH()
+        AnimatedVisibility(
+            modifier = Modifier.background(UI.colors.pure),
+            visible = headerCollapsed,
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
+        ) {
+            Column {
+                SpacerVer(height = 4.dp)
+                BalanceMini(balance = balance, onClick = onBalanceClick)
+                SpacerVer(height = 8.dp)
+                DividerH(size = DividerSize.FillMax(padding = 0.dp))
+            }
         }
     }
 }
 
-
+@Composable
+private fun MoreMenuButton(
+    onClick: () -> Unit
+) {
+    IvyButton(
+        size = ButtonSize.Small,
+        visibility = ButtonVisibility.Medium,
+        feeling = ButtonFeeling.Positive,
+        text = null,
+        icon = R.drawable.ic_settings,
+        onClick = onClick,
+    )
+}
 // endregion
 
 // region Modals

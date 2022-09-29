@@ -16,9 +16,12 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l2_components.B1Second
+import com.ivy.design.l2_components.B2
 import com.ivy.design.l2_components.H1Second
 import com.ivy.design.util.ComponentPreview
 
+// region Balance
 @Composable
 internal fun Balance(
     balance: ValueUi,
@@ -44,14 +47,54 @@ internal fun Balance(
         )
     }
 }
+// endregion
+
+// region Balance Mini
+@Composable
+internal fun BalanceMini(
+    balance: ValueUi,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .clip(UI.shapes.rounded)
+            .clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        B2(text = "Balance: ", fontWeight = FontWeight.Normal)
+        B1Second(
+            text = balance.currency,
+            fontWeight = FontWeight.Normal,
+        )
+        SpacerHor(width = 4.dp)
+        B1Second(
+            text = balance.amount,
+            modifier = Modifier.testTag("balance_mini_amount"),
+            fontWeight = FontWeight.Bold,
+        )
+    }
+}
+// endregion
 
 
 // region Preview
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview_Balance() {
     ComponentPreview {
         Balance(balance = dummyValueUi("15,300.87")) {
+
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_BalanceMini() {
+    ComponentPreview {
+        BalanceMini(balance = dummyValueUi("15,300.87")) {
 
         }
     }

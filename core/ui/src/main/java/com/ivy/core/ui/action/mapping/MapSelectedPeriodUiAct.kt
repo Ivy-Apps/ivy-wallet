@@ -68,7 +68,7 @@ class MapSelectedPeriodUiAct @Inject constructor(
         } else {
             val month = monthly.period.from
             val thisYear = month.year == dateNowLocal().year
-            val pattern = if (thisYear) "MMM" else "MMM. yyyy"
+            val pattern = if (thisYear) "MMMM" else "MMMM. yyyy"
             month.format(pattern)
         }
 
