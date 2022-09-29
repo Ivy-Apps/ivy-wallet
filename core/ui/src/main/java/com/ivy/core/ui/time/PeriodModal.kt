@@ -69,7 +69,12 @@ private fun BoxScope.UI(
             }
         }
     ) {
-        ChooseMonth(months = state.months, selected = selectedPeriod, onEvent = onEvent)
+        ChooseMonth(
+            months = state.months,
+            selected = selectedPeriod,
+        ) {
+            onEvent(SelectPeriodEvent.Monthly(it))
+        }
 
         SpacerVer(height = 16.dp)
         DividerH(width = 1.dp, color = UI.colors.neutral)
@@ -92,7 +97,11 @@ private fun BoxScope.UI(
         SpacerVer(height = 48.dp)
     }
 
-    MoreOptionsModal(modal = moreOptionsModal, onEvent = onEvent)
+    MoreOptionsModal(
+        periodModal = modal,
+        moreOptionsModal = moreOptionsModal,
+        onEvent = onEvent
+    )
 }
 
 // region Choose month
@@ -100,7 +109,7 @@ private fun BoxScope.UI(
 private fun ChooseMonth(
     months: List<MonthUi>,
     selected: SelectedPeriodUi,
-    onEvent: (SelectPeriodEvent) -> Unit,
+    onMonthSelected: (MonthUi) -> Unit,
 ) {
     SpacerVer(height = 16.dp)
     val selectedMonthly = selected is SelectedPeriodUi.Monthly
@@ -138,7 +147,7 @@ private fun ChooseMonth(
         }
         items(months) { month ->
             MonthItem(month = month, selected = month == selectedMonth) {
-                onEvent(SelectPeriodEvent.Monthly(month))
+                onMonthSelected(it)
             }
             SpacerHor(width = 8.dp)
         }
@@ -324,55 +333,75 @@ private fun MoreOptions(
 // region More Options modal
 @Composable
 private fun BoxScope.MoreOptionsModal(
-    modal: IvyModal,
+    periodModal: IvyModal,
+    moreOptionsModal: IvyModal,
     onEvent: (SelectPeriodEvent) -> Unit
 ) {
-    Modal(modal = modal, actions = {}) {
+    Modal(modal = moreOptionsModal, actions = {}) {
         Title(text = "More Options")
         SpacerVer(height = 24.dp)
         val thisYear = remember { dateNowLocal().year.toString() }
         val lastYear = remember { (dateNowLocal().year - 1).toString() }
         LazyColumn {
-            optionItem(text = thisYear) {
-                onEvent(SelectPeriodEvent.ThisYear)
-                modal.hide()
+            val onOptionItemClick = { event: SelectPeriodEvent ->
+                onEvent(event)
+                moreOptionsModal.hide()
+                periodModal.hide()
             }
-            optionItem(text = lastYear) {
-                onEvent(SelectPeriodEvent.LastYear)
-                modal.hide()
-            }
-            optionItem(text = "Last 6 months") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 6, unit = TimeUnit.Month))
-                modal.hide()
-            }
-            optionItem(text = "Last 3 months") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Month))
-                modal.hide()
-            }
-            optionItem(text = "Last 30 days") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 30, unit = TimeUnit.Day))
-                modal.hide()
-            }
-            optionItem(text = "Last 15 days") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 15, unit = TimeUnit.Day))
-                modal.hide()
-            }
-            optionItem(text = "Last 7 days") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 7, unit = TimeUnit.Day))
-                modal.hide()
-            }
-            optionItem(text = "Last 3 days") {
-                onEvent(SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Day))
-                modal.hide()
-            }
+            optionItem(
+                text = thisYear,
+                event = SelectPeriodEvent.ThisYear,
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = lastYear,
+                event = SelectPeriodEvent.LastYear,
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 6 months",
+                event = SelectPeriodEvent.InTheLast(n = 6, unit = TimeUnit.Month),
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 3 months",
+                event = SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Month),
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 30 days",
+                event = SelectPeriodEvent.InTheLast(n = 30, unit = TimeUnit.Day),
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 15 days",
+                event = SelectPeriodEvent.InTheLast(n = 15, unit = TimeUnit.Day),
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 7 days",
+                event = SelectPeriodEvent.InTheLast(n = 7, unit = TimeUnit.Day),
+                onClick = onOptionItemClick
+            )
+            optionItem(
+                text = "Last 3 days",
+                event = SelectPeriodEvent.InTheLast(n = 3, unit = TimeUnit.Day),
+                onClick = onOptionItemClick
+            )
         }
         SpacerVer(height = 48.dp)
     }
 }
 
-private fun LazyListScope.optionItem(text: String, onClick: () -> Unit) {
+private fun LazyListScope.optionItem(
+    text: String,
+    event: SelectPeriodEvent,
+    onClick: (SelectPeriodEvent) -> Unit
+) {
     item {
-        MoreOptionsButton(text = text, onClick = onClick)
+        MoreOptionsButton(text = text) {
+            onClick(event)
+        }
         SpacerVer(height = 8.dp)
     }
 }
