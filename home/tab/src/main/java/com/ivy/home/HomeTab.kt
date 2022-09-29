@@ -35,8 +35,10 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.home.components.Balance
 import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
+import com.ivy.home.components.MoreMenuButton
 import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeStateUi
+import kotlinx.coroutines.launch
 
 @Composable
 fun BoxScope.HomeTab() {
@@ -75,8 +77,8 @@ private fun BoxScope.UI(
         },
         contentBelowTrns = {
             item {
-                // TODO: Remove that later
-                SpacerVer(height = 1000.dp)
+                // TODO: Change that to 300.dp when we have transactions
+                SpacerVer(height = 600.dp)
             }
         }
     )
@@ -167,28 +169,46 @@ private fun LazyListScope.stickyHeader(
             enter = expandVertically() + fadeIn(),
             exit = shrinkVertically() + fadeOut()
         ) {
-            Column {
-                SpacerVer(height = 4.dp)
-                BalanceMini(balance = balance, onClick = onBalanceClick)
-                SpacerVer(height = 8.dp)
-                DividerH(size = DividerSize.FillMax(padding = 0.dp))
-            }
+            val coroutineScope = rememberCoroutineScope()
+            CollapsedToolbarExtension(balance = balance,
+                onBalanceClick = onBalanceClick,
+                onScrollToTop = {
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(0)
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
-private fun MoreMenuButton(
-    onClick: () -> Unit
+private fun CollapsedToolbarExtension(
+    balance: ValueUi,
+    onBalanceClick: () -> Unit,
+    onScrollToTop: () -> Unit
 ) {
-    IvyButton(
-        size = ButtonSize.Small,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
-        text = null,
-        icon = R.drawable.ic_settings,
-        onClick = onClick,
-    )
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BalanceMini(
+                balance = balance,
+                onClick = onBalanceClick
+            )
+            SpacerWeight(weight = 1f)
+            IvyButton(
+                size = ButtonSize.Small,
+                visibility = ButtonVisibility.Low,
+                feeling = ButtonFeeling.Positive,
+                text = "Scroll to top",
+                icon = null,
+                onClick = onScrollToTop,
+            )
+        }
+        SpacerVer(height = 4.dp)
+        DividerH(size = DividerSize.FillMax(padding = 0.dp))
+    }
 }
 // endregion
 

@@ -2,7 +2,6 @@ package com.ivy.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,11 +24,11 @@ import com.ivy.design.util.ComponentPreview
 @Composable
 internal fun Balance(
     balance: ValueUi,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(horizontal = 24.dp)
             .clip(UI.shapes.rounded)
             .clickable(onClick = onClick),
@@ -53,17 +52,18 @@ internal fun Balance(
 @Composable
 internal fun BalanceMini(
     balance: ValueUi,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(horizontal = 24.dp)
             .clip(UI.shapes.rounded)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        B2(text = "Balance: ", fontWeight = FontWeight.Normal)
+        B2(text = "Balance", fontWeight = FontWeight.Normal)
+        SpacerHor(width = 4.dp)
         B1Second(
             text = balance.currency,
             fontWeight = FontWeight.Normal,
