@@ -141,7 +141,6 @@ dependencies {
 //    implementation(project(":search-transactions"))
 //    implementation(project(":transaction-details"))
     implementation(project(":core:data-model"))
-    implementation(project(":customer-journey"))
     implementation(project(":widgets"))
     implementation(project(":main"))
     implementation(project(":app-locked"))

@@ -1,5 +1,4 @@
 import com.ivy.buildsrc.Hilt
-import com.ivy.buildsrc.IvyFRP
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
@@ -9,7 +8,6 @@ plugins {
 
 dependencies {
     Hilt()
-    IvyFRP()
     implementation(project(":common"))
     implementation(project(":design-system"))
     implementation(project(":ui-components-old"))
@@ -21,7 +19,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:persistence"))
 
-    implementation(project(":more-menu"))
-    implementation(project(":customer-journey"))
+    implementation(project(":home:more-menu"))
+    implementation(project(":home:customer-journey"))
 //    implementation(project(":pie-charts"))
 }

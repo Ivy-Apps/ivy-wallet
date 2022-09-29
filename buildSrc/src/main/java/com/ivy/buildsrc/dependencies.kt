@@ -156,12 +156,6 @@ object Versions {
     // endregion
 }
 
-fun DependencyHandler.IvyFRP(
-    api: Boolean = false
-) {
-//    dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
-}
-
 fun DependencyHandler.DataStore(api: Boolean) {
     dependency("androidx.datastore:datastore-preferences:1.0.0", api = api)
 }
