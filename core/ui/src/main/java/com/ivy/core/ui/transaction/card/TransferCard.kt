@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.icon.IconSize
@@ -86,7 +86,7 @@ private fun TransferHeader(
 
 @Composable
 private fun TransferAmount(
-    fromValue: FormattedValue,
+    fromValue: ValueUi,
 ) {
     SpacerVer(height = 12.dp)
     TransactionCardAmountRow {
@@ -103,7 +103,7 @@ private fun TransferAmount(
 @Composable
 private fun ToAmountDifferentCurrency(
     fromCurrency: CurrencyCode,
-    toValue: FormattedValue,
+    toValue: ValueUi,
 ) {
     if (fromCurrency != toValue.currency) {
         B2Second(
@@ -126,11 +126,11 @@ private fun Preview_SameCurrency() {
             time = dummyTrnTimeActualUi(),
             from = dummyTransactionUi(
                 type = TransactionType.Expense,
-                value = dummyFormattedValue(amount = "400")
+                value = dummyValueUi(amount = "400")
             ),
             to = dummyTransactionUi(
                 type = TransactionType.Expense,
-                value = dummyFormattedValue(amount = "400")
+                value = dummyValueUi(amount = "400")
             ),
             fee = null
         ).Card(
@@ -151,11 +151,11 @@ private fun Preview_Detailed() {
                 title = "Withdrawing cash",
                 description = "So I can pay rent",
                 type = TransactionType.Expense,
-                value = dummyFormattedValue(amount = "400", currency = "EUR")
+                value = dummyValueUi(amount = "400", currency = "EUR")
             ),
             to = dummyTransactionUi(
                 type = TransactionType.Expense,
-                value = dummyFormattedValue(amount = "800", currency = "BGN")
+                value = dummyValueUi(amount = "800", currency = "BGN")
             ),
             fee = null
         ).Card(

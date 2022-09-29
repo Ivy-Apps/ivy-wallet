@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.Badge
 import com.ivy.core.ui.category.Badge
@@ -100,7 +100,7 @@ private fun IncomeExpenseHeader(
 // region TrnType & Amount
 @Composable
 private fun TrnValue(
-    value: FormattedValue,
+    value: ValueUi,
     type: TransactionType,
     time: TrnTimeUi,
 ) {
@@ -172,7 +172,7 @@ private fun Preview_Expense() {
     ComponentPreview {
         dummyTransactionUi(
             type = TransactionType.Expense,
-            value = FormattedValue(
+            value = ValueUi(
                 amount = "0.34",
                 currency = "BGN"
             ),
@@ -192,7 +192,7 @@ private fun Preview_Income() {
     ComponentPreview {
         dummyTransactionUi(
             type = TransactionType.Income,
-            value = FormattedValue(
+            value = ValueUi(
                 amount = "1,005.00",
                 currency = "USD"
             ),
@@ -212,7 +212,7 @@ private fun Preview_UpcomingExpense() {
     ComponentPreview {
         dummyTransactionUi(
             type = TransactionType.Expense,
-            value = FormattedValue(
+            value = ValueUi(
                 amount = "1,005.00",
                 currency = "USD"
             ),

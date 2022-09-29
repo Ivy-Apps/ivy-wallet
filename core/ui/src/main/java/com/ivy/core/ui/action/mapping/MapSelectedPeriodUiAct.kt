@@ -17,7 +17,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class MapSelectedPeriodAct @Inject constructor(
+class MapSelectedPeriodUiAct @Inject constructor(
     @ApplicationContext
     private val appContext: Context,
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {

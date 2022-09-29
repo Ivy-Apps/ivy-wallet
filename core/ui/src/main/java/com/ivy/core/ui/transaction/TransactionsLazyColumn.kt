@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.timeNowUTC
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
@@ -108,7 +108,7 @@ private fun Preview_Full() {
         val trnsList = TransactionsListUi(
             upcoming = DueSectionUi(
                 dueType = DueSectionUiType.Upcoming,
-                income = dummyFormattedValue("16.99"),
+                income = dummyValueUi("16.99"),
                 expense = null,
                 trns = listOf(
                     dummyTransactionUi(
@@ -123,7 +123,7 @@ private fun Preview_Full() {
                             color = Blue2Light,
                             icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
                         ),
-                        value = dummyFormattedValue("16.99"),
+                        value = dummyValueUi("16.99"),
                         type = TransactionType.Income,
                         time = dummyTrnTimeDueUi(timeNowUTC().plusDays(1))
                     )
@@ -132,11 +132,11 @@ private fun Preview_Full() {
             overdue = DueSectionUi(
                 dueType = DueSectionUiType.Overdue,
                 income = null,
-                expense = dummyFormattedValue("650.0"),
+                expense = dummyValueUi("650.0"),
                 trns = listOf(
                     dummyTransactionUi(
                         title = "Rent",
-                        value = dummyFormattedValue("650.0"),
+                        value = dummyValueUi("650.0"),
                         account = dummyAccountUi(
                             name = "Cash",
                             color = Green,
@@ -152,7 +152,7 @@ private fun Preview_Full() {
                 TrnListItemUi.DateDivider(
                     date = "September 25.",
                     day = "Friday",
-                    cashflow = dummyFormattedValue("-30.0"),
+                    cashflow = dummyValueUi("-30.0"),
                     positiveCashflow = false
                 ),
                 TrnListItemUi.Trn(
@@ -168,7 +168,7 @@ private fun Preview_Full() {
                             color = Orange2,
                             icon = dummyIconSized(R.drawable.ic_custom_orderfood_s)
                         ),
-                        value = dummyFormattedValue("30.0"),
+                        value = dummyValueUi("30.0"),
                         type = TransactionType.Expense,
                         time = dummyTrnTimeActualUi()
                     )
@@ -176,7 +176,7 @@ private fun Preview_Full() {
                 TrnListItemUi.DateDivider(
                     date = "September 23.",
                     day = "Wednesday",
-                    cashflow = dummyFormattedValue("105.33"),
+                    cashflow = dummyValueUi("105.33"),
                     positiveCashflow = true
                 ),
                 TrnListItemUi.Trn(
@@ -193,7 +193,7 @@ private fun Preview_Full() {
                             color = Blue2Dark,
                             icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
                         ),
-                        value = dummyFormattedValue("55.23"),
+                        value = dummyValueUi("55.23"),
                         type = TransactionType.Expense,
                     )
                 ),
@@ -206,7 +206,7 @@ private fun Preview_Full() {
                             icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
                         ),
                         category = null,
-                        value = dummyFormattedValue("160.53"),
+                        value = dummyValueUi("160.53"),
                         type = TransactionType.Income,
                     )
                 ),
@@ -224,7 +224,7 @@ private fun Preview_Full() {
                             color = Blue2Dark,
                             icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
                         ),
-                        value = dummyFormattedValue("55.23"),
+                        value = dummyValueUi("55.23"),
                         type = TransactionType.Expense,
                     )
                 ),

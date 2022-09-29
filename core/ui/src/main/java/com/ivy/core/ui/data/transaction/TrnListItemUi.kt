@@ -1,7 +1,7 @@
 package com.ivy.core.ui.data.transaction
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.domain.pure.format.FormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
 
 @Immutable
 sealed interface TrnListItemUi {
@@ -21,7 +21,7 @@ sealed interface TrnListItemUi {
     data class DateDivider(
         val date: String,
         val day: String,
-        val cashflow: FormattedValue,
+        val cashflow: ValueUi,
         val positiveCashflow: Boolean,
     ) : TrnListItemUi
 }

@@ -1,6 +1,7 @@
 package com.ivy.main
 
 
+import AccountTab
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -13,11 +14,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ivy.accounts.AccBottomBarAction
+import com.ivy.accounts.AccountEvent
+import com.ivy.accounts.AccountViewModel
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.H1
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.isInPreview
 import com.ivy.home.HomeTab
+import com.ivy.home.HomeViewModel
+import com.ivy.home.event.HomeBottomBarAction
+import com.ivy.home.event.HomeEvent
 import com.ivy.navigation.destinations.main.Main.Tab
 import com.ivy.wallet.utils.horizontalSwipeListener
 
@@ -28,16 +35,23 @@ fun MainScreen(tab: Tab?) {
     LaunchedEffect(tab) {
         viewModel.onEvent(MainEvent.SelectTab(tab))
     }
+
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val accountViewModel: AccountViewModel = hiltViewModel()
     UI(
         selectedTab = state.selectedTab,
         onEvent = viewModel::onEvent,
+        onHomeTabEvent = homeViewModel::onEvent,
+        onAccountTabEvent = accountViewModel::onEvent,
     )
 }
 
 @Composable
 private fun UI(
     selectedTab: Tab,
-    onEvent: (MainEvent) -> Unit
+    onEvent: (MainEvent) -> Unit,
+    onHomeTabEvent: (HomeEvent) -> Unit,
+    onAccountTabEvent: (AccountEvent) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -50,9 +64,10 @@ private fun UI(
     ) {
         when (selectedTab) {
             Tab.Home -> HomePreviewSafeTab()
-            Tab.Accounts -> AccountsPreviewSafeTab()
+            Tab.Accounts -> AccountPreviewSafeTab()
         }
 
+        // region Bottom bar
         BottomBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -61,25 +76,70 @@ private fun UI(
                 .systemBarsPadding(),
             selectedTab = selectedTab,
             onActionClick = {
-                when (it) {
-                    Tab.Home -> TODO()
-                    Tab.Accounts -> TODO()
-                }
+                propagateBottomActionEvent(
+                    homeEvent = homeEvent(HomeBottomBarAction.Click),
+                    accountEvent = accountEvent(AccBottomBarAction.Click),
+                    selectedTab = selectedTab,
+                    onHomeTabEvent = onHomeTabEvent,
+                    onAccountTabEvent = onAccountTabEvent
+                )
             },
             onActionSwipeUp = {
-                // TODO
+                propagateBottomActionEvent(
+                    homeEvent = homeEvent(HomeBottomBarAction.SwipeUp),
+                    accountEvent = accountEvent(AccBottomBarAction.SwipeUp),
+                    selectedTab = selectedTab,
+                    onHomeTabEvent = onHomeTabEvent,
+                    onAccountTabEvent = onAccountTabEvent
+                )
             },
             onActionSwipeDiagonalLeft = {
-                // TODO
+                propagateBottomActionEvent(
+                    homeEvent = homeEvent(HomeBottomBarAction.SwipeDiagonalLeft),
+                    accountEvent = accountEvent(AccBottomBarAction.SwipeDiagonalLeft),
+                    selectedTab = selectedTab,
+                    onHomeTabEvent = onHomeTabEvent,
+                    onAccountTabEvent = onAccountTabEvent
+                )
             },
             onActionSwipeDiagonalRight = {
-                // TODO
+                propagateBottomActionEvent(
+                    homeEvent = homeEvent(HomeBottomBarAction.SwipeDiagonalRight),
+                    accountEvent = accountEvent(AccBottomBarAction.SwipeDiagonalRight),
+                    selectedTab = selectedTab,
+                    onHomeTabEvent = onHomeTabEvent,
+                    onAccountTabEvent = onAccountTabEvent
+                )
             },
             onHomeClick = { onEvent(MainEvent.SelectTab(Tab.Home)) },
-            onAccountsClick = { onEvent(MainEvent.SelectTab(Tab.Accounts)) })
+            onAccountsClick = { onEvent(MainEvent.SelectTab(Tab.Accounts)) }
+        )
+        // endregion
     }
 }
 
+// region Bottom Action Bar events propagation
+private fun propagateBottomActionEvent(
+    homeEvent: HomeEvent,
+    accountEvent: AccountEvent,
+    selectedTab: Tab,
+    onHomeTabEvent: (HomeEvent) -> Unit,
+    onAccountTabEvent: (AccountEvent) -> Unit
+) {
+    when (selectedTab) {
+        Tab.Home -> onHomeTabEvent(homeEvent)
+        Tab.Accounts -> onAccountTabEvent(accountEvent)
+    }
+}
+
+private fun homeEvent(action: HomeBottomBarAction): HomeEvent =
+    HomeEvent.BottomBarAction(action)
+
+private fun accountEvent(action: AccBottomBarAction): AccountEvent =
+    AccountEvent.BottomBarAction(action)
+// endregion
+
+// region Preview-safe Tabs
 @Composable
 private fun BoxScope.HomePreviewSafeTab() {
     PreviewSafeTab(text = "Home") {
@@ -88,9 +148,9 @@ private fun BoxScope.HomePreviewSafeTab() {
 }
 
 @Composable
-private fun BoxScope.AccountsPreviewSafeTab() {
-    PreviewSafeTab(text = "Home") {
-        HomeTab()
+private fun BoxScope.AccountPreviewSafeTab() {
+    PreviewSafeTab(text = "Accounts") {
+        AccountTab()
     }
 }
 
@@ -111,6 +171,7 @@ private fun BoxScope.PreviewSafeTab(
         realTab()
     }
 }
+// endregion
 
 
 // region Previews
@@ -118,7 +179,12 @@ private fun BoxScope.PreviewSafeTab(
 @Composable
 private fun Preview() {
     IvyPreview {
-        UI(selectedTab = Tab.Home) {}
+        UI(
+            selectedTab = Tab.Home,
+            onEvent = {},
+            onHomeTabEvent = {},
+            onAccountTabEvent = {}
+        )
     }
 }
 // endregion

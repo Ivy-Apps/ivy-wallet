@@ -15,7 +15,7 @@ class FormatValueTest : StringSpec({
                 shortenFiat = shorten
             )
 
-            res shouldBe FormattedValue(
+            res shouldBe ValueUi(
                 amount = "5.00",
                 currency = "USD"
             )
@@ -29,7 +29,7 @@ class FormatValueTest : StringSpec({
                 shortenFiat = shorten
             )
 
-            res shouldBe FormattedValue(
+            res shouldBe ValueUi(
                 amount = "0.25",
                 currency = "EUR"
             )
@@ -42,7 +42,7 @@ class FormatValueTest : StringSpec({
             shortenFiat = true
         )
 
-        res shouldBe FormattedValue(
+        res shouldBe ValueUi(
             amount = "129.77k",
             currency = "GBP"
         )
@@ -54,7 +54,7 @@ class FormatValueTest : StringSpec({
             shortenFiat = false
         )
 
-        res shouldBe FormattedValue(
+        res shouldBe ValueUi(
             amount = "23,501.29",
             currency = "BGN"
         )
@@ -67,7 +67,7 @@ class FormatValueTest : StringSpec({
                 shortenFiat = shorten
             )
 
-            res shouldBe FormattedValue(
+            res shouldBe ValueUi(
                 amount = "3.00065",
                 currency = "BTC"
             )
@@ -81,7 +81,7 @@ class FormatValueTest : StringSpec({
                 shortenFiat = shorten
             )
 
-            res shouldBe FormattedValue(
+            res shouldBe ValueUi(
                 amount = "3,054.071",
                 currency = "ADA"
             )

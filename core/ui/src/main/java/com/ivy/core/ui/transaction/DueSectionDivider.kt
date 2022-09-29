@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.DueSectionUi
 import com.ivy.core.ui.data.transaction.DueSectionUiType
 import com.ivy.core.ui.data.transaction.dummyDueSectionUi
@@ -102,8 +102,8 @@ private fun ExpandCollapseIcon(
 
 @Composable
 private fun DueIncomeExpense(
-    income: FormattedValue?,
-    expense: FormattedValue?,
+    income: ValueUi?,
+    expense: ValueUi?,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -130,7 +130,7 @@ private fun DueIncomeExpense(
 }
 
 @Composable
-private fun FormattedValue.AmountCurrencyLabel(
+private fun ValueUi.AmountCurrencyLabel(
     testTag: String,
     label: String,
     amountColor: Color
@@ -161,8 +161,8 @@ private fun Preview_Upcoming_IncomeExpenses() {
     ComponentPreview {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Upcoming,
-            income = dummyFormattedValue("8043.23"),
-            expense = dummyFormattedValue("923.87")
+            income = dummyValueUi("8043.23"),
+            expense = dummyValueUi("923.87")
         ).SectionDivider(
             expanded = false,
             setExpanded = {}
@@ -177,7 +177,7 @@ private fun Preview_Overdue_Expenses() {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Overdue,
             income = null,
-            expense = dummyFormattedValue("923.87")
+            expense = dummyValueUi("923.87")
         ).SectionDivider(
             expanded = true,
             setExpanded = {}
@@ -191,7 +191,7 @@ private fun Preview_Upcoming_Income() {
     ComponentPreview {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Upcoming,
-            income = dummyFormattedValue("8043.23"),
+            income = dummyValueUi("8043.23"),
             expense = null,
         ).SectionDivider(
             expanded = true,

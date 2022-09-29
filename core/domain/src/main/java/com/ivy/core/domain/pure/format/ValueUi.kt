@@ -1,13 +1,13 @@
 package com.ivy.core.domain.pure.format
 
-data class FormattedValue(
+data class ValueUi(
     val amount: String,
     val currency: String,
 )
 
-fun dummyFormattedValue(
+fun dummyValueUi(
     amount: String = "0.0",
     currency: String = "USD"
-) = FormattedValue(
+) = ValueUi(
     amount = amount, currency = currency,
 )

@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -46,7 +46,7 @@ private fun RowScope.Date(
 
 @Composable
 private fun Cashflow(
-    cashflow: FormattedValue,
+    cashflow: ValueUi,
     positiveCashflow: Boolean,
 ) {
     B2Second(
@@ -63,7 +63,7 @@ private fun Preview_Positive() {
         TrnListItemUi.DateDivider(
             date = "September 25.",
             day = "Today",
-            cashflow = dummyFormattedValue("154.32"),
+            cashflow = dummyValueUi("154.32"),
             positiveCashflow = true
         ).DateDivider()
     }
@@ -76,7 +76,7 @@ private fun Preview_Negative() {
         TrnListItemUi.DateDivider(
             date = "September 25. 2020",
             day = "Today",
-            cashflow = dummyFormattedValue("-1k"),
+            cashflow = dummyValueUi("-1k"),
             positiveCashflow = false
         ).DateDivider()
     }

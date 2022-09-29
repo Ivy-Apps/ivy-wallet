@@ -42,5 +42,4 @@ class MainViewModel @Inject constructor() : FlowViewModel<MainState, MainState, 
             Tab.Accounts -> Tab.Home
         }
     }
-
 }

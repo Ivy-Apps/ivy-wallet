@@ -5,13 +5,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-
-//import com.ivy.core.ui.transaction.TrnsLazyColumn
+import com.ivy.home.event.HomeEvent
+import com.ivy.home.state.HomeStateUi
 
 @Composable
 fun BoxScope.HomeTab() {
     val viewModel: HomeViewModel = hiltViewModel()
-    val uiState by viewModel.uiState.collectAsState()
+    val state by viewModel.uiState.collectAsState()
+}
 
-//    uiState.trnsList.TrnsLazyColumn(scrollStateKey = "home")
+@Composable
+private fun BoxScope.UI(
+    state: HomeStateUi,
+    onEvent: (HomeEvent) -> Unit,
+) {
+
 }

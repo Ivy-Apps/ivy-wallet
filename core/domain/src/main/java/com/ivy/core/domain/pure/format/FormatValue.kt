@@ -8,16 +8,16 @@ import java.text.DecimalFormat
 fun format(
     value: Value,
     shortenFiat: Boolean,
-): FormattedValue = if (isCrypto(value.currency))
+): ValueUi = if (isCrypto(value.currency))
     formatCrypto(value) else formatFiat(value = value, shorten = shortenFiat)
 
-private fun formatCrypto(value: Value): FormattedValue {
+private fun formatCrypto(value: Value): ValueUi {
     tailrec fun removeTrailingZeros(number: String): String = if (number.last() != '0')
         number else removeTrailingZeros(number.dropLast(1))
 
     val df = DecimalFormat("###,###,##0.${"0".repeat(12)}")
     val amountTrailingZeros = df.format(value.amount)
-    return FormattedValue(
+    return ValueUi(
         amount = removeTrailingZeros(amountTrailingZeros),
         currency = value.currency
     )
@@ -26,15 +26,15 @@ private fun formatCrypto(value: Value): FormattedValue {
 private fun formatFiat(
     value: Value,
     shorten: Boolean
-): FormattedValue = if (shorten) {
+): ValueUi = if (shorten) {
     // shorten to 10k, 10M, etc
-    FormattedValue(
+    ValueUi(
         amount = formatShortened(value.amount),
         currency = value.currency
     )
 } else {
     val df = DecimalFormat("#,##0.00")
-    FormattedValue(
+    ValueUi(
         amount = df.format(value.amount),
         currency = value.currency
     )

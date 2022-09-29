@@ -7,15 +7,22 @@ import com.ivy.core.domain.action.helper.TrnsListFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.settings.balance.HideBalanceSettingFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.domain.action.settings.name.NameFlow
 import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
 import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
 import com.ivy.core.domain.action.transaction.or
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.time.period
+import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
+import com.ivy.core.ui.action.mapping.MapTransactionListUiAct
+import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
+import com.ivy.home.event.HomeEvent
+import com.ivy.home.state.HomeState
+import com.ivy.home.state.HomeStateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -30,11 +37,12 @@ class HomeViewModel @Inject constructor(
     private val trnsListFlow: TrnsListFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val calculateFlow: CalculateFlow,
-    private val nameFlow: NameFlow,
     private val hideBalanceSettingFlow: HideBalanceSettingFlow,
-) : FlowViewModel<HomeState, HomeState, HomeEvent>() {
+    private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
+    private val mapTransactionListUiAct: MapTransactionListUiAct,
+) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
+    // region Initial state
     override fun initialState(): HomeState = HomeState(
-        name = "",
         period = null,
         trnsList = TransactionsList(
             upcoming = null,
@@ -47,15 +55,26 @@ class HomeViewModel @Inject constructor(
         hideBalance = false,
     )
 
-    override fun initialUiState() = initialState()
+    override fun initialUiState() = HomeStateUi(
+        period = null,
+        trnsList = TransactionsListUi(
+            upcoming = null,
+            overdue = null,
+            history = emptyList(),
+        ),
+        balance = ValueUi(amount = "0.0", currency = ""),
+        income = ValueUi(amount = "0.0", currency = ""),
+        expense = ValueUi(amount = "0.0", currency = ""),
+        hideBalance = false
+    )
+    // endregion
 
     private val overrideShowBalance = MutableStateFlow(false)
 
     override fun stateFlow(): Flow<HomeState> = combine(
-        nameFlow(Unit), showBalanceFlow(), balanceFlow(), periodDataFlow()
-    ) { name, showBalance, balance, periodData ->
+        showBalanceFlow(), balanceFlow(), periodDataFlow()
+    ) { showBalance, balance, periodData ->
         HomeState(
-            name = name,
             period = periodData.period,
             trnsList = periodData.trnsList,
             balance = balance,
@@ -64,8 +83,6 @@ class HomeViewModel @Inject constructor(
             hideBalance = !showBalance,
         )
     }
-
-    override suspend fun mapToUiState(state: HomeState): HomeState = state
 
     private fun balanceFlow(): Flow<Value> = balanceFlow(
         TotalBalanceFlow.Input(
@@ -90,6 +107,7 @@ class HomeViewModel @Inject constructor(
             val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
                 calculateFlow(
                     CalculateFlow.Input(
+                        // take only transactions from the history, excluding transfers
                         trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
                         outputCurrency = baseCurrency,
                         includeTransfers = false,
@@ -110,17 +128,34 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    private fun showBalanceFlow() =
-        combine(
-            hideBalanceSettingFlow(Unit),
-            overrideShowBalance
-        ) { hideBalanceSettings, showBalance ->
-            showBalance || !hideBalanceSettings
-        }
+    private fun showBalanceFlow(): Flow<Boolean> = combine(
+        hideBalanceSettingFlow(Unit),
+        overrideShowBalance
+    ) { hideBalanceSettings, showBalance ->
+        showBalance || !hideBalanceSettings
+    }
 
+    // region map to Ui state
+    override suspend fun mapToUiState(state: HomeState): HomeStateUi = HomeStateUi(
+        period = state.period?.let { mapSelectedPeriodUiAct(it) },
+        trnsList = mapTransactionListUiAct(state.trnsList),
+        balance = formatBalance(state.balance),
+        income = format(state.income, shortenFiat = true),
+        expense = format(state.expense, shortenFiat = true),
+        hideBalance = state.hideBalance
+    )
+
+    private fun formatBalance(balance: Value): ValueUi = format(
+        value = balance,
+        shortenFiat = balance.amount > 10_000
+    )
+    // endregion
+
+    // region Event Handling
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
         HomeEvent.BalanceClick -> handleBalanceClick()
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
+        is HomeEvent.BottomBarAction -> TODO()
     }
 
     private fun handleBalanceClick() {
@@ -132,6 +167,7 @@ class HomeViewModel @Inject constructor(
         delay(3_000L)
         overrideShowBalance.value = false
     }
+    // endregion
 
     private data class PeriodData(
         val period: SelectedPeriod,
@@ -140,4 +176,3 @@ class HomeViewModel @Inject constructor(
         val trnsList: TransactionsList,
     )
 }
-

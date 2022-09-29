@@ -40,7 +40,7 @@ import androidx.compose.runtime.Composable
 //
 
 @Composable
-fun BoxScope.AccountsTab() {
+fun BoxScope.AccountTab() {
 
 }
 

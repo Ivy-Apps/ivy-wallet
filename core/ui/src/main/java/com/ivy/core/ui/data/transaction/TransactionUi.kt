@@ -2,7 +2,7 @@ package com.ivy.core.ui.data.transaction
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import com.ivy.core.domain.pure.format.FormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyAccountUi
@@ -14,7 +14,7 @@ import java.util.*
 data class TransactionUi(
     val id: String,
     val type: TransactionType,
-    val value: FormattedValue,
+    val value: ValueUi,
     val account: AccountUi,
     val category: CategoryUi?,
     val title: String?,
@@ -25,7 +25,7 @@ data class TransactionUi(
 @Composable
 fun dummyTransactionUi(
     type: TransactionType,
-    value: FormattedValue,
+    value: ValueUi,
     account: AccountUi = dummyAccountUi(),
     category: CategoryUi? = dummyCategoryUi(),
     title: String? = null,
