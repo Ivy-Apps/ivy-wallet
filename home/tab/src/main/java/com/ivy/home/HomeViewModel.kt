@@ -20,6 +20,7 @@ import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
+import com.ivy.home.event.HomeBottomBarAction
 import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
@@ -155,13 +156,25 @@ class HomeViewModel @Inject constructor(
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
         HomeEvent.BalanceClick -> handleBalanceClick()
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
-        is HomeEvent.BottomBarAction -> TODO()
-        HomeEvent.ExpenseClick -> TODO()
-        HomeEvent.IncomeClick -> TODO()
+        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
+        HomeEvent.ExpenseClick -> handleExpenseClick()
+        HomeEvent.IncomeClick -> handleIncomeClick()
+    }
+
+    private fun handleBottomBarAction(action: HomeBottomBarAction) {
+        // TODO: Implement
     }
 
     private fun handleBalanceClick() {
-//        nav.navigateTo(BalanceScreen)
+        // TODO: Implement
+    }
+
+    private fun handleExpenseClick() {
+        // TODO: Implement
+    }
+
+    private fun handleIncomeClick() {
+        // TODO: Implement
     }
 
     private suspend fun handleHiddenBalanceClick() {
