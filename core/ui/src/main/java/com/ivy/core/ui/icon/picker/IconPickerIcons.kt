@@ -1,40 +1,37 @@
 package com.ivy.core.ui.icon.picker
 
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.Icon
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.SectionDivider
+import com.ivy.core.ui.icon.picker.data.Icon
+import com.ivy.core.ui.icon.picker.data.SectionUnverified
 
 // region Icons
-fun pickerItems(): List<PickerItemUnverified> = listOf(
-    ivyIcons(),
-    vueBrands(),
-    vueBuilding(),
-    vueChart(),
-    vueCrypto(),
-    vueDelivery(),
-    vueDesign(),
-    vueDev(),
-    vueEducation(),
-    vueFiles(),
-    vueLocation(),
-    vueMain(),
-    vueMedia(),
-    vueMessages(),
-    vueMoney(),
-    vuePC(),
-    vuePeople(),
-    vueSecurity(),
-    vueShop(),
-    vueSupport(),
-    vueTransport(),
-    vueType(),
-    vueWeather()
-).flatten()
+internal fun pickerItems(): List<SectionUnverified> = listOf(
+    SectionUnverified(name = "Ivy", icons = ivyIcons()),
+    SectionUnverified(name = "Brands", icons = vueBrands()),
+    SectionUnverified(name = "Building", icons = vueBuilding()),
+    SectionUnverified(name = "Chart", icons = vueChart()),
+    SectionUnverified(name = "Crypto", icons = vueCrypto()),
+    SectionUnverified(name = "Delivery", icons = vueDelivery()),
+    SectionUnverified(name = "Design", icons = vueDesign()),
+    SectionUnverified(name = "Dev", icons = vueDev()),
+    SectionUnverified(name = "Education", icons = vueEducation()),
+    SectionUnverified(name = "Location", icons = vueLocation()),
+    SectionUnverified(name = "Main", icons = vueMain()),
+    SectionUnverified(name = "Media", icons = vueMedia()),
+    SectionUnverified(name = "Messages", icons = vueMessages()),
+    SectionUnverified(name = "Money", icons = vueMoney()),
+    SectionUnverified(name = "PC", icons = vuePC()),
+    SectionUnverified(name = "People", icons = vuePeople()),
+    SectionUnverified(name = "Security", icons = vueSecurity()),
+    SectionUnverified(name = "Shop", icons = vueShop()),
+    SectionUnverified(name = "Support", icons = vueSupport()),
+    SectionUnverified(name = "Transport", icons = vueTransport()),
+    SectionUnverified(name = "Type", icons = vueType()),
+    SectionUnverified(name = "Weather", icons = vueWeather())
+)
 // endregion
 
 // region Ivy Icons
-private fun ivyIcons(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Ivy"),
+private fun ivyIcons(): List<Icon> = listOf(
     Icon("account", keywords = listOf("acc")),
     Icon("category", keywords = listOf("category", "cat")),
     Icon("cash", keywords = listOf("cash", "money")),
