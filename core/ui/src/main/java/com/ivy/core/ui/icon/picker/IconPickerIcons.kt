@@ -53,7 +53,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "work",
         keywords = listOf(
-            "work", "case", "job", "occup", "business", "profession", "hustle",
+            "work", "case", "job", "occupation", "business", "profession", "hustle",
             "labour", "labor", "career", "assign", "company", "organi"
         )
     ),
@@ -72,7 +72,8 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "bills", keywords = listOf(
             "bill", "acc", "tax", "fee", "book",
-            "read", "note", "diary", "organi", "plan", "librar"
+            "read", "note", "diary", "organise", "plan", "library",
+            "organize"
         )
     ),
     Icon(
@@ -85,13 +86,13 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "camera", keywords = listOf(
             "cam", "video", "edit", "photo", "movie", "record", "direct",
-            "ticket", "studio", "show", "tv", "stream", "act", "produc"
+            "ticket", "studio", "show", "tv", "stream", "act", "produce"
         )
     ),
     Icon(
         "chemistry", keywords = listOf(
             "chem", "cone", "science", "potion", "elixir",
-            "pharm", "lab"
+            "pharmacy", "lab"
         )
     ),
     Icon(
@@ -122,9 +123,9 @@ private fun ivyIcons(): List<Icon> = listOf(
         "document", keywords = listOf(
             "document", "paper", "list", "note", "text",
             "message", "new", "magazine", "diary", "plan", "task", "organi", "bill", "tax", "fee",
-            "acc", "receipt", "recipe", "prescript", "label", "order", "warranty", "insur",
+            "acc", "receipt", "recipe", "prescript", "label", "order", "warranty", "insurance",
             "policy", "script", "content", "writ", "cop", "creat", "assign", "to-do", "todo",
-            "contract", "librar", "test", "exam"
+            "contract", "library", "test", "exam"
         )
     ),
     Icon(
@@ -142,14 +143,14 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "fingerprint", keywords = listOf(
-            "print", "finger", "authenticat", "secur", "policy",
-            "sensor", "trace", "examin", "unlock", "identif", "touch", "safe"
+            "print", "finger", "authenticate", "secure", "policy",
+            "sensor", "trace", "examine", "unlock", "identify", "touch", "safe"
         )
     ),
     Icon(
         "fishfood", keywords = listOf(
             "fish", "food", "sea", "ocean", "lake", "dam", "river",
-            "hobby", "lunch", "din", "deliver", "rest"
+            "hobby", "lunch", "din", "deliver", "rest", "fishfood"
         )
     ),
     Icon(
@@ -210,13 +211,13 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "health", keywords = listOf(
             "health", "medic", "doc", "hosp", "pill", "case",
-            "pharm", "treat", "cure", "prescript", "heal", "recipe", "clinic", "sick", "ill",
+            "pharmacy", "treat", "cure", "prescript", "heal", "recipe", "clinic", "sick", "ill",
             "farmacy"
         )
     ),
     Icon(
         "hike", keywords = listOf(
-            "hike", "mountain", "walk", "top", "natur", "hobby",
+            "hike", "mountain", "walk", "top", "nature", "hobby",
             "forest", "wood", "tree", "environment"
         )
     ),
