@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -57,6 +58,7 @@ fun ItemIcon(
             painter = rememberAsyncImagePainter(
                 model = icon.icon,
                 contentScale = ContentScale.FillBounds,
+                filterQuality = FilterQuality.None,
             ),
             contentDescription = "itemIcon",
             colorFilter = ColorFilter.tint(tint),
@@ -82,7 +84,10 @@ private fun AsyncIcon(
 ) {
     Icon(
         modifier = modifier,
-        painter = rememberAsyncImagePainter(icon),
+        painter = rememberAsyncImagePainter(
+            model = icon,
+            filterQuality = FilterQuality.None,
+        ),
         tint = tint,
         contentDescription = null,
     )
