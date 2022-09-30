@@ -236,15 +236,18 @@ private fun IconsRow(
     ) {
         SpacerWeight(weight = 1f)
         for (icon in icons) {
-            IconItem(
-                icon = icon,
-                selected = selectedIcon == icon.iconId(),
-                color = color,
-            ) {
-                // on click:
-                icon.iconId()?.let(onIconSelected)
+            val iconId = icon.iconId()
+            key("ic_item_$iconId") {
+                IconItem(
+                    icon = icon,
+                    selected = selectedIcon == iconId,
+                    color = color,
+                ) {
+                    // on click:
+                    iconId?.let(onIconSelected)
+                }
+                SpacerWeight(weight = 1f)
             }
-            SpacerWeight(weight = 1f)
         }
         MissingIconsSpace(missingIcons = ICONS_PER_ROW - icons.size)
     }

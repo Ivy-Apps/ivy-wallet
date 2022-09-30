@@ -3,6 +3,7 @@ package com.ivy.design.l1_buildingBlocks
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -111,12 +112,17 @@ fun Divider(
     )
 }
 
+@Immutable
 sealed class DividerSize {
+    @Immutable
     data class Fixed(val size: Dp) : DividerSize()
 
+    @Immutable
     data class FillMax(val padding: Dp) : DividerSize()
 }
 
+
+// region Previews
 @Preview
 @Composable
 private fun PreviewHorizontalDivider_fillMax() {
@@ -171,30 +177,25 @@ private fun PreviewDivider() {
     ComponentPreview {
         Row {
             SpacerHor(16.dp)
-
             Divider(
                 modifier = Modifier
                     .weight(1f)
                     .height(2.dp)
             )
-
             SpacerHor(16.dp)
-
             Divider(
                 modifier = Modifier
                     .weight(1f)
                     .height(2.dp)
             )
-
             SpacerHor(16.dp)
-
             Divider(
                 modifier = Modifier
                     .weight(1f)
                     .height(2.dp)
             )
-
             SpacerHor(16.dp)
         }
     }
 }
+// endregion
