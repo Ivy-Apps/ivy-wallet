@@ -1,7 +1,6 @@
 package com.ivy.core.ui.icon.picker
 
 import androidx.compose.animation.*
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,12 +11,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
@@ -25,7 +28,9 @@ import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.iconId
 import com.ivy.core.ui.icon.ItemIcon
+import com.ivy.core.ui.icon.picker.IconPickerViewModel.Companion.ICONS_PER_ROW
 import com.ivy.core.ui.icon.picker.data.SectionUi
+import com.ivy.core.ui.icon.toDp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.dynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
@@ -36,10 +41,14 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Choose
 import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.components.Title
-import com.ivy.design.l2_components.modal.scope.ModalScope
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
+import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenIf
+
+private val iconSize = IconSize.S
+private val iconPadding = 12.dp
 
 @Composable
 fun BoxScope.IconPickerModal(
@@ -57,67 +66,46 @@ fun BoxScope.IconPickerModal(
     Modal(
         modal = modal,
         actions = {
-            Secondary(
-                text = null,
-                icon = if (searchBarVisible)
-                    R.drawable.ic_round_close_24 else R.drawable.round_search_24
-            ) {
-                // toggle search bar
-                searchBarVisible = !searchBarVisible
-            }
-            SpacerHor(width = 8.dp)
-            Choose {
-                selectedIcon?.let(onIconSelected)
-            }
+            ModalActions(
+                searchBarVisible = searchBarVisible,
+                showSearch = { searchBarVisible = true },
+                resetSearch = {
+                    viewModel?.onEvent(IconPickerEvent.Search(query = ""))
+                    searchBarVisible = false
+                },
+                onSelect = {
+                    selectedIcon?.let(onIconSelected)
+                    modal.hide()
+                }
+            )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            header(
-                modal = this@Modal,
-                searchBarVisible = searchBarVisible,
-                searchQuery = state.searchQuery,
-                onEvent = { viewModel?.onEvent(it) }
+        Box(modifier = Modifier.weight(1f)) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item(key = "ic_picker_title") {
+                    this@Modal.Title(text = stringResource(R.string.choose_icon))
+                }
+                sections(
+                    sections = state.sections,
+                    selectedIcon = null,
+                    color = color,
+                    onIconSelected = { selectedIcon = it }
+                )
+                item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
+            }
+            SearchBar(
+                visible = searchBarVisible,
+                query = state.searchQuery,
+                onSearch = { viewModel?.onEvent(IconPickerEvent.Search(it)) }
             )
-            sections(
-                sections = state.sections,
-                selectedIcon = null,
-                color = color,
-                onIconSelected = { selectedIcon = it }
-            )
-            item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
     }
 }
 
 // region Header
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.header(
-    modal: ModalScope,
-    searchBarVisible: Boolean,
-    searchQuery: String,
-    onEvent: (IconPickerEvent) -> Unit
-) {
-    stickyHeader(
-        key = "ic_picker_header"
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(UI.colors.pure)
-                .padding(bottom = 4.dp)
-        ) {
-            modal.Title(text = stringResource(R.string.choose_icon))
-            SearchBar(
-                visible = searchBarVisible,
-                query = searchQuery,
-                onSearch = { onEvent(IconPickerEvent.Search(it)) }
-            )
-        }
-    }
-}
-
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun SearchBar(
     visible: Boolean,
@@ -127,20 +115,35 @@ private fun SearchBar(
     AnimatedVisibility(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .background(UI.colors.pure)
+            .padding(top = 16.dp, bottom = 8.dp),
         visible = visible,
         enter = expandVertically() + fadeIn(),
         exit = shrinkVertically() + fadeOut()
     ) {
+        val focusRequester = remember { FocusRequester() }
+        val keyboardController = LocalSoftwareKeyboardController.current
         IvyInputField(
             modifier = Modifier
+                .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             type = InputFieldType.SingleLine,
-            value = TextFieldValue(query),
-            placeholder = "Search",
-            onValueChange = { onSearch(it.text) }
+            value = query,
+            placeholder = "Search icons...",
+            imeAction = ImeAction.Search,
+            onImeAction = {
+                keyboardController?.hide()
+                focusRequester.freeFocus()
+            },
+            onValueChange = { onSearch(it) },
         )
+        LaunchedEffect(visible) {
+            if (visible) {
+                focusRequester.requestFocus()
+                keyboardController?.show()
+            }
+        }
     }
 }
 // endregion
@@ -228,6 +231,17 @@ private fun IconsRow(
             }
             SpacerWeight(weight = 1f)
         }
+        MissingIconsSpace(missingIcons = ICONS_PER_ROW - icons.size)
+    }
+}
+
+@Composable
+private fun RowScope.MissingIconsSpace(
+    missingIcons: Int
+) {
+    if (missingIcons > 0) {
+        SpacerHor(width = (iconSize.toDp() + iconPadding) * missingIcons)
+        SpacerWeight(weight = 1f * missingIcons)
     }
 }
 
@@ -244,12 +258,35 @@ private fun IconItem(
             .border(2.dp, if (selected) color else UI.colors.medium, CircleShape)
             .thenIf(selected) { background(color, CircleShape) }
             .clickable(onClick = onClick)
-            .padding(all = 8.dp)
+            .padding(all = iconPadding)
             .testTag(icon.iconId() ?: "no icon"),
         icon = icon,
-        size = IconSize.S,
+        size = iconSize,
         tint = if (selected) color.dynamicContrast() else UI.colorsInverted.medium
     )
+}
+// endregion
+
+
+// region Modal Actions
+@Composable
+private fun ModalActionsScope.ModalActions(
+    searchBarVisible: Boolean,
+    resetSearch: () -> Unit,
+    showSearch: () -> Unit,
+    onSelect: () -> Unit,
+) {
+    Secondary(
+        text = null,
+        icon = if (searchBarVisible)
+            R.drawable.round_search_off_24 else R.drawable.round_search_24,
+        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
+    ) {
+        // toggle search bar
+        if (searchBarVisible) resetSearch() else showSearch()
+    }
+    SpacerHor(width = 8.dp)
+    Choose(onClick = onSelect)
 }
 // endregion
 

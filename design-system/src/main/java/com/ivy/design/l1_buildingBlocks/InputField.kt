@@ -12,7 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -21,7 +24,7 @@ import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun InputField(
-    value: TextFieldValue,
+    value: String,
     placeholder: String,
     singleLine: Boolean,
     maxLines: Int,
@@ -37,7 +40,7 @@ fun InputField(
     onImeAction: KeyboardActionScope.(ImeAction) -> Unit = {
         defaultKeyboardAction(it)
     },
-    onValueChange: (TextFieldValue) -> Unit,
+    onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier,
@@ -107,7 +110,7 @@ private fun Preview_Hint() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            value = TextFieldValue(),
+            value = "",
             placeholder = "Placeholder",
             singleLine = true,
             maxLines = 1,
@@ -124,7 +127,7 @@ private fun Preview_Text() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            value = TextFieldValue("Input"),
+            value = "Input",
             placeholder = "Placeholder",
             singleLine = true,
             maxLines = 1,

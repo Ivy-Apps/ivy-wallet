@@ -117,12 +117,13 @@ fun ModalActionsScope.Secondary(
     text: String?,
     @DrawableRes
     icon: Int? = null,
+    feeling: ButtonFeeling = ButtonFeeling.Positive,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
         visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        feeling = feeling,
         text = text,
         icon = icon,
         onClick = onClick,

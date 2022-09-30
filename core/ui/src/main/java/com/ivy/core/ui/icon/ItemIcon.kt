@@ -28,27 +28,30 @@ fun ItemIcon(
     modifier: Modifier = Modifier,
     tint: Color = UI.colorsInverted.pure
 ) {
+
+    val sizeModifier = remember(modifier, size) {
+        modifier.size(size.toDp())
+    }
     when (icon) {
         is ItemIcon.Sized -> when (size) {
             IconSize.S -> IconRes(
-                modifier = modifier.size(size.toDp()),
+                modifier = sizeModifier,
                 icon = icon.iconS,
                 tint = tint,
             )
             IconSize.M -> IconRes(
-                modifier = modifier.size(size.toDp()),
+                modifier = sizeModifier,
                 icon = icon.iconM,
                 tint = tint,
             )
             IconSize.L -> IconRes(
-                modifier = modifier.size(size.toDp()),
+                modifier = sizeModifier,
                 icon = icon.iconL,
                 tint = tint,
             )
         }
         is ItemIcon.Unknown -> Image(
-            modifier = modifier
-                .size(size.toDp())
+            modifier = sizeModifier
                 .padding(all = 4.dp),
             painter = painterResource(icon.icon),
             contentDescription = "itemIcon",
@@ -59,13 +62,10 @@ fun ItemIcon(
     }
 }
 
-@Composable
-private fun IconSize.toDp(): Dp = remember(this) {
-    when (this) {
-        IconSize.S -> 32.dp
-        IconSize.M -> 48.dp
-        IconSize.L -> 64.dp
-    }
+fun IconSize.toDp(): Dp = when (this) {
+    IconSize.S -> 32.dp
+    IconSize.M -> 48.dp
+    IconSize.L -> 64.dp
 }
 
 //region Previews

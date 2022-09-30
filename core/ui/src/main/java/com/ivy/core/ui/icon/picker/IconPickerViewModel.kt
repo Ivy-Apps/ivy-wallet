@@ -7,10 +7,7 @@ import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.picker.data.SectionUnverified
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 
@@ -19,7 +16,7 @@ internal class IconPickerViewModel @Inject constructor(
     private val itemIconOptionalAct: ItemIconOptionalAct
 ) : FlowViewModel<IconPickerStateUi, IconPickerStateUi, IconPickerEvent>() {
     companion object {
-        private const val ICONS_PER_ROW = 5
+        const val ICONS_PER_ROW = 4
     }
 
     override fun initialState(): IconPickerStateUi = IconPickerStateUi(
@@ -31,10 +28,12 @@ internal class IconPickerViewModel @Inject constructor(
 
     private val searchQuery = MutableStateFlow("")
 
-    override fun stateFlow(): Flow<IconPickerStateUi> = sectionsUiFlow().map { sections ->
+    override fun stateFlow(): Flow<IconPickerStateUi> = combine(
+        searchQuery, sectionsUiFlow()
+    ) { searchQuery, sections ->
         IconPickerStateUi(
             sections = sections,
-            searchQuery = searchQuery.value
+            searchQuery = searchQuery
         )
     }
 
@@ -76,7 +75,7 @@ internal class IconPickerViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     private fun sectionsFlow(): Flow<List<SectionUnverified>> = searchQuery
-        .debounce(300)
+        .debounce(50)
         .map { query ->
             val sections = pickerItems()
             val normalizedQuery = query.trim().lowercase().takeIf { it.isNotEmpty() }
