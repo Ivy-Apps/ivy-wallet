@@ -52,6 +52,7 @@ import com.ivy.design.util.thenIf
 private val iconSize = IconSize.M
 private val iconPadding = 12.dp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.IconPickerModal(
     modal: IvyModal,
@@ -65,18 +66,23 @@ fun BoxScope.IconPickerModal(
     var selectedIcon by remember(initialIcon) { mutableStateOf(initialIcon?.iconId()) }
     var searchBarVisible by remember(initialIcon, color) { mutableStateOf(false) }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val resetSearch = {
+        keyboardController?.hide()
+        viewModel?.onEvent(IconPickerEvent.Search(query = ""))
+        searchBarVisible = false
+    }
+
     Modal(
         modal = modal,
         actions = {
             ModalActions(
                 searchBarVisible = searchBarVisible,
                 showSearch = { searchBarVisible = true },
-                resetSearch = {
-                    viewModel?.onEvent(IconPickerEvent.Search(query = ""))
-                    searchBarVisible = false
-                },
+                resetSearch = resetSearch,
                 onSelect = {
                     selectedIcon?.let(onIconSelected)
+                    keyboardController?.hide()
                     modal.hide()
                 }
             )
@@ -100,10 +106,7 @@ fun BoxScope.IconPickerModal(
             SearchBar(
                 visible = searchBarVisible,
                 query = state.searchQuery,
-                resetSearch = {
-                    viewModel?.onEvent(IconPickerEvent.Search(query = ""))
-                    searchBarVisible = false
-                },
+                resetSearch = resetSearch,
                 onSearch = { viewModel?.onEvent(IconPickerEvent.Search(it)) }
             )
         }
@@ -238,6 +241,7 @@ private fun IconsRow(
                 selected = selectedIcon == icon.iconId(),
                 color = color,
             ) {
+                // on click:
                 icon.iconId()?.let(onIconSelected)
             }
             SpacerWeight(weight = 1f)
