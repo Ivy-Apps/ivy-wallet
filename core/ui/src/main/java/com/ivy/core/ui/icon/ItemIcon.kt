@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.isInPreview
 
 @Composable
 fun ItemIcon(
@@ -55,10 +57,9 @@ fun ItemIcon(
         is ItemIcon.Unknown -> Image(
             modifier = sizeModifier
                 .padding(all = 4.dp),
-            painter = rememberAsyncImagePainter(
-                model = icon.icon,
-                contentScale = ContentScale.FillBounds,
-                filterQuality = FilterQuality.None,
+            painter = previewSafePainter(
+                icon = icon.icon,
+                contentScale = ContentScale.FillBounds
             ),
             contentDescription = "itemIcon",
             colorFilter = ColorFilter.tint(tint),
@@ -84,14 +85,22 @@ private fun AsyncIcon(
 ) {
     Icon(
         modifier = modifier,
-        painter = rememberAsyncImagePainter(
-            model = icon,
-            filterQuality = FilterQuality.None,
-        ),
+        painter = previewSafePainter(icon),
         tint = tint,
         contentDescription = null,
     )
 }
+
+@Composable
+private fun previewSafePainter(
+    @DrawableRes
+    icon: Int,
+    contentScale: ContentScale = ContentScale.Fit,
+) = if (isInPreview()) painterResource(icon) else rememberAsyncImagePainter(
+    model = icon,
+    contentScale = contentScale,
+    filterQuality = FilterQuality.None,
+)
 // endregion
 
 
