@@ -2,7 +2,7 @@ package com.ivy.core.domain.pure.dummy
 
 import androidx.annotation.ColorInt
 import com.ivy.data.CurrencyCode
-import com.ivy.data.IvyIconId
+import com.ivy.data.ItemIconId
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
 import com.ivy.data.account.AccountState
@@ -14,7 +14,7 @@ fun dummyAcc(
     currency: CurrencyCode = "USD",
     @ColorInt
     color: Int = 1,
-    icon: IvyIconId = "account",
+    icon: ItemIconId = "account",
     folderId: UUID? = null,
     excluded: Boolean = false,
     orderNum: Double = 0.0,

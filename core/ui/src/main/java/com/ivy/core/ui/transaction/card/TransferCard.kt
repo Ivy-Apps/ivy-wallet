@@ -55,7 +55,8 @@ private fun TransferHeader(
 ) {
     @Composable
     fun AccountUi.IconName() {
-        icon.ItemIcon(
+        ItemIcon(
+            icon = icon,
             size = IconSize.S,
             tint = UI.colorsInverted.pure,
         )

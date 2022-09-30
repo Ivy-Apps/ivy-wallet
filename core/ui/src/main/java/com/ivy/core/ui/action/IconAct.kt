@@ -5,22 +5,22 @@ import androidx.annotation.DrawableRes
 import com.ivy.base.R
 import com.ivy.core.domain.action.Action
 import com.ivy.core.ui.data.icon.IconSize
-import com.ivy.core.ui.data.icon.IvyIcon
-import com.ivy.data.IvyIconId
+import com.ivy.core.ui.data.icon.ItemIcon
+import com.ivy.data.ItemIconId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class IconAct @Inject constructor(
     @ApplicationContext
     private val appContext: Context
-) : Action<IconAct.Input, IvyIcon>() {
+) : Action<IconAct.Input, ItemIcon>() {
     data class Input(
-        val iconId: IvyIconId?,
+        val iconId: ItemIconId?,
         val defaultTo: DefaultTo
     )
 
-    override suspend fun Input.willDo(): IvyIcon {
-        fun Input.default(): IvyIcon = IvyIcon.Sized(
+    override suspend fun Input.willDo(): ItemIcon {
+        fun Input.default(): ItemIcon = ItemIcon.Sized(
             iconS = when (defaultTo) {
                 DefaultTo.Account -> R.drawable.ic_custom_account_s
                 DefaultTo.Category -> R.drawable.ic_custom_category_s
@@ -36,9 +36,9 @@ class IconAct @Inject constructor(
             iconId = iconId
         )
 
-        fun Input.unknown(): IvyIcon =
+        fun Input.unknown(): ItemIcon =
             getIcon(iconId = iconId)?.let { iconRes ->
-                IvyIcon.Unknown(
+                ItemIcon.Unknown(
                     icon = iconRes,
                     iconId = iconId,
                 )
@@ -49,7 +49,7 @@ class IconAct @Inject constructor(
         val iconM = getSizedIcon(iconId = iconId, size = IconSize.M) ?: return unknown()
         val iconL = getSizedIcon(iconId = iconId, size = IconSize.L) ?: return unknown()
 
-        return IvyIcon.Sized(
+        return ItemIcon.Sized(
             iconS = iconS,
             iconM = iconM,
             iconL = iconL,
@@ -59,7 +59,7 @@ class IconAct @Inject constructor(
 
     @DrawableRes
     fun getSizedIcon(
-        iconId: IvyIconId?,
+        iconId: ItemIconId?,
         size: IconSize,
     ): Int? = iconId?.let {
         getDrawableByName(
@@ -69,7 +69,7 @@ class IconAct @Inject constructor(
 
     @DrawableRes
     private fun getIcon(
-        iconId: IvyIconId?
+        iconId: ItemIconId?
     ): Int? = iconId?.let {
         getDrawableByName(
             fileName = normalize(iconId)
@@ -87,7 +87,7 @@ class IconAct @Inject constructor(
         null
     }
 
-    private fun normalize(iconId: IvyIconId): String = iconId
+    private fun normalize(iconId: ItemIconId): String = iconId
         .replace(" ", "")
         .trim()
         .lowercase()

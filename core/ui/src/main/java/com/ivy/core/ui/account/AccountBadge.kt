@@ -7,19 +7,20 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.dummyAccountUi
-import com.ivy.core.ui.data.icon.IvyIcon
+import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.design.l0_system.color.Black
 import com.ivy.design.l0_system.color.Green
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun AccountUi.Badge(
-    background: Color = color,
+fun AccountBadge(
+    account: AccountUi,
+    background: Color = account.color,
     onClick: (() -> Unit)? = null
 ) {
     BadgeComponent(
-        icon = icon,
-        text = name,
+        icon = account.icon,
+        text = account.name,
         background = background,
         onClick = onClick,
     )
@@ -29,15 +30,11 @@ fun AccountUi.Badge(
 @Composable
 private fun Preview_Black() {
     ComponentPreview {
-        dummyAccountUi(
-            name = "Cash",
-            icon = IvyIcon.Sized(
-                iconS = R.drawable.ic_custom_account_s,
-                iconM = 0,
-                iconL = 0,
-                iconId = null
-            )
-        ).Badge(
+        AccountBadge(
+            account = dummyAccountUi(
+                name = "Cash",
+                icon = dummyIconSized(R.drawable.ic_custom_account_s)
+            ),
             background = Black
         )
     }
@@ -47,15 +44,12 @@ private fun Preview_Black() {
 @Composable
 private fun Preview_Color() {
     ComponentPreview {
-        dummyAccountUi(
-            name = "Cash",
-            icon = IvyIcon.Sized(
-                iconS = R.drawable.ic_custom_account_s,
-                iconM = 0,
-                iconL = 0,
-                iconId = null
-            ),
-            color = Green,
-        ).Badge()
+        AccountBadge(
+            account = dummyAccountUi(
+                name = "Cash",
+                icon = dummyIconSized(R.drawable.ic_custom_account_s),
+                color = Green,
+            )
+        )
     }
 }

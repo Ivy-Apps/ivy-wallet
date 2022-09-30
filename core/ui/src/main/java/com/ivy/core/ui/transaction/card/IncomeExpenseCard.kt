@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
-import com.ivy.core.ui.account.Badge
-import com.ivy.core.ui.category.Badge
+import com.ivy.core.ui.account.AccountBadge
+import com.ivy.core.ui.category.CategoryBadge
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.transaction.TransactionUi
@@ -83,13 +83,15 @@ private fun IncomeExpenseHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         category?.let {
-            category.Badge(
+            CategoryBadge(
+                category = it,
                 onClick = { onCategoryClick(category) }
             )
             SpacerHor(width = 12.dp)
         }
 
-        account.Badge(
+        AccountBadge(
+            account = account,
             background = UI.colors.pure,
             onClick = { onAccountClick(account) }
         )

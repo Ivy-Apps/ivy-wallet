@@ -5,7 +5,7 @@ import androidx.annotation.DrawableRes
 fun dummyIconSized(
     @DrawableRes
     icon: Int
-) = IvyIcon.Sized(
+) = ItemIcon.Sized(
     iconS = icon,
     iconM = icon,
     iconL = icon,
@@ -15,7 +15,7 @@ fun dummyIconSized(
 fun dummyIconUnknown(
     @DrawableRes
     icon: Int
-) = IvyIcon.Unknown(
+) = ItemIcon.Unknown(
     icon = icon,
     iconId = null
 )

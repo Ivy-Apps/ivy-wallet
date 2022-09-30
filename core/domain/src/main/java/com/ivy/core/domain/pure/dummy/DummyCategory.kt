@@ -1,7 +1,7 @@
 package com.ivy.core.domain.pure.dummy
 
 import androidx.annotation.ColorInt
-import com.ivy.data.IvyIconId
+import com.ivy.data.ItemIconId
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
@@ -14,7 +14,7 @@ fun dummyCategory(
     parentCategoryId: UUID? = null,
     @ColorInt
     color: Int = 1,
-    icon: IvyIconId = "category",
+    icon: ItemIconId = "category",
     sync: SyncState = SyncState.Synced,
     orderNum: Double = 0.0,
     type: CategoryType = CategoryType.Both,
