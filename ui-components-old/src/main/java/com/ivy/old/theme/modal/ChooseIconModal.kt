@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.DividerW
-import com.ivy.design.l1_buildingBlocks.IvyText
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.IvyPreview
@@ -288,7 +288,7 @@ private fun Section(
 
         SpacerHor(width = 16.dp)
 
-        IvyText(text = title, typo = UI.typo.b1)
+        B1(text = title)
 
         SpacerHor(width = 16.dp)
 

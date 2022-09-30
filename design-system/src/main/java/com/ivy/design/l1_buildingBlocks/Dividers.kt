@@ -14,7 +14,7 @@ import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenWhen
 
 @Composable
-fun DividerH(
+fun DividerHor(
     size: DividerSize = DividerSize.FillMax(
         padding = 16.dp
     ),
@@ -41,7 +41,7 @@ fun DividerH(
 }
 
 @Composable
-fun DividerV(
+fun DividerVer(
     size: DividerSize = DividerSize.FillMax(
         padding = 16.dp
     ),
@@ -77,7 +77,7 @@ fun RowScope.DividerW(
     Divider(
         modifier = Modifier
             .weight(weight)
-            .height(1.dp),
+            .height(height),
         color = color,
         shape = shape
     )
@@ -121,7 +121,7 @@ sealed class DividerSize {
 @Composable
 private fun PreviewHorizontalDivider_fillMax() {
     ComponentPreview {
-        DividerH(
+        DividerHor(
             size = DividerSize.FillMax(
                 padding = 16.dp
             )
@@ -133,7 +133,7 @@ private fun PreviewHorizontalDivider_fillMax() {
 @Composable
 private fun PreviewHorizontalDivider_fixed() {
     ComponentPreview {
-        DividerH(
+        DividerHor(
             size = DividerSize.Fixed(
                 size = 32.dp
             )
@@ -145,7 +145,7 @@ private fun PreviewHorizontalDivider_fixed() {
 @Composable
 private fun PreviewVerticalDivider_fillMax() {
     ComponentPreview {
-        DividerV(
+        DividerVer(
             size = DividerSize.FillMax(
                 padding = 16.dp
             )
@@ -157,7 +157,7 @@ private fun PreviewVerticalDivider_fillMax() {
 @Composable
 private fun PreviewVerticalDivider_fixed() {
     ComponentPreview {
-        DividerV(
+        DividerVer(
             size = DividerSize.Fixed(
                 size = 16.dp
             )

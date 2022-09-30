@@ -24,10 +24,10 @@ import com.ivy.core.ui.data.transaction.DueSectionUiType
 import com.ivy.core.ui.data.transaction.dummyDueSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
+import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.clickableNoIndication

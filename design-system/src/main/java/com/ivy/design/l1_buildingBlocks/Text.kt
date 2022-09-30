@@ -1,4 +1,4 @@
-package com.ivy.design.l2_components
+package com.ivy.design.l1_buildingBlocks
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
 
 // region Text typography
@@ -106,7 +105,7 @@ fun B2(
 }
 
 @Composable
-fun C(
+fun Caption(
     text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
@@ -218,7 +217,7 @@ fun B2Second(
 }
 
 @Composable
-fun CSecond(
+fun CaptionSecond(
     text: String,
     modifier: Modifier = Modifier,
     fontWeight: FontWeight = FontWeight.Bold,
@@ -273,7 +272,7 @@ private fun Preview() {
             H2("Heading 2")
             B1("Body 1")
             B2("Body 2")
-            C("Caption")
+            Caption("Caption")
 
             SpacerVer(height = 8.dp)
 
@@ -281,7 +280,7 @@ private fun Preview() {
             H2Second("2")
             B1Second("3")
             B2Second("4")
-            CSecond("5")
+            CaptionSecond("5")
         }
     }
 }

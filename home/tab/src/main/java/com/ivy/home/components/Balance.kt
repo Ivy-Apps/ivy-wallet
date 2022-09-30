@@ -14,10 +14,10 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1Second
+import com.ivy.design.l1_buildingBlocks.B2
+import com.ivy.design.l1_buildingBlocks.H1Second
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l2_components.B1Second
-import com.ivy.design.l2_components.B2
-import com.ivy.design.l2_components.H1Second
 import com.ivy.design.util.ComponentPreview
 
 // region Balance

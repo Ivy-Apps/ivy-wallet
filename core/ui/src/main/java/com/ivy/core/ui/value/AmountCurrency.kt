@@ -9,8 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1Second
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l2_components.B1Second
 
 @Suppress("unused")
 @Composable

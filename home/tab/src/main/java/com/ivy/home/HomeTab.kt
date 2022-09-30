@@ -21,7 +21,7 @@ import com.ivy.core.ui.time.PeriodModal
 import com.ivy.core.ui.transaction.TransactionsLazyColumn
 import com.ivy.core.ui.transaction.sampleTransactionListUi
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.DividerH
+import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.DividerSize
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
@@ -123,7 +123,7 @@ fun LazyListScope.header(
     }
     item {
         SpacerVer(height = 24.dp)
-        DividerH()
+        DividerHor()
     }
 }
 
@@ -207,7 +207,7 @@ private fun CollapsedToolbarExtension(
             )
         }
         SpacerVer(height = 4.dp)
-        DividerH(size = DividerSize.FillMax(padding = 0.dp))
+        DividerHor(size = DividerSize.FillMax(padding = 0.dp))
     }
 }
 // endregion

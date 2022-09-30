@@ -19,8 +19,8 @@ import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l2_components.C
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenIf
 
@@ -49,7 +49,7 @@ fun BadgeComponent(
             tint = contrastColor,
         )
         SpacerHor(width = 4.dp)
-        C(
+        Caption(
             text = text,
             color = contrastColor,
             fontWeight = FontWeight.ExtraBold

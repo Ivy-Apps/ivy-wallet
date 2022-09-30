@@ -11,10 +11,10 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2Second
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.B2Second
-import com.ivy.design.l2_components.C
 import com.ivy.design.util.ComponentPreview
 
 @Composable
@@ -40,7 +40,7 @@ private fun RowScope.Date(
     ) {
         B1(text = date, fontWeight = FontWeight.ExtraBold)
         SpacerVer(height = 4.dp)
-        C(text = day, fontWeight = FontWeight.Bold)
+        Caption(text = day, fontWeight = FontWeight.Bold)
     }
 }
 

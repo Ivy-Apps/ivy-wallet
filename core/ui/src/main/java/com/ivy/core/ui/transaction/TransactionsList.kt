@@ -30,10 +30,10 @@ import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
 import com.ivy.core.ui.transaction.handling.defaultExpandCollapseHandler
 import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.B2
 import com.ivy.design.util.IvyPreview
 import com.ivy.resources.R
 

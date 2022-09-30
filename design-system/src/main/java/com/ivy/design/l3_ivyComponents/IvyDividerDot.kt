@@ -12,13 +12,16 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun IvyDividerDot() {
+fun IvyDividerDot(
+    modifier: Modifier = Modifier
+) {
     Spacer(
-        modifier = Modifier
+        modifier = modifier
             .size(4.dp)
             .background(UI.colorsInverted.medium, CircleShape)
     )
 }
+
 
 @Preview
 @Composable

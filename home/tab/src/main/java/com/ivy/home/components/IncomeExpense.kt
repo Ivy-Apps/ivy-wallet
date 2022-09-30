@@ -20,10 +20,10 @@ import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.C
 import com.ivy.design.util.ComponentPreview
 import com.ivy.resources.R
 
@@ -81,7 +81,7 @@ private fun Card(
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconRes(icon = icon, tint = textColor)
             SpacerHor(width = 4.dp)
-            C(text = text, color = textColor)
+            Caption(text = text, color = textColor)
         }
         SpacerVer(height = 4.dp)
         Row(

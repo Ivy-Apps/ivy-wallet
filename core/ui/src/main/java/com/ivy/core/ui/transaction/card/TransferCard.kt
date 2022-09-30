@@ -23,11 +23,7 @@ import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l1_buildingBlocks.IconRes
-import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B2Second
-import com.ivy.design.l2_components.C
+import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.util.ComponentPreview
 
 @Composable
@@ -61,7 +57,7 @@ private fun TransferHeader(
             tint = UI.colorsInverted.pure,
         )
         SpacerHor(width = 4.dp)
-        C(
+        Caption(
             text = name,
             color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold

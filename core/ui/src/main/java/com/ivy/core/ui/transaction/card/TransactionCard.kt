@@ -16,10 +16,10 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.CaptionSecond
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.CSecond
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
@@ -51,7 +51,7 @@ internal fun TransactionCard(
 internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
-        CSecond(
+        CaptionSecond(
             text = time.dueOn,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
             fontWeight = FontWeight.Bold
@@ -82,7 +82,7 @@ internal fun Description(
 ) {
     if (description != null) {
         SpacerVer(height = if (title != null) 4.dp else 8.dp)
-        CSecond(
+        CaptionSecond(
             text = description,
             color = UI.colors.neutral,
             fontWeight = FontWeight.Bold,

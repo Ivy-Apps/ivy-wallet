@@ -20,10 +20,10 @@ import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.data.time.Period
 import com.ivy.data.time.TimeUnit
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.DividerH
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Done
@@ -77,13 +77,13 @@ private fun BoxScope.UI(
         }
 
         SpacerVer(height = 16.dp)
-        DividerH(width = 1.dp, color = UI.colors.neutral)
+        DividerHor(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
         FromToRange(selected = selectedPeriod, onEvent = onEvent)
 
         SpacerVer(height = 16.dp)
-        DividerH(width = 1.dp, color = UI.colors.neutral)
+        DividerHor(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
         MoreOptions(

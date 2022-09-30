@@ -27,10 +27,9 @@ import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.IvyPreview
-
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -296,12 +295,10 @@ private fun TransactionBadge(
 
         SpacerHor(width = 4.dp)
 
-        IvyText(
+        Caption(
             text = text,
-            typo = UI.typo.c.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
-            )
+            color = contrastColor,
+            fontWeight = FontWeight.ExtraBold
         )
 
         SpacerHor(width = 20.dp)
