@@ -27,38 +27,25 @@ import com.ivy.design.util.isInPreview
 
 @Composable
 fun ItemIcon(
-    icon: ItemIcon,
+    itemIcon: ItemIcon,
     size: IconSize,
     modifier: Modifier = Modifier,
     tint: Color = UI.colorsInverted.pure
 ) {
-
     val sizeModifier = remember(modifier, size) {
         modifier.size(size.toDp())
     }
-    when (icon) {
-        is ItemIcon.Sized -> when (size) {
-            IconSize.S -> AsyncIcon(
-                modifier = sizeModifier,
-                icon = icon.iconS,
-                tint = tint,
-            )
-            IconSize.M -> AsyncIcon(
-                modifier = sizeModifier,
-                icon = icon.iconM,
-                tint = tint,
-            )
-            IconSize.L -> AsyncIcon(
-                modifier = sizeModifier,
-                icon = icon.iconL,
-                tint = tint,
-            )
-        }
+    when (itemIcon) {
+        is ItemIcon.Sized -> AsyncIcon(
+            modifier = sizeModifier,
+            icon = itemIcon.icon(size),
+            tint = tint,
+        )
         is ItemIcon.Unknown -> Image(
             modifier = sizeModifier
                 .padding(all = 4.dp),
-            painter = previewSafePainter(
-                icon = icon.icon,
+            painter = previewSafeAsyncPainter(
+                icon = itemIcon.icon,
                 contentScale = ContentScale.FillBounds
             ),
             contentDescription = "itemIcon",
@@ -67,6 +54,13 @@ fun ItemIcon(
             contentScale = ContentScale.FillBounds,
         )
     }
+}
+
+@DrawableRes
+fun ItemIcon.Sized.icon(size: IconSize): Int = when (size) {
+    IconSize.S -> iconS
+    IconSize.M -> iconM
+    IconSize.L -> iconL
 }
 
 fun IconSize.toDp(): Dp = when (this) {
@@ -85,14 +79,14 @@ private fun AsyncIcon(
 ) {
     Icon(
         modifier = modifier,
-        painter = previewSafePainter(icon),
+        painter = previewSafeAsyncPainter(icon),
         tint = tint,
         contentDescription = null,
     )
 }
 
 @Composable
-private fun previewSafePainter(
+private fun previewSafeAsyncPainter(
     @DrawableRes
     icon: Int,
     contentScale: ContentScale = ContentScale.Fit,
@@ -110,7 +104,7 @@ private fun previewSafePainter(
 private fun Preview_Sized_S() {
     ComponentPreview {
         ItemIcon(
-            icon = ItemIcon.Sized(
+            itemIcon = ItemIcon.Sized(
                 iconS = R.drawable.ic_custom_account_s,
                 iconM = 0,
                 iconL = 0,
@@ -142,7 +136,7 @@ private fun Preview_Sized_M() {
 private fun Preview_Sized_L() {
     ComponentPreview {
         ItemIcon(
-            icon = ItemIcon.Sized(
+            itemIcon = ItemIcon.Sized(
                 iconS = 0,
                 iconM = 0,
                 iconL = R.drawable.ic_custom_account_l,
@@ -172,7 +166,7 @@ private fun Preview_Unknown_S() {
 private fun Preview_Unknown_M() {
     ComponentPreview {
         ItemIcon(
-            icon = ItemIcon.Unknown(
+            itemIcon = ItemIcon.Unknown(
                 icon = R.drawable.ic_vue_crypto_cardano,
                 iconId = null
             ),
@@ -186,7 +180,7 @@ private fun Preview_Unknown_M() {
 private fun Preview_Unknown_L() {
     ComponentPreview {
         ItemIcon(
-            icon = ItemIcon.Unknown(
+            itemIcon = ItemIcon.Unknown(
                 icon = R.drawable.ic_vue_crypto_cardano,
                 iconId = null
             ),

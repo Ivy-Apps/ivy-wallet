@@ -49,7 +49,7 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenIf
 
-private val iconSize = IconSize.S
+private val iconSize = IconSize.M
 private val iconPadding = 12.dp
 
 @Composable
@@ -272,7 +272,7 @@ private fun IconItem(
             .clickable(onClick = onClick)
             .padding(all = iconPadding)
             .testTag(icon.iconId() ?: "no icon"),
-        icon = icon,
+        itemIcon = icon,
         size = iconSize,
         tint = if (selected) color.dynamicContrast() else UI.colorsInverted.medium
     )

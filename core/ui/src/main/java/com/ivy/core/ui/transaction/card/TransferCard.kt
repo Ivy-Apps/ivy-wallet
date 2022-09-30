@@ -52,7 +52,7 @@ private fun TransferHeader(
     @Composable
     fun AccountUi.IconName() {
         ItemIcon(
-            icon = icon,
+            itemIcon = icon,
             size = IconSize.S,
             tint = UI.colorsInverted.pure,
         )

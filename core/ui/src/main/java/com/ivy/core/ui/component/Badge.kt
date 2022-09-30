@@ -44,7 +44,7 @@ fun BadgeComponent(
     ) {
         val contrastColor = rememberContrastColor(background)
         ItemIcon(
-            icon = icon,
+            itemIcon = icon,
             size = IconSize.S,
             tint = contrastColor,
         )
