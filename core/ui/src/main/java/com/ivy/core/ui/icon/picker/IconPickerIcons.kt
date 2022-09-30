@@ -32,7 +32,7 @@ internal fun pickerItems(): List<SectionUnverified> = listOf(
 
 // region Ivy Icons
 private fun ivyIcons(): List<Icon> = listOf(
-    Icon("account", keywords = listOf("account", "acc")),
+    Icon("account", keywords = listOf("acc")),
     Icon("category", keywords = listOf("category", "cat")),
     Icon("cash", keywords = listOf("cash", "money")),
     Icon("bank", keywords = listOf("bank")),
@@ -49,18 +49,56 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon("pet", keywords = listOf("pet", "dog", "paw")),
     Icon("restaurant", keywords = listOf("restaurant", "eat", "dinner", "food")),
     Icon("selfdevelopment", keywords = listOf("learn", "improve", "level", "grow")),
-    Icon("work", keywords = listOf("work", "job")),
-    Icon("vehicle", keywords = listOf("vehicle", "car", "transport")),
-    Icon("atom", keywords = listOf("atom")),
-    Icon("bills", keywords = listOf("bills", "payment")),
-    Icon("birthday", keywords = listOf("birthday", "celebration", "party", "gathering")),
-    Icon("calculator", keywords = listOf("calculator", "count")),
-    Icon("camera", keywords = listOf("camera", "picture", "photo", "album")),
-    Icon("chemistry", keywords = listOf("chemistry", "chemical", "lab", "laboratory")),
-    Icon("coffee", keywords = listOf("coffee", "cafe")),
-    Icon("connect", keywords = listOf("connect")),
-    Icon("dna", keywords = listOf("dna", "laboratory")),
-    Icon("doctor", keywords = listOf("doctor", "checkup", "medicine", "sick", "ill")),
+    Icon(
+        "work",
+        keywords = listOf("work", "case", "job", "occup", "business", "profession", "hustle")
+    ),
+    Icon(
+        "vehicle",
+        keywords = listOf(
+            "car", "vehicle", "auto", "transport",
+            "commute", "gas", "taxi", "bus", "tram", "subway", "trolley"
+        )
+    ),
+    Icon(
+        "atom", keywords = listOf(
+            "atom", "science", "lab", "universe", "physics", "fantastic"
+        )
+    ),
+    Icon(
+        "bills", keywords = listOf(
+            "bill", "account", "tax", "fee", "book",
+            "read", "note", "diary", "organi", "plan"
+        )
+    ),
+    Icon("birthday", keywords = listOf("birth", "cake", "candle", "surprise", "bday")),
+    Icon("calculator", keywords = listOf("calc", "math", "numb", "finance")),
+    Icon(
+        "camera", keywords = listOf(
+            "cam", "video", "edit", "photo", "movie", "rec",
+            "ticket", "studio", "show", "tv", "stream", "act"
+        )
+    ),
+    Icon(
+        "chemistry", keywords = listOf(
+            "chem", "cone", "science", "potion", "elixir",
+            "pharm", "lab"
+        )
+    ),
+    Icon(
+        "coffee", keywords = listOf(
+            "coffee", "caf", "hot", "morning", "wake",
+            "energy", "drink", "fun"
+        )
+    ),
+    Icon("connect", keywords = listOf("con", "struct", "tech", "net", "web", "tree")),
+    Icon(
+        "dna", keywords = listOf(
+            "dna", "life", "health", "gene", "science", "cell",
+            "lab"
+        )
+    ),
+    Icon("doctor", keywords = listOf("doc", "checkup", "medicine", "sick", "ill")),
     Icon("document", keywords = listOf("document", "paper", "paper")),
     Icon("drink", keywords = listOf("drink", "celebration", "party")),
     Icon("farmacy", keywords = listOf("farmacy", "pharmacy", "pills", "medicine")),
