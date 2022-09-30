@@ -7,12 +7,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ivy.core.ui.data.icon.IconSize
-import com.ivy.core.ui.data.icon.ItemIcon
-import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.icon.picker.IconPickerModal
+import com.ivy.data.ItemIconId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
+import com.ivy.design.l1_buildingBlocks.H2
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.rememberIvyModal
@@ -25,7 +24,7 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 fun BoxScope.TestScreen() {
     val viewModel: TestViewModel = hiltViewModel()
     val iconPickerModal = rememberIvyModal()
-    var selectedIcon by remember { mutableStateOf<ItemIcon?>(null) }
+    var selectedIconId by remember { mutableStateOf<ItemIconId?>(null) }
 
     ColumnRoot(
         modifier = Modifier.padding(horizontal = 16.dp),
@@ -42,12 +41,7 @@ fun BoxScope.TestScreen() {
             iconPickerModal.show()
         }
         SpacerVer(height = 48.dp)
-        selectedIcon?.let {
-            ItemIcon(
-                icon = it,
-                size = IconSize.L
-            )
-        }
+        selectedIconId?.let { H2(text = it) }
         SpacerWeight(weight = 1f)
     }
 
@@ -55,6 +49,6 @@ fun BoxScope.TestScreen() {
         modal = iconPickerModal,
         initialIcon = null,
         color = UI.colors.primary,
-        onIconSelected = { selectedIcon = it }
+        onIconSelected = { selectedIconId = it }
     )
 }

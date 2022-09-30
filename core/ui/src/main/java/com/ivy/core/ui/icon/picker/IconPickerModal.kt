@@ -32,6 +32,7 @@ import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.icon.picker.IconPickerViewModel.Companion.ICONS_PER_ROW
 import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.toDp
+import com.ivy.data.ItemIconId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.dynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
@@ -56,12 +57,12 @@ fun BoxScope.IconPickerModal(
     modal: IvyModal,
     initialIcon: ItemIcon?,
     color: Color,
-    onIconSelected: (ItemIcon) -> Unit
+    onIconSelected: (ItemIconId) -> Unit
 ) {
     val viewModel: IconPickerViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
-    var selectedIcon by remember(initialIcon) { mutableStateOf(initialIcon) }
+    var selectedIcon by remember(initialIcon) { mutableStateOf(initialIcon?.iconId()) }
     var searchBarVisible by remember(initialIcon, color) { mutableStateOf(false) }
 
     Modal(
@@ -90,7 +91,7 @@ fun BoxScope.IconPickerModal(
                 }
                 sections(
                     sections = state.sections,
-                    selectedIcon = null,
+                    selectedIcon = selectedIcon,
                     color = color,
                     onIconSelected = { selectedIcon = it }
                 )
@@ -160,9 +161,9 @@ private fun SearchBar(
 
 private fun LazyListScope.sections(
     sections: List<SectionUi>,
-    selectedIcon: ItemIcon?,
+    selectedIcon: ItemIconId?,
     color: Color,
-    onIconSelected: (ItemIcon) -> Unit
+    onIconSelected: (ItemIconId) -> Unit
 ) {
     sections.forEach {
         section(
@@ -177,9 +178,9 @@ private fun LazyListScope.sections(
 // region Section
 private fun LazyListScope.section(
     section: SectionUi,
-    selectedIcon: ItemIcon?,
+    selectedIcon: ItemIconId?,
     color: Color,
-    onIconSelected: (ItemIcon) -> Unit
+    onIconSelected: (ItemIconId) -> Unit
 ) {
     item(key = "section_${section.name}_${section.iconRows.size}") {
         SpacerVer(height = 24.dp)
@@ -220,9 +221,9 @@ private fun SectionDivider(title: String) {
 @Composable
 private fun IconsRow(
     icons: List<ItemIcon>,
-    selectedIcon: ItemIcon?,
+    selectedIcon: ItemIconId?,
     color: Color,
-    onIconSelected: (ItemIcon) -> Unit
+    onIconSelected: (ItemIconId) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -234,10 +235,10 @@ private fun IconsRow(
         for (icon in icons) {
             IconItem(
                 icon = icon,
-                selected = selectedIcon == icon,
+                selected = selectedIcon == icon.iconId(),
                 color = color,
             ) {
-                onIconSelected(icon)
+                icon.iconId()?.let(onIconSelected)
             }
             SpacerWeight(weight = 1f)
         }
