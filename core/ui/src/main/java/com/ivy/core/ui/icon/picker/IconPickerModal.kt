@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -34,7 +33,7 @@ import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.toDp
 import com.ivy.data.ItemIconId
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.dynamicContrast
+import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.input.InputFieldType
 import com.ivy.design.l2_components.input.IvyInputField
@@ -232,7 +231,6 @@ private fun IconsRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
         SpacerWeight(weight = 1f)
         for (icon in icons) {
@@ -273,15 +271,15 @@ private fun IconItem(
 ) {
     ItemIcon(
         modifier = Modifier
-            .clip(CircleShape)
-            .border(2.dp, if (selected) color else UI.colors.medium, CircleShape)
-            .thenIf(selected) { background(color, CircleShape) }
+            .clip(UI.shapes.circle)
+            .border(2.dp, if (selected) color else UI.colors.medium, UI.shapes.circle)
+            .thenIf(selected) { background(color, UI.shapes.circle) }
             .clickable(onClick = onClick)
             .padding(all = iconPadding)
             .testTag(icon.iconId() ?: "no icon"),
         itemIcon = icon,
         size = iconSize,
-        tint = if (selected) color.dynamicContrast() else UI.colorsInverted.medium
+        tint = if (selected) rememberDynamicContrast(color) else UI.colorsInverted.medium
     )
 }
 // endregion
