@@ -155,10 +155,10 @@ private fun ModalActionsRow(
     onClose: () -> Unit,
 ) {
     RowWithLine(
-        modifier = modifier
-            .padding(horizontal = 24.dp)
-            .padding(top = 4.dp),
+        // don't add horizontal padding because it'll break the line
+        modifier = modifier.padding(top = 4.dp),
     ) {
+        SpacerHor(width = 24.dp)
         CloseButton(
             modifier = Modifier.testTag("modal_close_button"),
             onClick = onClose
@@ -168,6 +168,7 @@ private fun ModalActionsRow(
         with(actionsScope) {
             Actions()
         }
+        SpacerHor(width = 24.dp)
     }
 
 }

@@ -75,7 +75,7 @@ internal class IconPickerViewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     private fun sectionsFlow(): Flow<List<SectionUnverified>> = searchQuery
-        .debounce(50)
+        .debounce(100)
         .map { query ->
             val sections = pickerItems()
             val normalizedQuery = query.trim().lowercase().takeIf { it.isNotEmpty() }

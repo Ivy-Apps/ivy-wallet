@@ -240,7 +240,8 @@ private fun RowScope.MissingIconsSpace(
     missingIcons: Int
 ) {
     if (missingIcons > 0) {
-        SpacerHor(width = (iconSize.toDp() + iconPadding) * missingIcons)
+        val iconSize = iconSize.toDp() + (iconPadding * 4)
+        SpacerHor(width = iconSize * missingIcons)
         SpacerWeight(weight = 1f * missingIcons)
     }
 }
