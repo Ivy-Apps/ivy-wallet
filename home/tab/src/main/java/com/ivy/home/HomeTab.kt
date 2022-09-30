@@ -101,18 +101,18 @@ fun LazyListScope.header(
     onIncomeClick: () -> Unit,
     onExpenseClick: () -> Unit,
 ) {
-    stickyHeader(
+    toolbar(
         period = period,
         periodModal = periodModal,
         balance = balance,
         listState = listState,
         onBalanceClick = onBalanceClick
     )
-    item {
+    item(key = "home_header_balance") {
         SpacerVer(height = 4.dp)
         Balance(balance = balance, onClick = onBalanceClick)
     }
-    item {
+    item(key = "home_header_income_expense") {
         SpacerVer(height = 4.dp)
         IncomeExpense(
             income = income,
@@ -128,7 +128,7 @@ fun LazyListScope.header(
 }
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.stickyHeader(
+private fun LazyListScope.toolbar(
     period: SelectedPeriodUi?,
     periodModal: IvyModal,
     balance: ValueUi,
@@ -136,7 +136,7 @@ private fun LazyListScope.stickyHeader(
     onBalanceClick: () -> Unit
 ) {
     stickyHeader(
-        key = "home_tab_header",
+        key = "home_tab_toolbar",
         contentType = null
     ) {
         Row(
@@ -153,7 +153,6 @@ private fun LazyListScope.stickyHeader(
                     periodModal = periodModal
                 )
             }
-            SpacerWeight(weight = 1f)
             SpacerWeight(weight = 1f)
             MoreMenuButton {
                 // TODO: Implement

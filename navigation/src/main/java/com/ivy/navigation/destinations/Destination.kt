@@ -1,6 +1,6 @@
 package com.ivy.navigation.destinations
 
-import com.ivy.navigation.destinations.debug.screen.Test
+import com.ivy.navigation.destinations.debug.DebugGraph
 import com.ivy.navigation.destinations.imports.ImportGraph
 import com.ivy.navigation.destinations.main.Main
 import com.ivy.navigation.destinations.onboarding.OnboardingGraph
@@ -21,5 +21,5 @@ object Destination {
     val categoryTransactions = CategoryTransactions
     // endregion
 
-    val test = Test
+    val debug = DebugGraph
 }

@@ -24,6 +24,8 @@ import com.ivy.home.event.HomeBottomBarAction
 import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
+import com.ivy.navigation.Navigator
+import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -41,6 +43,7 @@ class HomeViewModel @Inject constructor(
     private val hideBalanceSettingFlow: HideBalanceSettingFlow,
     private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
     private val mapTransactionListUiAct: MapTransactionListUiAct,
+    private val navigator: Navigator,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
     override fun initialState(): HomeState = HomeState(
@@ -163,6 +166,7 @@ class HomeViewModel @Inject constructor(
 
     private fun handleBottomBarAction(action: HomeBottomBarAction) {
         // TODO: Implement
+        navigator.navigate(Destination.debug.route)
     }
 
     private fun handleBalanceClick() {

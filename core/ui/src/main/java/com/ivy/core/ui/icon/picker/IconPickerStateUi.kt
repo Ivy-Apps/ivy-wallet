@@ -1,10 +1,10 @@
 package com.ivy.core.ui.icon.picker
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.ui.icon.picker.data.PickerItemUi
+import com.ivy.core.ui.icon.picker.data.SectionUi
 
 @Immutable
-data class IconPickerStateUi(
-    val items: List<PickerItemUi>,
+internal data class IconPickerStateUi(
+    val sections: List<SectionUi>,
     val searchQuery: String,
 )

@@ -1,16 +1,14 @@
 package com.ivy.core.ui.icon.picker
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
@@ -26,26 +25,26 @@ import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.iconId
 import com.ivy.core.ui.icon.ItemIcon
-import com.ivy.core.ui.icon.picker.data.PickerItemUi
+import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.dynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
+import com.ivy.design.l2_components.input.InputFieldType
+import com.ivy.design.l2_components.input.IvyInputField
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Choose
 import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.components.Title
+import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenIf
 
-private const val ICONS_PER_ROW = 5
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.IconPickerModal(
     modal: IvyModal,
-    initialIcon: ItemIcon,
+    initialIcon: ItemIcon?,
     color: Color,
     onIconSelected: (ItemIcon) -> Unit
 ) {
@@ -63,35 +62,58 @@ fun BoxScope.IconPickerModal(
                 icon = if (searchBarVisible)
                     R.drawable.ic_round_close_24 else R.drawable.round_search_24
             ) {
-                // toggle search
+                // toggle search bar
                 searchBarVisible = !searchBarVisible
             }
             SpacerHor(width = 8.dp)
             Choose {
-                onIconSelected(selectedIcon)
+                selectedIcon?.let(onIconSelected)
             }
         }
     ) {
-        LazyColumn {
-            stickyHeader {
-                Title(text = stringResource(R.string.choose_icon))
-                SearchBar(
-                    visible = searchBarVisible,
-                    query = state.searchQuery,
-                    onSearch = {
-                        viewModel?.onEvent(IconPickerEvent.Search(it))
-                    }
-                )
-            }
-
-            pickerItems(
-                items = state.items,
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
+            header(
+                modal = this@Modal,
+                searchBarVisible = searchBarVisible,
+                searchQuery = state.searchQuery,
+                onEvent = { viewModel?.onEvent(it) }
+            )
+            sections(
+                sections = state.sections,
                 selectedIcon = null,
                 color = color,
                 onIconSelected = { selectedIcon = it }
             )
+            item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
+        }
+    }
+}
 
-            item { SpacerVer(height = 48.dp) }
+// region Header
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.header(
+    modal: ModalScope,
+    searchBarVisible: Boolean,
+    searchQuery: String,
+    onEvent: (IconPickerEvent) -> Unit
+) {
+    stickyHeader(
+        key = "ic_picker_header"
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(UI.colors.pure)
+                .padding(bottom = 4.dp)
+        ) {
+            modal.Title(text = stringResource(R.string.choose_icon))
+            SearchBar(
+                visible = searchBarVisible,
+                query = searchQuery,
+                onSearch = { onEvent(IconPickerEvent.Search(it)) }
+            )
         }
     }
 }
@@ -103,97 +125,35 @@ private fun SearchBar(
     onSearch: (String) -> Unit,
 ) {
     AnimatedVisibility(
-        visible = visible
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        visible = visible,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut()
     ) {
-
+        IvyInputField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            type = InputFieldType.SingleLine,
+            value = TextFieldValue(query),
+            placeholder = "Search",
+            onValueChange = { onSearch(it.text) }
+        )
     }
 }
+// endregion
 
-private fun LazyListScope.pickerItems(
-    items: List<PickerItemUi>,
+private fun LazyListScope.sections(
+    sections: List<SectionUi>,
     selectedIcon: ItemIcon?,
     color: Color,
     onIconSelected: (ItemIcon) -> Unit
 ) {
-    groupIcons(
-        items = items,
-        selectedIcon = selectedIcon,
-        color = color,
-        onIconSelected = onIconSelected
-    )
-}
-
-// region Group icons by sections and rows
-private tailrec fun LazyListScope.groupIcons(
-    items: List<PickerItemUi>,
-    iconsRow: List<PickerItemUi.Icon> = emptyList(),
-    selectedIcon: ItemIcon?,
-    color: Color,
-    onIconSelected: (ItemIcon) -> Unit
-) {
-    if (items.isNotEmpty()) {
-        //recurse
-        when (val currentItem = items.first()) {
-            is PickerItemUi.Section -> {
-                addIconsRowIfNotEmpty(
-                    iconsRow = iconsRow,
-                    selectedIcon = selectedIcon,
-                    color = color,
-                    onIconSelected = onIconSelected
-                )
-                item { SectionDivider(title = currentItem.name) }
-
-                //RECURSE
-                groupIcons(
-                    items = items.drop(1),
-                    iconsRow = emptyList(),
-                    selectedIcon = selectedIcon,
-                    color = color,
-                    onIconSelected = onIconSelected
-
-                )
-            }
-            is PickerItemUi.Icon -> {
-                //icon
-                if (iconsRow.size == ICONS_PER_ROW) {
-                    // maximum icons per row reached
-                    // reset accumulator and recurse
-                    addIconsRowIfNotEmpty(
-                        iconsRow = iconsRow,
-                        selectedIcon = selectedIcon,
-                        color = color,
-                        onIconSelected = onIconSelected
-                    )
-
-                    //RECURSE
-                    groupIcons(
-                        items = items.drop(1),
-                        iconsRow = emptyList(),
-                        selectedIcon = selectedIcon,
-                        color = color,
-                        onIconSelected = onIconSelected
-
-                    )
-                } else {
-                    // maximum icons per row not reached, continue
-
-                    //RECURSE
-                    groupIcons(
-                        items = items.drop(1),
-                        iconsRow = iconsRow + currentItem,
-
-                        selectedIcon = selectedIcon,
-                        color = color,
-                        onIconSelected = onIconSelected
-
-                    )
-                }
-            }
-        }
-    } else {
-        //end recursion
-        addIconsRowIfNotEmpty(
-            iconsRow = iconsRow,
+    sections.forEach {
+        section(
+            section = it,
             selectedIcon = selectedIcon,
             color = color,
             onIconSelected = onIconSelected
@@ -201,30 +161,52 @@ private tailrec fun LazyListScope.groupIcons(
     }
 }
 
-private fun LazyListScope.addIconsRowIfNotEmpty(
-    iconsRow: List<PickerItemUi.Icon>,
+// region Section
+private fun LazyListScope.section(
+    section: SectionUi,
     selectedIcon: ItemIcon?,
     color: Color,
     onIconSelected: (ItemIcon) -> Unit
 ) {
-    if (iconsRow.isNotEmpty()) {
-        item {
-            IconsRow(
-                itemIcons = iconsRow,
-                selectedIcon = selectedIcon,
-                color = color,
-                onIconSelected = onIconSelected
-            )
-            SpacerVer(height = 16.dp)
-        }
+    item(key = "section_${section.name}_${section.iconRows.size}") {
+        SpacerVer(height = 24.dp)
+        SectionDivider(title = section.name)
+        SpacerVer(height = 12.dp)
+    }
+    items(
+        items = section.iconRows,
+        key = { "ic_row_${it.first().iconId()}" }
+    ) { iconRow ->
+        IconsRow(
+            icons = iconRow,
+            selectedIcon = selectedIcon,
+            color = color,
+            onIconSelected = onIconSelected
+        )
+        SpacerVer(height = 12.dp)
     }
 }
+
+@Composable
+private fun SectionDivider(title: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        DividerW()
+        SpacerHor(width = 16.dp)
+        B1(text = title)
+        SpacerHor(width = 16.dp)
+        DividerW()
+    }
+}
+
 // endregion
 
 // region Icons row
 @Composable
 private fun IconsRow(
-    itemIcons: List<PickerItemUi.Icon>,
+    icons: List<ItemIcon>,
     selectedIcon: ItemIcon?,
     color: Color,
     onIconSelected: (ItemIcon) -> Unit
@@ -232,24 +214,19 @@ private fun IconsRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val lastIndex = itemIcons.lastIndex
-        for ((index, item) in itemIcons.withIndex()) {
+        SpacerWeight(weight = 1f)
+        for (icon in icons) {
             IconItem(
-                icon = item.icon,
-                selected = selectedIcon == item.icon,
-                color = color
+                icon = icon,
+                selected = selectedIcon == icon,
+                color = color,
             ) {
-                onIconSelected(item.icon)
+                onIconSelected(icon)
             }
-
-            if (index < lastIndex && itemIcons.size >= 5) {
-                SpacerWeight(weight = 1f)
-            } else {
-                SpacerHor(width = 20.dp)
-            }
+            SpacerWeight(weight = 1f)
         }
     }
 }
@@ -259,7 +236,6 @@ private fun IconItem(
     icon: ItemIcon,
     selected: Boolean,
     color: Color,
-
     onClick: () -> Unit,
 ) {
     ItemIcon(
@@ -277,26 +253,6 @@ private fun IconItem(
 }
 // endregion
 
-// region Section divider
-@Composable
-private fun SectionDivider(
-    title: String
-) {
-    SpacerVer(height = 20.dp)
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        DividerW()
-        SpacerHor(width = 16.dp)
-        B1(text = title)
-        SpacerHor(width = 16.dp)
-        DividerW()
-    }
-    SpacerVer(height = 20.dp)
-}
-// endregion
-
 
 // region Preview
 @Preview
@@ -308,7 +264,7 @@ private fun Preview() {
 }
 
 private fun previewState() = IconPickerStateUi(
-    items = emptyList(), // TODO: Provide preview state
+    sections = emptyList(), // TODO: Provide preview state
     searchQuery = ""
 )
 // endregion

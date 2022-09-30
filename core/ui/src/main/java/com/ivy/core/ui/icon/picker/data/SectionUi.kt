@@ -6,5 +6,5 @@ import com.ivy.core.ui.data.icon.ItemIcon
 @Immutable
 data class SectionUi(
     val name: String,
-    val icons: List<ItemIcon>
+    val iconRows: List<List<ItemIcon>>
 )
