@@ -1,7 +1,8 @@
 package com.ivy.core.ui.icon.picker
 
-import com.ivy.core.ui.icon.picker.PickerItemUnverified.Icon
-import com.ivy.core.ui.icon.picker.PickerItemUnverified.SectionDivider
+import com.ivy.core.ui.icon.picker.data.PickerItemUnverified
+import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.Icon
+import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.SectionDivider
 
 // region Icons
 fun pickerItems(): List<PickerItemUnverified> = listOf(

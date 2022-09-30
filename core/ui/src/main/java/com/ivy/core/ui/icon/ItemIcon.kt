@@ -25,31 +25,29 @@ import com.ivy.design.util.ComponentPreview
 fun ItemIcon(
     icon: ItemIcon,
     size: IconSize,
+    modifier: Modifier = Modifier,
     tint: Color = UI.colorsInverted.pure
 ) {
     when (icon) {
         is ItemIcon.Sized -> when (size) {
             IconSize.S -> IconRes(
-                modifier = Modifier
-                    .size(size.toDp()),
+                modifier = modifier.size(size.toDp()),
                 icon = icon.iconS,
                 tint = tint,
             )
             IconSize.M -> IconRes(
-                modifier = Modifier
-                    .size(size.toDp()),
+                modifier = modifier.size(size.toDp()),
                 icon = icon.iconM,
                 tint = tint,
             )
             IconSize.L -> IconRes(
-                modifier = Modifier
-                    .size(size.toDp()),
+                modifier = modifier.size(size.toDp()),
                 icon = icon.iconL,
                 tint = tint,
             )
         }
         is ItemIcon.Unknown -> Image(
-            modifier = Modifier
+            modifier = modifier
                 .size(size.toDp())
                 .padding(all = 4.dp),
             painter = painterResource(icon.icon),

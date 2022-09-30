@@ -1,4 +1,4 @@
-package com.ivy.core.ui.icon.picker
+package com.ivy.core.ui.icon.picker.data
 
 import androidx.compose.runtime.Immutable
 import com.ivy.core.ui.data.icon.ItemIcon

@@ -1,4 +1,4 @@
-package com.ivy.core.ui.icon.picker
+package com.ivy.core.ui.icon.picker.data
 
 import com.ivy.data.ItemIconId
 

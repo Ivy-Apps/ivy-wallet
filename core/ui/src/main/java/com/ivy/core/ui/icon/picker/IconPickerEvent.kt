@@ -1,5 +1,5 @@
 package com.ivy.core.ui.icon.picker
 
 sealed interface IconPickerEvent {
-    data class SearchQuery(val query: String) : IconPickerEvent
+    data class Search(val query: String) : IconPickerEvent
 }

@@ -48,6 +48,19 @@ fun ModalActionsScope.Set(
 
 @Suppress("unused")
 @Composable
+fun ModalActionsScope.Choose(
+    onClick: () -> Unit
+) {
+    Positive(
+        text = "Choose",
+        icon = R.drawable.ic_round_check_24,
+        visibility = ButtonVisibility.Focused,
+        onClick = onClick
+    )
+}
+
+@Suppress("unused")
+@Composable
 fun ModalActionsScope.Done(
     onClick: () -> Unit
 ) {
@@ -92,6 +105,24 @@ fun ModalActionsScope.Negative(
         size = ButtonSize.Small,
         visibility = visibility,
         feeling = ButtonFeeling.Negative,
+        text = text,
+        icon = icon,
+        onClick = onClick,
+    )
+}
+
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Secondary(
+    text: String?,
+    @DrawableRes
+    icon: Int? = null,
+    onClick: () -> Unit
+) {
+    IvyButton(
+        size = ButtonSize.Small,
+        visibility = ButtonVisibility.Medium,
+        feeling = ButtonFeeling.Positive,
         text = text,
         icon = icon,
         onClick = onClick,

@@ -25,3 +25,7 @@ sealed interface ItemIcon {
     ) : ItemIcon
 }
 
+fun ItemIcon.iconId(): ItemIconId? = when (this) {
+    is ItemIcon.Sized -> iconId
+    is ItemIcon.Unknown -> iconId
+}
