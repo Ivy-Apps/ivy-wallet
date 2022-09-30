@@ -1,5 +1,6 @@
 package com.ivy.core.ui.icon.picker
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -98,6 +99,10 @@ fun BoxScope.IconPickerModal(
             SearchBar(
                 visible = searchBarVisible,
                 query = state.searchQuery,
+                resetSearch = {
+                    viewModel?.onEvent(IconPickerEvent.Search(query = ""))
+                    searchBarVisible = false
+                },
                 onSearch = { viewModel?.onEvent(IconPickerEvent.Search(it)) }
             )
         }
@@ -110,6 +115,7 @@ fun BoxScope.IconPickerModal(
 private fun SearchBar(
     visible: Boolean,
     query: String,
+    resetSearch: () -> Unit,
     onSearch: (String) -> Unit,
 ) {
     AnimatedVisibility(
@@ -138,11 +144,15 @@ private fun SearchBar(
             },
             onValueChange = { onSearch(it) },
         )
+
         LaunchedEffect(visible) {
             if (visible) {
                 focusRequester.requestFocus()
                 keyboardController?.show()
             }
+        }
+        BackHandler(enabled = visible) {
+            resetSearch()
         }
     }
 }
