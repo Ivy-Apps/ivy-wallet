@@ -14,6 +14,7 @@ internal fun pickerItems(): List<SectionUnverified> = listOf(
     SectionUnverified(name = "Design", icons = vueDesign()),
     SectionUnverified(name = "Dev", icons = vueDev()),
     SectionUnverified(name = "Education", icons = vueEducation()),
+    SectionUnverified(name = "Files", icons = vueFiles()),
     SectionUnverified(name = "Location", icons = vueLocation()),
     SectionUnverified(name = "Main", icons = vueMain()),
     SectionUnverified(name = "Media", icons = vueMedia()),
