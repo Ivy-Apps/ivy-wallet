@@ -2,7 +2,6 @@ package com.ivy.core.ui.icon.picker
 
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.ui.action.ItemIconOptionalAct
-import com.ivy.core.ui.icon.picker.data.PickerItemUi
 import com.ivy.core.ui.icon.picker.data.PickerItemUnverified
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -29,12 +28,13 @@ class IconPickerViewModel @Inject constructor(
     override fun stateFlow(): Flow<IconPickerStateUi> = iconsFlow().map { icons ->
         IconPickerStateUi(
             items = icons.mapNotNull {
-                when (it) {
-                    is PickerItemUnverified.SectionDivider ->
-                        PickerItemUi.Section(it.name)
-                    is PickerItemUnverified.Icon ->
-                        itemIconOptionalAct(it.iconId)?.let(PickerItemUi::Icon)
-                }
+                TODO()
+//                when (it) {
+//                    is PickerItemUnverified.SectionDivider ->
+//                        PickerItemUi.Section(it.name)
+//                    is PickerItemUnverified.Icon ->
+//                        itemIconOptionalAct(it.iconId)?.let(PickerItemUi::Icon)
+//                }
             },
             searchQuery = searchQuery.value
         )

@@ -1,39 +1,37 @@
 package com.ivy.core.ui.icon.picker
 
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.Icon
-import com.ivy.core.ui.icon.picker.data.PickerItemUnverified.SectionDivider
+import com.ivy.core.ui.icon.picker.data.Icon
+import com.ivy.core.ui.icon.picker.data.SectionUnverified
 
 // region Icons
-fun pickerItems(): List<PickerItemUnverified> = listOf(
-    ivyIcons(),
-    vueBrands(),
-    vueBuilding(),
-    vueChart(),
-    vueCrypto(),
-    vueDelivery(),
-    vueDesign(),
-    vueDev(),
-    vueEducation(),
-    vueFilesLocation(),
-    vueMain(),
-    vueMedia(),
-    vueMessages(),
-    vueMoney(),
-    vuePC(),
-    vuePeople(),
-    vueSecurity(),
-    vueShop(),
-    vueSupport(),
-    vueTransport(),
-    vueType(),
-    vueWeather()
-).flatten()
+internal fun pickerItems(): List<SectionUnverified> = listOf(
+    SectionUnverified(name = "Ivy", icons = ivyIcons()),
+    SectionUnverified(name = "Brands", icons = vueBrands()),
+    SectionUnverified(name = "Building", icons = vueBuilding()),
+    SectionUnverified(name = "Chart", icons = vueChart()),
+    SectionUnverified(name = "Crypto", icons = vueCrypto()),
+    SectionUnverified(name = "Delivery", icons = vueDelivery()),
+    SectionUnverified(name = "Design", icons = vueDesign()),
+    SectionUnverified(name = "Dev", icons = vueDev()),
+    SectionUnverified(name = "Education", icons = vueEducation()),
+    SectionUnverified(name = "Location", icons = vueLocation()),
+    SectionUnverified(name = "Main", icons = vueMain()),
+    SectionUnverified(name = "Media", icons = vueMedia()),
+    SectionUnverified(name = "Messages", icons = vueMessages()),
+    SectionUnverified(name = "Money", icons = vueMoney()),
+    SectionUnverified(name = "PC", icons = vuePC()),
+    SectionUnverified(name = "People", icons = vuePeople()),
+    SectionUnverified(name = "Security", icons = vueSecurity()),
+    SectionUnverified(name = "Shop", icons = vueShop()),
+    SectionUnverified(name = "Support", icons = vueSupport()),
+    SectionUnverified(name = "Transport", icons = vueTransport()),
+    SectionUnverified(name = "Type", icons = vueType()),
+    SectionUnverified(name = "Weather", icons = vueWeather())
+)
 // endregion
 
 // region Ivy Icons
-private fun ivyIcons(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Ivy"),
+private fun ivyIcons(): List<Icon> = listOf(
     Icon("account", keywords = listOf("account", "acc")),
     Icon("category", keywords = listOf("category", "cat")),
     Icon("cash", keywords = listOf("cash", "money")),
@@ -93,7 +91,10 @@ private fun ivyIcons(): List<PickerItemUnverified> = listOf(
     Icon("relationship", keywords = listOf("relationship", "love", "heart", "partner")),
     Icon("rocket", keywords = listOf("rocket", "moon", "space", "yolo")),
     Icon("safe", keywords = listOf("safe", "security", "protection", "lock")),
-    Icon("sail", keywords = listOf("sail", "anchor", "cruise", "boat", "yacht", "travel", "vacation")),
+    Icon(
+        "sail",
+        keywords = listOf("sail", "anchor", "cruise", "boat", "yacht", "travel", "vacation")
+    ),
     Icon("server", keywords = listOf("server", "modem", "communication")),
     Icon("shopping2", keywords = listOf("shopping", "cart", "groceries")),
     Icon("shopping", keywords = listOf("shopping", "basket", "tote", "bag", "box")),
@@ -112,8 +113,7 @@ private fun ivyIcons(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Brands (Vue)
-private fun vueBrands(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Brands"),
+private fun vueBrands(): List<Icon> = listOf(
     Icon("ic_vue_brands_triangle"),
     Icon("ic_vue_brands_trello"),
     Icon("ic_vue_brands_html5"),
@@ -154,8 +154,7 @@ private fun vueBrands(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Building (Vue)
-private fun vueBuilding(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Building"),
+private fun vueBuilding(): List<Icon> = listOf(
     Icon("ic_vue_building_building1"),
     Icon("ic_vue_building_buildings"),
     Icon("ic_vue_building_hospital"),
@@ -167,8 +166,7 @@ private fun vueBuilding(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Chart (Vue)
-private fun vueChart(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Chart"),
+private fun vueChart(): List<Icon> = listOf(
     Icon("ic_vue_chart_diagram"),
     Icon("ic_vue_chart_graph"),
     Icon("ic_vue_chart_status_up"),
@@ -178,8 +176,7 @@ private fun vueChart(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Crypto (Vue)
-private fun vueCrypto(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Crypto"),
+private fun vueCrypto(): List<Icon> = listOf(
     Icon("ic_vue_crypto_dent"),
     Icon("ic_vue_crypto_icon"),
     Icon("ic_vue_crypto_decred"),
@@ -245,8 +242,7 @@ private fun vueCrypto(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Delivery (Vue)
-private fun vueDelivery(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Delivery"),
+private fun vueDelivery(): List<Icon> = listOf(
     Icon("ic_vue_delivery_package"),
     Icon("ic_vue_delivery_receive"),
     Icon("ic_vue_delivery_box1"),
@@ -256,8 +252,7 @@ private fun vueDelivery(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Design (Vue)
-private fun vueDesign(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Design"),
+private fun vueDesign(): List<Icon> = listOf(
     Icon("ic_vue_design_bezier"),
     Icon("ic_vue_design_brush"),
     Icon("ic_vue_design_color_swatch"),
@@ -269,8 +264,7 @@ private fun vueDesign(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Dev (Vue)
-private fun vueDev(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Dev"),
+private fun vueDev(): List<Icon> = listOf(
     Icon("ic_vue_dev_code"),
     Icon("ic_vue_dev_hierarchy"),
     Icon("ic_vue_dev_relation"),
@@ -281,8 +275,7 @@ private fun vueDev(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Education (Vue)
-private fun vueEducation(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Education"),
+private fun vueEducation(): List<Icon> = listOf(
     Icon("ic_vue_edu_planer"),
     Icon("ic_vue_edu_briefcase"),
     Icon("ic_vue_edu_award"),
@@ -301,13 +294,16 @@ private fun vueEducation(): List<PickerItemUnverified> = listOf(
 )
 // endregion
 
-// region Files & Location (Vue)
-private fun vueFilesLocation(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Files"),
+// region Files (Vue)
+private fun vueFiles(): List<Icon> = listOf(
     Icon("ic_vue_files_folder_favorite"),
     Icon("ic_vue_files_folder"),
     Icon("ic_vue_files_folder_cloud"),
-    SectionDivider("Location"),
+)
+// endregion
+
+// region Location (Vue)
+private fun vueLocation(): List<Icon> = listOf(
     Icon("ic_vue_location_map1"),
     Icon("ic_vue_location_map"),
     Icon("ic_vue_location_location"),
@@ -321,8 +317,7 @@ private fun vueFilesLocation(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Main (Vue)
-private fun vueMain(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Main"),
+private fun vueMain(): List<Icon> = listOf(
     Icon("ic_vue_main_cake"),
     Icon("ic_vue_main_reserve"),
     Icon("ic_vue_main_archive"),
@@ -361,8 +356,7 @@ private fun vueMain(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Media (Vue)
-private fun vueMedia(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Media"),
+private fun vueMedia(): List<Icon> = listOf(
     Icon("ic_vue_media_microphone"),
     Icon("ic_vue_media_music"),
     Icon("ic_vue_media_voice"),
@@ -382,8 +376,7 @@ private fun vueMedia(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Messages (Vue)
-private fun vueMessages(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Messages"),
+private fun vueMessages(): List<Icon> = listOf(
     Icon("ic_vue_messages_msg_favorite"),
     Icon("ic_vue_messages_direct"),
     Icon("ic_vue_messages_msg_notification"),
@@ -398,8 +391,7 @@ private fun vueMessages(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Money (Vue)
-private fun vueMoney(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Money"),
+private fun vueMoney(): List<Icon> = listOf(
     Icon("ic_vue_money_bitcoin_refresh"),
     Icon("ic_vue_money_dollar"),
     Icon("ic_vue_money_archive"),
@@ -433,8 +425,7 @@ private fun vueMoney(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region PC (Vue)
-private fun vuePC(): List<PickerItemUnverified> = listOf(
-    SectionDivider("PC"),
+private fun vuePC(): List<Icon> = listOf(
     Icon("ic_vue_pc_charging"),
     Icon("ic_vue_pc_watch"),
     Icon("ic_vue_pc_headphone"),
@@ -453,8 +444,7 @@ private fun vuePC(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region People (Vue)
-private fun vuePeople(): List<PickerItemUnverified> = listOf(
-    SectionDivider("People"),
+private fun vuePeople(): List<Icon> = listOf(
     Icon("ic_vue_people_2persons"),
     Icon("ic_vue_people_person_tag"),
     Icon("ic_vue_people_person_search"),
@@ -464,8 +454,7 @@ private fun vuePeople(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Security (Vue)
-private fun vueSecurity(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Security"),
+private fun vueSecurity(): List<Icon> = listOf(
     Icon("ic_vue_security_eye"),
     Icon("ic_vue_security_shield_security"),
     Icon("ic_vue_security_key"),
@@ -479,8 +468,7 @@ private fun vueSecurity(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Shop (Vue)
-private fun vueShop(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Shop"),
+private fun vueShop(): List<Icon> = listOf(
     Icon("ic_vue_shop_cart"),
     Icon("ic_vue_shop_bag"),
     Icon("ic_vue_shop_barcode"),
@@ -490,8 +478,7 @@ private fun vueShop(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Support (Vue)
-private fun vueSupport(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Support"),
+private fun vueSupport(): List<Icon> = listOf(
     Icon("ic_vue_support_star"),
     Icon("ic_vue_support_medal"),
     Icon("ic_vue_support_dislike"),
@@ -503,8 +490,7 @@ private fun vueSupport(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Transport (Vue)
-private fun vueTransport(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Transport"),
+private fun vueTransport(): List<Icon> = listOf(
     Icon("ic_vue_transport_bus"),
     Icon("ic_vue_transport_airplane"),
     Icon("ic_vue_transport_train"),
@@ -516,8 +502,7 @@ private fun vueTransport(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Type (Vue)
-private fun vueType(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Type"),
+private fun vueType(): List<Icon> = listOf(
     Icon("ic_vue_type_link2"),
     Icon("ic_vue_type_text"),
     Icon("ic_vue_type_paperclip"),
@@ -531,8 +516,7 @@ private fun vueType(): List<PickerItemUnverified> = listOf(
 // endregion
 
 // region Weather (Vue)
-private fun vueWeather(): List<PickerItemUnverified> = listOf(
-    SectionDivider("Weather"),
+private fun vueWeather(): List<Icon> = listOf(
     Icon("ic_vue_weather_wind"),
     Icon("ic_vue_weather_cloud"),
     Icon("ic_vue_weather_flash"),
