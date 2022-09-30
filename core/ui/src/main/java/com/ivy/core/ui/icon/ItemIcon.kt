@@ -4,54 +4,50 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.icon.IconSize
-import com.ivy.core.ui.data.icon.IvyIcon
+import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.isInPreview
 
 @Composable
-fun IvyIcon.ItemIcon(
+fun ItemIcon(
+    itemIcon: ItemIcon,
     size: IconSize,
+    modifier: Modifier = Modifier,
     tint: Color = UI.colorsInverted.pure
 ) {
-    when (this) {
-        is IvyIcon.Sized -> when (size) {
-            com.ivy.core.ui.data.icon.IconSize.S -> Icon(
-                modifier = Modifier
-                    .size(size.toDp()),
-                icon = iconS,
-                tint = tint,
-            )
-            com.ivy.core.ui.data.icon.IconSize.M -> Icon(
-                modifier = Modifier
-                    .size(size.toDp()),
-                icon = iconM,
-                tint = tint,
-            )
-            com.ivy.core.ui.data.icon.IconSize.L -> Icon(
-                modifier = Modifier
-                    .size(size.toDp()),
-                icon = iconL,
-                tint = tint,
-            )
-        }
-        is IvyIcon.Unknown -> Image(
-            modifier = Modifier
-                .size(size.toDp())
+    val sizeModifier = remember(modifier, size) {
+        modifier.size(size.toDp())
+    }
+    when (itemIcon) {
+        is ItemIcon.Sized -> AsyncIcon(
+            modifier = sizeModifier,
+            icon = itemIcon.icon(size),
+            tint = tint,
+        )
+        is ItemIcon.Unknown -> Image(
+            modifier = sizeModifier
                 .padding(all = 4.dp),
-            painter = painterResource(icon),
+            painter = previewSafeAsyncPainter(
+                icon = itemIcon.icon,
+                contentScale = ContentScale.FillBounds
+            ),
             contentDescription = "itemIcon",
             colorFilter = ColorFilter.tint(tint),
             alignment = Alignment.Center,
@@ -60,41 +56,62 @@ fun IvyIcon.ItemIcon(
     }
 }
 
-@Composable
-private fun IconSize.toDp(): Dp = remember(this) {
-    when (this) {
-        IconSize.S -> 32.dp
-        IconSize.M -> 48.dp
-        IconSize.L -> 64.dp
-    }
+@DrawableRes
+fun ItemIcon.Sized.icon(size: IconSize): Int = when (size) {
+    IconSize.S -> iconS
+    IconSize.M -> iconM
+    IconSize.L -> iconL
 }
 
+fun IconSize.toDp(): Dp = when (this) {
+    IconSize.S -> 32.dp
+    IconSize.M -> 48.dp
+    IconSize.L -> 64.dp
+}
+
+// region AsyncIcon
 @Composable
-private fun Icon(
-    modifier: Modifier = Modifier,
+private fun AsyncIcon(
     @DrawableRes
     icon: Int,
     tint: Color,
+    modifier: Modifier = Modifier,
 ) {
-    androidx.compose.material.Icon(
+    Icon(
         modifier = modifier,
-        painter = painterResource(id = icon),
-        contentDescription = "itemIcon",
-        tint = tint
+        painter = previewSafeAsyncPainter(icon),
+        tint = tint,
+        contentDescription = null,
     )
 }
+
+@Composable
+private fun previewSafeAsyncPainter(
+    @DrawableRes
+    icon: Int,
+    contentScale: ContentScale = ContentScale.Fit,
+) = if (isInPreview()) painterResource(icon) else rememberAsyncImagePainter(
+    model = icon,
+    contentScale = contentScale,
+    filterQuality = FilterQuality.None,
+)
+// endregion
+
 
 //region Previews
 @Preview
 @Composable
 private fun Preview_Sized_S() {
     ComponentPreview {
-        IvyIcon.Sized(
-            iconS = R.drawable.ic_custom_account_s,
-            iconM = 0,
-            iconL = 0,
-            iconId = null
-        ).ItemIcon(size = IconSize.S)
+        ItemIcon(
+            itemIcon = ItemIcon.Sized(
+                iconS = R.drawable.ic_custom_account_s,
+                iconM = 0,
+                iconL = 0,
+                iconId = null
+            ),
+            size = IconSize.S
+        )
     }
 }
 
@@ -102,12 +119,15 @@ private fun Preview_Sized_S() {
 @Composable
 private fun Preview_Sized_M() {
     ComponentPreview {
-        IvyIcon.Sized(
-            iconS = 0,
-            iconM = R.drawable.ic_custom_account_m,
-            iconL = 0,
-            iconId = null
-        ).ItemIcon(size = IconSize.M)
+        ItemIcon(
+            ItemIcon.Sized(
+                iconS = 0,
+                iconM = R.drawable.ic_custom_account_m,
+                iconL = 0,
+                iconId = null
+            ),
+            size = IconSize.M
+        )
     }
 }
 
@@ -115,12 +135,15 @@ private fun Preview_Sized_M() {
 @Composable
 private fun Preview_Sized_L() {
     ComponentPreview {
-        IvyIcon.Sized(
-            iconS = 0,
-            iconM = 0,
-            iconL = R.drawable.ic_custom_account_l,
-            iconId = null
-        ).ItemIcon(size = IconSize.L)
+        ItemIcon(
+            itemIcon = ItemIcon.Sized(
+                iconS = 0,
+                iconM = 0,
+                iconL = R.drawable.ic_custom_account_l,
+                iconId = null
+            ),
+            size = IconSize.L
+        )
     }
 }
 
@@ -128,10 +151,13 @@ private fun Preview_Sized_L() {
 @Composable
 private fun Preview_Unknown_S() {
     ComponentPreview {
-        IvyIcon.Unknown(
-            icon = R.drawable.ic_vue_crypto_cardano,
-            iconId = null
-        ).ItemIcon(size = IconSize.S)
+        ItemIcon(
+            ItemIcon.Unknown(
+                icon = R.drawable.ic_vue_crypto_cardano,
+                iconId = null
+            ),
+            size = IconSize.S
+        )
     }
 }
 
@@ -139,10 +165,13 @@ private fun Preview_Unknown_S() {
 @Composable
 private fun Preview_Unknown_M() {
     ComponentPreview {
-        IvyIcon.Unknown(
-            icon = R.drawable.ic_vue_crypto_cardano,
-            iconId = null
-        ).ItemIcon(size = IconSize.M)
+        ItemIcon(
+            itemIcon = ItemIcon.Unknown(
+                icon = R.drawable.ic_vue_crypto_cardano,
+                iconId = null
+            ),
+            size = IconSize.M
+        )
     }
 }
 
@@ -150,10 +179,13 @@ private fun Preview_Unknown_M() {
 @Composable
 private fun Preview_Unknown_L() {
     ComponentPreview {
-        IvyIcon.Unknown(
-            icon = R.drawable.ic_vue_crypto_cardano,
-            iconId = null
-        ).ItemIcon(size = IconSize.L)
+        ItemIcon(
+            itemIcon = ItemIcon.Unknown(
+                icon = R.drawable.ic_vue_crypto_cardano,
+                iconId = null
+            ),
+            size = IconSize.L
+        )
     }
 }
 //endregion

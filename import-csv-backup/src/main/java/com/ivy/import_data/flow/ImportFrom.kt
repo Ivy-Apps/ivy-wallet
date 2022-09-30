@@ -21,7 +21,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.old.OnboardingToolbar
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportApp
 import com.ivy.wallet.ui.theme.components.GradientCutBottom
@@ -44,7 +44,7 @@ fun BoxWithConstraintsScope.ImportFrom(
             .navigationBarsPadding()
     ) {
         stickyHeader {
-            val nav = navigation()
+
             OnboardingToolbar(
                 hasSkip = hasSkip,
                 onBack = { nav.onBackPressed() },

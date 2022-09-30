@@ -3,10 +3,9 @@ package com.ivy.pie_charts
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
 import com.ivy.pie_charts.model.CategoryAmount
-import com.ivy.screens.PieChartStatistic
 
 sealed class PieChartStatisticEvent {
-    data class Start(val screen: PieChartStatistic) : PieChartStatisticEvent()
+    data class Start(val screen: Unit) : PieChartStatisticEvent()
     object OnSelectNextMonth : PieChartStatisticEvent()
 
     object OnSelectPreviousMonth : PieChartStatisticEvent()

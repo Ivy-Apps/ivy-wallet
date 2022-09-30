@@ -26,17 +26,13 @@ import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.CircleButtonFilled
 import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
-import com.ivy.wallet.utils.addKeyboardListener
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.formatDateOnlyWithYear
 import com.ivy.wallet.utils.timeNowUTC
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.util.*
 
@@ -165,27 +161,6 @@ private fun ChooseMonth(
     val state = rememberLazyListState()
 
     val coroutineScope = rememberCoroutineScope()
-    onScreenStart {
-        if (selectedMonthYear != null) {
-            val selectedMonthIndex = months.indexOf(selectedMonthYear)
-            if (selectedMonthIndex != -1) {
-                coroutineScope.launch {
-                    state.scrollToItem(selectedMonthIndex)
-                }
-            }
-        } else {
-            val currentMonthYear = MonthYear(
-                month = fromMonthValue(dateNowUTC().monthValue),
-                year = currentYear
-            )
-            val currentMonthIndex = months.indexOf(currentMonthYear)
-            if (currentMonthIndex != -1) {
-                coroutineScope.launch {
-                    state.scrollToItem(currentMonthIndex)
-                }
-            }
-        }
-    }
 
     LazyRow(
         state = state,
@@ -404,17 +379,6 @@ private fun LastNPeriod(
 ) {
     val rootView = LocalView.current
     val coroutineScope = rememberCoroutineScope()
-
-    onScreenStart {
-        rootView.addKeyboardListener { keyboardShown ->
-            if (keyboardShown) {
-                coroutineScope.launch {
-                    delay(200)
-                    modalScrollState.animateScrollTo(modalScrollState.maxValue)
-                }
-            }
-        }
-    }
 
     Text(
         modifier = Modifier

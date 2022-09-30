@@ -1,6 +1,6 @@
 package com.ivy.sync.base
 
-import com.ivy.frp.monad.Res
+import arrow.core.Either
 
 interface SyncItem<T> {
 
@@ -25,6 +25,6 @@ interface SyncItem<T> {
     /**
      * #WIP
      */
-    suspend fun get(): Res<Unit, List<T>>
+    suspend fun get(): Either<Unit, List<T>>
 
 }

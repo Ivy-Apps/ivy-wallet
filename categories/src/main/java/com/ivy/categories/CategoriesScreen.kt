@@ -22,17 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.SortOrder
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.Categories
-import com.ivy.screens.ItemStatistic
+
+
 import com.ivy.wallet.ui.category.CategoriesScreenEvent
 import com.ivy.wallet.ui.category.CategoriesScreenState
 import com.ivy.wallet.ui.category.CategoriesViewModel
@@ -48,13 +46,9 @@ import com.ivy.wallet.utils.balancePrefix
 import java.util.*
 
 @Composable
-fun BoxWithConstraintsScope.CategoriesScreen(screen: Categories) {
-    val viewModel: CategoriesViewModel = viewModel()
+fun BoxWithConstraintsScope.CategoriesScreen() {
+    val viewModel: CategoriesViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     UI(
         state = state,
@@ -67,7 +61,7 @@ private fun BoxWithConstraintsScope.UI(
     state: CategoriesScreenState = CategoriesScreenState(),
     onEvent: (CategoriesScreenEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
 
     LazyColumn(
         modifier = Modifier
@@ -129,12 +123,12 @@ private fun BoxWithConstraintsScope.UI(
                     CategoriesScreenEvent.OnReorderModalVisible(true)
                 }
             ) {
-                nav.navigateTo(
-                    ItemStatistic(
-                        accountId = null,
-                        categoryId = categoryData.category.id
-                    )
-                )
+//                nav.navigateTo(
+//                    ItemStatistic(
+//                        accountId = null,
+//                        categoryId = categoryData.category.id
+//                    )
+//                )
             }
         }
 
@@ -151,7 +145,7 @@ private fun BoxWithConstraintsScope.UI(
             )
         },
         onClose = {
-            nav.back()
+
         },
     )
 

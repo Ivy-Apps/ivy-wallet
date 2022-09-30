@@ -30,8 +30,6 @@ import com.ivy.data.loan.LoanType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanData
 import com.ivy.wallet.ui.theme.*
@@ -142,12 +140,6 @@ fun BoxWithConstraintsScope.LoanModal(
             }
         }
     ) {
-        onScreenStart {
-            if (modal?.autoOpenAmountModal == true) {
-                amountModalVisible = true
-            }
-        }
-
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(
@@ -326,7 +318,7 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+//                    if (TestingContext.inTest) return@launch //breaks UI tests
 
                     lazyState.scrollToItem(
                         index = selectedIndex, //+1 because Spacer width 24.dp

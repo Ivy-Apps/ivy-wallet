@@ -15,6 +15,7 @@ fun rememberContrastColor(color: Color): Color = remember(color) {
     contrastColor(color)
 }
 
+
 fun contrastColor(color: Color): Color = if (isDarkColor(color.toArgb())) White else Black
 // endregion
 
@@ -24,7 +25,7 @@ fun rememberDynamicContrast(color: Color): Color = remember(color) {
     color.dynamicContrast()
 }
 
-fun Color.dynamicContrast(): Color {
+private fun Color.dynamicContrast(): Color {
     val pickedColor = this.toHSVSpec()
 
     return when {

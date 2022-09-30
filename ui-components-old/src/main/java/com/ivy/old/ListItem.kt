@@ -22,6 +22,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.utils.thenIf
 
+@Deprecated("old")
 @Composable
 fun ListItem(
     icon: String?,

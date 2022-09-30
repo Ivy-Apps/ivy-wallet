@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Transparent
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.IvyIcon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.applyBackground
@@ -66,7 +66,7 @@ fun Btn.TextIcon(
 
         if (mode == Mode.FillMaxWidth || iconLeft != null) {
             // for FillMaxWidth add an invisible icon so the text looks centered
-            IvyIcon(
+            IconRes(
                 icon = icon,
                 tint = if (iconLeft != null) iconTint else Transparent
             )
@@ -81,7 +81,7 @@ fun Btn.TextIcon(
         if (mode == Mode.FillMaxWidth || iconRight != null) {
             // for FillMaxWidth add an invisible icon so the text looks centered
             SpacerHor(width = iconPadding)
-            IvyIcon(
+            IconRes(
                 icon = icon,
                 tint = if (iconRight != null) iconTint else Transparent
             )

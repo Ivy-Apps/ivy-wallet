@@ -3,7 +3,10 @@ package com.ivy.core.domain.action
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-// TODO: add KDoc
+/**
+ * ## ATTENTION: For this to work, annotate the class that extends it with "@Singleton".
+ * Don't forget to annotate your class with [javax.inject.Singleton].
+ */
 abstract class SignalFlow<T> {
     private val sharedFlow = MutableSharedFlow<T>(replay = 1)
     private var initialSignalSent = false

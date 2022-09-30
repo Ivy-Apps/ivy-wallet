@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -24,18 +24,16 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.EditPlanned
-import com.ivy.screens.PlannedPayments
+
+
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.Ivy
 import com.ivy.wallet.ui.theme.Orange
 import com.ivy.wallet.utils.timeNowUTC
 
 @Composable
-fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
-    val viewModel: PlannedPaymentsViewModel = viewModel()
+fun BoxWithConstraintsScope.PlannedPaymentsScreen() {
+    val viewModel: PlannedPaymentsViewModel = hiltViewModel()
 
     val currency by viewModel.currency.observeAsState("")
     val categories by viewModel.categories.observeAsState(emptyList())
@@ -46,10 +44,6 @@ fun BoxWithConstraintsScope.PlannedPaymentsScreen(screen: PlannedPayments) {
     val recurring by viewModel.recurring.observeAsState(emptyList())
     val recurringIncome by viewModel.recurringIncome.observeAsState(0.0)
     val recurringExpenses by viewModel.recurringExpenses.observeAsState(0.0)
-
-    onScreenStart {
-        viewModel.start(screen)
-    }
 
     UI(
         currency = currency,
@@ -106,18 +100,18 @@ private fun BoxWithConstraintsScope.UI(
         recurringExpenses = recurringExpenses
     )
 
-    val nav = navigation()
+
     PlannedPaymentsBottomBar(
         onClose = {
-            nav.back()
+
         },
         onAdd = {
-            nav.navigateTo(
-                EditPlanned(
-                    type = TrnTypeOld.EXPENSE,
-                    plannedPaymentRuleId = null
-                )
-            )
+//            nav.navigateTo(
+//                EditPlanned(
+//                    type = TrnTypeOld.EXPENSE,
+//                    plannedPaymentRuleId = null
+//                )
+//            )
         }
     )
 }

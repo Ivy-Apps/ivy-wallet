@@ -58,7 +58,7 @@ abstract class IvyPlugin : Plugin<Project> {
             plugin("dagger.hilt.android.plugin")
             plugin("io.kotest")
 
-            //TODO: Enable when we migrate to kotlinx serialization
+            //TODO: Enable if we migrate to kotlinx serialization
 //            plugin("kotlinx-serialization")
         }
     }

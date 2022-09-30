@@ -36,7 +36,7 @@ data class Month(
 
 
     fun incrementMonthPeriod(
-        ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+        ivyContext: IvyWalletCtx,
         increment: Long,
         year: Int
     ): TimePeriod {

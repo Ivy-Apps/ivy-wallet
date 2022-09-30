@@ -4,15 +4,14 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.user.User
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.Main
+
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct
-import com.ivy.wallet.domain.deprecated.logic.LogoutLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
@@ -39,7 +38,7 @@ class SettingsViewModel @Inject constructor(
     private val settingsDao: SettingsDao,
     private val ivySession: IvySession,
     private val userDao: UserDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val ivySync: IvySync,
     private val exportCSVLogic: ExportCSVLogic,
     private val restClient: RestClient,
@@ -403,7 +402,7 @@ class SettingsViewModel @Inject constructor(
         if (opFetchTrns.value is OpResult.Success) {
             //go to home screen
             ivyContext.setMoreMenuExpanded(expanded = false)
-            nav.navigateTo(Main)
+//            nav.navigateTo(Main)
             return
         }
 

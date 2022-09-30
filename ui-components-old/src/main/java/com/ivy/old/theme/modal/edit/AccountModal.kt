@@ -23,7 +23,7 @@ import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.Ivy
@@ -108,12 +108,6 @@ fun BoxWithConstraintsScope.AccountModal(
             }
         }
     ) {
-        onScreenStart {
-            if (modal?.adjustBalanceMode == true) {
-                amountModalVisible = true
-            }
-        }
-
         Spacer(Modifier.height(32.dp))
 
         ModalTitle(

@@ -10,14 +10,9 @@ dependencies {
     Hilt()
     implementation(project(":common"))
     implementation(project(":design-system"))
-    implementation(project(":ui-components-old"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
-    implementation(project(":core:data-model"))
-    implementation(project(":screens"))
-    implementation(project(":temp-domain"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":core:exchange-provider"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:persistence"))
+    implementation(project(":navigation"))
 
-    implementation(project(":temp-network"))
 }

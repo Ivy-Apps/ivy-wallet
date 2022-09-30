@@ -11,9 +11,9 @@ import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.SyncState
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnState
-import com.ivy.data.transaction.TrnType
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -30,7 +30,7 @@ class TrnDaoTest : RoomDbTest() {
     // region Save
     @Test
     fun save_a_simple_transaction() = saveTestCase(
-        transactionEntity = dummyTrnEntity(amount = 13.43, type = TrnType.Income)
+        transactionEntity = dummyTrnEntity(amount = 13.43, type = TransactionType.Income)
     )
 
     @Test
@@ -38,7 +38,7 @@ class TrnDaoTest : RoomDbTest() {
         transactionEntity = TrnEntity(
             id = uuidString(),
             accountId = uuidString(),
-            type = TrnType.Expense,
+            type = TransactionType.Expense,
             amount = 0.43,
             currency = "USD",
             time = Instant.now().epochSeconds(),

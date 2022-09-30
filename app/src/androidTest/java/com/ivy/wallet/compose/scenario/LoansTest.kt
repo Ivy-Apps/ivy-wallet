@@ -1,9 +1,9 @@
 package com.ivy.wallet.compose.scenario
 
 import com.ivy.data.loan.LoanType
+import com.ivy.design.l0_system.color.*
 import com.ivy.wallet.compose.IvyComposeTest
 import com.ivy.wallet.compose.component.loan.LoanDetailsScreen
-import com.ivy.wallet.ui.theme.*
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -67,7 +67,7 @@ class LoansTest : IvyComposeTest() {
             .enterAmount("4,000.25")
             .enterName("Laptop")
             .chooseIcon("account")
-            .chooseColor(Ivy)
+            .chooseColor(Purple)
             .selectLoanType(LoanType.BORROW)
 
             .clickSave(next = LoanDetailsScreen(composeTestRule))

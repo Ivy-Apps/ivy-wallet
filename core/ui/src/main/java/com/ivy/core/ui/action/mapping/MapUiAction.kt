@@ -1,6 +1,6 @@
 package com.ivy.core.ui.action.mapping
 
-import com.ivy.frp.action.Action
+import com.ivy.core.domain.action.Action
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

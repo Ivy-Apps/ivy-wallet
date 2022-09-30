@@ -7,14 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2Second
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.B2Second
-import com.ivy.design.l2_components.C
 import com.ivy.design.util.ComponentPreview
 
 @Composable
@@ -38,18 +38,19 @@ private fun RowScope.Date(
     Column(
         modifier = Modifier.weight(1f)
     ) {
-        date.B1(fontWeight = FontWeight.ExtraBold)
+        B1(text = date, fontWeight = FontWeight.ExtraBold)
         SpacerVer(height = 4.dp)
-        day.C(fontWeight = FontWeight.Bold)
+        Caption(text = day, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
 private fun Cashflow(
-    cashflow: FormattedValue,
+    cashflow: ValueUi,
     positiveCashflow: Boolean,
 ) {
-    "${cashflow.amount} ${cashflow.currency}".B2Second(
+    B2Second(
+        text = "${cashflow.amount} ${cashflow.currency}",
         color = if (positiveCashflow) UI.colors.green else UI.colors.neutral
     )
 }
@@ -62,7 +63,7 @@ private fun Preview_Positive() {
         TrnListItemUi.DateDivider(
             date = "September 25.",
             day = "Today",
-            cashflow = dummyFormattedValue("154.32"),
+            cashflow = dummyValueUi("154.32"),
             positiveCashflow = true
         ).DateDivider()
     }
@@ -75,7 +76,7 @@ private fun Preview_Negative() {
         TrnListItemUi.DateDivider(
             date = "September 25. 2020",
             day = "Today",
-            cashflow = dummyFormattedValue("-1k"),
+            cashflow = dummyValueUi("-1k"),
             positiveCashflow = false
         ).DateDivider()
     }

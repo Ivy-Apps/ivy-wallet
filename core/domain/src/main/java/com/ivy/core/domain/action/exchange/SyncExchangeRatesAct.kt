@@ -1,11 +1,11 @@
 package com.ivy.core.domain.action.exchange
 
+import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
 import com.ivy.data.CurrencyCode
 import com.ivy.exchange.RemoteExchangeProvider
-import com.ivy.frp.action.Action
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

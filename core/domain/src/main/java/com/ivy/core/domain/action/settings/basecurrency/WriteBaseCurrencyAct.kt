@@ -1,8 +1,8 @@
 package com.ivy.core.domain.action.settings.basecurrency
 
+import com.ivy.core.domain.action.Action
 import com.ivy.core.persistence.datastore.IvyDataStore
 import com.ivy.core.persistence.datastore.keys.SettingsKeys
-import com.ivy.frp.action.Action
 import javax.inject.Inject
 
 class WriteBaseCurrencyAct @Inject constructor(

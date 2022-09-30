@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.icon.IconSize
@@ -20,14 +20,10 @@ import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.CurrencyCode
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l1_buildingBlocks.Icon
-import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B2Second
-import com.ivy.design.l2_components.C
+import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.util.ComponentPreview
 
 @Composable
@@ -55,12 +51,14 @@ private fun TransferHeader(
 ) {
     @Composable
     fun AccountUi.IconName() {
-        icon.ItemIcon(
+        ItemIcon(
+            itemIcon = icon,
             size = IconSize.S,
             tint = UI.colorsInverted.pure,
         )
         SpacerHor(width = 4.dp)
-        name.C(
+        Caption(
+            text = name,
             color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
@@ -76,7 +74,7 @@ private fun TransferHeader(
         account.IconName()
 
         SpacerHor(width = 12.dp)
-        R.drawable.ic_arrow_right.Icon()
+        IconRes(R.drawable.ic_arrow_right)
         SpacerHor(width = 8.dp)
 
         toAccount.IconName()
@@ -85,26 +83,28 @@ private fun TransferHeader(
 
 @Composable
 private fun TransferAmount(
-    fromValue: FormattedValue,
+    fromValue: ValueUi,
 ) {
     SpacerVer(height = 12.dp)
     TransactionCardAmountRow {
-        R.drawable.ic_transfer.Icon(
+        IconRes(
             modifier = Modifier.background(UI.colors.primary, UI.shapes.circle),
+            icon = R.drawable.ic_transfer,
             tint = rememberContrastColor(UI.colors.primary),
         )
         SpacerHor(width = 12.dp)
-        fromValue.AmountCurrency(color = UI.colors.primary)
+        AmountCurrency(value = fromValue, color = UI.colors.primary)
     }
 }
 
 @Composable
 private fun ToAmountDifferentCurrency(
     fromCurrency: CurrencyCode,
-    toValue: FormattedValue,
+    toValue: ValueUi,
 ) {
     if (fromCurrency != toValue.currency) {
-        "${toValue.amount} ${toValue.currency}".B2Second(
+        B2Second(
+            text = "${toValue.amount} ${toValue.currency}",
             modifier = Modifier.padding(start = 48.dp),
             color = UI.colors.neutral,
             fontWeight = FontWeight.Normal,
@@ -122,12 +122,12 @@ private fun Preview_SameCurrency() {
             batchId = "",
             time = dummyTrnTimeActualUi(),
             from = dummyTransactionUi(
-                type = TrnType.Expense,
-                value = dummyFormattedValue(amount = "400")
+                type = TransactionType.Expense,
+                value = dummyValueUi(amount = "400")
             ),
             to = dummyTransactionUi(
-                type = TrnType.Expense,
-                value = dummyFormattedValue(amount = "400")
+                type = TransactionType.Expense,
+                value = dummyValueUi(amount = "400")
             ),
             fee = null
         ).Card(
@@ -147,12 +147,12 @@ private fun Preview_Detailed() {
             from = dummyTransactionUi(
                 title = "Withdrawing cash",
                 description = "So I can pay rent",
-                type = TrnType.Expense,
-                value = dummyFormattedValue(amount = "400", currency = "EUR")
+                type = TransactionType.Expense,
+                value = dummyValueUi(amount = "400", currency = "EUR")
             ),
             to = dummyTransactionUi(
-                type = TrnType.Expense,
-                value = dummyFormattedValue(amount = "800", currency = "BGN")
+                type = TransactionType.Expense,
+                value = dummyValueUi(amount = "800", currency = "BGN")
             ),
             fee = null
         ).Card(

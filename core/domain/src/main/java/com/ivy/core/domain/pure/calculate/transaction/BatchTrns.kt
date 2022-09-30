@@ -59,13 +59,13 @@ private fun recognizeTransfer(trnBatch: TrnBatch): TrnListItem.Transfer? {
     if (trns.size != 2 && trns.size != 3) return null
 
     val from = trns.firstOrNull {
-        it.type == TrnType.Expense && it.purpose == TrnPurpose.TransferFrom
+        it.type == TransactionType.Expense && it.purpose == TrnPurpose.TransferFrom
     } ?: return null
     val to = trns.firstOrNull {
-        it.type == TrnType.Income && it.purpose == TrnPurpose.TransferTo
+        it.type == TransactionType.Income && it.purpose == TrnPurpose.TransferTo
     } ?: return null
     val fee = trns.firstOrNull {
-        it.type == TrnType.Expense && it.purpose == TrnPurpose.Fee
+        it.type == TransactionType.Expense && it.purpose == TrnPurpose.Fee
     }
 
     return TrnListItem.Transfer(

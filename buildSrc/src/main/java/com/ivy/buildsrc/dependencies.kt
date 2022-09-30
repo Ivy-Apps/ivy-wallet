@@ -26,7 +26,7 @@ object Project {
     const val versionCode = 117
 
     //Compile SDK & Build Tools
-    const val compileSdkVersion = 32
+    const val compileSdkVersion = 33
 
     //App
     const val applicationId = "com.ivy.wallet"
@@ -37,14 +37,14 @@ object Project {
 object Versions {
     //https://kotlinlang.org/docs/releases.html#release-details
     //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.7.0"
+    const val kotlin = "1.7.10"
     const val coroutines = "1.6.3"
 
     //https://developer.android.com/jetpack/androidx/releases/compose
-    const val compose = "1.2.0-rc03"
+    const val compose = "1.3.0-beta03"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-compiler
-    const val composeCompilerVersion = "1.2.0"
+    const val composeCompilerVersion = "1.3.1"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
     const val composeFoundation = "1.2.0-rc03"
@@ -81,6 +81,9 @@ object Versions {
 
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
+
+    //https://developer.android.com/jetpack/androidx/releases/hilt
+    const val hiltNavigationCompose = "1.0.0"
 
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
@@ -140,6 +143,7 @@ object Versions {
     // region http://robolectric.org/getting-started/
     const val robolectric = "4.8"
     const val robolectricJunit = "4.13.2"
+
     //https://kotest.io/docs/extensions/robolectric.html
     const val robolectricKotestExt = "0.5.0"
     // endregion
@@ -150,12 +154,6 @@ object Versions {
     const val testJunitExt = "1.1.3"
     const val testRunner = "1.4.0"
     // endregion
-}
-
-fun DependencyHandler.IvyFRP(
-    api: Boolean = false
-) {
-    dependency("com.github.ILIYANGERMANOV:ivy-frp:0.9.5", api = api)
 }
 
 fun DependencyHandler.DataStore(api: Boolean) {
@@ -188,7 +186,8 @@ fun DependencyHandler.Compose(api: Boolean) {
     dependency("androidx.compose.material:material:$version", api = api)
     dependency("androidx.compose.material:material-icons-extended:$version", api = api)
     dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
-    dependency("androidx.compose.ui:ui-tooling:$version", api = api)
+    debugDependency("androidx.compose.ui:ui-tooling:$version", api = api)
+    dependency("androidx.compose.ui:ui-tooling-preview:$version", api = api)
 
     dependency(
         "androidx.navigation:navigation-compose:${Versions.navigationCompose}", api = api
@@ -278,7 +277,7 @@ fun DependencyHandler.Firebase() {
  * https://developer.android.com/training/dependency-injection/hilt-android
  */
 fun DependencyHandler.Hilt() {
-    val api = true
+    val api = false
     dependency("com.google.dagger:hilt-android:${Versions.hilt}", api = api)
     kapt("com.google.dagger:hilt-android-compiler:${Versions.hilt}")
 
@@ -286,6 +285,11 @@ fun DependencyHandler.Hilt() {
 
     //URL: https://developer.android.com/training/dependency-injection/hilt-jetpack#workmanager
     dependency("androidx.hilt:hilt-work:${Versions.hiltX}", api = api)
+
+    dependency(
+        "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigationCompose}",
+        api = api
+    )
 
     HiltTesting()
 }

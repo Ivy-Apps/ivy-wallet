@@ -10,14 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.timeNowUTC
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.data.icon.dummyIconUnknown
 import com.ivy.core.ui.data.transaction.*
 import com.ivy.core.ui.transaction.card.DueActions
-import com.ivy.data.transaction.TrnType
+import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
+import com.ivy.core.ui.transaction.handling.defaultExpandCollapseHandler
+import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.IvyPreview
@@ -42,20 +46,21 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
  * @param emptyState _(optional)_ empty state title and message.
  * @param upcomingHandler _(optional)_ custom expand/collapse handling for the "Upcoming" section.
  * @param overdueHandler _(optional)_ custom expand/collapse handling for the "Overdue" section.
- * @param trnItemClickHandler _(optional)_ handling for
+ * @param trnItemClickHandler _(optional)_ custom handling for
  * transaction click, category click and account click events for a transaction item in the list.
  */
 @Composable
-fun TransactionsListUi.TrnsLazyColumn(
-    modifier: Modifier = Modifier,
+fun TransactionsLazyColumn(
+    transactionsList: TransactionsListUi,
     scrollStateKey: String?,
+    modifier: Modifier = Modifier,
     dueActions: DueActions? = null,
     contentAboveTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
     contentBelowTrns: (LazyListScope.(LazyListState) -> Unit)? = { scrollingSpace() },
     emptyState: EmptyState = defaultEmptyState(),
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
-    trnItemClickHandler: TrnItemClickHandler = dummyTrnItemClickHandler(),
+    trnItemClickHandler: TrnItemClickHandler = defaultTrnItemClickHandler(),
 ) {
     val state = rememberLazyListState(
         initialFirstVisibleItemIndex =
@@ -78,7 +83,7 @@ fun TransactionsListUi.TrnsLazyColumn(
     ) {
         contentAboveTrns?.invoke(this, state)
         transactionsList(
-            trnsList = this@TrnsLazyColumn,
+            trnsList = transactionsList,
             emptyState = emptyState,
             upcomingHandler = upcomingHandler,
             overdueHandler = overdueHandler,
@@ -101,135 +106,141 @@ private fun LazyListScope.scrollingSpace() {
 @Composable
 private fun Preview_Full() {
     IvyPreview {
-        val trnsList = TransactionsListUi(
-            upcoming = DueSectionUi(
-                dueType = DueSectionUiType.Upcoming,
-                income = dummyFormattedValue("16.99"),
-                expense = null,
-                trns = listOf(
-                    dummyTransactionUi(
-                        title = "Upcoming payment",
-                        account = dummyAccountUi(
-                            name = "Revolut",
-                            color = Purple,
-                            icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
-                        ),
-                        category = dummyCategoryUi(
-                            name = "Investments",
-                            color = Blue2Light,
-                            icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
-                        ),
-                        value = dummyFormattedValue("16.99"),
-                        type = TrnType.Income,
-                        time = dummyTrnTimeDueUi(timeNowUTC().plusDays(1))
-                    )
-                )
-            ),
-            overdue = DueSectionUi(
-                dueType = DueSectionUiType.Overdue,
-                income = null,
-                expense = dummyFormattedValue("650.0"),
-                trns = listOf(
-                    dummyTransactionUi(
-                        title = "Rent",
-                        value = dummyFormattedValue("650.0"),
-                        account = dummyAccountUi(
-                            name = "Cash",
-                            color = Green,
-                            icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
-                        ),
-                        category = null,
-                        type = TrnType.Expense,
-                        time = dummyTrnTimeDueUi()
-                    )
-                )
-            ),
-            history = listOf(
-                TrnListItemUi.DateDivider(
-                    date = "September 25.",
-                    day = "Friday",
-                    cashflow = dummyFormattedValue("-30.0"),
-                    positiveCashflow = false
-                ),
-                TrnListItemUi.Trn(
-                    dummyTransactionUi(
-                        title = "Food",
-                        account = dummyAccountUi(
-                            name = "Revolut",
-                            color = Purple,
-                            icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
-                        ),
-                        category = dummyCategoryUi(
-                            name = "Order food",
-                            color = Orange2,
-                            icon = dummyIconSized(R.drawable.ic_custom_orderfood_s)
-                        ),
-                        value = dummyFormattedValue("30.0"),
-                        type = TrnType.Expense,
-                        time = dummyTrnTimeActualUi()
-                    )
-                ),
-                TrnListItemUi.DateDivider(
-                    date = "September 23.",
-                    day = "Wednesday",
-                    cashflow = dummyFormattedValue("105.33"),
-                    positiveCashflow = true
-                ),
-                TrnListItemUi.Trn(
-                    dummyTransactionUi(
-                        title = "Buy some cool gadgets",
-                        description = "Premium tech!",
-                        account = dummyAccountUi(
-                            name = "Bank",
-                            color = Red,
-                            icon = dummyIconSized(R.drawable.ic_custom_bank_s)
-                        ),
-                        category = dummyCategoryUi(
-                            name = "Tech",
-                            color = Blue2Dark,
-                            icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
-                        ),
-                        value = dummyFormattedValue("55.23"),
-                        type = TrnType.Expense,
-                    )
-                ),
-                TrnListItemUi.Trn(
-                    dummyTransactionUi(
-                        title = "Ivy Apps revenue",
-                        account = dummyAccountUi(
-                            name = "Revolut Business",
-                            color = Purple2Dark,
-                            icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
-                        ),
-                        category = null,
-                        value = dummyFormattedValue("160.53"),
-                        type = TrnType.Income,
-                    )
-                ),
-                TrnListItemUi.Trn(
-                    dummyTransactionUi(
-                        title = "Buy some cool gadgets",
-                        description = "Premium tech!",
-                        account = dummyAccountUi(
-                            name = "Bank",
-                            color = Red,
-                            icon = dummyIconSized(R.drawable.ic_custom_bank_s)
-                        ),
-                        category = dummyCategoryUi(
-                            name = "Tech",
-                            color = Blue2Dark,
-                            icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
-                        ),
-                        value = dummyFormattedValue("55.23"),
-                        type = TrnType.Expense,
-                    )
-                ),
-            )
-        )
+        val trnsList = sampleTransactionListUi()
 
-        trnsList.TrnsLazyColumn(scrollStateKey = "preview1")
+        TransactionsLazyColumn(
+            transactionsList = trnsList,
+            scrollStateKey = "preview1"
+        )
     }
 }
+
+@Composable
+fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
+    upcoming = DueSectionUi(
+        dueType = DueSectionUiType.Upcoming,
+        income = dummyValueUi("16.99"),
+        expense = null,
+        trns = listOf(
+            dummyTransactionUi(
+                title = "Upcoming payment",
+                account = dummyAccountUi(
+                    name = "Revolut",
+                    color = Purple,
+                    icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                ),
+                category = dummyCategoryUi(
+                    name = "Investments",
+                    color = Blue2Light,
+                    icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
+                ),
+                value = dummyValueUi("16.99"),
+                type = TransactionType.Income,
+                time = dummyTrnTimeDueUi(timeNowUTC().plusDays(1))
+            )
+        )
+    ),
+    overdue = DueSectionUi(
+        dueType = DueSectionUiType.Overdue,
+        income = null,
+        expense = dummyValueUi("650.0"),
+        trns = listOf(
+            dummyTransactionUi(
+                title = "Rent",
+                value = dummyValueUi("650.0"),
+                account = dummyAccountUi(
+                    name = "Cash",
+                    color = Green,
+                    icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
+                ),
+                category = null,
+                type = TransactionType.Expense,
+                time = dummyTrnTimeDueUi()
+            )
+        )
+    ),
+    history = listOf(
+        TrnListItemUi.DateDivider(
+            date = "September 25.",
+            day = "Friday",
+            cashflow = dummyValueUi("-30.0"),
+            positiveCashflow = false
+        ),
+        TrnListItemUi.Trn(
+            dummyTransactionUi(
+                title = "Food",
+                account = dummyAccountUi(
+                    name = "Revolut",
+                    color = Purple,
+                    icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                ),
+                category = dummyCategoryUi(
+                    name = "Order food",
+                    color = Orange2,
+                    icon = dummyIconSized(R.drawable.ic_custom_orderfood_s)
+                ),
+                value = dummyValueUi("30.0"),
+                type = TransactionType.Expense,
+                time = dummyTrnTimeActualUi()
+            )
+        ),
+        TrnListItemUi.DateDivider(
+            date = "September 23.",
+            day = "Wednesday",
+            cashflow = dummyValueUi("105.33"),
+            positiveCashflow = true
+        ),
+        TrnListItemUi.Trn(
+            dummyTransactionUi(
+                title = "Buy some cool gadgets",
+                description = "Premium tech!",
+                account = dummyAccountUi(
+                    name = "Bank",
+                    color = Red,
+                    icon = dummyIconSized(R.drawable.ic_custom_bank_s)
+                ),
+                category = dummyCategoryUi(
+                    name = "Tech",
+                    color = Blue2Dark,
+                    icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
+                ),
+                value = dummyValueUi("55.23"),
+                type = TransactionType.Expense,
+            )
+        ),
+        TrnListItemUi.Trn(
+            dummyTransactionUi(
+                title = "Ivy Apps revenue",
+                account = dummyAccountUi(
+                    name = "Revolut Business",
+                    color = Purple2Dark,
+                    icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                ),
+                category = null,
+                value = dummyValueUi("160.53"),
+                type = TransactionType.Income,
+            )
+        ),
+        TrnListItemUi.Trn(
+            dummyTransactionUi(
+                title = "Buy some cool gadgets",
+                description = "Premium tech!",
+                account = dummyAccountUi(
+                    name = "Bank",
+                    color = Red,
+                    icon = dummyIconSized(R.drawable.ic_custom_bank_s)
+                ),
+                category = dummyCategoryUi(
+                    name = "Tech",
+                    color = Blue2Dark,
+                    icon = dummyIconUnknown(R.drawable.ic_vue_edu_telescope)
+                ),
+                value = dummyValueUi("55.23"),
+                type = TransactionType.Expense,
+            )
+        ),
+    )
+)
 
 @Preview
 @Composable
@@ -241,7 +252,10 @@ private fun Preview_EmptyState() {
             history = emptyList()
         )
 
-        trnsList.TrnsLazyColumn(scrollStateKey = "preview2")
+        TransactionsLazyColumn(
+            transactionsList = trnsList,
+            scrollStateKey = "preview2"
+        )
     }
 }
 // endregion

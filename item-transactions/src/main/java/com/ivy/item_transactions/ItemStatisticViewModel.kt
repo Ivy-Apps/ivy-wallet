@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import arrow.core.toOption
 import com.ivy.base.R
 import com.ivy.base.toCloseTimeRange
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -13,8 +14,7 @@ import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.then
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.ItemStatistic
+
 import com.ivy.temp.persistence.ExchangeActOld
 import com.ivy.temp.persistence.ExchangeData
 import com.ivy.temp.persistence.ExchangeRateDao
@@ -49,8 +49,8 @@ class ItemStatisticViewModel @Inject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     private val settingsDao: SettingsDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
-    private val nav: Navigation,
+    private val ivyContext: IvyWalletCtx,
+    private val
     private val categoryUploader: CategoryUploader,
     private val accountUploader: AccountUploader,
     private val accountLogic: WalletAccountLogic,
@@ -148,7 +148,6 @@ class ItemStatisticViewModel @Inject constructor(
     val treatTransfersAsIncomeExpense = _treatTransfersAsIncomeExpense.readOnly()
 
     fun start(
-        screen: ItemStatistic,
         period: TimePeriod? = ivyContext.selectedPeriod,
         reset: Boolean = true
     ) {
@@ -171,34 +170,34 @@ class ItemStatisticViewModel @Inject constructor(
             _treatTransfersAsIncomeExpense.value =
                 sharedPrefs.getBoolean(SharedPrefs.TRANSFERS_AS_INCOME_EXPENSE, false)
 
-            when {
-                screen.accountId != null -> {
-                    initForAccount(screen.accountId!!)
-                }
-                screen.categoryId != null && screen.transactions.isEmpty() -> {
-                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
-                }
-                //unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
-                screen.categoryId != null && screen.transactions.isNotEmpty()
-                        && screen.unspecifiedCategory == false -> {
-                    initForCategoryWithTransactions(
-                        screen.categoryId!!,
-                        screen.accountIdFilterList,
-                        screen.transactions
-                    )
-                }
-                screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
-                    initForAccountTransfersCategory(
-                        screen.categoryId,
-                        screen.accountIdFilterList,
-                        screen.transactions
-                    )
-                }
-                screen.unspecifiedCategory == true -> {
-                    initForUnspecifiedCategory()
-                }
-                else -> error("no id provided")
-            }
+//            when {
+//                screen.accountId != null -> {
+//                    initForAccount(screen.accountId!!)
+//                }
+//                screen.categoryId != null && screen.transactions.isEmpty() -> {
+//                    initForCategory(screen.categoryId!!, screen.accountIdFilterList)
+//                }
+//                //unspecifiedCategory==false is explicitly checked to accommodate for a temp AccountTransfers Category during Reports Screen
+//                screen.categoryId != null && screen.transactions.isNotEmpty()
+//                        && screen.unspecifiedCategory == false -> {
+//                    initForCategoryWithTransactions(
+//                        screen.categoryId!!,
+//                        screen.accountIdFilterList,
+//                        screen.transactions
+//                    )
+//                }
+//                screen.unspecifiedCategory == true && screen.transactions.isNotEmpty() -> {
+//                    initForAccountTransfersCategory(
+//                        screen.categoryId,
+//                        screen.accountIdFilterList,
+//                        screen.transactions
+//                    )
+//                }
+//                screen.unspecifiedCategory == true -> {
+//                    initForUnspecifiedCategory()
+//                }
+//                else -> error("no id provided")
+//            }
         }
 
         TestIdlingResource.decrement()
@@ -521,51 +520,47 @@ class ItemStatisticViewModel @Inject constructor(
     }
 
     fun setPeriod(
-        screen: ItemStatistic,
         period: TimePeriod
     ) {
         start(
-            screen = screen,
             period = period,
             reset = false
         )
     }
 
-    fun nextMonth(screen: ItemStatistic) {
+    fun nextMonth() {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
-                screen = screen,
                 period = month.incrementMonthPeriod(ivyContext, 1L, year),
                 reset = false
             )
         }
     }
 
-    fun previousMonth(screen: ItemStatistic) {
+    fun previousMonth() {
         val month = period.value.month
         val year = period.value.year ?: dateNowUTC().year
         if (month != null) {
             start(
-                screen = screen,
                 period = month.incrementMonthPeriod(ivyContext, -1L, year),
                 reset = false
             )
         }
     }
 
-    fun delete(screen: ItemStatistic) {
+    fun delete() {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             when {
-                screen.accountId != null -> {
-                    deleteAccount(screen.accountId!!)
-                }
-                screen.categoryId != null -> {
-                    deleteCategory(screen.categoryId!!)
-                }
+//                screen.accountId != null -> {
+//                    deleteAccount(screen.accountId!!)
+//                }
+//                screen.categoryId != null -> {
+//                    deleteCategory(screen.categoryId!!)
+//                }
             }
 
             TestIdlingResource.decrement()
@@ -578,7 +573,6 @@ class ItemStatisticViewModel @Inject constructor(
             plannedPaymentRuleDao.flagDeletedByAccountId(accountId = accountId)
             accountDao.flagDeleted(accountId)
 
-            nav.back()
 
             //the server deletes transactions + planned payments for the account
             accountUploader.delete(accountId)
@@ -589,7 +583,7 @@ class ItemStatisticViewModel @Inject constructor(
         ioThread {
             categoryDao.flagDeleted(categoryId)
 
-            nav.back()
+
 
             categoryUploader.delete(categoryId)
         }
@@ -607,13 +601,12 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun editAccount(screen: ItemStatistic, account: AccountOld, newBalance: Double) {
+    fun editAccount(account: AccountOld, newBalance: Double) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             accountCreator.editAccount(account, newBalance) {
                 start(
-                    screen = screen,
                     period = period.value,
                     reset = false
                 )
@@ -623,13 +616,12 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun payOrGet(screen: ItemStatistic, transaction: TransactionOld) {
+    fun payOrGet(transaction: TransactionOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
             plannedPaymentsLogic.payOrGet(transaction = transaction) {
                 start(
-                    screen = screen,
                     reset = false
                 )
             }
@@ -638,7 +630,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransaction(screen: ItemStatistic, transaction: TransactionOld) {
+    fun skipTransaction(transaction: TransactionOld) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -647,7 +639,6 @@ class ItemStatisticViewModel @Inject constructor(
                 skipTransaction = true
             ) {
                 start(
-                    screen = screen,
                     reset = false
                 )
             }
@@ -656,7 +647,7 @@ class ItemStatisticViewModel @Inject constructor(
         }
     }
 
-    fun skipTransactions(screen: ItemStatistic, transactions: List<TransactionOld>) {
+    fun skipTransactions(transactions: List<TransactionOld>) {
         viewModelScope.launch {
             TestIdlingResource.increment()
 
@@ -665,7 +656,6 @@ class ItemStatisticViewModel @Inject constructor(
                 skipTransaction = true
             ) {
                 start(
-                    screen = screen,
                     reset = false
                 )
             }

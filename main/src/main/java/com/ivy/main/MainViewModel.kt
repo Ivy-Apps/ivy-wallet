@@ -1,86 +1,45 @@
 package com.ivy.main
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.screens.Main
-import com.ivy.temp.event.AccountsUpdatedEvent
-import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
-import com.ivy.wallet.domain.deprecated.logic.AccountCreator
-import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
-import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
-import com.ivy.wallet.domain.deprecated.sync.IvySync
-import com.ivy.wallet.utils.asLiveData
-import com.ivy.wallet.utils.ioThread
+import com.ivy.core.domain.FlowViewModel
+import com.ivy.navigation.destinations.main.Main.Tab
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
-    private val nav: Navigation,
-    private val ivySync: IvySync,
-    private val exchangeRatesLogic: ExchangeRatesLogic,
-    private val accountCreator: AccountCreator,
-    private val baseCurrencyAct: BaseCurrencyActOld
-) : ViewModel() {
+class MainViewModel @Inject constructor() : FlowViewModel<MainState, MainState, MainEvent>() {
+    override fun initialState(): MainState = MainState(selectedTab = Tab.Home)
 
-    private val _currency = MutableLiveData<String>()
-    val currency = _currency.asLiveData()
+    override fun initialUiState(): MainState = initialState()
 
-    fun start(screen: Main) {
-        nav.onBackPressed[screen] = {
-            if (ivyContext.mainTab == com.ivy.base.MainTab.ACCOUNTS) {
-                ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
-                true
-            } else {
-                //Exiting (the backstack will close the app)
-                false
-            }
-        }
+    private val selectedTab = MutableStateFlow(Tab.Home)
 
-        viewModelScope.launch {
-            TestIdlingResource.increment()
+    override fun stateFlow(): Flow<MainState> = selectedTab.map {
+        MainState(selectedTab = it)
+    }
 
-            val baseCurrency = baseCurrencyAct(Unit)
-            _currency.value = baseCurrency
+    override suspend fun mapToUiState(state: MainState) = state
 
-            ioThread {
-//                try {
-//                    bankIntegrationsLogic.sync() //sync bank integrations
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-                ivySync.sync() //sync app data
+    override suspend fun handleEvent(event: MainEvent) = when (event) {
+        is MainEvent.SelectTab -> selectTab(event)
+        MainEvent.SwitchSelectedTab -> toggleTabs()
+    }
 
-                //Sync exchange rates
-                exchangeRatesLogic.sync(
-                    baseCurrency = baseCurrency
-                )
-            }
-
-            TestIdlingResource.decrement()
+    private fun selectTab(event: MainEvent.SelectTab) {
+        if (event.tab != null) {
+            selectedTab.value = event.tab
+        } else {
+            // we can introduce different logic in the future
+            selectedTab.value = Tab.Home
         }
     }
 
-    fun selectTab(tab: com.ivy.base.MainTab) {
-        ivyContext.selectMainTab(tab)
-    }
-
-    fun createAccount(data: CreateAccountData) {
-        viewModelScope.launch {
-            TestIdlingResource.increment()
-
-            accountCreator.createAccount(data) {
-                EventBus.getDefault().post(AccountsUpdatedEvent())
-            }
-
-            TestIdlingResource.decrement()
+    private fun toggleTabs() {
+        selectedTab.value = when (state.value.selectedTab) {
+            Tab.Home -> Tab.Accounts
+            Tab.Accounts -> Tab.Home
         }
     }
-
 }

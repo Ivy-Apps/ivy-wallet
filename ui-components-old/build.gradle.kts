@@ -22,7 +22,7 @@ dependencies {
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":temp-domain"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
 
     ThirdParty()
 }

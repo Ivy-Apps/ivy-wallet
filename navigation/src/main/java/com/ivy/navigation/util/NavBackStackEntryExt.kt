@@ -2,8 +2,23 @@ package com.ivy.navigation.util
 
 import androidx.navigation.NavBackStackEntry
 
-fun <T> NavBackStackEntry.arg(key: String, transform: (String) -> T): T =
-    arguments?.getString(key)?.let(transform) ?: error("missing '$key' argument")
+fun NavBackStackEntry.stringArg(key: String): String = arg(key = key, type = string()) { it }
+fun NavBackStackEntry.optionalStringArg(key: String): String? =
+    optionalArg(key = key, type = string()) { it }
 
-fun <T> NavBackStackEntry.optionalArg(key: String, transform: (String) -> T): T? =
-    arguments?.getString(key)?.let(transform)
+fun <ArgPrimitive, Arg> NavBackStackEntry.arg(
+    key: String,
+    type: NavBackStackEntry.(String) -> ArgPrimitive?,
+    transform: (ArgPrimitive) -> Arg
+): Arg =
+    optionalArg(key = key, type = type, transform = transform) ?: error("missing '$key' argument")
+
+fun <ArgPrimitive, Arg> NavBackStackEntry.optionalArg(
+    key: String,
+    type: NavBackStackEntry.(String) -> ArgPrimitive?,
+    transform: (ArgPrimitive) -> Arg
+): Arg? = type(key)?.let(transform)
+
+fun string(): NavBackStackEntry.(String) -> String? = { key -> arguments?.getString(key) }
+fun int(): NavBackStackEntry.(String) -> Int? = { key -> arguments?.getInt(key) }
+fun bool(): NavBackStackEntry.(String) -> Boolean? = { key -> arguments?.getBoolean(key) }

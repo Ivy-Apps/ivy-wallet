@@ -1,4 +1,3 @@
-import com.ivy.buildsrc.EventBus
 import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
@@ -13,15 +12,10 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":design-system"))
     implementation(project(":core:data-model"))
-    implementation(project(":temp-domain"))
-    implementation(project(":screens"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
-    implementation(project(":ui-components-old"))
+    implementation(project(":core:domain"))
+    implementation(project(":navigation"))
 
-
-    EventBus()
-
-    api(project(":home"))
-    api(project(":accounts"))
+    implementation(project(":home:tab"))
+    implementation(project(":accounts"))
 }

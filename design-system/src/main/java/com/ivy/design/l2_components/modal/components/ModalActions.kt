@@ -3,6 +3,7 @@ package com.ivy.design.l2_components.modal.components
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.R
@@ -31,6 +32,46 @@ fun ModalActionsScope.DynamicSave(
         onClick = onClick
     )
 }
+
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Set(
+    onClick: () -> Unit
+) {
+    Positive(
+        text = stringResource(R.string.set),
+        icon = R.drawable.ic_round_check_24,
+        visibility = ButtonVisibility.Focused,
+        onClick = onClick
+    )
+}
+
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Choose(
+    onClick: () -> Unit
+) {
+    Positive(
+        text = "Choose",
+        icon = R.drawable.ic_round_check_24,
+        visibility = ButtonVisibility.Focused,
+        onClick = onClick
+    )
+}
+
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Done(
+    onClick: () -> Unit
+) {
+    Positive(
+        text = "Done",
+        icon = R.drawable.ic_round_check_24,
+        visibility = ButtonVisibility.Focused,
+        onClick = onClick
+    )
+}
+
 
 @Suppress("unused")
 @Composable
@@ -70,6 +111,25 @@ fun ModalActionsScope.Negative(
     )
 }
 
+@Suppress("unused")
+@Composable
+fun ModalActionsScope.Secondary(
+    text: String?,
+    @DrawableRes
+    icon: Int? = null,
+    feeling: ButtonFeeling = ButtonFeeling.Positive,
+    onClick: () -> Unit
+) {
+    IvyButton(
+        size = ButtonSize.Small,
+        visibility = ButtonVisibility.Medium,
+        feeling = feeling,
+        text = text,
+        icon = icon,
+        onClick = onClick,
+    )
+}
+
 // region Previews
 @Preview
 @Composable
@@ -79,7 +139,7 @@ private fun Preview_DynamicSave_Add() {
         modal.show()
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 DynamicSave(item = null) {}
             }
         ) {}
@@ -94,7 +154,7 @@ private fun Preview_DynamicSave_Edit() {
         modal.show()
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 DynamicSave(item = "Test") {}
             }
         ) {}
@@ -109,7 +169,7 @@ private fun Preview_PositiveNegative() {
         modal.show()
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 Negative(text = "No", visibility = ButtonVisibility.High) {}
                 SpacerHor(width = 12.dp)
                 Positive(text = "Yes") {}

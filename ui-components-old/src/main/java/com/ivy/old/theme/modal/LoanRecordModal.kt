@@ -25,8 +25,7 @@ import com.ivy.data.loan.LoanRecord
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateLoanRecordData
 import com.ivy.wallet.domain.deprecated.logic.model.EditLoanRecordData
@@ -132,12 +131,6 @@ fun BoxWithConstraintsScope.LoanRecordModal(
             }
         }
     ) {
-        onScreenStart {
-            if (modal?.loanRecord == null) {
-                amountModalVisible = true
-            }
-        }
-
         Spacer(Modifier.height(32.dp))
 
         Row(
@@ -429,7 +422,7 @@ private fun AccountsRow(
             val selectedIndex = accounts.indexOf(selectedAccount)
             if (selectedIndex != -1) {
                 launch {
-                    if (TestingContext.inTest) return@launch //breaks UI tests
+//                    if (TestingContext.inTest) return@launch //breaks UI tests
 
                     lazyState.scrollToItem(
                         index = selectedIndex, //+1 because Spacer width 24.dp
@@ -439,7 +432,7 @@ private fun AccountsRow(
         }
     }
 
-    if (TestingContext.inTest) return //fix broken tests
+//    if (TestingContext.inTest) return //fix broken tests
 
     LazyRow(
         modifier = modifier.fillMaxWidth(),

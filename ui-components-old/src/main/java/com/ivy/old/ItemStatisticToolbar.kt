@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.frp.view.navigation.navigation
+
 import com.ivy.wallet.ui.theme.Transparent
 import com.ivy.wallet.ui.theme.components.CircleButton
 import com.ivy.wallet.ui.theme.components.DeleteButton
@@ -28,7 +28,7 @@ fun ItemStatisticToolbar(
     ) {
         Spacer(Modifier.width(24.dp))
 
-        val nav = navigation()
+
         CircleButton(
             modifier = Modifier.testTag("toolbar_close"),
             icon = R.drawable.ic_dismiss,
@@ -36,7 +36,7 @@ fun ItemStatisticToolbar(
             tint = contrastColor,
             backgroundColor = Transparent
         ) {
-            nav.back()
+
         }
 
         Spacer(Modifier.weight(1f))

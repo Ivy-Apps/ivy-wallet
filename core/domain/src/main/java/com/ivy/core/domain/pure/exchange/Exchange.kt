@@ -6,7 +6,7 @@ import arrow.core.Some
 import arrow.core.computations.option
 import com.ivy.data.CurrencyCode
 import com.ivy.data.exchange.ExchangeRatesData
-import com.ivy.frp.Pure
+
 
 suspend fun exchange(
     ratesData: ExchangeRatesData,
@@ -74,12 +74,12 @@ suspend fun findRate(
     }
 }
 
-@Pure
+
 private fun String.validateCurrency(): Option<String> {
     return if (this.isNotBlank()) return Some(this) else None
 }
 
-@Pure
+
 fun Double?.validateRate(): Option<Double> {
     val rate = this ?: return None
     //exchange rate which <= 0 is invalid!

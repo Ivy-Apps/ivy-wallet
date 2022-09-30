@@ -14,12 +14,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.TrnTimeUi
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.CaptionSecond
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
-import com.ivy.design.l2_components.CSecond
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
@@ -51,7 +51,8 @@ internal fun TransactionCard(
 internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
-        time.dueOn.CSecond(
+        CaptionSecond(
+            text = time.dueOn,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
             fontWeight = FontWeight.Bold
         )
@@ -67,7 +68,8 @@ internal fun Title(
 ) {
     if (title != null) {
         SpacerVer(height = if (time is TrnTimeUi.Due) 8.dp else 8.dp)
-        title.B1(
+        B1(
+            text = title,
             fontWeight = FontWeight.ExtraBold
         )
     }
@@ -80,7 +82,8 @@ internal fun Description(
 ) {
     if (description != null) {
         SpacerVer(height = if (title != null) 4.dp else 8.dp)
-        description.CSecond(
+        CaptionSecond(
+            text = description,
             color = UI.colors.neutral,
             fontWeight = FontWeight.Bold,
             maxLines = 3,
@@ -110,7 +113,7 @@ internal fun TransactionCardAmountRow(
 @Composable
 internal fun DuePaymentCTAs(
     time: TrnTimeUi,
-    type: TrnType,
+    type: TransactionType,
     onSkip: () -> Unit,
     onPayGet: () -> Unit,
 ) {
@@ -147,10 +150,10 @@ private fun RowScope.SkipButton(
 
 @Composable
 private fun RowScope.PayGetButton(
-    type: TrnType,
+    type: TransactionType,
     onClick: () -> Unit
 ) {
-    val isIncome = type == TrnType.Income
+    val isIncome = type == TransactionType.Income
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,

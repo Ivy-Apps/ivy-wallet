@@ -1,11 +1,11 @@
 package com.ivy.core.domain.action.category
 
+import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.category.CategoryDao
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
-import com.ivy.frp.action.Action
 import javax.inject.Inject
 
 /**

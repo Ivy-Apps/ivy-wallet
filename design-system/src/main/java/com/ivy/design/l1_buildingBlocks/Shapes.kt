@@ -50,6 +50,8 @@ fun ShapeOutlined(
     )
 }
 
+
+// region Previews
 @Preview
 @Composable
 private fun Preview_Circle() {
@@ -74,3 +76,4 @@ private fun PreviewOutlined() {
         )
     }
 }
+// endregion

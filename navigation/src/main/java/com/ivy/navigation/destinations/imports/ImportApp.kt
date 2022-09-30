@@ -5,7 +5,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.ivy.navigation.Screen
-import com.ivy.navigation.util.arg
+import com.ivy.navigation.util.stringArg
 
 object ImportApp : Screen<String> {
     private const val ARG_IMPORT_APP = "importApp"
@@ -19,6 +19,5 @@ object ImportApp : Screen<String> {
     )
 
     override fun destination(arg: String): String = "import/$arg"
-    override fun parse(entry: NavBackStackEntry): String = entry.arg(ARG_IMPORT_APP) { it }
-
+    override fun parse(entry: NavBackStackEntry): String = entry.stringArg(ARG_IMPORT_APP)
 }

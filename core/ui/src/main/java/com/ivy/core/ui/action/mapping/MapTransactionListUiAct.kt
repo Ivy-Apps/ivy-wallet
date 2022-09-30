@@ -2,9 +2,9 @@ package com.ivy.core.ui.action.mapping
 
 import android.content.Context
 import com.ivy.common.dateNowLocal
-import com.ivy.common.formatLocal
+import com.ivy.common.format
 import com.ivy.common.timeNowLocal
-import com.ivy.core.domain.pure.format.FormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.*
@@ -39,7 +39,7 @@ class MapTransactionListUiAct @Inject constructor(
         dueType: DueSectionUiType,
         domain: DueSection?,
     ): DueSectionUi? {
-        fun formatNonZero(value: Value): FormattedValue? =
+        fun formatNonZero(value: Value): ValueUi? =
             if (value.amount > 0.0) format(value, shortenFiat = false) else null
 
         return domain?.let {
@@ -70,7 +70,7 @@ class MapTransactionListUiAct @Inject constructor(
         val today = dateNowLocal()
 
         return TrnListItemUi.DateDivider(
-            date = domain.date.formatLocal(
+            date = domain.date.format(
                 if (today.year == domain.date.year) "MMMM dd." else "MMM dd. yyyy"
             ),
             day = when (domain.date) {
@@ -78,7 +78,7 @@ class MapTransactionListUiAct @Inject constructor(
                 today.minusDays(1) -> appContext.getString(R.string.yesterday)
                 today.plusDays(1) -> appContext.getString(R.string.tomorrow)
                 else -> null
-            } ?: today.formatLocal("EEEE"),
+            } ?: today.format("EEEE"),
             cashflow = format(value = domain.cashflow, shortenFiat = true),
             positiveCashflow = domain.cashflow.amount > 0
         )

@@ -1,6 +1,6 @@
 package com.ivy.data
 
-typealias IvyIconId = String
+typealias ItemIconId = String
 
 typealias CurrencyCode = String
 

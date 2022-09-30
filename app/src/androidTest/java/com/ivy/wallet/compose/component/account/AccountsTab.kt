@@ -2,13 +2,13 @@ package com.ivy.wallet.compose.component.account
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.*
+import com.ivy.design.l0_system.color.Purple
 import com.ivy.wallet.compose.IvyComposeTestRule
 import com.ivy.wallet.compose.component.ItemStatisticScreen
 import com.ivy.wallet.compose.component.ReorderModal
 import com.ivy.wallet.compose.component.home.MainBottomBar
 import com.ivy.wallet.compose.hideKeyboard
 import com.ivy.wallet.compose.util.printTree
-import com.ivy.wallet.ui.theme.Ivy
 
 class AccountsTab(
     private val composeTestRule: IvyComposeTestRule
@@ -57,7 +57,7 @@ class AccountsTab(
 
     fun addAccount(
         name: String,
-        color: Color = Ivy,
+        color: Color = Purple,
         icon: String? = null,
         currency: String? = null,
         initialBalance: String? = null

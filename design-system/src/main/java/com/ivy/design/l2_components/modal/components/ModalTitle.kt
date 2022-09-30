@@ -8,8 +8,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.scope.ModalScope
@@ -22,7 +22,8 @@ fun ModalScope.Title(
     color: Color = UI.colorsInverted.pure
 ) {
     SpacerVer(height = 24.dp)
-    text.B1(
+    B1(
+        text = text,
         modifier = Modifier.padding(start = 32.dp),
         fontWeight = FontWeight.ExtraBold,
         color = color
@@ -35,7 +36,7 @@ private fun Preview() {
     val modal = IvyModal()
     modal.show()
     IvyPreview {
-        Modal(modal = modal, Actions = {}) {
+        Modal(modal = modal, actions = {}) {
             Title(text = "Title")
             SpacerVer(height = 32.dp)
         }

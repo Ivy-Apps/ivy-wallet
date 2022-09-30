@@ -12,7 +12,6 @@ dependencies {
     api(project(":resources"))
 
     Hilt()
-    IvyFRP(api = true)
     Kotlin(api = true)
     Coroutines(api = true)
     FunctionalProgramming(api = true)

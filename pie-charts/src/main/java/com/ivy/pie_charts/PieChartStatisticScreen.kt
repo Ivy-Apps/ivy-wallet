@@ -25,20 +25,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.Navigation
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.pie_charts.model.CategoryAmount
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.*
 import com.ivy.wallet.ui.theme.modal.ChoosePeriodModal
@@ -48,14 +44,10 @@ import com.ivy.wallet.utils.*
 @ExperimentalFoundationApi
 @Composable
 fun BoxWithConstraintsScope.PieChartStatisticScreen(
-    screen: PieChartStatistic
 ) {
-    val viewModel: PieChartStatisticViewModel = viewModel()
+    val viewModel: PieChartStatisticViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
 
-    onScreenStart {
-        viewModel.onEvent(PieChartStatisticEvent.Start(screen))
-    }
 
     UI(
         state = state,
@@ -69,7 +61,7 @@ private fun BoxWithConstraintsScope.UI(
     state: PieChartStatisticState = PieChartStatisticState(),
     onEventHandler: (PieChartStatisticEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val lazyState = rememberLazyListState()
     val expanded by remember { derivedStateOf { lazyState.firstVisibleItemIndex < 1 } }
     val percentExpanded by animateFloatAsState(
@@ -104,15 +96,15 @@ private fun BoxWithConstraintsScope.UI(
                 showCloseButtonOnly = state.showCloseButtonOnly,
 
                 onClose = {
-                    nav.back()
+
                 },
                 onAdd = { trnType ->
-                    nav.navigateTo(
-                        EditTransaction(
-                            initialTransactionId = null,
-                            type = trnType
-                        )
-                    )
+//                    nav.navigateTo(
+//                        EditTransaction(
+//                            initialTransactionId = null,
+//                            type = trnType
+//                        )
+//                    )
                 }
             )
         }
@@ -188,7 +180,7 @@ private fun BoxWithConstraintsScope.UI(
                     currency = state.baseCurrency,
                     totalAmount = state.totalAmount,
                     selectedCategory = state.selectedCategory,
-                    nav = nav,
+
                     state = state,
                     onEventHandler = onEventHandler
                 )
@@ -307,7 +299,7 @@ private fun CategoryAmountCardWithSub(
     totalAmount: Double,
 
     selectedCategory: SelectedCategory?,
-    nav: Navigation,
+
     state: PieChartStatisticState,
 
     onEventHandler: (PieChartStatisticEvent) -> Unit = {},
@@ -326,14 +318,14 @@ private fun CategoryAmountCardWithSub(
             )
         }
     ) {
-        nav.navigateTo(
-            ItemStatistic(
-                categoryId = categoryAmount.category?.id,
-                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
-                accountIdFilterList = state.accountIdFilterList,
-                transactions = categoryAmount.associatedTransactions
-            )
-        )
+//        nav.navigateTo(
+//            ItemStatistic(
+//                categoryId = categoryAmount.category?.id,
+//                unspecifiedCategory = categoryAmount.isCategoryUnspecified,
+//                accountIdFilterList = state.accountIdFilterList,
+//                transactions = categoryAmount.associatedTransactions
+//            )
+//        )
     }
     if (categoryAmount.subCategoryState.subCategoryListExpanded) {
         Column(modifier = Modifier.padding(start = 24.dp)) {
@@ -345,14 +337,14 @@ private fun CategoryAmountCardWithSub(
                     totalAmount = totalAmount,
                     selectedCategory = selectedCategory
                 ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            categoryId = it.category?.id,
-                            unspecifiedCategory = it.isCategoryUnspecified,
-                            accountIdFilterList = state.accountIdFilterList,
-                            transactions = it.associatedTransactions
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            categoryId = it.category?.id,
+//                            unspecifiedCategory = it.isCategoryUnspecified,
+//                            accountIdFilterList = state.accountIdFilterList,
+//                            transactions = it.associatedTransactions
+//                        )
+//                    )
                 }
             }
         }

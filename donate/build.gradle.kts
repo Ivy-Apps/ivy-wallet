@@ -15,7 +15,7 @@ dependencies {
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":core:data-model"))
-    implementation(project(":screens"))
+    implementation(project(":navigation"))
     implementation(project(":temp-domain"))
     implementation(project(":temp-persistence"))
 

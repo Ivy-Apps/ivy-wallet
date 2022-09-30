@@ -18,15 +18,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.Search
+
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.Gray
 import com.ivy.wallet.ui.theme.components.IvyBasicTextField
@@ -38,17 +37,13 @@ import com.ivy.wallet.utils.keyboardVisibleState
 import com.ivy.wallet.utils.selectEndTextFieldValue
 
 @Composable
-fun SearchScreen(screen: Search) {
-    val viewModel: SearchViewModel = viewModel()
+fun SearchScreen() {
+    val viewModel: SearchViewModel = hiltViewModel()
 
     val transactions by viewModel.transactions.collectAsState()
     val baseCurrency by viewModel.baseCurrencyCode.collectAsState()
     val categories by viewModel.categories.collectAsState()
     val accounts by viewModel.accounts.collectAsState()
-
-    onScreenStart {
-        viewModel.search("")
-    }
 
     UI(
         transactions = transactions,
@@ -170,10 +165,6 @@ private fun SearchInput(
                 onSetSearchQueryTextField(it)
             }
         )
-
-        onScreenStart {
-            searchFocus.requestFocus()
-        }
 
         Spacer(Modifier.weight(1f))
 

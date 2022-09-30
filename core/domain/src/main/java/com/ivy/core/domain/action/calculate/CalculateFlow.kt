@@ -11,9 +11,9 @@ import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 import com.ivy.data.exchange.ExchangeRatesData
 import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose.TransferFrom
 import com.ivy.data.transaction.TrnPurpose.TransferTo
-import com.ivy.data.transaction.TrnType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -81,14 +81,14 @@ class CalculateFlow @Inject constructor(
     private suspend fun income(
         trn: Transaction, arg: SumArg
     ): Double = when (trn.type) {
-        TrnType.Income -> trnAmountInCurrency(trn, arg)
+        TransactionType.Income -> trnAmountInCurrency(trn, arg)
         else -> 0.0
     }
 
     private suspend fun expense(
         trn: Transaction, arg: SumArg
     ): Double = when (trn.type) {
-        TrnType.Expense -> trnAmountInCurrency(trn, arg)
+        TransactionType.Expense -> trnAmountInCurrency(trn, arg)
         else -> 0.0
     }
 
@@ -106,7 +106,7 @@ class CalculateFlow @Inject constructor(
     private suspend fun countIncome(
         trn: Transaction, arg: SumArg
     ): Double = when (trn.type) {
-        TrnType.Income -> 1.0
+        TransactionType.Income -> 1.0
         else -> 0.0
     }
 
@@ -114,7 +114,7 @@ class CalculateFlow @Inject constructor(
     private suspend fun countExpense(
         trn: Transaction, arg: SumArg
     ): Double = when (trn.type) {
-        TrnType.Expense -> 1.0
+        TransactionType.Expense -> 1.0
         else -> 0.0
     }
 

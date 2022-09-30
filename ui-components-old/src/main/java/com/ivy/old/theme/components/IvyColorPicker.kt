@@ -24,12 +24,9 @@ import com.ivy.design.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.ComponentPreview
-import com.ivy.frp.test.TestingContext
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.dynamicContrast
 import com.ivy.wallet.utils.densityScope
 import com.ivy.wallet.utils.thenIf
-import kotlinx.coroutines.launch
 
 private data class IvyColor(
     val color: Color,
@@ -75,20 +72,7 @@ fun ColumnScope.IvyColorPicker(
     val coroutineScope = rememberCoroutineScope()
 
     densityScope {
-        onScreenStart {
-            if (TestingContext.inTest) return@onScreenStart //listState.scrollToItem breaks the tests
-            //java.lang.IllegalStateException: pending composition has not been applied
 
-            val selectedColorIndex = ivyColors.indexOfFirst { it.color == selectedColor }
-            if (selectedColorIndex != -1) {
-                coroutineScope.launch {
-                    listState.scrollToItem(
-                        index = selectedColorIndex,
-                        scrollOffset = 0
-                    )
-                }
-            }
-        }
     }
 
     LazyRow(

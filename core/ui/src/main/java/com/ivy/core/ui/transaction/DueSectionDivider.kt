@@ -17,17 +17,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
-import com.ivy.core.domain.pure.format.FormattedValue
-import com.ivy.core.domain.pure.format.dummyFormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.DueSectionUi
 import com.ivy.core.ui.data.transaction.DueSectionUiType
 import com.ivy.core.ui.data.transaction.dummyDueSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.B1
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.clickableNoIndication
@@ -76,7 +76,8 @@ private fun Title(
     title: String,
     color: Color,
 ) {
-    title.B1(
+    B1(
+        text = title,
         modifier = Modifier
             // TODO: Rename this to "due_title"
             .testTag("upcoming_title"),
@@ -93,15 +94,16 @@ private fun ExpandCollapseIcon(
         targetValue = if (expanded) 180f else 0f,
         animationSpec = springBounce()
     )
-    R.drawable.ic_expand_less.Icon(
+    IconRes(
+        icon = R.drawable.ic_expand_less,
         modifier = Modifier.rotate(expandIconRotation)
     )
 }
 
 @Composable
 private fun DueIncomeExpense(
-    income: FormattedValue?,
-    expense: FormattedValue?,
+    income: ValueUi?,
+    expense: ValueUi?,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -128,7 +130,7 @@ private fun DueIncomeExpense(
 }
 
 @Composable
-private fun FormattedValue.AmountCurrencyLabel(
+private fun ValueUi.AmountCurrencyLabel(
     testTag: String,
     label: String,
     amountColor: Color
@@ -159,8 +161,8 @@ private fun Preview_Upcoming_IncomeExpenses() {
     ComponentPreview {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Upcoming,
-            income = dummyFormattedValue("8043.23"),
-            expense = dummyFormattedValue("923.87")
+            income = dummyValueUi("8043.23"),
+            expense = dummyValueUi("923.87")
         ).SectionDivider(
             expanded = false,
             setExpanded = {}
@@ -175,7 +177,7 @@ private fun Preview_Overdue_Expenses() {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Overdue,
             income = null,
-            expense = dummyFormattedValue("923.87")
+            expense = dummyValueUi("923.87")
         ).SectionDivider(
             expanded = true,
             setExpanded = {}
@@ -189,7 +191,7 @@ private fun Preview_Upcoming_Income() {
     ComponentPreview {
         dummyDueSectionUi(
             dueType = DueSectionUiType.Upcoming,
-            income = dummyFormattedValue("8043.23"),
+            income = dummyValueUi("8043.23"),
             expense = null,
         ).SectionDivider(
             expanded = true,

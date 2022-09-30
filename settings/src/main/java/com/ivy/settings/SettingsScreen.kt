@@ -26,10 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.ivy.base.Constants
-import com.ivy.base.Constants.URL_IVY_CONTRIBUTORS
 import com.ivy.base.R
 import com.ivy.base.names
 import com.ivy.data.IvyCurrency
@@ -41,9 +40,8 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.IconScale
 import com.ivy.design.l1_buildingBlocks.IvyIconScaled
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
-import com.ivy.screens.*
+
+
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
 import com.ivy.wallet.ui.theme.components.IvySwitch
@@ -57,8 +55,8 @@ import java.util.*
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
-    val viewModel: SettingsViewModel = viewModel()
+fun BoxWithConstraintsScope.SettingsScreen() {
+    val viewModel: SettingsViewModel = hiltViewModel()
 
     val user by viewModel.user.observeAsState()
     val opSync by viewModel.opSync.observeAsState()
@@ -73,14 +71,10 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
     val nameLocalAccount by viewModel.nameLocalAccount.observeAsState()
     val opFetchTrns by viewModel.opFetchTrns.collectAsState()
 
-    onScreenStart {
-        viewModel.start()
-    }
-
     val rootScreen = com.ivy.core.ui.temp.rootScreen()
     val context = LocalContext.current
     UI(
-        screen = screen,
+//        screen = screen,
         user = user,
         currencyCode = currencyCode,
         opSync = opSync,
@@ -128,7 +122,7 @@ fun BoxWithConstraintsScope.SettingsScreen(screen: SettingsScreen) {
 @ExperimentalFoundationApi
 @Composable
 private fun BoxWithConstraintsScope.UI(
-    screen: SettingsScreen,
+//    screen: SettingsScreen,
     user: User?,
     currencyCode: String,
     opSync: OpResult<Boolean>?,
@@ -180,7 +174,7 @@ private fun BoxWithConstraintsScope.UI(
             .testTag("settings_lazy_column")
     ) {
         stickyHeader {
-            val nav = navigation()
+
             IvyToolbar(
                 onBack = { nav.onBackPressed() },
             ) {
@@ -188,9 +182,9 @@ private fun BoxWithConstraintsScope.UI(
 
                 Text(
                     modifier = Modifier.clickableNoIndication {
-                        nav.navigateTo(Test)
+//                        nav.navigateTo(Test)
                     },
-                    text = "${screen.versionName} (${screen.versionCode})",
+                    text = "okay",//"${screen.versionName} (${screen.versionCode})",
                     style = UI.typoSecond.c.style(
                         color = UI.colors.neutral,
                         fontWeight = FontWeight.Bold
@@ -253,7 +247,7 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(16.dp))
 
-            val nav = navigation()
+
             ExportCSV {
                 onExportToCSV()
             }
@@ -275,11 +269,11 @@ private fun BoxWithConstraintsScope.UI(
                 text = stringResource(R.string.import_data),
                 backgroundGradient = GradientGreen
             ) {
-                nav.navigateTo(
-                    Import(
-                        launchedFromOnboarding = false
-                    )
-                )
+//                nav.navigateTo(
+//                    Import(
+//                        launchedFromOnboarding = false
+//                    )
+//                )
             }
         }
 
@@ -338,7 +332,7 @@ private fun BoxWithConstraintsScope.UI(
 //
 //            Spacer(Modifier.height(16.dp))
 //
-//            val nav = navigation()
+//            
 //            SettingsDefaultButton(
 //                icon = R.drawable.ic_custom_atom_m,
 //                text = stringResource(R.string.experimental_settings)
@@ -373,14 +367,14 @@ private fun BoxWithConstraintsScope.UI(
 
             Spacer(Modifier.height(12.dp))
 
-            val nav = navigation()
+
             SettingsPrimaryButton(
                 icon = R.drawable.ic_donate_crown,
                 text = "Donate",
                 iconPadding = 8.dp,
                 backgroundGradient = Gradient.from(SunsetNight)
             ) {
-                nav.navigateTo(DonateScreen)
+//                nav.navigateTo(DonateScreen)
             }
         }
 
@@ -594,27 +588,27 @@ private fun IvyTelegram() {
 
 @Composable
 private fun HelpCenter() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = stringResource(R.string.help_center),
     ) {
-        nav.navigateTo(
-            IvyWebView(url = Constants.URL_HELP_CENTER)
-        )
+//        nav.navigateTo(
+//            IvyWebView(url = Constants.URL_HELP_CENTER)
+//        )
     }
 }
 
 @Composable
 private fun Roadmap() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = stringResource(R.string.roadmap),
     ) {
-        nav.navigateTo(
-            IvyWebView(url = Constants.URL_ROADMAP)
-        )
+//        nav.navigateTo(
+//            IvyWebView(url = Constants.URL_ROADMAP)
+//        )
     }
 }
 
@@ -643,15 +637,15 @@ private fun ContactSupport() {
 
 @Composable
 private fun ProjectContributors() {
-    val nav = navigation()
+
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
         iconPadding = 6.dp
     ) {
-        nav.navigateTo(
-            IvyWebView(url = URL_IVY_CONTRIBUTORS)
-        )
+//        nav.navigateTo(
+//            IvyWebView(url = URL_IVY_CONTRIBUTORS)
+//        )
     }
 }
 
@@ -1261,7 +1255,7 @@ private fun SettingsDefaultButton(
 private fun Preview_synced() {
     IvyPreview {
         UI(
-            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
+//            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
                 email = "iliyan.germanov971@gmail.com",
                 authProviderType = AuthProviderType.GOOGLE,
@@ -1289,7 +1283,7 @@ private fun Preview_synced() {
 private fun Preview_notSynced() {
     IvyPreview {
         UI(
-            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
+//            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
                 email = "iliyan.germanov971@gmail.com",
                 authProviderType = AuthProviderType.GOOGLE,
@@ -1317,7 +1311,7 @@ private fun Preview_notSynced() {
 private fun Preview_loading() {
     IvyPreview {
         UI(
-            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
+//            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = User(
                 email = "iliyan.germanov971@gmail.com",
                 authProviderType = AuthProviderType.GOOGLE,
@@ -1345,7 +1339,7 @@ private fun Preview_loading() {
 private fun Preview_localAccount() {
     IvyPreview {
         UI(
-            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
+//            screen = SettingsScreen(versionName = "1.0.0", versionCode = "100"),
             user = null,
             nameLocalAccount = "Iliyan",
             opSync = null,

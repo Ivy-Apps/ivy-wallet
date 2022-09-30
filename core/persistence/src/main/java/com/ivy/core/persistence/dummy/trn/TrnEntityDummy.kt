@@ -4,9 +4,9 @@ import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnState
-import com.ivy.data.transaction.TrnType
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
@@ -14,7 +14,7 @@ import java.util.*
 fun dummyTrnEntity(
     id: String = UUID.randomUUID().toString(),
     accountId: String = "",
-    type: TrnType = TrnType.Expense,
+    type: TransactionType = TransactionType.Expense,
     amount: Double = 0.0,
     currency: CurrencyCode = "USD",
     dateTime: Instant = Instant.now().truncatedTo(ChronoUnit.SECONDS),

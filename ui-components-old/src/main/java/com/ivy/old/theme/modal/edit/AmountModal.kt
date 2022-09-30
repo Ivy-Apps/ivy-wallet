@@ -29,7 +29,7 @@ import com.ivy.data.IvyCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.ui.theme.Red
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.ui.theme.modal.IvyModal
@@ -107,9 +107,6 @@ fun BoxWithConstraintsScope.AmountModal(
         Spacer(Modifier.height(amountSpacerTop))
 
         val rootView = LocalView.current
-        onScreenStart {
-            hideKeyboard(rootView)
-        }
 
         AmountCurrency(
             amount = amount,

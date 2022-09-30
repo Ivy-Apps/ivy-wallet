@@ -3,6 +3,7 @@ package com.ivy.wallet.ui.category
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.SortOrder
 import com.ivy.categories.CategoryData
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
@@ -16,7 +17,6 @@ import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
-import com.ivy.wallet.domain.deprecated.logic.CategoryCreator
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
 import com.ivy.wallet.io.persistence.SharedPrefs
@@ -37,7 +37,7 @@ class CategoriesViewModel @Inject constructor(
     private val categorySync: CategorySync,
     private val categoryCreator: CategoryCreator,
     private val categoriesAct: CategoriesActOld,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
+    private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val baseCurrencyAct: BaseCurrencyActOld,
     private val accountsAct: AccountsActOld,

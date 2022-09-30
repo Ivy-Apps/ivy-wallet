@@ -5,10 +5,10 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.onboarding.viewmodel.OnboardingViewModel
-import com.ivy.screens.Import
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVImporter
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVMapper
 import com.ivy.wallet.domain.deprecated.logic.csv.CSVNormalizer
@@ -28,8 +28,8 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class ImportViewModel @Inject constructor(
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
-    private val nav: Navigation,
+    private val ivyContext: IvyWalletCtx,
+    private val
     private val fileReader: IvyFileReader,
     private val csvNormalizer: CSVNormalizer,
     private val csvMapper: CSVMapper,
@@ -48,25 +48,25 @@ class ImportViewModel @Inject constructor(
     private val _importResult = MutableLiveData<ImportResult>()
     val importResult = _importResult.asLiveData()
 
-    fun start(screen: Import) {
-        nav.onBackPressed[screen] = {
-            when (importStep.value) {
-                ImportStep.IMPORT_FROM -> false
-                ImportStep.INSTRUCTIONS -> {
-                    _importStep.value = ImportStep.IMPORT_FROM
-                    true
-                }
-                ImportStep.LOADING -> {
-                    //do nothing, disable back
-                    true
-                }
-                ImportStep.RESULT -> {
-                    _importStep.value = ImportStep.IMPORT_FROM
-                    true
-                }
-                null -> false
-            }
-        }
+    fun start() {
+//        nav.onBackPressed[screen] = {
+//            when (importStep.value) {
+//                ImportStep.IMPORT_FROM -> false
+//                ImportStep.INSTRUCTIONS -> {
+//                    _importStep.value = ImportStep.IMPORT_FROM
+//                    true
+//                }
+//                ImportStep.LOADING -> {
+//                    //do nothing, disable back
+//                    true
+//                }
+//                ImportStep.RESULT -> {
+//                    _importStep.value = ImportStep.IMPORT_FROM
+//                    true
+//                }
+//                null -> false
+//            }
+//        }
     }
 
     @ExperimentalStdlibApi
@@ -166,29 +166,27 @@ class ImportViewModel @Inject constructor(
     }
 
     fun skip(
-        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
-        if (screen.launchedFromOnboarding) {
-            onboardingViewModel.importSkip()
-        }
+//        if (screen.launchedFromOnboarding) {
+//            onboardingViewModel.importSkip()
+//        }
 
-        nav.back()
+
         resetState()
     }
 
     fun finish(
-        screen: Import,
         onboardingViewModel: OnboardingViewModel
     ) {
-        if (screen.launchedFromOnboarding) {
-            val importSuccess = importResult.value?.transactionsImported?.let { it > 0 } ?: false
-            onboardingViewModel.importFinished(
-                success = importSuccess
-            )
-        }
+//        if (screen.launchedFromOnboarding) {
+//            val importSuccess = importResult.value?.transactionsImported?.let { it > 0 } ?: false
+//            onboardingViewModel.importFinished(
+//                success = importSuccess
+//            )
+//        }
 
-        nav.back()
+
         resetState()
     }
 

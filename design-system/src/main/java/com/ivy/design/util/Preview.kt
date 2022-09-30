@@ -10,6 +10,8 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.ivy.design.Theme
 import com.ivy.design.api.IvyDesign
 import com.ivy.design.api.IvyUI
@@ -48,6 +50,9 @@ fun IvyPreview(
     )
 }
 
+@Composable
+inline fun <reified VM : ViewModel> hiltViewmodelPreviewSafe(): VM? =
+    if (isInPreview()) null else hiltViewModel()
 
 @Composable
 fun isInPreview(): Boolean = LocalInspectionMode.current

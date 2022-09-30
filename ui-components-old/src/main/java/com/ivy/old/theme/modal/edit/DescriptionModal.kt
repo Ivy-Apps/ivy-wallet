@@ -21,7 +21,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hideKeyboard
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
@@ -82,10 +82,6 @@ fun BoxWithConstraintsScope.DescriptionModal(
         Spacer(Modifier.height(24.dp))
 
         val focus = FocusRequester()
-        onScreenStart {
-            focus.requestFocus()
-        }
-
         IvyDescriptionTextField(
             modifier = Modifier
                 .padding(horizontal = 32.dp)

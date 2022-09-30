@@ -7,19 +7,21 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.component.BadgeComponent
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
-import com.ivy.core.ui.data.icon.IvyIcon
+import com.ivy.core.ui.data.icon.dummyIconSized
+import com.ivy.core.ui.data.icon.dummyIconUnknown
 import com.ivy.design.l0_system.color.Black
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun CategoryUi.Badge(
-    background: Color = color,
+fun CategoryBadge(
+    category: CategoryUi,
+    background: Color = category.color,
     onClick: (() -> Unit)? = null
 ) {
     BadgeComponent(
-        icon = icon,
-        text = name,
+        icon = category.icon,
+        text = category.name,
         background = background,
         onClick = onClick,
     )
@@ -29,13 +31,11 @@ fun CategoryUi.Badge(
 @Composable
 private fun Preview_Black() {
     ComponentPreview {
-        dummyCategoryUi(
-            name = "Cash",
-            icon = IvyIcon.Unknown(
-                icon = R.drawable.ic_vue_building_house,
-                iconId = null
-            )
-        ).Badge(
+        CategoryBadge(
+            category = dummyCategoryUi(
+                name = "Cash",
+                icon = dummyIconUnknown(R.drawable.ic_vue_building_house)
+            ),
             background = Black
         )
     }
@@ -45,15 +45,13 @@ private fun Preview_Black() {
 @Composable
 private fun Preview_Color() {
     ComponentPreview {
-        dummyCategoryUi(
-            name = "Cash",
-            icon = IvyIcon.Sized(
-                iconS = R.drawable.ic_custom_category_s,
-                iconM = 0,
-                iconL = 0,
-                iconId = null
-            ),
-            color = Purple,
-        ).Badge()
+
+        CategoryBadge(
+            category = dummyCategoryUi(
+                name = "Cash",
+                icon = dummyIconSized(R.drawable.ic_custom_category_s),
+                color = Purple,
+            )
+        )
     }
 }

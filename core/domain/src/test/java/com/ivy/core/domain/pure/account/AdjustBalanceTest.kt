@@ -4,9 +4,9 @@ import com.ivy.core.domain.pure.dummy.dummyAcc
 import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import com.ivy.data.transaction.TrnTime
-import com.ivy.data.transaction.TrnType
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -22,7 +22,7 @@ class AdjustBalanceTest : StringSpec({
     // region Helpers
     fun Transaction?.assert(
         amount: Double,
-        trnType: TrnType,
+        trnType: TransactionType,
         acc: Account,
     ) {
         this shouldNotBe null
@@ -50,7 +50,7 @@ class AdjustBalanceTest : StringSpec({
 
             adjustTrn.assert(
                 amount = 10.0,
-                trnType = TrnType.Expense,
+                trnType = TransactionType.Expense,
                 acc = acc
             )
         }
@@ -69,7 +69,7 @@ class AdjustBalanceTest : StringSpec({
 
             adjustTrn.assert(
                 amount = 66.33,
-                trnType = TrnType.Income,
+                trnType = TransactionType.Income,
                 acc = acc
             )
         }
@@ -100,6 +100,6 @@ class AdjustBalanceTest : StringSpec({
 
         res shouldNotBe null
         res!!.value.amount shouldBeGreaterThan 0.0
-        res.type shouldBe TrnType.Income
+        res.type shouldBe TransactionType.Income
     }
 })

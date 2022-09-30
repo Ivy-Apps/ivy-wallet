@@ -40,7 +40,8 @@ fun IvyButton(
     val bgColor = when (feeling) {
         ButtonFeeling.Positive -> UI.colors.primary
         ButtonFeeling.Negative -> UI.colors.red
-        ButtonFeeling.Neutral -> UI.colors.medium
+        ButtonFeeling.Neutral -> UI.colors.neutral
+        ButtonFeeling.Disabled -> UI.colors.medium
     }
 
     val iconOnly = icon != null && text == null
@@ -68,12 +69,12 @@ fun IvyButton(
         )
     }
 
-    val textColor = rememberContrastColor(
-        when (visibility) {
-            ButtonVisibility.Focused, ButtonVisibility.High -> bgColor
-            else -> UI.colors.pure
-        }
-    )
+    val textColor = when (visibility) {
+        ButtonVisibility.Focused, ButtonVisibility.High ->
+            rememberContrastColor(bgColor)
+        ButtonVisibility.Medium -> rememberContrastColor(UI.colors.pure)
+        ButtonVisibility.Low -> UI.colors.primary
+    }
     val textStyle = UI.typo.b2.style(
         color = textColor,
         fontWeight = FontWeight.Bold,
@@ -171,7 +172,7 @@ private fun PreviewCommon() {
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
                 visibility = ButtonVisibility.Focused,
-                feeling = ButtonFeeling.Neutral,
+                feeling = ButtonFeeling.Disabled,
                 text = "Disabled button",
                 icon = null,
             ) {}

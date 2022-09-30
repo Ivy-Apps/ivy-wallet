@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.Constants
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
@@ -32,13 +32,10 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.old.IncomeExpensesCards
 import com.ivy.old.ItemStatisticToolbar
-import com.ivy.screens.EditTransaction
-import com.ivy.screens.ItemStatistic
-import com.ivy.screens.PieChartStatistic
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.BalanceRow
@@ -58,10 +55,9 @@ import java.util.*
 
 
 @Composable
-fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
-    val viewModel: ItemStatisticViewModel = viewModel()
+fun BoxWithConstraintsScope.ItemStatisticScreen() {
+    val viewModel: ItemStatisticViewModel = hiltViewModel()
 
-    val nav = navigation()
 
     val period by viewModel.period.collectAsState()
     val baseCurrency by viewModel.baseCurrency.collectAsState()
@@ -96,17 +92,6 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
     val treatTransfersAsIncomeExpense by viewModel.treatTransfersAsIncomeExpense.collectAsState()
 
     val view = LocalView.current
-    onScreenStart {
-        viewModel.start(screen)
-
-        nav.onBackPressed[screen] = {
-            setStatusBarDarkTextCompat(
-                view = view,
-                darkText = true
-            )
-            false
-        }
-    }
 
     UI(
         period = period,
@@ -146,31 +131,30 @@ fun BoxWithConstraintsScope.ItemStatisticScreen(screen: ItemStatistic) {
 
         onSetPeriod = {
             viewModel.setPeriod(
-                screen = screen,
                 period = it
             )
         },
         onNextMonth = {
-            viewModel.nextMonth(screen)
+            viewModel.nextMonth()
         },
         onPreviousMonth = {
-            viewModel.previousMonth(screen)
+            viewModel.previousMonth()
         },
         onDelete = {
-            viewModel.delete(screen)
+            viewModel.delete()
         },
         onEditCategory = viewModel::editCategory,
         onEditAccount = { acc, newBalance ->
-            viewModel.editAccount(screen, acc, newBalance)
+            viewModel.editAccount(acc, newBalance)
         },
         onPayOrGet = { transaction ->
-            viewModel.payOrGet(screen, transaction)
+            viewModel.payOrGet(transaction)
         },
         onSkipTransaction = { transaction ->
-            viewModel.skipTransaction(screen, transaction)
+            viewModel.skipTransaction(transaction)
         },
         onSkipAllTransactions = { transactions ->
-            viewModel.skipTransactions(screen, transactions)
+            viewModel.skipTransactions(transactions)
         }
     )
 }
@@ -221,7 +205,7 @@ private fun BoxWithConstraintsScope.UI(
     onSkipTransaction: (TransactionOld) -> Unit = {},
     onSkipAllTransactions: (List<TransactionOld>) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val itemColor = (account?.color ?: category?.color)?.toComposeColor() ?: Gray
 
     var deleteModalVisible by remember { mutableStateOf(false) }
@@ -531,7 +515,7 @@ private fun Header(
 
         Spacer(Modifier.height(20.dp))
 
-        val nav = navigation()
+
         IncomeExpensesCards(
             history = history,
             currency = currency,
@@ -543,37 +527,37 @@ private fun Header(
             itemColor = itemColor,
             incomeHeaderCardClicked = {
                 if (account != null) {
-                    nav.navigateTo(
-                        PieChartStatistic(
-                            type = TrnTypeOld.INCOME,
-                            accountList = listOf(account.id),
-                            filterExcluded = false,
-                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
-                        )
-                    )
+//                    nav.navigateTo(
+//                        PieChartStatistic(
+//                            type = TrnTypeOld.INCOME,
+//                            accountList = listOf(account.id),
+//                            filterExcluded = false,
+//                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
+//                        )
+//                    )
                 }
             },
             expenseHeaderCardClicked = {
                 if (account != null) {
-                    nav.navigateTo(
-                        PieChartStatistic(
-                            type = TrnTypeOld.EXPENSE,
-                            accountList = listOf(account.id),
-                            filterExcluded = false,
-                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
-                        )
-                    )
+//                    nav.navigateTo(
+//                        PieChartStatistic(
+//                            type = TrnTypeOld.EXPENSE,
+//                            accountList = listOf(account.id),
+//                            filterExcluded = false,
+//                            treatTransfersAsIncomeExpense = treatTransfersAsIncomeExpense
+//                        )
+//                    )
                 }
             }
         ) { trnType ->
-            nav.navigateTo(
-                EditTransaction(
-                    initialTransactionId = null,
-                    type = trnType,
-                    accountId = account?.id,
-                    categoryId = category?.id
-                )
-            )
+//            nav.navigateTo(
+//                EditTransaction(
+//                    initialTransactionId = null,
+//                    type = trnType,
+//                    accountId = account?.id,
+//                    categoryId = category?.id
+//                )
+//            )
         }
 
         Spacer(Modifier.height(20.dp))

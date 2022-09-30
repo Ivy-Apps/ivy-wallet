@@ -12,5 +12,5 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":temp-persistence"))
     implementation(project(":sync:base"))
-    implementation(project(":sync:ivy-server"))
+//    implementation(project(":sync:ivy-server"))
 }

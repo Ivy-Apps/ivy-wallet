@@ -4,7 +4,7 @@ import arrow.core.NonEmptyList
 import com.ivy.core.domain.pure.util.mapIndexedNel
 import com.ivy.core.domain.pure.util.nonEmptyListOfZeros
 import com.ivy.data.transaction.Transaction
-import com.ivy.frp.Pure
+
 
 /**
  * Efficiently calculates a sum of transactions given [selectors].
@@ -47,7 +47,7 @@ import com.ivy.frp.Pure
  * println("Expense = $res[1]")
  * ```
  */
-@Pure
+
 suspend fun <Arg> sumTransactions(
     transactions: List<Transaction>,
     selectors: NonEmptyList<suspend (Transaction, Arg) -> Double>,

@@ -3,7 +3,6 @@ package com.ivy.design.l2_components.modal
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,12 +40,10 @@ import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
-import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.consumeClicks
-import com.ivy.design.util.isInPreview
-import com.ivy.design.util.isKeyboardOpen
+import com.ivy.design.util.*
 import com.ivy.resources.R
 
+// region Ivy Modal
 @Immutable
 data class IvyModal(
     val visibilityState: MutableState<Boolean> = mutableStateOf(false)
@@ -61,17 +58,23 @@ data class IvyModal(
 }
 
 @Composable
+fun rememberIvyModal(): IvyModal = remember { IvyModal() }
+// endregion
+
+@Composable
 fun BoxScope.Modal(
     modal: IvyModal,
 
-    Actions: @Composable ModalActionsScope.() -> Unit,
+    actions: @Composable ModalActionsScope.() -> Unit,
     keyboardShiftsContent: Boolean = true,
-    Content: @Composable ModalScope.() -> Unit
+    content: @Composable ModalScope.() -> Unit
 ) {
     val visible by modal.visibilityState
 
     AnimatedVisibility(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .zIndex(1_000f),
         visible = visible,
         enter = fadeIn(),
         exit = fadeOut()
@@ -87,12 +90,13 @@ fun BoxScope.Modal(
                     },
                     enabled = visible
                 )
-                .zIndex(10f)
         )
     }
 
     AnimatedVisibility(
-        modifier = Modifier.align(Alignment.BottomCenter),
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .zIndex(1_100f),
         visible = visible,
         enter = slideInVertically(
             initialOffsetY = { fullHeight: Int -> fullHeight }
@@ -102,13 +106,12 @@ fun BoxScope.Modal(
         )
     ) {
         val systemBottomPadding = systemPaddingBottom()
-        val paddingBottomAnimated = if (keyboardShiftsContent) {
-            val keyboardShown = keyboardShown()
-            val keyboardShownInset = keyboardInset()
-
+        val keyboardShown by keyboardShownState()
+        val keyboardShownInset = keyboardPaddingBottom()
+        val paddingBottom = if (keyboardShiftsContent) {
             animateDpAsState(
-                targetValue = if (keyboardShown) keyboardShownInset else systemBottomPadding,
-                animationSpec = tween(durationMillis = 200)
+                targetValue = if (keyboardShown)
+                    keyboardShownInset else systemBottomPadding,
             ).value
         } else systemBottomPadding
 
@@ -120,8 +123,7 @@ fun BoxScope.Modal(
                 .background(UI.colors.pure, UI.shapes.roundedTop)
                 .clip(UI.shapes.roundedTop)
                 .consumeClicks() // don't close the modal when clicking on the empty space inside
-                .padding(bottom = paddingBottomAnimated)
-                .zIndex(11f)
+                .padding(bottom = paddingBottom)
         ) {
             BackHandler(enabled = modal.visibilityState.value) {
                 modal.hide()
@@ -129,13 +131,14 @@ fun BoxScope.Modal(
 
             val modalScope = remember { ModalScopeImpl(this) }
             with(modalScope) {
-                Content()
+                content()
             }
 
             ModalActionsRow(
-                Actions = Actions,
+                Actions = actions,
                 onClose = { modal.hide() },
             )
+            SpacerVer(height = 12.dp)
         }
     }
 }
@@ -147,9 +150,10 @@ private fun ModalActionsRow(
     onClose: () -> Unit,
 ) {
     RowWithLine(
-        modifier = modifier
+        // don't add horizontal padding because it'll break the line
+        modifier = modifier.padding(top = 4.dp),
     ) {
-        SpacerHor(width = 24.dp)
+        SpacerHor(width = 16.dp)
         CloseButton(
             modifier = Modifier.testTag("modal_close_button"),
             onClick = onClose
@@ -159,7 +163,7 @@ private fun ModalActionsRow(
         with(actionsScope) {
             Actions()
         }
-        SpacerHor(width = 24.dp)
+        SpacerHor(width = 16.dp)
     }
 
 }
@@ -198,7 +202,7 @@ fun CloseButton(
     IvyButton(
         size = ButtonSize.Small,
         visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Neutral,
+        feeling = ButtonFeeling.Disabled,
         text = null,
         icon = R.drawable.ic_round_close_24,
         onClick = onClick
@@ -206,8 +210,8 @@ fun CloseButton(
 }
 
 @Composable
-private fun keyboardShown(): Boolean {
-    var keyboardOpen by remember { mutableStateOf(false) }
+private fun keyboardShownState(): MutableState<Boolean> {
+    val keyboardOpen = remember { mutableStateOf(false) }
     val rootView = LocalView.current
 
     DisposableEffect(Unit) {
@@ -216,14 +220,14 @@ private fun keyboardShown(): Boolean {
             val isOpenNew = isKeyboardOpen(rootView)
 
             // since the observer is hit quite often, only callback when there is a change.
-            if (isOpenNew != keyboardOpen) {
-                keyboardOpen = isOpenNew
+            if (isOpenNew != keyboardOpen.value) {
+                keyboardOpen.value = isOpenNew
             }
         }
 
         rootView.doOnLayout {
             // get initial state of keyboard
-            keyboardOpen = isKeyboardOpen(rootView)
+            keyboardOpen.value = isKeyboardOpen(rootView)
 
             // whenever the layout resizes/changes, callback with the state of the keyboard.
             rootView.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
@@ -256,16 +260,16 @@ private fun systemPaddingBottom(): Dp {
 }
 
 @Composable
-private fun keyboardInset(): Dp {
+private fun keyboardPaddingBottom(): Dp {
     val rootView = LocalView.current
-    val densityScope = LocalDensity.current
-    return remember(rootView) {
-        val insetPx =
-            WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
-                .getInsets(WindowInsetsCompat.Type.ime())
-                .bottom
-        with(densityScope) { insetPx.toDp() }
-    }
+    val insetPx =
+        WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
+            .getInsets(
+                WindowInsetsCompat.Type.ime() or
+                        WindowInsetsCompat.Type.navigationBars()
+            )
+            .bottom
+    return insetPx.toDensityDp()
 }
 // endregion
 
@@ -285,7 +289,7 @@ private fun Preview_FullScreen() {
 
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 Positive(text = "Okay") {
                     modal.hide()
                 }
@@ -316,11 +320,11 @@ private fun Preview_Partial() {
 
         Modal(
             modal = modal,
-            Actions = {
+            actions = {
                 IvyButton(
                     size = ButtonSize.Small,
                     visibility = ButtonVisibility.Medium,
-                    feeling = ButtonFeeling.Neutral,
+                    feeling = ButtonFeeling.Disabled,
                     text = null,
                     icon = R.drawable.ic_round_calculate_24
                 ) {
@@ -340,7 +344,7 @@ private fun Preview_Partial() {
 
         Modal(
             modal = modal2,
-            Actions = {
+            actions = {
                 Positive(text = "Calculate", icon = R.drawable.ic_round_calculate_24) {
 
                 }

@@ -27,8 +27,7 @@ import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.screens.ItemStatistic
+
 import com.ivy.wallet.ui.component.transaction.TypeAmountCurrency
 import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.IvyButton
@@ -111,7 +110,7 @@ private fun PlannedPaymentHeaderRow(
     categories: List<CategoryOld>,
     accounts: List<AccountOld>
 ) {
-    val nav = navigation()
+
 
     if (plannedPayment.type != TrnTypeOld.TRANSFER) {
         Row(
@@ -143,12 +142,12 @@ private fun PlannedPaymentHeaderRow(
                     padding = 8.dp,
                     iconEdgePadding = 10.dp
                 ) {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = null,
-                            categoryId = category.id
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = null,
+//                            categoryId = category.id
+//                        )
+//                    )
                 }
 
                 Spacer(Modifier.width(12.dp))
@@ -168,12 +167,12 @@ private fun PlannedPaymentHeaderRow(
                 iconEdgePadding = 10.dp
             ) {
                 account?.let {
-                    nav.navigateTo(
-                        ItemStatistic(
-                            accountId = account.id,
-                            categoryId = null
-                        )
-                    )
+//                    nav.navigateTo(
+//                        ItemStatistic(
+//                            accountId = account.id,
+//                            categoryId = null
+//                        )
+//                    )
                 }
             }
         }

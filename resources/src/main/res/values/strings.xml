@@ -298,8 +298,9 @@
     <string name="add_date">Add date</string>
     <string name="or_in_the_last">or in the last</string>
     <string name="or_all_time">or all time</string>
-    <string name="unselect_all_time">Unselect All Time</string>
-    <string name="select_all_time">Select All Time</string>
+    <string name="unselect_all_time">Unselect All-time</string>
+    <string name="select_all_time">Select All-time</string>
+    <string name="all_time">All-time</string>
     <string name="choose_start_date_of_month">Choose start date of month</string>
     <string name="supports_crypto">supports crypto</string>
     <string name="delete">Delete</string>

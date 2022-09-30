@@ -18,11 +18,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.data.planned.IntervalType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.GradientIvy
 import com.ivy.wallet.ui.theme.Gray
@@ -31,8 +31,6 @@ import com.ivy.wallet.ui.theme.components.IntervalPickerRow
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
 import com.ivy.wallet.ui.theme.components.IvyDividerLine
 import com.ivy.wallet.utils.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -90,9 +88,6 @@ fun BoxWithConstraintsScope.RecurringRuleModal(
         Spacer(Modifier.height(32.dp))
 
         val rootView = LocalView.current
-        onScreenStart {
-            hideKeyboard(rootView)
-        }
 
         ModalTitle(text = stringResource(R.string.plan_for))
 
@@ -269,17 +264,6 @@ private fun MultipleTimes(
     val rootView = LocalView.current
     val coroutineScope = rememberCoroutineScope()
 
-    onScreenStart {
-        rootView.addKeyboardListener { keyboardShown ->
-            if (keyboardShown) {
-                coroutineScope.launch {
-                    delay(200)
-                    modalScrollState.animateScrollTo(modalScrollState.maxValue)
-                }
-            }
-        }
-    }
-
     IntervalPickerRow(
         intervalN = intervalN,
         intervalType = intervalType,
@@ -354,7 +338,7 @@ private fun DateRow(
     }
 }
 
-private fun com.ivy.core.ui.temp.IvyWalletCtx.pickDate(
+private fun IvyWalletCtx.pickDate(
     initialDate: LocalDate,
     onDatePicked: (
         LocalDateTime

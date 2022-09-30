@@ -14,13 +14,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.icon.IconSize
-import com.ivy.core.ui.data.icon.IvyIcon
+import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.IvyText
+import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenIf
@@ -28,7 +27,7 @@ import com.ivy.design.util.thenIf
 @Composable
 fun BadgeComponent(
     text: String,
-    icon: IvyIcon,
+    icon: ItemIcon,
     background: Color,
     onClick: (() -> Unit)? = null
 ) {
@@ -44,20 +43,16 @@ fun BadgeComponent(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val contrastColor = rememberContrastColor(background)
-
-        icon.ItemIcon(
+        ItemIcon(
+            itemIcon = icon,
             size = IconSize.S,
             tint = contrastColor,
         )
-
         SpacerHor(width = 4.dp)
-
-        IvyText(
+        Caption(
             text = text,
-            typo = UI.typo.c.style(
-                color = contrastColor,
-                fontWeight = FontWeight.ExtraBold
-            )
+            color = contrastColor,
+            fontWeight = FontWeight.ExtraBold
         )
     }
 }
@@ -68,7 +63,7 @@ private fun Preview_Badge() {
     ComponentPreview {
         BadgeComponent(
             text = "Text",
-            icon = IvyIcon.Unknown(
+            icon = ItemIcon.Unknown(
                 icon = R.drawable.ic_vue_transport_car,
                 iconId = null
             ),

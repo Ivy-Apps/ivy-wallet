@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
@@ -15,7 +16,6 @@ import com.ivy.data.attachment.Attachment
 import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
-import com.ivy.frp.action.Action
 import java.util.*
 import javax.inject.Inject
 

@@ -11,10 +11,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.domain.pure.format.FormattedValue
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
-import com.ivy.core.ui.account.Badge
-import com.ivy.core.ui.category.Badge
+import com.ivy.core.ui.account.AccountBadge
+import com.ivy.core.ui.category.CategoryBadge
 import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.transaction.TransactionUi
@@ -22,12 +22,12 @@ import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.core.ui.data.transaction.dummyTransactionUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeDueUi
 import com.ivy.core.ui.value.AmountCurrency
-import com.ivy.data.transaction.TrnType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Gradient
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.asBrush
-import com.ivy.design.l1_buildingBlocks.Icon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
@@ -83,13 +83,15 @@ private fun IncomeExpenseHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         category?.let {
-            category.Badge(
+            CategoryBadge(
+                category = it,
                 onClick = { onCategoryClick(category) }
             )
             SpacerHor(width = 12.dp)
         }
 
-        account.Badge(
+        AccountBadge(
+            account = account,
             background = UI.colors.pure,
             onClick = { onAccountClick(account) }
         )
@@ -100,18 +102,19 @@ private fun IncomeExpenseHeader(
 // region TrnType & Amount
 @Composable
 private fun TrnValue(
-    value: FormattedValue,
-    type: TrnType,
+    value: ValueUi,
+    type: TransactionType,
     time: TrnTimeUi,
 ) {
     SpacerVer(height = 12.dp)
     TransactionCardAmountRow {
         TrnTypeIcon(type = type, time = time)
         SpacerHor(width = 12.dp)
-        value.AmountCurrency(
+        AmountCurrency(
+            value = value,
             color = when (type) {
-                TrnType.Income -> UI.colors.green
-                TrnType.Expense -> when (time) {
+                TransactionType.Income -> UI.colors.green
+                TransactionType.Expense -> when (time) {
                     is TrnTimeUi.Actual -> UI.colorsInverted.pure
                     is TrnTimeUi.Due -> if (time.upcoming)
                         UI.colors.orange else UI.colors.red
@@ -123,7 +126,7 @@ private fun TrnValue(
 
 @Composable
 private fun TrnTypeIcon(
-    type: TrnType,
+    type: TransactionType,
     time: TrnTimeUi
 ) {
     data class StyledIcon(
@@ -134,12 +137,12 @@ private fun TrnTypeIcon(
     )
 
     val style = when (type) {
-        TrnType.Income -> StyledIcon(
+        TransactionType.Income -> StyledIcon(
             iconId = R.drawable.ic_income,
             bgColor = UI.colors.green.asBrush(),
             tint = White
         )
-        TrnType.Expense -> {
+        TransactionType.Expense -> {
             StyledIcon(
                 iconId = R.drawable.ic_expense,
                 bgColor = when (time) {
@@ -155,9 +158,10 @@ private fun TrnTypeIcon(
         }
     }
 
-    style.iconId.Icon(
+    IconRes(
         modifier = Modifier
             .background(style.bgColor, UI.shapes.circle),
+        icon = style.iconId,
         tint = style.tint,
         contentDescription = "transactionType"
     )
@@ -170,8 +174,8 @@ private fun TrnTypeIcon(
 private fun Preview_Expense() {
     ComponentPreview {
         dummyTransactionUi(
-            type = TrnType.Expense,
-            value = FormattedValue(
+            type = TransactionType.Expense,
+            value = ValueUi(
                 amount = "0.34",
                 currency = "BGN"
             ),
@@ -190,8 +194,8 @@ private fun Preview_Expense() {
 private fun Preview_Income() {
     ComponentPreview {
         dummyTransactionUi(
-            type = TrnType.Income,
-            value = FormattedValue(
+            type = TransactionType.Income,
+            value = ValueUi(
                 amount = "1,005.00",
                 currency = "USD"
             ),
@@ -210,8 +214,8 @@ private fun Preview_Income() {
 private fun Preview_UpcomingExpense() {
     ComponentPreview {
         dummyTransactionUi(
-            type = TrnType.Expense,
-            value = FormattedValue(
+            type = TransactionType.Expense,
+            value = ValueUi(
                 amount = "1,005.00",
                 currency = "USD"
             ),

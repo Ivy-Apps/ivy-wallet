@@ -17,7 +17,7 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.onScreenStart
+
 import com.ivy.wallet.ui.theme.components.IvyTitleTextField
 import com.ivy.wallet.utils.selectEndTextFieldValue
 import java.util.*
@@ -57,10 +57,6 @@ fun BoxWithConstraintsScope.AddKeywordModal(
         Spacer(Modifier.height(32.dp))
 
         val inputFocus = FocusRequester()
-
-        onScreenStart {
-            inputFocus.requestFocus()
-        }
 
         IvyTitleTextField(
             modifier = Modifier

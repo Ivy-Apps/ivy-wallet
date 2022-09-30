@@ -2,8 +2,8 @@ package com.ivy.core.persistence.entity.trn.converter
 
 import androidx.room.TypeConverter
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
-import com.ivy.data.transaction.TrnType
 
 class TrnTypeConverters {
 
@@ -17,10 +17,10 @@ class TrnTypeConverters {
 
     // region TrnType
     @TypeConverter
-    fun ser(type: TrnType): Int = type.code
+    fun ser(type: TransactionType): Int = type.code
 
     @TypeConverter
-    fun trnType(code: Int): TrnType = TrnType.fromCode(code)!!
+    fun trnType(code: Int): TransactionType = TransactionType.fromCode(code)!!
     // endregion
 
     // region TrnTimeType

@@ -15,7 +15,7 @@ import java.util.*
 fun dummyTrn(
     id: UUID = UUID.randomUUID(),
     account: Account = dummyAcc(),
-    type: TrnType = TrnType.Income,
+    type: TransactionType = TransactionType.Income,
     amount: Double = 0.0,
     currency: CurrencyCode? = null,
     category: Category? = dummyCategory(),

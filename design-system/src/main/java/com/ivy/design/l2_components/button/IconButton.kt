@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
-import com.ivy.design.l1_buildingBlocks.IvyIcon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.applyBackground
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
@@ -34,7 +34,7 @@ fun Btn.Icon(
     contentDescription: String = "icon button",
     onClick: () -> Unit
 ) {
-    IvyIcon(
+    IconRes(
         modifier = modifier
             .clipBackground(background)
             .clickable(onClick = onClick)

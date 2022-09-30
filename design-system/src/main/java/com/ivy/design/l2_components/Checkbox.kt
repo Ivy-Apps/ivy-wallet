@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
-import com.ivy.design.l1_buildingBlocks.IvyIcon
+import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.clickableNoIndication
@@ -30,7 +30,7 @@ fun Checkbox(
     contentDescription: String = "checkbox",
     onCheckedChange: (checked: Boolean) -> Unit
 ) {
-    IvyIcon(
+    IconRes(
         modifier = modifier
             .size(48.dp)
             .clip(CircleShape)

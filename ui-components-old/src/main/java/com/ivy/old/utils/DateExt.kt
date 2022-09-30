@@ -4,7 +4,7 @@ package com.ivy.wallet.utils
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.ivy.base.R
-import com.ivy.frp.Total
+
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -13,10 +13,10 @@ import java.util.concurrent.TimeUnit
 
 fun timeNowLocal() = LocalDateTime.now()
 
-@Total
+
 fun timeNowUTC(): LocalDateTime = LocalDateTime.now(ZoneOffset.UTC)
 
-@Total
+
 fun dateNowUTC(): LocalDate = LocalDate.now(ZoneOffset.UTC)
 
 fun startOfDayNowUTC() = dateNowUTC().atStartOfDay()

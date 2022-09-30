@@ -19,22 +19,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.base.R
 import com.ivy.base.data.AppBaseData
 import com.ivy.base.data.DueSection
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.pure.IncomeExpensePair
-import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.frp.view.navigation.navigation
-import com.ivy.frp.view.navigation.onScreenStart
+
+
 import com.ivy.old.IncomeExpensesCards
-import com.ivy.screens.PieChartStatistic
-import com.ivy.screens.Report
 import com.ivy.wallet.ui.component.transaction.TransactionsDividerLine
 import com.ivy.wallet.ui.component.transaction.transactions
 import com.ivy.wallet.ui.theme.*
@@ -43,15 +40,9 @@ import com.ivy.wallet.utils.clickableNoIndication
 
 @ExperimentalFoundationApi
 @Composable
-fun BoxWithConstraintsScope.ReportScreen(
-    screen: Report
-) {
-    val viewModel: ReportViewModel = viewModel()
+fun BoxWithConstraintsScope.ReportScreen() {
+    val viewModel: ReportViewModel = hiltViewModel()
     val state by viewModel.state().collectAsState()
-
-    onScreenStart {
-        viewModel.start()
-    }
 
     UI(
         state = state,
@@ -65,7 +56,7 @@ private fun BoxWithConstraintsScope.UI(
     state: ReportScreenState = ReportScreenState(),
     onEventHandler: (ReportScreenEvent) -> Unit = {}
 ) {
-    val nav = navigation()
+
     val listState = rememberLazyListState()
     val context = LocalContext.current
 
@@ -145,26 +136,26 @@ private fun BoxWithConstraintsScope.UI(
                 hasAddButtons = false,
                 itemColor = UI.colors.pure,
                 incomeHeaderCardClicked = {
-                    if (state.transactions.isNotEmpty())
-                        nav.navigateTo(
-                            PieChartStatistic(
-                                type = TrnTypeOld.INCOME,
-                                transactions = state.transactions,
-                                accountList = state.accountIdFilters,
-                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
-                            )
-                        )
+//                    if (state.transactions.isNotEmpty())
+//                        nav.navigateTo(
+//                            PieChartStatistic(
+//                                type = TrnTypeOld.INCOME,
+//                                transactions = state.transactions,
+//                                accountList = state.accountIdFilters,
+//                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
+//                            )
+//                        )
                 },
                 expenseHeaderCardClicked = {
-                    if (state.transactions.isNotEmpty())
-                        nav.navigateTo(
-                            PieChartStatistic(
-                                type = TrnTypeOld.EXPENSE,
-                                transactions = state.transactions,
-                                accountList = state.accountIdFilters,
-                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
-                            )
-                        )
+//                    if (state.transactions.isNotEmpty())
+//                        nav.navigateTo(
+//                            PieChartStatistic(
+//                                type = TrnTypeOld.EXPENSE,
+//                                transactions = state.transactions,
+//                                accountList = state.accountIdFilters,
+//                                treatTransfersAsIncomeExpense = state.treatTransfersAsIncExp
+//                            )
+//                        )
                 }
             )
 
@@ -322,11 +313,11 @@ private fun Toolbar(
     onExport: () -> Unit,
     onFilter: () -> Unit
 ) {
-    val nav = navigation()
+
     IvyToolbar(
         backButtonType = BackButtonType.CLOSE,
         onBack = {
-            nav.back()
+
         }
     ) {
         Spacer(Modifier.weight(1f))

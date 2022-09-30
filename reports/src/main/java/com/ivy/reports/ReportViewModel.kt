@@ -5,15 +5,15 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ivy.base.R
+import com.ivy.core.ui.temp.trash.IvyWalletCtx
 import com.ivy.core.ui.temp.trash.TimePeriod
 import com.ivy.data.AccountOld
 import com.ivy.data.CategoryOld
 import com.ivy.data.transaction.TransactionOld
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.frp.filterSuspend
-import com.ivy.frp.view.navigation.Navigation
+
 import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.frp.viewmodel.readOnly
 import com.ivy.temp.persistence.ExchangeActOld
 import com.ivy.temp.persistence.ExchangeData
 import com.ivy.wallet.domain.action.account.AccountsActOld
@@ -21,7 +21,6 @@ import com.ivy.wallet.domain.action.category.CategoriesActOld
 import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
 import com.ivy.wallet.domain.action.transaction.CalcTrnsIncomeExpenseAct
 import com.ivy.wallet.domain.action.transaction.TrnsWithDateDivsAct
-import com.ivy.wallet.domain.deprecated.logic.PlannedPaymentsLogic
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.domain.pure.data.IncomeExpenseTransferPair
 import com.ivy.wallet.domain.pure.transaction.trnCurrency
@@ -43,8 +42,8 @@ class ReportViewModel @Inject constructor(
     private val plannedPaymentsLogic: PlannedPaymentsLogic,
     private val settingsDao: SettingsDao,
     private val transactionDao: TransactionDao,
-    private val ivyContext: com.ivy.core.ui.temp.IvyWalletCtx,
-    private val nav: Navigation,
+    private val ivyContext: IvyWalletCtx,
+    private val
     private val exportCSVLogic: ExportCSVLogic,
     private val exchangeAct: ExchangeActOld,
     private val accountsAct: AccountsActOld,
