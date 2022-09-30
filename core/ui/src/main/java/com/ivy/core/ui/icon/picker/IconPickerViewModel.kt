@@ -3,6 +3,7 @@ package com.ivy.core.ui.icon.picker
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.ui.action.ItemIconOptionalAct
 import com.ivy.core.ui.data.icon.ItemIcon
+import com.ivy.core.ui.icon.picker.data.Icon
 import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.picker.data.SectionUnverified
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -84,14 +85,18 @@ internal class IconPickerViewModel @Inject constructor(
                     SectionUnverified(
                         name = "Search result",
                         icons = sections.flatMap { section ->
-                            section.icons.filter {
-                                it.keywords.any { keyword -> normalizedQuery.contains(keyword) }
+                            section.icons.filter { icon ->
+                                passesSearch(icon = icon, query = normalizedQuery)
                             }
                         }
                     )
                 )
             } else sections
         }
+
+    private fun passesSearch(icon: Icon, query: String): Boolean =
+        // Icon must have at least one keyword that contains the search query
+        icon.keywords.any { keyword -> keyword.contains(query) }
 
     override suspend fun mapToUiState(state: IconPickerStateUi): IconPickerStateUi = state
 
