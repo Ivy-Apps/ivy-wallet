@@ -76,7 +76,7 @@ fun ModalActionsScope.Done(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Positive(
-    text: String,
+    text: String?,
     @DrawableRes
     icon: Int? = null,
     visibility: ButtonVisibility = ButtonVisibility.Focused,

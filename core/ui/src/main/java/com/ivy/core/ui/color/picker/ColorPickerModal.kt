@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
@@ -23,6 +24,7 @@ import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.rememberDynamicContrast
+import com.ivy.design.l0_system.color.toHex
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
@@ -68,14 +70,14 @@ fun BoxScope.ColorPickerModal(
             item(key = "color_picker_title") {
                 this@Modal.Title(text = stringResource(R.string.choose_color))
             }
+            selectedColorItem(selectedColor = selectedColor) {
+                // on click:
+                hexColorPickerModal.show()
+            }
             sections(
                 sections = state.sections,
                 selectedColor = selectedColor,
-                onColorSelect = {
-                    selectedColor = it
-                    selectedColor?.let(onColorPicked)
-                    modal.hide()
-                }
+                onColorSelect = { selectedColor = it }
             )
             item(key = "color_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
@@ -84,10 +86,7 @@ fun BoxScope.ColorPickerModal(
     HexColorPickerModal(
         modal = hexColorPickerModal,
         initialColor = selectedColor,
-        onColorPicked = {
-            onColorPicked(it)
-            modal.hide()
-        }
+        onColorPicked = { selectedColor = it }
     )
 }
 
@@ -101,7 +100,7 @@ fun ModalActionsScope.ModalActions(
 ) {
     Secondary(
         text = null,
-        icon = R.drawable.round_color_lens_24
+        icon = R.drawable.outline_color_lens_24
     ) {
         hexColorPickerModal.show()
     }
@@ -110,6 +109,42 @@ fun ModalActionsScope.ModalActions(
         selectedColor?.let(onColorPicked)
         modal.hide()
     }
+}
+// endregion
+
+// region Picked Color
+private fun LazyListScope.selectedColorItem(
+    selectedColor: Color?,
+    onClick: (Color) -> Unit
+) {
+    if (selectedColor != null) {
+        item(key = "selected_color_${selectedColor.value}") {
+            SpacerVer(height = 24.dp)
+            SelectedColor(color = selectedColor, onClick = onClick)
+        }
+    }
+}
+
+@Composable
+private fun SelectedColor(
+    color: Color,
+    onClick: (Color) -> Unit
+) {
+    val colorHex = remember(color) { color.toHex() }
+    val dynamicContrast = rememberDynamicContrast(color)
+    B1Second(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
+            .clip(UI.shapes.rounded)
+            .background(color, UI.shapes.rounded)
+            .border(width = 2.dp, color = dynamicContrast, shape = UI.shapes.rounded)
+            .clickable { onClick(color) }
+            .padding(horizontal = 24.dp, vertical = 24.dp),
+        text = "#$colorHex",
+        fontWeight = FontWeight.ExtraBold,
+        color = dynamicContrast
+    )
 }
 // endregion
 
