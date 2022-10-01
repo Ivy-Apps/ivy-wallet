@@ -20,6 +20,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.color.picker.ColorPickerViewModel.Companion.COLORS_PER_ROW
 import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.modal.IvyModal
@@ -64,7 +65,11 @@ fun BoxScope.ColorPickerModal(
             sections(
                 sections = state.sections,
                 selectedColor = selectedColor,
-                onColorSelect = { selectedColor = it }
+                onColorSelect = {
+                    selectedColor = it
+                    selectedColor?.let(onColorPicked)
+                    modal.hide()
+                }
             )
             item(key = "color_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
@@ -179,6 +184,10 @@ private fun ColorItem(
             border(
                 width = 4.dp,
                 color = rememberDynamicContrast(color),
+                shape = UI.shapes.circle
+            ).border(
+                width = 5.dp,
+                color = White,
                 shape = UI.shapes.circle
             )
         }
