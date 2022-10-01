@@ -702,6 +702,7 @@ private fun vueSecurity(): List<Icon> = listOf(
     Icon("ic_vue_security_password", keywords=listOf("security", "password", "pass")),
     Icon("ic_vue_security_radar", keywords=listOf("security", "radar", "sensor")),
     Icon("ic_vue_security_shield_person", keywords=listOf("security", "shield", "person")),
+    Icon("ic_vue_security_shield", keywords=listOf("security", "shield", "sensor"),
 )
 // endregion
 
