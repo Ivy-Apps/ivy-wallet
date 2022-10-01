@@ -1,8 +1,8 @@
 package com.ivy.core.ui.icon.picker
 
 import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.action.ItemIconOptionalAct
-import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.picker.data.Icon
 import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.picker.data.SectionUnverified
@@ -48,32 +48,12 @@ internal class IconPickerViewModel @Inject constructor(
             if (itemIcons.isNotEmpty()) {
                 SectionUi(
                     name = section.name,
-                    iconRows = groupIconsByRows(itemIcons),
+                    iconRows = groupByRows(itemIcons, iconsPerRow = ICONS_PER_ROW),
                 )
             } else null
         }
     }
 
-    private fun groupIconsByRows(icons: List<ItemIcon>): List<List<ItemIcon>> {
-        val rows = mutableListOf<List<ItemIcon>>()
-        var row = mutableListOf<ItemIcon>()
-        for (icon in icons) {
-            if (row.size < ICONS_PER_ROW) {
-                // row not finished
-                row.add(icon)
-            } else {
-                // row is finished, add it and start the next row
-                rows.add(row)
-                // row.clear() won't work because it clears the already added row
-                row = mutableListOf()
-            }
-        }
-        if (row.isNotEmpty()) {
-            // add the last not finished row
-            rows.add(row)
-        }
-        return rows
-    }
 
     @OptIn(FlowPreview::class)
     private fun sectionsFlow(): Flow<List<SectionUnverified>> = searchQuery

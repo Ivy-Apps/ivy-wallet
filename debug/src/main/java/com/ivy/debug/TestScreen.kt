@@ -49,6 +49,6 @@ fun BoxScope.TestScreen() {
         modal = iconPickerModal,
         initialIcon = null,
         color = UI.colors.primary,
-        onIconSelected = { selectedIconId = it }
+        onIconPicked = { selectedIconId = it }
     )
 }

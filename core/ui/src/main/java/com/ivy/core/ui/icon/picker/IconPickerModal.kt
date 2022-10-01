@@ -57,7 +57,7 @@ fun BoxScope.IconPickerModal(
     modal: IvyModal,
     initialIcon: ItemIcon?,
     color: Color,
-    onIconSelected: (ItemIconId) -> Unit
+    onIconPicked: (ItemIconId) -> Unit
 ) {
     val viewModel: IconPickerViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
@@ -80,7 +80,7 @@ fun BoxScope.IconPickerModal(
                 showSearch = { searchBarVisible = true },
                 resetSearch = resetSearch,
                 onSelect = {
-                    selectedIcon?.let(onIconSelected)
+                    selectedIcon?.let(onIconPicked)
                     keyboardController?.hide()
                     modal.hide()
                 }
