@@ -729,13 +729,54 @@ private fun vueSupport(): List<Icon> = listOf(
 
 // region Transport (Vue)
 private fun vueTransport(): List<Icon> = listOf(
-    Icon("ic_vue_transport_bus"),
-    Icon("ic_vue_transport_airplane"),
-    Icon("ic_vue_transport_train"),
-    Icon("ic_vue_transport_ship"),
-    Icon("ic_vue_transport_gas"),
-    Icon("ic_vue_transport_car"),
-    Icon("ic_vue_transport_car_wash"),
+    Icon(
+        "ic_vue_transport_bus", keywords = listOf(
+            "microbus", "minibus", "minivan", "bus", "public transport",
+            "travel", "journey", "utility vehicle",
+        )
+    ),
+    Icon(
+        "ic_vue_transport_airplane", keywords = listOf(
+            "airliner", "air taxi", "aircraft", "airship", "jet",
+            "trijet", "aerospace plane", "rocket plane", "bomber", "warplane",
+            "biplane", "lightplane", "tilt-rotor", "triplane", "public transport"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_train", keywords = listOf(
+            "caravan", "track", "chain", "concatenation", "tail", "trail",
+            "rail line", "locomotive", "railcar", "freight train", "railway",
+            "cargo", "diesel locomotive", "passenger train", "public transport",
+            "electric locomotive", "wagon train"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_ship", keywords = listOf(
+            "warship", "cargo ship", "ferry", "vessel", "sail", "watercraft", "transport",
+            "cruise ship", "troopship", "passenger ship", "fleet", "yacht", "navy",
+        )
+    ),
+    Icon(
+        "ic_vue_transport_gas", keywords = listOf(
+            "incompressible", "chemical weapon", "compressibility", "intermolecular forces",
+            "covalent bond", "kerosine", "octanes", "liquification", "weather", "methane",
+            "oxygen", "hydrogen", "gasoline", "petrol", "carbon dioxide", "neon", "plasma"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_car", keywords = listOf(
+            "motor vehicle", "wheel", "automobile", "van",
+            "vehicle", "passenger", "internal combustion engine",
+            "jeep", "cab", "sedan", "hatchback", "taxi",
+            "air pollution", "climate change", "toyota"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_car_wash", keywords = listOf(
+            "automobile", "carwashing", "carwasher", "become dirty", "carwash",
+            "rinse", "cleanse", "washcloth", "disinfect", "sanitation"
+        )
+    ),
 )
 // endregion
 
