@@ -14,17 +14,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerViewModel.Companion.COLORS_PER_ROW
 import com.ivy.core.ui.color.picker.custom.HexColorPickerModal
 import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.rememberDynamicContrast
-import com.ivy.design.l0_system.color.toHex
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
@@ -115,37 +114,22 @@ fun ModalActionsScope.ModalActions(
 // region Picked Color
 private fun LazyListScope.selectedColorItem(
     selectedColor: Color?,
-    onClick: (Color) -> Unit
+    onClick: () -> Unit
 ) {
     if (selectedColor != null) {
         item(key = "selected_color_${selectedColor.value}") {
             SpacerVer(height = 24.dp)
-            SelectedColor(color = selectedColor, onClick = onClick)
+            ColorButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                color = selectedColor,
+                onClick = onClick,
+            )
         }
     }
 }
 
-@Composable
-private fun SelectedColor(
-    color: Color,
-    onClick: (Color) -> Unit
-) {
-    val colorHex = remember(color) { color.toHex() }
-    val dynamicContrast = rememberDynamicContrast(color)
-    B1Second(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp)
-            .clip(UI.shapes.rounded)
-            .background(color, UI.shapes.rounded)
-            .border(width = 2.dp, color = dynamicContrast, shape = UI.shapes.rounded)
-            .clickable { onClick(color) }
-            .padding(horizontal = 24.dp, vertical = 24.dp),
-        text = "#$colorHex",
-        fontWeight = FontWeight.ExtraBold,
-        color = dynamicContrast
-    )
-}
 // endregion
 
 // region Sections
