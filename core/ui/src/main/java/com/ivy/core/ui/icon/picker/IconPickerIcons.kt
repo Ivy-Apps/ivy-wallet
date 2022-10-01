@@ -33,23 +33,23 @@ internal fun pickerItems(): List<SectionUnverified> = listOf(
 
 // region Ivy Icons
 private fun ivyIcons(): List<Icon> = listOf(
-    Icon("account", keywords = listOf("acc")),
+    Icon("account", keywords = listOf("account", "acc")),
     Icon("category", keywords = listOf("category", "cat")),
-    Icon("cash", keywords = listOf("cash", "money")),
-    Icon("bank", keywords = listOf("bank")),
+    Icon("cash", keywords = listOf("cash", "money", "dollars")),
+    Icon("bank", keywords = listOf("bank", "money")),
     Icon("revolut", keywords = listOf("revolut", "rev")),
-    Icon("clothes2", keywords = listOf("clothes")),
+    Icon("clothes2", keywords = listOf("clothes", "dress", "outfit")),
     Icon("clothes", keywords = listOf("clothes", "wardrobe")),
     Icon("family", keywords = listOf("family", "home", "couple", "kids")),
-    Icon("star", keywords = listOf("star", "favorite")),
-    Icon("education", keywords = listOf("education", "school", "university")),
-    Icon("fitness", keywords = listOf("fitness", "gym", "workout", "train", "weights")),
-    Icon("loan", keywords = listOf("loan", "bill", "note")),
-    Icon("orderfood", keywords = listOf("order", "delivery", "box")),
-    Icon("orderfood2", keywords = listOf("order", "delivery", "scouter")),
-    Icon("pet", keywords = listOf("pet", "dog", "paw")),
-    Icon("restaurant", keywords = listOf("restaurant", "eat", "dinner", "food")),
-    Icon("selfdevelopment", keywords = listOf("learn", "improve", "level", "grow")),
+    Icon("star", keywords = listOf("star", "favorite", "fave")),
+    Icon("education", keywords = listOf("education", "school", "university", "college")),
+    Icon("fitness", keywords = listOf("fitness", "gym", "workout", "train", "weights", "health")),
+    Icon("loan", keywords = listOf("loan", "bill", "note", "mortage")), 
+    Icon("orderfood", keywords = listOf("order", "delivery", "box", "food")),
+    Icon("orderfood2", keywords = listOf("order", "delivery", "scouter", "food")),
+    Icon("pet", keywords = listOf("pet", "dog", "paw", "cat", "fish")),
+    Icon("restaurant", keywords = listOf("restaurant", "eat", "dinner", "food", "lunch", "fast food")),
+    Icon("selfdevelopment", keywords = listOf("learn", "improve", "level", "grow", "self-improvement", "development", "develop")),
     Icon(
         "work",
         keywords = listOf(
@@ -61,7 +61,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "vehicle",
         keywords = listOf(
             "car", "vehicle", "auto", "transport",
-            "commute", "gas", "taxi", "bus", "tram", "subway", "trolley"
+            "commute", "gas", "taxi", "bus", "tram", "subway", "trolley", "train", "motorcycle", "bike"
         )
     ),
     Icon(
@@ -92,7 +92,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "chemistry", keywords = listOf(
             "chem", "cone", "science", "potion", "elixir",
-            "pharmacy", "lab"
+            "pharmacy", "lab", "element"
         )
     ),
     Icon(
@@ -110,13 +110,13 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "dna", keywords = listOf(
             "dna", "life", "health", "gene", "science", "cell",
-            "lab"
+            "lab", "genetics"
         )
     ),
     Icon(
         "doctor", keywords = listOf(
             "doc", "check", "medic", "sick", "ill", "gp",
-            "examin", "hosp", "clinic", "prescript", "recipe"
+            "examin", "hosp", "clinic", "prescript", "recipe", "dr", "pharmacy", "appointment", "hospital", "er"
         )
     ),
     Icon(
@@ -125,20 +125,20 @@ private fun ivyIcons(): List<Icon> = listOf(
             "message", "new", "magazine", "diary", "plan", "task", "organi", "bill", "tax", "fee",
             "acc", "receipt", "recipe", "prescript", "label", "order", "warranty", "insurance",
             "policy", "script", "content", "writ", "cop", "creat", "assign", "to-do", "todo",
-            "contract", "library", "test", "exam"
+            "contract", "library", "test", "exam", "doc"
         )
     ),
     Icon(
         "drink", keywords = listOf(
             "drink", "celeb", "party", "beer", "leisure", "spare",
             "free", "glass", "cup", "cheer", "bar", "club", "holiday", "out", "toast", "fun",
-            "alcohol", "rest"
+            "alcohol", "rest", "beverage", "refreshment"
         )
     ),
     Icon(
         "farmacy", keywords = listOf(
             "farmacy", "pharm", "pill", "medic", "treat", "cure",
-            "prescript", "heal", "recipe", "hosp", "clinic", "sick", "ill"
+            "prescript", "heal", "recipe", "hosp", "clinic", "sick", "ill", "pharma"
         )
     ),
     Icon(
@@ -169,19 +169,19 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "furniture", keywords = listOf(
             "furniture", "house", "cabinet", "home",
-            "cupboard", "wardrobe", "dress", "room", "drawer", "stor", "organi"
+            "cupboard", "wardrobe", "dress", "room", "drawer", "stor", "organi", "store"
         )
     ),
     Icon(
         "gambling", keywords = listOf(
             "gambl", "play", "casino", "game", "bet", "dice",
-            "risk", "poker"
+            "risk", "poker", "gambling", "gamble"
         )
     ),
     Icon(
         "game", keywords = listOf(
             "gam", "play", "console", "ps", "pc", "nintendo", "xbox",
-            "hobby", "spare", "free", "leisure", "chill"
+            "hobby", "spare", "free", "leisure", "chill", "playstation", "switch", "steam"
         )
     ),
     Icon(
@@ -225,7 +225,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "house", keywords = listOf(
             "hous", "mortgage", "home", "apartment", "build",
             "property", "chores", "estate", "accommod", "rent", "sale", "airbnb", "live", "place",
-            "host"
+            "host", "condo", "apt"
         )
     ),
     Icon(
@@ -247,29 +247,30 @@ private fun ivyIcons(): List<Icon> = listOf(
             "fall", "produc", "seed", "environment"
         )
     ),
-    Icon("location", keywords = listOf("locat", "gps", "place", "map", "address", "live")),
+    Icon("location", keywords = listOf("locat", "gps", "place", "map", "address", "live", "geo")),
     Icon(
         "makeup", keywords = listOf(
             "makeup", "parlor", "beaut", "salon", "saloon",
-            "lip", "highlight", "paint", "cut", "knife", "diy", "glue", "sharp"
+            "lip", "highlight", "paint", "cut", "knife", "diy", "glue", "sharp", "foundation", "lash"
         )
     ),
     Icon(
         "music", keywords = listOf(
             "music", "headset", "headphone", "sound", "spotify",
-            "note", "sing", "song", "hear", "fun", "party", "record", "direct", "radio", "produc"
+            "note", "sing", "song", "hear", "fun", "party", "record", "direct", "radio", "produc", "airpods"
         )
     ),
     Icon(
         "notice", keywords = listOf(
             "notice", "warning", "urgent", "attention", "require",
-            "must", "important", "prior", "crucial", "danger"
+            "must", "important", "prior", "crucial", "danger", "caution"
         )
     ),
     Icon(
         "people", keywords = listOf(
             "people", "gather", "contact", "call", "person",
-            "friend", "relative", "family", "communi", "speak", "talk", "group"
+            "friend", "relative", "family", "communi", "speak", "talk", "group", "acquaintance", "co-workers",
+            "colleague", "partner"
         )
     ),
     Icon(
@@ -289,13 +290,13 @@ private fun ivyIcons(): List<Icon> = listOf(
         "relationship", keywords = listOf(
             "relationship", "love", "heart", "partner",
             "couple", "health", "wife", "husband", "family", "insur", "boyfriend", "girlfriend",
-            "fiance", "fiancee", "home"
+            "fiance", "fiancee", "home", "roman"
         )
     ),
     Icon(
         "rocket", keywords = listOf(
             "rocket", "moon", "space", "yolo", "fly", "universe",
-            "achieve", "determin", "brilliant", "success", "business", "idea", "top", "rise"
+            "achieve", "determin", "brilliant", "success", "business", "idea", "top", "rise", "ISS", "galaxy"
         )
     ),
     Icon("safe", keywords = listOf("safe", "secur", "protect", "lock", "guard", "insur")),
@@ -303,7 +304,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "sail",
         keywords = listOf(
             "sail", "anchor", "cruise", "boat", "yacht", "travel", "vacation",
-            "ship", "sea", "adventure", "ocean", "river", "fish", "div"
+            "ship", "sea", "adventure", "ocean", "river", "fish", "div" 
         )
     ),
     Icon(
@@ -693,74 +694,73 @@ private fun vuePeople(): List<Icon> = listOf(
 
 // region Security (Vue)
 private fun vueSecurity(): List<Icon> = listOf(
-    Icon("ic_vue_security_eye"),
-    Icon("ic_vue_security_shield_security"),
-    Icon("ic_vue_security_key"),
-    Icon("ic_vue_security_alarm"),
-    Icon("ic_vue_security_lock"),
-    Icon("ic_vue_security_password"),
-    Icon("ic_vue_security_radar"),
-    Icon("ic_vue_security_shield_person"),
-    Icon("ic_vue_security_shield"),
+    Icon("ic_vue_security_eye", keywords=listOf("security", "eye", "vision", "sensor")),
+    Icon("ic_vue_security_shield_security", keywords=listOf("security", "shield", "protect", "sensor")),
+    Icon("ic_vue_security_key", keywords=listOf("security", "key")),
+    Icon("ic_vue_security_alarm", keywords=listOf("security", "alarm", "sensor")),
+    Icon("ic_vue_security_lock", keywords=listOf("security", "lock", "sensor")),
+    Icon("ic_vue_security_password", keywords=listOf("security", "password", "pass")),
+    Icon("ic_vue_security_radar", keywords=listOf("security", "radar", "sensor")),
+    Icon("ic_vue_security_shield_person", keywords=listOf("security", "shield", "person")),
 )
 // endregion
 
 // region Shop (Vue)
 private fun vueShop(): List<Icon> = listOf(
-    Icon("ic_vue_shop_cart"),
-    Icon("ic_vue_shop_bag"),
-    Icon("ic_vue_shop_barcode"),
-    Icon("ic_vue_shop_bag1"),
-    Icon("ic_vue_shop_shop"),
+    Icon("ic_vue_shop_cart", keywords=listOf("shop", "cart")),
+    Icon("ic_vue_shop_bag", keywords=listOf("shop", "bag")),
+    Icon("ic_vue_shop_barcode", keywords=listOf("shop", "barcode", "code")),
+    Icon("ic_vue_shop_bag1", keywords=listOf("shop", "bag")),
+    Icon("ic_vue_shop_shop", keywords=listOf("shop", "options")),
 )
 // endregion
 
 // region Support (Vue)
 private fun vueSupport(): List<Icon> = listOf(
-    Icon("ic_vue_support_star"),
-    Icon("ic_vue_support_medal"),
-    Icon("ic_vue_support_dislike"),
-    Icon("ic_vue_support_like_dislike"),
-    Icon("ic_vue_support_smileys"),
-    Icon("ic_vue_support_heart"),
-    Icon("ic_vue_support_like"),
+    Icon("ic_vue_support_star", keywords=listOf("support", "star", "support reaction", "reaction")),
+    Icon("ic_vue_support_medal", keywords=listOf("support", "medal", "support reaction", "reaction")),
+    Icon("ic_vue_support_dislike", keywords=listOf("support", "dislike", "support reaction", "reaction")),
+    Icon("ic_vue_support_like_dislike", keywords=listOf("support", "like", "dislike", "like dislike", "support reaction", "reaction")),
+    Icon("ic_vue_support_smileys", keywords=listOf("support", "smileys", "support reaction", "reaction")),
+    Icon("ic_vue_support_heart", keywords=listOf("support", "heart", "support reaction", "reaction")),
+    Icon("ic_vue_support_like", keywords=listOf("support", "like", "support reaction", "reaction")),
 )
 // endregion
 
 // region Transport (Vue)
 private fun vueTransport(): List<Icon> = listOf(
-    Icon("ic_vue_transport_bus"),
-    Icon("ic_vue_transport_airplane"),
-    Icon("ic_vue_transport_train"),
-    Icon("ic_vue_transport_ship"),
-    Icon("ic_vue_transport_gas"),
-    Icon("ic_vue_transport_car"),
-    Icon("ic_vue_transport_car_wash"),
+    Icon("ic_vue_transport_bus", keywords=listOf("transport", "vehicle", "bus")),
+    Icon("ic_vue_transport_airplane", keywords=listOf("transport", "vehicle", "airplane", "plane")),
+    Icon("ic_vue_transport_train", keywords=listOf("transport", "vehicle", "train", "tram")),
+    Icon("ic_vue_transport_ship", keywords=listOf("transport", "vehicle", "ship", "boat", "cruise")),
+    Icon("ic_vue_transport_gas", keywords=listOf("transport", "vehicle", "gas", "petrol")),
+    Icon("ic_vue_transport_car", keywords=listOf("transport", "vehicle", "car")),
+    Icon("ic_vue_transport_car_wash", keywords=listOf("transport", "vehicle","car wash", "wash"))
 )
 // endregion
 
 // region Type (Vue)
 private fun vueType(): List<Icon> = listOf(
-    Icon("ic_vue_type_link2"),
-    Icon("ic_vue_type_text"),
-    Icon("ic_vue_type_paperclip"),
-    Icon("ic_vue_type_textalign_left"),
-    Icon("ic_vue_type_translate"),
-    Icon("ic_vue_type_textalign_right"),
-    Icon("ic_vue_type_link"),
-    Icon("ic_vue_type_textalign_center"),
-    Icon("ic_vue_type_textalign_justifycenter"),
+    Icon("ic_vue_type_link2", keywords=listOf("type", "link", "attachment")),
+    Icon("ic_vue_type_text", keywords=listOf("type", "text", "word")),
+    Icon("ic_vue_type_paperclip", keywords=listOf("type", "text", "paperclip", "clip")),
+    Icon("ic_vue_type_textalign_left", keywords=listOf("type", "align", "align left")),
+    Icon("ic_vue_type_translate", keywords=listOf("type", "translate")),
+    Icon("ic_vue_type_textalign_right", keywords=listOf("type", "algin", "align right")),
+    Icon("ic_vue_type_link", keywords=listOf("type", "link", "attachment")),
+    Icon("ic_vue_type_textalign_center", keywords=listOf("type", "text", "align center")),
+    Icon("ic_vue_type_textalign_justifycenter", keywords=listOf("type", "text", "align justify"))
 )
 // endregion
 
 // region Weather (Vue)
 private fun vueWeather(): List<Icon> = listOf(
-    Icon("ic_vue_weather_wind"),
-    Icon("ic_vue_weather_cloud"),
-    Icon("ic_vue_weather_flash"),
-    Icon("ic_vue_weather_moon"),
-    Icon("ic_vue_weather_drop"),
-    Icon("ic_vue_weather_cold"),
-    Icon("ic_vue_weather_sun"),
+    Icon("ic_vue_weather_wind", keywords=listOf("weather", "wind", "air")),
+    Icon("ic_vue_weather_cloud", keywords=listOf("weather", "cloud")),
+    Icon("ic_vue_weather_flash", keywords=listOf("weather", "flash", "lightning", "thunder")),
+    Icon("ic_vue_weather_moon", keywords=listOf("weather", "moon")),
+    Icon("ic_vue_weather_drop", keywords=listOf("weather", "drop", "rain")),
+    Icon("ic_vue_weather_cold", keywords=listOf("weather", "cold", "snow", "hail", "chill")),
+    Icon("ic_vue_weather_sun", keywords=listOf("weather", "sun", "warm", "hot"))
 )
 // endregion
