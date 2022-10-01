@@ -33,330 +33,494 @@ internal fun pickerItems(): List<SectionUnverified> = listOf(
 
 // region Ivy Icons
 private fun ivyIcons(): List<Icon> = listOf(
-    Icon("account", keywords = listOf("acc")),
-    Icon("category", keywords = listOf("category", "cat")),
-    Icon("cash", keywords = listOf("cash", "money")),
-    Icon("bank", keywords = listOf("bank")),
-    Icon("revolut", keywords = listOf("revolut", "rev")),
-    Icon("clothes2", keywords = listOf("clothes")),
-    Icon("clothes", keywords = listOf("clothes", "wardrobe")),
-    Icon("family", keywords = listOf("family", "home", "couple", "kids")),
-    Icon("star", keywords = listOf("star", "favorite")),
-    Icon("education", keywords = listOf("education", "school", "university")),
-    Icon("fitness", keywords = listOf("fitness", "gym", "workout", "train", "weights")),
-    Icon("loan", keywords = listOf("loan", "bill", "note")),
-    Icon("orderfood", keywords = listOf("order", "delivery", "box")),
-    Icon("orderfood2", keywords = listOf("order", "delivery", "scouter")),
-    Icon("pet", keywords = listOf("pet", "dog", "paw")),
-    Icon("restaurant", keywords = listOf("restaurant", "eat", "dinner", "food")),
-    Icon("selfdevelopment", keywords = listOf("learn", "improve", "level", "grow")),
+    Icon(
+        "account", keywords = listOf(
+            "accounts", "wallets", "pocket", "notecases", "money",
+            "savings", "finances", "cash", "assets", "amounts", "balance"
+        )
+    ),
+    Icon("category", keywords = listOf("category", "jars", "jams", "groups", "sections")),
+    Icon(
+        "cash", keywords = listOf(
+            "cash", "money", "dollars", "usd", "cents", "coins",
+            "balance"
+        )
+    ),
+    Icon(
+        "bank", keywords = listOf(
+            "banks", "cards", "money", "accounts", "savings",
+            "finances", "debit", "credit", "assets", "amounts", "balance"
+        )
+    ),
+    Icon(
+        "revolut", keywords = listOf(
+            "revolut", "accounts", "banks", "cards", "money", "savings",
+            "finances", "assets", "amounts", "balance"
+        )
+    ),
+    Icon(
+        "clothes2", keywords = listOf(
+            "clothes", "appearance", "outfits", "blouses",
+            "t-shirts", "apparels", "wardrobe", "shopping", "stores", "closets"
+        )
+    ),
+    Icon(
+        "clothes", keywords = listOf(
+            "clothes", "wardrobe", "hangers", "appearance", "outfits", "blouses",
+            "t-shirts", "apparels", "shopping", "stores", "closets", "storages"
+        )
+    ),
+    Icon(
+        "family", keywords = listOf(
+            "family", "homes", "couple", "kids", "children",
+            "love", "partners", "wifes", "husbands", "boyfriends", "girlfriends", "fiancee",
+            "hearts", "relatives", "people"
+        )
+    ),
+    Icon(
+        "star", keywords = listOf(
+            "stars", "favorites", "favourites", "tops", "reviews",
+            "success", "achievements", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "education", keywords = listOf(
+            "education", "school", "university", "study",
+            "learn", "hats", "academy"
+        )
+    ),
+    Icon(
+        "fitness", keywords = listOf(
+            "fitness", "gym", "workout", "train", "weights",
+            "sport", "lift", "dumbbells", "workout", "work out"
+        )
+    ),
+    Icon(
+        "loan", keywords = listOf(
+            "loans", "bills", "notes", "receipts", "recipes",
+            "reports", "invoices", "fees", "taxes", "expenses"
+        )
+    ),
+    Icon(
+        "orderfood", keywords = listOf(
+            "orders", "delivery", "boxes", "chinese", "foods",
+            "dine", "dining", "lunches", "delivery", "eating"
+        )
+    ),
+    Icon(
+        "orderfood2", keywords = listOf(
+            "orders", "delivery", "scooters", "takeaways",
+            "glovo", "foodpanda"
+        )
+    ),
+    Icon("pet", keywords = listOf("pets", "dogs", "paws", "cats")),
+    Icon(
+        "restaurant", keywords = listOf(
+            "restaurants", "eating", "dinners", "foods", "dine", "dining",
+            "lunch", "cutlery", "forks", "knifes", "meals", "diets", "nutritions"
+        )
+    ),
+    Icon(
+        "selfdevelopment", keywords = listOf(
+            "learn", "improvements", "level up", "grow", "self development", "developing",
+            "success", "achievements", "arrows", "person", "faith", "god", "learning", "top", "high"
+        )
+    ),
     Icon(
         "work",
         keywords = listOf(
-            "work", "case", "job", "occupation", "business", "profession", "hustle",
-            "labour", "labor", "career", "assign", "company", "organi"
+            "works", "cases", "jobs", "occupations", "businesses", "professions", "hustles",
+            "labours", "labors", "careers", "assignments", "company", "organizations"
         )
     ),
     Icon(
         "vehicle",
         keywords = listOf(
-            "car", "vehicle", "auto", "transport",
-            "commute", "gas", "taxi", "bus", "tram", "subway", "trolley"
+            "cars", "vehicles", "autos", "transports", "commutes", "gas", "taxis"
         )
     ),
     Icon(
         "atom", keywords = listOf(
-            "atom", "science", "lab", "universe", "physics", "fantastic"
+            "atoms", "sciences", "labs", "universes", "physics", "fantastic"
         )
     ),
     Icon(
         "bills", keywords = listOf(
-            "bill", "acc", "tax", "fee", "book",
-            "read", "note", "diary", "organise", "plan", "library",
+            "bills", "accounts", "taxes", "fees", "books",
+            "reads", "notes", "diary", "organise", "plans", "library",
             "organize"
         )
     ),
     Icon(
         "birthday", keywords = listOf(
-            "birth", "cake", "candle", "surprise", "bday",
+            "births", "cakes", "candles", "surprises", "bdays",
             "b-day"
         )
     ),
-    Icon("calculator", keywords = listOf("calc", "math", "numb", "finance")),
+    Icon(
+        "calculator", keywords = listOf(
+            "calculates", "calculators", "calculations", "maths",
+            "numbers", "finances"
+        )
+    ),
     Icon(
         "camera", keywords = listOf(
-            "cam", "video", "edit", "photo", "movie", "record", "direct",
-            "ticket", "studio", "show", "tv", "stream", "act", "produce"
+            "cameras", "videos", "edits", "photos", "movies", "records", "directing",
+            "tickets", "studios", "shows", "tvs", "streams", "acts", "actions", "produces",
+            "productions", "acting"
         )
     ),
     Icon(
         "chemistry", keywords = listOf(
-            "chem", "cone", "science", "potion", "elixir",
-            "pharmacy", "lab"
+            "chemistry", "cones", "sciences", "potions", "elixirs",
+            "pharmacy", "labs"
         )
     ),
     Icon(
         "coffee", keywords = listOf(
-            "coffee", "caf", "hot", "morning", "wake",
-            "energy", "drink", "fun"
+            "coffees", "cafes", "hot", "mornings", "wake up",
+            "energy", "drinks", "fun", "cups", "mugs", "glasses"
         )
     ),
     Icon(
         "connect", keywords = listOf(
-            "con", "struct", "tech", "net", "web", "tree",
-            "group"
+            "connections", "structures", "technology", "nets", "webs", "trees",
+            "groups", "logistics"
         )
     ),
     Icon(
         "dna", keywords = listOf(
-            "dna", "life", "health", "gene", "science", "cell",
-            "lab"
+            "dnas", "lifes", "health", "genes", "sciences", "cells",
+            "labs"
         )
     ),
     Icon(
         "doctor", keywords = listOf(
-            "doc", "check", "medic", "sick", "ill", "gp",
-            "examin", "hosp", "clinic", "prescript", "recipe"
+            "doctors", "checks", "medics", "sick", "ill", "gp",
+            "examinations", "hospitals", "clinics", "prescripts", "recipes"
         )
     ),
     Icon(
         "document", keywords = listOf(
-            "document", "paper", "list", "note", "text",
-            "message", "new", "magazine", "diary", "plan", "task", "organi", "bill", "tax", "fee",
-            "acc", "receipt", "recipe", "prescript", "label", "order", "warranty", "insurance",
-            "policy", "script", "content", "writ", "cop", "creat", "assign", "to-do", "todo",
-            "contract", "library", "test", "exam"
+            "documents", "papers", "lists", "notes", "texts",
+            "messages", "news", "magazines", "diary", "plans", "tasks", "organise", "organize",
+            "bills", "taxes", "fees", "accounts", "reports", "receipts", "recipes", "prescripts",
+            "labels", "orders", "warranty", "insurances", "policy", "scripts", "content", "write",
+            "copy", "writing", "create", "assignments", "to-do", "todos", "contracts", "library",
+            "tests", "exams", "portfolios", "cvs"
         )
     ),
     Icon(
         "drink", keywords = listOf(
-            "drink", "celeb", "party", "beer", "leisure", "spare",
-            "free", "glass", "cup", "cheer", "bar", "club", "holiday", "out", "toast", "fun",
-            "alcohol", "rest"
+            "drinks", "celebrates", "celebrating", "party", "beers", "leisure", "spare",
+            "free", "glasses", "cups", "cheers", "bars", "clubs", "holidays", "out", "toasts",
+            "fun", "alcohols", "rest"
         )
     ),
     Icon(
         "farmacy", keywords = listOf(
-            "farmacy", "pharm", "pill", "medic", "treat", "cure",
-            "prescript", "heal", "recipe", "hosp", "clinic", "sick", "ill"
+            "farmacy", "pharmacy", "pills", "medics", "treats", "cures",
+            "prescripts", "healing", "recipes", "hospitals", "clinics", "sick", "ill"
         )
     ),
     Icon(
         "fingerprint", keywords = listOf(
-            "print", "finger", "authenticate", "secure", "policy",
-            "sensor", "trace", "examine", "unlock", "identify", "touch", "safe"
+            "prints", "fingers", "authenticates", "secure", "policy",
+            "sensors", "traces", "examines", "unlocks", "identify", "touches", "safe"
         )
     ),
     Icon(
         "fishfood", keywords = listOf(
-            "fish", "food", "sea", "ocean", "lake", "dam", "river",
-            "hobby", "lunch", "din", "deliver", "rest", "fishfood"
+            "fishes", "foods", "sea", "oceans", "lakes", "dams", "rivers",
+            "hobby", "lunches", "dine", "dining", "dinner", "delivery", "rest", "fishfoods"
         )
     ),
     Icon(
         "food2", keywords = listOf(
-            "food", "deliver", "order", "pizza", "din", "party",
-            "lunch", "brunch", "netflix", "fun", "rest"
+            "foods", "delivery", "orders", "pizzas", "dine", "dining", "party",
+            "lunches", "brunches", "netflix", "fun", "rest"
         )
     ),
     Icon(
         "fooddrink", keywords = listOf(
-            "food", "deliver", "order", "pizza", "din",
-            "wine", "glass", "cup", "drink", "cheer", "fun", "toast", "bar", "club", "alcohol",
-            "holiday", "celeb", "leisure", "spare", "free", "out", "rest"
+            "foods", "delivers", "orders", "pizzas", "dine", "dining",
+            "wines", "glasses", "cups", "drinks", "cheers", "fun", "toasts", "bars", "clubs",
+            "alcohols", "holidays", "celebrates", "leisure", "spare", "free", "out", "rest",
+            "celebrations"
         )
     ),
     Icon(
         "furniture", keywords = listOf(
-            "furniture", "house", "cabinet", "home",
-            "cupboard", "wardrobe", "dress", "room", "drawer", "stor", "organi"
+            "furniture", "houses", "cabinets", "homes",
+            "cupboards", "wardrobes", "dressing", "rooms", "drawers", "stores", "storages",
+            "organize", "organise", "closets"
         )
     ),
     Icon(
         "gambling", keywords = listOf(
-            "gambl", "play", "casino", "game", "bet", "dice",
-            "risk", "poker"
+            "gambling", "plays", "casinos", "games", "bets", "dices",
+            "risks", "poker"
         )
     ),
     Icon(
         "game", keywords = listOf(
-            "gam", "play", "console", "ps", "pc", "nintendo", "xbox",
-            "hobby", "spare", "free", "leisure", "chill"
+            "games", "gaming", "plays", "consoles", "ps", "pc", "nintendos", "xboxes",
+            "hobby", "spare", "free", "leisure", "chill", "computers"
         )
     ),
     Icon(
         "gears", keywords = listOf(
-            "gear", "mainten", "car", "mechan", "repair", "tech",
-            "setting", "tune", "adjust"
+            "gears", "maintenance", "maintaining", "cars", "mechanisms", "repairs", "technology",
+            "settings", "tunes", "adjusts"
         )
     ),
     Icon(
         "gift", keywords = listOf(
-            "gift", "party", "celeb", "present", "donat", "birth",
-            "bday", "b-day", "holiday"
+            "gifts", "party", "celebrate", "celebrations", "presents", "donations", "donates",
+            "births", "bdays", "b-day", "holidays"
         )
     ),
     Icon(
         "groceries", keywords = listOf(
-            "grocer", "market", "supplies", "shop", "trade",
-            "business", "franchise", "buy", "store", "order", "sell", "sale"
+            "groceries", "grocery", "markets", "supplies", "shops", "trade", "trading",
+            "businesses", "franchises", "buy", "stores", "orders", "sells", "sales"
         )
     ),
     Icon(
         "hairdresser", keywords = listOf(
-            "dress", "parlor", "salon", "saloon", "beaut",
-            "hair", "style", "dry", "shave", "beard", "dye"
+            "hairdressers", "parlor", "parlour", "salon", "saloon", "beauty", "beautify",
+            "hairstyles", "haircuts", "dry", "shave", "beards", "dye", "hairdressings"
         )
     ),
     Icon(
         "health", keywords = listOf(
-            "health", "medic", "doc", "hosp", "pill", "case",
-            "pharmacy", "treat", "cure", "prescript", "heal", "recipe", "clinic", "sick", "ill",
-            "farmacy"
+            "health", "medics", "doctors", "hospitals", "pills", "cases",
+            "pharmacy", "treats", "cures", "prescripts", "healing", "recipes", "clinics", "sick",
+            "ill", "farmacy"
         )
     ),
     Icon(
         "hike", keywords = listOf(
-            "hike", "mountain", "walk", "top", "nature", "hobby",
-            "forest", "wood", "tree", "environment"
+            "hike", "hikings", "mountains", "walks", "tops", "nature", "hobby",
+            "forests", "woods", "trees", "environments", "sports"
         )
     ),
     Icon(
         "house", keywords = listOf(
-            "hous", "mortgage", "home", "apartment", "build",
-            "property", "chores", "estate", "accommod", "rent", "sale", "airbnb", "live", "place",
-            "host"
+            "houses", "mortgages", "homes", "apartments", "buildings",
+            "property", "chores", "estates", "accommodations", "rents", "sales", "airbnb", "lives",
+            "places", "hosts", "living"
         )
     ),
     Icon(
         "insurance", keywords = listOf(
-            "insur", "bill", "protect", "fee", "secur",
-            "policy", "safe"
+            "insurances", "bills", "protections", "fees", "security", "secure",
+            "policy", "safety"
         )
     ),
     Icon(
         "label", keywords = listOf(
-            "label", "tag", "pric", "cost", "value", "rate",
-            "charge", "worth", "market", "shop", "store", "buy", "ticket"
+            "labels", "tags", "prices", "costs", "value", "rates",
+            "charges", "worth", "markets", "shops", "stores", "buy", "tickets"
         )
     ),
     Icon(
         "leaf", keywords = listOf(
-            "leaf", "plant", "lawn", "garden", "eco", "bio",
-            "grass", "green", "vegetarian", "vegan", "natur", "flower", "tree", "spring", "autumn",
-            "fall", "produc", "seed", "environment"
+            "leaf", "leaves", "plants", "lawns", "gardens", "eco", "bio",
+            "grasses", "green", "vegetarians", "vegans", "nature", "naturals", "flowers", "trees",
+            "spring", "autumn", "fall", "productions", "produce", "seeds", "environments"
         )
     ),
-    Icon("location", keywords = listOf("locat", "gps", "place", "map", "address", "live")),
+    Icon(
+        "location", keywords = listOf(
+            "locations", "gps", "places", "maps", "address",
+            "live", "delivery"
+        )
+    ),
     Icon(
         "makeup", keywords = listOf(
-            "makeup", "parlor", "beaut", "salon", "saloon",
-            "lip", "highlight", "paint", "cut", "knife", "diy", "glue", "sharp"
+            "makeups", "make up", "parlor", "parlour", "beauty", "beautify", "salon", "saloon",
+            "lipstick", "lip balm", "highlights", "paints", "cuts", "knifes", "diy", "glues",
+            "sharps", "lip gloss", "lipgloss", "makeup artists"
         )
     ),
     Icon(
         "music", keywords = listOf(
-            "music", "headset", "headphone", "sound", "spotify",
-            "note", "sing", "song", "hear", "fun", "party", "record", "direct", "radio", "produc"
+            "music", "headsets", "headphones", "sounds", "spotify",
+            "notes", "singers", "songs", "hear", "fun", "party", "records", "directing", "radios",
+            "produce", "production", "hits"
         )
     ),
     Icon(
         "notice", keywords = listOf(
-            "notice", "warning", "urgent", "attention", "require",
-            "must", "important", "prior", "crucial", "danger"
+            "notice", "warnings", "urgents", "attention", "requirements",
+            "musts", "important", "priority", "crucial", "dangerous"
         )
     ),
     Icon(
         "people", keywords = listOf(
-            "people", "gather", "contact", "call", "person",
-            "friend", "relative", "family", "communi", "speak", "talk", "group"
+            "peoples", "gathering", "contacts", "calls", "person",
+            "friends", "relatives", "family", "communicate", "communications", "speakings",
+            "talkings", "groups"
         )
     ),
     Icon(
         "plant", keywords = listOf(
-            "plant", "tree", "garden", "yard", "lawn", "cactus", "leaf", "eco", "bio", "grass",
-            "green", "vegetarian", "vegan", "natur", "flower", "tree", "produc", "seed",
-            "environment", "sharp"
+            "plants", "trees", "gardens", "yards", "lawns", "cactus", "cacti", "leaf", "leaves",
+            "eco", "bio", "grasses", "green", "vegetarians", "vegan", "nature", "naturals",
+            "flowers", "trees", "produce", "productions", "seeds", "environments", "sharps"
         )
     ),
     Icon(
         "programming", keywords = listOf(
-            "program", "cod", "software", "logic",
-            "engineer", "it", "tech", "librar", "dev"
+            "programming", "programmer", "coder", "coding", "softwares", "logician",
+            "engineers", "engineering", "it", "technology", "library", "developers", "programs",
+            "development", "developing"
         )
     ),
     Icon(
         "relationship", keywords = listOf(
-            "relationship", "love", "heart", "partner",
-            "couple", "health", "wife", "husband", "family", "insur", "boyfriend", "girlfriend",
-            "fiance", "fiancee", "home"
+            "relationships", "love", "hearts", "partners",
+            "couples", "health", "wifes", "husbands", "family", "insurances", "boyfriend",
+            "girlfriends", "fiancee", "homes"
         )
     ),
     Icon(
         "rocket", keywords = listOf(
-            "rocket", "moon", "space", "yolo", "fly", "universe",
-            "achieve", "determin", "brilliant", "success", "business", "idea", "top", "rise"
+            "rockets", "moon", "spaces", "yolo", "fly", "universes",
+            "achievements", "determination", "brilliant", "success", "businesses",
+            "ideas", "tops", "rise", "high"
         )
     ),
-    Icon("safe", keywords = listOf("safe", "secur", "protect", "lock", "guard", "insur")),
+    Icon(
+        "safe", keywords = listOf(
+            "safety", "secure", "security", "protections", "locks", "guards",
+            "insurances", "measures"
+        )
+    ),
     Icon(
         "sail",
         keywords = listOf(
-            "sail", "anchor", "cruise", "boat", "yacht", "travel", "vacation",
-            "ship", "sea", "adventure", "ocean", "river", "fish", "div"
+            "sailing", "sails", "anchors", "cruises", "boats", "yachts", "travels", "travelling",
+            "vacations", "ships", "sea", "adventures", "oceans", "rivers", "fishes", "dive",
+            "pisces", "diving"
         )
     ),
     Icon(
         "server", keywords = listOf(
-            "server", "modem", "communi", "pc", "message", "text", "chat", "bubble", "backend",
-            "dev", "program", "machine", "software", "engineer", "cod", "logic", "it", "tech",
-            "librar", "host"
+            "servers", "modems", "communicate", "communications", "pc", "computers", "messages",
+            "texts", "chats", "bubbles", "backends", "developers", "programs", "machines",
+            "softwares", "engineers", "coder", "logicians", "it", "technology", "library", "hosts",
+            "hosting", "engineering", "coding", "programming", "developing", "development"
         )
     ),
     Icon(
         "shopping2", keywords = listOf(
-            "shop", "cart", "grocer", "market", "store", "order",
-            "buy", "baby", "child", "mother", "father", "parent", "kid"
+            "shops", "shopping", "carts", "grocery", "groceries", "markets", "stores", "orders",
+            "buy", "baby", "children", "motherhood", "fatherhood", "parenthood", "kids"
         )
     ),
     Icon(
         "shopping", keywords = listOf(
-            "shop", "basket", "tote", "bag", "box",
-            "drawer", "packet", "deliver", "buy", "stor", "order"
+            "shopping", "shops", "baskets", "totes", "bags", "boxes",
+            "drawers", "packets", "delivery", "buy", "stores", "orders"
         )
     ),
-    Icon("sports", keywords = listOf("sport", "ball", "soccer", "hobby", "play", "game")),
+    Icon(
+        "sports", keywords = listOf(
+            "sports", "balls", "soccers", "hobby", "plays",
+            "games"
+        )
+    ),
     Icon(
         "stats", keywords = listOf(
-            "stat", "chart", "heart", "stock", "health", "hosp", "doc",
-            "check", "medic", "sick", "ill", "gp", "examin", "clinic", "prescript", "recipe",
-            "measure", "test"
+            "stats", "chart", "hearts", "stocks", "health", "hospitals", "doctors",
+            "checks", "medics", "sick", "ill", "gp", "examinations", "clinics", "prescripts",
+            "recipes", "measurements", "tests", "measures", "cardiograms"
         )
     ),
     Icon(
         "tools", keywords = listOf(
-            "tool", "equipment", "hammer", "build", "produce",
-            "wood", "progress"
+            "tools", "equipments", "hammers", "buildings", "producing", "produce",
+            "wood", "progressings", "builders", "repairments", "repairs", "wip"
         )
     ),
-    Icon("transport", keywords = listOf("transport", "car", "bus", "commute")),
-    Icon("travel", keywords = listOf("travel", "plane", "abroad", "explore", "vacation")),
-    Icon("trees", keywords = listOf("trees", "garden", "yard", "lawn")),
-    Icon("zeus", keywords = listOf("zeus", "lightning", "rain", "emergency", "urgent")),
-    Icon("calendar", keywords = listOf("calendar", "plan", "schedule", "memo")),
-    Icon("crown", keywords = listOf("crown", "luxury", "vip")),
-    Icon("diamond", keywords = listOf("diamond", "luxury", "vip", "wedding")),
-    Icon("palette", keywords = listOf("palette", "paint", "art")),
+    Icon(
+        "transport", keywords = listOf(
+            "transports", "cars", "buses", "commutes",
+            "vehicles", "autos", "transports", "gas", "taxis", "buses", "trams", "subways",
+            "trolleys", "trains", "metros", "underground", "gas"
+        )
+    ),
+    Icon(
+        "travel", keywords = listOf(
+            "traveling", "travels", "trips", "airplanes", "abroad",
+            "explore", "vacations", "exploring", "experiences", "flying", "flights"
+        )
+    ),
+    Icon(
+        "trees", keywords = listOf(
+            "trees", "gardens", "yards", "lawns", "woods",
+            "christmas", "xmas", "forests"
+        )
+    ),
+    Icon(
+        "zeus", keywords = listOf(
+            "zeus", "lightning", "rain", "emergency", "urgents",
+            "storms", "flash", "thunders", "important", "priority"
+        )
+    ),
+    Icon(
+        "calendar", keywords = listOf(
+            "calendars", "plans", "schedules", "memos",
+            "planners", "notes", "tasks", "priority"
+        )
+    ),
+    Icon(
+        "crown", keywords = listOf(
+            "crowns", "luxury", "vip", "tops", "queens", "kings",
+            "the best", "luxe"
+        )
+    ),
+    Icon(
+        "diamond", keywords = listOf(
+            "diamonds", "luxury", "luxe", "vip", "weddings",
+            "rings", "tops", "expensive", "glamorous", "shine", "shining", "sparkling", "brilliant",
+            "glory", "sparkle"
+        )
+    ),
+    Icon(
+        "palette", keywords = listOf(
+            "palettes", "painters", "artists", "colors", "colours",
+            "decorate", "decorations", "dyeing", "painting", "drawing", "pictures", "crayons",
+            "brushes"
+        )
+    ),
 )
 // endregion
 
 // region Brands (Vue)
 private fun vueBrands(): List<Icon> = listOf(
-    Icon("ic_vue_brands_triangle"),
-    Icon("ic_vue_brands_trello"),
-    Icon("ic_vue_brands_html5"),
-    Icon("ic_vue_brands_spotify"),
-    Icon("ic_vue_brands_bootsrap"),
+    Icon("ic_vue_brands_triangle", keywords = listOf("triangles")),
+    Icon("ic_vue_brands_trello", keywords = listOf("trello", "managements", "projects")),
+    Icon(
+        "ic_vue_brands_html5", keywords = listOf(
+            "html5", "html", "coder", "startup", "projects", "softwares",
+            "development", "programming", "programmer", "programs", "developers", "website"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_spotify", keywords = listOf(
+            "spotify", "music", "songs", "listening", "streaming", "streams"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_bootsrap", keywords = listOf(
+            "bootsrap", "startup", "coder",
+            "coding", "open-source", "open source", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers", "website"
+        )
+    ),
     Icon("ic_vue_brands_dribbble"),
     Icon("ic_vue_brands_google_play"),
     Icon("ic_vue_brands_dropbox"),
