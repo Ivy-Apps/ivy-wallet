@@ -1,7 +1,7 @@
-package com.ivy.core.ui.color
+package com.ivy.core.ui.color.picker
 
 import androidx.compose.runtime.Immutable
-import com.ivy.core.ui.color.data.ColorSectionUi
+import com.ivy.core.ui.color.picker.data.ColorSectionUi
 
 @Immutable
 internal data class ColorPickerState(

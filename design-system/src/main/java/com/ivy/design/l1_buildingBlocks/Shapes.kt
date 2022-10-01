@@ -24,10 +24,7 @@ fun Shape(
     Spacer(
         modifier = modifier
             .size(size)
-            .background(
-                color = color,
-                shape = shape
-            )
+            .background(color = color, shape = shape)
     )
 }
 
@@ -48,6 +45,11 @@ fun ShapeOutlined(
                 shape = shape
             )
     )
+}
+
+@Composable
+fun Shape(modifier: Modifier = Modifier) {
+    Spacer(modifier)
 }
 
 

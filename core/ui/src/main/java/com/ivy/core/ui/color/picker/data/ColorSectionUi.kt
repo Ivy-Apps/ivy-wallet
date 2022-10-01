@@ -1,4 +1,4 @@
-package com.ivy.core.ui.color.data
+package com.ivy.core.ui.color.picker.data
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color

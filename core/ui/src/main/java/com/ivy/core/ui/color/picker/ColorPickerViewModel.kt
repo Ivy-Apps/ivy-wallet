@@ -1,9 +1,9 @@
-package com.ivy.core.ui.color
+package com.ivy.core.ui.color.picker
 
 import androidx.compose.ui.graphics.Color
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.pure.ui.groupByRows
-import com.ivy.core.ui.color.data.ColorSectionUi
+import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -14,7 +14,7 @@ import javax.inject.Inject
 internal class ColorPickerViewModel @Inject constructor() :
     FlowViewModel<ColorPickerState, ColorPickerState, ColorPickerEvent>() {
     companion object {
-        private const val COLORS_PER_ROW = 5
+        const val COLORS_PER_ROW = 5
     }
 
     override fun initialState(): ColorPickerState = ColorPickerState(

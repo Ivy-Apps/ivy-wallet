@@ -1,4 +1,4 @@
-package com.ivy.core.ui.color
+package com.ivy.core.ui.color.picker
 
 import androidx.compose.ui.graphics.Color
 import com.ivy.design.l0_system.color.*
