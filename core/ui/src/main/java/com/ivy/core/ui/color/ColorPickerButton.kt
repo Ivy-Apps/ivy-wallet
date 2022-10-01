@@ -26,7 +26,7 @@ fun ColorPickerButton(
     selectedColor: Color,
     modifier: Modifier = Modifier,
 ) {
-    val colorHex = remember {
+    val colorHex = remember(selectedColor) {
         Integer.toHexString(selectedColor.toArgb())
             .drop(2).uppercase()
     }
