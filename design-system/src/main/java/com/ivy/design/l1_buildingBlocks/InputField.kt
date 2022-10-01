@@ -29,6 +29,7 @@ fun InputField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    isError: Boolean = false,
     shape: Shape = UI.shapes.rounded,
     textStyle: TextStyle = UI.typo.b2.style(fontWeight = FontWeight.Bold),
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -63,6 +64,7 @@ fun InputField(
         },
         enabled = enabled,
         readOnly = readOnly,
+        isError = isError,
         singleLine = singleLine,
         maxLines = maxLines,
         colors = TextFieldDefaults.outlinedTextFieldColors(

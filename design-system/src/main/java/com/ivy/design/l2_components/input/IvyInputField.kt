@@ -22,6 +22,7 @@ fun IvyInputField(
     initialValue: String,
     placeholder: String,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
@@ -34,6 +35,7 @@ fun IvyInputField(
         modifier = modifier,
         initialValue = initialValue,
         placeholder = placeholder,
+        isError = isError,
         textStyle = when (typography) {
             InputFieldTypography.Primary -> UI.typo.b2.style(fontWeight = FontWeight.Bold)
             InputFieldTypography.Secondary -> UI.typoSecond.b2.style(fontWeight = FontWeight.Bold)

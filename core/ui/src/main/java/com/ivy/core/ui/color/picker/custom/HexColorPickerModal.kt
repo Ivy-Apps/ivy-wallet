@@ -1,10 +1,8 @@
 package com.ivy.core.ui.color.picker.custom
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,13 +14,16 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Purple
+import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l0_system.color.toHex
-import com.ivy.design.l1_buildingBlocks.Shape
+import com.ivy.design.l1_buildingBlocks.B1Second
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.input.InputFieldType
 import com.ivy.design.l2_components.input.InputFieldTypography
@@ -35,6 +36,7 @@ import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.HexColorPickerModal(
     modal: IvyModal,
@@ -51,11 +53,13 @@ fun BoxScope.HexColorPickerModal(
         }
     }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
     Modal(
         modal = modal,
         level = level,
         actions = {
             Choose {
+                keyboardController?.hide()
                 state.color?.let(onColorPicked)
                 modal.hide()
             }
@@ -65,17 +69,17 @@ fun BoxScope.HexColorPickerModal(
         SpacerVer(height = 24.dp)
         HexInput(
             initialHex = state.hex,
+            isError = state.color == null,
             onHexChange = {
                 viewModel?.onEvent(HexColorPickerEvent.Hex(it))
             }
         )
         SpacerVer(height = 24.dp)
-        state.color?.let {
-            PickedColor(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = it
-            )
-        }
+        PickedColor(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = state.color,
+            hex = state.hex,
+        )
         SpacerVer(height = 48.dp)
     }
 }
@@ -85,6 +89,7 @@ fun BoxScope.HexColorPickerModal(
 @Composable
 private fun HexInput(
     initialHex: String,
+    isError: Boolean,
     onHexChange: (String) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -98,6 +103,7 @@ private fun HexInput(
             .focusRequester(focusRequester)
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
+        isError = isError,
         type = InputFieldType.SingleLine,
         typography = InputFieldTypography.Secondary,
         initialValue = initialHex,
@@ -111,14 +117,31 @@ private fun HexInput(
 // region PickedColor
 @Composable
 private fun PickedColor(
-    color: Color,
+    color: Color?,
+    hex: String,
     modifier: Modifier = Modifier,
 ) {
-    Shape(
+    val dynamicContrast = color?.let { rememberDynamicContrast(color) }
+    val textColor = dynamicContrast ?: UI.colors.red
+    Box(
         modifier = modifier
             .size(168.dp)
-            .background(color, UI.shapes.rounded)
-    )
+            .background(color ?: UI.colors.pure, UI.shapes.rounded)
+            .border(
+                width = 4.dp,
+                color = textColor,
+                shape = UI.shapes.rounded
+            ),
+    ) {
+        B1Second(
+            modifier = Modifier.align(Alignment.Center),
+            text = if (color != null) hex else "Invalid #HEX",
+            color = textColor,
+            fontWeight = FontWeight.ExtraBold,
+            textAlign = TextAlign.Center
+        )
+    }
+
 }
 // endregion
 
