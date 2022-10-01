@@ -373,7 +373,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "programming", keywords = listOf(
-            "programming", "programmer", "code", "coding", "softwares", "logician",
+            "programming", "programmer", "coder", "coding", "softwares", "logician",
             "engineers", "engineering", "it", "technology", "library", "developers", "programs",
             "development", "developing"
         )
@@ -410,7 +410,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "server", keywords = listOf(
             "servers", "modems", "communicate", "communications", "pc", "computers", "messages",
             "texts", "chats", "bubbles", "backends", "developers", "programs", "machines",
-            "softwares", "engineers", "code", "logicians", "it", "technology", "library", "hosts",
+            "softwares", "engineers", "coder", "logicians", "it", "technology", "library", "hosts",
             "hosting", "engineering", "coding", "programming", "developing", "development"
         )
     ),
@@ -492,7 +492,8 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "palette", keywords = listOf(
             "palettes", "painters", "artists", "colors", "colours",
-            "decorate", "decorations", "dyeing", "painting", "drawing", "pictures"
+            "decorate", "decorations", "dyeing", "painting", "drawing", "pictures", "crayons",
+            "brushes"
         )
     ),
 )
@@ -500,11 +501,26 @@ private fun ivyIcons(): List<Icon> = listOf(
 
 // region Brands (Vue)
 private fun vueBrands(): List<Icon> = listOf(
-    Icon("ic_vue_brands_triangle"),
-    Icon("ic_vue_brands_trello"),
-    Icon("ic_vue_brands_html5"),
-    Icon("ic_vue_brands_spotify"),
-    Icon("ic_vue_brands_bootsrap"),
+    Icon("ic_vue_brands_triangle", keywords = listOf("triangles")),
+    Icon("ic_vue_brands_trello", keywords = listOf("trello", "managements", "projects")),
+    Icon(
+        "ic_vue_brands_html5", keywords = listOf(
+            "html5", "html", "coder", "startup", "projects", "softwares",
+            "development", "programming", "programmer", "programs", "developers", "website"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_spotify", keywords = listOf(
+            "spotify", "music", "songs", "listening", "streaming", "streams"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_bootsrap", keywords = listOf(
+            "bootsrap", "startup", "coder",
+            "coding", "open-source", "open source", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers", "website"
+        )
+    ),
     Icon("ic_vue_brands_dribbble"),
     Icon("ic_vue_brands_google_play"),
     Icon("ic_vue_brands_dropbox"),
