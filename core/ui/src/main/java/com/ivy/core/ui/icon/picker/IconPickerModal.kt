@@ -139,7 +139,7 @@ private fun SearchBar(
                 .padding(horizontal = 16.dp),
             type = InputFieldType.SingleLine,
             initialValue = query,
-            placeholder = "Search icons...",
+            placeholder = "Search by words (eg car, home, tech)",
             imeAction = ImeAction.Search,
             onImeAction = {
                 keyboardController?.hide()

@@ -27,8 +27,8 @@ internal class IconPickerViewModel @Inject constructor(
         sections = emptyList(),
         searchQuery = ""
     )
-
     override fun initialUiState(): IconPickerStateUi = initialState()
+
 
     private val searchQuery = MutableStateFlow("")
 
