@@ -2,19 +2,24 @@ package com.ivy.reports
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraintsScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ivy.base.R
@@ -33,13 +38,21 @@ import com.ivy.core.ui.transaction.TrnsLazyColumn
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.*
 import com.ivy.design.l0_system.*
-import com.ivy.reports.ReportsEvent.FilterOptions
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.reports.ReportsEvent.*
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.extensions.*
+import com.ivy.reports.template.TemplateDataHolder
+import com.ivy.reports.template.ui.TemplateUiState
+import com.ivy.reports.ui.ReportTemplateCard
 import com.ivy.reports.ui.ReportsHeader
 import com.ivy.reports.ui.ReportsToolBar
 import com.ivy.screens.Report
+import com.ivy.wallet.ui.theme.components.IvyTitleTextField
+import com.ivy.wallet.ui.theme.modal.IvyModal
+import com.ivy.wallet.ui.theme.modal.ModalSave
 import com.ivy.wallet.utils.clickableNoIndication
+import java.util.*
 
 const val TAG = "ReportsUI"
 
@@ -81,9 +94,91 @@ private fun BoxWithConstraintsScope.UI(
             onEvent(FilterOptions(visible = false))
         },
         onFilterEvent = {
-            onEvent(ReportsEvent.FilterEvent(it))
+            onEvent(FilterEvent(it))
         }
     )
+
+    ReportTemplate(
+        visible = state.templateVisible,
+        onClose = {
+            onEvent(Template(visible = false))
+        },
+        onEvent = onEvent
+    )
+
+    SaveReportTemplateModal(
+        visible = state.templateSaveModalVisible,
+        saveState = state.selectedTemplateUiState,
+        template = state.templateDataHolder,
+        onEvent
+    )
+}
+
+@Composable
+fun BoxScope.SaveReportTemplateModal(
+    visible: Boolean,
+    saveState: TemplateUiState? = null,
+    template: TemplateDataHolder,
+    onEvent: (ReportsEvent) -> Unit
+) {
+    val titleFocus = FocusRequester()
+
+
+    IvyModal(
+        id = UUID.randomUUID(),
+        visible = visible,
+        dismiss = {
+            onEvent(SaveTemplate(visible = false))
+        },
+        PrimaryAction = {
+            ModalSave(
+                enabled = saveState != null
+            ) {
+
+            }
+        }
+    ) {
+        Spacer(Modifier.height(32.dp))
+
+        IvyTitleTextField(
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+                .focusRequester(titleFocus),
+            dividerModifier = Modifier
+                .padding(horizontal = 24.dp),
+            value = TextFieldValue(saveState?.title ?: ""),
+            hint = "Template Name",
+            keyboardOptions = KeyboardOptions(
+                autoCorrect = true,
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next,
+                capitalization = KeyboardCapitalization.Sentences
+            )
+        ) {
+            onEvent(TemplateName(it.text))
+        }
+
+        SpacerVer(height = 32.dp)
+
+        Text(
+            text = "Summary",
+            modifier = Modifier.padding(horizontal = 32.dp),
+            style = UI.typo.b1.style(
+                fontWeight = FontWeight.ExtraBold,
+                color = UI.colors.pureInverse
+            )
+        )
+
+        saveState?.let {
+            ReportTemplateCard(
+                title = it.title,
+                accountsSize = it.accounts.size,
+                categorySize = it.categories.size,
+                compulsoryContent = it.compulsoryContent,
+                optionalContent = it.optionalContent
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)

@@ -16,8 +16,10 @@ import com.ivy.reports.BuildConfig
 import com.ivy.reports.FilterUiState
 import com.ivy.reports.HeaderUiState
 import com.ivy.reports.ReportUiState
+import com.ivy.reports.data.ReportFilterState
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
+import com.ivy.reports.template.TemplateDataHolder
 import kotlinx.coroutines.flow.StateFlow
 
 /** ---------------------------------------- Flows -----------------------------------------------*/
@@ -85,7 +87,9 @@ fun emptyReportUiState(baseCurrency: CurrencyCode): ReportUiState {
         trnsList = ImmutableData(emptyTransactionList()),
 
         filterVisible = false,
-        filterUiState = emptyFilterUiState()
+        filterUiState = emptyFilterUiState(),
+
+        templateDataHolder = TemplateDataHolder.empty()
     )
 }
 
@@ -125,3 +129,21 @@ fun ExpandCollapseHandler.collapse() = this.setExpanded(false)
 
 fun SelectableAccount.switchSelected() = this.copy(selected = !this.selected)
 fun SelectableReportsCategory.switchSelected() = this.copy(selected = !this.selected)
+
+fun ReportFilterState.isFilterValid() = when {
+    selectedTrnTypes.isEmpty() -> false
+
+    period == null -> false
+
+    selectedAccounts.none { it.selected } -> false
+
+    selectedCategories.none { it.selected } -> false
+
+    minAmount != null && maxAmount != null -> when {
+        minAmount > maxAmount -> false
+        maxAmount < minAmount -> false
+        else -> true
+    }
+
+    else -> true
+}

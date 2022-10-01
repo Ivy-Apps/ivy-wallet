@@ -2,6 +2,7 @@ package com.ivy.reports
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ivy.core.action.FlowViewModel
 import com.ivy.core.action.calculate.transaction.GroupTrnsFlow
@@ -20,6 +21,10 @@ import com.ivy.reports.actions.calculate.CalculateWithTransfersFlow
 import com.ivy.reports.actions.calculate.ExtendedStats
 import com.ivy.reports.data.*
 import com.ivy.reports.extensions.*
+import com.ivy.reports.template.TemplateDataHolder
+import com.ivy.reports.template.actions.TemplateListFlow
+import com.ivy.reports.template.functions.toTemplate
+import com.ivy.reports.template.functions.toUiState
 import com.ivy.wallet.domain.deprecated.logic.csv.ExportCSVLogic
 import com.ivy.wallet.utils.computationThread
 import com.ivy.wallet.utils.replace
@@ -42,10 +47,15 @@ class ReportViewModel @Inject constructor(
     private val reportFilterTrnsFlow: ReportFilterTrnsFlow,
     private val groupTrnsFlow: GroupTrnsFlow,
     private val exportCSVLogic: ExportCSVLogic,
+    private val templateListFlow: TemplateListFlow
 ) : FlowViewModel<DataHolder, ReportUiState, ReportsEvent>() {
 
     private val loading = MutableStateFlow(false)
     private val filterVisible = MutableStateFlow(false)
+
+    private val templateScreenVisible = MutableStateFlow(false)
+    private val templateSaveScreenVisible = MutableStateFlow(false)
+    private val templateName = MutableStateFlow("")
 
     private val selectedTrnTypes = MutableStateFlow<List<TrnType>>(emptyList())
     private val period = MutableStateFlow<TimePeriod?>(null)
@@ -93,8 +103,11 @@ class ReportViewModel @Inject constructor(
         trnsFlow(),
         grpTrnsListFlow(),
         filterVisible,
-        reportFilterStateFlow()
-    ) { baseCurr, loading, stats, allTrnsList, grpTrnsList, visible, filter ->
+        reportFilterStateFlow(),
+        reportTemplateFlow(),
+        templateScreenVisible,
+        templateSaveScreenVisible,
+    ) { baseCurr, loading, stats, allTrnsList, grpTrnsList, visible, filter, templateFlow, templateScreenVisible, templateSaveScreenVisible ->
         DataHolder(
             baseCurrency = baseCurr,
             loading = loading,
@@ -102,8 +115,13 @@ class ReportViewModel @Inject constructor(
             allTransactions = allTrnsList,
             grpTrnsList = grpTrnsList,
             filterVisible = visible,
-            filterState = filter
+            filterState = filter,
+            templateVisible = templateScreenVisible,
+            templateSaveScreenVisible = templateSaveScreenVisible,
+            templateState = templateFlow
         )
+    }.onStart {
+        DataHolder.empty()
     }
 
     private fun statsFlow() = trnsFlow().flatMapLatest { list ->
@@ -191,7 +209,9 @@ class ReportViewModel @Inject constructor(
                 excludeKeywords = excludeKeywords.toImmutableItem(),
 
                 selectedPlannedPayments = selectedPlannedPayments.toImmutableItem(),
-                treatTransfersAsIncExp = transfersAsIncomeExpense
+                treatTransfersAsIncExp = transfersAsIncomeExpense,
+
+                showSaveTemplateOption = it.templateState.selectedTemplate != null
             )
         }
 
@@ -203,7 +223,13 @@ class ReportViewModel @Inject constructor(
             trnsList = it.grpTrnsList.toImmutableItem(),
 
             filterVisible = it.filterVisible,
-            filterUiState = filterUiState
+            filterUiState = filterUiState,
+
+            templateVisible = it.templateVisible,
+            templateSaveModalVisible = it.templateSaveScreenVisible,
+            selectedTemplateUiState = it.templateState.selectedTemplate?.toUiState(),
+
+            templateDataHolder = it.templateState
         )
     }.flowOn(Dispatchers.Default)
         .stateIn(
@@ -216,9 +242,17 @@ class ReportViewModel @Inject constructor(
         when (event) {
             is ReportsEvent.FilterOptions -> filterVisible.value = event.visible
 
+            is ReportsEvent.Template -> templateScreenVisible.value = event.visible
+
             is ReportsEvent.Export -> {
                 export(event.context, event.fileUri, event.onFinish)
             }
+
+            is ReportsEvent.SaveTemplate -> {
+                templateSaveScreenVisible.value = event.visible
+            }
+
+            is ReportsEvent.TemplateName -> templateName.value = event.name
 
             is ReportsEvent.FilterEvent -> {
                 handleFilterEvent(event.filterEvent)
@@ -460,6 +494,9 @@ class ReportViewModel @Inject constructor(
         val grpTrnsList: TransactionsList,
         val filterVisible: Boolean,
         val filterState: ReportFilterState,
+        val templateVisible: Boolean,
+        val templateSaveScreenVisible: Boolean = false,
+        val templateState: TemplateDataHolder
     ) {
         companion object {
             fun empty() =
@@ -470,8 +507,137 @@ class ReportViewModel @Inject constructor(
                     allTransactions = emptyList(),
                     grpTrnsList = emptyTransactionList(),
                     filterVisible = false,
-                    filterState = ReportFilterState.empty()
+                    filterState = ReportFilterState.empty(),
+                    templateVisible = false,
+                    templateState = TemplateDataHolder.empty()
                 )
         }
     }
+
+    private fun reportTemplateFlow() =
+        combine(
+            templateListFlow(Unit),
+            selectedTemplate(),
+        ) { list, selectedTemplate ->
+            TemplateDataHolder(
+                templateList = list,
+                selectedTemplate = selectedTemplate
+            )
+        }.flowOn(Dispatchers.Default)
+            .onStart { emit(TemplateDataHolder.empty()) }
+
+//    private fun selectedTemplate2() = combine(
+//        validFilterOptionsFlow(), templateName
+//    ) { state, name ->
+//        state?.toTemplate(templateName = name)
+//    }.onEmpty { emit(null) }
+//        .onStart { emit(null) }
+
+    private fun selectedTemplate() =
+        reportFilterStateFlow()
+            .takeWhile { f ->
+                //Log.d("GGGG", ""+f.isFilterValid())
+                f.isFilterValid()
+            }
+            .flatMapLatest { state ->
+                //Log.d("GGGG", "here"+state.isFilterValid())
+                templateName.map { name -> state.toTemplate(name) }
+            }.onEmpty { emit(null) }
+
+
+//    private fun validFilterOptionsFlow(): Flow<ReportFilterState?> =
+//        reportFilterStateFlow().flatMapLatest { flowOf(if (it.isFilterValid()) it else null) }
+//            .distinctUntilChanged()
 }
+
+//    private fun selectedTemplateUiState() =
+//        selectedTemplate().flatMapLatest {
+//            flowOf(it?.toUiState())
+//        }.onEmpty { emit(null) }.onStart { emit(null) }
+
+
+//    private fun saveTemplate(): TemplateDataHolder {
+//        val timePeriod = period.value
+//        timePeriod ?: return TemplateDataHolder.empty()
+//
+//        val today = timeNowLocal()
+//
+//        val reportPeriodRule = when {
+//            timePeriod.month != null && timePeriod.year != null &&
+//                    today.month.value == timePeriod.month!!.monthValue && timePeriod.year == today.year -> ReportPeriodRule.CurrentMonth
+//
+//            timePeriod.lastNRange != null -> ReportPeriodRule.LastN(
+//                lastN = timePeriod.lastNRange!!.periodN,
+//                intervalType = timePeriod.lastNRange!!.periodType
+//            )
+//
+//            timePeriod.fromToRange?.from == null && timePeriod.fromToRange?.to != null &&
+//                    (timePeriod.fromToRange?.to?.toLocalDate()?.isEqual(today.toLocalDate())
+//                        ?: false) -> ReportPeriodRule.AllTime
+//
+//            else ->
+//                ReportPeriodRule.Custom
+//
+//        }
+//
+//        val template = ReportTemplateEntity(
+//            title = "",
+//            selectedTrnTypes = selectedTrnTypes.value,
+//            reportPeriodRule = reportPeriodRule,
+//            selectedAccounts = selectedAccounts.value.filter { it.selected }.map { it.account.id },
+//            selectedCategories = selectedCategories.value.filter { it.selected }.map {
+//                when (it.selectableCategory) {
+//                    is ReportCategoryType.Cat -> it.selectableCategory.cat.id
+//                    else -> null
+//                }
+//            },
+//            minAmount = minAmount.value,
+//            maxAmount = maxAmount.value,
+//
+//            includeKeywords = includeKeywords.value,
+//            excludeKeywords = excludeKeywords.value,
+//
+//            selectedPlannedPayments = selectedPlannedPayments.value,
+//            transfersAsIncomeExpense = transfersAsIncomeExpense.value
+//        )
+//
+//        val alternativeReportPeriodRule: ReportPeriodRule = when (reportPeriodRule) {
+//            is ReportPeriodRule.Custom -> {
+//                if (timePeriod.fromToRange?.from != null && timePeriod.fromToRange?.to != null) {
+//                    val fromDate = timePeriod.fromToRange!!.from!!.toLocalDate()
+//                    val toDate = timePeriod.fromToRange!!.to!!.toLocalDate()
+//
+//                    if (toDate.isBefore(today.toLocalDate()) || toDate.isEqual(today.toLocalDate())) {
+//                        val days = ChronoUnit.DAYS.between(fromDate, toDate.plusDays(1))
+//                        ReportPeriodRule.LastN(
+//                            lastN = days.toInt(),
+//                            intervalType = IntervalType.DAY
+//                        )
+//                    } else
+//                        ReportPeriodRule.Custom
+//                } else
+//                    ReportPeriodRule.Custom
+//            }
+//
+//            else -> reportPeriodRule
+//        }
+//
+//        return TemplateDataHolder(
+//            visible = true,
+//            title = "",
+//            alternativePeriod = alternativeReportPeriodRule,
+//            template = template
+//        )
+//    }
+
+//    private fun templateFlow() = templateSaveScreenVisible.flatMapLatest {
+//        flowOf(it)
+//            .flatMapLatest {
+//                flowOf(saveTemplate())
+//            }.catch { x ->
+//                Log.d("GGGG", "" + x.message)
+//            }
+//            .flowOn(Dispatchers.Default)
+//            .onStart { TemplateDataHolder.empty() }
+//    }.flowOn(Dispatchers.Default)
+//        .onStart { TemplateDataHolder.empty() }

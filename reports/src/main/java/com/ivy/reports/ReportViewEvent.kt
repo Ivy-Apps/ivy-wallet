@@ -15,6 +15,10 @@ sealed class ReportsEvent {
     //object Start : ReportsEvent()
 
     data class FilterOptions(val visible: Boolean) : ReportsEvent()
+    data class Template(val visible: Boolean) : ReportsEvent()
+    data class TemplateName(val name: String) :ReportsEvent()
+
+    data class SaveTemplate(val visible: Boolean) : ReportsEvent()
 
     //data class TrnsAsIncomeExpense(val trnsAsIncExp: Boolean) : ReportsEvent()
 

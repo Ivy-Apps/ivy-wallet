@@ -10,6 +10,8 @@ import com.ivy.reports.data.ReportPlannedPaymentType
 import com.ivy.reports.data.SelectableAccount
 import com.ivy.reports.data.SelectableReportsCategory
 import com.ivy.reports.extensions.ImmutableData
+import com.ivy.reports.template.TemplateDataHolder
+import com.ivy.reports.template.ui.TemplateUiState
 import java.util.*
 
 //------------------------------------------  Reports Main State -----------------------------------
@@ -23,6 +25,12 @@ data class ReportUiState(
 
     val filterVisible: Boolean,
     val filterUiState: FilterUiState,
+
+    val templateVisible: Boolean=false,
+    val templateSaveModalVisible :Boolean = false,
+    val selectedTemplateUiState: TemplateUiState? = null,
+
+    val templateDataHolder: TemplateDataHolder
 )
 
 //----------------------------------------  Reports Header State -----------------------------------
@@ -64,5 +72,7 @@ data class FilterUiState(
 
     val selectedPlannedPayments: ImmutableData<List<ReportPlannedPaymentType>>,
 
-    val treatTransfersAsIncExp : Boolean
+    val treatTransfersAsIncExp : Boolean,
+
+    val showSaveTemplateOption : Boolean = false
 )

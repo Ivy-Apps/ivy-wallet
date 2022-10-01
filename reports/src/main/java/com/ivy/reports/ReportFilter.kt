@@ -245,6 +245,7 @@ fun BoxWithConstraintsScope.ReportsFilterOptions(
             }
 
             FilterOptions(
+                showSaveTemplateOption = state.showSaveTemplateOption,
                 onClose = onClose,
                 onApplyFilter = {
                     onClose()
@@ -353,7 +354,11 @@ fun FilterFooter() {
 }
 
 @Composable
-fun BoxScope.FilterOptions(onClose: () -> Unit, onApplyFilter: () -> Unit) {
+fun BoxScope.FilterOptions(
+    showSaveTemplateOption: Boolean = false,
+    onClose: () -> Unit,
+    onApplyFilter: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -363,9 +368,19 @@ fun BoxScope.FilterOptions(onClose: () -> Unit, onApplyFilter: () -> Unit) {
             .align(Alignment.BottomCenter),
         verticalAlignment = Alignment.Bottom
     ) {
-        Spacer(Modifier.width(24.dp))
+        Spacer(Modifier.width(12.dp))
 
-        CloseButton(onClick = onClose)
+        IvyButton(
+            text = "To Template",
+            iconStart = R.drawable.ic_template,
+            backgroundGradient = GradientGreen,
+            padding = 10.dp,
+            enabled = showSaveTemplateOption,
+            iconEdgePadding = 8.dp,
+            iconTextPadding =0.dp
+        ) {
+            onClose()
+        }
 
         Spacer(Modifier.weight(1f))
 
@@ -378,7 +393,7 @@ fun BoxScope.FilterOptions(onClose: () -> Unit, onApplyFilter: () -> Unit) {
             onApplyFilter()
         }
 
-        Spacer(Modifier.width(24.dp))
+        Spacer(Modifier.width(12.dp))
     }
 
 }

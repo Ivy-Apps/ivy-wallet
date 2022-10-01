@@ -22,6 +22,7 @@ import com.ivy.data.transaction.TrnTime
 import com.ivy.reports.data.*
 import com.ivy.reports.data.ReportPlannedPaymentType.OVERDUE
 import com.ivy.reports.data.ReportPlannedPaymentType.UPCOMING
+import com.ivy.reports.extensions.isFilterValid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -36,7 +37,7 @@ class ReportFilterTrnsFlow @Inject constructor(
 
     override fun ReportFilterState.createFlow(): Flow<List<Transaction>> =
         filterStateFlow()
-            .filter { it.isValid() }
+            .filter { it.isFilterValid() }
             .flatMapMerge { transactionFlow() }
             .onEmpty { emit(emptyList()) }
             .flowOn(Dispatchers.Default)
@@ -206,25 +207,6 @@ class ReportFilterTrnsFlow @Inject constructor(
                 }
             }
         }
-    }
-
-
-    private fun ReportFilterState.isValid() = when {
-        selectedTrnTypes.isEmpty() -> false
-
-        period == null -> false
-
-        selectedAccounts.none { it.selected } -> false
-
-        selectedCategories.none { it.selected } -> false
-
-        minAmount != null && maxAmount != null -> when {
-            minAmount > maxAmount -> false
-            maxAmount < minAmount -> false
-            else -> true
-        }
-
-        else -> true
     }
 
     private fun ReportFilterState.hasEmptyContents() =
