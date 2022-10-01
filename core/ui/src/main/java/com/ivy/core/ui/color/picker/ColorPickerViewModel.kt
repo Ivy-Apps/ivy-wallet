@@ -33,15 +33,15 @@ internal class ColorPickerViewModel @Inject constructor() :
     private fun colorSectionsFlow(): Flow<List<ColorSectionUi>> = flowOf(
         listOf(
             ColorSectionUi(
-                name = "Colors",
+                name = "Primary",
                 colorRows = colorRows(colors())
             ),
             ColorSectionUi(
-                name = "Color Light",
+                name = "Light",
                 colorRows = colorRows(lightColors())
             ),
             ColorSectionUi(
-                name = "Colors Dark",
+                name = "Dark",
                 colorRows = colorRows(darkColors())
             ),
         )
