@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,11 +12,10 @@ import com.ivy.design.l1_buildingBlocks.InputField
 import com.ivy.design.l2_components.input.InputFieldType.Multiline
 import com.ivy.design.util.ComponentPreview
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IvyInputField(
     type: InputFieldType,
-    value: String,
+    initialValue: String,
     placeholder: String,
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Done,
@@ -28,7 +26,7 @@ fun IvyInputField(
 ) {
     InputField(
         modifier = modifier,
-        value = value,
+        initialValue = initialValue,
         placeholder = placeholder,
         singleLine = when (type) {
             is Multiline -> false
@@ -55,7 +53,7 @@ private fun Preview() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             type = InputFieldType.SingleLine,
-            value = "Input",
+            initialValue = "Input",
             placeholder = "Placeholder",
             onValueChange = {}
         )

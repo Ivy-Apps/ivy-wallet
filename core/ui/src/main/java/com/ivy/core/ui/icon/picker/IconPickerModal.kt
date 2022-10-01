@@ -138,7 +138,7 @@ private fun SearchBar(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             type = InputFieldType.SingleLine,
-            value = query,
+            initialValue = query,
             placeholder = "Search icons...",
             imeAction = ImeAction.Search,
             onImeAction = {

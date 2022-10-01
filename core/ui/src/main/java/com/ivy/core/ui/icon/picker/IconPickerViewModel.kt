@@ -8,7 +8,10 @@ import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.picker.data.SectionUnverified
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
@@ -29,12 +32,10 @@ internal class IconPickerViewModel @Inject constructor(
 
     private val searchQuery = MutableStateFlow("")
 
-    override fun stateFlow(): Flow<IconPickerStateUi> = combine(
-        searchQuery, sectionsUiFlow()
-    ) { searchQuery, sections ->
+    override fun stateFlow(): Flow<IconPickerStateUi> = sectionsUiFlow().map { sections ->
         IconPickerStateUi(
             sections = sections,
-            searchQuery = searchQuery
+            searchQuery = searchQuery.value
         )
     }
 
