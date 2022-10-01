@@ -23,7 +23,7 @@ internal class HexColorPickerViewModel @Inject constructor(
 
     override fun stateFlow(): Flow<HexColorPickerState> = hexFlow.map { hex ->
         HexColorPickerState(
-            hex = "#$hex",
+            hex = "#$hex".uppercase(),
             color = fromHex(hex)
         )
     }
