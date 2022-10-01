@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.color.picker.ColorPickerViewModel.Companion.COLORS_PER_ROW
+import com.ivy.core.ui.color.picker.custom.HexColorPickerModal
 import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
@@ -26,8 +27,10 @@ import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Choose
+import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenIf
@@ -44,14 +47,17 @@ fun BoxScope.ColorPickerModal(
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     var selectedColor by remember(initialColor) { mutableStateOf(initialColor) }
+    val hexColorPickerModal = rememberIvyModal()
 
     Modal(
         modal = modal,
         actions = {
-            Choose {
-                selectedColor?.let(onColorPicked)
-                modal.hide()
-            }
+            ModalActions(
+                modal = modal,
+                hexColorPickerModal = hexColorPickerModal,
+                selectedColor = selectedColor,
+                onColorPicked = onColorPicked
+            )
         }
     ) {
         LazyColumn(
@@ -74,7 +80,38 @@ fun BoxScope.ColorPickerModal(
             item(key = "color_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
     }
+
+    HexColorPickerModal(
+        modal = hexColorPickerModal,
+        initialColor = selectedColor,
+        onColorPicked = {
+            onColorPicked(it)
+            modal.hide()
+        }
+    )
 }
+
+// region ModalActions
+@Composable
+fun ModalActionsScope.ModalActions(
+    modal: IvyModal,
+    hexColorPickerModal: IvyModal,
+    selectedColor: Color?,
+    onColorPicked: (Color) -> Unit
+) {
+    Secondary(
+        text = null,
+        icon = R.drawable.round_color_lens_24
+    ) {
+        hexColorPickerModal.show()
+    }
+    SpacerHor(width = 8.dp)
+    Choose {
+        selectedColor?.let(onColorPicked)
+        modal.hide()
+    }
+}
+// endregion
 
 // region Sections
 private fun LazyListScope.sections(

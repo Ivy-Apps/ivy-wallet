@@ -8,13 +8,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberDynamicContrast
+import com.ivy.design.l0_system.color.toHex
 import com.ivy.design.l1_buildingBlocks.B2Second
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
@@ -26,10 +26,7 @@ fun ColorPickerButton(
     selectedColor: Color,
     modifier: Modifier = Modifier,
 ) {
-    val colorHex = remember(selectedColor) {
-        Integer.toHexString(selectedColor.toArgb())
-            .drop(2).uppercase()
-    }
+    val colorHex = remember(selectedColor) { selectedColor.toHex() }
     B2Second(
         modifier = modifier
             .clip(UI.shapes.rounded)

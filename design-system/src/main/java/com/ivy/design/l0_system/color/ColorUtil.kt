@@ -108,3 +108,13 @@ fun Int.toComposeColor() = Color(this)
 
 fun Color.asBrush(): Brush = SolidColor(this)
 // endregion
+
+// region Hex <> Color
+fun Color.toHex() = Integer.toHexString(this.toArgb()).drop(2).uppercase()
+
+fun fromHex(hex: String): Color? = try {
+    android.graphics.Color.parseColor("#$hex").toComposeColor()
+} catch (ignored: Exception) {
+    null
+}
+// endregion
