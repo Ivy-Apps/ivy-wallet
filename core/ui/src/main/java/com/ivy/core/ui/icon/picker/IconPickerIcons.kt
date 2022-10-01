@@ -136,8 +136,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "vehicle",
         keywords = listOf(
-            "cars", "vehicles", "autos", "transports",
-            "commutes", "gas", "taxis", "buses", "trams", "subways", "trolleys"
+            "cars", "vehicles", "autos", "transports", "commutes", "gas", "taxis"
         )
     ),
     Icon(
@@ -355,7 +354,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "notice", keywords = listOf(
             "notice", "warnings", "urgents", "attention", "requirements",
-            "musts", "important", "prior", "crucial", "dangerous"
+            "musts", "important", "priority", "crucial", "dangerous"
         )
     ),
     Icon(
@@ -446,14 +445,56 @@ private fun ivyIcons(): List<Icon> = listOf(
             "wood", "progressings", "builders", "repairments", "repairs", "wip"
         )
     ),
-    Icon("transport", keywords = listOf("transport", "car", "bus", "commute")),
-    Icon("travel", keywords = listOf("travel", "plane", "abroad", "explore", "vacation")),
-    Icon("trees", keywords = listOf("trees", "garden", "yard", "lawn")),
-    Icon("zeus", keywords = listOf("zeus", "lightning", "rain", "emergency", "urgent")),
-    Icon("calendar", keywords = listOf("calendar", "plan", "schedule", "memo")),
-    Icon("crown", keywords = listOf("crown", "luxury", "vip")),
-    Icon("diamond", keywords = listOf("diamond", "luxury", "vip", "wedding")),
-    Icon("palette", keywords = listOf("palette", "paint", "art")),
+    Icon(
+        "transport", keywords = listOf(
+            "transports", "cars", "buses", "commutes",
+            "vehicles", "autos", "transports", "gas", "taxis", "buses", "trams", "subways",
+            "trolleys", "trains", "metros", "underground", "gas"
+        )
+    ),
+    Icon(
+        "travel", keywords = listOf(
+            "traveling", "travels", "trips", "airplanes", "abroad",
+            "explore", "vacations", "exploring", "experiences", "flying", "flights"
+        )
+    ),
+    Icon(
+        "trees", keywords = listOf(
+            "trees", "gardens", "yards", "lawns", "woods",
+            "christmas", "xmas", "forests"
+        )
+    ),
+    Icon(
+        "zeus", keywords = listOf(
+            "zeus", "lightning", "rain", "emergency", "urgents",
+            "storms", "flash", "thunders", "important", "priority"
+        )
+    ),
+    Icon(
+        "calendar", keywords = listOf(
+            "calendars", "plans", "schedules", "memos",
+            "planners", "notes", "tasks", "priority"
+        )
+    ),
+    Icon(
+        "crown", keywords = listOf(
+            "crowns", "luxury", "vip", "tops", "queens", "kings",
+            "the best", "luxe"
+        )
+    ),
+    Icon(
+        "diamond", keywords = listOf(
+            "diamonds", "luxury", "luxe", "vip", "weddings",
+            "rings", "tops", "expensive", "glamorous", "shine", "shining", "sparkling", "brilliant",
+            "glory", "sparkle"
+        )
+    ),
+    Icon(
+        "palette", keywords = listOf(
+            "palettes", "painters", "artists", "colors", "colours",
+            "decorate", "decorations", "dyeing", "painting", "drawing", "pictures"
+        )
+    ),
 )
 // endregion
 
