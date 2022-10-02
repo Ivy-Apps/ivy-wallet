@@ -732,7 +732,7 @@ private fun vueTransport(): List<Icon> = listOf(
     Icon(
         "ic_vue_transport_bus", keywords = listOf(
             "microbus", "minibus", "minivan", "bus", "public transport",
-            "travel", "journey", "utility vehicle",
+            "travel", "journey", "utility vehicle"
         )
     ),
     Icon(
@@ -753,7 +753,7 @@ private fun vueTransport(): List<Icon> = listOf(
     Icon(
         "ic_vue_transport_ship", keywords = listOf(
             "warship", "cargo ship", "ferry", "vessel", "sail", "watercraft", "transport",
-            "cruise ship", "troopship", "passenger ship", "fleet", "yacht", "navy",
+            "cruise ship", "troopship", "passenger ship", "fleet", "yacht", "navy"
         )
     ),
     Icon(
@@ -792,7 +792,7 @@ private fun vueType(): List<Icon> = listOf(
         "ic_vue_type_text", keywords = listOf(
             "book", "textbook", "passage", "page", "words", "language",
             "word", "paragraph", "chapter", "booklet", "dictionary",
-            "reference", "read", "written", "phrase", "passages",
+            "reference", "read", "written", "phrase", "passages"
         )
     ),
     Icon(
@@ -800,7 +800,7 @@ private fun vueType(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_type_textalign_left", keywords = listOf(
-            "content", "document", "idea", "paragraph", "left"
+            "content", "document", "idea", "paragraph", "left",
             "quotation", "formating", "body", "context", "align left"
         )
     ),
@@ -808,12 +808,12 @@ private fun vueType(): List<Icon> = listOf(
         "ic_vue_type_translate", keywords = listOf(
             "paraphrase", "interpret", "understand", "language", "writing",
             "translator", "change", "meaning", "literal translation",
-            "english language", "grammar", "dictionary",
+            "english language", "grammar", "dictionary"
         )
     ),
     Icon(
         "ic_vue_type_textalign_right", keywords = listOf(
-            "content", "document", "paragraph", "quotation", "right"
+            "content", "document", "paragraph", "quotation", "right",
             "formating", "body", "context", "align right"
         )
     ),
@@ -824,16 +824,12 @@ private fun vueType(): List<Icon> = listOf(
         )
     ),
     Icon(
-        "ic_vue_type_textalign_center", keywords = listOf(
-            "core", "centre", "central", "middle",
-            "rivet", "midpoint", "align center"
-        )
+        "ic_vue_type_textalign_center",
+        keywords = listOf("core", "centre", "central", "middle", "rivet", "midpoint", "align center")
     ),
     Icon(
-        "ic_vue_type_textalign_justifycenter", keywords = listOf(
-            "distribute", "inline", "central", "middle",
-            "align justifycenter"
-        )
+        "ic_vue_type_textalign_justifycenter",
+        keywords = listOf("distribute", "inline", "central", "middle", "align justifycenter")
     ),
 )
 // endregion
