@@ -8,7 +8,7 @@ body:
     attributes:
       label: Please confirm the following
       options:
-        - label: I checked [the current issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) for duplicate problems
+        - label: I checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate problems
           required: true
   - type: textarea
     id: description

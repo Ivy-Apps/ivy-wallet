@@ -2,7 +2,7 @@
 
 ## :warning: WARNING: this model is deprecated. See [new model](../Ivy-Apps-Business-Model.md) :warning:
 
-[![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ILIYANGERMANOV/ivy-wallet/blob/main/CONTRIBUTING.md)
+[![PRs are welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
 [![Feedback is welcome!](https://img.shields.io/badge/feedback-welcome-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
 [![Proposals are highly appreciated!](https://img.shields.io/badge/proposals-highly%20appreciated-brightgreen)](https://t.me/+ETavgioAvWg4NThk)
 
@@ -65,7 +65,7 @@ _Disclaimer: WIP... :construction:_
 
 The `Hall of Fame` would be a special screen in the app to honor Ivy Wallet's contributors.
 
-There is a `Hall of Fame` page in our GitHub repository and right now it's called [Contributors Wall](https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-wall).
+There is a `Hall of Fame` page in our GitHub repository and right now it's called [Contributors Wall](https://github.com/Ivy-Apps/ivy-wallet#contributors-wall).
 
 Non-technical people who promoted, designed or helped Ivy Wallet in any way can include themselves by submitting a PR following a template. _(which will be provided here :construction:)_
 

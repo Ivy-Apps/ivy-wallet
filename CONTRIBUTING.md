@@ -4,7 +4,7 @@
 
 **[How To Fork Guide by GitHub](https://docs.github.com/en/get-started/quickstart/fork-a-repo)**
 
-`gh repo fork https://github.com/ILIYANGERMANOV/ivy-wallet`
+`gh repo fork https://github.com/Ivy-Apps/ivy-wallet`
 
 ## 2. Pick an issue
 
@@ -12,16 +12,16 @@ What do you want to work on? How do you want to contribute?
 
 ### Workflow:
 
-1. Browse **[Ivy Wallet Issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues)**.
+1. Browse **[Ivy Wallet Issues](https://github.com/Ivy-Apps/ivy-wallet/issues)**.
 2. Choose a ticket that you understand and intrigues you.
 3. Comment `"I'm on it"` on the ticket to let other contributors know that you're working on it.
 
 ### Tips:
 
 - Issues with the
-  label [good first issue](https://github.com/ILIYANGERMANOV/ivy-wallet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+  label [good first issue](https://github.com/Ivy-Apps/ivy-wallet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
   are easier.
-- You can also help us clean up the [issue section](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) by identifying duplicate issues.
+- You can also help us clean up the [issue section](https://github.com/Ivy-Apps/ivy-wallet/issues) by identifying duplicate issues.
 - You can always make code improvements w/o having an opened issue.
 - You create an issue yourself!
 - Ask questions or suggest ideas in the comments section of any issue,
@@ -52,7 +52,7 @@ repository.
 
 So far you should have pushed your work to your feature branch and have tested that it works on an actual Android
 device. Then final step is to open a pull request to the `develop` branch of the
-official [Ivy Wallet repo.](https://github.com/ILIYANGERMANOV/ivy-wallet/pulls)
+official [Ivy Wallet repo.](https://github.com/Ivy-Apps/ivy-wallet/pulls)
 
 **[How To Submit a PR Guide by GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)**
 
