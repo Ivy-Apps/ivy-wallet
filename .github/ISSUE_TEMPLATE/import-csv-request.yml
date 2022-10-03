@@ -8,7 +8,7 @@ body:
     attributes:
       label: Please confirm the following
       options:
-        - label: I checked [the current issues](https://github.com/ILIYANGERMANOV/ivy-wallet/issues) for duplicate problems
+        - label: I checked [the current issues](https://github.com/Ivy-Apps/ivy-wallet/issues) for duplicate problems
           required: true
   - type: input
     id: url-to-app
@@ -52,7 +52,7 @@ body:
       label: Developer/Contributor Notes
       description: Just a few notes for developers. Ignore the content and don't change it, please.
       value: |
-        - Checkout this **[Sample Commit](https://github.com/ILIYANGERMANOV/ivy-wallet/commit/323ed68343a0904ee33f226480716a30368fd646)** to see how import CSV works in Ivy Wallet
+        - Checkout this **[Sample Commit](https://github.com/Ivy-Apps/ivy-wallet/commit/323ed68343a0904ee33f226480716a30368fd646)** to see how import CSV works in Ivy Wallet
         - Make sure that the imported dates of the transactions are correct"
     validations:
       required: true

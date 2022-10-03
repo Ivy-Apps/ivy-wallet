@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface GithubService {
     companion object {
         const val BASE_URL = "https://api.github.com"
-        const val OPEN_ISSUE_URL = "$BASE_URL/repos/ILIYANGERMANOV/ivy-wallet/issues"
+        const val OPEN_ISSUE_URL = "$BASE_URL/repos/Ivy-Apps/ivy-wallet/issues"
 
         const val GITHUB_SERVICE_ACC_USERNAME = "ivywallet"
 

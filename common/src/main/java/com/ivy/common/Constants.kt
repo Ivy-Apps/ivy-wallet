@@ -14,11 +14,11 @@ object Constants {
     const val URL_PRIVACY_POLICY =
         "https://github.com/ILIYANGERMANOV/privacy-policies/blob/master/ivy-wallet-privacy-policy.md"
 
-    const val URL_IVY_WALLET_REPO = "https://github.com/ILIYANGERMANOV/ivy-wallet"
+    const val URL_IVY_WALLET_REPO = "https://github.com/Ivy-Apps/ivy-wallet"
 
-    const val URL_ROADMAP = "https://github.com/ILIYANGERMANOV/ivy-wallet/projects/1"
+    const val URL_ROADMAP = "https://github.com/Ivy-Apps/ivy-wallet/projects/1"
 
-    const val URL_HELP_CENTER = "https://github.com/ILIYANGERMANOV/ivy-wallet/wiki"
+    const val URL_HELP_CENTER = "https://github.com/Ivy-Apps/ivy-wallet/wiki"
 
     const val URL_IVY_TELEGRAM_INVITE = "https://t.me/+ETavgioAvWg4NThk"
 
@@ -28,7 +28,7 @@ object Constants {
     const val CATEGORY_UNSPECIFIED_NAME = "Unspecified"
 
     const val URL_IVY_CONTRIBUTORS =
-        "https://github.com/ILIYANGERMANOV/ivy-wallet#contributors-see-graph"
+        "https://github.com/Ivy-Apps/ivy-wallet#contributors-see-graph"
 
     const val USER_INACTIVITY_TIME_LIMIT = 60  //Time in seconds
 
