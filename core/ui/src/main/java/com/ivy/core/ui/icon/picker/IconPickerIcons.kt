@@ -663,13 +663,37 @@ private fun vueBrands(): List<Icon> = listOf(
 
 // region Building (Vue)
 private fun vueBuilding(): List<Icon> = listOf(
-    Icon("ic_vue_building_building1"),
-    Icon("ic_vue_building_buildings"),
-    Icon("ic_vue_building_hospital"),
-    Icon("ic_vue_building_building"),
-    Icon("ic_vue_building_bank"),
-    Icon("ic_vue_building_house"),
-    Icon("ic_vue_building_courthouse"),
+    Icon(
+        "ic_vue_building_building1", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_buildings", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_hospital", keywords = listOf(
+            "hospital", "buildings", "health", "church", "hospis"
+        )
+    ),
+    Icon("ic_vue_building_building", keywords = listOf("buildings", "shops", "stores")),
+    Icon(
+        "ic_vue_building_bank", keywords = listOf(
+            "banks", "banking", "money", "finances", "fed", "institutions"
+        )
+    ),
+    Icon(
+        "ic_vue_building_house", keywords = listOf(
+            "buildings", "houses", "homes", "couples", "love", "live"
+        )
+    ),
+    Icon(
+        "ic_vue_building_courthouse", keywords = listOf(
+            "courthouses", "lawyers", "legal", "businesses", "institutions"
+        )
+    ),
 )
 // endregion
 
