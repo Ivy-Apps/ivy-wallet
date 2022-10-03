@@ -699,11 +699,36 @@ private fun vueBuilding(): List<Icon> = listOf(
 
 // region Chart (Vue)
 private fun vueChart(): List<Icon> = listOf(
-    Icon("ic_vue_chart_diagram"),
-    Icon("ic_vue_chart_graph"),
-    Icon("ic_vue_chart_status_up"),
-    Icon("ic_vue_chart_chart"),
-    Icon("ic_vue_chart_trend_up"),
+    Icon(
+        "ic_vue_chart_diagram", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_graph", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_status_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_chart", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_trend_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
 )
 // endregion
 
