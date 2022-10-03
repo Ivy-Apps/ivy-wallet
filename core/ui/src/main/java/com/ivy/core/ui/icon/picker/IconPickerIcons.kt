@@ -836,12 +836,49 @@ private fun vueType(): List<Icon> = listOf(
 
 // region Weather (Vue)
 private fun vueWeather(): List<Icon> = listOf(
-    Icon("ic_vue_weather_wind"),
-    Icon("ic_vue_weather_cloud"),
-    Icon("ic_vue_weather_flash"),
-    Icon("ic_vue_weather_moon"),
-    Icon("ic_vue_weather_drop"),
-    Icon("ic_vue_weather_cold"),
-    Icon("ic_vue_weather_sun"),
+    Icon(
+        "ic_vue_weather_wind",
+        keywords = listOf(
+            "blow", "gale", "gust", "headwind", "tailwind", "tempest", "wind",
+            "tornado", "windstorm", "breath", "breeze", "air", "typhoon"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_cloud",
+        keywords = listOf("vapor", "cloud", "veil", "fogginess", "frost", "thunderhead")
+    ),
+    Icon(
+        "ic_vue_weather_flash",
+        keywords = listOf(
+            "binge", "jag", "boost", "increase", "pickup", "upswing", "epidemic",
+            "eruption", "explosion", "flood", "rush", "surge", "uproar", "flash"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_moon", keywords = listOf(
+            "moment", "crescent", "half-moon", "celestial body", "full moon",
+            "heavenly body", "new moon", "old moon", "orb of night"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_drop", keywords = listOf(
+            "bead", "bit", "bubble", "dash", "dewdrop",
+            "driblet", "drip", "droplet", "pearl",
+            "splash", "tear", "teardrop"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_cold", keywords = listOf(
+            "bleak", "chilled", "cool", "crisp", "frosty", "frozen", "icy", "intense", "snowy",
+            "wintry", "Siberian", "arctic", "chill", "icebox", "stinging", "below freezing",
+            "sharp", "below zero", "glacial", "have goose bumps", "numbing", "shivery"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_sun", keywords = listOf(
+            "star", "sunlight", "bask", "daylight", "tan",
+            "flare", "shine", "sol", "sunrise", "aubade"
+        )
+    ),
 )
 // endregion
