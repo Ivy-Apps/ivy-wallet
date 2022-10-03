@@ -411,7 +411,8 @@ private fun ivyIcons(): List<Icon> = listOf(
             "servers", "modems", "communicate", "communications", "pc", "computers", "messages",
             "texts", "chats", "bubbles", "backends", "developers", "programs", "machines",
             "softwares", "engineers", "coder", "logicians", "it", "technology", "library", "hosts",
-            "hosting", "engineering", "coding", "programming", "developing", "development"
+            "hosting", "engineering", "coding", "programming", "developing", "development",
+            "chatting"
         )
     ),
     Icon(
@@ -502,11 +503,15 @@ private fun ivyIcons(): List<Icon> = listOf(
 // region Brands (Vue)
 private fun vueBrands(): List<Icon> = listOf(
     Icon("ic_vue_brands_triangle", keywords = listOf("triangles")),
-    Icon("ic_vue_brands_trello", keywords = listOf("trello", "managements", "projects")),
+    Icon(
+        "ic_vue_brands_trello", keywords = listOf(
+            "trello", "managements", "projects", "pm", "tasks"
+        )
+    ),
     Icon(
         "ic_vue_brands_html5", keywords = listOf(
             "html5", "html", "coder", "startup", "projects", "softwares",
-            "development", "programming", "programmer", "programs", "developers", "website"
+            "development", "programming", "programmer", "programs", "developers", "websites"
         )
     ),
     Icon(
@@ -518,40 +523,141 @@ private fun vueBrands(): List<Icon> = listOf(
         "ic_vue_brands_bootsrap", keywords = listOf(
             "bootsrap", "startup", "coder",
             "coding", "open-source", "open source", "softwares", "projects",
-            "development", "programming", "programmer", "programs", "developers", "website"
+            "development", "programming", "programmer", "programs", "developers", "websites"
         )
     ),
-    Icon("ic_vue_brands_dribbble"),
-    Icon("ic_vue_brands_google_play"),
-    Icon("ic_vue_brands_dropbox"),
-    Icon("ic_vue_brands_js"),
-    Icon("ic_vue_brands_drive"),
-    Icon("ic_vue_brands_paypal"),
-    Icon("ic_vue_brands_be"),
-    Icon("ic_vue_brands_figma"),
-    Icon("ic_vue_brands_messenger"),
-    Icon("ic_vue_brands_facebook"),
-    Icon("ic_vue_brands_framer"),
-    Icon("ic_vue_brands_whatsapp"),
-    Icon("ic_vue_brands_html3"),
-    Icon("ic_vue_brands_zoom"),
-    Icon("ic_vue_brands_ok"),
-    Icon("ic_vue_brands_twitch"),
-    Icon("ic_vue_brands_youtube"),
-    Icon("ic_vue_brands_apple"),
-    Icon("ic_vue_brands_android"),
-    Icon("ic_vue_brands_slack"),
-    Icon("ic_vue_brands_vuesax"),
-    Icon("ic_vue_brands_blogger"),
-    Icon("ic_vue_brands_photoshop"),
-    Icon("ic_vue_brands_python"),
-    Icon("ic_vue_brands_google"),
-    Icon("ic_vue_brands_xd"),
-    Icon("ic_vue_brands_illustrator"),
-    Icon("ic_vue_brands_xiaomi"),
-    Icon("ic_vue_brands_windows"),
-    Icon("ic_vue_brands_snapchat"),
-    Icon("ic_vue_brands_ui8"),
+    Icon(
+        "ic_vue_brands_dribbble",
+        keywords = listOf(
+            "dribbble", "dribble", "designers", "designs"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google_play", keywords = listOf(
+            "google play", "apps", "android", "applications", "downloading"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_dropbox", keywords = listOf(
+            "dropbox", "clouds", "data", "save", "sync"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_js", keywords = listOf(
+            "js", "javascript", "coder", "coding", "websites",
+            "softwares", "projects", "development", "programming", "programmer", "programs",
+            "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_drive", keywords = listOf(
+            "google drive", "save", "files", "clouds"
+        )
+    ),
+    Icon("ic_vue_brands_paypal", keywords = listOf("paypal", "transfer money online")),
+    Icon("ic_vue_brands_be", keywords = listOf("be")),
+    Icon("ic_vue_brands_figma", keywords = listOf("figma", "designers", "designs")),
+    Icon(
+        "ic_vue_brands_messenger",
+        keywords = listOf(
+            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_facebook", keywords = listOf("facebook", "fb", "social media")),
+    Icon("ic_vue_brands_framer", keywords = listOf("framer", "web builder", "websites")),
+    Icon(
+        "ic_vue_brands_whatsapp", keywords = listOf(
+            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_html3", keywords = listOf(
+            "html3", "html", "web programming",
+            "coder", "coding", "websites", "softwares", "projects", "development", "programming",
+            "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_zoom", keywords = listOf(
+            "zoom", "communication", "communicate", "meetings"
+        )
+    ),
+    Icon("ic_vue_brands_ok", keywords = listOf("ok")),
+    Icon(
+        "ic_vue_brands_twitch", keywords = listOf(
+            "twitch", "streaming", "gaming", "entertainment", "sports", "fun"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_youtube", keywords = listOf(
+            "youtube", "music", "learning", "videos",
+            "streaming", "vlogs", "vlogging", "hits", "fun", "chill", "subscriptions"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_apple", keywords = listOf(
+            "apple", "iphone", "ipad", "macbook",
+            "iwatch", "laptops", "technology"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_android", keywords = listOf(
+            "android", "mobile", "apps", "applications", "coder", "coding", "softwares",
+            "projects", "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_slack", keywords = listOf(
+            "slack", "working", "chatting", "code",
+            "developers", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_vuesax", keywords = listOf("vuesax", "webs", "code", "developers")),
+    Icon(
+        "ic_vue_brands_blogger", keywords = listOf(
+            "bloggers", "blogging", "hosting",
+            "softwares", "publishing", "writing", "content", "writers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_photoshop", keywords = listOf(
+            "photoshop", "ps", "designers", "photos", "technology", "software", "editing"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_python", keywords = listOf(
+            "python", "ai", "coder", "coding", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google", keywords = listOf(
+            "google", "browsers", "browse", "searching", "internet", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_xd", keywords = listOf(
+            "xd", "adobe", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_illustrator", keywords = listOf(
+            "illustrator", "adobe", "illustrating",
+            "illustrations", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon("ic_vue_brands_xiaomi", keywords = listOf("xiaomi", "phones", "technology")),
+    Icon("ic_vue_brands_windows", keywords = listOf("windows", "operational system", "os")),
+    Icon(
+        "ic_vue_brands_snapchat", keywords = listOf(
+            "snapchats", "fun", "snaps", "social media"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_ui8", keywords = listOf(
+            "ui8", "ui", "ux", "designers", "creative", "create", "creators"
+        )
+    ),
 )
 // endregion
 
@@ -960,7 +1066,8 @@ private fun vueType(): List<Icon> = listOf(
         )
     ),
     Icon(
-        "ic_vue_type_paperclip", keywords = listOf("clip", "paper clip", "steel", "paper", "managing files")
+        "ic_vue_type_paperclip",
+        keywords = listOf("clip", "paper clip", "steel", "paper", "managing files")
     ),
     Icon(
         "ic_vue_type_textalign_left", keywords = listOf(
@@ -989,7 +1096,15 @@ private fun vueType(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_type_textalign_center",
-        keywords = listOf("core", "centre", "central", "middle", "rivet", "midpoint", "align center")
+        keywords = listOf(
+            "core",
+            "centre",
+            "central",
+            "middle",
+            "rivet",
+            "midpoint",
+            "align center"
+        )
     ),
     Icon(
         "ic_vue_type_textalign_justifycenter",
