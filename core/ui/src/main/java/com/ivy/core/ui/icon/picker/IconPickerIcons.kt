@@ -1037,11 +1037,35 @@ private fun vueCrypto(): List<Icon> = listOf(
 
 // region Delivery (Vue)
 private fun vueDelivery(): List<Icon> = listOf(
-    Icon("ic_vue_delivery_package"),
-    Icon("ic_vue_delivery_receive"),
-    Icon("ic_vue_delivery_box1"),
-    Icon("ic_vue_delivery_box"),
-    Icon("ic_vue_delivery_truck"),
+    Icon(
+        "ic_vue_delivery_package", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "packets", "boxes", "receiving", "receive", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_receive", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box1", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "gifts", "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box", keywords = listOf(
+            "boxes", "cubes", "delivery", "delivering", "orders", "purchases"
+        )
+    ),
+    Icon("ic_vue_delivery_truck", keywords = listOf(
+        "truck", "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell",
+        "sales", "packets", "cars", "vehicles", "receiving", "receive", "replacement", "exchange",
+        "swap", "gifts", "purchases", "dhl", "amazon")),
 )
 // endregion
 
