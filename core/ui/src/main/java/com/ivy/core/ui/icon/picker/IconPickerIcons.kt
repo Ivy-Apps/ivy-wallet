@@ -411,7 +411,8 @@ private fun ivyIcons(): List<Icon> = listOf(
             "servers", "modems", "communicate", "communications", "pc", "computers", "messages",
             "texts", "chats", "bubbles", "backends", "developers", "programs", "machines",
             "softwares", "engineers", "coder", "logicians", "it", "technology", "library", "hosts",
-            "hosting", "engineering", "coding", "programming", "developing", "development"
+            "hosting", "engineering", "coding", "programming", "developing", "development",
+            "chatting"
         )
     ),
     Icon(
@@ -502,11 +503,15 @@ private fun ivyIcons(): List<Icon> = listOf(
 // region Brands (Vue)
 private fun vueBrands(): List<Icon> = listOf(
     Icon("ic_vue_brands_triangle", keywords = listOf("triangles")),
-    Icon("ic_vue_brands_trello", keywords = listOf("trello", "managements", "projects")),
+    Icon(
+        "ic_vue_brands_trello", keywords = listOf(
+            "trello", "managements", "projects", "pm", "tasks"
+        )
+    ),
     Icon(
         "ic_vue_brands_html5", keywords = listOf(
             "html5", "html", "coder", "startup", "projects", "softwares",
-            "development", "programming", "programmer", "programs", "developers", "website"
+            "development", "programming", "programmer", "programs", "developers", "websites"
         )
     ),
     Icon(
@@ -518,138 +523,549 @@ private fun vueBrands(): List<Icon> = listOf(
         "ic_vue_brands_bootsrap", keywords = listOf(
             "bootsrap", "startup", "coder",
             "coding", "open-source", "open source", "softwares", "projects",
-            "development", "programming", "programmer", "programs", "developers", "website"
+            "development", "programming", "programmer", "programs", "developers", "websites"
         )
     ),
-    Icon("ic_vue_brands_dribbble"),
-    Icon("ic_vue_brands_google_play"),
-    Icon("ic_vue_brands_dropbox"),
-    Icon("ic_vue_brands_js"),
-    Icon("ic_vue_brands_drive"),
-    Icon("ic_vue_brands_paypal"),
-    Icon("ic_vue_brands_be"),
-    Icon("ic_vue_brands_figma"),
-    Icon("ic_vue_brands_messenger"),
-    Icon("ic_vue_brands_facebook"),
-    Icon("ic_vue_brands_framer"),
-    Icon("ic_vue_brands_whatsapp"),
-    Icon("ic_vue_brands_html3"),
-    Icon("ic_vue_brands_zoom"),
-    Icon("ic_vue_brands_ok"),
-    Icon("ic_vue_brands_twitch"),
-    Icon("ic_vue_brands_youtube"),
-    Icon("ic_vue_brands_apple"),
-    Icon("ic_vue_brands_android"),
-    Icon("ic_vue_brands_slack"),
-    Icon("ic_vue_brands_vuesax"),
-    Icon("ic_vue_brands_blogger"),
-    Icon("ic_vue_brands_photoshop"),
-    Icon("ic_vue_brands_python"),
-    Icon("ic_vue_brands_google"),
-    Icon("ic_vue_brands_xd"),
-    Icon("ic_vue_brands_illustrator"),
-    Icon("ic_vue_brands_xiaomi"),
-    Icon("ic_vue_brands_windows"),
-    Icon("ic_vue_brands_snapchat"),
-    Icon("ic_vue_brands_ui8"),
+    Icon(
+        "ic_vue_brands_dribbble",
+        keywords = listOf(
+            "dribbble", "dribble", "designers", "designs"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google_play", keywords = listOf(
+            "google play", "apps", "android", "applications", "downloading"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_dropbox", keywords = listOf(
+            "dropbox", "clouds", "data", "save", "sync"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_js", keywords = listOf(
+            "js", "javascript", "coder", "coding", "websites",
+            "softwares", "projects", "development", "programming", "programmer", "programs",
+            "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_drive", keywords = listOf(
+            "google drive", "save", "files", "clouds"
+        )
+    ),
+    Icon("ic_vue_brands_paypal", keywords = listOf("paypal", "transfer money online")),
+    Icon("ic_vue_brands_be", keywords = listOf("be")),
+    Icon("ic_vue_brands_figma", keywords = listOf("figma", "designers", "designs")),
+    Icon(
+        "ic_vue_brands_messenger",
+        keywords = listOf(
+            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_facebook", keywords = listOf("facebook", "fb", "social media")),
+    Icon("ic_vue_brands_framer", keywords = listOf("framer", "web builder", "websites")),
+    Icon(
+        "ic_vue_brands_whatsapp", keywords = listOf(
+            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_html3", keywords = listOf(
+            "html3", "html", "web programming",
+            "coder", "coding", "websites", "softwares", "projects", "development", "programming",
+            "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_zoom", keywords = listOf(
+            "zoom", "communication", "communicate", "meetings"
+        )
+    ),
+    Icon("ic_vue_brands_ok", keywords = listOf("ok")),
+    Icon(
+        "ic_vue_brands_twitch", keywords = listOf(
+            "twitch", "streaming", "gaming", "entertainment", "sports", "fun"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_youtube", keywords = listOf(
+            "youtube", "music", "learning", "videos",
+            "streaming", "vlogs", "vlogging", "hits", "fun", "chill", "subscriptions"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_apple", keywords = listOf(
+            "apple", "iphone", "ipad", "macbook",
+            "iwatch", "laptops", "technology"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_android", keywords = listOf(
+            "android", "mobile", "apps", "applications", "coder", "coding", "softwares",
+            "projects", "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_slack", keywords = listOf(
+            "slack", "working", "chatting", "code",
+            "developers", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_vuesax", keywords = listOf("vuesax", "webs", "code", "developers")),
+    Icon(
+        "ic_vue_brands_blogger", keywords = listOf(
+            "bloggers", "blogging", "hosting",
+            "softwares", "publishing", "writing", "content", "writers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_photoshop", keywords = listOf(
+            "photoshop", "ps", "designers", "photos", "technology", "software", "editing"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_python", keywords = listOf(
+            "python", "ai", "coder", "coding", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google", keywords = listOf(
+            "google", "browsers", "browse", "searching", "internet", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_xd", keywords = listOf(
+            "xd", "adobe", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_illustrator", keywords = listOf(
+            "illustrator", "adobe", "illustrating",
+            "illustrations", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon("ic_vue_brands_xiaomi", keywords = listOf("xiaomi", "phones", "technology")),
+    Icon("ic_vue_brands_windows", keywords = listOf("windows", "operational system", "os")),
+    Icon(
+        "ic_vue_brands_snapchat", keywords = listOf(
+            "snapchats", "fun", "snaps", "social media"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_ui8", keywords = listOf(
+            "ui8", "ui", "ux", "designers", "creative", "create", "creators"
+        )
+    ),
 )
 // endregion
 
 // region Building (Vue)
 private fun vueBuilding(): List<Icon> = listOf(
-    Icon("ic_vue_building_building1"),
-    Icon("ic_vue_building_buildings"),
-    Icon("ic_vue_building_hospital"),
-    Icon("ic_vue_building_building"),
-    Icon("ic_vue_building_bank"),
-    Icon("ic_vue_building_house"),
-    Icon("ic_vue_building_courthouse"),
+    Icon(
+        "ic_vue_building_building1", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_buildings", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_hospital", keywords = listOf(
+            "hospital", "buildings", "health", "church", "hospis"
+        )
+    ),
+    Icon("ic_vue_building_building", keywords = listOf("buildings", "shops", "stores")),
+    Icon(
+        "ic_vue_building_bank", keywords = listOf(
+            "banks", "banking", "money", "finances", "fed", "institutions"
+        )
+    ),
+    Icon(
+        "ic_vue_building_house", keywords = listOf(
+            "buildings", "houses", "homes", "couples", "love", "live"
+        )
+    ),
+    Icon(
+        "ic_vue_building_courthouse", keywords = listOf(
+            "courthouses", "lawyers", "legal", "businesses", "institutions"
+        )
+    ),
 )
 // endregion
 
 // region Chart (Vue)
 private fun vueChart(): List<Icon> = listOf(
-    Icon("ic_vue_chart_diagram"),
-    Icon("ic_vue_chart_graph"),
-    Icon("ic_vue_chart_status_up"),
-    Icon("ic_vue_chart_chart"),
-    Icon("ic_vue_chart_trend_up"),
+    Icon(
+        "ic_vue_chart_diagram", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_graph", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_status_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_chart", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_trend_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
 )
 // endregion
 
 // region Crypto (Vue)
 private fun vueCrypto(): List<Icon> = listOf(
-    Icon("ic_vue_crypto_dent"),
-    Icon("ic_vue_crypto_icon"),
-    Icon("ic_vue_crypto_decred"),
-    Icon("ic_vue_crypto_ocean_protocol"),
-    Icon("ic_vue_crypto_hedera_hashgraph"),
-    Icon("ic_vue_crypto_binance_usd"),
-    Icon("ic_vue_crypto_maker"),
-    Icon("ic_vue_crypto_xrp"),
-    Icon("ic_vue_crypto_harmony"),
-    Icon("ic_vue_crypto_theta"),
-    Icon("ic_vue_crypto_celsius_"),
-    Icon("ic_vue_crypto_vibe"),
-    Icon("ic_vue_crypto_augur"),
-    Icon("ic_vue_crypto_graph"),
-    Icon("ic_vue_crypto_monero"),
-    Icon("ic_vue_crypto_aave"),
-    Icon("ic_vue_crypto_dai"),
-    Icon("ic_vue_crypto_litecoin"),
-    Icon("ic_vue_crypto_tether"),
-    Icon("ic_vue_crypto_thorchain"),
-    Icon("ic_vue_crypto_nexo"),
-    Icon("ic_vue_crypto_chainlink"),
-    Icon("ic_vue_crypto_ethereum_classic"),
-    Icon("ic_vue_crypto_usd_coin"),
-    Icon("ic_vue_crypto_nem"),
-    Icon("ic_vue_crypto_eos"),
-    Icon("ic_vue_crypto_emercoin"),
-    Icon("ic_vue_crypto_dash"),
-    Icon("ic_vue_crypto_ontology"),
-    Icon("ic_vue_crypto_ftx_token"),
-    Icon("ic_vue_crypto_educare"),
-    Icon("ic_vue_crypto_solana"),
-    Icon("ic_vue_crypto_ethereum"),
-    Icon("ic_vue_crypto_velas"),
-    Icon("ic_vue_crypto_hex"),
-    Icon("ic_vue_crypto_polkadot"),
-    Icon("ic_vue_crypto_huobi_token"),
-    Icon("ic_vue_crypto_polyswarm"),
-    Icon("ic_vue_crypto_ankr"),
-    Icon("ic_vue_crypto_enjin_coin"),
-    Icon("ic_vue_crypto_polygon"),
-    Icon("ic_vue_crypto_wing"),
-    Icon("ic_vue_crypto_nebulas"),
-    Icon("ic_vue_crypto_iost"),
-    Icon("ic_vue_crypto_binance_coin"),
-    Icon("ic_vue_crypto_kyber_network"),
-    Icon("ic_vue_crypto_trontron"),
-    Icon("ic_vue_crypto_stellar"),
-    Icon("ic_vue_crypto_avalanche"),
-    Icon("ic_vue_crypto_wanchain"),
-    Icon("ic_vue_crypto_cardano"),
-    Icon("ic_vue_crypto_okb"),
-    Icon("ic_vue_crypto_stacks"),
-    Icon("ic_vue_crypto_siacoin"),
-    Icon("ic_vue_crypto_autonio"),
-    Icon("ic_vue_crypto_civic"),
-    Icon("ic_vue_crypto_zel"),
-    Icon("ic_vue_crypto_quant"),
-    Icon("ic_vue_crypto_tenx"),
-    Icon("ic_vue_crypto_celo"),
-    Icon("ic_vue_crypto_bitcoin"),
+    Icon("ic_vue_crypto_dent", keywords = listOf("crypto", "blockchain", "currency", "dent")),
+    Icon("ic_vue_crypto_icon", keywords = listOf("crypto", "blockchain", "currency")),
+    Icon(
+        "ic_vue_crypto_decred", keywords = listOf(
+            "crypto", "blockchain", "currency", "decred"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ocean_protocol", keywords = listOf(
+            "crypto", "blockchain", "currency", "ocean protocol"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hedera_hashgraph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera hashgraph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_usd", keywords = listOf(
+            "crypto", "blockchain", "currency",
+            "binance", "busd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_maker", keywords = listOf(
+            "crypto", "blockchain", "currency", "maker", "mkr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_xrp", keywords = listOf(
+            "crypto", "blockchain", "currency", "xrp", "ripple"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_harmony", keywords = listOf(
+            "crypto", "blockchain", "currency", "harmony", "one"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_theta", keywords = listOf(
+            "crypto", "blockchain", "currency", "theta"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celsius_", keywords = listOf(
+            "crypto", "blockchain", "currency", "celsius"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_vibe", keywords = listOf(
+            "crypto", "blockchain", "currency", "vibe"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_augur", keywords = listOf(
+            "crypto", "blockchain", "currency", "augur"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_graph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera", "graph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_monero", keywords = listOf(
+            "crypto", "blockchain", "currency", "monero", "mnr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_aave", keywords = listOf(
+            "crypto", "blockchain", "currency", "aave"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dai", keywords = listOf(
+            "crypto", "blockchain", "currency", "dai"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_litecoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "litecoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tether", keywords = listOf(
+            "crypto", "blockchain", "currency", "tether", "ust"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_thorchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "thorchain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nexo", keywords = listOf(
+            "crypto", "blockchain", "currency", "nexo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_chainlink", keywords = listOf(
+            "crypto", "blockchain", "currency", "chainlink"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum_classic", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_usd_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "usd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nem", keywords = listOf(
+            "crypto", "blockchain", "currency", "nem"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_eos", keywords = listOf(
+            "crypto", "blockchain", "currency", "eos"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_emercoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "emercoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dash", keywords = listOf(
+            "crypto", "blockchain", "currency", "dash"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ontology", keywords = listOf(
+            "crypto", "blockchain", "currency", "ontology"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ftx_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "ftx", "tokens"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_educare", keywords = listOf(
+            "crypto", "blockchain", "currency", "educare"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_solana", keywords = listOf(
+            "crypto", "blockchain", "currency", "solana"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_velas", keywords = listOf(
+            "crypto", "blockchain", "currency", "velas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hex", keywords = listOf(
+            "crypto", "blockchain", "currency", "hex"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polkadot", keywords = listOf(
+            "crypto", "blockchain", "currency", "polkadot"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_huobi_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "huobi token"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polyswarm", keywords = listOf(
+            "crypto", "blockchain", "currency", "polyswarm"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ankr", keywords = listOf(
+            "crypto", "blockchain", "currency", "ankr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_enjin_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "enjin coin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polygon", keywords = listOf(
+            "crypto", "blockchain", "currency", "polygon"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wing", keywords = listOf(
+            "crypto", "blockchain", "currency", "wing"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nebulas", keywords = listOf(
+            "crypto", "blockchain", "currency", "nebulas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_iost", keywords = listOf(
+            "crypto", "blockchain", "currency", "iost"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "binance", "coins", "bnb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_kyber_network", keywords = listOf(
+            "crypto", "blockchain", "currency", "kyber network"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_trontron", keywords = listOf(
+            "crypto", "blockchain", "currency", "tron"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stellar", keywords = listOf(
+            "crypto", "blockchain", "currency", "stellar"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_avalanche", keywords = listOf(
+            "crypto", "blockchain", "currency", "avalanche", "avl"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wanchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "wanchain", "wan chain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_cardano", keywords = listOf(
+            "crypto", "blockchain", "currency", "ada", "cardano"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_okb", keywords = listOf(
+            "crypto", "blockchain", "currency", "okb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stacks", keywords = listOf(
+            "crypto", "blockchain", "currency", "stacks"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_siacoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "sia coin", "siacoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_autonio", keywords = listOf(
+            "crypto", "blockchain", "currency", "autonio"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_civic", keywords = listOf(
+            "crypto", "blockchain", "currency", "civic"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_zel", keywords = listOf(
+            "crypto", "blockchain", "currency", "zel"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_quant", keywords = listOf(
+            "crypto", "blockchain", "currency", "quant"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tenx", keywords = listOf(
+            "crypto", "blockchain", "currency", "tenx"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celo", keywords = listOf(
+            "crypto", "blockchain", "currency", "celo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_bitcoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "btc", "bitcoins"
+        )
+    ),
 )
 // endregion
 
 // region Delivery (Vue)
 private fun vueDelivery(): List<Icon> = listOf(
-    Icon("ic_vue_delivery_package"),
-    Icon("ic_vue_delivery_receive"),
-    Icon("ic_vue_delivery_box1"),
-    Icon("ic_vue_delivery_box"),
-    Icon("ic_vue_delivery_truck"),
+    Icon(
+        "ic_vue_delivery_package", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "packets", "boxes", "receiving", "receive", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_receive", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box1", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "gifts", "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box", keywords = listOf(
+            "boxes", "cubes", "delivery", "delivering", "orders", "purchases"
+        )
+    ),
+    Icon("ic_vue_delivery_truck", keywords = listOf(
+        "truck", "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell",
+        "sales", "packets", "cars", "vehicles", "receiving", "receive", "replacement", "exchange",
+        "swap", "gifts", "purchases", "dhl", "amazon")),
 )
 // endregion
 
@@ -960,7 +1376,8 @@ private fun vueType(): List<Icon> = listOf(
         )
     ),
     Icon(
-        "ic_vue_type_paperclip", keywords = listOf("clip", "paper clip", "steel", "paper", "managing files")
+        "ic_vue_type_paperclip",
+        keywords = listOf("clip", "paper clip", "steel", "paper", "managing files")
     ),
     Icon(
         "ic_vue_type_textalign_left", keywords = listOf(
@@ -989,7 +1406,15 @@ private fun vueType(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_type_textalign_center",
-        keywords = listOf("core", "centre", "central", "middle", "rivet", "midpoint", "align center")
+        keywords = listOf(
+            "core",
+            "centre",
+            "central",
+            "middle",
+            "rivet",
+            "midpoint",
+            "align center"
+        )
     ),
     Icon(
         "ic_vue_type_textalign_justifycenter",
