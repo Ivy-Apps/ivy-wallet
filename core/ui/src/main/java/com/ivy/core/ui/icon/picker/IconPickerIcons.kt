@@ -734,67 +734,304 @@ private fun vueChart(): List<Icon> = listOf(
 
 // region Crypto (Vue)
 private fun vueCrypto(): List<Icon> = listOf(
-    Icon("ic_vue_crypto_dent"),
-    Icon("ic_vue_crypto_icon"),
-    Icon("ic_vue_crypto_decred"),
-    Icon("ic_vue_crypto_ocean_protocol"),
-    Icon("ic_vue_crypto_hedera_hashgraph"),
-    Icon("ic_vue_crypto_binance_usd"),
-    Icon("ic_vue_crypto_maker"),
-    Icon("ic_vue_crypto_xrp"),
-    Icon("ic_vue_crypto_harmony"),
-    Icon("ic_vue_crypto_theta"),
-    Icon("ic_vue_crypto_celsius_"),
-    Icon("ic_vue_crypto_vibe"),
-    Icon("ic_vue_crypto_augur"),
-    Icon("ic_vue_crypto_graph"),
-    Icon("ic_vue_crypto_monero"),
-    Icon("ic_vue_crypto_aave"),
-    Icon("ic_vue_crypto_dai"),
-    Icon("ic_vue_crypto_litecoin"),
-    Icon("ic_vue_crypto_tether"),
-    Icon("ic_vue_crypto_thorchain"),
-    Icon("ic_vue_crypto_nexo"),
-    Icon("ic_vue_crypto_chainlink"),
-    Icon("ic_vue_crypto_ethereum_classic"),
-    Icon("ic_vue_crypto_usd_coin"),
-    Icon("ic_vue_crypto_nem"),
-    Icon("ic_vue_crypto_eos"),
-    Icon("ic_vue_crypto_emercoin"),
-    Icon("ic_vue_crypto_dash"),
-    Icon("ic_vue_crypto_ontology"),
-    Icon("ic_vue_crypto_ftx_token"),
-    Icon("ic_vue_crypto_educare"),
-    Icon("ic_vue_crypto_solana"),
-    Icon("ic_vue_crypto_ethereum"),
-    Icon("ic_vue_crypto_velas"),
-    Icon("ic_vue_crypto_hex"),
-    Icon("ic_vue_crypto_polkadot"),
-    Icon("ic_vue_crypto_huobi_token"),
-    Icon("ic_vue_crypto_polyswarm"),
-    Icon("ic_vue_crypto_ankr"),
-    Icon("ic_vue_crypto_enjin_coin"),
-    Icon("ic_vue_crypto_polygon"),
-    Icon("ic_vue_crypto_wing"),
-    Icon("ic_vue_crypto_nebulas"),
-    Icon("ic_vue_crypto_iost"),
-    Icon("ic_vue_crypto_binance_coin"),
-    Icon("ic_vue_crypto_kyber_network"),
-    Icon("ic_vue_crypto_trontron"),
-    Icon("ic_vue_crypto_stellar"),
-    Icon("ic_vue_crypto_avalanche"),
-    Icon("ic_vue_crypto_wanchain"),
-    Icon("ic_vue_crypto_cardano"),
-    Icon("ic_vue_crypto_okb"),
-    Icon("ic_vue_crypto_stacks"),
-    Icon("ic_vue_crypto_siacoin"),
-    Icon("ic_vue_crypto_autonio"),
-    Icon("ic_vue_crypto_civic"),
-    Icon("ic_vue_crypto_zel"),
-    Icon("ic_vue_crypto_quant"),
-    Icon("ic_vue_crypto_tenx"),
-    Icon("ic_vue_crypto_celo"),
-    Icon("ic_vue_crypto_bitcoin"),
+    Icon("ic_vue_crypto_dent", keywords = listOf("crypto", "blockchain", "currency", "dent")),
+    Icon("ic_vue_crypto_icon", keywords = listOf("crypto", "blockchain", "currency")),
+    Icon(
+        "ic_vue_crypto_decred", keywords = listOf(
+            "crypto", "blockchain", "currency", "decred"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ocean_protocol", keywords = listOf(
+            "crypto", "blockchain", "currency", "ocean protocol"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hedera_hashgraph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera hashgraph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_usd", keywords = listOf(
+            "crypto", "blockchain", "currency",
+            "binance", "busd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_maker", keywords = listOf(
+            "crypto", "blockchain", "currency", "maker", "mkr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_xrp", keywords = listOf(
+            "crypto", "blockchain", "currency", "xrp", "ripple"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_harmony", keywords = listOf(
+            "crypto", "blockchain", "currency", "harmony", "one"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_theta", keywords = listOf(
+            "crypto", "blockchain", "currency", "theta"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celsius_", keywords = listOf(
+            "crypto", "blockchain", "currency", "celsius"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_vibe", keywords = listOf(
+            "crypto", "blockchain", "currency", "vibe"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_augur", keywords = listOf(
+            "crypto", "blockchain", "currency", "augur"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_graph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera", "graph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_monero", keywords = listOf(
+            "crypto", "blockchain", "currency", "monero", "mnr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_aave", keywords = listOf(
+            "crypto", "blockchain", "currency", "aave"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dai", keywords = listOf(
+            "crypto", "blockchain", "currency", "dai"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_litecoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "litecoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tether", keywords = listOf(
+            "crypto", "blockchain", "currency", "tether", "ust"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_thorchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "thorchain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nexo", keywords = listOf(
+            "crypto", "blockchain", "currency", "nexo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_chainlink", keywords = listOf(
+            "crypto", "blockchain", "currency", "chainlink"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum_classic", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_usd_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "usd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nem", keywords = listOf(
+            "crypto", "blockchain", "currency", "nem"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_eos", keywords = listOf(
+            "crypto", "blockchain", "currency", "eos"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_emercoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "emercoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dash", keywords = listOf(
+            "crypto", "blockchain", "currency", "dash"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ontology", keywords = listOf(
+            "crypto", "blockchain", "currency", "ontology"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ftx_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "ftx", "tokens"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_educare", keywords = listOf(
+            "crypto", "blockchain", "currency", "educare"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_solana", keywords = listOf(
+            "crypto", "blockchain", "currency", "solana"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_velas", keywords = listOf(
+            "crypto", "blockchain", "currency", "velas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hex", keywords = listOf(
+            "crypto", "blockchain", "currency", "hex"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polkadot", keywords = listOf(
+            "crypto", "blockchain", "currency", "polkadot"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_huobi_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "huobi token"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polyswarm", keywords = listOf(
+            "crypto", "blockchain", "currency", "polyswarm"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ankr", keywords = listOf(
+            "crypto", "blockchain", "currency", "ankr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_enjin_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "enjin coin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polygon", keywords = listOf(
+            "crypto", "blockchain", "currency", "polygon"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wing", keywords = listOf(
+            "crypto", "blockchain", "currency", "wing"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nebulas", keywords = listOf(
+            "crypto", "blockchain", "currency", "nebulas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_iost", keywords = listOf(
+            "crypto", "blockchain", "currency", "iost"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "binance", "coins", "bnb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_kyber_network", keywords = listOf(
+            "crypto", "blockchain", "currency", "kyber network"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_trontron", keywords = listOf(
+            "crypto", "blockchain", "currency", "tron"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stellar", keywords = listOf(
+            "crypto", "blockchain", "currency", "stellar"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_avalanche", keywords = listOf(
+            "crypto", "blockchain", "currency", "avalanche", "avl"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wanchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "wanchain", "wan chain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_cardano", keywords = listOf(
+            "crypto", "blockchain", "currency", "ada", "cardano"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_okb", keywords = listOf(
+            "crypto", "blockchain", "currency", "okb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stacks", keywords = listOf(
+            "crypto", "blockchain", "currency", "stacks"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_siacoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "sia coin", "siacoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_autonio", keywords = listOf(
+            "crypto", "blockchain", "currency", "autonio"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_civic", keywords = listOf(
+            "crypto", "blockchain", "currency", "civic"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_zel", keywords = listOf(
+            "crypto", "blockchain", "currency", "zel"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_quant", keywords = listOf(
+            "crypto", "blockchain", "currency", "quant"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tenx", keywords = listOf(
+            "crypto", "blockchain", "currency", "tenx"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celo", keywords = listOf(
+            "crypto", "blockchain", "currency", "celo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_bitcoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "btc", "bitcoins"
+        )
+    ),
 )
 // endregion
 
