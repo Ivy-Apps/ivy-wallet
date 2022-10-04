@@ -1139,12 +1139,47 @@ private fun vueDesign(): List<Icon> = listOf(
 
 // region Dev (Vue)
 private fun vueDev(): List<Icon> = listOf(
-    Icon("ic_vue_dev_code"),
-    Icon("ic_vue_dev_hierarchy"),
-    Icon("ic_vue_dev_relation"),
-    Icon("ic_vue_dev_arrow"),
-    Icon("ic_vue_dev_data"),
-    Icon("ic_vue_dev_hashtag"),
+    Icon(
+        "ic_vue_dev_code", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "software", "logician", "engineers",
+            "engineering", "it", "technology", "developers", "programs", "development", "developing"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_hierarchy", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_relation", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_arrow", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "arrows"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_data", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "data"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_hashtag", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "social media", "hashtag"
+        )
+    ),
 )
 // endregion
 
