@@ -9,7 +9,7 @@ sealed interface SelectedPeriodUi {
     data class Monthly(
         val btnText: String,
         val month: MonthUi,
-        val periodUi: PeriodUi,
+        val rangeUi: TimeRangeUi,
     ) : SelectedPeriodUi
 
     @Immutable
@@ -17,27 +17,27 @@ sealed interface SelectedPeriodUi {
         val btnText: String,
         val n: Int,
         val unit: TimeUnit,
-        val periodUi: PeriodUi,
+        val rangeUi: TimeRangeUi,
     ) : SelectedPeriodUi
 
     @Immutable
     data class AllTime(
         val btnText: String,
-        val periodUi: PeriodUi,
+        val rangeUi: TimeRangeUi,
     ) : SelectedPeriodUi
 
     @Immutable
     data class CustomRange(
         val btnText: String,
-        val periodUi: PeriodUi,
+        val rangeUi: TimeRangeUi,
     ) : SelectedPeriodUi
 }
 
-fun SelectedPeriodUi.periodUi(): PeriodUi = when (this) {
-    is SelectedPeriodUi.AllTime -> periodUi
-    is SelectedPeriodUi.CustomRange -> periodUi
-    is SelectedPeriodUi.InTheLast -> periodUi
-    is SelectedPeriodUi.Monthly -> periodUi
+fun SelectedPeriodUi.rangeUi(): TimeRangeUi = when (this) {
+    is SelectedPeriodUi.AllTime -> rangeUi
+    is SelectedPeriodUi.CustomRange -> rangeUi
+    is SelectedPeriodUi.InTheLast -> rangeUi
+    is SelectedPeriodUi.Monthly -> rangeUi
 }
 
 fun SelectedPeriodUi.btnText(): String = when (this) {

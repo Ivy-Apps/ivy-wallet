@@ -4,7 +4,7 @@ import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.core.domain.action.transaction.TrnQuery
 import com.ivy.core.domain.pure.time.currentMonthlyPeriod
-import com.ivy.core.domain.pure.time.period
+import com.ivy.core.domain.pure.time.range
 import com.ivy.formula.source.DataSource
 import com.ivy.formula.source.Stat
 import kotlinx.coroutines.flow.Flow
@@ -95,7 +95,7 @@ suspend fun parse(
 // region Test 2
 suspend fun test2() {
     val cashflowThisMonth = DataSource(
-        filter = TrnQuery.ActualBetween(currentMonthlyPeriod(startDayOfMonth = 1).period()),
+        filter = TrnQuery.ActualBetween(currentMonthlyPeriod(startDayOfMonth = 1).range()),
         focused = Stat.Balance
     )
 

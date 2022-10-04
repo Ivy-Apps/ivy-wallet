@@ -178,7 +178,7 @@ private fun FromToRange(
     selected: SelectedPeriodUi,
     onEvent: (SelectPeriodEvent) -> Unit,
 ) {
-    val periodUi = selected.periodUi()
+    val periodUi = selected.rangeUi()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -456,7 +456,7 @@ private fun Preview() {
                     currentYear = true,
                     fullName = fullMonthName(LocalContext.current, monthNumber = 2),
                 ),
-                periodUi = PeriodUi(
+                rangeUi = TimeRangeUi(
                     range = allTime(),
                     fromText = "Feb. 01",
                     toText = "Feb. 28"

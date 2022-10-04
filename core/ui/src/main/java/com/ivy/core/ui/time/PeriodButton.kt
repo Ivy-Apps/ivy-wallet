@@ -7,7 +7,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.btnText
 import com.ivy.core.ui.data.period.dummyMonthUi
-import com.ivy.core.ui.data.period.dummyPeriodUi
+import com.ivy.core.ui.data.period.dummyRangeUi
 import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.design.l2_components.modal.IvyModal
@@ -60,7 +60,7 @@ private fun Preview() {
             selectedPeriod = SelectedPeriodUi.Monthly(
                 btnText = "September",
                 month = dummyMonthUi(),
-                periodUi = dummyPeriodUi()
+                rangeUi = dummyRangeUi()
             ),
             periodModal = rememberIvyModal()
         )

@@ -15,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.dummyMonthUi
-import com.ivy.core.ui.data.period.dummyPeriodUi
+import com.ivy.core.ui.data.period.dummyRangeUi
 import com.ivy.core.ui.time.PeriodButton
 import com.ivy.core.ui.time.PeriodModal
 import com.ivy.core.ui.transaction.TransactionsLazyColumn
@@ -237,7 +237,7 @@ private fun Preview() {
                 period = SelectedPeriodUi.Monthly(
                     btnText = "Sep",
                     month = dummyMonthUi(),
-                    periodUi = dummyPeriodUi()
+                    rangeUi = dummyRangeUi()
                 ),
                 balance = ValueUi("10,000.00", "USD"),
                 income = ValueUi("1,500.35", "USD"),

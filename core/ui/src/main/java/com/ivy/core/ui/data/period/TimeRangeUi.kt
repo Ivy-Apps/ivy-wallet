@@ -5,13 +5,13 @@ import com.ivy.common.timeNowLocal
 import com.ivy.data.time.TimeRange
 
 @Immutable
-data class PeriodUi(
+data class TimeRangeUi(
     val range: TimeRange,
     val fromText: String,
     val toText: String,
 )
 
-fun dummyPeriodUi() = PeriodUi(
+fun dummyRangeUi() = TimeRangeUi(
     range = TimeRange(timeNowLocal(), timeNowLocal()),
     fromText = "",
     toText = ""

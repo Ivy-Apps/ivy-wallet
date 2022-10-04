@@ -12,7 +12,7 @@ import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
 import com.ivy.core.domain.action.transaction.or
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
-import com.ivy.core.domain.pure.time.period
+import com.ivy.core.domain.pure.time.range
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
 import com.ivy.core.ui.action.mapping.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
@@ -103,7 +103,7 @@ class HomeViewModel @Inject constructor(
 
             // Trns History, Upcoming & Overdue
             val trnsListFlow = selectedPeriodFlow.flatMapMerge {
-                val period = it.period()
+                val period = it.range()
                 trnsListFlow(ActualBetween(period) or DueBetween(period))
             }
 
