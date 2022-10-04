@@ -3,9 +3,9 @@ package com.ivy.core.persistence.query
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
-import com.ivy.common.fromToPair
 import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochSeconds
+import com.ivy.common.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
@@ -290,7 +290,7 @@ class TrnWhereTest : StringSpec({
             where.query shouldBe "(timeType = ${TrnTimeType.Actual.code}" +
                     " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe actualBetween.range.fromToPair().toList()
+            where.args shouldBe actualBetween.range.toPair().toList()
                 .map { it.toEpochSeconds() }
         }
     }
@@ -301,7 +301,7 @@ class TrnWhereTest : StringSpec({
             where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
                     " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe dueBetween.range.fromToPair().toList().map { it.toEpochSeconds() }
+            where.args shouldBe dueBetween.range.toPair().toList().map { it.toEpochSeconds() }
         }
     }
 

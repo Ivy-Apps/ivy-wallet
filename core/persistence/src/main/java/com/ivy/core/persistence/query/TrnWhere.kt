@@ -1,8 +1,8 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
-import com.ivy.common.fromToPair
 import com.ivy.common.toEpochSeconds
+import com.ivy.common.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
@@ -112,12 +112,12 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
 
         is DueBetween -> {
             "(timeType = ${TrnTimeType.Due.code} AND time >= ? AND time <= ?)" to arg(
-                where.range.fromToPair().toList().map(::timestamp)
+                where.range.toPair().toList().map(::timestamp)
             )
         }
         is ActualBetween ->
             "(timeType = ${TrnTimeType.Actual.code} AND time >= ? AND time <= ?)" to arg(
-                where.range.fromToPair().toList().map(::timestamp)
+                where.range.toPair().toList().map(::timestamp)
             )
 
         is Brackets -> {
