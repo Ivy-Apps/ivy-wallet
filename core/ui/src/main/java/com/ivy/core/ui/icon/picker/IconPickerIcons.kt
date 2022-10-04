@@ -165,9 +165,9 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "camera", keywords = listOf(
-            "cameras", "videos", "edits", "photos", "movies", "records", "directing",
+            "cameras", "videos", "editing", "photos", "movies", "records", "directing",
             "tickets", "studios", "shows", "tvs", "streams", "acts", "actions", "produces",
-            "productions", "acting"
+            "productions", "acting", "pictures", "pics"
         )
     ),
     Icon(
@@ -346,9 +346,9 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "music", keywords = listOf(
-            "music", "headsets", "headphones", "sounds", "spotify",
-            "notes", "singers", "songs", "hear", "fun", "party", "records", "directing", "radios",
-            "produce", "production", "hits"
+            "music", "headsets", "headphones", "sounds", "spotify", "singers", "songs", "hear",
+            "fun", "party", "records", "directing", "radios", "produce", "production", "hits",
+            "tunes", "performing", "recordings"
         )
     ),
     Icon(
@@ -621,7 +621,8 @@ private fun vueBrands(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_brands_photoshop", keywords = listOf(
-            "photoshop", "ps", "designers", "photos", "technology", "software", "editing"
+            "photoshop", "ps", "designers", "photos", "technology", "software", "editing", "pics",
+            "pictures"
         )
     ),
     Icon(
@@ -1432,7 +1433,7 @@ private fun vueMain(): List<Icon> = listOf(
     Icon("ic_vue_main_battery_half", keywords = listOf("battery", "half", "charges")),
     Icon(
         "ic_vue_main_send", keywords = listOf(
-            "sending", "messages", "communication", "chatting", "chats", "play"
+            "sending", "messages", "communication", "chatting", "chats", "play", "telegram"
         )
     ),
     Icon(
@@ -1529,21 +1530,63 @@ private fun vueMain(): List<Icon> = listOf(
         )
     ),
     Icon("ic_vue_main_pet", keywords = listOf("pets", "dogs", "paws", "cats")),
-    Icon("ic_vue_main_flash", keywords = listOf("zeus", "lightning", "rains", "emergency",
-        "urgents", "storms", "flash", "thunders", "important", "priority", "thor", "sparks")),
+    Icon(
+        "ic_vue_main_flash", keywords = listOf(
+            "zeus", "lightning", "rains", "emergency",
+            "urgents", "storms", "flash", "thunders", "important", "priority", "thor", "sparks"
+        )
+    ),
 )
 // endregion
 
 // region Media (Vue)
 private fun vueMedia(): List<Icon> = listOf(
-    Icon("ic_vue_media_microphone"),
-    Icon("ic_vue_media_music"),
-    Icon("ic_vue_media_voice"),
-    Icon("ic_vue_media_image"),
-    Icon("ic_vue_media_scissors"),
-    Icon("ic_vue_media_mountains"),
-    Icon("ic_vue_media_film"),
-    Icon("ic_vue_media_photocamera"),
+    Icon(
+        "ic_vue_media_microphone", keywords = listOf(
+            "microphones", "records", "recordings", "singers", "songs", "singing", "performing",
+            "tunes"
+        )
+    ),
+    Icon(
+        "ic_vue_media_music", keywords = listOf(
+            "music", "sounds", "spotify", "singers", "songs", "hear", "fun", "party", "records",
+            "directing", "radios", "produce", "production", "hits", "tunes", "performing", "notes",
+            "listening", "recordings"
+        )
+    ),
+    Icon(
+        "ic_vue_media_voice", keywords = listOf(
+            "music", "sounds", "singers", "songs", "hear", "records", "directing", "radios",
+            "produce", "production", "tunes", "performing", "notes", "listening",
+            "recordings", "voices", "speaking", "talking", "communication", "communicate"
+        )
+    ),
+    Icon(
+        "ic_vue_media_image", keywords = listOf(
+            "images", "pics", "pictures", "gallery", "photos", "editing", "images"
+        )
+    ),
+    Icon(
+        "ic_vue_media_scissors", keywords = listOf(
+            "scissors", "designers", "cutting", "tools", "cropping", "videos", "editing",
+            "video editing"
+        )
+    ),
+    Icon(
+        "ic_vue_media_mountains", keywords = listOf(
+            "hike", "hikings", "mountains", "walks", "sun", "tops", "nature", "hobby", "forests",
+            "woods", "trees", "environments", "sports"
+        )
+    ),
+    Icon(
+        "ic_vue_media_film", keywords = listOf(
+            "films", "movies", "cameras", "videos", "editing", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting"
+        )
+    ),
+    Icon("ic_vue_media_photocamera", keywords = listOf(
+        "cameras", "photos", "photography", "pics", "pictures", "images", "editing"
+    )),
     Icon("ic_vue_media_film_play"),
     Icon("ic_vue_media_camera"),
     Icon("ic_vue_media_screenmirroring"),
