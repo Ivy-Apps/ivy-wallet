@@ -80,13 +80,13 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "star", keywords = listOf(
             "stars", "favorites", "favourites", "tops", "reviews",
-            "success", "achievements", "christmas", "xmas"
+            "success", "achievements", "christmas", "xmas", "premium"
         )
     ),
     Icon(
         "education", keywords = listOf(
-            "education", "school", "university", "study",
-            "learn", "hats", "academy"
+            "education", "school", "university", "study", "learning", "hats", "academy",
+            "high school"
         )
     ),
     Icon(
@@ -202,7 +202,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "document", keywords = listOf(
-            "documents", "papers", "lists", "notes", "texts",
+            "documents", "papers", "lists", "notes", "texts", "agenda",
             "messages", "news", "magazines", "diary", "plans", "tasks", "organise", "organize",
             "bills", "taxes", "fees", "accounts", "reports", "receipts", "recipes", "prescripts",
             "labels", "orders", "warranty", "insurances", "policy", "scripts", "content", "write",
@@ -474,7 +474,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "calendar", keywords = listOf(
             "calendars", "plans", "schedules", "memos",
-            "planners", "notes", "tasks", "priority"
+            "planners", "notes", "tasks", "priority", "agenda"
         )
     ),
     Icon(
@@ -487,7 +487,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "diamond", keywords = listOf(
             "diamonds", "luxury", "luxe", "vip", "weddings",
             "rings", "tops", "expensive", "glamorous", "shine", "shining", "sparkling", "brilliant",
-            "glory", "sparkle"
+            "glory", "sparkle", "premium"
         )
     ),
     Icon(
@@ -1119,7 +1119,7 @@ private fun vueDesign(): List<Icon> = listOf(
     Icon(
         "ic_vue_design_magicpen", keywords = listOf(
             "magic pen", "pens", "magical", "colorful", "colourful", "fairy", "decorations",
-            "decorate", "decorating"
+            "decorate", "decorating", "notes"
         )
     ),
     Icon(
@@ -1131,7 +1131,7 @@ private fun vueDesign(): List<Icon> = listOf(
     Icon(
         "ic_vue_design_tool_pen", keywords = listOf(
             "bezier", "curves", "graph", "designers", "css", "technology", "pens", "tools",
-            "drawings", "paintings", "sketches"
+            "drawings", "paintings", "sketches", "notes"
         )
     ),
 )
@@ -1185,21 +1185,95 @@ private fun vueDev(): List<Icon> = listOf(
 
 // region Education (Vue)
 private fun vueEducation(): List<Icon> = listOf(
-    Icon("ic_vue_edu_planer"),
-    Icon("ic_vue_edu_briefcase"),
-    Icon("ic_vue_edu_award"),
-    Icon("ic_vue_edu_glass"),
-    Icon("ic_vue_edu_graduate_cap"),
-    Icon("ic_vue_edu_calculator"),
-    Icon("ic_vue_edu_note"),
-    Icon("ic_vue_edu_magazine"),
-    Icon("ic_vue_edu_pen"),
-    Icon("ic_vue_edu_telescope"),
-    Icon("ic_vue_edu_book"),
-    Icon("ic_vue_edu_ruler_pen"),
-    Icon("ic_vue_edu_todo"),
-    Icon("ic_vue_edu_omega"),
-    Icon("ic_vue_edu_bookmark"),
+    Icon(
+        "ic_vue_edu_planer", keywords = listOf(
+            "planners",
+            "logbooks",
+            "calendars",
+            "organizers",
+            "organisers",
+            "appointments",
+            "diary",
+            "notes",
+            "notebooks",
+            "schedules",
+            "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_briefcase", keywords = listOf(
+            "briefcases", "suitcases", "working", "careers", "professions", "appointments",
+            "occupations"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_award", keywords = listOf(
+            "awards", "badges", "prize", "rewards", "premium", "stars"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_glass", keywords = listOf(
+            "glass", "cones", "vases", "flasks", "chemistry", "cones", "sciences", "potions",
+            "elixirs", "pharmacy", "labs", "education", "study", "learning"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_graduate_cap", keywords = listOf(
+            "education", "graduate", "graduation", "caps", "hats", "students", "graduates", "study",
+            "learning", "high school", "academy"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_calculator", keywords = listOf(
+            "calculates", "calculators", "calculations", "maths", "numbers", "finances"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_note", keywords = listOf(
+            "notes", "bills", "receipts", "recipes", "reports", "invoices", "fees", "taxes",
+            "expenses", "flashcards", "education", "study", "learning"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_magazine", keywords = listOf(
+            "magazines", "newspapers", "diary", "planners", "notes", "readings",
+            "education", "study", "learning", "notebooks", "textbooks", "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_pen", keywords = listOf(
+            "pens", "drawings", "notes", "designers", "css", "technology", "pens", "paintings",
+            "sketches", "study", "learning", "notes"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_telescope", keywords = listOf(
+            "stars", "telescope", "sky", "planets", "astronomy", "sciences"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_book", keywords = listOf(
+            "notebooks", "textbooks", "planners", "logbooks", "organizers", "organisers",
+            "appointments", "diary", "notes", "agenda"
+        )
+    ),
+    Icon("ic_vue_edu_ruler_pen", keywords = listOf("rulers", "pens", "drawings", "measure")),
+    Icon(
+        "ic_vue_edu_todo", keywords = listOf(
+            "todos", "to do", "to-do", "tasks", "check marks", "ticks", "schedules", "plans",
+            "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_omega", keywords = listOf(
+            "omega", "maths", "symbols", "signs", "letters"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_bookmark", keywords = listOf(
+            "bookmarks", "save", "favourites", "favorites"
+        )
+    ),
 )
 // endregion
 
