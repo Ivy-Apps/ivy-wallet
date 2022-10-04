@@ -8,7 +8,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Ivy Wallet"
 include(":app")
-include(":common")
+include(":common:main")
+include(":common:android-test")
+include(":common:test")
 include(":design-system")
 //include(":reports")
 include(":accounts")
@@ -50,6 +52,5 @@ include(":sync:base")
 include(":network")
 include(":resources")
 include(":navigation")
-include(":common-android-test")
 include(":debug")
 include(":formula")

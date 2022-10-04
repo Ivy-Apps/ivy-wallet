@@ -10,8 +10,8 @@ plugins {
 
 dependencies {
     Hilt()
+    implementation(project(":common:main"))
 
-    implementation(project(":common"))
     implementation(project(":core:data-model"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))

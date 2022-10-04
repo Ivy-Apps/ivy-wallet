@@ -23,7 +23,7 @@ android {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     RoomDB(api = false)
     DataStore(api = false)
 

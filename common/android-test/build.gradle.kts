@@ -14,7 +14,10 @@ dependencies {
         kaptProcessor = { kapt(it) }
     )
 
-    Testing(commonAndroidTest = false)
+    Testing(
+        // Prevent circular dependency
+        commonAndroidTest = false
+    )
     Kotlin(api = false)
     Coroutines(api = false)
     AndroidXTest(dependency = { api(it) })

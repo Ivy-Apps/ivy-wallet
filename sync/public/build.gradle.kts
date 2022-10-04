@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":temp-persistence"))
     implementation(project(":sync:base"))
 //    implementation(project(":sync:ivy-server"))

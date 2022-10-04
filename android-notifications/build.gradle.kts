@@ -11,7 +11,7 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     AndroidX(api = false)
