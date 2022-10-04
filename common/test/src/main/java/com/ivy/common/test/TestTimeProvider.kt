@@ -6,22 +6,24 @@ import com.ivy.common.time.toEpochSeconds
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZoneOffset
 
 class TestTimeProvider constructor(
     private val time: LocalDateTime,
-    private val zoneId: ZoneId,
+    private val zoneOffsetHours: Int,
 ) : TimeProvider {
     override fun timeNow(): LocalDateTime = time
 
     override fun dateNow(): LocalDate = time.toLocalDate()
 
-    override fun zoneId(): ZoneId = zoneId
+    override fun zoneId(): ZoneId =
+        ZoneId.ofOffset("GMT", ZoneOffset.ofHours(zoneOffsetHours))
 }
 
 fun testTimeProvider(
-    localDateTime: LocalDateTime = LocalDateTime.now(),
-    zoneId: ZoneId = ZoneId.systemDefault()
-) = TestTimeProvider(time = localDateTime, zoneId = zoneId)
+    timeNow: LocalDateTime = LocalDateTime.now(),
+    zoneOffsetHours: Int = 0,
+) = TestTimeProvider(time = timeNow, zoneOffsetHours = zoneOffsetHours)
 
 fun epochSecondsNow(): Long {
     val provider = testTimeProvider()
