@@ -1,12 +1,12 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
+import com.ivy.common.fromToPair
 import com.ivy.common.toEpochSeconds
-import com.ivy.common.toRange
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import java.time.LocalDateTime
@@ -30,12 +30,12 @@ sealed interface TrnWhere {
     /**
      * Inclusive period [from, to]
      */
-    data class DueBetween(val period: Period) : TrnWhere
+    data class DueBetween(val range: TimeRange) : TrnWhere
 
     /**
      * Inclusive period [from, to]
      */
-    data class ActualBetween(val period: Period) : TrnWhere
+    data class ActualBetween(val range: TimeRange) : TrnWhere
 
     data class Brackets(val cond: TrnWhere) : TrnWhere
     data class And(val cond1: TrnWhere, val cond2: TrnWhere) : TrnWhere
@@ -112,12 +112,12 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
 
         is DueBetween -> {
             "(timeType = ${TrnTimeType.Due.code} AND time >= ? AND time <= ?)" to arg(
-                where.period.toRange().toList().map(::timestamp)
+                where.range.fromToPair().toList().map(::timestamp)
             )
         }
         is ActualBetween ->
             "(timeType = ${TrnTimeType.Actual.code} AND time >= ? AND time <= ?)" to arg(
-                where.period.toRange().toList().map(::timestamp)
+                where.range.fromToPair().toList().map(::timestamp)
             )
 
         is Brackets -> {

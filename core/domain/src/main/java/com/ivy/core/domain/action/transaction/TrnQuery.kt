@@ -2,7 +2,7 @@ package com.ivy.core.domain.action.transaction
 
 import arrow.core.NonEmptyList
 import com.ivy.core.persistence.query.TrnWhere
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import java.util.*
@@ -25,12 +25,12 @@ sealed interface TrnQuery {
     /**
      * Inclusive period [from, to]
      */
-    data class DueBetween(val period: Period) : TrnQuery
+    data class DueBetween(val range: TimeRange) : TrnQuery
 
     /**
      * Inclusive period [from, to]
      */
-    data class ActualBetween(val period: Period) : TrnQuery
+    data class ActualBetween(val range: TimeRange) : TrnQuery
 
     data class Brackets(val cond: TrnQuery) : TrnQuery
     data class And(val cond1: TrnQuery, val cond2: TrnQuery) : TrnQuery
@@ -44,7 +44,7 @@ infix fun TrnQuery.or(cond2: TrnQuery): TrnQuery.Or = TrnQuery.Or(this, cond2)
 fun not(cond: TrnQuery): TrnQuery.Not = TrnQuery.Not(cond)
 
 fun TrnQuery.toTrnWhere(): TrnWhere = when (this) {
-    is TrnQuery.ActualBetween -> TrnWhere.ActualBetween(period)
+    is TrnQuery.ActualBetween -> TrnWhere.ActualBetween(range)
     is TrnQuery.And -> TrnWhere.And(cond1.toTrnWhere(), cond2.toTrnWhere())
     is TrnQuery.Brackets -> TrnWhere.Brackets(cond.toTrnWhere())
     is TrnQuery.ByAccountId -> TrnWhere.ByAccountId(accountId.toString())
@@ -56,7 +56,7 @@ fun TrnQuery.toTrnWhere(): TrnWhere = when (this) {
     is TrnQuery.ByPurpose -> TrnWhere.ByPurpose(purpose)
     is TrnQuery.ByType -> TrnWhere.ByType(trnType)
     is TrnQuery.ByTypeIn -> TrnWhere.ByTypeIn(types)
-    is TrnQuery.DueBetween -> TrnWhere.DueBetween(period)
+    is TrnQuery.DueBetween -> TrnWhere.DueBetween(range)
     is TrnQuery.Not -> TrnWhere.Not(cond.toTrnWhere())
     is TrnQuery.Or -> TrnWhere.Or(cond1.toTrnWhere(), cond2.toTrnWhere())
 }

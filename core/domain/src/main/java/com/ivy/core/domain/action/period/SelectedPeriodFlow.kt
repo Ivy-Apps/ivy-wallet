@@ -28,7 +28,7 @@ class SelectedPeriodFlow @Inject constructor(
     ) { startDayOfMonth, selectedPeriod ->
         if (selectedPeriod is SelectedPeriod.Monthly) {
             dateToSelectedMonthlyPeriod(
-                dateInPeriod = selectedPeriod.period.to.minusDays(2).toLocalDate(),
+                dateInPeriod = selectedPeriod.range.to.minusDays(2).toLocalDate(),
                 startDayOfMonth = startDayOfMonth
             )
         } else selectedPeriod

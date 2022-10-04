@@ -24,7 +24,7 @@ class AccBalanceFlow @Inject constructor(
     override fun Input.createFlow(): Flow<Value> = accStatsFlow(
         AccStatsFlow.Input(
             account = account,
-            period = allTime(),
+            range = allTime(),
             includeHidden = true,
             outputCurrency = outputCurrency
         )

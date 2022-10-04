@@ -17,7 +17,7 @@ import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.temp.rootScreen
 import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import com.ivy.data.time.TimeUnit
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1
@@ -195,14 +195,14 @@ private fun FromToRange(
         ) {
             rootScreen.datePicker(
                 minDate = null,
-                maxDate = periodUi.period.to.toLocalDate(),
-                initialDate = periodUi.period.from.toLocalDate()
+                maxDate = periodUi.range.to.toLocalDate(),
+                initialDate = periodUi.range.from.toLocalDate()
             ) { pickedDate ->
                 onEvent(
                     SelectPeriodEvent.CustomRange(
-                        period = Period.FromTo(
+                        range = TimeRange(
                             from = pickedDate.atStartOfDay(),
-                            to = periodUi.period.to
+                            to = periodUi.range.to
                         )
                     )
                 )
@@ -215,14 +215,14 @@ private fun FromToRange(
             selectedCustom = selectedCustom,
         ) {
             rootScreen.datePicker(
-                minDate = periodUi.period.from.toLocalDate(),
+                minDate = periodUi.range.from.toLocalDate(),
                 maxDate = null,
-                initialDate = periodUi.period.to.toLocalDate()
+                initialDate = periodUi.range.to.toLocalDate()
             ) { pickedDate ->
                 onEvent(
                     SelectPeriodEvent.CustomRange(
-                        period = Period.FromTo(
-                            from = periodUi.period.from,
+                        range = TimeRange(
+                            from = periodUi.range.from,
                             to = pickedDate.atEndOfDay()
                         )
                     )
@@ -457,7 +457,7 @@ private fun Preview() {
                     fullName = fullMonthName(LocalContext.current, monthNumber = 2),
                 ),
                 periodUi = PeriodUi(
-                    period = allTime(),
+                    range = allTime(),
                     fromText = "Feb. 01",
                     toText = "Feb. 28"
                 )

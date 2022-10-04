@@ -15,8 +15,8 @@ import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.monthsList
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.State
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.UiState
-import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -79,7 +79,7 @@ class SelectedPeriodViewModel @Inject constructor(
     override suspend fun handleEvent(event: SelectPeriodEvent) {
         val selectedPeriod = when (event) {
             SelectPeriodEvent.AllTime -> SelectedPeriod.AllTime(allTime())
-            is SelectPeriodEvent.CustomRange -> SelectedPeriod.CustomRange(event.period)
+            is SelectPeriodEvent.CustomRange -> SelectedPeriod.CustomRange(event.range)
             is SelectPeriodEvent.InTheLast -> toSelectedPeriod(event)
             is SelectPeriodEvent.Monthly -> dateToSelectedMonthlyPeriod(
                 // TODO: Refactor that
@@ -104,7 +104,7 @@ class SelectedPeriodViewModel @Inject constructor(
         return SelectedPeriod.InTheLast(
             n = n,
             unit = event.unit,
-            period = Period.FromTo(
+            range = TimeRange(
                 // n - 1 because we count today
                 // Negate: -n because we want to start from the **last** N unit
                 from = shiftTime(time = now, n = -(n - 1), unit = event.unit),
@@ -116,10 +116,10 @@ class SelectedPeriodViewModel @Inject constructor(
     private fun shiftPeriodForward(): SelectedPeriod =
         when (val selected = state.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
-            is SelectedPeriod.CustomRange -> shiftPeriod(selected.period, ShiftDirection.Forward)
-            is SelectedPeriod.InTheLast -> shiftPeriod(selected.period, ShiftDirection.Forward)
+            is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Forward)
+            is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.Monthly -> dateToSelectedMonthlyPeriod(
-                dateInPeriod = selected.period.from.toLocalDate()
+                dateInPeriod = selected.range.from.toLocalDate()
                     .plusMonths(1),
                 startDayOfMonth = state.value.startDayOfMonth
             )
@@ -128,29 +128,29 @@ class SelectedPeriodViewModel @Inject constructor(
     private fun shiftPeriodBackward(): SelectedPeriod =
         when (val selected = state.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
-            is SelectedPeriod.CustomRange -> shiftPeriod(selected.period, ShiftDirection.Backward)
-            is SelectedPeriod.InTheLast -> shiftPeriod(selected.period, ShiftDirection.Backward)
+            is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Backward)
+            is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.Monthly -> dateToSelectedMonthlyPeriod(
-                dateInPeriod = selected.period.from.toLocalDate()
+                dateInPeriod = selected.range.from.toLocalDate()
                     .minusMonths(1),
                 startDayOfMonth = state.value.startDayOfMonth
             )
         }
 
     private fun shiftPeriod(
-        period: Period.FromTo,
+        range: TimeRange,
         shiftDirection: ShiftDirection,
     ): SelectedPeriod.CustomRange {
-        val lengthDays = periodLengthDays(period)
+        val lengthDays = periodLengthDays(range)
         val shiftDays = when (shiftDirection) {
             ShiftDirection.Forward -> lengthDays + 1
             ShiftDirection.Backward -> -lengthDays - 1
         }.toLong()
 
         return SelectedPeriod.CustomRange(
-            period = Period.FromTo(
-                from = period.from.plusDays(shiftDays),
-                to = period.to.plusDays(shiftDays),
+            range = TimeRange(
+                from = range.from.plusDays(shiftDays),
+                to = range.to.plusDays(shiftDays),
             )
         )
     }

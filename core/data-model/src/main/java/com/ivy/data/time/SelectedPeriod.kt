@@ -4,20 +4,20 @@ sealed interface SelectedPeriod {
     data class Monthly(
         val month: Month,
         val startDayOfMonth: Int,
-        val period: Period.FromTo
+        val range: TimeRange
     ) : SelectedPeriod
 
     data class InTheLast(
         val n: Int,
         val unit: TimeUnit,
-        val period: Period.FromTo
+        val range: TimeRange
     ) : SelectedPeriod
 
     data class AllTime(
-        val period: Period.FromTo
+        val range: TimeRange
     ) : SelectedPeriod
 
     data class CustomRange(
-        val period: Period.FromTo
+        val range: TimeRange
     ) : SelectedPeriod
 }

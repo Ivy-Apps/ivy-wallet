@@ -2,17 +2,17 @@ package com.ivy.core.ui.data.period
 
 import androidx.compose.runtime.Immutable
 import com.ivy.common.timeNowLocal
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 
 @Immutable
 data class PeriodUi(
-    val period: Period.FromTo,
+    val range: TimeRange,
     val fromText: String,
     val toText: String,
 )
 
 fun dummyPeriodUi() = PeriodUi(
-    period = Period.FromTo(timeNowLocal(), timeNowLocal()),
+    range = TimeRange(timeNowLocal(), timeNowLocal()),
     fromText = "",
     toText = ""
 )

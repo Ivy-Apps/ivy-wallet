@@ -2,8 +2,8 @@ package com.ivy.core.domain.pure.time
 
 import com.ivy.common.*
 import com.ivy.data.time.Month
-import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 import java.time.LocalDate
 
 // TODO: Refactor this file cuz it's bad...
@@ -42,23 +42,23 @@ fun dateToSelectedMonthlyPeriod(
         year = dateInPeriod.year,
     ),
     startDayOfMonth = startDayOfMonth,
-    period = dateToMonthlyPeriod(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
+    range = dateToMonthlyPeriod(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
 )
 
-private fun dateToMonthlyPeriod(date: LocalDate, startDayOfMonth: Int): Period.FromTo =
+private fun dateToMonthlyPeriod(date: LocalDate, startDayOfMonth: Int): TimeRange =
     if (startDayOfMonth != 1) {
         customStartDayOfMonthPeriodRange(
             date = date,
             startDateOfMonth = startDayOfMonth
         )
     } else {
-        Period.FromTo(from = startOfMonth(date), to = endOfMonth(date))
+        TimeRange(from = startOfMonth(date), to = endOfMonth(date))
     }
 
 private fun customStartDayOfMonthPeriodRange(
     date: LocalDate,
     startDateOfMonth: Int
-): Period.FromTo {
+): TimeRange {
     val from = date
         .withDayOfMonthSafe(startDateOfMonth)
         .atStartOfDay()
@@ -71,5 +71,5 @@ private fun customStartDayOfMonthPeriodRange(
         .minusDays(1)
         .atEndOfDay()
 
-    return Period.FromTo(from = from, to = to)
+    return TimeRange(from = from, to = to)
 }

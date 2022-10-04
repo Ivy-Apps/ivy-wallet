@@ -10,8 +10,8 @@ import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.PeriodUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.fullMonthName
-import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 import com.ivy.data.time.TimeUnit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.LocalDateTime
@@ -27,7 +27,7 @@ class MapSelectedPeriodUiAct @Inject constructor(
             periodUi = periodUi(domain)
         )
         is SelectedPeriod.CustomRange -> SelectedPeriodUi.CustomRange(
-            btnText = formatFromToPeriod(domain.period),
+            btnText = formatFromToPeriod(domain.range),
             periodUi = periodUi(domain)
         )
         is SelectedPeriod.InTheLast -> SelectedPeriodUi.InTheLast(
@@ -64,21 +64,21 @@ class MapSelectedPeriodUiAct @Inject constructor(
 
     private fun formatMonthly(monthly: SelectedPeriod.Monthly): String =
         if (monthly.startDayOfMonth != 1) {
-            formatFromToPeriod(monthly.period)
+            formatFromToPeriod(monthly.range)
         } else {
-            val month = monthly.period.from
+            val month = monthly.range.from
             val thisYear = month.year == dateNowLocal().year
             val pattern = if (thisYear) "MMMM" else "MMMM. yyyy"
             month.format(pattern)
         }
 
-    private fun formatFromToPeriod(period: Period.FromTo): String {
+    private fun formatFromToPeriod(range: TimeRange): String {
         fun format(time: LocalDateTime, currentYear: Int): String =
             time.format(if (time.year == currentYear) "MMM dd" else "MMM dd, yyyy")
 
         val currentYear = dateNowLocal().year
-        val from = format(period.from, currentYear)
-        val to = format(period.to, currentYear)
+        val from = format(range.from, currentYear)
+        val to = format(range.to, currentYear)
         return "$from - $to"
     }
 
@@ -90,7 +90,7 @@ class MapSelectedPeriodUiAct @Inject constructor(
         val currentYear = dateNowLocal().year
 
         return PeriodUi(
-            period = period,
+            range = period,
             fromText = format(period.from, currentYear),
             toText = format(period.to, currentYear)
         )

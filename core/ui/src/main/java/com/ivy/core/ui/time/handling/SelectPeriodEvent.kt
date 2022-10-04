@@ -1,7 +1,7 @@
 package com.ivy.core.ui.time.handling
 
 import com.ivy.core.ui.data.period.MonthUi
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import com.ivy.data.time.TimeUnit
 
 sealed interface SelectPeriodEvent {
@@ -11,7 +11,7 @@ sealed interface SelectPeriodEvent {
 
     object AllTime : SelectPeriodEvent
 
-    data class CustomRange(val period: Period.FromTo) : SelectPeriodEvent
+    data class CustomRange(val range: TimeRange) : SelectPeriodEvent
 
     object ResetToCurrentPeriod : SelectPeriodEvent
 

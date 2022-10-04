@@ -45,7 +45,7 @@ class TotalBalanceFlow @Inject constructor(
                 accStatsFlow(
                     AccStatsFlow.Input(
                         account = it,
-                        period = allTime(),
+                        range = allTime(),
                         includeHidden = true,
                         outputCurrency = outputCurrency,
                     )

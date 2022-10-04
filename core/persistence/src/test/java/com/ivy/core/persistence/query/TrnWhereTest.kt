@@ -3,13 +3,13 @@ package com.ivy.core.persistence.query
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
 import com.ivy.common.endOfIvyTime
+import com.ivy.common.fromToPair
 import com.ivy.common.timeNowUTC
 import com.ivy.common.toEpochSeconds
-import com.ivy.common.toRange
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose
 import io.kotest.assertions.fail
@@ -52,20 +52,16 @@ class TrnWhereTest : StringSpec({
         )
     }
 
-    val genPeriod = arbitrary {
-        when (Arb.int(1..3).bind()) {
-            1 -> Period.Before(Arb.localDateTime().bind())
-            2 -> Period.After(Arb.localDateTime().bind())
-            else -> Period.FromTo(Arb.localDateTime().bind(), Arb.localDateTime().bind())
-        }
+    val genRange = arbitrary {
+        TimeRange(Arb.localDateTime().bind(), Arb.localDateTime().bind())
     }
 
     val genActualBetween = arbitrary {
-        ActualBetween(period = genPeriod.bind())
+        ActualBetween(range = genRange.bind())
     }
 
     val genDueBetween = arbitrary {
-        DueBetween(period = genPeriod.bind())
+        DueBetween(range = genRange.bind())
     }
 
     val genByIdIn = arbitrary {
@@ -166,7 +162,9 @@ class TrnWhereTest : StringSpec({
         val theFuture = timeNowUTC().plusSeconds(1)
         val categoryId = genId.next()
 
-        val query = DueBetween(Period.After(theFuture)) and ByCategoryId(categoryId)
+        val query = DueBetween(
+            TimeRange(from = theFuture, to = endOfIvyTime())
+        ) and ByCategoryId(categoryId)
         val where = toWhereClause(query)
 
         where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
@@ -194,7 +192,7 @@ class TrnWhereTest : StringSpec({
                 nonEmptyListOf(accId1, accId2)
             ) and not(ByPurpose(purpose))
         ) or brackets(
-            ByCategoryId(catId) and ActualBetween(Period.FromTo(dueStart, dueEnd))
+            ByCategoryId(catId) and ActualBetween(TimeRange(dueStart, dueEnd))
         ) or ByIdIn(nonEmptyListOf(id1, id2, id3))
 
         val where = toWhereClause(query)
@@ -292,7 +290,8 @@ class TrnWhereTest : StringSpec({
             where.query shouldBe "(timeType = ${TrnTimeType.Actual.code}" +
                     " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe actualBetween.period.toRange().toList().map { it.toEpochSeconds() }
+            where.args shouldBe actualBetween.range.fromToPair().toList()
+                .map { it.toEpochSeconds() }
         }
     }
 
@@ -302,7 +301,7 @@ class TrnWhereTest : StringSpec({
             where.query shouldBe "(timeType = ${TrnTimeType.Due.code}" +
                     " AND time >= ? AND time <= ?)"
             where.args.size shouldBe 2
-            where.args shouldBe dueBetween.period.toRange().toList().map { it.toEpochSeconds() }
+            where.args shouldBe dueBetween.range.fromToPair().toList().map { it.toEpochSeconds() }
         }
     }
 

@@ -1,10 +1,6 @@
 package com.ivy.common
 
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import java.time.LocalDateTime
 
-fun Period.toRange(): Pair<LocalDateTime, LocalDateTime> = when (this) {
-    is Period.After -> Pair(from, endOfIvyTime())
-    is Period.Before -> Pair(beginningOfIvyTime(), to)
-    is Period.FromTo -> Pair(from, to)
-}
+fun TimeRange.fromToPair(): Pair<LocalDateTime, LocalDateTime> = Pair(from, to)

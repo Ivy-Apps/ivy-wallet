@@ -4,13 +4,13 @@ import com.ivy.common.atEndOfDay
 import com.ivy.common.beginningOfIvyTime
 import com.ivy.common.endOfIvyTime
 import com.ivy.common.toEpochSeconds
-import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 import com.ivy.data.time.TimeUnit
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-fun allTime(): Period.FromTo = Period.FromTo(
+fun allTime(): TimeRange = TimeRange(
     from = beginningOfIvyTime(),
     to = endOfIvyTime()
 )
@@ -25,14 +25,14 @@ fun shiftTime(time: LocalDateTime, n: Int, unit: TimeUnit): LocalDateTime {
     }
 }
 
-fun periodLengthDays(period: Period.FromTo): Int {
-    val secondsDiff = period.to.toEpochSeconds() - period.from.toEpochSeconds()
+fun periodLengthDays(range: TimeRange): Int {
+    val secondsDiff = range.to.toEpochSeconds() - range.from.toEpochSeconds()
     val daysLong = java.util.concurrent.TimeUnit.SECONDS.toDays(secondsDiff)
     return daysLong.toInt()
 }
 
 fun yearPeriod(year: Int): SelectedPeriod.CustomRange = SelectedPeriod.CustomRange(
-    period = Period.FromTo(
+    range = TimeRange(
         from = LocalDate.of(year, 1, 1).atStartOfDay(),
         to = LocalDate.of(year, 12, 31).atEndOfDay()
     )
