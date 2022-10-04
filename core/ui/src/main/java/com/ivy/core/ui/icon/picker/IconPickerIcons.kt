@@ -1279,9 +1279,22 @@ private fun vueEducation(): List<Icon> = listOf(
 
 // region Files (Vue)
 private fun vueFiles(): List<Icon> = listOf(
-    Icon("ic_vue_files_folder_favorite"),
-    Icon("ic_vue_files_folder"),
-    Icon("ic_vue_files_folder_cloud"),
+    Icon(
+        "ic_vue_files_folder_favorite", keywords = listOf(
+            "bookmarks", "save", "favourites", "favorites", "folders", "files folder", "store",
+            "storage"
+        )
+    ),
+    Icon(
+        "ic_vue_files_folder", keywords = listOf(
+            "bookmarks", "save", "folders", "files folder", "store", "storage"
+        )
+    ),
+    Icon(
+        "ic_vue_files_folder_cloud", keywords = listOf(
+            "bookmarks", "save", "clouds", "folders", "files folder", "store", "storage"
+        )
+    ),
 )
 // endregion
 
