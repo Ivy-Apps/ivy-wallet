@@ -334,7 +334,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "location", keywords = listOf(
             "locations", "gps", "places", "maps", "address",
-            "live", "delivery"
+            "live", "delivery", "geography"
         )
     ),
     Icon(
@@ -1300,15 +1300,51 @@ private fun vueFiles(): List<Icon> = listOf(
 
 // region Location (Vue)
 private fun vueLocation(): List<Icon> = listOf(
-    Icon("ic_vue_location_map1"),
-    Icon("ic_vue_location_map"),
-    Icon("ic_vue_location_location"),
-    Icon("ic_vue_location_global"),
-    Icon("ic_vue_location_global_search"),
-    Icon("ic_vue_location_routing"),
-    Icon("ic_vue_location_discover"),
-    Icon("ic_vue_location_radar"),
-    Icon("ic_vue_location_global_edit"),
+    Icon(
+        "ic_vue_location_map1", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_map", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_location", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "gps", "live", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "balls", "basketball"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global_search", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "searching"
+        )
+    ),
+    Icon(
+        "ic_vue_location_routing", keywords = listOf(
+            "routing", "routs", "locations", "places", "directions", "gps", "maps"
+        )
+    ),
+    Icon(
+        "ic_vue_location_discover", keywords = listOf(
+            "discovering", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_radar", keywords = listOf(
+            "radars", "detection", "cars", "speeds"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global_edit", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "editing"
+        )
+    ),
 )
 // endregion
 
