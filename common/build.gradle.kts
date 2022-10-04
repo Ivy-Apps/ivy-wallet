@@ -16,4 +16,6 @@ dependencies {
     Coroutines(api = true)
     FunctionalProgramming(api = true)
     Timber(api = true)
+
+    Testing(commonAndroidTest = false)
 }

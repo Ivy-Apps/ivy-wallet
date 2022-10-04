@@ -2,10 +2,10 @@ package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
 import arrow.core.nonEmptyListOf
-import com.ivy.common.endOfIvyTime
-import com.ivy.common.timeNowUTC
-import com.ivy.common.toEpochSeconds
-import com.ivy.common.toPair
+import com.ivy.common.time.endOfIvyTime
+import com.ivy.common.time.timeNow
+import com.ivy.common.time.toEpochSeconds
+import com.ivy.common.time.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState
@@ -159,7 +159,7 @@ class TrnWhereTest : StringSpec({
 
     //region test cases
     "case 'Upcoming By Category' query" {
-        val theFuture = timeNowUTC().plusSeconds(1)
+        val theFuture = timeNow().plusSeconds(1)
         val categoryId = genId.next()
 
         val query = DueBetween(
@@ -181,7 +181,7 @@ class TrnWhereTest : StringSpec({
         val accId2 = genId.next()
         val purpose = TrnPurpose.TransferFrom
         val catId = genId.next()
-        val dueStart = timeNowUTC()
+        val dueStart = timeNow()
         val dueEnd = dueStart.plusYears(3)
         val id1 = UUID.randomUUID().toString()
         val id2 = UUID.randomUUID().toString()

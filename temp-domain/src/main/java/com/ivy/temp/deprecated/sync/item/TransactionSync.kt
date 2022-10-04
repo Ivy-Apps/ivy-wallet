@@ -1,7 +1,7 @@
 package com.ivy.wallet.domain.deprecated.sync.item
 
-import com.ivy.common.timeNowUTC
-import com.ivy.common.toEpochSeconds
+import com.ivy.common.time.timeNow
+import com.ivy.common.time.toEpochSeconds
 import com.ivy.wallet.domain.deprecated.sync.uploader.TransactionUploader
 import com.ivy.wallet.io.network.IvySession
 import com.ivy.wallet.io.network.RestClient
@@ -24,7 +24,7 @@ class TransactionSync(
     suspend fun sync() {
         if (!ivySession.isLoggedIn()) return
 
-        val syncStart = timeNowUTC().toEpochSeconds()
+        val syncStart = timeNow().toEpochSeconds()
 
         uploadUpdated()
         deleteDeleted()

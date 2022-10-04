@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.dummy
 
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.timeNow
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
 import com.ivy.data.Value
@@ -19,7 +19,7 @@ fun dummyTrn(
     amount: Double = 0.0,
     currency: CurrencyCode? = null,
     category: Category? = dummyCategory(),
-    time: TrnTime = TrnTime.Actual(timeNowLocal()),
+    time: TrnTime = TrnTime.Actual(timeNow()),
     title: String? = "Dummy trn",
     description: String? = null,
     tags: List<Tag> = emptyList(),
@@ -58,12 +58,12 @@ fun dummyValue(
 
 
 fun dummyActual(
-    time: LocalDateTime = timeNowLocal()
+    time: LocalDateTime = timeNow()
 ): TrnTime.Actual = TrnTime.Actual(time)
 
 
 fun dummyDue(
-    time: LocalDateTime = timeNowLocal()
+    time: LocalDateTime = timeNow()
 ): TrnTime.Due = TrnTime.Due(time)
 
 fun dummyTrnMetadata(

@@ -3,8 +3,8 @@ package com.ivy.wallet.io.network
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import com.ivy.common.epochSecondToDateTime
-import com.ivy.common.toEpochSeconds
+import com.ivy.common.time.epochSecondToDateTime
+import com.ivy.common.time.toEpochSeconds
 import com.ivy.wallet.io.network.error.ErrorCode
 import java.time.LocalDateTime
 

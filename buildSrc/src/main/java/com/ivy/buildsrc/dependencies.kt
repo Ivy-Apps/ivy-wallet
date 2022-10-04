@@ -461,12 +461,12 @@ fun DependencyHandler.Arrow(
 //    dependency("io.arrow-kt:arrow-optics")
 }
 
-fun DependencyHandler.Testing(commonTest: Boolean = true) {
+fun DependencyHandler.Testing(commonAndroidTest: Boolean = true) {
     Kotest()
     // Robolectric doesn't integrate well with JUnit5 and Kotest
 //    Robolectric(api = false)
 
-    if (commonTest) {
+    if (commonAndroidTest) {
         androidTestImplementation(project(":common-android-test"))
     }
 }

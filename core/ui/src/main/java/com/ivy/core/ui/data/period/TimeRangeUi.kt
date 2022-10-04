@@ -1,7 +1,7 @@
 package com.ivy.core.ui.data.period
 
 import androidx.compose.runtime.Immutable
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.timeNow
 import com.ivy.data.time.TimeRange
 
 @Immutable
@@ -12,7 +12,7 @@ data class TimeRangeUi(
 )
 
 fun dummyRangeUi() = TimeRangeUi(
-    range = TimeRange(timeNowLocal(), timeNowLocal()),
+    range = TimeRange(timeNow(), timeNow()),
     fromText = "",
     toText = ""
 )

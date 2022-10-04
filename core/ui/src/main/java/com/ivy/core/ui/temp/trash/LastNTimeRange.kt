@@ -1,7 +1,7 @@
 package com.ivy.core.ui.temp.trash
 
 import com.ivy.base.R
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.timeNow
 import com.ivy.data.planned.IntervalType
 import java.time.LocalDateTime
 
@@ -13,7 +13,7 @@ data class LastNTimeRange(
 
 @Deprecated("don't use, it's bad!")
 fun LastNTimeRange.fromDate(): LocalDateTime = periodType.incrementDate(
-    date = timeNowUTC(),
+    date = timeNow(),
     intervalN = -periodN.toLong()
 )
 

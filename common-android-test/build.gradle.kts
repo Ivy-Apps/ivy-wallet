@@ -14,7 +14,7 @@ dependencies {
         kaptProcessor = { kapt(it) }
     )
 
-    Testing(commonTest = false)
+    Testing(commonAndroidTest = false)
     Kotlin(api = false)
     Coroutines(api = false)
     AndroidXTest(dependency = { api(it) })

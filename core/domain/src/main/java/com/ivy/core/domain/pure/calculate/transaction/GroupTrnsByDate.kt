@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.calculate.transaction
 
-import com.ivy.common.toEpochSeconds
+import com.ivy.common.time.toEpochSeconds
 import com.ivy.core.domain.pure.util.actualDate
 import com.ivy.core.domain.pure.util.actualTime
 import com.ivy.data.transaction.TrnListItem

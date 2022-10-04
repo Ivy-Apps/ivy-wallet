@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.ivy.common.timeNowLocal
-import com.ivy.common.toEpochSeconds
+import com.ivy.common.time.timeNow
+import com.ivy.common.time.toEpochSeconds
 import com.ivy.wallet.io.persistence.SharedPrefs
 import java.util.concurrent.TimeUnit
 
@@ -36,8 +36,8 @@ class TransactionReminderLogic(
         if (!fetchShowNotifications())
             return
 
-        val timeNowLocal = timeNowLocal()
-        val today8PM = timeNowLocal()
+        val timeNowLocal = timeNow()
+        val today8PM = timeNow()
             .withHour(20)
             .withMinute(0)
 

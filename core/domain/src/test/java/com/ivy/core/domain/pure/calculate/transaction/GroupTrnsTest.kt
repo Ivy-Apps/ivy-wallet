@@ -1,7 +1,7 @@
 package com.ivy.core.domain.pure.calculate.transaction
 
 import androidx.annotation.IntRange
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.dummy.dummyTrn
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.TrnTime
@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 class GroupTrnsTest : StringSpec({
     // region Helper functions
-    fun date(daysFromNow: Int): LocalDate = timeNowUTC()
+    fun date(daysFromNow: Int): LocalDate = timeNow()
         .withHour(0)
         .withHour(0)
         .plusDays(daysFromNow.toLong()).toLocalDate()

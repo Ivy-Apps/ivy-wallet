@@ -1,6 +1,6 @@
 package com.ivy.base
 
-import com.ivy.common.*
+import com.ivy.common.time.*
 import com.ivy.data.transaction.TransactionOld
 import java.time.LocalDateTime
 
@@ -9,10 +9,10 @@ data class FromToTimeRange(
     val to: LocalDateTime?,
 ) {
     fun from(): LocalDateTime =
-        from ?: timeNowUTC().minusYears(30)
+        from ?: timeNow().minusYears(30)
 
     fun to(): LocalDateTime =
-        to ?: timeNowUTC().plusYears(30)
+        to ?: timeNow().plusYears(30)
 
     fun upcomingFrom(): LocalDateTime {
         val startOfDayNowUTC =

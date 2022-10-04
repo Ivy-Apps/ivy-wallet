@@ -1,8 +1,8 @@
 package com.ivy.wallet.io.persistence
 
 import androidx.room.TypeConverter
-import com.ivy.common.epochMilliToDateTime
-import com.ivy.common.toEpochMilli
+import com.ivy.common.time.epochMilliToDateTime
+import com.ivy.common.time.toEpochMilli
 import com.ivy.data.Theme
 import com.ivy.data.loan.LoanType
 import com.ivy.data.planned.IntervalType

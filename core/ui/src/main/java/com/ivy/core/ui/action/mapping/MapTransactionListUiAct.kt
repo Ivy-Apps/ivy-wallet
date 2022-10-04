@@ -1,9 +1,9 @@
 package com.ivy.core.ui.action.mapping
 
 import android.content.Context
-import com.ivy.common.dateNowLocal
-import com.ivy.common.format
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.dateNowLocal
+import com.ivy.common.time.format
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
@@ -107,7 +107,7 @@ class MapTransactionListUiAct @Inject constructor(
                 dueOn = appContext.getString(
                     R.string.due_on, formatTime(domain.due)
                 ).uppercase(),
-                upcoming = timeNowLocal().isBefore(domain.due)
+                upcoming = timeNow().isBefore(domain.due)
             )
         }
     }

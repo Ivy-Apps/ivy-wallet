@@ -6,7 +6,7 @@ import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.ivy.base.readFile
-import com.ivy.common.toEpochMilli
+import com.ivy.common.time.toEpochMilli
 import com.ivy.temp.deprecated.logic.zip.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
 import com.ivy.wallet.io.persistence.SharedPrefs

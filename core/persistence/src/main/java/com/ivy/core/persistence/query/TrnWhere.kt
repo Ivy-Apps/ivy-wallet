@@ -1,8 +1,8 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
-import com.ivy.common.toEpochSeconds
-import com.ivy.common.toPair
+import com.ivy.common.time.toEpochSeconds
+import com.ivy.common.time.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnWhere.*
 import com.ivy.data.SyncState

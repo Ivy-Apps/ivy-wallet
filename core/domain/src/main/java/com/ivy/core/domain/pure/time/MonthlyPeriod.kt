@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.time
 
-import com.ivy.common.*
+import com.ivy.common.time.*
 import com.ivy.data.time.Month
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeRange

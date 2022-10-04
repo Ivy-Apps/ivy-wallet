@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.common.atEndOfDay
-import com.ivy.common.dateNowLocal
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.dateNowLocal
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*

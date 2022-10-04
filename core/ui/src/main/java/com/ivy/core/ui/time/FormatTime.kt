@@ -2,8 +2,8 @@ package com.ivy.core.ui.time
 
 import android.content.Context
 import com.ivy.base.R
-import com.ivy.common.dateNowUTC
-import com.ivy.common.format
+import com.ivy.common.time.dateNowUTC
+import com.ivy.common.time.format
 import java.time.LocalDateTime
 
 fun LocalDateTime.formatNicely(

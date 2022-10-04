@@ -1,9 +1,9 @@
 package com.ivy.core.domain.pure.time
 
-import com.ivy.common.atEndOfDay
-import com.ivy.common.beginningOfIvyTime
-import com.ivy.common.endOfIvyTime
-import com.ivy.common.toEpochSeconds
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.beginningOfIvyTime
+import com.ivy.common.time.endOfIvyTime
+import com.ivy.common.time.toEpochSeconds
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeRange
 import com.ivy.data.time.TimeUnit

@@ -88,8 +88,7 @@ class WriteTrnsAct @Inject constructor(
         fun newMetadata(
             key: String,
             value: String,
-
-            ) = TrnMetadataEntity(
+        ) = TrnMetadataEntity(
             id = UUID.randomUUID().toString(),
             trnId = trnId,
             key = key,

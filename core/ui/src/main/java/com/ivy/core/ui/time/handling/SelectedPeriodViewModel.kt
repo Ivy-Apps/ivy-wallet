@@ -3,9 +3,9 @@ package com.ivy.core.ui.time.handling
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Immutable
-import com.ivy.common.atEndOfDay
-import com.ivy.common.dateNowLocal
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.dateNowLocal
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
@@ -99,7 +99,7 @@ class SelectedPeriodViewModel @Inject constructor(
     }
 
     private fun toSelectedPeriod(event: SelectPeriodEvent.InTheLast): SelectedPeriod.InTheLast {
-        val now = timeNowLocal()
+        val now = timeNow()
         val n = event.n
         return SelectedPeriod.InTheLast(
             n = n,

@@ -1,4 +1,4 @@
-package com.ivy.common
+package com.ivy.common.time
 
 import com.ivy.data.transaction.TrnTime
 import java.time.LocalDateTime
