@@ -1062,22 +1062,78 @@ private fun vueDelivery(): List<Icon> = listOf(
             "boxes", "cubes", "delivery", "delivering", "orders", "purchases"
         )
     ),
-    Icon("ic_vue_delivery_truck", keywords = listOf(
-        "truck", "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell",
-        "sales", "packets", "cars", "vehicles", "receiving", "receive", "replacement", "exchange",
-        "swap", "gifts", "purchases", "dhl", "amazon")),
+    Icon(
+        "ic_vue_delivery_truck", keywords = listOf(
+            "truck",
+            "delivery",
+            "delivering",
+            "packages",
+            "orders",
+            "give",
+            "take",
+            "buy",
+            "sell",
+            "sales",
+            "packets",
+            "cars",
+            "vehicles",
+            "receiving",
+            "receive",
+            "replacement",
+            "exchange",
+            "swap",
+            "gifts",
+            "purchases",
+            "dhl",
+            "amazon"
+        )
+    ),
 )
 // endregion
 
 // region Design (Vue)
 private fun vueDesign(): List<Icon> = listOf(
-    Icon("ic_vue_design_bezier"),
-    Icon("ic_vue_design_brush"),
-    Icon("ic_vue_design_color_swatch"),
-    Icon("ic_vue_design_scissors"),
-    Icon("ic_vue_design_magicpen"),
-    Icon("ic_vue_design_roller"),
-    Icon("ic_vue_design_tool_pen"),
+    Icon(
+        "ic_vue_design_bezier", keywords = listOf(
+            "bezier", "curves", "graph", "designers", "css", "technology", "tools", "drawings",
+            "sketches"
+        )
+    ),
+    Icon(
+        "ic_vue_design_brush", keywords = listOf(
+            "brushes", "designers", "paintings", "pictures", "art", "decorations", "decorate",
+            "decorating"
+        )
+    ),
+    Icon(
+        "ic_vue_design_color_swatch", keywords = listOf(
+            "swatches", "designers", "fashion", "interiors", "art", "decorations", "decorate",
+            "decorating"
+        )
+    ),
+    Icon(
+        "ic_vue_design_scissors", keywords = listOf(
+            "scissors", "designers", "cutting", "tools", "diy"
+        )
+    ),
+    Icon(
+        "ic_vue_design_magicpen", keywords = listOf(
+            "magic pen", "pens", "magical", "colorful", "colourful", "fairy", "decorations",
+            "decorate", "decorating"
+        )
+    ),
+    Icon(
+        "ic_vue_design_roller", keywords = listOf(
+            "rollers", "painters", "designers", "repairs", "repairments", "decorate", "decorating",
+            "decorations"
+        )
+    ),
+    Icon(
+        "ic_vue_design_tool_pen", keywords = listOf(
+            "bezier", "curves", "graph", "designers", "css", "technology", "pens", "tools",
+            "drawings", "paintings", "sketches"
+        )
+    ),
 )
 // endregion
 
