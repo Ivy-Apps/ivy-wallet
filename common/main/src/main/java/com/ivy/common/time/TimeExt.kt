@@ -3,21 +3,6 @@ package com.ivy.common.time
 import java.time.*
 import java.time.format.DateTimeFormatter
 
-// region Conversions
-fun Instant.toLocal(timeProvider: TimeProvider): LocalDateTime =
-    LocalDateTime.ofInstant(this, timeProvider.zoneId())
-
-fun LocalDateTime.toUtc(timeProvider: TimeProvider): Instant = toInstant(
-    timeProvider.zoneId().rules.getOffset(this)
-)
-
-fun LocalDateTime.toEpochMilli(timeProvider: TimeProvider): Long =
-    toUtc(timeProvider).toEpochMilli()
-
-fun LocalDateTime.toEpochSeconds(timeProvider: TimeProvider) =
-    toUtc(timeProvider).epochSecond
-// endregion
-
 // region Formatting
 fun LocalDateTime.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
