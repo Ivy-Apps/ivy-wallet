@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import com.ivy.base.readFile
+import com.ivy.common.time.deviceTimeProvider
 import com.ivy.common.time.toEpochMilli
 import com.ivy.temp.deprecated.logic.zip.IvyWalletCompleteData
 import com.ivy.wallet.domain.deprecated.logic.csv.model.ImportResult
@@ -75,7 +76,7 @@ class ExportZipLogic(
                         typeOfSrc: Type?,
                         context: JsonSerializationContext?
                     ): JsonElement {
-                        return JsonPrimitive(src!!.toEpochMilli().toString())
+                        return JsonPrimitive(src!!.toEpochMilli(deviceTimeProvider()).toString())
                     }
                 }).create()
 

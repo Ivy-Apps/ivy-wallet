@@ -17,5 +17,9 @@ dependencies {
     FunctionalProgramming(api = true)
     Timber(api = true)
 
-    Testing(commonAndroidTest = false)
+    Testing(
+        // Prevent circular dependency
+        commonTest = false,
+        commonAndroidTest = false
+    )
 }

@@ -4,13 +4,18 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 
 // region Conversions
-fun local(instant: Instant): LocalDateTime =
-    LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+fun Instant.toLocal(timeProvider: TimeProvider): LocalDateTime =
+    LocalDateTime.ofInstant(this, timeProvider.zoneId())
 
-fun utc(time: LocalDateTime): Instant = time.toInstant(ZoneOffset.UTC)
+fun LocalDateTime.toUtc(timeProvider: TimeProvider): Instant = toInstant(
+    timeProvider.zoneId().rules.getOffset(this)
+)
 
-fun LocalDateTime.toEpochMilli(): Long = utc(this).toEpochMilli()
-fun LocalDateTime.toEpochSeconds() = this.toEpochSecond(ZoneOffset.UTC)
+fun LocalDateTime.toEpochMilli(timeProvider: TimeProvider): Long =
+    toUtc(timeProvider).toEpochMilli()
+
+fun LocalDateTime.toEpochSeconds(timeProvider: TimeProvider) =
+    toUtc(timeProvider).epochSecond
 // endregion
 
 // region Formatting
@@ -57,7 +62,10 @@ fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.of(1990, 1, 1, 0, 0)
 fun endOfIvyTime(): LocalDateTime = LocalDateTime.of(2050, 1, 1, 0, 0)
 // endregion
 
-// region Delete:
+// region Deprecated (will be deleted)
+@Deprecated("Don't use! Use TimeProvider via DI instead!")
+fun deviceTimeProvider() = DeviceTimeProvider()
+
 @Deprecated("Use `TimeProvider` instead!")
 fun timeNow(): LocalDateTime = LocalDateTime.now()
 

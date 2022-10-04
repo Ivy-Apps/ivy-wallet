@@ -1,6 +1,7 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
+import com.ivy.common.time.TimeProvider
 import com.ivy.common.time.toEpochSeconds
 import com.ivy.common.time.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
@@ -55,7 +56,10 @@ data class WhereClause(
 
 private object EmptyArg
 
-internal fun toWhereClause(where: TrnWhere): WhereClause {
+internal fun toWhereClause(
+    where: TrnWhere,
+    timeProvider: TimeProvider
+): WhereClause {
     fun placeholders(argsCount: Int): String = when (argsCount) {
         0 -> ""
         1 -> "?"
@@ -65,7 +69,9 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
     fun <T> arg(arg: T): List<T> = listOf(arg)
     fun noArg() = arg(EmptyArg)
 
-    fun timestamp(dateTime: LocalDateTime): Long = dateTime.toEpochSeconds()
+    fun timestamp(dateTime: LocalDateTime): Long =
+        dateTime.toEpochSeconds(timeProvider)
+
     fun trnType(type: TransactionType): Int = type.code
 
     val result = when (where) {
@@ -121,23 +127,23 @@ internal fun toWhereClause(where: TrnWhere): WhereClause {
             )
 
         is Brackets -> {
-            val clause = toWhereClause(where.cond)
+            val clause = toWhereClause(where.cond, timeProvider)
             "(${clause.query})" to clause.args
         }
         is And -> {
-            val clause1 = toWhereClause(where.cond1)
-            val clause2 = toWhereClause(where.cond2)
+            val clause1 = toWhereClause(where.cond1, timeProvider)
+            val clause2 = toWhereClause(where.cond2, timeProvider)
 
             "${clause1.query} AND ${clause2.query}" to (clause1.args + clause2.args)
         }
         is Or -> {
-            val clause1 = toWhereClause(where.cond1)
-            val clause2 = toWhereClause(where.cond2)
+            val clause1 = toWhereClause(where.cond1, timeProvider)
+            val clause2 = toWhereClause(where.cond2, timeProvider)
 
             "${clause1.query} OR ${clause2.query}" to (clause1.args + clause2.args)
         }
         is Not -> {
-            val clause = toWhereClause(where.cond)
+            val clause = toWhereClause(where.cond, timeProvider)
             "NOT(${clause.query})" to clause.args
         }
     }

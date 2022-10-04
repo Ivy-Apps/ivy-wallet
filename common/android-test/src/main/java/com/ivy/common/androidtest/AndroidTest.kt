@@ -1,4 +1,4 @@
-package com.ivy.common.test
+package com.ivy.common.androidtest
 
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import org.junit.runner.RunWith

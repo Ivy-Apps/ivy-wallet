@@ -2,9 +2,6 @@ package com.ivy.wallet.io.persistence
 
 import android.content.Context
 import com.google.gson.Gson
-import com.ivy.common.time.epochSecondToDateTime
-import com.ivy.common.time.toEpochSeconds
-import java.time.LocalDateTime
 
 /**
  * Created by iliyan on 13.03.18.
@@ -139,15 +136,6 @@ class SharedPrefs(appContext: Context) {
 
     fun getString(key: String, defValue: String?): String? {
         return preferences.getString(key, defValue)
-    }
-
-    fun putDate(key: String, date: LocalDateTime) {
-        preferences.edit().putLong(key, date.toEpochSeconds()).apply()
-    }
-
-    fun getDate(key: String): LocalDateTime? {
-        val timestamp = preferences.getLong(key, -1)
-        return if (timestamp > 0) timestamp.epochSecondToDateTime() else null
     }
 
     fun getEpochSeconds(key: String): Long? {

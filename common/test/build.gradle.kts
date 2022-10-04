@@ -12,6 +12,7 @@ plugins {
 
 dependencies {
     Hilt()
+    implementation(project(":common:main"))
     Testing(
         // Prevent circular dependency
         commonTest = false,

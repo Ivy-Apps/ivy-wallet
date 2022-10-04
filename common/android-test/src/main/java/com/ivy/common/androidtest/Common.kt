@@ -1,4 +1,4 @@
-package com.ivy.common.test
+package com.ivy.common.androidtest
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit

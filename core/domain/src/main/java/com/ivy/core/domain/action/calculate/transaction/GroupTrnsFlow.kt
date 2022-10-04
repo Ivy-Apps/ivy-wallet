@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.calculate.transaction
 
+import com.ivy.common.time.TimeProvider
 import com.ivy.common.time.time
 import com.ivy.common.time.timeNow
 import com.ivy.core.domain.action.FlowAction
@@ -37,6 +38,7 @@ import javax.inject.Inject
 class GroupTrnsFlow @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val trnLinkRecordDao: TrnLinkRecordDao,
+    private val timeProvider: TimeProvider,
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
     override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
@@ -105,7 +107,10 @@ class GroupTrnsFlow @Inject constructor(
         trnListItems: List<TrnListItem>
     ): Flow<List<TrnListItem>> {
         val actualTrns = actualTrns(trnItems = trnListItems)
-        val trnsByDay = groupActualTrnsByDate(actualTrns = actualTrns)
+        val trnsByDay = groupActualTrnsByDate(
+            actualTrns = actualTrns,
+            timeProvider = timeProvider,
+        )
 
         // emit so the waiting for it "combine" doesn't get stuck
         if (trnsByDay.isEmpty()) return flowOf(emptyList())

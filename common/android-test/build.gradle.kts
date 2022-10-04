@@ -14,11 +14,17 @@ dependencies {
         kaptProcessor = { kapt(it) }
     )
 
-    Testing(
-        // Prevent circular dependency
-        commonAndroidTest = false
-    )
     Kotlin(api = false)
     Coroutines(api = false)
     AndroidXTest(dependency = { api(it) })
+
+
+    Testing(
+        // :common:test needs to be added as implementation dep
+        // else won't work
+        commonTest = false,
+        // Prevent circular dependency
+        commonAndroidTest = false
+    )
+    api(project(":common:test")) // expose :common:test classes to all androidTest
 }

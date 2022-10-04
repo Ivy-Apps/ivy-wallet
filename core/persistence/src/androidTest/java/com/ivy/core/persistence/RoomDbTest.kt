@@ -1,7 +1,7 @@
 package com.ivy.core.persistence
 
 import androidx.room.Room
-import com.ivy.common.test.testContext
+import com.ivy.common.androidtest.testContext
 import org.junit.After
 import org.junit.Before
 import java.io.IOException

@@ -1,5 +1,6 @@
 package com.ivy.wallet.domain.deprecated.sync.item
 
+import com.ivy.common.time.deviceTimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochSeconds
 import com.ivy.wallet.domain.deprecated.sync.uploader.PlannedPaymentRuleUploader
@@ -25,7 +26,7 @@ class PlannedPaymentSync(
         if (!ivySession.isLoggedIn()) return
 
 
-        val syncStart = timeNow().toEpochSeconds()
+        val syncStart = timeNow().toEpochSeconds(deviceTimeProvider())
 
         uploadUpdated()
         deleteDeleted()

@@ -1,4 +1,4 @@
-package com.ivy.common.test
+package com.ivy.common.androidtest
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
