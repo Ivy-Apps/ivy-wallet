@@ -91,8 +91,8 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "fitness", keywords = listOf(
-            "fitness", "gym", "workout", "train", "weights",
-            "sport", "lift", "dumbbells", "workout", "work out"
+            "fitness", "gym", "workouts", "train", "weights", "sport", "lifting", "dumbbells",
+            "work out"
         )
     ),
     Icon(
@@ -178,7 +178,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "coffee", keywords = listOf(
-            "coffees", "cafes", "hot", "mornings", "wake up",
+            "coffees", "cafes", "hot", "mornings", "wake up", "warm",
             "energy", "drinks", "fun", "cups", "mugs", "glasses"
         )
     ),
@@ -1350,12 +1350,30 @@ private fun vueLocation(): List<Icon> = listOf(
 
 // region Main (Vue)
 private fun vueMain(): List<Icon> = listOf(
-    Icon("ic_vue_main_cake"),
-    Icon("ic_vue_main_reserve"),
-    Icon("ic_vue_main_archive"),
-    Icon("ic_vue_main_signpost"),
-    Icon("ic_vue_main_coffee"),
-    Icon("ic_vue_main_sport"),
+    Icon(
+        "ic_vue_main_cake", keywords = listOf(
+            "births", "cakes", "candles", "surprises", "bdays", "b-day"
+        )
+    ),
+    Icon(
+        "ic_vue_main_reserve", keywords = listOf(
+            "reserve", "foods", "reservations", "bells", "hotels", "gourmet"
+        )
+    ),
+    Icon("ic_vue_main_archive", keywords = listOf("archives", "history")),
+    Icon("ic_vue_main_signpost", keywords = listOf("signposts", "signs", "directions")),
+    Icon(
+        "ic_vue_main_coffee", keywords = listOf(
+            "coffees", "cafes", "hot", "mornings", "wake up", "energy", "drinks", "fun", "cups",
+            "mugs", "glasses", "warm"
+        )
+    ),
+    Icon(
+        "ic_vue_main_sport", keywords = listOf(
+            "fitness", "gym", "workout", "train", "weights", "sport", "lifting", "dumbbells",
+            "workouts", "work out"
+        )
+    ),
     Icon("ic_vue_main_notification"),
     Icon("ic_vue_main_lamp_charge"),
     Icon("ic_vue_main_home"),
