@@ -265,7 +265,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "game", keywords = listOf(
             "games", "gaming", "plays", "consoles", "ps", "pc", "nintendos", "xboxes",
-            "hobby", "spare", "free", "leisure", "chill", "computers"
+            "hobby", "spare", "free", "leisure", "chill", "computers", "computers"
         )
     ),
     Icon(
@@ -309,7 +309,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "house", keywords = listOf(
             "houses", "mortgages", "homes", "apartments", "buildings",
             "property", "chores", "estates", "accommodations", "rents", "sales", "airbnb", "lives",
-            "places", "hosts", "living"
+            "places", "hosts", "living", "remotely"
         )
     ),
     Icon(
@@ -560,14 +560,16 @@ private fun vueBrands(): List<Icon> = listOf(
     Icon(
         "ic_vue_brands_messenger",
         keywords = listOf(
-            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate"
+            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate",
+            "sending", "texting"
         )
     ),
     Icon("ic_vue_brands_facebook", keywords = listOf("facebook", "fb", "social media")),
     Icon("ic_vue_brands_framer", keywords = listOf("framer", "web builder", "websites")),
     Icon(
         "ic_vue_brands_whatsapp", keywords = listOf(
-            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking"
+            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking",
+            "sending", "texting"
         )
     ),
     Icon(
@@ -691,7 +693,7 @@ private fun vueBuilding(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_building_house", keywords = listOf(
-            "buildings", "houses", "homes", "couples", "love", "live"
+            "buildings", "houses", "homes", "couples", "love", "live", "remotely"
         )
     ),
     Icon(
@@ -1248,7 +1250,7 @@ private fun vueEducation(): List<Icon> = listOf(
     Icon(
         "ic_vue_edu_pen", keywords = listOf(
             "pens", "drawings", "notes", "designers", "css", "technology", "pens", "paintings",
-            "sketches", "study", "learning", "notes"
+            "sketches", "study", "learning", "notes", "pencils"
         )
     ),
     Icon(
@@ -1262,7 +1264,11 @@ private fun vueEducation(): List<Icon> = listOf(
             "appointments", "diary", "notes", "agenda"
         )
     ),
-    Icon("ic_vue_edu_ruler_pen", keywords = listOf("rulers", "pens", "drawings", "measure")),
+    Icon(
+        "ic_vue_edu_ruler_pen", keywords = listOf(
+            "rulers", "pens", "drawings", "measure", "pencils"
+        )
+    ),
     Icon(
         "ic_vue_edu_todo", keywords = listOf(
             "todos", "to do", "to-do", "tasks", "check marks", "ticks", "schedules", "plans",
@@ -1391,7 +1397,7 @@ private fun vueMain(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_main_home", keywords = listOf(
-            "homes", "houses", "locations", "live"
+            "homes", "houses", "locations", "live", "remotely"
         )
     ),
     Icon(
@@ -1632,16 +1638,81 @@ private fun vueMedia(): List<Icon> = listOf(
 
 // region Messages (Vue)
 private fun vueMessages(): List<Icon> = listOf(
-    Icon("ic_vue_messages_msg_favorite"),
-    Icon("ic_vue_messages_direct"),
-    Icon("ic_vue_messages_msg_notification"),
-    Icon("ic_vue_messages_device_msg"),
-    Icon("ic_vue_messages_edit"),
-    Icon("ic_vue_messages_msgs"),
-    Icon("ic_vue_messages_msg_text"),
-    Icon("ic_vue_messages_letter"),
-    Icon("ic_vue_messages_msg"),
-    Icon("ic_vue_messages_msg_search"),
+    Icon(
+        "ic_vue_messages_msg_favorite", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "favorites",
+            "favourites", "online", "love", "couples", "partnerships", "friendships", "friends",
+            "hearts", "partners", "sending", "family", "message box", "text box", "texting",
+            "bubbles", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_direct", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online", "direct",
+            "couples", "partnerships", "friendships", "friends", "partners", "sending", "family",
+            "texting"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_notification", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "circles",
+            "partners", "sending", "notify", "seen", "news", "missed", "family", "message box",
+            "text box", "texting", "bubbles"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_device_msg", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "pc", "computers",
+            "message box", "text box", "texting", "bubbles", "devices", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_edit", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "editing", "pencils", "pens", "redactions", "texting"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msgs", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_text", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_letter", keywords = listOf(
+            "letters", "mails", "watches", "clocks", "ticks", "check marks", "bags", "news",
+            "missed", "notifications", "communication", "communicate", "online", "working"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_search", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "news", "missed", "family", "message box", "text box", "texting", "bubbles", "comments",
+            "searching"
+        )
+    ),
 )
 // endregion
 
