@@ -1,4 +1,4 @@
-package com.ivy.formula.domain.formula
+package com.ivy.formula.domain.data.formula
 
 import arrow.core.NonEmptyList
 

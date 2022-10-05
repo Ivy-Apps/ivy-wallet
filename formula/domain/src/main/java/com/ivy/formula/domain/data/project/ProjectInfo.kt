@@ -1,4 +1,4 @@
-package com.ivy.formula.domain.project
+package com.ivy.formula.domain.data.project
 
 import androidx.compose.ui.graphics.Color
 import com.ivy.data.ItemIconId

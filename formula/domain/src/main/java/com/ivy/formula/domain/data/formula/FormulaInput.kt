@@ -1,6 +1,6 @@
-package com.ivy.formula.domain.formula
+package com.ivy.formula.domain.data.formula
 
-import com.ivy.formula.domain.source.DataSource
+import com.ivy.formula.domain.data.source.DataSource
 
 sealed interface FormulaInput {
     data class Value(val value: Double) : FormulaInput
