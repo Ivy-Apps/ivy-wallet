@@ -5,7 +5,7 @@ import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.formula.domain.data.formula.Formula
 import com.ivy.formula.domain.data.formula.FormulaInput
-import com.ivy.formula.domain.pure.parse.parseFunction
+import com.ivy.formula.domain.pure.parse.compileFunction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
@@ -41,5 +41,5 @@ class FormulaFlow @Inject constructor(
     private fun executeFunction(
         input: Flow<NonEmptyList<Double>>,
         function: String,
-    ): Flow<Double> = parseFunction(function).invoke(input)
+    ): Flow<Double> = compileFunction(function).invoke(input)
 }
