@@ -45,4 +45,71 @@ class CalendarPeriodTest : StringSpec({
         }
     }
     // endregion
+
+    // region Month
+    "finds the start of month" {
+        checkAll(
+            Arb.localDate(
+                minDate = LocalDate.of(2022, 10, 1),
+                maxDate = LocalDate.of(2022, 10, 31),
+            )
+        ) { dateInOctober ->
+            val res = startOfMonth(dateInOctober)
+
+            res shouldBe LocalDate.of(2022, 10, 1)
+        }
+    }
+
+    "finds the end of February" {
+        checkAll(
+            Arb.localDate(
+                minDate = LocalDate.of(2022, 2, 1),
+                maxDate = LocalDate.of(2022, 2, 28)
+            )
+        ) { date ->
+            val res = endOfMonth(date)
+
+            res shouldBe LocalDate.of(2022, 2, 28)
+        }
+    }
+
+    "finds the end of February, leap year" {
+        checkAll(
+            Arb.localDate(
+                minDate = LocalDate.of(2024, 2, 1),
+                maxDate = LocalDate.of(2024, 2, 29)
+            )
+        ) { date ->
+            val res = endOfMonth(date)
+
+            res shouldBe LocalDate.of(2024, 2, 29)
+        }
+    }
+
+    "finds the end of 31 days month" {
+        checkAll(
+            Arb.localDate(
+                minDate = LocalDate.of(2024, 10, 1),
+                maxDate = LocalDate.of(2024, 10, 31)
+            )
+        ) { date ->
+            val res = endOfMonth(date)
+
+            res shouldBe LocalDate.of(2024, 10, 31)
+        }
+    }
+
+    "finds the end of 30 days month" {
+        checkAll(
+            Arb.localDate(
+                minDate = LocalDate.of(2024, 11, 1),
+                maxDate = LocalDate.of(2024, 11, 30)
+            )
+        ) { date ->
+            val res = endOfMonth(date)
+
+            res shouldBe LocalDate.of(2024, 11, 30)
+        }
+    }
+    // endregion
 })
