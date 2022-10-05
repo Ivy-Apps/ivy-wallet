@@ -50,7 +50,7 @@ fun monthlyPeriod(
     range = monthlyTimeRange(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
 )
 
-private fun monthlyTimeRange(date: LocalDate, startDayOfMonth: Int): TimeRange =
+fun monthlyTimeRange(date: LocalDate, startDayOfMonth: Int): TimeRange =
     if (startDayOfMonth != 1) {
         val from = date
             .withDayOfMonthSafe(startDayOfMonth)
