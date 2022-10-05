@@ -23,7 +23,7 @@ jobs:
       #----------------------------------------------------
 
       #Optimization
-      - name: Enable Gradle Wrapper caching (optmization)
+      - name: Enable Gradle Wrapper caching (optimization)
         uses: actions/cache@v2
         with:
           path: |

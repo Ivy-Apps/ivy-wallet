@@ -2,7 +2,7 @@ package com.ivy.wallet.compose.scenario.core
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.timeNow
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
 import com.ivy.wallet.compose.IvyComposeTest
@@ -34,7 +34,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
                 oneTime = false,
                 amount = "2,000",
                 category = "Bills & Fees",
-                startDate = timeNowUTC().withDayOfMonth(1),
+                startDate = timeNow().withDayOfMonth(1),
                 intervalN = 1,
                 intervalType = IntervalType.MONTH,
                 title = "Salary",
@@ -193,7 +193,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
                 oneTime = false,
                 amount = "5,250.33",
                 category = "Bills & Fees",
-                startDate = timeNowUTC().withDayOfMonth(1),
+                startDate = timeNow().withDayOfMonth(1),
                 intervalN = 31,
                 intervalType = IntervalType.DAY,
                 title = "Salary",
@@ -212,7 +212,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
                 oneTime = false,
                 amount = "12.99",
                 category = "Entertainment",
-                startDate = timeNowUTC().withDayOfMonth(1),
+                startDate = timeNow().withDayOfMonth(1),
                 intervalN = 1,
                 intervalType = IntervalType.MONTH,
                 title = "Netflix",
@@ -231,7 +231,7 @@ class PlannedPaymentsTest : IvyComposeTest() {
                 oneTime = true,
                 amount = "2,000",
                 category = "Transport",
-                startDate = timeNowUTC().withDayOfMonth(1),
+                startDate = timeNow().withDayOfMonth(1),
                 intervalN = null,
                 intervalType = null,
                 title = "Vacation",

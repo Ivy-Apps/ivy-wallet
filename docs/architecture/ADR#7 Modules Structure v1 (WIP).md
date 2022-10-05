@@ -60,7 +60,7 @@ All resources (strings, drawable, styles) used in Ivy Wallet. See [ADR#4: Core M
 
 Provides grouping for common dependency and common extensions.
 
-## :common-android-test
+## :common:android-test
 
 Provides groupiing for common test instrumentation (e2e/android) test dependency and useful base classes.
 

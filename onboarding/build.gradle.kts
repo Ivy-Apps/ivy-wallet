@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":design-system"))
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))

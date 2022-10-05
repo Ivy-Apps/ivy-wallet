@@ -1,8 +1,9 @@
 package com.ivy.wallet.io.persistence
 
 import androidx.room.TypeConverter
-import com.ivy.common.epochMilliToDateTime
-import com.ivy.common.toEpochMilli
+import com.ivy.common.time.deviceTimeProvider
+import com.ivy.common.time.epochMilliToDateTime
+import com.ivy.common.time.toEpochMilli
 import com.ivy.data.Theme
 import com.ivy.data.loan.LoanType
 import com.ivy.data.planned.IntervalType
@@ -15,7 +16,9 @@ import java.util.*
 @SuppressWarnings("unused")
 class RoomTypeConverters {
     @TypeConverter
-    fun saveDate(localDateTime: LocalDateTime?): Long? = localDateTime?.toEpochMilli()
+    fun saveDate(localDateTime: LocalDateTime?): Long? = localDateTime?.toEpochMilli(
+        deviceTimeProvider()
+    )
 
     @TypeConverter
     fun parseDate(timestampMillis: Long?): LocalDateTime? = timestampMillis?.epochMilliToDateTime()

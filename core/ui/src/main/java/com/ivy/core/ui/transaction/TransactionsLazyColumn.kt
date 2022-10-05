@@ -9,7 +9,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
@@ -136,7 +136,7 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
                 ),
                 value = dummyValueUi("16.99"),
                 type = TransactionType.Income,
-                time = dummyTrnTimeDueUi(timeNowUTC().plusDays(1))
+                time = dummyTrnTimeDueUi(timeNow().plusDays(1))
             )
         )
     ),

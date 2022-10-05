@@ -1781,37 +1781,37 @@ private fun vuePeople(): List<Icon> = listOf(
 
 // region Security (Vue)
 private fun vueSecurity(): List<Icon> = listOf(
-    Icon("ic_vue_security_eye"),
-    Icon("ic_vue_security_shield_security"),
-    Icon("ic_vue_security_key"),
-    Icon("ic_vue_security_alarm"),
-    Icon("ic_vue_security_lock"),
-    Icon("ic_vue_security_password"),
-    Icon("ic_vue_security_radar"),
-    Icon("ic_vue_security_shield_person"),
-    Icon("ic_vue_security_shield"),
+    Icon("ic_vue_security_eye", keywords=listOf("security", "eye", "vision", "sensor")),
+    Icon("ic_vue_security_shield_security", keywords=listOf("security", "shield", "protect", "sensor")),
+    Icon("ic_vue_security_key", keywords=listOf("security", "key")),
+    Icon("ic_vue_security_alarm", keywords=listOf("security", "alarm", "sensor")),
+    Icon("ic_vue_security_lock", keywords=listOf("security", "lock", "sensor")),
+    Icon("ic_vue_security_password", keywords=listOf("security", "password", "pass")),
+    Icon("ic_vue_security_radar", keywords=listOf("security", "radar", "sensor")),
+    Icon("ic_vue_security_shield_person", keywords=listOf("security", "shield", "person")),
+    Icon("ic_vue_security_shield", keywords=listOf("security", "shield", "sensor")),
 )
 // endregion
 
 // region Shop (Vue)
 private fun vueShop(): List<Icon> = listOf(
-    Icon("ic_vue_shop_cart"),
-    Icon("ic_vue_shop_bag"),
-    Icon("ic_vue_shop_barcode"),
-    Icon("ic_vue_shop_bag1"),
-    Icon("ic_vue_shop_shop"),
+    Icon("ic_vue_shop_cart", keywords=listOf("shop", "cart")),
+    Icon("ic_vue_shop_bag", keywords=listOf("shop", "bag")),
+    Icon("ic_vue_shop_barcode", keywords=listOf("shop", "barcode", "code")),
+    Icon("ic_vue_shop_bag1", keywords=listOf("shop", "bag")),
+    Icon("ic_vue_shop_shop", keywords=listOf("shop", "options")),
 )
 // endregion
 
 // region Support (Vue)
 private fun vueSupport(): List<Icon> = listOf(
-    Icon("ic_vue_support_star"),
-    Icon("ic_vue_support_medal"),
-    Icon("ic_vue_support_dislike"),
-    Icon("ic_vue_support_like_dislike"),
-    Icon("ic_vue_support_smileys"),
-    Icon("ic_vue_support_heart"),
-    Icon("ic_vue_support_like"),
+    Icon("ic_vue_support_star", keywords=listOf("support", "star", "support reaction", "reaction")),
+    Icon("ic_vue_support_medal", keywords=listOf("support", "medal", "support reaction", "reaction")),
+    Icon("ic_vue_support_dislike", keywords=listOf("support", "dislike", "support reaction", "reaction")),
+    Icon("ic_vue_support_like_dislike", keywords=listOf("support", "like", "dislike", "like dislike", "support reaction", "reaction")),
+    Icon("ic_vue_support_smileys", keywords=listOf("support", "smileys", "support reaction", "reaction")),
+    Icon("ic_vue_support_heart", keywords=listOf("support", "heart", "support reaction", "reaction")),
+    Icon("ic_vue_support_like", keywords=listOf("support", "like", "support reaction", "reaction")),
 )
 // endregion
 

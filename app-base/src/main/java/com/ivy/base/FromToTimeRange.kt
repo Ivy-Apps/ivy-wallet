@@ -1,7 +1,7 @@
 package com.ivy.base
 
-import com.ivy.common.*
-import com.ivy.data.transaction.TransactionOld
+import com.ivy.common.time.formatDateOnly
+import com.ivy.common.time.timeNow
 import java.time.LocalDateTime
 
 data class FromToTimeRange(
@@ -9,25 +9,10 @@ data class FromToTimeRange(
     val to: LocalDateTime?,
 ) {
     fun from(): LocalDateTime =
-        from ?: timeNowUTC().minusYears(30)
+        from ?: timeNow().minusYears(30)
 
     fun to(): LocalDateTime =
-        to ?: timeNowUTC().plusYears(30)
-
-    fun upcomingFrom(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().minusDays(1) //-1 day to ensure that everything is included
-        return if (includes(startOfDayNowUTC)) startOfDayNowUTC else from()
-    }
-
-    fun overdueTo(): LocalDateTime {
-        val startOfDayNowUTC =
-            startOfDayNowUTC().plusDays(1) //+1 day to ensure that everything is included
-        return if (includes(startOfDayNowUTC)) startOfDayNowUTC else to()
-    }
-
-    fun includes(dateTime: LocalDateTime): Boolean =
-        dateTime.isAfter(from()) && dateTime.isBefore(to())
+        to ?: timeNow().plusYears(30)
 
     fun toDisplay(): String {
         return when {
@@ -45,36 +30,4 @@ data class FromToTimeRange(
             }
         }
     }
-}
-
-fun Iterable<TransactionOld>.filterUpcoming(): List<TransactionOld> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
-    return filter {
-        //make sure that it's in the future
-        it.dueDate != null && it.dueDate!!.isAfter(todayStartOfDayUTC)
-    }
-}
-
-fun Iterable<TransactionOld>.filterOverdue(): List<TransactionOld> {
-    val todayStartOfDayUTC = dateNowUTC().atStartOfDay()
-
-    return filter {
-        //make sure that it's in the past
-        it.dueDate != null && it.dueDate!!.isBefore(todayStartOfDayUTC)
-    }
-}
-
-fun FromToTimeRange.toCloseTimeRangeUnsafe(): ClosedTimeRange {
-    return ClosedTimeRange(
-        from = from(),
-        to = to()
-    )
-}
-
-fun FromToTimeRange.toCloseTimeRange(): ClosedTimeRange {
-    return ClosedTimeRange(
-        from = from ?: beginningOfIvyTime(),
-        to = to ?: endOfIvyTime()
-    )
 }

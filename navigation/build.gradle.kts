@@ -10,6 +10,6 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     Compose(api = false)
 }

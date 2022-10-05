@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.account
 
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.isFiat
 import com.ivy.core.domain.pure.util.isInsignificant
 import com.ivy.data.SyncState
@@ -34,7 +34,7 @@ fun adjustBalanceTrn(
         value = Value(amount = abs(amountMissing), currency = account.currency),
         title = "Adjust balance",
         description = null,
-        time = TrnTime.Actual(timeNowLocal()),
+        time = TrnTime.Actual(timeNow()),
         state = if (hiddenTrn) TrnState.Hidden else TrnState.Default,
         purpose = TrnPurpose.AdjustBalance,
 

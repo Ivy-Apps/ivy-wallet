@@ -1,6 +1,6 @@
 package com.ivy.exchange.coinbase
 
-import com.ivy.common.test.AndroidTest
+import com.ivy.common.androidtest.AndroidTest
 import com.ivy.data.exchange.ExchangeProvider
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

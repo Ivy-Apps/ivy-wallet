@@ -1,7 +1,7 @@
 package com.ivy.core.ui.temp.trash
 
 import com.ivy.base.R
-import com.ivy.common.dateNowUTC
+import com.ivy.common.time.dateNowUTC
 import com.ivy.core.ui.temp.stringRes
 import java.time.LocalDate
 
