@@ -36,5 +36,9 @@ fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
 // endregion
 
 // region Year
-// TODO
+fun startOfYear(date: LocalDate): LocalDate =
+    LocalDate.of(date.year, 1, 1)
+
+fun endOfYear(date: LocalDate): LocalDate =
+    LocalDate.of(date.year, 12, 31)
 // endregion

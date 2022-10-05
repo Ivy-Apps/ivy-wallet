@@ -9,7 +9,10 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 class CalendarPeriodTest : StringSpec({
-    "at the end of the day" {
+    // region Day
+    // the start of the day is already built-in so no need to test it
+
+    "finds the end of the day" {
         val date = LocalDate.of(2022, 5, 10)
 
         val res = date.atEndOfDay()
@@ -19,6 +22,7 @@ class CalendarPeriodTest : StringSpec({
             23, 59, 59
         )
     }
+    // endregion
 
     // region Week
     "finds the start of the week" {
@@ -47,7 +51,7 @@ class CalendarPeriodTest : StringSpec({
     // endregion
 
     // region Month
-    "finds the start of month" {
+    "finds the start of the month" {
         checkAll(
             Arb.localDate(
                 minDate = LocalDate.of(2022, 10, 1),
@@ -86,7 +90,7 @@ class CalendarPeriodTest : StringSpec({
         }
     }
 
-    "finds the end of 31 days month" {
+    "finds the end of a 31 days month" {
         checkAll(
             Arb.localDate(
                 minDate = LocalDate.of(2024, 10, 1),
@@ -99,7 +103,7 @@ class CalendarPeriodTest : StringSpec({
         }
     }
 
-    "finds the end of 30 days month" {
+    "finds the end of a 30 days month" {
         checkAll(
             Arb.localDate(
                 minDate = LocalDate.of(2024, 11, 1),
@@ -109,6 +113,24 @@ class CalendarPeriodTest : StringSpec({
             val res = endOfMonth(date)
 
             res shouldBe LocalDate.of(2024, 11, 30)
+        }
+    }
+    // endregion
+
+    // region Year
+    "finds the start of the year" {
+        checkAll(Arb.localDate()) { date ->
+            val res = startOfYear(date)
+
+            res shouldBe LocalDate.of(date.year, 1, 1)
+        }
+    }
+
+    "finds the end of the year" {
+        checkAll(Arb.localDate()) { date ->
+            val res = endOfYear(date)
+
+            res shouldBe LocalDate.of(date.year, 12, 31)
         }
     }
     // endregion
