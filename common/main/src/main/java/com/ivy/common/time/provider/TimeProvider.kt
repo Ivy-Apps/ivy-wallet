@@ -1,4 +1,4 @@
-package com.ivy.common.time
+package com.ivy.common.time.provider
 
 import java.time.LocalDate
 import java.time.LocalDateTime

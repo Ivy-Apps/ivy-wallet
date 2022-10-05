@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.calculate.transaction
 
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
 import com.ivy.common.time.timeNow
 import com.ivy.core.domain.action.FlowAction

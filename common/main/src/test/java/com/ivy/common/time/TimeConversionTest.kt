@@ -1,5 +1,6 @@
 package com.ivy.common.time
 
+import com.ivy.common.time.provider.TimeProvider
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.Arb

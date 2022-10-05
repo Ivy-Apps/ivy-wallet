@@ -1,5 +1,6 @@
 package com.ivy.common.time
 
+import com.ivy.common.time.provider.DeviceTimeProvider
 import java.time.*
 import java.time.format.DateTimeFormatter
 
@@ -13,9 +14,11 @@ fun LocalDate.format(pattern: String): String =
 
 
 // region All-time
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.of(1990, 1, 1, 0, 0)
+fun beginningOfIvyTime(): LocalDateTime =
+    LocalDateTime.of(1990, 1, 1, 0, 0)
 
-fun endOfIvyTime(): LocalDateTime = LocalDateTime.of(2050, 1, 1, 0, 0)
+fun endOfIvyTime(): LocalDateTime =
+    LocalDateTime.of(2050, 1, 1, 0, 0)
 // endregion
 
 // region Deprecated (will be deleted)

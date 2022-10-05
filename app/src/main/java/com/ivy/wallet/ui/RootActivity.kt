@@ -34,7 +34,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.base.R
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen

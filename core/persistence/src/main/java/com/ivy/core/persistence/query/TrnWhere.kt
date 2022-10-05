@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toEpochSeconds
 import com.ivy.common.time.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
