@@ -68,8 +68,8 @@ data class TimePeriod(
                 }
 
                 FromToTimeRange(
-                    from = from,
-                    to = to
+                    from = TODO(),
+                    to = TODO()
                 )
             }
             fromToRange != null -> {
@@ -84,8 +84,8 @@ data class TimePeriod(
             else -> {
                 val date = dateNowUTC()
                 FromToTimeRange(
-                    from = startOfMonth(date),
-                    to = endOfMonth(date)
+                    from = TODO(),
+                    to = TODO(),
                 )
             }
         }

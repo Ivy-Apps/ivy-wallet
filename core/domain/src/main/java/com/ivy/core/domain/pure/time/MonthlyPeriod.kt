@@ -52,7 +52,10 @@ private fun dateToMonthlyPeriod(date: LocalDate, startDayOfMonth: Int): TimeRang
             startDateOfMonth = startDayOfMonth
         )
     } else {
-        TimeRange(from = startOfMonth(date), to = endOfMonth(date))
+        TimeRange(
+            from = startOfMonth(date).atStartOfDay(),
+            to = endOfMonth(date).atEndOfDay()
+        )
     }
 
 private fun customStartDayOfMonthPeriodRange(

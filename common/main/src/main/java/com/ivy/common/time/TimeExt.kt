@@ -11,35 +11,6 @@ fun LocalDate.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
 // endregion
 
-// region Day
-// .atStartOfDay() is already built-in in LocalDate
-
-fun LocalDate.atEndOfDay(): LocalDateTime =
-    this.atTime(23, 59, 59)
-// endregion
-
-// region Week
-// TODO
-// endregion
-
-// region Month
-fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay()
-
-fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay()
-
-fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
-    val maxDayOfMonth = this.lengthOfMonth()
-    return this.withDayOfMonth(
-        if (targetDayOfMonth > maxDayOfMonth) maxDayOfMonth else targetDayOfMonth
-    )
-}
-// endregion
-
-// region Year
-// TODO
-// endregion
 
 // region All-time
 fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.of(1990, 1, 1, 0, 0)
