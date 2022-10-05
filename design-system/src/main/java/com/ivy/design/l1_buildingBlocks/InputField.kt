@@ -7,15 +7,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
@@ -24,13 +22,14 @@ import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun InputField(
-    value: String,
+    initialValue: String,
     placeholder: String,
     singleLine: Boolean,
     maxLines: Int,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    isError: Boolean = false,
     shape: Shape = UI.shapes.rounded,
     textStyle: TextStyle = UI.typo.b2.style(fontWeight = FontWeight.Bold),
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -42,10 +41,18 @@ fun InputField(
     },
     onValueChange: (String) -> Unit,
 ) {
+    var textField by remember {
+        // move the cursor at the end of the text
+        val selection = TextRange(initialValue.length)
+        mutableStateOf(TextFieldValue(initialValue, selection))
+    }
     OutlinedTextField(
         modifier = modifier,
-        value = value,
-        onValueChange = onValueChange,
+        value = textField,
+        onValueChange = {
+            textField = it
+            onValueChange(it.text)
+        },
         shape = shape,
         textStyle = textStyle,
         placeholder = {
@@ -57,6 +64,7 @@ fun InputField(
         },
         enabled = enabled,
         readOnly = readOnly,
+        isError = isError,
         singleLine = singleLine,
         maxLines = maxLines,
         colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -110,7 +118,7 @@ private fun Preview_Hint() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            value = "",
+            initialValue = "",
             placeholder = "Placeholder",
             singleLine = true,
             maxLines = 1,
@@ -127,7 +135,7 @@ private fun Preview_Text() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            value = "Input",
+            initialValue = "Input",
             placeholder = "Placeholder",
             singleLine = true,
             maxLines = 1,

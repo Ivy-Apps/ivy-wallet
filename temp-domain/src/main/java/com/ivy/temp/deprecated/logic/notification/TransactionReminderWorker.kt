@@ -7,8 +7,8 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.ivy.base.R
-import com.ivy.common.atEndOfDay
-import com.ivy.common.dateNowUTC
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.dateNowUTC
 import com.ivy.notifications.IvyNotificationChannel
 import com.ivy.notifications.NotificationService
 import com.ivy.wallet.io.persistence.SharedPrefs

@@ -34,8 +34,9 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.base.R
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
-import com.ivy.common.timeNowLocal
-import com.ivy.common.toEpochMilli
+import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.timeNow
+import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
@@ -63,6 +64,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var navigator: Navigator
+
+    @Inject
+    lateinit var timeProvider: TimeProvider
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
@@ -398,11 +402,13 @@ class RootActivity : AppCompatActivity(), RootScreen {
         val picker = DatePickerDialog(this)
 
         if (minDate != null) {
-            picker.datePicker.minDate = minDate.atTime(12, 0).toEpochMilli()
+            picker.datePicker.minDate = minDate.atTime(12, 0)
+                .toEpochMilli(timeProvider)
         }
 
         if (maxDate != null) {
-            picker.datePicker.maxDate = maxDate.atTime(12, 0).toEpochMilli()
+            picker.datePicker.maxDate = maxDate.atTime(12, 0)
+                .toEpochMilli(timeProvider)
         }
 
         picker.setOnDateSetListener { _, year, month, dayOfMonth ->
@@ -424,7 +430,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     // region Time Picker
     override fun timePicker(onTimePicked: (LocalTime) -> Unit) {
-        val nowLocal = timeNowLocal()
+        val nowLocal = timeNow()
         val picker = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->

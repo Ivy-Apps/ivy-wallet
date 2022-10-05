@@ -10,7 +10,7 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":core:data-model"))
     implementation(project(":temp-persistence"))
     Networking(api = true)

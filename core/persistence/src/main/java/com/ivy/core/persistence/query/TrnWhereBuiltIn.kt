@@ -1,25 +1,25 @@
 package com.ivy.core.persistence.query
 
-import com.ivy.common.beginningOfIvyTime
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.beginningOfIvyTime
+import com.ivy.common.time.timeNow
 import com.ivy.core.persistence.query.TrnWhere.ActualBetween
 import com.ivy.core.persistence.query.TrnWhere.DueBetween
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import java.time.LocalDateTime
 
 /**
  * Everything due **[beginIvy, now]** including this moment is overdue.
  */
 fun overdue(): TrnWhere = DueBetween(
-    Period.FromTo(from = beginningOfIvyTime(), to = timeNowUTC())
+    TimeRange(from = beginningOfIvyTime(), to = timeNow())
 )
 
 /**
  * Everything due **(now, endIvy]** from 1 second after this moment is upcoming.
  */
 fun upcoming(to: LocalDateTime): TrnWhere = DueBetween(
-    Period.FromTo(from = timeNowUTC().plusSeconds(1), to = to)
+    TimeRange(from = timeNow().plusSeconds(1), to = to)
 )
 
-fun trnsForPeriod(period: Period): TrnWhere =
-    DueBetween(period) or ActualBetween(period)
+fun trnsForPeriod(range: TimeRange): TrnWhere =
+    DueBetween(range) or ActualBetween(range)

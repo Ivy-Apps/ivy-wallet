@@ -3,7 +3,7 @@ package com.ivy.core.ui.data.transaction
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.platform.LocalContext
-import com.ivy.common.timeNowLocal
+import com.ivy.common.time.timeNow
 import com.ivy.core.ui.time.formatNicely
 import java.time.LocalDateTime
 
@@ -21,11 +21,11 @@ sealed interface TrnTimeUi {
 
 @Composable
 fun dummyTrnTimeActualUi(
-    time: LocalDateTime = timeNowLocal()
+    time: LocalDateTime = timeNow()
 ) = TrnTimeUi.Actual(time.formatNicely(LocalContext.current).uppercase())
 
 @Composable
 fun dummyTrnTimeDueUi(
-    time: LocalDateTime = timeNowLocal().plusHours(1),
+    time: LocalDateTime = timeNow().plusHours(1),
     upcoming: Boolean = true,
 ) = TrnTimeUi.Due(time.formatNicely(LocalContext.current).uppercase(), upcoming = upcoming)

@@ -1,11 +1,11 @@
 package com.ivy.core.domain.pure.time
 
-import com.ivy.data.time.Period
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 
-fun SelectedPeriod.period(): Period.FromTo = when (this) {
-    is SelectedPeriod.AllTime -> period
-    is SelectedPeriod.CustomRange -> period
-    is SelectedPeriod.InTheLast -> period
-    is SelectedPeriod.Monthly -> period
+fun SelectedPeriod.range(): TimeRange = when (this) {
+    is SelectedPeriod.AllTime -> range
+    is SelectedPeriod.CustomRange -> range
+    is SelectedPeriod.InTheLast -> range
+    is SelectedPeriod.Monthly -> range
 }

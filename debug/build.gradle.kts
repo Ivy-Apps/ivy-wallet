@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":navigation"))

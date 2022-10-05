@@ -10,12 +10,12 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":core:data-model"))
     implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":core:exchange-provider"))
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":design-system"))
     implementation(project(":navigation"))
     ThirdParty()

@@ -1,7 +1,7 @@
 package com.ivy.core.domain.action.calculate.transaction
 
-import com.ivy.common.dateNowUTC
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.dateNowUTC
+import com.ivy.common.time.timeNow
 import com.ivy.core.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.pure.dummy.dummyTrn
@@ -44,7 +44,7 @@ class GroupTrnsFlowTest {
     @Test
     fun trn_history_with_2_transactions() = runBlocking {
         // Arrange
-        val now = timeNowUTC()
+        val now = timeNow()
         val trn1 = dummyTrn(
             type = TransactionType.Expense, amount = 10.0, currency = "USD",
             time = TrnTime.Actual(now)

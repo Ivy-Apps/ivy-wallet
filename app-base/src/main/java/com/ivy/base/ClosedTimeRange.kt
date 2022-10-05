@@ -1,7 +1,7 @@
 package com.ivy.base
 
-import com.ivy.common.beginningOfIvyTime
-import com.ivy.common.timeNowUTC
+import com.ivy.common.time.beginningOfIvyTime
+import com.ivy.common.time.timeNow
 import java.time.LocalDateTime
 
 data class ClosedTimeRange(
@@ -11,7 +11,7 @@ data class ClosedTimeRange(
     companion object {
         fun allTimeIvy(): ClosedTimeRange = ClosedTimeRange(
             from = beginningOfIvyTime(),
-            to = timeNowUTC()
+            to = timeNow()
         )
 
         fun to(to: LocalDateTime): ClosedTimeRange = ClosedTimeRange(

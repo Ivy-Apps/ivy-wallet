@@ -67,6 +67,7 @@ fun BoxScope.Modal(
 
     actions: @Composable ModalActionsScope.() -> Unit,
     keyboardShiftsContent: Boolean = true,
+    level: Int = 1,
     content: @Composable ModalScope.() -> Unit
 ) {
     val visible by modal.visibilityState
@@ -74,7 +75,7 @@ fun BoxScope.Modal(
     AnimatedVisibility(
         modifier = Modifier
             .fillMaxSize()
-            .zIndex(1_000f),
+            .zIndex(1_000f * level),
         visible = visible,
         enter = fadeIn(),
         exit = fadeOut()
@@ -96,7 +97,7 @@ fun BoxScope.Modal(
     AnimatedVisibility(
         modifier = Modifier
             .align(Alignment.BottomCenter)
-            .zIndex(1_100f),
+            .zIndex(1_100f * level),
         visible = visible,
         enter = slideInVertically(
             initialOffsetY = { fullHeight: Int -> fullHeight }

@@ -4,8 +4,8 @@ import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
-import com.ivy.core.ui.data.period.PeriodUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
+import com.ivy.core.ui.data.period.TimeRangeUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,7 +19,7 @@ class TestViewModel @Inject constructor(
     override fun initialState() = TestStateUi(
         selectedPeriodUi = SelectedPeriodUi.AllTime(
             btnText = "",
-            periodUi = PeriodUi(allTime(), "", "")
+            rangeUi = TimeRangeUi(allTime(), "", "")
         )
     )
 

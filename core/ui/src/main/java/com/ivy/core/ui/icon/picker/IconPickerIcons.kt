@@ -33,459 +33,1039 @@ internal fun pickerItems(): List<SectionUnverified> = listOf(
 
 // region Ivy Icons
 private fun ivyIcons(): List<Icon> = listOf(
-    Icon("account", keywords = listOf("acc")),
-    Icon("category", keywords = listOf("category", "cat")),
-    Icon("cash", keywords = listOf("cash", "money")),
-    Icon("bank", keywords = listOf("bank")),
-    Icon("revolut", keywords = listOf("revolut", "rev")),
-    Icon("clothes2", keywords = listOf("clothes")),
-    Icon("clothes", keywords = listOf("clothes", "wardrobe")),
-    Icon("family", keywords = listOf("family", "home", "couple", "kids")),
-    Icon("star", keywords = listOf("star", "favorite")),
-    Icon("education", keywords = listOf("education", "school", "university")),
-    Icon("fitness", keywords = listOf("fitness", "gym", "workout", "train", "weights")),
-    Icon("loan", keywords = listOf("loan", "bill", "note")),
-    Icon("orderfood", keywords = listOf("order", "delivery", "box")),
-    Icon("orderfood2", keywords = listOf("order", "delivery", "scouter")),
-    Icon("pet", keywords = listOf("pet", "dog", "paw")),
-    Icon("restaurant", keywords = listOf("restaurant", "eat", "dinner", "food")),
-    Icon("selfdevelopment", keywords = listOf("learn", "improve", "level", "grow")),
+    Icon(
+        "account", keywords = listOf(
+            "accounts", "wallets", "pocket", "notecases", "money",
+            "savings", "finances", "cash", "assets", "amounts", "balance"
+        )
+    ),
+    Icon("category", keywords = listOf("category", "jars", "jams", "groups", "sections")),
+    Icon(
+        "cash", keywords = listOf(
+            "cash", "money", "dollars", "usd", "cents", "coins",
+            "balance"
+        )
+    ),
+    Icon(
+        "bank", keywords = listOf(
+            "banks", "cards", "money", "accounts", "savings",
+            "finances", "debit", "credit", "assets", "amounts", "balance"
+        )
+    ),
+    Icon(
+        "revolut", keywords = listOf(
+            "revolut", "accounts", "banks", "cards", "money", "savings",
+            "finances", "assets", "amounts", "balance"
+        )
+    ),
+    Icon(
+        "clothes2", keywords = listOf(
+            "clothes", "appearance", "outfits", "blouses",
+            "t-shirts", "apparels", "wardrobe", "shopping", "stores", "closets"
+        )
+    ),
+    Icon(
+        "clothes", keywords = listOf(
+            "clothes", "wardrobe", "hangers", "appearance", "outfits", "blouses",
+            "t-shirts", "apparels", "shopping", "stores", "closets", "storages"
+        )
+    ),
+    Icon(
+        "family", keywords = listOf(
+            "family", "homes", "couple", "kids", "children",
+            "love", "partners", "wifes", "husbands", "boyfriends", "girlfriends", "fiancee",
+            "hearts", "relatives", "people"
+        )
+    ),
+    Icon(
+        "star", keywords = listOf(
+            "stars", "favorites", "favourites", "tops", "reviews",
+            "success", "achievements", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "education", keywords = listOf(
+            "education", "school", "university", "study",
+            "learn", "hats", "academy"
+        )
+    ),
+    Icon(
+        "fitness", keywords = listOf(
+            "fitness", "gym", "workout", "train", "weights",
+            "sport", "lift", "dumbbells", "workout", "work out"
+        )
+    ),
+    Icon(
+        "loan", keywords = listOf(
+            "loans", "bills", "notes", "receipts", "recipes",
+            "reports", "invoices", "fees", "taxes", "expenses"
+        )
+    ),
+    Icon(
+        "orderfood", keywords = listOf(
+            "orders", "delivery", "boxes", "chinese", "foods",
+            "dine", "dining", "lunches", "delivery", "eating"
+        )
+    ),
+    Icon(
+        "orderfood2", keywords = listOf(
+            "orders", "delivery", "scooters", "takeaways",
+            "glovo", "foodpanda"
+        )
+    ),
+    Icon("pet", keywords = listOf("pets", "dogs", "paws", "cats")),
+    Icon(
+        "restaurant", keywords = listOf(
+            "restaurants", "eating", "dinners", "foods", "dine", "dining",
+            "lunch", "cutlery", "forks", "knifes", "meals", "diets", "nutritions"
+        )
+    ),
+    Icon(
+        "selfdevelopment", keywords = listOf(
+            "learn", "improvements", "level up", "grow", "self development", "developing",
+            "success", "achievements", "arrows", "person", "faith", "god", "learning", "top", "high"
+        )
+    ),
     Icon(
         "work",
         keywords = listOf(
-            "work", "case", "job", "occupation", "business", "profession", "hustle",
-            "labour", "labor", "career", "assign", "company", "organi"
+            "works", "cases", "jobs", "occupations", "businesses", "professions", "hustles",
+            "labours", "labors", "careers", "assignments", "company", "organizations"
         )
     ),
     Icon(
         "vehicle",
         keywords = listOf(
-            "car", "vehicle", "auto", "transport",
-            "commute", "gas", "taxi", "bus", "tram", "subway", "trolley"
+            "cars", "vehicles", "autos", "transports", "commutes", "gas", "taxis"
         )
     ),
     Icon(
         "atom", keywords = listOf(
-            "atom", "science", "lab", "universe", "physics", "fantastic"
+            "atoms", "sciences", "labs", "universes", "physics", "fantastic"
         )
     ),
     Icon(
         "bills", keywords = listOf(
-            "bill", "acc", "tax", "fee", "book",
-            "read", "note", "diary", "organise", "plan", "library",
+            "bills", "accounts", "taxes", "fees", "books",
+            "reads", "notes", "diary", "organise", "plans", "library",
             "organize"
         )
     ),
     Icon(
         "birthday", keywords = listOf(
-            "birth", "cake", "candle", "surprise", "bday",
+            "births", "cakes", "candles", "surprises", "bdays",
             "b-day"
         )
     ),
-    Icon("calculator", keywords = listOf("calc", "math", "numb", "finance")),
+    Icon(
+        "calculator", keywords = listOf(
+            "calculates", "calculators", "calculations", "maths",
+            "numbers", "finances"
+        )
+    ),
     Icon(
         "camera", keywords = listOf(
-            "cam", "video", "edit", "photo", "movie", "record", "direct",
-            "ticket", "studio", "show", "tv", "stream", "act", "produce"
+            "cameras", "videos", "edits", "photos", "movies", "records", "directing",
+            "tickets", "studios", "shows", "tvs", "streams", "acts", "actions", "produces",
+            "productions", "acting"
         )
     ),
     Icon(
         "chemistry", keywords = listOf(
-            "chem", "cone", "science", "potion", "elixir",
-            "pharmacy", "lab"
+            "chemistry", "cones", "sciences", "potions", "elixirs",
+            "pharmacy", "labs"
         )
     ),
     Icon(
         "coffee", keywords = listOf(
-            "coffee", "caf", "hot", "morning", "wake",
-            "energy", "drink", "fun"
+            "coffees", "cafes", "hot", "mornings", "wake up",
+            "energy", "drinks", "fun", "cups", "mugs", "glasses"
         )
     ),
     Icon(
         "connect", keywords = listOf(
-            "con", "struct", "tech", "net", "web", "tree",
-            "group"
+            "connections", "structures", "technology", "nets", "webs", "trees",
+            "groups", "logistics"
         )
     ),
     Icon(
         "dna", keywords = listOf(
-            "dna", "life", "health", "gene", "science", "cell",
-            "lab"
+            "dnas", "lifes", "health", "genes", "sciences", "cells",
+            "labs"
         )
     ),
     Icon(
         "doctor", keywords = listOf(
-            "doc", "check", "medic", "sick", "ill", "gp",
-            "examin", "hosp", "clinic", "prescript", "recipe"
+            "doctors", "checks", "medics", "sick", "ill", "gp",
+            "examinations", "hospitals", "clinics", "prescripts", "recipes"
         )
     ),
     Icon(
         "document", keywords = listOf(
-            "document", "paper", "list", "note", "text",
-            "message", "new", "magazine", "diary", "plan", "task", "organi", "bill", "tax", "fee",
-            "acc", "receipt", "recipe", "prescript", "label", "order", "warranty", "insurance",
-            "policy", "script", "content", "writ", "cop", "creat", "assign", "to-do", "todo",
-            "contract", "library", "test", "exam"
+            "documents", "papers", "lists", "notes", "texts",
+            "messages", "news", "magazines", "diary", "plans", "tasks", "organise", "organize",
+            "bills", "taxes", "fees", "accounts", "reports", "receipts", "recipes", "prescripts",
+            "labels", "orders", "warranty", "insurances", "policy", "scripts", "content", "write",
+            "copy", "writing", "create", "assignments", "to-do", "todos", "contracts", "library",
+            "tests", "exams", "portfolios", "cvs"
         )
     ),
     Icon(
         "drink", keywords = listOf(
-            "drink", "celeb", "party", "beer", "leisure", "spare",
-            "free", "glass", "cup", "cheer", "bar", "club", "holiday", "out", "toast", "fun",
-            "alcohol", "rest"
+            "drinks", "celebrates", "celebrating", "party", "beers", "leisure", "spare",
+            "free", "glasses", "cups", "cheers", "bars", "clubs", "holidays", "out", "toasts",
+            "fun", "alcohols", "rest"
         )
     ),
     Icon(
         "farmacy", keywords = listOf(
-            "farmacy", "pharm", "pill", "medic", "treat", "cure",
-            "prescript", "heal", "recipe", "hosp", "clinic", "sick", "ill"
+            "farmacy", "pharmacy", "pills", "medics", "treats", "cures",
+            "prescripts", "healing", "recipes", "hospitals", "clinics", "sick", "ill"
         )
     ),
     Icon(
         "fingerprint", keywords = listOf(
-            "print", "finger", "authenticate", "secure", "policy",
-            "sensor", "trace", "examine", "unlock", "identify", "touch", "safe"
+            "prints", "fingers", "authenticates", "secure", "policy",
+            "sensors", "traces", "examines", "unlocks", "identify", "touches", "safe"
         )
     ),
     Icon(
         "fishfood", keywords = listOf(
-            "fish", "food", "sea", "ocean", "lake", "dam", "river",
-            "hobby", "lunch", "din", "deliver", "rest", "fishfood"
+            "fishes", "foods", "sea", "oceans", "lakes", "dams", "rivers",
+            "hobby", "lunches", "dine", "dining", "dinner", "delivery", "rest", "fishfoods"
         )
     ),
     Icon(
         "food2", keywords = listOf(
-            "food", "deliver", "order", "pizza", "din", "party",
-            "lunch", "brunch", "netflix", "fun", "rest"
+            "foods", "delivery", "orders", "pizzas", "dine", "dining", "party",
+            "lunches", "brunches", "netflix", "fun", "rest"
         )
     ),
     Icon(
         "fooddrink", keywords = listOf(
-            "food", "deliver", "order", "pizza", "din",
-            "wine", "glass", "cup", "drink", "cheer", "fun", "toast", "bar", "club", "alcohol",
-            "holiday", "celeb", "leisure", "spare", "free", "out", "rest"
+            "foods", "delivers", "orders", "pizzas", "dine", "dining",
+            "wines", "glasses", "cups", "drinks", "cheers", "fun", "toasts", "bars", "clubs",
+            "alcohols", "holidays", "celebrates", "leisure", "spare", "free", "out", "rest",
+            "celebrations"
         )
     ),
     Icon(
         "furniture", keywords = listOf(
-            "furniture", "house", "cabinet", "home",
-            "cupboard", "wardrobe", "dress", "room", "drawer", "stor", "organi"
+            "furniture", "houses", "cabinets", "homes",
+            "cupboards", "wardrobes", "dressing", "rooms", "drawers", "stores", "storages",
+            "organize", "organise", "closets"
         )
     ),
     Icon(
         "gambling", keywords = listOf(
-            "gambl", "play", "casino", "game", "bet", "dice",
-            "risk", "poker"
+            "gambling", "plays", "casinos", "games", "bets", "dices",
+            "risks", "poker"
         )
     ),
     Icon(
         "game", keywords = listOf(
-            "gam", "play", "console", "ps", "pc", "nintendo", "xbox",
-            "hobby", "spare", "free", "leisure", "chill"
+            "games", "gaming", "plays", "consoles", "ps", "pc", "nintendos", "xboxes",
+            "hobby", "spare", "free", "leisure", "chill", "computers"
         )
     ),
     Icon(
         "gears", keywords = listOf(
-            "gear", "mainten", "car", "mechan", "repair", "tech",
-            "setting", "tune", "adjust"
+            "gears", "maintenance", "maintaining", "cars", "mechanisms", "repairs", "technology",
+            "settings", "tunes", "adjusts"
         )
     ),
     Icon(
         "gift", keywords = listOf(
-            "gift", "party", "celeb", "present", "donat", "birth",
-            "bday", "b-day", "holiday"
+            "gifts", "party", "celebrate", "celebrations", "presents", "donations", "donates",
+            "births", "bdays", "b-day", "holidays"
         )
     ),
     Icon(
         "groceries", keywords = listOf(
-            "grocer", "market", "supplies", "shop", "trade",
-            "business", "franchise", "buy", "store", "order", "sell", "sale"
+            "groceries", "grocery", "markets", "supplies", "shops", "trade", "trading",
+            "businesses", "franchises", "buy", "stores", "orders", "sells", "sales"
         )
     ),
     Icon(
         "hairdresser", keywords = listOf(
-            "dress", "parlor", "salon", "saloon", "beaut",
-            "hair", "style", "dry", "shave", "beard", "dye"
+            "hairdressers", "parlor", "parlour", "salon", "saloon", "beauty", "beautify",
+            "hairstyles", "haircuts", "dry", "shave", "beards", "dye", "hairdressings"
         )
     ),
     Icon(
         "health", keywords = listOf(
-            "health", "medic", "doc", "hosp", "pill", "case",
-            "pharmacy", "treat", "cure", "prescript", "heal", "recipe", "clinic", "sick", "ill",
-            "farmacy"
+            "health", "medics", "doctors", "hospitals", "pills", "cases",
+            "pharmacy", "treats", "cures", "prescripts", "healing", "recipes", "clinics", "sick",
+            "ill", "farmacy"
         )
     ),
     Icon(
         "hike", keywords = listOf(
-            "hike", "mountain", "walk", "top", "nature", "hobby",
-            "forest", "wood", "tree", "environment"
+            "hike", "hikings", "mountains", "walks", "tops", "nature", "hobby",
+            "forests", "woods", "trees", "environments", "sports"
         )
     ),
     Icon(
         "house", keywords = listOf(
-            "hous", "mortgage", "home", "apartment", "build",
-            "property", "chores", "estate", "accommod", "rent", "sale", "airbnb", "live", "place",
-            "host"
+            "houses", "mortgages", "homes", "apartments", "buildings",
+            "property", "chores", "estates", "accommodations", "rents", "sales", "airbnb", "lives",
+            "places", "hosts", "living"
         )
     ),
     Icon(
         "insurance", keywords = listOf(
-            "insur", "bill", "protect", "fee", "secur",
-            "policy", "safe"
+            "insurances", "bills", "protections", "fees", "security", "secure",
+            "policy", "safety"
         )
     ),
     Icon(
         "label", keywords = listOf(
-            "label", "tag", "pric", "cost", "value", "rate",
-            "charge", "worth", "market", "shop", "store", "buy", "ticket"
+            "labels", "tags", "prices", "costs", "value", "rates",
+            "charges", "worth", "markets", "shops", "stores", "buy", "tickets"
         )
     ),
     Icon(
         "leaf", keywords = listOf(
-            "leaf", "plant", "lawn", "garden", "eco", "bio",
-            "grass", "green", "vegetarian", "vegan", "natur", "flower", "tree", "spring", "autumn",
-            "fall", "produc", "seed", "environment"
+            "leaf", "leaves", "plants", "lawns", "gardens", "eco", "bio",
+            "grasses", "green", "vegetarians", "vegans", "nature", "naturals", "flowers", "trees",
+            "spring", "autumn", "fall", "productions", "produce", "seeds", "environments"
         )
     ),
-    Icon("location", keywords = listOf("locat", "gps", "place", "map", "address", "live")),
+    Icon(
+        "location", keywords = listOf(
+            "locations", "gps", "places", "maps", "address",
+            "live", "delivery"
+        )
+    ),
     Icon(
         "makeup", keywords = listOf(
-            "makeup", "parlor", "beaut", "salon", "saloon",
-            "lip", "highlight", "paint", "cut", "knife", "diy", "glue", "sharp"
+            "makeups", "make up", "parlor", "parlour", "beauty", "beautify", "salon", "saloon",
+            "lipstick", "lip balm", "highlights", "paints", "cuts", "knifes", "diy", "glues",
+            "sharps", "lip gloss", "lipgloss", "makeup artists"
         )
     ),
     Icon(
         "music", keywords = listOf(
-            "music", "headset", "headphone", "sound", "spotify",
-            "note", "sing", "song", "hear", "fun", "party", "record", "direct", "radio", "produc"
+            "music", "headsets", "headphones", "sounds", "spotify",
+            "notes", "singers", "songs", "hear", "fun", "party", "records", "directing", "radios",
+            "produce", "production", "hits"
         )
     ),
     Icon(
         "notice", keywords = listOf(
-            "notice", "warning", "urgent", "attention", "require",
-            "must", "important", "prior", "crucial", "danger"
+            "notice", "warnings", "urgents", "attention", "requirements",
+            "musts", "important", "priority", "crucial", "dangerous"
         )
     ),
     Icon(
         "people", keywords = listOf(
-            "people", "gather", "contact", "call", "person",
-            "friend", "relative", "family", "communi", "speak", "talk", "group"
+            "peoples", "gathering", "contacts", "calls", "person",
+            "friends", "relatives", "family", "communicate", "communications", "speakings",
+            "talkings", "groups"
         )
     ),
     Icon(
         "plant", keywords = listOf(
-            "plant", "tree", "garden", "yard", "lawn", "cactus", "leaf", "eco", "bio", "grass",
-            "green", "vegetarian", "vegan", "natur", "flower", "tree", "produc", "seed",
-            "environment", "sharp"
+            "plants", "trees", "gardens", "yards", "lawns", "cactus", "cacti", "leaf", "leaves",
+            "eco", "bio", "grasses", "green", "vegetarians", "vegan", "nature", "naturals",
+            "flowers", "trees", "produce", "productions", "seeds", "environments", "sharps"
         )
     ),
     Icon(
         "programming", keywords = listOf(
-            "program", "cod", "software", "logic",
-            "engineer", "it", "tech", "librar", "dev"
+            "programming", "programmer", "coder", "coding", "softwares", "logician",
+            "engineers", "engineering", "it", "technology", "library", "developers", "programs",
+            "development", "developing"
         )
     ),
     Icon(
         "relationship", keywords = listOf(
-            "relationship", "love", "heart", "partner",
-            "couple", "health", "wife", "husband", "family", "insur", "boyfriend", "girlfriend",
-            "fiance", "fiancee", "home"
+            "relationships", "love", "hearts", "partners",
+            "couples", "health", "wifes", "husbands", "family", "insurances", "boyfriend",
+            "girlfriends", "fiancee", "homes"
         )
     ),
     Icon(
         "rocket", keywords = listOf(
-            "rocket", "moon", "space", "yolo", "fly", "universe",
-            "achieve", "determin", "brilliant", "success", "business", "idea", "top", "rise"
+            "rockets", "moon", "spaces", "yolo", "fly", "universes",
+            "achievements", "determination", "brilliant", "success", "businesses",
+            "ideas", "tops", "rise", "high"
         )
     ),
-    Icon("safe", keywords = listOf("safe", "secur", "protect", "lock", "guard", "insur")),
+    Icon(
+        "safe", keywords = listOf(
+            "safety", "secure", "security", "protections", "locks", "guards",
+            "insurances", "measures"
+        )
+    ),
     Icon(
         "sail",
         keywords = listOf(
-            "sail", "anchor", "cruise", "boat", "yacht", "travel", "vacation",
-            "ship", "sea", "adventure", "ocean", "river", "fish", "div"
+            "sailing", "sails", "anchors", "cruises", "boats", "yachts", "travels", "travelling",
+            "vacations", "ships", "sea", "adventures", "oceans", "rivers", "fishes", "dive",
+            "pisces", "diving"
         )
     ),
     Icon(
         "server", keywords = listOf(
-            "server", "modem", "communi", "pc", "message", "text", "chat", "bubble", "backend",
-            "dev", "program", "machine", "software", "engineer", "cod", "logic", "it", "tech",
-            "librar", "host"
+            "servers", "modems", "communicate", "communications", "pc", "computers", "messages",
+            "texts", "chats", "bubbles", "backends", "developers", "programs", "machines",
+            "softwares", "engineers", "coder", "logicians", "it", "technology", "library", "hosts",
+            "hosting", "engineering", "coding", "programming", "developing", "development",
+            "chatting"
         )
     ),
     Icon(
         "shopping2", keywords = listOf(
-            "shop", "cart", "grocer", "market", "store", "order",
-            "buy", "baby", "child", "mother", "father", "parent", "kid"
+            "shops", "shopping", "carts", "grocery", "groceries", "markets", "stores", "orders",
+            "buy", "baby", "children", "motherhood", "fatherhood", "parenthood", "kids"
         )
     ),
     Icon(
         "shopping", keywords = listOf(
-            "shop", "basket", "tote", "bag", "box",
-            "drawer", "packet", "deliver", "buy", "stor", "order"
+            "shopping", "shops", "baskets", "totes", "bags", "boxes",
+            "drawers", "packets", "delivery", "buy", "stores", "orders"
         )
     ),
-    Icon("sports", keywords = listOf("sport", "ball", "soccer", "hobby", "play", "game")),
+    Icon(
+        "sports", keywords = listOf(
+            "sports", "balls", "soccers", "hobby", "plays",
+            "games"
+        )
+    ),
     Icon(
         "stats", keywords = listOf(
-            "stat", "chart", "heart", "stock", "health", "hosp", "doc",
-            "check", "medic", "sick", "ill", "gp", "examin", "clinic", "prescript", "recipe",
-            "measure", "test"
+            "stats", "chart", "hearts", "stocks", "health", "hospitals", "doctors",
+            "checks", "medics", "sick", "ill", "gp", "examinations", "clinics", "prescripts",
+            "recipes", "measurements", "tests", "measures", "cardiograms"
         )
     ),
     Icon(
         "tools", keywords = listOf(
-            "tool", "equipment", "hammer", "build", "produce",
-            "wood", "progress"
+            "tools", "equipments", "hammers", "buildings", "producing", "produce",
+            "wood", "progressings", "builders", "repairments", "repairs", "wip"
         )
     ),
-    Icon("transport", keywords = listOf("transport", "car", "bus", "commute")),
-    Icon("travel", keywords = listOf("travel", "plane", "abroad", "explore", "vacation")),
-    Icon("trees", keywords = listOf("trees", "garden", "yard", "lawn")),
-    Icon("zeus", keywords = listOf("zeus", "lightning", "rain", "emergency", "urgent")),
-    Icon("calendar", keywords = listOf("calendar", "plan", "schedule", "memo")),
-    Icon("crown", keywords = listOf("crown", "luxury", "vip")),
-    Icon("diamond", keywords = listOf("diamond", "luxury", "vip", "wedding")),
-    Icon("palette", keywords = listOf("palette", "paint", "art")),
+    Icon(
+        "transport", keywords = listOf(
+            "transports", "cars", "buses", "commutes",
+            "vehicles", "autos", "transports", "gas", "taxis", "buses", "trams", "subways",
+            "trolleys", "trains", "metros", "underground", "gas"
+        )
+    ),
+    Icon(
+        "travel", keywords = listOf(
+            "traveling", "travels", "trips", "airplanes", "abroad",
+            "explore", "vacations", "exploring", "experiences", "flying", "flights"
+        )
+    ),
+    Icon(
+        "trees", keywords = listOf(
+            "trees", "gardens", "yards", "lawns", "woods",
+            "christmas", "xmas", "forests"
+        )
+    ),
+    Icon(
+        "zeus", keywords = listOf(
+            "zeus", "lightning", "rain", "emergency", "urgents",
+            "storms", "flash", "thunders", "important", "priority"
+        )
+    ),
+    Icon(
+        "calendar", keywords = listOf(
+            "calendars", "plans", "schedules", "memos",
+            "planners", "notes", "tasks", "priority"
+        )
+    ),
+    Icon(
+        "crown", keywords = listOf(
+            "crowns", "luxury", "vip", "tops", "queens", "kings",
+            "the best", "luxe"
+        )
+    ),
+    Icon(
+        "diamond", keywords = listOf(
+            "diamonds", "luxury", "luxe", "vip", "weddings",
+            "rings", "tops", "expensive", "glamorous", "shine", "shining", "sparkling", "brilliant",
+            "glory", "sparkle"
+        )
+    ),
+    Icon(
+        "palette", keywords = listOf(
+            "palettes", "painters", "artists", "colors", "colours",
+            "decorate", "decorations", "dyeing", "painting", "drawing", "pictures", "crayons",
+            "brushes"
+        )
+    ),
 )
 // endregion
 
 // region Brands (Vue)
 private fun vueBrands(): List<Icon> = listOf(
-    Icon("ic_vue_brands_triangle"),
-    Icon("ic_vue_brands_trello"),
-    Icon("ic_vue_brands_html5"),
-    Icon("ic_vue_brands_spotify"),
-    Icon("ic_vue_brands_bootsrap"),
-    Icon("ic_vue_brands_dribbble"),
-    Icon("ic_vue_brands_google_play"),
-    Icon("ic_vue_brands_dropbox"),
-    Icon("ic_vue_brands_js"),
-    Icon("ic_vue_brands_drive"),
-    Icon("ic_vue_brands_paypal"),
-    Icon("ic_vue_brands_be"),
-    Icon("ic_vue_brands_figma"),
-    Icon("ic_vue_brands_messenger"),
-    Icon("ic_vue_brands_facebook"),
-    Icon("ic_vue_brands_framer"),
-    Icon("ic_vue_brands_whatsapp"),
-    Icon("ic_vue_brands_html3"),
-    Icon("ic_vue_brands_zoom"),
-    Icon("ic_vue_brands_ok"),
-    Icon("ic_vue_brands_twitch"),
-    Icon("ic_vue_brands_youtube"),
-    Icon("ic_vue_brands_apple"),
-    Icon("ic_vue_brands_android"),
-    Icon("ic_vue_brands_slack"),
-    Icon("ic_vue_brands_vuesax"),
-    Icon("ic_vue_brands_blogger"),
-    Icon("ic_vue_brands_photoshop"),
-    Icon("ic_vue_brands_python"),
-    Icon("ic_vue_brands_google"),
-    Icon("ic_vue_brands_xd"),
-    Icon("ic_vue_brands_illustrator"),
-    Icon("ic_vue_brands_xiaomi"),
-    Icon("ic_vue_brands_windows"),
-    Icon("ic_vue_brands_snapchat"),
-    Icon("ic_vue_brands_ui8"),
+    Icon("ic_vue_brands_triangle", keywords = listOf("triangles")),
+    Icon(
+        "ic_vue_brands_trello", keywords = listOf(
+            "trello", "managements", "projects", "pm", "tasks"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_html5", keywords = listOf(
+            "html5", "html", "coder", "startup", "projects", "softwares",
+            "development", "programming", "programmer", "programs", "developers", "websites"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_spotify", keywords = listOf(
+            "spotify", "music", "songs", "listening", "streaming", "streams"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_bootsrap", keywords = listOf(
+            "bootsrap", "startup", "coder",
+            "coding", "open-source", "open source", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers", "websites"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_dribbble",
+        keywords = listOf(
+            "dribbble", "dribble", "designers", "designs"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google_play", keywords = listOf(
+            "google play", "apps", "android", "applications", "downloading"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_dropbox", keywords = listOf(
+            "dropbox", "clouds", "data", "save", "sync"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_js", keywords = listOf(
+            "js", "javascript", "coder", "coding", "websites",
+            "softwares", "projects", "development", "programming", "programmer", "programs",
+            "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_drive", keywords = listOf(
+            "google drive", "save", "files", "clouds"
+        )
+    ),
+    Icon("ic_vue_brands_paypal", keywords = listOf("paypal", "transfer money online")),
+    Icon("ic_vue_brands_be", keywords = listOf("be")),
+    Icon("ic_vue_brands_figma", keywords = listOf("figma", "designers", "designs")),
+    Icon(
+        "ic_vue_brands_messenger",
+        keywords = listOf(
+            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_facebook", keywords = listOf("facebook", "fb", "social media")),
+    Icon("ic_vue_brands_framer", keywords = listOf("framer", "web builder", "websites")),
+    Icon(
+        "ic_vue_brands_whatsapp", keywords = listOf(
+            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_html3", keywords = listOf(
+            "html3", "html", "web programming",
+            "coder", "coding", "websites", "softwares", "projects", "development", "programming",
+            "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_zoom", keywords = listOf(
+            "zoom", "communication", "communicate", "meetings"
+        )
+    ),
+    Icon("ic_vue_brands_ok", keywords = listOf("ok")),
+    Icon(
+        "ic_vue_brands_twitch", keywords = listOf(
+            "twitch", "streaming", "gaming", "entertainment", "sports", "fun"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_youtube", keywords = listOf(
+            "youtube", "music", "learning", "videos",
+            "streaming", "vlogs", "vlogging", "hits", "fun", "chill", "subscriptions"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_apple", keywords = listOf(
+            "apple", "iphone", "ipad", "macbook",
+            "iwatch", "laptops", "technology"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_android", keywords = listOf(
+            "android", "mobile", "apps", "applications", "coder", "coding", "softwares",
+            "projects", "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_slack", keywords = listOf(
+            "slack", "working", "chatting", "code",
+            "developers", "communication", "communicate"
+        )
+    ),
+    Icon("ic_vue_brands_vuesax", keywords = listOf("vuesax", "webs", "code", "developers")),
+    Icon(
+        "ic_vue_brands_blogger", keywords = listOf(
+            "bloggers", "blogging", "hosting",
+            "softwares", "publishing", "writing", "content", "writers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_photoshop", keywords = listOf(
+            "photoshop", "ps", "designers", "photos", "technology", "software", "editing"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_python", keywords = listOf(
+            "python", "ai", "coder", "coding", "softwares", "projects",
+            "development", "programming", "programmer", "programs", "developers"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_google", keywords = listOf(
+            "google", "browsers", "browse", "searching", "internet", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_xd", keywords = listOf(
+            "xd", "adobe", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_illustrator", keywords = listOf(
+            "illustrator", "adobe", "illustrating",
+            "illustrations", "designers", "creative", "create", "software"
+        )
+    ),
+    Icon("ic_vue_brands_xiaomi", keywords = listOf("xiaomi", "phones", "technology")),
+    Icon("ic_vue_brands_windows", keywords = listOf("windows", "operational system", "os")),
+    Icon(
+        "ic_vue_brands_snapchat", keywords = listOf(
+            "snapchats", "fun", "snaps", "social media"
+        )
+    ),
+    Icon(
+        "ic_vue_brands_ui8", keywords = listOf(
+            "ui8", "ui", "ux", "designers", "creative", "create", "creators"
+        )
+    ),
 )
 // endregion
 
 // region Building (Vue)
 private fun vueBuilding(): List<Icon> = listOf(
-    Icon("ic_vue_building_building1"),
-    Icon("ic_vue_building_buildings"),
-    Icon("ic_vue_building_hospital"),
-    Icon("ic_vue_building_building"),
-    Icon("ic_vue_building_bank"),
-    Icon("ic_vue_building_house"),
-    Icon("ic_vue_building_courthouse"),
+    Icon(
+        "ic_vue_building_building1", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_buildings", keywords = listOf(
+            "buildings", "flats", "blocks", "homes", "offices", "company"
+        )
+    ),
+    Icon(
+        "ic_vue_building_hospital", keywords = listOf(
+            "hospital", "buildings", "health", "church", "hospis"
+        )
+    ),
+    Icon("ic_vue_building_building", keywords = listOf("buildings", "shops", "stores")),
+    Icon(
+        "ic_vue_building_bank", keywords = listOf(
+            "banks", "banking", "money", "finances", "fed", "institutions"
+        )
+    ),
+    Icon(
+        "ic_vue_building_house", keywords = listOf(
+            "buildings", "houses", "homes", "couples", "love", "live"
+        )
+    ),
+    Icon(
+        "ic_vue_building_courthouse", keywords = listOf(
+            "courthouses", "lawyers", "legal", "businesses", "institutions"
+        )
+    ),
 )
 // endregion
 
 // region Chart (Vue)
 private fun vueChart(): List<Icon> = listOf(
-    Icon("ic_vue_chart_diagram"),
-    Icon("ic_vue_chart_graph"),
-    Icon("ic_vue_chart_status_up"),
-    Icon("ic_vue_chart_chart"),
-    Icon("ic_vue_chart_trend_up"),
+    Icon(
+        "ic_vue_chart_diagram", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_graph", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_status_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_chart", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
+    Icon(
+        "ic_vue_chart_trend_up", keywords = listOf(
+            "diagrams", "businesses", "stocks", "investments", "crypto", "portfolios", "graphs",
+            "charts"
+        )
+    ),
 )
 // endregion
 
 // region Crypto (Vue)
 private fun vueCrypto(): List<Icon> = listOf(
-    Icon("ic_vue_crypto_dent"),
-    Icon("ic_vue_crypto_icon"),
-    Icon("ic_vue_crypto_decred"),
-    Icon("ic_vue_crypto_ocean_protocol"),
-    Icon("ic_vue_crypto_hedera_hashgraph"),
-    Icon("ic_vue_crypto_binance_usd"),
-    Icon("ic_vue_crypto_maker"),
-    Icon("ic_vue_crypto_xrp"),
-    Icon("ic_vue_crypto_harmony"),
-    Icon("ic_vue_crypto_theta"),
-    Icon("ic_vue_crypto_celsius_"),
-    Icon("ic_vue_crypto_vibe"),
-    Icon("ic_vue_crypto_augur"),
-    Icon("ic_vue_crypto_graph"),
-    Icon("ic_vue_crypto_monero"),
-    Icon("ic_vue_crypto_aave"),
-    Icon("ic_vue_crypto_dai"),
-    Icon("ic_vue_crypto_litecoin"),
-    Icon("ic_vue_crypto_tether"),
-    Icon("ic_vue_crypto_thorchain"),
-    Icon("ic_vue_crypto_nexo"),
-    Icon("ic_vue_crypto_chainlink"),
-    Icon("ic_vue_crypto_ethereum_classic"),
-    Icon("ic_vue_crypto_usd_coin"),
-    Icon("ic_vue_crypto_nem"),
-    Icon("ic_vue_crypto_eos"),
-    Icon("ic_vue_crypto_emercoin"),
-    Icon("ic_vue_crypto_dash"),
-    Icon("ic_vue_crypto_ontology"),
-    Icon("ic_vue_crypto_ftx_token"),
-    Icon("ic_vue_crypto_educare"),
-    Icon("ic_vue_crypto_solana"),
-    Icon("ic_vue_crypto_ethereum"),
-    Icon("ic_vue_crypto_velas"),
-    Icon("ic_vue_crypto_hex"),
-    Icon("ic_vue_crypto_polkadot"),
-    Icon("ic_vue_crypto_huobi_token"),
-    Icon("ic_vue_crypto_polyswarm"),
-    Icon("ic_vue_crypto_ankr"),
-    Icon("ic_vue_crypto_enjin_coin"),
-    Icon("ic_vue_crypto_polygon"),
-    Icon("ic_vue_crypto_wing"),
-    Icon("ic_vue_crypto_nebulas"),
-    Icon("ic_vue_crypto_iost"),
-    Icon("ic_vue_crypto_binance_coin"),
-    Icon("ic_vue_crypto_kyber_network"),
-    Icon("ic_vue_crypto_trontron"),
-    Icon("ic_vue_crypto_stellar"),
-    Icon("ic_vue_crypto_avalanche"),
-    Icon("ic_vue_crypto_wanchain"),
-    Icon("ic_vue_crypto_cardano"),
-    Icon("ic_vue_crypto_okb"),
-    Icon("ic_vue_crypto_stacks"),
-    Icon("ic_vue_crypto_siacoin"),
-    Icon("ic_vue_crypto_autonio"),
-    Icon("ic_vue_crypto_civic"),
-    Icon("ic_vue_crypto_zel"),
-    Icon("ic_vue_crypto_quant"),
-    Icon("ic_vue_crypto_tenx"),
-    Icon("ic_vue_crypto_celo"),
-    Icon("ic_vue_crypto_bitcoin"),
+    Icon("ic_vue_crypto_dent", keywords = listOf("crypto", "blockchain", "currency", "dent")),
+    Icon("ic_vue_crypto_icon", keywords = listOf("crypto", "blockchain", "currency")),
+    Icon(
+        "ic_vue_crypto_decred", keywords = listOf(
+            "crypto", "blockchain", "currency", "decred"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ocean_protocol", keywords = listOf(
+            "crypto", "blockchain", "currency", "ocean protocol"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hedera_hashgraph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera hashgraph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_usd", keywords = listOf(
+            "crypto", "blockchain", "currency",
+            "binance", "busd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_maker", keywords = listOf(
+            "crypto", "blockchain", "currency", "maker", "mkr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_xrp", keywords = listOf(
+            "crypto", "blockchain", "currency", "xrp", "ripple"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_harmony", keywords = listOf(
+            "crypto", "blockchain", "currency", "harmony", "one"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_theta", keywords = listOf(
+            "crypto", "blockchain", "currency", "theta"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celsius_", keywords = listOf(
+            "crypto", "blockchain", "currency", "celsius"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_vibe", keywords = listOf(
+            "crypto", "blockchain", "currency", "vibe"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_augur", keywords = listOf(
+            "crypto", "blockchain", "currency", "augur"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_graph", keywords = listOf(
+            "crypto", "blockchain", "currency", "hedera", "graph"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_monero", keywords = listOf(
+            "crypto", "blockchain", "currency", "monero", "mnr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_aave", keywords = listOf(
+            "crypto", "blockchain", "currency", "aave"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dai", keywords = listOf(
+            "crypto", "blockchain", "currency", "dai"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_litecoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "litecoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tether", keywords = listOf(
+            "crypto", "blockchain", "currency", "tether", "ust"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_thorchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "thorchain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nexo", keywords = listOf(
+            "crypto", "blockchain", "currency", "nexo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_chainlink", keywords = listOf(
+            "crypto", "blockchain", "currency", "chainlink"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum_classic", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_usd_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "usd"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nem", keywords = listOf(
+            "crypto", "blockchain", "currency", "nem"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_eos", keywords = listOf(
+            "crypto", "blockchain", "currency", "eos"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_emercoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "emercoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_dash", keywords = listOf(
+            "crypto", "blockchain", "currency", "dash"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ontology", keywords = listOf(
+            "crypto", "blockchain", "currency", "ontology"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ftx_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "ftx", "tokens"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_educare", keywords = listOf(
+            "crypto", "blockchain", "currency", "educare"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_solana", keywords = listOf(
+            "crypto", "blockchain", "currency", "solana"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ethereum", keywords = listOf(
+            "crypto", "blockchain", "currency", "ethereum"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_velas", keywords = listOf(
+            "crypto", "blockchain", "currency", "velas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_hex", keywords = listOf(
+            "crypto", "blockchain", "currency", "hex"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polkadot", keywords = listOf(
+            "crypto", "blockchain", "currency", "polkadot"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_huobi_token", keywords = listOf(
+            "crypto", "blockchain", "currency", "huobi token"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polyswarm", keywords = listOf(
+            "crypto", "blockchain", "currency", "polyswarm"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_ankr", keywords = listOf(
+            "crypto", "blockchain", "currency", "ankr"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_enjin_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "enjin coin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_polygon", keywords = listOf(
+            "crypto", "blockchain", "currency", "polygon"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wing", keywords = listOf(
+            "crypto", "blockchain", "currency", "wing"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_nebulas", keywords = listOf(
+            "crypto", "blockchain", "currency", "nebulas"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_iost", keywords = listOf(
+            "crypto", "blockchain", "currency", "iost"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_binance_coin", keywords = listOf(
+            "crypto", "blockchain", "currency", "binance", "coins", "bnb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_kyber_network", keywords = listOf(
+            "crypto", "blockchain", "currency", "kyber network"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_trontron", keywords = listOf(
+            "crypto", "blockchain", "currency", "tron"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stellar", keywords = listOf(
+            "crypto", "blockchain", "currency", "stellar"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_avalanche", keywords = listOf(
+            "crypto", "blockchain", "currency", "avalanche", "avl"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_wanchain", keywords = listOf(
+            "crypto", "blockchain", "currency", "wanchain", "wan chain"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_cardano", keywords = listOf(
+            "crypto", "blockchain", "currency", "ada", "cardano"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_okb", keywords = listOf(
+            "crypto", "blockchain", "currency", "okb"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_stacks", keywords = listOf(
+            "crypto", "blockchain", "currency", "stacks"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_siacoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "sia coin", "siacoin"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_autonio", keywords = listOf(
+            "crypto", "blockchain", "currency", "autonio"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_civic", keywords = listOf(
+            "crypto", "blockchain", "currency", "civic"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_zel", keywords = listOf(
+            "crypto", "blockchain", "currency", "zel"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_quant", keywords = listOf(
+            "crypto", "blockchain", "currency", "quant"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_tenx", keywords = listOf(
+            "crypto", "blockchain", "currency", "tenx"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_celo", keywords = listOf(
+            "crypto", "blockchain", "currency", "celo"
+        )
+    ),
+    Icon(
+        "ic_vue_crypto_bitcoin", keywords = listOf(
+            "crypto", "blockchain", "currency", "btc", "bitcoins"
+        )
+    ),
 )
 // endregion
 
 // region Delivery (Vue)
 private fun vueDelivery(): List<Icon> = listOf(
-    Icon("ic_vue_delivery_package"),
-    Icon("ic_vue_delivery_receive"),
-    Icon("ic_vue_delivery_box1"),
-    Icon("ic_vue_delivery_box"),
-    Icon("ic_vue_delivery_truck"),
+    Icon(
+        "ic_vue_delivery_package", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "packets", "boxes", "receiving", "receive", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_receive", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "replacement", "exchange", "swap", "gifts",
+            "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box1", keywords = listOf(
+            "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell", "sales",
+            "receive", "receiving", "packets", "boxes", "gifts", "purchases", "christmas", "xmas"
+        )
+    ),
+    Icon(
+        "ic_vue_delivery_box", keywords = listOf(
+            "boxes", "cubes", "delivery", "delivering", "orders", "purchases"
+        )
+    ),
+    Icon("ic_vue_delivery_truck", keywords = listOf(
+        "truck", "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell",
+        "sales", "packets", "cars", "vehicles", "receiving", "receive", "replacement", "exchange",
+        "swap", "gifts", "purchases", "dhl", "amazon")),
 )
 // endregion
 
@@ -729,38 +1309,165 @@ private fun vueSupport(): List<Icon> = listOf(
 
 // region Transport (Vue)
 private fun vueTransport(): List<Icon> = listOf(
-    Icon("ic_vue_transport_bus"),
-    Icon("ic_vue_transport_airplane"),
-    Icon("ic_vue_transport_train"),
-    Icon("ic_vue_transport_ship"),
-    Icon("ic_vue_transport_gas"),
-    Icon("ic_vue_transport_car"),
-    Icon("ic_vue_transport_car_wash"),
+    Icon(
+        "ic_vue_transport_bus", keywords = listOf(
+            "microbus", "minibus", "minivan", "bus", "public transport",
+            "travel", "journey", "utility vehicle"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_airplane", keywords = listOf(
+            "airliner", "air taxi", "aircraft", "airship", "jet",
+            "trijet", "aerospace plane", "rocket plane", "bomber", "warplane",
+            "biplane", "lightplane", "tilt-rotor", "triplane", "public transport"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_train", keywords = listOf(
+            "caravan", "track", "chain", "concatenation", "tail", "trail",
+            "rail line", "locomotive", "railcar", "freight train", "railway",
+            "cargo", "diesel locomotive", "passenger train", "public transport",
+            "electric locomotive", "wagon train"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_ship", keywords = listOf(
+            "warship", "cargo ship", "ferry", "vessel", "sail", "watercraft", "transport",
+            "cruise ship", "troopship", "passenger ship", "fleet", "yacht", "navy"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_gas", keywords = listOf(
+            "incompressible", "chemical weapon", "compressibility", "intermolecular forces",
+            "covalent bond", "kerosine", "octanes", "liquification", "weather", "methane",
+            "oxygen", "hydrogen", "gasoline", "petrol", "carbon dioxide", "neon", "plasma"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_car", keywords = listOf(
+            "motor vehicle", "wheel", "automobile", "van",
+            "vehicle", "passenger", "internal combustion engine",
+            "jeep", "cab", "sedan", "hatchback", "taxi",
+            "air pollution", "climate change", "toyota"
+        )
+    ),
+    Icon(
+        "ic_vue_transport_car_wash", keywords = listOf(
+            "automobile", "carwashing", "carwasher", "become dirty", "carwash",
+            "rinse", "cleanse", "washcloth", "disinfect", "sanitation"
+        )
+    ),
 )
 // endregion
 
 // region Type (Vue)
 private fun vueType(): List<Icon> = listOf(
-    Icon("ic_vue_type_link2"),
-    Icon("ic_vue_type_text"),
-    Icon("ic_vue_type_paperclip"),
-    Icon("ic_vue_type_textalign_left"),
-    Icon("ic_vue_type_translate"),
-    Icon("ic_vue_type_textalign_right"),
-    Icon("ic_vue_type_link"),
-    Icon("ic_vue_type_textalign_center"),
-    Icon("ic_vue_type_textalign_justifycenter"),
+    Icon(
+        "ic_vue_type_link2", keywords = listOf(
+            "connection", "connect", "contact", "tie", "link2",
+            "attach", "chain", "interconnect", "hyperlink"
+        )
+    ),
+    Icon(
+        "ic_vue_type_text", keywords = listOf(
+            "book", "textbook", "passage", "page", "words", "language",
+            "word", "paragraph", "chapter", "booklet", "dictionary",
+            "reference", "read", "written", "phrase", "passages"
+        )
+    ),
+    Icon(
+        "ic_vue_type_paperclip",
+        keywords = listOf("clip", "paper clip", "steel", "paper", "managing files")
+    ),
+    Icon(
+        "ic_vue_type_textalign_left", keywords = listOf(
+            "content", "document", "idea", "paragraph", "left",
+            "quotation", "formating", "body", "context", "align left"
+        )
+    ),
+    Icon(
+        "ic_vue_type_translate", keywords = listOf(
+            "paraphrase", "interpret", "understand", "language", "writing",
+            "translator", "change", "meaning", "literal translation",
+            "english language", "grammar", "dictionary"
+        )
+    ),
+    Icon(
+        "ic_vue_type_textalign_right", keywords = listOf(
+            "content", "document", "paragraph", "quotation", "right",
+            "formating", "body", "context", "align right"
+        )
+    ),
+    Icon(
+        "ic_vue_type_link", keywords = listOf(
+            "connection", "connect", "contact", "tie", "link",
+            "attach", "chain", "interconnect", "hyperlink"
+        )
+    ),
+    Icon(
+        "ic_vue_type_textalign_center",
+        keywords = listOf(
+            "core",
+            "centre",
+            "central",
+            "middle",
+            "rivet",
+            "midpoint",
+            "align center"
+        )
+    ),
+    Icon(
+        "ic_vue_type_textalign_justifycenter",
+        keywords = listOf("distribute", "inline", "central", "middle", "align justifycenter")
+    ),
 )
 // endregion
 
 // region Weather (Vue)
 private fun vueWeather(): List<Icon> = listOf(
-    Icon("ic_vue_weather_wind"),
-    Icon("ic_vue_weather_cloud"),
-    Icon("ic_vue_weather_flash"),
-    Icon("ic_vue_weather_moon"),
-    Icon("ic_vue_weather_drop"),
-    Icon("ic_vue_weather_cold"),
-    Icon("ic_vue_weather_sun"),
+    Icon(
+        "ic_vue_weather_wind",
+        keywords = listOf(
+            "blow", "gale", "gust", "headwind", "tailwind", "tempest", "wind",
+            "tornado", "windstorm", "breath", "breeze", "air", "typhoon"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_cloud",
+        keywords = listOf("vapor", "cloud", "veil", "fogginess", "frost", "thunderhead")
+    ),
+    Icon(
+        "ic_vue_weather_flash",
+        keywords = listOf(
+            "binge", "jag", "boost", "increase", "pickup", "upswing", "epidemic",
+            "eruption", "explosion", "flood", "rush", "surge", "uproar", "flash"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_moon", keywords = listOf(
+            "moment", "crescent", "half-moon", "celestial body", "full moon",
+            "heavenly body", "new moon", "old moon", "orb of night"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_drop", keywords = listOf(
+            "bead", "bit", "bubble", "dash", "dewdrop",
+            "driblet", "drip", "droplet", "pearl",
+            "splash", "tear", "teardrop"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_cold", keywords = listOf(
+            "bleak", "chilled", "cool", "crisp", "frosty", "frozen", "icy", "intense", "snowy",
+            "wintry", "Siberian", "arctic", "chill", "icebox", "stinging", "below freezing",
+            "sharp", "below zero", "glacial", "have goose bumps", "numbing", "shivery"
+        )
+    ),
+    Icon(
+        "ic_vue_weather_sun", keywords = listOf(
+            "star", "sunlight", "bask", "daylight", "tan",
+            "flare", "shine", "sol", "sunrise", "aubade"
+        )
+    ),
 )
 // endregion

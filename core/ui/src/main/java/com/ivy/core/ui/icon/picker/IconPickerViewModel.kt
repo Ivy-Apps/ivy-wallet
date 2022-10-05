@@ -1,14 +1,17 @@
 package com.ivy.core.ui.icon.picker
 
 import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.action.ItemIconOptionalAct
-import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.picker.data.Icon
 import com.ivy.core.ui.icon.picker.data.SectionUi
 import com.ivy.core.ui.icon.picker.data.SectionUnverified
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
@@ -24,17 +27,15 @@ internal class IconPickerViewModel @Inject constructor(
         sections = emptyList(),
         searchQuery = ""
     )
-
     override fun initialUiState(): IconPickerStateUi = initialState()
+
 
     private val searchQuery = MutableStateFlow("")
 
-    override fun stateFlow(): Flow<IconPickerStateUi> = combine(
-        searchQuery, sectionsUiFlow()
-    ) { searchQuery, sections ->
+    override fun stateFlow(): Flow<IconPickerStateUi> = sectionsUiFlow().map { sections ->
         IconPickerStateUi(
             sections = sections,
-            searchQuery = searchQuery
+            searchQuery = searchQuery.value
         )
     }
 
@@ -47,32 +48,12 @@ internal class IconPickerViewModel @Inject constructor(
             if (itemIcons.isNotEmpty()) {
                 SectionUi(
                     name = section.name,
-                    iconRows = groupIconsByRows(itemIcons),
+                    iconRows = groupByRows(itemIcons, iconsPerRow = ICONS_PER_ROW),
                 )
             } else null
         }
     }
 
-    private fun groupIconsByRows(icons: List<ItemIcon>): List<List<ItemIcon>> {
-        val rows = mutableListOf<List<ItemIcon>>()
-        var row = mutableListOf<ItemIcon>()
-        for (icon in icons) {
-            if (row.size < ICONS_PER_ROW) {
-                // row not finished
-                row.add(icon)
-            } else {
-                // row is finished, add it and start the next row
-                rows.add(row)
-                // row.clear() won't work because it clears the already added row
-                row = mutableListOf()
-            }
-        }
-        if (row.isNotEmpty()) {
-            // add the last not finished row
-            rows.add(row)
-        }
-        return rows
-    }
 
     @OptIn(FlowPreview::class)
     private fun sectionsFlow(): Flow<List<SectionUnverified>> = searchQuery

@@ -1,7 +1,7 @@
 package com.ivy.core.domain.pure.calculate.transaction
 
 import androidx.annotation.IntRange
-import com.ivy.common.timeNowUTC
+import com.ivy.common.test.testTimeProvider
 import com.ivy.core.domain.pure.dummy.dummyTrn
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.TrnTime
@@ -10,8 +10,9 @@ import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 
 class GroupTrnsTest : StringSpec({
+    // TODO: Fix time in tests
     // region Helper functions
-    fun date(daysFromNow: Int): LocalDate = timeNowUTC()
+    fun date(daysFromNow: Int): LocalDate = testTimeProvider().timeNow()
         .withHour(0)
         .withHour(0)
         .plusDays(daysFromNow.toLong()).toLocalDate()
@@ -54,7 +55,7 @@ class GroupTrnsTest : StringSpec({
             fiveDaysBefore1, fiveDaysBefore2, fiveDaysBefore3
         ).shuffled()
 
-        val res = groupActualTrnsByDate(actualTrns = trns)
+        val res = groupActualTrnsByDate(trns, timeProvider = testTimeProvider())
 
         res shouldBe mapOf(
             date(0) to listOf(today),
@@ -72,7 +73,7 @@ class GroupTrnsTest : StringSpec({
         val twoYearsAgo = transfer(daysFromNow = -800, hour24h = 10)
         val trns = listOf(today, lastYear1, lastYear2, twoYearsAgo).shuffled()
 
-        val res = groupActualTrnsByDate(trns)
+        val res = groupActualTrnsByDate(trns, timeProvider = testTimeProvider())
 
         res shouldBe mapOf(
             date(0) to listOf(today),
@@ -82,7 +83,7 @@ class GroupTrnsTest : StringSpec({
     }
 
     "group empty trns list" {
-        val res = groupActualTrnsByDate(emptyList())
+        val res = groupActualTrnsByDate(emptyList(), timeProvider = testTimeProvider())
 
         res shouldBe emptyMap()
     }

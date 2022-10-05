@@ -1,7 +1,7 @@
 package com.ivy.core.ui.temp.trash
 
 import com.ivy.base.FromToTimeRange
-import com.ivy.common.*
+import com.ivy.common.time.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -78,7 +78,7 @@ data class TimePeriod(
             lastNRange != null -> {
                 FromToTimeRange(
                     from = lastNRange.fromDate(),
-                    to = timeNowUTC()
+                    to = timeNow()
                 )
             }
             else -> {

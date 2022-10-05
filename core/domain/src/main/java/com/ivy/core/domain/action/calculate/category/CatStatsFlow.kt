@@ -9,7 +9,7 @@ import com.ivy.core.domain.action.transaction.TrnsFlow
 import com.ivy.core.domain.action.transaction.and
 import com.ivy.data.CurrencyCode
 import com.ivy.data.category.Category
-import com.ivy.data.time.Period
+import com.ivy.data.time.TimeRange
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapMerge
@@ -26,14 +26,14 @@ class CatStatsFlow @Inject constructor(
      * @param outputCurrency pass **null** for base currency
      */
     data class Input(
-        val period: Period,
+        val range: TimeRange,
         val category: Category?,
         val outputCurrency: CurrencyCode? = null,
     )
 
     @OptIn(FlowPreview::class)
     override fun Input.createFlow(): Flow<Stats> = trnsFlow(
-        ByCategoryId(categoryId = category?.id) and ActualBetween(period)
+        ByCategoryId(categoryId = category?.id) and ActualBetween(range)
     ).flatMapMerge { trns ->
         calculateFlow(
             CalculateFlow.Input(

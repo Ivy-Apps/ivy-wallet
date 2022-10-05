@@ -1,9 +1,9 @@
 package com.ivy.core.persistence.dao
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.ivy.common.test.AndroidTest
-import com.ivy.common.test.epochSeconds
-import com.ivy.common.test.uuidString
+import com.ivy.common.androidtest.AndroidTest
+import com.ivy.common.androidtest.epochSeconds
+import com.ivy.common.androidtest.uuidString
 import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.RoomDbTest
 import com.ivy.core.persistence.dao.trn.TrnDao
