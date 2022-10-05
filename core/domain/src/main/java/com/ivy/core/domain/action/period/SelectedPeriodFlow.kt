@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.period
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.pure.time.currentMonthlyPeriod
@@ -19,9 +20,10 @@ import javax.inject.Singleton
 class SelectedPeriodFlow @Inject constructor(
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
     private val selectedPeriodSignal: SelectedPeriodSignal,
+    private val timeProvider: TimeProvider,
 ) : SharedFlowAction<SelectedPeriod>() {
     override fun initialValue(): SelectedPeriod =
-        currentMonthlyPeriod(startDayOfMonth = 1)
+        currentMonthlyPeriod(startDayOfMonth = 1, timeProvider = timeProvider)
 
     override fun createFlow(): Flow<SelectedPeriod> = combine(
         startDayOfMonthFlow(), selectedPeriodSignal.receive()

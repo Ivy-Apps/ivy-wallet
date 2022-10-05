@@ -32,7 +32,7 @@ fun periodLengthDays(range: TimeRange): Int {
     return daysLong.toInt()
 }
 
-fun yearPeriod(year: Int): SelectedPeriod.CustomRange = SelectedPeriod.CustomRange(
+fun yearlyPeriod(year: Int): SelectedPeriod.CustomRange = SelectedPeriod.CustomRange(
     range = TimeRange(
         from = LocalDate.of(year, 1, 1).atStartOfDay(),
         to = LocalDate.of(year, 12, 31).atEndOfDay()

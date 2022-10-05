@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Immutable
 import com.ivy.common.time.atEndOfDay
-import com.ivy.common.time.dateNowLocal
-import com.ivy.common.time.timeNow
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
@@ -31,7 +30,8 @@ class SelectedPeriodViewModel @Inject constructor(
     private val appContext: Context,
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
-    private val setSelectedPeriodAct: SetSelectedPeriodAct
+    private val setSelectedPeriodAct: SetSelectedPeriodAct,
+    private val timeProvider: TimeProvider,
 ) : FlowViewModel<State, UiState, SelectPeriodEvent>() {
 
     data class State(
@@ -60,7 +60,7 @@ class SelectedPeriodViewModel @Inject constructor(
     override fun stateFlow(): Flow<State> = combine(
         startDayOfMonthFlow(), selectedPeriodFlow()
     ) { startDayOfMonth, selectedPeriod ->
-        val currentYear = dateNowLocal().year
+        val currentYear = timeProvider.dateNow().year
 
         State(
             startDayOfMonth = startDayOfMonth,
@@ -87,10 +87,12 @@ class SelectedPeriodViewModel @Inject constructor(
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
                 startDayOfMonth = state.value.startDayOfMonth
             )
-            SelectPeriodEvent.ResetToCurrentPeriod ->
-                currentMonthlyPeriod(startDayOfMonth = state.value.startDayOfMonth)
-            SelectPeriodEvent.LastYear -> yearPeriod(dateNowLocal().year - 1)
-            SelectPeriodEvent.ThisYear -> yearPeriod(dateNowLocal().year)
+            SelectPeriodEvent.ResetToCurrentPeriod -> currentMonthlyPeriod(
+                startDayOfMonth = state.value.startDayOfMonth,
+                timeProvider = timeProvider,
+            )
+            SelectPeriodEvent.LastYear -> yearlyPeriod(timeProvider.dateNow().year - 1)
+            SelectPeriodEvent.ThisYear -> yearlyPeriod(timeProvider.dateNow().year)
             is SelectPeriodEvent.ShiftForward -> shiftPeriodForward()
             is SelectPeriodEvent.ShiftBackward -> shiftPeriodBackward()
         }
@@ -99,7 +101,7 @@ class SelectedPeriodViewModel @Inject constructor(
     }
 
     private fun toSelectedPeriod(event: SelectPeriodEvent.InTheLast): SelectedPeriod.InTheLast {
-        val now = timeNow()
+        val now = timeProvider.timeNow()
         val n = event.n
         return SelectedPeriod.InTheLast(
             n = n,
@@ -108,7 +110,7 @@ class SelectedPeriodViewModel @Inject constructor(
                 // n - 1 because we count today
                 // Negate: -n because we want to start from the **last** N unit
                 from = shiftTime(time = now, n = -(n - 1), unit = event.unit),
-                to = dateNowLocal().atEndOfDay(),
+                to = timeProvider.dateNow().atEndOfDay(),
             )
         )
     }

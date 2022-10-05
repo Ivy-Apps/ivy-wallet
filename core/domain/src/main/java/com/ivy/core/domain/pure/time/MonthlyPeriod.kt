@@ -1,30 +1,32 @@
 package com.ivy.core.domain.pure.time
 
-import com.ivy.common.time.*
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.endOfMonth
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.startOfMonth
+import com.ivy.common.time.withDayOfMonthSafe
 import com.ivy.data.time.Month
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeRange
 import java.time.LocalDate
 
-// TODO: Refactor this file cuz it's bad...
 
-// TODO: Fix edge-cases when re-working time
 fun currentMonthlyPeriod(
-    startDayOfMonth: Int
+    startDayOfMonth: Int,
+    timeProvider: TimeProvider
 ): SelectedPeriod {
-    val dateNowUTC = dateNowUTC()
-    val dayToday = dateNowUTC.dayOfMonth
+    val dateNow = timeProvider.dateNow()
 
-    //Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
+    //Example: today startDate = 7; Period = from Nov (7) till Dec (6)
     // => new period starts if today => startDayOfMonth
-    val newPeriodStarted = dayToday >= startDayOfMonth
+    val newPeriodStarted = dateNow.dayOfMonth >= startDayOfMonth
 
     val periodDate = if (newPeriodStarted) {
-        //new monthly period has already started then observe it => current month
-        dateNowUTC
+        // new monthly period has already started then observe it => current month
+        dateNow
     } else {
-        //new monthly period hasn't yet started then observe the ongoing one => previous month
-        dateNowUTC.minusMonths(1)
+        // new monthly period hasn't yet started then observe the ongoing one => previous month
+        dateNow.minusMonths(1)
     }
 
     return dateToSelectedMonthlyPeriod(
