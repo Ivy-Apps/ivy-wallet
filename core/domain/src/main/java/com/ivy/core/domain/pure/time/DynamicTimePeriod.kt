@@ -51,18 +51,36 @@ fun DynamicTimePeriod.Calendar.toRange(
 
 // region Last
 fun DynamicTimePeriod.Last.toRange(
-    timeProvider: TimeProvider
+    timeProvider: TimeProvider,
 ): TimeRange {
     val today = timeProvider.dateNow()
-    val n = n.toLong()
-    return when (unit) {
-        TimeUnit.Day -> TimeRange(
-            from = today.minusDays(n - 1).atStartOfDay(),
-            to = today.atEndOfDay()
-        )
-        TimeUnit.Week -> TODO()
-        TimeUnit.Month -> TODO()
-        TimeUnit.Year -> TODO()
-    }
+    val adjustedN = n.toLong() - 1 // because it includes today
+    return TimeRange(
+        from = when (unit) {
+            TimeUnit.Day -> today.minusDays(adjustedN)
+            TimeUnit.Week -> today.minusWeeks(adjustedN)
+            TimeUnit.Month -> today.minusMonths(adjustedN)
+            TimeUnit.Year -> today.minusYears(adjustedN)
+        }.atStartOfDay(),
+        to = today.atEndOfDay()
+    )
+}
+// endregion
+
+// region Next
+fun DynamicTimePeriod.Next.toRange(
+    timeProvider: TimeProvider,
+): TimeRange {
+    val today = timeProvider.dateNow()
+    val adjustedN = n.toLong() - 1 // because it includes today
+    return TimeRange(
+        from = today.atStartOfDay(),
+        to = when (unit) {
+            TimeUnit.Day -> today.plusDays(adjustedN)
+            TimeUnit.Week -> today.plusWeeks(adjustedN)
+            TimeUnit.Month -> today.plusMonths(adjustedN)
+            TimeUnit.Year -> today.plusYears(adjustedN)
+        }.atStartOfDay()
+    )
 }
 // endregion
