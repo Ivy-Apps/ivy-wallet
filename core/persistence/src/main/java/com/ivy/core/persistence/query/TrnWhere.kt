@@ -56,7 +56,7 @@ data class WhereClause(
 
 private object EmptyArg
 
-internal fun toWhereClause(
+internal fun generateWhereClause(
     where: TrnWhere,
     timeProvider: TimeProvider
 ): WhereClause {
@@ -104,7 +104,7 @@ internal fun toWhereClause(
         is ByCategoryIdIn -> {
             val nonNullArgs = where.categoryIds.filterNotNull()
             when (nonNullArgs.size) {
-                0 -> "categoryId is NULL" to nonNullArgs
+                0 -> "categoryId IS NULL" to nonNullArgs
                 where.categoryIds.size ->
                     // only non-null args
                     "categoryId IN (${placeholders(nonNullArgs.size)})" to
@@ -127,23 +127,23 @@ internal fun toWhereClause(
             )
 
         is Brackets -> {
-            val clause = toWhereClause(where.cond, timeProvider)
+            val clause = generateWhereClause(where.cond, timeProvider)
             "(${clause.query})" to clause.args
         }
         is And -> {
-            val clause1 = toWhereClause(where.cond1, timeProvider)
-            val clause2 = toWhereClause(where.cond2, timeProvider)
+            val clause1 = generateWhereClause(where.cond1, timeProvider)
+            val clause2 = generateWhereClause(where.cond2, timeProvider)
 
             "${clause1.query} AND ${clause2.query}" to (clause1.args + clause2.args)
         }
         is Or -> {
-            val clause1 = toWhereClause(where.cond1, timeProvider)
-            val clause2 = toWhereClause(where.cond2, timeProvider)
+            val clause1 = generateWhereClause(where.cond1, timeProvider)
+            val clause2 = generateWhereClause(where.cond2, timeProvider)
 
             "${clause1.query} OR ${clause2.query}" to (clause1.args + clause2.args)
         }
         is Not -> {
-            val clause = toWhereClause(where.cond, timeProvider)
+            val clause = generateWhereClause(where.cond, timeProvider)
             "NOT(${clause.query})" to clause.args
         }
     }

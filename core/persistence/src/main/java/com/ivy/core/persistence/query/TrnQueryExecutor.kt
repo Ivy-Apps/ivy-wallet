@@ -11,7 +11,7 @@ class TrnQueryExecutor @Inject constructor(
     private val timeProvider: TimeProvider
 ) {
     suspend fun query(where: TrnWhere): List<TrnEntity> {
-        val whereClause = toWhereClause(where, timeProvider = timeProvider)
+        val whereClause = generateWhereClause(where, timeProvider = timeProvider)
         return trnDao.findBySQL(
             SimpleSQLiteQuery(
                 "SELECT * FROM transactions WHERE ${whereClause.query}" +
