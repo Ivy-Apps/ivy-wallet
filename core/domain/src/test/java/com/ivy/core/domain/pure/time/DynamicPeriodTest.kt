@@ -36,5 +36,70 @@ class DynamicPeriodTest : StringSpec({
             ).plusDays(offset.toLong())
         )
     }
+
+    "converts weekly dynamic period to range" {
+        val offset = Arb.int(-10, 10).next()
+        val dynamic = DynamicTimePeriod.Calendar(unit = TimeUnit.Week, offset = offset)
+        val timeProvider = testTimeProvider(
+            LocalDate.of(2022, 10, 5)
+                .atTime(Arb.localTime().next())
+        )
+
+        val res = dynamic.toRange(startDayOfMonth = 1, timeProvider = timeProvider)
+
+        res shouldBe TimeRange(
+            from = LocalDateTime.of(
+                2022, 10, 3,
+                0, 0, 0
+            ).plusWeeks(offset.toLong()),
+            to = LocalDateTime.of(
+                2022, 10, 9,
+                23, 59, 59
+            ).plusWeeks(offset.toLong())
+        )
+    }
+
+    "converts monthly dynamic period, start day of month 1" {
+        val dynamic = DynamicTimePeriod.Calendar(unit = TimeUnit.Month, offset = 0)
+        val timeProvider = testTimeProvider(
+            LocalDate.of(2022, 10, 5)
+                .atTime(Arb.localTime().next())
+        )
+
+        val res = dynamic.toRange(startDayOfMonth = 1, timeProvider = timeProvider)
+
+        res shouldBe TimeRange(
+            from = LocalDateTime.of(
+                2022, 10, 1,
+                0, 0, 0
+            ),
+            to = LocalDateTime.of(
+                2022, 10, 31,
+                23, 59, 59
+            )
+        )
+    }
+
+    "converts yearly dynamic period to range" {
+        val offset = Arb.int(-10, 10).next()
+        val dynamic = DynamicTimePeriod.Calendar(unit = TimeUnit.Year, offset = offset)
+        val timeProvider = testTimeProvider(
+            LocalDate.of(2022, 10, 5)
+                .atTime(Arb.localTime().next())
+        )
+
+        val res = dynamic.toRange(startDayOfMonth = 1, timeProvider = timeProvider)
+
+        res shouldBe TimeRange(
+            from = LocalDateTime.of(
+                2022, 1, 1,
+                0, 0, 0
+            ).plusYears(offset.toLong()),
+            to = LocalDateTime.of(
+                2022, 12, 31,
+                23, 59, 59
+            ).plusYears(offset.toLong())
+        )
+    }
     // endregion
 })
