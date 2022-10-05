@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Testing
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -11,4 +12,5 @@ dependencies {
     Hilt()
     implementation(project(":common:main"))
     implementation(project(":core:domain"))
+    Testing()
 }
