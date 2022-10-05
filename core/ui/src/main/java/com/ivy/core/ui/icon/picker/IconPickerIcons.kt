@@ -165,9 +165,9 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "camera", keywords = listOf(
-            "cameras", "videos", "editing", "photos", "movies", "records", "directing",
-            "tickets", "studios", "shows", "tvs", "streams", "acts", "actions", "produces",
-            "productions", "acting", "pictures", "pics"
+            "cameras", "videos", "editing", "photos", "movies", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "films", "vlogs", "vlogging"
         )
     ),
     Icon(
@@ -207,7 +207,7 @@ private fun ivyIcons(): List<Icon> = listOf(
             "bills", "taxes", "fees", "accounts", "reports", "receipts", "recipes", "prescripts",
             "labels", "orders", "warranty", "insurances", "policy", "scripts", "content", "write",
             "copy", "writing", "create", "assignments", "to-do", "todos", "contracts", "library",
-            "tests", "exams", "portfolios", "cvs"
+            "tests", "exams", "portfolios", "cvs", "articles"
         )
     ),
     Icon(
@@ -622,7 +622,7 @@ private fun vueBrands(): List<Icon> = listOf(
     Icon(
         "ic_vue_brands_photoshop", keywords = listOf(
             "photoshop", "ps", "designers", "photos", "technology", "software", "editing", "pics",
-            "pictures"
+            "pictures", "images", "photography"
         )
     ),
     Icon(
@@ -1433,7 +1433,8 @@ private fun vueMain(): List<Icon> = listOf(
     Icon("ic_vue_main_battery_half", keywords = listOf("battery", "half", "charges")),
     Icon(
         "ic_vue_main_send", keywords = listOf(
-            "sending", "messages", "communication", "chatting", "chats", "play", "telegram"
+            "sending", "messages", "communication", "chatting", "chats", "play", "telegram",
+            "sharing", "share"
         )
     ),
     Icon(
@@ -1563,7 +1564,7 @@ private fun vueMedia(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_media_image", keywords = listOf(
-            "images", "pics", "pictures", "gallery", "photos", "editing", "images"
+            "images", "pics", "pictures", "gallery", "photos", "editing", "images", "photography"
         )
     ),
     Icon(
@@ -1581,19 +1582,51 @@ private fun vueMedia(): List<Icon> = listOf(
     Icon(
         "ic_vue_media_film", keywords = listOf(
             "films", "movies", "cameras", "videos", "editing", "records", "directing", "studios",
-            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting"
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "vlogs", "vlogging"
         )
     ),
-    Icon("ic_vue_media_photocamera", keywords = listOf(
-        "cameras", "photos", "photography", "pics", "pictures", "images", "editing"
-    )),
-    Icon("ic_vue_media_film_play"),
-    Icon("ic_vue_media_camera"),
-    Icon("ic_vue_media_screenmirroring"),
-    Icon("ic_vue_media_speaker"),
-    Icon("ic_vue_media_play"),
-    Icon("ic_vue_media_subtitle"),
-    Icon("ic_vue_media_setting"),
+    Icon(
+        "ic_vue_media_photocamera", keywords = listOf(
+            "cameras", "photos", "photography", "pics", "pictures", "images", "editing"
+        )
+    ),
+    Icon(
+        "ic_vue_media_film_play", keywords = listOf(
+            "cameras", "videos", "editing", "films", "movies", "play", "records", "directing",
+            "studios", "shows", "tvs", "streams", "acts", "actions", "produces", "productions",
+            "acting", "vlogs", "vlogging"
+        )
+    ),
+    Icon(
+        "ic_vue_media_camera", keywords = listOf(
+            "cameras", "videos", "editing", "photos", "movies", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "films", "vlogs", "vlogging"
+        )
+    ),
+    Icon(
+        "ic_vue_media_screenmirroring", keywords = listOf(
+            "screens", "mirrors", "screen mirroring", "remotely", "screen sharing", "share screen",
+            "meeting", "presentation"
+        )
+    ),
+    Icon(
+        "ic_vue_media_speaker", keywords = listOf(
+            "speakers", "volume", "sounds", "drivers", "tunes", "listening", "talking", "speaking"
+        )
+    ),
+    Icon("ic_vue_media_play", keywords = listOf("play", "start", "youtube")),
+    Icon(
+        "ic_vue_media_subtitle", keywords = listOf(
+            "subtitles", "texts", "articles", "chatting", "chats", "texting", "scripts"
+        )
+    ),
+    Icon(
+        "ic_vue_media_setting", keywords = listOf(
+            "settings", "volume", "brightness", "editing", "contrasts", "changes", "changing"
+        )
+    ),
 )
 // endregion
 
