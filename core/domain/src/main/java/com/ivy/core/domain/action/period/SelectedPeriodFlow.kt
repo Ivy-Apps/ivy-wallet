@@ -4,7 +4,7 @@ import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.pure.time.currentMonthlyPeriod
-import com.ivy.core.domain.pure.time.dateToSelectedMonthlyPeriod
+import com.ivy.core.domain.pure.time.monthlyPeriod
 import com.ivy.data.time.SelectedPeriod
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class SelectedPeriodFlow @Inject constructor(
         startDayOfMonthFlow(), selectedPeriodSignal.receive()
     ) { startDayOfMonth, selectedPeriod ->
         if (selectedPeriod is SelectedPeriod.Monthly) {
-            dateToSelectedMonthlyPeriod(
+            monthlyPeriod(
                 dateInPeriod = selectedPeriod.range.to.minusDays(2).toLocalDate(),
                 startDayOfMonth = startDayOfMonth
             )

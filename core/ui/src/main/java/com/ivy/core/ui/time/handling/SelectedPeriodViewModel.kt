@@ -81,7 +81,7 @@ class SelectedPeriodViewModel @Inject constructor(
             SelectPeriodEvent.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectPeriodEvent.CustomRange -> SelectedPeriod.CustomRange(event.range)
             is SelectPeriodEvent.InTheLast -> toSelectedPeriod(event)
-            is SelectPeriodEvent.Monthly -> dateToSelectedMonthlyPeriod(
+            is SelectPeriodEvent.Monthly -> monthlyPeriod(
                 // TODO: Refactor that
                 // 10 is a safe date in the middle of the month
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
@@ -120,7 +120,7 @@ class SelectedPeriodViewModel @Inject constructor(
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Forward)
-            is SelectedPeriod.Monthly -> dateToSelectedMonthlyPeriod(
+            is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .plusMonths(1),
                 startDayOfMonth = state.value.startDayOfMonth
@@ -132,7 +132,7 @@ class SelectedPeriodViewModel @Inject constructor(
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Backward)
-            is SelectedPeriod.Monthly -> dateToSelectedMonthlyPeriod(
+            is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .minusMonths(1),
                 startDayOfMonth = state.value.startDayOfMonth
