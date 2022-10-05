@@ -1,4 +1,4 @@
-package com.ivy.formula.domain.pure
+package com.ivy.formula.domain.pure.parse
 
 import arrow.core.NonEmptyList
 import kotlinx.coroutines.flow.Flow

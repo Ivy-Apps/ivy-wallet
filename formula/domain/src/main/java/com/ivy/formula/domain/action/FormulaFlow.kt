@@ -5,7 +5,7 @@ import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.formula.domain.data.formula.Formula
 import com.ivy.formula.domain.data.formula.FormulaInput
-import com.ivy.formula.domain.pure.parseFunction
+import com.ivy.formula.domain.pure.parse.parseFunction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
