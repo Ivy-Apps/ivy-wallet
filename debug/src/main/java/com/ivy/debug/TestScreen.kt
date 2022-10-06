@@ -7,10 +7,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.color.ColorPickerButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.icon.picker.IconPickerModal
 import com.ivy.data.ItemIconId
+import com.ivy.data.Value
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
@@ -28,6 +30,7 @@ fun BoxScope.TestScreen() {
     val viewModel: TestViewModel = hiltViewModel()
     val iconPickerModal = rememberIvyModal()
     val colorPickerModal = rememberIvyModal()
+    val amountModal = rememberIvyModal()
 
     var selectedIconId by remember { mutableStateOf<ItemIconId?>(null) }
     var selectedColor by remember { mutableStateOf(Purple) }
@@ -53,6 +56,16 @@ fun BoxScope.TestScreen() {
             colorPickerModal = colorPickerModal,
             selectedColor = selectedColor
         )
+        SpacerVer(height = 48.dp)
+        IvyButton(
+            size = ButtonSize.Big,
+            visibility = ButtonVisibility.Focused,
+            feeling = ButtonFeeling.Positive,
+            text = "Amount modal",
+            icon = null
+        ) {
+            amountModal.show()
+        }
         SpacerWeight(weight = 1f)
     }
 
@@ -62,10 +75,14 @@ fun BoxScope.TestScreen() {
         color = UI.colors.primary,
         onIconPick = { selectedIconId = it }
     )
-
     ColorPickerModal(
         modal = colorPickerModal,
         initialColor = selectedColor,
         onColorPicked = { selectedColor = it }
+    )
+    AmountModal(
+        modal = amountModal,
+        initialAmount = Value(0.0, "USD"),
+        onAmountEnter = {}
     )
 }

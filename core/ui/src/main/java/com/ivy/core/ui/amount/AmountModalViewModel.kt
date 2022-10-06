@@ -28,7 +28,8 @@ internal class AmountModalViewModel @Inject constructor(
 
     override fun stateFlow(): Flow<AmountModalState> =
         combine(amountText, currency) { amount, currency ->
-            TODO()
+            initialState()
+            // TODO:
         }
 
     override suspend fun mapToUiState(state: AmountModalState): AmountModalState = state

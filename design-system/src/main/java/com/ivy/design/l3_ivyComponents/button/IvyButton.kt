@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,12 +38,7 @@ fun IvyButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    val bgColor = when (feeling) {
-        ButtonFeeling.Positive -> UI.colors.primary
-        ButtonFeeling.Negative -> UI.colors.red
-        ButtonFeeling.Neutral -> UI.colors.neutral
-        ButtonFeeling.Disabled -> UI.colors.medium
-    }
+    val bgColor = feeling.toColor()
 
     val iconOnly = icon != null && text == null
     val padding = if (iconOnly)
@@ -219,5 +215,15 @@ private fun PreviewCommon() {
             }
         }
     }
+}
+// endregion
+
+// region Utility functions
+@Composable
+fun ButtonFeeling.toColor(): Color = when (this) {
+    ButtonFeeling.Positive -> UI.colors.primary
+    ButtonFeeling.Negative -> UI.colors.red
+    ButtonFeeling.Neutral -> UI.colors.neutral
+    ButtonFeeling.Disabled -> UI.colors.medium
 }
 // endregion
