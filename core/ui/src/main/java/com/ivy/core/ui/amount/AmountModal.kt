@@ -35,7 +35,7 @@ import com.ivy.design.util.thenWhen
 import com.ivy.resources.R
 
 private const val keypadOuterWeight = 1f
-private const val keypadInnerWeight = 0.3f
+private const val keypadInnerWeight = 0.25f
 private val keypadButtonBig = 64.dp
 private val keypadButtonSmall = 56.dp
 private val keyboardVerticalMargin = 12.dp
@@ -112,49 +112,11 @@ private fun Keyboard(
         targetValue = if (calculatorVisible)
             keypadButtonSmall else keypadButtonBig
     )
-    AnimatedVisibility(
-        visible = calculatorVisible,
-        enter = expandHorizontally() + fadeIn(),
-        exit = shrinkVertically() + fadeOut()
-    ) {
-        KeyboardRow(
-            modifier = Modifier.padding(bottom = keyboardVerticalMargin)
-        ) {
-            SpacerWeight(weight = keypadOuterWeight)
-            KeypadButton(
-                symbol = "C",
-                size = keypadBtnSize,
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Negative,
-                onClick = onSymbolClick
-            )
-            SpacerWeight(weight = keypadInnerWeight)
-            KeypadButton(
-                symbol = "( )",
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
-                size = keypadBtnSize,
-                onClick = onSymbolClick
-            )
-            SpacerWeight(weight = keypadInnerWeight)
-            KeypadButton(
-                symbol = "%",
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
-                size = keypadBtnSize,
-                onClick = onSymbolClick
-            )
-            SpacerWeight(weight = keypadInnerWeight)
-            KeypadButton(
-                symbol = "/",
-                size = keypadBtnSize,
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
-                onClick = onSymbolClick
-            )
-            SpacerWeight(weight = keypadOuterWeight)
-        }
-    }
+    CalculatorTopRow(
+        calculatorVisible = calculatorVisible,
+        keypadBtnSize = keypadBtnSize,
+        onSymbolClick = onSymbolClick
+    )
     // margin is built-in in calculator's top row
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
@@ -221,6 +183,57 @@ private fun Keyboard(
             onClick = onSymbolClick
         )
         SpacerWeight(weight = keypadOuterWeight)
+    }
+}
+
+@Composable
+private fun CalculatorTopRow(
+    calculatorVisible: Boolean,
+    keypadBtnSize: Dp,
+    onSymbolClick: (String) -> Unit,
+) {
+    AnimatedVisibility(
+        visible = calculatorVisible,
+        enter = expandHorizontally() + fadeIn(),
+        exit = shrinkVertically() + fadeOut()
+    ) {
+        KeyboardRow(
+            modifier = Modifier.padding(bottom = keyboardVerticalMargin)
+        ) {
+            SpacerWeight(weight = keypadOuterWeight)
+            KeypadButton(
+                symbol = "C",
+                size = keypadBtnSize,
+                visibility = ButtonVisibility.High,
+                feeling = ButtonFeeling.Negative,
+                onClick = onSymbolClick
+            )
+            SpacerWeight(weight = keypadInnerWeight)
+            KeypadButton(
+                symbol = "( )",
+                visibility = ButtonVisibility.High,
+                feeling = ButtonFeeling.Positive,
+                size = keypadBtnSize,
+                onClick = onSymbolClick
+            )
+            SpacerWeight(weight = keypadInnerWeight)
+            KeypadButton(
+                symbol = "%",
+                visibility = ButtonVisibility.High,
+                feeling = ButtonFeeling.Positive,
+                size = keypadBtnSize,
+                onClick = onSymbolClick
+            )
+            SpacerWeight(weight = keypadInnerWeight)
+            KeypadButton(
+                symbol = "/",
+                size = keypadBtnSize,
+                visibility = ButtonVisibility.High,
+                feeling = ButtonFeeling.Positive,
+                onClick = onSymbolClick
+            )
+            SpacerWeight(weight = keypadOuterWeight)
+        }
     }
 }
 
