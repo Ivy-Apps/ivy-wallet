@@ -3,8 +3,12 @@ package com.ivy.design.l2_components.modal.components
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -19,13 +23,44 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.input.InputFieldType
 import com.ivy.design.l2_components.input.IvyInputField
+import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
+import com.ivy.design.l2_components.modal.scope.ModalScope
+import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.util.IvyPreview
+import com.ivy.resources.R
+
+
+@Composable
+fun ModalScope.Search(
+    searchBarVisible: Boolean,
+    initialSearchQuery: String,
+    searchHint: String,
+    resetSearch: () -> Unit,
+    onSearch: (String) -> Unit,
+    content: LazyListScope.() -> Unit,
+) {
+    Box(modifier = Modifier.weight(1f)) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            content = content
+        )
+        SearchBar(
+            visible = searchBarVisible,
+            initialQuery = initialSearchQuery,
+            hint = searchHint,
+            resetSearch = resetSearch,
+            onSearch = onSearch
+        )
+    }
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ModalSearchBar(
+fun SearchBar(
     visible: Boolean,
-    query: String,
+    initialQuery: String,
     hint: String,
     resetSearch: () -> Unit,
     onSearch: (String) -> Unit,
@@ -47,8 +82,9 @@ fun ModalSearchBar(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             type = InputFieldType.SingleLine,
-            initialValue = query,
+            initialValue = initialQuery,
             placeholder = hint,
+            iconLeft = R.drawable.round_search_24,
             imeAction = ImeAction.Search,
             onImeAction = {
                 keyboardController?.hide()
@@ -69,19 +105,53 @@ fun ModalSearchBar(
     }
 }
 
+@Composable
+fun ModalActionsScope.SearchButton(
+    searchBarVisible: Boolean,
+    showSearch: () -> Unit,
+    resetSearch: () -> Unit,
+) {
+    Secondary(
+        text = null,
+        icon = if (searchBarVisible)
+            R.drawable.round_search_off_24 else R.drawable.round_search_24,
+        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
+    ) {
+        // toggle search bar
+        if (searchBarVisible) resetSearch() else showSearch()
+    }
+}
+
 
 // region Previews
 @Preview
 @Composable
 private fun Preview() {
     IvyPreview {
-        ModalSearchBar(
-            visible = true,
-            query = "",
-            hint = "Search by words (car, home, tech)",
-            resetSearch = {},
-            onSearch = {}
-        )
+        val modal = rememberIvyModal()
+        modal.show()
+        Modal(
+            modal = modal,
+            actions = {
+                SearchButton(
+                    searchBarVisible = true,
+                    showSearch = {},
+                    resetSearch = {}
+                )
+            }
+        ) {
+            Search(
+                searchBarVisible = true,
+                initialSearchQuery = "",
+                searchHint = "Search hint",
+                resetSearch = { },
+                onSearch = {}
+            ) {
+                item {
+                    Title("Modal title")
+                }
+            }
+        }
     }
 }
 // endregion

@@ -1,5 +1,6 @@
 package com.ivy.design.l1_buildingBlocks
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActionScope
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.ComponentPreview
+import com.ivy.resources.R
 
 @Composable
 fun InputField(
@@ -30,6 +32,8 @@ fun InputField(
     enabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
+    @DrawableRes
+    iconLeft: Int? = null,
     shape: Shape = UI.shapes.rounded,
     textStyle: TextStyle = UI.typo.b2.style(fontWeight = FontWeight.Bold),
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -55,6 +59,14 @@ fun InputField(
         },
         shape = shape,
         textStyle = textStyle,
+        leadingIcon = if (iconLeft != null) {
+            {
+                IconRes(
+                    modifier = Modifier.padding(start = 4.dp),
+                    icon = iconLeft,
+                )
+            }
+        } else null,
         placeholder = {
             Text(
                 text = placeholder,
@@ -119,6 +131,7 @@ private fun Preview_Hint() {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
             initialValue = "",
+            iconLeft = R.drawable.round_search_24,
             placeholder = "Placeholder",
             singleLine = true,
             maxLines = 1,
@@ -135,6 +148,7 @@ private fun Preview_Text() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
+            iconLeft = R.drawable.round_search_24,
             initialValue = "Input",
             placeholder = "Placeholder",
             singleLine = true,

@@ -1,5 +1,6 @@
 package com.ivy.design.l2_components.input
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActionScope
@@ -23,6 +24,8 @@ fun IvyInputField(
     placeholder: String,
     modifier: Modifier = Modifier,
     isError: Boolean = false,
+    @DrawableRes
+    iconLeft: Int? = null,
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
@@ -36,6 +39,7 @@ fun IvyInputField(
         initialValue = initialValue,
         placeholder = placeholder,
         isError = isError,
+        iconLeft = iconLeft,
         textStyle = when (typography) {
             InputFieldTypography.Primary -> UI.typo.b2.style(fontWeight = FontWeight.Bold)
             InputFieldTypography.Secondary -> UI.typoSecond.b2.style(fontWeight = FontWeight.Bold)
