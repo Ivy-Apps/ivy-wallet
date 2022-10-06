@@ -1,0 +1,85 @@
+package com.ivy.core.ui.currency
+
+import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.ui.currency.data.CurrencyListItem
+import com.ivy.core.ui.currency.data.CurrencyUi
+import com.ivy.data.IvyCurrency
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
+import javax.inject.Inject
+
+@HiltViewModel
+internal class CurrencyPickerModalViewModel @Inject constructor(
+) : FlowViewModel<CurrencyModalState, CurrencyModalState, CurrencyModalEvent>() {
+    override fun initialState(): CurrencyModalState = CurrencyModalState(
+        items = emptyList(),
+        selectedCurrency = null
+    )
+
+    override fun initialUiState(): CurrencyModalState = initialState()
+
+    private var searchQuery = MutableStateFlow("")
+    private val selectedCurrency = MutableStateFlow<CurrencyUi?>(null)
+
+    override fun stateFlow(): Flow<CurrencyModalState> =
+        combine(currenciesFlow(), selectedCurrency) { currencies, selectedCurrency ->
+            CurrencyModalState(
+                items = currencies,
+                selectedCurrency = selectedCurrency,
+            )
+        }
+
+    private fun currenciesFlow(): Flow<List<CurrencyListItem>> = combine(
+        availableCurrenciesFlow(), searchQueryFlow()
+    ) { allCurrencies, searchQuery ->
+        val currencies = if (searchQuery != null)
+            allCurrencies.filter { it.code.contains(searchQuery) || it.name.contains(searchQuery) }
+        else allCurrencies
+
+        currencies.groupBy { it.code.first() }
+            .flatMap { (letter, currencies) ->
+                listOf(
+                    CurrencyListItem.SectionDivider(name = letter.uppercase()),
+                ) + currencies.map {
+                    CurrencyListItem.Currency(CurrencyUi(code = it.code, name = it.name))
+                }
+            }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun searchQueryFlow(): Flow<String?> = searchQuery.map {
+        it.lowercase().trim().takeIf(String::isNotEmpty) // normalize search query
+    }.debounce(100)
+
+    private fun availableCurrenciesFlow(): Flow<List<IvyCurrency>> =
+        flowOf(IvyCurrency.getAvailable())
+
+    override suspend fun mapToUiState(state: CurrencyModalState): CurrencyModalState = state
+
+
+    // region Event Handling
+    override suspend fun handleEvent(event: CurrencyModalEvent) = when (event) {
+        is CurrencyModalEvent.Search -> handleSearch(event)
+        is CurrencyModalEvent.SelectCurrency -> handleSelectCurrency(event)
+        is CurrencyModalEvent.Initial -> handleInitial(event)
+    }
+
+    private fun handleSearch(event: CurrencyModalEvent.Search) {
+        searchQuery.value = event.query
+    }
+
+    private fun handleSelectCurrency(event: CurrencyModalEvent.SelectCurrency) {
+        selectedCurrency.value = event.currencyUi
+    }
+
+    private fun handleInitial(event: CurrencyModalEvent.Initial) {
+        val currencyItem = state.value.items.firstOrNull {
+            (it as CurrencyListItem.Currency).currency.code == event.initialCurrency
+        } as? CurrencyListItem.Currency
+        if (currencyItem != null) {
+            selectedCurrency.value = currencyItem.currency
+        }
+    }
+    // endregion
+}
