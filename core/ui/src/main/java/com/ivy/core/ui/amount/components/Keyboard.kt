@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.amount.rememberDecimalSeparator
@@ -26,6 +27,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.toColor
+import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenWhen
 import com.ivy.resources.R
 
@@ -302,5 +304,36 @@ private fun KeypadButtonBox(
         contentAlignment = Alignment.Center,
         content = content
     )
+}
+// endregion
+
+
+// region Previews
+@Preview
+@Composable
+private fun Preview() {
+    ComponentPreview {
+        Column {
+            Keyboard(
+                calculatorVisible = false,
+                onAmountChange = {},
+                onCurrencyChange = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_calculator_visible() {
+    ComponentPreview {
+        Column {
+            Keyboard(
+                calculatorVisible = true,
+                onAmountChange = {},
+                onCurrencyChange = {}
+            )
+        }
+    }
 }
 // endregion

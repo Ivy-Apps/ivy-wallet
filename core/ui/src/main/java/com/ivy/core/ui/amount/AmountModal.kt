@@ -5,8 +5,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.ui.amount.components.AmountSection
 import com.ivy.core.ui.amount.components.Keyboard
-import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -25,7 +26,7 @@ fun BoxScope.AmountModal(
     modal: IvyModal,
     initialAmount: Value,
     contentAbove: (@Composable () -> Unit)? = {
-        SpacerVer(height = 24.dp)
+        SpacerVer(height = 32.dp)
     },
     onAmountEnter: (Value) -> Unit,
 ) {
@@ -57,10 +58,13 @@ fun BoxScope.AmountModal(
         }
     ) {
         contentAbove?.invoke()
-        Amount(
-            amountText = state.amountText,
-            currency = state.currency
+        AmountSection(
+            calculatorVisible = calculatorVisible,
+            enteredText = state.enteredText,
+            currency = state.currency,
+            amountInBaseCurrency = state.amountBaseCurrency
         )
+        SpacerVer(height = 32.dp)
         Keyboard(
             calculatorVisible = calculatorVisible,
             onAmountChange = {},
@@ -69,15 +73,6 @@ fun BoxScope.AmountModal(
         SpacerVer(height = 24.dp)
     }
 }
-
-@Composable
-private fun Amount(
-    amountText: String,
-    currency: CurrencyCode,
-) {
-
-}
-
 
 
 // region Previews
@@ -96,9 +91,9 @@ private fun Preview() {
 }
 
 private fun previewState() = AmountModalState(
-    amountText = "",
+    enteredText = "500.00",
     currency = "USD",
     amount = null,
-    amountBaseCurrency = null
+    amountBaseCurrency = ValueUi("1,032.55", "BGN")
 )
 // endregion

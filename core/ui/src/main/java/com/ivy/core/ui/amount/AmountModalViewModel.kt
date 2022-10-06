@@ -15,7 +15,7 @@ internal class AmountModalViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow
 ) : FlowViewModel<AmountModalState, AmountModalState, AmountModalEvent>() {
     override fun initialState(): AmountModalState = AmountModalState(
-        amountText = "",
+        enteredText = null,
         currency = "",
         amount = null,
         amountBaseCurrency = null

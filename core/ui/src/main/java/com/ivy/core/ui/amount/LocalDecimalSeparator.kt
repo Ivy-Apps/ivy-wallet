@@ -7,6 +7,5 @@ import java.text.DecimalFormatSymbols
 @Composable
 fun rememberDecimalSeparator(): Char = remember { localDecimalSeparator() }
 
-fun localDecimalSeparator(): Char {
-    return DecimalFormatSymbols.getInstance().decimalSeparator
-}
+fun localDecimalSeparator(): Char =
+    DecimalFormatSymbols.getInstance().decimalSeparator

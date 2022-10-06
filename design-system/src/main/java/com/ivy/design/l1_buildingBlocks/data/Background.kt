@@ -87,6 +87,8 @@ fun solidWithBorder(
     borderWidth = borderWidth,
     padding = padding
 )
+
+fun none(): Background.None = Background.None
 // endregion
 
 @Immutable
