@@ -37,7 +37,7 @@ import com.ivy.resources.R
 private const val keypadOuterWeight = 1f
 private const val keypadInnerWeight = 0.3f
 private val keypadButtonBig = 64.dp
-private val keypadButtonSmall = 52.dp
+private val keypadButtonSmall = 56.dp
 
 @Composable
 fun BoxScope.AmountModal(
@@ -104,7 +104,7 @@ private fun Keyboard(
     onAmountChange: (String) -> Unit,
     onCurrencyChange: (CurrencyCode) -> Unit,
 ) {
-    val onSymbolClick = { symbol: Char ->
+    val onSymbolClick = { symbol: String ->
         // TODO:
     }
     val keypadBtnSize by animateDpAsState(
@@ -121,7 +121,7 @@ private fun Keyboard(
         ) {
             SpacerWeight(weight = keypadOuterWeight)
             KeypadButton(
-                symbol = 'C',
+                symbol = "C",
                 size = keypadBtnSize,
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Negative,
@@ -129,7 +129,7 @@ private fun Keyboard(
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
-                symbol = '(',
+                symbol = "( )",
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
                 size = keypadBtnSize,
@@ -137,7 +137,7 @@ private fun Keyboard(
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
-                symbol = ')',
+                symbol = "%",
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
                 size = keypadBtnSize,
@@ -145,7 +145,7 @@ private fun Keyboard(
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
-                symbol = '/',
+                symbol = "/",
                 size = keypadBtnSize,
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
@@ -156,14 +156,14 @@ private fun Keyboard(
     }
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = '7', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "7", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '8', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "8", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '9', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "9", size = keypadBtnSize, onClick = onSymbolClick)
         CalculatorButton(
             calculatorVisible = calculatorVisible,
-            symbol = '*',
+            symbol = "*",
             onClick = onSymbolClick
         )
         SpacerWeight(weight = keypadOuterWeight)
@@ -171,14 +171,14 @@ private fun Keyboard(
     SpacerVer(height = 24.dp)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = '4', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "4", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '5', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "5", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '6', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "6", size = keypadBtnSize, onClick = onSymbolClick)
         CalculatorButton(
             calculatorVisible = calculatorVisible,
-            symbol = '-',
+            symbol = "-",
             onClick = onSymbolClick
         )
         SpacerWeight(weight = keypadOuterWeight)
@@ -186,14 +186,14 @@ private fun Keyboard(
     SpacerVer(height = 24.dp)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = '1', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "1", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '2', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "2", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '3', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "3", size = keypadBtnSize, onClick = onSymbolClick)
         CalculatorButton(
             calculatorVisible = calculatorVisible,
-            symbol = '+',
+            symbol = "+",
             onClick = onSymbolClick
         )
         SpacerWeight(weight = keypadOuterWeight)
@@ -202,19 +202,19 @@ private fun Keyboard(
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
         KeypadButton(
-            symbol = rememberDecimalSeparator(),
+            symbol = rememberDecimalSeparator().toString(),
             size = keypadBtnSize,
             onClick = onSymbolClick
         )
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = '0', size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "0", size = keypadBtnSize, onClick = onSymbolClick)
         SpacerWeight(weight = keypadInnerWeight)
         BackSpaceButton(size = keypadBtnSize) {
             // TODO: Handle backspace
         }
         CalculatorButton(
             calculatorVisible = calculatorVisible,
-            symbol = '=',
+            symbol = "=",
             feeling = ButtonFeeling.Positive,
             onClick = onSymbolClick
         )
@@ -239,10 +239,10 @@ private fun KeyboardRow(
 @Composable
 private fun RowScope.CalculatorButton(
     calculatorVisible: Boolean,
-    symbol: Char,
+    symbol: String,
     modifier: Modifier = Modifier,
     feeling: ButtonFeeling = ButtonFeeling.Positive,
-    onClick: (Char) -> Unit
+    onClick: (String) -> Unit
 ) {
     if (calculatorVisible) {
         SpacerWeight(weight = keypadInnerWeight)
@@ -265,12 +265,12 @@ private fun RowScope.CalculatorButton(
 
 @Composable
 private fun KeypadButton(
-    symbol: Char,
+    symbol: String,
     size: Dp,
     modifier: Modifier = Modifier,
     visibility: ButtonVisibility = ButtonVisibility.Medium,
     feeling: ButtonFeeling = ButtonFeeling.Positive,
-    onClick: (Char) -> Unit
+    onClick: (String) -> Unit
 ) {
     KeypadButtonBox(
         modifier = modifier,
@@ -280,7 +280,7 @@ private fun KeypadButton(
         onClick = { onClick(symbol) }
     ) {
         B1Second(
-            text = symbol.toString(),
+            text = symbol,
             color = when (visibility) {
                 ButtonVisibility.Focused,
                 ButtonVisibility.High ->
