@@ -80,19 +80,19 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "star", keywords = listOf(
             "stars", "favorites", "favourites", "tops", "reviews",
-            "success", "achievements", "christmas", "xmas"
+            "success", "achievements", "christmas", "xmas", "premium"
         )
     ),
     Icon(
         "education", keywords = listOf(
-            "education", "school", "university", "study",
-            "learn", "hats", "academy"
+            "education", "school", "university", "study", "learning", "hats", "academy",
+            "high school"
         )
     ),
     Icon(
         "fitness", keywords = listOf(
-            "fitness", "gym", "workout", "train", "weights",
-            "sport", "lift", "dumbbells", "workout", "work out"
+            "fitness", "gym", "workouts", "train", "weights", "sports", "lifting", "dumbbells",
+            "work out"
         )
     ),
     Icon(
@@ -153,7 +153,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "birthday", keywords = listOf(
-            "births", "cakes", "candles", "surprises", "bdays",
+            "birthdays", "cakes", "candles", "surprises", "bdays",
             "b-day"
         )
     ),
@@ -165,9 +165,9 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "camera", keywords = listOf(
-            "cameras", "videos", "edits", "photos", "movies", "records", "directing",
-            "tickets", "studios", "shows", "tvs", "streams", "acts", "actions", "produces",
-            "productions", "acting"
+            "cameras", "videos", "editing", "photos", "movies", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "films", "vlogs", "vlogging"
         )
     ),
     Icon(
@@ -178,7 +178,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "coffee", keywords = listOf(
-            "coffees", "cafes", "hot", "mornings", "wake up",
+            "coffees", "cafes", "hot", "mornings", "wake up", "warm",
             "energy", "drinks", "fun", "cups", "mugs", "glasses"
         )
     ),
@@ -202,12 +202,12 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "document", keywords = listOf(
-            "documents", "papers", "lists", "notes", "texts",
+            "documents", "papers", "lists", "notes", "texts", "agenda",
             "messages", "news", "magazines", "diary", "plans", "tasks", "organise", "organize",
             "bills", "taxes", "fees", "accounts", "reports", "receipts", "recipes", "prescripts",
             "labels", "orders", "warranty", "insurances", "policy", "scripts", "content", "write",
             "copy", "writing", "create", "assignments", "to-do", "todos", "contracts", "library",
-            "tests", "exams", "portfolios", "cvs"
+            "tests", "exams", "portfolios", "cvs", "articles"
         )
     ),
     Icon(
@@ -265,7 +265,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "game", keywords = listOf(
             "games", "gaming", "plays", "consoles", "ps", "pc", "nintendos", "xboxes",
-            "hobby", "spare", "free", "leisure", "chill", "computers"
+            "hobby", "spare", "free", "leisure", "chill", "computers", "computers"
         )
     ),
     Icon(
@@ -277,7 +277,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "gift", keywords = listOf(
             "gifts", "party", "celebrate", "celebrations", "presents", "donations", "donates",
-            "births", "bdays", "b-day", "holidays"
+            "birthdays", "bdays", "b-day", "holidays"
         )
     ),
     Icon(
@@ -309,7 +309,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "house", keywords = listOf(
             "houses", "mortgages", "homes", "apartments", "buildings",
             "property", "chores", "estates", "accommodations", "rents", "sales", "airbnb", "lives",
-            "places", "hosts", "living"
+            "places", "hosts", "living", "remotely"
         )
     ),
     Icon(
@@ -334,7 +334,7 @@ private fun ivyIcons(): List<Icon> = listOf(
     Icon(
         "location", keywords = listOf(
             "locations", "gps", "places", "maps", "address",
-            "live", "delivery"
+            "live", "delivery", "geography"
         )
     ),
     Icon(
@@ -346,9 +346,9 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "music", keywords = listOf(
-            "music", "headsets", "headphones", "sounds", "spotify",
-            "notes", "singers", "songs", "hear", "fun", "party", "records", "directing", "radios",
-            "produce", "production", "hits"
+            "music", "headsets", "headphones", "sounds", "spotify", "singers", "songs", "hear",
+            "fun", "party", "records", "directing", "radios", "produce", "production", "hits",
+            "tunes", "performing", "recordings"
         )
     ),
     Icon(
@@ -467,19 +467,19 @@ private fun ivyIcons(): List<Icon> = listOf(
     ),
     Icon(
         "zeus", keywords = listOf(
-            "zeus", "lightning", "rain", "emergency", "urgents",
-            "storms", "flash", "thunders", "important", "priority"
+            "zeus", "lightning", "rains", "emergency", "urgents", "sparks",
+            "storms", "flash", "thunders", "important", "priority", "thor"
         )
     ),
     Icon(
         "calendar", keywords = listOf(
             "calendars", "plans", "schedules", "memos",
-            "planners", "notes", "tasks", "priority"
+            "planners", "notes", "tasks", "priority", "agenda"
         )
     ),
     Icon(
         "crown", keywords = listOf(
-            "crowns", "luxury", "vip", "tops", "queens", "kings",
+            "crowns", "luxury", "vip", "top", "queens", "kings",
             "the best", "luxe"
         )
     ),
@@ -487,7 +487,7 @@ private fun ivyIcons(): List<Icon> = listOf(
         "diamond", keywords = listOf(
             "diamonds", "luxury", "luxe", "vip", "weddings",
             "rings", "tops", "expensive", "glamorous", "shine", "shining", "sparkling", "brilliant",
-            "glory", "sparkle"
+            "glory", "sparkle", "premium"
         )
     ),
     Icon(
@@ -560,14 +560,16 @@ private fun vueBrands(): List<Icon> = listOf(
     Icon(
         "ic_vue_brands_messenger",
         keywords = listOf(
-            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate"
+            "messenger", "messages", "chatting", "chats", "talking", "communication", "communicate",
+            "sending", "texting"
         )
     ),
     Icon("ic_vue_brands_facebook", keywords = listOf("facebook", "fb", "social media")),
     Icon("ic_vue_brands_framer", keywords = listOf("framer", "web builder", "websites")),
     Icon(
         "ic_vue_brands_whatsapp", keywords = listOf(
-            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking"
+            "whatsapp", "communication", "communicate", "messages", "chatting", "chats", "talking",
+            "sending", "texting"
         )
     ),
     Icon(
@@ -597,7 +599,7 @@ private fun vueBrands(): List<Icon> = listOf(
     Icon(
         "ic_vue_brands_apple", keywords = listOf(
             "apple", "iphone", "ipad", "macbook",
-            "iwatch", "laptops", "technology"
+            "iwatch", "laptops", "technology", "ios"
         )
     ),
     Icon(
@@ -621,7 +623,8 @@ private fun vueBrands(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_brands_photoshop", keywords = listOf(
-            "photoshop", "ps", "designers", "photos", "technology", "software", "editing"
+            "photoshop", "ps", "designers", "photos", "technology", "software", "editing", "pics",
+            "pictures", "images", "photography"
         )
     ),
     Icon(
@@ -646,7 +649,11 @@ private fun vueBrands(): List<Icon> = listOf(
             "illustrations", "designers", "creative", "create", "software"
         )
     ),
-    Icon("ic_vue_brands_xiaomi", keywords = listOf("xiaomi", "phones", "technology")),
+    Icon(
+        "ic_vue_brands_xiaomi", keywords = listOf(
+            "xiaomi", "phones", "technology", "android"
+        )
+    ),
     Icon("ic_vue_brands_windows", keywords = listOf("windows", "operational system", "os")),
     Icon(
         "ic_vue_brands_snapchat", keywords = listOf(
@@ -686,12 +693,12 @@ private fun vueBuilding(): List<Icon> = listOf(
     ),
     Icon(
         "ic_vue_building_house", keywords = listOf(
-            "buildings", "houses", "homes", "couples", "love", "live"
+            "buildings", "houses", "homes", "couples", "love", "live", "remotely"
         )
     ),
     Icon(
         "ic_vue_building_courthouse", keywords = listOf(
-            "courthouses", "lawyers", "legal", "businesses", "institutions"
+            "courthouses", "lawyers", "legal", "businesses", "institutions", "judges"
         )
     ),
 )
@@ -1062,149 +1069,650 @@ private fun vueDelivery(): List<Icon> = listOf(
             "boxes", "cubes", "delivery", "delivering", "orders", "purchases"
         )
     ),
-    Icon("ic_vue_delivery_truck", keywords = listOf(
-        "truck", "delivery", "delivering", "packages", "orders", "give", "take", "buy", "sell",
-        "sales", "packets", "cars", "vehicles", "receiving", "receive", "replacement", "exchange",
-        "swap", "gifts", "purchases", "dhl", "amazon")),
+    Icon(
+        "ic_vue_delivery_truck", keywords = listOf(
+            "truck",
+            "delivery",
+            "delivering",
+            "packages",
+            "orders",
+            "give",
+            "take",
+            "buy",
+            "sell",
+            "sales",
+            "packets",
+            "cars",
+            "vehicles",
+            "receiving",
+            "receive",
+            "replacement",
+            "exchange",
+            "swap",
+            "gifts",
+            "purchases",
+            "dhl",
+            "amazon"
+        )
+    ),
 )
 // endregion
 
 // region Design (Vue)
 private fun vueDesign(): List<Icon> = listOf(
-    Icon("ic_vue_design_bezier"),
-    Icon("ic_vue_design_brush"),
-    Icon("ic_vue_design_color_swatch"),
-    Icon("ic_vue_design_scissors"),
-    Icon("ic_vue_design_magicpen"),
-    Icon("ic_vue_design_roller"),
-    Icon("ic_vue_design_tool_pen"),
+    Icon(
+        "ic_vue_design_bezier", keywords = listOf(
+            "bezier", "curves", "graph", "designers", "css", "technology", "tools", "drawings",
+            "sketches"
+        )
+    ),
+    Icon(
+        "ic_vue_design_brush", keywords = listOf(
+            "brushes", "designers", "paintings", "pictures", "art", "decorations", "decorate",
+            "decorating"
+        )
+    ),
+    Icon(
+        "ic_vue_design_color_swatch", keywords = listOf(
+            "swatches", "designers", "fashion", "interiors", "art", "decorations", "decorate",
+            "decorating"
+        )
+    ),
+    Icon(
+        "ic_vue_design_scissors", keywords = listOf(
+            "scissors", "designers", "cutting", "tools", "diy"
+        )
+    ),
+    Icon(
+        "ic_vue_design_magicpen", keywords = listOf(
+            "magic pen", "pens", "magical", "colorful", "colourful", "fairy", "decorations",
+            "decorate", "decorating", "notes"
+        )
+    ),
+    Icon(
+        "ic_vue_design_roller", keywords = listOf(
+            "rollers", "painters", "designers", "repairs", "repairments", "decorate", "decorating",
+            "decorations"
+        )
+    ),
+    Icon(
+        "ic_vue_design_tool_pen", keywords = listOf(
+            "bezier", "curves", "graph", "designers", "css", "technology", "pens", "tools",
+            "drawings", "paintings", "sketches", "notes"
+        )
+    ),
 )
 // endregion
 
 // region Dev (Vue)
 private fun vueDev(): List<Icon> = listOf(
-    Icon("ic_vue_dev_code"),
-    Icon("ic_vue_dev_hierarchy"),
-    Icon("ic_vue_dev_relation"),
-    Icon("ic_vue_dev_arrow"),
-    Icon("ic_vue_dev_data"),
-    Icon("ic_vue_dev_hashtag"),
+    Icon(
+        "ic_vue_dev_code", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "software", "logician", "engineers",
+            "engineering", "it", "technology", "developers", "programs", "development", "developing"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_hierarchy", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_relation", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_arrow", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "arrows"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_data", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "data"
+        )
+    ),
+    Icon(
+        "ic_vue_dev_hashtag", keywords = listOf(
+            "programming", "programmer", "coder", "coding", "softwares", "logician", "engineers",
+            "engineering", "it", "technology", "hierarchy", "developers", "programs", "development",
+            "developing", "structures", "relations", "social media", "hashtag"
+        )
+    ),
 )
 // endregion
 
 // region Education (Vue)
 private fun vueEducation(): List<Icon> = listOf(
-    Icon("ic_vue_edu_planer"),
-    Icon("ic_vue_edu_briefcase"),
-    Icon("ic_vue_edu_award"),
-    Icon("ic_vue_edu_glass"),
-    Icon("ic_vue_edu_graduate_cap"),
-    Icon("ic_vue_edu_calculator"),
-    Icon("ic_vue_edu_note"),
-    Icon("ic_vue_edu_magazine"),
-    Icon("ic_vue_edu_pen"),
-    Icon("ic_vue_edu_telescope"),
-    Icon("ic_vue_edu_book"),
-    Icon("ic_vue_edu_ruler_pen"),
-    Icon("ic_vue_edu_todo"),
-    Icon("ic_vue_edu_omega"),
-    Icon("ic_vue_edu_bookmark"),
+    Icon(
+        "ic_vue_edu_planer", keywords = listOf(
+            "planners",
+            "logbooks",
+            "calendars",
+            "organizers",
+            "organisers",
+            "appointments",
+            "diary",
+            "notes",
+            "notebooks",
+            "schedules",
+            "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_briefcase", keywords = listOf(
+            "briefcases", "suitcases", "working", "careers", "professions", "appointments",
+            "occupations"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_award", keywords = listOf(
+            "awards", "badges", "prizes", "rewards", "premium", "stars"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_glass", keywords = listOf(
+            "glass", "cones", "vases", "flasks", "chemistry", "cones", "sciences", "potions",
+            "elixirs", "pharmacy", "labs", "education", "study", "learning"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_graduate_cap", keywords = listOf(
+            "education", "graduate", "graduation", "caps", "hats", "students", "graduates", "study",
+            "learning", "high school", "academy"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_calculator", keywords = listOf(
+            "calculates", "calculators", "calculations", "maths", "numbers", "finances"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_note", keywords = listOf(
+            "notes", "bills", "receipts", "recipes", "reports", "invoices", "fees", "taxes",
+            "expenses", "flashcards", "education", "study", "learning"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_magazine", keywords = listOf(
+            "magazines", "newspapers", "diary", "planners", "notes", "readings",
+            "education", "study", "learning", "notebooks", "textbooks", "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_pen", keywords = listOf(
+            "pens", "drawings", "notes", "designers", "css", "technology", "pens", "paintings",
+            "sketches", "study", "learning", "notes", "pencils"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_telescope", keywords = listOf(
+            "stars", "telescope", "sky", "planets", "astronomy", "sciences"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_book", keywords = listOf(
+            "notebooks", "textbooks", "planners", "logbooks", "organizers", "organisers",
+            "appointments", "diary", "notes", "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_ruler_pen", keywords = listOf(
+            "rulers", "pens", "drawings", "measure", "pencils"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_todo", keywords = listOf(
+            "todos", "to do", "to-do", "tasks", "check marks", "ticks", "schedules", "plans",
+            "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_omega", keywords = listOf(
+            "omega", "maths", "symbols", "signs", "letters"
+        )
+    ),
+    Icon(
+        "ic_vue_edu_bookmark", keywords = listOf(
+            "bookmarks", "save", "favourites", "favorites"
+        )
+    ),
 )
 // endregion
 
 // region Files (Vue)
 private fun vueFiles(): List<Icon> = listOf(
-    Icon("ic_vue_files_folder_favorite"),
-    Icon("ic_vue_files_folder"),
-    Icon("ic_vue_files_folder_cloud"),
+    Icon(
+        "ic_vue_files_folder_favorite", keywords = listOf(
+            "bookmarks", "save", "favourites", "favorites", "folders", "files folder", "store",
+            "storage"
+        )
+    ),
+    Icon(
+        "ic_vue_files_folder", keywords = listOf(
+            "bookmarks", "save", "folders", "files folder", "store", "storage"
+        )
+    ),
+    Icon(
+        "ic_vue_files_folder_cloud", keywords = listOf(
+            "bookmarks", "save", "clouds", "folders", "files folder", "store", "storage"
+        )
+    ),
 )
 // endregion
 
 // region Location (Vue)
 private fun vueLocation(): List<Icon> = listOf(
-    Icon("ic_vue_location_map1"),
-    Icon("ic_vue_location_map"),
-    Icon("ic_vue_location_location"),
-    Icon("ic_vue_location_global"),
-    Icon("ic_vue_location_global_search"),
-    Icon("ic_vue_location_routing"),
-    Icon("ic_vue_location_discover"),
-    Icon("ic_vue_location_radar"),
-    Icon("ic_vue_location_global_edit"),
+    Icon(
+        "ic_vue_location_map1", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_map", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_location", keywords = listOf(
+            "maps", "atlas", "geography", "traveling", "world", "locations", "gps", "live", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "balls", "basketball"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global_search", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "searching"
+        )
+    ),
+    Icon(
+        "ic_vue_location_routing", keywords = listOf(
+            "routing", "routs", "locations", "places", "directions", "gps", "maps"
+        )
+    ),
+    Icon(
+        "ic_vue_location_discover", keywords = listOf(
+            "discovering", "locations", "places"
+        )
+    ),
+    Icon(
+        "ic_vue_location_radar", keywords = listOf(
+            "radars", "detection", "cars", "speeds"
+        )
+    ),
+    Icon(
+        "ic_vue_location_global_edit", keywords = listOf(
+            "global", "globes", "spheres", "world", "webs", "editing"
+        )
+    ),
 )
 // endregion
 
 // region Main (Vue)
 private fun vueMain(): List<Icon> = listOf(
-    Icon("ic_vue_main_cake"),
-    Icon("ic_vue_main_reserve"),
-    Icon("ic_vue_main_archive"),
-    Icon("ic_vue_main_signpost"),
-    Icon("ic_vue_main_coffee"),
-    Icon("ic_vue_main_sport"),
-    Icon("ic_vue_main_notification"),
-    Icon("ic_vue_main_lamp_charge"),
-    Icon("ic_vue_main_home"),
-    Icon("ic_vue_main_judge"),
-    Icon("ic_vue_main_timer"),
-    Icon("ic_vue_main_lamp"),
-    Icon("ic_vue_main_battery_charging"),
-    Icon("ic_vue_main_calendar"),
-    Icon("ic_vue_main_home_wifi"),
-    Icon("ic_vue_main_tree"),
-    Icon("ic_vue_main_battery_half"),
-    Icon("ic_vue_main_send"),
-    Icon("ic_vue_main_glass"),
-    Icon("ic_vue_main_emoji_normal"),
-    Icon("ic_vue_main_share"),
-    Icon("ic_vue_main_trash"),
-    Icon("ic_vue_main_milk"),
-    Icon("ic_vue_main_lifebuoy"),
-    Icon("ic_vue_main_broom"),
-    Icon("ic_vue_main_gift"),
-    Icon("ic_vue_main_clock"),
-    Icon("ic_vue_main_emoji_happy"),
-    Icon("ic_vue_main_home_safe"),
-    Icon("ic_vue_main_crown"),
-    Icon("ic_vue_main_cup"),
-    Icon("ic_vue_main_emoji_sad"),
-    Icon("ic_vue_main_pet"),
-    Icon("ic_vue_main_flash"),
+    Icon(
+        "ic_vue_main_cake", keywords = listOf(
+            "birthdays", "cakes", "candles", "surprises", "bdays", "b-day"
+        )
+    ),
+    Icon(
+        "ic_vue_main_reserve", keywords = listOf(
+            "reserve", "foods", "reservations", "bells", "hotels", "gourmet", "ringing"
+        )
+    ),
+    Icon("ic_vue_main_archive", keywords = listOf("archives", "history")),
+    Icon("ic_vue_main_signpost", keywords = listOf("signposts", "signs", "directions")),
+    Icon(
+        "ic_vue_main_coffee", keywords = listOf(
+            "coffees", "cafes", "hot", "mornings", "wake up", "energy", "drinks", "fun", "cups",
+            "mugs", "glasses", "warm"
+        )
+    ),
+    Icon(
+        "ic_vue_main_sport", keywords = listOf(
+            "fitness", "gym", "workout", "train", "weights", "sports", "lifting", "dumbbells",
+            "workouts", "work out"
+        )
+    ),
+    Icon(
+        "ic_vue_main_notification", keywords = listOf(
+            "bells", "ringing", "churches", "notifications", "news"
+        )
+    ),
+    Icon(
+        "ic_vue_main_lamp_charge", keywords = listOf(
+            "lamps", "bulbs", "charge", "charging", "electricity", "flashes", "sparks"
+        )
+    ),
+    Icon(
+        "ic_vue_main_home", keywords = listOf(
+            "homes", "houses", "locations", "live", "remotely"
+        )
+    ),
+    Icon(
+        "ic_vue_main_judge", keywords = listOf(
+            "judges", "lawyers", "legal", "businesses", "institutions", "courthouses"
+        )
+    ),
+    Icon(
+        "ic_vue_main_timer", keywords = listOf(
+            "timer", "clocks", "hourglass", "sandglass"
+        )
+    ),
+    Icon(
+        "ic_vue_main_lamp", keywords = listOf(
+            "lamps", "bulbs", "interiors", "lights", "lighting"
+        )
+    ),
+    Icon(
+        "ic_vue_main_battery_charging", keywords = listOf(
+            "charge", "charging", "electricity", "flashes", "sparks"
+        )
+    ),
+    Icon(
+        "ic_vue_main_calendar", keywords = listOf(
+            "planners", "logbooks", "calendars", "organizers", "organisers", "appointments",
+            "diary", "notes", "notebooks", "schedules", "agenda"
+        )
+    ),
+    Icon(
+        "ic_vue_main_home_wifi", keywords = listOf(
+            "wifi", "wi-fi", "homes", "networks", "nets", "webs"
+        )
+    ),
+    Icon(
+        "ic_vue_main_tree", keywords = listOf(
+            "trees", "gardens", "yards", "lawns", "woods", "christmas", "xmas", "forests"
+        )
+    ),
+    Icon("ic_vue_main_battery_half", keywords = listOf("battery", "half", "charges")),
+    Icon(
+        "ic_vue_main_send", keywords = listOf(
+            "sending", "messages", "communication", "chatting", "chats", "play", "telegram",
+            "sharing", "share"
+        )
+    ),
+    Icon(
+        "ic_vue_main_glass", keywords = listOf(
+            "sunglasses", "eyesight", "vision", "see", "vr", "3d"
+        )
+    ),
+    Icon(
+        "ic_vue_main_emoji_normal", keywords = listOf(
+            "emojis", "normal", "happy", "chill", "joyful", "cheerful", "happiness", "good",
+            "faces", "emoticon", "emotions", "moods", "vibes"
+        )
+    ),
+    Icon(
+        "ic_vue_main_share", keywords = listOf(
+            "shares", "businesses", "sharing", "company", "structures", "markets", "economy",
+            "economics", "relations", "communications", "community", "communicate", "groups",
+            "exchanges"
+        )
+    ),
+    Icon(
+        "ic_vue_main_trash", keywords = listOf(
+            "trashes", "garbages", "junk", "rubbish", "dirt", "useless", "bin", "shit"
+        )
+    ),
+    Icon(
+        "ic_vue_main_milk", keywords = listOf(
+            "milks", "bottles", "glasses", "plastic", "water", "drinks"
+        )
+    ),
+    Icon(
+        "ic_vue_main_lifebuoy", keywords = listOf(
+            "lifebuoy",
+            "swimming pools",
+            "seaside",
+            "ocean",
+            "save",
+            "rescue",
+            "rescuing",
+            "saveguards",
+            "rescuers",
+            "life savers",
+            "saviors",
+            "beaches",
+            "safety",
+            "safeguards",
+            "lifeguards"
+        )
+    ),
+    Icon(
+        "ic_vue_main_broom", keywords = listOf(
+            "brooms", "cleaning", "dust", "dirt", "trashes", "garbages", "sweeping", "floors",
+            "chores", "cleaners", "cleaning woman", "cleaning service", "home duties", "duty",
+            "brooming"
+        )
+    ),
+    Icon(
+        "ic_vue_main_gift", keywords = listOf(
+            "gifts", "party", "celebrate", "celebrations", "presents", "donations", "donates",
+            "birthdays", "bdays", "b-day", "holidays"
+        )
+    ),
+    Icon(
+        "ic_vue_main_clock", keywords = listOf(
+            "timer", "clocks", "appointments", "expiration", "expires", "passes", "quickly",
+            "alarms", "watches", "minutes", "hours", "arrows"
+        )
+    ),
+    Icon(
+        "ic_vue_main_emoji_happy", keywords = listOf(
+            "emojis", "happy", "chill", "joyful", "cheerful", "happiness", "good",
+            "faces", "emoticon", "emotions", "moods", "vibes"
+        )
+    ),
+    Icon(
+        "ic_vue_main_home_safe", keywords = listOf(
+            "safety", "homes", "houses", "insurances"
+        )
+    ),
+    Icon(
+        "ic_vue_main_crown", keywords = listOf(
+            "crowns", "luxury", "vip", "top", "queens", "kings", "the best", "luxe"
+        )
+    ),
+    Icon(
+        "ic_vue_main_cup", keywords = listOf(
+            "cups", "champions", "victory", "victories", "win", "prizes", "rewards", "awards"
+        )
+    ),
+    Icon(
+        "ic_vue_main_emoji_sad", keywords = listOf(
+            "sad", "bad", "faces", "emoticon", "emotions", "moods", "vibes", "sick", "joyless",
+            "unhappy"
+        )
+    ),
+    Icon("ic_vue_main_pet", keywords = listOf("pets", "dogs", "paws", "cats")),
+    Icon(
+        "ic_vue_main_flash", keywords = listOf(
+            "zeus", "lightning", "rains", "emergency",
+            "urgents", "storms", "flash", "thunders", "important", "priority", "thor", "sparks"
+        )
+    ),
 )
 // endregion
 
 // region Media (Vue)
 private fun vueMedia(): List<Icon> = listOf(
-    Icon("ic_vue_media_microphone"),
-    Icon("ic_vue_media_music"),
-    Icon("ic_vue_media_voice"),
-    Icon("ic_vue_media_image"),
-    Icon("ic_vue_media_scissors"),
-    Icon("ic_vue_media_mountains"),
-    Icon("ic_vue_media_film"),
-    Icon("ic_vue_media_photocamera"),
-    Icon("ic_vue_media_film_play"),
-    Icon("ic_vue_media_camera"),
-    Icon("ic_vue_media_screenmirroring"),
-    Icon("ic_vue_media_speaker"),
-    Icon("ic_vue_media_play"),
-    Icon("ic_vue_media_subtitle"),
-    Icon("ic_vue_media_setting"),
+    Icon(
+        "ic_vue_media_microphone", keywords = listOf(
+            "microphones", "records", "recordings", "singers", "songs", "singing", "performing",
+            "tunes"
+        )
+    ),
+    Icon(
+        "ic_vue_media_music", keywords = listOf(
+            "music", "sounds", "spotify", "singers", "songs", "hear", "fun", "party", "records",
+            "directing", "radios", "produce", "production", "hits", "tunes", "performing", "notes",
+            "listening", "recordings"
+        )
+    ),
+    Icon(
+        "ic_vue_media_voice", keywords = listOf(
+            "music", "sounds", "singers", "songs", "hear", "records", "directing", "radios",
+            "produce", "production", "tunes", "performing", "notes", "listening",
+            "recordings", "voices", "speaking", "talking", "communication", "communicate"
+        )
+    ),
+    Icon(
+        "ic_vue_media_image", keywords = listOf(
+            "images", "pics", "pictures", "gallery", "photos", "editing", "images", "photography"
+        )
+    ),
+    Icon(
+        "ic_vue_media_scissors", keywords = listOf(
+            "scissors", "designers", "cutting", "tools", "cropping", "videos", "editing",
+            "video editing"
+        )
+    ),
+    Icon(
+        "ic_vue_media_mountains", keywords = listOf(
+            "hike", "hikings", "mountains", "walks", "sun", "tops", "nature", "hobby", "forests",
+            "woods", "trees", "environments", "sports"
+        )
+    ),
+    Icon(
+        "ic_vue_media_film", keywords = listOf(
+            "films", "movies", "cameras", "videos", "editing", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "vlogs", "vlogging"
+        )
+    ),
+    Icon(
+        "ic_vue_media_photocamera", keywords = listOf(
+            "cameras", "photos", "photography", "pics", "pictures", "images", "editing"
+        )
+    ),
+    Icon(
+        "ic_vue_media_film_play", keywords = listOf(
+            "cameras", "videos", "editing", "films", "movies", "play", "records", "directing",
+            "studios", "shows", "tvs", "streams", "acts", "actions", "produces", "productions",
+            "acting", "vlogs", "vlogging"
+        )
+    ),
+    Icon(
+        "ic_vue_media_camera", keywords = listOf(
+            "cameras", "videos", "editing", "photos", "movies", "records", "directing", "studios",
+            "shows", "tvs", "streams", "acts", "actions", "produces", "productions", "acting",
+            "films", "vlogs", "vlogging"
+        )
+    ),
+    Icon(
+        "ic_vue_media_screenmirroring", keywords = listOf(
+            "screens", "mirrors", "screen mirroring", "remotely", "screen sharing", "share screen",
+            "meeting", "presentation"
+        )
+    ),
+    Icon(
+        "ic_vue_media_speaker", keywords = listOf(
+            "speakers", "volume", "sounds", "drivers", "tunes", "listening", "talking", "speaking"
+        )
+    ),
+    Icon("ic_vue_media_play", keywords = listOf("play", "start", "youtube")),
+    Icon(
+        "ic_vue_media_subtitle", keywords = listOf(
+            "subtitles", "texts", "articles", "chatting", "chats", "texting", "scripts"
+        )
+    ),
+    Icon(
+        "ic_vue_media_setting", keywords = listOf(
+            "settings", "volume", "brightness", "editing", "contrasts", "changes", "changing"
+        )
+    ),
 )
 // endregion
 
 // region Messages (Vue)
 private fun vueMessages(): List<Icon> = listOf(
-    Icon("ic_vue_messages_msg_favorite"),
-    Icon("ic_vue_messages_direct"),
-    Icon("ic_vue_messages_msg_notification"),
-    Icon("ic_vue_messages_device_msg"),
-    Icon("ic_vue_messages_edit"),
-    Icon("ic_vue_messages_msgs"),
-    Icon("ic_vue_messages_msg_text"),
-    Icon("ic_vue_messages_letter"),
-    Icon("ic_vue_messages_msg"),
-    Icon("ic_vue_messages_msg_search"),
+    Icon(
+        "ic_vue_messages_msg_favorite", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "favorites",
+            "favourites", "online", "love", "couples", "partnerships", "friendships", "friends",
+            "hearts", "partners", "sending", "family", "message box", "text box", "texting",
+            "bubbles", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_direct", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online", "direct",
+            "couples", "partnerships", "friendships", "friends", "partners", "sending", "family",
+            "texting"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_notification", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "circles",
+            "partners", "sending", "notify", "seen", "news", "missed", "family", "message box",
+            "text box", "texting", "bubbles"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_device_msg", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "pc", "computers",
+            "message box", "text box", "texting", "bubbles", "devices", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_edit", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "editing", "pencils", "pens", "redactions", "texting"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msgs", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_text", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_letter", keywords = listOf(
+            "letters", "mails", "watches", "clocks", "ticks", "check marks", "bags", "news",
+            "missed", "notifications", "communication", "communicate", "online", "working"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "sending", "notify", "seen", "news", "missed", "family", "message box", "text box",
+            "texting", "bubbles", "typing", "comments"
+        )
+    ),
+    Icon(
+        "ic_vue_messages_msg_search", keywords = listOf(
+            "messages", "chatting", "chats", "communication", "communicate", "online",
+            "notifications", "couples", "partnerships", "friendships", "friends", "partners",
+            "news", "missed", "family", "message box", "text box", "texting", "bubbles", "comments",
+            "searching"
+        )
+    ),
 )
 // endregion
 
