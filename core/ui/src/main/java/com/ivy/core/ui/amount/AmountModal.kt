@@ -38,6 +38,7 @@ private const val keypadOuterWeight = 1f
 private const val keypadInnerWeight = 0.3f
 private val keypadButtonBig = 64.dp
 private val keypadButtonSmall = 56.dp
+private val keyboardVerticalMargin = 12.dp
 
 @Composable
 fun BoxScope.AmountModal(
@@ -117,7 +118,7 @@ private fun Keyboard(
         exit = shrinkVertically() + fadeOut()
     ) {
         KeyboardRow(
-            modifier = Modifier.padding(bottom = 24.dp)
+            modifier = Modifier.padding(bottom = keyboardVerticalMargin)
         ) {
             SpacerWeight(weight = keypadOuterWeight)
             KeypadButton(
@@ -154,6 +155,7 @@ private fun Keyboard(
             SpacerWeight(weight = keypadOuterWeight)
         }
     }
+    // margin is built-in in calculator's top row
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
         KeypadButton(symbol = "7", size = keypadBtnSize, onClick = onSymbolClick)
@@ -168,7 +170,7 @@ private fun Keyboard(
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
-    SpacerVer(height = 24.dp)
+    SpacerVer(height = keyboardVerticalMargin)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
         KeypadButton(symbol = "4", size = keypadBtnSize, onClick = onSymbolClick)
@@ -183,7 +185,7 @@ private fun Keyboard(
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
-    SpacerVer(height = 24.dp)
+    SpacerVer(height = keyboardVerticalMargin)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
         KeypadButton(symbol = "1", size = keypadBtnSize, onClick = onSymbolClick)
@@ -198,7 +200,7 @@ private fun Keyboard(
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
-    SpacerVer(height = 24.dp)
+    SpacerVer(height = keyboardVerticalMargin)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
         KeypadButton(
