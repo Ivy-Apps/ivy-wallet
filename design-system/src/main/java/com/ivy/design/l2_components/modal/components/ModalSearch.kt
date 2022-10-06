@@ -65,6 +65,10 @@ fun SearchBar(
     resetSearch: () -> Unit,
     onSearch: (String) -> Unit,
 ) {
+    // the FocusRequester must be remembered outside AnimatedVisibility
+    // otherwise it crashes for no reason
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
     AnimatedVisibility(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,8 +78,6 @@ fun SearchBar(
         enter = expandVertically() + fadeIn(),
         exit = shrinkVertically() + fadeOut()
     ) {
-        val focusRequester = remember { FocusRequester() }
-        val keyboardController = LocalSoftwareKeyboardController.current
         IvyInputField(
             modifier = Modifier
                 .focusRequester(focusRequester)

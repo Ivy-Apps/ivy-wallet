@@ -13,6 +13,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.currency.data.CurrencyListItem
@@ -36,6 +38,7 @@ import com.ivy.resources.R
 @Composable
 fun BoxScope.CurrencyPickerModal(
     modal: IvyModal,
+    level: Int = 2,
     initialCurrency: CurrencyCode?,
     onCurrencyPick: (CurrencyCode) -> Unit,
 ) {
@@ -59,6 +62,7 @@ fun BoxScope.CurrencyPickerModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             SearchButton(
                 searchBarVisible = searchBarVisible,
@@ -68,6 +72,7 @@ fun BoxScope.CurrencyPickerModal(
             SpacerHor(width = 8.dp)
             Choose {
                 keyboardController?.hide()
+                resetSearch()
                 modal.hide()
                 state.selectedCurrency?.code?.let(onCurrencyPick)
             }
@@ -91,6 +96,9 @@ fun BoxScope.CurrencyPickerModal(
                 items = state.items,
                 selectedCurrency = state.selectedCurrency,
                 onCurrencySelect = {
+                    resetSearch()
+                    modal.hide()
+                    state.selectedCurrency?.code?.let(onCurrencyPick)
                     viewModel?.onEvent(CurrencyModalEvent.SelectCurrency(it))
                 }
             )
@@ -164,8 +172,16 @@ private fun CurrencyItem(
     ) {
         val textColor = rememberContrastColor(bgColor)
         B1Second(text = currency.code, fontWeight = FontWeight.ExtraBold, color = textColor)
-        SpacerWeight(weight = 1f)
-        B2(text = currency.name, fontWeight = FontWeight.SemiBold, color = textColor)
+        B2(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 24.dp),
+            text = currency.name,
+            fontWeight = FontWeight.SemiBold,
+            color = textColor,
+            textAlign = TextAlign.End,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 // endregion
@@ -185,19 +201,25 @@ private fun SelectedCurrency(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val contrast = rememberContrastColor(UI.colors.primary)
-            Column {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 16.dp)
+            ) {
                 B2(
                     text = selectedCurrency.code,
                     color = contrast,
                     fontWeight = FontWeight.Normal
                 )
                 B1Second(
+                    modifier = Modifier.fillMaxWidth(),
                     text = selectedCurrency.name,
                     color = contrast,
-                    fontWeight = FontWeight.ExtraBold
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Start,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
-            SpacerWeight(weight = 1f)
             IconRes(icon = R.drawable.ic_round_check_24, tint = contrast)
             SpacerHor(width = 4.dp)
             B2(

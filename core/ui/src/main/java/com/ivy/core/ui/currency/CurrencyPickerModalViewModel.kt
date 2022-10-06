@@ -34,18 +34,28 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
         availableCurrenciesFlow(), searchQueryFlow()
     ) { allCurrencies, searchQuery ->
         val currencies = if (searchQuery != null)
-            allCurrencies.filter { it.code.contains(searchQuery) || it.name.contains(searchQuery) }
+            allCurrencies.filter { it.passesSearch(searchQuery) }
         else allCurrencies
 
         currencies.groupBy { it.code.first() }
+            .toSortedMap()
             .flatMap { (letter, currencies) ->
                 listOf(
                     CurrencyListItem.SectionDivider(name = letter.uppercase()),
                 ) + currencies.map {
-                    CurrencyListItem.Currency(CurrencyUi(code = it.code, name = it.name))
+                    CurrencyListItem.Currency(
+                        CurrencyUi(
+                            code = it.code,
+                            name = it.name
+                        )
+                    )
                 }
             }
     }
+
+    private fun IvyCurrency.passesSearch(searchQuery: String): Boolean =
+        code.lowercase().contains(searchQuery) || name.lowercase().contains(searchQuery)
+
 
     @OptIn(FlowPreview::class)
     private fun searchQueryFlow(): Flow<String?> = searchQuery.map {

@@ -27,7 +27,8 @@ internal fun ColumnScope.AmountSection(
     calculatorVisible: Boolean,
     enteredText: String?,
     currency: CurrencyCode,
-    amountInBaseCurrency: ValueUi?
+    amountInBaseCurrency: ValueUi?,
+    onPickCurrency: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -47,9 +48,7 @@ internal fun ColumnScope.AmountSection(
             enter = expandHorizontally() + fadeIn(),
             exit = shrinkHorizontally() + fadeOut(),
         ) {
-            CurrencyPicker(currency = currency) {
-                // TODO:
-            }
+            CurrencyPicker(currency = currency, onClick = onPickCurrency)
         }
     }
     AmountInBaseCurrency(
@@ -126,7 +125,8 @@ private fun Preview() {
                 amountInBaseCurrency = ValueUi(
                     amount = "10.00",
                     currency = "BGN"
-                )
+                ),
+                onPickCurrency = {}
             )
         }
     }

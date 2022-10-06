@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.amount.components.AmountSection
 import com.ivy.core.ui.amount.components.Keyboard
+import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.data.Value
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -38,6 +39,7 @@ fun BoxScope.AmountModal(
     }
 
     var calculatorVisible by remember { mutableStateOf(false) }
+    val currencyPickerModal = rememberIvyModal()
 
     Modal(
         modal = modal,
@@ -62,7 +64,8 @@ fun BoxScope.AmountModal(
             calculatorVisible = calculatorVisible,
             enteredText = state.enteredText,
             currency = state.currency,
-            amountInBaseCurrency = state.amountBaseCurrency
+            amountInBaseCurrency = state.amountBaseCurrency,
+            onPickCurrency = { currencyPickerModal.show() }
         )
         SpacerVer(height = 32.dp)
         Keyboard(
@@ -72,6 +75,13 @@ fun BoxScope.AmountModal(
         )
         SpacerVer(height = 24.dp)
     }
+
+    CurrencyPickerModal(
+        modal = currencyPickerModal,
+        level = 2,
+        initialCurrency = state.currency,
+        onCurrencyPick = { viewModel?.onEvent(AmountModalEvent.CurrencyChange(it)) }
+    )
 }
 
 
