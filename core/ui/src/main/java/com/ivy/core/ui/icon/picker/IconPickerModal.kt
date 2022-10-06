@@ -66,11 +66,9 @@ fun BoxScope.IconPickerModal(
     Modal(
         modal = modal,
         actions = {
-            SearchButton(
-                searchBarVisible = searchBarVisible,
-                showSearch = { searchBarVisible = true },
-                resetSearch = resetSearch
-            )
+            SearchButton(searchBarVisible = searchBarVisible) {
+                if (searchBarVisible) resetSearch() else searchBarVisible = true
+            }
             SpacerHor(width = 8.dp)
             Choose {
                 selectedIcon?.let(onIconPick)

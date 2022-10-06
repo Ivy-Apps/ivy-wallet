@@ -7,5 +7,6 @@ import com.ivy.core.ui.currency.data.CurrencyUi
 @Immutable
 internal data class CurrencyModalState(
     val items: List<CurrencyListItem>,
-    val selectedCurrency: CurrencyUi?
+    val selectedCurrency: CurrencyUi?,
+    val searchQuery: String
 )

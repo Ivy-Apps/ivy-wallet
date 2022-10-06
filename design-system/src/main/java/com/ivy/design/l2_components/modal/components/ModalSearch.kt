@@ -110,18 +110,15 @@ fun SearchBar(
 @Composable
 fun ModalActionsScope.SearchButton(
     searchBarVisible: Boolean,
-    showSearch: () -> Unit,
-    resetSearch: () -> Unit,
+    onClick: () -> Unit,
 ) {
     Secondary(
         text = null,
         icon = if (searchBarVisible)
             R.drawable.round_search_off_24 else R.drawable.round_search_24,
-        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
-    ) {
-        // toggle search bar
-        if (searchBarVisible) resetSearch() else showSearch()
-    }
+        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive,
+        onClick = onClick,
+    )
 }
 
 
@@ -137,9 +134,9 @@ private fun Preview() {
             actions = {
                 SearchButton(
                     searchBarVisible = true,
-                    showSearch = {},
-                    resetSearch = {}
-                )
+                ) {
+
+                }
             }
         ) {
             Search(

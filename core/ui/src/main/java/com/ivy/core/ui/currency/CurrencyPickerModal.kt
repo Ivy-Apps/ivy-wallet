@@ -64,11 +64,9 @@ fun BoxScope.CurrencyPickerModal(
         modal = modal,
         level = level,
         actions = {
-            SearchButton(
-                searchBarVisible = searchBarVisible,
-                showSearch = { searchBarVisible = true },
-                resetSearch = resetSearch
-            )
+            SearchButton(searchBarVisible = searchBarVisible) {
+                if (searchBarVisible) resetSearch() else searchBarVisible = true
+            }
             SpacerHor(width = 8.dp)
             Choose {
                 keyboardController?.hide()
@@ -80,7 +78,7 @@ fun BoxScope.CurrencyPickerModal(
     ) {
         Search(
             searchBarVisible = searchBarVisible,
-            initialSearchQuery = "",
+            initialSearchQuery = state.searchQuery,
             searchHint = "Search currencies (e.g. EUR, USD, BTC, Bitcoin)",
             resetSearch = resetSearch,
             onSearch = { viewModel?.onEvent(CurrencyModalEvent.Search(it)) },
@@ -255,6 +253,7 @@ private fun previewState() = CurrencyModalState(
         CurrencyListItem.Currency(CurrencyUi("BTC", "Bitcoin")),
         CurrencyListItem.Currency(CurrencyUi("ADA", "Cardano")),
     ),
-    selectedCurrency = CurrencyUi("BGN", "Bulgarian Lev")
+    selectedCurrency = CurrencyUi("BGN", "Bulgarian Lev"),
+    searchQuery = ""
 )
 // endregion

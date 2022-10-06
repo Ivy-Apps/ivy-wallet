@@ -14,7 +14,8 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
 ) : FlowViewModel<CurrencyModalState, CurrencyModalState, CurrencyModalEvent>() {
     override fun initialState(): CurrencyModalState = CurrencyModalState(
         items = emptyList(),
-        selectedCurrency = null
+        selectedCurrency = null,
+        searchQuery = "",
     )
 
     override fun initialUiState(): CurrencyModalState = initialState()
@@ -27,6 +28,7 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
             CurrencyModalState(
                 items = currencies,
                 selectedCurrency = selectedCurrency,
+                searchQuery = searchQuery.value,
             )
         }
 
