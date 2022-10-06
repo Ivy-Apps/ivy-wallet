@@ -23,6 +23,7 @@ fun IvyInputField(
     initialValue: String,
     placeholder: String,
     modifier: Modifier = Modifier,
+    forceUpdateInitialValue: Int = 0,
     isError: Boolean = false,
     @DrawableRes
     iconLeft: Int? = null,
@@ -37,6 +38,7 @@ fun IvyInputField(
     InputField(
         modifier = modifier,
         initialValue = initialValue,
+        forceUpdateInitialValue = forceUpdateInitialValue,
         placeholder = placeholder,
         isError = isError,
         iconLeft = iconLeft,

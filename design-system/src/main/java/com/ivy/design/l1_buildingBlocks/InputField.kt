@@ -29,6 +29,7 @@ fun InputField(
     singleLine: Boolean,
     maxLines: Int,
     modifier: Modifier = Modifier,
+    forceUpdateInitialValue: Int = 0,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
@@ -45,7 +46,7 @@ fun InputField(
     },
     onValueChange: (String) -> Unit,
 ) {
-    var textField by remember {
+    var textField by remember(forceUpdateInitialValue) {
         // move the cursor at the end of the text
         val selection = TextRange(initialValue.length)
         mutableStateOf(TextFieldValue(initialValue, selection))
