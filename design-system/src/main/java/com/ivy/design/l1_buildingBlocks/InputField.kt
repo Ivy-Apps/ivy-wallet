@@ -29,7 +29,6 @@ fun InputField(
     singleLine: Boolean,
     maxLines: Int,
     modifier: Modifier = Modifier,
-    forceUpdateInitialValue: Int = 0,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
@@ -46,7 +45,7 @@ fun InputField(
     },
     onValueChange: (String) -> Unit,
 ) {
-    var textField by remember(forceUpdateInitialValue) {
+    var textField by remember {
         // move the cursor at the end of the text
         val selection = TextRange(initialValue.length)
         mutableStateOf(TextFieldValue(initialValue, selection))
@@ -54,9 +53,12 @@ fun InputField(
     OutlinedTextField(
         modifier = modifier,
         value = textField,
-        onValueChange = {
-            textField = it
-            onValueChange(it.text)
+        onValueChange = { newValue ->
+            // new value different than the current one
+            if (newValue.text != textField.text) {
+                onValueChange(newValue.text)
+            }
+            textField = newValue
         },
         shape = shape,
         textStyle = textStyle,
