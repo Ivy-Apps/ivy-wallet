@@ -43,6 +43,18 @@ class ParseCoreTest : StringSpec({
     // endregion
 
     // region String
+    listOf(
+        "aba" to ParseResult("aba", ""),
+        "okay Google" to ParseResult("okay", " Google"),
+        "zZZz" to ParseResult("zZ", "Zz"),
+    ).forEach { (text, expected) ->
+        "parses \"${expected.value}\" in \"$text\" with \"${expected.leftover}\" leftover" {
+            val parser = string(expected.value)
 
+            val res = parser(text)
+
+            res shouldBe success(expected)
+        }
+    }
     // endregion
 })
