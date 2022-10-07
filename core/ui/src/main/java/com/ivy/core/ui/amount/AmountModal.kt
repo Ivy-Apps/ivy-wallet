@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.amount.components.AmountSection
 import com.ivy.core.ui.amount.components.Keyboard
+import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.data.Value
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -25,7 +26,7 @@ import com.ivy.resources.R
 @Composable
 fun BoxScope.AmountModal(
     modal: IvyModal,
-    initialAmount: Value,
+    initialAmount: Value?,
     contentAbove: (@Composable () -> Unit)? = {
         SpacerVer(height = 32.dp)
     },
@@ -56,6 +57,8 @@ fun BoxScope.AmountModal(
                 text = stringResource(R.string.enter),
                 icon = R.drawable.ic_round_check_24
             ) {
+                state.amount?.let(onAmountEnter)
+                modal.hide()
             }
         }
     ) {
@@ -65,13 +68,16 @@ fun BoxScope.AmountModal(
             enteredText = state.enteredText,
             currency = state.currency,
             amountInBaseCurrency = state.amountBaseCurrency,
+            calculatorTempResult = state.calculatorResult,
             onPickCurrency = { currencyPickerModal.show() }
         )
         SpacerVer(height = 32.dp)
         Keyboard(
             calculatorVisible = calculatorVisible,
-            onAmountChange = {},
-            onCurrencyChange = {},
+            onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.Calculator(it)) },
+            onNumberEvent = { viewModel?.onEvent(AmountModalEvent.Number(it)) },
+            onDecimalSeparator = { viewModel?.onEvent(AmountModalEvent.DecimalSeparator) },
+            onBackspace = { viewModel?.onEvent(AmountModalEvent.Backspace) }
         )
         SpacerVer(height = 24.dp)
     }
@@ -104,6 +110,7 @@ private fun previewState() = AmountModalState(
     enteredText = "500.00",
     currency = "USD",
     amount = null,
-    amountBaseCurrency = ValueUi("1,032.55", "BGN")
+    amountBaseCurrency = ValueUi("1,032.55", "BGN"),
+    calculatorResult = CalculatorResultUi(result = "", isError = true)
 )
 // endregion

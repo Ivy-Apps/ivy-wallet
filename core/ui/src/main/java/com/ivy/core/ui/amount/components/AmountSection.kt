@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.core.ui.amount.rememberDecimalSeparator
 import com.ivy.data.CurrencyCode
 import com.ivy.design.l0_system.UI
@@ -28,6 +29,7 @@ internal fun ColumnScope.AmountSection(
     enteredText: String?,
     currency: CurrencyCode,
     amountInBaseCurrency: ValueUi?,
+    calculatorTempResult: CalculatorResultUi?,
     onPickCurrency: () -> Unit,
 ) {
     Row(
@@ -51,9 +53,13 @@ internal fun ColumnScope.AmountSection(
             CurrencyPicker(currency = currency, onClick = onPickCurrency)
         }
     }
-    AmountInBaseCurrency(
+    AnimatedAmountInBaseCurrency(
         calculatorVisible = calculatorVisible,
         amountInBaseCurrency = amountInBaseCurrency,
+    )
+    CalculatorTemporaryResult(
+        calculatorVisible = calculatorVisible,
+        result = calculatorTempResult,
     )
 }
 
@@ -81,7 +87,7 @@ private fun CurrencyPicker(
 
 // region Amount in base currency
 @Composable
-private fun ColumnScope.AmountInBaseCurrency(
+private fun ColumnScope.AnimatedAmountInBaseCurrency(
     calculatorVisible: Boolean,
     amountInBaseCurrency: ValueUi?
 ) {
@@ -111,6 +117,29 @@ private fun ColumnScope.AmountInBaseCurrency(
 }
 // endregion
 
+// region Calculator temp result
+@Composable
+private fun ColumnScope.CalculatorTemporaryResult(
+    calculatorVisible: Boolean,
+    result: CalculatorResultUi?,
+) {
+    AnimatedVisibility(
+        modifier = Modifier.align(Alignment.CenterHorizontally),
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut(),
+        visible = calculatorVisible && result != null
+    ) {
+        if (result != null) {
+            B1Second(
+                text = result.result,
+                fontWeight = FontWeight.ExtraBold,
+                color = if (result.isError) UI.colors.red else UI.colors.primary
+            )
+        }
+    }
+}
+// endregion
+
 
 // region Previews
 @Preview
@@ -125,6 +154,47 @@ private fun Preview() {
                 amountInBaseCurrency = ValueUi(
                     amount = "10.00",
                     currency = "BGN"
+                ),
+                calculatorTempResult = null,
+                onPickCurrency = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Calculator() {
+    ComponentPreview {
+        Column {
+            AmountSection(
+                calculatorVisible = true,
+                enteredText = "5+5",
+                currency = "USD",
+                amountInBaseCurrency = null,
+                calculatorTempResult = CalculatorResultUi(
+                    result = "10.00",
+                    isError = false
+                ),
+                onPickCurrency = {}
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Calculator_error() {
+    ComponentPreview {
+        Column {
+            AmountSection(
+                calculatorVisible = true,
+                enteredText = "5+",
+                currency = "USD",
+                amountInBaseCurrency = null,
+                calculatorTempResult = CalculatorResultUi(
+                    result = "Error",
+                    isError = true
                 ),
                 onPickCurrency = {}
             )

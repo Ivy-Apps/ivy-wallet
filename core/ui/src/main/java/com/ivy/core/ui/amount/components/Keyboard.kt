@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.ivy.core.ui.amount.CalculatorOption
 import com.ivy.core.ui.amount.rememberDecimalSeparator
-import com.ivy.data.CurrencyCode
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
 import com.ivy.design.l1_buildingBlocks.B1Second
@@ -43,8 +43,10 @@ private val keyboardVerticalMargin = 12.dp
 @Composable
 internal fun ColumnScope.Keyboard(
     calculatorVisible: Boolean,
-    onAmountChange: (String) -> Unit,
-    onCurrencyChange: (CurrencyCode) -> Unit,
+    onCalculatorEvent: (CalculatorOption) -> Unit,
+    onNumberEvent: (Int) -> Unit,
+    onDecimalSeparator: () -> Unit,
+    onBackspace: () -> Unit,
 ) {
     val onSymbolClick = { symbol: String ->
         // TODO:
@@ -56,50 +58,50 @@ internal fun ColumnScope.Keyboard(
     CalculatorTopRow(
         calculatorVisible = calculatorVisible,
         keypadBtnSize = keypadBtnSize,
-        onSymbolClick = onSymbolClick
+        onCalculatorEvent = onCalculatorEvent,
     )
     // margin is built-in in calculator's top row
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = "7", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "7", size = keypadBtnSize, onClick = { onNumberEvent(7) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "8", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "8", size = keypadBtnSize, onClick = { onNumberEvent(8) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "9", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "9", size = keypadBtnSize, onClick = { onNumberEvent(9) })
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "*",
-            onClick = onSymbolClick
+            onClick = { onCalculatorEvent(CalculatorOption.Multiply) }
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
     SpacerVer(height = keyboardVerticalMargin)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = "4", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "4", size = keypadBtnSize, onClick = { onNumberEvent(4) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "5", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "5", size = keypadBtnSize, onClick = { onNumberEvent(5) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "6", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "6", size = keypadBtnSize, onClick = { onNumberEvent(6) })
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "-",
-            onClick = onSymbolClick
+            onClick = { onCalculatorEvent(CalculatorOption.Minus) }
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
     SpacerVer(height = keyboardVerticalMargin)
     KeyboardRow {
         SpacerWeight(weight = keypadOuterWeight)
-        KeypadButton(symbol = "1", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "1", size = keypadBtnSize, onClick = { onNumberEvent(1) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "2", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "2", size = keypadBtnSize, onClick = { onNumberEvent(2) })
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "3", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "3", size = keypadBtnSize, onClick = { onNumberEvent(3) })
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "+",
-            onClick = onSymbolClick
+            onClick = { onCalculatorEvent(CalculatorOption.Plus) }
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
@@ -109,19 +111,17 @@ internal fun ColumnScope.Keyboard(
         KeypadButton(
             symbol = rememberDecimalSeparator().toString(),
             size = keypadBtnSize,
-            onClick = onSymbolClick
+            onClick = onDecimalSeparator
         )
         SpacerWeight(weight = keypadInnerWeight)
-        KeypadButton(symbol = "0", size = keypadBtnSize, onClick = onSymbolClick)
+        KeypadButton(symbol = "0", size = keypadBtnSize, onClick = { onNumberEvent(0) })
         SpacerWeight(weight = keypadInnerWeight)
-        BackSpaceButton(size = keypadBtnSize) {
-            // TODO: Handle backspace
-        }
+        BackSpaceButton(size = keypadBtnSize, onClick = onBackspace)
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "=",
             feeling = ButtonFeeling.Positive,
-            onClick = onSymbolClick
+            onClick = { onCalculatorEvent(CalculatorOption.Equals) }
         )
         SpacerWeight(weight = keypadOuterWeight)
     }
@@ -132,7 +132,7 @@ internal fun ColumnScope.Keyboard(
 private fun CalculatorTopRow(
     calculatorVisible: Boolean,
     keypadBtnSize: Dp,
-    onSymbolClick: (String) -> Unit,
+    onCalculatorEvent: (CalculatorOption) -> Unit,
 ) {
     AnimatedVisibility(
         visible = calculatorVisible,
@@ -148,7 +148,7 @@ private fun CalculatorTopRow(
                 size = keypadBtnSize,
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Negative,
-                onClick = onSymbolClick
+                onClick = { onCalculatorEvent(CalculatorOption.C) }
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
@@ -156,7 +156,7 @@ private fun CalculatorTopRow(
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
                 size = keypadBtnSize,
-                onClick = onSymbolClick
+                onClick = { onCalculatorEvent(CalculatorOption.Brackets) }
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
@@ -164,7 +164,7 @@ private fun CalculatorTopRow(
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
                 size = keypadBtnSize,
-                onClick = onSymbolClick
+                onClick = { onCalculatorEvent(CalculatorOption.Percent) }
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
@@ -172,7 +172,7 @@ private fun CalculatorTopRow(
                 size = keypadBtnSize,
                 visibility = ButtonVisibility.High,
                 feeling = ButtonFeeling.Positive,
-                onClick = onSymbolClick
+                onClick = { onCalculatorEvent(CalculatorOption.Divide) }
             )
             SpacerWeight(weight = keypadOuterWeight)
         }
@@ -185,7 +185,7 @@ private fun RowScope.AnimatedCalculatorButton(
     symbol: String,
     modifier: Modifier = Modifier,
     feeling: ButtonFeeling = ButtonFeeling.Positive,
-    onClick: (String) -> Unit
+    onClick: () -> Unit
 ) {
     if (calculatorVisible) {
         SpacerWeight(weight = keypadInnerWeight)
@@ -229,14 +229,14 @@ private fun KeypadButton(
     modifier: Modifier = Modifier,
     visibility: ButtonVisibility = ButtonVisibility.Medium,
     feeling: ButtonFeeling = ButtonFeeling.Positive,
-    onClick: (String) -> Unit
+    onClick: () -> Unit
 ) {
     KeypadButtonBox(
         modifier = modifier,
         feeling = feeling,
         visibility = visibility,
         size = size,
-        onClick = { onClick(symbol) }
+        onClick = onClick
     ) {
         B1Second(
             text = symbol,
@@ -316,8 +316,10 @@ private fun Preview() {
         Column {
             Keyboard(
                 calculatorVisible = false,
-                onAmountChange = {},
-                onCurrencyChange = {}
+                onCalculatorEvent = {},
+                onNumberEvent = {},
+                onDecimalSeparator = {},
+                onBackspace = {}
             )
         }
     }
@@ -329,9 +331,11 @@ private fun Preview_calculator_visible() {
     ComponentPreview {
         Column {
             Keyboard(
-                calculatorVisible = true,
-                onAmountChange = {},
-                onCurrencyChange = {}
+                calculatorVisible = false,
+                onCalculatorEvent = {},
+                onNumberEvent = {},
+                onDecimalSeparator = {},
+                onBackspace = {}
             )
         }
     }
