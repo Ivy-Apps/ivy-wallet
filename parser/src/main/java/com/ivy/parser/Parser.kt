@@ -41,6 +41,16 @@ fun <T> pure(value: T): Parser<T> = { text ->
 fun <T> fail(): Parser<T> = { emptyList() }
 
 /**
+ * Represents parser's successful result.
+ */
+fun <T> success(vararg parsing: ParseResult<T>): List<ParseResult<T>> = listOf(*parsing)
+
+/**
+ * Represents parser's failing result.
+ */
+fun <T> failure(): List<ParseResult<T>> = emptyList()
+
+/**
  * Applies a parser and invokes the parser with parsed value if it was successful.
  * In case of multiple successful parsing returned
  * from this parse or next parser, they're flattened.
@@ -52,7 +62,7 @@ fun <T> fail(): Parser<T> = { emptyList() }
  * **Example:**
  * ```
  * // parse the text "Jetpack Compose" or "Jetpack+Compose"
- * string("Jetpack").apply { jetpack ->
+ * fun jetpackComposeParser() = string("Jetpack").apply { jetpack ->
  *  (char(' ') or char('+')).apply { //ignored divider
  *      string("Compose").apply { compose ->
  *          pure(jetpack + compose)
@@ -96,19 +106,62 @@ fun <T : Any?, R : Any?> Parser<T>.apply(
 }
 
 /**
- * @receiver Parser 1
- * @param parser2
+ * Builds a new parser that do **Parser 1 || Parser 2**. Tries _Parser 1_ and
+ * if it succeeds returns its result. If _Parser 1_ fails executes _Parser 2_.
+ *
+ * **Example**
+ * ```
+ * // parser Calculator operation
+ * enum Operation { Plus, Minus, Multiple, Divide }
+ * fun operationParser(): Parser<Operation> =
+ *      (char('+') or char('-') or char('*') or char('-')).apply { opSymbol ->
+ *          when(opSymbol) {
+ *              '+' -> Operation.Plus
+ *              '-' -> Operation.Minus
+ *              '*' -> Operation.Multiple
+ *              '/' -> Operation.Divide
+ *              else -> error("should NOT happen!")
+ *          }
+ *      }
+ * ```
+ *
+ * @receiver the first parser to apply _(Parser 1)_.
+ * @param parser2 the second parser to apply _(Parser 2)_.
+ * @return a combined OR parser: _Parser 1_ **||** _Parser 2_.
  */
 infix fun <T> Parser<T>.or(parser2: Parser<T>): Parser<T> = { text ->
     this(text).takeIf { it.isNotEmpty() } ?: parser2(text)
 }
 
-fun <T> combine(parser1: Parser<T>, parser2: Parser<T>): Parser<T> = { text ->
-    parser1(text) + parser2(text)
+/**
+ * Applies _Parser 1_ then _Parser 2_ and returns their results combined.
+ *
+ * **Example:**
+ * ```
+ * fun parseAsciiA(): Parser<Int> = char('A').apply { char ->
+ *  char.toByte().toInt()
+ * }
+ *
+ * fun combined(): Parser<Any> = char('A') + parseAsciiA()
+ * // ['A', 65]
+ * ```
+ *
+ * @receiver _Parser 1_
+ * @param parser2 _Parser 2_
+ * @return  the combined result or Parser 1 + Parser 2: [[Parser 1]] + [[Parser 2]]
+ */
+operator fun <T> Parser<T>.plus(parser2: Parser<T>): Parser<T> = { text ->
+    this(text) + parser2(text)
 }
 
-fun <T> combineFirst(parser1: Parser<T>, parser2: Parser<T>): Parser<T> = { text ->
-    val res = combine(parser1, parser2).invoke(text)
+/**
+ * Takes only the first variation of a parsing.
+ * Parsers always return a list of results which may contain more than one parsings.
+ * @return a parser that:
+ * **[[ParserRes1, ParserRes2, ParserResN]] => [[ParserRes1]]**
+ */
+fun <T> Parser<T>.first(): Parser<T> = { text ->
+    val res = this(text)
     res.take(1)
 }
 
@@ -163,7 +216,17 @@ fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
             }
         }
 
-    return combineFirst(oneOrMany(parser), pure(emptyList()))
+    // If "oneOrMany" fails to parse, a.k.a returns failure []
+    // then to hold the "zero" part true, return a successful parsing of an empty list of T
+    val allVariations = oneOrMany(parser) + pure(emptyList())
+
+    // this recursion returns an array of all occurrences of the parsed value
+    // example: zeroMany(char('a')).invoke("aaa") will return:
+    // [ParseResult(value=[a, a, a], leftover=), ParseResult(value=[a, a], leftover=),
+    // ParseResult(value=[a], leftover=aa), ParseResult(value=[], leftover=aaa)]
+    // => we need to take only the most result with the most occurrences
+    // which happens to be at index 0 or first
+    return allVariations.first()
 }
 
 fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> = parser.apply { one ->
