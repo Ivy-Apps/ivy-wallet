@@ -46,7 +46,7 @@ fun <T> fail(): Parser<T> = { emptyList() }
 fun <T> success(vararg parsing: ParseResult<T>): List<ParseResult<T>> = listOf(*parsing)
 
 /**
- * Represents parser's failing result.
+ * Represents a parser failure.
  */
 fun <T> failure(): List<ParseResult<T>> = emptyList()
 
@@ -165,27 +165,29 @@ fun <T> Parser<T>.first(): Parser<T> = { text ->
     res.take(1)
 }
 
-// region Functions
+// region Read a not parsed character
+/**
+ * A parser that reads one character from the text left to parse.
+ * Fails if the text is empty.
+ */
 fun item(): Parser<Char> = { string ->
     if (string.isNotEmpty()) {
         // return the first character as value and the rest as leftover
-        listOf(
+        success(
             ParseResult(
                 value = string.first(),
                 leftover = string.drop(1)
             )
         )
-    } else emptyList()
+    } else failure()
 }
+// endregion
 
-fun peek(): Parser<Char> = { string ->
-    if (string.isNotEmpty()) {
-        listOf(ParseResult(value = string.first(), leftover = string))
-    } else emptyList()
-}
-
+// region Core: Parse char, string & a symbol satisfying a predicate
 /**
- * Satisfies a given predicate.
+ * Parses a char if it satisfies a given predicate.
+ * @param predicate returns whether the parsing is successful.
+ * @return a parser that parses a character for a predicate.
  */
 fun sat(predicate: (Char) -> Boolean): Parser<Char> = { string ->
     item().apply { char ->
@@ -193,9 +195,12 @@ fun sat(predicate: (Char) -> Boolean): Parser<Char> = { string ->
     }.invoke(string)
 }
 
+/**
+ * Parses a specific character.
+ * @param c the character to parse
+ * @return a parser that parses a character
+ */
 fun char(c: Char): Parser<Char> = sat { it == c }
-
-fun charIn(str: String): Parser<Char> = sat { str.contains(it) }
 
 fun string(str: String): Parser<String> = { string ->
     if (str.isEmpty()) pure("").invoke(string) else {
@@ -208,6 +213,7 @@ fun string(str: String): Parser<String> = { string ->
     }
 }
 
+// region Occurrences: oneOrMany & zeroOrMany
 /**
  * Parses zero or many occurrences of the expression defined by the parser.
  */
