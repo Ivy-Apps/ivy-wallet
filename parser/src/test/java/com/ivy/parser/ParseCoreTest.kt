@@ -4,34 +4,29 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
 class ParseCoreTest : StringSpec({
-    // region char
+    data class Given<T>(val text: String, val value: T)
+
+    // region Parse Char
     listOf(
-        'a' to "a",
-        'b' to "b",
-        'c' to "c"
-    ).forEach { (char, text) ->
-        "parse '$char' in \"$text\"" {
-            val parser = char(char)
+        Given("a", 'a') to ParseResult('a', ""),
+        Given("back", 'b') to ParseResult('b', "ack"),
+        Given("T", 'T') to ParseResult('T', ""),
+    ).forEach { (given, expected) ->
+        "parses '${given.value}' in \"${given.text}\" with \"${expected.leftover}\" leftover" {
+            val parser = char(given.value)
 
-            val res = parser(text)
+            val res = parser(given.text)
 
-            res shouldBe success(ParseResult(value = char, leftover = ""))
+            res shouldBe success(expected)
         }
     }
 
-    "parse 'a' in \"ab\" with leftover" {
-        val parser = char('a')
-
-        val res = parser("ab")
-
-        res shouldBe success(ParseResult(value = 'a', leftover = "b"))
-    }
-
+    // Fails for:
     listOf(
-        'a' to "",
-        'b' to "a",
-        'c' to "ac"
-    ).forEach { (char, text) ->
+        Given(text = "", value = 'a'),
+        Given(text = "a", value = 'b'),
+        Given(text = "ac", value = 'c')
+    ).forEach { (text, char) ->
         "fails to parse '$char' in \"$text\"" {
             val parser = char(char)
 
@@ -42,18 +37,32 @@ class ParseCoreTest : StringSpec({
     }
     // endregion
 
-    // region String
+    // region Parse String
     listOf(
-        "aba" to ParseResult("aba", ""),
-        "okay Google" to ParseResult("okay", " Google"),
-        "zZZz" to ParseResult("zZ", "Zz"),
-    ).forEach { (text, expected) ->
-        "parses \"${expected.value}\" in \"$text\" with \"${expected.leftover}\" leftover" {
-            val parser = string(expected.value)
+        Given("aba", "aba") to ParseResult("aba", ""),
+        Given("okay Google", "okay") to ParseResult("okay", " Google"),
+        Given("zZZz", "zZ") to ParseResult("zZ", "Zz"),
+    ).forEach { (given, expected) ->
+        "parses \"${given.value}\" in \"${given.text}\" with \"${expected.leftover}\" leftover" {
+            val parser = string(given.value)
+
+            val res = parser(given.text)
+
+            res shouldBe success(expected)
+        }
+    }
+
+    // Fails for:
+    listOf(
+        Given(text = "car", value = "cat"),
+        Given(text = "test", value = "Test"),
+    ).forEach { (text, str) ->
+        "fails to parse \"$str\" to \"$text\"" {
+            val parser = string(str)
 
             val res = parser(text)
 
-            res shouldBe success(expected)
+            res shouldBe failure()
         }
     }
     // endregion
