@@ -8,10 +8,10 @@ class ParserEffect {
     /**
      * This isn't work! Experimenting!
      */
-    suspend fun <R> Parser<R>.bind(): R = suspendCoroutine { cont ->
+    suspend fun <R> Parser<R>.bindBroken(): R = suspendCoroutine { cont ->
         var rSave: R? = null
         lastParser = lastParser.flatMap { t ->
-            this@bind.flatMap { r ->
+            this@bindBroken.flatMap { r ->
                 rSave = r
                 pure(t)
             }
@@ -35,9 +35,17 @@ data class Person(
     val lastName: String,
 )
 
+fun original() = string("Iliyan").flatMap { firstName ->
+    item().flatMap {
+        string("Germanov").flatMap { lastName ->
+            pure(Person(firstName, lastName))
+        }
+    }
+}
+
 suspend fun personalParser() = parser {
-    val firstName = string("Iliyan").bind()
-    item().bind()
-    val lastName = string("Nicole").bind()
+    val firstName = string("Iliyan").bindBroken()
+    item().bindBroken()
+    val lastName = string("Nicole").bindBroken()
     pure(Person(firstName, lastName))
 }
