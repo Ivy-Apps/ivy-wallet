@@ -3,7 +3,7 @@ package com.ivy.parser
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 
-class ParseCoreTest : StringSpec({
+class ParseTextTest : StringSpec({
     data class Given<T>(val text: String, val value: T)
 
     // region Parse Char
@@ -17,7 +17,7 @@ class ParseCoreTest : StringSpec({
 
             val res = parser(given.text)
 
-            res shouldBe success(expected)
+            res shouldBe successful(expected)
         }
     }
 
@@ -48,7 +48,7 @@ class ParseCoreTest : StringSpec({
 
             val res = parser(given.text)
 
-            res shouldBe success(expected)
+            res shouldBe successful(expected)
         }
     }
 

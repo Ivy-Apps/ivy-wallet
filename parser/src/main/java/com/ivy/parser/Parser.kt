@@ -23,6 +23,7 @@ data class ParseResult<T>(
  */
 typealias Parser<T> = (String) -> List<ParseResult<T>>
 
+// region Result builders
 /**
  * Use for successfully parsing a value.
  * Wraps a value in a parse w/o modifying the text being parsed.
@@ -31,7 +32,7 @@ typealias Parser<T> = (String) -> List<ParseResult<T>>
  * - Applicative#pure()
  * - Monad#return()
  */
-fun <T> pure(value: T): Parser<T> = { text ->
+fun <T> success(value: T): Parser<T> = { text ->
     listOf(ParseResult(value, text))
 }
 
@@ -43,13 +44,15 @@ fun <T> fail(): Parser<T> = { emptyList() }
 /**
  * Represents parser's successful result.
  */
-fun <T> success(vararg parsing: ParseResult<T>): List<ParseResult<T>> = listOf(*parsing)
+fun <T> successful(vararg parsing: ParseResult<T>): List<ParseResult<T>> = listOf(*parsing)
 
 /**
  * Represents a parser failure.
  */
 fun <T> failure(): List<ParseResult<T>> = emptyList()
+// endregion
 
+// region Compose Parsers
 /**
  * Applies a parser and invokes the parser with parsed value if it was successful.
  * In case of multiple successful parsing returned
@@ -164,6 +167,7 @@ fun <T> Parser<T>.first(): Parser<T> = { text ->
     val res = this(text)
     res.take(1)
 }
+// endregion
 
 // region Read a not parsed character
 /**
@@ -173,7 +177,7 @@ fun <T> Parser<T>.first(): Parser<T> = { text ->
 fun item(): Parser<Char> = { string ->
     if (string.isNotEmpty()) {
         // return the first character as value and the rest as leftover
-        success(
+        successful(
             ParseResult(
                 value = string.first(),
                 leftover = string.drop(1)
@@ -191,7 +195,7 @@ fun item(): Parser<Char> = { string ->
  */
 fun sat(predicate: (Char) -> Boolean): Parser<Char> = { string ->
     item().apply { char ->
-        if (predicate(char)) pure(char) else fail()
+        if (predicate(char)) success(char) else fail()
     }.invoke(string)
 }
 
@@ -203,15 +207,16 @@ fun sat(predicate: (Char) -> Boolean): Parser<Char> = { string ->
 fun char(c: Char): Parser<Char> = sat { it == c }
 
 fun string(str: String): Parser<String> = { string ->
-    if (str.isEmpty()) pure("").invoke(string) else {
+    if (str.isEmpty()) success("").invoke(string) else {
         // recurse
         char(str.first()).apply { c ->
             string(str.drop(1)).apply { cs ->
-                pure(c + cs)
+                success(c + cs)
             }
         }.invoke(string)
     }
 }
+// endregion
 
 // region Occurrences: oneOrMany & zeroOrMany
 /**
@@ -221,13 +226,13 @@ fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
     fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> =
         parser.apply { one ->
             zeroOrMany(parser).apply { many ->
-                pure(listOf(one) + many)
+                success(listOf(one) + many)
             }
         }
 
     // If "oneOrMany" fails to parse, a.k.a returns failure []
     // then to hold the "zero" part true, return a successful parsing of an empty list of T
-    val allVariations = oneOrMany(parser) + pure(emptyList())
+    val allVariations = oneOrMany(parser) + success(emptyList())
 
     // this recursion returns an array of all occurrences of the parsed value
     // example: zeroMany(char('a')).invoke("aaa") will return:
@@ -240,7 +245,7 @@ fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
 
 fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> = parser.apply { one ->
     zeroOrMany(parser).apply { many ->
-        pure(listOf(one) + many)
+        success(listOf(one) + many)
     }
 }
 // endregion
