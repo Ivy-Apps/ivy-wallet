@@ -35,7 +35,7 @@ class ParserTest : StringSpec({
     // endregion
 
     // region zeroOrMany
-    "parses zero a's" {
+    "parses zero 'a' in \"\"" {
         val parser = zeroOrMany(char('a'))
 
         val res = parser("")
@@ -43,7 +43,7 @@ class ParserTest : StringSpec({
         res shouldBe success(ParseResult(value = emptyList(), leftover = ""))
     }
 
-    "parses multiple a's" {
+    "parses zero or many a's" {
         val parser = zeroOrMany(char('a'))
 
         val res = parser("aaa")
@@ -51,7 +51,7 @@ class ParserTest : StringSpec({
         res shouldBe success(ParseResult(value = listOf('a', 'a', 'a'), leftover = ""))
     }
 
-    "parses multiple a's with a leftover" {
+    "parses zero or many a's with a leftover" {
         val parser = zeroOrMany(char('a'))
 
         val res = parser("aaabbb")
@@ -61,6 +61,28 @@ class ParserTest : StringSpec({
     // endregion
 
     // region oneOrMany
+    "fails for 'a' in \"\"" {
+        val parser = oneOrMany(char('a'))
 
+        val res = parser("")
+
+        res shouldBe failure()
+    }
+
+    "parses one 'a'" {
+        val parser = oneOrMany(char('a'))
+
+        val res = parser("a")
+
+        res shouldBe success(ParseResult(value = listOf('a'), leftover = ""))
+    }
+
+    "parses one or many 'a' with a leftover" {
+        val parser = oneOrMany(char('a'))
+
+        val res = parser("aaab")
+
+        res shouldBe success(ParseResult(value = listOf('a', 'a', 'a'), leftover = "b"))
+    }
     // endregion
 })

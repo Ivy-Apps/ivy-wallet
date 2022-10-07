@@ -208,6 +208,9 @@ fun string(str: String): Parser<String> = { string ->
     }
 }
 
+/**
+ * Parses zero or many occurrences of the expression defined by the parser.
+ */
 fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
     fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> =
         parser.apply { one ->
