@@ -4,9 +4,8 @@ package com.ivy.parser
  * Motivated by FUNCTIONAL PEARL
  * Monadic parsing in Haskell
  * by Graham Hutton & Erik Meijer
- * Paper:
- * https://www.cs.nott.ac.uk/~pszgmh/pearl.pdf
  */
+// Paper: https://www.cs.nott.ac.uk/~pszgmh/pearl.pdf
 
 /**
  * @param value the parsed value

@@ -5,7 +5,7 @@ import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-class ParserCombinatorsTest : FreeSpec({
+class RecursionCombinatorsTest : FreeSpec({
     "parses zero or one characters" - {
         withData(
             nameFn = { (char, text, value, leftover) ->
@@ -22,6 +22,25 @@ class ParserCombinatorsTest : FreeSpec({
             val res = parser(text)
 
             res shouldBe listOf(ParseResult(value, leftover))
+        }
+    }
+
+    "parses items separated by" - {
+        withData(
+            nameFn = { (separator, text, values, leftover) ->
+                "'$separator' sep in text \"$text\" as values $values with \"$leftover\" leftover"
+            },
+            // Separator (in) Text (as) [Values] (with) Leftover
+            row(",", "a,b,c,d", listOf('a', 'b', 'c', 'd'), ""),
+            row("--", "a--b--c:test", listOf('a', 'b', 'c'), ":test"),
+            row("--", "", listOf(), ""),
+            row(" ", "okay", listOf('o'), "kay"),
+        ) { (separator, text, values, leftover) ->
+            val parser = item().separatedBy(string(separator))
+
+            val res = parser(text)
+
+            res shouldBe listOf(ParseResult(values, leftover))
         }
     }
 })

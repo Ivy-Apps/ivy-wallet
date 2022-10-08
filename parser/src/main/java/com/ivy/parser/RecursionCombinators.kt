@@ -61,9 +61,9 @@ fun <T> Parser<T>.first(): Parser<T> = { text ->
     res.take(1)
 }
 
-// region Occurrences: oneOrMany, zeroOrMany, zeroOrOne
+// region Occurrences
 /**
- * Parses zero or many occurrences of the expression defined by the parser.
+ * Zero or many occurrences of a parser.
  */
 fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
     fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> =
@@ -86,6 +86,9 @@ fun <T> zeroOrMany(parser: Parser<T>): Parser<List<T>> {
     return allVariations.first()
 }
 
+/**
+ * One or many occurrences of a parser.
+ */
 fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> = parser.apply { one ->
     // parsed one occurrence successfully
     zeroOrMany(parser).apply { zeroOrMany ->
@@ -93,10 +96,32 @@ fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> = parser.apply { one ->
     }
 }
 
+/**
+ * Zero or one occurrences of a parser. This operation cannot fail.
+ */
 fun <T> zeroOrOne(parser: Parser<T>): Parser<T?> = { text ->
     val result = parser(text)
     // if the parser fails it returns empty result
-    // in case of failure to satisfy "zero" return a succesful null result
+    // in case of failure to satisfy "zero" return a successful null result
     result.ifEmpty { listOf(ParseResult(null, text)) }
 }
 // endregion
+
+/**
+ * Returns a list of T values separated by something.
+ * This operation will never fail. In case of failure will simple return a value empty list.
+ */
+fun <T, R> Parser<T>.separatedBy(separator: Parser<R>): Parser<List<T>> {
+    fun Parser<T>.oneOrManySepBy(separator: Parser<R>): Parser<List<T>> = this.apply { one ->
+        zeroOrMany(
+            separator.apply {
+                this
+            }
+        ).apply { manySeparated ->
+            pure(listOf(one) + manySeparated)
+        }
+    }
+    // the same pattern as in "zeroOrMany"
+    val allVariations = this.oneOrManySepBy(separator) + pure(emptyList())
+    return allVariations.first()
+}
