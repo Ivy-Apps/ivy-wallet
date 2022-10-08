@@ -71,7 +71,7 @@ internal class AmountModalViewModel @Inject constructor(
             ) to evaluated
         }
 
-    private fun calculate(expression: String): Double? = TODO()
+    private fun calculate(expression: String): Double? = 0.0 // TODO:
 
     override suspend fun mapToUiState(state: AmountModalState): AmountModalState = state
 
