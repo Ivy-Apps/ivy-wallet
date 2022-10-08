@@ -99,7 +99,7 @@ fun <T> oneOrMany(parser: Parser<T>): Parser<List<T>> = parser.apply { one ->
 /**
  * Zero or one occurrences of a parser. This operation cannot fail.
  */
-fun <T> zeroOrOne(parser: Parser<T>): Parser<T?> = { text ->
+fun <T> optional(parser: Parser<T>): Parser<T?> = { text ->
     val result = parser(text)
     // if the parser fails it returns empty result
     // in case of failure to satisfy "zero" return a successful null result

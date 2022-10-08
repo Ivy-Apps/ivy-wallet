@@ -1,5 +1,6 @@
 package com.ivy.parser
 
+import com.ivy.parser.common.decimal
 import com.ivy.parser.common.int
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
@@ -7,6 +8,7 @@ import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
 class NumberParserTest : FreeSpec({
+    // region Parse integer
     "parses an integer" - {
         withData(
             nameFn = { (text, number, leftover) ->
@@ -30,4 +32,48 @@ class NumberParserTest : FreeSpec({
             res shouldBe listOf(ParseResult(number, leftover))
         }
     }
+
+    "fails to parse an integer" - {
+        withData(
+            nameFn = { (text) -> "from \"$text\" text" },
+            row(" 3"),
+            row("*10"),
+            row("=8"),
+        ) { (text) ->
+            val parser = int()
+
+            val res = parser(text)
+
+            res shouldBe emptyList()
+        }
+    }
+    // endregion
+
+    // region Parse double
+    "parses a decimal" - {
+        withData(
+            nameFn = { (text, double, leftover) ->
+                "from \"$text\" text as $double with \"$leftover\" leftover"
+            },
+            // (from) Text (as) Double (with) Leftover
+            row("0", 0.0, ""),
+            row("3.14", 3.14, ""),
+            row("-12.09", -12.09, ""),
+            row("+.003", 0.003, ""),
+            row(".5", 0.5, ""),
+            row("1024wtf?", 1_024.0, "wtf?"),
+            row("-0.99", -0.99, ""),
+            row("-5.65+18", -5.65, "+18"),
+            row("3.%*10", 3.0, "%*10"),
+        ) { (text, double, leftover) ->
+            val parser = decimal()
+
+            val res = parser(text)
+
+            res shouldBe listOf(ParseResult(double, leftover))
+        }
+    }
+
+    // TODO: add test for failing to parse decimal
+    // endregion
 })

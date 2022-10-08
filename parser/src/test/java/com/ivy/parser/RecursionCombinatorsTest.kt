@@ -17,7 +17,7 @@ class RecursionCombinatorsTest : FreeSpec({
             row('c', "cool", 'c', "ool"),
             row('=', "5+5", null, "5+5"),
         ) { (c, text, value, leftover) ->
-            val parser = zeroOrOne(char(c))
+            val parser = optional(char(c))
 
             val res = parser(text)
 
