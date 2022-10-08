@@ -5,7 +5,7 @@ import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-class ParseTextTest : FreeSpec({
+class ParserTest : FreeSpec({
     // region Parse Char
     "parses char" - {
         withData(
