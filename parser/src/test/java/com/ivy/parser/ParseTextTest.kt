@@ -1,33 +1,40 @@
 package com.ivy.parser
 
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.spec.style.FreeSpec
+import io.kotest.data.row
+import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
-class ParseTextTest : StringSpec({
-    data class Given<T>(val text: String, val value: T)
-
+class ParseTextTest : FreeSpec({
     // region Parse Char
-    listOf(
-        Given("a", 'a') to ParseResult('a', ""),
-        Given("back", 'b') to ParseResult('b', "ack"),
-        Given("T", 'T') to ParseResult('T', ""),
-    ).forEach { (given, expected) ->
-        "parses '${given.value}' in \"${given.text}\" with \"${expected.leftover}\" leftover" {
-            val parser = char(given.value)
+    "parses char" - {
+        withData(
+            // Char (in) Text (with) Leftover
+            nameFn = { (char, text, leftover) ->
+                "'$char' in text \"$text\" with \"$leftover\" leftover"
+            },
+            row('a', "a", ""),
+            row('b', "back", "ack"),
+            row('T', "T T", " T"),
+        ) { (char, text, leftover) ->
+            val parser = char(char)
 
-            val res = parser(given.text)
+            val res = parser(text)
 
-            res shouldBe successful(expected)
+            res shouldBe successful(ParseResult(char, leftover))
         }
     }
 
-    // Fails for:
-    listOf(
-        Given(text = "", value = 'a'),
-        Given(text = "a", value = 'b'),
-        Given(text = "ac", value = 'c')
-    ).forEach { (text, char) ->
-        "fails to parse '$char' in \"$text\"" {
+    "fails to parse char" - {
+        withData(
+            nameFn = { (char, text) ->
+                "'$char' in text \"$text\""
+            },
+            // Char (in) Text
+            row('a', ""),
+            row('b', "a"),
+            row('c', "ac"),
+        ) { (char, text) ->
             val parser = char(char)
 
             val res = parser(text)
@@ -38,26 +45,34 @@ class ParseTextTest : StringSpec({
     // endregion
 
     // region Parse String
-    listOf(
-        Given("aba", "aba") to ParseResult("aba", ""),
-        Given("okay Google", "okay") to ParseResult("okay", " Google"),
-        Given("zZZz", "zZ") to ParseResult("zZ", "Zz"),
-    ).forEach { (given, expected) ->
-        "parses \"${given.value}\" in \"${given.text}\" with \"${expected.leftover}\" leftover" {
-            val parser = string(given.value)
+    "parses string" - {
+        withData(
+            nameFn = { (str, text, leftover) ->
+                "\"$str\" in text \"$text\" with \"$leftover\" leftover "
+            },
+            // String (in) Text (with) Leftover
+            row("aba", "aba", ""),
+            row("okay", "okay Google", " Google"),
+            row("zZ", "zZZz", "Zz"),
+        ) { (str, text, leftover) ->
+            val parser = string(str)
 
-            val res = parser(given.text)
+            val res = parser(text)
 
-            res shouldBe successful(expected)
+            res shouldBe successful(ParseResult(str, leftover))
         }
     }
 
-    // Fails for:
-    listOf(
-        Given(text = "car", value = "cat"),
-        Given(text = "test", value = "Test"),
-    ).forEach { (text, str) ->
-        "fails to parse \"$str\" to \"$text\"" {
+    "fails to parse string" - {
+        withData(
+            nameFn = { (str, text) ->
+                "\"$str\" in text \"$text\""
+            },
+            // String (in) Text
+            row("cat", "car"),
+            row("Test", "test"),
+            row("Itworks!", "It works!")
+        ) { (str, text) ->
             val parser = string(str)
 
             val res = parser(text)
