@@ -21,7 +21,7 @@ class ParseTextTest : FreeSpec({
 
             val res = parser(text)
 
-            res shouldBe successful(ParseResult(char, leftover))
+            res shouldBe listOf(ParseResult(char, leftover))
         }
     }
 
@@ -39,7 +39,7 @@ class ParseTextTest : FreeSpec({
 
             val res = parser(text)
 
-            res shouldBe failure()
+            res shouldBe emptyList()
         }
     }
     // endregion
@@ -59,7 +59,7 @@ class ParseTextTest : FreeSpec({
 
             val res = parser(text)
 
-            res shouldBe successful(ParseResult(str, leftover))
+            res shouldBe listOf(ParseResult(str, leftover))
         }
     }
 
@@ -77,7 +77,7 @@ class ParseTextTest : FreeSpec({
 
             val res = parser(text)
 
-            res shouldBe failure()
+            res shouldBe emptyList()
         }
     }
     // endregion
