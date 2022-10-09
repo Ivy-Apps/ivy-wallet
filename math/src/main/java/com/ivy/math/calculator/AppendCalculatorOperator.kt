@@ -12,7 +12,7 @@ fun appendTo(expression: String, option: CalculatorOperator): String = when (opt
     CalculatorOperator.Plus -> expression.appendPlusOrMinus('+')
     CalculatorOperator.Minus -> expression.appendPlusOrMinus('-')
     CalculatorOperator.Multiply -> expression.appendBinaryOperator('*')
-    CalculatorOperator.Divide -> TODO()
+    CalculatorOperator.Divide -> expression.appendBinaryOperator('/')
     CalculatorOperator.Brackets -> TODO()
     CalculatorOperator.Percent -> TODO()
 }

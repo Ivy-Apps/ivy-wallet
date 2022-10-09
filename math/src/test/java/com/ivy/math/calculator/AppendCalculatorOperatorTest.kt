@@ -9,7 +9,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
     "appending '+' to an expression" - {
         withData(
             nameFn = { (expression, expected) ->
-                "\"$expression\" will become \"$expected\""
+                "\"$expression\" becomes \"$expected\""
             },
             // Expression before (becomes) Expression (after)
             row("", "+"),
@@ -31,7 +31,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
     "appending '-' to an expression" - {
         withData(
             nameFn = { (expression, expected) ->
-                "\"$expression\" will become \"$expected\""
+                "\"$expression\" becomes \"$expected\""
             },
             // Expression before (becomes) Expression (after)
             row("", "-"),
@@ -53,7 +53,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
     "appending '*' to an expression" - {
         withData(
             nameFn = { (expression, expected) ->
-                "\"$expression\" will become \"$expected\""
+                "\"$expression\" becomes \"$expected\""
             },
             // Expression before (becomes) Expression (after)
             row("1", "1*"),
@@ -70,6 +70,31 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row(")", ")*"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Multiply)
+
+            res shouldBe expected
+        }
+    }
+
+    "appending '/' to an expression" - {
+        withData(
+            nameFn = { (expression, expected) ->
+                "\"$expression\" becomes \"$expected\""
+            },
+            // Expression before (becomes) Expression (after)
+            row("1", "1/"),
+            row("3.14", "3.14/"),
+            row(".5", ".5/"),
+            row("1.", "1./"),
+            row("", ""),
+            row("+", "+"),
+            row("-", "-"),
+            row("/", "/"),
+            row("*", "*"),
+            row("10%", "10%/"),
+            row("(", "("),
+            row(")", ")/"),
+        ) { (expression, expected) ->
+            val res = appendTo(expression, CalculatorOperator.Divide)
 
             res shouldBe expected
         }
