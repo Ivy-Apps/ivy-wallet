@@ -58,12 +58,15 @@ internal class AmountModalViewModel @Inject constructor(
     }
 
     private fun formatExpression(expression: String): String? {
+        // TODO: Refactor, very complex code... Simple bad!
         var formatted: String = expression
         expression.split("+", "-", "*", "/", "(", ")", "%")
             .mapNotNull { it.takeIf { it.isNotBlank() } }
-            .mapNotNull { number ->
-                val numDouble = number.toDoubleOrNull()
-                if (numDouble != null) number to formatNumber(numDouble) else null
+            .mapNotNull { numberStr ->
+                numberStr.toDoubleOrNull()?.let { number ->
+                    // TODO: Implement number formatting
+                    numberStr to numberStr
+                }
             }
             .forEach { (number, formattedNumber) ->
                 formatted = formatted.replace(number, formattedNumber)

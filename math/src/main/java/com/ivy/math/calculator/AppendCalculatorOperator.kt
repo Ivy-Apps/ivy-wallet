@@ -40,7 +40,7 @@ private fun String.brackets(): String {
         if (expression.isEmpty()) return "("
         val closed = bracketsClosed(expression)
         return when (expression.lastOrNull()) {
-            '+', '-', '(', '/' -> "("
+            '+', '-', '(', '/', '*' -> "("
             ')' -> if (closed) "*(" else ")"
             else -> {
                 if (!closed) return ")"

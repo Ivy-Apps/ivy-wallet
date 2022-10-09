@@ -122,6 +122,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("((-", "((-("),
             row("10+10", "10+10*("),
             row("0.5", "0.5*("),
+            row("5*", "5*("),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Brackets)
 

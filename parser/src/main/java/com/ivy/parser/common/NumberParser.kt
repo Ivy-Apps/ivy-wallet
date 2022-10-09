@@ -23,7 +23,11 @@ fun optionalNumberSign(): Parser<NumberSign> =
  * Parses an integer number without a sign.
  */
 fun unsignedInt(): Parser<Int> = oneOrMany(digit()).apply { digits ->
-    val number = digits.joinToString(separator = "").toInt()
+    val number = try {
+        digits.joinToString(separator = "").toInt()
+    } catch (e: Exception) {
+        Int.MAX_VALUE
+    }
     pure(number)
 }
 
