@@ -9,6 +9,7 @@ import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
 import com.ivy.math.evaluate
+import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -65,7 +66,7 @@ internal class AmountModalViewModel @Inject constructor(
         enteredText.map { input ->
             val evaluated = evaluate(input)
             CalculatorResultUi(
-                result = evaluated?.toString() ?: "Error",
+                result = evaluated?.let(::formatNumber) ?: "Error",
                 isError = evaluated == null
             ) to evaluated
         }
