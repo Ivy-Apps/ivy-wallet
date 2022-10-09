@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.exchange
 
+import com.ivy.common.isNotBlank
 import com.ivy.core.domain.action.Action
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
@@ -12,7 +13,9 @@ class SyncExchangeRatesAct @Inject constructor(
     private val exchangeRateDao: ExchangeRateDao
 ) : Action<String, Unit>() {
     override suspend fun String.willDo() {
-        syncExchangeRates(this)
+        if (this.isNotBlank()) {
+            syncExchangeRates(this)
+        }
     }
 
     private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) {

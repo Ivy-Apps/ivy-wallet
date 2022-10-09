@@ -20,6 +20,15 @@ abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
 
     protected abstract suspend fun handleEvent(event: Event)
 
+    protected open suspend fun listen() {}
+
+    init {
+        // TODO: Fix crash
+//        viewModelScope.launch {
+//            listen()
+//        }
+    }
+
     private var stateFlow: StateFlow<State>? = null
     private var uiStateFlow: StateFlow<UiState>? = null
 

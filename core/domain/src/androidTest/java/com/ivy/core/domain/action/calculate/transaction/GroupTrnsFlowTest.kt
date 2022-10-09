@@ -24,7 +24,7 @@ import javax.inject.Inject
 class GroupTrnsFlowTest {
 
     @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    val hiltRule = HiltAndroidRule(this)
 
     @Inject
     lateinit var groupTrnsFlow: GroupTrnsFlow

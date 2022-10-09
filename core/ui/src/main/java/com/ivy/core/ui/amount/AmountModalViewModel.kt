@@ -130,7 +130,8 @@ internal class AmountModalViewModel @Inject constructor(
         Timber.d("enteredValue = $enteredValue")
         if (newCurrency != currency && enteredValue != null) {
             // Converted the entered amount to the new currency
-            val latestRates = exchangeRatesFlow().take(1).first()
+            // TODO: Fix this ugly workaround
+            val latestRates = exchangeRatesFlow().take(1).toList().last()
             Timber.d("latestRates = $latestRates")
             exchange(
                 ratesData = latestRates,

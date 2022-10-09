@@ -1,6 +1,6 @@
 package com.ivy.wallet.ui
 
-import com.ivy.common.isNotBlank
+import com.ivy.common.isNotEmpty
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
@@ -10,7 +10,9 @@ import com.ivy.onboarding.action.OnboardingFinishedAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOf
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,16 +27,20 @@ class RootViewModel @Inject constructor(
 
     override fun initialUiState() = initialState()
 
-    override fun stateFlow(): Flow<RootState> =
-        baseCurrencyFlow().map { baseCurrency ->
-            if (baseCurrency.isNotBlank()) {
-                syncExchangeRatesAct(baseCurrency)
-            }
-            RootState(appLocked = false)
-        }
+    override fun stateFlow(): Flow<RootState> = flowOf(initialState())
 
     override suspend fun mapToUiState(state: RootState) = state
 
+    override suspend fun listen() {
+        baseCurrencyFlow().collectLatest { baseCurrency ->
+            if (baseCurrency.isNotEmpty()) {
+                Timber.i("Syncing exchange rates for $baseCurrency")
+                syncExchangeRatesAct(baseCurrency)
+            }
+        }
+    }
+
+    // region Event Handling
     override suspend fun handleEvent(event: RootEvent) = when (event) {
         RootEvent.AppOpen -> handleAppOpen()
     }
@@ -50,5 +56,6 @@ class RootViewModel @Inject constructor(
             }
         }
     }
+    // endregion
 
 }
