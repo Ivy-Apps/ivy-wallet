@@ -19,6 +19,9 @@ private fun numberSign(): Parser<NumberSign> =
         )
     }
 
+/**
+ * Parses an integer number without a sign.
+ */
 fun unsignedInt(): Parser<Int> = oneOrMany(digit()).apply { digits ->
     val number = digits.joinToString(separator = "").toInt()
     pure(number)
@@ -33,32 +36,44 @@ fun int(): Parser<Int> = numberSign().apply { sign ->
     }
 }
 
+/**
+ * Parses a decimal number from as a string as double.
+ *
+ * **Supported formats:**
+ * - 3.14, 1024.0 _"#.#"_
+ * - .5, .9 _".#"_
+ * - "3." 15. _"#."_
+ * - 3, 5, 8 _"#"_
+ */
 fun decimal(): Parser<Double> {
-    fun decimalPart(): Parser<String> = oneOrMany(digit()).apply { digits ->
+    fun oneOrMoreDigits(): Parser<String> = oneOrMany(digit()).apply { digits ->
         pure(digits.joinToString(separator = ""))
     }
 
     return numberSign().apply { sign ->
+        // 3.14, ###.00
         unsignedInt().apply { intPart ->
             char('.').apply {
-                decimalPart().apply { decimalPart ->
+                oneOrMoreDigits().apply { decimalPart ->
                     pure("$intPart.$decimalPart".toDouble().applySign(sign))
                 }
             }
         }
     } or numberSign().apply { sign ->
+        // .5 => 0.5
         char('.').apply {
-            decimalPart().apply { decimalPart ->
+            oneOrMoreDigits().apply { decimalPart ->
                 pure("0.$decimalPart".toDouble().applySign(sign))
             }
         }
     } or numberSign().apply { sign ->
+        // 3. => 3.0
         unsignedInt().apply { intPart ->
             char('.').apply {
                 pure(intPart.toDouble().applySign(sign))
             }
         }
-    } or int().apply { pure(it.toDouble()) }
+    } or int().apply { pure(it.toDouble()) } // 3, 5, 13
 }
 
 // region Util

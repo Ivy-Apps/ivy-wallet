@@ -65,6 +65,8 @@ class NumberParserTest : FreeSpec({
             row("-0.99", -0.99, ""),
             row("-5.65+18", -5.65, "+18"),
             row("3.%*10", 3.0, "%*10"),
+            row("7", 7.0, ""),
+            row("5748b", 5748.0, "b"),
         ) { (text, double, leftover) ->
             val parser = decimal()
 
@@ -74,6 +76,21 @@ class NumberParserTest : FreeSpec({
         }
     }
 
-    // TODO: add test for failing to parse decimal
+    "fails to parse a decimal" - {
+        withData(
+            nameFn = { (text) -> "from \"$text\" text" },
+            // Text
+            row(" 3.14"),
+            row("a10"),
+            row("..3"),
+            row(""),
+        ) { (text) ->
+            val parser = decimal()
+
+            val res = parser(text)
+
+            res shouldBe emptyList()
+        }
+    }
     // endregion
 })
