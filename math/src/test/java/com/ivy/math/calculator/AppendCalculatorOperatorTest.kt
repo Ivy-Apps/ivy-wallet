@@ -69,6 +69,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("10%", "10%*"),
             row("(", "("),
             row(")", ")*"),
+            row("-(9", "-(9*"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Multiply)
 
@@ -92,6 +93,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("10%", "10%/"),
             row("(", "("),
             row(")", ")/"),
+            row("-(9", "-(9/"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Divide)
 

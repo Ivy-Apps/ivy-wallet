@@ -9,6 +9,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
+import com.ivy.math.calculator.appendDecimalSeparator
 import com.ivy.math.calculator.appendTo
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
@@ -94,11 +95,10 @@ internal class AmountModalViewModel @Inject constructor(
     }
 
     private fun handleDecimalSeparator() {
-        val decimalSeparator = localDecimalSeparator()
-        if (!expression.value.contains(decimalSeparator)) {
-            // an expression can have only one decimal separator
-            expression.value += decimalSeparator
-        }
+        expression.value = appendDecimalSeparator(
+            expression = expression.value,
+            decimalSeparator = localDecimalSeparator(),
+        )
     }
 
     // region Calculator

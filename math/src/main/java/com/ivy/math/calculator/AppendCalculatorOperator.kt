@@ -70,11 +70,8 @@ private fun endWithDecimal(expression: String): Boolean {
      * 10+15.5 => 15.5
      */
     fun lastNumber(expression: String): String? {
-        val lastChar = expression.lastOrNull() ?: return expression
-        return if (!lastChar.isDigit() && lastChar != '.') {
-            // not a part of a decimal, remove it and recurse
-            lastNumber(expression.dropLast(1))
-        } else expression
+        val lastChar = expression.lastOrNull() ?: return null
+        return lastChar + (lastNumber(expression.dropLast(1)) ?: "")
     }
 
     val normalizedExpression = normalize(expression)

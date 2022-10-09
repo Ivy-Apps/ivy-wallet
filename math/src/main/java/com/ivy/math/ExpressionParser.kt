@@ -56,4 +56,8 @@ private fun factor(): Parser<Double> = optionalNumberSign().apply { sign ->
             }
         }
     }
+} or decimal().apply { x ->
+    char('%').apply {
+        pure(x / 100)
+    }
 } or decimal()
