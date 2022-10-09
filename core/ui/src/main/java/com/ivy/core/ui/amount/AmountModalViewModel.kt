@@ -1,5 +1,6 @@
 package com.ivy.core.ui.amount
 
+import com.ivy.common.isNotEmpty
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
@@ -8,7 +9,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
-import com.ivy.math.calculator.CalculatorOperator
+import com.ivy.math.calculator.appendTo
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
@@ -26,7 +27,7 @@ internal class AmountModalViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
 ) : FlowViewModel<AmountModalState, AmountModalState, AmountModalEvent>() {
     override fun initialState(): AmountModalState = AmountModalState(
-        enteredText = null,
+        expression = null,
         currency = "",
         amount = null,
         amountBaseCurrency = null,
@@ -35,18 +36,19 @@ internal class AmountModalViewModel @Inject constructor(
 
     override fun initialUiState(): AmountModalState = initialState()
 
-    private val enteredText = MutableStateFlow("")
+    private val expression = MutableStateFlow("")
     private val currency = MutableStateFlow("")
 
     override fun stateFlow(): Flow<AmountModalState> = combine(
-        enteredText, currency, calculateFlow(), amountBaseCurrencyFlow()
-    ) { enteredText, currency, calcResult, amountBaseCurrency ->
+        expression, currency, calculateFlow(), amountBaseCurrencyFlow()
+    ) { expression, currency, calcResult, amountBaseCurrency ->
+        val nonEmptyExpression = expression.takeIf { it.isNotEmpty() }
         AmountModalState(
-            enteredText = enteredText,
+            expression = nonEmptyExpression,
             currency = currency,
             amount = calcResult.second?.let { Value(it, currency) },
             amountBaseCurrency = amountBaseCurrency,
-            calculatorResult = calcResult.first
+            calculatorResult = calcResult.first.takeIf { nonEmptyExpression != null }
         )
     }
 
@@ -64,8 +66,8 @@ internal class AmountModalViewModel @Inject constructor(
     }
 
     private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> =
-        enteredText.map { input ->
-            val evaluated = evaluate(input)
+        expression.map { expression ->
+            val evaluated = evaluate(expression)
             CalculatorResultUi(
                 result = evaluated?.let(::formatNumber) ?: "Error",
                 isError = evaluated == null
@@ -79,41 +81,47 @@ internal class AmountModalViewModel @Inject constructor(
     override suspend fun handleEvent(event: AmountModalEvent) = when (event) {
         AmountModalEvent.Backspace -> handleBackspace()
         AmountModalEvent.DecimalSeparator -> handleDecimalSeparator()
-        is AmountModalEvent.Calculator -> handleCalculator(event)
+        is AmountModalEvent.CalculatorOperator -> handleCalculatorOperator(event)
         is AmountModalEvent.Number -> handleNumber(event)
         is AmountModalEvent.CurrencyChange -> handleCurrencyChange(event)
         is AmountModalEvent.Initial -> handleInitial(event)
-        AmountModalEvent.CalculatorC -> TODO()
-        AmountModalEvent.CalculatorEquals -> TODO()
+        AmountModalEvent.CalculatorC -> handleCalculatorC()
+        AmountModalEvent.CalculatorEquals -> handleCalculatorEquals()
     }
 
     private fun handleBackspace() {
-        if (enteredText.value.isNotEmpty()) {
-            enteredText.value = enteredText.value.drop(1)
+        if (expression.value.isNotEmpty()) {
+            expression.value = expression.value.drop(1)
         }
     }
 
     private fun handleDecimalSeparator() {
         val decimalSeparator = localDecimalSeparator()
-        if (!enteredText.value.contains(decimalSeparator)) {
+        if (!expression.value.contains(decimalSeparator)) {
             // an expression can have only one decimal separator
-            enteredText.value += decimalSeparator
+            expression.value += decimalSeparator
         }
     }
 
-    // region Calculator options
-    private fun handleCalculator(event: AmountModalEvent.Calculator): Unit = when (event.option) {
-        CalculatorOperator.Plus -> TODO()
-        CalculatorOperator.Minus -> TODO()
-        CalculatorOperator.Multiply -> TODO()
-        CalculatorOperator.Divide -> TODO()
-        CalculatorOperator.Brackets -> TODO()
-        CalculatorOperator.Percent -> TODO()
+    // region Calculator
+    private fun handleCalculatorOperator(event: AmountModalEvent.CalculatorOperator) {
+        expression.value = appendTo(expression = expression.value, operator = event.operator)
+    }
+
+    private fun handleCalculatorC() {
+        expression.value = ""
+    }
+
+    private fun handleCalculatorEquals() {
+        val evaluated = evaluate(expression.value)
+        if (evaluated != null) {
+            expression.value = format(Value(evaluated, currency.value), shortenFiat = false).amount
+        }
     }
     // endregion
 
     private fun handleNumber(event: AmountModalEvent.Number) {
-        enteredText.value += event.number
+        expression.value += event.number
     }
 
     private fun handleCurrencyChange(event: AmountModalEvent.CurrencyChange) {
@@ -128,9 +136,11 @@ internal class AmountModalViewModel @Inject constructor(
     }
 
     private fun handleInitial(event: AmountModalEvent.Initial) {
-        event.initialAmount?.let {
-            currency.value = it.currency
-            enteredText.value = format(it, shortenFiat = false).amount
+        event.initialAmount?.let { value ->
+            currency.value = value.currency
+            if (value.amount != 0.0) {
+                expression.value = format(value, shortenFiat = false).amount
+            }
         }
     }
     // endregion

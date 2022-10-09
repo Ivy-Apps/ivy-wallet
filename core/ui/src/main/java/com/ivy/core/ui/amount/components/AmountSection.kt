@@ -26,7 +26,7 @@ import com.ivy.resources.R
 @Composable
 internal fun ColumnScope.AmountSection(
     calculatorVisible: Boolean,
-    enteredText: String?,
+    expression: String?,
     currency: CurrencyCode,
     amountInBaseCurrency: ValueUi?,
     calculatorTempResult: CalculatorResultUi?,
@@ -40,9 +40,9 @@ internal fun ColumnScope.AmountSection(
         horizontalArrangement = Arrangement.Center,
     ) {
         H2Second(
-            text = enteredText ?: "0${rememberDecimalSeparator()}00",
+            text = expression ?: "0${rememberDecimalSeparator()}00",
             fontWeight = FontWeight.Bold,
-            color = if (enteredText != null)
+            color = if (expression != null)
                 UI.colorsInverted.pure else UI.colors.neutral
         )
         AnimatedVisibility(
@@ -149,7 +149,7 @@ private fun Preview() {
         Column {
             AmountSection(
                 calculatorVisible = false,
-                enteredText = null,
+                expression = null,
                 currency = "USD",
                 amountInBaseCurrency = ValueUi(
                     amount = "10.00",
@@ -169,7 +169,7 @@ private fun Preview_Calculator() {
         Column {
             AmountSection(
                 calculatorVisible = true,
-                enteredText = "5+5",
+                expression = "5+5",
                 currency = "USD",
                 amountInBaseCurrency = null,
                 calculatorTempResult = CalculatorResultUi(
@@ -189,7 +189,7 @@ private fun Preview_Calculator_error() {
         Column {
             AmountSection(
                 calculatorVisible = true,
-                enteredText = "5+",
+                expression = "5+",
                 currency = "USD",
                 amountInBaseCurrency = null,
                 calculatorTempResult = CalculatorResultUi(

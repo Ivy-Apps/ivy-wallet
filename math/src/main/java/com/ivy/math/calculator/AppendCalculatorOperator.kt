@@ -9,7 +9,7 @@ import com.ivy.parser.common.decimal
  * If the calculator option isn't valid it won't be added.
  * @return a new expression with the selected calculator option applied.
  */
-fun appendTo(expression: String, option: CalculatorOperator): String = when (option) {
+fun appendTo(expression: String, operator: CalculatorOperator): String = when (operator) {
     CalculatorOperator.Plus -> expression.appendPlusOrMinus('+')
     CalculatorOperator.Minus -> expression.appendPlusOrMinus('-')
     CalculatorOperator.Multiply -> expression.appendBinaryOperator('*')

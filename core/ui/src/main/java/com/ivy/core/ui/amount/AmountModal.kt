@@ -51,6 +51,9 @@ fun BoxScope.AmountModal(
                 feeling = if (calculatorVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
             ) {
                 calculatorVisible = !calculatorVisible
+                if (!calculatorVisible) {
+                    viewModel?.onEvent(AmountModalEvent.CalculatorEquals)
+                }
             }
             SpacerHor(width = 8.dp)
             Positive(
@@ -65,7 +68,7 @@ fun BoxScope.AmountModal(
         contentAbove?.invoke()
         AmountSection(
             calculatorVisible = calculatorVisible,
-            enteredText = state.enteredText,
+            expression = state.expression,
             currency = state.currency,
             amountInBaseCurrency = state.amountBaseCurrency,
             calculatorTempResult = state.calculatorResult,
@@ -74,7 +77,7 @@ fun BoxScope.AmountModal(
         SpacerVer(height = 32.dp)
         Keyboard(
             calculatorVisible = calculatorVisible,
-            onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.Calculator(it)) },
+            onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.CalculatorOperator(it)) },
             onNumberEvent = { viewModel?.onEvent(AmountModalEvent.Number(it)) },
             onDecimalSeparator = { viewModel?.onEvent(AmountModalEvent.DecimalSeparator) },
             onBackspace = { viewModel?.onEvent(AmountModalEvent.Backspace) },
@@ -109,7 +112,7 @@ private fun Preview() {
 }
 
 private fun previewState() = AmountModalState(
-    enteredText = "500.00",
+    expression = "500.00",
     currency = "USD",
     amount = null,
     amountBaseCurrency = ValueUi("1,032.55", "BGN"),

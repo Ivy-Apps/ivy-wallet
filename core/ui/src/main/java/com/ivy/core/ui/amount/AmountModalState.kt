@@ -8,9 +8,9 @@ import com.ivy.data.Value
 
 @Immutable
 internal class AmountModalState(
-    val enteredText: String?,
+    val expression: String?,
     val currency: CurrencyCode,
     val amount: Value?,
     val amountBaseCurrency: ValueUi?,
-    val calculatorResult: CalculatorResultUi,
+    val calculatorResult: CalculatorResultUi?,
 )
