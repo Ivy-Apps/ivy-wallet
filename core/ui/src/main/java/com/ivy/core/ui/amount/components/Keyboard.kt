@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,9 +35,9 @@ import com.ivy.resources.R
 
 // region Customize UI
 private const val keypadOuterWeight = 1f
-private const val keypadInnerWeight = 0.25f
-private val keypadButtonBig = 64.dp
-private val keypadButtonSmall = 56.dp
+private const val keypadInnerWeight = 0.2f
+private val keypadButtonBig = 90.dp
+private val keypadButtonSmall = 82.dp
 private val keyboardVerticalMargin = 12.dp
 // endregion
 
@@ -216,7 +218,7 @@ private fun KeyboardRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         content = content,
     )
@@ -249,7 +251,7 @@ private fun KeypadButton(
                 ButtonVisibility.Low -> UI.colorsInverted.pure
             },
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Normal
         )
     }
 }
@@ -282,10 +284,19 @@ private fun KeypadButtonBox(
     onClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     Box(
         modifier = modifier
             .size(size)
             .clip(UI.shapes.circle)
+            .clickable {
+                hapticFeedback.performHapticFeedback(
+                    HapticFeedbackType.LongPress
+                )
+                onClick()
+            }
+            .padding(all = 4.dp)
             .thenWhen {
                 when (visibility) {
                     ButtonVisibility.Focused,
@@ -300,8 +311,7 @@ private fun KeypadButtonBox(
                         shape = UI.shapes.circle
                     )
                 }
-            }
-            .clickable(onClick = onClick),
+            },
         contentAlignment = Alignment.Center,
         content = content
     )

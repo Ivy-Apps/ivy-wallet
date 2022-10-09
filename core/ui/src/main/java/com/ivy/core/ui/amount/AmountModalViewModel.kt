@@ -37,6 +37,7 @@ internal class AmountModalViewModel @Inject constructor(
 
     private val expression = MutableStateFlow("")
     private val currency = MutableStateFlow("")
+    private val showExpressionError = MutableStateFlow(false)
 
     override fun stateFlow(): Flow<AmountModalState> = combine(
         expression, currency, calculateFlow(), amountBaseCurrencyFlow()
@@ -47,7 +48,11 @@ internal class AmountModalViewModel @Inject constructor(
             currency = currency,
             amount = calcResult.second?.let { Value(it, currency) },
             amountBaseCurrency = amountBaseCurrency,
-            calculatorResult = calcResult.first.takeIf { nonEmptyExpression != null }
+            calculatorResult = calcResult.first.takeIf {
+                (nonEmptyExpression != null &&
+                        expression.toDoubleOrNull() != calcResult.second) ||
+                        calcResult.first.isError
+            }
         )
     }
 
@@ -64,14 +69,15 @@ internal class AmountModalViewModel @Inject constructor(
         }
     }
 
-    private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> =
-        expression.map { expression ->
-            val evaluated = evaluate(expression)
-            CalculatorResultUi(
-                result = evaluated?.let(::formatNumber) ?: "Error",
-                isError = evaluated == null
-            ) to evaluated
-        }
+    private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> = combine(
+        expression, showExpressionError
+    ) { expression, showExpressionError ->
+        val evaluated = evaluate(expression)
+        CalculatorResultUi(
+            result = evaluated?.let(::formatNumber) ?: "Error",
+            isError = evaluated == null && showExpressionError
+        ) to evaluated
+    }
 
     override suspend fun mapToUiState(state: AmountModalState): AmountModalState = state
 
@@ -114,6 +120,8 @@ internal class AmountModalViewModel @Inject constructor(
         val evaluated = evaluate(expression.value)
         if (evaluated != null) {
             expression.value = format(Value(evaluated, currency.value), shortenFiat = false).amount
+        } else {
+            showExpressionError.value = true
         }
     }
     // endregion
