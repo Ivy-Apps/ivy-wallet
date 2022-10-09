@@ -20,8 +20,6 @@ import com.ivy.base.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hideKeyboard
-
 import com.ivy.wallet.ui.theme.components.IvyDescriptionTextField
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalDynamicPrimaryAction
@@ -57,11 +55,11 @@ fun BoxWithConstraintsScope.DescriptionModal(
 
                 onSave = {
                     onDescriptionChanged(descTextFieldValue.text)
-                    view.hideKeyboard()
+//                    view.hideKeyboard()
                 },
                 onDelete = {
                     onDescriptionChanged(null)
-                    view.hideKeyboard()
+//                    view.hideKeyboard()
                 },
                 dismiss = dismiss
             )

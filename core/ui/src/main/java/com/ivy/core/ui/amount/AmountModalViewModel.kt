@@ -8,7 +8,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
-import com.ivy.math.calculator.CalculatorOption
+import com.ivy.math.calculator.CalculatorOperator
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
@@ -83,6 +83,8 @@ internal class AmountModalViewModel @Inject constructor(
         is AmountModalEvent.Number -> handleNumber(event)
         is AmountModalEvent.CurrencyChange -> handleCurrencyChange(event)
         is AmountModalEvent.Initial -> handleInitial(event)
+        AmountModalEvent.CalculatorC -> TODO()
+        AmountModalEvent.CalculatorEquals -> TODO()
     }
 
     private fun handleBackspace() {
@@ -101,14 +103,12 @@ internal class AmountModalViewModel @Inject constructor(
 
     // region Calculator options
     private fun handleCalculator(event: AmountModalEvent.Calculator): Unit = when (event.option) {
-        CalculatorOption.Plus -> TODO()
-        CalculatorOption.Minus -> TODO()
-        CalculatorOption.Multiply -> TODO()
-        CalculatorOption.Divide -> TODO()
-        CalculatorOption.Brackets -> TODO()
-        CalculatorOption.Percent -> TODO()
-        CalculatorOption.Equals -> TODO()
-        CalculatorOption.C -> TODO()
+        CalculatorOperator.Plus -> TODO()
+        CalculatorOperator.Minus -> TODO()
+        CalculatorOperator.Multiply -> TODO()
+        CalculatorOperator.Divide -> TODO()
+        CalculatorOperator.Brackets -> TODO()
+        CalculatorOperator.Percent -> TODO()
     }
     // endregion
 

@@ -77,7 +77,9 @@ fun BoxScope.AmountModal(
             onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.Calculator(it)) },
             onNumberEvent = { viewModel?.onEvent(AmountModalEvent.Number(it)) },
             onDecimalSeparator = { viewModel?.onEvent(AmountModalEvent.DecimalSeparator) },
-            onBackspace = { viewModel?.onEvent(AmountModalEvent.Backspace) }
+            onBackspace = { viewModel?.onEvent(AmountModalEvent.Backspace) },
+            onCalculatorC = { viewModel?.onEvent(AmountModalEvent.CalculatorC) },
+            onCalculatorEquals = { viewModel?.onEvent(AmountModalEvent.CalculatorEquals) }
         )
         SpacerVer(height = 24.dp)
     }
