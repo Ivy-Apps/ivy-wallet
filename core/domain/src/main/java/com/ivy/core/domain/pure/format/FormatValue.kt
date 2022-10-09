@@ -12,7 +12,6 @@ fun format(
     formatCrypto(value) else formatFiat(value = value, shorten = shortenFiat)
 
 private fun formatCrypto(value: Value): ValueUi {
-
     val df = DecimalFormat("###,###,##0.${"#".repeat(16)}")
     return ValueUi(
         amount = df.format(value.amount),
