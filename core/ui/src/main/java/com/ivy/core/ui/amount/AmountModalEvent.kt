@@ -2,10 +2,7 @@ package com.ivy.core.ui.amount
 
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
-
-enum class CalculatorOption {
-    Plus, Minus, Multiply, Divide, Brackets, Percent, Equals, C
-}
+import com.ivy.math.calculator.CalculatorOption
 
 sealed interface AmountModalEvent {
     data class Number(val number: Int) : AmountModalEvent

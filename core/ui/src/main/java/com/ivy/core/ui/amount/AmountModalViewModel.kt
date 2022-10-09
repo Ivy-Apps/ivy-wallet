@@ -8,6 +8,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
+import com.ivy.math.calculator.CalculatorOption
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
