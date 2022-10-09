@@ -6,8 +6,8 @@ package com.ivy.math.calculator
  * @return a new expression with the selected calculator option applied.
  */
 fun appendTo(expression: String, option: CalculatorOption): String = when (option) {
-    CalculatorOption.Plus -> expression.appendPlus()
-    CalculatorOption.Minus -> TODO()
+    CalculatorOption.Plus -> expression.appendPlusMinus('+')
+    CalculatorOption.Minus -> expression.appendPlusMinus('-')
     CalculatorOption.Multiply -> TODO()
     CalculatorOption.Divide -> TODO()
     CalculatorOption.Brackets -> TODO()
@@ -16,7 +16,7 @@ fun appendTo(expression: String, option: CalculatorOption): String = when (optio
     CalculatorOption.C -> TODO()
 }
 
-private fun String.appendPlus(): String = when (this.lastOrNull()) {
+private fun String.appendPlusMinus(symbol: Char): String = when (this.lastOrNull()) {
     '-', '+' -> this
-    else -> this.plus('+')
+    else -> this.plus(symbol)
 }
