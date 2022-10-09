@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Testing
 
 apply<com.ivy.buildsrc.IvyPlugin>()
 
@@ -9,4 +10,7 @@ plugins {
 
 dependencies {
     Hilt()
+    implementation(project(":common:main"))
+    implementation(project(":parser"))
+    Testing()
 }

@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.amount.data.CalculatorResultUi
-import com.ivy.core.ui.amount.rememberDecimalSeparator
+import com.ivy.core.ui.amount.util.rememberDecimalSeparator
 import com.ivy.data.CurrencyCode
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style

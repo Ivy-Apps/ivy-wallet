@@ -15,7 +15,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":navigation"))
     implementation(project(":app-base")) // TODO: temp dependency, remove later
-    implementation(project(":navigation"))
+    implementation(project(":math"))
 
     Testing()
 }

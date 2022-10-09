@@ -8,12 +8,15 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
+import com.ivy.math.evaluate
+import com.ivy.math.localDecimalSeparator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+
 
 @HiltViewModel
 internal class AmountModalViewModel @Inject constructor(
@@ -60,18 +63,12 @@ internal class AmountModalViewModel @Inject constructor(
 
     private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> =
         enteredText.map { input ->
-            // 1,032.55 => 1032.55
-            val expression = input.replace(localGroupingSeparator().toString(), "")
-                .replace(localDecimalSeparator().toString(), ".")
-
-            val evaluated = calculate(expression)
+            val evaluated = evaluate(input)
             CalculatorResultUi(
                 result = evaluated?.toString() ?: "Error",
                 isError = evaluated == null
             ) to evaluated
         }
-
-    private fun calculate(expression: String): Double? = 0.0 // TODO:
 
     override suspend fun mapToUiState(state: AmountModalState): AmountModalState = state
 

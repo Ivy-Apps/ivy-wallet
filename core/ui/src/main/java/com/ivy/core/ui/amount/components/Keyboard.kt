@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.amount.CalculatorOption
-import com.ivy.core.ui.amount.rememberDecimalSeparator
+import com.ivy.core.ui.amount.util.rememberDecimalSeparator
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
 import com.ivy.design.l1_buildingBlocks.B1Second

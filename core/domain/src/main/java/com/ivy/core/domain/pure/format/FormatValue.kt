@@ -12,7 +12,7 @@ fun format(
     formatCrypto(value) else formatFiat(value = value, shorten = shortenFiat)
 
 private fun formatCrypto(value: Value): ValueUi {
-    tailrec fun removeTrailingZeros(number: String): String = if (number.last() != '0')
+    tailrec fun removeTrailingZeros(number: String): String = if (number.lastOrNull() != '0')
         number else removeTrailingZeros(number.dropLast(1))
 
     val df = DecimalFormat("###,###,##0.${"0".repeat(12)}")
