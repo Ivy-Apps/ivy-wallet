@@ -99,4 +99,34 @@ class AppendCalculatorOperatorTest : FreeSpec({
             res shouldBe expected
         }
     }
+
+    "appending brackets '()' to an expression".config(enabled = false) - {
+        withData(
+            nameFn = { (expression, expected) ->
+                "\"$expression\" becomes \"$expected\""
+            },
+            // Expression before (becomes) Expression (after)
+            row("", "("),
+            row("(", "(("),
+            row("-((", "-((("),
+            row("(3", "(3)"),
+            row("-(-25.0+10", "-(-25.0+10)"),
+            row("1000/(300*3", "1000/(300*3)"),
+            row("(3+", "(3+("),
+            row("+(.25", "+(.25)"),
+            row("((10+10)*33", "((10+10)*33)"),
+            row("3", "3*("),
+            row("2/", "2/("),
+            row("(2+2)", "(2+2)*("),
+            row("((50/5", "((50/5)"),
+            row("((50/5)", "((50/5))"),
+            row("((-", "((-("),
+            row("10+10", "10+10*("),
+            row("0.5", "0.5*("),
+        ) { (expression, expected) ->
+            val res = appendTo(expression, CalculatorOperator.Brackets)
+
+            res shouldBe expected
+        }
+    }
 })

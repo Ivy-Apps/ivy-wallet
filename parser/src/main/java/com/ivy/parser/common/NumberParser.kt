@@ -4,11 +4,11 @@ import com.ivy.parser.*
 
 fun digit(): Parser<Char> = sat { it.isDigit() }
 
-private enum class NumberSign {
+enum class NumberSign {
     Positive, Negative
 }
 
-private fun numberSign(): Parser<NumberSign> =
+fun optionalNumberSign(): Parser<NumberSign> =
     optional((char('+') or char('-'))).apply { symbol ->
         pure(
             when (symbol) {
@@ -30,7 +30,7 @@ fun unsignedInt(): Parser<Int> = oneOrMany(digit()).apply { digits ->
 /**
  * Parses an integer number (..., -1, 0, 1, ...).
  */
-fun int(): Parser<Int> = numberSign().apply { sign ->
+fun int(): Parser<Int> = optionalNumberSign().apply { sign ->
     unsignedInt().apply { number ->
         pure(number.applySign(sign))
     }
@@ -50,7 +50,7 @@ fun decimal(): Parser<Double> {
         pure(digits.joinToString(separator = ""))
     }
 
-    return numberSign().apply { sign ->
+    return optionalNumberSign().apply { sign ->
         // 3.14, ###.00
         unsignedInt().apply { intPart ->
             char('.').apply {
@@ -59,14 +59,14 @@ fun decimal(): Parser<Double> {
                 }
             }
         }
-    } or numberSign().apply { sign ->
+    } or optionalNumberSign().apply { sign ->
         // .5 => 0.5
         char('.').apply {
             oneOrMoreDigits().apply { decimalPart ->
                 pure("0.$decimalPart".toDouble().applySign(sign))
             }
         }
-    } or numberSign().apply { sign ->
+    } or optionalNumberSign().apply { sign ->
         // 3. => 3.0
         unsignedInt().apply { intPart ->
             char('.').apply {
@@ -82,7 +82,7 @@ private fun Int.applySign(sign: NumberSign): Int = when (sign) {
     NumberSign.Negative -> -this
 }
 
-private fun Double.applySign(sign: NumberSign): Double = when (sign) {
+fun Double.applySign(sign: NumberSign): Double = when (sign) {
     NumberSign.Positive -> this
     NumberSign.Negative -> -this
 }

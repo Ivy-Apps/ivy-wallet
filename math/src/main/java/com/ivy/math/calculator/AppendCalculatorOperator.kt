@@ -13,7 +13,7 @@ fun appendTo(expression: String, option: CalculatorOperator): String = when (opt
     CalculatorOperator.Minus -> expression.appendPlusOrMinus('-')
     CalculatorOperator.Multiply -> expression.appendBinaryOperator('*')
     CalculatorOperator.Divide -> expression.appendBinaryOperator('/')
-    CalculatorOperator.Brackets -> TODO()
+    CalculatorOperator.Brackets -> expression.brackets()
     CalculatorOperator.Percent -> TODO()
 }
 
@@ -43,4 +43,20 @@ private fun String.appendBinaryOperator(operator: Char): String {
         ?: return this // binary expressions require a number on the left!
     val decimalResult = decimal().invoke(lastNumber)
     return if (decimalResult.isNotEmpty()) this.plus(operator) else this
+}
+
+private fun String.brackets(): String {
+    fun bracketsClosed(expression: String): Boolean =
+        expression.count { it == '(' } == expression.count { it == ')' }
+
+    fun determineBracket(expression: String): String {
+        if (expression.isEmpty()) return "("
+        return when (expression.lastOrNull()) {
+            '+', '-', '(', '/' -> "("
+            ')' -> if (bracketsClosed(expression)) "*(" else ")"
+            else -> if (bracketsClosed(expression)) "(" else ")"
+        }
+    }
+
+    return this + determineBracket(this)
 }

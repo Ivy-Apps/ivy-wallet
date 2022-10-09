@@ -22,8 +22,13 @@ class ExpressionParserTest : FreeSpec({
             row("3*3.0*3", 27.0),
             row("-7.5+3.25-1*1", -5.25),
             row("(((24000-1400)*10%)-7200.50*6)/4", -10_235.75),
+            row("-(5)", -5.0),
+            row("-(3*3)", -9.0),
+            row("(0.5)", 0.5),
+            row("+((20/5)*4)", 16.0),
+            row("-(-1)", 1.0),
         ) { (expression, expectedValue) ->
-            val parser = expression()
+            val parser = expressionParser()
 
             val res = parser(expression)
 

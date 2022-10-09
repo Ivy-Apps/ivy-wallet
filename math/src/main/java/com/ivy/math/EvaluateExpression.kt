@@ -1,7 +1,7 @@
 package com.ivy.math
 
 fun evaluate(expression: String): Double? {
-    val parser = expression()
+    val parser = expressionParser()
     val result = parser(normalize(expression))
     return result.firstOrNull()?.takeIf { it.leftover.isEmpty() }?.value
 }
