@@ -1,5 +1,6 @@
 package com.ivy.math.calculator
 
+import com.ivy.math.expressionParser
 import com.ivy.math.normalize
 import com.ivy.parser.common.decimal
 
@@ -51,10 +52,16 @@ private fun String.brackets(): String {
 
     fun determineBracket(expression: String): String {
         if (expression.isEmpty()) return "("
+        val closed = bracketsClosed(expression)
         return when (expression.lastOrNull()) {
             '+', '-', '(', '/' -> "("
-            ')' -> if (bracketsClosed(expression)) "*(" else ")"
-            else -> if (bracketsClosed(expression)) "(" else ")"
+            ')' -> if (closed) "*(" else ")"
+            else -> {
+                if (!closed) return ")"
+                val parsed = expressionParser().invoke(expression)
+                if (parsed.isNotEmpty()) return "*("
+                ")"
+            }
         }
     }
 

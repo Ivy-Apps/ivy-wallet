@@ -100,7 +100,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
         }
     }
 
-    "appending brackets '()' to an expression".config(enabled = false) - {
+    "appending brackets '()' to an expression" - {
         withData(
             nameFn = { (expression, expected) ->
                 "\"$expression\" becomes \"$expected\""
