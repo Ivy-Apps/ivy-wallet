@@ -15,7 +15,7 @@ fun appendTo(expression: String, option: CalculatorOperator): String = when (opt
     CalculatorOperator.Multiply -> expression.appendBinaryOperator('*')
     CalculatorOperator.Divide -> expression.appendBinaryOperator('/')
     CalculatorOperator.Brackets -> expression.brackets()
-    CalculatorOperator.Percent -> TODO()
+    CalculatorOperator.Percent -> expression.percent()
 }
 
 private fun String.appendPlusOrMinus(operator: Char): String = when (this.lastOrNull()) {
@@ -24,26 +24,12 @@ private fun String.appendPlusOrMinus(operator: Char): String = when (this.lastOr
 }
 
 private fun String.appendBinaryOperator(operator: Char): String {
-    /**
-     * 10+15.5 => 15.5
-     */
-    fun lastNumber(expression: String): String? {
-        val lastChar = expression.lastOrNull() ?: return expression
-        return if (!lastChar.isDigit() && lastChar != '.') {
-            // not a part of a decimal, remove it and recurse
-            lastNumber(expression.dropLast(1))
-        } else expression
-    }
-
     when (this.lastOrNull()) {
         // binary operators can be applied to '%' and ')'
         '%', ')' -> return this.plus(operator)
     }
-    val normalizedExpression = normalize(this)
-    val lastNumber = lastNumber(normalizedExpression)
-        ?: return this // binary expressions require a number on the left!
-    val decimalResult = decimal().invoke(lastNumber)
-    return if (decimalResult.isNotEmpty()) this.plus(operator) else this
+    // binary operators require a number on the left
+    return if (endWithDecimal(this)) this.plus(operator) else this
 }
 
 private fun String.brackets(): String {
@@ -66,4 +52,34 @@ private fun String.brackets(): String {
     }
 
     return this + determineBracket(this)
+}
+
+private fun String.percent(): String {
+    fun allowPercent(expression: String): Boolean = when (expression.lastOrNull()) {
+        ')' -> true
+        null, '+', '-', '*', '/', '%' -> false
+        else -> endWithDecimal(this)
+    }
+
+    return if (allowPercent(this)) this.plus('%') else this
+}
+
+private fun endWithDecimal(expression: String): Boolean {
+    /**
+     * Extracts the last number from an expression.
+     * 10+15.5 => 15.5
+     */
+    fun lastNumber(expression: String): String? {
+        val lastChar = expression.lastOrNull() ?: return expression
+        return if (!lastChar.isDigit() && lastChar != '.') {
+            // not a part of a decimal, remove it and recurse
+            lastNumber(expression.dropLast(1))
+        } else expression
+    }
+
+    val normalizedExpression = normalize(expression)
+    val lastNumber = lastNumber(normalizedExpression)
+        ?: return false // binary expressions require a number on the left!
+    val decimalResult = decimal().invoke(lastNumber)
+    return decimalResult.isNotEmpty() // parsed successfully a decimal
 }

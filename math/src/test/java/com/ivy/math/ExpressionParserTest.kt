@@ -27,6 +27,7 @@ class ExpressionParserTest : FreeSpec({
             row("(0.5)", 0.5),
             row("+((20/5)*4)", 16.0),
             row("-(-1)", 1.0),
+            row("(2+2)%", 0.04)
         ) { (expression, expectedValue) ->
             val parser = expressionParser()
 

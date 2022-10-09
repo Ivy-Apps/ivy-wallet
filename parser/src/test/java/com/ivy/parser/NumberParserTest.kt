@@ -84,6 +84,7 @@ class NumberParserTest : FreeSpec({
             row("a10"),
             row("..3"),
             row(""),
+            row("."),
         ) { (text) ->
             val parser = decimal()
 

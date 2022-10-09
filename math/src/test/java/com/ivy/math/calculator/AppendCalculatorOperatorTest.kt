@@ -1,16 +1,19 @@
 package com.ivy.math.calculator
 
 import io.kotest.core.spec.style.FreeSpec
+import io.kotest.data.Row2
 import io.kotest.data.row
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 
 class AppendCalculatorOperatorTest : FreeSpec({
+    fun nameFn(): (Row2<String, String>) -> String = { (expression, expected) ->
+        "\"$expression\" becomes \"$expected\""
+    }
+
     "appending '+' to an expression" - {
         withData(
-            nameFn = { (expression, expected) ->
-                "\"$expression\" becomes \"$expected\""
-            },
+            nameFn = nameFn(),
             // Expression before (becomes) Expression (after)
             row("", "+"),
             row("3", "3+"),
@@ -21,6 +24,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("%", "%+"),
             row("-", "-"),
             row("0.23-", "0.23-"),
+            row("(3*3)", "(3*3)+"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Plus)
 
@@ -30,9 +34,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
 
     "appending '-' to an expression" - {
         withData(
-            nameFn = { (expression, expected) ->
-                "\"$expression\" becomes \"$expected\""
-            },
+            nameFn = nameFn(),
             // Expression before (becomes) Expression (after)
             row("", "-"),
             row("3", "3-"),
@@ -43,6 +45,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("%", "%-"),
             row("+", "+"),
             row("0.23-", "0.23-"),
+            row("(5+5)", "(5+5)-"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Minus)
 
@@ -52,9 +55,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
 
     "appending '*' to an expression" - {
         withData(
-            nameFn = { (expression, expected) ->
-                "\"$expression\" becomes \"$expected\""
-            },
+            nameFn = nameFn(),
             // Expression before (becomes) Expression (after)
             row("1", "1*"),
             row("232.99", "232.99*"),
@@ -77,9 +78,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
 
     "appending '/' to an expression" - {
         withData(
-            nameFn = { (expression, expected) ->
-                "\"$expression\" becomes \"$expected\""
-            },
+            nameFn = nameFn(),
             // Expression before (becomes) Expression (after)
             row("1", "1/"),
             row("3.14", "3.14/"),
@@ -102,9 +101,7 @@ class AppendCalculatorOperatorTest : FreeSpec({
 
     "appending brackets '()' to an expression" - {
         withData(
-            nameFn = { (expression, expected) ->
-                "\"$expression\" becomes \"$expected\""
-            },
+            nameFn = nameFn(),
             // Expression before (becomes) Expression (after)
             row("", "("),
             row("(", "(("),
@@ -125,6 +122,27 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("0.5", "0.5*("),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Brackets)
+
+            res shouldBe expected
+        }
+    }
+
+    "appending % to an expression" - {
+        withData(
+            nameFn = nameFn(),
+            // Expression before (becomes) Expression (after)
+            row("", ""),
+            row("10%", "10%"),
+            row("10", "10%"),
+            row("(5+5)", "(5+5)%"),
+            row(".3", ".3%"),
+            row(".3", ".3%"),
+            row("5+", "5+"),
+            row("-", "-"),
+            row("*", "*"),
+            row("/", "/"),
+        ) { (expression, expected) ->
+            val res = appendTo(expression, CalculatorOperator.Percent)
 
             res shouldBe expected
         }
