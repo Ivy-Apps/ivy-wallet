@@ -420,6 +420,7 @@ fun DependencyHandler.ThirdParty() {
     EventBus()
 
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
+    // TODO: Remove keval because we're using our own `:parser` + `:math`
     implementation("com.notkamui.libs:keval:0.8.0")
 
     OpenCSV()
