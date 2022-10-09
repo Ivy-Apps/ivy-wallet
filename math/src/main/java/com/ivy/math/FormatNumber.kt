@@ -7,4 +7,4 @@ import java.text.DecimalFormat
  * Precision is set to 6 decimals.
  */
 fun formatNumber(number: Double): String =
-    DecimalFormat("###,###,###.${"#".repeat(6)}").format(number)
+    DecimalFormat("###,###,##0.${"#".repeat(6)}").format(number)

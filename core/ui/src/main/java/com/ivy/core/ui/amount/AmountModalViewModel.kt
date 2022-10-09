@@ -1,5 +1,6 @@
 package com.ivy.core.ui.amount
 
+import com.ivy.common.isNotBlank
 import com.ivy.common.isNotEmpty
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
@@ -42,18 +43,32 @@ internal class AmountModalViewModel @Inject constructor(
     override fun stateFlow(): Flow<AmountModalState> = combine(
         expression, currency, calculateFlow(), amountBaseCurrencyFlow()
     ) { expression, currency, calcResult, amountBaseCurrency ->
-        val nonEmptyExpression = expression.takeIf { it.isNotEmpty() }
+        val formatted = formatExpression(expression)
         AmountModalState(
-            expression = nonEmptyExpression,
+            expression = formatted,
             currency = currency,
             amount = calcResult.second?.let { Value(it, currency) },
             amountBaseCurrency = amountBaseCurrency,
             calculatorResult = calcResult.first.takeIf {
-                (nonEmptyExpression != null &&
-                        expression.toDoubleOrNull() != calcResult.second) ||
-                        calcResult.first.isError
+                calcResult.first.isError || (formatted != null &&
+                        expression.toDoubleOrNull() != calcResult.second)
+
             }
         )
+    }
+
+    private fun formatExpression(expression: String): String? {
+        var formatted: String = expression
+        expression.split("+", "-", "*", "/", "(", ")", "%")
+            .mapNotNull { it.takeIf { it.isNotBlank() } }
+            .mapNotNull { number ->
+                val numDouble = number.toDoubleOrNull()
+                if (numDouble != null) number to formatNumber(numDouble) else null
+            }
+            .forEach { (number, formattedNumber) ->
+                formatted = formatted.replace(number, formattedNumber)
+            }
+        return formatted.takeIf { it.isNotEmpty() }
     }
 
     private fun amountBaseCurrencyFlow(): Flow<ValueUi?> = combine(
@@ -120,7 +135,7 @@ internal class AmountModalViewModel @Inject constructor(
         val evaluated = evaluate(expression.value)
         if (evaluated != null) {
             expression.value = format(Value(evaluated, currency.value), shortenFiat = false).amount
-        } else {
+        } else if (expression.value.isNotBlank()) {
             showExpressionError.value = true
         }
     }
@@ -128,6 +143,7 @@ internal class AmountModalViewModel @Inject constructor(
 
     private fun handleNumber(event: AmountModalEvent.Number) {
         expression.value += event.number
+        showExpressionError.value = false
     }
 
     private suspend fun handleCurrencyChange(event: AmountModalEvent.CurrencyChange) {

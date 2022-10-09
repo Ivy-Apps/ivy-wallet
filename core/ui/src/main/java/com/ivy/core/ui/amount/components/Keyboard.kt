@@ -251,7 +251,7 @@ private fun KeypadButton(
                 ButtonVisibility.Low -> UI.colorsInverted.pure
             },
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Normal
+            fontWeight = FontWeight.Bold
         )
     }
 }
