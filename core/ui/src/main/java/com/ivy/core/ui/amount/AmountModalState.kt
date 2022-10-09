@@ -7,7 +7,7 @@ import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 
 @Immutable
-internal class AmountModalState(
+internal data class AmountModalState(
     val expression: String?,
     val currency: CurrencyCode,
     val amount: Value?,

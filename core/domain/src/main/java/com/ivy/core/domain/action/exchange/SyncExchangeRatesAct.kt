@@ -1,22 +1,18 @@
 package com.ivy.core.domain.action.exchange
 
 import com.ivy.core.domain.action.Action
-import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
 import com.ivy.data.CurrencyCode
 import com.ivy.exchange.RemoteExchangeProvider
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class SyncExchangeRatesAct @Inject constructor(
-    private val baseCurrencyFlow: BaseCurrencyFlow,
     private val exchangeProvider: RemoteExchangeProvider,
     private val exchangeRateDao: ExchangeRateDao
-) : Action<Unit, Unit>() {
-    override suspend fun Unit.willDo() {
-        val baseCurrency = baseCurrencyFlow().first()
-        if (baseCurrency == "") willDo() else syncExchangeRates(baseCurrency)
+) : Action<String, Unit>() {
+    override suspend fun String.willDo() {
+        syncExchangeRates(this)
     }
 
     private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) {

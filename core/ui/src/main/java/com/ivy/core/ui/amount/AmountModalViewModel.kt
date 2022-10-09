@@ -14,10 +14,8 @@ import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -91,7 +89,7 @@ internal class AmountModalViewModel @Inject constructor(
 
     private fun handleBackspace() {
         if (expression.value.isNotEmpty()) {
-            expression.value = expression.value.drop(1)
+            expression.value = expression.value.dropLast(1)
         }
     }
 
@@ -124,15 +122,29 @@ internal class AmountModalViewModel @Inject constructor(
         expression.value += event.number
     }
 
-    private fun handleCurrencyChange(event: AmountModalEvent.CurrencyChange) {
-        // TODO: Enter 10 BGN -> change to EUR -> amount should become 5
+    private suspend fun handleCurrencyChange(event: AmountModalEvent.CurrencyChange) {
+        val currency = currency.value
         val newCurrency = event.currency
-        val currentCurrency = currency.value
 
-        currency.value = newCurrency
-        if (newCurrency != currentCurrency) {
-            // TODO:
+        val enteredValue = state.value.amount
+        Timber.d("enteredValue = $enteredValue")
+        if (newCurrency != currency && enteredValue != null) {
+            // Converted the entered amount to the new currency
+            val latestRates = exchangeRatesFlow().take(1).first()
+            Timber.d("latestRates = $latestRates")
+            exchange(
+                ratesData = latestRates,
+                from = currency, to = newCurrency,
+                amount = enteredValue.amount
+            ).orNull()?.let { exchangedAmount ->
+                expression.value = format(
+                    Value(exchangedAmount, newCurrency), shortenFiat = false
+                ).amount
+            }
         }
+
+        // update the currency in the UI
+        this.currency.value = newCurrency
     }
 
     private fun handleInitial(event: AmountModalEvent.Initial) {

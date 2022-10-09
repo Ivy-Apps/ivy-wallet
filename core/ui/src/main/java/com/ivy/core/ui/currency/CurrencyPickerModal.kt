@@ -96,8 +96,8 @@ fun BoxScope.CurrencyPickerModal(
                 onCurrencySelect = {
                     resetSearch()
                     modal.hide()
-                    state.selectedCurrency?.code?.let(onCurrencyPick)
                     viewModel?.onEvent(CurrencyModalEvent.SelectCurrency(it))
+                    onCurrencyPick(it.code)
                 }
             )
             item(key = "cp_last_item_spacer") {

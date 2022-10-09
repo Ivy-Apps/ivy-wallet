@@ -87,7 +87,7 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
 
     private fun handleInitial(event: CurrencyModalEvent.Initial) {
         val currencyItem = state.value.items.firstOrNull {
-            (it as CurrencyListItem.Currency).currency.code == event.initialCurrency
+            (it as? CurrencyListItem.Currency)?.currency?.code == event.initialCurrency
         } as? CurrencyListItem.Currency
         if (currencyItem != null) {
             selectedCurrency.value = currencyItem.currency
