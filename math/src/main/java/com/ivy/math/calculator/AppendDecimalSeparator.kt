@@ -9,6 +9,15 @@ fun appendDecimalSeparator(
             else -> true
         }
 
+    fun appendDecimalSeparator(expression: String): String {
+        val lastChar = expression.lastOrNull()
+        return when {
+            lastChar == null -> expression.plus("0.")
+            !lastChar.isDigit() -> expression.plus("0.")
+            else -> expression.plus('.')
+        }
+    }
+
     return if (allowDecimalSeparator(expression))
-        expression.plus(decimalSeparator) else expression
+        appendDecimalSeparator(expression) else expression
 }

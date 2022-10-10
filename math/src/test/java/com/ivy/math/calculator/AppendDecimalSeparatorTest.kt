@@ -12,7 +12,7 @@ class AppendDecimalSeparatorTest : FreeSpec({
                 "\"$expression\" becomes \"$expected\""
             },
             // Expression (becomes) Expression after
-            row("", "."),
+            row("", "0."),
             row(".", "."),
             row("(10+5)", "(10+5)"),
             row("7", "7."),
