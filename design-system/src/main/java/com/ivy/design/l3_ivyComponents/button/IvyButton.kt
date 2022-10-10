@@ -36,6 +36,7 @@ fun IvyButton(
     @DrawableRes
     icon: Int?,
     modifier: Modifier = Modifier,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit,
 ) {
     val bgColor = feeling.toColor()
@@ -99,6 +100,7 @@ fun IvyButton(
                 iconTint = textColor,
                 background = background,
                 textStyle = textStyle,
+                hapticFeedback = hapticFeedback,
                 onClick = onClick,
             )
         }
@@ -109,6 +111,7 @@ fun IvyButton(
                 icon = icon,
                 iconTint = textColor,
                 background = background,
+                hapticFeedback = hapticFeedback,
                 onClick = onClick
             )
         }
@@ -119,6 +122,7 @@ fun IvyButton(
                 text = text,
                 textStyle = textStyle,
                 background = background,
+                hapticFeedback = hapticFeedback,
                 onClick = onClick
             )
         }

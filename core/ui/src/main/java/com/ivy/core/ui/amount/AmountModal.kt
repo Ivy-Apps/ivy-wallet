@@ -48,7 +48,9 @@ fun BoxScope.AmountModal(
             Secondary(
                 text = null,
                 icon = R.drawable.ic_vue_edu_calculator,
-                feeling = if (calculatorVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
+                feeling = if (calculatorVisible)
+                    ButtonFeeling.Negative else ButtonFeeling.Positive,
+                hapticFeedback = true
             ) {
                 calculatorVisible = !calculatorVisible
                 if (!calculatorVisible) {

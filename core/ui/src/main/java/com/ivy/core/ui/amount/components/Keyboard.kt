@@ -4,15 +4,12 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,10 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.amount.util.rememberDecimalSeparator
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l1_buildingBlocks.B1Second
-import com.ivy.design.l1_buildingBlocks.IconRes
-import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l1_buildingBlocks.SpacerWeight
+import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.toColor
@@ -284,18 +278,11 @@ private fun KeypadButtonBox(
     onClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
-    val hapticFeedback = LocalHapticFeedback.current
-
     Box(
         modifier = modifier
             .size(size)
             .clip(UI.shapes.circle)
-            .clickable {
-                hapticFeedback.performHapticFeedback(
-                    HapticFeedbackType.LongPress
-                )
-                onClick()
-            }
+            .hapticClickable(onClick = onClick)
             .padding(all = 4.dp)
             .thenWhen {
                 when (visibility) {

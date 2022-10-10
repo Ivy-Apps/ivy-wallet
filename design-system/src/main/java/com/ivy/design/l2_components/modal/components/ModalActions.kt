@@ -21,6 +21,7 @@ import com.ivy.design.util.IvyPreview
 @Composable
 fun ModalActionsScope.DynamicSave(
     item: Any?,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
@@ -29,6 +30,7 @@ fun ModalActionsScope.DynamicSave(
         feeling = ButtonFeeling.Positive,
         text = if (item != null) "Save" else "Add",
         icon = if (item != null) R.drawable.ic_round_check_24 else R.drawable.ic_round_add_24,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -36,12 +38,14 @@ fun ModalActionsScope.DynamicSave(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Set(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = stringResource(R.string.set),
         icon = R.drawable.ic_round_check_24,
         visibility = ButtonVisibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -49,12 +53,14 @@ fun ModalActionsScope.Set(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Choose(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = "Choose",
         icon = R.drawable.ic_round_check_24,
         visibility = ButtonVisibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -62,12 +68,14 @@ fun ModalActionsScope.Choose(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Done(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = "Done",
         icon = R.drawable.ic_round_check_24,
         visibility = ButtonVisibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -80,6 +88,7 @@ fun ModalActionsScope.Positive(
     @DrawableRes
     icon: Int? = null,
     visibility: ButtonVisibility = ButtonVisibility.Focused,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
@@ -88,6 +97,7 @@ fun ModalActionsScope.Positive(
         feeling = ButtonFeeling.Positive,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }
@@ -99,6 +109,7 @@ fun ModalActionsScope.Negative(
     @DrawableRes
     icon: Int? = null,
     visibility: ButtonVisibility = ButtonVisibility.Focused,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
@@ -107,6 +118,7 @@ fun ModalActionsScope.Negative(
         feeling = ButtonFeeling.Negative,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }
@@ -118,6 +130,7 @@ fun ModalActionsScope.Secondary(
     @DrawableRes
     icon: Int? = null,
     feeling: ButtonFeeling = ButtonFeeling.Positive,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
@@ -126,6 +139,7 @@ fun ModalActionsScope.Secondary(
         feeling = feeling,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }

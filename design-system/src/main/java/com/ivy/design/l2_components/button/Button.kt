@@ -1,6 +1,5 @@
 package com.ivy.design.l2_components.button
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -15,6 +14,7 @@ import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.colorAs
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.data.*
+import com.ivy.design.l1_buildingBlocks.hapticClickable
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
@@ -35,12 +35,13 @@ fun Btn.Text(
         color = White,
         textAlign = TextAlign.Center
     ),
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Text(
         modifier = modifier
             .clipBackground(background)
-            .clickable(onClick = onClick)
+            .hapticClickable(hapticFeedbackEnabled = hapticFeedback, onClick = onClick)
             .applyBackground(background),
         text = text,
         style = textStyle
