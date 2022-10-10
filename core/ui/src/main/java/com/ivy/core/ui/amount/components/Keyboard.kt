@@ -112,7 +112,11 @@ internal fun ColumnScope.Keyboard(
         SpacerWeight(weight = keypadInnerWeight)
         KeypadButton(symbol = "0", size = keypadBtnSize, onClick = { onNumberEvent(0) })
         SpacerWeight(weight = keypadInnerWeight)
-        BackSpaceButton(size = keypadBtnSize, onClick = onBackspace)
+        BackSpaceButton(
+            size = keypadBtnSize,
+            onClick = onBackspace,
+            onLongClick = onCalculatorC
+        )
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "=",
@@ -254,13 +258,15 @@ private fun KeypadButton(
 private fun BackSpaceButton(
     size: Dp,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
     KeypadButtonBox(
         modifier = modifier,
         feeling = ButtonFeeling.Negative,
         size = size,
         onClick = onClick,
+        onLongClick = onLongClick
     ) {
         IconRes(
             icon = R.drawable.outline_backspace_24,
@@ -276,13 +282,14 @@ private fun KeypadButtonBox(
     modifier: Modifier = Modifier,
     visibility: ButtonVisibility = ButtonVisibility.Medium,
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
         modifier = modifier
             .size(size)
             .clip(UI.shapes.circle)
-            .hapticClickable(onClick = onClick)
+            .hapticClickable(onClick = onClick, onLongClick = onLongClick)
             .padding(all = 4.dp)
             .thenWhen {
                 when (visibility) {
