@@ -19,7 +19,7 @@ fun appendTo(expression: String, operator: CalculatorOperator): String = when (o
 }
 
 private fun String.appendPlusOrMinus(operator: Char): String = when (this.lastOrNull()) {
-    '-', '+' -> this
+    '-', '+' -> this.dropLast(1).plus(operator)
     else -> this.plus(operator)
 }
 

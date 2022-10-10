@@ -22,9 +22,11 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("2/", "2/+"),
             row("*", "*+"),
             row("%", "%+"),
-            row("-", "-"),
-            row("0.23-", "0.23-"),
+            row("-", "+"),
+            row("0.23-", "0.23+"),
             row("(3*3)", "(3*3)+"),
+            // swapping operators
+            row("2-", "2+"),
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Plus)
 
@@ -43,9 +45,11 @@ class AppendCalculatorOperatorTest : FreeSpec({
             row("2/", "2/-"),
             row("*", "*-"),
             row("%", "%-"),
-            row("+", "+"),
+            row("+", "-"),
             row("0.23-", "0.23-"),
             row("(5+5)", "(5+5)-"),
+            // swapping operators
+            row("7+", "7-")
         ) { (expression, expected) ->
             val res = appendTo(expression, CalculatorOperator.Minus)
 
