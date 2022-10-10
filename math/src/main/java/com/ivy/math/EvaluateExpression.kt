@@ -9,7 +9,7 @@ fun evaluate(expression: String): Double? {
     return result.firstOrNull()?.takeIf { it.leftover.isEmpty() }?.value
 }
 
-private fun tryFixExpression(expression: String): String {
+fun tryFixExpression(expression: String): String {
     fun fixPartialBinaryOps(expression: String): String = when (expression.lastOrNull()) {
         '+', '-', '*', '/' -> expression.dropLast(1)
         else -> when {

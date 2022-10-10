@@ -12,6 +12,7 @@ import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
 import com.ivy.math.calculator.appendDecimalSeparator
 import com.ivy.math.calculator.appendTo
+import com.ivy.math.calculator.hasObviousResult
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
@@ -44,36 +45,22 @@ internal class AmountModalViewModel @Inject constructor(
 
     override fun stateFlow(): Flow<AmountModalState> = combine(
         expression, currency, calculateFlow(), amountBaseCurrencyFlow()
-    ) { expression, currency, calcResult, amountBaseCurrency ->
+    ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency ->
         val formatted = formatExpression(expression)
         AmountModalState(
             expression = formatted,
             currency = currency,
-            amount = calcResult.second?.let { Value(it, currency) },
+            amount = expressionValue?.let { Value(it, currency) },
             amountBaseCurrency = amountBaseCurrency,
-            calculatorResult = calcResult.first.takeIf {
-                calcResult.first.isError || (formatted != null &&
-                        expression.toDoubleOrNull() != calcResult.second)
+            calculatorResult = calcResult.takeIf {
+                calcResult.isError || !hasObviousResult(expression, expressionValue)
 
             }
         )
     }
 
     private fun formatExpression(expression: String): String? {
-        // TODO: Refactor, very complex code... Simple bad!
-        var formatted: String = expression
-        expression.split("+", "-", "*", "/", "(", ")", "%")
-            .mapNotNull { it.takeIf { it.isNotBlank() } }
-            .mapNotNull { numberStr ->
-                numberStr.toDoubleOrNull()?.let { number ->
-                    // TODO: Implement number formatting
-                    numberStr to numberStr
-                }
-            }
-            .forEach { (number, formattedNumber) ->
-                formatted = formatted.replace(number, formattedNumber)
-            }
-        return formatted.takeIf { it.isNotEmpty() }
+        return expression.takeIf { it.isNotEmpty() }
     }
 
     private fun amountBaseCurrencyFlow(): Flow<ValueUi?> = combine(
