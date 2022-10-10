@@ -145,7 +145,7 @@ internal class AmountModalViewModel @Inject constructor(
     // endregion
 
     private fun handleNumber(event: AmountModalEvent.Number) {
-        expression.value += event.number
+        expression.value = appendTo(expression = expression.value, digit = event.number)
         showExpressionError.value = false
     }
 
