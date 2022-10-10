@@ -1,7 +1,7 @@
 package com.ivy.parser
 
-import com.ivy.parser.common.decimal
 import com.ivy.parser.common.int
+import com.ivy.parser.common.number
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.datatest.withData
@@ -16,13 +16,10 @@ class NumberParserTest : FreeSpec({
             },
             // Text (as) Number (with) Leftover
             row("0", 0, ""),
-            row("+1", 1, ""),
             row("1", 1, ""),
-            row("-1", -1, ""),
             row("123456", 123456, ""),
-            row("-123456", -123456, ""),
             row("900ok", 900, "ok"),
-            row("-5+10", -5, "+10"),
+            row("5+10", 5, "+10"),
             row("01070 ", 1070, " "),
         ) { (text, number, leftover) ->
             val parser = int()
@@ -58,17 +55,17 @@ class NumberParserTest : FreeSpec({
             // (from) Text (as) Double (with) Leftover
             row("0", 0.0, ""),
             row("3.14", 3.14, ""),
-            row("-12.09", -12.09, ""),
-            row("+.003", 0.003, ""),
+            row(".003", 0.003, ""),
             row(".5", 0.5, ""),
             row("1024wtf?", 1_024.0, "wtf?"),
-            row("-0.99", -0.99, ""),
-            row("-5.65+18", -5.65, "+18"),
+            row("0.99", 0.99, ""),
+            row("5.65+18", 5.65, "+18"),
             row("3.%*10", 3.0, "%*10"),
             row("7", 7.0, ""),
             row("5748b", 5748.0, "b"),
+            row("1", 1.0, ""),
         ) { (text, double, leftover) ->
-            val parser = decimal()
+            val parser = number()
 
             val res = parser(text)
 
@@ -86,7 +83,7 @@ class NumberParserTest : FreeSpec({
             row(""),
             row("."),
         ) { (text) ->
-            val parser = decimal()
+            val parser = number()
 
             val res = parser(text)
 

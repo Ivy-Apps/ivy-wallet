@@ -417,13 +417,16 @@ fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/jeziellago/compose-markdown
     implementation("com.github.jeziellago:compose-markdown:0.2.6")
 
+    Keval()
     EventBus()
 
+    OpenCSV()
+}
+
+fun DependencyHandler.Keval() {
     //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
     // TODO: Remove keval because we're using our own `:parser` + `:math`
     implementation("com.notkamui.libs:keval:0.8.0")
-
-    OpenCSV()
 }
 
 fun DependencyHandler.OpenCSV() {

@@ -2,7 +2,7 @@ package com.ivy.math.calculator
 
 import com.ivy.math.expressionParser
 import com.ivy.math.normalize
-import com.ivy.parser.common.decimal
+import com.ivy.parser.common.number
 
 /**
  * Appends calculator option to an expression by following expression syntax.
@@ -78,6 +78,6 @@ private fun endWithDecimal(expression: String): Boolean {
     val normalizedExpression = normalize(expression)
     val lastNumber = lastNumber(normalizedExpression)
         ?: return false // binary expressions require a number on the left!
-    val decimalResult = decimal().invoke(lastNumber)
+    val decimalResult = number().invoke(lastNumber)
     return decimalResult.isNotEmpty() // parsed successfully a decimal
 }

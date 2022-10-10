@@ -1,22 +1,23 @@
 package com.ivy.math
 
 import com.ivy.parser.*
-import com.ivy.parser.common.applySign
-import com.ivy.parser.common.decimal
-import com.ivy.parser.common.optionalNumberSign
+import com.ivy.parser.common.number
+
 
 /**
  * Evaluates an arbitrary mathematical expression to double.
  */
-fun expressionParser(): Parser<Double> = term().apply { x ->
+fun expressionParser(): Parser<Double> = expr()
+
+private fun expr(): Parser<Double> = term().apply { x ->
     char('+').apply {
-        expressionParser().apply { y ->
+        expr().apply { y ->
             pure(x + y)
         }
     }
 } or term().apply { x ->
     char('-').apply {
-        expressionParser().apply { y ->
+        expr().apply { y ->
             pure(x - y)
         }
     }
@@ -40,24 +41,26 @@ private fun term(): Parser<Double> = factor().apply { x ->
     }
 } or factor()
 
-private fun factor(): Parser<Double> = optionalNumberSign().apply { sign ->
-    char('(').apply {
-        expressionParser().apply { x ->
-            char(')').apply {
-                pure(x.applySign(sign))
-            }
+private fun factor(): Parser<Double> = char('(').apply {
+    expr().apply { x ->
+        char(')').apply {
+            pure(x)
         }
     }
-} or optionalNumberSign().apply { sing ->
-    char('(').apply {
-        decimal().apply { x ->
-            char(')').apply {
-                pure(x.applySign(sing))
-            }
+} or string("-(").apply {
+    expr().apply { x ->
+        char(')').apply {
+            pure(-x)
         }
     }
-} or decimal().apply { x ->
+} or string("(-").apply {
+    expr().apply { x ->
+        char(')').apply {
+            pure(-x)
+        }
+    }
+} or number().apply { x ->
     char('%').apply {
         pure(x / 100)
     }
-} or decimal()
+} or number()
