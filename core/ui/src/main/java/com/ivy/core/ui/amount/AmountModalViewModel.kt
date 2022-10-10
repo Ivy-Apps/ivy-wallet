@@ -40,6 +40,8 @@ internal class AmountModalViewModel @Inject constructor(
     private val currency = MutableStateFlow("")
     private val showExpressionError = MutableStateFlow(false)
 
+    private var overrideExpressionForInitial = false
+
     override fun stateFlow(): Flow<AmountModalState> = combine(
         expression, currency, calculateFlow(), amountBaseCurrencyFlow()
     ) { expression, currency, calcResult, amountBaseCurrency ->
@@ -115,6 +117,7 @@ internal class AmountModalViewModel @Inject constructor(
     private fun handleBackspace() {
         if (expression.value.isNotEmpty()) {
             expression.value = expression.value.dropLast(1)
+            overrideExpressionForInitial = false // expression is not initial, disable override
         }
     }
 
@@ -123,15 +126,18 @@ internal class AmountModalViewModel @Inject constructor(
             expression = expression.value,
             decimalSeparator = localDecimalSeparator(),
         )
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
 
     // region Calculator
     private fun handleCalculatorOperator(event: AmountModalEvent.CalculatorOperator) {
         expression.value = appendTo(expression = expression.value, operator = event.operator)
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
 
     private fun handleCalculatorC() {
         expression.value = ""
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
 
     private fun handleCalculatorEquals() {
@@ -141,12 +147,17 @@ internal class AmountModalViewModel @Inject constructor(
         } else if (expression.value.isNotBlank()) {
             showExpressionError.value = true
         }
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
     // endregion
 
     private fun handleNumber(event: AmountModalEvent.Number) {
-        expression.value = appendTo(expression = expression.value, digit = event.number)
-        showExpressionError.value = false
+        // for better UX, allow the user to override the initial expression
+        val currentExpression = if (overrideExpressionForInitial) "" else expression.value
+        expression.value = appendTo(currentExpression, digit = event.number)
+        showExpressionError.value = false // remove shown error
+
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
 
     private suspend fun handleCurrencyChange(event: AmountModalEvent.CurrencyChange) {
@@ -173,6 +184,8 @@ internal class AmountModalViewModel @Inject constructor(
 
         // update the currency in the UI
         this.currency.value = newCurrency
+
+        overrideExpressionForInitial = false // expression is not initial, disable override
     }
 
     private fun handleInitial(event: AmountModalEvent.Initial) {
@@ -180,6 +193,7 @@ internal class AmountModalViewModel @Inject constructor(
             currency.value = value.currency
             if (value.amount != 0.0) {
                 expression.value = format(value, shortenFiat = false).amount
+                overrideExpressionForInitial = true
             }
         }
     }
