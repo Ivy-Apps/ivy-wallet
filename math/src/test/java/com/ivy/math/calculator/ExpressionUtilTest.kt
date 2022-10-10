@@ -29,4 +29,23 @@ class ExpressionUtilTest : FreeSpec({
             res shouldBe obvious
         }
     }
+
+    "beautifies an expression" - {
+        withData(
+            nameFn = { (expression, beautified) ->
+                "\"$expression\" beautified to \"$beautified\""
+            },
+            // Expression (as) Beautified expression
+            row("", null),
+            row("3.14", "3.14"),
+            row("5+5", "5+5"),
+            row("1024", "1,024"),
+            row("1000000", "1,000,000"),
+            row("10123.45678", "10,123.45678"),
+        ) { (expression, beautified) ->
+            val res = beautify(expression)
+
+            res shouldBe beautified
+        }
+    }
 })

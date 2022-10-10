@@ -12,6 +12,7 @@ import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
 import com.ivy.math.calculator.appendDecimalSeparator
 import com.ivy.math.calculator.appendTo
+import com.ivy.math.calculator.beautify
 import com.ivy.math.calculator.hasObviousResult
 import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
@@ -46,9 +47,8 @@ internal class AmountModalViewModel @Inject constructor(
     override fun stateFlow(): Flow<AmountModalState> = combine(
         expression, currency, calculateFlow(), amountBaseCurrencyFlow()
     ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency ->
-        val formatted = formatExpression(expression)
         AmountModalState(
-            expression = formatted,
+            expression = beautify(expression),
             currency = currency,
             amount = expressionValue?.let { Value(it, currency) },
             amountBaseCurrency = amountBaseCurrency,
@@ -59,9 +59,6 @@ internal class AmountModalViewModel @Inject constructor(
         )
     }
 
-    private fun formatExpression(expression: String): String? {
-        return expression.takeIf { it.isNotEmpty() }
-    }
 
     private fun amountBaseCurrencyFlow(): Flow<ValueUi?> = combine(
         currency, baseCurrencyFlow(), calculateFlow(), exchangeRatesFlow()
