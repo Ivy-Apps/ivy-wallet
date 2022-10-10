@@ -32,10 +32,11 @@ private fun String.appendBinaryOperator(operator: Char): String {
     return if (endWithDecimal(this)) this.plus(operator) else this
 }
 
-private fun String.brackets(): String {
-    fun bracketsClosed(expression: String): Boolean =
-        expression.count { it == '(' } == expression.count { it == ')' }
+fun bracketsClosed(expression: String): Boolean =
+    expression.count { it == '(' } == expression.count { it == ')' }
 
+
+private fun String.brackets(): String {
     fun determineBracket(expression: String): String {
         if (expression.isEmpty()) return "("
         val closed = bracketsClosed(expression)

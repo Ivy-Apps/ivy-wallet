@@ -1,9 +1,30 @@
 package com.ivy.math
 
+import com.ivy.math.calculator.bracketsClosed
+
 fun evaluate(expression: String): Double? {
     val parser = expressionParser()
-    val result = parser(normalize(expression))
+    val fixedExpression = tryFixExpression(normalize(expression))
+    val result = parser(fixedExpression)
     return result.firstOrNull()?.takeIf { it.leftover.isEmpty() }?.value
+}
+
+private fun tryFixExpression(expression: String): String {
+    fun fixPartialBinaryOps(expression: String): String = when (expression.lastOrNull()) {
+        '+', '-', '*', '/' -> expression.dropLast(1)
+        else -> when {
+            expression.endsWith("()") -> fixPartialBinaryOps(expression.dropLast(2))
+            expression.endsWith("(") -> fixPartialBinaryOps(expression.dropLast(1))
+            else -> expression
+        }
+    }
+
+    val fixBinaryOperators = fixPartialBinaryOps(expression)
+    var fixBrackets = fixBinaryOperators
+    while (!bracketsClosed(fixBrackets)) {
+        fixBrackets += ')'
+    }
+    return fixBrackets.replace("()", "") // fix empty brackets
 }
 
 /**
