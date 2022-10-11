@@ -21,6 +21,7 @@ class EvaluateExpressionTest : FreeSpec({
             row("(12.0", 12.0),
             row("8/()", 8.0),
             row("45+(", 45.0),
+            row("+20-45+10-45%*10", -19.5),
         ) { (expression, value) ->
             val res = evaluate(expression)
 

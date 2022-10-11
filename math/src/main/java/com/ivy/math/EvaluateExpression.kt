@@ -23,8 +23,11 @@ fun tryFixExpression(expression: String): String {
         }
     }
 
-    val fixBinaryOperators = fixPartialBinaryOps(expression)
-    var fixBrackets = fixBinaryOperators
+    fun fixLeadingPlus(expression: String): String = if (expression.firstOrNull() == '+')
+        expression.drop(1) else expression
+
+    var fixBrackets = fixLeadingPlus(expression)
+        .let(::fixPartialBinaryOps)
     while (!bracketsClosed(fixBrackets)) {
         fixBrackets += ')'
     }
