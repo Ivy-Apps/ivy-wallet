@@ -30,7 +30,7 @@ class Divide(private val left: TreeNode, private val right: TreeNode) : TreeNode
 }
 
 class Percent(private val expr: TreeNode) : TreeNode {
-    override fun print(): String = "(${expr.print()}%)"
+    override fun print(): String = "(${expr.print()})%"
 
     override fun eval(): Double = expr.eval() / 100.0
 }
@@ -83,14 +83,20 @@ private fun term(): Parser<TreeNode> = factor().apply { x ->
             pure(Divide(x, y))
         }
     }
-} or factor().apply { x ->
-    char('%').apply {
-        pure(Percent(x))
-    }
 } or factor()
 
-private fun factor(): Parser<TreeNode> = number().apply { num ->
+private fun factor(): Parser<TreeNode> = number().apply { x ->
+    char('%').apply {
+        pure(Percent(Number(x)))
+    }
+} or number().apply { num ->
     pure(Number(num))
+} or char('(').apply {
+    expr().apply { x ->
+        string(")%").apply {
+            pure(Percent(x))
+        }
+    }
 } or char('(').apply {
     expr().apply { x ->
         char(')').apply {

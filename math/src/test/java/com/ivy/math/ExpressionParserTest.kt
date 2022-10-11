@@ -28,11 +28,14 @@ class ExpressionParserTest : FreeSpec({
             row("((20/5)*4)", 16.0),
             row("(-(-1))", 1.0),
             row("(2+2)%", 0.04),
-//            row("10%*200", 20.0), TODO: Implement %
+            row("10%*200", 20.0),
+            row("25%+0.75", 1.0),
             row("1-1+1-1", 0.0),
             row("1-1", 0.0),
             row("1-1-1", -1.0),
             row("1-1-1-1", -2.0),
+            row("-8-4+2", -10.0),
+            row("1000000-(12*12534-12*12534*10%)*80%", 891706.24),
         ) { (expression, expectedValue) ->
             val parser = expressionParser()
 
