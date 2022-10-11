@@ -1,12 +1,16 @@
 package com.ivy.math
 
 import com.ivy.math.calculator.bracketsClosed
+import timber.log.Timber
 
 fun evaluate(expression: String): Double? {
     val parser = expressionParser()
     val fixedExpression = tryFixExpression(normalize(expression))
     val result = parser(fixedExpression)
-    return result.firstOrNull()?.takeIf { it.leftover.isEmpty() }?.value
+    val expressionTree = result.firstOrNull()
+        ?.takeIf { it.leftover.isEmpty() }?.value ?: return null
+    Timber.d("Evaluating: ${expressionTree.print()}")
+    return expressionTree.eval()
 }
 
 fun tryFixExpression(expression: String): String {

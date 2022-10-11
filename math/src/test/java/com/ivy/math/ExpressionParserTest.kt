@@ -28,16 +28,23 @@ class ExpressionParserTest : FreeSpec({
             row("((20/5)*4)", 16.0),
             row("(-(-1))", 1.0),
             row("(2+2)%", 0.04),
-            row("10%*200", 20.0),
+//            row("10%*200", 20.0), TODO: Implement %
             row("1-1+1-1", 0.0),
             row("1-1", 0.0),
-            // TODO: Fix the broken tests below
-//            row("1-1-1", -1.0),
-//            row("1-1-1-1", -2.0),
+            row("1-1-1", -1.0),
+            row("1-1-1-1", -2.0),
         ) { (expression, expectedValue) ->
             val parser = expressionParser()
 
-            val res = parser(expression)
+            val parseResults = parser(expression)
+            val res = parseResults.map {
+                val expressionTree = it.value
+                val value = expressionTree.eval()
+                println(
+                    "\"$expression\" becomes \"${expressionTree.print()}\" and evaluates as $value"
+                )
+                ParseResult(value, it.leftover)
+            }
 
             res shouldBe listOf(ParseResult(expectedValue, ""))
         }

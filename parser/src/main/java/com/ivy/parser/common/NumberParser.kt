@@ -52,30 +52,3 @@ fun number(): Parser<Double> {
         pure(it.toDouble())
     }
 }
-
-// region Number Sign
-enum class NumberSign {
-    Positive, Negative
-}
-
-fun optionalNumberSign(): Parser<NumberSign> =
-    optional((char('+') or char('-'))).apply { symbol ->
-        pure(
-            when (symbol) {
-                null, '+' -> NumberSign.Positive
-                '-' -> NumberSign.Negative
-                else -> error("impossible")
-            }
-        )
-    }
-
-private fun Int.applySign(sign: NumberSign): Int = when (sign) {
-    NumberSign.Positive -> this
-    NumberSign.Negative -> -this
-}
-
-fun Double.applySign(sign: NumberSign): Double = when (sign) {
-    NumberSign.Positive -> this
-    NumberSign.Negative -> -this
-}
-// endregion
