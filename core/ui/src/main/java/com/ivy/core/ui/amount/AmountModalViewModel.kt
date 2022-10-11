@@ -10,6 +10,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
+import com.ivy.data.exchange.ExchangeRatesData
 import com.ivy.math.calculator.appendDecimalSeparator
 import com.ivy.math.calculator.appendTo
 import com.ivy.math.calculator.beautify
@@ -18,17 +19,23 @@ import com.ivy.math.evaluate
 import com.ivy.math.formatNumber
 import com.ivy.math.localDecimalSeparator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import timber.log.Timber
 import javax.inject.Inject
-
 
 @HiltViewModel
 internal class AmountModalViewModel @Inject constructor(
     private val exchangeRatesFlow: ExchangeRatesFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
-) : FlowViewModel<AmountModalState, AmountModalState, AmountModalEvent>() {
-    override fun initialState(): AmountModalState = AmountModalState(
+) : FlowViewModel<AmountModalViewModel.State, AmountModalState, AmountModalEvent>() {
+    override fun initialState(): State = State(
+        exchangeRates = ExchangeRatesData(baseCurrency = "", rates = emptyMap()),
+        uiState = initialUiState()
+    )
+
+    override fun initialUiState(): AmountModalState = AmountModalState(
         expression = null,
         currency = "",
         amount = null,
@@ -36,29 +43,29 @@ internal class AmountModalViewModel @Inject constructor(
         calculatorResult = CalculatorResultUi(result = "", isError = true)
     )
 
-    override fun initialUiState(): AmountModalState = initialState()
-
     private val expression = MutableStateFlow("")
     private val currency = MutableStateFlow("")
     private val showExpressionError = MutableStateFlow(false)
 
     private var overrideExpressionForInitial = false
 
-    override fun stateFlow(): Flow<AmountModalState> = combine(
-        expression, currency, calculateFlow(), amountBaseCurrencyFlow()
-    ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency ->
-        AmountModalState(
-            expression = beautify(expression),
-            currency = currency,
-            amount = expressionValue?.let { Value(it, currency) },
-            amountBaseCurrency = amountBaseCurrency,
-            calculatorResult = calcResult.takeIf {
-                calcResult.isError || !hasObviousResult(expression, expressionValue)
+    override fun stateFlow(): Flow<State> = combine(
+        expression, currency, calculateFlow(), amountBaseCurrencyFlow(), exchangeRatesFlow()
+    ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency, exchangeRates ->
+        State(
+            exchangeRates = exchangeRates,
+            uiState = AmountModalState(
+                expression = beautify(expression),
+                currency = currency,
+                amount = expressionValue?.let { Value(it, currency) },
+                amountBaseCurrency = amountBaseCurrency,
+                calculatorResult = calcResult.takeIf {
+                    calcResult.isError || !hasObviousResult(expression, expressionValue)
 
-            }
+                }
+            )
         )
     }
-
 
     private fun amountBaseCurrencyFlow(): Flow<ValueUi?> = combine(
         currency, baseCurrencyFlow(), calculateFlow(), exchangeRatesFlow()
@@ -73,6 +80,8 @@ internal class AmountModalViewModel @Inject constructor(
         }
     }
 
+    override suspend fun mapToUiState(state: State): AmountModalState = state.uiState
+
     private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> = combine(
         expression, showExpressionError
     ) { expression, showExpressionError ->
@@ -82,8 +91,6 @@ internal class AmountModalViewModel @Inject constructor(
             isError = evaluated == null && showExpressionError
         ) to evaluated
     }
-
-    override suspend fun mapToUiState(state: AmountModalState): AmountModalState = state
 
 
     // region Event Handling
@@ -148,15 +155,13 @@ internal class AmountModalViewModel @Inject constructor(
         val currency = currency.value
         val newCurrency = event.currency
 
-        val enteredValue = state.value.amount
+        val state = state.value
+        val enteredValue = state.uiState.amount
         Timber.d("enteredValue = $enteredValue")
         if (newCurrency != currency && enteredValue != null) {
             // Converted the entered amount to the new currency
-            // TODO: Fix this ugly workaround
-            val latestRates = exchangeRatesFlow().take(1).toList().last()
-            Timber.d("latestRates = $latestRates")
             exchange(
-                ratesData = latestRates,
+                ratesData = state.exchangeRates,
                 from = currency, to = newCurrency,
                 amount = enteredValue.amount
             ).orNull()?.let { exchangedAmount ->
@@ -182,4 +187,9 @@ internal class AmountModalViewModel @Inject constructor(
         }
     }
     // endregion
+
+    data class State(
+        val exchangeRates: ExchangeRatesData,
+        val uiState: AmountModalState
+    )
 }

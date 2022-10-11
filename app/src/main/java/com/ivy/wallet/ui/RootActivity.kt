@@ -22,6 +22,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -98,7 +100,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
             }
 
             IvyUI {
-                NavigationRoot(viewModel)
+                val state by viewModel.uiState.collectAsState()
+                NavigationRoot(state)
             }
         }
 
@@ -106,7 +109,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     @Composable
-    private fun BoxWithConstraintsScope.NavigationRoot(viewModel: RootViewModel) {
+    private fun BoxWithConstraintsScope.NavigationRoot(state: RootState) {
         NavigationRoot(
             navigator = navigator,
             onboardingScreens = OnboardingScreens(
