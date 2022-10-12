@@ -38,7 +38,7 @@ fun Switch(
 
     Row(
         modifier = modifier
-            .width(40.dp)
+            .width(48.dp)
             .clip(UI.shapes.fullyRounded)
             .border(2.dp, color, UI.shapes.fullyRounded)
             .clickable {

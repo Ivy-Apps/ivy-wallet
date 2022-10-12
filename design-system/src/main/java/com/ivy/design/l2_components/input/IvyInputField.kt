@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -26,6 +27,7 @@ fun IvyInputField(
     isError: Boolean = false,
     @DrawableRes
     iconLeft: Int? = null,
+    shape: Shape = UI.shapes.rounded,
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
@@ -40,6 +42,7 @@ fun IvyInputField(
         placeholder = placeholder,
         isError = isError,
         iconLeft = iconLeft,
+        shape = shape,
         textStyle = when (typography) {
             InputFieldTypography.Primary -> UI.typo.b2.style(fontWeight = FontWeight.Bold)
             InputFieldTypography.Secondary -> UI.typoSecond.b2.style(fontWeight = FontWeight.Bold)
