@@ -11,9 +11,9 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(
 
 ) : FlowViewModel<Unit, AccountState, AccountEvent>() {
-    override val initialInternal = Unit
+    override val initialState = Unit
     override val initialUi: AccountState = AccountState(dummy = "")
-    override val internalFlow = flow<Unit> {}
+    override val stateFlow = flow<Unit> {}
     override val uiFlow: Flow<AccountState> = flowOf(initialUi)
 
     override suspend fun handleEvent(event: AccountEvent) {

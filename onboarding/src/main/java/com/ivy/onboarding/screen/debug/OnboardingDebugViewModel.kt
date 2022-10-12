@@ -1,6 +1,6 @@
 package com.ivy.onboarding.screen.debug
 
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.navigation.Navigator

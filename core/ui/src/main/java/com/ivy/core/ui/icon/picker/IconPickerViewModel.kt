@@ -1,6 +1,6 @@
 package com.ivy.core.ui.icon.picker
 
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.action.ItemIconOptionalAct
 import com.ivy.core.ui.icon.picker.data.Icon

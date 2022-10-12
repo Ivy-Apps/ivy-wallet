@@ -46,7 +46,7 @@ class SelectedPeriodViewModel @Inject constructor(
         val months: List<MonthUi>,
     )
 
-    override val initialInternal = State(
+    override val initialState = State(
         startDayOfMonth = 1,
         months = emptyList(),
         selectedPeriod = SelectedPeriod.AllTime(allTime())
@@ -57,7 +57,7 @@ class SelectedPeriodViewModel @Inject constructor(
         months = emptyList(),
     )
 
-    override val internalFlow: Flow<State> = combine(
+    override val stateFlow: Flow<State> = combine(
         startDayOfMonthFlow(), selectedPeriodFlow()
     ) { startDayOfMonth, selectedPeriod ->
         val currentYear = timeProvider.dateNow().year
@@ -71,7 +71,7 @@ class SelectedPeriodViewModel @Inject constructor(
         )
     }
 
-    override val uiFlow: Flow<UiState> = internalFlow.map {
+    override val uiFlow: Flow<UiState> = stateFlow.map {
         UiState(
             startDayOfMonth = it.startDayOfMonth,
             months = it.months
@@ -87,10 +87,10 @@ class SelectedPeriodViewModel @Inject constructor(
                 // TODO: Refactor that
                 // 10 is a safe date in the middle of the month
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
-                startDayOfMonth = internalState.value.startDayOfMonth
+                startDayOfMonth = state.value.startDayOfMonth
             )
             SelectPeriodEvent.ResetToCurrentPeriod -> currentMonthlyPeriod(
-                startDayOfMonth = internalState.value.startDayOfMonth,
+                startDayOfMonth = state.value.startDayOfMonth,
                 timeProvider = timeProvider,
             )
             SelectPeriodEvent.LastYear -> yearlyPeriod(timeProvider.dateNow().year - 1)
@@ -118,26 +118,26 @@ class SelectedPeriodViewModel @Inject constructor(
     }
 
     private fun shiftPeriodForward(): SelectedPeriod =
-        when (val selected = internalState.value.selectedPeriod) {
+        when (val selected = state.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .plusMonths(1),
-                startDayOfMonth = internalState.value.startDayOfMonth
+                startDayOfMonth = state.value.startDayOfMonth
             )
         }
 
     private fun shiftPeriodBackward(): SelectedPeriod =
-        when (val selected = internalState.value.selectedPeriod) {
+        when (val selected = state.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .minusMonths(1),
-                startDayOfMonth = internalState.value.startDayOfMonth
+                startDayOfMonth = state.value.startDayOfMonth
             )
         }
 

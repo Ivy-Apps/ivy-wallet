@@ -23,10 +23,10 @@ class RootViewModel @Inject constructor(
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
     baseCurrencyFlow: BaseCurrencyFlow,
 ) : FlowViewModel<RootViewModel.InternalState, RootState, RootEvent>() {
-    override val initialInternal = InternalState(baseCurrency = "")
+    override val initialState = InternalState(baseCurrency = "")
     override val initialUi = RootState(appLocked = false)
 
-    override val internalFlow: Flow<InternalState> = baseCurrencyFlow().map { baseCurrency ->
+    override val stateFlow: Flow<InternalState> = baseCurrencyFlow().map { baseCurrency ->
         if (baseCurrency.isNotEmpty()) {
             Timber.i("Syncing exchange rates for $baseCurrency")
             syncExchangeRatesAct(baseCurrency)

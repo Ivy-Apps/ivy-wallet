@@ -1,7 +1,7 @@
 package com.ivy.core.ui.color.picker
 
 import androidx.compose.ui.graphics.Color
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
-    override val initialInternal: HomeState = HomeState(
+    override val initialState: HomeState = HomeState(
         period = null,
         trnsList = TransactionsList(
             upcoming = null,
@@ -75,7 +75,8 @@ class HomeViewModel @Inject constructor(
 
     private val overrideShowBalance = MutableStateFlow(false)
 
-    override val internalFlow: Flow<HomeState> = combine(
+    // region State flow
+    override val stateFlow: Flow<HomeState> = combine(
         showBalanceFlow(), balanceFlow(), periodDataFlow()
     ) { showBalance, balance, periodData ->
         HomeState(
@@ -138,9 +139,10 @@ class HomeViewModel @Inject constructor(
     ) { hideBalanceSettings, showBalance ->
         showBalance || !hideBalanceSettings
     }
+    // endregion
 
-    // region map to Ui state
-    override val uiFlow: Flow<HomeStateUi> = internalFlow.map { state ->
+    // region UI flow
+    override val uiFlow: Flow<HomeStateUi> = stateFlow.map { state ->
         HomeStateUi(
             period = state.period?.let { mapSelectedPeriodUiAct(it) },
             trnsList = mapTransactionListUiAct(state.trnsList),

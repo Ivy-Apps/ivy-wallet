@@ -1,6 +1,6 @@
 package com.ivy.main
 
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.navigation.destinations.main.Main.Tab
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

@@ -11,16 +11,16 @@ import timber.log.Timber
 abstract class FlowViewModel<InternalState, UiState, Event> : ViewModel() {
     private val events = MutableSharedFlow<Event>(replay = 0)
 
-    protected abstract val initialInternal: InternalState
+    protected abstract val initialState: InternalState
     protected abstract val initialUi: UiState
 
-    protected abstract val internalFlow: Flow<InternalState>
+    protected abstract val stateFlow: Flow<InternalState>
     protected abstract val uiFlow: Flow<UiState>
 
     protected abstract suspend fun handleEvent(event: Event)
 
-    protected val internalState: StateFlow<InternalState> by lazy {
-        internalFlow
+    protected val state: StateFlow<InternalState> by lazy {
+        stateFlow
             .flowOn(Dispatchers.Default)
             .onEach {
                 Timber.d("Internal state = $it")
@@ -28,7 +28,7 @@ abstract class FlowViewModel<InternalState, UiState, Event> : ViewModel() {
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.Eagerly,
-                initialValue = initialInternal,
+                initialValue = initialState,
             )
     }
 
@@ -50,7 +50,7 @@ abstract class FlowViewModel<InternalState, UiState, Event> : ViewModel() {
         viewModelScope.launch {
             // without this delay it crashes because isn't instantiated
             delay(100)
-            internalState // init the lazy val for the internal state
+            state // init the lazy val for the internal state
         }
     }
 

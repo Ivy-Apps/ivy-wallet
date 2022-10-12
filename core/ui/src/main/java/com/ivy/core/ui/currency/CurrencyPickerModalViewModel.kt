@@ -1,6 +1,6 @@
 package com.ivy.core.ui.currency
 
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.ui.currency.data.CurrencyListItem
 import com.ivy.core.ui.currency.data.CurrencyUi
 import com.ivy.data.IvyCurrency

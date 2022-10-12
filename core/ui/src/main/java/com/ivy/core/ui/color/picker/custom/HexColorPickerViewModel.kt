@@ -1,6 +1,6 @@
 package com.ivy.core.ui.color.picker.custom
 
-import com.ivy.core.SimpleFlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.design.l0_system.color.fromHex
 import com.ivy.design.l0_system.color.toHex
 import dagger.hilt.android.lifecycle.HiltViewModel
