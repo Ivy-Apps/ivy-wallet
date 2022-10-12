@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.R
-import com.ivy.core.ui.data.AccountUi
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.transaction.TrnListItemUi.Transfer
 import com.ivy.core.ui.data.transaction.dummyTransactionUi
@@ -50,15 +50,15 @@ private fun TransferHeader(
     toAccount: AccountUi
 ) {
     @Composable
-    fun AccountUi.IconName() {
+    fun IconAndName(account: AccountUi) {
         ItemIcon(
-            itemIcon = icon,
+            itemIcon = account.icon,
             size = IconSize.S,
             tint = UI.colorsInverted.pure,
         )
         SpacerHor(width = 4.dp)
         Caption(
-            text = name,
+            text = account.name,
             color = UI.colorsInverted.pure,
             fontWeight = FontWeight.ExtraBold
         )
@@ -71,13 +71,13 @@ private fun TransferHeader(
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        account.IconName()
+        IconAndName(account)
 
         SpacerHor(width = 12.dp)
         IconRes(R.drawable.ic_arrow_right)
         SpacerHor(width = 8.dp)
 
-        toAccount.IconName()
+        IconAndName(account)
     }
 }
 

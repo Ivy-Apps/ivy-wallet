@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.data.dummyAccountUi
+import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.data.icon.dummyIconUnknown

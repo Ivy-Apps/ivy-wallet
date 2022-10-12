@@ -15,8 +15,8 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.AccountBadge
 import com.ivy.core.ui.category.CategoryBadge
-import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.core.ui.data.transaction.dummyTransactionUi

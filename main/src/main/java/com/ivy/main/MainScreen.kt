@@ -14,7 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.accounts.AccBottomBarAction
 import com.ivy.accounts.AccountTab
 import com.ivy.accounts.AccountTabEvent
-import com.ivy.accounts.AccountViewModel
+import com.ivy.accounts.AccountTabViewModel
 import com.ivy.design.l2_components.modal.openModals
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.ScreenPlaceholder
@@ -36,7 +36,7 @@ fun MainScreen(tab: Tab?) {
     }
 
     val homeViewModel: HomeViewModel = hiltViewModel()
-    val accountViewModel: AccountViewModel = hiltViewModel()
+    val accountViewModel: AccountTabViewModel = hiltViewModel()
     UI(
         selectedTab = state.selectedTab,
         onEvent = viewModel::onEvent,

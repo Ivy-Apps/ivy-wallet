@@ -1,4 +1,4 @@
-package com.ivy.core.ui.data
+package com.ivy.core.ui.data.account
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color

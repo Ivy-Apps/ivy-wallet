@@ -1,8 +1,9 @@
-package com.ivy.core.ui.action.mapping
+package com.ivy.core.ui.action.mapping.account
 
 import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
-import com.ivy.core.ui.data.AccountUi
+import com.ivy.core.ui.action.mapping.MapUiAction
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.data.account.Account
 import com.ivy.design.l0_system.color.toComposeColor
 import javax.inject.Inject
