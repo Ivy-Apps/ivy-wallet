@@ -70,7 +70,7 @@ fun IvyButton(
         ButtonVisibility.Focused, ButtonVisibility.High ->
             rememberContrastColor(bgColor)
         ButtonVisibility.Medium -> rememberContrastColor(UI.colors.pure)
-        ButtonVisibility.Low -> UI.colors.primary
+        ButtonVisibility.Low -> bgColor
     }
     val textStyle = UI.typo.b2.style(
         color = textColor,
