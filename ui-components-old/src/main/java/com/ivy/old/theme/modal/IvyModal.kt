@@ -35,6 +35,7 @@ import kotlin.math.roundToInt
 private const val DURATION_BACKGROUND_BLUR_ANIM = 400
 const val DURATION_MODAL_ANIM = 200
 
+@Deprecated("Don't use!")
 @Composable
 fun BoxScope.IvyModal(
     id: UUID?,

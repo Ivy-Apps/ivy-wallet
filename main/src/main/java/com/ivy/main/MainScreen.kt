@@ -15,6 +15,7 @@ import com.ivy.accounts.AccBottomBarAction
 import com.ivy.accounts.AccountTab
 import com.ivy.accounts.AccountTabEvent
 import com.ivy.accounts.AccountViewModel
+import com.ivy.design.l2_components.modal.openModals
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.ScreenPlaceholder
 import com.ivy.design.util.isInPreview
@@ -56,8 +57,8 @@ private fun UI(
             .fillMaxSize()
             .horizontalSwipeListener(
                 sensitivity = 200,
-                onSwipeLeft = { onEvent(MainEvent.SwitchSelectedTab) },
-                onSwipeRight = { onEvent(MainEvent.SwitchSelectedTab) }
+                onSwipeLeft = { switchTabs(onEvent) },
+                onSwipeRight = { switchTabs(onEvent) }
             )
     ) {
         when (selectedTab) {
@@ -113,6 +114,12 @@ private fun UI(
             onAccountsClick = { onEvent(MainEvent.SelectTab(Tab.Accounts)) }
         )
         // endregion
+    }
+}
+
+private fun switchTabs(onEvent: (MainEvent) -> Unit) {
+    if (openModals <= 0) {
+        onEvent(MainEvent.SwitchSelectedTab)
     }
 }
 

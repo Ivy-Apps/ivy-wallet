@@ -43,6 +43,8 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.*
 import com.ivy.resources.R
 
+var openModals = 0
+
 // region Ivy Modal
 @Immutable
 data class IvyModal(
@@ -50,10 +52,12 @@ data class IvyModal(
 ) {
     fun hide() {
         visibilityState.value = false
+        openModals--
     }
 
     fun show() {
         visibilityState.value = true
+        openModals++
     }
 }
 
