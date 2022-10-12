@@ -15,6 +15,7 @@ class MapAccountUiAct @Inject constructor(
         id = domain.id.toString(),
         name = domain.name,
         icon = itemIconAct(ItemIconAct.Input(iconId = domain.icon, defaultTo = DefaultTo.Account)),
-        color = domain.color.toComposeColor()
+        color = domain.color.toComposeColor(),
+        excluded = domain.excluded,
     )
 }

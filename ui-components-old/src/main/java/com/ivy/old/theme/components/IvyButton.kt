@@ -29,6 +29,7 @@ import com.ivy.wallet.ui.theme.White
 import com.ivy.wallet.utils.drawColoredShadow
 import com.ivy.wallet.utils.thenIf
 
+@Deprecated("Don't use!")
 @Composable
 fun IvyButton(
     modifier: Modifier = Modifier,

@@ -16,6 +16,7 @@ interface AccountListItemWithBalanceUi {
     @Immutable
     data class FolderHolder(
         val folder: AccountFolderUi,
+        val accItems: List<AccountHolder>,
         val balance: ValueUi,
     ) : AccountListItemWithBalanceUi
 }

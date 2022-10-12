@@ -13,15 +13,18 @@ data class AccountUi(
     val name: String,
     val color: Color,
     val icon: ItemIcon,
+    val excluded: Boolean,
 )
 
 fun dummyAccountUi(
     name: String = "Account",
     color: Color = Green,
-    icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_account_s)
+    icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_account_s),
+    excluded: Boolean = false,
 ) = AccountUi(
     id = "",
     name = name,
     color = color,
-    icon = icon
+    icon = icon,
+    excluded = excluded,
 )
