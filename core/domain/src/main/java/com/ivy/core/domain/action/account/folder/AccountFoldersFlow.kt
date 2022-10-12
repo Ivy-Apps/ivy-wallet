@@ -36,6 +36,7 @@ class AccountFoldersFlow @Inject constructor(
 
     private fun toDomain(foldersMap: Map<FolderId, List<Account>>, folder: AccountFolderEntity) =
         AccountFolder(
+            id = folder.id,
             name = folder.name,
             icon = folder.icon,
             color = folder.color,

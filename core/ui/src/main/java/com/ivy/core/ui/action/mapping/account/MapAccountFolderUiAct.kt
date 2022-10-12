@@ -13,6 +13,7 @@ class MapAccountFolderUiAct @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
 ) : MapUiAction<AccountFolder, AccountFolderUi>() {
     override suspend fun transform(domain: AccountFolder) = AccountFolderUi(
+        id = domain.id,
         name = domain.name,
         icon = itemIconAct(ItemIconAct.Input(domain.icon, DefaultTo.Folder)),
         color = domain.color.toComposeColor(),

@@ -6,6 +6,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.design.l0_system.color.Green
+import java.util.*
 
 @Immutable
 data class AccountUi(
@@ -18,11 +19,12 @@ data class AccountUi(
 
 fun dummyAccountUi(
     name: String = "Account",
+    id: String = UUID.randomUUID().toString(),
     color: Color = Green,
     icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_account_s),
     excluded: Boolean = false,
 ) = AccountUi(
-    id = "",
+    id = id,
     name = name,
     color = color,
     icon = icon,

@@ -6,7 +6,7 @@ import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.AccountUi
 
 @Immutable
-interface AccountListItemWithBalanceUi {
+sealed interface AccountListItemWithBalanceUi {
     @Immutable
     data class AccountHolder(
         val account: AccountUi,
