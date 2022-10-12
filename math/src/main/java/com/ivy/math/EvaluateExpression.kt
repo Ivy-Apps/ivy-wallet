@@ -28,6 +28,7 @@ fun tryFixExpression(expression: String): String {
 
     var fixBrackets = fixLeadingPlus(expression)
         .let(::fixPartialBinaryOps)
+        .replace("(+", "(")
     while (!bracketsClosed(fixBrackets)) {
         fixBrackets += ')'
     }
