@@ -85,7 +85,11 @@ fun BoxScope.ColorPickerModal(
     HexColorPickerModal(
         modal = hexColorPickerModal,
         initialColor = selectedColor,
-        onColorPicked = { selectedColor = it }
+        onColorPicked = {
+            selectedColor = it
+            it.let(onColorPicked)
+            modal.hide()
+        }
     )
 }
 
