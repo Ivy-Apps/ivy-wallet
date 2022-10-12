@@ -79,7 +79,7 @@ fun BoxScope.CurrencyPickerModal(
         Search(
             searchBarVisible = searchBarVisible,
             initialSearchQuery = state.searchQuery,
-            searchHint = "Search currencies (e.g. EUR, USD, BTC, Bitcoin)",
+            searchHint = "Search (e.g. EUR, USD, BTC)",
             resetSearch = resetSearch,
             onSearch = { viewModel?.onEvent(CurrencyModalEvent.Search(it)) },
         ) {
