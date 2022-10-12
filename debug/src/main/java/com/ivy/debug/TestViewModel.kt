@@ -1,6 +1,6 @@
 package com.ivy.debug
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.SimpleFlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
@@ -13,25 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
-    private val selectedPeriodFlow: SelectedPeriodFlow,
+    selectedPeriodFlow: SelectedPeriodFlow,
     private val mapSelectedPeriodAct: MapSelectedPeriodUiAct
-) : FlowViewModel<TestStateUi, TestStateUi, Unit>() {
-    override fun initialState() = TestStateUi(
+) : SimpleFlowViewModel<TestStateUi, Unit>() {
+    override val initialUi: TestStateUi = TestStateUi(
         selectedPeriodUi = SelectedPeriodUi.AllTime(
             btnText = "",
             rangeUi = TimeRangeUi(allTime(), "", "")
         )
     )
 
-    override fun initialUiState(): TestStateUi = initialState()
-
-    override fun stateFlow(): Flow<TestStateUi> = selectedPeriodFlow().map {
+    override val uiFlow: Flow<TestStateUi> = selectedPeriodFlow().map {
         TestStateUi(
             selectedPeriodUi = mapSelectedPeriodAct(it)
         )
     }
-
-    override suspend fun mapToUiState(state: TestStateUi): TestStateUi = state
 
     override suspend fun handleEvent(event: Unit) {}
 }

@@ -1,6 +1,6 @@
 package com.ivy.core.ui.currency
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.SimpleFlowViewModel
 import com.ivy.core.ui.currency.data.CurrencyListItem
 import com.ivy.core.ui.currency.data.CurrencyUi
 import com.ivy.data.IvyCurrency
@@ -11,19 +11,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class CurrencyPickerModalViewModel @Inject constructor(
-) : FlowViewModel<CurrencyModalState, CurrencyModalState, CurrencyModalEvent>() {
-    override fun initialState(): CurrencyModalState = CurrencyModalState(
+) : SimpleFlowViewModel<CurrencyModalState, CurrencyModalEvent>() {
+    override val initialUi = CurrencyModalState(
         items = emptyList(),
         selectedCurrency = null,
         searchQuery = "",
     )
 
-    override fun initialUiState(): CurrencyModalState = initialState()
-
     private var searchQuery = MutableStateFlow("")
     private val selectedCurrency = MutableStateFlow<CurrencyUi?>(null)
 
-    override fun stateFlow(): Flow<CurrencyModalState> =
+    override val uiFlow: Flow<CurrencyModalState> =
         combine(currenciesFlow(), selectedCurrency) { currencies, selectedCurrency ->
             CurrencyModalState(
                 items = currencies,
@@ -58,7 +56,6 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
     private fun IvyCurrency.passesSearch(searchQuery: String): Boolean =
         code.lowercase().contains(searchQuery) || name.lowercase().contains(searchQuery)
 
-
     @OptIn(FlowPreview::class)
     private fun searchQueryFlow(): Flow<String?> = searchQuery.map {
         it.lowercase().trim().takeIf(String::isNotEmpty) // normalize search query
@@ -66,8 +63,6 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
 
     private fun availableCurrenciesFlow(): Flow<List<IvyCurrency>> =
         flowOf(IvyCurrency.getAvailable())
-
-    override suspend fun mapToUiState(state: CurrencyModalState): CurrencyModalState = state
 
 
     // region Event Handling
@@ -86,7 +81,7 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
     }
 
     private fun handleInitial(event: CurrencyModalEvent.Initial) {
-        val currencyItem = state.value.items.firstOrNull {
+        val currencyItem = uiState.value.items.firstOrNull {
             (it as? CurrencyListItem.Currency)?.currency?.code == event.initialCurrency
         } as? CurrencyListItem.Currency
         if (currencyItem != null) {

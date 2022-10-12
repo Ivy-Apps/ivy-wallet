@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
     private val navigator: Navigator,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
-    override fun initialState(): HomeState = HomeState(
+    override val initialInternal: HomeState = HomeState(
         period = null,
         trnsList = TransactionsList(
             upcoming = null,
@@ -59,7 +59,7 @@ class HomeViewModel @Inject constructor(
         hideBalance = false,
     )
 
-    override fun initialUiState() = HomeStateUi(
+    override val initialUi = HomeStateUi(
         period = null,
         trnsList = TransactionsListUi(
             upcoming = null,
@@ -75,7 +75,7 @@ class HomeViewModel @Inject constructor(
 
     private val overrideShowBalance = MutableStateFlow(false)
 
-    override fun stateFlow(): Flow<HomeState> = combine(
+    override val internalFlow: Flow<HomeState> = combine(
         showBalanceFlow(), balanceFlow(), periodDataFlow()
     ) { showBalance, balance, periodData ->
         HomeState(
@@ -140,14 +140,16 @@ class HomeViewModel @Inject constructor(
     }
 
     // region map to Ui state
-    override suspend fun mapToUiState(state: HomeState): HomeStateUi = HomeStateUi(
-        period = state.period?.let { mapSelectedPeriodUiAct(it) },
-        trnsList = mapTransactionListUiAct(state.trnsList),
-        balance = formatBalance(state.balance),
-        income = format(state.income, shortenFiat = true),
-        expense = format(state.expense, shortenFiat = true),
-        hideBalance = state.hideBalance
-    )
+    override val uiFlow: Flow<HomeStateUi> = internalFlow.map { state ->
+        HomeStateUi(
+            period = state.period?.let { mapSelectedPeriodUiAct(it) },
+            trnsList = mapTransactionListUiAct(state.trnsList),
+            balance = formatBalance(state.balance),
+            income = format(state.income, shortenFiat = true),
+            expense = format(state.expense, shortenFiat = true),
+            hideBalance = state.hideBalance
+        )
+    }
 
     private fun formatBalance(balance: Value): ValueUi = format(
         value = balance,

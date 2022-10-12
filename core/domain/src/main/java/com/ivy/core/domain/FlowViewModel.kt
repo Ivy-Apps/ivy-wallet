@@ -3,62 +3,54 @@ package com.ivy.core.domain
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-abstract class FlowViewModel<State, UiState, Event> : ViewModel() {
+abstract class FlowViewModel<InternalState, UiState, Event> : ViewModel() {
     private val events = MutableSharedFlow<Event>(replay = 0)
 
-    protected abstract fun initialState(): State
+    protected abstract val initialInternal: InternalState
+    protected abstract val initialUi: UiState
 
-    protected abstract fun initialUiState(): UiState
-
-    protected abstract fun stateFlow(): Flow<State>
-
-    protected abstract suspend fun mapToUiState(state: State): UiState
+    protected abstract val internalFlow: Flow<InternalState>
+    protected abstract val uiFlow: Flow<UiState>
 
     protected abstract suspend fun handleEvent(event: Event)
 
-    private var stateFlow: StateFlow<State>? = null
-    private var uiStateFlow: StateFlow<UiState>? = null
+    protected val internalState: StateFlow<InternalState> by lazy {
+        internalFlow
+            .flowOn(Dispatchers.Default)
+            .onEach {
+                Timber.d("Internal state = $it")
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = initialInternal,
+            )
+    }
 
-    protected val state: StateFlow<State>
-        get() = stateFlow ?: run {
-            stateFlow = stateFlow()
-                .flowOn(Dispatchers.Default)
-                .onEach {
-                    Timber.d("State = $it")
-                }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-                    initialValue = initialState(),
-                )
-            stateFlow!!
-        }
-
-    val uiState: StateFlow<UiState>
-        get() = uiStateFlow ?: run {
-            uiStateFlow = state
-                .map {
-                    mapToUiState(it)
-                }
-                .onEach {
-                    Timber.d("UI state = $it")
-                }
-                .flowOn(Dispatchers.Default)
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
-                    initialValue = initialUiState(),
-                )
-            uiStateFlow!!
-        }
+    val uiState: StateFlow<UiState> by lazy {
+        uiFlow.onEach {
+            Timber.d("UI state = $it")
+        }.flowOn(Dispatchers.Default)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000L),
+                initialValue = initialUi,
+            )
+    }
 
     init {
         viewModelScope.launch {
             events.collect(::handleEvent)
+        }
+        viewModelScope.launch {
+            // without this delay it crashes because isn't instantiated
+            delay(100)
+            internalState // init the lazy val for the internal state
         }
     }
 

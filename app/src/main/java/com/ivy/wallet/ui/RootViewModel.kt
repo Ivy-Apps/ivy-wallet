@@ -11,6 +11,7 @@ import com.ivy.onboarding.action.OnboardingFinishedAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,20 +21,21 @@ class RootViewModel @Inject constructor(
     private val onboardingFinishedAct: OnboardingFinishedAct,
     private val navigator: Navigator,
     private val syncExchangeRatesAct: SyncExchangeRatesAct,
-    private val baseCurrencyFlow: BaseCurrencyFlow,
-) : FlowViewModel<RootViewModel.State, RootState, RootEvent>() {
-    override fun initialState() = State(baseCurrency = "")
-    override fun initialUiState() = RootState(appLocked = false)
+    baseCurrencyFlow: BaseCurrencyFlow,
+) : FlowViewModel<RootViewModel.InternalState, RootState, RootEvent>() {
+    override val initialInternal = InternalState(baseCurrency = "")
+    override val initialUi = RootState(appLocked = false)
 
-    override fun stateFlow(): Flow<State> = baseCurrencyFlow().map { baseCurrency ->
+    override val internalFlow: Flow<InternalState> = baseCurrencyFlow().map { baseCurrency ->
         if (baseCurrency.isNotEmpty()) {
             Timber.i("Syncing exchange rates for $baseCurrency")
             syncExchangeRatesAct(baseCurrency)
         }
-        State(baseCurrency = baseCurrency)
+        InternalState(baseCurrency = baseCurrency)
     }
 
-    override suspend fun mapToUiState(state: State): RootState = RootState(appLocked = false)
+    override val uiFlow: Flow<RootState> = flowOf(initialUi)
+
 
     // region Event Handling
     override suspend fun handleEvent(event: RootEvent) = when (event) {
@@ -53,7 +55,7 @@ class RootViewModel @Inject constructor(
     }
     // endregion
 
-    data class State(
+    data class InternalState(
         val baseCurrency: CurrencyCode,
     )
 }

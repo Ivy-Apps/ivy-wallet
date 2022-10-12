@@ -96,7 +96,7 @@ class CalculateFlow @Inject constructor(
         trn: Transaction,
         arg: SumArg,
     ): Double = exchange(
-        ratesData = arg.rates,
+        exchangeData = arg.rates,
         from = trn.value.currency,
         to = arg.outputCurrency,
         amount = trn.value.amount,

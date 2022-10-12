@@ -9,7 +9,7 @@ import com.ivy.data.exchange.ExchangeRatesData
 
 
 suspend fun exchange(
-    ratesData: ExchangeRatesData,
+    exchangeData: ExchangeRatesData,
     from: CurrencyCode,
     to: CurrencyCode,
     amount: Double,
@@ -18,7 +18,7 @@ suspend fun exchange(
     if (amount == 0.0) return@option 0.0
 
     val rate = findRate(
-        ratesData = ratesData,
+        ratesData = exchangeData,
         from = from,
         to = to,
     ).bind()

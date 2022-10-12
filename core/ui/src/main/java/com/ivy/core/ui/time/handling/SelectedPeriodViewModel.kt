@@ -20,6 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -33,7 +34,6 @@ class SelectedPeriodViewModel @Inject constructor(
     private val setSelectedPeriodAct: SetSelectedPeriodAct,
     private val timeProvider: TimeProvider,
 ) : FlowViewModel<State, UiState, SelectPeriodEvent>() {
-
     data class State(
         val selectedPeriod: SelectedPeriod,
         val startDayOfMonth: Int,
@@ -46,18 +46,18 @@ class SelectedPeriodViewModel @Inject constructor(
         val months: List<MonthUi>,
     )
 
-    override fun initialState(): State = State(
+    override val initialInternal = State(
         startDayOfMonth = 1,
         months = emptyList(),
         selectedPeriod = SelectedPeriod.AllTime(allTime())
     )
 
-    override fun initialUiState(): UiState = UiState(
+    override val initialUi = UiState(
         startDayOfMonth = 1,
         months = emptyList(),
     )
 
-    override fun stateFlow(): Flow<State> = combine(
+    override val internalFlow: Flow<State> = combine(
         startDayOfMonthFlow(), selectedPeriodFlow()
     ) { startDayOfMonth, selectedPeriod ->
         val currentYear = timeProvider.dateNow().year
@@ -71,10 +71,12 @@ class SelectedPeriodViewModel @Inject constructor(
         )
     }
 
-    override suspend fun mapToUiState(state: State): UiState = UiState(
-        startDayOfMonth = state.startDayOfMonth,
-        months = state.months
-    )
+    override val uiFlow: Flow<UiState> = internalFlow.map {
+        UiState(
+            startDayOfMonth = it.startDayOfMonth,
+            months = it.months
+        )
+    }
 
     override suspend fun handleEvent(event: SelectPeriodEvent) {
         val selectedPeriod = when (event) {
@@ -85,10 +87,10 @@ class SelectedPeriodViewModel @Inject constructor(
                 // TODO: Refactor that
                 // 10 is a safe date in the middle of the month
                 dateInPeriod = LocalDate.of(event.month.year, event.month.number, 10),
-                startDayOfMonth = state.value.startDayOfMonth
+                startDayOfMonth = internalState.value.startDayOfMonth
             )
             SelectPeriodEvent.ResetToCurrentPeriod -> currentMonthlyPeriod(
-                startDayOfMonth = state.value.startDayOfMonth,
+                startDayOfMonth = internalState.value.startDayOfMonth,
                 timeProvider = timeProvider,
             )
             SelectPeriodEvent.LastYear -> yearlyPeriod(timeProvider.dateNow().year - 1)
@@ -116,26 +118,26 @@ class SelectedPeriodViewModel @Inject constructor(
     }
 
     private fun shiftPeriodForward(): SelectedPeriod =
-        when (val selected = state.value.selectedPeriod) {
+        when (val selected = internalState.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Forward)
             is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .plusMonths(1),
-                startDayOfMonth = state.value.startDayOfMonth
+                startDayOfMonth = internalState.value.startDayOfMonth
             )
         }
 
     private fun shiftPeriodBackward(): SelectedPeriod =
-        when (val selected = state.value.selectedPeriod) {
+        when (val selected = internalState.value.selectedPeriod) {
             is SelectedPeriod.AllTime -> SelectedPeriod.AllTime(allTime())
             is SelectedPeriod.CustomRange -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.InTheLast -> shiftPeriod(selected.range, ShiftDirection.Backward)
             is SelectedPeriod.Monthly -> monthlyPeriod(
                 dateInPeriod = selected.range.from.toLocalDate()
                     .minusMonths(1),
-                startDayOfMonth = state.value.startDayOfMonth
+                startDayOfMonth = internalState.value.startDayOfMonth
             )
         }
 

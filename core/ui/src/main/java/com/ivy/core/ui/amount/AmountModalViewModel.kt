@@ -22,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,13 +30,12 @@ import javax.inject.Inject
 internal class AmountModalViewModel @Inject constructor(
     private val exchangeRatesFlow: ExchangeRatesFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
-) : FlowViewModel<AmountModalViewModel.State, AmountModalState, AmountModalEvent>() {
-    override fun initialState(): State = State(
-        exchangeRates = ExchangeRatesData(baseCurrency = "", rates = emptyMap()),
-        uiState = initialUiState()
+) : FlowViewModel<AmountModalViewModel.InternalState, AmountModalState, AmountModalEvent>() {
+    override val initialInternal = InternalState(
+        exchangeData = ExchangeRatesData(baseCurrency = "", rates = emptyMap()),
     )
 
-    override fun initialUiState(): AmountModalState = AmountModalState(
+    override val initialUi = AmountModalState(
         expression = null,
         currency = "",
         amount = null,
@@ -43,27 +43,31 @@ internal class AmountModalViewModel @Inject constructor(
         calculatorResult = CalculatorResultUi(result = "", isError = true)
     )
 
+    // region Local state
+    private var overrideExpressionForInitial = false
+
     private val expression = MutableStateFlow("")
     private val currency = MutableStateFlow("")
     private val showExpressionError = MutableStateFlow(false)
+    // endregion
 
-    private var overrideExpressionForInitial = false
+    override val internalFlow: Flow<InternalState> = exchangeRatesFlow().map {
+        InternalState(exchangeData = it)
+    }
 
-    override fun stateFlow(): Flow<State> = combine(
-        expression, currency, calculateFlow(), amountBaseCurrencyFlow(), exchangeRatesFlow()
-    ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency, exchangeRates ->
-        State(
-            exchangeRates = exchangeRates,
-            uiState = AmountModalState(
-                expression = beautify(expression),
-                currency = currency,
-                amount = expressionValue?.let { Value(it, currency) },
-                amountBaseCurrency = amountBaseCurrency,
-                calculatorResult = calcResult.takeIf {
-                    calcResult.isError || !hasObviousResult(expression, expressionValue)
+    // regin UI flow
+    override val uiFlow: Flow<AmountModalState> = combine(
+        expression, currency, calculateFlow(), amountBaseCurrencyFlow()
+    ) { expression, currency, (calcResult, expressionValue), amountBaseCurrency ->
+        AmountModalState(
+            expression = beautify(expression),
+            currency = currency,
+            amount = expressionValue?.let { Value(it, currency) },
+            amountBaseCurrency = amountBaseCurrency,
+            calculatorResult = calcResult.takeIf {
+                calcResult.isError || !hasObviousResult(expression, expressionValue)
 
-                }
-            )
+            }
         )
     }
 
@@ -80,8 +84,6 @@ internal class AmountModalViewModel @Inject constructor(
         }
     }
 
-    override suspend fun mapToUiState(state: State): AmountModalState = state.uiState
-
     private fun calculateFlow(): Flow<Pair<CalculatorResultUi, Double?>> = combine(
         expression, showExpressionError
     ) { expression, showExpressionError ->
@@ -91,6 +93,7 @@ internal class AmountModalViewModel @Inject constructor(
             isError = evaluated == null && showExpressionError
         ) to evaluated
     }
+    // endregion
 
 
     // region Event Handling
@@ -155,13 +158,13 @@ internal class AmountModalViewModel @Inject constructor(
         val currency = currency.value
         val newCurrency = event.currency
 
-        val state = state.value
-        val enteredValue = state.uiState.amount
-        Timber.d("enteredValue = $enteredValue")
+        val enteredValue = uiState.value.amount
         if (newCurrency != currency && enteredValue != null) {
             // Converted the entered amount to the new currency
+            val exchangeData = internalState.value.exchangeData
+            Timber.d("exchangeData = $exchangeData")
             exchange(
-                ratesData = state.exchangeRates,
+                exchangeData = exchangeData,
                 from = currency, to = newCurrency,
                 amount = enteredValue.amount
             ).orNull()?.let { exchangedAmount ->
@@ -188,8 +191,7 @@ internal class AmountModalViewModel @Inject constructor(
     }
     // endregion
 
-    data class State(
-        val exchangeRates: ExchangeRatesData,
-        val uiState: AmountModalState
+    data class InternalState(
+        val exchangeData: ExchangeRatesData
     )
 }

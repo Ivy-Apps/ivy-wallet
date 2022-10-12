@@ -1,6 +1,6 @@
 package com.ivy.core.ui.color.picker.custom
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.SimpleFlowViewModel
 import com.ivy.design.l0_system.color.fromHex
 import com.ivy.design.l0_system.color.toHex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,24 +11,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class HexColorPickerViewModel @Inject constructor(
-) : FlowViewModel<HexColorPickerState, HexColorPickerState, HexColorPickerEvent>() {
-    override fun initialState() = HexColorPickerState(
+) : SimpleFlowViewModel<HexColorPickerState, HexColorPickerEvent>() {
+    override val initialUi = HexColorPickerState(
         hex = "",
         color = null,
     )
 
-    override fun initialUiState(): HexColorPickerState = initialState()
-
     private val hexFlow = MutableStateFlow("")
 
-    override fun stateFlow(): Flow<HexColorPickerState> = hexFlow.map { hex ->
+    override val uiFlow: Flow<HexColorPickerState> = hexFlow.map { hex ->
         HexColorPickerState(
             hex = "#$hex".uppercase(),
             color = fromHex(hex)
         )
     }
 
-    override suspend fun mapToUiState(state: HexColorPickerState) = state
 
     // region Event Handling
     override suspend fun handleEvent(event: HexColorPickerEvent) = when (event) {

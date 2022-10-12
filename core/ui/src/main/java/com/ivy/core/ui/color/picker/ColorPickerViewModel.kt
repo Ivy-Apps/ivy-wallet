@@ -1,7 +1,7 @@
 package com.ivy.core.ui.color.picker
 
 import androidx.compose.ui.graphics.Color
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.SimpleFlowViewModel
 import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.color.picker.data.ColorSectionUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,19 +12,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class ColorPickerViewModel @Inject constructor() :
-    FlowViewModel<ColorPickerState, ColorPickerState, ColorPickerEvent>() {
+    SimpleFlowViewModel<ColorPickerState, ColorPickerEvent>() {
     companion object {
         const val COLORS_PER_ROW = 5
     }
 
-    override fun initialState(): ColorPickerState = ColorPickerState(
+    override val initialUi = ColorPickerState(
         sections = listOf()
     )
 
-    override fun initialUiState(): ColorPickerState = initialState()
-
-
-    override fun stateFlow(): Flow<ColorPickerState> = colorSectionsFlow().map { sections ->
+    override val uiFlow: Flow<ColorPickerState> = colorSectionsFlow().map { sections ->
         ColorPickerState(
             sections = sections,
         )
@@ -49,8 +46,6 @@ internal class ColorPickerViewModel @Inject constructor() :
 
     private fun colorRows(colors: List<Color>): List<List<Color>> =
         groupByRows(colors, iconsPerRow = COLORS_PER_ROW)
-
-    override suspend fun mapToUiState(state: ColorPickerState): ColorPickerState = state
 
 
     // region Event Handling
