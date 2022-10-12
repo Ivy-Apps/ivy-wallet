@@ -19,6 +19,9 @@ interface AccountDao {
     // region Select
     @Query("SELECT * FROM accounts WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<AccountEntity>>
+
+    @Query("SELECT MAX(orderNum) FROM accounts")
+    suspend fun findMaxOrderNum(): Double?
     // endregion
 
     // region Update

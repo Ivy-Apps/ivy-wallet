@@ -44,7 +44,7 @@ internal fun ExcludeAccount(
                 .padding(start = 16.dp, end = 4.dp),
             text = "Exclude account",
             fontWeight = FontWeight.ExtraBold,
-            color = UI.colors.primary,
+            color = UI.colorsInverted.pure,
         )
         MoreInfoButton(onClick = onMoreInfo)
     }
@@ -54,6 +54,7 @@ internal fun ExcludeAccount(
 internal fun BoxScope.ExcludedAccInfoModal(modal: IvyModal) {
     Modal(
         modal = modal,
+        level = 2,
         actions = {
             Positive(text = "Got it") {
                 modal.hide()

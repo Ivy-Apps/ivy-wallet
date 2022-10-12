@@ -19,7 +19,7 @@ import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
 
@@ -47,7 +47,7 @@ fun ItemIconNameRow(
                 .padding(all = 4.dp),
             itemIcon = icon,
             size = IconSize.M,
-            tint = rememberContrastColor(color)
+            tint = rememberDynamicContrast(color)
         )
         SpacerHor(width = 8.dp)
         ItemNameInput(

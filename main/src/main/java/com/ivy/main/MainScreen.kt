@@ -1,7 +1,6 @@
 package com.ivy.main
 
 
-import AccountTab
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.accounts.AccBottomBarAction
-import com.ivy.accounts.AccountEvent
+import com.ivy.accounts.AccountTab
+import com.ivy.accounts.AccountTabEvent
 import com.ivy.accounts.AccountViewModel
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.ScreenPlaceholder
@@ -49,7 +49,7 @@ private fun UI(
     selectedTab: Tab,
     onEvent: (MainEvent) -> Unit,
     onHomeTabEvent: (HomeEvent) -> Unit,
-    onAccountTabEvent: (AccountEvent) -> Unit,
+    onAccountTabEvent: (AccountTabEvent) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -119,10 +119,10 @@ private fun UI(
 // region Bottom Action Bar events propagation
 private fun propagateBottomActionEvent(
     homeEvent: HomeEvent,
-    accountEvent: AccountEvent,
+    accountEvent: AccountTabEvent,
     selectedTab: Tab,
     onHomeTabEvent: (HomeEvent) -> Unit,
-    onAccountTabEvent: (AccountEvent) -> Unit
+    onAccountTabEvent: (AccountTabEvent) -> Unit
 ) {
     when (selectedTab) {
         Tab.Home -> onHomeTabEvent(homeEvent)
@@ -133,8 +133,8 @@ private fun propagateBottomActionEvent(
 private fun homeEvent(action: HomeBottomBarAction): HomeEvent =
     HomeEvent.BottomBarAction(action)
 
-private fun accountEvent(action: AccBottomBarAction): AccountEvent =
-    AccountEvent.BottomBarAction(action)
+private fun accountEvent(action: AccBottomBarAction): AccountTabEvent =
+    AccountTabEvent.BottomBarAction(action)
 // endregion
 
 // region Preview-safe Tabs

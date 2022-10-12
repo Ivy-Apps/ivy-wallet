@@ -3,6 +3,7 @@ package com.ivy.core.ui.account.create
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,6 +24,7 @@ import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
@@ -53,41 +55,67 @@ fun BoxScope.CreateAccountModal(
     Modal(
         modal = modal,
         level = level,
-        actions = {}
-    ) {
-        Title(text = stringResource(R.string.new_account))
-        SpacerVer(height = 24.dp)
-        ItemIconNameRow(
-            icon = state.icon,
-            color = color,
-            initialName = "",
-            nameInputHint = stringResource(R.string.new_account),
-            onPickIcon = { iconPickerModal.show() },
-            onNameChange = { viewModel?.onEvent(CreateAccountModalEvent.NameChange(it)) }
-        )
-        SpacerVer(height = 16.dp)
-        ColorButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            color = color
-        ) {
-            colorPickerModal.show()
+        actions = {
+            Positive(text = stringResource(R.string.add_account)) {
+                viewModel?.onEvent(
+                    CreateAccountModalEvent.CreateAccount(
+                        color = color,
+                        excluded = excluded,
+                    )
+                )
+                modal.hide()
+            }
         }
-        SpacerVer(height = 16.dp)
-        AccountCurrency(
-            currency = state.currency,
-            onPickCurrency = { currencyPickerModal.show() }
-        )
-        SpacerVer(height = 24.dp)
-        DividerHor()
-        SpacerVer(height = 12.dp)
-        ExcludeAccount(
-            excluded = excluded,
-            onMoreInfo = { excludedAccInfoModal.show() },
-            onExcludedChange = { excluded = it }
-        )
-        SpacerVer(height = 48.dp) // last spacer
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            item {
+                Title(text = stringResource(R.string.new_account))
+                SpacerVer(height = 24.dp)
+            }
+            item {
+                ItemIconNameRow(
+                    icon = state.icon,
+                    color = color,
+                    initialName = "",
+                    nameInputHint = stringResource(R.string.new_account),
+                    onPickIcon = { iconPickerModal.show() },
+                    onNameChange = { viewModel?.onEvent(CreateAccountModalEvent.NameChange(it)) }
+                )
+                SpacerVer(height = 16.dp)
+            }
+            item {
+                ColorButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    color = color
+                ) {
+                    colorPickerModal.show()
+                }
+                SpacerVer(height = 16.dp)
+            }
+            item {
+                AccountCurrency(
+                    currency = state.currency,
+                    onPickCurrency = { currencyPickerModal.show() }
+                )
+            }
+            item {
+                SpacerVer(height = 24.dp)
+                DividerHor()
+                SpacerVer(height = 12.dp)
+            }
+            item {
+                ExcludeAccount(
+                    excluded = excluded,
+                    onMoreInfo = { excludedAccInfoModal.show() },
+                    onExcludedChange = { excluded = it }
+                )
+            }
+            item {
+                SpacerVer(height = 48.dp) // last spacer
+            }
+        }
     }
 
     IconPickerModal(

@@ -29,10 +29,11 @@ fun BadgeComponent(
     text: String,
     icon: ItemIcon,
     background: Color,
+    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .background(background, UI.shapes.fullyRounded)
             .thenIf(onClick != null) {
                 clip(UI.shapes.fullyRounded)
