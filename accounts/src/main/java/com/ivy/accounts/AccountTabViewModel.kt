@@ -2,7 +2,6 @@ package com.ivy.accounts
 
 import com.ivy.accounts.data.AccItemWithBalanceUi
 import com.ivy.core.domain.SimpleFlowViewModel
-import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountTabViewModel @Inject constructor(
-    accountsFlow: AccountsFlow,
     private val accountFoldersFlow: AccountFoldersFlow,
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapAccountFolderUiAct: MapAccountFolderUiAct,
@@ -67,6 +65,7 @@ class AccountTabViewModel @Inject constructor(
                 AccItemWithBalanceUi.AccountHolder(
                     account = mapAccountUiAct(item.account),
                     balance = format(balances.first(), shortenFiat = false),
+                    balanceBaseCurrency = null,
                 )
             )
             is AccountListItem.FolderHolder -> sumValuesInCurrencyFlow(
@@ -78,6 +77,7 @@ class AccountTabViewModel @Inject constructor(
                         AccItemWithBalanceUi.AccountHolder(
                             account = mapAccountUiAct(acc),
                             balance = format(balances[index], shortenFiat = false),
+                            balanceBaseCurrency = null
                         )
                     },
                     balance = format(folderBalance, shortenFiat = true)

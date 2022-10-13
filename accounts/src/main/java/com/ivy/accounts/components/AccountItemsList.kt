@@ -27,9 +27,12 @@ fun LazyListScope.accountItemsList(
         when (item) {
             is AccountHolder -> {
                 SpacerVer(height = 12.dp)
-                AccountCard(account = item.account, balance = item.balance) {
-                    onAccountClick(item.account)
-                }
+                AccountCard(
+                    account = item.account,
+                    balance = item.balance,
+                    balanceBaseCurrency = item.balanceBaseCurrency,
+                    onClick = { onAccountClick(item.account) }
+                )
             }
             is FolderHolder -> {
                 SpacerVer(height = 12.dp)

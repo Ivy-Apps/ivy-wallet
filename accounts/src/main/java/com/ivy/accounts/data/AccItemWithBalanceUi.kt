@@ -11,6 +11,7 @@ sealed interface AccItemWithBalanceUi {
     data class AccountHolder(
         val account: AccountUi,
         val balance: ValueUi,
+        val balanceBaseCurrency: ValueUi?,
     ) : AccItemWithBalanceUi
 
     @Immutable

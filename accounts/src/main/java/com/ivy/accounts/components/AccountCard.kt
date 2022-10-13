@@ -24,6 +24,7 @@ import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
+import com.ivy.core.ui.value.AmountCurrencySmall
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrastColor
 import com.ivy.design.l0_system.color.rememberDynamicContrast
@@ -37,6 +38,7 @@ import com.ivy.design.util.ComponentPreview
 fun AccountCard(
     account: AccountUi,
     balance: ValueUi,
+    balanceBaseCurrency: ValueUi?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
@@ -56,6 +58,7 @@ fun AccountCard(
         Header(account = account, color = contrastColor, dynamicContrast = dynamicContrast)
         SpacerVer(height = 4.dp)
         Balance(balance = balance, color = contrastColor)
+        BalanceBaseCurrency(balanceBaseCurrency = balanceBaseCurrency, color = dynamicContrast)
     }
 }
 
@@ -105,6 +108,25 @@ private fun Balance(
     }
 }
 
+@Composable
+private fun BalanceBaseCurrency(
+    balanceBaseCurrency: ValueUi?,
+    color: Color,
+    modifier: Modifier = Modifier,
+) {
+    if (balanceBaseCurrency != null) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 2.dp)
+                .padding(start = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            AmountCurrencySmall(value = balanceBaseCurrency, color = color)
+        }
+    }
+}
+
 
 // region Preview
 @Preview
@@ -113,7 +135,8 @@ private fun Preview() {
     ComponentPreview {
         AccountCard(
             account = dummyAccountUi(excluded = true),
-            balance = dummyValueUi("1,324.50")
+            balance = dummyValueUi("1,324.50"),
+            balanceBaseCurrency = dummyValueUi("2,972.95", "BGN")
         ) {
 
         }

@@ -155,9 +155,12 @@ private fun Accounts(
         Column(Modifier.fillMaxWidth()) {
             items.forEach {
                 key("${it.account.id}${it.balance.amount}") {
-                    AccountCard(account = it.account, balance = it.balance) {
-                        onClick(it.account)
-                    }
+                    AccountCard(
+                        account = it.account,
+                        balance = it.balance,
+                        balanceBaseCurrency = it.balanceBaseCurrency,
+                        onClick = { onClick(it.account) }
+                    )
                     SpacerVer(height = 8.dp)
                 }
             }
@@ -195,15 +198,18 @@ private fun Preview_Expanded() {
             accounts = listOf(
                 AccountHolder(
                     account = dummyAccountUi("Account 1"),
-                    balance = dummyValueUi("1,000.00")
+                    balance = dummyValueUi("1,000.00", "ADA"),
+                    balanceBaseCurrency = dummyValueUi("358.76")
                 ),
                 AccountHolder(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
-                    balance = dummyValueUi("0.00")
+                    balance = dummyValueUi("0.00"),
+                    balanceBaseCurrency = null
                 ),
                 AccountHolder(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
+                    balanceBaseCurrency = null
                 ),
             ),
             onAccountClick = {},
