@@ -62,6 +62,7 @@ fun AccountFolderCard(
             .border(2.dp, dynamicContrast, UI.shapes.squared)
             .clickable(onClick = onFolderClick),
     ) {
+        val contrastColor = rememberContrast(folder.color)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,7 +70,6 @@ fun AccountFolderCard(
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 12.dp)
         ) {
-            val contrastColor = rememberContrast(folder.color)
             IconNameRow(folderName = folder.name, folderIcon = folder.icon, color = contrastColor)
             SpacerVer(height = 4.dp)
             Balance(balance = balance, color = contrastColor)
@@ -79,7 +79,7 @@ fun AccountFolderCard(
         } else remember { mutableStateOf(false) }
         ExpandCollapse(
             expanded = expanded,
-            folderColor = folder.color,
+            color = UI.colorsInverted.pure,
             onSetExpanded = { expanded = it }
         )
         Accounts(expanded = expanded, items = accounts, onClick = onAccountClick)
@@ -131,13 +131,13 @@ private fun Balance(
 @Composable
 private fun ExpandCollapse(
     expanded: Boolean,
-    folderColor: Color,
+    color: Color,
     onSetExpanded: (Boolean) -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Big,
         visibility = Visibility.Low,
-        feeling = Feeling.Custom(folderColor),
+        feeling = Feeling.Custom(color),
         text = if (expanded) "Tap to collapse" else "Tap to expand",
         icon = if (expanded)
             R.drawable.ic_round_expand_less_24 else R.drawable.round_expand_more_24

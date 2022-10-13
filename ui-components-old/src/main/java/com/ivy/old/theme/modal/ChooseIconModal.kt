@@ -32,6 +32,7 @@ import java.util.*
 
 private const val ICON_PICKER_ICONS_PER_ROW = 5
 
+@Deprecated("old")
 @Composable
 fun BoxWithConstraintsScope.ChooseIconModal(
     visible: Boolean,

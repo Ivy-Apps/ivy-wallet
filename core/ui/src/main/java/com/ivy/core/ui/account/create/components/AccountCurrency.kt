@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.data.CurrencyCode
+import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l3_ivyComponents.Feeling
@@ -20,6 +22,7 @@ import com.ivy.design.util.ComponentPreview
 @Composable
 internal fun ColumnScope.AccountCurrency(
     currency: CurrencyCode,
+    color: Color,
     modifier: Modifier = Modifier,
     onPickCurrency: () -> Unit
 ) {
@@ -32,7 +35,7 @@ internal fun ColumnScope.AccountCurrency(
         modifier = modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
         visibility = Visibility.Medium,
-        feeling = Feeling.Positive,
+        feeling = Feeling.Custom(color),
         text = currency,
         icon = R.drawable.round_currency_exchange_24,
         onClick = onPickCurrency
@@ -46,7 +49,11 @@ internal fun ColumnScope.AccountCurrency(
 private fun Preview() {
     ComponentPreview {
         Column {
-            AccountCurrency(currency = "BGN", onPickCurrency = {})
+            AccountCurrency(
+                currency = "BGN",
+                color = Purple,
+                onPickCurrency = {}
+            )
         }
     }
 }

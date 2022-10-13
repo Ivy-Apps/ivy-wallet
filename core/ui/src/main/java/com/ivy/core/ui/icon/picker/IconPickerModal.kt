@@ -91,7 +91,12 @@ fun BoxScope.IconPickerModal(
                 sections = state.sections,
                 selectedIcon = selectedIcon,
                 color = color,
-                onIconSelect = { selectedIcon = it }
+                onIconSelect = {
+                    selectedIcon = it
+                    onIconPick(it)
+                    keyboardController?.hide()
+                    modal.hide()
+                }
             )
             item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }

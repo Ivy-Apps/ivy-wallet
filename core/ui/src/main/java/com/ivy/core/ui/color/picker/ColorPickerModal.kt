@@ -76,7 +76,11 @@ fun BoxScope.ColorPickerModal(
             sections(
                 sections = state.sections,
                 selectedColor = selectedColor,
-                onColorSelect = { selectedColor = it }
+                onColorSelect = {
+                    selectedColor = it
+                    onColorPicked(it)
+                    modal.hide()
+                }
             )
             item(key = "color_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }

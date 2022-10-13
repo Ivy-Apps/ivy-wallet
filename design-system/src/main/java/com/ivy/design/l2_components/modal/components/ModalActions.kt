@@ -88,13 +88,14 @@ fun ModalActionsScope.Positive(
     @DrawableRes
     icon: Int? = null,
     visibility: Visibility = Visibility.Focused,
+    feeling: Feeling = Feeling.Positive,
     hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
         visibility = visibility,
-        feeling = Feeling.Positive,
+        feeling = feeling,
         text = text,
         icon = icon,
         hapticFeedback = hapticFeedback,

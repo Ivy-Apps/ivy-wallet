@@ -39,6 +39,7 @@ import com.ivy.design.util.thenWhen
 fun BoxScope.ChooseFolderModal(
     modal: IvyModal,
     selected: AccountFolderUi?,
+    level: Int = 1,
     onChooseFolder: (AccountFolderUi?) -> Unit,
 ) {
     val viewModel: ChooseFolderViewModel? = hiltViewmodelPreviewSafe()
@@ -47,6 +48,7 @@ fun BoxScope.ChooseFolderModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             Negative(text = "No folder") {
                 onChooseFolder(null)
@@ -94,7 +96,7 @@ private fun LazyListScope.folderItems(
 }
 
 @Composable
-private fun FolderItem(
+internal fun FolderItem(
     folder: AccountFolderUi,
     selected: Boolean,
     onClick: () -> Unit

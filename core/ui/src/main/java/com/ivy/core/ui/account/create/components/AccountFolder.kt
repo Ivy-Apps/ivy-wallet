@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.account.folder.choose.FolderItem
 import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.dummyAccountFolderUi
+import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l3_ivyComponents.Feeling
@@ -22,6 +25,7 @@ import com.ivy.design.util.ComponentPreview
 internal fun ColumnScope.AccountFolderButton(
     folder: AccountFolderUi?,
     modifier: Modifier = Modifier,
+    color: Color,
     onClick: () -> Unit
 ) {
     B1(
@@ -29,15 +33,23 @@ internal fun ColumnScope.AccountFolderButton(
         text = "Folder"
     )
     SpacerVer(height = 8.dp)
-    IvyButton(
-        modifier = modifier.padding(horizontal = 16.dp),
-        size = ButtonSize.Big,
-        visibility = Visibility.Medium,
-        feeling = Feeling.Positive,
-        text = folder?.name ?: "None",
-        icon = R.drawable.ic_vue_files_folder,
-        onClick = onClick
-    )
+    if (folder != null) {
+        FolderItem(
+            folder = folder,
+            selected = true,
+            onClick = onClick,
+        )
+    } else {
+        IvyButton(
+            modifier = modifier.padding(horizontal = 16.dp),
+            size = ButtonSize.Big,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Custom(color),
+            text = "Choose folder",
+            icon = R.drawable.ic_vue_files_folder,
+            onClick = onClick
+        )
+    }
 }
 
 
@@ -47,7 +59,7 @@ internal fun ColumnScope.AccountFolderButton(
 private fun Preview_None() {
     ComponentPreview {
         Column {
-            AccountFolderButton(folder = null) {}
+            AccountFolderButton(folder = null, color = Purple) {}
         }
     }
 }
@@ -59,6 +71,7 @@ private fun Preview_Selected() {
         Column {
             AccountFolderButton(
                 folder = dummyAccountFolderUi("Business"),
+                color = Purple,
                 onClick = {}
             )
         }

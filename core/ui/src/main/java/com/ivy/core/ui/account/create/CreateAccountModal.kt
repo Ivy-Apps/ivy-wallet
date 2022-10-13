@@ -65,7 +65,10 @@ fun BoxScope.CreateAccountModal(
         modal = modal,
         level = level,
         actions = {
-            Positive(text = stringResource(R.string.add_account)) {
+            Positive(
+                text = stringResource(R.string.add_account),
+                feeling = Feeling.Custom(color)
+            ) {
                 viewModel?.onEvent(
                     CreateAccountModalEvent.CreateAccount(
                         color = color,
@@ -89,7 +92,10 @@ fun BoxScope.CreateAccountModal(
                     color = color,
                     initialName = "",
                     nameInputHint = stringResource(R.string.new_account),
-                    onPickIcon = { iconPickerModal.show() },
+                    onPickIcon = {
+                        keyboardController?.hide()
+                        iconPickerModal.show()
+                    },
                     onNameChange = { viewModel?.onEvent(CreateAccountModalEvent.NameChange(it)) }
                 )
                 SpacerVer(height = 16.dp)
@@ -101,6 +107,7 @@ fun BoxScope.CreateAccountModal(
                         .padding(horizontal = 16.dp),
                     color = color
                 ) {
+                    keyboardController?.hide()
                     colorPickerModal.show()
                 }
                 SpacerVer(height = 16.dp)
@@ -108,12 +115,20 @@ fun BoxScope.CreateAccountModal(
             item(key = "acc_currency") {
                 AccountCurrency(
                     currency = state.currency,
-                    onPickCurrency = { currencyPickerModal.show() }
+                    color = color,
+                    onPickCurrency = {
+                        keyboardController?.hide()
+                        currencyPickerModal.show()
+                    }
                 )
                 SpacerVer(height = 12.dp)
             }
             item(key = "acc_folder") {
-                AccountFolderButton(folder = folder) {
+                AccountFolderButton(
+                    folder = folder,
+                    color = color,
+                ) {
+                    keyboardController?.hide()
                     chooseFolderModal.show()
                 }
             }
@@ -125,7 +140,10 @@ fun BoxScope.CreateAccountModal(
             item(key = "exclude_acc") {
                 ExcludeAccount(
                     excluded = excluded,
-                    onMoreInfo = { excludedAccInfoModal.show() },
+                    onMoreInfo = {
+                        keyboardController?.hide()
+                        excludedAccInfoModal.show()
+                    },
                     onExcludedChange = { excluded = it }
                 )
             }
@@ -156,6 +174,7 @@ fun BoxScope.CreateAccountModal(
     ExcludedAccInfoModal(modal = excludedAccInfoModal)
     ChooseFolderModal(
         modal = chooseFolderModal,
+        level = level + 1,
         selected = folder,
         onChooseFolder = { folder = it }
     )
