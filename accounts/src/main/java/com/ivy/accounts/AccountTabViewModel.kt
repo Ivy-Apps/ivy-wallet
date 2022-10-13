@@ -11,6 +11,7 @@ import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.util.combineList
 import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
+import com.ivy.data.Value
 import com.ivy.design.l2_components.modal.IvyModal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -54,34 +55,35 @@ class AccountTabViewModel @Inject constructor(
                 item to balances.toList()
             }
         }
-    }.flatMapMerge { flows ->
-        val combined = combineList(flows)
-        combined.map {
-            it.map { (item, balances) ->
-                when (item) {
-                    is AccountListItem.AccountHolder -> flowOf(
+    }.flatMapMerge(transform = ::combineList)
+        .map { itemBalancesFlows(it) }
+        .flatMapMerge(transform = ::combineList)
+
+    private suspend fun itemBalancesFlows(
+        itemBalances: List<Pair<AccountListItem, List<Value>>>
+    ): List<Flow<AccItemWithBalanceUi>> = itemBalances.map { (item, balances) ->
+        when (item) {
+            is AccountListItem.AccountHolder -> flowOf(
+                AccItemWithBalanceUi.AccountHolder(
+                    account = mapAccountUiAct(item.account),
+                    balance = format(balances.first(), shortenFiat = false),
+                )
+            )
+            is AccountListItem.FolderHolder -> sumValuesInCurrencyFlow(
+                SumValuesInCurrencyFlow.Input(values = balances)
+            ).map { folderBalance ->
+                AccItemWithBalanceUi.FolderHolder(
+                    folder = mapAccountFolderUiAct(item.folder),
+                    accItems = item.folder.accounts.mapIndexed { index, acc ->
                         AccItemWithBalanceUi.AccountHolder(
-                            account = mapAccountUiAct(item.account),
-                            balance = format(balances.first(), shortenFiat = false),
+                            account = mapAccountUiAct(acc),
+                            balance = format(balances[index], shortenFiat = false),
                         )
-                    )
-                    is AccountListItem.FolderHolder -> sumValuesInCurrencyFlow(
-                        SumValuesInCurrencyFlow.Input(values = balances)
-                    ).map { folderBalance ->
-                        AccItemWithBalanceUi.FolderHolder(
-                            folder = mapAccountFolderUiAct(item.folder),
-                            accItems = item.folder.accounts.mapIndexed { index, acc ->
-                                AccItemWithBalanceUi.AccountHolder(
-                                    account = mapAccountUiAct(acc),
-                                    balance = format(balances[index], shortenFiat = false),
-                                )
-                            },
-                            balance = format(folderBalance, shortenFiat = true)
-                        )
-                    }
-                }
+                    },
+                    balance = format(folderBalance, shortenFiat = true)
+                )
             }
-        }.flatMapMerge { combineList(it) }
+        }
     }
 
     // region Event Handling
@@ -93,5 +95,5 @@ class AccountTabViewModel @Inject constructor(
         // TODO: Handle properly
         uiState.value.createAccountModal.show()
     }
-    // endregion
+// endregion
 }
