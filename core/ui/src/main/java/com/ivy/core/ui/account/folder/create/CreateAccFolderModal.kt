@@ -23,6 +23,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
@@ -42,7 +43,10 @@ fun BoxScope.CreateAccFolderModal(modal: IvyModal) {
     Modal(
         modal = modal,
         actions = {
-            Positive(text = "Add folder") {
+            Positive(
+                text = "Add folder",
+                feeling = Feeling.Custom(folderColor)
+            ) {
                 viewModel?.onEvent(
                     CreateAccFolderEvent.CreateFolder(
                         color = folderColor,
@@ -64,7 +68,10 @@ fun BoxScope.CreateAccFolderModal(modal: IvyModal) {
                     color = folderColor,
                     initialName = "",
                     nameInputHint = "Folder name",
-                    onPickIcon = { iconPickerModal.show() },
+                    onPickIcon = {
+                        keyboardController?.hide()
+                        iconPickerModal.show()
+                    },
                     onNameChange = { viewModel?.onEvent(CreateAccFolderEvent.NameChange(it)) }
                 )
                 SpacerVer(height = 16.dp)
@@ -76,6 +83,7 @@ fun BoxScope.CreateAccFolderModal(modal: IvyModal) {
                         .padding(horizontal = 16.dp),
                     color = folderColor
                 ) {
+                    keyboardController?.hide()
                     colorPickerModal.show()
                 }
                 SpacerVer(height = 16.dp)

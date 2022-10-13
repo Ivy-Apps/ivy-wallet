@@ -55,14 +55,10 @@ private fun BoxScope.UI(
                 .weight(1f)
         ) {
             accountItemsList(
-                items = state.items,
-                onAccountClick = {
-                    // TODO: Implement
-                },
-                onFolderClick = {
-                    // TODO: Implement
-                }
-            )
+                items = state.items
+            ) {
+                // TODO: Implement
+            }
             item {
                 SpacerVer(height = 300.dp) // last item spacer
             }
