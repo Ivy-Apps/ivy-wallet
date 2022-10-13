@@ -6,6 +6,7 @@ import com.ivy.core.domain.action.calculate.account.AccStatsFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow.Input
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.pure.time.allTime
+import com.ivy.core.domain.pure.util.combineSafe
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ class TotalBalanceFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val accStatsFlow: AccStatsFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
-) : FlowAction<TotalBalanceFlow.Input, Value>() {
+) : FlowAction<Input, Value>() {
 
     /**
      * @param withExcludedAccs whether to include excluded accounts in the balance calculation
@@ -36,32 +37,32 @@ class TotalBalanceFlow @Inject constructor(
 
     override fun Input.createFlow(): Flow<Value> = accountsFlow().map { allAccounts ->
         if (withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
-    }.map { accs ->
+    }.flatMapMerge { accs ->
         outputCurrencyFlow().flatMapMerge { outputCurrency ->
-            if (accs.isEmpty()) {
-                return@flatMapMerge flowOf(Value(amount = 0.0, currency = outputCurrency))
-            }
-            combine(accs.map {
-                accStatsFlow(
-                    AccStatsFlow.Input(
-                        account = it,
-                        range = allTime(),
-                        includeHidden = true,
-                        outputCurrency = outputCurrency,
+            combineSafe(
+                flows = accs.map {
+                    accStatsFlow(
+                        AccStatsFlow.Input(
+                            account = it,
+                            range = allTime(),
+                            includeHidden = true,
+                            outputCurrency = outputCurrency,
+                        )
                     )
-                )
-            }) { stats ->
-                val totalBalance = stats.fold(initial = 0.0) { totalBalance, accStats ->
-                    totalBalance + accStats.balance.amount
-                }
+                },
+                ifEmpty = Value(amount = 0.0, currency = outputCurrency)
+            ) { stats ->
                 Value(
-                    amount = totalBalance,
+                    amount = stats.fold(
+                        initial = 0.0
+                    ) { totalBalance, accStats ->
+                        totalBalance + accStats.balance.amount
+                    },
                     currency = outputCurrency
                 )
             }
         }
-    }.flattenMerge()
-        .flowOn(Dispatchers.Default)
+    }.flowOn(Dispatchers.Default)
 
     private fun Input.outputCurrencyFlow(): Flow<CurrencyCode> =
         outputCurrency?.let(::flowOf) ?: baseCurrencyFlow()

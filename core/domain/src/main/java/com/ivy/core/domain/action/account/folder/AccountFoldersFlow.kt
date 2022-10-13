@@ -2,9 +2,9 @@ package com.ivy.core.domain.action.account.folder
 
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
-import com.ivy.core.domain.data.AccountListItem
-import com.ivy.core.domain.data.AccountListItem.AccountHolder
-import com.ivy.core.domain.data.AccountListItem.FolderHolder
+import com.ivy.core.domain.action.data.AccountListItem
+import com.ivy.core.domain.action.data.AccountListItem.AccountHolder
+import com.ivy.core.domain.action.data.AccountListItem.FolderHolder
 import com.ivy.core.persistence.dao.account.AccountFolderDao
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
 import com.ivy.data.account.Account

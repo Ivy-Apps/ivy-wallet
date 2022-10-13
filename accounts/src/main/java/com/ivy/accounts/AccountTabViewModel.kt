@@ -5,9 +5,10 @@ import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
-import com.ivy.core.domain.data.AccountListItem
-import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.action.data.AccountListItem
+import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
 import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.util.combineList
 import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.design.l2_components.modal.IvyModal
@@ -23,6 +24,7 @@ class AccountTabViewModel @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapAccountFolderUiAct: MapAccountFolderUiAct,
     private val accBalanceFlow: AccBalanceFlow,
+    private val sumValuesInCurrencyFlow: SumValuesInCurrencyFlow,
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         items = emptyList(),
@@ -53,31 +55,33 @@ class AccountTabViewModel @Inject constructor(
             }
         }
     }.flatMapMerge { flows ->
-        val combined = if (flows.isEmpty()) flowOf(emptyList()) else
-            combine(flows) { itemBalancesList ->
-                itemBalancesList.toList()
-            }
+        val combined = combineList(flows)
         combined.map {
             it.map { (item, balances) ->
                 when (item) {
-                    is AccountListItem.AccountHolder ->
+                    is AccountListItem.AccountHolder -> flowOf(
                         AccItemWithBalanceUi.AccountHolder(
                             account = mapAccountUiAct(item.account),
                             balance = format(balances.first(), shortenFiat = false),
                         )
-                    is AccountListItem.FolderHolder -> AccItemWithBalanceUi.FolderHolder(
-                        folder = mapAccountFolderUiAct(item.folder),
-                        accItems = item.folder.accounts.mapIndexed { index, acc ->
-                            AccItemWithBalanceUi.AccountHolder(
-                                account = mapAccountUiAct(acc),
-                                balance = format(balances[index], shortenFiat = false),
-                            )
-                        },
-                        balance = ValueUi("0.00", "USD") // TODO: Implement that
                     )
+                    is AccountListItem.FolderHolder -> sumValuesInCurrencyFlow(
+                        SumValuesInCurrencyFlow.Input(values = balances)
+                    ).map { folderBalance ->
+                        AccItemWithBalanceUi.FolderHolder(
+                            folder = mapAccountFolderUiAct(item.folder),
+                            accItems = item.folder.accounts.mapIndexed { index, acc ->
+                                AccItemWithBalanceUi.AccountHolder(
+                                    account = mapAccountUiAct(acc),
+                                    balance = format(balances[index], shortenFiat = false),
+                                )
+                            },
+                            balance = format(folderBalance, shortenFiat = true)
+                        )
+                    }
                 }
             }
-        }
+        }.flatMapMerge { combineList(it) }
     }
 
     // region Event Handling
