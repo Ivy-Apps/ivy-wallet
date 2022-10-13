@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -18,6 +20,7 @@ import com.ivy.design.l1_buildingBlocks.InputField
 import com.ivy.design.l2_components.input.InputFieldType.Multiline
 import com.ivy.design.util.ComponentPreview
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun IvyInputField(
     type: InputFieldType,
@@ -31,11 +34,10 @@ fun IvyInputField(
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
-    onImeAction: KeyboardActionScope.(ImeAction) -> Unit = {
-        defaultKeyboardAction(it)
-    },
+    onImeAction: (KeyboardActionScope.(ImeAction) -> Unit)? = null,
     onValueChange: (String) -> Unit,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     InputField(
         modifier = modifier,
         initialValue = initialValue,
@@ -57,7 +59,9 @@ fun IvyInputField(
         },
         keyboardCapitalization = keyboardCapitalization,
         imeAction = imeAction,
-        onImeAction = onImeAction,
+        onImeAction = {
+            onImeAction?.invoke(this, it) ?: keyboardController?.hide()
+        },
         onValueChange = onValueChange
     )
 }
