@@ -45,7 +45,7 @@ internal class ColorPickerViewModel @Inject constructor() :
     )
 
     private fun colorRows(colors: List<Color>): List<List<Color>> =
-        groupByRows(colors, iconsPerRow = COLORS_PER_ROW)
+        groupByRows(colors, itemsPerRow = COLORS_PER_ROW)
 
 
     // region Event Handling

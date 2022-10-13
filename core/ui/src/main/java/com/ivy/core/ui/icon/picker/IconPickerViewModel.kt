@@ -46,7 +46,7 @@ internal class IconPickerViewModel @Inject constructor(
             if (itemIcons.isNotEmpty()) {
                 SectionUi(
                     name = section.name,
-                    iconRows = groupByRows(itemIcons, iconsPerRow = ICONS_PER_ROW),
+                    iconRows = groupByRows(itemIcons, itemsPerRow = ICONS_PER_ROW),
                 )
             } else null
         }
