@@ -25,7 +25,8 @@ class AccountFoldersFlow @Inject constructor(
         val foldersMap = accounts.groupBy { it.folderId?.toString() ?: "none" }
         val folders = folderEntities.map { FolderHolder(toDomain(foldersMap, it)) }
         val accountsNotInFolder = foldersMap.filterKeys { accFolderId ->
-            if (accFolderId == "none") return@filterKeys false
+            // accounts with folder "none" aren't in any folder
+            if (accFolderId == "none") return@filterKeys true
             val folderIds = folders.map { it.folder.id }
             // the referenced folder by the account doesn't exists if:
             !folderIds.contains(accFolderId)
