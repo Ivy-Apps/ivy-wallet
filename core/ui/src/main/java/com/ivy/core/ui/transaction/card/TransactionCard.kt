@@ -20,9 +20,9 @@ import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.CaptionSecond
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 
 /**
@@ -140,8 +140,8 @@ private fun RowScope.SkipButton(
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Negative,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Negative,
         text = stringResource(R.string.skip),
         icon = null,
         onClick = onClick,
@@ -157,8 +157,8 @@ private fun RowScope.PayGetButton(
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.High,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.High,
+        feeling = Feeling.Positive,
         text = stringResource(if (isIncome) R.string.get else R.string.pay),
         icon = null,
         onClick = onClick,

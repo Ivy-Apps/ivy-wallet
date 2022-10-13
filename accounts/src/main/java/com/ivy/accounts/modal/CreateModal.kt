@@ -13,9 +13,9 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 
@@ -46,8 +46,8 @@ private fun FolderButton(onClick: () -> Unit) {
     IvyButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Positive,
         text = "New folder",
         icon = R.drawable.ic_vue_files_folder,
         onClick = onClick,
@@ -59,8 +59,8 @@ private fun AccountButton(onClick: () -> Unit) {
     IvyButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.High,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.High,
+        feeling = Feeling.Positive,
         text = "New account",
         icon = R.drawable.ic_custom_account_s,
         onClick = onClick,

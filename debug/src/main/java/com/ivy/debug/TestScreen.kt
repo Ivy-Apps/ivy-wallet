@@ -20,9 +20,9 @@ import com.ivy.design.l1_buildingBlocks.H2
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 
 @Composable
@@ -42,8 +42,8 @@ fun BoxScope.TestScreen() {
         SpacerWeight(weight = 1f)
         IvyButton(
             size = ButtonSize.Big,
-            visibility = ButtonVisibility.Focused,
-            feeling = ButtonFeeling.Positive,
+            visibility = Visibility.Focused,
+            feeling = Feeling.Positive,
             text = "Pick an icon",
             icon = null
         ) {
@@ -59,8 +59,8 @@ fun BoxScope.TestScreen() {
         SpacerVer(height = 48.dp)
         IvyButton(
             size = ButtonSize.Big,
-            visibility = ButtonVisibility.Focused,
-            feeling = ButtonFeeling.Positive,
+            visibility = Visibility.Focused,
+            feeling = Feeling.Positive,
             text = "Amount modal",
             icon = null
         ) {

@@ -36,9 +36,9 @@ import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.isInPreview
@@ -77,7 +77,11 @@ fun AccountFolderCard(
         var expanded by if (isInPreview()) remember {
             mutableStateOf(previewExpanded)
         } else remember { mutableStateOf(false) }
-        ExpandCollapse(expanded = expanded, onSetExpanded = { expanded = it })
+        ExpandCollapse(
+            expanded = expanded,
+            folderColor = folder.color,
+            onSetExpanded = { expanded = it }
+        )
         Accounts(expanded = expanded, items = accounts, onClick = onAccountClick)
     }
 }
@@ -127,12 +131,13 @@ private fun Balance(
 @Composable
 private fun ExpandCollapse(
     expanded: Boolean,
+    folderColor: Color,
     onSetExpanded: (Boolean) -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Low,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Low,
+        feeling = Feeling.Custom(folderColor),
         text = if (expanded) "Tap to collapse" else "Tap to expand",
         icon = if (expanded)
             R.drawable.ic_round_expand_less_24 else R.drawable.round_expand_more_24

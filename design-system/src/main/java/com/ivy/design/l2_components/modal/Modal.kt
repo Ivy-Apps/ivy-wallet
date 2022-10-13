@@ -38,9 +38,9 @@ import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l2_components.modal.scope.ModalActionsScopeImpl
 import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.l2_components.modal.scope.ModalScopeImpl
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.*
 import com.ivy.resources.R
@@ -214,8 +214,8 @@ fun CloseButton(
 ) {
     IvyButton(
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Disabled,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Disabled,
         text = null,
         icon = R.drawable.ic_round_close_24,
         onClick = onClick
@@ -336,8 +336,8 @@ private fun Preview_Partial() {
             actions = {
                 IvyButton(
                     size = ButtonSize.Small,
-                    visibility = ButtonVisibility.Medium,
-                    feeling = ButtonFeeling.Disabled,
+                    visibility = Visibility.Medium,
+                    feeling = Feeling.Disabled,
                     text = null,
                     icon = R.drawable.ic_round_calculate_24
                 ) {

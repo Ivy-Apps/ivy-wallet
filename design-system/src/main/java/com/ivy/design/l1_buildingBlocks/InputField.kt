@@ -10,6 +10,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
@@ -35,6 +36,7 @@ fun InputField(
     @DrawableRes
     iconLeft: Int? = null,
     shape: Shape = UI.shapes.rounded,
+    focusedColor: Color = UI.colors.primary,
     textStyle: TextStyle = UI.typo.b2.style(fontWeight = FontWeight.Bold),
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
@@ -86,8 +88,8 @@ fun InputField(
             textColor = UI.colorsInverted.pure,
             cursorColor = UI.colorsInverted.pure,
             backgroundColor = UI.colors.pure,
-            focusedBorderColor = UI.colors.primary,
-            focusedLabelColor = UI.colors.primary,
+            focusedBorderColor = focusedColor,
+            focusedLabelColor = focusedColor,
             disabledBorderColor = UI.colors.neutral,
             disabledLabelColor = UI.colors.neutral,
             errorBorderColor = UI.colors.red,

@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
-import com.ivy.core.ui.account.create.components.ItemNameInput
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized
@@ -21,6 +20,7 @@ import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.ComponentPreview
 
 @Composable
@@ -54,6 +54,7 @@ fun ItemIconNameRow(
             modifier = Modifier.weight(1f),
             initialName = initialName,
             hint = nameInputHint,
+            feeling = Feeling.Custom(color),
             onNameChange = onNameChange
         )
     }

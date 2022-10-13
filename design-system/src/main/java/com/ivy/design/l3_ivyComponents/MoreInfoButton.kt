@@ -4,9 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.design.R
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 
@@ -18,8 +16,8 @@ fun MoreInfoButton(
     IvyButton(
         modifier = modifier,
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Low,
-        feeling = ButtonFeeling.Neutral,
+        visibility = Visibility.Low,
+        feeling = Feeling.Neutral,
         text = null,
         icon = R.drawable.outline_info_24,
         onClick = onClick

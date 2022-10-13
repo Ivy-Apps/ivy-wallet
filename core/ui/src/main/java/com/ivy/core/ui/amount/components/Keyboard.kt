@@ -19,8 +19,8 @@ import com.ivy.core.ui.amount.util.rememberDecimalSeparator
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.*
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.toColor
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenWhen
@@ -120,7 +120,7 @@ internal fun ColumnScope.Keyboard(
         AnimatedCalculatorButton(
             calculatorVisible = calculatorVisible,
             symbol = "=",
-            feeling = ButtonFeeling.Positive,
+            feeling = Feeling.Positive,
             onClick = onCalculatorEquals,
         )
         SpacerWeight(weight = keypadOuterWeight)
@@ -147,23 +147,23 @@ private fun CalculatorTopRow(
             KeypadButton(
                 symbol = "C",
                 size = keypadBtnSize,
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Negative,
+                visibility = Visibility.High,
+                feeling = Feeling.Negative,
                 onClick = onCalculatorC,
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
                 symbol = "( )",
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.High,
+                feeling = Feeling.Positive,
                 size = keypadBtnSize,
                 onClick = { onCalculatorEvent(CalculatorOperator.Brackets) }
             )
             SpacerWeight(weight = keypadInnerWeight)
             KeypadButton(
                 symbol = "%",
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.High,
+                feeling = Feeling.Positive,
                 size = keypadBtnSize,
                 onClick = { onCalculatorEvent(CalculatorOperator.Percent) }
             )
@@ -171,8 +171,8 @@ private fun CalculatorTopRow(
             KeypadButton(
                 symbol = "/",
                 size = keypadBtnSize,
-                visibility = ButtonVisibility.High,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.High,
+                feeling = Feeling.Positive,
                 onClick = { onCalculatorEvent(CalculatorOperator.Divide) }
             )
             SpacerWeight(weight = keypadOuterWeight)
@@ -185,7 +185,7 @@ private fun RowScope.AnimatedCalculatorButton(
     calculatorVisible: Boolean,
     symbol: String,
     modifier: Modifier = Modifier,
-    feeling: ButtonFeeling = ButtonFeeling.Positive,
+    feeling: Feeling = Feeling.Positive,
     onClick: () -> Unit
 ) {
     if (calculatorVisible) {
@@ -199,7 +199,7 @@ private fun RowScope.AnimatedCalculatorButton(
         KeypadButton(
             modifier = modifier,
             feeling = feeling,
-            visibility = ButtonVisibility.High,
+            visibility = Visibility.High,
             size = keypadButtonSmall,
             symbol = symbol,
             onClick = onClick
@@ -228,8 +228,8 @@ private fun KeypadButton(
     symbol: String,
     size: Dp,
     modifier: Modifier = Modifier,
-    visibility: ButtonVisibility = ButtonVisibility.Medium,
-    feeling: ButtonFeeling = ButtonFeeling.Positive,
+    visibility: Visibility = Visibility.Medium,
+    feeling: Feeling = Feeling.Positive,
     onClick: () -> Unit
 ) {
     KeypadButtonBox(
@@ -242,11 +242,11 @@ private fun KeypadButton(
         B1Second(
             text = symbol,
             color = when (visibility) {
-                ButtonVisibility.Focused,
-                ButtonVisibility.High ->
+                Visibility.Focused,
+                Visibility.High ->
                     rememberContrast(feeling.toColor())
-                ButtonVisibility.Medium,
-                ButtonVisibility.Low -> UI.colorsInverted.pure
+                Visibility.Medium,
+                Visibility.Low -> UI.colorsInverted.pure
             },
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
@@ -263,7 +263,7 @@ private fun BackSpaceButton(
 ) {
     KeypadButtonBox(
         modifier = modifier,
-        feeling = ButtonFeeling.Negative,
+        feeling = Feeling.Negative,
         size = size,
         onClick = onClick,
         onLongClick = onLongClick
@@ -277,10 +277,10 @@ private fun BackSpaceButton(
 
 @Composable
 private fun KeypadButtonBox(
-    feeling: ButtonFeeling,
+    feeling: Feeling,
     size: Dp,
     modifier: Modifier = Modifier,
-    visibility: ButtonVisibility = ButtonVisibility.Medium,
+    visibility: Visibility = Visibility.Medium,
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
@@ -293,13 +293,13 @@ private fun KeypadButtonBox(
             .padding(all = 4.dp)
             .thenWhen {
                 when (visibility) {
-                    ButtonVisibility.Focused,
-                    ButtonVisibility.High -> background(
+                    Visibility.Focused,
+                    Visibility.High -> background(
                         color = feeling.toColor(),
                         shape = UI.shapes.circle
                     )
-                    ButtonVisibility.Low,
-                    ButtonVisibility.Medium -> border(
+                    Visibility.Low,
+                    Visibility.Medium -> border(
                         width = 1.dp,
                         color = feeling.toColor(),
                         shape = UI.shapes.circle

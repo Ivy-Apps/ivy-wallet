@@ -1,4 +1,4 @@
-package com.ivy.core.ui.account.create.components
+package com.ivy.core.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +14,7 @@ import com.ivy.core.ui.R
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.input.InputFieldType
 import com.ivy.design.l2_components.input.IvyInputField
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.ComponentPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -21,6 +22,7 @@ import com.ivy.design.util.ComponentPreview
 fun ItemNameInput(
     initialName: String,
     modifier: Modifier = Modifier,
+    feeling: Feeling,
     hint: String,
     onNameChange: (String) -> Unit,
 ) {
@@ -38,6 +40,7 @@ fun ItemNameInput(
         type = InputFieldType.SingleLine,
         initialValue = initialName,
         shape = UI.shapes.fullyRounded,
+        feeling = feeling,
         placeholder = hint,
         onValueChange = onNameChange
     )
@@ -52,6 +55,7 @@ private fun Preview_Empty() {
         ItemNameInput(
             initialName = "",
             hint = stringResource(R.string.account_name),
+            feeling = Feeling.Positive,
             onNameChange = {}
         )
     }
@@ -64,6 +68,7 @@ private fun Preview_Filled() {
         ItemNameInput(
             initialName = "Cash",
             hint = stringResource(R.string.account_name),
+            feeling = Feeling.Positive,
             onNameChange = {}
         )
     }

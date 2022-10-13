@@ -27,7 +27,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l2_components.modal.scope.ModalScope
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.resources.R
 
@@ -116,7 +116,7 @@ fun ModalActionsScope.SearchButton(
         text = null,
         icon = if (searchBarVisible)
             R.drawable.round_search_off_24 else R.drawable.round_search_24,
-        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive,
+        feeling = if (searchBarVisible) Feeling.Negative else Feeling.Positive,
         onClick = onClick,
     )
 }

@@ -44,20 +44,28 @@ class AccountTabViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     private fun accListItemsUiFlow(): Flow<List<AccListItemUi>> =
         accountFoldersFlow(Unit).map { items ->
-            items.map { item ->
-                when (item) {
-                    is AccountListItem.AccountHolder ->
-                        item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
-                    is AccountListItem.FolderHolder -> item to item.folder
-                        .accounts.map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+            items
+                // filter empty folders
+                .filter {
+                    when (it) {
+                        is AccountListItem.AccountHolder -> true
+                        is AccountListItem.FolderHolder -> it.folder.accounts.isNotEmpty()
+                    }
                 }
-            }.map { (item, balanceFlows) ->
-                // Handle empty folders with no accounts inside
-                if (balanceFlows.isEmpty())
-                    flowOf(item to listOf()) else combine(balanceFlows) { balances ->
-                    item to balances.toList()
+                .map { item ->
+                    when (item) {
+                        is AccountListItem.AccountHolder ->
+                            item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
+                        is AccountListItem.FolderHolder -> item to item.folder
+                            .accounts.map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                    }
+                }.map { (item, balanceFlows) ->
+                    // Handle empty folders with no accounts inside
+                    if (balanceFlows.isEmpty())
+                        flowOf(item to listOf()) else combine(balanceFlows) { balances ->
+                        item to balances.toList()
+                    }
                 }
-            }
         }.flatMapMerge(transform = ::combineList)
             .map(::toAccListItemsUi)
             .flatMapMerge(transform = ::combineList)

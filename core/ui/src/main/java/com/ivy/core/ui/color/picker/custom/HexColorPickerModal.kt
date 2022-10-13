@@ -33,6 +33,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Choose
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
@@ -70,6 +71,7 @@ fun BoxScope.HexColorPickerModal(
         HexInput(
             initialHex = state.hex,
             isError = state.color == null,
+            feeling = state.color?.let(Feeling::Custom) ?: Feeling.Positive,
             onHexChange = {
                 viewModel?.onEvent(HexColorPickerEvent.Hex(it))
             }
@@ -90,6 +92,7 @@ fun BoxScope.HexColorPickerModal(
 private fun HexInput(
     initialHex: String,
     isError: Boolean,
+    feeling: Feeling,
     onHexChange: (String) -> Unit,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -104,6 +107,7 @@ private fun HexInput(
             .fillMaxWidth()
             .padding(horizontal = 24.dp),
         isError = isError,
+        feeling = feeling,
         type = InputFieldType.SingleLine,
         typography = InputFieldTypography.Secondary,
         initialValue = initialHex,

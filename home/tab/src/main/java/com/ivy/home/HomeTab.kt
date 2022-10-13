@@ -27,9 +27,9 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.home.components.Balance
@@ -198,8 +198,8 @@ private fun CollapsedToolbarExtension(
             SpacerWeight(weight = 1f)
             IvyButton(
                 size = ButtonSize.Small,
-                visibility = ButtonVisibility.Low,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.Low,
+                feeling = Feeling.Positive,
                 text = "Scroll to top",
                 icon = null,
                 onClick = onScrollToTop,

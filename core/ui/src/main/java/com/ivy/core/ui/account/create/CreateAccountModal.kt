@@ -32,9 +32,9 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
@@ -168,8 +168,8 @@ private fun AdjustBalance(
     IvyButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Low,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Low,
+        feeling = Feeling.Positive,
         text = stringResource(R.string.adjust_balance),
         icon = null,
         onClick = onClick

@@ -23,6 +23,8 @@ import com.ivy.design.l1_buildingBlocks.data.solid
 import com.ivy.design.l1_buildingBlocks.data.solidWithBorder
 import com.ivy.design.l1_buildingBlocks.glow
 import com.ivy.design.l2_components.button.*
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 import com.ivy.design.util.thenIf
@@ -30,8 +32,8 @@ import com.ivy.design.util.thenIf
 @Composable
 fun IvyButton(
     size: ButtonSize,
-    visibility: ButtonVisibility,
-    feeling: ButtonFeeling,
+    visibility: Visibility,
+    feeling: Feeling,
     text: String?,
     @DrawableRes
     icon: Int?,
@@ -47,19 +49,19 @@ fun IvyButton(
     val shape = if (iconOnly) UI.shapes.circle else UI.shapes.fullyRounded
 
     val background = when (visibility) {
-        ButtonVisibility.Focused, ButtonVisibility.High -> solid(
+        Visibility.Focused, Visibility.High -> solid(
             shape = shape,
             color = bgColor,
             padding = padding,
         )
-        ButtonVisibility.Medium -> solidWithBorder(
+        Visibility.Medium -> solidWithBorder(
             shape = shape,
             solid = UI.colors.pure,
             borderWidth = 2.dp,
             borderColor = bgColor,
             padding = padding,
         )
-        ButtonVisibility.Low -> solid(
+        Visibility.Low -> solid(
             shape = shape,
             color = UI.colors.transparent,
             padding = padding,
@@ -67,10 +69,10 @@ fun IvyButton(
     }
 
     val textColor = when (visibility) {
-        ButtonVisibility.Focused, ButtonVisibility.High ->
+        Visibility.Focused, Visibility.High ->
             rememberContrast(bgColor)
-        ButtonVisibility.Medium -> rememberContrast(UI.colors.pure)
-        ButtonVisibility.Low -> bgColor
+        Visibility.Medium -> rememberContrast(UI.colors.pure)
+        Visibility.Low -> bgColor
     }
     val textStyle = UI.typo.b2.style(
         color = textColor,
@@ -81,7 +83,7 @@ fun IvyButton(
     val sizeModifier = when (size) {
         ButtonSize.Big -> modifier.fillMaxWidth()
         ButtonSize.Small -> modifier
-    }.thenIf(visibility == ButtonVisibility.Focused) {
+    }.thenIf(visibility == Visibility.Focused) {
         this.glow(bgColor)
     }
 
@@ -138,8 +140,8 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big,
-                visibility = ButtonVisibility.Focused,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Positive,
                 text = "Add",
                 icon = R.drawable.ic_vue_crypto_icon
             ) {}
@@ -149,8 +151,8 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
-                visibility = ButtonVisibility.Medium,
-                feeling = ButtonFeeling.Negative,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Negative,
                 text = "Error, okay?",
                 icon = null,
             ) {}
@@ -160,8 +162,8 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
-                visibility = ButtonVisibility.Focused,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Positive,
                 text = null,
                 icon = R.drawable.ic_round_add_24,
             ) {}
@@ -171,8 +173,8 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
-                visibility = ButtonVisibility.Focused,
-                feeling = ButtonFeeling.Disabled,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Disabled,
                 text = "Disabled button",
                 icon = null,
             ) {}
@@ -182,8 +184,8 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Small,
-                visibility = ButtonVisibility.Low,
-                feeling = ButtonFeeling.Positive,
+                visibility = Visibility.Low,
+                feeling = Feeling.Positive,
                 text = "Text-only",
                 icon = null
             ) {}
@@ -198,8 +200,8 @@ private fun PreviewCommon() {
                 IvyButton(
                     modifier = Modifier.weight(1f),
                     size = ButtonSize.Big,
-                    visibility = ButtonVisibility.High,
-                    feeling = ButtonFeeling.Positive,
+                    visibility = Visibility.High,
+                    feeling = Feeling.Positive,
                     text = "Save",
                     icon = null,
                 ) {}
@@ -209,8 +211,8 @@ private fun PreviewCommon() {
                 IvyButton(
                     modifier = Modifier.weight(1f),
                     size = ButtonSize.Big,
-                    visibility = ButtonVisibility.Medium,
-                    feeling = ButtonFeeling.Negative,
+                    visibility = Visibility.Medium,
+                    feeling = Feeling.Negative,
                     text = "Delete",
                     icon = null,
                 ) {}
@@ -224,10 +226,11 @@ private fun PreviewCommon() {
 
 // region Utility functions
 @Composable
-fun ButtonFeeling.toColor(): Color = when (this) {
-    ButtonFeeling.Positive -> UI.colors.primary
-    ButtonFeeling.Negative -> UI.colors.red
-    ButtonFeeling.Neutral -> UI.colors.neutral
-    ButtonFeeling.Disabled -> UI.colors.medium
+fun Feeling.toColor(): Color = when (this) {
+    Feeling.Positive -> UI.colors.primary
+    Feeling.Negative -> UI.colors.red
+    Feeling.Neutral -> UI.colors.neutral
+    Feeling.Disabled -> UI.colors.medium
+    is Feeling.Custom -> color
 }
 // endregion

@@ -12,9 +12,9 @@ import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.dummyAccountFolderUi
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 
@@ -32,8 +32,8 @@ internal fun ColumnScope.AccountFolderButton(
     IvyButton(
         modifier = modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Positive,
         text = folder?.name ?: "None",
         icon = R.drawable.ic_vue_files_folder,
         onClick = onClick

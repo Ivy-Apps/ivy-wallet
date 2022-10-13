@@ -18,6 +18,8 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.InputField
 import com.ivy.design.l2_components.input.InputFieldType.Multiline
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.button.toColor
 import com.ivy.design.util.ComponentPreview
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -31,6 +33,7 @@ fun IvyInputField(
     @DrawableRes
     iconLeft: Int? = null,
     shape: Shape = UI.shapes.rounded,
+    feeling: Feeling = Feeling.Positive,
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     imeAction: ImeAction = ImeAction.Done,
@@ -45,6 +48,7 @@ fun IvyInputField(
         isError = isError,
         iconLeft = iconLeft,
         shape = shape,
+        focusedColor = feeling.toColor(),
         textStyle = when (typography) {
             InputFieldTypography.Primary -> UI.typo.b2.style(fontWeight = FontWeight.Bold)
             InputFieldTypography.Secondary -> UI.typoSecond.b2.style(fontWeight = FontWeight.Bold)

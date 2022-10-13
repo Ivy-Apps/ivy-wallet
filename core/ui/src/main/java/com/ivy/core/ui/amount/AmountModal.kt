@@ -18,7 +18,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.resources.R
@@ -49,7 +49,7 @@ fun BoxScope.AmountModal(
                 text = null,
                 icon = R.drawable.ic_vue_edu_calculator,
                 feeling = if (calculatorVisible)
-                    ButtonFeeling.Negative else ButtonFeeling.Positive,
+                    Feeling.Negative else Feeling.Positive,
                 hapticFeedback = true
             ) {
                 calculatorVisible = !calculatorVisible
