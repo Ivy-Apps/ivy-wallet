@@ -83,7 +83,8 @@ private fun previewState() = AccountTabState(
     items = listOf(
         AccItemWithBalanceUi.AccountHolder(
             account = dummyAccountUi("Cash"),
-            balance = dummyValueUi("240.75")
+            balance = dummyValueUi("240.75"),
+            balanceBaseCurrency = null,
         ),
         AccItemWithBalanceUi.FolderHolder(
             folder = dummyAccountFolderUi("Business"),
@@ -91,21 +92,25 @@ private fun previewState() = AccountTabState(
             accItems = listOf(
                 AccItemWithBalanceUi.AccountHolder(
                     account = dummyAccountUi("Account 1"),
-                    balance = dummyValueUi("1,000.00")
+                    balance = dummyValueUi("1,000.00", "BGN"),
+                    balanceBaseCurrency = dummyValueUi("500")
                 ),
                 AccItemWithBalanceUi.AccountHolder(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
-                    balance = dummyValueUi("0.00")
+                    balance = dummyValueUi("0.00"),
+                    balanceBaseCurrency = null
                 ),
                 AccItemWithBalanceUi.AccountHolder(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
+                    balanceBaseCurrency = null
                 ),
             )
         ),
         AccItemWithBalanceUi.AccountHolder(
             account = dummyAccountUi("Revolut", color = Blue),
-            balance = dummyValueUi("1,032.54")
+            balance = dummyValueUi("1,032.54"),
+            balanceBaseCurrency = null
         ),
     ),
     createAccountModal = IvyModal()
