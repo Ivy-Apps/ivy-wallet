@@ -8,12 +8,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,10 +67,10 @@ data class IvyModal(
 fun rememberIvyModal(): IvyModal = remember { IvyModal() }
 // endregion
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.Modal(
     modal: IvyModal,
-
     actions: @Composable ModalActionsScope.() -> Unit,
     keyboardShiftsContent: Boolean = true,
     level: Int = 1,
@@ -84,6 +86,7 @@ fun BoxScope.Modal(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
@@ -91,6 +94,7 @@ fun BoxScope.Modal(
                 .testTag("modal_outside_blur")
                 .clickable(
                     onClick = {
+                        keyboardController?.hide()
                         modal.hide()
                     },
                     enabled = visible
@@ -139,9 +143,13 @@ fun BoxScope.Modal(
                 content()
             }
 
+            val keyboardController = LocalSoftwareKeyboardController.current
             ModalActionsRow(
                 Actions = actions,
-                onClose = { modal.hide() },
+                onClose = {
+                    keyboardController?.hide()
+                    modal.hide()
+                },
             )
             SpacerVer(height = 12.dp)
         }

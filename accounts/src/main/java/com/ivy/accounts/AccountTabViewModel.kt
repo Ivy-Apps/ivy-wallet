@@ -30,13 +30,13 @@ class AccountTabViewModel @Inject constructor(
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         items = emptyList(),
-        createAccountModal = IvyModal()
+        createModal = IvyModal()
     )
 
     override val uiFlow: Flow<AccountTabState> = accListItemsUiFlow().map { items ->
         AccountTabState(
             items = items,
-            createAccountModal = initialUi.createAccountModal
+            createModal = initialUi.createModal
         )
     }
 
@@ -115,7 +115,7 @@ class AccountTabViewModel @Inject constructor(
 
     private fun handleBottomBarAction(event: AccountTabEvent.BottomBarAction) {
         // TODO: Handle properly
-        uiState.value.createAccountModal.show()
+        uiState.value.createModal.show()
     }
 // endregion
 }

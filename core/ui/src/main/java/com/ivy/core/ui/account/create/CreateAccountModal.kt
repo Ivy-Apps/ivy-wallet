@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +36,7 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.CreateAccountModal(
     modal: IvyModal,
@@ -52,6 +55,7 @@ fun BoxScope.CreateAccountModal(
     var color by remember(primary) { mutableStateOf(primary) }
     var excluded by remember { mutableStateOf(false) }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
     Modal(
         modal = modal,
         level = level,
@@ -63,16 +67,17 @@ fun BoxScope.CreateAccountModal(
                         excluded = excluded,
                     )
                 )
+                keyboardController?.hide()
                 modal.hide()
             }
         }
     ) {
         LazyColumn(modifier = Modifier.weight(1f)) {
-            item {
+            item(key = "title") {
                 Title(text = stringResource(R.string.new_account))
                 SpacerVer(height = 24.dp)
             }
-            item {
+            item(key = "item_icon_name_row") {
                 ItemIconNameRow(
                     icon = state.icon,
                     color = color,
@@ -83,7 +88,7 @@ fun BoxScope.CreateAccountModal(
                 )
                 SpacerVer(height = 16.dp)
             }
-            item {
+            item(key = "color_button") {
                 ColorButton(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -94,25 +99,25 @@ fun BoxScope.CreateAccountModal(
                 }
                 SpacerVer(height = 16.dp)
             }
-            item {
+            item(key = "acc_currency") {
                 AccountCurrency(
                     currency = state.currency,
                     onPickCurrency = { currencyPickerModal.show() }
                 )
             }
-            item {
+            item(key = "line_divider") {
                 SpacerVer(height = 24.dp)
                 DividerHor()
                 SpacerVer(height = 12.dp)
             }
-            item {
+            item(key = "exclude_acc") {
                 ExcludeAccount(
                     excluded = excluded,
                     onMoreInfo = { excludedAccInfoModal.show() },
                     onExcludedChange = { excluded = it }
                 )
             }
-            item {
+            item(key = "last_item_spacer") {
                 SpacerVer(height = 48.dp) // last spacer
             }
         }
@@ -122,7 +127,7 @@ fun BoxScope.CreateAccountModal(
         modal = iconPickerModal,
         initialIcon = state.icon,
         color = color,
-        onIconPick = { viewModel?.onEvent(CreateAccountModalEvent.IconPick(it)) }
+        onIconPick = { viewModel?.onEvent(CreateAccountModalEvent.IconChange(it)) }
     )
 
     ColorPickerModal(

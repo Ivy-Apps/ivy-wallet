@@ -21,12 +21,18 @@ class AccountFoldersFlow @Inject constructor(
 ) : FlowAction<Unit, List<AccountListItem>>() {
     override fun Unit.createFlow(): Flow<List<AccountListItem>> = combine(
         accountsFlow(), accountFolderDao.findAll()
-    ) { accountEntities, folderEntities ->
-        val foldersMap = accountEntities.groupBy { it.folderId?.toString() ?: "none" }
+    ) { accounts, folderEntities ->
+        val foldersMap = accounts.groupBy { it.folderId?.toString() ?: "none" }
         val folders = folderEntities.map { FolderHolder(toDomain(foldersMap, it)) }
-        val accounts = (foldersMap["none"] ?: emptyList()).map(AccountListItem::AccountHolder)
+        val accountsNotInFolder = foldersMap.filterKeys { accFolderId ->
+            if (accFolderId == "none") return@filterKeys false
+            val folderIds = folders.map { it.folder.id }
+            // the referenced folder by the account doesn't exists if:
+            !folderIds.contains(accFolderId)
+        }.values.flatten()
+        val accountHolders = accountsNotInFolder.map(AccountListItem::AccountHolder)
 
-        (folders + accounts).sortedBy {
+        (folders + accountHolders).sortedBy {
             when (it) {
                 is AccountHolder -> it.account.orderNum
                 is FolderHolder -> it.folder.orderNum

@@ -11,8 +11,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.components.accountItemsList
 import com.ivy.accounts.data.AccListItemUi
+import com.ivy.accounts.modal.CreateModal
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
+import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
 import com.ivy.core.ui.data.account.dummyAccountFolderUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.design.l0_system.color.Blue
@@ -21,6 +23,7 @@ import com.ivy.design.l1_buildingBlocks.ColumnRoot
 import com.ivy.design.l1_buildingBlocks.H2
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
@@ -66,7 +69,15 @@ private fun BoxScope.UI(
         }
     }
 
-    CreateAccountModal(modal = state.createAccountModal)
+    val createAccountModal = rememberIvyModal()
+    val createFolderModal = rememberIvyModal()
+    CreateModal(
+        modal = state.createModal,
+        onCreateAccount = { createAccountModal.show() },
+        onCreateFolder = { createFolderModal.show() }
+    )
+    CreateAccountModal(modal = createAccountModal)
+    CreateAccFolderModal(modal = createFolderModal)
 }
 
 
@@ -113,6 +124,6 @@ private fun previewState() = AccountTabState(
             balanceBaseCurrency = null
         ),
     ),
-    createAccountModal = IvyModal()
+    createModal = IvyModal()
 )
 // endregion

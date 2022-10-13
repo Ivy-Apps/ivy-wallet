@@ -7,5 +7,5 @@ import com.ivy.design.l2_components.modal.IvyModal
 @Immutable
 data class AccountTabState(
     val items: List<AccListItemUi>,
-    val createAccountModal: IvyModal,
+    val createModal: IvyModal,
 )

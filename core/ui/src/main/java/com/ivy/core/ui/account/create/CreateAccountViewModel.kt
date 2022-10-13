@@ -55,7 +55,7 @@ internal class CreateAccountViewModel @Inject constructor(
     // region Event Handling
     override suspend fun handleEvent(event: CreateAccountModalEvent) = when (event) {
         is CreateAccountModalEvent.CreateAccount -> createAccount(event)
-        is CreateAccountModalEvent.IconPick -> handleIconPick(event)
+        is CreateAccountModalEvent.IconChange -> handleIconPick(event)
         is CreateAccountModalEvent.NameChange -> handleNameChange(event)
         is CreateAccountModalEvent.CurrencyChange -> handleCurrencyChange(event)
     }
@@ -76,7 +76,7 @@ internal class CreateAccountViewModel @Inject constructor(
         writeAccountsAct(Modify.save(newAccount))
     }
 
-    private fun handleIconPick(event: CreateAccountModalEvent.IconPick) {
+    private fun handleIconPick(event: CreateAccountModalEvent.IconChange) {
         iconId.value = event.iconId
     }
 

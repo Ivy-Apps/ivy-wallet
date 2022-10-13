@@ -18,17 +18,20 @@ class CoinbaseExchangeProvider @Inject constructor() : RemoteExchangeProvider {
         provider = ExchangeProvider.Coinbase
     )
 
-    private suspend fun fetchRates(baseCurrency: CurrencyCode): ExchangeRatesMap {
+    private suspend fun fetchRates(baseCurrency: CurrencyCode): ExchangeRatesMap = try {
         val response = ktorClient().get("https://api.coinbase.com/v2/exchange-rates") {
             parameter("currency", baseCurrency)
         }
 
-        return if (response.status.isSuccess()) {
+        if (response.status.isSuccess()) {
             response.body<CoinbaseRatesResponse>().data.rates
         } else {
             // error
             emptyMap()
         }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        emptyMap()
     }
 
 

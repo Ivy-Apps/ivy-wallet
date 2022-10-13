@@ -10,15 +10,9 @@ internal sealed interface CreateAccountModalEvent {
         val excluded: Boolean,
     ) : CreateAccountModalEvent
 
-    data class IconPick(
-        val iconId: ItemIconId
-    ) : CreateAccountModalEvent
+    data class IconChange(val iconId: ItemIconId) : CreateAccountModalEvent
 
-    data class NameChange(
-        val name: String
-    ) : CreateAccountModalEvent
+    data class NameChange(val name: String) : CreateAccountModalEvent
 
-    data class CurrencyChange(
-        val newCurrency: CurrencyCode,
-    ) : CreateAccountModalEvent
+    data class CurrencyChange(val newCurrency: CurrencyCode) : CreateAccountModalEvent
 }
