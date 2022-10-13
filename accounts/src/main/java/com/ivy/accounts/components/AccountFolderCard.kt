@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.R
-import com.ivy.accounts.data.AccItemWithBalanceUi.AccountHolder
+import com.ivy.accounts.data.AccListItemUi.AccountHolder
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.account.AccountFolderUi

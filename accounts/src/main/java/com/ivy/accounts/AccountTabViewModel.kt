@@ -1,12 +1,13 @@
 package com.ivy.accounts
 
-import com.ivy.accounts.data.AccItemWithBalanceUi
+import com.ivy.accounts.data.AccListItemUi
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.exchange.ExchangeFlow
 import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.util.combineList
 import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
@@ -32,7 +33,7 @@ class AccountTabViewModel @Inject constructor(
         createAccountModal = IvyModal()
     )
 
-    override val uiFlow: Flow<AccountTabState> = solve().map { items ->
+    override val uiFlow: Flow<AccountTabState> = accListItemsUiFlow().map { items ->
         AccountTabState(
             items = items,
             createAccountModal = initialUi.createAccountModal
@@ -41,54 +42,57 @@ class AccountTabViewModel @Inject constructor(
 
     // TODO: Re-work this, it's just ugly!
     @OptIn(FlowPreview::class)
-    private fun solve(): Flow<List<AccItemWithBalanceUi>> = accountFoldersFlow(Unit).map { items ->
-        items.map { item ->
-            when (item) {
-                is AccountListItem.AccountHolder ->
-                    item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
-                is AccountListItem.FolderHolder -> item to item.folder.accounts
-                    .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+    private fun accListItemsUiFlow(): Flow<List<AccListItemUi>> =
+        accountFoldersFlow(Unit).map { items ->
+            items.map { item ->
+                when (item) {
+                    is AccountListItem.AccountHolder ->
+                        item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
+                    is AccountListItem.FolderHolder -> item to item.folder
+                        .accounts.map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                }
+            }.map { (item, balanceFlows) ->
+                // Handle empty folders with no accounts inside
+                if (balanceFlows.isEmpty())
+                    flowOf(item to listOf()) else combine(balanceFlows) { balances ->
+                    item to balances.toList()
+                }
             }
-        }.map { (item, balanceFlows) ->
-            if (balanceFlows.isEmpty())
-                flowOf(item to listOf()) else combine(balanceFlows) { balances ->
-                item to balances.toList()
-            }
-        }
-    }.flatMapMerge(transform = ::combineList)
-        .map { itemBalancesFlows(it) }
-        .flatMapMerge(transform = ::combineList)
+        }.flatMapMerge(transform = ::combineList)
+            .map(::toAccListItemsUi)
+            .flatMapMerge(transform = ::combineList)
 
-    private suspend fun itemBalancesFlows(
+    private suspend fun toAccListItemsUi(
         itemBalances: List<Pair<AccountListItem, List<Value>>>
-    ): List<Flow<AccItemWithBalanceUi>> = itemBalances.map { (item, balances) ->
+    ): List<Flow<AccListItemUi>> = itemBalances.map { (item, balances) ->
         when (item) {
-            is AccountListItem.AccountHolder -> exchangeFlow(
-                ExchangeFlow.Input(balances.first())
-            ).map { balanceBaseCurrency ->
-                AccItemWithBalanceUi.AccountHolder(
-                    account = mapAccountUiAct(item.account),
-                    balance = format(balances.first(), shortenFiat = false),
-                    balanceBaseCurrency = balanceBaseCurrency.takeIf {
-                        it.currency != balances.first().currency && it.amount > 0.0
-                    }?.let { format(it, shortenFiat = true) },
-                )
+            is AccountListItem.AccountHolder -> {
+                val accBalance = balances.first()
+                exchangeFlow(ExchangeFlow.Input(accBalance)).map { balanceBaseCurrency ->
+                    AccListItemUi.AccountHolder(
+                        account = mapAccountUiAct(item.account),
+                        balance = format(accBalance, shortenFiat = false),
+                        balanceBaseCurrency = balanceBaseCurrency(
+                            baseCurrency = balanceBaseCurrency,
+                            currency = accBalance,
+                        )
+                    )
+                }
             }
             is AccountListItem.FolderHolder -> combine(
                 sumValuesInCurrencyFlow(SumValuesInCurrencyFlow.Input(balances)),
-                *balances.map { exchangeFlow(ExchangeFlow.Input(it)) }.toTypedArray(),
-            ) { allBalances ->
-                val folderBalance = allBalances.first()
-                val balancesInBaseCurrency = allBalances.drop(1)
-                AccItemWithBalanceUi.FolderHolder(
+                combineList(balances.map { exchangeFlow(ExchangeFlow.Input(it)) })
+            ) { folderBalance, balancesBaseCurrency ->
+                AccListItemUi.FolderHolder(
                     folder = mapAccountFolderUiAct(item.folder),
                     accItems = item.folder.accounts.mapIndexed { index, acc ->
-                        AccItemWithBalanceUi.AccountHolder(
+                        AccListItemUi.AccountHolder(
                             account = mapAccountUiAct(acc),
                             balance = format(balances[index], shortenFiat = false),
-                            balanceBaseCurrency = balancesInBaseCurrency[index].takeIf {
-                                it.currency != balances[index].currency && it.amount > 0.0
-                            }?.let { format(it, shortenFiat = true) }
+                            balanceBaseCurrency = balanceBaseCurrency(
+                                baseCurrency = balancesBaseCurrency[index],
+                                currency = balances[index]
+                            )
                         )
                     },
                     balance = format(folderBalance, shortenFiat = true)
@@ -96,6 +100,13 @@ class AccountTabViewModel @Inject constructor(
             }
         }
     }
+
+    private fun balanceBaseCurrency(
+        baseCurrency: Value,
+        currency: Value
+    ): ValueUi? = baseCurrency.takeIf {
+        it.currency != currency.currency && it.amount > 0.0
+    }?.let { format(it, shortenFiat = true) }
 
     // region Event Handling
     override suspend fun handleEvent(event: AccountTabEvent) = when (event) {

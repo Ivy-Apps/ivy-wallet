@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.components.accountItemsList
-import com.ivy.accounts.data.AccItemWithBalanceUi
+import com.ivy.accounts.data.AccListItemUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.data.account.dummyAccountFolderUi
@@ -81,33 +81,33 @@ private fun Preview() {
 
 private fun previewState() = AccountTabState(
     items = listOf(
-        AccItemWithBalanceUi.AccountHolder(
+        AccListItemUi.AccountHolder(
             account = dummyAccountUi("Cash"),
             balance = dummyValueUi("240.75"),
             balanceBaseCurrency = null,
         ),
-        AccItemWithBalanceUi.FolderHolder(
+        AccListItemUi.FolderHolder(
             folder = dummyAccountFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accItems = listOf(
-                AccItemWithBalanceUi.AccountHolder(
+                AccListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 1"),
                     balance = dummyValueUi("1,000.00", "BGN"),
                     balanceBaseCurrency = dummyValueUi("500")
                 ),
-                AccItemWithBalanceUi.AccountHolder(
+                AccListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
                     balance = dummyValueUi("0.00"),
                     balanceBaseCurrency = null
                 ),
-                AccItemWithBalanceUi.AccountHolder(
+                AccListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null
                 ),
             )
         ),
-        AccItemWithBalanceUi.AccountHolder(
+        AccListItemUi.AccountHolder(
             account = dummyAccountUi("Revolut", color = Blue),
             balance = dummyValueUi("1,032.54"),
             balanceBaseCurrency = null

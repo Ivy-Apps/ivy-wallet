@@ -6,18 +6,18 @@ import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.AccountUi
 
 @Immutable
-sealed interface AccItemWithBalanceUi {
+sealed interface AccListItemUi {
     @Immutable
     data class AccountHolder(
         val account: AccountUi,
         val balance: ValueUi,
         val balanceBaseCurrency: ValueUi?,
-    ) : AccItemWithBalanceUi
+    ) : AccListItemUi
 
     @Immutable
     data class FolderHolder(
         val folder: AccountFolderUi,
         val accItems: List<AccountHolder>,
         val balance: ValueUi,
-    ) : AccItemWithBalanceUi
+    ) : AccListItemUi
 }
