@@ -31,7 +31,7 @@ import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue
 import com.ivy.design.l0_system.color.Red
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -69,7 +69,7 @@ fun AccountFolderCard(
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 12.dp)
         ) {
-            val contrastColor = rememberContrastColor(folder.color)
+            val contrastColor = rememberContrast(folder.color)
             IconNameRow(folderName = folder.name, folderIcon = folder.icon, color = contrastColor)
             SpacerVer(height = 4.dp)
             Balance(balance = balance, color = contrastColor)

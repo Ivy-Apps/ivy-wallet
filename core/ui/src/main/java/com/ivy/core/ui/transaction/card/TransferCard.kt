@@ -22,7 +22,7 @@ import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.util.ComponentPreview
 
@@ -90,7 +90,7 @@ private fun TransferAmount(
         IconRes(
             modifier = Modifier.background(UI.colors.primary, UI.shapes.circle),
             icon = R.drawable.ic_transfer,
-            tint = rememberContrastColor(UI.colors.primary),
+            tint = rememberContrast(UI.colors.primary),
         )
         SpacerHor(width = 12.dp)
         AmountCurrency(value = fromValue, color = UI.colors.primary)

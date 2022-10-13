@@ -13,12 +13,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.create.components.AccountCurrency
+import com.ivy.core.ui.account.create.components.AccountFolderButton
 import com.ivy.core.ui.account.create.components.ExcludeAccount
 import com.ivy.core.ui.account.create.components.ExcludedAccInfoModal
+import com.ivy.core.ui.account.folder.choose.ChooseFolderModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
 import com.ivy.core.ui.currency.CurrencyPickerModal
+import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.icon.picker.IconPickerModal
 import com.ivy.design.l0_system.UI
@@ -49,11 +52,13 @@ fun BoxScope.CreateAccountModal(
     val colorPickerModal = rememberIvyModal()
     val currencyPickerModal = rememberIvyModal()
     val excludedAccInfoModal = rememberIvyModal()
+    val chooseFolderModal = rememberIvyModal()
 
 
     val primary = UI.colors.primary
     var color by remember(primary) { mutableStateOf(primary) }
     var excluded by remember { mutableStateOf(false) }
+    var folder by remember { mutableStateOf<AccountFolderUi?>(null) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
     Modal(
@@ -65,6 +70,7 @@ fun BoxScope.CreateAccountModal(
                     CreateAccountModalEvent.CreateAccount(
                         color = color,
                         excluded = excluded,
+                        folder = folder,
                     )
                 )
                 keyboardController?.hide()
@@ -104,6 +110,12 @@ fun BoxScope.CreateAccountModal(
                     currency = state.currency,
                     onPickCurrency = { currencyPickerModal.show() }
                 )
+                SpacerVer(height = 12.dp)
+            }
+            item(key = "acc_folder") {
+                AccountFolderButton(folder = folder) {
+                    chooseFolderModal.show()
+                }
             }
             item(key = "line_divider") {
                 SpacerVer(height = 24.dp)
@@ -129,13 +141,11 @@ fun BoxScope.CreateAccountModal(
         color = color,
         onIconPick = { viewModel?.onEvent(CreateAccountModalEvent.IconChange(it)) }
     )
-
     ColorPickerModal(
         modal = colorPickerModal,
         initialColor = color,
         onColorPicked = { color = it }
     )
-
     CurrencyPickerModal(
         modal = currencyPickerModal,
         initialCurrency = state.currency,
@@ -143,8 +153,12 @@ fun BoxScope.CreateAccountModal(
             viewModel?.onEvent(CreateAccountModalEvent.CurrencyChange(it))
         }
     )
-
     ExcludedAccInfoModal(modal = excludedAccInfoModal)
+    ChooseFolderModal(
+        modal = chooseFolderModal,
+        selected = folder,
+        onChooseFolder = { folder = it }
+    )
 }
 
 @Composable

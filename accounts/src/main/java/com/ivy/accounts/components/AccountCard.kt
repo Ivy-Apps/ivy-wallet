@@ -26,7 +26,7 @@ import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.core.ui.value.AmountCurrencySmall
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.Caption
@@ -54,7 +54,7 @@ fun AccountCard(
             .padding(horizontal = 16.dp)
             .padding(top = 12.dp, bottom = 24.dp),
     ) {
-        val contrastColor = rememberContrastColor(account.color)
+        val contrastColor = rememberContrast(account.color)
         Header(account = account, color = contrastColor, dynamicContrast = dynamicContrast)
         SpacerVer(height = 4.dp)
         Balance(balance = balance, color = contrastColor)

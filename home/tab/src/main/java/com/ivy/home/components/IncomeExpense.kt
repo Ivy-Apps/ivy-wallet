@@ -19,7 +19,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -77,7 +77,7 @@ private fun Card(
             .clickable(onClick = onClick)
             .padding(all = 12.dp),
     ) {
-        val textColor = rememberContrastColor(bgColor)
+        val textColor = rememberContrast(bgColor)
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconRes(icon = icon, tint = textColor)
             SpacerHor(width = 4.dp)

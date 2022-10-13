@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.amount.util.rememberDecimalSeparator
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
@@ -244,7 +244,7 @@ private fun KeypadButton(
             color = when (visibility) {
                 ButtonVisibility.Focused,
                 ButtonVisibility.High ->
-                    rememberContrastColor(feeling.toColor())
+                    rememberContrast(feeling.toColor())
                 ButtonVisibility.Medium,
                 ButtonVisibility.Low -> UI.colorsInverted.pure
             },

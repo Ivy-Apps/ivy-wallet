@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.design.R
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -68,8 +68,8 @@ fun IvyButton(
 
     val textColor = when (visibility) {
         ButtonVisibility.Focused, ButtonVisibility.High ->
-            rememberContrastColor(bgColor)
-        ButtonVisibility.Medium -> rememberContrastColor(UI.colors.pure)
+            rememberContrast(bgColor)
+        ButtonVisibility.Medium -> rememberContrast(UI.colors.pure)
         ButtonVisibility.Low -> bgColor
     }
     val textStyle = UI.typo.b2.style(

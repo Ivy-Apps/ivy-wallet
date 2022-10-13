@@ -21,7 +21,7 @@ import com.ivy.core.ui.currency.data.CurrencyListItem
 import com.ivy.core.ui.currency.data.CurrencyUi
 import com.ivy.data.CurrencyCode
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
@@ -168,7 +168,7 @@ private fun CurrencyItem(
             .padding(horizontal = 24.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val textColor = rememberContrastColor(bgColor)
+        val textColor = rememberContrast(bgColor)
         B1Second(text = currency.code, fontWeight = FontWeight.ExtraBold, color = textColor)
         B2(
             modifier = Modifier
@@ -198,7 +198,7 @@ private fun SelectedCurrency(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val contrast = rememberContrastColor(UI.colors.primary)
+            val contrast = rememberContrast(UI.colors.primary)
             Column(
                 modifier = Modifier
                     .weight(1f)

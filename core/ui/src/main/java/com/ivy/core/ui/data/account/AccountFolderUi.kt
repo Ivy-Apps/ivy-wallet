@@ -19,8 +19,8 @@ data class AccountFolderUi(
 )
 
 fun dummyAccountFolderUi(
-    id: String = UUID.randomUUID().toString(),
     name: String = "Folder",
+    id: String = UUID.randomUUID().toString(),
     icon: ItemIcon = dummyIconUnknown(R.drawable.ic_vue_files_folder),
     color: Color = Purple,
     orderNum: Double = 0.0,

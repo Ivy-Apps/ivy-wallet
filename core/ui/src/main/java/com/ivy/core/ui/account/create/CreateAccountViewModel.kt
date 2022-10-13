@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.create
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.toUUID
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.NewAccountOrderNumAct
 import com.ivy.core.domain.action.account.WriteAccountsAct
@@ -68,7 +69,7 @@ internal class CreateAccountViewModel @Inject constructor(
             color = event.color.toArgb(),
             icon = iconId.value,
             excluded = event.excluded,
-            folderId = null, // TODO: Implement account folders
+            folderId = event.folder?.id?.toUUID(),
             orderNum = newAccountOrderNumAct(Unit),
             state = AccountState.Default,
             sync = SyncState.Syncing

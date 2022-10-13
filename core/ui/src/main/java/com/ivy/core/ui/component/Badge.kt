@@ -18,7 +18,7 @@ import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue2Dark
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
@@ -43,7 +43,7 @@ fun BadgeComponent(
             .padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val contrastColor = rememberContrastColor(background)
+        val contrastColor = rememberContrast(background)
         ItemIcon(
             itemIcon = icon,
             size = IconSize.S,
