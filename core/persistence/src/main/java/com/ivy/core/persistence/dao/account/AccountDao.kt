@@ -20,6 +20,9 @@ interface AccountDao {
     @Query("SELECT * FROM accounts WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<AccountEntity>>
 
+    @Query("SELECT * FROM accounts WHERE sync != $DELETING AND id = :accountId")
+    suspend fun findById(accountId: String): AccountEntity?
+
     @Query("SELECT MAX(orderNum) FROM accounts")
     suspend fun findMaxOrderNum(): Double?
     // endregion

@@ -4,8 +4,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,6 +13,7 @@ import com.ivy.accounts.data.AccListItemUi
 import com.ivy.accounts.modal.CreateModal
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
+import com.ivy.core.ui.account.edit.EditAccountModal
 import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
 import com.ivy.core.ui.data.account.dummyAccountFolderUi
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -41,6 +41,9 @@ private fun BoxScope.UI(
     state: AccountTabState,
     onEvent: (AccountTabEvent) -> Unit,
 ) {
+    val editAccountModal = rememberIvyModal()
+    var editAccountId by remember { mutableStateOf<String?>(null) }
+
     ColumnRoot {
         H2(
             modifier = Modifier
@@ -57,7 +60,8 @@ private fun BoxScope.UI(
             accountItemsList(
                 items = state.items,
                 onAccountClick = {
-                    // TODO: Implement
+                    editAccountId = it.id
+                    editAccountModal.show()
                 },
                 onFolderClick = {
                     // TODO: Implement
@@ -78,6 +82,10 @@ private fun BoxScope.UI(
     )
     CreateAccountModal(modal = createAccountModal)
     CreateAccFolderModal(modal = createFolderModal)
+
+    editAccountId?.let {
+        EditAccountModal(modal = editAccountModal, accountId = it)
+    }
 }
 
 

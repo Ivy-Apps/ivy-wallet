@@ -1,0 +1,227 @@
+package com.ivy.core.ui.account
+
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.ivy.core.ui.R
+import com.ivy.core.ui.account.create.components.AccountCurrency
+import com.ivy.core.ui.account.create.components.AccountFolderButton
+import com.ivy.core.ui.account.create.components.ExcludeAccount
+import com.ivy.core.ui.account.create.components.ExcludedAccInfoModal
+import com.ivy.core.ui.account.folder.choose.ChooseFolderModal
+import com.ivy.core.ui.color.ColorButton
+import com.ivy.core.ui.color.picker.ColorPickerModal
+import com.ivy.core.ui.components.ItemIconNameRow
+import com.ivy.core.ui.currency.CurrencyPickerModal
+import com.ivy.core.ui.data.account.AccountFolderUi
+import com.ivy.core.ui.data.icon.ItemIcon
+import com.ivy.core.ui.data.icon.dummyIconSized
+import com.ivy.core.ui.icon.picker.IconPickerModal
+import com.ivy.data.CurrencyCode
+import com.ivy.data.ItemIconId
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.DividerHor
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.components.Positive
+import com.ivy.design.l2_components.modal.components.Title
+import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.util.IvyPreview
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun BoxScope.BaseAccountModal(
+    modal: IvyModal,
+    title: String,
+    nameInputHint: String,
+    positiveActionText: String,
+    icon: ItemIcon,
+    initialName: String,
+    color: Color,
+    currency: CurrencyCode,
+    folder: AccountFolderUi?,
+    excluded: Boolean,
+    level: Int,
+    contentBelow: (LazyListScope.() -> Unit)? = null,
+    onIconChange: (ItemIconId) -> Unit,
+    onNameChange: (String) -> Unit,
+    onColorChange: (Color) -> Unit,
+    onCurrencyChange: (CurrencyCode) -> Unit,
+    onFolderChange: (AccountFolderUi?) -> Unit,
+    onExcludedChange: (Boolean) -> Unit,
+    onSaveAccount: (SaveAccountInfo) -> Unit,
+) {
+    val iconPickerModal = rememberIvyModal()
+    val colorPickerModal = rememberIvyModal()
+    val currencyPickerModal = rememberIvyModal()
+    val excludedAccInfoModal = rememberIvyModal()
+    val chooseFolderModal = rememberIvyModal()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    Modal(
+        modal = modal,
+        level = level,
+        actions = {
+            Positive(
+                text = positiveActionText,
+                feeling = Feeling.Custom(color)
+            ) {
+                onSaveAccount(
+                    SaveAccountInfo(
+                        color = color,
+                        excluded = excluded,
+                        folder = folder,
+                    )
+                )
+                keyboardController?.hide()
+                modal.hide()
+            }
+        }
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            item(key = "title") {
+                Title(text = title)
+                SpacerVer(height = 24.dp)
+            }
+            item(key = "item_icon_name_row") {
+                ItemIconNameRow(
+                    icon = icon,
+                    color = color,
+                    initialName = initialName,
+                    nameInputHint = nameInputHint,
+                    onPickIcon = {
+                        keyboardController?.hide()
+                        iconPickerModal.show()
+                    },
+                    onNameChange = onNameChange,
+                )
+                SpacerVer(height = 16.dp)
+            }
+            item(key = "color_button") {
+                ColorButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    color = color
+                ) {
+                    keyboardController?.hide()
+                    colorPickerModal.show()
+                }
+                SpacerVer(height = 16.dp)
+            }
+            item(key = "acc_currency") {
+                AccountCurrency(
+                    currency = currency,
+                    color = color,
+                    onPickCurrency = {
+                        keyboardController?.hide()
+                        currencyPickerModal.show()
+                    }
+                )
+                SpacerVer(height = 12.dp)
+            }
+            item(key = "acc_folder") {
+                AccountFolderButton(
+                    folder = folder,
+                    color = color,
+                ) {
+                    keyboardController?.hide()
+                    chooseFolderModal.show()
+                }
+            }
+            item(key = "line_divider") {
+                SpacerVer(height = 24.dp)
+                DividerHor()
+                SpacerVer(height = 12.dp)
+            }
+            item(key = "exclude_acc") {
+                ExcludeAccount(
+                    excluded = excluded,
+                    onMoreInfo = {
+                        keyboardController?.hide()
+                        excludedAccInfoModal.show()
+                    },
+                    onExcludedChange = onExcludedChange,
+                )
+            }
+            contentBelow?.invoke(this)
+            item(key = "last_item_spacer") {
+                SpacerVer(height = 48.dp) // last spacer
+            }
+        }
+    }
+
+    IconPickerModal(
+        modal = iconPickerModal,
+        initialIcon = icon,
+        color = color,
+        onIconPick = onIconChange,
+    )
+    ColorPickerModal(
+        modal = colorPickerModal,
+        initialColor = color,
+        onColorPicked = onColorChange,
+    )
+    CurrencyPickerModal(
+        modal = currencyPickerModal,
+        initialCurrency = currency,
+        onCurrencyPick = onCurrencyChange,
+    )
+    ExcludedAccInfoModal(modal = excludedAccInfoModal)
+    ChooseFolderModal(
+        modal = chooseFolderModal,
+        level = level + 1,
+        selected = folder,
+        onChooseFolder = onFolderChange,
+    )
+}
+
+data class SaveAccountInfo(
+    val color: Color,
+    val excluded: Boolean,
+    val folder: AccountFolderUi?
+)
+
+
+// region Preview
+@Preview
+@Composable
+private fun Preview() {
+    IvyPreview {
+        val modal = rememberIvyModal()
+        modal.show()
+        BaseAccountModal(
+            modal = modal,
+            level = 1,
+            title = stringResource(R.string.edit_account),
+            nameInputHint = stringResource(R.string.account_name),
+            positiveActionText = stringResource(R.string.save),
+            icon = dummyIconSized(R.drawable.ic_custom_account_m),
+            color = UI.colors.primary,
+            initialName = "Account",
+            excluded = false,
+            folder = null,
+            currency = "USD",
+            onNameChange = {},
+            onIconChange = {},
+            onCurrencyChange = {},
+            onSaveAccount = {},
+            onColorChange = {},
+            onExcludedChange = {},
+            onFolderChange = {}
+        )
+    }
+}
+// endregion

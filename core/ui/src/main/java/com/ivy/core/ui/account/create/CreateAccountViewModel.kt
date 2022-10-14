@@ -28,9 +28,9 @@ internal class CreateAccountViewModel @Inject constructor(
     private val itemIconAct: ItemIconAct,
     private val writeAccountsAct: WriteAccountsAct,
     private val newAccountOrderNumAct: NewAccountOrderNumAct,
-    private val baseCurrencyFlow: BaseCurrencyFlow,
-) : SimpleFlowViewModel<CreateAccountModalState, CreateAccountModalEvent>() {
-    override val initialUi = CreateAccountModalState(
+    baseCurrencyFlow: BaseCurrencyFlow,
+) : SimpleFlowViewModel<CreateAccountState, CreateAccountEvent>() {
+    override val initialUi = CreateAccountState(
         currency = "",
         icon = ItemIcon.Sized(
             iconS = R.drawable.ic_custom_account_s,
@@ -44,24 +44,24 @@ internal class CreateAccountViewModel @Inject constructor(
     private val currency = MutableStateFlow<CurrencyCode?>(null)
     private val iconId = MutableStateFlow<ItemIconId?>(null)
 
-    override val uiFlow: Flow<CreateAccountModalState> = combine(
+    override val uiFlow: Flow<CreateAccountState> = combine(
         baseCurrencyFlow(), currency, iconId
     ) { baseCurrency, currency, iconId ->
-        CreateAccountModalState(
+        CreateAccountState(
             currency = currency ?: baseCurrency,
             icon = itemIconAct(ItemIconAct.Input(iconId, DefaultTo.Account))
         )
     }
 
     // region Event Handling
-    override suspend fun handleEvent(event: CreateAccountModalEvent) = when (event) {
-        is CreateAccountModalEvent.CreateAccount -> createAccount(event)
-        is CreateAccountModalEvent.IconChange -> handleIconPick(event)
-        is CreateAccountModalEvent.NameChange -> handleNameChange(event)
-        is CreateAccountModalEvent.CurrencyChange -> handleCurrencyChange(event)
+    override suspend fun handleEvent(event: CreateAccountEvent) = when (event) {
+        is CreateAccountEvent.CreateAccount -> createAccount(event)
+        is CreateAccountEvent.IconChange -> handleIconPick(event)
+        is CreateAccountEvent.NameChange -> handleNameChange(event)
+        is CreateAccountEvent.CurrencyChange -> handleCurrencyChange(event)
     }
 
-    private suspend fun createAccount(event: CreateAccountModalEvent.CreateAccount) {
+    private suspend fun createAccount(event: CreateAccountEvent.CreateAccount) {
         val newAccount = Account(
             id = UUID.randomUUID(),
             name = name,
@@ -77,15 +77,15 @@ internal class CreateAccountViewModel @Inject constructor(
         writeAccountsAct(Modify.save(newAccount))
     }
 
-    private fun handleIconPick(event: CreateAccountModalEvent.IconChange) {
+    private fun handleIconPick(event: CreateAccountEvent.IconChange) {
         iconId.value = event.iconId
     }
 
-    private fun handleNameChange(event: CreateAccountModalEvent.NameChange) {
+    private fun handleNameChange(event: CreateAccountEvent.NameChange) {
         name = event.name
     }
 
-    private fun handleCurrencyChange(event: CreateAccountModalEvent.CurrencyChange) {
+    private fun handleCurrencyChange(event: CreateAccountEvent.CurrencyChange) {
         currency.value = event.newCurrency
     }
     // endregion

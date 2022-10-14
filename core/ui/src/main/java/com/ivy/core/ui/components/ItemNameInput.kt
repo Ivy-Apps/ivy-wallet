@@ -29,7 +29,7 @@ fun ItemNameInput(
     val focus = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(initialName) {
+    LaunchedEffect(Unit) {
         focus.requestFocus()
         keyboardController?.show()
     }

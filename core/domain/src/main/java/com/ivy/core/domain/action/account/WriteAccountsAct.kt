@@ -3,6 +3,7 @@ package com.ivy.core.domain.action.account
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
+import com.ivy.core.domain.pure.account.validate
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.query.TrnQueryExecutor
@@ -41,7 +42,7 @@ class WriteAccountsAct @Inject constructor(
     }
 
     private suspend fun save(accounts: List<Account>) {
-        val entities = accounts.map {
+        val entities = accounts.filter(::validate).map {
             mapToEntity(it).copy(sync = SyncState.Syncing)
         }
         accountDao.save(entities)
