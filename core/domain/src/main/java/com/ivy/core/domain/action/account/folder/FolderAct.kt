@@ -9,9 +9,8 @@ import javax.inject.Inject
 class FolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao
 ) : Action<String, Folder?>() {
-    override suspend fun String.willDo(): Folder? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun String.willDo(): Folder? =
+        accountFolderDao.findById(this)?.let(::toDomain)
 }
 
 fun toDomain(entity: AccountFolderEntity) = Folder(

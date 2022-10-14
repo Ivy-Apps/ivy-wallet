@@ -18,17 +18,22 @@ import com.ivy.design.util.IvyPreview
 @Composable
 fun BoxScope.DeleteConfirmationModal(
     modal: IvyModal,
+    level: Int = 1,
     message: String = "Are you sure that you want to delete it forever? " +
             "Once deleted, it can NOT be undone.",
     onDelete: () -> Unit,
 ) {
     Modal(
         modal = modal,
+        level = level,
         actions = {
             Negative(
                 text = "Delete",
                 icon = R.drawable.ic_round_delete_forever_24,
-                onClick = onDelete
+                onClick = {
+                    modal.hide()
+                    onDelete()
+                }
             )
         }
     ) {

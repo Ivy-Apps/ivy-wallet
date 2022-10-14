@@ -15,6 +15,7 @@ import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.account.edit.EditAccountModal
 import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
+import com.ivy.core.ui.account.folder.edit.EditAccFolderModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.design.l0_system.color.Blue
@@ -43,6 +44,8 @@ private fun BoxScope.UI(
 ) {
     val editAccountModal = rememberIvyModal()
     var editAccountId by remember { mutableStateOf<String?>(null) }
+    val editFolderModal = rememberIvyModal()
+    var editFolderId by remember { mutableStateOf<String?>(null) }
 
     ColumnRoot {
         H2(
@@ -64,7 +67,8 @@ private fun BoxScope.UI(
                     editAccountModal.show()
                 },
                 onFolderClick = {
-                    // TODO: Implement
+                    editFolderId = it.id
+                    editFolderModal.show()
                 }
             )
             item {
@@ -85,6 +89,9 @@ private fun BoxScope.UI(
 
     editAccountId?.let {
         EditAccountModal(modal = editAccountModal, accountId = it)
+    }
+    editFolderId?.let {
+        EditAccFolderModal(modal = editFolderModal, folderId = it)
     }
 }
 

@@ -2,7 +2,6 @@ package com.ivy.core.ui.account.folder.create
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.folder.BaseFolderModal
@@ -13,7 +12,6 @@ import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.CreateAccFolderModal(
     modal: IvyModal,

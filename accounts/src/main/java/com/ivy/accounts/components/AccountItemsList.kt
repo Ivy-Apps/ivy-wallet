@@ -41,7 +41,9 @@ fun LazyListScope.accountItemsList(
                     balance = item.balance,
                     accounts = item.accItems,
                     onAccountClick = onAccountClick,
-                    onFolderClick = { item.folder }
+                    onFolderClick = {
+                        onFolderClick(item.folder)
+                    },
                 )
             }
             is Archived -> {

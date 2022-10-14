@@ -1,13 +1,18 @@
 package com.ivy.core.ui.account.folder.edit
 
+import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.core.domain.action.account.folder.FolderAct
 import com.ivy.core.domain.action.account.folder.WriteAccountFolderAct
+import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.data.account.Folder
 import com.ivy.design.l0_system.color.Purple
+import com.ivy.design.l0_system.color.toComposeColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +23,7 @@ import javax.inject.Inject
 internal class EditAccFolderViewModel @Inject constructor(
     private val itemIconAct: ItemIconAct,
     private val writeAccountFolderAct: WriteAccountFolderAct,
+    private val folderAct: FolderAct,
 ) : SimpleFlowViewModel<EditAccFolderState, EditAccFolderEvent>() {
     override val initialUi = EditAccFolderState(
         icon = ItemIcon.Unknown(
@@ -28,6 +34,7 @@ internal class EditAccFolderViewModel @Inject constructor(
         initialName = ""
     )
 
+    private var folder: Folder? = null
     private var folderName = ""
     private val initialName = MutableStateFlow(initialUi.initialName)
     private val iconId = MutableStateFlow<ItemIconId?>(null)
@@ -47,7 +54,7 @@ internal class EditAccFolderViewModel @Inject constructor(
     // region Event Handling
     override suspend fun handleEvent(event: EditAccFolderEvent) = when (event) {
         is EditAccFolderEvent.Initial -> handleInitial(event)
-        is EditAccFolderEvent.EditFolder -> handleEditFolder(event)
+        is EditAccFolderEvent.EditFolder -> handleEditFolder()
         is EditAccFolderEvent.NameChange -> handleFolderNameChange(event)
         is EditAccFolderEvent.IconChange -> handleIconChange(event)
         is EditAccFolderEvent.ColorChange -> handleColorChange(event)
@@ -55,11 +62,24 @@ internal class EditAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleInitial(event: EditAccFolderEvent.Initial) {
-
+        folderAct(event.folderId)?.let {
+            folder = it
+            folderName = it.name
+            initialName.value = it.name
+            iconId.value = it.icon
+            color.value = it.color.toComposeColor()
+        }
     }
 
-    private suspend fun handleEditFolder(event: EditAccFolderEvent.EditFolder) {
-
+    private suspend fun handleEditFolder() {
+        val updated = folder?.copy(
+            name = folderName,
+            color = color.value.toArgb(),
+            icon = iconId.value
+        )
+        if (updated != null) {
+            writeAccountFolderAct(Modify.save(updated))
+        }
     }
 
     private fun handleFolderNameChange(event: EditAccFolderEvent.NameChange) {
@@ -75,7 +95,9 @@ internal class EditAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleDelete() {
-
+        folder?.let {
+            writeAccountFolderAct(Modify.delete(it.id))
+        }
     }
     // endregion
 }

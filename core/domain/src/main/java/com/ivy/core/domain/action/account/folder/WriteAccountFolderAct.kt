@@ -21,7 +21,16 @@ class WriteAccountFolderAct @Inject constructor(
     }
 
     private suspend fun save(folders: List<Folder>) {
-        accountFolderDao.save(folders.map(::toSyncingEntity))
+        accountFolderDao.save(
+            folders
+                .filter(::validate)
+                .map(::toSyncingEntity)
+        )
+    }
+
+    private fun validate(folder: Folder): Boolean {
+        if (folder.name.isBlank()) return false
+        return true
     }
 
     private fun toSyncingEntity(domain: Folder) = AccountFolderEntity(
