@@ -49,7 +49,7 @@ fun AccountCard(
             .padding(horizontal = 8.dp)
             .clip(UI.shapes.rounded)
             .background(account.color, UI.shapes.rounded)
-            .border(2.dp, dynamicContrast, UI.shapes.rounded)
+            .border(1.dp, dynamicContrast, UI.shapes.rounded)
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp)
             .padding(top = 12.dp, bottom = 24.dp),

@@ -51,20 +51,16 @@ fun AccountFolderCard(
     accounts: List<AccountHolder>,
     modifier: Modifier = Modifier,
     onAccountClick: (AccountUi) -> Unit,
+    onFolderClick: () -> Unit,
 ) {
-    var expanded by if (isInPreview()) remember {
-        mutableStateOf(previewExpanded)
-    } else remember { mutableStateOf(false) }
     val dynamicContrast = rememberDynamicContrast(folder.color)
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
             .clip(UI.shapes.squared)
-            .border(2.dp, dynamicContrast, UI.shapes.squared)
-            .clickable {
-                expanded = !expanded
-            },
+            .border(1.dp, dynamicContrast, UI.shapes.squared)
+            .clickable(onClick = onFolderClick),
     ) {
         val contrastColor = rememberContrast(folder.color)
         Column(
@@ -78,6 +74,9 @@ fun AccountFolderCard(
             SpacerVer(height = 4.dp)
             Balance(balance = balance, color = contrastColor)
         }
+        var expanded by if (isInPreview()) remember {
+            mutableStateOf(previewExpanded)
+        } else remember { mutableStateOf(false) }
         ExpandCollapse(
             expanded = expanded,
             color = UI.colorsInverted.pure,
@@ -186,8 +185,10 @@ private fun Preview_Collapsed() {
         AccountFolderCard(
             folder = dummyAccountFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
-            accounts = emptyList()
-        ) {}
+            accounts = emptyList(),
+            onAccountClick = {},
+            onFolderClick = {},
+        )
     }
 }
 
@@ -215,8 +216,10 @@ private fun Preview_Expanded() {
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null
                 ),
-            )
-        ) {}
+            ),
+            onAccountClick = {},
+            onFolderClick = {},
+        )
     }
 }
 // endregion
