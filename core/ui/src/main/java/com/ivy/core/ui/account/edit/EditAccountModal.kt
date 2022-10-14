@@ -107,6 +107,7 @@ fun BoxScope.EditAccountModal(
         modal = deleteAccountModal,
         level = level + 1,
         accountName = state.initialName,
+        archived = state.archived,
         onArchive = {
             keyboardController?.hide()
             modal.hide()

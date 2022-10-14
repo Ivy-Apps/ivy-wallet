@@ -21,7 +21,7 @@ fun ArchiveButton(
         visibility = Visibility.Medium,
         feeling = Feeling.Custom(color),
         text = null,
-        icon = if (archived) R.drawable.round_archive_24 else R.drawable.round_archive_24
+        icon = if (archived) R.drawable.round_unarchive_24 else R.drawable.round_archive_24
     ) {
         if (archived) onUnarchive() else onArchive()
     }

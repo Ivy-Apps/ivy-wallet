@@ -24,6 +24,7 @@ import com.ivy.design.util.IvyPreview
 fun BoxScope.DeleteAccountModal(
     modal: IvyModal,
     level: Int = 1,
+    archived: Boolean,
     accountName: String,
     onArchive: () -> Unit,
     onDelete: () -> Unit,
@@ -50,40 +51,70 @@ fun BoxScope.DeleteAccountModal(
         )
         SpacerVer(height = 24.dp)
         Body(
-            text = "WARNING! Deleting \"$accountName\" account will delete all transactions" +
-                    " in it forever. This operation CANNOT be undone and will affect your balance!" +
-                    " Please, be careful otherwise you may lose your data.\n\n" +
-                    "If you don't want to see this account but want preserve its transactions," +
-                    " a better option would be to just archive it."
+            text = bodyText(
+                accountName = accountName,
+                archived = archived
+            )
         )
-        SpacerVer(height = 12.dp)
-        IvyButton(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            size = ButtonSize.Big,
-            visibility = Visibility.Medium,
-            feeling = Feeling.Positive,
-            text = "Archive",
-            icon = R.drawable.round_archive_24
-        ) {
-            modal.hide()
-            onArchive()
+        if (!archived) {
+            SpacerVer(height = 12.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Positive,
+                text = "Archive",
+                icon = R.drawable.round_archive_24
+            ) {
+                modal.hide()
+                onArchive()
+            }
         }
-        // Archive
         SpacerVer(height = 48.dp)
     }
 }
 
+private fun bodyText(
+    accountName: String,
+    archived: Boolean
+): String {
+    val baseText = "WARNING! Deleting \"$accountName\" account will delete all transactions" +
+            " in it forever. This operation CANNOT be undone and will affect your balance!" +
+            " Please, be careful otherwise you may lose your data."
+
+    val unarchivedText =
+        "\n\nIf you don't want to see this account but want preserve its transactions," +
+                " a better option would be to just archive it."
+    return if (archived) baseText else baseText + unarchivedText
+}
 
 // region Preview
 @Preview
 @Composable
-private fun Preview() {
+private fun Preview_Unarchived() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
         DeleteAccountModal(
             modal = modal,
             accountName = "Account 1",
+            archived = false,
+            onArchive = {},
+            onDelete = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Archived() {
+    IvyPreview {
+        val modal = rememberIvyModal()
+        modal.show()
+        DeleteAccountModal(
+            modal = modal,
+            accountName = "Account 1",
+            archived = true,
             onArchive = {},
             onDelete = {}
         )

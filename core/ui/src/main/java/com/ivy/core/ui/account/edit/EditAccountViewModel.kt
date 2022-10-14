@@ -162,12 +162,14 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     private suspend fun handleArchive() {
-        updateArchived(archived = true)
+        archived.value = true
+        updateArchived(state = AccountState.Archived)
         showToast("Account archived")
     }
 
     private suspend fun handleUnarchive() {
-        updateArchived(archived = false)
+        archived.value = false
+        updateArchived(state = AccountState.Default)
         showToast("Account unarchived")
     }
 
@@ -175,10 +177,8 @@ internal class EditAccountViewModel @Inject constructor(
         Toast.makeText(appContext, text, Toast.LENGTH_LONG).show()
     }
 
-    private suspend fun updateArchived(archived: Boolean) {
-        val updatedAccount = account?.copy(
-            state = if (archived) AccountState.Default else AccountState.Archived
-        )
+    private suspend fun updateArchived(state: AccountState) {
+        val updatedAccount = account?.copy(state = state)
         if (updatedAccount != null) {
             writeAccountsAct(Modify.save(updatedAccount))
         }
