@@ -168,21 +168,27 @@ internal fun BoxScope.BaseAccountModal(
 
     IconPickerModal(
         modal = iconPickerModal,
+        level = level + 1,
         initialIcon = icon,
         color = color,
         onIconPick = onIconChange,
     )
     ColorPickerModal(
         modal = colorPickerModal,
+        level = level + 1,
         initialColor = color,
         onColorPicked = onColorChange,
     )
     CurrencyPickerModal(
         modal = currencyPickerModal,
+        level = level + 1,
         initialCurrency = currency,
         onCurrencyPick = onCurrencyChange,
     )
-    ExcludedAccInfoModal(modal = excludedAccInfoModal)
+    ExcludedAccInfoModal(
+        modal = excludedAccInfoModal,
+        level = level + 1,
+    )
     ChooseFolderModal(
         modal = chooseFolderModal,
         level = level + 1,

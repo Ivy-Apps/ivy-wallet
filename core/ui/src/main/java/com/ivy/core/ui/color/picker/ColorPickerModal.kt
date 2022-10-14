@@ -41,6 +41,7 @@ private val colorItemSize = 48.dp
 @Composable
 fun BoxScope.ColorPickerModal(
     modal: IvyModal,
+    level: Int = 1,
     initialColor: Color?,
     onColorPicked: (Color) -> Unit,
 ) {
@@ -52,6 +53,7 @@ fun BoxScope.ColorPickerModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             ModalActions(
                 modal = modal,

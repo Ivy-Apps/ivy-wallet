@@ -46,6 +46,7 @@ private val iconPadding = 12.dp
 @Composable
 fun BoxScope.IconPickerModal(
     modal: IvyModal,
+    level: Int = 1,
     initialIcon: ItemIcon?,
     color: Color,
     onIconPick: (ItemIconId) -> Unit
@@ -65,6 +66,7 @@ fun BoxScope.IconPickerModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             SearchButton(searchBarVisible = searchBarVisible) {
                 if (searchBarVisible) resetSearch() else searchBarVisible = true

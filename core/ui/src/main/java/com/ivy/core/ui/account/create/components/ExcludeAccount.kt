@@ -59,10 +59,13 @@ internal fun ExcludeAccount(
 }
 
 @Composable
-internal fun BoxScope.ExcludedAccInfoModal(modal: IvyModal) {
+internal fun BoxScope.ExcludedAccInfoModal(
+    modal: IvyModal,
+    level: Int = 1,
+) {
     Modal(
         modal = modal,
-        level = 2,
+        level = level,
         actions = {
             Positive(text = "Got it") {
                 modal.hide()

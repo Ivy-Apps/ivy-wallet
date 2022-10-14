@@ -1,0 +1,148 @@
+package com.ivy.core.ui.account.folder
+
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.ivy.core.ui.R
+import com.ivy.core.ui.color.ColorButton
+import com.ivy.core.ui.color.picker.ColorPickerModal
+import com.ivy.core.ui.components.ItemIconNameRow
+import com.ivy.core.ui.data.icon.ItemIcon
+import com.ivy.core.ui.data.icon.dummyIconUnknown
+import com.ivy.core.ui.icon.picker.IconPickerModal
+import com.ivy.data.ItemIconId
+import com.ivy.design.l0_system.color.Purple
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.components.Positive
+import com.ivy.design.l2_components.modal.components.Title
+import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.util.IvyPreview
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+internal fun BoxScope.BaseFolderModal(
+    modal: IvyModal,
+    level: Int,
+    title: String,
+    positiveButtonText: String,
+    secondaryActions: (@Composable ModalActionsScope.() -> Unit)? = null,
+    initialName: String,
+    icon: ItemIcon,
+    color: Color,
+    onNameChane: (String) -> Unit,
+    onColorChange: (Color) -> Unit,
+    onIconChange: (ItemIconId) -> Unit,
+    onSave: (SaveFolderInfo) -> Unit,
+) {
+    val iconPickerModal = rememberIvyModal()
+    val colorPickerModal = rememberIvyModal()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    Modal(
+        modal = modal,
+        level = level,
+        actions = {
+            secondaryActions?.invoke(this)
+            Positive(
+                text = positiveButtonText,
+                feeling = Feeling.Custom(color)
+            ) {
+                onSave(SaveFolderInfo(color))
+                keyboardController?.hide()
+                modal.hide()
+            }
+        }
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            item(key = "title") {
+                Title(text = title)
+                SpacerVer(height = 24.dp)
+            }
+            item(key = "item_icon_name_row") {
+                ItemIconNameRow(
+                    icon = icon,
+                    color = color,
+                    initialName = initialName,
+                    nameInputHint = "Folder name",
+                    onPickIcon = {
+                        keyboardController?.hide()
+                        iconPickerModal.show()
+                    },
+                    onNameChange = onNameChane
+                )
+                SpacerVer(height = 16.dp)
+            }
+            item(key = "color_button") {
+                ColorButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    color = color
+                ) {
+                    keyboardController?.hide()
+                    colorPickerModal.show()
+                }
+                SpacerVer(height = 16.dp)
+            }
+            item(key = "last_item_spacer") {
+                SpacerVer(height = 48.dp) // last spacer
+            }
+        }
+    }
+
+    IconPickerModal(
+        modal = iconPickerModal,
+        level = level + 1,
+        initialIcon = icon,
+        color = color,
+        onIconPick = onIconChange,
+    )
+
+    ColorPickerModal(
+        modal = colorPickerModal,
+        level = level + 1,
+        initialColor = color,
+        onColorPicked = onColorChange,
+    )
+}
+
+data class SaveFolderInfo(
+    val color: Color,
+)
+
+
+// region Preview
+@Preview
+@Composable
+private fun Preview() {
+    IvyPreview {
+        val modal = rememberIvyModal()
+        modal.show()
+        BaseFolderModal(
+            modal = modal,
+            level = 1,
+            title = "New folder",
+            positiveButtonText = "Add folder",
+            initialName = "",
+            icon = dummyIconUnknown(R.drawable.ic_vue_files_folder),
+            color = Purple,
+            onNameChane = {},
+            onColorChange = {},
+            onIconChange = {},
+            onSave = {},
+        )
+    }
+}
+// endregion
