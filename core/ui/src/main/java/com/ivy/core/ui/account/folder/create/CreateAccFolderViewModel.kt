@@ -10,7 +10,7 @@ import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
-import com.ivy.data.account.AccountFolder
+import com.ivy.data.account.Folder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,14 +49,12 @@ internal class CreateAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleCreateFolder(event: CreateAccFolderEvent.CreateFolder) {
-        val newFolder = AccountFolder(
+        val newFolder = Folder(
             id = UUID.randomUUID().toString(),
             name = folderName,
             icon = folderIconId.value,
             color = event.color.toArgb(),
             orderNum = newAccountFolderOrderNumAct(Unit),
-            accounts = emptyList() // accounts aren't used when writing
-            // TODO: consider refactoring the AccountFolder data model
         )
         writeAccountFolderAct(Modify.save(newFolder))
     }

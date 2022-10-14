@@ -60,7 +60,7 @@ private fun ArchivedDivider(
 
 @Composable
 private fun AccountsList(
-    accounts: List<AccountListItemUi.AccountHolder>,
+    accounts: List<AccountListItemUi.AccountWithBalance>,
     expanded: Boolean,
     onAccountClick: (AccountUi) -> Unit,
 ) {
@@ -99,17 +99,17 @@ private fun Preview() {
             ArchivedAccounts(
                 archived = AccountListItemUi.Archived(
                     accHolders = listOf(
-                        AccountListItemUi.AccountHolder(
+                        AccountListItemUi.AccountWithBalance(
                             account = dummyAccountUi("Account 1"),
                             balance = dummyValueUi("1,000.00", "BGN"),
                             balanceBaseCurrency = dummyValueUi("500")
                         ),
-                        AccountListItemUi.AccountHolder(
+                        AccountListItemUi.AccountWithBalance(
                             account = dummyAccountUi("Account 2", color = Blue, excluded = true),
                             balance = dummyValueUi("0.00"),
                             balanceBaseCurrency = null
                         ),
-                        AccountListItemUi.AccountHolder(
+                        AccountListItemUi.AccountWithBalance(
                             account = dummyAccountUi("Account 3", color = Red),
                             balance = dummyValueUi("4,320.50"),
                             balanceBaseCurrency = null

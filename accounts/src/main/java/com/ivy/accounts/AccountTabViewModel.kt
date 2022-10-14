@@ -10,8 +10,8 @@ import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.util.combineList
-import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
+import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.data.Value
 import com.ivy.design.l2_components.modal.IvyModal
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class AccountTabViewModel @Inject constructor(
     private val accountFoldersFlow: AccountFoldersFlow,
     private val mapAccountUiAct: MapAccountUiAct,
-    private val mapAccountFolderUiAct: MapAccountFolderUiAct,
+    private val mapFolderUiAct: MapFolderUiAct,
     private val accBalanceFlow: AccBalanceFlow,
     private val sumValuesInCurrencyFlow: SumValuesInCurrencyFlow,
     private val exchangeFlow: ExchangeFlow,
@@ -49,7 +49,7 @@ class AccountTabViewModel @Inject constructor(
                 .filter {
                     when (it) {
                         is AccountListItem.AccountHolder -> true
-                        is AccountListItem.FolderHolder -> it.folder.accounts.isNotEmpty()
+                        is AccountListItem.FolderWithAccounts -> it.accounts.isNotEmpty()
                         is AccountListItem.Archived -> it.accounts.isNotEmpty()
                     }
                 }
@@ -57,7 +57,7 @@ class AccountTabViewModel @Inject constructor(
                     when (item) {
                         is AccountListItem.AccountHolder ->
                             item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
-                        is AccountListItem.FolderHolder -> item to item.folder.accounts
+                        is AccountListItem.FolderWithAccounts -> item to item.accounts
                             .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
                         is AccountListItem.Archived -> item to item.accounts
                             .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
@@ -80,7 +80,7 @@ class AccountTabViewModel @Inject constructor(
             is AccountListItem.AccountHolder -> {
                 val accBalance = balances.first()
                 exchangeFlow(ExchangeFlow.Input(accBalance)).map { balanceBaseCurrency ->
-                    AccountListItemUi.AccountHolder(
+                    AccountListItemUi.AccountWithBalance(
                         account = mapAccountUiAct(item.account),
                         balance = format(accBalance, shortenFiat = false),
                         balanceBaseCurrency = balanceBaseCurrency(
@@ -90,14 +90,14 @@ class AccountTabViewModel @Inject constructor(
                     )
                 }
             }
-            is AccountListItem.FolderHolder -> combine(
+            is AccountListItem.FolderWithAccounts -> combine(
                 sumValuesInCurrencyFlow(SumValuesInCurrencyFlow.Input(balances)),
                 combineList(balances.map { exchangeFlow(ExchangeFlow.Input(it)) })
             ) { folderBalance, balancesBaseCurrency ->
-                AccountListItemUi.FolderHolder(
-                    folder = mapAccountFolderUiAct(item.folder),
-                    accItems = item.folder.accounts.mapIndexed { index, acc ->
-                        AccountListItemUi.AccountHolder(
+                AccountListItemUi.FolderWithAccounts(
+                    folder = mapFolderUiAct(item.folder),
+                    accItems = item.accounts.mapIndexed { index, acc ->
+                        AccountListItemUi.AccountWithBalance(
                             account = mapAccountUiAct(acc),
                             balance = format(balances[index], shortenFiat = false),
                             balanceBaseCurrency = balanceBaseCurrency(
@@ -114,7 +114,7 @@ class AccountTabViewModel @Inject constructor(
             ).map { balancesBaseCurrency ->
                 AccountListItemUi.Archived(
                     accHolders = item.accounts.mapIndexed { index, acc ->
-                        AccountListItemUi.AccountHolder(
+                        AccountListItemUi.AccountWithBalance(
                             account = mapAccountUiAct(acc),
                             balance = format(balances[index], shortenFiat = false),
                             balanceBaseCurrency = balanceBaseCurrency(

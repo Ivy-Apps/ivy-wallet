@@ -15,8 +15,8 @@ import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.account.edit.EditAccountModal
 import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
-import com.ivy.core.ui.data.account.dummyAccountFolderUi
 import com.ivy.core.ui.data.account.dummyAccountUi
+import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.design.l0_system.color.Blue
 import com.ivy.design.l0_system.color.Red
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
@@ -100,33 +100,33 @@ private fun Preview() {
 
 private fun previewState() = AccountTabState(
     items = listOf(
-        AccountListItemUi.AccountHolder(
+        AccountListItemUi.AccountWithBalance(
             account = dummyAccountUi("Cash"),
             balance = dummyValueUi("240.75"),
             balanceBaseCurrency = null,
         ),
-        AccountListItemUi.FolderHolder(
-            folder = dummyAccountFolderUi("Business"),
+        AccountListItemUi.FolderWithAccounts(
+            folder = dummyFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accItems = listOf(
-                AccountListItemUi.AccountHolder(
+                AccountListItemUi.AccountWithBalance(
                     account = dummyAccountUi("Account 1"),
                     balance = dummyValueUi("1,000.00", "BGN"),
                     balanceBaseCurrency = dummyValueUi("500")
                 ),
-                AccountListItemUi.AccountHolder(
+                AccountListItemUi.AccountWithBalance(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
                     balance = dummyValueUi("0.00"),
                     balanceBaseCurrency = null
                 ),
-                AccountListItemUi.AccountHolder(
+                AccountListItemUi.AccountWithBalance(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null
                 ),
             )
         ),
-        AccountListItemUi.AccountHolder(
+        AccountListItemUi.AccountWithBalance(
             account = dummyAccountUi("Revolut", color = Blue),
             balance = dummyValueUi("1,032.54"),
             balanceBaseCurrency = null

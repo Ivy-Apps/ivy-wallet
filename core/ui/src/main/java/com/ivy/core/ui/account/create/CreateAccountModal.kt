@@ -6,7 +6,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.BaseAccountModal
-import com.ivy.core.ui.data.account.AccountFolderUi
+import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.modal.IvyModal
@@ -25,7 +25,7 @@ fun BoxScope.CreateAccountModal(
     val primary = UI.colors.primary
     var color by remember(primary) { mutableStateOf(primary) }
     var excluded by remember { mutableStateOf(false) }
-    var folder by remember { mutableStateOf<AccountFolderUi?>(null) }
+    var folder by remember { mutableStateOf<FolderUi?>(null) }
 
     val newAccountString = stringResource(R.string.new_account)
     BaseAccountModal(

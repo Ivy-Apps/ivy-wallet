@@ -20,6 +20,9 @@ interface AccountFolderDao {
     @Query("SELECT * FROM account_folders WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<AccountFolderEntity>>
 
+    @Query("SELECT * FROM account_folders WHERE sync != $DELETING AND id = :folderId")
+    suspend fun findById(folderId: String): AccountFolderEntity?
+
     @Query("SELECT MAX(orderNum) FROM account_folders")
     suspend fun findMaxOrderNum(): Double?
     // endregion

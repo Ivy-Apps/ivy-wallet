@@ -1,5 +1,7 @@
 package com.ivy.core.ui.account.edit
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.common.toUUID
@@ -12,8 +14,8 @@ import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
-import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
-import com.ivy.core.ui.data.account.AccountFolderUi
+import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
+import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
 import com.ivy.data.account.Account
@@ -21,6 +23,7 @@ import com.ivy.data.account.AccountState
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.toComposeColor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -28,11 +31,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class EditAccountViewModel @Inject constructor(
+    @ApplicationContext
+    private val appContext: Context,
     private val itemIconAct: ItemIconAct,
     private val writeAccountsAct: WriteAccountsAct,
     private val accountByIdAct: AccountByIdAct,
     private val accountFoldersFlow: AccountFoldersFlow,
-    private val mapAccountFolderUiAct: MapAccountFolderUiAct
+    private val mapFolderUiAct: MapFolderUiAct
 ) : SimpleFlowViewModel<EditAccountState, EditAccountEvent>() {
     override val initialUi = EditAccountState(
         currency = "",
@@ -79,12 +84,12 @@ internal class EditAccountViewModel @Inject constructor(
         Header(iconId = iconId, initialName = initialName, color = color)
     }
 
-    private fun folderFlow(): Flow<AccountFolderUi?> = combine(
+    private fun folderFlow(): Flow<FolderUi?> = combine(
         accountFoldersFlow(Unit), folderId
     ) { folders, folderId ->
-        folders.filterIsInstance<AccountListItem.FolderHolder>()
+        folders.filterIsInstance<AccountListItem.FolderWithAccounts>()
             .firstOrNull { it.folder.id == folderId }
-            ?.let { mapAccountFolderUiAct(it.folder) }
+            ?.let { mapFolderUiAct(it.folder) }
     }
 
     // region Event Handling
@@ -98,6 +103,7 @@ internal class EditAccountViewModel @Inject constructor(
         is EditAccountEvent.ExcludedChange -> handleExcludedChange(event)
         is EditAccountEvent.FolderChange -> handleFolderChange(event)
         EditAccountEvent.Archive -> handleArchive()
+        EditAccountEvent.Unarchive -> handleUnarchive()
         EditAccountEvent.Delete -> handleDelete()
     }
 
@@ -156,7 +162,23 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     private suspend fun handleArchive() {
-        val updatedAccount = account?.copy(state = AccountState.Archived)
+        updateArchived(archived = true)
+        showToast("Account archived")
+    }
+
+    private suspend fun handleUnarchive() {
+        updateArchived(archived = false)
+        showToast("Account unarchived")
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(appContext, text, Toast.LENGTH_LONG).show()
+    }
+
+    private suspend fun updateArchived(archived: Boolean) {
+        val updatedAccount = account?.copy(
+            state = if (archived) AccountState.Default else AccountState.Archived
+        )
         if (updatedAccount != null) {
             writeAccountsAct(Modify.save(updatedAccount))
         }

@@ -5,13 +5,13 @@ import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.account.AccountFolderDao
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
 import com.ivy.data.SyncState
-import com.ivy.data.account.AccountFolder
+import com.ivy.data.account.Folder
 import javax.inject.Inject
 
 class WriteAccountFolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao
-) : Action<Modify<AccountFolder>, Unit>() {
-    override suspend fun Modify<AccountFolder>.willDo() = when (this) {
+) : Action<Modify<Folder>, Unit>() {
+    override suspend fun Modify<Folder>.willDo() = when (this) {
         is Modify.Delete -> delete(this.itemIds)
         is Modify.Save -> save(this.items)
     }
@@ -20,11 +20,11 @@ class WriteAccountFolderAct @Inject constructor(
         accountFolderDao.updateSync(folderId = it, sync = SyncState.Deleting)
     }
 
-    private suspend fun save(folders: List<AccountFolder>) {
+    private suspend fun save(folders: List<Folder>) {
         accountFolderDao.save(folders.map(::toSyncingEntity))
     }
 
-    private fun toSyncingEntity(domain: AccountFolder) = AccountFolderEntity(
+    private fun toSyncingEntity(domain: Folder) = AccountFolderEntity(
         id = domain.id,
         name = domain.name,
         color = domain.color,

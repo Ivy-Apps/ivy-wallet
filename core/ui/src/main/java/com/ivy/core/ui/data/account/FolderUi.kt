@@ -9,27 +9,24 @@ import com.ivy.design.l0_system.color.Purple
 import java.util.*
 
 @Immutable
-data class AccountFolderUi(
+data class FolderUi(
     val id: String,
     val name: String,
     val icon: ItemIcon,
     val color: Color,
     val orderNum: Double,
-    val accounts: List<AccountUi>,
 )
 
-fun dummyAccountFolderUi(
+fun dummyFolderUi(
     name: String = "Folder",
     id: String = UUID.randomUUID().toString(),
     icon: ItemIcon = dummyIconUnknown(R.drawable.ic_vue_files_folder),
     color: Color = Purple,
     orderNum: Double = 0.0,
-    accounts: List<AccountUi> = emptyList(),
-) = AccountFolderUi(
+) = FolderUi(
     id = id,
     name = name,
     icon = icon,
     color = color,
     orderNum = orderNum,
-    accounts = accounts
 )

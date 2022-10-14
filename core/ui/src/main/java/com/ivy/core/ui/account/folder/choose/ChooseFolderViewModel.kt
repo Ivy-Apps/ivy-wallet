@@ -3,7 +3,7 @@ package com.ivy.core.ui.account.folder.choose
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.data.AccountListItem
-import com.ivy.core.ui.action.mapping.account.MapAccountFolderUiAct
+import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChooseFolderViewModel @Inject constructor(
     accountsFoldersFlow: AccountFoldersFlow,
-    private val mapAccountFolderUiAct: MapAccountFolderUiAct
+    private val mapFolderUiAct: MapFolderUiAct
 ) : SimpleFlowViewModel<ChooseFolderState, Unit>() {
     override val initialUi = ChooseFolderState(folders = emptyList())
 
@@ -20,8 +20,8 @@ class ChooseFolderViewModel @Inject constructor(
         accountsFoldersFlow(Unit).map { accountsFolders ->
             ChooseFolderState(
                 folders = accountsFolders
-                    .filterIsInstance<AccountListItem.FolderHolder>()
-                    .map { mapAccountFolderUiAct(it.folder) }
+                    .filterIsInstance<AccountListItem.FolderWithAccounts>()
+                    .map { mapFolderUiAct(it.folder) }
             )
         }
 

@@ -23,7 +23,7 @@ import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
 import com.ivy.core.ui.currency.CurrencyPickerModal
-import com.ivy.core.ui.data.account.AccountFolderUi
+import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.icon.picker.IconPickerModal
@@ -53,7 +53,7 @@ internal fun BoxScope.BaseAccountModal(
     initialName: String,
     color: Color,
     currency: CurrencyCode,
-    folder: AccountFolderUi?,
+    folder: FolderUi?,
     excluded: Boolean,
     level: Int,
     contentBelow: (LazyListScope.() -> Unit)? = null,
@@ -61,7 +61,7 @@ internal fun BoxScope.BaseAccountModal(
     onNameChange: (String) -> Unit,
     onColorChange: (Color) -> Unit,
     onCurrencyChange: (CurrencyCode) -> Unit,
-    onFolderChange: (AccountFolderUi?) -> Unit,
+    onFolderChange: (FolderUi?) -> Unit,
     onExcludedChange: (Boolean) -> Unit,
     onSaveAccount: (SaveAccountInfo) -> Unit,
 ) {
@@ -200,7 +200,7 @@ internal fun BoxScope.BaseAccountModal(
 data class SaveAccountInfo(
     val color: Color,
     val excluded: Boolean,
-    val folder: AccountFolderUi?
+    val folder: FolderUi?
 )
 
 

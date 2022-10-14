@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.ui.data.account.AccountFolderUi
-import com.ivy.core.ui.data.account.dummyAccountFolderUi
+import com.ivy.core.ui.data.account.FolderUi
+import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
@@ -38,9 +38,9 @@ import com.ivy.design.util.thenWhen
 @Composable
 fun BoxScope.ChooseFolderModal(
     modal: IvyModal,
-    selected: AccountFolderUi?,
+    selected: FolderUi?,
     level: Int = 1,
-    onChooseFolder: (AccountFolderUi?) -> Unit,
+    onChooseFolder: (FolderUi?) -> Unit,
 ) {
     val viewModel: ChooseFolderViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
@@ -77,9 +77,9 @@ fun BoxScope.ChooseFolderModal(
 
 // region Folders
 private fun LazyListScope.folderItems(
-    folders: List<AccountFolderUi>,
-    selected: AccountFolderUi?,
-    onSelect: (AccountFolderUi) -> Unit
+    folders: List<FolderUi>,
+    selected: FolderUi?,
+    onSelect: (FolderUi) -> Unit
 ) {
     items(
         items = folders,
@@ -97,7 +97,7 @@ private fun LazyListScope.folderItems(
 
 @Composable
 internal fun FolderItem(
-    folder: AccountFolderUi,
+    folder: FolderUi,
     selected: Boolean,
     onClick: () -> Unit
 ) {
@@ -141,7 +141,7 @@ private fun Preview() {
         modal.show()
         ChooseFolderModal(
             modal = modal,
-            selected = dummyAccountFolderUi(id = "folder1"),
+            selected = dummyFolderUi(id = "folder1"),
             onChooseFolder = {}
         )
     }
@@ -149,9 +149,9 @@ private fun Preview() {
 
 private fun previewState() = ChooseFolderState(
     folders = listOf(
-        dummyAccountFolderUi(id = "folder1", name = "Folder 1", color = Green),
-        dummyAccountFolderUi("Folder 2", color = Yellow),
-        dummyAccountFolderUi("Folder 3", color = Purple),
+        dummyFolderUi(id = "folder1", name = "Folder 1", color = Green),
+        dummyFolderUi("Folder 2", color = Yellow),
+        dummyFolderUi("Folder 3", color = Purple),
     )
 )
 // endregion

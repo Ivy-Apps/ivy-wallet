@@ -23,6 +23,7 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ArchiveButton
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
@@ -52,20 +53,21 @@ fun BoxScope.EditAccountModal(
         nameInputHint = stringResource(R.string.account_name),
         positiveActionText = stringResource(R.string.save),
         secondaryActions = {
-            if (!state.archived) {
-                IvyButton(
-                    size = ButtonSize.Small,
-                    visibility = Visibility.Medium,
-                    feeling = Feeling.Custom(state.color),
-                    text = null,
-                    icon = R.drawable.round_archive_24
-                ) {
+            ArchiveButton(
+                archived = state.archived,
+                color = state.color,
+                onArchive = {
                     keyboardController?.hide()
                     modal.hide()
                     viewModel?.onEvent(EditAccountEvent.Archive)
+                },
+                onUnarchive = {
+                    keyboardController?.hide()
+                    modal.hide()
+                    viewModel?.onEvent(EditAccountEvent.Unarchive)
                 }
-                SpacerHor(width = 8.dp)
-            }
+            )
+            SpacerHor(width = 8.dp)
             IvyButton(
                 size = ButtonSize.Small,
                 visibility = Visibility.High,

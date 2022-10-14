@@ -17,13 +17,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.R
-import com.ivy.accounts.data.AccountListItemUi.AccountHolder
+import com.ivy.accounts.data.AccountListItemUi.AccountWithBalance
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.AccountUi
-import com.ivy.core.ui.data.account.dummyAccountFolderUi
+import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.account.dummyAccountUi
+import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.ItemIcon
@@ -46,9 +46,9 @@ import com.ivy.design.util.isInPreview
 
 @Composable
 fun AccountFolderCard(
-    folder: AccountFolderUi,
+    folder: FolderUi,
     balance: ValueUi,
-    accounts: List<AccountHolder>,
+    accounts: List<AccountWithBalance>,
     modifier: Modifier = Modifier,
     onAccountClick: (AccountUi) -> Unit,
     onFolderClick: () -> Unit,
@@ -149,7 +149,7 @@ private fun ExpandCollapse(
 @Composable
 private fun Accounts(
     expanded: Boolean,
-    items: List<AccountHolder>,
+    items: List<AccountWithBalance>,
     onClick: (AccountUi) -> Unit
 ) {
     AnimatedVisibility(
@@ -183,7 +183,7 @@ private var previewExpanded = false
 private fun Preview_Collapsed() {
     ComponentPreview {
         AccountFolderCard(
-            folder = dummyAccountFolderUi("Business"),
+            folder = dummyFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accounts = emptyList(),
             onAccountClick = {},
@@ -198,20 +198,20 @@ private fun Preview_Expanded() {
     ComponentPreview {
         previewExpanded = true
         AccountFolderCard(
-            folder = dummyAccountFolderUi("Business"),
+            folder = dummyFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accounts = listOf(
-                AccountHolder(
+                AccountWithBalance(
                     account = dummyAccountUi("Account 1"),
                     balance = dummyValueUi("1,000.00", "ADA"),
                     balanceBaseCurrency = dummyValueUi("358.76")
                 ),
-                AccountHolder(
+                AccountWithBalance(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
                     balance = dummyValueUi("0.00"),
                     balanceBaseCurrency = null
                 ),
-                AccountHolder(
+                AccountWithBalance(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null

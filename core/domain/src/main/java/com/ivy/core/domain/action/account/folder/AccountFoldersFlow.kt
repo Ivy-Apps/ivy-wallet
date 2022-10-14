@@ -4,11 +4,10 @@ import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.data.AccountListItem.AccountHolder
-import com.ivy.core.domain.action.data.AccountListItem.FolderHolder
+import com.ivy.core.domain.action.data.AccountListItem.FolderWithAccounts
 import com.ivy.core.persistence.dao.account.AccountFolderDao
 import com.ivy.core.persistence.entity.account.AccountFolderEntity
 import com.ivy.data.account.Account
-import com.ivy.data.account.AccountFolder
 import com.ivy.data.account.AccountState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -29,7 +28,7 @@ class AccountFoldersFlow @Inject constructor(
         val notArchived = accounts.filter { it.state == AccountState.Default }
 
         val foldersMap = notArchived.groupBy { it.folderId?.toString() ?: "none" }
-        val folders = folderEntities.map { FolderHolder(toDomain(foldersMap, it)) }
+        val folders = folderEntities.map { toDomain(foldersMap, it) }
         val accountsNotInFolder = foldersMap.filterKeys { accFolderId ->
             // accounts with folder "none" aren't in any folder
             if (accFolderId == "none") return@filterKeys true
@@ -44,19 +43,15 @@ class AccountFoldersFlow @Inject constructor(
         result.sortedBy {
             when (it) {
                 is AccountHolder -> it.account.orderNum
-                is FolderHolder -> it.folder.orderNum
+                is FolderWithAccounts -> it.folder.orderNum
                 is AccountListItem.Archived -> Double.MAX_VALUE - 10 // put archived as last
             }
         }
     }
 
-    private fun toDomain(foldersMap: Map<FolderId, List<Account>>, folder: AccountFolderEntity) =
-        AccountFolder(
-            id = folder.id,
-            name = folder.name,
-            icon = folder.icon,
-            color = folder.color,
-            accounts = foldersMap[folder.id] ?: emptyList(),
-            orderNum = folder.orderNum
+    private fun toDomain(foldersMap: Map<FolderId, List<Account>>, entity: AccountFolderEntity) =
+        FolderWithAccounts(
+            folder = toDomain(entity),
+            accounts = foldersMap[entity.id] ?: emptyList(),
         )
 }

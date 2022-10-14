@@ -10,8 +10,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.folder.choose.FolderItem
-import com.ivy.core.ui.data.account.AccountFolderUi
-import com.ivy.core.ui.data.account.dummyAccountFolderUi
+import com.ivy.core.ui.data.account.FolderUi
+import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -23,7 +23,7 @@ import com.ivy.design.util.ComponentPreview
 
 @Composable
 internal fun ColumnScope.AccountFolderButton(
-    folder: AccountFolderUi?,
+    folder: FolderUi?,
     modifier: Modifier = Modifier,
     color: Color,
     onClick: () -> Unit
@@ -70,7 +70,7 @@ private fun Preview_Selected() {
     ComponentPreview {
         Column {
             AccountFolderButton(
-                folder = dummyAccountFolderUi("Business"),
+                folder = dummyFolderUi("Business"),
                 color = Purple,
                 onClick = {}
             )
