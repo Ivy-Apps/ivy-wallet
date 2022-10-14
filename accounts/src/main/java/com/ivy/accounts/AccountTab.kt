@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.components.accountItemsList
-import com.ivy.accounts.data.AccListItemUi
+import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.accounts.modal.CreateModal
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
@@ -100,37 +100,41 @@ private fun Preview() {
 
 private fun previewState() = AccountTabState(
     items = listOf(
-        AccListItemUi.AccountHolder(
+        AccountListItemUi.AccountHolder(
             account = dummyAccountUi("Cash"),
             balance = dummyValueUi("240.75"),
             balanceBaseCurrency = null,
         ),
-        AccListItemUi.FolderHolder(
+        AccountListItemUi.FolderHolder(
             folder = dummyAccountFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accItems = listOf(
-                AccListItemUi.AccountHolder(
+                AccountListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 1"),
                     balance = dummyValueUi("1,000.00", "BGN"),
                     balanceBaseCurrency = dummyValueUi("500")
                 ),
-                AccListItemUi.AccountHolder(
+                AccountListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 2", color = Blue, excluded = true),
                     balance = dummyValueUi("0.00"),
                     balanceBaseCurrency = null
                 ),
-                AccListItemUi.AccountHolder(
+                AccountListItemUi.AccountHolder(
                     account = dummyAccountUi("Account 3", color = Red),
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null
                 ),
             )
         ),
-        AccListItemUi.AccountHolder(
+        AccountListItemUi.AccountHolder(
             account = dummyAccountUi("Revolut", color = Blue),
             balance = dummyValueUi("1,032.54"),
             balanceBaseCurrency = null
         ),
+        AccountListItemUi.Archived(
+            accHolders = listOf(),
+            accountsCount = 0,
+        )
     ),
     createModal = IvyModal()
 )

@@ -21,4 +21,7 @@ internal sealed interface EditAccountEvent {
     data class FolderChange(val folder: AccountFolderUi?) : EditAccountEvent
 
     data class ExcludedChange(val excluded: Boolean) : EditAccountEvent
+
+    object Archive : EditAccountEvent
+    object Delete : EditAccountEvent
 }

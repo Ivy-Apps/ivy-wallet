@@ -41,7 +41,7 @@ fun IvyButton(
     hapticFeedback: Boolean = false,
     onClick: () -> Unit,
 ) {
-    val bgColor = feeling.toColor()
+    val feelingColor = feeling.toColor()
 
     val iconOnly = icon != null && text == null
     val padding = if (iconOnly)
@@ -51,14 +51,14 @@ fun IvyButton(
     val background = when (visibility) {
         Visibility.Focused, Visibility.High -> solid(
             shape = shape,
-            color = bgColor,
+            color = feelingColor,
             padding = padding,
         )
         Visibility.Medium -> solidWithBorder(
             shape = shape,
             solid = UI.colors.pure,
             borderWidth = 2.dp,
-            borderColor = bgColor,
+            borderColor = feelingColor,
             padding = padding,
         )
         Visibility.Low -> solid(
@@ -70,9 +70,9 @@ fun IvyButton(
 
     val textColor = when (visibility) {
         Visibility.Focused, Visibility.High ->
-            rememberContrast(bgColor)
-        Visibility.Medium -> rememberContrast(UI.colors.pure)
-        Visibility.Low -> bgColor
+            rememberContrast(feelingColor)
+        Visibility.Medium -> UI.colorsInverted.pure
+        Visibility.Low -> feelingColor
     }
     val textStyle = UI.typo.b2.style(
         color = textColor,
@@ -84,7 +84,7 @@ fun IvyButton(
         ButtonSize.Big -> modifier.fillMaxWidth()
         ButtonSize.Small -> modifier
     }.thenIf(visibility == Visibility.Focused) {
-        this.glow(bgColor)
+        this.glow(feelingColor)
     }
 
     when {
@@ -219,6 +219,17 @@ private fun PreviewCommon() {
 
                 SpacerHor(width = 16.dp)
             }
+
+            SpacerVer(height = 16.dp)
+
+            IvyButton(
+                modifier = Modifier.padding(start = 16.dp),
+                size = ButtonSize.Small,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Negative,
+                text = null,
+                icon = R.drawable.round_archive_24,
+            ) {}
         }
     }
 }

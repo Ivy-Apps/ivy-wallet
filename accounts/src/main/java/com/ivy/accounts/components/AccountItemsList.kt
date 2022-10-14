@@ -3,15 +3,14 @@ package com.ivy.accounts.components
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.unit.dp
-import com.ivy.accounts.data.AccListItemUi
-import com.ivy.accounts.data.AccListItemUi.AccountHolder
-import com.ivy.accounts.data.AccListItemUi.FolderHolder
+import com.ivy.accounts.data.AccountListItemUi
+import com.ivy.accounts.data.AccountListItemUi.*
 import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 
 fun LazyListScope.accountItemsList(
-    items: List<AccListItemUi>,
+    items: List<AccountListItemUi>,
     onAccountClick: (AccountUi) -> Unit,
     onFolderClick: (AccountFolderUi) -> Unit,
 ) {
@@ -21,6 +20,7 @@ fun LazyListScope.accountItemsList(
             when (it) {
                 is AccountHolder -> "acc_${it.account.id}"
                 is FolderHolder -> "folder_${it.folder.id}"
+                is Archived -> "archived_accounts"
             }
         }
     ) { item ->
@@ -43,6 +43,10 @@ fun LazyListScope.accountItemsList(
                     onAccountClick = onAccountClick,
                     onFolderClick = { item.folder }
                 )
+            }
+            is Archived -> {
+                SpacerVer(height = 16.dp)
+                ArchivedAccounts(archived = item, onAccountClick = onAccountClick)
             }
         }
     }

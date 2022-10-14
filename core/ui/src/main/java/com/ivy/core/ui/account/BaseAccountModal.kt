@@ -37,6 +37,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 
@@ -47,6 +48,7 @@ internal fun BoxScope.BaseAccountModal(
     title: String,
     nameInputHint: String,
     positiveActionText: String,
+    secondaryActions: (@Composable ModalActionsScope.() -> Unit)? = null,
     icon: ItemIcon,
     initialName: String,
     color: Color,
@@ -74,6 +76,7 @@ internal fun BoxScope.BaseAccountModal(
         modal = modal,
         level = level,
         actions = {
+            secondaryActions?.invoke(this)
             Positive(
                 text = positiveActionText,
                 feeling = Feeling.Custom(color)

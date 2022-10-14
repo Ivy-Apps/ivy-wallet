@@ -1,6 +1,6 @@
 package com.ivy.accounts
 
-import com.ivy.accounts.data.AccListItemUi
+import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
@@ -42,7 +42,7 @@ class AccountTabViewModel @Inject constructor(
 
     // TODO: Re-work this, it's just ugly!
     @OptIn(FlowPreview::class)
-    private fun accListItemsUiFlow(): Flow<List<AccListItemUi>> =
+    private fun accListItemsUiFlow(): Flow<List<AccountListItemUi>> =
         accountFoldersFlow(Unit).map { items ->
             items
                 // filter empty folders
@@ -50,14 +50,17 @@ class AccountTabViewModel @Inject constructor(
                     when (it) {
                         is AccountListItem.AccountHolder -> true
                         is AccountListItem.FolderHolder -> it.folder.accounts.isNotEmpty()
+                        is AccountListItem.Archived -> it.accounts.isNotEmpty()
                     }
                 }
                 .map { item ->
                     when (item) {
                         is AccountListItem.AccountHolder ->
                             item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
-                        is AccountListItem.FolderHolder -> item to item.folder
-                            .accounts.map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                        is AccountListItem.FolderHolder -> item to item.folder.accounts
+                            .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                        is AccountListItem.Archived -> item to item.accounts
+                            .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
                     }
                 }.map { (item, balanceFlows) ->
                     // Handle empty folders with no accounts inside
@@ -72,12 +75,12 @@ class AccountTabViewModel @Inject constructor(
 
     private suspend fun toAccListItemsUi(
         itemBalances: List<Pair<AccountListItem, List<Value>>>
-    ): List<Flow<AccListItemUi>> = itemBalances.map { (item, balances) ->
+    ): List<Flow<AccountListItemUi>> = itemBalances.map { (item, balances) ->
         when (item) {
             is AccountListItem.AccountHolder -> {
                 val accBalance = balances.first()
                 exchangeFlow(ExchangeFlow.Input(accBalance)).map { balanceBaseCurrency ->
-                    AccListItemUi.AccountHolder(
+                    AccountListItemUi.AccountHolder(
                         account = mapAccountUiAct(item.account),
                         balance = format(accBalance, shortenFiat = false),
                         balanceBaseCurrency = balanceBaseCurrency(
@@ -91,10 +94,10 @@ class AccountTabViewModel @Inject constructor(
                 sumValuesInCurrencyFlow(SumValuesInCurrencyFlow.Input(balances)),
                 combineList(balances.map { exchangeFlow(ExchangeFlow.Input(it)) })
             ) { folderBalance, balancesBaseCurrency ->
-                AccListItemUi.FolderHolder(
+                AccountListItemUi.FolderHolder(
                     folder = mapAccountFolderUiAct(item.folder),
                     accItems = item.folder.accounts.mapIndexed { index, acc ->
-                        AccListItemUi.AccountHolder(
+                        AccountListItemUi.AccountHolder(
                             account = mapAccountUiAct(acc),
                             balance = format(balances[index], shortenFiat = false),
                             balanceBaseCurrency = balanceBaseCurrency(
@@ -104,6 +107,23 @@ class AccountTabViewModel @Inject constructor(
                         )
                     },
                     balance = format(folderBalance, shortenFiat = true)
+                )
+            }
+            is AccountListItem.Archived -> combineList(
+                balances.map { exchangeFlow(ExchangeFlow.Input(it)) }
+            ).map { balancesBaseCurrency ->
+                AccountListItemUi.Archived(
+                    accHolders = item.accounts.mapIndexed { index, acc ->
+                        AccountListItemUi.AccountHolder(
+                            account = mapAccountUiAct(acc),
+                            balance = format(balances[index], shortenFiat = false),
+                            balanceBaseCurrency = balanceBaseCurrency(
+                                baseCurrency = balancesBaseCurrency[index],
+                                currency = balances[index]
+                            )
+                        )
+                    },
+                    accountsCount = item.accounts.size,
                 )
             }
         }

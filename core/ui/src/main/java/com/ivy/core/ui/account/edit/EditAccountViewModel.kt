@@ -17,6 +17,7 @@ import com.ivy.core.ui.data.account.AccountFolderUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
 import com.ivy.data.account.Account
+import com.ivy.data.account.AccountState
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.toComposeColor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -93,6 +94,8 @@ internal class EditAccountViewModel @Inject constructor(
         is EditAccountEvent.ColorChange -> handleColorChange(event)
         is EditAccountEvent.ExcludedChange -> handleExcludedChange(event)
         is EditAccountEvent.FolderChange -> handleFolderChange(event)
+        EditAccountEvent.Archive -> handleArchive()
+        EditAccountEvent.Delete -> handleDelete()
     }
 
     private suspend fun handleInitial(event: EditAccountEvent.Initial) {
@@ -146,6 +149,19 @@ internal class EditAccountViewModel @Inject constructor(
 
     private fun handleExcludedChange(event: EditAccountEvent.ExcludedChange) {
         excluded.value = event.excluded
+    }
+
+    private suspend fun handleArchive() {
+        val updatedAccount = account?.copy(state = AccountState.Archived)
+        if (updatedAccount != null) {
+            writeAccountsAct(Modify.save(updatedAccount))
+        }
+    }
+
+    private suspend fun handleDelete() {
+        account?.let {
+            writeAccountsAct(Modify.delete(it.id.toString()))
+        }
     }
     // endregion
 
