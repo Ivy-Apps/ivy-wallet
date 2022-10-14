@@ -51,7 +51,8 @@ private fun ArchivedDivider(
         visibility = Visibility.Low,
         feeling = Feeling.Neutral,
         text = "Archived ($accountsCount)",
-        icon = if (expanded) R.drawable.round_expand_more_24 else R.drawable.ic_round_expand_less_24
+        icon = if (expanded)
+            R.drawable.round_expand_more_24 else R.drawable.ic_round_expand_less_24
     ) {
         onSetExpanded(!expanded)
     }

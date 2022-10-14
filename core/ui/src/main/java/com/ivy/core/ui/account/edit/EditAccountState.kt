@@ -14,4 +14,5 @@ internal data class EditAccountState(
     val initialName: String,
     val folder: AccountFolderUi?,
     val excluded: Boolean,
+    val archived: Boolean,
 )

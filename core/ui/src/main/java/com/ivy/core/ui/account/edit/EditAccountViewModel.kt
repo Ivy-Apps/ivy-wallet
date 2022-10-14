@@ -45,7 +45,8 @@ internal class EditAccountViewModel @Inject constructor(
         color = Purple,
         initialName = "",
         folder = null,
-        excluded = false
+        excluded = false,
+        archived = false,
     )
 
     private var account: Account? = null
@@ -56,10 +57,11 @@ internal class EditAccountViewModel @Inject constructor(
     private val color = MutableStateFlow(initialUi.color)
     private val excluded = MutableStateFlow(initialUi.excluded)
     private val folderId = MutableStateFlow<String?>(null)
+    private val archived = MutableStateFlow(initialUi.archived)
 
     override val uiFlow: Flow<EditAccountState> = combine(
-        headerFlow(), currency, excluded, folderFlow(),
-    ) { header, currency, excluded, folder ->
+        headerFlow(), currency, excluded, folderFlow(), archived,
+    ) { header, currency, excluded, folder, archived ->
         EditAccountState(
             currency = currency,
             icon = itemIconAct(ItemIconAct.Input(header.iconId, DefaultTo.Account)),
@@ -67,6 +69,7 @@ internal class EditAccountViewModel @Inject constructor(
             color = header.color,
             excluded = excluded,
             folder = folder,
+            archived = archived
         )
     }
 
@@ -110,6 +113,7 @@ internal class EditAccountViewModel @Inject constructor(
             color.value = it.color.toComposeColor()
             excluded.value = it.excluded
             folderId.value = it.folderId?.toString()
+            archived.value = it.state == AccountState.Archived
         }
     }
 

@@ -52,6 +52,13 @@ fun InputField(
         val selection = TextRange(initialValue.length)
         mutableStateOf(TextFieldValue(initialValue, selection))
     }
+    LaunchedEffect(initialValue) {
+        if (initialValue != textField.text) {
+            textField = TextFieldValue(
+                initialValue, TextRange(initialValue.length)
+            )
+        }
+    }
     OutlinedTextField(
         modifier = modifier,
         value = textField,

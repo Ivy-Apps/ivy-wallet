@@ -50,10 +50,10 @@ fun BoxScope.DeleteAccountModal(
         )
         SpacerVer(height = 24.dp)
         Body(
-            text = "WARNING! Deleting \"$accountName\" account will deleted all transactions" +
+            text = "WARNING! Deleting \"$accountName\" account will delete all transactions" +
                     " in it forever. This operation CANNOT be undone and will affect your balance!" +
                     " Please, be careful otherwise you may lose your data.\n\n" +
-                    "If you just don't want to see this account but preserve its transactions," +
+                    "If you don't want to see this account but want preserve its transactions," +
                     " a better option would be to just archive it."
         )
         SpacerVer(height = 12.dp)

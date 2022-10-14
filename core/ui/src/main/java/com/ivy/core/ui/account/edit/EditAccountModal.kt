@@ -52,18 +52,20 @@ fun BoxScope.EditAccountModal(
         nameInputHint = stringResource(R.string.account_name),
         positiveActionText = stringResource(R.string.save),
         secondaryActions = {
-            IvyButton(
-                size = ButtonSize.Small,
-                visibility = Visibility.Medium,
-                feeling = Feeling.Custom(state.color),
-                text = null,
-                icon = R.drawable.round_archive_24
-            ) {
-                keyboardController?.hide()
-                modal.hide()
-                viewModel?.onEvent(EditAccountEvent.Archive)
+            if (!state.archived) {
+                IvyButton(
+                    size = ButtonSize.Small,
+                    visibility = Visibility.Medium,
+                    feeling = Feeling.Custom(state.color),
+                    text = null,
+                    icon = R.drawable.round_archive_24
+                ) {
+                    keyboardController?.hide()
+                    modal.hide()
+                    viewModel?.onEvent(EditAccountEvent.Archive)
+                }
+                SpacerHor(width = 8.dp)
             }
-            SpacerHor(width = 8.dp)
             IvyButton(
                 size = ButtonSize.Small,
                 visibility = Visibility.High,
@@ -71,6 +73,7 @@ fun BoxScope.EditAccountModal(
                 text = null,
                 icon = R.drawable.outline_delete_24
             ) {
+                keyboardController?.hide()
                 deleteAccountModal.show()
             }
             SpacerHor(width = 12.dp)
@@ -153,5 +156,6 @@ private fun previewState() = EditAccountState(
     folder = null,
     excluded = false,
     color = Purple,
+    archived = false,
 )
 // endregion
