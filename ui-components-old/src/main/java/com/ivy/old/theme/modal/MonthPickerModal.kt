@@ -24,7 +24,7 @@ import com.ivy.design.l0_system.style
 import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.Gradient
 import com.ivy.wallet.ui.theme.Ivy
-import com.ivy.wallet.ui.theme.components.WrapContentRow
+import com.ivy.wallet.ui.theme.components.WrapContentRowOld
 import com.ivy.wallet.ui.theme.findContrastTextColor
 import com.ivy.wallet.utils.dateNowUTC
 import com.ivy.wallet.utils.drawColoredShadow
@@ -83,7 +83,7 @@ private fun MonthPicker(
 ) {
     val months = monthsList()
 
-    WrapContentRow(
+    WrapContentRowOld(
         modifier = Modifier
             .padding(horizontal = 16.dp),
         horizontalMarginBetweenItems = 12.dp,

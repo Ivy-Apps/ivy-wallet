@@ -51,7 +51,7 @@ fun IvyPreview(
 }
 
 @Composable
-inline fun <reified VM : ViewModel> hiltViewmodelPreviewSafe(): VM? =
+inline fun <reified VM : ViewModel> hiltViewModelPreviewSafe(): VM? =
     if (isInPreview()) null else hiltViewModel()
 
 @Composable

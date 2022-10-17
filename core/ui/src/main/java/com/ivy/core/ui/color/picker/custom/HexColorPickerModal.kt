@@ -35,7 +35,7 @@ import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -45,7 +45,7 @@ fun BoxScope.HexColorPickerModal(
     level: Int = 3,
     onColorPicked: (Color) -> Unit
 ) {
-    val viewModel: HexColorPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: HexColorPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     if (initialColor != null) {

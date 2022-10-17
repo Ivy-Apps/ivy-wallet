@@ -26,11 +26,11 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @Composable
 fun BoxScope.AccountTab() {
-    val viewModel: AccountTabViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: AccountTabViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
 

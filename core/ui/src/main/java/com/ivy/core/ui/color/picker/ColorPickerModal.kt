@@ -33,7 +33,7 @@ import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenIf
 
 private val colorItemSize = 48.dp
@@ -45,7 +45,7 @@ fun BoxScope.ColorPickerModal(
     initialColor: Color?,
     onColorPicked: (Color) -> Unit,
 ) {
-    val viewModel: ColorPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: ColorPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     var selectedColor by remember(initialColor) { mutableStateOf(initialColor) }

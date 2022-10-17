@@ -31,7 +31,7 @@ import com.ivy.design.l2_components.modal.components.SearchButton
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -42,7 +42,7 @@ fun BoxScope.CurrencyPickerModal(
     initialCurrency: CurrencyCode?,
     onCurrencyPick: (CurrencyCode) -> Unit,
 ) {
-    val viewModel: CurrencyPickerModalViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: CurrencyPickerModalViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     LaunchedEffect(initialCurrency) {

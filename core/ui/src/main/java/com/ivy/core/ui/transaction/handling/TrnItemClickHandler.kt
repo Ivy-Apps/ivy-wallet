@@ -7,7 +7,7 @@ import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,7 +58,7 @@ class TrnItemClickHandlerViewModel @Inject constructor(
 
 @Composable
 fun defaultTrnItemClickHandler(): TrnItemClickHandler {
-    val viewModel: TrnItemClickHandlerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: TrnItemClickHandlerViewModel? = hiltViewModelPreviewSafe()
 
     return TrnItemClickHandler(
         onAccountClick = {

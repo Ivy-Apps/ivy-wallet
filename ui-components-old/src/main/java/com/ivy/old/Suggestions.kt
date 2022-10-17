@@ -23,7 +23,7 @@ import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
 import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.IvyIcon
-import com.ivy.wallet.ui.theme.components.WrapContentRow
+import com.ivy.wallet.ui.theme.components.WrapContentRowOld
 import com.ivy.wallet.utils.drawColoredShadow
 
 @Composable
@@ -35,7 +35,7 @@ fun Suggestions(
 ) {
     val items = suggestions.plus(AddNew())
 
-    WrapContentRow(
+    WrapContentRowOld(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp),

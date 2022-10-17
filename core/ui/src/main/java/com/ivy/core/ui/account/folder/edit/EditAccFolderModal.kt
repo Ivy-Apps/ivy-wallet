@@ -3,7 +3,6 @@ package com.ivy.core.ui.account.folder.edit
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -11,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.account.folder.BaseFolderModal
 import com.ivy.core.ui.data.icon.dummyIconUnknown
+import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l2_components.modal.IvyModal
@@ -21,7 +21,7 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.l3_ivyComponents.modal.DeleteConfirmationModal
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -31,8 +31,8 @@ fun BoxScope.EditAccFolderModal(
     folderId: String,
     level: Int = 1,
 ) {
-    val viewModel: EditAccFolderViewModel? = hiltViewmodelPreviewSafe()
-    val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
+    val viewModel: EditAccFolderViewModel? = hiltViewModelPreviewSafe()
+    val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
     LaunchedEffect(folderId) {
         viewModel?.onEvent(EditAccFolderEvent.Initial(folderId))

@@ -27,7 +27,7 @@ import com.ivy.wallet.ui.theme.*
 import com.ivy.wallet.ui.theme.components.ItemIconSDefaultIcon
 import com.ivy.wallet.ui.theme.components.IvyBorderButton
 import com.ivy.wallet.ui.theme.components.IvyCircleButton
-import com.ivy.wallet.ui.theme.components.WrapContentRow
+import com.ivy.wallet.ui.theme.components.WrapContentRowOld
 import com.ivy.wallet.ui.theme.modal.IvyModal
 import com.ivy.wallet.ui.theme.modal.ModalSkip
 import com.ivy.wallet.ui.theme.modal.ModalTitle
@@ -122,7 +122,7 @@ private fun CategoryPicker(
     data.addAll(categories)
     data.add(AddNewCategory())
 
-    WrapContentRow(
+    WrapContentRowOld(
         modifier = Modifier
             .padding(horizontal = 16.dp),
         horizontalMarginBetweenItems = 12.dp,

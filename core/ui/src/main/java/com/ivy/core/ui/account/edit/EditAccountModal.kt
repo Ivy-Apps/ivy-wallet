@@ -27,7 +27,7 @@ import com.ivy.design.l3_ivyComponents.button.ArchiveButton
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -36,7 +36,7 @@ fun BoxScope.EditAccountModal(
     accountId: String,
     level: Int = 1,
 ) {
-    val viewModel: EditAccountViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: EditAccountViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     LaunchedEffect(accountId) {

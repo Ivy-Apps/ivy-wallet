@@ -17,7 +17,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.wallet.utils.horizontalSwipeListener
 
 @Composable
@@ -26,7 +26,7 @@ fun PeriodButton(
     periodModal: IvyModal,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
 
     IvyButton(
         modifier = modifier.horizontalSwipeListener(

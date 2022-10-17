@@ -20,7 +20,7 @@ import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
 
 @Composable
@@ -32,7 +32,7 @@ fun BoxScope.AmountModal(
     },
     onAmountEnter: (Value) -> Unit,
 ) {
-    val viewModel: AmountModalViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: AmountModalViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     LaunchedEffect(initialAmount) {

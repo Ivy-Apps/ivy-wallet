@@ -34,7 +34,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -43,7 +43,7 @@ fun BoxScope.PeriodModal(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi
 ) {
-    val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
     UI(
         modal = modal,

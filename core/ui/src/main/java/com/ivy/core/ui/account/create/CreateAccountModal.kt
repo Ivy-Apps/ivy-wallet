@@ -12,14 +12,14 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @Composable
 fun BoxScope.CreateAccountModal(
     modal: IvyModal,
     level: Int = 1
 ) {
-    val viewModel: CreateAccountViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: CreateAccountViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     val primary = UI.colors.primary

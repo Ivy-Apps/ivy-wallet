@@ -36,7 +36,7 @@ import com.ivy.design.l2_components.modal.components.Search
 import com.ivy.design.l2_components.modal.components.SearchButton
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenIf
 
 private val iconSize = IconSize.M
@@ -51,7 +51,7 @@ fun BoxScope.IconPickerModal(
     color: Color,
     onIconPick: (ItemIconId) -> Unit
 ) {
-    val viewModel: IconPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: IconPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     var selectedIcon by remember(initialIcon) { mutableStateOf(initialIcon?.iconId()) }

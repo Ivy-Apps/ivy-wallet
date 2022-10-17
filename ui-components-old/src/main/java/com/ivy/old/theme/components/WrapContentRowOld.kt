@@ -24,8 +24,9 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.wallet.ui.theme.Ivy
 
 
+@Deprecated("old, use the one from :design-system")
 @Composable
-fun <T> WrapContentRow(
+fun <T> WrapContentRowOld(
     modifier: Modifier = Modifier,
     items: List<T>,
     verticalMarginBetweenRows: Dp = 8.dp,
@@ -91,7 +92,7 @@ fun <T> WrapContentRow(
 @Composable
 private fun PreviewWrapContentRow() {
     IvyPreview {
-        WrapContentRow(
+        WrapContentRowOld(
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 24.dp)
                 .background(UI.colors.red),

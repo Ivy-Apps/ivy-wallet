@@ -38,7 +38,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenWhen
 
 @Composable
@@ -46,9 +46,9 @@ fun BoxScope.FolderPickerModal(
     modal: IvyModal,
     selected: FolderUi?,
     level: Int = 1,
-    onChooseFolder: (FolderUi?) -> Unit,
+    onPickFolder: (FolderUi?) -> Unit,
 ) {
-    val viewModel: FolderPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: FolderPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
 
@@ -59,7 +59,7 @@ fun BoxScope.FolderPickerModal(
         level = level,
         actions = {
             Negative(text = "No folder") {
-                onChooseFolder(null)
+                onPickFolder(null)
                 modal.hide()
             }
         }
@@ -72,7 +72,7 @@ fun BoxScope.FolderPickerModal(
                 folders = state.folders,
                 selected = selected,
                 onSelect = {
-                    onChooseFolder(it)
+                    onPickFolder(it)
                     modal.hide()
                 }
             )
@@ -176,7 +176,7 @@ private fun Preview() {
         FolderPickerModal(
             modal = modal,
             selected = dummyFolderUi(id = "folder1"),
-            onChooseFolder = {}
+            onPickFolder = {}
         )
     }
 }

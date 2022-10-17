@@ -193,7 +193,7 @@ internal fun BoxScope.BaseAccountModal(
         modal = chooseFolderModal,
         level = level + 1,
         selected = folder,
-        onChooseFolder = onFolderChange,
+        onPickFolder = onFolderChange,
     )
 }
 
