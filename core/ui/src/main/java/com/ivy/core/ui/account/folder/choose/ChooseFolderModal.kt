@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.ui.R
+import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
 import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.core.ui.data.icon.IconSize
@@ -31,6 +33,10 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Negative
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenWhen
@@ -45,6 +51,8 @@ fun BoxScope.ChooseFolderModal(
     val viewModel: ChooseFolderViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
+
+    val createFolderModal = rememberIvyModal()
 
     Modal(
         modal = modal,
@@ -68,11 +76,19 @@ fun BoxScope.ChooseFolderModal(
                     modal.hide()
                 }
             )
+            createFolderItem(
+                onCreateFolder = { createFolderModal.show() }
+            )
             item {
                 SpacerVer(height = 48.dp) // last item spacer
             }
         }
     }
+
+    CreateAccFolderModal(
+        modal = createFolderModal,
+        level = level + 1,
+    )
 }
 
 // region Folders
@@ -131,6 +147,24 @@ internal fun FolderItem(
 }
 // endregion
 
+// region Add folder
+fun LazyListScope.createFolderItem(
+    onCreateFolder: () -> Unit,
+) {
+    item(key = "add_folder_item") {
+        SpacerVer(height = 12.dp)
+        IvyButton(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            size = ButtonSize.Big,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "New folder",
+            icon = R.drawable.ic_round_add_24,
+            onClick = onCreateFolder,
+        )
+    }
+}
+// endregion
 
 // region Preview
 @Preview
