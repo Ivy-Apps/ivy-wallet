@@ -18,7 +18,7 @@ import com.ivy.core.ui.account.create.components.AccountCurrency
 import com.ivy.core.ui.account.create.components.AccountFolderButton
 import com.ivy.core.ui.account.create.components.ExcludeAccount
 import com.ivy.core.ui.account.create.components.ExcludedAccInfoModal
-import com.ivy.core.ui.account.folder.choose.ChooseFolderModal
+import com.ivy.core.ui.account.folder.pick.FolderPickerModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
@@ -189,7 +189,7 @@ internal fun BoxScope.BaseAccountModal(
         modal = excludedAccInfoModal,
         level = level + 1,
     )
-    ChooseFolderModal(
+    FolderPickerModal(
         modal = chooseFolderModal,
         level = level + 1,
         selected = folder,

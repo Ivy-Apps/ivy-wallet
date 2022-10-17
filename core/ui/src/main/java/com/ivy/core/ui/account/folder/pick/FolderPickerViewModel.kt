@@ -1,4 +1,4 @@
-package com.ivy.core.ui.account.folder.choose
+package com.ivy.core.ui.account.folder.pick
 
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class ChooseFolderViewModel @Inject constructor(
+class FolderPickerViewModel @Inject constructor(
     accountsFoldersFlow: AccountFoldersFlow,
     private val mapFolderUiAct: MapFolderUiAct
-) : SimpleFlowViewModel<ChooseFolderState, Unit>() {
-    override val initialUi = ChooseFolderState(folders = emptyList())
+) : SimpleFlowViewModel<FolderPickerState, Unit>() {
+    override val initialUi = FolderPickerState(folders = emptyList())
 
-    override val uiFlow: Flow<ChooseFolderState> =
+    override val uiFlow: Flow<FolderPickerState> =
         accountsFoldersFlow(Unit).map { accountsFolders ->
-            ChooseFolderState(
+            FolderPickerState(
                 folders = accountsFolders
                     .filterIsInstance<AccountListItem.FolderWithAccounts>()
                     .map { mapFolderUiAct(it.folder) }

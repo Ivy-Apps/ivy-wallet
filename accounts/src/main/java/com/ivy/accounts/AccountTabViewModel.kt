@@ -45,11 +45,11 @@ class AccountTabViewModel @Inject constructor(
     private fun accListItemsUiFlow(): Flow<List<AccountListItemUi>> =
         accountFoldersFlow(Unit).map { items ->
             items
-                // filter empty folders
                 .filter {
                     when (it) {
                         is AccountListItem.AccountHolder -> true
-                        is AccountListItem.FolderWithAccounts -> it.accounts.isNotEmpty()
+                        // allow empty folders
+                        is AccountListItem.FolderWithAccounts -> true
                         is AccountListItem.Archived -> it.accounts.isNotEmpty()
                     }
                 }

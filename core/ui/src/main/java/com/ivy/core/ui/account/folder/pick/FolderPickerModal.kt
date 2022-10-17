@@ -1,4 +1,4 @@
-package com.ivy.core.ui.account.folder.choose
+package com.ivy.core.ui.account.folder.pick
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -42,13 +42,13 @@ import com.ivy.design.util.hiltViewmodelPreviewSafe
 import com.ivy.design.util.thenWhen
 
 @Composable
-fun BoxScope.ChooseFolderModal(
+fun BoxScope.FolderPickerModal(
     modal: IvyModal,
     selected: FolderUi?,
     level: Int = 1,
     onChooseFolder: (FolderUi?) -> Unit,
 ) {
-    val viewModel: ChooseFolderViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: FolderPickerViewModel? = hiltViewmodelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
 
@@ -173,7 +173,7 @@ private fun Preview() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
-        ChooseFolderModal(
+        FolderPickerModal(
             modal = modal,
             selected = dummyFolderUi(id = "folder1"),
             onChooseFolder = {}
@@ -181,7 +181,7 @@ private fun Preview() {
     }
 }
 
-private fun previewState() = ChooseFolderState(
+private fun previewState() = FolderPickerState(
     folders = listOf(
         dummyFolderUi(id = "folder1", name = "Folder 1", color = Green),
         dummyFolderUi("Folder 2", color = Yellow),

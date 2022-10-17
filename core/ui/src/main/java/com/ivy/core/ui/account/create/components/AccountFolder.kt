@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
-import com.ivy.core.ui.account.folder.choose.FolderItem
+import com.ivy.core.ui.account.folder.pick.FolderItem
 import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.design.l0_system.color.Purple
