@@ -1,5 +1,6 @@
 package com.ivy.core.ui.account.edit
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
@@ -9,26 +10,31 @@ import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.account.WriteAccountsAct
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
+import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.data.Modify
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.ItemIcon
+import com.ivy.data.CurrencyCode
 import com.ivy.data.ItemIconId
+import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.account.AccountState
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.toComposeColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 internal class EditAccountViewModel @Inject constructor(
     @ApplicationContext
@@ -37,7 +43,8 @@ internal class EditAccountViewModel @Inject constructor(
     private val writeAccountsAct: WriteAccountsAct,
     private val accountByIdAct: AccountByIdAct,
     private val accountFoldersFlow: AccountFoldersFlow,
-    private val mapFolderUiAct: MapFolderUiAct
+    private val mapFolderUiAct: MapFolderUiAct,
+    private val accBalanceFlow: AccBalanceFlow,
 ) : SimpleFlowViewModel<EditAccountState, EditAccountEvent>() {
     override val initialUi = EditAccountState(
         currency = "",
@@ -52,9 +59,11 @@ internal class EditAccountViewModel @Inject constructor(
         folder = null,
         excluded = false,
         archived = false,
+        balance = Value(0.0, ""),
+        balanceUi = ValueUi("0.00", ""),
     )
 
-    private var account: Account? = null
+    private val account = MutableStateFlow<Account?>(null)
     private var name = ""
     private val initialName = MutableStateFlow(initialUi.initialName)
     private val currency = MutableStateFlow(initialUi.currency)
@@ -65,16 +74,18 @@ internal class EditAccountViewModel @Inject constructor(
     private val archived = MutableStateFlow(initialUi.archived)
 
     override val uiFlow: Flow<EditAccountState> = combine(
-        headerFlow(), currency, excluded, folderFlow(), archived,
-    ) { header, currency, excluded, folder, archived ->
+        headerFlow(), secondaryFlow(), folderFlow(), accountBalanceFlow()
+    ) { header, secondary, folder, balance ->
         EditAccountState(
-            currency = currency,
+            currency = secondary.currency,
             icon = itemIconAct(ItemIconAct.Input(header.iconId, DefaultTo.Account)),
             initialName = header.initialName,
             color = header.color,
-            excluded = excluded,
+            excluded = secondary.excluded,
             folder = folder,
-            archived = archived
+            archived = secondary.archived,
+            balance = balance ?: initialUi.balance,
+            balanceUi = balance?.let { format(it, shortenFiat = false) } ?: initialUi.balanceUi
         )
     }
 
@@ -84,12 +95,25 @@ internal class EditAccountViewModel @Inject constructor(
         Header(iconId = iconId, initialName = initialName, color = color)
     }
 
+    private fun secondaryFlow(): Flow<Secondary> = combine(
+        currency, excluded, archived
+    ) { currency, excluded, archived ->
+        Secondary(currency, excluded, archived)
+    }
+
     private fun folderFlow(): Flow<FolderUi?> = combine(
         accountFoldersFlow(Unit), folderId
     ) { folders, folderId ->
         folders.filterIsInstance<AccountListItem.FolderWithAccounts>()
             .firstOrNull { it.folder.id == folderId }
             ?.let { mapFolderUiAct(it.folder) }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun accountBalanceFlow(): Flow<Value?> = account.flatMapMerge { account ->
+        if (account != null) {
+            accBalanceFlow(AccBalanceFlow.Input(account))
+        } else flowOf(null)
     }
 
     // region Event Handling
@@ -111,7 +135,7 @@ internal class EditAccountViewModel @Inject constructor(
         // we need a snapshot of the account at this given point in time
         // => flow isn't good for that use-case
         accountByIdAct(event.accountId)?.let {
-            account = it
+            account.value = it
             name = it.name
             initialName.value = it.name
             currency.value = it.currency
@@ -124,7 +148,7 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     private suspend fun editAccount() {
-        val updatedAccount = account?.copy(
+        val updatedAccount = account.value?.copy(
             name = name,
             currency = currency.value,
             color = color.value.toArgb(),
@@ -178,14 +202,14 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     private suspend fun updateArchived(state: AccountState) {
-        val updatedAccount = account?.copy(state = state)
+        val updatedAccount = account.value?.copy(state = state)
         if (updatedAccount != null) {
             writeAccountsAct(Modify.save(updatedAccount))
         }
     }
 
     private suspend fun handleDelete() {
-        account?.let {
+        account.value?.let {
             writeAccountsAct(Modify.delete(it.id.toString()))
         }
     }
@@ -195,5 +219,11 @@ internal class EditAccountViewModel @Inject constructor(
         val iconId: ItemIconId?,
         val initialName: String,
         val color: Color,
+    )
+
+    private data class Secondary(
+        val currency: CurrencyCode,
+        val excluded: Boolean,
+        val archived: Boolean,
     )
 }

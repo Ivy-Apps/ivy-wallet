@@ -26,6 +26,7 @@ import com.ivy.resources.R
 @Composable
 fun BoxScope.AmountModal(
     modal: IvyModal,
+    level: Int = 1,
     initialAmount: Value?,
     contentAbove: (@Composable () -> Unit)? = {
         SpacerVer(height = 32.dp)
@@ -44,6 +45,7 @@ fun BoxScope.AmountModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             Secondary(
                 text = null,
