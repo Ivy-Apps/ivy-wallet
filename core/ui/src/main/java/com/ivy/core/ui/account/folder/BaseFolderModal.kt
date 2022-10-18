@@ -40,6 +40,7 @@ import com.ivy.design.util.IvyPreview
 internal fun BoxScope.BaseFolderModal(
     modal: IvyModal,
     level: Int,
+    autoFocusNameInput: Boolean,
     title: String,
     positiveButtonText: String,
     secondaryActions: (@Composable ModalActionsScope.() -> Unit)? = null,
@@ -83,6 +84,7 @@ internal fun BoxScope.BaseFolderModal(
                     color = color,
                     initialName = initialName,
                     nameInputHint = "Folder name",
+                    autoFocusInput = autoFocusNameInput,
                     onPickIcon = {
                         keyboardController?.hide()
                         iconPickerModal.show()
@@ -171,6 +173,7 @@ private fun Preview() {
         BaseFolderModal(
             modal = modal,
             level = 1,
+            autoFocusNameInput = false,
             title = "New folder",
             positiveButtonText = "Add folder",
             initialName = "",

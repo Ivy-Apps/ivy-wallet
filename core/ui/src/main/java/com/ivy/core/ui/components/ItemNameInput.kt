@@ -24,14 +24,17 @@ fun ItemNameInput(
     modifier: Modifier = Modifier,
     feeling: Feeling,
     hint: String,
+    autoFocus: Boolean,
     onNameChange: (String) -> Unit,
 ) {
     val focus = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(Unit) {
-        focus.requestFocus()
-        keyboardController?.show()
+    LaunchedEffect(autoFocus) {
+        if (autoFocus) {
+            focus.requestFocus()
+            keyboardController?.show()
+        }
     }
 
     IvyInputField(
@@ -56,6 +59,7 @@ private fun Preview_Empty() {
             initialName = "",
             hint = stringResource(R.string.account_name),
             feeling = Feeling.Positive,
+            autoFocus = false,
             onNameChange = {}
         )
     }
@@ -69,6 +73,7 @@ private fun Preview_Filled() {
             initialName = "Cash",
             hint = stringResource(R.string.account_name),
             feeling = Feeling.Positive,
+            autoFocus = false,
             onNameChange = {}
         )
     }

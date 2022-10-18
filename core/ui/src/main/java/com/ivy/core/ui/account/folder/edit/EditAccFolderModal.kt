@@ -44,6 +44,7 @@ fun BoxScope.EditAccFolderModal(
     BaseFolderModal(
         modal = modal,
         level = level,
+        autoFocusNameInput = false,
         title = "Edit folder",
         positiveButtonText = stringResource(R.string.save),
         secondaryActions = {

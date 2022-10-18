@@ -29,6 +29,7 @@ fun ItemIconNameRow(
     color: Color,
     initialName: String,
     nameInputHint: String,
+    autoFocusInput: Boolean,
     modifier: Modifier = Modifier,
     onPickIcon: () -> Unit,
     onNameChange: (String) -> Unit
@@ -55,6 +56,7 @@ fun ItemIconNameRow(
             initialName = initialName,
             hint = nameInputHint,
             feeling = Feeling.Custom(color),
+            autoFocus = autoFocusInput,
             onNameChange = onNameChange
         )
     }
@@ -71,6 +73,7 @@ private fun Preview() {
             color = UI.colors.primary,
             initialName = "",
             nameInputHint = "New account",
+            autoFocusInput = false,
             onPickIcon = {},
             onNameChange = {},
         )

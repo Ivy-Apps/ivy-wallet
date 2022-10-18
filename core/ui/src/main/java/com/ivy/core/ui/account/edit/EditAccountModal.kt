@@ -49,6 +49,7 @@ fun BoxScope.EditAccountModal(
     BaseAccountModal(
         modal = modal,
         level = level,
+        autoFocusNameInput = false,
         title = stringResource(R.string.edit_account),
         nameInputHint = stringResource(R.string.account_name),
         positiveActionText = stringResource(R.string.save),

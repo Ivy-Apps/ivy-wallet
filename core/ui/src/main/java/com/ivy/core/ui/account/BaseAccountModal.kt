@@ -45,6 +45,8 @@ import com.ivy.design.util.IvyPreview
 @Composable
 internal fun BoxScope.BaseAccountModal(
     modal: IvyModal,
+    level: Int,
+    autoFocusNameInput: Boolean,
     title: String,
     nameInputHint: String,
     positiveActionText: String,
@@ -55,7 +57,6 @@ internal fun BoxScope.BaseAccountModal(
     currency: CurrencyCode,
     folder: FolderUi?,
     excluded: Boolean,
-    level: Int,
     contentBelow: (LazyListScope.() -> Unit)? = null,
     onIconChange: (ItemIconId) -> Unit,
     onNameChange: (String) -> Unit,
@@ -104,6 +105,7 @@ internal fun BoxScope.BaseAccountModal(
                     color = color,
                     initialName = initialName,
                     nameInputHint = nameInputHint,
+                    autoFocusInput = autoFocusNameInput,
                     onPickIcon = {
                         keyboardController?.hide()
                         iconPickerModal.show()
@@ -214,6 +216,7 @@ private fun Preview() {
         BaseAccountModal(
             modal = modal,
             level = 1,
+            autoFocusNameInput = false,
             title = stringResource(R.string.edit_account),
             nameInputHint = stringResource(R.string.account_name),
             positiveActionText = stringResource(R.string.save),

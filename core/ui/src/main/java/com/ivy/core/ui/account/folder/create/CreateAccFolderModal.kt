@@ -28,6 +28,7 @@ fun BoxScope.CreateAccFolderModal(
     BaseFolderModal(
         modal = modal,
         level = level,
+        autoFocusNameInput = true,
         title = "New folder",
         positiveButtonText = "Add folder",
         initialName = "",

@@ -31,6 +31,7 @@ fun BoxScope.CreateAccountModal(
     BaseAccountModal(
         modal = modal,
         level = level,
+        autoFocusNameInput = true,
         title = newAccountString,
         nameInputHint = newAccountString,
         positiveActionText = stringResource(R.string.add_account),
