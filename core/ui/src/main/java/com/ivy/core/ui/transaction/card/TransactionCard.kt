@@ -16,7 +16,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.CaptionSecond
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -50,7 +50,7 @@ internal fun TransactionCard(
 @Composable
 internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
-        SpacerVer(height = 12.dp)
+        SpacerVer(height = 8.dp)
         CaptionSecond(
             text = time.dueOn,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
@@ -67,8 +67,8 @@ internal fun Title(
     time: TrnTimeUi
 ) {
     if (title != null) {
-        SpacerVer(height = if (time is TrnTimeUi.Due) 8.dp else 8.dp)
-        B1(
+        SpacerVer(height = if (time is TrnTimeUi.Due) 4.dp else 8.dp)
+        B2(
             text = title,
             fontWeight = FontWeight.ExtraBold
         )
@@ -81,7 +81,7 @@ internal fun Description(
     title: String?
 ) {
     if (description != null) {
-        SpacerVer(height = if (title != null) 4.dp else 8.dp)
+        SpacerVer(height = if (title != null) 0.dp else 4.dp)
         CaptionSecond(
             text = description,
             color = UI.colors.neutral,
@@ -101,8 +101,7 @@ internal fun TransactionCardAmountRow(
 ) {
     Row(
         modifier = modifier
-            .testTag("type_amount_currency")
-            .padding(horizontal = 4.dp), // additional padding to look better?
+            .testTag("type_amount_currency"),
         verticalAlignment = Alignment.CenterVertically,
         content = content
     )
@@ -119,7 +118,6 @@ internal fun DuePaymentCTAs(
 ) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()

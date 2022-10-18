@@ -77,7 +77,7 @@ private fun TransferHeader(
         IconRes(R.drawable.ic_arrow_right)
         SpacerHor(width = 8.dp)
 
-        IconAndName(account)
+        IconAndName(toAccount)
     }
 }
 
@@ -85,7 +85,7 @@ private fun TransferHeader(
 private fun TransferAmount(
     fromValue: ValueUi,
 ) {
-    SpacerVer(height = 12.dp)
+    SpacerVer(height = 8.dp)
     TransactionCardAmountRow {
         IconRes(
             modifier = Modifier.background(UI.colors.primary, UI.shapes.circle),

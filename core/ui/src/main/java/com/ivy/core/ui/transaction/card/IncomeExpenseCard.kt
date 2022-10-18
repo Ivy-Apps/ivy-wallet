@@ -87,7 +87,7 @@ private fun IncomeExpenseHeader(
                 category = it,
                 onClick = { onCategoryClick(category) }
             )
-            SpacerHor(width = 12.dp)
+            SpacerHor(width = 8.dp)
         }
 
         AccountBadge(
@@ -106,7 +106,7 @@ private fun TrnValue(
     type: TransactionType,
     time: TrnTimeUi,
 ) {
-    SpacerVer(height = 12.dp)
+    SpacerVer(height = 8.dp)
     TransactionCardAmountRow {
         TrnTypeIcon(type = type, time = time)
         SpacerHor(width = 12.dp)
