@@ -22,6 +22,7 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.util.ComponentPreview
 import com.ivy.resources.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun InputField(
@@ -54,6 +55,7 @@ fun InputField(
     }
     LaunchedEffect(initialValue) {
         if (initialValue != textField.text) {
+            delay(50) // fix race condition
             textField = TextFieldValue(
                 initialValue, TextRange(initialValue.length)
             )
