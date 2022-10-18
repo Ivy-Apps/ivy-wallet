@@ -18,6 +18,8 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Secondary
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.scope.ModalActionsScope
+import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
@@ -28,9 +30,11 @@ fun BoxScope.AmountModal(
     modal: IvyModal,
     level: Int = 1,
     initialAmount: Value?,
-    contentAbove: (@Composable () -> Unit)? = {
-        SpacerVer(height = 32.dp)
+    calculatorVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
+    contentAbove: (@Composable ModalScope.() -> Unit)? = {
+        SpacerVer(height = 24.dp)
     },
+    moreActions: (@Composable ModalActionsScope.() -> Unit)? = null,
     onAmountEnter: (Value) -> Unit,
 ) {
     val viewModel: AmountModalViewModel? = hiltViewModelPreviewSafe()
@@ -40,22 +44,22 @@ fun BoxScope.AmountModal(
         viewModel?.onEvent(AmountModalEvent.Initial(initialAmount))
     }
 
-    var calculatorVisible by remember { mutableStateOf(false) }
     val currencyPickerModal = rememberIvyModal()
 
     Modal(
         modal = modal,
         level = level,
         actions = {
+            moreActions?.invoke(this)
             Secondary(
                 text = null,
                 icon = R.drawable.ic_vue_edu_calculator,
-                feeling = if (calculatorVisible)
+                feeling = if (calculatorVisible.value)
                     Feeling.Negative else Feeling.Positive,
                 hapticFeedback = true
             ) {
-                calculatorVisible = !calculatorVisible
-                if (!calculatorVisible) {
+                calculatorVisible.value = !calculatorVisible.value
+                if (!calculatorVisible.value) {
                     viewModel?.onEvent(AmountModalEvent.CalculatorEquals)
                 }
             }
@@ -69,18 +73,18 @@ fun BoxScope.AmountModal(
             }
         }
     ) {
-        contentAbove?.invoke()
+        contentAbove?.invoke(this)
         AmountSection(
-            calculatorVisible = calculatorVisible,
+            calculatorVisible = calculatorVisible.value,
             expression = state.expression,
             currency = state.currency,
             amountInBaseCurrency = state.amountBaseCurrency,
             calculatorTempResult = state.calculatorResult,
             onPickCurrency = { currencyPickerModal.show() }
         )
-        SpacerVer(height = 32.dp)
+        SpacerVer(height = 24.dp)
         Keyboard(
-            calculatorVisible = calculatorVisible,
+            calculatorVisible = calculatorVisible.value,
             onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.CalculatorOperator(it)) },
             onNumberEvent = { viewModel?.onEvent(AmountModalEvent.Number(it)) },
             onDecimalSeparator = { viewModel?.onEvent(AmountModalEvent.DecimalSeparator) },
@@ -88,7 +92,7 @@ fun BoxScope.AmountModal(
             onCalculatorC = { viewModel?.onEvent(AmountModalEvent.CalculatorC) },
             onCalculatorEquals = { viewModel?.onEvent(AmountModalEvent.CalculatorEquals) }
         )
-        SpacerVer(height = 24.dp)
+        SpacerVer(height = 16.dp)
     }
 
     CurrencyPickerModal(

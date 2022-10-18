@@ -133,7 +133,9 @@ fun BoxScope.EditAccountModal(
     )
     AdjustBalanceModal(
         modal = adjustBalanceModal,
+        level = level + 1,
         balance = state.balance,
+        accountId = state.accountId,
     )
 }
 
@@ -192,6 +194,7 @@ private fun Preview() {
 }
 
 private fun previewState() = EditAccountState(
+    accountId = "",
     currency = "USD",
     icon = dummyIconSized(R.drawable.ic_custom_account_m),
     initialName = "Account",

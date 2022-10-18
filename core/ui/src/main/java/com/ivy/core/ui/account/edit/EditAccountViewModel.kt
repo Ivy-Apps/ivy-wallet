@@ -47,6 +47,7 @@ internal class EditAccountViewModel @Inject constructor(
     private val accBalanceFlow: AccBalanceFlow,
 ) : SimpleFlowViewModel<EditAccountState, EditAccountEvent>() {
     override val initialUi = EditAccountState(
+        accountId = "",
         currency = "",
         icon = ItemIcon.Sized(
             iconS = R.drawable.ic_custom_account_s,
@@ -74,9 +75,10 @@ internal class EditAccountViewModel @Inject constructor(
     private val archived = MutableStateFlow(initialUi.archived)
 
     override val uiFlow: Flow<EditAccountState> = combine(
-        headerFlow(), secondaryFlow(), folderFlow(), accountBalanceFlow()
-    ) { header, secondary, folder, balance ->
+        account, headerFlow(), secondaryFlow(), folderFlow(), accountBalanceFlow()
+    ) { account, header, secondary, folder, balance ->
         EditAccountState(
+            accountId = account?.id?.toString() ?: "",
             currency = secondary.currency,
             icon = itemIconAct(ItemIconAct.Input(header.iconId, DefaultTo.Account)),
             initialName = header.initialName,

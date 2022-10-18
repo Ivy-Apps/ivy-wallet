@@ -10,6 +10,7 @@ import com.ivy.data.Value
 
 @Immutable
 internal data class EditAccountState(
+    val accountId: String,
     val currency: CurrencyCode,
     val icon: ItemIcon,
     val color: Color,
