@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.color.ColorPickerButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
+import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.core.ui.icon.picker.IconPickerModal
 import com.ivy.data.ItemIconId
 import com.ivy.data.Value
@@ -28,9 +29,12 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 @Composable
 fun BoxScope.TestScreen() {
     val viewModel: TestViewModel = hiltViewModel()
+    val state by viewModel.uiState.collectAsState()
+
     val iconPickerModal = rememberIvyModal()
     val colorPickerModal = rememberIvyModal()
     val amountModal = rememberIvyModal()
+    val currencyPickerModal = rememberIvyModal()
 
     var selectedIconId by remember { mutableStateOf<ItemIconId?>(null) }
     var selectedColor by remember { mutableStateOf(Purple) }
@@ -66,6 +70,16 @@ fun BoxScope.TestScreen() {
         ) {
             amountModal.show()
         }
+        SpacerVer(height = 48.dp)
+        IvyButton(
+            size = ButtonSize.Big,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Base currency: ${state.baseCurrency}",
+            icon = null
+        ) {
+            currencyPickerModal.show()
+        }
         SpacerWeight(weight = 1f)
     }
 
@@ -84,5 +98,12 @@ fun BoxScope.TestScreen() {
         modal = amountModal,
         initialAmount = Value(0.0, "USD"),
         onAmountEnter = {}
+    )
+    CurrencyPickerModal(
+        modal = currencyPickerModal,
+        initialCurrency = state.baseCurrency,
+        onCurrencyPick = {
+            viewModel.onEvent(TestEvent.BaseCurrencyChange(it))
+        }
     )
 }
