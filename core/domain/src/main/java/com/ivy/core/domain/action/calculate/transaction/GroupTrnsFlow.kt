@@ -12,10 +12,7 @@ import com.ivy.core.domain.pure.transaction.upcoming
 import com.ivy.core.domain.pure.util.actualTrns
 import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
-import com.ivy.data.transaction.DueSection
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionsList
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -43,7 +40,10 @@ class GroupTrnsFlow @Inject constructor(
 
     override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
         trnLinkRecordDao.findAll().map { links ->
-            batchTrns(trns = this, links = links)
+            val visibleTrns = this.filter {
+                it.state != TrnState.Hidden
+            }
+            batchTrns(trns = visibleTrns, links = links)
         }.flatMapMerge { batchedTrnItems ->
             combine(
                 dueSectionFlow(
