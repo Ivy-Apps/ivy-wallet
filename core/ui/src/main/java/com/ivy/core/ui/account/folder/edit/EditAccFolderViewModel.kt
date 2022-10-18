@@ -31,7 +31,8 @@ internal class EditAccFolderViewModel @Inject constructor(
             iconId = "ic_vue_files_folder",
         ),
         color = Purple,
-        initialName = ""
+        initialName = "",
+        accounts = emptyList(),
     )
 
     private var folder: Folder? = null
@@ -39,14 +40,16 @@ internal class EditAccFolderViewModel @Inject constructor(
     private val initialName = MutableStateFlow(initialUi.initialName)
     private val iconId = MutableStateFlow<ItemIconId?>(null)
     private val color = MutableStateFlow(initialUi.color)
+    private val accounts = MutableStateFlow(initialUi.accounts)
 
     override val uiFlow: Flow<EditAccFolderState> = combine(
-        initialName, iconId, color
-    ) { initialName, iconId, color ->
+        initialName, iconId, color, accounts
+    ) { initialName, iconId, color, accounts ->
         EditAccFolderState(
             initialName = initialName,
             icon = itemIconAct(ItemIconAct.Input(iconId, DefaultTo.Folder)),
             color = color,
+            accounts = accounts
         )
     }
 
@@ -58,6 +61,7 @@ internal class EditAccFolderViewModel @Inject constructor(
         is EditAccFolderEvent.NameChange -> handleFolderNameChange(event)
         is EditAccFolderEvent.IconChange -> handleIconChange(event)
         is EditAccFolderEvent.ColorChange -> handleColorChange(event)
+        is EditAccFolderEvent.AccountsChange -> handleAccountsChange(event)
         EditAccFolderEvent.Delete -> handleDelete()
     }
 
@@ -68,6 +72,7 @@ internal class EditAccFolderViewModel @Inject constructor(
             initialName.value = it.name
             iconId.value = it.icon
             color.value = it.color.toComposeColor()
+            // TODO: Handle accounts
         }
     }
 
@@ -77,6 +82,7 @@ internal class EditAccFolderViewModel @Inject constructor(
             color = color.value.toArgb(),
             icon = iconId.value
         )
+        // TODO: Handle accounts
         if (updated != null) {
             writeAccountFolderAct(Modify.save(updated))
         }
@@ -92,6 +98,10 @@ internal class EditAccFolderViewModel @Inject constructor(
 
     private fun handleColorChange(event: EditAccFolderEvent.ColorChange) {
         color.value = event.color
+    }
+
+    private fun handleAccountsChange(event: EditAccFolderEvent.AccountsChange) {
+        accounts.value = event.accounts
     }
 
     private suspend fun handleDelete() {

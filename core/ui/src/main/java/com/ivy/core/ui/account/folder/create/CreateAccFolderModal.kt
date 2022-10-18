@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.folder.BaseFolderModal
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l2_components.modal.IvyModal
@@ -22,6 +23,7 @@ fun BoxScope.CreateAccFolderModal(
 
     val primary = UI.colors.primary
     var folderColor by remember(primary) { mutableStateOf(primary) }
+    var accounts by remember { mutableStateOf<List<AccountUi>>(emptyList()) }
 
     BaseFolderModal(
         modal = modal,
@@ -31,11 +33,18 @@ fun BoxScope.CreateAccFolderModal(
         initialName = "",
         icon = state.icon,
         color = folderColor,
+        accounts = accounts,
         onNameChane = { viewModel?.onEvent(CreateAccFolderEvent.NameChange(it)) },
         onColorChange = { folderColor = it },
         onIconChange = { viewModel?.onEvent(CreateAccFolderEvent.IconChange(it)) },
+        onAccountsChange = { accounts = it },
         onSave = {
-            viewModel?.onEvent(CreateAccFolderEvent.CreateFolder(folderColor))
+            viewModel?.onEvent(
+                CreateAccFolderEvent.CreateFolder(
+                    color = folderColor,
+                    accounts = accounts
+                )
+            )
         }
     )
 }

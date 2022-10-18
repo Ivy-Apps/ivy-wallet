@@ -56,9 +56,11 @@ fun BoxScope.EditAccFolderModal(
         initialName = state.initialName,
         icon = state.icon,
         color = state.color,
+        accounts = state.accounts,
         onNameChane = { viewModel?.onEvent(EditAccFolderEvent.NameChange(it)) },
         onColorChange = { viewModel?.onEvent(EditAccFolderEvent.ColorChange(it)) },
         onIconChange = { viewModel?.onEvent(EditAccFolderEvent.IconChange(it)) },
+        onAccountsChange = { viewModel?.onEvent(EditAccFolderEvent.AccountsChange(it)) },
         onSave = {
             viewModel?.onEvent(EditAccFolderEvent.EditFolder)
         }
@@ -105,6 +107,7 @@ private fun Preview() {
 private fun previewState() = EditAccFolderState(
     icon = dummyIconUnknown(R.drawable.ic_vue_files_folder),
     color = Purple,
-    initialName = "Folder 1"
+    initialName = "Folder 1",
+    accounts = listOf(),
 )
 // endregion

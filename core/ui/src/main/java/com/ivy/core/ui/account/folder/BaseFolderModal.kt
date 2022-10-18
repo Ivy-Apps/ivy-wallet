@@ -9,17 +9,22 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.account.pick.AccountPickerColumn
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconUnknown
 import com.ivy.core.ui.icon.picker.IconPickerModal
 import com.ivy.data.ItemIconId
 import com.ivy.design.l0_system.color.Purple
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
@@ -41,9 +46,11 @@ internal fun BoxScope.BaseFolderModal(
     initialName: String,
     icon: ItemIcon,
     color: Color,
+    accounts: List<AccountUi>,
     onNameChane: (String) -> Unit,
     onColorChange: (Color) -> Unit,
     onIconChange: (ItemIconId) -> Unit,
+    onAccountsChange: (List<AccountUi>) -> Unit,
     onSave: (SaveFolderInfo) -> Unit,
 ) {
     val iconPickerModal = rememberIvyModal()
@@ -94,10 +101,13 @@ internal fun BoxScope.BaseFolderModal(
                     keyboardController?.hide()
                     colorPickerModal.show()
                 }
-                SpacerVer(height = 16.dp)
+                SpacerVer(height = 24.dp)
             }
-            item(key = "last_item_spacer") {
-                SpacerVer(height = 48.dp) // last spacer
+            item(key = "accounts_in_folder") {
+                AccountsInFolder(
+                    selected = accounts,
+                    onSelectedChange = onAccountsChange
+                )
             }
         }
     }
@@ -122,6 +132,34 @@ data class SaveFolderInfo(
     val color: Color,
 )
 
+@Composable
+private fun AccountsInFolder(
+    selected: List<AccountUi>,
+    onSelectedChange: (List<AccountUi>) -> Unit,
+) {
+    DividerHor()
+    SpacerVer(height = 12.dp)
+    B1(
+        modifier = Modifier.padding(start = 24.dp),
+        text = "Accounts in folder",
+        fontWeight = FontWeight.ExtraBold
+    )
+    SpacerVer(height = 12.dp)
+    AccountPickerColumn(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        selected = selected,
+        onSelectAccount = {
+            onSelectedChange(selected.plus(it))
+        },
+        onDeselectAccount = { deselected ->
+            onSelectedChange(selected.filter { it.id != deselected.id })
+        }
+    )
+    SpacerVer(height = 24.dp)
+    DividerHor()
+    SpacerVer(height = 48.dp)
+}
+
 
 // region Preview
 @Preview
@@ -138,9 +176,11 @@ private fun Preview() {
             initialName = "",
             icon = dummyIconUnknown(R.drawable.ic_vue_files_folder),
             color = Purple,
+            accounts = listOf(),
             onNameChane = {},
             onColorChange = {},
             onIconChange = {},
+            onAccountsChange = {},
             onSave = {},
         )
     }
