@@ -53,12 +53,6 @@ fun SelectableItem(
             }
             .clickable {
                 if (!selected) onSelect()
-            }
-            .thenWhen {
-                when (selected) {
-                    true -> padding(vertical = 4.dp)
-                    false -> this
-                }
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -108,7 +102,6 @@ private fun RowScope.SelectedContent(
         icon = R.drawable.round_remove_24,
         onClick = onDeselect
     )
-    SpacerHor(width = 4.dp)
 }
 
 @Suppress("unused")
@@ -126,7 +119,7 @@ private fun RowScope.Content(
         size = IconSize.S,
         tint = rememberContrast(color),
     )
-    SpacerHor(width = 12.dp)
+    SpacerHor(width = 8.dp)
     Caption(
         text = name,
         color = UI.colorsInverted.pure,
