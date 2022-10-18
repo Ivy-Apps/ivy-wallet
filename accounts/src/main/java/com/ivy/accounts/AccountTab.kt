@@ -1,16 +1,16 @@
 package com.ivy.accounts
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.components.accountItemsList
 import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.accounts.modal.CreateModal
+import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.account.edit.EditAccountModal
@@ -18,13 +18,21 @@ import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
 import com.ivy.core.ui.account.folder.edit.EditAccFolderModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.account.dummyFolderUi
+import com.ivy.core.ui.value.AmountCurrency
+import com.ivy.core.ui.value.AmountCurrencySmall
+import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue
 import com.ivy.design.l0_system.color.Red
-import com.ivy.design.l1_buildingBlocks.ColumnRoot
-import com.ivy.design.l1_buildingBlocks.H2
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 
@@ -47,33 +55,37 @@ private fun BoxScope.UI(
     val editFolderModal = rememberIvyModal()
     var editFolderId by remember { mutableStateOf<String?>(null) }
 
-    ColumnRoot {
-        H2(
-            modifier = Modifier
-                .padding(top = 24.dp)
-                .padding(start = 24.dp),
-            text = "Accounts"
-        )
-        SpacerVer(height = 8.dp)
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            accountItemsList(
-                items = state.items,
-                onAccountClick = {
-                    editAccountId = it.id
-                    editAccountModal.show()
-                },
-                onFolderClick = {
-                    editFolderId = it.id
-                    editFolderModal.show()
+    val reorderModal = rememberIvyModal()
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
+    ) {
+        item(key = "header") {
+            SpacerVer(height = 16.dp)
+            Header(
+                totalBalance = state.totalBalance,
+                excludedBalance = state.excludedBalance,
+                onReorder = {
+                    reorderModal.show()
                 }
             )
-            item {
-                SpacerVer(height = 300.dp) // last item spacer
+            SpacerVer(height = 16.dp)
+        }
+        accountItemsList(
+            items = state.items,
+            onAccountClick = {
+                editAccountId = it.id
+                editAccountModal.show()
+            },
+            onFolderClick = {
+                editFolderId = it.id
+                editFolderModal.show()
             }
+        )
+        item {
+            SpacerVer(height = 300.dp) // last item spacer
         }
     }
 
@@ -95,6 +107,49 @@ private fun BoxScope.UI(
     }
 }
 
+@Composable
+private fun Header(
+    totalBalance: ValueUi,
+    excludedBalance: ValueUi?,
+    onReorder: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            B1(text = "Net-worth")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AmountCurrency(totalBalance, color = UI.colors.primary)
+            }
+        }
+        SpacerHor(width = 4.dp)
+        IvyButton(
+            size = ButtonSize.Small,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = null,
+            icon = R.drawable.round_reorder_24,
+            onClick = onReorder,
+        )
+    }
+
+    if (excludedBalance != null) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            B2(text = "Excluded:")
+            SpacerHor(width = 8.dp)
+            AmountCurrencySmall(excludedBalance, color = UI.colors.red)
+        }
+    }
+}
+
 
 // region Preview
 @Preview
@@ -106,6 +161,8 @@ private fun Preview() {
 }
 
 private fun previewState() = AccountTabState(
+    totalBalance = dummyValueUi("203k"),
+    excludedBalance = dummyValueUi("64,3k"),
     items = listOf(
         AccountListItemUi.AccountWithBalance(
             account = dummyAccountUi("Cash"),

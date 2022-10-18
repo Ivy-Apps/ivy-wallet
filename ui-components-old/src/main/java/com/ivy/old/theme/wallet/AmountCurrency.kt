@@ -18,6 +18,7 @@ import com.ivy.wallet.utils.shortenAmount
 import com.ivy.wallet.utils.shouldShortAmount
 
 
+@Deprecated("don't use!")
 @Composable
 fun AmountCurrencyB2Row(
     amount: Double,
@@ -46,6 +47,7 @@ fun AmountCurrencyB2Row(
     }
 }
 
+@Deprecated("don't use!")
 @Composable
 fun AmountCurrencyB1Row(
     amount: Double,

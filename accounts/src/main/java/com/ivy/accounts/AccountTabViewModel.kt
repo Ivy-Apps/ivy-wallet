@@ -4,6 +4,7 @@ import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
+import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.exchange.ExchangeFlow
 import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
@@ -27,18 +28,36 @@ class AccountTabViewModel @Inject constructor(
     private val accBalanceFlow: AccBalanceFlow,
     private val sumValuesInCurrencyFlow: SumValuesInCurrencyFlow,
     private val exchangeFlow: ExchangeFlow,
+    private val totalBalanceFlow: TotalBalanceFlow
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
+        totalBalance = ValueUi("", ""),
+        excludedBalance = null,
         items = emptyList(),
         createModal = IvyModal()
     )
 
-    override val uiFlow: Flow<AccountTabState> = accListItemsUiFlow().map { items ->
+    override val uiFlow: Flow<AccountTabState> = combine(
+        accListItemsUiFlow(), totalBalanceFlow(), availableBalanceFlow()
+    ) { items, totalBalance, availableBalance ->
+        val excludedBalance = if (totalBalance.amount != availableBalance.amount) {
+            Value(totalBalance.amount - availableBalance.amount, totalBalance.currency)
+        } else null
         AccountTabState(
+            totalBalance = format(totalBalance, shortenFiat = true),
+            excludedBalance = excludedBalance?.let { format(it, shortenFiat = true) },
             items = items,
             createModal = initialUi.createModal
         )
     }
+
+    private fun totalBalanceFlow(): Flow<Value> = totalBalanceFlow(
+        TotalBalanceFlow.Input(withExcludedAccs = true)
+    )
+
+    private fun availableBalanceFlow(): Flow<Value> = totalBalanceFlow(
+        TotalBalanceFlow.Input(withExcludedAccs = false)
+    )
 
     // TODO: Re-work this, it's just ugly!
     @OptIn(FlowPreview::class)
