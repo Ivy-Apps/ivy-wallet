@@ -2,12 +2,15 @@ package com.ivy.core.ui.account.folder.edit
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.core.domain.action.account.folder.AccountsInFolderAct
 import com.ivy.core.domain.action.account.folder.FolderAct
 import com.ivy.core.domain.action.account.folder.WriteAccountFolderAct
+import com.ivy.core.domain.action.account.folder.WriteAccountFolderContentAct
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
+import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
 import com.ivy.data.account.Folder
@@ -23,7 +26,10 @@ import javax.inject.Inject
 internal class EditAccFolderViewModel @Inject constructor(
     private val itemIconAct: ItemIconAct,
     private val writeAccountFolderAct: WriteAccountFolderAct,
+    private val writeAccountFolderContentAct: WriteAccountFolderContentAct,
     private val folderAct: FolderAct,
+    private val accountsInFolderAct: AccountsInFolderAct,
+    private val mapAccountUiAct: MapAccountUiAct,
 ) : SimpleFlowViewModel<EditAccFolderState, EditAccFolderEvent>() {
     override val initialUi = EditAccFolderState(
         icon = ItemIcon.Unknown(
@@ -66,13 +72,14 @@ internal class EditAccFolderViewModel @Inject constructor(
     }
 
     private suspend fun handleInitial(event: EditAccFolderEvent.Initial) {
-        folderAct(event.folderId)?.let {
-            folder = it
-            folderName = it.name
-            initialName.value = it.name
-            iconId.value = it.icon
-            color.value = it.color.toComposeColor()
-            // TODO: Handle accounts
+        folderAct(event.folderId)?.let { folder ->
+            this.folder = folder
+            folderName = folder.name
+            initialName.value = folder.name
+            iconId.value = folder.icon
+            color.value = folder.color.toComposeColor()
+            accounts.value = accountsInFolderAct(folder.id)
+                .map { mapAccountUiAct(it) }
         }
     }
 
@@ -82,9 +89,14 @@ internal class EditAccFolderViewModel @Inject constructor(
             color = color.value.toArgb(),
             icon = iconId.value
         )
-        // TODO: Handle accounts
         if (updated != null) {
             writeAccountFolderAct(Modify.save(updated))
+            writeAccountFolderContentAct(
+                WriteAccountFolderContentAct.Input(
+                    folderId = updated.id,
+                    accountIds = accounts.value.map { it.id }
+                )
+            )
         }
     }
 

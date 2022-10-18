@@ -40,6 +40,7 @@ fun LazyListScope.accountItemsList(
                     folder = item.folder,
                     balance = item.balance,
                     accounts = item.accItems,
+                    accountsCount = item.accountsCount,
                     onAccountClick = onAccountClick,
                     onFolderClick = {
                         onFolderClick(item.folder)

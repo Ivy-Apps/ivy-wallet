@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.accounts.R
@@ -49,6 +50,7 @@ fun AccountFolderCard(
     folder: FolderUi,
     balance: ValueUi,
     accounts: List<AccountWithBalance>,
+    accountsCount: Int,
     modifier: Modifier = Modifier,
     onAccountClick: (AccountUi) -> Unit,
     onFolderClick: () -> Unit,
@@ -80,6 +82,7 @@ fun AccountFolderCard(
         ExpandCollapse(
             expanded = expanded,
             color = UI.colorsInverted.pure,
+            accountsCount = accountsCount,
             onSetExpanded = { expanded = it }
         )
         Accounts(expanded = expanded, items = accounts, onClick = onAccountClick)
@@ -132,18 +135,33 @@ private fun Balance(
 private fun ExpandCollapse(
     expanded: Boolean,
     color: Color,
+    accountsCount: Int,
     onSetExpanded: (Boolean) -> Unit
 ) {
-    IvyButton(
-        size = ButtonSize.Big,
-        visibility = Visibility.Low,
-        feeling = Feeling.Custom(color),
-        text = if (expanded) "Tap to collapse" else "Tap to expand",
-        icon = if (expanded)
-            R.drawable.ic_round_expand_less_24 else R.drawable.round_expand_more_24
-    ) {
-        onSetExpanded(!expanded)
+    if (accountsCount > 0) {
+        IvyButton(
+            size = ButtonSize.Big,
+            visibility = Visibility.Low,
+            feeling = Feeling.Custom(color),
+            text = if (expanded)
+                "Tap to collapse ($accountsCount)" else "Tap to expand ($accountsCount)",
+            icon = if (expanded)
+                R.drawable.ic_round_expand_less_24 else R.drawable.round_expand_more_24
+        ) {
+            onSetExpanded(!expanded)
+        }
+    } else {
+        B2(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp),
+            text = "Empty folder",
+            fontWeight = FontWeight.ExtraBold,
+            color = UI.colors.neutral,
+            textAlign = TextAlign.Center
+        )
     }
+
 }
 
 @Composable
@@ -186,6 +204,7 @@ private fun Preview_Collapsed() {
             folder = dummyFolderUi("Business"),
             balance = dummyValueUi("5,320.50"),
             accounts = emptyList(),
+            accountsCount = 0,
             onAccountClick = {},
             onFolderClick = {},
         )
@@ -217,6 +236,7 @@ private fun Preview_Expanded() {
                     balanceBaseCurrency = null
                 ),
             ),
+            accountsCount = 3,
             onAccountClick = {},
             onFolderClick = {},
         )

@@ -18,6 +18,7 @@ sealed interface AccountListItemUi {
     data class FolderWithAccounts(
         val folder: FolderUi,
         val accItems: List<AccountWithBalance>,
+        val accountsCount: Int,
         val balance: ValueUi,
     ) : AccountListItemUi
 

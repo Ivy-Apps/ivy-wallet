@@ -131,7 +131,8 @@ private fun previewState() = AccountTabState(
                     balance = dummyValueUi("4,320.50"),
                     balanceBaseCurrency = null
                 ),
-            )
+            ),
+            accountsCount = 3,
         ),
         AccountListItemUi.AccountWithBalance(
             account = dummyAccountUi("Revolut", color = Blue),

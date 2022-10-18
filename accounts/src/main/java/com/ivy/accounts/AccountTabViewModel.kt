@@ -106,6 +106,7 @@ class AccountTabViewModel @Inject constructor(
                             )
                         )
                     },
+                    accountsCount = item.accounts.size,
                     balance = format(folderBalance, shortenFiat = true)
                 )
             }
