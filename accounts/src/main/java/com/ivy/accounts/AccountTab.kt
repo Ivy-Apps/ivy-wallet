@@ -56,6 +56,7 @@ private fun BoxScope.UI(
     var editFolderId by remember { mutableStateOf<String?>(null) }
 
     val reorderModal = rememberIvyModal()
+    val createAccountModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -75,6 +76,7 @@ private fun BoxScope.UI(
         }
         accountItemsList(
             items = state.items,
+            noAccounts = state.noAccounts,
             onAccountClick = {
                 editAccountId = it.id
                 editAccountModal.show()
@@ -82,6 +84,9 @@ private fun BoxScope.UI(
             onFolderClick = {
                 editFolderId = it.id
                 editFolderModal.show()
+            },
+            onCreateAccount = {
+                createAccountModal.show()
             }
         )
         item {
@@ -89,7 +94,6 @@ private fun BoxScope.UI(
         }
     }
 
-    val createAccountModal = rememberIvyModal()
     val createFolderModal = rememberIvyModal()
     CreateModal(
         modal = state.createModal,
@@ -163,6 +167,7 @@ private fun Preview() {
 private fun previewState() = AccountTabState(
     totalBalance = dummyValueUi("203k"),
     excludedBalance = dummyValueUi("64,3k"),
+    noAccounts = false,
     items = listOf(
         AccountListItemUi.AccountWithBalance(
             account = dummyAccountUi("Cash"),

@@ -9,6 +9,7 @@ import com.ivy.design.l2_components.modal.IvyModal
 data class AccountTabState(
     val totalBalance: ValueUi,
     val excludedBalance: ValueUi?,
+    val noAccounts: Boolean,
     val items: List<AccountListItemUi>,
     val createModal: IvyModal,
 )

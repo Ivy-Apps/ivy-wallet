@@ -34,6 +34,7 @@ class AccountTabViewModel @Inject constructor(
         totalBalance = ValueUi("", ""),
         excludedBalance = null,
         items = emptyList(),
+        noAccounts = false,
         createModal = IvyModal()
     )
 
@@ -46,6 +47,14 @@ class AccountTabViewModel @Inject constructor(
         AccountTabState(
             totalBalance = format(totalBalance, shortenFiat = true),
             excludedBalance = excludedBalance?.let { format(it, shortenFiat = true) },
+            noAccounts = items.none {
+                // no items (accounts) that match the predicate
+                when (it) {
+                    is AccountListItemUi.AccountWithBalance -> true
+                    is AccountListItemUi.Archived -> it.accountsCount > 0
+                    is AccountListItemUi.FolderWithAccounts -> it.accountsCount > 0
+                }
+            },
             items = items,
             createModal = initialUi.createModal
         )
