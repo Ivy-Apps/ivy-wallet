@@ -28,10 +28,6 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l2_components.modal.scope.ModalScope
-import com.ivy.design.l3_ivyComponents.Feeling
-import com.ivy.design.l3_ivyComponents.Visibility
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenWhen
@@ -67,18 +63,6 @@ fun BoxScope.AdjustBalanceModal(
                     viewModel?.onEvent(AdjustBalanceEvent.AdjustTypeChange(it))
                 }
             )
-        },
-        moreActions = {
-            IvyButton(
-                size = ButtonSize.Small,
-                visibility = Visibility.Medium,
-                feeling = Feeling.Positive,
-                text = "-",
-                icon = null,
-            ) {
-                calculatorVisible.value = true
-            }
-            SpacerHor(width = 8.dp)
         },
         initialAmount = balance,
         onAmountEnter = {

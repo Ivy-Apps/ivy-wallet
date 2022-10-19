@@ -1,5 +1,6 @@
 package com.ivy.accounts
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
@@ -10,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.accounts.components.accountItemsList
 import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.accounts.modal.CreateModal
+import com.ivy.accounts.modal.NetWorthInfoModal
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
@@ -19,12 +21,10 @@ import com.ivy.core.ui.account.folder.edit.EditAccFolderModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.core.ui.value.AmountCurrency
-import com.ivy.core.ui.value.AmountCurrencySmall
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue
 import com.ivy.design.l0_system.color.Red
 import com.ivy.design.l1_buildingBlocks.B1
-import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
@@ -57,6 +57,7 @@ private fun BoxScope.UI(
 
     val reorderModal = rememberIvyModal()
     val createAccountModal = rememberIvyModal()
+    val netWorthInfoModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -67,12 +68,14 @@ private fun BoxScope.UI(
             SpacerVer(height = 16.dp)
             Header(
                 totalBalance = state.totalBalance,
-                excludedBalance = state.excludedBalance,
+                onNetWorthClick = {
+                    netWorthInfoModal.show()
+                },
                 onReorder = {
                     reorderModal.show()
                 }
             )
-            SpacerVer(height = 16.dp)
+            SpacerVer(height = 4.dp)
         }
         accountItemsList(
             items = state.items,
@@ -109,12 +112,19 @@ private fun BoxScope.UI(
     editFolderId?.let {
         EditAccFolderModal(modal = editFolderModal, folderId = it)
     }
+
+    NetWorthInfoModal(
+        modal = netWorthInfoModal,
+        totalBalance = state.totalBalance,
+        availableBalance = state.availableBalance,
+        excludedBalance = state.excludedBalance,
+    )
 }
 
 @Composable
 private fun Header(
     totalBalance: ValueUi,
-    excludedBalance: ValueUi?,
+    onNetWorthClick: () -> Unit,
     onReorder: () -> Unit,
 ) {
     Row(
@@ -123,7 +133,11 @@ private fun Header(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .clickable(onClick = onNetWorthClick)
+        ) {
             B1(text = "Net-worth")
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -141,17 +155,6 @@ private fun Header(
             onClick = onReorder,
         )
     }
-
-    if (excludedBalance != null) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            B2(text = "Excluded:")
-            SpacerHor(width = 8.dp)
-            AmountCurrencySmall(excludedBalance, color = UI.colors.red)
-        }
-    }
 }
 
 
@@ -166,6 +169,7 @@ private fun Preview() {
 
 private fun previewState() = AccountTabState(
     totalBalance = dummyValueUi("203k"),
+    availableBalance = dummyValueUi("136,3k"),
     excludedBalance = dummyValueUi("64,3k"),
     noAccounts = false,
     items = listOf(

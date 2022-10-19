@@ -32,7 +32,8 @@ class AccountTabViewModel @Inject constructor(
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         totalBalance = ValueUi("", ""),
-        excludedBalance = null,
+        availableBalance = ValueUi("", ""),
+        excludedBalance = ValueUi("", ""),
         items = emptyList(),
         noAccounts = false,
         createModal = IvyModal()
@@ -41,12 +42,14 @@ class AccountTabViewModel @Inject constructor(
     override val uiFlow: Flow<AccountTabState> = combine(
         accListItemsUiFlow(), totalBalanceFlow(), availableBalanceFlow()
     ) { items, totalBalance, availableBalance ->
-        val excludedBalance = if (totalBalance.amount != availableBalance.amount) {
-            Value(totalBalance.amount - availableBalance.amount, totalBalance.currency)
-        } else null
+        val excludedBalance = Value(
+            amount = totalBalance.amount - availableBalance.amount,
+            currency = totalBalance.currency
+        )
         AccountTabState(
             totalBalance = format(totalBalance, shortenFiat = true),
-            excludedBalance = excludedBalance?.let { format(it, shortenFiat = true) },
+            availableBalance = format(availableBalance, shortenFiat = true),
+            excludedBalance = format(excludedBalance, shortenFiat = true),
             noAccounts = items.none {
                 // no items (accounts) that match the predicate
                 when (it) {
