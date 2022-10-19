@@ -21,7 +21,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Body
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
-import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l2_components.modal.previewModal
 import com.ivy.design.util.IvyPreview
 
 @Composable
@@ -75,8 +75,7 @@ internal fun BoxScope.NetWorthInfoModal(
 @Composable
 private fun Preview() {
     IvyPreview {
-        val modal = rememberIvyModal()
-        modal.show()
+        val modal = previewModal()
         NetWorthInfoModal(
             modal = modal,
             totalBalance = dummyValueUi("203k"),
