@@ -15,6 +15,9 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.data.Value
 import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.navigation.Navigator
+import com.ivy.navigation.destinations.Destination
+import com.ivy.navigation.destinations.main.Main
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -28,7 +31,8 @@ class AccountTabViewModel @Inject constructor(
     private val accBalanceFlow: AccBalanceFlow,
     private val sumValuesInCurrencyFlow: SumValuesInCurrencyFlow,
     private val exchangeFlow: ExchangeFlow,
-    private val totalBalanceFlow: TotalBalanceFlow
+    private val totalBalanceFlow: TotalBalanceFlow,
+    private val navigator: Navigator,
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         totalBalance = ValueUi("", ""),
@@ -171,11 +175,20 @@ class AccountTabViewModel @Inject constructor(
     // region Event Handling
     override suspend fun handleEvent(event: AccountTabEvent) = when (event) {
         is AccountTabEvent.BottomBarAction -> handleBottomBarAction(event)
+        AccountTabEvent.NavigateToHome -> handleNavigateToHome()
     }
 
     private fun handleBottomBarAction(event: AccountTabEvent.BottomBarAction) {
-        // TODO: Handle properly
+        // TODO: Implement special handling for the gesture (swipe up, left, etc)
         uiState.value.createModal.show()
     }
-// endregion
+
+    private fun handleNavigateToHome() {
+        navigator.navigate(Destination.main.destination(Main.Tab.Home)) {
+            popUpTo(Destination.main.route) {
+                inclusive = true
+            }
+        }
+    }
+    // endregion
 }

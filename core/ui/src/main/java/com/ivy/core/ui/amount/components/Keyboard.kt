@@ -29,10 +29,10 @@ import com.ivy.resources.R
 
 // region Customize UI
 private const val keypadOuterWeight = 1f
-private const val keypadInnerWeight = 0.2f
+private const val keypadInnerWeight = 0.15f
 private val keypadButtonBig = 90.dp
 private val keypadButtonSmall = 82.dp
-private val keyboardVerticalMargin = 12.dp
+private val keyboardVerticalMargin = 4.dp
 // endregion
 
 @Suppress("unused")

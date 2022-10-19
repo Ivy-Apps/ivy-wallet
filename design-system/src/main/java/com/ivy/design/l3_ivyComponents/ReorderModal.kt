@@ -50,6 +50,7 @@ fun <T> BoxScope.ReorderModal(
     Modal(
         modal = modal,
         level = level,
+        contentModifier = Modifier, // fixes Compose compiler crash
         actions = {
             Positive(text = stringResource(R.string.reorder)) {
                 onReorder(reorderedList)

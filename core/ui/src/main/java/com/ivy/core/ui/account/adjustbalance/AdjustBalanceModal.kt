@@ -81,7 +81,7 @@ private fun ModalScope.Header(
     onAdjustTypeChange: (AdjustType) -> Unit,
 ) {
     Title(text = "Adjust balance")
-    SpacerVer(height = 12.dp)
+    SpacerVer(height = 8.dp)
     AdjustType(
         type = type,
         onAdjustTypeChange = onAdjustTypeChange,
@@ -102,7 +102,7 @@ private fun AdjustType(
     ) {
         AdjustTypeButton(
             modifier = Modifier.weight(1f),
-            title = "With transaction",
+            title = "Transaction",
             desc = "Adjust transaction will be created.",
             selected = type == AdjustType.WithTransaction
         ) {
@@ -111,7 +111,7 @@ private fun AdjustType(
         SpacerHor(width = 8.dp)
         AdjustTypeButton(
             modifier = Modifier.weight(1f),
-            title = "Without transaction",
+            title = "Artificially",
             desc = "No transaction will be created.",
             selected = type == AdjustType.NoTransaction
         ) {
@@ -145,7 +145,8 @@ private fun AdjustTypeButton(
         B2(
             modifier = Modifier.fillMaxWidth(),
             text = title,
-            color = textColor
+            color = textColor,
+            maxLines = 1,
         )
         SpacerVer(height = 4.dp)
         Caption(

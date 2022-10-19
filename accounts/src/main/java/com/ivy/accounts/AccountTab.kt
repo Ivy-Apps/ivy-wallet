@@ -1,5 +1,6 @@
 package com.ivy.accounts
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -59,6 +60,10 @@ private fun BoxScope.UI(
     val reorderModal = rememberIvyModal()
     val createAccountModal = rememberIvyModal()
     val netWorthInfoModal = rememberIvyModal()
+
+    BackHandler(enabled = true) {
+        onEvent(AccountTabEvent.NavigateToHome)
+    }
 
     LazyColumn(
         modifier = Modifier

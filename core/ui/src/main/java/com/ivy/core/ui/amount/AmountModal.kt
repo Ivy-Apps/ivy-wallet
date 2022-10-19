@@ -1,7 +1,10 @@
 package com.ivy.core.ui.amount
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,6 +52,7 @@ fun BoxScope.AmountModal(
     Modal(
         modal = modal,
         level = level,
+        contentModifier = Modifier.verticalScroll(rememberScrollState()),
         actions = {
             moreActions?.invoke(this)
             Secondary(
@@ -82,7 +86,7 @@ fun BoxScope.AmountModal(
             calculatorTempResult = state.calculatorResult,
             onPickCurrency = { currencyPickerModal.show() }
         )
-        SpacerVer(height = 24.dp)
+        SpacerVer(height = 12.dp)
         Keyboard(
             calculatorVisible = calculatorVisible.value,
             onCalculatorEvent = { viewModel?.onEvent(AmountModalEvent.CalculatorOperator(it)) },

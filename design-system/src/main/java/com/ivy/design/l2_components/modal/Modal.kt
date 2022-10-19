@@ -72,6 +72,7 @@ fun rememberIvyModal(): IvyModal = remember { IvyModal() }
 fun BoxScope.Modal(
     modal: IvyModal,
     actions: @Composable ModalActionsScope.() -> Unit,
+    contentModifier: Modifier = Modifier,
     keyboardShiftsContent: Boolean = true,
     level: Int = 1,
     content: @Composable ModalScope.() -> Unit
@@ -125,7 +126,7 @@ fun BoxScope.Modal(
         } else systemBottomPadding
 
         Column(
-            modifier = Modifier
+            modifier = contentModifier
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
