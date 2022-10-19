@@ -3,10 +3,7 @@ package com.ivy.design.l2_components.modal.components
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
@@ -39,6 +36,7 @@ fun ModalScope.Search(
     searchHint: String,
     resetSearch: () -> Unit,
     onSearch: (String) -> Unit,
+    overlay: (@Composable BoxScope.() -> Unit)? = null,
     content: LazyListScope.() -> Unit,
 ) {
     Box(modifier = Modifier.weight(1f)) {
@@ -53,6 +51,7 @@ fun ModalScope.Search(
             resetSearch = resetSearch,
             onSearch = onSearch
         )
+        overlay?.invoke(this)
     }
 }
 

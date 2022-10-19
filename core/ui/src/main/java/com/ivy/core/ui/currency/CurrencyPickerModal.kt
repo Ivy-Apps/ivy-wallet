@@ -1,6 +1,8 @@
 package com.ivy.core.ui.currency
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
@@ -30,6 +32,11 @@ import com.ivy.design.l2_components.modal.components.Search
 import com.ivy.design.l2_components.modal.components.SearchButton
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.WrapContentRow
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
@@ -82,6 +89,19 @@ fun BoxScope.CurrencyPickerModal(
             searchHint = "Search (e.g. EUR, USD, BTC)",
             resetSearch = resetSearch,
             onSearch = { viewModel?.onEvent(CurrencyModalEvent.Search(it)) },
+            overlay = {
+                Suggested(
+                    suggested = state.suggested,
+                    searchBarVisible = searchBarVisible,
+                    selectedCurrency = state.selectedCurrency,
+                    onClick = {
+                        resetSearch()
+                        modal.hide()
+                        viewModel?.onEvent(CurrencyModalEvent.SelectCurrencyCode(it))
+                        onCurrencyPick(it)
+                    }
+                )
+            }
         ) {
             item(key = "cp_header") {
                 Title(text = stringResource(R.string.choose_currency))
@@ -184,7 +204,7 @@ private fun CurrencyItem(
 }
 // endregion
 
-
+// region Selected currency
 @Composable
 private fun SelectedCurrency(
     selectedCurrency: CurrencyUi?
@@ -227,6 +247,72 @@ private fun SelectedCurrency(
         }
     }
 }
+// endregion
+
+// region Suggested currencies
+@Composable
+private fun BoxScope.Suggested(
+    suggested: List<CurrencyCode>,
+    searchBarVisible: Boolean,
+    selectedCurrency: CurrencyUi?,
+    onClick: (CurrencyCode) -> Unit,
+) {
+    if (suggested.isEmpty()) return
+
+    AnimatedVisibility(
+        modifier = Modifier
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter),
+        visible = !searchBarVisible,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(UI.colors.pure, UI.shapes.roundedTop)
+                .padding(bottom = 4.dp)
+                .border(1.dp, UI.colors.neutral, UI.shapes.roundedTop)
+                .padding(top = 12.dp, bottom = 16.dp)
+        ) {
+            B1(
+                modifier = Modifier.padding(start = 24.dp),
+                text = "Suggested",
+            )
+            SpacerVer(height = 12.dp)
+            WrapContentRow(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                items = suggested,
+                itemKey = { "suggested_$it" }
+            ) { currency ->
+                SuggestedCurrencyItem(
+                    currencyCode = currency,
+                    selected = currency == selectedCurrency?.code
+                ) {
+                    onClick(currency)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SuggestedCurrencyItem(
+    currencyCode: CurrencyCode,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    IvyButton(
+        size = ButtonSize.Small,
+        visibility = if (selected) Visibility.High else Visibility.Medium,
+        feeling = Feeling.Positive,
+        text = currencyCode,
+        icon = null,
+        onClick = onClick,
+    )
+}
+// endregion
 
 // region Previews
 @Preview
@@ -251,7 +337,20 @@ private fun previewState() = CurrencyModalState(
         CurrencyListItem.Currency(CurrencyUi("EUR", "Euro")),
         CurrencyListItem.SectionDivider(name = "Crypto"),
         CurrencyListItem.Currency(CurrencyUi("BTC", "Bitcoin")),
-        CurrencyListItem.Currency(CurrencyUi("ADA", "Cardano")),
+        CurrencyListItem.SectionDivider(name = "Dummy"),
+        CurrencyListItem.Currency(CurrencyUi("DMY1", "Dummy")),
+        CurrencyListItem.Currency(CurrencyUi("DMY2", "Dummy")),
+        CurrencyListItem.Currency(CurrencyUi("DMY3", "Dummy")),
+        CurrencyListItem.Currency(CurrencyUi("DMY4", "Dummy")),
+        CurrencyListItem.Currency(CurrencyUi("DMY5", "Dummy")),
+    ),
+    suggested = listOf(
+        "BGN",
+        "ADA",
+        "EUR",
+        "USD",
+        "GBP",
+        "INR",
     ),
     selectedCurrency = CurrencyUi("BGN", "Bulgarian Lev"),
     searchQuery = ""

@@ -1,8 +1,10 @@
 package com.ivy.core.ui.currency
 
 import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.ui.currency.data.CurrencyListItem
 import com.ivy.core.ui.currency.data.CurrencyUi
+import com.ivy.data.CurrencyCode
 import com.ivy.data.IvyCurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -11,9 +13,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class CurrencyPickerModalViewModel @Inject constructor(
+    private val accountsFlow: AccountsFlow,
 ) : SimpleFlowViewModel<CurrencyModalState, CurrencyModalEvent>() {
     override val initialUi = CurrencyModalState(
         items = emptyList(),
+        suggested = emptyList(),
         selectedCurrency = null,
         searchQuery = "",
     )
@@ -21,14 +25,16 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
     private var searchQuery = MutableStateFlow("")
     private val selectedCurrency = MutableStateFlow<CurrencyUi?>(null)
 
-    override val uiFlow: Flow<CurrencyModalState> =
-        combine(currenciesFlow(), selectedCurrency) { currencies, selectedCurrency ->
-            CurrencyModalState(
-                items = currencies,
-                selectedCurrency = selectedCurrency,
-                searchQuery = searchQuery.value,
-            )
-        }
+    override val uiFlow: Flow<CurrencyModalState> = combine(
+        currenciesFlow(), selectedCurrency, suggestedFlow()
+    ) { currencies, selectedCurrency, suggested ->
+        CurrencyModalState(
+            items = currencies,
+            suggested = suggested,
+            selectedCurrency = selectedCurrency,
+            searchQuery = searchQuery.value,
+        )
+    }
 
     private fun currenciesFlow(): Flow<List<CurrencyListItem>> = combine(
         availableCurrenciesFlow(), searchQueryFlow()
@@ -46,7 +52,9 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
                     CurrencyListItem.Currency(
                         CurrencyUi(
                             code = it.code,
-                            name = it.name
+                            name = if (it.name.isNotEmpty())
+                            // capitalize the first letter
+                                "${it.name.first().uppercase()}${it.name.drop(1)}" else ""
                         )
                     )
                 }
@@ -64,11 +72,24 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
     private fun availableCurrenciesFlow(): Flow<List<IvyCurrency>> =
         flowOf(IvyCurrency.getAvailable())
 
+    private fun suggestedFlow(): Flow<List<CurrencyCode>> = accountsFlow().map { accounts ->
+        accounts.map { it.currency }.toSet()
+    }.map { accountCurrencies ->
+        accountCurrencies.plus(
+            listOf(
+                "USD",
+                "EUR",
+                "INR",
+                "GBP"
+            )
+        ).toList().sorted()
+    }
 
     // region Event Handling
     override suspend fun handleEvent(event: CurrencyModalEvent) = when (event) {
         is CurrencyModalEvent.Search -> handleSearch(event)
         is CurrencyModalEvent.SelectCurrency -> handleSelectCurrency(event)
+        is CurrencyModalEvent.SelectCurrencyCode -> handleSelectCurrencyCode(event)
         is CurrencyModalEvent.Initial -> handleInitial(event)
     }
 
@@ -80,13 +101,21 @@ internal class CurrencyPickerModalViewModel @Inject constructor(
         selectedCurrency.value = event.currencyUi
     }
 
-    private fun handleInitial(event: CurrencyModalEvent.Initial) {
-        val currencyItem = uiState.value.items.firstOrNull {
-            (it as? CurrencyListItem.Currency)?.currency?.code == event.initialCurrency
-        } as? CurrencyListItem.Currency
-        if (currencyItem != null) {
-            selectedCurrency.value = currencyItem.currency
+    private fun handleSelectCurrencyCode(event: CurrencyModalEvent.SelectCurrencyCode) {
+        findCurrency(event.currencyCode)?.let {
+            selectedCurrency.value = it
         }
     }
+
+    private fun handleInitial(event: CurrencyModalEvent.Initial) {
+        findCurrency(event.initialCurrency)?.let {
+            selectedCurrency.value = it
+        }
+    }
+
+    private fun findCurrency(code: CurrencyCode): CurrencyUi? = (uiState.value.items
+        .firstOrNull {
+            (it as? CurrencyListItem.Currency)?.currency?.code == code
+        } as? CurrencyListItem.Currency)?.currency
     // endregion
 }
