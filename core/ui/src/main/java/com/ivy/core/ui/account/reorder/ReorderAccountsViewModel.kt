@@ -54,7 +54,9 @@ internal class ReorderAccountsViewModel @Inject constructor(
                         ReorderAccListItemUi.FolderHolder(
                             folder = mapFolderUiAct(it.folder)
                         )
-                    ) + it.accounts.toReorderAccListItems()
+                    ) + it.accounts.toReorderAccListItems() + listOf(
+                        ReorderAccListItemUi.FolderEnd
+                    )
                 }
             }
         }.map { items ->
@@ -97,10 +99,19 @@ internal class ReorderAccountsViewModel @Inject constructor(
                     folders.firstOrNull { it.id == item.folder.id }
                         ?.copy(orderNum = index.toDouble())
                         ?.let { Either.Right(it) }
+                ReorderAccListItemUi.FolderEnd -> null
+            }
+        }
+
+        val expectedCount = uiState.value.items.count {
+            when (it) {
+                is ReorderAccListItemUi.AccountHolder -> true
+                is ReorderAccListItemUi.FolderHolder -> true
+                ReorderAccListItemUi.FolderEnd -> false
             }
         }
         // verify no lost of data
-        if (reordered.size == uiState.value.items.size) {
+        if (reordered.size == expectedCount) {
             val accountsToUpdate = reordered.filterIsInstance<Either.Left<Account>>()
                 .map { it.value }
             writeAccountsAct(Modify.saveMany(accountsToUpdate))

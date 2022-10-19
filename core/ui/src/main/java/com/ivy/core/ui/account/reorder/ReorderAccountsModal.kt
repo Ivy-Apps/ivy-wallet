@@ -20,6 +20,7 @@ import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.*
 import com.ivy.design.l1_buildingBlocks.B2
+import com.ivy.design.l1_buildingBlocks.DividerW
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.previewModal
@@ -51,6 +52,7 @@ private fun RowScope.Item(item: ReorderAccListItemUi) {
     when (item) {
         is ReorderAccListItemUi.AccountHolder -> AccountCard(account = item.account)
         is ReorderAccListItemUi.FolderHolder -> FolderCard(folder = item.folder)
+        ReorderAccListItemUi.FolderEnd -> FolderEnd()
     }
 }
 
@@ -88,6 +90,13 @@ private fun FolderCard(folder: FolderUi) {
         SpacerHor(width = 4.dp)
         B2(text = folder.name, color = contrast)
     }
+}
+
+@Composable
+private fun RowScope.FolderEnd() {
+    SpacerHor(width = 8.dp)
+    DividerW()
+    SpacerHor(width = 8.dp)
 }
 
 

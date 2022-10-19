@@ -11,4 +11,7 @@ sealed interface ReorderAccListItemUi {
 
     @Immutable
     data class FolderHolder(val folder: FolderUi) : ReorderAccListItemUi
+
+    @Immutable
+    object FolderEnd : ReorderAccListItemUi
 }
