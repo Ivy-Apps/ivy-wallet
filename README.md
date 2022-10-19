@@ -1,5 +1,5 @@
 [![Latest Release](https://img.shields.io/github/v/release/Ivy-Apps/ivy-wallet)](https://github.com/Ivy-Apps/ivy-wallet/releases)
-[![Build](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/internal_release.yml)
+[![Build](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml)
 [![Lint](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml)
 [![Unit Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml)
 [![Integration Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml)
