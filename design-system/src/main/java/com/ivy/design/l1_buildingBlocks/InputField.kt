@@ -54,7 +54,7 @@ fun InputField(
         mutableStateOf(TextFieldValue(initialValue, selection))
     }
     LaunchedEffect(initialValue) {
-        if (initialValue != textField.text) {
+        if (initialValue != textField.text && initialValue.isNotBlank()) {
             delay(50) // fix race condition
             textField = TextFieldValue(
                 initialValue, TextRange(initialValue.length)
