@@ -60,20 +60,20 @@ fun AccountFolderCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
-            .clip(UI.shapes.squared)
-            .border(1.dp, dynamicContrast, UI.shapes.squared)
+            .clip(UI.shapes.rounded)
+            .border(1.dp, dynamicContrast, UI.shapes.rounded)
             .clickable(onClick = onFolderClick),
     ) {
         val contrastColor = rememberContrast(folder.color)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(folder.color, UI.shapes.squaredTop)
+                .background(folder.color, UI.shapes.roundedTop)
                 .padding(horizontal = 16.dp)
-                .padding(vertical = 12.dp)
+                .padding(top = 4.dp, bottom = 12.dp)
         ) {
             IconNameRow(folderName = folder.name, folderIcon = folder.icon, color = contrastColor)
-            SpacerVer(height = 4.dp)
+            SpacerVer(height = 2.dp)
             Balance(balance = balance, color = contrastColor)
         }
         var expanded by if (isInPreview()) remember {

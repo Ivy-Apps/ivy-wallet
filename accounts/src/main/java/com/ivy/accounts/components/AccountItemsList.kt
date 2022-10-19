@@ -44,7 +44,7 @@ fun LazyListScope.accountItemsList(
     ) { item ->
         when (item) {
             is AccountWithBalance -> {
-                SpacerVer(height = 12.dp)
+                SpacerVer(height = 8.dp)
                 AccountCard(
                     account = item.account,
                     balance = item.balance,
@@ -53,7 +53,7 @@ fun LazyListScope.accountItemsList(
                 )
             }
             is FolderWithAccounts -> {
-                SpacerVer(height = 12.dp)
+                SpacerVer(height = 8.dp)
                 AccountFolderCard(
                     folder = item.folder,
                     balance = item.balance,

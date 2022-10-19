@@ -52,7 +52,7 @@ fun AccountCard(
             .border(1.dp, dynamicContrast, UI.shapes.rounded)
             .clickable(onClick = onClick)
             .padding(horizontal = 16.dp)
-            .padding(top = 12.dp, bottom = 24.dp),
+            .padding(top = 4.dp, bottom = 12.dp),
     ) {
         val contrastColor = rememberContrast(account.color)
         Header(account = account, color = contrastColor, dynamicContrast = dynamicContrast)
@@ -119,7 +119,7 @@ private fun BalanceBaseCurrency(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 2.dp)
-                .padding(start = 16.dp),
+                .padding(start = 14.dp), // so it looks aligned with the balance
             verticalAlignment = Alignment.CenterVertically
         ) {
             AmountCurrencySmall(value = balanceBaseCurrency, color = color)
