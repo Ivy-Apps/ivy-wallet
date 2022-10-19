@@ -19,6 +19,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Body
+import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
@@ -32,9 +33,14 @@ internal fun BoxScope.NetWorthInfoModal(
 ) {
     Modal(
         modal = modal,
-        actions = {}
+        actions = {
+            Positive(text = "Got it") {
+                modal.hide()
+            }
+        }
     ) {
         Title(text = "Net-worth")
+        SpacerVer(height = 4.dp)
         Body(
             text = "Your net-worth is the combined value of all your assets" +
                     " minus your liabilities."
