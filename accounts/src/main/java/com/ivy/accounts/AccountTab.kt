@@ -18,6 +18,7 @@ import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.account.edit.EditAccountModal
 import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
 import com.ivy.core.ui.account.folder.edit.EditAccFolderModal
+import com.ivy.core.ui.account.reorder.ReorderAccountsModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.account.dummyFolderUi
 import com.ivy.core.ui.value.AmountCurrency
@@ -119,6 +120,7 @@ private fun BoxScope.UI(
         availableBalance = state.availableBalance,
         excludedBalance = state.excludedBalance,
     )
+    ReorderAccountsModal(modal = reorderModal)
 }
 
 @Composable
