@@ -2,7 +2,7 @@ package com.ivy.core.ui.account.folder.create
 
 import androidx.compose.ui.graphics.toArgb
 import com.ivy.core.domain.SimpleFlowViewModel
-import com.ivy.core.domain.action.account.folder.NewAccountFolderOrderNumAct
+import com.ivy.core.domain.action.account.NewAccountTabItemOrderNumAct
 import com.ivy.core.domain.action.account.folder.WriteAccountFolderAct
 import com.ivy.core.domain.action.account.folder.WriteAccountFolderContentAct
 import com.ivy.core.domain.action.data.Modify
@@ -24,7 +24,7 @@ internal class CreateAccFolderViewModel @Inject constructor(
     private val itemIconAct: ItemIconAct,
     private val writeAccountFolderAct: WriteAccountFolderAct,
     private val writeAccountFolderContentAct: WriteAccountFolderContentAct,
-    private val newAccountFolderOrderNumAct: NewAccountFolderOrderNumAct,
+    private val newAccountTabItemOrderNumAct: NewAccountTabItemOrderNumAct,
 ) : SimpleFlowViewModel<CreateAccFolderState, CreateAccFolderEvent>() {
     override val initialUi = CreateAccFolderState(
         icon = ItemIcon.Unknown(
@@ -56,7 +56,7 @@ internal class CreateAccFolderViewModel @Inject constructor(
             name = folderName,
             icon = folderIconId.value,
             color = event.color.toArgb(),
-            orderNum = newAccountFolderOrderNumAct(Unit),
+            orderNum = newAccountTabItemOrderNumAct(Unit),
         )
         writeAccountFolderAct(Modify.save(newFolder))
         writeAccountFolderContentAct(
