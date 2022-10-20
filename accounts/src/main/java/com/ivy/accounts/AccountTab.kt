@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,10 +66,23 @@ private fun BoxScope.UI(
         onEvent(AccountTabEvent.NavigateToHome)
     }
 
+    val lazyListState = rememberLazyListState()
+    val firstVisibleItemIndex by remember {
+        derivedStateOf { lazyListState.firstVisibleItemIndex }
+    }
+    LaunchedEffect(firstVisibleItemIndex) {
+        if (firstVisibleItemIndex > 0) {
+            onEvent(AccountTabEvent.HideBottomBar)
+        } else {
+            onEvent(AccountTabEvent.ShowBottomBar)
+        }
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding()
+            .systemBarsPadding(),
+        state = lazyListState,
     ) {
         item(key = "header") {
             SpacerVer(height = 16.dp)

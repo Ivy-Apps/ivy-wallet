@@ -23,6 +23,7 @@ import com.ivy.data.transaction.TrnListItem
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
 import com.ivy.main.base.MainBottomBarAction
+import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,7 @@ class HomeViewModel @Inject constructor(
     private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
     private val mapTransactionListUiAct: MapTransactionListUiAct,
     private val navigator: Navigator,
+    private val mainBottomBarVisibility: MainBottomBarVisibility,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
     override val initialState: HomeState = HomeState(
@@ -165,6 +167,8 @@ class HomeViewModel @Inject constructor(
         is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
         HomeEvent.ExpenseClick -> handleExpenseClick()
         HomeEvent.IncomeClick -> handleIncomeClick()
+        HomeEvent.ShowBottomBar -> handleShowBottomBar()
+        HomeEvent.HideBottomBar -> handleHideBottomBar()
     }
 
     private fun handleBottomBarAction(action: MainBottomBarAction) {
@@ -188,6 +192,14 @@ class HomeViewModel @Inject constructor(
         overrideShowBalance.value = true
         delay(3_000L)
         overrideShowBalance.value = false
+    }
+
+    private fun handleShowBottomBar() {
+        mainBottomBarVisibility.visible.value = true
+    }
+
+    private fun handleHideBottomBar() {
+        mainBottomBarVisibility.visible.value = false
     }
     // endregion
 

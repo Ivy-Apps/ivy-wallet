@@ -1,6 +1,9 @@
 package com.ivy.main.impl.components
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -17,6 +20,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.design.animation.slideInBottom
+import com.ivy.design.animation.slideOutBottom
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.IconRes
@@ -33,15 +38,45 @@ import com.ivy.resources.R
 import kotlin.math.abs
 
 @Composable
-internal fun BottomBar(
+internal fun MainBottomBar(
+    visible: Boolean,
     selectedTab: Tab,
+    modifier: Modifier = Modifier,
     onActionClick: (Tab) -> Unit,
     onActionSwipeUp: () -> Unit,
     onActionSwipeDiagonalLeft: () -> Unit,
     onActionSwipeDiagonalRight: () -> Unit,
     onHomeClick: () -> Unit,
     onAccountsClick: () -> Unit,
-    modifier: Modifier = Modifier
+) {
+    AnimatedVisibility(
+        modifier = modifier,
+        visible = visible,
+        enter = slideInBottom() + fadeIn(),
+        exit = slideOutBottom() + fadeOut(),
+    ) {
+        BottomBarRow(
+            selectedTab = selectedTab,
+            onActionClick = onActionClick,
+            onActionSwipeUp = onActionSwipeUp,
+            onActionSwipeDiagonalLeft = onActionSwipeDiagonalLeft,
+            onActionSwipeDiagonalRight = onActionSwipeDiagonalRight,
+            onHomeClick = onHomeClick,
+            onAccountsClick = onAccountsClick
+        )
+    }
+}
+
+@Composable
+private fun BottomBarRow(
+    selectedTab: Tab,
+    modifier: Modifier = Modifier,
+    onActionClick: (Tab) -> Unit,
+    onActionSwipeUp: () -> Unit,
+    onActionSwipeDiagonalLeft: () -> Unit,
+    onActionSwipeDiagonalRight: () -> Unit,
+    onHomeClick: () -> Unit,
+    onAccountsClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -79,6 +114,7 @@ internal fun BottomBar(
         )
     }
 }
+
 
 @Composable
 private fun Tab(
@@ -172,7 +208,8 @@ private fun ActionButton(
 @Composable
 private fun Preview_Home() {
     ComponentPreview {
-        BottomBar(
+        MainBottomBar(
+            visible = true,
             modifier = Modifier.padding(horizontal = 16.dp),
             selectedTab = Tab.Home,
             onActionClick = {},
@@ -189,7 +226,8 @@ private fun Preview_Home() {
 @Composable
 private fun Preview_Account() {
     ComponentPreview {
-        BottomBar(
+        MainBottomBar(
+            visible = true,
             modifier = Modifier.padding(horizontal = 16.dp),
             selectedTab = Tab.Accounts,
             onActionClick = {},

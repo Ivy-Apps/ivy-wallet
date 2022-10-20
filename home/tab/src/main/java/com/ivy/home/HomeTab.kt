@@ -75,6 +75,13 @@ private fun BoxScope.UI(
                 // TODO: Change that to 300.dp when we have transactions
                 SpacerVer(height = 600.dp)
             }
+        },
+        onFirstVisibleItemChange = { firstVisibleItemIndex ->
+            if (firstVisibleItemIndex > 0) {
+                onEvent(HomeEvent.HideBottomBar)
+            } else {
+                onEvent(HomeEvent.ShowBottomBar)
+            }
         }
     )
 

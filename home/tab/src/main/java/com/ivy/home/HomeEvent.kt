@@ -9,4 +9,6 @@ sealed interface HomeEvent {
     object HiddenBalanceClick : HomeEvent
 
     data class BottomBarAction(val action: MainBottomBarAction) : HomeEvent
+    object ShowBottomBar : HomeEvent
+    object HideBottomBar : HomeEvent
 }

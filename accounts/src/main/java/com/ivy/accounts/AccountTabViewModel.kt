@@ -15,6 +15,7 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.data.Value
 import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.main.Main
@@ -33,6 +34,7 @@ class AccountTabViewModel @Inject constructor(
     private val exchangeFlow: ExchangeFlow,
     private val totalBalanceFlow: TotalBalanceFlow,
     private val navigator: Navigator,
+    private val mainBottomBarVisibility: MainBottomBarVisibility,
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         totalBalance = ValueUi("", ""),
@@ -176,6 +178,8 @@ class AccountTabViewModel @Inject constructor(
     override suspend fun handleEvent(event: AccountTabEvent) = when (event) {
         is AccountTabEvent.BottomBarAction -> handleBottomBarAction(event)
         AccountTabEvent.NavigateToHome -> handleNavigateToHome()
+        AccountTabEvent.HideBottomBar -> handleHideBottomBar()
+        AccountTabEvent.ShowBottomBar -> handleShowBottomBar()
     }
 
     private fun handleBottomBarAction(event: AccountTabEvent.BottomBarAction) {
@@ -189,6 +193,14 @@ class AccountTabViewModel @Inject constructor(
                 inclusive = true
             }
         }
+    }
+
+    private fun handleShowBottomBar() {
+        mainBottomBarVisibility.visible.value = true
+    }
+
+    private fun handleHideBottomBar() {
+        mainBottomBarVisibility.visible.value = false
     }
     // endregion
 }

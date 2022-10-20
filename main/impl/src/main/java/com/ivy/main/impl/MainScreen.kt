@@ -22,7 +22,7 @@ import com.ivy.home.HomeEvent
 import com.ivy.home.HomeTab
 import com.ivy.home.HomeViewModel
 import com.ivy.main.base.MainBottomBarAction
-import com.ivy.main.impl.components.BottomBar
+import com.ivy.main.impl.components.MainBottomBar
 import com.ivy.navigation.destinations.main.Main.Tab
 import com.ivy.wallet.utils.horizontalSwipeListener
 
@@ -38,6 +38,7 @@ fun MainScreen(tab: Tab?) {
     val accountViewModel: AccountTabViewModel = hiltViewModel()
     UI(
         selectedTab = state.selectedTab,
+        bottomBarVisible = state.bottomBarVisible,
         onEvent = viewModel::onEvent,
         onHomeTabEvent = homeViewModel::onEvent,
         onAccountTabEvent = accountViewModel::onEvent,
@@ -47,6 +48,7 @@ fun MainScreen(tab: Tab?) {
 @Composable
 private fun UI(
     selectedTab: Tab,
+    bottomBarVisible: Boolean,
     onEvent: (MainEvent) -> Unit,
     onHomeTabEvent: (HomeEvent) -> Unit,
     onAccountTabEvent: (AccountTabEvent) -> Unit,
@@ -66,7 +68,8 @@ private fun UI(
         }
 
         // region Bottom bar
-        BottomBar(
+        MainBottomBar(
+            visible = bottomBarVisible,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp)
@@ -179,6 +182,21 @@ private fun Preview() {
     IvyPreview {
         UI(
             selectedTab = Tab.Home,
+            bottomBarVisible = true,
+            onEvent = {},
+            onHomeTabEvent = {},
+            onAccountTabEvent = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_BottomBar_hidden() {
+    IvyPreview {
+        UI(
+            selectedTab = Tab.Home,
+            bottomBarVisible = false,
             onEvent = {},
             onHomeTabEvent = {},
             onAccountTabEvent = {}

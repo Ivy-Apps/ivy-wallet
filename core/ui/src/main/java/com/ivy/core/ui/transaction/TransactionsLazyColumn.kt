@@ -4,8 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,6 +60,7 @@ fun TransactionsLazyColumn(
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     trnItemClickHandler: TrnItemClickHandler = defaultTrnItemClickHandler(),
+    onFirstVisibleItemChange: (suspend (Int) -> Unit)? = null,
 ) {
     val state = rememberLazyListState(
         initialFirstVisibleItemIndex =
@@ -68,6 +68,16 @@ fun TransactionsLazyColumn(
         initialFirstVisibleItemScrollOffset =
         lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
     )
+
+    if (onFirstVisibleItemChange != null) {
+        val firstVisibleItemIndex by remember {
+            derivedStateOf { state.firstVisibleItemIndex }
+        }
+
+        LaunchedEffect(firstVisibleItemIndex) {
+            onFirstVisibleItemChange(firstVisibleItemIndex)
+        }
+    }
 
     if (scrollStateKey != null) {
         // Cache scrolling state

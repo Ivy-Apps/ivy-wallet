@@ -1,21 +1,32 @@
 package com.ivy.main.impl
 
 import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.destinations.main.Main.Tab
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : SimpleFlowViewModel<MainState, MainEvent>() {
-    override val initialUi: MainState = MainState(selectedTab = Tab.Home)
+class MainViewModel @Inject constructor(
+    bottomBarVisibility: MainBottomBarVisibility,
+) : SimpleFlowViewModel<MainState, MainEvent>() {
+    override val initialUi: MainState = MainState(
+        selectedTab = Tab.Home,
+        bottomBarVisible = true,
+    )
 
     private val selectedTab = MutableStateFlow(Tab.Home)
 
-    override val uiFlow: Flow<MainState> = selectedTab.map {
-        MainState(selectedTab = it)
+    override val uiFlow: Flow<MainState> = combine(
+        selectedTab, bottomBarVisibility.visible
+    ) { selectedTab, bottomBarVisible ->
+        MainState(
+            selectedTab = selectedTab,
+            bottomBarVisible = bottomBarVisible,
+        )
     }
 
 
