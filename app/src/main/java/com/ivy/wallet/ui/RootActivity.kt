@@ -42,7 +42,7 @@ import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
-import com.ivy.main.MainScreen
+import com.ivy.main.impl.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens

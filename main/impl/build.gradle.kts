@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":navigation"))
 
+    implementation(project(":main:base"))
     implementation(project(":home:tab"))
     implementation(project(":accounts"))
 }

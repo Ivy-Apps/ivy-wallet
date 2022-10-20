@@ -1,4 +1,4 @@
-package com.ivy.main
+package com.ivy.main.impl
 
 
 import androidx.compose.foundation.layout.*
@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ivy.accounts.AccBottomBarAction
 import com.ivy.accounts.AccountTab
 import com.ivy.accounts.AccountTabEvent
 import com.ivy.accounts.AccountTabViewModel
@@ -19,11 +18,11 @@ import com.ivy.design.l2_components.modal.openModals
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.ScreenPlaceholder
 import com.ivy.design.util.isInPreview
+import com.ivy.home.HomeEvent
 import com.ivy.home.HomeTab
 import com.ivy.home.HomeViewModel
-import com.ivy.home.event.HomeBottomBarAction
-import com.ivy.home.event.HomeEvent
-import com.ivy.main.components.BottomBar
+import com.ivy.main.base.MainBottomBarAction
+import com.ivy.main.impl.components.BottomBar
 import com.ivy.navigation.destinations.main.Main.Tab
 import com.ivy.wallet.utils.horizontalSwipeListener
 
@@ -76,8 +75,8 @@ private fun UI(
             selectedTab = selectedTab,
             onActionClick = {
                 propagateBottomActionEvent(
-                    homeEvent = homeEvent(HomeBottomBarAction.Click),
-                    accountEvent = accountEvent(AccBottomBarAction.Click),
+                    homeEvent = homeEvent(MainBottomBarAction.Click),
+                    accountEvent = accountEvent(MainBottomBarAction.Click),
                     selectedTab = selectedTab,
                     onHomeTabEvent = onHomeTabEvent,
                     onAccountTabEvent = onAccountTabEvent
@@ -85,8 +84,8 @@ private fun UI(
             },
             onActionSwipeUp = {
                 propagateBottomActionEvent(
-                    homeEvent = homeEvent(HomeBottomBarAction.SwipeUp),
-                    accountEvent = accountEvent(AccBottomBarAction.SwipeUp),
+                    homeEvent = homeEvent(MainBottomBarAction.SwipeUp),
+                    accountEvent = accountEvent(MainBottomBarAction.SwipeUp),
                     selectedTab = selectedTab,
                     onHomeTabEvent = onHomeTabEvent,
                     onAccountTabEvent = onAccountTabEvent
@@ -94,8 +93,8 @@ private fun UI(
             },
             onActionSwipeDiagonalLeft = {
                 propagateBottomActionEvent(
-                    homeEvent = homeEvent(HomeBottomBarAction.SwipeDiagonalLeft),
-                    accountEvent = accountEvent(AccBottomBarAction.SwipeDiagonalLeft),
+                    homeEvent = homeEvent(MainBottomBarAction.SwipeDiagonalLeft),
+                    accountEvent = accountEvent(MainBottomBarAction.SwipeDiagonalLeft),
                     selectedTab = selectedTab,
                     onHomeTabEvent = onHomeTabEvent,
                     onAccountTabEvent = onAccountTabEvent
@@ -103,8 +102,8 @@ private fun UI(
             },
             onActionSwipeDiagonalRight = {
                 propagateBottomActionEvent(
-                    homeEvent = homeEvent(HomeBottomBarAction.SwipeDiagonalRight),
-                    accountEvent = accountEvent(AccBottomBarAction.SwipeDiagonalRight),
+                    homeEvent = homeEvent(MainBottomBarAction.SwipeDiagonalRight),
+                    accountEvent = accountEvent(MainBottomBarAction.SwipeDiagonalRight),
                     selectedTab = selectedTab,
                     onHomeTabEvent = onHomeTabEvent,
                     onAccountTabEvent = onAccountTabEvent
@@ -137,10 +136,10 @@ private fun propagateBottomActionEvent(
     }
 }
 
-private fun homeEvent(action: HomeBottomBarAction): HomeEvent =
+private fun homeEvent(action: MainBottomBarAction): HomeEvent =
     HomeEvent.BottomBarAction(action)
 
-private fun accountEvent(action: AccBottomBarAction): AccountTabEvent =
+private fun accountEvent(action: MainBottomBarAction): AccountTabEvent =
     AccountTabEvent.BottomBarAction(action)
 // endregion
 

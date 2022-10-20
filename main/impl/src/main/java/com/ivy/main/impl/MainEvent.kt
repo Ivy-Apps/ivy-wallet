@@ -1,4 +1,4 @@
-package com.ivy.main
+package com.ivy.main.impl
 
 import com.ivy.navigation.destinations.main.Main
 

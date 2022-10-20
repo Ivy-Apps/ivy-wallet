@@ -1,4 +1,4 @@
-package com.ivy.main.components
+package com.ivy.main.impl.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -28,8 +28,8 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.consumeClicks
-import com.ivy.main.R
 import com.ivy.navigation.destinations.main.Main.Tab
+import com.ivy.resources.R
 import kotlin.math.abs
 
 @Composable

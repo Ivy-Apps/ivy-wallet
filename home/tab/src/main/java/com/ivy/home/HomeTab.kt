@@ -27,16 +27,11 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.Feeling
-import com.ivy.design.l3_ivyComponents.Visibility
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.home.components.Balance
 import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.components.MoreMenuButton
-import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeStateUi
 import kotlinx.coroutines.launch
 
@@ -121,7 +116,7 @@ fun LazyListScope.header(
             onExpenseClick = onExpenseClick,
         )
     }
-    item {
+    item(key = "header_divider_line") {
         SpacerVer(height = 24.dp)
         DividerHor()
     }
@@ -188,23 +183,10 @@ private fun CollapsedToolbarExtension(
     onScrollToTop: () -> Unit
 ) {
     Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BalanceMini(
-                balance = balance,
-                onClick = onBalanceClick
-            )
-            SpacerWeight(weight = 1f)
-            IvyButton(
-                size = ButtonSize.Small,
-                visibility = Visibility.Low,
-                feeling = Feeling.Positive,
-                text = "Scroll to top",
-                icon = null,
-                onClick = onScrollToTop,
-            )
-        }
+        BalanceMini(
+            balance = balance,
+            onClick = onBalanceClick
+        )
         SpacerVer(height = 4.dp)
         DividerHor(size = DividerSize.FillMax(padding = 0.dp))
     }

@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":navigation"))
+    implementation(project(":main:base"))
 
     // TODO: Remove these
     implementation(project(":temp-domain"))

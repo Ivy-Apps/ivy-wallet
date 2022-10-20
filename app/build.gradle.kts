@@ -141,7 +141,7 @@ dependencies {
 //    implementation(project(":transaction-details"))
     implementation(project(":core:data-model"))
     implementation(project(":widgets"))
-    implementation(project(":main"))
+    implementation(project(":main:impl"))
     implementation(project(":app-locked"))
 //    implementation(project(":balance-prediction"))
 //    implementation(project(":donate"))

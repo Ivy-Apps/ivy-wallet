@@ -1,7 +1,9 @@
 package com.ivy.accounts
 
+import com.ivy.main.base.MainBottomBarAction
+
 sealed interface AccountTabEvent {
     object NavigateToHome : AccountTabEvent
 
-    data class BottomBarAction(val action: AccBottomBarAction) : AccountTabEvent
+    data class BottomBarAction(val action: MainBottomBarAction) : AccountTabEvent
 }

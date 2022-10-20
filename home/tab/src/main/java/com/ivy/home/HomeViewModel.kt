@@ -20,10 +20,9 @@ import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
-import com.ivy.home.event.HomeBottomBarAction
-import com.ivy.home.event.HomeEvent
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
+import com.ivy.main.base.MainBottomBarAction
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -168,7 +167,7 @@ class HomeViewModel @Inject constructor(
         HomeEvent.IncomeClick -> handleIncomeClick()
     }
 
-    private fun handleBottomBarAction(action: HomeBottomBarAction) {
+    private fun handleBottomBarAction(action: MainBottomBarAction) {
         // TODO: Implement
         navigator.navigate(Destination.debug.route)
     }

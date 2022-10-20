@@ -1,5 +1,5 @@
-package com.ivy.accounts
+package com.ivy.main.base
 
-enum class AccBottomBarAction {
+enum class MainBottomBarAction {
     Click, SwipeUp, SwipeDiagonalLeft, SwipeDiagonalRight
 }

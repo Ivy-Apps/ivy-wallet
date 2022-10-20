@@ -19,7 +19,9 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:persistence"))
 
+    implementation(project(":main:base"))
     implementation(project(":home:more-menu"))
     implementation(project(":home:customer-journey"))
+
 //    implementation(project(":pie-charts"))
 }

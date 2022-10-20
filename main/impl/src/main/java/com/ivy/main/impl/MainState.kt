@@ -1,4 +1,4 @@
-package com.ivy.main
+package com.ivy.main.impl
 
 import androidx.compose.runtime.Immutable
 import com.ivy.navigation.destinations.main.Main

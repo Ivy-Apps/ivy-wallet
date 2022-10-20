@@ -1,4 +1,6 @@
-package com.ivy.home.event
+package com.ivy.home
+
+import com.ivy.main.base.MainBottomBarAction
 
 sealed interface HomeEvent {
     object BalanceClick : HomeEvent
@@ -6,5 +8,5 @@ sealed interface HomeEvent {
     object ExpenseClick : HomeEvent
     object HiddenBalanceClick : HomeEvent
 
-    data class BottomBarAction(val action: HomeBottomBarAction) : HomeEvent
+    data class BottomBarAction(val action: MainBottomBarAction) : HomeEvent
 }
