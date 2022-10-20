@@ -1,11 +1,9 @@
 import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,32 +58,39 @@ fun <T> BoxScope.ReorderModal(
     ) {
         Title(text = stringResource(R.string.reorder))
         SpacerVer(height = 12.dp)
-        val mediumColor = UI.colors.medium
-        AndroidView(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
-            factory = {
-                RecyclerView(it).apply {
-                    val itemTouchHelper = itemTouchHelper<T>(
-                        mediumColor = mediumColor
-                    )
-                    adapter = ReorderAdapter(
-                        itemTouchHelper = itemTouchHelper,
-                        itemContent = itemContent,
-                        onReorder = { reordered ->
-                            reorderedList = reordered
-                        }
-                    )
-                    layoutManager = LinearLayoutManager(it)
-                    itemTouchHelper.attachToRecyclerView(this)
+                .weight(1f)
+                .background(UI.colors.pure)
+        ) {
+            val mediumColor = UI.colors.medium
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(UI.colors.pure),
+                factory = {
+                    RecyclerView(it).apply {
+                        val itemTouchHelper = itemTouchHelper<T>(
+                            mediumColor = mediumColor
+                        )
+                        adapter = ReorderAdapter(
+                            itemTouchHelper = itemTouchHelper,
+                            itemContent = itemContent,
+                            onReorder = { reordered ->
+                                reorderedList = reordered
+                            }
+                        )
+                        layoutManager = LinearLayoutManager(it)
+                        itemTouchHelper.attachToRecyclerView(this)
 
-                    adapter<T>().display(items)
+                        adapter<T>().display(items)
+                    }
+                },
+                update = {
                 }
-            },
-            update = {
-            }
-        )
+            )
+        }
     }
 }
 
