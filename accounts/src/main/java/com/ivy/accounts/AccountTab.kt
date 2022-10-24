@@ -32,10 +32,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.Feeling
-import com.ivy.design.l3_ivyComponents.Visibility
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.IvyButton
+import com.ivy.design.l3_ivyComponents.ReorderButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 
@@ -167,14 +164,7 @@ private fun Header(
             }
         }
         SpacerHor(width = 4.dp)
-        IvyButton(
-            size = ButtonSize.Small,
-            visibility = Visibility.Medium,
-            feeling = Feeling.Positive,
-            text = null,
-            icon = R.drawable.round_reorder_24,
-            onClick = onReorder,
-        )
+        ReorderButton(onClick = onReorder)
     }
 }
 

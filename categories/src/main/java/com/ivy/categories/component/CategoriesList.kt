@@ -81,7 +81,7 @@ fun LazyListScope.categoriesList(
 private fun EmptyState(
     onCreateCategory: () -> Unit
 ) {
-    SpacerVer(height = 48.dp)
+    SpacerVer(height = 96.dp)
     B1(
         modifier = Modifier
             .fillMaxWidth()

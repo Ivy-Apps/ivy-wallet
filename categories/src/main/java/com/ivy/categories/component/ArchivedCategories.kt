@@ -108,7 +108,7 @@ private fun Preview() {
                             balance = dummyValueUi("0.00"),
                         ),
                         CategoryCard(
-                            category = dummyCategoryUi("Account 3", color = Red),
+                            category = dummyCategoryUi("Category 3", color = Red),
                             balance = dummyValueUi("+4,320.50"),
                         ),
                     ),

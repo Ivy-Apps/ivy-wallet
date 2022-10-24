@@ -83,7 +83,7 @@ fun LazyListScope.accountsList(
 private fun EmptyState(
     onCreateAccount: () -> Unit
 ) {
-    SpacerVer(height = 48.dp)
+    SpacerVer(height = 96.dp)
     B1(
         modifier = Modifier
             .fillMaxWidth()
