@@ -15,6 +15,10 @@ import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.TrnQueryExecutor
+import com.ivy.core.persistence.query.TrnWhere
+import com.ivy.core.persistence.query.and
+import com.ivy.core.persistence.query.not
+import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.attachment.Attachment
@@ -32,6 +36,7 @@ import java.util.*
 import javax.inject.Inject
 
 /**
+ * Note: Deleted but not synced transactions aren't returned.
  * @return a flow of domain **[[Transaction]]** by a given query.
  * ## Query
  *
@@ -62,27 +67,29 @@ class TrnsFlow @Inject constructor(
     private val trnsSignal: TrnsSignal,
 ) : FlowAction<TrnQuery, List<Transaction>>() {
 
-    override fun TrnQuery.createFlow(): Flow<List<Transaction>> =
-        combine(accountsFlow(), categoriesFlow(), trnsSignal.receive()) { accs, cats, _ ->
-            val entities = queryExecutor.query(this.toTrnWhere())
-            if (entities.isEmpty()) {
-                return@combine flowOf(emptyList())
+    override fun TrnQuery.createFlow(): Flow<List<Transaction>> = combine(
+        accountsFlow(), categoriesFlow(), trnsSignal.receive()
+    ) { accs, cats, _ ->
+        val dbQuery = this.toTrnWhere() and not(TrnWhere.BySync(SyncState.Deleting))
+        val entities = queryExecutor.query(dbQuery)
+        if (entities.isEmpty()) {
+            return@combine flowOf(emptyList())
+        }
+
+        val accsMap = accs.associateBy { it.id }
+        val catsMap = cats.associateBy { it.id }
+
+        combineList(
+            entities.mapNotNull {
+                mapTransactionEntityFlow(
+                    accounts = accsMap,
+                    categories = catsMap,
+                    trn = it
+                )
             }
-
-            val accsMap = accs.associateBy { it.id }
-            val catsMap = cats.associateBy { it.id }
-
-            combineList(
-                entities.mapNotNull {
-                    mapTransactionEntityFlow(
-                        accounts = accsMap,
-                        categories = catsMap,
-                        trn = it
-                    )
-                }
-            )
-        }.flattenMerge()
-            .flowOn(Dispatchers.Default)
+        )
+    }.flattenMerge()
+        .flowOn(Dispatchers.Default)
 
     private fun mapTransactionEntityFlow(
         accounts: Map<UUID, Account>,
