@@ -24,7 +24,6 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1Second
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
@@ -57,18 +56,17 @@ fun <T> BoxScope.ReorderModal(
         }
     ) {
         Title(text = stringResource(R.string.reorder))
-        SpacerVer(height = 12.dp)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .background(UI.colors.pure)
         ) {
             val mediumColor = UI.colors.medium
             AndroidView(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(UI.colors.pure),
+                    .background(UI.colors.pure)
+                    .padding(vertical = 16.dp),
                 factory = {
                     RecyclerView(it).apply {
                         val itemTouchHelper = itemTouchHelper<T>(
