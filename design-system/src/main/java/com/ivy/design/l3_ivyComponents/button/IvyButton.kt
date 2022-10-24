@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +39,7 @@ fun IvyButton(
     @DrawableRes
     icon: Int?,
     modifier: Modifier = Modifier,
+    shape: Shape = UI.shapes.fullyRounded,
     hapticFeedback: Boolean = false,
     onClick: () -> Unit,
 ) {
@@ -46,23 +48,23 @@ fun IvyButton(
     val iconOnly = icon != null && text == null
     val padding = if (iconOnly)
         padding(all = 12.dp) else padding(horizontal = 24.dp, vertical = 12.dp)
-    val shape = if (iconOnly) UI.shapes.circle else UI.shapes.fullyRounded
+    val overrideShape = if (iconOnly) UI.shapes.circle else shape
 
     val background = when (visibility) {
         Visibility.Focused, Visibility.High -> solid(
-            shape = shape,
+            shape = overrideShape,
             color = feelingColor,
             padding = padding,
         )
         Visibility.Medium -> solidWithBorder(
-            shape = shape,
+            shape = overrideShape,
             solid = UI.colors.pure,
             borderWidth = 2.dp,
             borderColor = feelingColor,
             padding = padding,
         )
         Visibility.Low -> solid(
-            shape = shape,
+            shape = overrideShape,
             color = UI.colors.transparent,
             padding = padding,
         )

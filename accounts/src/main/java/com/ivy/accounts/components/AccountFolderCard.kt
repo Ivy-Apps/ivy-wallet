@@ -141,6 +141,7 @@ private fun ExpandCollapse(
     if (accountsCount > 0) {
         IvyButton(
             size = ButtonSize.Big,
+            shape = UI.shapes.roundedBottom,
             visibility = Visibility.Low,
             feeling = Feeling.Custom(color),
             text = if (expanded)
