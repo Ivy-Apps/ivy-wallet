@@ -2,7 +2,6 @@ package com.ivy.core.domain.action.calculate.transaction
 
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
-import com.ivy.common.time.timeNow
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.pure.calculate.transaction.batchTrns
@@ -71,7 +70,7 @@ class GroupTrnsFlow @Inject constructor(
         trnListItems: List<TrnListItem>,
         dueFilter: (Transaction, now: LocalDateTime) -> Boolean,
     ): Flow<DueSection?> {
-        val now = timeNow()
+        val now = timeProvider.timeNow()
         val dueTrns = trnListItems.mapNotNull {
             when (it) {
                 is TrnListItem.Trn -> it.trn

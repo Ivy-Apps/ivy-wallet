@@ -1,4 +1,4 @@
-package com.ivy.core.functions.transaction
+package com.ivy.core.domain.pure.dummy
 
 import com.ivy.common.time.dateNowUTC
 import com.ivy.data.Value
@@ -7,7 +7,7 @@ import java.time.LocalDate
 
 fun dummyDateDivider(
     date: LocalDate = dateNowUTC(),
-    cashflow: Value = com.ivy.core.domain.pure.dummy.dummyValue()
+    cashflow: Value = dummyValue()
 ) = TrnListItem.DateDivider(
     date = date,
     cashflow = cashflow,

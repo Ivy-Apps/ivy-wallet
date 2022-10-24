@@ -1,8 +1,8 @@
 package com.ivy.core.ui.action.mapping
 
 import android.content.Context
-import com.ivy.common.time.dateNowLocal
 import com.ivy.common.time.format
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
@@ -20,7 +20,8 @@ class MapTransactionListUiAct @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapCategoryUiAct: MapCategoryUiAct,
     @ApplicationContext
-    private val appContext: Context
+    private val appContext: Context,
+    private val timeProvider: TimeProvider,
 ) : MapUiAction<TransactionsList, TransactionsListUi>() {
     override suspend fun transform(domain: TransactionsList): TransactionsListUi =
         TransactionsListUi(
@@ -68,7 +69,7 @@ class MapTransactionListUiAct @Inject constructor(
     private fun mapDateDivider(
         domain: TrnListItem.DateDivider
     ): TrnListItemUi.DateDivider {
-        val today = dateNowLocal()
+        val today = timeProvider.dateNow()
 
         return TrnListItemUi.DateDivider(
             date = domain.date.format(
