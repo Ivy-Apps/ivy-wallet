@@ -7,6 +7,7 @@ import com.ivy.core.ui.R
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.design.l0_system.color.Purple
+import java.util.*
 
 @Immutable
 data class CategoryUi(
@@ -22,7 +23,7 @@ fun dummyCategoryUi(
     color: Color = Purple,
     icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_category_s)
 ) = CategoryUi(
-    id = "",
+    id = UUID.randomUUID().toString(),
     name = name,
     color = color,
     icon = icon,

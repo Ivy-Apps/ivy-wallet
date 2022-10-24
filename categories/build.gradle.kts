@@ -11,6 +11,7 @@ dependencies {
     Hilt()
     implementation(project(":common:main"))
     implementation(project(":design-system"))
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:data-model"))
     implementation(project(":navigation"))
