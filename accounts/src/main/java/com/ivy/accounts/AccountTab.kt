@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.accounts.components.accountItemsList
+import com.ivy.accounts.components.accountsList
 import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.accounts.modal.CreateModal
 import com.ivy.accounts.modal.NetWorthInfoModal
@@ -97,7 +97,7 @@ private fun BoxScope.UI(
             )
             SpacerVer(height = 4.dp)
         }
-        accountItemsList(
+        accountsList(
             items = state.items,
             noAccounts = state.noAccounts,
             onAccountClick = {

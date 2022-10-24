@@ -25,7 +25,7 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
 
-fun LazyListScope.accountItemsList(
+fun LazyListScope.accountsList(
     items: List<AccountListItemUi>,
     noAccounts: Boolean,
     onAccountClick: (AccountUi) -> Unit,
@@ -120,7 +120,7 @@ private fun EmptyState(
 private fun Preview_EmptyState() {
     ComponentPreview {
         LazyColumn {
-            accountItemsList(
+            accountsList(
                 items = emptyList(),
                 noAccounts = true,
                 onFolderClick = {},
