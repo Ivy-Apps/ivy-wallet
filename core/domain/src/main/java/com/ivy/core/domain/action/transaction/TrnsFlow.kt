@@ -4,6 +4,7 @@ import com.ivy.common.toUUID
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.category.CategoriesFlow
+import com.ivy.core.domain.pure.util.combineList
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.tag.TagDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
@@ -71,17 +72,15 @@ class TrnsFlow @Inject constructor(
             val accsMap = accs.associateBy { it.id }
             val catsMap = cats.associateBy { it.id }
 
-            combine(
-                entities.map {
+            combineList(
+                entities.mapNotNull {
                     mapTransactionEntityFlow(
                         accounts = accsMap,
                         categories = catsMap,
                         trn = it
                     )
                 }
-            ) { trns ->
-                trns.toList()
-            }
+            )
         }.flattenMerge()
             .flowOn(Dispatchers.Default)
 
@@ -89,8 +88,9 @@ class TrnsFlow @Inject constructor(
         accounts: Map<UUID, Account>,
         categories: Map<UUID, Category>,
         trn: TrnEntity,
-    ): Flow<Transaction> {
-        val account = accounts[trn.accountId.toUUID()] ?: return flow {}
+    ): Flow<Transaction>? {
+        val account = accounts[trn.accountId.toUUID()]
+            ?: return null
 
         val trnId = trn.id
         val tagsFlow = trnTagDao.findByTrnId(trnId = trnId).flatMapMerge { trnTags ->

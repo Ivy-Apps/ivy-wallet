@@ -10,6 +10,7 @@ import com.ivy.core.domain.pure.calculate.transaction.groupActualTrnsByDate
 import com.ivy.core.domain.pure.transaction.overdue
 import com.ivy.core.domain.pure.transaction.upcoming
 import com.ivy.core.domain.pure.util.actualTrns
+import com.ivy.core.domain.pure.util.combineSafe
 import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.data.transaction.*
@@ -112,19 +113,17 @@ class GroupTrnsFlow @Inject constructor(
             timeProvider = timeProvider,
         )
 
-        // emit so the waiting for it "combine" doesn't get stuck
-        if (trnsByDay.isEmpty()) return flowOf(emptyList())
-
         // calculate stats for each trn history day
-        return combine(
-            trnsByDay.map { (day, trnsForTheDay) ->
+        return combineSafe(
+            flows = trnsByDay.map { (day, trnsForTheDay) ->
                 trnHistoryDayFlow(
                     day = day,
                     trnsForTheDay = trnsForTheDay,
                 )
-            }
-        ) { trnsPerDay ->
-            trnsPerDay.flatMap { it }
+            },
+            ifEmpty = emptyList(),
+        ) {
+            it.flatten()
         }
     }
 
