@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":app-base")) // TODO: temp dependency, remove later
     implementation(project(":math"))
+    implementation("com.github.Vishwa-Raghavendra:colorpicker-compose:v1.1.2")
 
     Testing()
 }
