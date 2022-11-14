@@ -214,6 +214,7 @@ fun CloseButton(
     onClick: () -> Unit
 ) {
     IvyButton(
+        modifier = modifier,
         size = ButtonSize.Small,
         visibility = Visibility.Medium,
         feeling = Feeling.Disabled,
