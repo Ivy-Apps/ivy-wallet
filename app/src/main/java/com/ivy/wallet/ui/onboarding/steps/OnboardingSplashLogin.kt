@@ -38,8 +38,9 @@ import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.ivyWalletCtx
 import com.ivy.wallet.ui.onboarding.OnboardingState
-import com.ivy.wallet.ui.theme.*
-import com.ivy.wallet.ui.theme.components.IvyDividerLine
+import com.ivy.wallet.ui.theme.Gradient
+import com.ivy.wallet.ui.theme.Gray
+import com.ivy.wallet.ui.theme.Green
 import com.ivy.wallet.ui.theme.components.IvyIcon
 import com.ivy.wallet.utils.*
 import kotlin.math.roundToInt
@@ -256,33 +257,6 @@ private fun LoginSection(
             Spacer(Modifier.height(16.dp))
             Spacer(Modifier.weight(1f))
 
-            LoginWithGoogleExplanation()
-
-            Spacer(Modifier.height(12.dp))
-
-            LoginButton(
-                text = when (opGoogleSignIn) {
-                    is OpResult.Failure -> stringResource(R.string.google_error_try_again, opGoogleSignIn.error())
-                    OpResult.Loading -> stringResource(R.string.google_signing_in)
-                    is OpResult.Success -> stringResource(R.string.google_signing_in_success)
-                    null -> stringResource(R.string.login_with_google)
-                },
-                textColor = White,
-                backgroundGradient = GradientRed,
-                icon = R.drawable.ic_google,
-                hasShadow = true,
-                onClick = onLoginWithGoogle
-            )
-
-            Spacer(Modifier.height(32.dp))
-
-            IvyDividerLine(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-            )
-
-            Spacer(Modifier.height(16.dp))
-
             LocalAccountExplanation()
 
             Spacer(Modifier.height(16.dp))
@@ -297,7 +271,7 @@ private fun LoginSection(
                 onSkip()
             }
 
-            Spacer(Modifier.weight(1f))
+            Spacer(Modifier.weight(3f))
             Spacer(Modifier.height(16.dp))
 
             PrivacyPolicyAndTC()
@@ -347,7 +321,7 @@ private fun LoginWithGoogleExplanation() {
 private fun LocalAccountExplanation() {
     Text(
         modifier = Modifier.padding(start = 32.dp),
-        text = stringResource(R.string.or_enter_with_offline_account),
+        text = "ENTER WITH OFFLINE ACCOUNT",
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.ExtraBold
@@ -358,7 +332,9 @@ private fun LocalAccountExplanation() {
 
     Text(
         modifier = Modifier.padding(start = 32.dp, end = 32.dp),
-        text = stringResource(R.string.offline_warning),
+        text = "Your data will be saved only locally on your phone. " +
+                "You risk losing your data if your uninstall the app or change your device. " +
+                "To prevent data loss, we recommend exporting backup from settings regularly.",
         style = UI.typo.c.style(
             color = Gray,
             fontWeight = FontWeight.Medium
