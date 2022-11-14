@@ -58,6 +58,7 @@ class SharedPrefs(appContext: Context) {
 
         //----------------------------- Others -----------------------------------------------
         const val CATEGORY_SORT_ORDER = "categorySortOrder"
+        const val DATA_BACKUP_COMPLETED = "data_backup_completed"
     }
 
     private val preferences = appContext.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)

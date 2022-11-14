@@ -67,6 +67,7 @@ import com.ivy.wallet.ui.planned.edit.EditPlannedScreen
 import com.ivy.wallet.ui.planned.list.PlannedPaymentsScreen
 import com.ivy.wallet.ui.reports.ReportScreen
 import com.ivy.wallet.ui.search.SearchScreen
+import com.ivy.wallet.ui.serverstop.ServerStopScreen
 import com.ivy.wallet.ui.settings.SettingsScreen
 import com.ivy.wallet.ui.settings.experimental.ExperimentalScreen
 import com.ivy.wallet.ui.statistic.level1.PieChartStatisticScreen
@@ -189,6 +190,7 @@ class RootActivity : AppCompatActivity() {
         when (screen) {
             is Main -> MainScreen(screen = screen)
             is Onboarding -> OnboardingScreen(screen = screen)
+            is ServerStop -> ServerStopScreen()
             is EditTransaction -> EditTransactionScreen(screen = screen)
             is ItemStatistic -> ItemStatisticScreen(screen = screen)
             is PieChartStatistic -> PieChartStatisticScreen(screen = screen)

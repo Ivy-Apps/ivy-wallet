@@ -214,6 +214,9 @@ class SettingsViewModel @Inject constructor(
                 exportZipLogic.exportToFile(context = context, zipFileUri = fileUri)
                 _progressState.value = false
 
+                sharedPrefs.putBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, true)
+                ivyContext.dataBackupCompleted = true
+
                 uiThread {
                     (context as RootActivity).shareZipFile(
                         fileUri = fileUri

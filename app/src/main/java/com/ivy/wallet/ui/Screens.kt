@@ -10,6 +10,8 @@ object Main : Screen
 
 object Onboarding : Screen
 
+object ServerStop : Screen
+
 data class EditTransaction(
     val initialTransactionId: UUID?,
     val type: TransactionType,

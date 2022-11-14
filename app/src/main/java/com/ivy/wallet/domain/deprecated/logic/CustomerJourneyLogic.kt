@@ -65,6 +65,24 @@ class CustomerJourneyLogic(
             donateIvyWallet()
         )
 
+        fun ivyCloudNuke() = CustomerJourneyCardData(
+            id = "ivy_cloud_nuke",
+            condition = { trnCount, _, ivyContext ->
+                trnCount > 3 && !ivyContext.dataBackupCompleted
+            },
+            title = "WARNING!!!",
+            description = "IMPORTANT: Ivy Cloud (Google) sync will be stopped on Jan 1st, 2023! " +
+                    "To prevent data loss backup your data. " +
+                    "If you don't export your data now you risk losing your transactions.",
+            cta = "Backup data",
+            ctaIcon = R.drawable.ic_vue_security_shield,
+            background = Gradient.solid(Red),
+            hasDismiss = false,
+            onAction = { nav, _, _ ->
+                nav.navigateTo(ServerStop)
+            }
+        )
+
         fun adjustBalanceCard() = CustomerJourneyCardData(
             id = "adjust_balance",
             condition = { trnCount, _, _ ->
@@ -277,6 +295,18 @@ class CustomerJourneyLogic(
             onAction = { nav, _, _ ->
                 nav.navigateTo(DonateScreen)
             }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewIvyCloudNuke() {
+    IvyWalletComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.ivyCloudNuke(),
+            onCTA = { },
+            onDismiss = {}
         )
     }
 }

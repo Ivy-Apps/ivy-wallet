@@ -10,6 +10,7 @@ import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
 import com.ivy.wallet.domain.deprecated.sync.IvySync
 import com.ivy.wallet.domain.event.AccountsUpdatedEvent
+import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.io.persistence.dao.SettingsDao
 import com.ivy.wallet.ui.IvyWalletCtx
 import com.ivy.wallet.ui.Main
@@ -28,6 +29,7 @@ class MainViewModel @Inject constructor(
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
     private val accountCreator: AccountCreator,
+    private val sharedPrefs: SharedPrefs,
 ) : ViewModel() {
 
     private val _currency = MutableLiveData<String>()
@@ -49,6 +51,9 @@ class MainViewModel @Inject constructor(
 
             val baseCurrency = ioThread { settingsDao.findFirst().currency }
             _currency.value = baseCurrency
+
+            ivyContext.dataBackupCompleted =
+                sharedPrefs.getBoolean(SharedPrefs.DATA_BACKUP_COMPLETED, false)
 
             ioThread {
 //                try {

@@ -33,6 +33,8 @@ class IvyWalletCtx : IvyContext() {
     val accountMap: MutableMap<UUID, Account> = mutableMapOf()
     //---------------------- Optimization  ----------------------------
 
+    var dataBackupCompleted = false
+
     @Deprecated("use StartDayOfMonthAct")
     fun initStartDayOfMonthInMemory(sharedPrefs: SharedPrefs): Int {
         startDayOfMonth = sharedPrefs.getInt(SharedPrefs.START_DATE_OF_MONTH, 1)
