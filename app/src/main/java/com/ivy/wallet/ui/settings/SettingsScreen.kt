@@ -233,16 +233,16 @@ private fun BoxWithConstraintsScope.UI(
 //            Premium()
         }
 
-        item {
-            SettingsSectionDivider(text = "Sync")
-
-            Spacer(Modifier.height(16.dp))
-
-            FetchMissingTransactionsButton(
-                opFetchTrns = opFetchTrns,
-                onFetchMissingTransactions = onFetchMissingTransactions
-            )
-        }
+//        item {
+//            SettingsSectionDivider(text = "Sync")
+//
+//            Spacer(Modifier.height(16.dp))
+//
+//            FetchMissingTransactionsButton(
+//                opFetchTrns = opFetchTrns,
+//                onFetchMissingTransactions = onFetchMissingTransactions
+//            )
+//        }
 
         item {
             SettingsSectionDivider(text = stringResource(R.string.import_export))
@@ -759,12 +759,12 @@ private fun AccountCard(
                     onLogout()
                 }
             } else {
-                AccountCardButton(
-                    icon = R.drawable.ic_login,
-                    text = stringResource(R.string.login)
-                ) {
-                    onLogin()
-                }
+//                AccountCardButton(
+//                    icon = R.drawable.ic_login,
+//                    text = stringResource(R.string.login)
+//                ) {
+//                    onLogin()
+//                }
             }
 
             Spacer(Modifier.width(16.dp))

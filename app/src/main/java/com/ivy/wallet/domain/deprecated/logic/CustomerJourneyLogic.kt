@@ -50,6 +50,7 @@ class CustomerJourneyLogic(
 
     companion object {
         val ACTIVE_CARDS = listOf(
+            ivyCloudNuke(),
             adjustBalanceCard(),
             addPlannedPaymentCard(),
             didYouKnow_pinAddTransactionWidgetCard(),

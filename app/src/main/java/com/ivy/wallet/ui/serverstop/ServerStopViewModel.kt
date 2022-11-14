@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
+import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.deprecated.logic.zip.ExportZipLogic
 import com.ivy.wallet.io.persistence.SharedPrefs
 import com.ivy.wallet.ui.IvyWalletCtx
@@ -23,6 +24,7 @@ class ServerStopViewModel @Inject constructor(
     private val ivyContext: IvyWalletCtx,
     private val sharedPrefs: SharedPrefs,
     private val exportZipLogic: ExportZipLogic,
+    private val navigation: Navigation,
 ) : ViewModel() {
     private val exportInProgress = MutableStateFlow(false)
 
@@ -56,6 +58,7 @@ class ServerStopViewModel @Inject constructor(
                     (context as RootActivity).shareZipFile(
                         fileUri = fileUri
                     )
+                    navigation.back()
                 }
 
                 TestIdlingResource.decrement()
