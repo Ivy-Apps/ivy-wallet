@@ -50,9 +50,8 @@ android {
 
     buildTypes {
         release {
-            //TODO: R8 disabled until `modularization` is stable
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             isDefault = false
 
@@ -63,6 +62,23 @@ android {
             )
 
             resValue("string", "app_name", "Ivy Wallet")
+        }
+
+        create("demo") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+            isDefault = false
+
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            applicationIdSuffix = ".debug"
+            matchingFallbacks.add("release")
+            resValue("string", "app_name", "Ivy Wallet Demo")
         }
 
         debug {
