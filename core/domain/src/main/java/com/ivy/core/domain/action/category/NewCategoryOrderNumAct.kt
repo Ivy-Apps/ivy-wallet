@@ -7,5 +7,6 @@ import javax.inject.Inject
 class NewCategoryOrderNumAct @Inject constructor(
     private val categoryDao: CategoryDao,
 ) : Action<Unit, Double>() {
-    override suspend fun Unit.willDo(): Double = categoryDao.findMaxOrderNum() ?: 0.0
+    override suspend fun Unit.willDo(): Double =
+        categoryDao.findMaxNoParentOrderNum()?.plus(1) ?: 0.0
 }

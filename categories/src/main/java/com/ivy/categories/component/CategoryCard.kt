@@ -34,7 +34,7 @@ internal fun CategoryCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 8.dp)
             .border(1.dp, dynamicContrast, UI.shapes.rounded)
             .clickable(onClick = onClick)
     ) {

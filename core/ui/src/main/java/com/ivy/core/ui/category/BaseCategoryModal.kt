@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.category.component.CategoryTypeSection
 import com.ivy.core.ui.category.component.ParentCategoryButton
-import com.ivy.core.ui.category.pick.ParentCategoryPickerModal
+import com.ivy.core.ui.category.pickparent.ParentCategoryPickerModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
@@ -58,7 +58,7 @@ internal fun BoxScope.BaseCategoryModal(
     onNameChange: (String) -> Unit,
     onColorChange: (Color) -> Unit,
     onParentCategoryChange: (CategoryUi?) -> Unit,
-    onCategoryTypeChange: (CategoryType) -> Unit,
+    onTypeChange: (CategoryType) -> Unit,
     onSave: (SaveCategoryInfo) -> Unit,
 ) {
     val iconPickerModal = rememberIvyModal()
@@ -135,7 +135,7 @@ internal fun BoxScope.BaseCategoryModal(
             item(key = "category_type") {
                 CategoryTypeSection(
                     type = type,
-                    onSelect = onCategoryTypeChange
+                    onSelect = onTypeChange
                 )
             }
             contentBelow?.invoke(this)
@@ -160,6 +160,7 @@ internal fun BoxScope.BaseCategoryModal(
     )
     ParentCategoryPickerModal(
         modal = chooseParentModal,
+        level = level + 1,
         selected = parent,
         onPick = onParentCategoryChange
     )
@@ -195,7 +196,7 @@ private fun Preview() {
             onSave = {},
             onColorChange = {},
             onParentCategoryChange = {},
-            onCategoryTypeChange = {},
+            onTypeChange = {},
         )
     }
 }

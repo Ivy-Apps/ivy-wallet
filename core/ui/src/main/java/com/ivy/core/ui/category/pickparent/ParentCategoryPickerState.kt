@@ -1,4 +1,4 @@
-package com.ivy.core.ui.category.pick
+package com.ivy.core.ui.category.pickparent
 
 import androidx.compose.runtime.Immutable
 import com.ivy.core.ui.data.CategoryUi

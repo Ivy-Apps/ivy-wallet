@@ -1,4 +1,4 @@
-package com.ivy.core.ui.category.pick
+package com.ivy.core.ui.category.pickparent
 
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.category.CategoriesFlow

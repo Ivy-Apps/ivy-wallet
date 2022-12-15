@@ -1,4 +1,4 @@
-package com.ivy.core.ui.account.edit.components
+package com.ivy.core.ui.category.edit.component
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.padding
@@ -21,11 +21,11 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 
 @Composable
-fun BoxScope.DeleteAccountModal(
+fun BoxScope.DeleteCategoryModal(
     modal: IvyModal,
     level: Int = 1,
     archived: Boolean,
-    accountName: String,
+    categoryName: String,
     onArchive: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -46,13 +46,13 @@ fun BoxScope.DeleteAccountModal(
         }
     ) {
         Title(
-            text = "Delete \"$accountName\" account forever?",
+            text = "Delete \"$categoryName\" category forever?",
             color = UI.colors.red
         )
         SpacerVer(height = 24.dp)
         Body(
             text = bodyText(
-                accountName = accountName,
+                categoryname = categoryName,
                 archived = archived
             )
         )
@@ -75,15 +75,17 @@ fun BoxScope.DeleteAccountModal(
 }
 
 private fun bodyText(
-    accountName: String,
+    categoryname: String,
     archived: Boolean
 ): String {
-    val baseText = "DANGER! Deleting \"$accountName\" account will delete all transactions" +
-            " in it forever. This operation CANNOT be undone and will affect your balance!" +
-            " Please, be careful otherwise you may lose your data."
+    val baseText =
+        "DANGER! Deleting \"$categoryname\" category will make all of its transactions " +
+                "\"unspecified\" (uncategorized). This operation CANNOT be undone and " +
+                "will affect your statistics!" +
+                " Please, be careful otherwise you may lose your data."
 
     val unarchivedText =
-        "\n\nIf you don't want to see this account but want preserve its transactions," +
+        "\n\nIf you don't want to see this category but want preserve its transactions," +
                 " a better option would be to just archive it."
     return if (archived) baseText else baseText + unarchivedText
 }
@@ -95,9 +97,9 @@ private fun Preview_Unarchived() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
-        DeleteAccountModal(
+        DeleteCategoryModal(
             modal = modal,
-            accountName = "Account 1",
+            categoryName = "Category 1",
             archived = false,
             onArchive = {},
             onDelete = {}
@@ -111,9 +113,9 @@ private fun Preview_Archived() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
-        DeleteAccountModal(
+        DeleteCategoryModal(
             modal = modal,
-            accountName = "Account 1",
+            categoryName = "Category 1",
             archived = true,
             onArchive = {},
             onDelete = {}

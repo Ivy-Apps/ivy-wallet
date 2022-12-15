@@ -2,9 +2,7 @@ package com.ivy.categories
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +13,7 @@ import com.ivy.categories.data.CategoryListItemUi
 import com.ivy.categories.data.CategoryListItemUi.ParentCategory
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.create.CreateCategoryModal
+import com.ivy.core.ui.category.edit.EditCategoryModal
 import com.ivy.core.ui.components.ScreenBottomBar
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
@@ -52,6 +51,8 @@ private fun BoxScope.UI(
 ) {
     val periodModal = rememberIvyModal()
     val createCategoryModal = rememberIvyModal()
+    var editCategoryId by remember { mutableStateOf<String?>(null) }
+    val editCategoryModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -73,10 +74,12 @@ private fun BoxScope.UI(
             items = state.items,
             emptyState = state.emptyState,
             onCategoryClick = {
-                // TODO: Implement
+                editCategoryId = it.id
+                editCategoryModal.show()
             },
             onParentCategoryClick = {
-                // TODO: Implement
+                editCategoryId = it.id
+                editCategoryModal.show()
             },
             onCreateCategory = {
                 createCategoryModal.show()
@@ -105,7 +108,11 @@ private fun BoxScope.UI(
             selectedPeriod = state.selectedPeriod
         )
     }
+
     CreateCategoryModal(modal = createCategoryModal)
+    editCategoryId?.let {
+        EditCategoryModal(modal = editCategoryModal, categoryId = it)
+    }
 }
 
 @Composable

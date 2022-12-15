@@ -44,7 +44,7 @@ fun BoxScope.CreateCategoryModal(
         onNameChange = { viewModel?.onEvent(CreateCategoryEvent.NameChange(it)) },
         onIconChange = { viewModel?.onEvent(CreateCategoryEvent.IconChange(it)) },
         onParentCategoryChange = { parent = it },
-        onCategoryTypeChange = { type = it },
+        onTypeChange = { type = it },
         onColorChange = { color = it },
         onSave = {
             viewModel?.onEvent(
