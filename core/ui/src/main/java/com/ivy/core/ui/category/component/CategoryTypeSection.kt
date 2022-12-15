@@ -39,13 +39,6 @@ fun CategoryTypeSection(
     ) {
         CategoryTypeButton(
             modifier = Modifier.weight(1f),
-            type = CategoryType.Both,
-            selected = type == CategoryType.Both,
-            onSelect = onSelect
-        )
-        SpacerHor(width = 8.dp)
-        CategoryTypeButton(
-            modifier = Modifier.weight(1f),
             type = CategoryType.Income,
             selected = type == CategoryType.Income,
             onSelect = onSelect
@@ -55,6 +48,13 @@ fun CategoryTypeSection(
             modifier = Modifier.weight(1f),
             type = CategoryType.Expense,
             selected = type == CategoryType.Expense,
+            onSelect = onSelect
+        )
+        SpacerHor(width = 8.dp)
+        CategoryTypeButton(
+            modifier = Modifier.weight(1f),
+            type = CategoryType.Both,
+            selected = type == CategoryType.Both,
             onSelect = onSelect
         )
     }
@@ -71,13 +71,13 @@ private fun CategoryTypeButton(
         modifier = modifier,
         size = ButtonSize.Small,
         visibility = if (selected) Visibility.High else Visibility.Medium,
-        feeling = Feeling.Custom(
+        feeling = if (selected) Feeling.Custom(
             when (type) {
                 CategoryType.Income -> UI.colors.green
                 CategoryType.Expense -> UI.colors.red
                 CategoryType.Both -> UI.colors.primary
             }
-        ),
+        ) else Feeling.Neutral,
         text = when (type) {
             CategoryType.Expense -> "Expense"
             CategoryType.Income -> "Income"

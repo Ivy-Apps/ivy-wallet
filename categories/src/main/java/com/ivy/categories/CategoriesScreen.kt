@@ -95,7 +95,7 @@ private fun BoxScope.UI(
             size = ButtonSize.Small,
             visibility = Visibility.High,
             feeling = Feeling.Positive,
-            text = "New category",
+            text = "Add",
             icon = R.drawable.ic_round_add_24
         ) {
             createCategoryModal.show()
