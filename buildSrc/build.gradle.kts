@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     //https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-    implementation("com.android.tools.build:gradle:7.4.0-beta05")
+    implementation("com.android.tools.build:gradle:7.4.0-rc01")
 
     //https://kotlinlang.org/docs/releases.html#release-details
     // Must match kotlinVersion from dependencies.kt
