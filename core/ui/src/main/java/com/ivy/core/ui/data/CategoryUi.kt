@@ -21,9 +21,10 @@ fun dummyCategoryUi(
     name: String = "Category",
     @ColorInt
     color: Color = Purple,
-    icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_category_s)
+    icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_category_s),
+    id: String = UUID.randomUUID().toString(),
 ) = CategoryUi(
-    id = UUID.randomUUID().toString(),
+    id = id,
     name = name,
     color = color,
     icon = icon,

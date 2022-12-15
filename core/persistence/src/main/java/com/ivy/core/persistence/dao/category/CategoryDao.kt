@@ -19,6 +19,9 @@ interface CategoryDao {
     // region Select
     @Query("SELECT * FROM categories WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<CategoryEntity>>
+
+    @Query("SELECT MAX(orderNum) FROM categories")
+    suspend fun findMaxOrderNum(): Double?
     // endregion
 
     // region Update

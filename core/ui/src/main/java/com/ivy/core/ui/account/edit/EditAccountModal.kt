@@ -33,6 +33,7 @@ import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ArchiveButton
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.DeleteButton
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
@@ -78,13 +79,7 @@ fun BoxScope.EditAccountModal(
                 }
             )
             SpacerHor(width = 8.dp)
-            IvyButton(
-                size = ButtonSize.Small,
-                visibility = Visibility.High,
-                feeling = Feeling.Negative,
-                text = null,
-                icon = R.drawable.outline_delete_24
-            ) {
+            DeleteButton {
                 keyboardController?.hide()
                 deleteAccountModal.show()
             }
