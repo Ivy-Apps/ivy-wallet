@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-internal class CategoryPickerViewModel @Inject constructor(
+internal class ParentCategoryPickerViewModel @Inject constructor(
     categoriesFlow: CategoriesFlow,
     private val mapCategoryUiAct: MapCategoryUiAct,
-) : SimpleFlowViewModel<CategoryPickerState, Unit>() {
-    override val initialUi = CategoryPickerState(categories = emptyList())
+) : SimpleFlowViewModel<ParentCategoryPickerState, Unit>() {
+    override val initialUi = ParentCategoryPickerState(categories = emptyList())
 
-    override val uiFlow: Flow<CategoryPickerState> =
+    override val uiFlow: Flow<ParentCategoryPickerState> =
         categoriesFlow().map { categories ->
-            CategoryPickerState(
+            ParentCategoryPickerState(
                 categories = categories
                     .filter { it.parentCategoryId == null }
                     .map { mapCategoryUiAct(it) }

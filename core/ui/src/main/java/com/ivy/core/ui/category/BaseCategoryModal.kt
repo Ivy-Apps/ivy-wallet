@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.category.component.CategoryTypeSection
 import com.ivy.core.ui.category.component.ParentCategoryButton
-import com.ivy.core.ui.category.pick.CategoryPickerModal
+import com.ivy.core.ui.category.pick.ParentCategoryPickerModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
 import com.ivy.core.ui.components.ItemIconNameRow
@@ -158,7 +158,7 @@ internal fun BoxScope.BaseCategoryModal(
         initialColor = color,
         onColorPicked = onColorChange,
     )
-    CategoryPickerModal(
+    ParentCategoryPickerModal(
         modal = chooseParentModal,
         selected = parent,
         onPick = onParentCategoryChange

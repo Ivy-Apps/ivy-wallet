@@ -17,8 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.ui.R
-import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.IconSize
@@ -33,26 +31,20 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Negative
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.Feeling
-import com.ivy.design.l3_ivyComponents.Visibility
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenWhen
 
 @Composable
-fun BoxScope.CategoryPickerModal(
+fun BoxScope.ParentCategoryPickerModal(
     modal: IvyModal,
     selected: CategoryUi?,
     level: Int = 1,
     onPick: (CategoryUi?) -> Unit,
 ) {
-    val viewModel: CategoryPickerViewModel? = hiltViewModelPreviewSafe()
+    val viewModel: ParentCategoryPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
-
-    val createCategoryModal = rememberIvyModal()
 
     Modal(
         modal = modal,
@@ -76,16 +68,11 @@ fun BoxScope.CategoryPickerModal(
                     modal.hide()
                 }
             )
-            createFolderItem(
-                onCreateFolder = { createCategoryModal.show() }
-            )
             item {
                 SpacerVer(height = 48.dp) // last item spacer
             }
         }
     }
-
-    CreateCategoryModal(modal = createCategoryModal)
 }
 
 // region Folders
@@ -144,24 +131,6 @@ internal fun CategoryItem(
 }
 // endregion
 
-// region Add folder
-fun LazyListScope.createFolderItem(
-    onCreateFolder: () -> Unit,
-) {
-    item(key = "add_folder_item") {
-        SpacerVer(height = 12.dp)
-        IvyButton(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            size = ButtonSize.Big,
-            visibility = Visibility.Medium,
-            feeling = Feeling.Positive,
-            text = "New category",
-            icon = R.drawable.ic_round_add_24,
-            onClick = onCreateFolder,
-        )
-    }
-}
-// endregion
 
 // region Preview
 @Preview
@@ -170,7 +139,7 @@ private fun Preview() {
     IvyPreview {
         val modal = rememberIvyModal()
         modal.show()
-        CategoryPickerModal(
+        ParentCategoryPickerModal(
             modal = modal,
             selected = dummyCategoryUi(id = "selected"),
             onPick = {}
@@ -178,7 +147,7 @@ private fun Preview() {
     }
 }
 
-private fun previewState() = CategoryPickerState(
+private fun previewState() = ParentCategoryPickerState(
     categories = listOf(
         dummyCategoryUi(id = "selected", name = "Category 1", color = Green),
         dummyCategoryUi(name = "Category 2", color = Yellow),

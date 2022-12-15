@@ -35,7 +35,7 @@ fun BoxScope.CreateCategoryModal(
         autoFocusNameInput = true,
         title = newCategoryText,
         nameInputHint = newCategoryText,
-        positiveActionText = stringResource(R.string.add_account),
+        positiveActionText = stringResource(R.string.add_category),
         icon = state.icon,
         initialName = "",
         color = color,
