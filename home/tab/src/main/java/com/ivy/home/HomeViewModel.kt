@@ -169,6 +169,7 @@ class HomeViewModel @Inject constructor(
         HomeEvent.IncomeClick -> handleIncomeClick()
         HomeEvent.ShowBottomBar -> handleShowBottomBar()
         HomeEvent.HideBottomBar -> handleHideBottomBar()
+        HomeEvent.MoreClick -> handleMoreClick()
     }
 
     private fun handleBottomBarAction(action: MainBottomBarAction) {
@@ -200,6 +201,10 @@ class HomeViewModel @Inject constructor(
 
     private fun handleHideBottomBar() {
         mainBottomBarVisibility.visible.value = false
+    }
+
+    private fun handleMoreClick() {
+        navigator.navigate(Destination.categories.destination(Unit))
     }
     // endregion
 

@@ -7,6 +7,7 @@ sealed interface HomeEvent {
     object IncomeClick : HomeEvent
     object ExpenseClick : HomeEvent
     object HiddenBalanceClick : HomeEvent
+    object MoreClick : HomeEvent
 
     data class BottomBarAction(val action: MainBottomBarAction) : HomeEvent
     object ShowBottomBar : HomeEvent

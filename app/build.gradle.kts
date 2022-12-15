@@ -146,7 +146,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":navigation"))
 //    implementation(project(":budgets"))
-//    implementation(project(":categories"))
+    implementation(project(":categories"))
 //    implementation(project(":loans"))
 //    implementation(project(":onboarding"))
 //    implementation(project(":pie-charts"))

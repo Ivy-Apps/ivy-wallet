@@ -68,6 +68,7 @@ private fun BoxScope.UI(
                 onBalanceClick = { onEvent(HomeEvent.BalanceClick) },
                 onIncomeClick = { onEvent(HomeEvent.IncomeClick) },
                 onExpenseClick = { onEvent(HomeEvent.ExpenseClick) },
+                onMoreClick = { onEvent(HomeEvent.MoreClick) }
             )
         },
         contentBelowTrns = {
@@ -100,6 +101,7 @@ fun LazyListScope.header(
     expense: ValueUi,
     listState: LazyListState,
     onBalanceClick: () -> Unit,
+    onMoreClick: () -> Unit,
     onIncomeClick: () -> Unit,
     onExpenseClick: () -> Unit,
 ) {
@@ -108,7 +110,8 @@ fun LazyListScope.header(
         periodModal = periodModal,
         balance = balance,
         listState = listState,
-        onBalanceClick = onBalanceClick
+        onBalanceClick = onBalanceClick,
+        onMoreClick = onMoreClick,
     )
     item(key = "home_header_balance") {
         SpacerVer(height = 4.dp)
@@ -135,7 +138,8 @@ private fun LazyListScope.toolbar(
     periodModal: IvyModal,
     balance: ValueUi,
     listState: LazyListState,
-    onBalanceClick: () -> Unit
+    onBalanceClick: () -> Unit,
+    onMoreClick: () -> Unit = {},
 ) {
     stickyHeader(
         key = "home_tab_toolbar",
@@ -156,9 +160,7 @@ private fun LazyListScope.toolbar(
                 )
             }
             SpacerWeight(weight = 1f)
-            MoreMenuButton {
-                // TODO: Implement
-            }
+            MoreMenuButton(onClick = onMoreClick)
         }
 
         val headerCollapsed by remember {

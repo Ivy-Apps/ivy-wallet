@@ -14,6 +14,7 @@ import com.ivy.categories.component.categoriesList
 import com.ivy.categories.data.CategoryListItemUi
 import com.ivy.categories.data.CategoryListItemUi.ParentCategory
 import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.components.ScreenBottomBar
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
@@ -37,17 +38,20 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.resources.R
 
 @Composable
-fun BoxScope.CategoryScreen() {
-    val viewModel: CategoryViewModel = hiltViewModel()
+fun BoxScope.CategoriesScreen() {
+    val viewModel: CategoriesViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+
+    UI(state = state, onEvent = viewModel::onEvent)
 }
 
 @Composable
 private fun BoxScope.UI(
-    state: CategoryState,
-    onEvent: (CategoryEvent) -> Unit,
+    state: CategoriesState,
+    onEvent: (CategoriesEvent) -> Unit,
 ) {
     val periodModal = rememberIvyModal()
+    val createCategoryModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -75,7 +79,7 @@ private fun BoxScope.UI(
                 // TODO: Implement
             },
             onCreateCategory = {
-                // TODO: Implement
+                createCategoryModal.show()
             }
         )
         item(key = "last_item_spacer") {
@@ -91,7 +95,7 @@ private fun BoxScope.UI(
             text = "New category",
             icon = R.drawable.ic_round_add_24
         ) {
-            // TODO: Implement
+            createCategoryModal.show()
         }
     }
 
@@ -101,7 +105,7 @@ private fun BoxScope.UI(
             selectedPeriod = state.selectedPeriod
         )
     }
-
+    CreateCategoryModal(modal = createCategoryModal)
 }
 
 @Composable
@@ -131,7 +135,7 @@ private fun Header(
 private fun Preview_Empty() {
     IvyPreview {
         UI(
-            state = CategoryState(
+            state = CategoriesState(
                 selectedPeriod = SelectedPeriodUi.AllTime(
                     btnText = "All-time",
                     rangeUi = dummyRangeUi()
@@ -149,7 +153,7 @@ private fun Preview_Empty() {
 private fun Preview() {
     IvyPreview {
         UI(
-            state = CategoryState(
+            state = CategoriesState(
                 selectedPeriod = SelectedPeriodUi.AllTime(
                     btnText = "Sep",
                     rangeUi = dummyRangeUi()

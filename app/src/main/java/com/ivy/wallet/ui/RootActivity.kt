@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.base.R
+import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
 import com.ivy.common.time.provider.TimeProvider
@@ -121,6 +122,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 addCategories = {}
             ),
             main = { MainScreen(it) },
+            categories = { CategoriesScreen() },
             transactionScreens = TransactionScreens(
                 accountTransactions = {},
                 categoryTransactions = {},

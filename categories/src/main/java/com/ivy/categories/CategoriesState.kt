@@ -5,7 +5,7 @@ import com.ivy.categories.data.CategoryListItemUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 
 @Immutable
-data class CategoryState(
+data class CategoriesState(
     val selectedPeriod: SelectedPeriodUi?,
     val items: List<CategoryListItemUi>,
     val emptyState: Boolean,

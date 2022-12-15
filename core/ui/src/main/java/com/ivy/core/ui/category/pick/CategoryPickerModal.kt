@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.IconSize
@@ -84,7 +85,7 @@ fun BoxScope.CategoryPickerModal(
         }
     }
 
-    // TODO: Add create Category modal
+    CreateCategoryModal(modal = createCategoryModal)
 }
 
 // region Folders
