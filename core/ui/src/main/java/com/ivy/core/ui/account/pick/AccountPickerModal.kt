@@ -50,7 +50,7 @@ fun BoxScope.AccountPickerModal(
                 )
             }
             item(key = "last_item_spacer") {
-                SpacerVer(height = 48.dp)
+                SpacerVer(height = 24.dp)
             }
         }
     }
