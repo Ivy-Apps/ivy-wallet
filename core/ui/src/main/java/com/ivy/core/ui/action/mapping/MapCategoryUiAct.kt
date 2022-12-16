@@ -14,6 +14,7 @@ class MapCategoryUiAct @Inject constructor(
         id = domain.id.toString(),
         name = domain.name,
         icon = itemIconAct(ItemIconAct.Input(iconId = domain.icon, defaultTo = DefaultTo.Category)),
-        color = domain.color.toComposeColor()
+        color = domain.color.toComposeColor(),
+        hasParent = domain.parentCategoryId != null,
     )
 }

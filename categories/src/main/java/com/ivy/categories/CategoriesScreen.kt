@@ -14,6 +14,7 @@ import com.ivy.categories.data.CategoryListItemUi.ParentCategory
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.category.edit.EditCategoryModal
+import com.ivy.core.ui.category.reorder.ReorderCategoriesModal
 import com.ivy.core.ui.components.ScreenBottomBar
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
@@ -53,6 +54,7 @@ private fun BoxScope.UI(
     val createCategoryModal = rememberIvyModal()
     var editCategoryId by remember { mutableStateOf<String?>(null) }
     val editCategoryModal = rememberIvyModal()
+    val reorderModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -65,7 +67,7 @@ private fun BoxScope.UI(
                 selectedPeriodUi = state.selectedPeriod,
                 periodModal = periodModal,
                 onReorder = {
-                    // TODO: Implement
+                    reorderModal.show()
                 }
             )
             SpacerVer(height = 20.dp)
@@ -113,6 +115,7 @@ private fun BoxScope.UI(
     editCategoryId?.let {
         EditCategoryModal(modal = editCategoryModal, categoryId = it)
     }
+    ReorderCategoriesModal(modal = reorderModal)
 }
 
 @Composable

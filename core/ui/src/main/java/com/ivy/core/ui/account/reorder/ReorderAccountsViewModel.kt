@@ -90,6 +90,7 @@ internal class ReorderAccountsViewModel @Inject constructor(
             .map { it.folder }
 
         val reordered = event.reordered.mapIndexedNotNull { index, item ->
+            // TODO: Optimize this expensive search logic with a map
             when (item) {
                 is ReorderAccListItemUi.AccountHolder ->
                     accounts.firstOrNull { it.id.toString() == item.account.id }

@@ -15,6 +15,7 @@ data class CategoryUi(
     val name: String,
     val color: Color,
     val icon: ItemIcon,
+    val hasParent: Boolean,
 )
 
 fun dummyCategoryUi(
@@ -22,10 +23,12 @@ fun dummyCategoryUi(
     @ColorInt
     color: Color = Purple,
     icon: ItemIcon = dummyIconSized(R.drawable.ic_custom_category_s),
+    hasParent: Boolean = false,
     id: String = UUID.randomUUID().toString(),
 ) = CategoryUi(
     id = id,
     name = name,
     color = color,
     icon = icon,
+    hasParent = hasParent,
 )
