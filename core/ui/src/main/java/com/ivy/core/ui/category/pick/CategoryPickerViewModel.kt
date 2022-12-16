@@ -38,6 +38,7 @@ class CategoryPickerViewModel @Inject constructor(
     override suspend fun handleEvent(event: CategoryPickerEvent) = when (event) {
         is CategoryPickerEvent.CategorySelected -> handleCategorySelected(event)
         is CategoryPickerEvent.ExpandParent -> handleExpandParent(event)
+        CategoryPickerEvent.CollapseParent -> handleCollapseParent()
     }
 
     private fun handleCategorySelected(event: CategoryPickerEvent.CategorySelected) {
@@ -46,6 +47,10 @@ class CategoryPickerViewModel @Inject constructor(
 
     private fun handleExpandParent(event: CategoryPickerEvent.ExpandParent) {
         expandedParent.value = event.parent.category
+    }
+
+    private fun handleCollapseParent() {
+        expandedParent.value = null
     }
     // endregion
 }

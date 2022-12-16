@@ -42,6 +42,7 @@ fun BoxScope.CategoryPickerModal(
 
     LaunchedEffect(selected) {
         viewModel?.onEvent(CategoryPickerEvent.CategorySelected(selected))
+        viewModel?.onEvent(CategoryPickerEvent.CollapseParent)
     }
 
     Modal(

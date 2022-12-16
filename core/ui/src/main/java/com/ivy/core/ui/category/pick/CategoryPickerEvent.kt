@@ -7,4 +7,5 @@ sealed interface CategoryPickerEvent {
     data class CategorySelected(val category: CategoryUi?) : CategoryPickerEvent
 
     data class ExpandParent(val parent: SelectableCategoryUi) : CategoryPickerEvent
+    object CollapseParent : CategoryPickerEvent
 }
