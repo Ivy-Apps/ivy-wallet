@@ -101,7 +101,7 @@ fun BoxScope.ColorPickerModal(
 
 // region ModalActions
 @Composable
-fun ModalActionsScope.ModalActions(
+private fun ModalActionsScope.ModalActions(
     modal: IvyModal,
     hexColorPickerModal: IvyModal,
     selectedColor: Color?,

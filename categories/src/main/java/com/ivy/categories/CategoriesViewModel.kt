@@ -69,11 +69,11 @@ class CategoriesViewModel @Inject constructor(
                     combine(
                         categoryStatsFlow(
                             CatStatsFlow.Input(
-                                category = item.parentCategory,
+                                category = item.parent,
                                 range = range,
                             )
                         ),
-                        combineList(item.categories.map { category ->
+                        combineList(item.children.map { category ->
                             categoryStatsFlow(
                                 CatStatsFlow.Input(
                                     category = category,
@@ -88,7 +88,7 @@ class CategoriesViewModel @Inject constructor(
                         })
                     ) { parentStats, children ->
                         CategoryListItemUi.ParentCategory(
-                            parentCategory = mapCategoryUiAct(item.parentCategory),
+                            parentCategory = mapCategoryUiAct(item.parent),
                             balance = parentCategoryBalance(
                                 parentStats,
                                 children.map { it.second }

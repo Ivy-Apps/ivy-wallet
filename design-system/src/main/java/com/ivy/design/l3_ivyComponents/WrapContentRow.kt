@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun <T> WrapContentRow(
     items: List<T>,
+    itemKey: (T) -> String,
     modifier: Modifier = Modifier,
     horizontalMarginBetweenItems: Dp = 8.dp,
     verticalMarginBetweenRows: Dp = 8.dp,
-    itemKey: (T) -> String,
     itemContent: @Composable (item: T) -> Unit
 ) {
     if (items.isEmpty()) return

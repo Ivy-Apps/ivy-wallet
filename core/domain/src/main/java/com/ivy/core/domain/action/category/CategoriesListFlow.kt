@@ -40,8 +40,8 @@ class CategoriesListFlow @Inject constructor(
 
                 if (children != null) {
                     CategoryListItem.ParentCategory(
-                        parentCategory = parent,
-                        categories = children.sortedBy { it.orderNum }
+                        parent = parent,
+                        children = children.sortedBy { it.orderNum }
                     )
                 } else {
                     CategoryListItem.CategoryHolder(
@@ -61,7 +61,7 @@ class CategoriesListFlow @Inject constructor(
                 when (it) {
                     is CategoryListItem.Archived -> Double.MAX_VALUE - 10
                     is CategoryListItem.CategoryHolder -> it.category.orderNum
-                    is CategoryListItem.ParentCategory -> it.parentCategory.orderNum
+                    is CategoryListItem.ParentCategory -> it.parent.orderNum
                 }
             }
         }

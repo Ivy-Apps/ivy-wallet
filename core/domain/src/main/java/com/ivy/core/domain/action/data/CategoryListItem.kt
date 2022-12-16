@@ -8,8 +8,8 @@ sealed interface CategoryListItem {
     ) : CategoryListItem
 
     data class ParentCategory(
-        val parentCategory: Category,
-        val categories: List<Category>,
+        val parent: Category,
+        val children: List<Category>,
     ) : CategoryListItem
 
     data class Archived(
