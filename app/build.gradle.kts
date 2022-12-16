@@ -154,7 +154,7 @@ dependencies {
 //    implementation(project(":reports"))
 //    implementation(project(":settings"))
 //    implementation(project(":search-transactions"))
-//    implementation(project(":transaction-details"))
+    implementation(project(":transaction"))
     implementation(project(":core:data-model"))
     implementation(project(":widgets"))
     implementation(project(":main:impl"))

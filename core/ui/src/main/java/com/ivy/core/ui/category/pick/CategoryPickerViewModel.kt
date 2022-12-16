@@ -1,20 +1,16 @@
 package com.ivy.core.ui.category.pick
 
 import com.ivy.core.domain.SimpleFlowViewModel
-import com.ivy.core.domain.action.category.CategoriesListFlow
-import com.ivy.core.ui.action.mapping.MapCategoryUiAct
+import com.ivy.core.ui.category.pick.action.CategoryPickerItemsFlow
 import com.ivy.core.ui.data.CategoryUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class CategoryPickerViewModel @Inject constructor(
-    categoriesListFlow: CategoriesListFlow,
-    private val mapCategoryUiAct: MapCategoryUiAct,
+    private val categoryPickerItemsFlow: CategoryPickerItemsFlow
 ) : SimpleFlowViewModel<CategoryPickerState, CategoryPickerEvent>() {
     override val initialUi = CategoryPickerState(
         items = emptyList()
@@ -23,38 +19,33 @@ class CategoryPickerViewModel @Inject constructor(
     private val expandedParent = MutableStateFlow<CategoryUi?>(null)
     private val selectedCategory = MutableStateFlow<CategoryUi?>(null)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override val uiFlow: Flow<CategoryPickerState> = combine(
-        categoriesListFlow(Unit), selectedCategory, expandedParent
-    ) { items, selectedCategory, expandedParent ->
-//        items.mapNotNull { item ->
-//            when (item) {
-//                is CategoryListItem.Archived -> null
-//                is CategoryListItem.CategoryHolder -> CategoryPickerItemUi.CategoryCard(
-//                    category = mapCategoryUiAct(item.category),
-//                    selected = item.category.id.toString() == selectedCategory?.id,
-//                )
-//                is CategoryListItem.ParentCategory -> CategoryPickerItemUi.ParentCategory(
-//                    parent = mapCategoryUiAct(item.parent),
-//                    expanded = expandedParent?.id == item.parent.id.toString(),
-//                    selected = item.parent.id.toString() == selectedCategory?.id,
-//                    children = item.children.map {
-//                        CategoryPickerItemUi.CategoryCard(
-//                            category = mapCategoryUiAct(it),
-//                            selected = it.id.toString() == selectedCategory?.id,
-//                        )
-//                    }
-//                )
-//            }
-//        }
-
-        TODO()
-    }.map { items ->
-        CategoryPickerState(items = items)
-    }
+        selectedCategory, expandedParent
+    ) { selectedCategory, expandedParent ->
+        categoryPickerItemsFlow(
+            CategoryPickerItemsFlow.Input(
+                selectedCategory,
+                expandedParent
+            )
+        ).map {
+            CategoryPickerState(items = it)
+        }
+    }.flatMapLatest { it }
 
 
     // region Event Handling
-    override suspend fun handleEvent(event: CategoryPickerEvent) = TODO()
+    override suspend fun handleEvent(event: CategoryPickerEvent) = when (event) {
+        is CategoryPickerEvent.CategorySelected -> handleCategorySelected(event)
+        is CategoryPickerEvent.ExpandParent -> handleExpandParent(event)
+    }
 
+    private fun handleCategorySelected(event: CategoryPickerEvent.CategorySelected) {
+        selectedCategory.value = event.category
+    }
+
+    private fun handleExpandParent(event: CategoryPickerEvent.ExpandParent) {
+        expandedParent.value = event.parent.category
+    }
     // endregion
 }

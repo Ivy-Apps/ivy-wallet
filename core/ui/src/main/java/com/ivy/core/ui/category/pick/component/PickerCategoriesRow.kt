@@ -29,14 +29,15 @@ import com.ivy.design.util.thenWhen
 @Composable
 internal fun PickerCategoriesRow(
     categories: List<SelectableCategoryUi>,
+    modifier: Modifier = Modifier,
     onSelect: (SelectableCategoryUi) -> Unit,
 ) {
     WrapContentRow(
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = modifier.padding(horizontal = 8.dp),
         items = categories,
         itemKey = { it.category.id },
         horizontalMarginBetweenItems = 8.dp,
-        verticalMarginBetweenRows = 12.dp,
+        verticalMarginBetweenRows = 8.dp,
     ) { item ->
         CategoryItem(
             item = item,

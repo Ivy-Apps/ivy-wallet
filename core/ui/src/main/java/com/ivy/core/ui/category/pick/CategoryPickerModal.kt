@@ -11,8 +11,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.category.pick.component.PickerCategoriesRow
+import com.ivy.core.ui.category.pick.component.PickerParentCategory
 import com.ivy.core.ui.category.pick.data.CategoryPickerItemUi
 import com.ivy.core.ui.category.pick.data.SelectableCategoryUi
+import com.ivy.core.ui.category.pick.data.dummySelectableCategoryUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.uiStatePreviewSafe
@@ -32,8 +34,8 @@ import com.ivy.design.util.hiltViewModelPreviewSafe
 fun BoxScope.CategoryPickerModal(
     modal: IvyModal,
     level: Int = 1,
-    selected: CategoryUi,
-    onSelect: (CategoryUi?) -> Unit,
+    selected: CategoryUi?,
+    onPick: (CategoryUi?) -> Unit,
 ) {
     val viewModel: CategoryPickerViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
@@ -53,7 +55,8 @@ fun BoxScope.CategoryPickerModal(
                 text = "Unspecified",
                 icon = R.drawable.ic_custom_category_s,
             ) {
-                onSelect(null)
+                viewModel?.onEvent(CategoryPickerEvent.CategorySelected(null))
+                onPick(null)
                 modal.hide()
             }
         }
@@ -63,14 +66,28 @@ fun BoxScope.CategoryPickerModal(
                 Title(text = stringResource(id = R.string.choose_category))
                 SpacerVer(height = 16.dp)
             }
+            pickerItems(
+                items = state.items,
+                onCategorySelect = {
+                    viewModel?.onEvent(CategoryPickerEvent.CategorySelected(it))
+                    onPick(it)
+                    modal.hide()
+                },
+                onExpandParent = {
+                    viewModel?.onEvent(CategoryPickerEvent.ExpandParent(it))
+                },
+            )
+            item(key = "last_item_space") {
+                SpacerVer(height = 24.dp)
+            }
         }
     }
 }
 
 private fun LazyListScope.pickerItems(
     items: List<CategoryPickerItemUi>,
-    onCategorySelect: (CategoryUi?) -> Unit,
-    onParentExpand: (SelectableCategoryUi) -> Unit,
+    onCategorySelect: (CategoryUi) -> Unit,
+    onExpandParent: (SelectableCategoryUi) -> Unit,
 ) {
     items(
         items = items,
@@ -89,7 +106,20 @@ private fun LazyListScope.pickerItems(
                     onSelect = { onCategorySelect(it.category) }
                 )
             }
-            is CategoryPickerItemUi.ParentCategory -> TODO()
+            is CategoryPickerItemUi.ParentCategory -> {
+                SpacerVer(height = 12.dp)
+                PickerParentCategory(
+                    item = item,
+                    onParentClick = {
+                        if (item.expanded) {
+                            onCategorySelect(item.parent.category)
+                        } else {
+                            onExpandParent(item.parent)
+                        }
+                    },
+                    onChildClick = { onCategorySelect(it) }
+                )
+            }
         }
     }
 }
@@ -104,12 +134,53 @@ private fun Preview() {
         CategoryPickerModal(
             modal = modal,
             selected = dummyCategoryUi(),
-            onSelect = {}
+            onPick = {}
         )
     }
 }
 
 private fun previewState() = CategoryPickerState(
-    items = emptyList()
+    items = listOf(
+        CategoryPickerItemUi.CategoriesRow(
+            categories = listOf(
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+            )
+        ),
+        CategoryPickerItemUi.ParentCategory(
+            parent = dummySelectableCategoryUi(),
+            expanded = true,
+            children = listOf(
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+            )
+        ),
+        CategoryPickerItemUi.ParentCategory(
+            parent = dummySelectableCategoryUi(),
+            expanded = false,
+            children = listOf(
+                dummySelectableCategoryUi(),
+            )
+        ),
+        CategoryPickerItemUi.CategoriesRow(
+            categories = listOf(
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+            )
+        ),
+        CategoryPickerItemUi.ParentCategory(
+            parent = dummySelectableCategoryUi(),
+            expanded = true,
+            children = listOf(
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+                dummySelectableCategoryUi(),
+            )
+        ),
+    )
 )
 // endregion

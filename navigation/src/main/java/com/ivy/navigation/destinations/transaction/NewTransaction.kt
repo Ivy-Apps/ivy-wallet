@@ -13,8 +13,8 @@ import com.ivy.navigation.util.optionalStringArg
 object NewTransaction : Screen<NewTransaction.Arg> {
     data class Arg(
         val trnType: TransactionType,
-        val categoryId: String?,
-        val accountId: String?,
+        val categoryId: String? = null,
+        val accountId: String? = null,
     )
 
     private const val ARG_TRN_TYPE = "trnType"

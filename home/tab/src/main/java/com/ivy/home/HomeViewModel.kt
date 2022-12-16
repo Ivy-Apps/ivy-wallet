@@ -18,6 +18,7 @@ import com.ivy.core.ui.action.mapping.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.home.state.HomeState
@@ -26,6 +27,7 @@ import com.ivy.main.base.MainBottomBarAction
 import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
+import com.ivy.navigation.destinations.transaction.NewTransaction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -174,7 +176,11 @@ class HomeViewModel @Inject constructor(
 
     private fun handleBottomBarAction(action: MainBottomBarAction) {
         // TODO: Implement
-        navigator.navigate(Destination.debug.route)
+        navigator.navigate(
+            Destination.newTransaction.destination(
+                NewTransaction.Arg(trnType = TransactionType.Expense)
+            )
+        )
     }
 
     private fun handleBalanceClick() {
