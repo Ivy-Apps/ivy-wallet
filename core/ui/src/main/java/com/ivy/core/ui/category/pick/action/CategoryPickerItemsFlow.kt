@@ -35,7 +35,8 @@ class CategoryPickerItemsFlow @Inject constructor(
                             category = mapCategoryUiAct(item.parent),
                             selected = item.parent.id.toString() == selectedCategory?.id,
                         ),
-                        expanded = expandedParent?.id == item.parent.id.toString(),
+                        expanded = expandedParent?.id == item.parent.id.toString() ||
+                                item.children.any { it.id.toString() == selectedCategory?.id },
                         children = item.children.map {
                             SelectableCategoryUi(
                                 category = mapCategoryUiAct(it),
