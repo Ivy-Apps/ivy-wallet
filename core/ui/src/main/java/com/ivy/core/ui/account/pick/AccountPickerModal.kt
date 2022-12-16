@@ -37,7 +37,10 @@ fun BoxScope.AccountPickerModal(
             modifier = Modifier
         ) {
             item(key = "title") {
-                Title(text = stringResource(id = R.string.account))
+                Title(
+                    text = stringResource(id = R.string.account),
+                    paddingStart = 24.dp,
+                )
                 SpacerVer(height = 16.dp)
             }
             item(key = "accounts") {
