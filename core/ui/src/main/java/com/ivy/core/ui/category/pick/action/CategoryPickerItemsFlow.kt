@@ -30,20 +30,26 @@ class CategoryPickerItemsFlow @Inject constructor(
                         category = mapCategoryUiAct(item.category),
                         selected = item.category.id.toString() == selectedCategory?.id,
                     )
-                    is CategoryListItem.ParentCategory -> CategoryPickerItemUi.ParentCategory(
-                        parent = SelectableCategoryUi(
-                            category = mapCategoryUiAct(item.parent),
-                            selected = item.parent.id.toString() == selectedCategory?.id,
-                        ),
-                        expanded = expandedParent?.id == item.parent.id.toString() ||
-                                item.children.any { it.id.toString() == selectedCategory?.id },
-                        children = item.children.map {
-                            SelectableCategoryUi(
-                                category = mapCategoryUiAct(it),
-                                selected = it.id.toString() == selectedCategory?.id,
-                            )
+                    is CategoryListItem.ParentCategory -> {
+                        val hasSelectedChild = item.children.any {
+                            it.id.toString() == selectedCategory?.id
                         }
-                    )
+                        CategoryPickerItemUi.ParentCategory(
+                            parent = SelectableCategoryUi(
+                                category = mapCategoryUiAct(item.parent),
+                                selected = item.parent.id.toString() == selectedCategory?.id ||
+                                        hasSelectedChild,
+                            ),
+                            expanded = expandedParent?.id == item.parent.id.toString() ||
+                                    hasSelectedChild,
+                            children = item.children.map {
+                                SelectableCategoryUi(
+                                    category = mapCategoryUiAct(it),
+                                    selected = it.id.toString() == selectedCategory?.id,
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }.map { data ->
