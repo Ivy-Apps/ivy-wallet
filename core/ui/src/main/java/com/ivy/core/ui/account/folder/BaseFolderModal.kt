@@ -150,6 +150,7 @@ private fun AccountsInFolder(
     AccountPickerColumn(
         modifier = Modifier.padding(horizontal = 8.dp),
         selected = selected,
+        deselectButton = true,
         onSelectAccount = {
             onSelectedChange(selected.plus(it))
         },

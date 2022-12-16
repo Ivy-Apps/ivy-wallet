@@ -2,6 +2,10 @@ package com.ivy.core.ui.account.pick
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -13,37 +17,56 @@ import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.design.l0_system.color.*
-import com.ivy.design.l3_ivyComponents.WrapContentRow
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @Composable
-fun AccountPickerColumn(
+fun SingleAccountPickerRow(
     modifier: Modifier = Modifier,
-    selected: List<AccountUi>,
-    deselectButton: Boolean,
-    onSelectAccount: (AccountUi) -> Unit,
-    onDeselectAccount: (AccountUi) -> Unit,
+    selected: AccountUi,
+    onSelectedChange: (AccountUi) -> Unit,
 ) {
     val viewModel: AccountPickerViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
+    val listState = rememberLazyListState()
+
     LaunchedEffect(selected) {
-        viewModel?.onEvent(AccountPickerEvent.SelectedChange(selected))
+        viewModel?.onEvent(AccountPickerEvent.SelectedChange(listOf(selected)))
     }
 
-    WrapContentRow(
-        modifier = modifier,
-        items = state.accounts,
-        itemKey = { it.account.id },
-        horizontalMarginBetweenItems = 8.dp,
-        verticalMarginBetweenRows = 12.dp
+    LazyRow(
+        modifier = modifier.fillMaxWidth(),
+        state = listState,
+    ) {
+
+        accountItems(
+            items = state.accounts,
+            onSelectedChange = { acc ->
+                viewModel?.onEvent(AccountPickerEvent.SelectedChange(listOf(acc)))
+                onSelectedChange(acc)
+            }
+        )
+    }
+}
+
+private fun LazyListScope.accountItems(
+    items: List<SelectableAccountUi>,
+    onSelectedChange: (AccountUi) -> Unit,
+) {
+    items(
+        items = items,
+        key = { it.account.id }
     ) { item ->
+        SpacerHor(width = 8.dp)
         AccountItem(
             item = item,
-            deselectButton = deselectButton,
-            onSelect = { onSelectAccount(item.account) },
-            onDeselect = { onDeselectAccount(item.account) }
+            deselectButton = false,
+            onSelect = { onSelectedChange(item.account) },
+            onDeselect = {
+                // do nothing because we always want to have a selected account
+            }
         )
     }
 }
@@ -54,34 +77,15 @@ fun AccountPickerColumn(
 @Composable
 private fun Preview() {
     ComponentPreview {
-        AccountPickerColumn(
+        SingleAccountPickerRow(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
-            selected = listOf(),
-            deselectButton = true,
-            onSelectAccount = {},
-            onDeselectAccount = {},
+            selected = dummyAccountUi(),
+            onSelectedChange = {}
         )
     }
 }
-
-@Preview
-@Composable
-private fun Preview_noDeselect() {
-    ComponentPreview {
-        AccountPickerColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            selected = listOf(),
-            deselectButton = false,
-            onSelectAccount = {},
-            onDeselectAccount = {},
-        )
-    }
-}
-
 
 private fun previewState() = AccountPickerState(
     accounts = listOf(
@@ -93,7 +97,7 @@ private fun previewState() = AccountPickerState(
         dummyAccountUi("Investments", color = Green2Dark),
         dummyAccountUi("Cash", color = Green2Dark),
     ).mapIndexed { index, acc ->
-        SelectableAccountUi(acc, selected = index % 3 == 0)
+        SelectableAccountUi(acc, selected = index == 0)
     }
 )
 // endregion

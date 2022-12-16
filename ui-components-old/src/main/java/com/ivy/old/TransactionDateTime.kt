@@ -1,4 +1,4 @@
-package com.ivy.transaction_details
+package com.ivy.transaction
 
 
 import androidx.compose.foundation.background

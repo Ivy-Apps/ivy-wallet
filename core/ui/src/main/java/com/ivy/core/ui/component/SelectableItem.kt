@@ -30,6 +30,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
+import com.ivy.design.util.thenIf
 import com.ivy.design.util.thenWhen
 
 @Composable
@@ -38,6 +39,7 @@ fun SelectableItem(
     icon: ItemIcon,
     color: Color,
     selected: Boolean,
+    deselectButton: Boolean,
     modifier: Modifier = Modifier,
     onSelect: () -> Unit,
     onDeselect: () -> Unit,
@@ -53,6 +55,10 @@ fun SelectableItem(
             }
             .clickable {
                 if (!selected) onSelect()
+            }
+            .thenIf(selected && !deselectButton) {
+                padding(vertical = 8.dp)
+                    .padding(end = 24.dp)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -61,6 +67,7 @@ fun SelectableItem(
                 name = name,
                 icon = icon,
                 color = color,
+                deselectButton = deselectButton,
                 onDeselect = onDeselect
             )
             false -> Content(
@@ -78,6 +85,7 @@ private fun RowScope.SelectedContent(
     name: String,
     icon: ItemIcon,
     color: Color,
+    deselectButton: Boolean,
     onDeselect: () -> Unit
 ) {
     SpacerHor(width = 12.dp)
@@ -93,15 +101,17 @@ private fun RowScope.SelectedContent(
         color = contrastColor,
         fontWeight = FontWeight.ExtraBold
     )
-    SpacerHor(width = 12.dp)
-    IvyButton(
-        size = ButtonSize.Small,
-        visibility = Visibility.Medium,
-        feeling = Feeling.Negative,
-        text = null,
-        icon = R.drawable.round_remove_24,
-        onClick = onDeselect
-    )
+    if (deselectButton) {
+        SpacerHor(width = 12.dp)
+        IvyButton(
+            size = ButtonSize.Small,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Negative,
+            text = null,
+            icon = R.drawable.round_remove_24,
+            onClick = onDeselect
+        )
+    }
 }
 
 @Suppress("unused")
@@ -139,6 +149,23 @@ private fun Preview_Selected() {
             icon = dummyIconUnknown(R.drawable.ic_vue_building_bank),
             color = Purple,
             selected = true,
+            deselectButton = true,
+            onSelect = {},
+            onDeselect = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Selected_noDeselectButton() {
+    ComponentPreview {
+        SelectableItem(
+            name = "Account",
+            icon = dummyIconUnknown(R.drawable.ic_vue_building_bank),
+            color = Purple,
+            selected = true,
+            deselectButton = false,
             onSelect = {},
             onDeselect = {}
         )
@@ -154,6 +181,7 @@ private fun Preview_Deselected() {
             icon = dummyIconUnknown(R.drawable.ic_vue_building_bank),
             color = Purple,
             selected = false,
+            deselectButton = true,
             onSelect = {},
             onDeselect = {}
         )
