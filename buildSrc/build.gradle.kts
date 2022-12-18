@@ -14,7 +14,7 @@ dependencies {
 
     //https://kotlinlang.org/docs/releases.html#release-details
     // Must match kotlinVersion from dependencies.kt
-    val kotlinVersion = "1.7.10"
+    val kotlinVersion = "1.7.20"
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     implementation(kotlin("serialization", version = kotlinVersion))
 

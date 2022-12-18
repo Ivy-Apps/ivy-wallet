@@ -8,7 +8,11 @@ import androidx.glance.appwidget.action.ActionCallback
 import com.ivy.data.transaction.TrnTypeOld
 
 class WalletBalanceButtonsAction : ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         when (parameters[walletBtnActParam]) {
             AddTransactionWidgetClick.ACTION_ADD_INCOME -> {
                 context.startActivity(
@@ -46,7 +50,11 @@ class WalletBalanceButtonsAction : ActionCallback {
 }
 
 class WalletBalanceWidgetClickAction : ActionCallback {
-    override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
         context.startActivity(
             com.ivy.core.ui.temp.GlobalProvider.rootIntent.getIntent(
                 context = context

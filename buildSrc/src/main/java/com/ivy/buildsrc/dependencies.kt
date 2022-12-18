@@ -36,37 +36,43 @@ object Project {
 
 object Versions {
     //https://kotlinlang.org/docs/releases.html#release-details
-    //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.7.10"
-    const val coroutines = "1.6.3"
+    //WARNING: Version must match in buildSrc build.gradle.kts
+    const val kotlin = "1.7.20"
+    //https://github.com/Kotlin/kotlinx.coroutines
+    const val coroutines = "1.6.4"
 
+    // region Compose
     //https://developer.android.com/jetpack/androidx/releases/compose
-    const val compose = "1.3.0-beta03"
+    const val compose = "1.3.2"
+
+    //https://developer.android.com/jetpack/androidx/releases/compose-material
+    const val composeMaterial = "1.3.1"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-compiler
-    const val composeCompilerVersion = "1.3.1"
+    const val composeCompilerVersion = "1.3.2"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
-    const val composeFoundation = "1.2.0-rc03"
+    const val composeFoundation = "1.3.1"
 
     //https://developer.android.com/jetpack/compose/navigation
     const val navigationCompose = "2.5.1"
 
     //https://developer.android.com/jetpack/androidx/releases/activity
-    const val composeActivity = "1.5.0"
+    const val composeActivity = "1.6.1"
 
     //https://developer.android.com/jetpack/androidx/releases/lifecycle
     const val composeViewModel = "2.6.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/glance
-    const val composeGlance = "1.0.0-alpha03"
+    const val composeGlance = "1.0.0-alpha05"
 
     //Set status bar color
     //https://google.github.io/accompanist/systemuicontroller/
-    const val composeAccompanistUIController = "0.24.13-rc"
+    const val composeAccompanistUIController = "0.28.0"
 
     //https://coil-kt.github.io/coil/compose/
-    const val composeCoil = "2.1.0"
+    const val composeCoil = "2.2.2"
+    // endregion
 
     //https://arrow-kt.io/docs/quickstart/
     const val arrow: String = "1.0.1"
@@ -171,9 +177,9 @@ fun DependencyHandler.Kotlin(api: Boolean) {
 }
 
 fun DependencyHandler.Compose(api: Boolean) {
-    val version = Versions.compose
+    val composeVersion = Versions.compose
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    dependency("androidx.compose.ui:ui:$version", api = api)
+    dependency("androidx.compose.ui:ui:$composeVersion", api = api)
     dependency(
         "androidx.compose.foundation:foundation:${Versions.composeFoundation}",
         api = api
@@ -182,12 +188,14 @@ fun DependencyHandler.Compose(api: Boolean) {
         "androidx.compose.foundation:foundation-layout:${Versions.composeFoundation}",
         api = api
     )
-    dependency("androidx.compose.animation:animation:$version", api = api)
-    dependency("androidx.compose.material:material:$version", api = api)
-    dependency("androidx.compose.material:material-icons-extended:$version", api = api)
-    dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
-    debugDependency("androidx.compose.ui:ui-tooling:$version", api = api)
-    dependency("androidx.compose.ui:ui-tooling-preview:$version", api = api)
+    dependency("androidx.compose.animation:animation:$composeVersion", api = api)
+    dependency("androidx.compose.material:material:${Versions.composeMaterial}", api = api)
+    dependency(
+        "androidx.compose.material:material-icons-extended:${Versions.composeMaterial}", api = api
+    )
+    dependency("androidx.compose.runtime:runtime-livedata:$composeVersion", api = api)
+    debugDependency("androidx.compose.ui:ui-tooling:$composeVersion", api = api)
+    dependency("androidx.compose.ui:ui-tooling-preview:$composeVersion", api = api)
 
     dependency(
         "androidx.navigation:navigation-compose:${Versions.navigationCompose}", api = api
@@ -253,7 +261,7 @@ fun DependencyHandler.Google() {
 
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation(
-        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3"
     )
 
     Billing(api = false)
