@@ -1,14 +1,18 @@
 package com.ivy.core.ui.time.picker.date
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.ui.time.picker.component.HorizontalWheelPicker
 import com.ivy.core.ui.time.picker.component.VerticalWheelPicker
 import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
+import com.ivy.core.ui.time.picker.date.data.PickerYear
 import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
@@ -21,7 +25,6 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import java.time.LocalDate
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.DatePickerModal(
     modal: IvyModal,
@@ -48,6 +51,13 @@ fun BoxScope.DatePickerModal(
     ) {
         Title(text = "Pick a date")
         SpacerVer(height = 24.dp)
+        YearWheel(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            years = state.years,
+            yearsCount = state.yearsListSize,
+            initialYearValue = selected.year,
+            onYearChange = { viewModel?.onEvent(DatePickerEvent.YearChange(it)) }
+        )
         SpacerVer(height = 24.dp)
         Row {
             SpacerWeight(weight = 1f)
@@ -55,17 +65,13 @@ fun BoxScope.DatePickerModal(
                 days = state.days,
                 daysCount = state.daysListSize,
                 initialDayValue = selected.dayOfMonth - 1,
-                onDayChange = {
-                    viewModel?.onEvent(DatePickerEvent.DayChange(it))
-                }
+                onDayChange = { viewModel?.onEvent(DatePickerEvent.DayChange(it)) }
             )
             MonthWheel(
                 months = state.months,
                 monthsCount = state.monthsListSize,
                 initialMonthValue = selected.monthValue - 1,
-                onMonthChange = {
-                    viewModel?.onEvent(DatePickerEvent.MonthChange(it))
-                }
+                onMonthChange = { viewModel?.onEvent(DatePickerEvent.MonthChange(it)) }
             )
             SpacerWeight(weight = 1f)
         }
@@ -109,6 +115,23 @@ private fun MonthWheel(
     )
 }
 
+@Composable
+private fun YearWheel(
+    years: List<PickerYear>,
+    yearsCount: Int,
+    initialYearValue: Int,
+    modifier: Modifier = Modifier,
+    onYearChange: (PickerYear) -> Unit,
+) {
+    HorizontalWheelPicker(
+        modifier = modifier,
+        items = years,
+        itemsCount = yearsCount,
+        initialIndex = initialYearValue - (years.firstOrNull()?.value ?: 0),
+        text = { it.text },
+        onSelectedChange = onYearChange
+    )
+}
 
 
 // region Preview

@@ -45,7 +45,8 @@ class DatePickerViewModel @Inject constructor(
             PickerMonth("Dec", 12),
         )
 
-        val years = (selected.year - 10..selected.year + 10).map {
+        val currentYear = timeProvider.dateNow().year
+        val years = (currentYear - 20..currentYear + 20).map {
             PickerYear(it.toString(), it)
         }
 
