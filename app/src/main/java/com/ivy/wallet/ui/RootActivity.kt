@@ -72,6 +72,12 @@ class RootActivity : AppCompatActivity(), RootScreen {
     @Inject
     lateinit var timeProvider: TimeProvider
 
+    /**
+     * Uncomment below code to use gDrive feature
+     */
+//    @Inject
+//    lateinit var googleDriveService: GoogleDriveService
+
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
 
@@ -139,6 +145,12 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupActivityForResultLaunchers() {
+
+    /**
+    * Uncomment below code to use gDrive feature
+    */
+//        requestSignIn()
+
         googleSignInLauncher()
 
         createFileLauncher()
@@ -178,6 +190,23 @@ class RootActivity : AppCompatActivity(), RootScreen {
 //            googleSignInLauncher.launch(googleSignInClient)
 //        }
     }
+
+    /**
+     * Uncomment below code to use gDrive feature
+     */
+//    private fun requestSignIn() {
+//        val signInOptions = googleDriveService.requestSignIn()
+//        val client = GoogleSignIn.getClient(this, signInOptions)
+//
+//        Timber.d("Sign In Requested")
+//        // The result of the sign-in Intent is handled in onActivityResult.
+//        val launcher = registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) {
+//            googleDriveService.handleSignInResult(this@RootActivity)
+//        }
+//        launcher.launch(client.signInIntent)
+//    }
 
     private fun createFileLauncher() {
         createFileLauncher = activityForResultLauncher(
