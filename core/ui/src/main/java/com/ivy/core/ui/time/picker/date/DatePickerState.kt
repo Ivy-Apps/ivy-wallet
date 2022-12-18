@@ -15,5 +15,6 @@ data class DatePickerState(
     val years: List<PickerYear>,
     val yearsListSize: Int,
 
+    val selectedContext: String,
     val selected: LocalDate,
 )

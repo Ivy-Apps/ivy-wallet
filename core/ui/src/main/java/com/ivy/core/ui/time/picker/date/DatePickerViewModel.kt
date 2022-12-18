@@ -1,5 +1,8 @@
 package com.ivy.core.ui.time.picker.date
 
+import android.annotation.SuppressLint
+import android.content.Context
+import com.ivy.common.time.contextText
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.withDayOfMonthSafe
 import com.ivy.core.domain.SimpleFlowViewModel
@@ -7,13 +10,16 @@ import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
 import com.ivy.core.ui.time.picker.date.data.PickerYear
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class DatePickerViewModel @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     timeProvider: TimeProvider
 ) : SimpleFlowViewModel<DatePickerState, DatePickerEvent>() {
     companion object {
@@ -27,6 +33,7 @@ class DatePickerViewModel @Inject constructor(
         monthsListSize = 0,
         years = emptyList(),
         yearsListSize = 0,
+        selectedContext = "Today",
         selected = timeProvider.dateNow()
     )
 
@@ -63,6 +70,10 @@ class DatePickerViewModel @Inject constructor(
             monthsListSize = months.size,
             years = years,
             yearsListSize = years.size,
+            selectedContext = selected.contextText(
+                alwaysShowWeekday = true,
+                getString = appContext::getString
+            ),
             selected = selected,
         )
     }

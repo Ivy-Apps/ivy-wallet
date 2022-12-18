@@ -1,5 +1,6 @@
 package com.ivy.common.time
 
+import com.ivy.common.R
 import com.ivy.common.time.provider.DeviceTimeProvider
 import java.time.*
 import java.time.format.DateTimeFormatter
@@ -11,6 +12,29 @@ fun LocalDateTime.format(pattern: String): String =
 fun LocalDate.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
 // endregion
+
+fun LocalDate.contextText(
+    alwaysShowWeekday: Boolean,
+    getString: (Int) -> String
+): String {
+    val today = LocalDate.now()
+    val alwaysWeekdayText = if (alwaysShowWeekday)
+        " (${this.format(pattern = "EEEE")})" else ""
+    return when (this) {
+        today -> {
+            getString(R.string.today) + alwaysWeekdayText
+        }
+        today.minusDays(1) -> {
+            getString(R.string.yesterday) + alwaysWeekdayText
+        }
+        today.plusDays(1) -> {
+            getString(R.string.tomorrow) + alwaysWeekdayText
+        }
+        else -> {
+            this.format(pattern = "EEEE")
+        }
+    }
+}
 
 
 // region All-time
