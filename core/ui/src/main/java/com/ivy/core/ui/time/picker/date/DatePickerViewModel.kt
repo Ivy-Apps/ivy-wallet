@@ -1,6 +1,7 @@
 package com.ivy.core.ui.time.picker.date
 
 import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.withDayOfMonthSafe
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
@@ -73,7 +74,7 @@ class DatePickerViewModel @Inject constructor(
     }
 
     private fun handleDayChange(event: DatePickerEvent.DayChange) {
-        selectedDate.value = selectedDate.value.withDayOfMonth(event.day.value)
+        selectedDate.value = selectedDate.value.withDayOfMonthSafe(event.day.value)
     }
 
     private fun handleMonthChange(event: DatePickerEvent.MonthChange) {
