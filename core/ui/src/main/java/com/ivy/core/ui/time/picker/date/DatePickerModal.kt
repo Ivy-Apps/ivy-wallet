@@ -1,26 +1,20 @@
 package com.ivy.core.ui.time.picker.date
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
+import com.ivy.core.ui.time.picker.component.VerticalWheelPicker
 import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
 import com.ivy.core.ui.uiStatePreviewSafe
-import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.B1Second
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
+import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.previewModal
 import com.ivy.design.util.IvyPreview
@@ -38,20 +32,29 @@ fun BoxScope.DatePickerModal(
     val viewModel: DatePickerViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
+    LaunchedEffect(selected) {
+        viewModel?.onEvent(DatePickerEvent.Initial(selected))
+    }
+
     Modal(
         modal = modal,
         level = level,
         actions = {
-
+            Positive(text = "Choose") {
+                onPick(state.selected)
+                modal.hide()
+            }
         }
     ) {
         Title(text = "Pick a date")
+        SpacerVer(height = 24.dp)
         SpacerVer(height = 24.dp)
         Row {
             SpacerWeight(weight = 1f)
             DayWheel(
                 days = state.days,
                 daysCount = state.daysListSize,
+                initialDayValue = selected.dayOfMonth - 1,
                 onDayChange = {
                     viewModel?.onEvent(DatePickerEvent.DayChange(it))
                 }
@@ -59,6 +62,7 @@ fun BoxScope.DatePickerModal(
             MonthWheel(
                 months = state.months,
                 monthsCount = state.monthsListSize,
+                initialMonthValue = selected.monthValue - 1,
                 onMonthChange = {
                     viewModel?.onEvent(DatePickerEvent.MonthChange(it))
                 }
@@ -73,13 +77,15 @@ fun BoxScope.DatePickerModal(
 private fun DayWheel(
     days: List<PickerDay>,
     daysCount: Int,
+    initialDayValue: Int,
     modifier: Modifier = Modifier,
     onDayChange: (PickerDay) -> Unit,
 ) {
-    WheelPicker(
+    VerticalWheelPicker(
         modifier = modifier,
         items = days,
         itemsCount = daysCount,
+        initialIndex = initialDayValue,
         text = { it.text },
         onSelectedChange = onDayChange
     )
@@ -89,76 +95,20 @@ private fun DayWheel(
 private fun MonthWheel(
     months: List<PickerMonth>,
     monthsCount: Int,
+    initialMonthValue: Int,
     modifier: Modifier = Modifier,
     onMonthChange: (PickerMonth) -> Unit,
 ) {
-    WheelPicker(
+    VerticalWheelPicker(
         modifier = modifier,
         items = months,
         itemsCount = monthsCount,
+        initialIndex = initialMonthValue,
         text = { it.text },
         onSelectedChange = onMonthChange
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun <T> WheelPicker(
-    items: List<T>,
-    itemsCount: Int,
-    text: (T) -> String,
-    modifier: Modifier = Modifier,
-    onSelectedChange: (T) -> Unit,
-) {
-    val listState = rememberLazyListState()
-    val selectedIndex by remember {
-        derivedStateOf {
-            (listState.firstVisibleItemIndex)
-                .coerceIn(0 until itemsCount)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        // skip first spacer
-        // skip first item
-        // => select the 2nd (center item)
-        listState.animateScrollToItem(index = 1)
-    }
-
-//    LaunchedEffect(selectedIndex) {
-//        onSelectedChange(items[selectedIndex])
-//    }
-
-    val itemSize = 64.dp
-
-    LazyColumn(
-        modifier = modifier.height(3 * itemSize),
-        state = listState,
-        flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
-    ) {
-        item(key = "space_zero") {
-            SpacerVer(height = itemSize)
-        }
-        itemsIndexed(
-            items = items,
-            key = { index, _ -> index }
-        ) { index, item ->
-            B1Second(
-                modifier = Modifier
-                    .defaultMinSize(minWidth = 128.dp)
-                    .height(itemSize),
-                text = text(item),
-                textAlign = TextAlign.Center,
-                maxLines = 1,
-                color = if (index == selectedIndex)
-                    UI.colors.primary else UI.colorsInverted.pure
-            )
-        }
-        item(key = "space_last") {
-            SpacerVer(height = itemSize)
-        }
-    }
-}
 
 
 // region Preview
@@ -182,5 +132,6 @@ private fun previewState() = DatePickerState(
     monthsListSize = 0,
     years = emptyList(),
     yearsListSize = 0,
+    selected = LocalDate.now(),
 )
 // endregion

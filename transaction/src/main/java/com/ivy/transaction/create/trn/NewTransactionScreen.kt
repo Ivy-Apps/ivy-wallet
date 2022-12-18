@@ -18,6 +18,11 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
     val categoriesPicker = rememberIvyModal()
     val datePicker = rememberIvyModal()
 
+
+    var selectedDate by remember {
+        mutableStateOf(LocalDate.now())
+    }
+
     ColumnRoot {
         SpacerWeight(weight = 1f)
         Button(onClick = {
@@ -28,7 +33,7 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
         Button(onClick = {
             datePicker.show()
         }) {
-            Text(text = "Pick date")
+            Text(text = "Pick date ($selectedDate)")
         }
         SpacerWeight(weight = 1f)
     }
@@ -42,7 +47,7 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
 
     DatePickerModal(
         modal = datePicker,
-        selected = LocalDate.now(),
-        onPick = {}
+        selected = selectedDate,
+        onPick = { selectedDate = it }
     )
 }

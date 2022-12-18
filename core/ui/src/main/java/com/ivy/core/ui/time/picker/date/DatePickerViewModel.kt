@@ -1,5 +1,6 @@
 package com.ivy.core.ui.time.picker.date
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
@@ -12,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DatePickerViewModel @Inject constructor(
-
+    timeProvider: TimeProvider
 ) : SimpleFlowViewModel<DatePickerState, DatePickerEvent>() {
     override val initialUi = DatePickerState(
         days = emptyList(),
@@ -21,12 +22,13 @@ class DatePickerViewModel @Inject constructor(
         monthsListSize = 0,
         years = emptyList(),
         yearsListSize = 0,
+        selected = timeProvider.dateNow()
     )
 
-    private val selectedMonthNumber = MutableStateFlow(1)
+    private val selectedDate = MutableStateFlow(initialUi.selected)
 
-    override val uiFlow: Flow<DatePickerState> = selectedMonthNumber.map { month ->
-        val days = (1..31).map { PickerDay(it.toString(), it) }
+    override val uiFlow: Flow<DatePickerState> = selectedDate.map { selected ->
+        val days = (1..selected.month.maxLength()).map { PickerDay(it.toString(), it) }
         val months = listOf(
             PickerMonth("Jan", 1),
             PickerMonth("Feb", 2),
@@ -42,21 +44,9 @@ class DatePickerViewModel @Inject constructor(
             PickerMonth("Dec", 12),
         )
 
-        val years = listOf(
-            PickerYear("2018", 2018),
-            PickerYear("2019", 2019),
-            PickerYear("2020", 2020),
-            PickerYear("2021", 2021),
-            PickerYear("2022", 2022),
-            PickerYear("2023", 2023),
-            PickerYear("2024", 2024),
-            PickerYear("2025", 2025),
-            PickerYear("2026", 2026),
-            PickerYear("2027", 2027),
-            PickerYear("2028", 2028),
-            PickerYear("2029", 2029),
-            PickerYear("2030", 2030),
-        )
+        val years = (selected.year - 10..selected.year + 10).map {
+            PickerYear(it.toString(), it)
+        }
 
         DatePickerState(
             days = days,
@@ -65,27 +55,33 @@ class DatePickerViewModel @Inject constructor(
             monthsListSize = months.size,
             years = years,
             yearsListSize = years.size,
+            selected = selected,
         )
     }
 
 
     // region Event Handling
     override suspend fun handleEvent(event: DatePickerEvent) = when (event) {
+        is DatePickerEvent.Initial -> handleInitial(event)
         is DatePickerEvent.DayChange -> handleDayChange(event)
         is DatePickerEvent.MonthChange -> handleMonthChange(event)
         is DatePickerEvent.YearChange -> handleYearChange(event)
     }
 
+    private fun handleInitial(event: DatePickerEvent.Initial) {
+        selectedDate.value = event.selected
+    }
+
     private fun handleDayChange(event: DatePickerEvent.DayChange) {
-        // TODO:
+        selectedDate.value = selectedDate.value.withDayOfMonth(event.day.value)
     }
 
     private fun handleMonthChange(event: DatePickerEvent.MonthChange) {
-        // TODO:
+        selectedDate.value = selectedDate.value.withMonth(event.month.value)
     }
 
     private fun handleYearChange(event: DatePickerEvent.YearChange) {
-        // TODO:
+        selectedDate.value = selectedDate.value.withYear(event.year.value)
     }
     // endregion
 }

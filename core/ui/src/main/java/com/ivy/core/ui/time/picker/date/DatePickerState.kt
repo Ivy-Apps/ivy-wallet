@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import com.ivy.core.ui.time.picker.date.data.PickerDay
 import com.ivy.core.ui.time.picker.date.data.PickerMonth
 import com.ivy.core.ui.time.picker.date.data.PickerYear
+import java.time.LocalDate
 
 @Immutable
 data class DatePickerState(
@@ -13,4 +14,6 @@ data class DatePickerState(
     val monthsListSize: Int,
     val years: List<PickerYear>,
     val yearsListSize: Int,
+
+    val selected: LocalDate,
 )
