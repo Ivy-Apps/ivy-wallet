@@ -16,6 +16,10 @@ import javax.inject.Inject
 class DatePickerViewModel @Inject constructor(
     timeProvider: TimeProvider
 ) : SimpleFlowViewModel<DatePickerState, DatePickerEvent>() {
+    companion object {
+        const val YEARS_FROM_NOW_SUPPORT = 100
+    }
+
     override val initialUi = DatePickerState(
         days = emptyList(),
         daysListSize = 0,
@@ -46,9 +50,11 @@ class DatePickerViewModel @Inject constructor(
         )
 
         val currentYear = timeProvider.dateNow().year
-        val years = (currentYear - 20..currentYear + 20).map {
-            PickerYear(it.toString(), it)
-        }
+        val years = (currentYear - YEARS_FROM_NOW_SUPPORT..
+                currentYear + YEARS_FROM_NOW_SUPPORT)
+            .map {
+                PickerYear(it.toString(), it)
+            }
 
         DatePickerState(
             days = days,

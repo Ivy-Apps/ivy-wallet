@@ -24,9 +24,9 @@ import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1Second
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 
-private val ITEM_HEIGHT = 64.dp
+private val ITEM_HEIGHT = 72.dp
 private val ITEM_WIDTH = 104.dp
-private val SELECTOR_LINES_PADDING_FROM_CENTER = 8.dp
+private val SELECTOR_LINES_PADDING_FROM_CENTER = 16.dp
 private val SELECTOR_LINE_WIDTH = 2.dp
 
 @OptIn(ExperimentalFoundationApi::class)
