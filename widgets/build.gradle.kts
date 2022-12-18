@@ -1,4 +1,5 @@
 import com.ivy.buildsrc.DataStore
+import com.ivy.buildsrc.Glance
 import com.ivy.buildsrc.Hilt
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
@@ -23,6 +24,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":temp-domain"))
     implementation(project(":temp-persistence"))
+    Glance()
 
     DataStore(api = false)
 }

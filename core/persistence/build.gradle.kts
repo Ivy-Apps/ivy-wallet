@@ -25,7 +25,7 @@ dependencies {
     Hilt()
     implementation(project(":common:main"))
     RoomDB(api = false)
-    DataStore(api = false)
+    DataStore(api = true)
 
     Testing()
 }

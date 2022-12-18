@@ -157,7 +157,7 @@ object Versions {
 }
 
 fun DependencyHandler.DataStore(api: Boolean) {
-    dependency("androidx.datastore:datastore-preferences:1.0.0", api = api)
+    dependency("androidx.datastore:datastore-preferences:${Versions.dataStore}", api = api)
 }
 
 /**
@@ -202,14 +202,16 @@ fun DependencyHandler.Compose(api: Boolean) {
         api = api
     )
 
-    // Jetpack Glance (Compose Widgets)
-    dependency("androidx.glance:glance-appwidget:${Versions.composeGlance}", api = api)
-
     Accompanist(api = api)
 
     Coil(api = api)
 
     ComposeTesting(api = api)
+}
+
+fun DependencyHandler.Glance() {
+    // Jetpack Glance (Compose Widgets)
+    dependency("androidx.glance:glance-appwidget:${Versions.composeGlance}", api = false)
 }
 
 /**
@@ -473,7 +475,7 @@ fun DependencyHandler.Testing(
     // Robolectric doesn't integrate well with JUnit5 and Kotest
 //    Robolectric(api = false)
 
-    if(commonTest) {
+    if (commonTest) {
         testImplementation(project(":common:test"))
     }
     if (commonAndroidTest) {
