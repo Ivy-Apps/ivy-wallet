@@ -32,9 +32,9 @@ jobs:
           java-version: '11'
 
       - name: Setup Ruby (for Fastlane)
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          ruby-version: '2.7'
 
       - name: Install Fastlane
         run: bundle install
