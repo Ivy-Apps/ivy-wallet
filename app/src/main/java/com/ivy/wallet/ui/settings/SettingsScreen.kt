@@ -170,10 +170,10 @@ private fun BoxWithConstraintsScope.UI(
 
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .testTag("settings_lazy_column")
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .testTag("settings_lazy_column")
     ) {
         stickyHeader {
             val nav = navigation()
@@ -223,8 +223,8 @@ private fun BoxWithConstraintsScope.UI(
                 nameLocalAccount = nameLocalAccount,
 
                 onSync = onSync,
-                onLogout = onLogout,
-                onLogin = onLogin,
+                    onLogout = onLogout,
+                    onLogin = onLogin,
             ) {
                 nameModalVisible = true
             }
@@ -233,16 +233,26 @@ private fun BoxWithConstraintsScope.UI(
 //            Premium()
         }
 
-//        item {
-//            SettingsSectionDivider(text = "Sync")
-//
-//            Spacer(Modifier.height(16.dp))
-//
-//            FetchMissingTransactionsButton(
-//                opFetchTrns = opFetchTrns,
-//                onFetchMissingTransactions = onFetchMissingTransactions
-//            )
-//        }
+        item {
+            SettingsSectionDivider(text = "Sync (temporary)")
+
+            Spacer(Modifier.height(16.dp))
+
+            FetchMissingTransactionsButton(
+                    opFetchTrns = opFetchTrns,
+                    onFetchMissingTransactions = onFetchMissingTransactions
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            SettingsPrimaryButton(
+                    icon = R.drawable.ic_vue_security_shield_person,
+                    text = "Login to restore old data (use before 2023!)",
+                    textColor = UI.colors.pureInverse,
+            ) {
+                onLogin()
+            }
+        }
 
         item {
             SettingsSectionDivider(text = stringResource(R.string.import_export))
@@ -676,9 +686,9 @@ private fun AppSwitch(
         Spacer(Modifier.width(8.dp))
 
         Column(
-            Modifier
-                .weight(1f)
-                .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)
+                Modifier
+                        .weight(1f)
+                        .padding(top = 20.dp, bottom = 20.dp, end = 8.dp)
         ) {
             Text(
                 text = text,
@@ -722,22 +732,22 @@ private fun AccountCard(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .clip(UI.shapes.r2)
-            .background(UI.colors.medium, UI.shapes.r2)
-            .clickable {
-                onCardClick()
-            }
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .clip(UI.shapes.r2)
+                .background(UI.colors.medium, UI.shapes.r2)
+                .clickable {
+                    onCardClick()
+                }
     ) {
         Spacer(Modifier.height(16.dp))
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("settings_profile_card"),
-            verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("settings_profile_card"),
+                verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(Modifier.width(24.dp))
 
@@ -803,12 +813,12 @@ private fun AccountCardUser(
 
         if (user.profilePicture != null) {
             AsyncImage(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(32.dp),
-                model = user.profilePicture,
-                contentScale = ContentScale.FillBounds,
-                contentDescription = "profile picture"
+                    modifier = Modifier
+                            .clip(CircleShape)
+                            .size(32.dp),
+                    model = user.profilePicture,
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = "profile picture"
             )
 
             Spacer(Modifier.width(12.dp))
@@ -1006,39 +1016,39 @@ private fun TCAndPrivacyPolicy() {
         val uriHandler = LocalUriHandler.current
 
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .clip(UI.shapes.rFull)
-                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
-                .clickable {
-                    uriHandler.openUri(Constants.URL_TC)
-                }
-                .padding(vertical = 14.dp),
-            text = stringResource(R.string.terms_conditions),
-            style = UI.typo.c.style(
-                fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse,
-                textAlign = TextAlign.Center
-            )
+                modifier = Modifier
+                        .weight(1f)
+                        .clip(UI.shapes.rFull)
+                        .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                        .clickable {
+                            uriHandler.openUri(Constants.URL_TC)
+                        }
+                        .padding(vertical = 14.dp),
+                text = stringResource(R.string.terms_conditions),
+                style = UI.typo.c.style(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = UI.colors.pureInverse,
+                        textAlign = TextAlign.Center
+                )
         )
 
         Spacer(Modifier.width(12.dp))
 
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .clip(UI.shapes.rFull)
-                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
-                .clickable {
-                    uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
-                }
-                .padding(vertical = 14.dp),
-            text = stringResource(R.string.privacy_policy),
-            style = UI.typo.c.style(
-                fontWeight = FontWeight.ExtraBold,
-                color = UI.colors.pureInverse,
-                textAlign = TextAlign.Center
-            )
+                modifier = Modifier
+                        .weight(1f)
+                        .clip(UI.shapes.rFull)
+                        .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                        .clickable {
+                            uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
+                        }
+                        .padding(vertical = 14.dp),
+                text = stringResource(R.string.privacy_policy),
+                style = UI.typo.c.style(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = UI.colors.pureInverse,
+                        textAlign = TextAlign.Center
+                )
         )
 
         Spacer(Modifier.width(16.dp))
@@ -1090,20 +1100,20 @@ private fun SettingsButtonRow(
     Content: @Composable RowScope.() -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .thenIf(hasShadow) {
-                drawColoredShadow(color = backgroundGradient.startColor)
-            }
-            .fillMaxWidth()
-            .clip(UI.shapes.r4)
-            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
-            .thenIf(onClick != null) {
-                clickable {
-                    onClick?.invoke()
-                }
-            },
-        verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .thenIf(hasShadow) {
+                        drawColoredShadow(color = backgroundGradient.startColor)
+                    }
+                    .fillMaxWidth()
+                    .clip(UI.shapes.r4)
+                    .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
+                    .thenIf(onClick != null) {
+                        clickable {
+                            onClick?.invoke()
+                        }
+                    },
+            verticalAlignment = Alignment.CenterVertically
     ) {
         Content()
     }
@@ -1116,13 +1126,13 @@ private fun AccountCardButton(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .clip(UI.shapes.rFull)
-            .background(UI.colors.pure, UI.shapes.rFull)
-            .clickable {
-                onClick()
-            },
-        verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                    .clip(UI.shapes.rFull)
+                    .background(UI.colors.pure, UI.shapes.rFull)
+                    .clickable {
+                        onClick()
+                    },
+            verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
 
@@ -1153,15 +1163,15 @@ private fun CurrencyButton(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(UI.shapes.r4)
-            .border(2.dp, UI.colors.medium, UI.shapes.r4)
-            .clickable {
-                onClick()
-            },
-        verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .clip(UI.shapes.r4)
+                    .border(2.dp, UI.colors.medium, UI.shapes.r4)
+                    .clickable {
+                        onClick()
+                    },
+            verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
 
