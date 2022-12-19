@@ -31,7 +31,7 @@ object Project {
     //App
     const val applicationId = "com.ivy.wallet"
     const val minSdk = 28
-    const val targetSdk = 30
+    const val targetSdk = 31
 }
 
 object GlobalVersions {

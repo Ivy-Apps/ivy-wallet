@@ -40,6 +40,7 @@
         <activity
             android:name=".ui.RootActivity"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,8 +50,10 @@
                 <action android:name="ivy.wallet.intent.action.add_transaction" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <!-- It fixes HiltWorker injection for newer WorkManager versions -->
@@ -59,7 +62,9 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
-        <receiver android:name=".ui.widget.AddTransactionWidget">
+        <receiver
+            android:name=".ui.widget.AddTransactionWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -68,7 +73,9 @@
                 android:resource="@xml/add_transaction_widget_info" />
         </receiver>
 
-        <receiver android:name=".ui.widget.AddTransactionWidgetCompact">
+        <receiver
+            android:name=".ui.widget.AddTransactionWidgetCompact"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
