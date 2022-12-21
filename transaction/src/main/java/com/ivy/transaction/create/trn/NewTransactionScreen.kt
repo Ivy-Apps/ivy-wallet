@@ -1,53 +1,111 @@
 package com.ivy.transaction.create.trn
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import com.ivy.core.ui.category.pick.CategoryPickerModal
-import com.ivy.core.ui.data.CategoryUi
-import com.ivy.core.ui.time.picker.date.DatePickerModal
-import com.ivy.design.l1_buildingBlocks.ColumnRoot
-import com.ivy.design.l1_buildingBlocks.SpacerWeight
-import com.ivy.design.l2_components.modal.rememberIvyModal
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.data.transaction.TransactionType
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.input.InputFieldType
+import com.ivy.design.l2_components.input.IvyInputField
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.navigation.destinations.transaction.NewTransaction
-import java.time.LocalDate
+import com.ivy.resources.R
+import com.ivy.transaction.component.TrnScreenToolbar
 
 @Composable
 fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
-    val categoriesPicker = rememberIvyModal()
-    val datePicker = rememberIvyModal()
+    val viewModel: NewTransactionViewModel = viewModel()
+    val state by viewModel.uiState.collectAsState()
 
-
-    var selectedDate by remember {
-        mutableStateOf(LocalDate.now())
-    }
-
-    ColumnRoot {
-        SpacerWeight(weight = 1f)
-        Button(onClick = {
-            categoriesPicker.show()
-        }) {
-            Text(text = "Pick category")
-        }
-        Button(onClick = {
-            datePicker.show()
-        }) {
-            Text(text = "Pick date ($selectedDate)")
-        }
-        SpacerWeight(weight = 1f)
-    }
-
-    var selectedCategory by remember { mutableStateOf<CategoryUi?>(null) }
-    CategoryPickerModal(
-        modal = categoriesPicker,
-        selected = selectedCategory,
-        onPick = { selectedCategory = it }
+    UI(
+        state = state,
+        onEvent = viewModel::onEvent,
     )
+}
 
-    DatePickerModal(
-        modal = datePicker,
-        selected = selectedDate,
-        onPick = { selectedDate = it }
+@Composable
+private fun BoxScope.UI(
+    state: NewTrnState,
+    onEvent: (NewTrnEvent) -> Unit,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
+    ) {
+        item(key = "toolbar") {
+            SpacerVer(height = 24.dp)
+            NewTrnScreenToolbar(
+                onClose = {
+                    onEvent(NewTrnEvent.Close)
+                },
+                trnType = state.trnType,
+                onChangeTrnType = {
+                    state.trnTypeModal.show()
+                }
+            )
+        }
+        item(key = "title") {
+            SpacerVer(height = 16.dp)
+            IvyInputField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                type = InputFieldType.SingleLine,
+                initialValue = "",
+                placeholder = "Title",
+                onValueChange = {
+                    onEvent(NewTrnEvent.TitleChange(it))
+                }
+            )
+        }
+        item(key = "category") {
+
+        }
+        item(key = "description") {
+
+        }
+        item(key = "trn_time") {
+
+        }
+        item(key = "last_item_spacer") {
+            SpacerVer(height = 48.dp)
+        }
+    }
+}
+
+@Composable
+private fun NewTrnScreenToolbar(
+    onClose: () -> Unit,
+    trnType: TransactionType,
+    onChangeTrnType: () -> Unit,
+) {
+    TrnScreenToolbar(
+        onClose = onClose,
+        actions = {
+            IvyButton(
+                size = ButtonSize.Small,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Positive,
+                text = when (trnType) {
+                    TransactionType.Income -> stringResource(R.string.income)
+                    TransactionType.Expense -> stringResource(R.string.expense)
+                },
+                icon = when (trnType) {
+                    TransactionType.Income -> R.drawable.ic_income
+                    TransactionType.Expense -> R.drawable.ic_expense
+                },
+                onClick = onChangeTrnType,
+            )
+        }
     )
 }

@@ -24,6 +24,7 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Positive
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.previewModal
+import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import java.time.LocalDate
@@ -33,6 +34,7 @@ fun BoxScope.DatePickerModal(
     modal: IvyModal,
     selected: LocalDate,
     level: Int = 1,
+    contentTop: @Composable ModalScope.() -> Unit = {},
     onPick: (LocalDate) -> Unit,
 ) {
     val viewModel: DatePickerViewModel? = hiltViewModelPreviewSafe()
@@ -53,6 +55,7 @@ fun BoxScope.DatePickerModal(
         }
     ) {
         Title(text = "Pick a date")
+        contentTop()
         SpacerVer(height = 24.dp)
         B2Second(
             modifier = Modifier.align(Alignment.CenterHorizontally),
