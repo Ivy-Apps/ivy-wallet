@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +41,7 @@ fun IvyButton(
     icon: Int?,
     modifier: Modifier = Modifier,
     shape: Shape = UI.shapes.fullyRounded,
+    typo: TextStyle = UI.typo.b2,
     hapticFeedback: Boolean = false,
     onClick: () -> Unit,
 ) {
@@ -76,7 +78,7 @@ fun IvyButton(
         Visibility.Medium -> UI.colorsInverted.pure
         Visibility.Low -> feelingColor
     }
-    val textStyle = UI.typo.b2.style(
+    val textStyle = typo.style(
         color = textColor,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Orange
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.l3_ivyComponents.Visibility
@@ -30,7 +31,8 @@ internal fun TrnTimeComponent(
             is TrnTimeUi.Actual -> trnTime.actual
             is TrnTimeUi.Due -> "Due on ${trnTime.dueOn}"
         },
-        icon = R.drawable.ic_date,
+        icon = R.drawable.ic_round_calendar_month_24,
+        typo = UI.typoSecond.b2,
         onClick = onClick
     )
 }

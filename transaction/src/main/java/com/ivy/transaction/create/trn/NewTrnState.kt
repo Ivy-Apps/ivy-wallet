@@ -16,13 +16,15 @@ data class NewTrnState(
     val account: AccountUi?,
     val category: CategoryUi?,
     val time: TrnTimeUi,
+    val title: String?,
+    val description: String?,
 
     // region Create flow
     val amountModal: IvyModal,
     val categoryModal: IvyModal,
     val titleFocus: FocusRequester,
     val descriptionModal: IvyModal,
-    val dateModal: IvyModal,
+    val trnTimeModal: IvyModal,
     val trnTypeModal: IvyModal,
     // endregion
 )

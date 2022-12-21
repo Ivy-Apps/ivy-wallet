@@ -28,6 +28,7 @@ internal fun DescriptionComponent(
 ) {
     if (description != null) {
         Description(
+            modifier = modifier,
             description = description,
             onClick = onClick,
         )

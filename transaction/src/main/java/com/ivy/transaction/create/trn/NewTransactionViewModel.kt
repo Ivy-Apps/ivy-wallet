@@ -28,11 +28,14 @@ class NewTransactionViewModel @Inject constructor(
         account = null,
         category = null,
         time = TrnTimeUi.Actual(""),
+        title = null,
+        description = null,
+
         titleFocus = titleFocus,
         amountModal = amountModal,
         categoryModal = categoryModal,
         descriptionModal = descriptionModal,
-        dateModal = dateModal,
+        trnTimeModal = dateModal,
         trnTypeModal = trnTypeModal,
     )
 
