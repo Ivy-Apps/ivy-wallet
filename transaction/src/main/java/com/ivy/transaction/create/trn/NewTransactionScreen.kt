@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.ui.transaction.humanText
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.input.InputFieldType
@@ -96,10 +96,7 @@ private fun NewTrnScreenToolbar(
                 size = ButtonSize.Small,
                 visibility = Visibility.Medium,
                 feeling = Feeling.Positive,
-                text = when (trnType) {
-                    TransactionType.Income -> stringResource(R.string.income)
-                    TransactionType.Expense -> stringResource(R.string.expense)
-                },
+                text = trnType.humanText(),
                 icon = when (trnType) {
                     TransactionType.Income -> R.drawable.ic_income
                     TransactionType.Expense -> R.drawable.ic_expense

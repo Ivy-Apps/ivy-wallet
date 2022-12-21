@@ -3,6 +3,7 @@ package com.ivy.transaction.create.trn
 import androidx.compose.ui.focus.FocusRequester
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l2_components.modal.IvyModal
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,7 @@ class NewTransactionViewModel @Inject constructor(
         amount = ValueUi(amount = "0.0", currency = ""),
         account = null,
         category = null,
+        time = TrnTimeUi.Actual(""),
         titleFocus = titleFocus,
         amountModal = amountModal,
         categoryModal = categoryModal,

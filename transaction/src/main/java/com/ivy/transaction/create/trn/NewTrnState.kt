@@ -5,6 +5,7 @@ import androidx.compose.ui.focus.FocusRequester
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
+import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l2_components.modal.IvyModal
 
@@ -14,6 +15,7 @@ data class NewTrnState(
     val amount: ValueUi,
     val account: AccountUi?,
     val category: CategoryUi?,
+    val time: TrnTimeUi,
 
     // region Create flow
     val amountModal: IvyModal,
