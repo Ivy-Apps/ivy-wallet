@@ -9,6 +9,7 @@ import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.Value
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.util.KeyboardController
 
 @Immutable
 data class NewTrnState(
@@ -22,10 +23,11 @@ data class NewTrnState(
     val description: String?,
 
     // region Create flow
+    val titleFocus: FocusRequester,
+    val keyboardController: KeyboardController,
     val amountModal: IvyModal,
     val categoryPickerModal: IvyModal,
     val accountPickerModal: IvyModal,
-    val titleFocus: FocusRequester,
     val descriptionModal: IvyModal,
     val trnTimeModal: IvyModal,
     val trnTypeModal: IvyModal,

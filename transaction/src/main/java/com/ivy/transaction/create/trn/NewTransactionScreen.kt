@@ -2,16 +2,14 @@ package com.ivy.transaction.create.trn
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.pick.CategoryPickerModal
@@ -31,6 +29,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.destinations.transaction.NewTransaction
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
@@ -39,8 +38,14 @@ import com.ivy.transaction.modal.TrnTypeModal
 
 @Composable
 fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
-    val viewModel: NewTransactionViewModel = viewModel()
+    val viewModel: NewTransactionViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+
+    state.keyboardController.initialize()
+
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(NewTrnEvent.Initial)
+    }
 
     UI(
         state = state,
@@ -74,6 +79,7 @@ private fun BoxScope.UI(
             SpacerVer(height = 24.dp)
             IvyInputField(
                 modifier = Modifier
+                    .focusRequester(state.titleFocus)
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 type = InputFieldType.SingleLine,
@@ -206,6 +212,7 @@ private fun Preview_Empty() {
                 title = null,
 
                 titleFocus = remember { FocusRequester() },
+                keyboardController = KeyboardController(),
                 time = dummyTrnTimeActualUi(),
                 trnTypeModal = rememberIvyModal(),
                 categoryPickerModal = rememberIvyModal(),
@@ -229,11 +236,12 @@ private fun Preview_Filled() {
                 title = "Tabu Shisha",
                 category = dummyCategoryUi(),
                 description = "Lorem ipsum blablablabla okay good test\n1\n2\n",
-                amountUi = dummyValueUi(),
-                amount = dummyValue(),
+                amountUi = dummyValueUi(amount = "23.99"),
+                amount = dummyValue(amount = 23.99),
                 account = dummyAccountUi(),
 
                 titleFocus = remember { FocusRequester() },
+                keyboardController = KeyboardController(),
                 time = dummyTrnTimeDueUi(),
                 trnTypeModal = rememberIvyModal(),
                 categoryPickerModal = rememberIvyModal(),

@@ -3,25 +3,26 @@ package com.ivy.core.ui.action.mapping
 import android.content.Context
 import com.ivy.common.time.format
 import com.ivy.common.time.provider.TimeProvider
-import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.transaction.*
-import com.ivy.core.ui.time.formatNicely
 import com.ivy.data.Value
-import com.ivy.data.transaction.*
+import com.ivy.data.transaction.DueSection
+import com.ivy.data.transaction.Transaction
+import com.ivy.data.transaction.TransactionsList
+import com.ivy.data.transaction.TrnListItem
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MapTransactionListUiAct @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapCategoryUiAct: MapCategoryUiAct,
+    private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     @ApplicationContext
     private val appContext: Context,
-    private val timeProvider: TimeProvider,
+    private val timeProvider: TimeProvider
 ) : MapUiAction<TransactionsList, TransactionsListUi>() {
     override suspend fun transform(domain: TransactionsList): TransactionsListUi =
         TransactionsListUi(
@@ -58,7 +59,7 @@ class MapTransactionListUiAct @Inject constructor(
         is TrnListItem.DateDivider -> mapDateDivider(domain)
         is TrnListItem.Transfer -> TrnListItemUi.Transfer(
             batchId = domain.batchId,
-            time = mapTrnTimeUi(domain.time),
+            time = mapTrnTimeUiAct(domain.time),
             from = mapTransaction(domain.from),
             to = mapTransaction(domain.to),
             fee = domain.fee?.let { mapTransaction(it) }
@@ -92,25 +93,8 @@ class MapTransactionListUiAct @Inject constructor(
         value = format(value = domain.value, shortenFiat = false),
         account = mapAccountUiAct(domain.account),
         category = domain.category?.let { mapCategoryUiAct(it) },
-        time = mapTrnTimeUi(domain.time),
+        time = mapTrnTimeUiAct(domain.time),
         title = domain.title,
         description = domain.description,
     )
-
-    private fun mapTrnTimeUi(domain: TrnTime): TrnTimeUi {
-        fun formatTime(time: LocalDateTime): String =
-            time.formatNicely(context = appContext, includeWeekDay = true)
-
-        return when (domain) {
-            is TrnTime.Actual -> TrnTimeUi.Actual(
-                actual = formatTime(domain.actual).uppercase()
-            )
-            is TrnTime.Due -> TrnTimeUi.Due(
-                dueOn = appContext.getString(
-                    R.string.due_on, formatTime(domain.due)
-                ).uppercase(),
-                upcoming = timeNow().isBefore(domain.due)
-            )
-        }
-    }
 }
