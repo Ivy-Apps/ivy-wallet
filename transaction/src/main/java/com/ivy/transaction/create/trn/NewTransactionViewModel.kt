@@ -6,9 +6,11 @@ import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.data.Modify
+import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
+import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
@@ -19,6 +21,7 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.create.action.CreateTrnFlowAct
+import com.ivy.transaction.create.action.PreselectedAccountAct
 import com.ivy.transaction.create.data.CreateTrnFlow
 import com.ivy.transaction.create.data.CreateTrnFlowStep
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,9 +37,12 @@ class NewTransactionViewModel @Inject constructor(
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val writeTrnsAct: WriteTrnsAct,
-    timeProvider: TimeProvider,
+    private val timeProvider: TimeProvider,
     private val accountByIdAct: AccountByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
+    private val mapCategoryUiAct: MapCategoryUiAct,
+    private val preselectedAccountAct: PreselectedAccountAct,
+    private val baseCurrencyAct: BaseCurrencyAct,
 ) : SimpleFlowViewModel<NewTrnState, NewTrnEvent>() {
     // region UX flow
     private interface FlowStep {
@@ -168,7 +174,7 @@ class NewTransactionViewModel @Inject constructor(
 
     // region Event Handling
     override suspend fun handleEvent(event: NewTrnEvent) = when (event) {
-        NewTrnEvent.Initial -> handleInitial()
+        is NewTrnEvent.Initial -> handleInitial(event)
         is NewTrnEvent.AccountChange -> handleAccountChange(event)
         NewTrnEvent.Add -> handleAdd()
         is NewTrnEvent.AmountChange -> handleAmountChange(event)
@@ -180,11 +186,29 @@ class NewTransactionViewModel @Inject constructor(
         is NewTrnEvent.TrnTypeChange -> handleTrnTypeChange(event)
     }
 
-    private suspend fun handleInitial() {
+    private suspend fun handleInitial(event: NewTrnEvent.Initial) {
         val createTrnFlow = createTrnFlowAct(Unit).also {
             createTrnFlow = it
         }
         flowStep(createTrnFlow.first).execute()
+
+        val arg = event.arg
+        trnType.value = arg.trnType
+        category.value = arg.categoryId?.let {
+            categoryByIdAct(it)
+        }?.let {
+            mapCategoryUiAct.invoke(it)
+        }
+        preselectedAccountAct(
+            PreselectedAccountAct.Input(
+                preselectedAccountId = arg.accountId
+            )
+        )?.let {
+            account.value = it
+        }
+        timeUi.value = mapTrnTimeUiAct(time.value)
+        amount.value = Value(amount = 0.0, currency = baseCurrencyAct(Unit))
+        amountUi.value = format(amount.value, shortenFiat = false)
     }
 
     private suspend fun handleAdd() {

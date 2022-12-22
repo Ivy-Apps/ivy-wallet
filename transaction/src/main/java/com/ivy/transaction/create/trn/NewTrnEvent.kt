@@ -5,9 +5,10 @@ import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.data.Value
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnTime
+import com.ivy.navigation.destinations.transaction.NewTransaction
 
 sealed interface NewTrnEvent {
-    object Initial : NewTrnEvent
+    data class Initial(val arg: NewTransaction.Arg) : NewTrnEvent
 
     data class AmountChange(val amount: Value) : NewTrnEvent
     data class TitleChange(val title: String) : NewTrnEvent

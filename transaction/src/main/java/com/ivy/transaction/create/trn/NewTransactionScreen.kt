@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +31,8 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.KeyboardController
+import com.ivy.design.util.keyboardPadding
+import com.ivy.design.util.keyboardShownState
 import com.ivy.navigation.destinations.transaction.NewTransaction
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
@@ -44,7 +47,7 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
     state.keyboardController.initialize()
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(NewTrnEvent.Initial)
+        viewModel.onEvent(NewTrnEvent.Initial(arg))
     }
 
     UI(
@@ -85,6 +88,10 @@ private fun BoxScope.UI(
                 type = InputFieldType.SingleLine,
                 initialValue = "",
                 placeholder = "Title",
+                imeAction = ImeAction.Done,
+                onImeAction = {
+                    onEvent(NewTrnEvent.Add)
+                },
                 onValueChange = {
                     onEvent(NewTrnEvent.TitleChange(it))
                 }
@@ -118,7 +125,12 @@ private fun BoxScope.UI(
             }
         }
         item(key = "last_item_spacer") {
-            SpacerVer(height = 48.dp)
+            val keyboardShown by keyboardShownState()
+            if (keyboardShown) {
+                SpacerVer(height = keyboardPadding())
+            }
+            // To account for "Amount Account sheet" height
+            SpacerVer(height = 480.dp)
         }
     }
 

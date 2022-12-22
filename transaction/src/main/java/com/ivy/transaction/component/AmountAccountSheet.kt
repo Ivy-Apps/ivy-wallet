@@ -1,10 +1,12 @@
 package com.ivy.transaction.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -31,6 +33,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.keyboardShiftAnimated
 import com.ivy.resources.R
 import com.ivy.transaction.modal.AmountModalWithAccounts
 
@@ -49,11 +52,14 @@ internal fun BoxScope.AmountAccountSheet(
     onAmountEnter: (Value) -> Unit,
     onCtaClick: () -> Unit,
 ) {
+    val keyboardShiftDp by keyboardShiftAnimated()
     Column(
         modifier = modifier
             .align(Alignment.BottomCenter)
             .border(1.dp, UI.colors.neutral, UI.shapes.roundedTop)
+            .background(UI.colors.pure, UI.shapes.roundedTop)
             .padding(bottom = 8.dp, top = 12.dp)
+            .padding(bottom = keyboardShiftDp)
     ) {
         AmountAccountRow(
             amount = amountUi,

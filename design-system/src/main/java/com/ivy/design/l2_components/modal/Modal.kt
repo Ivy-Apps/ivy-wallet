@@ -14,16 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.doOnLayout
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.mediumBlur
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -117,7 +112,7 @@ fun BoxScope.Modal(
     ) {
         val systemBottomPadding = systemPaddingBottom()
         val keyboardShown by keyboardShownState()
-        val keyboardShownInset = keyboardPaddingBottom()
+        val keyboardShownInset = keyboardPadding()
         val paddingBottom = if (keyboardShiftsContent) {
             animateDpAsState(
                 targetValue = if (keyboardShown)
@@ -223,71 +218,6 @@ fun CloseButton(
         onClick = onClick
     )
 }
-
-@Composable
-private fun keyboardShownState(): MutableState<Boolean> {
-    val keyboardOpen = remember { mutableStateOf(false) }
-    val rootView = LocalView.current
-
-    DisposableEffect(Unit) {
-        val keyboardListener = {
-            // check keyboard state after this layout
-            val isOpenNew = isKeyboardOpen(rootView)
-
-            // since the observer is hit quite often, only callback when there is a change.
-            if (isOpenNew != keyboardOpen.value) {
-                keyboardOpen.value = isOpenNew
-            }
-        }
-
-        rootView.doOnLayout {
-            // get initial state of keyboard
-            keyboardOpen.value = isKeyboardOpen(rootView)
-
-            // whenever the layout resizes/changes, callback with the state of the keyboard.
-            rootView.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
-        }
-
-        onDispose {
-            // stop keyboard updates
-            rootView.viewTreeObserver.removeOnGlobalLayoutListener(keyboardListener)
-        }
-    }
-
-    return keyboardOpen
-}
-
-// region Insets
-/**
- * @return system's bottom inset (nav buttons or bottom nav)
- */
-@Composable
-private fun systemPaddingBottom(): Dp {
-    val rootView = LocalView.current
-    val densityScope = LocalDensity.current
-    return remember(rootView) {
-        val insetPx =
-            WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
-                .getInsets(WindowInsetsCompat.Type.navigationBars())
-                .bottom
-        with(densityScope) { insetPx.toDp() }
-    }
-}
-
-@Composable
-private fun keyboardPaddingBottom(): Dp {
-    val rootView = LocalView.current
-    val insetPx =
-        WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
-            .getInsets(
-                WindowInsetsCompat.Type.ime() or
-                        WindowInsetsCompat.Type.navigationBars()
-            )
-            .bottom
-    return insetPx.toDensityDp()
-}
-// endregion
-
 
 // region Previews
 @Preview

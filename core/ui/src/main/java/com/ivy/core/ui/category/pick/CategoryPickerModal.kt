@@ -51,7 +51,7 @@ fun BoxScope.CategoryPickerModal(
         actions = {
             IvyButton(
                 size = ButtonSize.Small,
-                visibility = Visibility.High,
+                visibility = Visibility.Medium,
                 feeling = Feeling.Neutral,
                 text = "Unspecified",
                 icon = R.drawable.ic_custom_category_s,
