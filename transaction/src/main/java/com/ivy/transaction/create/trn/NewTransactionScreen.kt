@@ -8,9 +8,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -30,10 +32,8 @@ import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.navigation.destinations.transaction.NewTransaction
-import com.ivy.transaction.component.CategoryComponent
-import com.ivy.transaction.component.DescriptionComponent
-import com.ivy.transaction.component.TrnScreenToolbar
-import com.ivy.transaction.component.TrnTimeComponent
+import com.ivy.resources.R
+import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
 import com.ivy.transaction.modal.TrnTypeModal
 
@@ -90,7 +90,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 category = state.category
             ) {
-                state.categoryModal.show()
+                state.categoryPickerModal.show()
             }
         }
         item(key = "description") {
@@ -116,6 +116,25 @@ private fun BoxScope.UI(
         }
     }
 
+    AmountAccountSheet(
+        amountUi = state.amountUi,
+        amount = state.amount,
+        account = state.account,
+        ctaText = stringResource(R.string.add),
+        ctaIcon = R.drawable.ic_round_add_24,
+        accountPickerModal = state.accountPickerModal,
+        amountModal = state.amountModal,
+        onAccountChange = {
+            onEvent(NewTrnEvent.AccountChange(it))
+        },
+        onAmountEnter = {
+            onEvent(NewTrnEvent.AmountChange(it))
+        },
+        onCtaClick = {
+            onEvent(NewTrnEvent.Add)
+        }
+    )
+
     Modals(state = state, onEvent = onEvent)
 }
 
@@ -125,7 +144,7 @@ private fun BoxScope.Modals(
     onEvent: (NewTrnEvent) -> Unit
 ) {
     CategoryPickerModal(
-        modal = state.categoryModal,
+        modal = state.categoryPickerModal,
         selected = state.category,
         onPick = {
             onEvent(NewTrnEvent.CategoryChange(it))
@@ -181,14 +200,16 @@ private fun Preview_Empty() {
                 trnType = TransactionType.Income,
                 category = null,
                 description = null,
-                amount = dummyValueUi(),
+                amountUi = dummyValueUi(),
+                amount = dummyValue(),
                 account = dummyAccountUi(),
                 title = null,
 
                 titleFocus = remember { FocusRequester() },
                 time = dummyTrnTimeActualUi(),
                 trnTypeModal = rememberIvyModal(),
-                categoryModal = rememberIvyModal(),
+                categoryPickerModal = rememberIvyModal(),
+                accountPickerModal = rememberIvyModal(),
                 descriptionModal = rememberIvyModal(),
                 trnTimeModal = rememberIvyModal(),
                 amountModal = rememberIvyModal(),
@@ -208,13 +229,15 @@ private fun Preview_Filled() {
                 title = "Tabu Shisha",
                 category = dummyCategoryUi(),
                 description = "Lorem ipsum blablablabla okay good test\n1\n2\n",
-                amount = dummyValueUi(),
+                amountUi = dummyValueUi(),
+                amount = dummyValue(),
                 account = dummyAccountUi(),
 
                 titleFocus = remember { FocusRequester() },
                 time = dummyTrnTimeDueUi(),
                 trnTypeModal = rememberIvyModal(),
-                categoryModal = rememberIvyModal(),
+                categoryPickerModal = rememberIvyModal(),
+                accountPickerModal = rememberIvyModal(),
                 descriptionModal = rememberIvyModal(),
                 trnTimeModal = rememberIvyModal(),
                 amountModal = rememberIvyModal(),

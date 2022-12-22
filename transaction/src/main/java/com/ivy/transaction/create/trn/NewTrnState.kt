@@ -6,14 +6,16 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.Value
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l2_components.modal.IvyModal
 
 @Immutable
 data class NewTrnState(
     val trnType: TransactionType,
-    val amount: ValueUi,
-    val account: AccountUi?,
+    val amountUi: ValueUi,
+    val amount: Value,
+    val account: AccountUi,
     val category: CategoryUi?,
     val time: TrnTimeUi,
     val title: String?,
@@ -21,7 +23,8 @@ data class NewTrnState(
 
     // region Create flow
     val amountModal: IvyModal,
-    val categoryModal: IvyModal,
+    val categoryPickerModal: IvyModal,
+    val accountPickerModal: IvyModal,
     val titleFocus: FocusRequester,
     val descriptionModal: IvyModal,
     val trnTimeModal: IvyModal,

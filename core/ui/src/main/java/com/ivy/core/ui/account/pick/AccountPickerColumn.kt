@@ -7,7 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ivy.core.ui.account.pick.component.AccountItem
+import com.ivy.core.ui.account.pick.component.SelectableAccountItem
 import com.ivy.core.ui.account.pick.data.SelectableAccountUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -39,7 +39,7 @@ fun AccountPickerColumn(
         horizontalMarginBetweenItems = 8.dp,
         verticalMarginBetweenRows = 12.dp
     ) { item ->
-        AccountItem(
+        SelectableAccountItem(
             item = item,
             deselectButton = deselectButton,
             onSelect = { onSelectAccount(item.account) },

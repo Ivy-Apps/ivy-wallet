@@ -1,11 +1,14 @@
 package com.ivy.core.ui.account.pick.component
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.account.pick.data.SelectableAccountUi
 import com.ivy.core.ui.component.SelectableItem
+import com.ivy.core.ui.data.account.dummyAccountUi
+import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun AccountItem(
+fun SelectableAccountItem(
     item: SelectableAccountUi,
     deselectButton: Boolean,
     onSelect: () -> Unit,
@@ -23,4 +26,18 @@ fun AccountItem(
 }
 
 
-// TODO: Add previews
+@Preview
+@Composable
+private fun Preview() {
+    ComponentPreview {
+        SelectableAccountItem(
+            item = SelectableAccountUi(
+                account = dummyAccountUi(),
+                selected = true,
+            ),
+            deselectButton = true,
+            onSelect = {},
+            onDeselect = {},
+        )
+    }
+}

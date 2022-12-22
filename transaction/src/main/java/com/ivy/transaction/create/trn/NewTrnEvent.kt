@@ -15,6 +15,6 @@ sealed interface NewTrnEvent {
     data class TrnTypeChange(val trnType: TransactionType) : NewTrnEvent
     data class TrnTimeChange(val trnTime: TrnTime) : NewTrnEvent
 
-    object Save : NewTrnEvent
+    object Add : NewTrnEvent
     object Close : NewTrnEvent
 }
