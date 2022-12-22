@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.AmountModal(
     modal: IvyModal,
@@ -77,6 +80,12 @@ fun BoxScope.AmountModal(
             }
         }
     ) {
+        // Close the software keyboard if it's open
+        val keyboardController = LocalSoftwareKeyboardController.current
+        LaunchedEffect(Unit) {
+            keyboardController?.hide()
+        }
+
         contentAbove?.invoke(this)
         AmountSection(
             calculatorVisible = calculatorVisible.value,

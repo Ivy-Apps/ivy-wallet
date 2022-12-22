@@ -22,6 +22,8 @@ import com.ivy.core.ui.transaction.feeling
 import com.ivy.core.ui.transaction.humanText
 import com.ivy.core.ui.transaction.icon
 import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.dummyTrnTimeActual
+import com.ivy.data.transaction.dummyTrnTimeDue
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.input.InputFieldType
 import com.ivy.design.l2_components.input.IvyInputField
@@ -37,6 +39,7 @@ import com.ivy.navigation.destinations.transaction.NewTransaction
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.TrnTimeModal
 import com.ivy.transaction.modal.TrnTypeModal
 
 @Composable
@@ -119,9 +122,9 @@ private fun BoxScope.UI(
             SpacerVer(height = 12.dp)
             TrnTimeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                trnTime = state.time
+                trnTime = state.timeUi
             ) {
-                state.trnTimeModal.show()
+                state.timeModal.show()
             }
         }
         item(key = "last_item_spacer") {
@@ -184,6 +187,14 @@ private fun BoxScope.Modals(
             onEvent(NewTrnEvent.TrnTypeChange(it))
         }
     )
+
+    TrnTimeModal(
+        modal = state.timeModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(NewTrnEvent.TrnTimeChange(it))
+        }
+    )
 }
 
 @Composable
@@ -225,12 +236,13 @@ private fun Preview_Empty() {
 
                 titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),
-                time = dummyTrnTimeActualUi(),
+                timeUi = dummyTrnTimeActualUi(),
+                time = dummyTrnTimeActual(),
                 trnTypeModal = rememberIvyModal(),
                 categoryPickerModal = rememberIvyModal(),
                 accountPickerModal = rememberIvyModal(),
                 descriptionModal = rememberIvyModal(),
-                trnTimeModal = rememberIvyModal(),
+                timeModal = rememberIvyModal(),
                 amountModal = rememberIvyModal(),
             ),
             onEvent = {}
@@ -254,12 +266,13 @@ private fun Preview_Filled() {
 
                 titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),
-                time = dummyTrnTimeDueUi(),
+                timeUi = dummyTrnTimeDueUi(),
+                time = dummyTrnTimeDue(),
                 trnTypeModal = rememberIvyModal(),
                 categoryPickerModal = rememberIvyModal(),
                 accountPickerModal = rememberIvyModal(),
                 descriptionModal = rememberIvyModal(),
-                trnTimeModal = rememberIvyModal(),
+                timeModal = rememberIvyModal(),
                 amountModal = rememberIvyModal(),
             ),
             onEvent = {}

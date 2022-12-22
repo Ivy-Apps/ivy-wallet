@@ -21,7 +21,7 @@ import com.ivy.core.ui.account.pick.component.SelectableAccountItem
 import com.ivy.core.ui.account.pick.data.SelectableAccountUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
-import com.ivy.core.ui.value.AmountCurrency
+import com.ivy.core.ui.value.AmountCurrencyBig
 import com.ivy.data.Value
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -109,14 +109,13 @@ private fun AmountAccountRow(
                 .clickable(onClick = onAmountClick)
                 .padding(end = 8.dp)
         ) {
-            AmountCurrency(value = amount)
+            AmountCurrencyBig(value = amount)
         }
-        SpacerWeight(weight = 1f)
         SelectableAccountItem(
             item = SelectableAccountUi(account, true),
             deselectButton = false,
             onSelect = onAccountClick,
-            onDeselect = {}
+            onDeselect = onAccountClick
         )
     }
 }

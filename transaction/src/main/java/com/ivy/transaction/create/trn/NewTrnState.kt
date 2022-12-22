@@ -8,6 +8,7 @@ import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.Value
 import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
 
@@ -18,7 +19,8 @@ data class NewTrnState(
     val amount: Value,
     val account: AccountUi,
     val category: CategoryUi?,
-    val time: TrnTimeUi,
+    val timeUi: TrnTimeUi,
+    val time: TrnTime,
     val title: String?,
     val description: String?,
 
@@ -29,7 +31,7 @@ data class NewTrnState(
     val categoryPickerModal: IvyModal,
     val accountPickerModal: IvyModal,
     val descriptionModal: IvyModal,
-    val trnTimeModal: IvyModal,
+    val timeModal: IvyModal,
     val trnTypeModal: IvyModal,
     // endregion
 )

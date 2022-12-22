@@ -53,9 +53,7 @@ fun SelectableItem(
                     false -> border(2.dp, color, UI.shapes.fullyRounded)
                 }
             }
-            .clickable {
-                if (!selected) onSelect()
-            }
+            .clickable(onClick = onSelect)
             .thenIf(selected && !deselectButton) {
                 padding(vertical = 8.dp)
                     .padding(end = 24.dp)

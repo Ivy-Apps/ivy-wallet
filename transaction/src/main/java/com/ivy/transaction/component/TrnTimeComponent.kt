@@ -29,7 +29,7 @@ internal fun TrnTimeComponent(
         },
         text = when (trnTime) {
             is TrnTimeUi.Actual -> trnTime.actual
-            is TrnTimeUi.Due -> "Due on ${trnTime.dueOn}"
+            is TrnTimeUi.Due -> trnTime.dueOn
         },
         icon = R.drawable.ic_round_calendar_month_24,
         typo = UI.typoSecond.b2,

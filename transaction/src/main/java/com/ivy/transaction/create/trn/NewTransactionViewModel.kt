@@ -104,7 +104,8 @@ class NewTransactionViewModel @Inject constructor(
         amount = Value(amount = 0.0, currency = ""),
         account = dummyAccountUi(),
         category = null,
-        time = TrnTimeUi.Actual(""),
+        timeUi = TrnTimeUi.Actual(""),
+        time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,
 
@@ -114,7 +115,7 @@ class NewTransactionViewModel @Inject constructor(
         categoryPickerModal = categoryPickerModal,
         accountPickerModal = accountPickerModal,
         descriptionModal = descriptionModal,
-        trnTimeModal = trnTimeModal,
+        timeModal = trnTimeModal,
         trnTypeModal = trnTypeModal,
     )
 
@@ -125,20 +126,22 @@ class NewTransactionViewModel @Inject constructor(
     private val account = MutableStateFlow(initialUi.account)
     private val category = MutableStateFlow(initialUi.category)
     private val time = MutableStateFlow<TrnTime>(TrnTime.Actual(timeProvider.timeNow()))
-    private val timeUi = MutableStateFlow(initialUi.time)
+    private val timeUi = MutableStateFlow(initialUi.timeUi)
     private val title = MutableStateFlow(initialUi.title)
     private val description = MutableStateFlow(initialUi.description)
     // endregion
 
     override val uiFlow: Flow<NewTrnState> = combine(
-        trnType, amountFlow(), accountCategory(), textFlow(), timeUi,
-    ) { trnType, (amount, amountUi), (account, category), (title, description), time ->
+        trnType, amountFlow(), accountCategoryFlow(), textFlow(), timeFlow(),
+    ) { trnType, (amount, amountUi), (account, category),
+        (title, description), (time, timeUi) ->
         NewTrnState(
             trnType = trnType,
             amount = amount,
             amountUi = amountUi,
             account = account,
             category = category,
+            timeUi = timeUi,
             time = time,
             title = title,
             description = description,
@@ -149,7 +152,7 @@ class NewTransactionViewModel @Inject constructor(
             categoryPickerModal = categoryPickerModal,
             accountPickerModal = accountPickerModal,
             descriptionModal = descriptionModal,
-            trnTimeModal = trnTimeModal,
+            timeModal = trnTimeModal,
             trnTypeModal = trnTypeModal,
         )
     }
@@ -166,10 +169,16 @@ class NewTransactionViewModel @Inject constructor(
         title to description
     }
 
-    private fun accountCategory() = combine(
+    private fun accountCategoryFlow() = combine(
         account, category
     ) { account, category ->
         account to category
+    }
+
+    private fun timeFlow() = combine(
+        time, timeUi
+    ) { time, timeUi ->
+        time to timeUi
     }
 
     // region Event Handling
@@ -237,7 +246,7 @@ class NewTransactionViewModel @Inject constructor(
         )
 
         writeTrnsAct(Modify.save(transaction))
-
+        keyboardController.hide()
         navigator.back()
     }
 
@@ -286,6 +295,7 @@ class NewTransactionViewModel @Inject constructor(
     }
 
     private fun handleClose() {
+        keyboardController.hide()
         navigator.back()
     }
     // endregion
