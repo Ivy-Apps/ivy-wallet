@@ -1,6 +1,5 @@
 package com.ivy.transaction.create.action
 
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.account.AccountsAct
@@ -8,6 +7,7 @@ import com.ivy.core.persistence.datastore.IvyDataStore
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.transaction.create.action.PreselectedAccountAct.Input
+import com.ivy.transaction.create.persistence.LastUsedAccountIdKey
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
@@ -15,11 +15,9 @@ class PreselectedAccountAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val accountByIdAct: AccountByIdAct,
     private val mapAccountUiAct: MapAccountUiAct,
-    private val accountsAct: AccountsAct
+    private val accountsAct: AccountsAct,
+    private val lastUsedAccountId: LastUsedAccountIdKey,
 ) : Action<Input, AccountUi?>() {
-    private val lastUsedAccountIdKey by lazy {
-        stringPreferencesKey("last_used_account_id")
-    }
 
     data class Input(
         val preselectedAccountId: String?,
@@ -33,7 +31,7 @@ class PreselectedAccountAct @Inject constructor(
             ?.let { mapAccountUiAct(it) }
 
     private suspend fun lastUsedAccount(): AccountUi? =
-        dataStore.get(lastUsedAccountIdKey).firstOrNull()
+        dataStore.get(lastUsedAccountId.key).firstOrNull()
             ?.let { accountByIdAct(it) }
             ?.let { mapAccountUiAct(it) }
 

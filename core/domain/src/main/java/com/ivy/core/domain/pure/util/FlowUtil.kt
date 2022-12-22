@@ -1,7 +1,9 @@
 package com.ivy.core.domain.pure.util
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
 /**
@@ -16,3 +18,7 @@ inline fun <reified T, reified R> combineSafe(
     crossinline transform: suspend (List<T>) -> R,
 ): Flow<R> = if (flows.isEmpty()) flowOf(ifEmpty) else
     combine(flows) { res -> transform(res.toList()) }
+
+@OptIn(ExperimentalCoroutinesApi::class)
+inline fun <reified T> Flow<Flow<T>>.flattenLatest(): Flow<T> =
+    flatMapLatest { it }

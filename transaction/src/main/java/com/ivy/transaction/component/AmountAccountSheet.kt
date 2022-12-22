@@ -22,6 +22,7 @@ import com.ivy.core.ui.account.pick.data.SelectableAccountUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.value.AmountCurrencyBig
+import com.ivy.core.ui.value.AmountCurrencySmall
 import com.ivy.data.Value
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -41,6 +42,7 @@ import com.ivy.transaction.modal.AmountModalWithAccounts
 internal fun BoxScope.AmountAccountSheet(
     amountUi: ValueUi,
     amount: Value,
+    amountBaseCurrency: ValueUi?,
     account: AccountUi,
     ctaText: String,
     @DrawableRes
@@ -63,6 +65,7 @@ internal fun BoxScope.AmountAccountSheet(
     ) {
         AmountAccountRow(
             amount = amountUi,
+            amountBaseCurrency = amountBaseCurrency,
             account = account,
             onAmountClick = {
                 amountModal.show()
@@ -92,6 +95,7 @@ internal fun BoxScope.AmountAccountSheet(
 @Composable
 private fun AmountAccountRow(
     amount: ValueUi,
+    amountBaseCurrency: ValueUi?,
     account: AccountUi,
     modifier: Modifier = Modifier,
     onAmountClick: () -> Unit,
@@ -111,6 +115,15 @@ private fun AmountAccountRow(
                 .padding(start = 8.dp),
         ) {
             AmountCurrencyBig(value = amount)
+            if (amountBaseCurrency != null) {
+                SpacerVer(height = 4.dp)
+                Row {
+                    AmountCurrencySmall(
+                        value = amountBaseCurrency,
+                        color = UI.colors.primary,
+                    )
+                }
+            }
         }
         SelectableAccountItem(
             item = SelectableAccountUi(account, true),
@@ -190,6 +203,7 @@ private fun Preview() {
         AmountAccountSheet(
             amountUi = dummyValueUi(),
             amount = dummyValue(),
+            amountBaseCurrency = null,
             account = dummyAccountUi(),
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,
@@ -209,6 +223,7 @@ private fun Preview_LongAmount() {
         AmountAccountSheet(
             amountUi = dummyValueUi(amount = "12345678901234567890.33"),
             amount = dummyValue(),
+            amountBaseCurrency = dummyValueUi(),
             account = dummyAccountUi(),
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,

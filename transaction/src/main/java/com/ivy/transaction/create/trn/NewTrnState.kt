@@ -17,6 +17,7 @@ data class NewTrnState(
     val trnType: TransactionType,
     val amountUi: ValueUi,
     val amount: Value,
+    val amountBaseCurrency: ValueUi?,
     val account: AccountUi,
     val category: CategoryUi?,
     val timeUi: TrnTimeUi,

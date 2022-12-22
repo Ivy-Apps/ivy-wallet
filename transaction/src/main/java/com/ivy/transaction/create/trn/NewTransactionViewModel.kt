@@ -1,6 +1,7 @@
 package com.ivy.transaction.create.trn
 
 import androidx.compose.ui.focus.FocusRequester
+import com.ivy.common.isNotNullOrBlank
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
@@ -10,8 +11,11 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.util.flattenLatest
+import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.MapTrnTimeUiAct
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.SyncState
@@ -22,27 +26,31 @@ import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.create.action.CreateTrnFlowAct
 import com.ivy.transaction.create.action.PreselectedAccountAct
+import com.ivy.transaction.create.action.WriteLastUsedAccount
 import com.ivy.transaction.create.data.CreateTrnFlow
 import com.ivy.transaction.create.data.CreateTrnFlowStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class NewTransactionViewModel @Inject constructor(
+    timeProvider: TimeProvider,
     private val createTrnFlowAct: CreateTrnFlowAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val writeTrnsAct: WriteTrnsAct,
-    private val timeProvider: TimeProvider,
     private val accountByIdAct: AccountByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
     private val mapCategoryUiAct: MapCategoryUiAct,
     private val preselectedAccountAct: PreselectedAccountAct,
     private val baseCurrencyAct: BaseCurrencyAct,
+    private val writeLastUsedAccount: WriteLastUsedAccount,
+    private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
 ) : SimpleFlowViewModel<NewTrnState, NewTrnEvent>() {
     // region UX flow
     private interface FlowStep {
@@ -102,6 +110,7 @@ class NewTransactionViewModel @Inject constructor(
         trnType = TransactionType.Expense,
         amountUi = ValueUi(amount = "0.0", currency = ""),
         amount = Value(amount = 0.0, currency = ""),
+        amountBaseCurrency = null,
         account = dummyAccountUi(),
         category = null,
         timeUi = TrnTimeUi.Actual(""),
@@ -133,12 +142,13 @@ class NewTransactionViewModel @Inject constructor(
 
     override val uiFlow: Flow<NewTrnState> = combine(
         trnType, amountFlow(), accountCategoryFlow(), textFlow(), timeFlow(),
-    ) { trnType, (amount, amountUi), (account, category),
+    ) { trnType, (amount, amountUi, amountBaseCurrency), (account, category),
         (title, description), (time, timeUi) ->
         NewTrnState(
             trnType = trnType,
             amount = amount,
             amountUi = amountUi,
+            amountBaseCurrency = amountBaseCurrency,
             account = account,
             category = category,
             timeUi = timeUi,
@@ -160,8 +170,10 @@ class NewTransactionViewModel @Inject constructor(
     private fun amountFlow() = combine(
         amount, amountUi
     ) { amount, amountUi ->
-        amount to amountUi
-    }
+        baseCurrencyRepresentationFlow(amount).map { amountBaseCurrency ->
+            Triple(amount, amountUi, amountBaseCurrency)
+        }
+    }.flattenLatest()
 
     private fun textFlow() = combine(
         title, description
@@ -257,12 +269,22 @@ class NewTransactionViewModel @Inject constructor(
         executeNextStep(after = CreateTrnFlowStep.Amount)
     }
 
-    private fun handleAccountChange(event: NewTrnEvent.AccountChange) {
+    private suspend fun handleAccountChange(event: NewTrnEvent.AccountChange) {
         account.value = event.account
+        writeLastUsedAccount(WriteLastUsedAccount.Input(event.account.id))
+        changeAmountToAccountCurrency(event.account)
 
         executeNextStep(after = CreateTrnFlowStep.Account)
+    }
 
-        // TODO: Maybe change amount to match account currency?
+    private suspend fun changeAmountToAccountCurrency(
+        account: AccountUi
+    ) {
+        accountByIdAct(account.id)?.let {
+            val accountCurrency = it.currency
+            amount.value = amount.value.copy(currency = accountCurrency)
+            amountUi.value = format(amount.value, shortenFiat = false)
+        }
     }
 
     private fun handleCategoryChange(event: NewTrnEvent.CategoryChange) {
@@ -276,7 +298,7 @@ class NewTransactionViewModel @Inject constructor(
     }
 
     private fun handleDescriptionChange(event: NewTrnEvent.DescriptionChange) {
-        description.value = event.description.takeIf { !it.isNullOrBlank() }
+        description.value = event.description.takeIf { it.isNotNullOrBlank() }
 
         executeNextStep(after = CreateTrnFlowStep.Description)
     }
