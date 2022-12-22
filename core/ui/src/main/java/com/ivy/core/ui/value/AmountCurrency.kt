@@ -1,5 +1,6 @@
 package com.ivy.core.ui.value
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +17,25 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 
 @Suppress("unused")
 @Composable
+fun ColumnScope.AmountCurrencyBig(
+    value: ValueUi,
+    color: Color = UI.colorsInverted.pure,
+) {
+    H2Second(
+        text = value.amount,
+        modifier = Modifier.testTag("amount_currency_b1"),
+        fontWeight = FontWeight.Bold,
+        color = color,
+    )
+    B1Second(
+        text = value.currency,
+        fontWeight = FontWeight.Normal,
+        color = color,
+    )
+}
+
+@Suppress("unused")
+@Composable
 fun RowScope.AmountCurrencyBig(
     value: ValueUi,
     color: Color = UI.colorsInverted.pure,
@@ -27,9 +47,9 @@ fun RowScope.AmountCurrencyBig(
         color = color,
     )
     SpacerHor(width = 4.dp)
-    H2Second(
+    B1Second(
         text = value.currency,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         color = color,
     )
 }

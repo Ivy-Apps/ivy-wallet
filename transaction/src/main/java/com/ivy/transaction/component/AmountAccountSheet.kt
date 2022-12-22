@@ -103,11 +103,12 @@ private fun AmountAccountRow(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .weight(1f)
-                .clickable(onClick = onAmountClick)
                 .padding(end = 8.dp)
+                .clickable(onClick = onAmountClick)
+                .padding(start = 8.dp),
         ) {
             AmountCurrencyBig(value = amount)
         }
