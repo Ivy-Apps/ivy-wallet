@@ -36,7 +36,7 @@ fun IvyInputField(
     feeling: Feeling = Feeling.Positive,
     typography: InputFieldTypography = InputFieldTypography.Primary,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
-    imeAction: ImeAction = ImeAction.Done,
+    imeAction: ImeAction = if (type is Multiline) ImeAction.Default else ImeAction.Done,
     onImeAction: (KeyboardActionScope.(ImeAction) -> Unit)? = null,
     onValueChange: (String) -> Unit,
 ) {

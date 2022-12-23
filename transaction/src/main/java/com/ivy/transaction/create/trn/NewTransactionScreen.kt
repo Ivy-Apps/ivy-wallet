@@ -89,7 +89,7 @@ private fun BoxScope.UI(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 type = InputFieldType.SingleLine,
-                initialValue = "",
+                initialValue = state.title ?: "",
                 placeholder = "Title",
                 imeAction = ImeAction.Done,
                 onImeAction = {
