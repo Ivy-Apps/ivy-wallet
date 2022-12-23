@@ -5,6 +5,7 @@ import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.category.CategoriesFlow
 import com.ivy.core.domain.pure.util.combineList
+import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.tag.TagDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
@@ -88,7 +89,7 @@ class TrnsFlow @Inject constructor(
                 )
             }
         )
-    }.flattenMerge()
+    }.flattenLatest()
         .flowOn(Dispatchers.Default)
 
     private fun mapTransactionEntityFlow(
