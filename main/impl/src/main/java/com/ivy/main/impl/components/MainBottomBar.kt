@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -85,6 +86,7 @@ private fun BottomBarRow(
                 color = UI.colors.medium.copy(alpha = 0.9f),
                 shape = UI.shapes.rounded
             )
+            .border(1.dp, UI.colors.primary, UI.shapes.rounded)
             .consumeClicks()
             .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
