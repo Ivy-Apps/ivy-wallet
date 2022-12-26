@@ -18,6 +18,7 @@ import com.ivy.core.ui.category.pick.data.dummySelectableCategoryUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.uiStatePreviewSafe
+import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
@@ -34,11 +35,16 @@ import com.ivy.design.util.hiltViewModelPreviewSafe
 fun BoxScope.CategoryPickerModal(
     modal: IvyModal,
     level: Int = 1,
+    trnType: TransactionType,
     selected: CategoryUi?,
     onPick: (CategoryUi?) -> Unit,
 ) {
     val viewModel: CategoryPickerViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
+
+    LaunchedEffect(trnType) {
+        viewModel?.onEvent(CategoryPickerEvent.Initial(trnType))
+    }
 
     LaunchedEffect(selected) {
         viewModel?.onEvent(CategoryPickerEvent.CategorySelected(selected))
@@ -134,6 +140,7 @@ private fun Preview() {
         val modal = previewModal()
         CategoryPickerModal(
             modal = modal,
+            trnType = TransactionType.Expense,
             selected = dummyCategoryUi(),
             onPick = {}
         )

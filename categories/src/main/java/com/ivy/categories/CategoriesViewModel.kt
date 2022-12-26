@@ -47,7 +47,8 @@ class CategoriesViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun categoryItemsUi(): Flow<List<CategoryListItemUi>> = combine(
-        selectedPeriodFlow(), categoriesListFlow(Unit)
+        selectedPeriodFlow(),
+        categoriesListFlow(CategoriesListFlow.Input(trnType = null))
     ) { period, list ->
         val range = period.range()
         combineList(list.map { item ->

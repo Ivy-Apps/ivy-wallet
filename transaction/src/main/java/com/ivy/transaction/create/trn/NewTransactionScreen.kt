@@ -168,6 +168,7 @@ private fun BoxScope.Modals(
     CategoryPickerModal(
         modal = state.categoryPickerModal,
         selected = state.category,
+        trnType = state.trnType,
         onPick = {
             onEvent(NewTrnEvent.CategoryChange(it))
         }
