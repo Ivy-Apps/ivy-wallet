@@ -21,12 +21,12 @@ object NewTransaction : Screen<NewTransaction.Arg> {
     private const val ARG_CATEGORY_ID = "catId"
     private const val ARG_ACCOUNT_ID = "accId"
 
-    override val route: String = "new/transaction?trnType={$ARG_TRN_TYPE}" +
-            "&catId={$ARG_CATEGORY_ID}&accId={$ARG_ACCOUNT_ID}"
+    override val route: String = "new/transaction?$ARG_TRN_TYPE={$ARG_TRN_TYPE}" +
+            "&$ARG_CATEGORY_ID={$ARG_CATEGORY_ID}&$ARG_ACCOUNT_ID={$ARG_ACCOUNT_ID}"
 
     override val arguments = listOf(
         navArgument(ARG_TRN_TYPE) {
-            type = NavType.IntType
+            type = NavType.StringType
             nullable = false
         },
         navArgument(ARG_CATEGORY_ID) {
@@ -52,7 +52,7 @@ object NewTransaction : Screen<NewTransaction.Arg> {
 
     override fun parse(entry: NavBackStackEntry): Arg = Arg(
         trnType = entry.arg(ARG_TRN_TYPE, int()) {
-            TransactionType.fromCode(it) ?: TransactionType.Expense
+            TransactionType.fromCode((it)) ?: TransactionType.Expense
         },
         categoryId = entry.optionalStringArg(ARG_CATEGORY_ID),
         accountId = entry.optionalStringArg(ARG_ACCOUNT_ID),
