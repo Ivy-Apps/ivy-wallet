@@ -1,15 +1,18 @@
 package com.ivy.core.ui.category.pick
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.category.pick.component.PickerCategoriesRow
 import com.ivy.core.ui.category.pick.component.PickerParentCategory
 import com.ivy.core.ui.category.pick.data.CategoryPickerItemUi
@@ -24,6 +27,7 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.previewModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
@@ -51,6 +55,8 @@ fun BoxScope.CategoryPickerModal(
         viewModel?.onEvent(CategoryPickerEvent.CollapseParent)
     }
 
+    var createCategoryModal = rememberIvyModal()
+
     Modal(
         modal = modal,
         level = level,
@@ -69,7 +75,7 @@ fun BoxScope.CategoryPickerModal(
         }
     ) {
         LazyColumn {
-            item(key = "title") {
+            item(key = "modal_title") {
                 Title(text = stringResource(id = R.string.choose_category))
                 SpacerVer(height = 16.dp)
             }
@@ -84,11 +90,21 @@ fun BoxScope.CategoryPickerModal(
                     viewModel?.onEvent(CategoryPickerEvent.ExpandParent(it))
                 },
             )
+            item(key = "add_category_btn") {
+                AddCategoryButton {
+                    createCategoryModal.show()
+                }
+            }
             item(key = "last_item_space") {
                 SpacerVer(height = 24.dp)
             }
         }
     }
+
+    CreateCategoryModal(
+        modal = createCategoryModal,
+        level = level + 1,
+    )
 }
 
 private fun LazyListScope.pickerItems(
@@ -129,6 +145,23 @@ private fun LazyListScope.pickerItems(
             }
         }
     }
+}
+
+@Composable
+private fun AddCategoryButton(
+    onClick: () -> Unit,
+) {
+    IvyButton(
+        modifier = Modifier
+            .padding(top = 12.dp)
+            .padding(start = 12.dp),
+        size = ButtonSize.Small,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Positive,
+        text = stringResource(R.string.add_category),
+        icon = R.drawable.ic_round_add_24,
+        onClick = onClick,
+    )
 }
 
 
