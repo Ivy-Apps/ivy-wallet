@@ -41,7 +41,7 @@ fun SingleAccountPickerRow(
 
     val listState = rememberLazyListState()
 
-    LaunchedEffect(selected) {
+    LaunchedEffect(selected, state.accounts) {
         viewModel?.onEvent(AccountPickerEvent.SelectedChange(listOf(selected)))
         state.accounts.indexOfFirst { it.account.id == selected.id }
             .let { index ->

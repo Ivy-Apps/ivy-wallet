@@ -125,19 +125,20 @@ private fun RowScope.Content(
 ) {
     ItemIcon(
         modifier = Modifier
-            .background(color, UI.shapes.circle)
-            .padding(all = 8.dp),
+            .padding(vertical = 8.dp)
+            .padding(start = 8.dp),
         itemIcon = icon,
         size = IconSize.S,
-        tint = rememberContrast(color),
+        tint = UI.colorsInverted.pure,
     )
-    SpacerHor(width = 8.dp)
     Caption(
+        modifier = Modifier.padding(
+            start = 8.dp, end = 16.dp
+        ),
         text = name,
         color = UI.colorsInverted.pure,
         fontWeight = FontWeight.ExtraBold
     )
-    SpacerHor(width = 16.dp)
 }
 
 
