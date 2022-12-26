@@ -55,7 +55,7 @@ fun BoxScope.CategoryPickerModal(
         viewModel?.onEvent(CategoryPickerEvent.CollapseParent)
     }
 
-    var createCategoryModal = rememberIvyModal()
+    val createCategoryModal = rememberIvyModal()
 
     Modal(
         modal = modal,
