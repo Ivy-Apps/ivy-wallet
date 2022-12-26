@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.core.ui.account.AccountButton
 import com.ivy.core.ui.account.pick.SingleAccountPickerModal
-import com.ivy.core.ui.account.pick.component.SelectableAccountItem
-import com.ivy.core.ui.account.pick.data.SelectableAccountUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.value.AmountCurrencyBig
@@ -125,11 +124,9 @@ private fun AmountAccountRow(
                 }
             }
         }
-        SelectableAccountItem(
-            item = SelectableAccountUi(account, true),
-            deselectButton = false,
-            onSelect = onAccountClick,
-            onDeselect = onAccountClick
+        AccountButton(
+            account = account,
+            onClick = onAccountClick
         )
     }
 }
@@ -223,8 +220,33 @@ private fun Preview_LongAmount() {
         AmountAccountSheet(
             amountUi = dummyValueUi(amount = "12345678901234567890.33"),
             amount = dummyValue(),
-            amountBaseCurrency = dummyValueUi(),
+            amountBaseCurrency = dummyValueUi(
+                amount = "12345678901234567890.33",
+                currency = "BGN",
+            ),
             account = dummyAccountUi(),
+            ctaText = "Add",
+            ctaIcon = R.drawable.ic_round_add_24,
+            accountPickerModal = rememberIvyModal(),
+            amountModal = rememberIvyModal(),
+            onAccountChange = {},
+            onAmountEnter = {},
+            onCtaClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_LongAmount_LongAccount() {
+    IvyPreview {
+        AmountAccountSheet(
+            amountUi = dummyValueUi(amount = "12345678901234567890.33"),
+            amount = dummyValue(),
+            amountBaseCurrency = dummyValueUi(),
+            account = dummyAccountUi(
+                name = "Revolut Business Company 2 Account"
+            ),
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,
             accountPickerModal = rememberIvyModal(),

@@ -33,7 +33,7 @@ internal fun TitleSuggestions(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 12.dp)
+                .padding(top = 8.dp)
                 .border(1.dp, UI.colors.primary, UI.shapes.rounded)
                 .padding(vertical = 4.dp),
         ) {
