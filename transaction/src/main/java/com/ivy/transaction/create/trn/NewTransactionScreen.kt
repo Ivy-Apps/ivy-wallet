@@ -1,13 +1,15 @@
 package com.ivy.transaction.create.trn
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,8 +27,6 @@ import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.dummyTrnTimeActual
 import com.ivy.data.transaction.dummyTrnTimeDue
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l2_components.input.InputFieldType
-import com.ivy.design.l2_components.input.IvyInputField
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
@@ -83,21 +83,21 @@ private fun BoxScope.UI(
         }
         item(key = "title") {
             SpacerVer(height = 24.dp)
-            IvyInputField(
-                modifier = Modifier
-                    .focusRequester(state.titleFocus)
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                type = InputFieldType.SingleLine,
-                initialValue = state.title ?: "",
-                placeholder = "Title",
-                imeAction = ImeAction.Done,
-                onImeAction = {
-                    onEvent(NewTrnEvent.Add)
+            var titleFocused by remember { mutableStateOf(false) }
+            val keyboardShown by keyboardShownState()
+            TitleInput(
+                modifier = Modifier.onFocusChanged {
+                    titleFocused = it.isFocused || it.hasFocus
                 },
-                onValueChange = {
-                    onEvent(NewTrnEvent.TitleChange(it))
-                }
+                title = state.title,
+                focus = state.titleFocus,
+                onTitleChange = { onEvent(NewTrnEvent.TitleChange(it)) },
+                onAdd = { onEvent(NewTrnEvent.Add) }
+            )
+            TitleSuggestions(
+                focused = titleFocused && keyboardShown,
+                suggestions = state.titleSuggestions,
+                onSuggestionClick = { onEvent(NewTrnEvent.TitleChange(it)) }
             )
         }
         item(key = "category") {
@@ -236,6 +236,8 @@ private fun Preview_Empty() {
                 account = dummyAccountUi(),
                 title = null,
 
+                titleSuggestions = emptyList(),
+
                 titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),
                 timeUi = dummyTrnTimeActualUi(),
@@ -266,6 +268,8 @@ private fun Preview_Filled() {
                 amount = dummyValue(amount = 23.99),
                 amountBaseCurrency = dummyValueUi(amount = "48.23", currency = "BGN"),
                 account = dummyAccountUi(),
+
+                titleSuggestions = emptyList(),
 
                 titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),

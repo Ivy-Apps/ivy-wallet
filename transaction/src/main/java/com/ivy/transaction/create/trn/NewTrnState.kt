@@ -25,6 +25,8 @@ data class NewTrnState(
     val title: String?,
     val description: String?,
 
+    val titleSuggestions: List<String>,
+
     // region Create flow
     val titleFocus: FocusRequester,
     val keyboardController: KeyboardController,

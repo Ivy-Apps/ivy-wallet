@@ -24,6 +24,7 @@ import com.ivy.data.transaction.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
+import com.ivy.transaction.action.TitleSuggestionsFlow
 import com.ivy.transaction.create.action.CreateTrnFlowAct
 import com.ivy.transaction.create.action.PreselectedAccountAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
@@ -51,6 +52,7 @@ class NewTransactionViewModel @Inject constructor(
     private val baseCurrencyAct: BaseCurrencyAct,
     private val writeLastUsedAccount: WriteLastUsedAccount,
     private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
+    private val titleSuggestionsFlow: TitleSuggestionsFlow,
 ) : SimpleFlowViewModel<NewTrnState, NewTrnEvent>() {
     // region UX flow
     private interface FlowStep {
@@ -118,6 +120,8 @@ class NewTransactionViewModel @Inject constructor(
         title = null,
         description = null,
 
+        titleSuggestions = emptyList(),
+
         titleFocus = titleFocus,
         keyboardController = keyboardController,
         amountModal = amountModal,
@@ -141,9 +145,9 @@ class NewTransactionViewModel @Inject constructor(
     // endregion
 
     override val uiFlow: Flow<NewTrnState> = combine(
-        trnType, amountFlow(), accountCategoryFlow(), textFlow(), timeFlow(),
+        trnType, amountFlow(), accountCategoryFlow(), textsFlow(), timeFlow(),
     ) { trnType, (amount, amountUi, amountBaseCurrency), (account, category),
-        (title, description), (time, timeUi) ->
+        (title, description, titleSuggestions), (time, timeUi) ->
         NewTrnState(
             trnType = trnType,
             amount = amount,
@@ -155,6 +159,8 @@ class NewTransactionViewModel @Inject constructor(
             time = time,
             title = title,
             description = description,
+
+            titleSuggestions = titleSuggestions,
 
             titleFocus = titleFocus,
             keyboardController = keyboardController,
@@ -175,11 +181,18 @@ class NewTransactionViewModel @Inject constructor(
         }
     }.flattenLatest()
 
-    private fun textFlow() = combine(
-        title, description
-    ) { title, description ->
-        title to description
-    }
+    private fun textsFlow() = combine(
+        title, description, category,
+    ) { title, description, category ->
+        titleSuggestionsFlow(
+            TitleSuggestionsFlow.Input(
+                title = title,
+                categoryUi = category,
+            )
+        ).map { titleSuggestions ->
+            Triple(title, description, titleSuggestions)
+        }
+    }.flattenLatest()
 
     private fun accountCategoryFlow() = combine(
         account, category

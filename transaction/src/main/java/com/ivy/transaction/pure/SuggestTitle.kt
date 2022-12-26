@@ -1,45 +1,47 @@
 package com.ivy.transaction.pure
 
+import com.ivy.common.Quadruple
+import com.ivy.common.isNotNullOrBlank
 import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
-import java.util.*
 
-/**
- * 1) Display exact title matches
- * 2) Display the ones from the same category
- */
+private const val MAX_SUGGESTIONS = 10
+
 fun suggestTitle(
-    transactions: List<Transaction>,
+    categoryTrns: List<Transaction>,
     title: String?,
-    accountId: UUID,
-    categoryId: UUID?,
-    trnType: TransactionType,
 ): List<String> {
-    val titleQuery = searchQuery(title)
+    val inputQuery = searchQuery(title) ?: ""
 
-    transactions.filter { it.title != null }
-        .groupBy {
-            searchQuery(it.title)
+    return categoryTrns.asSequence() // improve performance
+        .filter { it.title.isNotNullOrBlank() }
+        .groupBy { searchQuery(it.title) }
+        .map { (trnQuery, trns) ->
+            Triple(trnQuery, trns.size, trns.first())
+        }.map { (trnQuery, trnsCount, trn) ->
+            val exactMatch = if (inputQuery.isNotBlank())
+                trnQuery?.contains(inputQuery) ?: false
+            else false
+            Quadruple(
+                exactMatch, trnQuery, trnsCount, trn
+            )
+        }.sortedWith(
+            compareByDescending<Quadruple<Boolean, String?, Int, Transaction>> { (exactMatch, _, _, _) ->
+                // show exact matches first
+                if (exactMatch) 1 else 0
+            }.thenByDescending { (_, trnsCount, _, _) ->
+                trnsCount
+            }
+        )
+        .mapNotNull { (_, _, _, trn) ->
+            // return the original transaction's title
+            trn.title
         }
-        .mapNotNull { (normalizedTitle, trns) ->
-            if (normalizedTitle != null && trns.isNotEmpty()) {
-                Triple(normalizedTitle, trns.size, trns.first())
-            } else null
+        .filter { suggestedTitle ->
+            // don't show duplicated suggestions
+            suggestedTitle != title
         }
-
-//    val exactMatch = if (titleQuery != null)
-//        transactionsWithTitle.filter {
-//            val trnTitle = it.title ?: return@filter false
-//            searchQuery(trnTitle)?.contains(titleQuery) ?: false
-//        }.mapNotNull {
-//            it.title
-//        } else emptyList()
-//
-//    val categoryMatch = transactionsWithTitle.filter {
-//        it.category?.id == categoryId
-//    }
-
-    TODO()
+        .toList()
+        .take(MAX_SUGGESTIONS)
 }
 
 fun searchQuery(query: String?): String? =

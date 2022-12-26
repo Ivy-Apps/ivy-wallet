@@ -1,15 +1,13 @@
 package com.ivy.transaction.action
 
-import arrow.core.nonEmptyListOf
+import com.ivy.common.toUUID
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.transaction.TrnQuery
 import com.ivy.core.domain.action.transaction.TrnsFlow
 import com.ivy.core.ui.data.CategoryUi
-import com.ivy.core.ui.data.account.AccountUi
-import com.ivy.data.transaction.Transaction
-import com.ivy.data.transaction.TransactionType
+import com.ivy.transaction.pure.suggestTitle
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TitleSuggestionsFlow @Inject constructor(
@@ -18,17 +16,14 @@ class TitleSuggestionsFlow @Inject constructor(
     data class Input(
         val title: String?,
         val categoryUi: CategoryUi?,
-        val accountUi: AccountUi,
-        val trnType: TransactionType,
     )
 
-    override fun Input.createFlow(): Flow<List<String>> {
-
-        TODO("Not yet implemented")
-    }
-
-    private suspend fun allTransactions(): List<Transaction> =
-        trnsFlow(TrnQuery.ByTypeIn(nonEmptyListOf(TransactionType.Expense, TransactionType.Income)))
-            .firstOrNull() ?: emptyList()
-
+    override fun Input.createFlow(): Flow<List<String>> =
+        trnsFlow(TrnQuery.ByCategoryId(categoryUi?.id?.toUUID()))
+            .map { categoryTrns ->
+                suggestTitle(
+                    categoryTrns = categoryTrns,
+                    title = title,
+                )
+            }
 }
