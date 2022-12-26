@@ -9,12 +9,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
+import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.previewModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 
 @Composable
@@ -26,6 +28,8 @@ fun BoxScope.AccountPickerModal(
     onSelectAccount: (AccountUi) -> Unit,
     onDeselectAccount: (AccountUi) -> Unit,
 ) {
+    val createAccountModal = rememberIvyModal()
+
     Modal(
         modal = modal,
         level = level,
@@ -48,6 +52,9 @@ fun BoxScope.AccountPickerModal(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     selected = selected,
                     deselectButton = deselectButton,
+                    onAddAccount = {
+                        createAccountModal.show()
+                    },
                     onSelectAccount = onSelectAccount,
                     onDeselectAccount = onDeselectAccount
                 )
@@ -57,6 +64,11 @@ fun BoxScope.AccountPickerModal(
             }
         }
     }
+
+    CreateAccountModal(
+        modal = createAccountModal,
+        level = level + 1,
+    )
 }
 
 

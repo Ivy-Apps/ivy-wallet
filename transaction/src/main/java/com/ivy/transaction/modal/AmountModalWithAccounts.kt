@@ -21,6 +21,7 @@ fun BoxScope.AmountModalWithAccounts(
     level: Int = 1,
     amount: Value?,
     account: AccountUi,
+    onAddAccount: () -> Unit,
     onAmountEnter: (Value) -> Unit,
     onAccountChange: (AccountUi) -> Unit,
 ) {
@@ -32,6 +33,7 @@ fun BoxScope.AmountModalWithAccounts(
             SpacerVer(height = 24.dp)
             SingleAccountPickerRow(
                 selected = account,
+                onAddAccount = onAddAccount,
                 onSelectedChange = onAccountChange
             )
             SpacerVer(height = 12.dp)
@@ -50,6 +52,7 @@ private fun Preview() {
             modal = modal,
             amount = dummyValue(),
             account = dummyAccountUi(),
+            onAddAccount = {},
             onAmountEnter = {},
             onAccountChange = {}
         )

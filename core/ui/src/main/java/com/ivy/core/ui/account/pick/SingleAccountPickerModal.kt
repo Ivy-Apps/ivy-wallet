@@ -3,10 +3,12 @@ package com.ivy.core.ui.account.pick
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.previewModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 
 @Composable
@@ -16,6 +18,8 @@ fun BoxScope.SingleAccountPickerModal(
     selected: AccountUi,
     onSelectAccount: (AccountUi) -> Unit,
 ) {
+    val createAccountModal = rememberIvyModal()
+
     AccountPickerModal(
         modal = modal,
         level = level,
@@ -28,6 +32,11 @@ fun BoxScope.SingleAccountPickerModal(
         onDeselectAccount = {
             // do nothing
         }
+    )
+
+    CreateAccountModal(
+        modal = createAccountModal,
+        level = level + 1,
     )
 }
 

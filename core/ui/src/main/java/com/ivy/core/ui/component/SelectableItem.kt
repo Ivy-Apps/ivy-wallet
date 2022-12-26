@@ -22,6 +22,7 @@ import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.rememberContrast
+import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.Caption
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -44,13 +45,15 @@ fun SelectableItem(
     onSelect: () -> Unit,
     onDeselect: () -> Unit,
 ) {
+    val dynamicContrast = rememberDynamicContrast(color)
     Row(
         modifier = modifier
             .clip(UI.shapes.fullyRounded)
             .thenWhen {
                 when (selected) {
                     true -> background(color, UI.shapes.fullyRounded)
-                    false -> border(2.dp, color, UI.shapes.fullyRounded)
+                        .border(2.dp, dynamicContrast, UI.shapes.fullyRounded)
+                    false -> border(1.dp, color, UI.shapes.fullyRounded)
                 }
             }
             .clickable(onClick = onSelect)
@@ -102,6 +105,7 @@ private fun RowScope.SelectedContent(
     if (deselectButton) {
         SpacerHor(width = 12.dp)
         IvyButton(
+            modifier = Modifier.padding(all = 4.dp),
             size = ButtonSize.Small,
             visibility = Visibility.Medium,
             feeling = Feeling.Negative,

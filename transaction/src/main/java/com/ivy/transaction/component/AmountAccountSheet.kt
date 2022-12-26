@@ -17,6 +17,7 @@ import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.AccountButton
+import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.account.pick.SingleAccountPickerModal
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -183,12 +184,21 @@ private fun BoxScope.Modals(
         onSelectAccount = onAccountChange
     )
 
+    val createAccountModal = rememberIvyModal()
     AmountModalWithAccounts(
         modal = amountModal,
         amount = amount,
         account = account,
+        onAddAccount = {
+            createAccountModal.show()
+        },
         onAmountEnter = onAmountEnter,
         onAccountChange = onAccountChange
+    )
+
+    CreateAccountModal(
+        modal = createAccountModal,
+        level = 2,
     )
 }
 

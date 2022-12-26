@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.folder
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -106,8 +107,11 @@ internal fun BoxScope.BaseFolderModal(
                 SpacerVer(height = 24.dp)
             }
             item(key = "accounts_in_folder") {
+                // Can't have create account modal
+                // because of infinite recursion
                 AccountsInFolder(
                     selected = accounts,
+                    createAccountModal = null,
                     onSelectedChange = onAccountsChange
                 )
             }
@@ -135,8 +139,9 @@ data class SaveFolderInfo(
 )
 
 @Composable
-private fun AccountsInFolder(
+private fun ColumnScope.AccountsInFolder(
     selected: List<AccountUi>,
+    createAccountModal: IvyModal?,
     onSelectedChange: (List<AccountUi>) -> Unit,
 ) {
     DividerHor()
@@ -151,6 +156,7 @@ private fun AccountsInFolder(
         modifier = Modifier.padding(horizontal = 8.dp),
         selected = selected,
         deselectButton = true,
+        onAddAccount = null,
         onSelectAccount = {
             onSelectedChange(selected.plus(it))
         },
