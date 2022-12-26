@@ -95,11 +95,13 @@ internal fun BoxScope.BaseAccountModal(
         }
     ) {
         LazyColumn(modifier = Modifier.weight(1f)) {
-            item(key = "title") {
+            item(key = "modal_title") {
                 Title(text = title)
                 SpacerVer(height = 24.dp)
             }
-            item(key = "item_icon_name_row") {
+            item(key = "icon_name_color") {
+                // Keep in one item because so the title
+                // won't disappear on scroll
                 ItemIconNameRow(
                     icon = icon,
                     color = color,
@@ -113,8 +115,6 @@ internal fun BoxScope.BaseAccountModal(
                     onNameChange = onNameChange,
                 )
                 SpacerVer(height = 16.dp)
-            }
-            item(key = "color_button") {
                 ColorButton(
                     modifier = Modifier
                         .fillMaxWidth()
