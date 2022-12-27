@@ -27,7 +27,11 @@ class SyncExchangeRatesAct @Inject constructor(
     }
 
     override suspend fun Input.willDo() = io {
-        sync(baseCurrency)
+        try {
+            sync(baseCurrency)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private suspend fun sync(baseCurrency: String) {
@@ -49,7 +53,8 @@ class SyncExchangeRatesAct @Inject constructor(
                 "usd": 1.062366,
             }
          */
-        val eurBaseCurr = eurRates[baseCurrencyLower] ?: return
+        val eurBaseCurr = eurRates[baseCurrencyLower]
+            ?.takeIf { it > 0 } ?: return
 
         val rateEntities = eurRates.mapNotNull { (target, rate) ->
             try {
