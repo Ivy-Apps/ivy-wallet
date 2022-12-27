@@ -65,7 +65,17 @@ class SyncExchangeRatesAct @Inject constructor(
             }
         }.toList()
         Timber.d("Updating exchange rates: $rateEntities")
-        exchangeRateDao.saveAll(rateEntities)
+        rateEntities.forEach { newRate ->
+            val manualOverride = exchangeRateDao.findByBaseCurrencyAndCurrency(
+                baseCurrency = newRate.baseCurrency,
+                currency = newRate.currency
+            )?.manualOverride ?: false
+
+            if (!manualOverride && newRate.rate > 0.0) {
+                // save only the once that aren't overridden
+                exchangeRateDao.save(newRate)
+            }
+        }
     }
 
     private suspend fun fetchEurRates(url: String): Map<String, Double> {

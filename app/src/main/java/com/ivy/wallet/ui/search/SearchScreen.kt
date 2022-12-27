@@ -85,6 +85,7 @@ private fun UI(
 
         SearchInput(
             searchQueryTextFieldValue = searchQueryTextFieldValue,
+            hint = stringResource(R.string.search_transactions),
             onSetSearchQueryTextField = {
                 searchQueryTextFieldValue = it
                 onSearch(it.text)
@@ -143,8 +144,10 @@ private fun UI(
 }
 
 @Composable
-private fun SearchInput(
+fun SearchInput(
     searchQueryTextFieldValue: TextFieldValue,
+    hint: String,
+    focus: Boolean = true,
     onSetSearchQueryTextField: (TextFieldValue) -> Unit
 ) {
     Row(
@@ -168,14 +171,16 @@ private fun SearchInput(
                 .padding(vertical = 12.dp)
                 .focusRequester(searchFocus),
             value = searchQueryTextFieldValue,
-            hint = stringResource(R.string.search_transactions),
+            hint = hint,
             onValueChanged = {
                 onSetSearchQueryTextField(it)
             }
         )
 
-        onScreenStart {
-            searchFocus.requestFocus()
+        if (focus) {
+            onScreenStart {
+                searchFocus.requestFocus()
+            }
         }
 
         Spacer(Modifier.weight(1f))

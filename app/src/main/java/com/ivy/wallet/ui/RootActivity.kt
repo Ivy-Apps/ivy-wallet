@@ -57,6 +57,7 @@ import com.ivy.wallet.ui.charts.ChartsScreen
 import com.ivy.wallet.ui.csvimport.ImportCSVScreen
 import com.ivy.wallet.ui.donate.DonateScreen
 import com.ivy.wallet.ui.edit.EditTransactionScreen
+import com.ivy.wallet.ui.exchangerates.ExchangeRatesScreen
 import com.ivy.wallet.ui.experiment.images.ImagesScreen
 import com.ivy.wallet.ui.loan.LoansScreen
 import com.ivy.wallet.ui.loandetails.LoanDetailsScreen
@@ -191,6 +192,7 @@ class RootActivity : AppCompatActivity() {
             is Main -> MainScreen(screen = screen)
             is Onboarding -> OnboardingScreen(screen = screen)
             is ServerStop -> ServerStopScreen()
+            is ExchangeRatesScreen -> ExchangeRatesScreen()
             is EditTransaction -> EditTransactionScreen(screen = screen)
             is ItemStatistic -> ItemStatisticScreen(screen = screen)
             is PieChartStatistic -> PieChartStatisticScreen(screen = screen)
