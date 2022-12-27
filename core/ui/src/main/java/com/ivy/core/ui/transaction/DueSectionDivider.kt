@@ -1,6 +1,7 @@
 package com.ivy.core.ui.transaction
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +31,6 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l3_ivyComponents.IvyDividerDot
 import com.ivy.design.util.ComponentPreview
-import com.ivy.design.util.clickableNoIndication
 import com.ivy.design.util.springBounce
 
 @Composable
@@ -41,7 +41,7 @@ fun DueSectionUi.SectionDivider(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickableNoIndication {
+            .clickable {
                 setExpanded(!expanded)
             },
         verticalAlignment = Alignment.CenterVertically
