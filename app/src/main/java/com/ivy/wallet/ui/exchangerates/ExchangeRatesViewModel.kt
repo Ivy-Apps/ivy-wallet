@@ -34,6 +34,10 @@ class ExchangeRatesViewModel @Inject constructor(
             rates
         }
     }.map { rates ->
+        // filter not base currency
+        val baseCurrency = baseCurrencyAct(Unit)
+        rates.filter { it.baseCurrency == baseCurrency }
+    }.map { rates ->
         RatesState(
             baseCurrency = baseCurrencyAct(Unit),
             manual = rates.filter { it.manualOverride }.map(::toUi),

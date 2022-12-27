@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.exchangerates
 
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -12,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -87,7 +89,7 @@ private fun BoxWithConstraintsScope.UI(
                 )
             }
             item(key = "last_item_spacer") {
-                SpacerVer(height = 48.dp)
+                SpacerVer(height = 480.dp)
             }
         }
     }
@@ -108,6 +110,7 @@ private fun BoxWithConstraintsScope.UI(
         }
     ) {
         Text(
+            modifier = Modifier.padding(vertical = 16.dp),
             text = "Add rate",
             style = UI.typo.b1.style(
                 color = White
@@ -132,6 +135,21 @@ private fun BoxWithConstraintsScope.UI(
             amountModalVisible = false
         },
         decimalCountMax = 12,
+        Header = {
+            rateToUpdate?.let {
+                SpacerVer(height = 24.dp)
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    text = "${it.from}-${it.to}",
+                    style = UI.typo.nH2.style(
+                        textAlign = TextAlign.Center,
+                        color = UI.colors.primary
+                    )
+                )
+            }
+        },
         onAmountChanged = { newRate ->
             rateToUpdate?.let {
                 onEvent(RatesEvent.UpdateRate(rateToUpdate!!, newRate))
@@ -169,6 +187,7 @@ private fun SearchField(
     SearchInput(
         searchQueryTextFieldValue = searchQueryTextFieldValue,
         hint = "Search currency",
+        focus = false,
         onSetSearchQueryTextField = {
             searchQueryTextFieldValue = it
             onSearch(it.text)

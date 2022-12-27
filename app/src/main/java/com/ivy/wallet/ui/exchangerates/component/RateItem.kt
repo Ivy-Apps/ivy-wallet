@@ -43,7 +43,7 @@ fun RateItem(
         )
         SpacerHor(width = 8.dp)
         Text(
-            text = rate.rate.format(2),
+            text = rate.rate.format(currencyCode = rate.to),
             style = UI.typo.nB1.style(
                 fontWeight = FontWeight.SemiBold
             )
