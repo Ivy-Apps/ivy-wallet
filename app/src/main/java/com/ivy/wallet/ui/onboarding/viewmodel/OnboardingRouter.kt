@@ -2,6 +2,7 @@ package com.ivy.wallet.ui.onboarding.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.analytics.AnalyticsEvent
 import com.ivy.wallet.domain.data.core.Category
@@ -46,7 +47,8 @@ class OnboardingRouter(
     private val ivySync: IvySync,
     private val preloadDataLogic: PreloadDataLogic,
     private val categoryDao: CategoryDao,
-    private val logoutLogic: LogoutLogic
+    private val logoutLogic: LogoutLogic,
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) {
 
     var isLoginCache = false
@@ -266,8 +268,10 @@ class OnboardingRouter(
         ioThread {
             transactionReminderLogic.scheduleReminder()
 
-            exchangeRatesLogic.sync(
-                baseCurrency = baseCurrency?.code ?: IvyCurrency.getDefault().code
+            syncExchangeRatesAct(
+                SyncExchangeRatesAct.Input(
+                    baseCurrency = baseCurrency?.code ?: IvyCurrency.getDefault().code
+                )
             )
         }
 

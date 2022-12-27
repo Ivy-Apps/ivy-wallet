@@ -204,7 +204,7 @@ class RestClient private constructor(
         )
     }
     val analyticsService: AnalyticsService by lazy { retrofit.create(AnalyticsService::class.java) }
-    val coinbaseService: CoinbaseService by lazy { retrofit.create(CoinbaseService::class.java) }
+    val exchangeRatesService: ExchangeRatesService by lazy { retrofit.create(ExchangeRatesService::class.java) }
     val githubService: GithubService by lazy { retrofit.create(GithubService::class.java) }
     val nukeService: NukeService by lazy { retrofit.create(NukeService::class.java) }
 }

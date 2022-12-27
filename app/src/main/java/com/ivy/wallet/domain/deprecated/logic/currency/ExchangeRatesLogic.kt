@@ -1,15 +1,12 @@
 package com.ivy.wallet.domain.deprecated.logic.currency
 
 import com.ivy.wallet.domain.data.core.Account
-import com.ivy.wallet.domain.data.core.ExchangeRate
 import com.ivy.wallet.domain.data.core.PlannedPaymentRule
 import com.ivy.wallet.domain.data.core.Transaction
 import com.ivy.wallet.io.network.RestClient
-import com.ivy.wallet.io.network.service.CoinbaseService
 import com.ivy.wallet.io.persistence.dao.AccountDao
 import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
 import com.ivy.wallet.io.persistence.dao.SettingsDao
-import com.ivy.wallet.utils.sendToCrashlytics
 import java.util.*
 
 @Deprecated("Use FP style, look into `domain.fp` package")
@@ -17,35 +14,6 @@ class ExchangeRatesLogic(
     restClient: RestClient,
     private val exchangeRateDao: ExchangeRateDao
 ) {
-    private val coinbaseService = restClient.coinbaseService
-
-    suspend fun sync(
-        baseCurrency: String
-    ) {
-        try {
-            if (baseCurrency.isBlank()) return
-
-            val response = coinbaseService.getExchangeRates(
-                url = CoinbaseService.exchangeRatesUrl(
-                    baseCurrencyCode = baseCurrency
-                )
-            )
-
-            response.data.rates.forEach { (currency, rate) ->
-                exchangeRateDao.save(
-                    ExchangeRate(
-                        baseCurrency = baseCurrency,
-                        currency = currency,
-                        rate = rate
-                    ).toEntity()
-                )
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            e.sendToCrashlytics("Failed to sync exchange rates")
-        }
-    }
-
     suspend fun amountBaseCurrency(
         plannedPayment: PlannedPaymentRule,
         baseCurrency: String,

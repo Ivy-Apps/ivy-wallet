@@ -11,6 +11,9 @@ interface ExchangeRateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(value: ExchangeRateEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveAll(value: List<ExchangeRateEntity>)
+
     @Query("SELECT * FROM exchange_rates WHERE baseCurrency = :baseCurrency AND currency = :currency")
     suspend fun findByBaseCurrencyAndCurrency(
         baseCurrency: String,

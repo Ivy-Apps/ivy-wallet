@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.deprecated.logic.AccountCreator
 import com.ivy.wallet.domain.deprecated.logic.currency.ExchangeRatesLogic
 import com.ivy.wallet.domain.deprecated.logic.model.CreateAccountData
@@ -28,6 +29,7 @@ class MainViewModel @Inject constructor(
     private val nav: Navigation,
     private val ivySync: IvySync,
     private val exchangeRatesLogic: ExchangeRatesLogic,
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
     private val accountCreator: AccountCreator,
     private val sharedPrefs: SharedPrefs,
 ) : ViewModel() {
@@ -64,8 +66,8 @@ class MainViewModel @Inject constructor(
                 ivySync.sync() //sync app data
 
                 //Sync exchange rates
-                exchangeRatesLogic.sync(
-                    baseCurrency = baseCurrency
+                syncExchangeRatesAct(
+                    SyncExchangeRatesAct.Input(baseCurrency = baseCurrency)
                 )
             }
 

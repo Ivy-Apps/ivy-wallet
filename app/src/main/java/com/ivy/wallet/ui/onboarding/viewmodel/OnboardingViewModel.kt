@@ -8,6 +8,7 @@ import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.data.IvyCurrency
 import com.ivy.wallet.domain.data.core.Account
 import com.ivy.wallet.domain.data.core.Category
@@ -56,6 +57,7 @@ class OnboardingViewModel @Inject constructor(
 
     private val accountsAct: AccountsAct,
     private val categoriesAct: CategoriesAct,
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
 
     //Only OnboardingRouter stuff
     sharedPrefs: SharedPrefs,
@@ -64,7 +66,7 @@ class OnboardingViewModel @Inject constructor(
     transactionReminderLogic: TransactionReminderLogic,
     preloadDataLogic: PreloadDataLogic,
     exchangeRatesLogic: ExchangeRatesLogic,
-    logoutLogic: LogoutLogic
+    logoutLogic: LogoutLogic,
 ) : ViewModel() {
 
     private val _state = MutableLiveData(OnboardingState.SPLASH)
@@ -106,7 +108,8 @@ class OnboardingViewModel @Inject constructor(
         ivySync = ivySync,
         preloadDataLogic = preloadDataLogic,
         transactionReminderLogic = transactionReminderLogic,
-        logoutLogic = logoutLogic
+        logoutLogic = logoutLogic,
+        syncExchangeRatesAct = syncExchangeRatesAct,
     )
 
     fun start(screen: Onboarding, isSystemDarkMode: Boolean) {

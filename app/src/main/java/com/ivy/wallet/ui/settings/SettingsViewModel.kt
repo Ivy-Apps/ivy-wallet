@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivy.frp.monad.Res
 import com.ivy.frp.test.TestIdlingResource
 import com.ivy.frp.view.navigation.Navigation
+import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.global.UpdateStartDayOfMonthAct
 import com.ivy.wallet.domain.action.transaction.FetchAllTrnsFromServerAct
@@ -58,7 +59,8 @@ class SettingsViewModel @Inject constructor(
     private val startDayOfMonthAct: StartDayOfMonthAct,
     private val updateStartDayOfMonthAct: UpdateStartDayOfMonthAct,
     private val fetchAllTrnsFromServerAct: FetchAllTrnsFromServerAct,
-    private val nav: Navigation
+    private val nav: Navigation,
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User?>()
@@ -170,7 +172,11 @@ class SettingsViewModel @Inject constructor(
                     )
                 )
 
-                exchangeRatesLogic.sync(baseCurrency = newCurrency)
+                syncExchangeRatesAct(
+                    SyncExchangeRatesAct.Input(
+                        baseCurrency = newCurrency
+                    )
+                )
             }
             start()
 

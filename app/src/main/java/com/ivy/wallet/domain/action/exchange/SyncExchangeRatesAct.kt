@@ -1,0 +1,79 @@
+package com.ivy.wallet.domain.action.exchange
+
+import com.ivy.frp.action.Action
+import com.ivy.wallet.io.network.RestClient
+import com.ivy.wallet.io.persistence.dao.ExchangeRateDao
+import com.ivy.wallet.io.persistence.data.ExchangeRateEntity
+import timber.log.Timber
+import javax.inject.Inject
+
+class SyncExchangeRatesAct @Inject constructor(
+    private val exchangeRateDao: ExchangeRateDao,
+    restClient: RestClient
+) : Action<SyncExchangeRatesAct.Input, Unit>() {
+    data class Input(
+        val baseCurrency: String,
+    )
+
+    private val service = restClient.exchangeRatesService
+
+    companion object {
+        private val URLS = listOf(
+            "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.json",
+            "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/eur.min.json",
+            "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.min.json",
+            "https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/eur.json",
+        )
+    }
+
+    override suspend fun Input.willDo() = io {
+        sync(baseCurrency)
+    }
+
+    private suspend fun sync(baseCurrency: String) {
+        if (baseCurrency.isBlank()) return
+        val baseCurrencyLower = baseCurrency.lowercase()
+
+        var eurRates: Map<String, Double> = emptyMap()
+        for (url in URLS) {
+            eurRates = fetchEurRates(url)
+            if (eurRates.isNotEmpty()) break
+        }
+        if (eurRates.isEmpty()) return
+
+        // At this point we must have non-empty EUR rates
+        // Now we must convert them to base currency
+        /*
+            "eur": {
+                "bgn": 1.955902,
+                "usd": 1.062366,
+            }
+         */
+        val eurBaseCurr = eurRates[baseCurrencyLower] ?: return
+
+        val rateEntities = eurRates.mapNotNull { (target, rate) ->
+            try {
+                val baseTargetRate = rate / eurBaseCurr
+                ExchangeRateEntity(
+                    baseCurrency = baseCurrency.uppercase(),
+                    currency = target.uppercase(),
+                    rate = baseTargetRate
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }.toList()
+        Timber.d("Updating exchange rates: $rateEntities")
+        exchangeRateDao.saveAll(rateEntities)
+    }
+
+    private suspend fun fetchEurRates(url: String): Map<String, Double> {
+        return try {
+            service.getExchangeRates(url).eur
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyMap()
+        }
+    }
+}

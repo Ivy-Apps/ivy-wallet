@@ -8,6 +8,7 @@ import com.ivy.frp.view.navigation.Navigation
 import com.ivy.frp.viewmodel.FRPViewModel
 import com.ivy.wallet.domain.action.account.AccountsAct
 import com.ivy.wallet.domain.action.category.CategoriesAct
+import com.ivy.wallet.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.wallet.domain.action.global.StartDayOfMonthAct
 import com.ivy.wallet.domain.action.settings.CalcBufferDiffAct
 import com.ivy.wallet.domain.action.settings.SettingsAct
@@ -62,7 +63,8 @@ class HomeViewModel @Inject constructor(
     private val shouldHideBalanceAct: ShouldHideBalanceAct,
     private val updateSettingsAct: UpdateSettingsAct,
     private val updateAccCacheAct: UpdateAccCacheAct,
-    private val updateCategoriesCacheAct: UpdateCategoriesCacheAct
+    private val updateCategoriesCacheAct: UpdateCategoriesCacheAct,
+    private val syncExchangeRatesAct: SyncExchangeRatesAct,
 ) : FRPViewModel<HomeState, HomeEvent>() {
     override val _state: MutableStateFlow<HomeState> = MutableStateFlow(
         HomeState.initial(ivyWalletCtx = ivyContext)
@@ -306,7 +308,7 @@ class HomeViewModel @Inject constructor(
         )
     } then updateSettingsAct then {
         //update exchange rates from POV of the new base currency
-        exchangeRatesLogic.sync(baseCurrency = newCurrency)
+        syncExchangeRatesAct(SyncExchangeRatesAct.Input(baseCurrency = newCurrency))
     } then {
         reload()
     }

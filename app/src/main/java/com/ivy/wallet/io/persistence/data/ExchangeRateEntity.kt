@@ -8,6 +8,7 @@ data class ExchangeRateEntity(
     val baseCurrency: String,
     val currency: String,
     val rate: Double,
+    val manualOverride: Boolean = false,
 ) {
     fun toDomain(): ExchangeRate = ExchangeRate(
         baseCurrency = baseCurrency,
