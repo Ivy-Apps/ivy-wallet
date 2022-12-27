@@ -59,9 +59,12 @@ private fun BoxWithConstraintsScope.UI(
     var rateToUpdate by remember {
         mutableStateOf<RateUi?>(null)
     }
-
+    var amountModalId by remember {
+        mutableStateOf(UUID.randomUUID())
+    }
     val onRateClick = { rate: RateUi ->
         rateToUpdate = rate
+        amountModalId = UUID.randomUUID()
         amountModalVisible = true
     }
 
@@ -127,7 +130,7 @@ private fun BoxWithConstraintsScope.UI(
     )
 
     AmountModal(
-        id = remember { UUID.randomUUID() },
+        id = amountModalId,
         visible = amountModalVisible,
         currency = "",
         initialAmount = rateToUpdate?.rate,
