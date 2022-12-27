@@ -21,13 +21,15 @@ class SyncExchangeRatesAct @Inject constructor(
     private suspend fun syncExchangeRates(baseCurrency: CurrencyCode) {
         val result = exchangeProvider.fetchExchangeRates(baseCurrency = baseCurrency)
         exchangeRateDao.save(
-            result.ratesMap.map { (currency, rate) ->
-                ExchangeRateEntity(
-                    baseCurrency = baseCurrency,
-                    currency = currency,
-                    rate = rate,
-                    provider = result.provider
-                )
+            result.ratesMap.mapNotNull { (currency, rate) ->
+                if (rate > 0.0) {
+                    ExchangeRateEntity(
+                        baseCurrency = baseCurrency.uppercase(),
+                        currency = currency.uppercase(),
+                        rate = rate,
+                        provider = result.provider
+                    )
+                } else null
             }
         )
     }

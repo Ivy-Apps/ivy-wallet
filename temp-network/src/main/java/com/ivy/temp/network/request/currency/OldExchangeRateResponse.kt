@@ -1,6 +1,6 @@
 package com.ivy.wallet.io.network.request.currency
 
-data class CoinbaseRatesResponse(
+data class OldExchangeRateResponse(
     val data: ExchangeRatesData
 )
 

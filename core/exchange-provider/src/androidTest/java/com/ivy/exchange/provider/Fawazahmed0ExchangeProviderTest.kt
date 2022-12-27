@@ -1,7 +1,8 @@
-package com.ivy.exchange.coinbase
+package com.ivy.exchange.provider
 
 import com.ivy.common.androidtest.AndroidTest
 import com.ivy.data.exchange.ExchangeProvider
+import com.ivy.exchange.fawazahmed0.Fawazahmed0ExchangeProvider
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -14,14 +15,13 @@ import javax.inject.Inject
 
 @AndroidTest
 @HiltAndroidTest
-class CoinbaseExchangeProviderTest {
+class Fawazahmed0ExchangeProviderTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-
     @Inject
-    lateinit var sut: CoinbaseExchangeProvider
+    lateinit var sut: Fawazahmed0ExchangeProvider
 
     @Before
     fun setUp() {
@@ -32,7 +32,7 @@ class CoinbaseExchangeProviderTest {
     fun fetch_exchange_rates_successfully(): Unit = runBlocking {
         val res = sut.fetchExchangeRates(baseCurrency = "USD")
 
-        res.provider shouldBe ExchangeProvider.Coinbase
+        res.provider shouldBe ExchangeProvider.Fawazahmed0
         res.ratesMap.size shouldBeGreaterThan 1
         println("rates: ${res.ratesMap}")
     }

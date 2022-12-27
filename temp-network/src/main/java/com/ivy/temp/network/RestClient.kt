@@ -203,7 +203,7 @@ class RestClient private constructor(
             PlannedPaymentRuleService::class.java
         )
     }
-    val coinbaseService: CoinbaseService by lazy { retrofit.create(CoinbaseService::class.java) }
+    val oldExchangeService: OldExchangeService by lazy { retrofit.create(OldExchangeService::class.java) }
     val githubService: GithubService by lazy { retrofit.create(GithubService::class.java) }
     val nukeService: NukeService by lazy { retrofit.create(NukeService::class.java) }
 }
