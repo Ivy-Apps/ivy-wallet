@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.data.transaction.DueSectionUi
 import com.ivy.core.ui.data.transaction.TransactionUi
@@ -62,12 +63,16 @@ internal fun LazyListScope.transactionsList(
 ) {
     dueSection(
         section = trnsList.upcoming,
+        key = "upcoming_section",
+        paddingTop = 24.dp,
         handler = upcomingHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
     )
     dueSection(
         section = trnsList.overdue,
+        key = "overdue_section",
+        paddingTop = 24.dp,
         handler = overdueHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
@@ -85,13 +90,15 @@ internal fun LazyListScope.transactionsList(
 
 private fun LazyListScope.dueSection(
     section: DueSectionUi?,
+    key: String,
+    paddingTop: Dp,
     handler: ExpandCollapseHandler,
     trnClickHandler: TrnItemClickHandler,
     dueActions: DueActions?,
 ) {
     if (section != null) {
-        item {
-            SpacerVer(height = 24.dp)
+        item(key = key) {
+            SpacerVer(height = paddingTop)
             section.SectionDivider(
                 expanded = handler.expanded,
                 setExpanded = handler.setExpanded,
