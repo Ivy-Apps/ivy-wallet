@@ -1,23 +1,21 @@
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Testing
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
 plugins {
     `android-library`
+    `kotlin-android`
 }
 
 dependencies {
     Hilt()
-    implementation(project(":common"))
+    implementation(project(":common:main"))
     implementation(project(":design-system"))
-    implementation(project(":ui-components-old"))
-    implementation(project(":app-base"))
+    implementation(project(":core:domain"))
     implementation(project(":core:ui"))
     implementation(project(":core:data-model"))
+    implementation(project(":core:persistence"))
     implementation(project(":navigation"))
-    implementation(project(":temp-domain"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":temp-network"))
-    implementation(project(":core:exchange-provider"))
-    implementation(project(":widgets"))
+    Testing()
 }
