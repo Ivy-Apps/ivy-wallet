@@ -64,7 +64,7 @@ internal fun LazyListScope.transactionsList(
     dueSection(
         section = trnsList.upcoming,
         key = "upcoming_section",
-        paddingTop = 24.dp,
+        paddingTop = 20.dp,
         handler = upcomingHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
@@ -72,7 +72,7 @@ internal fun LazyListScope.transactionsList(
     dueSection(
         section = trnsList.overdue,
         key = "overdue_section",
-        paddingTop = 24.dp,
+        paddingTop = 20.dp,
         handler = overdueHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
