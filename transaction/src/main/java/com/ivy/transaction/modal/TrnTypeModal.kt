@@ -27,7 +27,7 @@ fun BoxScope.TrnTypeModal(
     level: Int = 1,
     onTransactionTypeChange: (TransactionType) -> Unit,
 ) {
-    var selectedTrnType by remember {
+    var selectedTrnType by remember(trnType) {
         mutableStateOf(trnType)
     }
 

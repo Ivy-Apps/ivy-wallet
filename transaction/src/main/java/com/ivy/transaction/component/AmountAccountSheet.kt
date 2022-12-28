@@ -50,6 +50,7 @@ internal fun BoxScope.AmountAccountSheet(
     accountPickerModal: IvyModal,
     amountModal: IvyModal,
     modifier: Modifier = Modifier,
+    secondaryActions: (@Composable RowScope.() -> Unit)? = null,
     onAccountChange: (AccountUi) -> Unit,
     onAmountEnter: (Value) -> Unit,
     onCtaClick: () -> Unit,
@@ -78,6 +79,7 @@ internal fun BoxScope.AmountAccountSheet(
         BottomBar(
             ctaText = ctaText,
             ctaIcon = ctaIcon,
+            secondaryActions = secondaryActions,
             onCtaClick = onCtaClick,
         )
     }
@@ -138,6 +140,7 @@ private fun BottomBar(
     ctaText: String,
     @DrawableRes
     ctaIcon: Int,
+    secondaryActions: (@Composable RowScope.() -> Unit)?,
     onCtaClick: () -> Unit
 ) {
     val lineColor = UI.colors.medium
@@ -158,6 +161,7 @@ private fun BottomBar(
             .padding(horizontal = 16.dp)
     ) {
         SpacerWeight(weight = 1f)
+        secondaryActions?.invoke(this)
         IvyButton(
             size = ButtonSize.Small,
             visibility = Visibility.Focused,

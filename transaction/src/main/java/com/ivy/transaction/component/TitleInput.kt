@@ -19,7 +19,7 @@ internal fun TitleInput(
     focus: FocusRequester,
     modifier: Modifier = Modifier,
     onTitleChange: (String) -> Unit,
-    onAdd: () -> Unit,
+    onCta: () -> Unit,
 ) {
     IvyInputField(
         modifier = modifier
@@ -30,7 +30,7 @@ internal fun TitleInput(
         initialValue = title ?: "",
         placeholder = "Title",
         imeAction = ImeAction.Done,
-        onImeAction = { onAdd() },
+        onImeAction = { onCta() },
         onValueChange = onTitleChange,
     )
 }
@@ -44,7 +44,7 @@ private fun Preview() {
             title = "Title",
             focus = FocusRequester(),
             onTitleChange = {},
-            onAdd = {},
+            onCta = {},
         )
     }
 }

@@ -29,12 +29,11 @@ import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.transaction.NewTransaction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val balanceFlow: TotalBalanceFlow,
@@ -101,18 +100,19 @@ class HomeViewModel @Inject constructor(
         emit(Value(amount = 0.0, currency = ""))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun periodDataFlow(): Flow<PeriodData> =
-        baseCurrencyFlow().flatMapMerge { baseCurrency ->
+        baseCurrencyFlow().flatMapLatest { baseCurrency ->
             val selectedPeriodFlow = selectedPeriodFlow()
 
             // Trns History, Upcoming & Overdue
-            val trnsListFlow = selectedPeriodFlow.flatMapMerge {
+            val trnsListFlow = selectedPeriodFlow.flatMapLatest {
                 val period = it.range()
                 trnsListFlow(ActualBetween(period) or DueBetween(period))
             }
 
             // Income & Expense for the period
-            val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
+            val statsFlow = trnsListFlow.flatMapLatest { trnsList ->
                 calculateFlow(
                     CalculateFlow.Input(
                         // take only transactions from the history, excluding transfers

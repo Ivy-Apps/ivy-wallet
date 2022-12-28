@@ -15,10 +15,7 @@ import com.ivy.core.persistence.entity.tag.TagEntity
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
-import com.ivy.core.persistence.query.TrnQueryExecutor
-import com.ivy.core.persistence.query.TrnWhere
-import com.ivy.core.persistence.query.and
-import com.ivy.core.persistence.query.not
+import com.ivy.core.persistence.query.*
 import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -29,6 +26,7 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnTime
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import java.time.LocalDateTime
@@ -71,7 +69,7 @@ class TrnsFlow @Inject constructor(
     override fun TrnQuery.createFlow(): Flow<List<Transaction>> = combine(
         accountsFlow(), categoriesFlow(), trnsSignal.receive()
     ) { accs, cats, _ ->
-        val dbQuery = this.toTrnWhere() and not(TrnWhere.BySync(SyncState.Deleting))
+        val dbQuery = brackets(this.toTrnWhere()) and not(TrnWhere.BySync(SyncState.Deleting))
         val entities = queryExecutor.query(dbQuery)
         if (entities.isEmpty()) {
             return@combine flowOf(emptyList())
@@ -92,6 +90,7 @@ class TrnsFlow @Inject constructor(
     }.flattenLatest()
         .flowOn(Dispatchers.Default)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun mapTransactionEntityFlow(
         accounts: Map<UUID, Account>,
         categories: Map<UUID, Category>,
@@ -101,9 +100,10 @@ class TrnsFlow @Inject constructor(
             ?: return null
 
         val trnId = trn.id
-        val tagsFlow = trnTagDao.findByTrnId(trnId = trnId).flatMapMerge { trnTags ->
-            tagDao.findByTagIds(tagIds = trnTags.map { it.tagId })
-        }
+        val tagsFlow = trnTagDao.findByTrnId(trnId = trnId)
+            .flatMapLatest { trnTags ->
+                tagDao.findByTagIds(tagIds = trnTags.map { it.tagId })
+            }
 
         return combine(
             trnMetadataDao.findByTrnId(trnId = trnId),

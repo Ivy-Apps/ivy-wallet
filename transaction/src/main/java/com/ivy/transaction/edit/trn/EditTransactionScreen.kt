@@ -1,9 +1,7 @@
-package com.ivy.transaction.create.trn
+package com.ivy.transaction.edit.trn
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -26,16 +24,21 @@ import com.ivy.core.ui.transaction.icon
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.dummyTrnTimeActual
 import com.ivy.data.transaction.dummyTrnTimeDue
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.SwitchRow
+import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.DeleteButton
 import com.ivy.design.l3_ivyComponents.button.IvyButton
+import com.ivy.design.l3_ivyComponents.modal.DeleteConfirmationModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
-import com.ivy.navigation.destinations.transaction.NewTransaction
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
@@ -43,14 +46,14 @@ import com.ivy.transaction.modal.TrnTimeModal
 import com.ivy.transaction.modal.TrnTypeModal
 
 @Composable
-fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
-    val viewModel: NewTransactionViewModel = hiltViewModel()
+fun BoxScope.EditTransactionScreen(trnId: String) {
+    val viewModel: EditTransactionViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
     state.keyboardController.wire()
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(NewTrnEvent.Initial(arg))
+        viewModel.onEvent(EditTrnEvent.Initial(trnId = trnId))
     }
 
     UI(
@@ -61,9 +64,17 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
 
 @Composable
 private fun BoxScope.UI(
-    state: NewTrnState,
-    onEvent: (NewTrnEvent) -> Unit,
+    state: EditTrnState,
+    onEvent: (EditTrnEvent) -> Unit,
 ) {
+    val trnTypeModal = rememberIvyModal()
+    val timeModal = rememberIvyModal()
+    val accountPickerModal = rememberIvyModal()
+    val categoryPickerModal = rememberIvyModal()
+    val descriptionModal = rememberIvyModal()
+    val amountModal = rememberIvyModal()
+    val deleteConfirmationModal = rememberIvyModal()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -71,13 +82,13 @@ private fun BoxScope.UI(
     ) {
         item(key = "toolbar") {
             SpacerVer(height = 24.dp)
-            NewTrnScreenToolbar(
+            EditTrnScreenToolbar(
                 onClose = {
-                    onEvent(NewTrnEvent.Close)
+                    onEvent(EditTrnEvent.Close)
                 },
                 trnType = state.trnType,
                 onChangeTrnType = {
-                    state.trnTypeModal.show()
+                    trnTypeModal.show()
                 }
             )
         }
@@ -90,14 +101,14 @@ private fun BoxScope.UI(
                     titleFocused = it.isFocused || it.hasFocus
                 },
                 title = state.title,
-                focus = state.titleFocus,
-                onTitleChange = { onEvent(NewTrnEvent.TitleChange(it)) },
-                onCta = { onEvent(NewTrnEvent.Add) }
+                focus = remember { FocusRequester() },
+                onTitleChange = { onEvent(EditTrnEvent.TitleChange(it)) },
+                onCta = { onEvent(EditTrnEvent.Save) }
             )
             TitleSuggestions(
                 focused = titleFocused && keyboardShown,
                 suggestions = state.titleSuggestions,
-                onSuggestionClick = { onEvent(NewTrnEvent.TitleChange(it)) }
+                onSuggestionClick = { onEvent(EditTrnEvent.TitleChange(it)) }
             )
         }
         item(key = "category") {
@@ -106,7 +117,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 category = state.category
             ) {
-                state.categoryPickerModal.show()
+                categoryPickerModal.show()
             }
         }
         item(key = "description") {
@@ -115,7 +126,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 description = state.description
             ) {
-                state.descriptionModal.show()
+                descriptionModal.show()
             }
         }
         item(key = "trn_time") {
@@ -124,8 +135,22 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 trnTime = state.timeUi
             ) {
-                state.timeModal.show()
+                timeModal.show()
             }
+        }
+        item(key = "hidden_switch") {
+            SpacerVer(height = 12.dp)
+            SwitchRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .border(2.dp, UI.colors.primary, UI.shapes.fullyRounded),
+                enabled = state.hidden,
+                text = "Hide transaction",
+                onValueChange = {
+                    onEvent(EditTrnEvent.HiddenChange(it))
+                }
+            )
         }
         item(key = "last_item_spacer") {
             val keyboardShown by keyboardShownState()
@@ -142,65 +167,88 @@ private fun BoxScope.UI(
         amount = state.amount,
         amountBaseCurrency = state.amountBaseCurrency,
         account = state.account,
-        ctaText = stringResource(R.string.add),
-        ctaIcon = R.drawable.ic_round_add_24,
-        accountPickerModal = state.accountPickerModal,
-        amountModal = state.amountModal,
+        ctaText = stringResource(R.string.save),
+        ctaIcon = R.drawable.round_done_24,
+        accountPickerModal = accountPickerModal,
+        amountModal = amountModal,
+        secondaryActions = {
+            DeleteButton {
+                deleteConfirmationModal.show()
+            }
+            SpacerHor(width = 12.dp)
+        },
         onAccountChange = {
-            onEvent(NewTrnEvent.AccountChange(it))
+            onEvent(EditTrnEvent.AccountChange(it))
         },
         onAmountEnter = {
-            onEvent(NewTrnEvent.AmountChange(it))
+            onEvent(EditTrnEvent.AmountChange(it))
         },
         onCtaClick = {
-            onEvent(NewTrnEvent.Add)
+            onEvent(EditTrnEvent.Save)
         }
     )
 
-    Modals(state = state, onEvent = onEvent)
+    Modals(
+        state = state,
+        trnTypeModal = trnTypeModal,
+        timeModal = timeModal,
+        descriptionModal = descriptionModal,
+        categoryPickerModal = categoryPickerModal,
+        deleteConfirmationModal = deleteConfirmationModal,
+        onEvent = onEvent
+    )
 }
 
 @Composable
 private fun BoxScope.Modals(
-    state: NewTrnState,
-    onEvent: (NewTrnEvent) -> Unit
+    state: EditTrnState,
+    categoryPickerModal: IvyModal,
+    descriptionModal: IvyModal,
+    trnTypeModal: IvyModal,
+    timeModal: IvyModal,
+    deleteConfirmationModal: IvyModal,
+    onEvent: (EditTrnEvent) -> Unit
 ) {
     CategoryPickerModal(
-        modal = state.categoryPickerModal,
+        modal = categoryPickerModal,
         selected = state.category,
         trnType = state.trnType,
         onPick = {
-            onEvent(NewTrnEvent.CategoryChange(it))
+            onEvent(EditTrnEvent.CategoryChange(it))
         }
     )
 
     DescriptionModal(
-        modal = state.descriptionModal,
+        modal = descriptionModal,
         initialDescription = state.description,
         onDescriptionChange = {
-            onEvent(NewTrnEvent.DescriptionChange(it))
+            onEvent(EditTrnEvent.DescriptionChange(it))
         }
     )
 
     TrnTypeModal(
-        modal = state.trnTypeModal,
+        modal = trnTypeModal,
         trnType = state.trnType,
         onTransactionTypeChange = {
-            onEvent(NewTrnEvent.TrnTypeChange(it))
+            onEvent(EditTrnEvent.TrnTypeChange(it))
         }
     )
 
     TrnTimeModal(
-        modal = state.timeModal,
+        modal = timeModal,
         trnTime = state.time,
         onTrnTimeChange = {
-            onEvent(NewTrnEvent.TrnTimeChange(it))
+            onEvent(EditTrnEvent.TrnTimeChange(it))
         }
     )
+
+    DeleteConfirmationModal(modal = deleteConfirmationModal) {
+        onEvent(EditTrnEvent.Delete)
+    }
 }
 
 @Composable
-private fun NewTrnScreenToolbar(
+private fun EditTrnScreenToolbar(
     onClose: () -> Unit,
     trnType: TransactionType,
     onChangeTrnType: () -> Unit,
@@ -227,7 +275,7 @@ private fun NewTrnScreenToolbar(
 private fun Preview_Empty() {
     IvyPreview {
         UI(
-            state = NewTrnState(
+            state = EditTrnState(
                 trnType = TransactionType.Income,
                 category = null,
                 description = null,
@@ -236,19 +284,12 @@ private fun Preview_Empty() {
                 amountBaseCurrency = null,
                 account = dummyAccountUi(),
                 title = null,
+                hidden = false,
 
-                titleSuggestions = emptyList(),
-
-                titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),
+                titleSuggestions = emptyList(),
                 timeUi = dummyTrnTimeActualUi(),
                 time = dummyTrnTimeActual(),
-                trnTypeModal = rememberIvyModal(),
-                categoryPickerModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
             ),
             onEvent = {}
         )
@@ -260,7 +301,7 @@ private fun Preview_Empty() {
 private fun Preview_Filled() {
     IvyPreview {
         UI(
-            state = NewTrnState(
+            state = EditTrnState(
                 trnType = TransactionType.Expense,
                 title = "Tabu Shisha",
                 category = dummyCategoryUi(),
@@ -269,19 +310,13 @@ private fun Preview_Filled() {
                 amount = dummyValue(amount = 23.99),
                 amountBaseCurrency = dummyValueUi(amount = "48.23", currency = "BGN"),
                 account = dummyAccountUi(),
+                hidden = true,
 
                 titleSuggestions = emptyList(),
-
-                titleFocus = remember { FocusRequester() },
                 keyboardController = KeyboardController(),
+
                 timeUi = dummyTrnTimeDueUi(),
                 time = dummyTrnTimeDue(),
-                trnTypeModal = rememberIvyModal(),
-                categoryPickerModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
             ),
             onEvent = {}
         )

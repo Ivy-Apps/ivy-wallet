@@ -70,7 +70,7 @@ class KeyboardController {
 
     @OptIn(ExperimentalComposeUiApi::class)
     @Composable
-    fun initialize() {
+    fun wire() {
         val keyboardController = LocalSoftwareKeyboardController.current
         LaunchedEffect(state.value) {
             if (state.value > 0) {

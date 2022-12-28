@@ -37,8 +37,8 @@ class TotalBalanceFlow @Inject constructor(
 
     override fun Input.createFlow(): Flow<Value> = accountsFlow().map { allAccounts ->
         if (withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
-    }.flatMapMerge { accs ->
-        outputCurrencyFlow().flatMapMerge { outputCurrency ->
+    }.flatMapLatest { accs ->
+        outputCurrencyFlow().flatMapLatest { outputCurrency ->
             combineSafe(
                 flows = accs.map {
                     accStatsFlow(

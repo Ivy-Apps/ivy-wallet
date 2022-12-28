@@ -106,9 +106,9 @@ class AccountTabViewModel @Inject constructor(
                         item to balances.toList()
                     }
                 }
-        }.flatMapMerge(transform = ::combineList)
+        }.flatMapLatest(transform = ::combineList)
             .map(::toAccListItemsUi)
-            .flatMapMerge(transform = ::combineList)
+            .flatMapLatest(transform = ::combineList)
 
     private suspend fun toAccListItemsUi(
         itemBalances: List<Pair<AccountListItem, List<Value>>>

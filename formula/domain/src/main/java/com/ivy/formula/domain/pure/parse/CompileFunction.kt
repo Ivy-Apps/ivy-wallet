@@ -4,14 +4,14 @@ import arrow.core.Either
 import arrow.core.NonEmptyList
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 
 @OptIn(FlowPreview::class)
 fun compileFunction(
     function: String
 ): (Flow<NonEmptyList<Double>>) -> Flow<Double> = { argsFlow ->
-    argsFlow.flatMapMerge { args ->
+    argsFlow.flatMapLatest { args ->
         val parser = FunctionParser(args)
         when (val result = parser.parse(normalizeFunction(function))) {
             is Either.Left -> error(result.value)

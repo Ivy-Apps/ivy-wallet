@@ -112,7 +112,7 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     @OptIn(FlowPreview::class)
-    private fun accountBalanceFlow(): Flow<Value?> = account.flatMapMerge { account ->
+    private fun accountBalanceFlow(): Flow<Value?> = account.flatMapLatest { account ->
         if (account != null) {
             accBalanceFlow(AccBalanceFlow.Input(account))
         } else flowOf(null)

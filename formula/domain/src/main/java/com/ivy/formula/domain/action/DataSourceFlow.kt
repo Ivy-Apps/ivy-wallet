@@ -8,7 +8,7 @@ import com.ivy.formula.domain.data.source.CalculationType
 import com.ivy.formula.domain.data.source.DataSource
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class DataSourceFlow @Inject constructor(
     private val calculateFlow: CalculateFlow
 ) : FlowAction<DataSource, Double>() {
     @OptIn(FlowPreview::class)
-    override fun DataSource.createFlow(): Flow<Double> = trnsFlow(filter).flatMapMerge { trns ->
+    override fun DataSource.createFlow(): Flow<Double> = trnsFlow(filter).flatMapLatest { trns ->
         calculateFlow(
             CalculateFlow.Input(
                 trns = trns,

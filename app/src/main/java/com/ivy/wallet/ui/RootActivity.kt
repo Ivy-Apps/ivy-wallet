@@ -51,6 +51,7 @@ import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.onboarding.screen.debug.OnboardingDebug
 import com.ivy.transaction.create.trn.NewTransactionScreen
+import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.simpleActivityForResultLauncher
@@ -135,7 +136,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 categoryTransactions = {},
                 newTransaction = { NewTransactionScreen(arg = it) },
                 newTransfer = {},
-                transaction = {},
+                transaction = { EditTransactionScreen(trnId = it) },
                 transfer = {}
             ),
             debugScreens = DebugScreens(
@@ -146,9 +147,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     private fun setupActivityForResultLaunchers() {
 
-    /**
-    * Uncomment below code to use gDrive feature
-    */
+        /**
+         * Uncomment below code to use gDrive feature
+         */
 //        requestSignIn()
 
         googleSignInLauncher()

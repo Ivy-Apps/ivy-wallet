@@ -14,7 +14,7 @@ import com.ivy.core.domain.pure.util.extractTrns
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -31,20 +31,20 @@ import javax.inject.Inject
  *
  * _Note: all calculations are done in base currency._
  */
-@OptIn(FlowPreview::class)
 class GroupTrnsFlow @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val timeProvider: TimeProvider,
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
         trnLinkRecordDao.findAll().map { links ->
             val visibleTrns = this.filter {
                 it.state != TrnState.Hidden
             }
             batchTrns(trns = visibleTrns, links = links)
-        }.flatMapMerge { batchedTrnItems ->
+        }.flatMapLatest { batchedTrnItems ->
             combine(
                 dueSectionFlow(
                     trnListItems = batchedTrnItems,

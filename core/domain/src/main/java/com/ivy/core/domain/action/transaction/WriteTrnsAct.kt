@@ -60,7 +60,14 @@ class WriteTrnsAct @Inject constructor(
     private suspend fun save(trns: List<Transaction>) = trns.forEach { saveTrn(it) }
 
     private suspend fun saveTrn(trn: Transaction) {
-        trnDao.save(mapToEntity(trn).copy(sync = Syncing))
+        trnDao.save(
+            mapToEntity(
+                trn.copy(
+                    title = trn.title?.trim()?.takeIf { it.isNotBlank() },
+                    description = trn.description?.trim()?.takeIf { it.isNotBlank() }
+                )
+            ).copy(sync = Syncing)
+        )
 
         // save associated data
         val trnId = trn.id.toString()
