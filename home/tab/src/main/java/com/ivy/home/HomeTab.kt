@@ -33,6 +33,7 @@ import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.components.MoreMenuButton
 import com.ivy.home.state.HomeStateUi
+import com.ivy.menu.HomeMoreMenu
 import kotlinx.coroutines.launch
 
 @Composable
@@ -83,6 +84,13 @@ private fun BoxScope.UI(
             } else {
                 onEvent(HomeEvent.ShowBottomBar)
             }
+        }
+    )
+
+    HomeMoreMenu(
+        visible = state.moreMenuVisible,
+        onMenuClose = {
+            onEvent(HomeEvent.MoreClick)
         }
     )
 
@@ -234,6 +242,7 @@ private fun Preview() {
                 income = ValueUi("1,500.35", "USD"),
                 expense = ValueUi("3,000.50", "USD"),
                 hideBalance = false,
+                moreMenuVisible = false,
                 trnsList = sampleTransactionListUi()
             ),
             onEvent = {}

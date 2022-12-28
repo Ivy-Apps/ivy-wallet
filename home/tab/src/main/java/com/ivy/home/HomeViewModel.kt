@@ -71,11 +71,13 @@ class HomeViewModel @Inject constructor(
         balance = ValueUi(amount = "0.0", currency = ""),
         income = ValueUi(amount = "0.0", currency = ""),
         expense = ValueUi(amount = "0.0", currency = ""),
-        hideBalance = false
+        hideBalance = false,
+        moreMenuVisible = false,
     )
     // endregion
 
     private val overrideShowBalance = MutableStateFlow(false)
+    private val moreMenuVisible = MutableStateFlow(initialUi.moreMenuVisible)
 
     // region State flow
     override val stateFlow: Flow<HomeState> = combine(
@@ -145,14 +147,17 @@ class HomeViewModel @Inject constructor(
     // endregion
 
     // region UI flow
-    override val uiFlow: Flow<HomeStateUi> = stateFlow.map { state ->
+    override val uiFlow: Flow<HomeStateUi> = combine(
+        stateFlow, moreMenuVisible
+    ) { state, moreMenuVisible ->
         HomeStateUi(
             period = state.period?.let { mapSelectedPeriodUiAct(it) },
             trnsList = mapTransactionListUiAct(state.trnsList),
             balance = formatBalance(state.balance),
             income = format(state.income, shortenFiat = true),
             expense = format(state.expense, shortenFiat = true),
-            hideBalance = state.hideBalance
+            hideBalance = state.hideBalance,
+            moreMenuVisible = moreMenuVisible,
         )
     }
 
@@ -210,7 +215,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleMoreClick() {
-        navigator.navigate(Destination.categories.destination(Unit))
+        moreMenuVisible.value = !moreMenuVisible.value
     }
     // endregion
 

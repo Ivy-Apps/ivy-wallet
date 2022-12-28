@@ -12,5 +12,6 @@ data class HomeStateUi(
     val balance: ValueUi,
     val income: ValueUi,
     val expense: ValueUi,
-    val hideBalance: Boolean
+    val hideBalance: Boolean,
+    val moreMenuVisible: Boolean,
 )
