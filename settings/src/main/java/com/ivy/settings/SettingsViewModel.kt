@@ -1,6 +1,8 @@
 package com.ivy.settings
 
 import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.core.domain.action.settings.balance.HideBalanceSettingFlow
+import com.ivy.core.domain.action.settings.balance.WriteHideBalanceAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
@@ -17,20 +19,25 @@ class SettingsViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val writeBaseCurrencyAct: WriteBaseCurrencyAct,
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
-    private val writeStartDayOfMonthAct: WriteStartDayOfMonthAct
+    private val writeStartDayOfMonthAct: WriteStartDayOfMonthAct,
+    private val hideBalanceSettingFlow: HideBalanceSettingFlow,
+    private val writeHideBalanceAct: WriteHideBalanceAct
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
         baseCurrency = "",
-        startDayOfMonth = 1
+        startDayOfMonth = 1,
+        hideBalance = false
     )
 
     override val uiFlow: Flow<SettingsState> = combine(
         baseCurrencyFlow(),
-        startDayOfMonthFlow()
-    ) { baseCurrency, startDayOfMonth ->
+        startDayOfMonthFlow(),
+        hideBalanceSettingFlow(Unit)
+    ) { baseCurrency, startDayOfMonth, hideBalance ->
         SettingsState(
             baseCurrency = baseCurrency,
-            startDayOfMonth = startDayOfMonth
+            startDayOfMonth = startDayOfMonth,
+            hideBalance = hideBalance
         )
     }
 
@@ -42,6 +49,9 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsEvent.StartDayOfMonth -> {
                 writeStartDayOfMonthAct(event.startDayOfMonth)
+            }
+            is SettingsEvent.HideBalance -> {
+                writeHideBalanceAct(event.hideBalance)
             }
         }
     }

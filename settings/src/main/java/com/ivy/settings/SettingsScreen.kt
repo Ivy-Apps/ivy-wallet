@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.design.l1_buildingBlocks.H1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.SwitchRow
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Title
@@ -97,6 +98,10 @@ private fun BoxScope.UI(
             ) {
                 startDayOfMonthModal.show()
             }
+            SpacerVer(height = 12.dp)
+            SwitchRow(enabled = state.hideBalance, text = "Hide balance", onValueChange = {
+                onEvent(SettingsEvent.HideBalance(hideBalance = it))
+            })
         }
     }
 
@@ -154,7 +159,8 @@ private fun Preview() {
         UI(
             state = SettingsState(
                 baseCurrency = "BGN",
-                startDayOfMonth = 1
+                startDayOfMonth = 1,
+                hideBalance = false
             ),
             onEvent = {}
         )
