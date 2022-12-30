@@ -1,7 +1,9 @@
 package com.ivy.settings
 
 import com.ivy.core.domain.SimpleFlowViewModel
-import com.ivy.core.domain.action.settings.balance.HideBalanceSettingFlow
+import com.ivy.core.domain.action.settings.applocked.AppLockedFlow
+import com.ivy.core.domain.action.settings.applocked.WriteAppLockedAct
+import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
 import com.ivy.core.domain.action.settings.balance.WriteHideBalanceAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
@@ -20,24 +22,29 @@ class SettingsViewModel @Inject constructor(
     private val writeBaseCurrencyAct: WriteBaseCurrencyAct,
     private val startDayOfMonthFlow: StartDayOfMonthFlow,
     private val writeStartDayOfMonthAct: WriteStartDayOfMonthAct,
-    private val hideBalanceSettingFlow: HideBalanceSettingFlow,
-    private val writeHideBalanceAct: WriteHideBalanceAct
+    private val hideBalanceFlow: HideBalanceFlow,
+    private val writeHideBalanceAct: WriteHideBalanceAct,
+    private val appLockedFlow: AppLockedFlow,
+    private val writeAppLockedAct: WriteAppLockedAct
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
         baseCurrency = "",
         startDayOfMonth = 1,
-        hideBalance = false
+        hideBalance = false,
+        appLocked = false
     )
 
     override val uiFlow: Flow<SettingsState> = combine(
         baseCurrencyFlow(),
         startDayOfMonthFlow(),
-        hideBalanceSettingFlow(Unit)
-    ) { baseCurrency, startDayOfMonth, hideBalance ->
+        hideBalanceFlow(Unit),
+        appLockedFlow(Unit)
+    ) { baseCurrency, startDayOfMonth, hideBalance, appLocked ->
         SettingsState(
             baseCurrency = baseCurrency,
             startDayOfMonth = startDayOfMonth,
-            hideBalance = hideBalance
+            hideBalance = hideBalance,
+            appLocked = appLocked
         )
     }
 
@@ -52,6 +59,9 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsEvent.HideBalance -> {
                 writeHideBalanceAct(event.hideBalance)
+            }
+            is SettingsEvent.AppLocked -> {
+                writeAppLockedAct(event.appLocked)
             }
         }
     }

@@ -102,6 +102,10 @@ private fun BoxScope.UI(
             SwitchRow(enabled = state.hideBalance, text = "Hide balance", onValueChange = {
                 onEvent(SettingsEvent.HideBalance(hideBalance = it))
             })
+            SpacerVer(height = 12.dp)
+            SwitchRow(enabled = state.appLocked, text = "Lock app", onValueChange = {
+                onEvent(SettingsEvent.AppLocked(appLocked = it))
+            })
         }
     }
 
@@ -113,7 +117,7 @@ private fun BoxScope.UI(
         }
     )
 
-    StartDayOfMontModal(
+    StartDayOfMonthModal(
         modal = startDayOfMonthModal,
         onStartDayOfMonthChange = { startDayOfMonth ->
             onEvent(SettingsEvent.StartDayOfMonth(startDayOfMonth = startDayOfMonth))
@@ -121,7 +125,7 @@ private fun BoxScope.UI(
 }
 
 @Composable
-private fun BoxScope.StartDayOfMontModal(
+private fun BoxScope.StartDayOfMonthModal(
     modal: IvyModal,
     onStartDayOfMonthChange: (Int) -> Unit,
 ) {
@@ -160,7 +164,8 @@ private fun Preview() {
             state = SettingsState(
                 baseCurrency = "BGN",
                 startDayOfMonth = 1,
-                hideBalance = false
+                hideBalance = false,
+                appLocked = false
             ),
             onEvent = {}
         )

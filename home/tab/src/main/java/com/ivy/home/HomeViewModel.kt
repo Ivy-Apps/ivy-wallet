@@ -5,7 +5,7 @@ import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.helper.TrnsListFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
-import com.ivy.core.domain.action.settings.balance.HideBalanceSettingFlow
+import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
 import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     private val trnsListFlow: TrnsListFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val calculateFlow: CalculateFlow,
-    private val hideBalanceSettingFlow: HideBalanceSettingFlow,
+    private val hideBalanceFlow: HideBalanceFlow,
     private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
     private val mapTransactionListUiAct: MapTransactionListUiAct,
     private val navigator: Navigator,
@@ -139,7 +139,7 @@ class HomeViewModel @Inject constructor(
         }
 
     private fun showBalanceFlow(): Flow<Boolean> = combine(
-        hideBalanceSettingFlow(Unit),
+        hideBalanceFlow(Unit),
         overrideShowBalance
     ) { hideBalanceSettings, showBalance ->
         showBalance || !hideBalanceSettings
