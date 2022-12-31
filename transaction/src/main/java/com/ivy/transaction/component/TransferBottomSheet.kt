@@ -9,25 +9,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ivy.core.domain.pure.dummy.dummyValue
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.account.AccountButton
+import com.ivy.core.ui.account.create.CreateAccountModal
+import com.ivy.core.ui.account.pick.SingleAccountPickerModal
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.value.AmountCurrencyBig
+import com.ivy.data.Value
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.IconRes
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.transaction.R
+import com.ivy.transaction.modal.AmountModalWithAccounts
 
 @Composable
 fun BoxScope.TransferBottomSheet(
     accountFrom: AccountUi,
-    amountFrom: ValueUi,
+    amountFromUi: ValueUi,
+    amountFrom: Value,
     accountTo: AccountUi,
-    amountTo: ValueUi,
+    amountToUi: ValueUi,
+    amountTo: Value,
 
     modifier: Modifier = Modifier,
     secondaryActions: (@Composable RowScope.() -> Unit)? = null,
@@ -35,7 +44,16 @@ fun BoxScope.TransferBottomSheet(
     @DrawableRes
     ctaIcon: Int,
     onCtaClick: () -> Unit,
+    onFromAccountChange: (AccountUi) -> Unit,
+    onToAccountChange: (AccountUi) -> Unit,
+    onFromAmountChange: (Value) -> Unit,
+    onToAmountChange: (Value) -> Unit,
 ) {
+    val fromAccountPickerModal = rememberIvyModal()
+    val toAccountPickerModal = rememberIvyModal()
+    val fromAmountModal = rememberIvyModal()
+    val toAmountModal = rememberIvyModal()
+
     BaseBottomSheet(
         modifier = modifier,
         ctaText = ctaText,
@@ -45,17 +63,32 @@ fun BoxScope.TransferBottomSheet(
     ) {
         TransferContent(
             accountFrom = accountFrom,
-            amountFrom = amountFrom,
+            amountFrom = amountFromUi,
             accountTo = accountTo,
-            amountTo = amountTo,
+            amountTo = amountToUi,
 
             onFromAccountClick = {},
-            onFromAmountClick = {},
             onToAccountClick = {},
+            onFromAmountClick = {},
             onToAmountClick = {},
         )
         SpacerVer(height = 16.dp)
     }
+
+    Modals(
+        accountFrom = accountFrom,
+        amountFrom = amountFrom,
+        accountTo = accountTo,
+        amountTo = amountTo,
+        fromAccountPickerModal = fromAccountPickerModal,
+        toAccountPickerModal = toAccountPickerModal,
+        fromAmountModal = fromAmountModal,
+        toAmountModal = toAmountModal,
+        onFromAccountChange = onFromAccountChange,
+        onToAccountChange = onToAccountChange,
+        onFromAmountChange = onFromAmountChange,
+        onToAmountChange = onToAmountChange,
+    )
 }
 
 @Composable
@@ -94,6 +127,66 @@ private fun TransferContent(
             onAmountClick = onToAmountClick,
         )
     }
+}
+
+@Composable
+private fun BoxScope.Modals(
+    accountFrom: AccountUi,
+    amountFrom: Value,
+    accountTo: AccountUi,
+    amountTo: Value,
+
+    fromAccountPickerModal: IvyModal,
+    toAccountPickerModal: IvyModal,
+    fromAmountModal: IvyModal,
+    toAmountModal: IvyModal,
+
+    onFromAccountChange: (AccountUi) -> Unit,
+    onToAccountChange: (AccountUi) -> Unit,
+    onFromAmountChange: (Value) -> Unit,
+    onToAmountChange: (Value) -> Unit,
+) {
+    // From
+    SingleAccountPickerModal(
+        modal = fromAccountPickerModal,
+        selected = accountFrom,
+        onSelectAccount = onFromAccountChange
+    )
+    // To
+    SingleAccountPickerModal(
+        modal = toAccountPickerModal,
+        selected = accountTo,
+        onSelectAccount = onToAccountChange
+    )
+
+    val createAccountModal = rememberIvyModal()
+    // From
+    AmountModalWithAccounts(
+        modal = fromAmountModal,
+        amount = amountFrom,
+        account = accountFrom,
+        onAddAccount = {
+            createAccountModal.show()
+        },
+        onAmountEnter = onFromAmountChange,
+        onAccountChange = onFromAccountChange
+    )
+    // To
+    AmountModalWithAccounts(
+        modal = toAmountModal,
+        amount = amountTo,
+        account = accountTo,
+        onAddAccount = {
+            createAccountModal.show()
+        },
+        onAmountEnter = onToAmountChange,
+        onAccountChange = onToAccountChange
+    )
+
+    CreateAccountModal(
+        modal = createAccountModal,
+        level = 2,
+    )
 }
 
 @Composable
@@ -137,12 +230,18 @@ private fun Preview() {
     IvyPreview {
         TransferBottomSheet(
             accountFrom = dummyAccountUi(),
-            amountFrom = dummyValueUi(),
+            amountFromUi = dummyValueUi(),
             accountTo = dummyAccountUi(),
-            amountTo = dummyValueUi(),
+            amountToUi = dummyValueUi(),
+            amountTo = dummyValue(), // used only for modals
+            amountFrom = dummyValue(), // used only for modals
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,
-            onCtaClick = {}
+            onCtaClick = {},
+            onFromAccountChange = {},
+            onToAccountChange = {},
+            onFromAmountChange = {},
+            onToAmountChange = {},
         )
     }
 }
@@ -156,18 +255,24 @@ private fun Preview_Normal() {
                 name = "DSK Bank",
                 color = Blue2Dark,
             ),
-            amountFrom = dummyValueUi(
-                amount = "400.00"
+            amountFromUi = dummyValueUi(
+                amount = "400"
             ),
             accountTo = dummyAccountUi(
                 name = "Cash",
             ),
-            amountTo = dummyValueUi(
-                amount = "400.00"
+            amountToUi = dummyValueUi(
+                amount = "400"
             ),
+            amountTo = dummyValue(), // used only for modals
+            amountFrom = dummyValue(), // used only for modals
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,
-            onCtaClick = {}
+            onCtaClick = {},
+            onFromAccountChange = {},
+            onToAccountChange = {},
+            onFromAmountChange = {},
+            onToAmountChange = {},
         )
     }
 }
@@ -181,20 +286,26 @@ private fun Preview_LongMultiCurrency() {
                 name = "Revolut Business EUR",
                 color = Blue2Dark,
             ),
-            amountFrom = dummyValueUi(
+            amountFromUi = dummyValueUi(
                 amount = "160,235.30",
                 currency = "EUR"
             ),
             accountTo = dummyAccountUi(
                 name = "Bank Company Account BGN",
             ),
-            amountTo = dummyValueUi(
+            amountToUi = dummyValueUi(
                 amount = "310,818.94",
                 currency = "BGN",
             ),
+            amountTo = dummyValue(), // used only for modals
+            amountFrom = dummyValue(), // used only for modals
             ctaText = "Add",
             ctaIcon = R.drawable.ic_round_add_24,
-            onCtaClick = {}
+            onCtaClick = {},
+            onFromAccountChange = {},
+            onToAccountChange = {},
+            onFromAmountChange = {},
+            onToAmountChange = {},
         )
     }
 }
