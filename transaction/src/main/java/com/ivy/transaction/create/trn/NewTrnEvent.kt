@@ -9,6 +9,8 @@ import com.ivy.navigation.destinations.transaction.NewTransaction
 
 sealed interface NewTrnEvent {
     data class Initial(val arg: NewTransaction.Arg) : NewTrnEvent
+    object Add : NewTrnEvent
+    object Close : NewTrnEvent
 
     data class AmountChange(val amount: Value) : NewTrnEvent
     data class TitleChange(val title: String) : NewTrnEvent
@@ -17,7 +19,4 @@ sealed interface NewTrnEvent {
     data class CategoryChange(val category: CategoryUi?) : NewTrnEvent
     data class TrnTypeChange(val trnType: TransactionType) : NewTrnEvent
     data class TrnTimeChange(val time: TrnTime) : NewTrnEvent
-
-    object Add : NewTrnEvent
-    object Close : NewTrnEvent
 }

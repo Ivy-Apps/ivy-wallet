@@ -7,12 +7,12 @@ import com.ivy.data.transaction.Transaction
 private const val MAX_SUGGESTIONS = 10
 
 fun suggestTitle(
-    categoryTrns: List<Transaction>,
+    transactions: List<Transaction>,
     title: String?,
 ): List<String> {
     val inputQuery = searchQuery(title) ?: ""
 
-    return categoryTrns.asSequence() // improve performance
+    return transactions.asSequence() // improve performance
         .filter { it.title.isNotNullOrBlank() }
         .groupBy { searchQuery(it.title) }
         .map { (trnQuery, trns) ->

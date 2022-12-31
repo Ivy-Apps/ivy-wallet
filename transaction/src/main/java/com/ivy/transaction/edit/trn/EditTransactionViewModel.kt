@@ -121,6 +121,7 @@ class EditTransactionViewModel @Inject constructor(
             TitleSuggestionsFlow.Input(
                 title = title,
                 categoryUi = category,
+                transfer = false,
             )
         ).map { titleSuggestions ->
             Triple(title, description, titleSuggestions)
@@ -175,8 +176,7 @@ class EditTransactionViewModel @Inject constructor(
             title.value = transaction.title
             description.value = transaction.description.takeIf { it.isNotNullOrBlank() }
         } else {
-            keyboardController.hide()
-            navigator.back()
+            closeScreen()
         }
     }
 
@@ -200,18 +200,20 @@ class EditTransactionViewModel @Inject constructor(
         )
 
         writeTrnsAct(Modify.save(updated))
-        keyboardController.hide()
-        navigator.back()
+        closeScreen()
     }
 
     private suspend fun handleDelete() {
         val transaction = transaction ?: return
         writeTrnsAct(Modify.delete(transaction.id.toString()))
-        keyboardController.hide()
-        navigator.back()
+        closeScreen()
     }
 
     private fun handleClose() {
+        closeScreen()
+    }
+
+    private fun closeScreen() {
         keyboardController.hide()
         navigator.back()
     }

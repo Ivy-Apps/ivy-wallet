@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,12 +19,14 @@ import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
+import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
+import com.ivy.resources.R
 import com.ivy.transaction.component.*
 
 @Composable
@@ -104,10 +107,36 @@ private fun BoxScope.UI(
             if (keyboardShown) {
                 SpacerVer(height = keyboardPadding())
             }
-            // To account for "Amount Account sheet" height
-            SpacerVer(height = 480.dp)
+            // To account for bottom sheet's height
+            SpacerVer(height = 520.dp)
         }
     }
+
+    TransferBottomSheet(
+        accountFrom = state.accountFrom,
+        amountFromUi = state.amountFromUi,
+        amountFrom = state.amountFrom,
+        accountTo = state.accountTo,
+        amountToUi = state.amountToUi,
+        amountTo = state.amountTo,
+        ctaText = stringResource(R.string.add),
+        ctaIcon = R.drawable.ic_round_add_24,
+        onCtaClick = {
+            onEvent(NewTransferEvent.Add)
+        },
+        onFromAccountChange = {
+            onEvent(NewTransferEvent.FromAccountChange(it))
+        },
+        onToAccountChange = {
+            onEvent(NewTransferEvent.ToAccountChange(it))
+        },
+        onFromAmountChange = {
+            onEvent(NewTransferEvent.FromAmountChange(it))
+        },
+        onToAmountChange = {
+            onEvent(NewTransferEvent.ToAmountChange(it))
+        },
+    )
 }
 
 
@@ -118,11 +147,14 @@ private fun Preview() {
     IvyPreview {
         UI(
             state = NewTransferState(
-                accountFrom = dummyAccountUi(),
-                amountFromUi = dummyValueUi(),
+                accountFrom = dummyAccountUi(
+                    name = "Personal Bank",
+                    color = Blue2Dark,
+                ),
+                amountFromUi = dummyValueUi(amount = "400"),
                 amountFrom = dummyValue(),
-                accountTo = dummyAccountUi(),
-                amountToUi = dummyValueUi(),
+                accountTo = dummyAccountUi(name = "Cash"),
+                amountToUi = dummyValueUi(amount = "400"),
                 amountTo = dummyValue(),
                 category = dummyCategoryUi(),
                 description = null,

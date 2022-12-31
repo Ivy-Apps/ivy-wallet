@@ -188,6 +188,7 @@ class NewTransactionViewModel @Inject constructor(
             TitleSuggestionsFlow.Input(
                 title = title,
                 categoryUi = category,
+                transfer = false,
             )
         ).map { titleSuggestions ->
             Triple(title, description, titleSuggestions)
@@ -271,10 +272,20 @@ class NewTransactionViewModel @Inject constructor(
         )
 
         writeTrnsAct(Modify.save(transaction))
+        closeScreen()
+    }
+
+
+    private fun handleClose() {
+        closeScreen()
+    }
+
+    private fun closeScreen() {
         keyboardController.hide()
         navigator.back()
     }
 
+    // region Handle Value changes
     private fun handleAmountChange(event: NewTrnEvent.AmountChange) {
         amount.value = event.amount
         amountUi.value = format(event.amount, shortenFiat = false)
@@ -328,10 +339,6 @@ class NewTransactionViewModel @Inject constructor(
 
         executeNextStep(after = CreateTrnFlowStep.Type)
     }
-
-    private fun handleClose() {
-        keyboardController.hide()
-        navigator.back()
-    }
+    // endregion
     // endregion
 }

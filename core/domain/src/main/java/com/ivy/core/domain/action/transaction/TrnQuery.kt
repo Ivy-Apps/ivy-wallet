@@ -21,6 +21,7 @@ sealed interface TrnQuery {
     data class ByTypeIn(val types: NonEmptyList<TransactionType>) : TrnQuery
 
     data class ByPurpose(val purpose: TrnPurpose?) : TrnQuery
+    data class ByPurposeIn(val purposes: NonEmptyList<TrnPurpose>) : TrnQuery
 
     /**
      * Inclusive period [from, to]
@@ -54,6 +55,7 @@ fun TrnQuery.toTrnWhere(): TrnWhere = when (this) {
     is TrnQuery.ById -> TrnWhere.ById(id.toString())
     is TrnQuery.ByIdIn -> TrnWhere.ByIdIn(ids.map { it.toString() })
     is TrnQuery.ByPurpose -> TrnWhere.ByPurpose(purpose)
+    is TrnQuery.ByPurposeIn -> TrnWhere.ByPurposeIn(purposes)
     is TrnQuery.ByType -> TrnWhere.ByType(trnType)
     is TrnQuery.ByTypeIn -> TrnWhere.ByTypeIn(types)
     is TrnQuery.DueBetween -> TrnWhere.DueBetween(range)

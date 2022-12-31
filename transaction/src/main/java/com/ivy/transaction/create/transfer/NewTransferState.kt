@@ -14,11 +14,11 @@ import com.ivy.design.util.KeyboardController
 @Immutable
 data class NewTransferState(
     val accountFrom: AccountUi,
-    val amountFromUi: ValueUi,
-    val amountFrom: Value,
     val accountTo: AccountUi,
-    val amountToUi: ValueUi,
+    val amountFrom: Value,
+    val amountFromUi: ValueUi,
     val amountTo: Value,
+    val amountToUi: ValueUi,
 
     val category: CategoryUi?,
     val timeUi: TrnTimeUi,
