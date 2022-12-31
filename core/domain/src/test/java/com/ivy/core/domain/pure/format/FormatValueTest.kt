@@ -8,7 +8,7 @@ import io.kotest.property.arbitrary.boolean
 import io.kotest.property.checkAll
 
 class FormatValueTest : StringSpec({
-    "format 5 USD into 5.00 USD" {
+    "format 5 USD into 5 USD" {
         checkAll(Arb.boolean()) { shorten ->
             val res = format(
                 value = Value(5.0, "USD"),
@@ -16,7 +16,7 @@ class FormatValueTest : StringSpec({
             )
 
             res shouldBe ValueUi(
-                amount = "5.00",
+                amount = "5",
                 currency = "USD"
             )
         }

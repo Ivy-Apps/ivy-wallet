@@ -29,7 +29,7 @@ private fun formatFiat(
         currency = value.currency
     )
 } else {
-    val df = DecimalFormat("###,##0.00")
+    val df = DecimalFormat("###,##0.##")
     ValueUi(
         amount = df.format(value.amount),
         currency = value.currency

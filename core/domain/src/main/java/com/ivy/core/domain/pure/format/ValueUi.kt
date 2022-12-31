@@ -6,7 +6,7 @@ data class ValueUi(
 )
 
 fun dummyValueUi(
-    amount: String = "0.0",
+    amount: String = "0",
     currency: String = "USD"
 ) = ValueUi(
     amount = amount, currency = currency,

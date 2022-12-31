@@ -51,6 +51,7 @@ import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.onboarding.screen.debug.OnboardingDebug
 import com.ivy.settings.SettingsScreen
+import com.ivy.transaction.create.transfer.NewTransferScreen
 import com.ivy.transaction.create.trn.NewTransactionScreen
 import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
@@ -137,7 +138,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 accountTransactions = {},
                 categoryTransactions = {},
                 newTransaction = { NewTransactionScreen(arg = it) },
-                newTransfer = {},
+                newTransfer = { NewTransferScreen() },
                 transaction = { EditTransactionScreen(trnId = it) },
                 transfer = {}
             ),

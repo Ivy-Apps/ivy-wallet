@@ -16,10 +16,10 @@ class ShortenNumberTest : StringSpec({
         res shouldBe "23.51k"
     }
 
-    "shorten 999 into 999.00" {
+    "shorten 999 into 999" {
         val res = formatShortened(999.0)
 
-        res shouldBe "999.00"
+        res shouldBe "999"
     }
 
     "shorten 10,000,000.90 into 10m" {
