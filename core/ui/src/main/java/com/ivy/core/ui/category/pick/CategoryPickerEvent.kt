@@ -5,7 +5,7 @@ import com.ivy.core.ui.data.CategoryUi
 import com.ivy.data.transaction.TransactionType
 
 sealed interface CategoryPickerEvent {
-    data class Initial(val trnType: TransactionType) : CategoryPickerEvent
+    data class Initial(val trnType: TransactionType?) : CategoryPickerEvent
     data class CategorySelected(val category: CategoryUi?) : CategoryPickerEvent
 
     data class ExpandParent(val parent: SelectableCategoryUi) : CategoryPickerEvent

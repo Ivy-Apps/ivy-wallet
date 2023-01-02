@@ -39,7 +39,7 @@ import com.ivy.design.util.hiltViewModelPreviewSafe
 fun BoxScope.CategoryPickerModal(
     modal: IvyModal,
     level: Int = 1,
-    trnType: TransactionType,
+    trnType: TransactionType?,
     selected: CategoryUi?,
     onPick: (CategoryUi?) -> Unit,
 ) {

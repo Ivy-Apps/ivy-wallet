@@ -20,7 +20,7 @@ class CategoryPickerViewModel @Inject constructor(
         items = emptyList()
     )
 
-    private val trnType = MutableStateFlow(TransactionType.Expense)
+    private val trnType = MutableStateFlow<TransactionType?>(null)
     private val expandedParent = MutableStateFlow<CategoryUi?>(null)
     private val selectedCategory = MutableStateFlow<CategoryUi?>(null)
 

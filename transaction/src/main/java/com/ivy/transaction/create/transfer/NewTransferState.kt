@@ -34,5 +34,6 @@ data class NewTransferState(
     val accountPickerModal: IvyModal,
     val descriptionModal: IvyModal,
     val timeModal: IvyModal,
+    val feeModal: IvyModal,
     // endregion
 )

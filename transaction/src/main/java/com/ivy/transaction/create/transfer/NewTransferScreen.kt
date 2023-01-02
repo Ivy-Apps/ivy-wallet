@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
 import com.ivy.core.domain.pure.format.dummyCombinedValueUi
+import com.ivy.core.ui.amount.AmountModal
+import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
@@ -27,6 +29,8 @@ import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
+import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.TrnTimeModal
 
 @Composable
 fun BoxScope.NewTransferScreen() {
@@ -101,6 +105,15 @@ private fun BoxScope.UI(
                 state.timeModal.show()
             }
         }
+        item(key = "fee") {
+            SpacerVer(height = 12.dp)
+            FeeComponent(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                fee = state.fee?.valueUi
+            ) {
+                state.feeModal.show()
+            }
+        }
         item(key = "last_item_spacer") {
             val keyboardShown by keyboardShownState()
             if (keyboardShown) {
@@ -136,8 +149,48 @@ private fun BoxScope.UI(
             onEvent(NewTransferEvent.ToAmountChange(it))
         },
     )
+
+    Modals(state = state, onEvent = onEvent)
 }
 
+@Composable
+private fun BoxScope.Modals(
+    state: NewTransferState,
+    onEvent: (NewTransferEvent) -> Unit
+) {
+    CategoryPickerModal(
+        modal = state.categoryPickerModal,
+        selected = state.category,
+        trnType = null,
+        onPick = {
+            onEvent(NewTransferEvent.CategoryChange(it))
+        }
+    )
+
+    DescriptionModal(
+        modal = state.descriptionModal,
+        initialDescription = state.description,
+        onDescriptionChange = {
+            onEvent(NewTransferEvent.DescriptionChange(it))
+        }
+    )
+
+    TrnTimeModal(
+        modal = state.timeModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(NewTransferEvent.TrnTimeChange(it))
+        }
+    )
+
+    AmountModal(
+        modal = state.feeModal,
+        initialAmount = state.fee?.value,
+        onAmountEnter = {
+            onEvent(NewTransferEvent.FeeChange(it))
+        }
+    )
+}
 
 // region Previews
 @Preview
@@ -167,7 +220,43 @@ private fun Preview() {
                 timeModal = rememberIvyModal(),
                 accountPickerModal = rememberIvyModal(),
                 amountModal = rememberIvyModal(),
-                keyboardController = KeyboardController()
+                keyboardController = KeyboardController(),
+                feeModal = rememberIvyModal(),
+            ),
+            onEvent = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Filled() {
+    IvyPreview {
+        UI(
+            state = NewTransferState(
+                accountFrom = dummyAccountUi(
+                    name = "Personal Bank",
+                    color = Blue2Dark,
+                ),
+                amountFrom = dummyCombinedValueUi(amount = 400.0),
+                accountTo = dummyAccountUi(name = "Cash"),
+                amountTo = dummyCombinedValueUi(amount = 400.0),
+                category = dummyCategoryUi(),
+                description = "Need some cash",
+                timeUi = dummyTrnTimeActualUi(),
+                time = dummyActual(),
+                title = "ATM Withdrawal",
+                fee = dummyCombinedValueUi(amount = 2.0),
+
+                titleFocus = FocusRequester(),
+                titleSuggestions = listOf("Title 1", "Title 2"),
+                categoryPickerModal = rememberIvyModal(),
+                descriptionModal = rememberIvyModal(),
+                timeModal = rememberIvyModal(),
+                accountPickerModal = rememberIvyModal(),
+                amountModal = rememberIvyModal(),
+                keyboardController = KeyboardController(),
+                feeModal = rememberIvyModal(),
             ),
             onEvent = {}
         )

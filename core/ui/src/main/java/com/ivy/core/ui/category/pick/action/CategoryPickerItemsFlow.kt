@@ -20,7 +20,7 @@ class CategoryPickerItemsFlow @Inject constructor(
     data class Input(
         val selectedCategory: CategoryUi?,
         val expandedParent: CategoryUi?,
-        val trnType: TransactionType,
+        val trnType: TransactionType?,
     )
 
     override fun Input.createFlow(): Flow<List<CategoryPickerItemUi>> =

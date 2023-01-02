@@ -86,6 +86,8 @@ class NewTransferViewModel @Inject constructor(
     private val trnTypeModal = IvyModal()
     private val typeStep = ModalStep(trnTypeModal)
 
+    private val feeModal = IvyModal()
+
     private var createTrnFlow: CreateTrnFlow? = null
     private fun flowStep(step: CreateTrnFlowStep): FlowStep = when (step) {
         CreateTrnFlowStep.Title -> titleStep
@@ -123,6 +125,7 @@ class NewTransferViewModel @Inject constructor(
         accountPickerModal = accountPickerModal,
         descriptionModal = descriptionModal,
         timeModal = trnTimeModal,
+        feeModal = feeModal,
     )
 
     // region State
@@ -175,6 +178,7 @@ class NewTransferViewModel @Inject constructor(
                 accountPickerModal = accountPickerModal,
                 descriptionModal = descriptionModal,
                 timeModal = trnTimeModal,
+                feeModal = feeModal,
             )
         }
     }.flattenLatest()
@@ -193,6 +197,7 @@ class NewTransferViewModel @Inject constructor(
         is NewTransferEvent.ToAccountChange -> TODO()
         is NewTransferEvent.ToAmountChange -> TODO()
         is NewTransferEvent.TrnTimeChange -> TODO()
+        is NewTransferEvent.FeeChange -> TODO()
     }
 
     private suspend fun handleInitial() {
