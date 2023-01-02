@@ -4,6 +4,8 @@ import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
+import com.ivy.core.domain.pure.transaction.validateTransaction
+import com.ivy.core.domain.pure.util.beautify
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
@@ -60,11 +62,13 @@ class WriteTrnsAct @Inject constructor(
     private suspend fun save(trns: List<Transaction>) = trns.forEach { saveTrn(it) }
 
     private suspend fun saveTrn(trn: Transaction) {
+        if (!validateTransaction(trn)) return // don't save invalid transactions
+
         trnDao.save(
             mapToEntity(
                 trn.copy(
-                    title = trn.title?.trim()?.takeIf { it.isNotBlank() },
-                    description = trn.description?.trim()?.takeIf { it.isNotBlank() }
+                    title = beautify(trn.title),
+                    description = beautify(trn.description)
                 )
             ).copy(sync = Syncing)
         )

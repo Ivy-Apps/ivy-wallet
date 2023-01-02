@@ -22,8 +22,10 @@ class WriteAccountFolderAct @Inject constructor(
 
     private suspend fun save(folders: List<Folder>) {
         accountFolderDao.save(
-            folders
-                .filter(::validate)
+            folders.filter(::validate)
+                .map {
+                    it.copy(name = it.name.trim())
+                }
                 .map(::toSyncingEntity)
         )
     }

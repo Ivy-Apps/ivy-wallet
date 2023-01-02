@@ -33,7 +33,10 @@ class WriteCategoriesAct @Inject constructor(
 
     private suspend fun save(categories: List<Category>) {
         categoryDao.save(
-            categories.map { mapToEntity(it).copy(sync = SyncState.Syncing) }
+            categories
+                .filter { it.name.isNotBlank() }
+                .map { it.copy(name = it.name.trim()) }
+                .map { mapToEntity(it).copy(sync = SyncState.Syncing) }
         )
     }
 
