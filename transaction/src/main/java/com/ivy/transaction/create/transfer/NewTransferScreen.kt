@@ -39,6 +39,10 @@ fun BoxScope.NewTransferScreen() {
     val viewModel: NewTransferViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.onEvent(NewTransferEvent.Initial)
+    }
+
     UI(state = state, onEvent = viewModel::onEvent)
 }
 

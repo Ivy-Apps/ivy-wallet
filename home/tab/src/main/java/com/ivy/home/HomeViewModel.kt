@@ -21,6 +21,7 @@ import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TransactionsList
 import com.ivy.data.transaction.TrnListItem
+import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
 import com.ivy.main.base.MainBottomBarAction
@@ -61,6 +62,8 @@ class HomeViewModel @Inject constructor(
         hideBalance = false,
     )
 
+    private val addTransactionModal = IvyModal()
+
     override val initialUi = HomeStateUi(
         period = null,
         trnsList = TransactionsListUi(
@@ -73,6 +76,8 @@ class HomeViewModel @Inject constructor(
         expense = ValueUi(amount = "0.0", currency = ""),
         hideBalance = false,
         moreMenuVisible = false,
+
+        addTransactionModal = addTransactionModal,
     )
     // endregion
 
@@ -158,6 +163,8 @@ class HomeViewModel @Inject constructor(
             expense = format(state.expense, shortenFiat = true),
             hideBalance = state.hideBalance,
             moreMenuVisible = moreMenuVisible,
+
+            addTransactionModal = addTransactionModal,
         )
     }
 
@@ -169,9 +176,12 @@ class HomeViewModel @Inject constructor(
 
     // region Event Handling
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
+        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
+        HomeEvent.AddExpense -> handleAddExpense()
+        HomeEvent.AddIncome -> handleAddIncome()
+        HomeEvent.AddTransfer -> handleAddTransfer()
         HomeEvent.BalanceClick -> handleBalanceClick()
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
-        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
         HomeEvent.ExpenseClick -> handleExpenseClick()
         HomeEvent.IncomeClick -> handleIncomeClick()
         HomeEvent.ShowBottomBar -> handleShowBottomBar()
@@ -180,7 +190,22 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleBottomBarAction(action: MainBottomBarAction) {
-        // TODO: Implement
+        addTransactionModal.show()
+    }
+
+    private fun handleAddTransfer() {
+        navigator.navigate(Destination.newTransfer.destination(Unit))
+    }
+
+    private fun handleAddIncome() {
+        navigator.navigate(
+            Destination.newTransaction.destination(
+                NewTransaction.Arg(trnType = TransactionType.Income)
+            )
+        )
+    }
+
+    private fun handleAddExpense() {
         navigator.navigate(
             Destination.newTransaction.destination(
                 NewTransaction.Arg(trnType = TransactionType.Expense)

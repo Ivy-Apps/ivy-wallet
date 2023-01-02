@@ -67,10 +67,18 @@ fun BoxScope.TransferBottomSheet(
             accountTo = accountTo,
             amountTo = amountToUi,
 
-            onFromAccountClick = {},
-            onToAccountClick = {},
-            onFromAmountClick = {},
-            onToAmountClick = {},
+            onFromAccountClick = {
+                fromAccountPickerModal.show()
+            },
+            onToAccountClick = {
+                toAccountPickerModal.show()
+            },
+            onFromAmountClick = {
+                fromAmountModal.show()
+            },
+            onToAmountClick = {
+                toAmountModal.show()
+            },
         )
         SpacerVer(height = 16.dp)
     }

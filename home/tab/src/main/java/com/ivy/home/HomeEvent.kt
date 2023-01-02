@@ -12,4 +12,8 @@ sealed interface HomeEvent {
     data class BottomBarAction(val action: MainBottomBarAction) : HomeEvent
     object ShowBottomBar : HomeEvent
     object HideBottomBar : HomeEvent
+
+    object AddTransfer : HomeEvent
+    object AddIncome : HomeEvent
+    object AddExpense : HomeEvent
 }

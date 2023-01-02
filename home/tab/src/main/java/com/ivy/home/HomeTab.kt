@@ -32,6 +32,7 @@ import com.ivy.home.components.Balance
 import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.components.MoreMenuButton
+import com.ivy.home.modal.AddTransactionModal
 import com.ivy.home.state.HomeStateUi
 import com.ivy.menu.HomeMoreMenu
 import kotlinx.coroutines.launch
@@ -96,7 +97,9 @@ private fun BoxScope.UI(
 
     Modals(
         periodModal = periodModal,
-        selectedPeriod = state.period
+        selectedPeriod = state.period,
+        addTransactionModal = state.addTransactionModal,
+        onEvent = onEvent,
     )
 }
 
@@ -214,7 +217,9 @@ private fun CollapsedToolbarExtension(
 @Composable
 private fun BoxScope.Modals(
     periodModal: IvyModal,
-    selectedPeriod: SelectedPeriodUi?
+    selectedPeriod: SelectedPeriodUi?,
+    addTransactionModal: IvyModal,
+    onEvent: (HomeEvent) -> Unit,
 ) {
     if (selectedPeriod != null) {
         PeriodModal(
@@ -222,6 +227,19 @@ private fun BoxScope.Modals(
             selectedPeriod = selectedPeriod
         )
     }
+
+    AddTransactionModal(
+        modal = addTransactionModal,
+        onAddTransfer = {
+            onEvent(HomeEvent.AddTransfer)
+        },
+        onAddIncome = {
+            onEvent(HomeEvent.AddIncome)
+        },
+        onAddExpense = {
+            onEvent(HomeEvent.AddExpense)
+        }
+    )
 }
 // endregion
 
@@ -243,7 +261,8 @@ private fun Preview() {
                 expense = ValueUi("3,000.50", "USD"),
                 hideBalance = false,
                 moreMenuVisible = false,
-                trnsList = sampleTransactionListUi()
+                trnsList = sampleTransactionListUi(),
+                addTransactionModal = rememberIvyModal()
             ),
             onEvent = {}
         )

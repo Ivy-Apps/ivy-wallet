@@ -213,7 +213,7 @@ class NewTransferViewModel @Inject constructor(
         flowStep(createTrnFlow.first).execute()
 
         val accounts = accountsAct(Unit)
-        if (accounts.size <= 2) {
+        if (accounts.size < 2) {
             // cannot do transfers with less than 2 accounts
             closeScreen()
             return
