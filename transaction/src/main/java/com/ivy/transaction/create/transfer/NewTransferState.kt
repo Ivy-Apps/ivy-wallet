@@ -29,7 +29,7 @@ data class NewTransferState(
     // region Create flow
     val titleFocus: FocusRequester,
     val keyboardController: KeyboardController,
-    val amountModal: IvyModal,
+    val transferAmountModal: IvyModal,
     val categoryPickerModal: IvyModal,
     val accountPickerModal: IvyModal,
     val descriptionModal: IvyModal,

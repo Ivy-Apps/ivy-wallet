@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
 import com.ivy.core.domain.pure.format.dummyCombinedValueUi
+import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -30,6 +31,7 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.TransferAmountModal
 import com.ivy.transaction.modal.TrnTimeModal
 
 @Composable
@@ -190,6 +192,31 @@ private fun BoxScope.Modals(
             onEvent(NewTransferEvent.FeeChange(it))
         }
     )
+
+    val createAccountModal = rememberIvyModal()
+    TransferAmountModal(
+        modal = state.transferAmountModal,
+        amount = state.amountFrom.value,
+        fromAccount = state.accountFrom,
+        toAccount = state.accountTo,
+        onAddAccount = {
+            createAccountModal.show()
+        },
+        onAmountEnter = {
+            onEvent(NewTransferEvent.TransferAmountChange(it))
+        },
+        onFromAccountChange = {
+            onEvent(NewTransferEvent.FromAccountChange(it))
+        },
+        onToAccountChange = {
+            onEvent(NewTransferEvent.ToAccountChange(it))
+        }
+    )
+
+    CreateAccountModal(
+        modal = createAccountModal,
+        level = 2,
+    )
 }
 
 // region Previews
@@ -219,7 +246,7 @@ private fun Preview() {
                 descriptionModal = rememberIvyModal(),
                 timeModal = rememberIvyModal(),
                 accountPickerModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
+                transferAmountModal = rememberIvyModal(),
                 keyboardController = KeyboardController(),
                 feeModal = rememberIvyModal(),
             ),
@@ -254,7 +281,7 @@ private fun Preview_Filled() {
                 descriptionModal = rememberIvyModal(),
                 timeModal = rememberIvyModal(),
                 accountPickerModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
+                transferAmountModal = rememberIvyModal(),
                 keyboardController = KeyboardController(),
                 feeModal = rememberIvyModal(),
             ),

@@ -19,6 +19,9 @@ interface TrnLinkRecordDao {
     // region Select
     @Query("SELECT * FROM trn_links WHERE sync != $DELETING")
     fun findAll(): Flow<List<TrnLinkRecordEntity>>
+
+    @Query("SELECT * FROM trn_links WHERE batchId = :batchId AND sync != $DELETING")
+    suspend fun findByBatchId(batchId: String): List<TrnLinkRecordEntity>
     // endregion
 
     // region Update

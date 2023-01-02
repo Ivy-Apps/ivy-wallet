@@ -10,6 +10,7 @@ sealed interface NewTransferEvent {
     object Add : NewTransferEvent
     object Close : NewTransferEvent
 
+    data class TransferAmountChange(val amount: Value) : NewTransferEvent
     data class FromAmountChange(val amount: Value) : NewTransferEvent
     data class ToAmountChange(val amount: Value) : NewTransferEvent
     data class TitleChange(val title: String) : NewTransferEvent
