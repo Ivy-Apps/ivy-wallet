@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ivy.core.domain.pure.dummy.dummyValue
+import com.ivy.core.domain.pure.format.dummyCombinedValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -138,8 +138,8 @@ private fun BoxScope.UI(
     }
 
     AmountAccountSheet(
-        amountUi = state.amountUi,
-        amount = state.amount,
+        amountUi = state.amount.valueUi,
+        amount = state.amount.value,
         amountBaseCurrency = state.amountBaseCurrency,
         account = state.account,
         ctaText = stringResource(R.string.add),
@@ -231,8 +231,7 @@ private fun Preview_Empty() {
                 trnType = TransactionType.Income,
                 category = null,
                 description = null,
-                amountUi = dummyValueUi(),
-                amount = dummyValue(),
+                amount = dummyCombinedValueUi(),
                 amountBaseCurrency = null,
                 account = dummyAccountUi(),
                 title = null,
@@ -265,8 +264,7 @@ private fun Preview_Filled() {
                 title = "Tabu Shisha",
                 category = dummyCategoryUi(),
                 description = "Lorem ipsum blablablabla okay good test\n1\n2\n",
-                amountUi = dummyValueUi(amount = "23.99"),
-                amount = dummyValue(amount = 23.99),
+                amount = dummyCombinedValueUi(amount = 23.99),
                 amountBaseCurrency = dummyValueUi(amount = "48.23", currency = "BGN"),
                 account = dummyAccountUi(),
 

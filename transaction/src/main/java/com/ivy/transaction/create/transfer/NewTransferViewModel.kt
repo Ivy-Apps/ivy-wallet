@@ -8,8 +8,7 @@ import com.ivy.core.domain.action.account.AccountsAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.pure.format.ValueUi
-import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.combine
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
@@ -18,7 +17,6 @@ import com.ivy.core.ui.action.mapping.MapTrnTimeUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
-import com.ivy.data.Value
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
@@ -107,15 +105,14 @@ class NewTransferViewModel @Inject constructor(
     override val initialUi = NewTransferState(
         accountFrom = dummyAccountUi(),
         accountTo = dummyAccountUi(),
-        amountFrom = Value(0.0, ""),
-        amountFromUi = ValueUi("0", ""),
-        amountTo = Value(0.0, ""),
-        amountToUi = ValueUi("0", ""),
+        amountFrom = CombinedValueUi.initial(),
+        amountTo = CombinedValueUi.initial(),
         category = null,
         timeUi = TrnTimeUi.Actual(""),
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,
+        fee = null,
 
         titleSuggestions = emptyList(),
 
@@ -129,9 +126,7 @@ class NewTransferViewModel @Inject constructor(
     )
 
     // region State
-    private val amountFromUi = MutableStateFlow(initialUi.amountFromUi)
     private val amountFrom = MutableStateFlow(initialUi.amountFrom)
-    private val amountToUi = MutableStateFlow(initialUi.amountToUi)
     private val amountTo = MutableStateFlow(initialUi.amountTo)
     private val accountFrom = MutableStateFlow(initialUi.accountFrom)
     private val accountTo = MutableStateFlow(initialUi.accountTo)
@@ -140,17 +135,18 @@ class NewTransferViewModel @Inject constructor(
     private val timeUi = MutableStateFlow(initialUi.timeUi)
     private val title = MutableStateFlow(initialUi.title)
     private val description = MutableStateFlow(initialUi.description)
+    private val fee = MutableStateFlow(initialUi.fee)
     // endregion
 
 
     override val uiFlow = combine(
-        amountFromUi, amountFrom, amountToUi, amountTo,
+        amountFrom, amountTo,
         accountFrom, accountTo, category, time, timeUi,
-        title, description
+        title, description, fee,
     )
-    { amountFromUi, amountFrom, amountToUi, amountTo,
+    { amountFrom, amountTo,
       accountFrom, accountTo, category, time, timeUi,
-      title, description ->
+      title, description, fee ->
         titleSuggestionsFlow(
             TitleSuggestionsFlow.Input(
                 title = title,
@@ -159,9 +155,7 @@ class NewTransferViewModel @Inject constructor(
             )
         ).map { titleSuggestions ->
             NewTransferState(
-                amountFromUi = amountFromUi,
                 amountFrom = amountFrom,
-                amountToUi = amountToUi,
                 amountTo = amountTo,
                 accountFrom = accountFrom,
                 accountTo = accountTo,
@@ -170,6 +164,7 @@ class NewTransferViewModel @Inject constructor(
                 timeUi = timeUi,
                 title = title,
                 description = description,
+                fee = fee,
 
                 titleSuggestions = titleSuggestions,
 
@@ -218,10 +213,16 @@ class NewTransferViewModel @Inject constructor(
         accountFrom.value = mapAccountUiAct(fromAcc)
         accountTo.value = mapAccountUiAct(toAcc)
 
-        amountFrom.value = Value(0.0, fromAcc.currency)
-        amountFromUi.value = format(amountFrom.value, shortenFiat = false)
-        amountTo.value = Value(0.0, toAcc.currency)
-        amountToUi.value = format(amountTo.value, shortenFiat = false)
+        amountFrom.value = CombinedValueUi(
+            amount = 0.0,
+            currency = fromAcc.currency,
+            shortenFiat = false,
+        )
+        amountTo.value = CombinedValueUi(
+            amount = 0.0,
+            currency = toAcc.currency,
+            shortenFiat = false,
+        )
 
         timeUi.value = mapTrnTimeUiAct(time.value)
     }

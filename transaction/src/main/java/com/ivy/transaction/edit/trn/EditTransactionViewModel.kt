@@ -10,8 +10,7 @@ import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.TrnByIdAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.pure.format.ValueUi
-import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
@@ -20,7 +19,6 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.SyncState
-import com.ivy.data.Value
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnState
@@ -54,8 +52,7 @@ class EditTransactionViewModel @Inject constructor(
 
     override val initialUi = EditTrnState(
         trnType = TransactionType.Expense,
-        amountUi = ValueUi(amount = "0.0", currency = ""),
-        amount = Value(amount = 0.0, currency = ""),
+        amount = CombinedValueUi.initial(),
         amountBaseCurrency = null,
         account = dummyAccountUi(),
         category = null,
@@ -73,7 +70,6 @@ class EditTransactionViewModel @Inject constructor(
 
     // region State
     private val trnType = MutableStateFlow(initialUi.trnType)
-    private val amountUi = MutableStateFlow(initialUi.amountUi)
     private val amount = MutableStateFlow(initialUi.amount)
     private val account = MutableStateFlow(initialUi.account)
     private val category = MutableStateFlow(initialUi.category)
@@ -86,12 +82,11 @@ class EditTransactionViewModel @Inject constructor(
 
     override val uiFlow: Flow<EditTrnState> = combine(
         trnType, amountFlow(), accountCategoryFlow(), textsFlow(), othersFlow(),
-    ) { trnType, (amount, amountUi, amountBaseCurrency), (account, category),
+    ) { trnType, (amount, amountBaseCurrency), (account, category),
         (title, description, titleSuggestions), (time, timeUi, hidden) ->
         EditTrnState(
             trnType = trnType,
             amount = amount,
-            amountUi = amountUi,
             amountBaseCurrency = amountBaseCurrency,
             account = account,
             category = category,
@@ -106,11 +101,9 @@ class EditTransactionViewModel @Inject constructor(
         )
     }
 
-    private fun amountFlow() = combine(
-        amount, amountUi
-    ) { amount, amountUi ->
-        baseCurrencyRepresentationFlow(amount).map { amountBaseCurrency ->
-            Triple(amount, amountUi, amountBaseCurrency)
+    private fun amountFlow() = amount.map { amount ->
+        baseCurrencyRepresentationFlow(amount.value).map { amountBaseCurrency ->
+            amount to amountBaseCurrency
         }
     }.flattenLatest()
 
@@ -165,8 +158,10 @@ class EditTransactionViewModel @Inject constructor(
         if (transaction != null) {
             this.transaction = transaction
             trnType.value = transaction.type
-            amount.value = transaction.value
-            amountUi.value = format(transaction.value, shortenFiat = false)
+            amount.value = CombinedValueUi(
+                value = transaction.value,
+                shortenFiat = false,
+            )
             account.value = mapAccountUiAct(transaction.account)
             category.value = transaction.category?.let { category ->
                 mapCategoryUiAct(category)
@@ -185,12 +180,12 @@ class EditTransactionViewModel @Inject constructor(
         val account = accountByIdAct(account.value.id) ?: return
         val category = category.value?.id?.let { categoryByIdAct(it) }
 
-        if (amount.value.amount <= 0.0) return
+        if (amount.value.value.amount <= 0.0) return
 
         val updated = transaction.copy(
             account = account,
             category = category,
-            value = amount.value,
+            value = amount.value.value,
             time = time.value,
             title = title.value.takeIf { it.isNotNullOrBlank() },
             description = description.value.takeIf { it.isNotNullOrBlank() },
@@ -228,8 +223,10 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun handleAmountChange(event: EditTrnEvent.AmountChange) {
-        amount.value = event.amount
-        amountUi.value = format(event.amount, shortenFiat = false)
+        amount.value = CombinedValueUi(
+            value = event.amount,
+            shortenFiat = false
+        )
     }
 
     private fun handleTitleChange(event: EditTrnEvent.TitleChange) {

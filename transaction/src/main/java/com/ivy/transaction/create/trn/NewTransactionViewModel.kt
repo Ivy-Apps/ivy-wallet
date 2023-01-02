@@ -9,8 +9,7 @@ import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.pure.format.ValueUi
-import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
@@ -19,7 +18,6 @@ import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.SyncState
-import com.ivy.data.Value
 import com.ivy.data.transaction.*
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
@@ -110,8 +108,7 @@ class NewTransactionViewModel @Inject constructor(
 
     override val initialUi = NewTrnState(
         trnType = TransactionType.Expense,
-        amountUi = ValueUi(amount = "0.0", currency = ""),
-        amount = Value(amount = 0.0, currency = ""),
+        amount = CombinedValueUi.initial(),
         amountBaseCurrency = null,
         account = dummyAccountUi(),
         category = null,
@@ -134,7 +131,6 @@ class NewTransactionViewModel @Inject constructor(
 
     // region State
     private val trnType = MutableStateFlow(initialUi.trnType)
-    private val amountUi = MutableStateFlow(initialUi.amountUi)
     private val amount = MutableStateFlow(initialUi.amount)
     private val account = MutableStateFlow(initialUi.account)
     private val category = MutableStateFlow(initialUi.category)
@@ -146,12 +142,11 @@ class NewTransactionViewModel @Inject constructor(
 
     override val uiFlow: Flow<NewTrnState> = combine(
         trnType, amountFlow(), accountCategoryFlow(), textsFlow(), timeFlow(),
-    ) { trnType, (amount, amountUi, amountBaseCurrency), (account, category),
+    ) { trnType, (amount, amountBaseCurrency), (account, category),
         (title, description, titleSuggestions), (time, timeUi) ->
         NewTrnState(
             trnType = trnType,
             amount = amount,
-            amountUi = amountUi,
             amountBaseCurrency = amountBaseCurrency,
             account = account,
             category = category,
@@ -173,11 +168,9 @@ class NewTransactionViewModel @Inject constructor(
         )
     }
 
-    private fun amountFlow() = combine(
-        amount, amountUi
-    ) { amount, amountUi ->
-        baseCurrencyRepresentationFlow(amount).map { amountBaseCurrency ->
-            Triple(amount, amountUi, amountBaseCurrency)
+    private fun amountFlow() = amount.map { amount ->
+        baseCurrencyRepresentationFlow(amount.value).map { amountBaseCurrency ->
+            amount to amountBaseCurrency
         }
     }.flattenLatest()
 
@@ -242,8 +235,11 @@ class NewTransactionViewModel @Inject constructor(
             account.value = it
         }
         timeUi.value = mapTrnTimeUiAct(time.value)
-        amount.value = Value(amount = 0.0, currency = baseCurrencyAct(Unit))
-        amountUi.value = format(amount.value, shortenFiat = false)
+        amount.value = CombinedValueUi(
+            amount = 0.0,
+            currency = baseCurrencyAct(Unit),
+            shortenFiat = false,
+        )
     }
 
     private suspend fun handleAdd() {
@@ -255,7 +251,7 @@ class NewTransactionViewModel @Inject constructor(
             account = account,
             category = category,
             type = trnType.value,
-            value = amount.value,
+            value = amount.value.value,
             time = time.value,
             title = title.value,
             description = description.value,
@@ -287,8 +283,10 @@ class NewTransactionViewModel @Inject constructor(
 
     // region Handle Value changes
     private fun handleAmountChange(event: NewTrnEvent.AmountChange) {
-        amount.value = event.amount
-        amountUi.value = format(event.amount, shortenFiat = false)
+        amount.value = CombinedValueUi(
+            value = event.amount,
+            shortenFiat = false
+        )
 
         executeNextStep(after = CreateTrnFlowStep.Amount)
     }
@@ -306,8 +304,10 @@ class NewTransactionViewModel @Inject constructor(
     ) {
         accountByIdAct(account.id)?.let {
             val accountCurrency = it.currency
-            amount.value = amount.value.copy(currency = accountCurrency)
-            amountUi.value = format(amount.value, shortenFiat = false)
+            amount.value = CombinedValueUi(
+                value = amount.value.value.copy(currency = accountCurrency),
+                shortenFiat = false
+            )
         }
     }
 

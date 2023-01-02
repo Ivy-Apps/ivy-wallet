@@ -14,8 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
-import com.ivy.core.domain.pure.dummy.dummyValue
-import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.core.domain.pure.format.dummyCombinedValueUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
@@ -114,11 +113,11 @@ private fun BoxScope.UI(
 
     TransferBottomSheet(
         accountFrom = state.accountFrom,
-        amountFromUi = state.amountFromUi,
-        amountFrom = state.amountFrom,
+        amountFromUi = state.amountFrom.valueUi,
+        amountFrom = state.amountFrom.value,
         accountTo = state.accountTo,
-        amountToUi = state.amountToUi,
-        amountTo = state.amountTo,
+        amountToUi = state.amountTo.valueUi,
+        amountTo = state.amountTo.value,
         ctaText = stringResource(R.string.add),
         ctaIcon = R.drawable.ic_round_add_24,
         onCtaClick = {
@@ -151,16 +150,15 @@ private fun Preview() {
                     name = "Personal Bank",
                     color = Blue2Dark,
                 ),
-                amountFromUi = dummyValueUi(amount = "400"),
-                amountFrom = dummyValue(),
+                amountFrom = dummyCombinedValueUi(),
                 accountTo = dummyAccountUi(name = "Cash"),
-                amountToUi = dummyValueUi(amount = "400"),
-                amountTo = dummyValue(),
+                amountTo = dummyCombinedValueUi(),
                 category = dummyCategoryUi(),
                 description = null,
                 timeUi = dummyTrnTimeActualUi(),
                 time = dummyActual(),
                 title = null,
+                fee = null,
 
                 titleFocus = FocusRequester(),
                 titleSuggestions = listOf("Title 1", "Title 2"),
