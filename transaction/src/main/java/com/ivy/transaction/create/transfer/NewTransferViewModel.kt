@@ -6,6 +6,7 @@ import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.account.AccountsAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
+import com.ivy.core.domain.action.exchange.ExchangeAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.transfer.ModifyTransfer
 import com.ivy.core.domain.action.transaction.transfer.TransferData
@@ -50,6 +51,7 @@ class NewTransferViewModel @Inject constructor(
     private val accountsAct: AccountsAct,
     private val mapAccountUiAct: MapAccountUiAct,
     private val writeTransferAct: WriteTransferAct,
+    private val exchangeAct: ExchangeAct,
 ) : SimpleFlowViewModel<NewTransferState, NewTransferEvent>() {
     // region UX flow
     private interface FlowStep {
@@ -268,24 +270,55 @@ class NewTransferViewModel @Inject constructor(
     }
 
     // region Handle value changes
-    private fun handleTransferAmountChange(event: NewTransferEvent.TransferAmountChange) {
-        // TODO:
+    private suspend fun handleTransferAmountChange(event: NewTransferEvent.TransferAmountChange) {
+        // Called initially when the transfer modal is shown
+
+        val toAccount = accountByIdAct(accountTo.value.id) ?: return
+
+        amountFrom.value = CombinedValueUi(
+            value = event.amount,
+            shortenFiat = false,
+        )
+        amountTo.value = CombinedValueUi(
+            value = exchangeAct(
+                ExchangeAct.Input(
+                    value = event.amount,
+                    outputCurrency = toAccount.currency
+                )
+            ),
+            shortenFiat = false,
+        )
+
     }
 
     private fun handleFromAmountChange(event: NewTransferEvent.FromAmountChange) {
-        // TODO
+        amountFrom.value = CombinedValueUi(
+            value = event.amount,
+            shortenFiat = false,
+        )
     }
 
     private fun handleToAmountChange(event: NewTransferEvent.ToAmountChange) {
-        // TODO
+        amountTo.value = CombinedValueUi(
+            value = event.amount,
+            shortenFiat = false,
+        )
     }
 
-    private fun handleFromAccountChange(event: NewTransferEvent.FromAccountChange) {
-        // TODO
+    private suspend fun handleFromAccountChange(event: NewTransferEvent.FromAccountChange) {
+        accountFrom.value = event.account
+
+        accountByIdAct(event.account.id)?.let {
+            amountFrom.value = CombinedValueUi(
+                amount = amountFrom.value.value.amount,
+                currency = it.currency,
+                shortenFiat = false,
+            )
+        }
     }
 
     private fun handleToAccountChange(event: NewTransferEvent.ToAccountChange) {
-        // TODO
+        accountTo.value = event.account
     }
 
     private fun handleFeeChange(event: NewTransferEvent.FeeChange) {

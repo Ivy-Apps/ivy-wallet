@@ -23,8 +23,9 @@ import com.ivy.core.ui.data.transaction.DueSectionUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
-import com.ivy.core.ui.transaction.card.Card
 import com.ivy.core.ui.transaction.card.DueActions
+import com.ivy.core.ui.transaction.card.TransactionCard
+import com.ivy.core.ui.transaction.card.TransferCard
 import com.ivy.core.ui.transaction.card.dummyDueActions
 import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
 import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
@@ -124,8 +125,9 @@ private fun LazyListScope.dueTrns(
         key = { it.id }
     ) { trn ->
         SpacerVer(height = 12.dp)
-        trn.Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = trn,
             onClick = trnClickHandler.onTrnClick,
             onAccountClick = trnClickHandler.onAccountClick,
             onCategoryClick = trnClickHandler.onCategoryClick,
@@ -159,8 +161,9 @@ private fun LazyListScope.history(
             }
             is TrnListItemUi.Trn -> {
                 SpacerVer(height = 12.dp)
-                item.trn.Card(
+                TransactionCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
+                    trn = item.trn,
                     onClick = trnClickHandler.onTrnClick,
                     onAccountClick = trnClickHandler.onAccountClick,
                     onCategoryClick = trnClickHandler.onCategoryClick,
@@ -168,8 +171,9 @@ private fun LazyListScope.history(
             }
             is TrnListItemUi.Transfer -> {
                 SpacerVer(height = 12.dp)
-                item.Card(
+                TransferCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
+                    transfer = item,
                     onClick = trnClickHandler.onTransferClick
                 )
             }

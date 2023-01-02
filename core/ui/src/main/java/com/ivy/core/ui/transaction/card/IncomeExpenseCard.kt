@@ -33,7 +33,8 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun TransactionUi.Card(
+fun TransactionCard(
+    trn: TransactionUi,
     onClick: (TransactionUi) -> Unit,
     onAccountClick: (AccountUi) -> Unit,
     onCategoryClick: (CategoryUi) -> Unit,
@@ -43,28 +44,28 @@ fun TransactionUi.Card(
 ) {
     TransactionCard(
         modifier = modifier,
-        onClick = { onClick(this@Card) }
+        onClick = { onClick(trn) }
     ) {
         IncomeExpenseHeader(
-            account = account,
-            category = category,
+            account = trn.account,
+            category = trn.category,
             onCategoryClick = onCategoryClick,
             onAccountClick = onAccountClick
         )
-        DueDate(time = time)
-        Title(title = title, time = time)
-        Description(description = description, title = title)
-        TrnValue(type = type, value = value, time = time)
+        DueDate(time = trn.time)
+        Title(title = trn.title, time = trn.time)
+        Description(description = trn.description, title = trn.title)
+        TrnValue(type = trn.type, value = trn.value, time = trn.time)
 
         if (dueActions != null) {
             DuePaymentCTAs(
-                time = time,
-                type = type,
+                time = trn.time,
+                type = trn.type,
                 onSkip = {
-                    dueActions.onSkip(this@Card)
+                    dueActions.onSkip(trn)
                 },
                 onPayGet = {
-                    dueActions.onPayGet(this@Card)
+                    dueActions.onPayGet(trn)
                 }
             )
         }
@@ -173,15 +174,16 @@ private fun TrnTypeIcon(
 @Composable
 private fun Preview_Expense() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Expense,
-            value = ValueUi(
-                amount = "0.34",
-                currency = "BGN"
-            ),
-            title = "Order food"
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Expense,
+                value = ValueUi(
+                    amount = "0.34",
+                    currency = "BGN"
+                ),
+                title = "Order food"
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {}
@@ -193,15 +195,16 @@ private fun Preview_Expense() {
 @Composable
 private fun Preview_Income() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Income,
-            value = ValueUi(
-                amount = "1,005.00",
-                currency = "USD"
-            ),
-            title = "Income"
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Income,
+                value = ValueUi(
+                    amount = "1,005.00",
+                    currency = "USD"
+                ),
+                title = "Income"
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {}
@@ -213,17 +216,18 @@ private fun Preview_Income() {
 @Composable
 private fun Preview_UpcomingExpense() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Expense,
-            value = ValueUi(
-                amount = "1,005.00",
-                currency = "USD"
-            ),
-            title = "Upcoming Expense",
-            description = "Description",
-            time = dummyTrnTimeDueUi(),
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Expense,
+                value = ValueUi(
+                    amount = "1,005.00",
+                    currency = "USD"
+                ),
+                title = "Upcoming Expense",
+                description = "Description",
+                time = dummyTrnTimeDueUi(),
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {},
