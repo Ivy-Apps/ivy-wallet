@@ -3,10 +3,7 @@ package com.ivy.core.ui.category.pickparent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -56,7 +53,9 @@ fun BoxScope.ParentCategoryPickerModal(
             }
         }
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.heightIn(min = 0.dp, max = 620.dp),
+        ) {
             item {
                 Title(text = "Choose parent")
             }
@@ -152,6 +151,15 @@ private fun previewState() = ParentCategoryPickerState(
         dummyCategoryUi(id = "selected", name = "Category 1", color = Green),
         dummyCategoryUi(name = "Category 2", color = Yellow),
         dummyCategoryUi(name = "Category 3", color = Purple),
+        dummyCategoryUi(name = "Category 4", color = Purple),
+        dummyCategoryUi(name = "Category 5", color = Purple),
+        dummyCategoryUi(name = "Category 6", color = Purple),
+        dummyCategoryUi(name = "Category 7", color = Purple),
+        dummyCategoryUi(name = "Category 8", color = Purple),
+        dummyCategoryUi(name = "Category 9", color = Purple),
+        dummyCategoryUi(name = "Category 10", color = Purple),
+        dummyCategoryUi(name = "Category 11", color = Purple),
+        dummyCategoryUi(name = "Category 12", color = Purple),
     )
 )
 // endregion
