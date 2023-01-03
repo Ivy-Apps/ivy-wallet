@@ -3,12 +3,12 @@ package com.ivy.wallet.io.persistence.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.Settings
-import com.ivy.data.Theme
+import com.ivy.data.ThemeOld
 import java.util.*
 
 @Entity(tableName = "settings")
 data class SettingsEntity(
-    val theme: Theme,
+    val theme: ThemeOld,
     val currency: String,
     val bufferAmount: Double,
     val name: String,

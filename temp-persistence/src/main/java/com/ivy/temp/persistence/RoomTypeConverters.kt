@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.ivy.common.time.deviceTimeProvider
 import com.ivy.common.time.epochMilliToDateTime
 import com.ivy.common.time.toEpochMilli
-import com.ivy.data.Theme
+import com.ivy.data.ThemeOld
 import com.ivy.data.loan.LoanType
 import com.ivy.data.planned.IntervalType
 import com.ivy.data.transaction.TrnTypeOld
@@ -30,10 +30,10 @@ class RoomTypeConverters {
     fun parseUUID(id: String?) = id?.let { UUID.fromString(id) }
 
     @TypeConverter
-    fun saveTheme(value: Theme?) = value?.name
+    fun saveTheme(value: ThemeOld?) = value?.name
 
     @TypeConverter
-    fun parseTheme(value: String?) = value?.let { Theme.valueOf(it) }
+    fun parseTheme(value: String?) = value?.let { ThemeOld.valueOf(it) }
 
     @TypeConverter
     fun saveTransactionType(value: TrnTypeOld?) = value?.name

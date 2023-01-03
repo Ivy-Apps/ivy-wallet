@@ -13,4 +13,5 @@ class SettingsKeys @Inject constructor() {
     val hideBalance by lazy { booleanPreferencesKey(name = "hide_balance") }
     val appLocked by lazy { booleanPreferencesKey(name = "app_locked") }
     val displayName by lazy { stringPreferencesKey(name = "display_name") }
+    val theme by lazy { intPreferencesKey(name = "theme") }
 }

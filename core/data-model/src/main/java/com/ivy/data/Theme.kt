@@ -1,14 +1,12 @@
 package com.ivy.data
 
-@Deprecated("move in design-system")
-enum class Theme {
-    LIGHT, DARK, AUTO;
+import androidx.compose.runtime.Immutable
 
-    fun inverted(): Theme {
-        return when (this) {
-            LIGHT -> DARK
-            DARK -> LIGHT
-            AUTO -> AUTO
-        }
+@Immutable
+enum class Theme(val code: Int) {
+    Light(1), Dark(-1), Auto(0);
+
+    companion object {
+        fun fromCode(code: Int): Theme = values().first { it.code == code }
     }
 }

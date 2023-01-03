@@ -43,6 +43,8 @@ import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
+import com.ivy.design.api.setAppDesign
+import com.ivy.design.api.systems.ivyWalletDesign
 import com.ivy.main.impl.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
@@ -105,13 +107,19 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
         setContent {
             val viewModel: RootViewModel = hiltViewModel()
+            val state by viewModel.uiState.collectAsState()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
-            LaunchedEffect(isSystemInDarkTheme) {
+            LaunchedEffect(state.theme, isSystemInDarkTheme) {
+                setAppDesign(
+                    ivyWalletDesign(
+                        theme = state.theme,
+                        isSystemInDarkTheme = isSystemInDarkTheme
+                    )
+                )
             }
 
             IvyUI {
-                val state by viewModel.uiState.collectAsState()
                 NavigationRoot(state)
             }
         }

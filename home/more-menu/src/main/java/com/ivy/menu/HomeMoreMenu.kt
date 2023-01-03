@@ -5,6 +5,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,8 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.ivy.core.ui.uiStatePreviewSafe
+import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.ColumnRoot
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.CloseButton
@@ -30,6 +35,7 @@ fun HomeMoreMenu(
     onMenuClose: () -> Unit
 ) {
     val viewModel: HomeMoreMenuViewModel? = hiltViewModelPreviewSafe()
+    val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
     AnimatedVisibility(
         modifier = Modifier.zIndex(10_000f),
@@ -68,12 +74,64 @@ fun HomeMoreMenu(
                 viewModel?.onEvent(MoreMenuEvent.SettingsClick)
             }
             SpacerVer(height = 16.dp)
+            ToggleTheme(
+                theme = state.theme,
+                onThemeChange = {
+                    viewModel?.onEvent(MoreMenuEvent.ThemeChange(it))
+                }
+            )
             SpacerWeight(weight = 1f)
             CloseButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = onMenuClose
             )
             SpacerVer(height = 48.dp)
+        }
+    }
+}
+
+@Composable
+private fun ToggleTheme(
+    theme: Theme,
+    onThemeChange: (Theme) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = if (theme == Theme.Light) Visibility.High else Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Light",
+            icon = null,
+        ) {
+            onThemeChange(Theme.Light)
+        }
+        SpacerHor(width = 12.dp)
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = if (theme == Theme.Dark) Visibility.High else Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Dark",
+            icon = null,
+        ) {
+            onThemeChange(Theme.Dark)
+        }
+        SpacerHor(width = 12.dp)
+        IvyButton(
+            modifier = Modifier.weight(1f),
+            size = ButtonSize.Big,
+            visibility = if (theme == Theme.Auto) Visibility.High else Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Auto",
+            icon = null,
+        ) {
+            onThemeChange(Theme.Auto)
         }
     }
 }
@@ -89,3 +147,7 @@ private fun HomeMoreMenuPreview() {
         )
     }
 }
+
+private fun previewState() = MoreMenuState(
+    theme = Theme.Auto,
+)

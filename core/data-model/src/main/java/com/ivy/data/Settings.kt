@@ -5,7 +5,7 @@ import java.util.*
 
 @Deprecated("won't use")
 data class Settings(
-    val theme: Theme,
+    val theme: ThemeOld,
     val baseCurrency: CurrencyCode,
     val bufferAmount: BigDecimal,
     val name: String,
