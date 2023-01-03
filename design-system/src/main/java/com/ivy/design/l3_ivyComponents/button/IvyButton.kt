@@ -48,8 +48,16 @@ fun IvyButton(
     val feelingColor = feeling.toColor()
 
     val iconOnly = icon != null && text == null
-    val padding = if (iconOnly)
-        padding(all = 12.dp) else padding(horizontal = 24.dp, vertical = 12.dp)
+    val padding = when {
+        iconOnly -> padding(all = 12.dp)
+        icon != null -> padding(
+            start = 12.dp,
+            end = 20.dp,
+            top = 12.dp,
+            bottom = 12.dp,
+        )
+        else -> padding(horizontal = 20.dp, vertical = 12.dp)
+    }
     val overrideShape = if (iconOnly) UI.shapes.circle else shape
 
     val background = when (visibility) {
@@ -144,6 +152,17 @@ private fun PreviewCommon() {
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Positive,
+                text = "Add",
+                icon = R.drawable.ic_vue_crypto_icon
+            ) {}
+
+            SpacerVer(height = 12.dp)
+
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Small,
                 visibility = Visibility.Focused,
                 feeling = Feeling.Positive,
                 text = "Add",
