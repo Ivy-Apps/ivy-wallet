@@ -20,6 +20,7 @@ import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.main.Main
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -78,7 +79,7 @@ class AccountTabViewModel @Inject constructor(
     )
 
     // TODO: Re-work this, it's just ugly!
-    @OptIn(FlowPreview::class)
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     private fun accListItemsUiFlow(): Flow<List<AccountListItemUi>> =
         accountFoldersFlow(Unit).map { items ->
             items
@@ -171,8 +172,9 @@ class AccountTabViewModel @Inject constructor(
         baseCurrency: Value,
         currency: Value
     ): ValueUi? = baseCurrency.takeIf {
-        it.currency != currency.currency && it.amount > 0.0
+        it.currency != currency.currency && it.amount != 0.0
     }?.let { format(it, shortenFiat = true) }
+
 
     // region Event Handling
     override suspend fun handleEvent(event: AccountTabEvent) = when (event) {
