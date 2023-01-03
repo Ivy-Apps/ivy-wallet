@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.transaction.transfer
 
-import com.ivy.data.transaction.TrnBatch
+import com.ivy.data.transaction.TrnListItem
 
 sealed interface ModifyTransfer {
     companion object {
@@ -8,7 +8,7 @@ sealed interface ModifyTransfer {
 
         fun edit(batchId: String, data: TransferData) = Edit(batchId, data)
 
-        fun delete(batch: TrnBatch) = Delete(batch)
+        fun delete(transfer: TrnListItem.Transfer) = Delete(transfer)
     }
 
     data class Add internal constructor(
@@ -20,5 +20,5 @@ sealed interface ModifyTransfer {
         val data: TransferData
     ) : ModifyTransfer
 
-    data class Delete internal constructor(val batch: TrnBatch) : ModifyTransfer
+    data class Delete internal constructor(val transfer: TrnListItem.Transfer) : ModifyTransfer
 }

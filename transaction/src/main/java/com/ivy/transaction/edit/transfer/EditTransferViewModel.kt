@@ -1,6 +1,5 @@
-package com.ivy.transaction.create.transfer
+package com.ivy.transaction.edit.transfer
 
-import androidx.compose.ui.focus.FocusRequester
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
@@ -9,6 +8,7 @@ import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.exchange.ExchangeAct
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.transfer.ModifyTransfer
+import com.ivy.core.domain.action.transaction.transfer.TransferByBatchIdAct
 import com.ivy.core.domain.action.transaction.transfer.TransferData
 import com.ivy.core.domain.action.transaction.transfer.WriteTransferAct
 import com.ivy.core.domain.pure.format.CombinedValueUi
@@ -21,22 +21,20 @@ import com.ivy.core.ui.action.mapping.MapTrnTimeUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.TrnTime
-import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
 import com.ivy.transaction.create.action.CreateTrnFlowAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
-import com.ivy.transaction.create.data.CreateTrnFlow
-import com.ivy.transaction.create.data.CreateTrnFlowStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
-class NewTransferViewModel @Inject constructor(
+class EditTransferViewModel @Inject constructor(
     timeProvider: TimeProvider,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
     private val createTrnFlowAct: CreateTrnFlowAct,
@@ -52,64 +50,12 @@ class NewTransferViewModel @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
     private val writeTransferAct: WriteTransferAct,
     private val exchangeAct: ExchangeAct,
-) : SimpleFlowViewModel<NewTransferState, NewTransferEvent>() {
-    // region UX flow
-    private interface FlowStep {
-        fun execute()
-    }
-
-    class ModalStep(private val modal: IvyModal) : FlowStep {
-        override fun execute() {
-            modal.show()
-        }
-    }
+    private val transferByBatchIdAct: TransferByBatchIdAct,
+) : SimpleFlowViewModel<EditTransferState, EditTransferEvent>() {
 
     private val keyboardController = KeyboardController()
-    private val titleFocus = FocusRequester()
-    private val titleStep = object : FlowStep {
-        override fun execute() {
-            titleFocus.requestFocus()
-            keyboardController.show()
-        }
-    }
 
-    private val amountModal = IvyModal()
-    private val amountStep = ModalStep(amountModal)
-
-    private val categoryPickerModal = IvyModal()
-    private val categoryStep = ModalStep(categoryPickerModal)
-
-    private val accountPickerModal = IvyModal()
-    private val accountStep = ModalStep(accountPickerModal)
-
-    private val descriptionModal = IvyModal()
-    private val descriptionStep = ModalStep(descriptionModal)
-
-    private val trnTimeModal = IvyModal()
-    private val timeStep = ModalStep(trnTimeModal)
-
-    private val trnTypeModal = IvyModal()
-    private val typeStep = ModalStep(trnTypeModal)
-
-    private val feeModal = IvyModal()
-
-    private var createTrnFlow: CreateTrnFlow? = null
-    private fun flowStep(step: CreateTrnFlowStep): FlowStep = when (step) {
-        CreateTrnFlowStep.Title -> titleStep
-        CreateTrnFlowStep.Amount -> amountStep
-        CreateTrnFlowStep.Category -> categoryStep
-        CreateTrnFlowStep.Account -> accountStep
-        CreateTrnFlowStep.Description -> descriptionStep
-        CreateTrnFlowStep.Time -> timeStep
-        CreateTrnFlowStep.Type -> typeStep
-    }
-
-    private fun executeNextStep(after: CreateTrnFlowStep) {
-        createTrnFlow?.steps?.get(after)?.let(::flowStep)?.execute()
-    }
-    // endregion
-
-    override val initialUi = NewTransferState(
+    override val initialUi = EditTransferState(
         accountFrom = dummyAccountUi(),
         accountTo = dummyAccountUi(),
         amountFrom = CombinedValueUi.initial(),
@@ -123,14 +69,7 @@ class NewTransferViewModel @Inject constructor(
 
         titleSuggestions = emptyList(),
 
-        titleFocus = titleFocus,
         keyboardController = keyboardController,
-        transferAmountModal = amountModal,
-        categoryPickerModal = categoryPickerModal,
-        accountPickerModal = accountPickerModal,
-        descriptionModal = descriptionModal,
-        timeModal = trnTimeModal,
-        feeModal = feeModal,
     )
 
     // region State
@@ -146,6 +85,7 @@ class NewTransferViewModel @Inject constructor(
     private val fee = MutableStateFlow(initialUi.fee)
     // endregion
 
+    private lateinit var transfer: TrnListItem.Transfer
 
     override val uiFlow = combine(
         amountFrom, amountTo,
@@ -162,7 +102,7 @@ class NewTransferViewModel @Inject constructor(
                 transfer = true,
             )
         ).map { titleSuggestions ->
-            NewTransferState(
+            EditTransferState(
                 amountFrom = amountFrom,
                 amountTo = amountTo,
                 accountFrom = accountFrom,
@@ -176,69 +116,67 @@ class NewTransferViewModel @Inject constructor(
 
                 titleSuggestions = titleSuggestions,
 
-                titleFocus = titleFocus,
                 keyboardController = keyboardController,
-                transferAmountModal = amountModal,
-                categoryPickerModal = categoryPickerModal,
-                accountPickerModal = accountPickerModal,
-                descriptionModal = descriptionModal,
-                timeModal = trnTimeModal,
-                feeModal = feeModal,
             )
         }
     }.flattenLatest()
 
 
     // region Event Handling
-    override suspend fun handleEvent(event: NewTransferEvent) = when (event) {
-        NewTransferEvent.Initial -> handleInitial()
-        NewTransferEvent.Close -> handleClose()
-        NewTransferEvent.Add -> handleAdd()
-        is NewTransferEvent.TransferAmountChange -> handleTransferAmountChange(event)
-        is NewTransferEvent.ToAmountChange -> handleToAmountChange(event)
-        is NewTransferEvent.FromAmountChange -> handleFromAmountChange(event)
-        is NewTransferEvent.FromAccountChange -> handleFromAccountChange(event)
-        is NewTransferEvent.ToAccountChange -> handleToAccountChange(event)
-        is NewTransferEvent.FeeChange -> handleFeeChange(event)
-        is NewTransferEvent.TitleChange -> handleTitleChange(event)
-        is NewTransferEvent.DescriptionChange -> handleDescriptionChange(event)
-        is NewTransferEvent.CategoryChange -> handleCategoryChange(event)
-        is NewTransferEvent.TrnTimeChange -> handleTimeChange(event)
+    override suspend fun handleEvent(event: EditTransferEvent) = when (event) {
+        is EditTransferEvent.Initial -> handleInitial(event)
+        EditTransferEvent.Save -> handleSave()
+        EditTransferEvent.Delete -> handleDelete()
+        EditTransferEvent.Close -> handleClose()
+        is EditTransferEvent.TransferAmountChange -> handleTransferAmountChange(event)
+        is EditTransferEvent.ToAmountChange -> handleToAmountChange(event)
+        is EditTransferEvent.FromAmountChange -> handleFromAmountChange(event)
+        is EditTransferEvent.FromAccountChange -> handleFromAccountChange(event)
+        is EditTransferEvent.ToAccountChange -> handleToAccountChange(event)
+        is EditTransferEvent.FeeChange -> handleFeeChange(event)
+        is EditTransferEvent.TitleChange -> handleTitleChange(event)
+        is EditTransferEvent.DescriptionChange -> handleDescriptionChange(event)
+        is EditTransferEvent.CategoryChange -> handleCategoryChange(event)
+        is EditTransferEvent.TrnTimeChange -> handleTimeChange(event)
     }
 
-    private suspend fun handleInitial() {
-        val createTrnFlow = createTrnFlowAct(Unit).also {
-            createTrnFlow = it
+    private suspend fun handleInitial(event: EditTransferEvent.Initial) {
+        val transfer = transferByBatchIdAct(event.batchId)?.also {
+            this.transfer = it
         }
-        flowStep(createTrnFlow.first).execute()
 
-        val accounts = accountsAct(Unit)
-        if (accounts.size < 2) {
-            // cannot do transfers with less than 2 accounts
+        if (transfer == null) {
             closeScreen()
             return
         }
-        val fromAcc = accounts.first()
-        val toAcc = accounts[1] // 2nd
 
-        accountFrom.value = mapAccountUiAct(fromAcc)
-        accountTo.value = mapAccountUiAct(toAcc)
-
+        // Init UI state
         amountFrom.value = CombinedValueUi(
-            amount = 0.0,
-            currency = fromAcc.currency,
+            value = transfer.from.value,
             shortenFiat = false,
         )
-        amountTo.value = CombinedValueUi(
-            amount = 0.0,
-            currency = toAcc.currency,
-            shortenFiat = false,
-        )
+        accountFrom.value = mapAccountUiAct(transfer.from.account)
 
-        timeUi.value = mapTrnTimeUiAct(time.value)
+        amountTo.value = CombinedValueUi(
+            value = transfer.to.value,
+            shortenFiat = false,
+        )
+        accountTo.value = mapAccountUiAct(transfer.to.account)
+
+        category.value = transfer.from.category?.let { mapCategoryUiAct(it) }
+        time.value = transfer.time
+        timeUi.value = mapTrnTimeUiAct(transfer.time)
+        title.value = transfer.from.title
+        description.value = transfer.from.description
+        fee.value = transfer.fee?.value?.let {
+            CombinedValueUi(
+                value = it,
+                shortenFiat = false,
+            )
+        }
     }
 
-    private suspend fun handleAdd() {
+    private suspend fun handleSave() {
         val accountFrom = accountByIdAct(accountFrom.value.id) ?: return
         val accountTo = accountByIdAct(accountTo.value.id) ?: return
         val category = category.value?.let { categoryByIdAct(it.id) }
@@ -255,8 +193,18 @@ class NewTransferViewModel @Inject constructor(
             fee = fee.value?.value,
         )
 
-        writeTransferAct(ModifyTransfer.add(data))
+        writeTransferAct(
+            ModifyTransfer.edit(
+                batchId = transfer.batchId,
+                data = data
+            )
+        )
 
+        closeScreen()
+    }
+
+    private suspend fun handleDelete() {
+        writeTransferAct(ModifyTransfer.delete(transfer = transfer))
         closeScreen()
     }
 
@@ -270,7 +218,7 @@ class NewTransferViewModel @Inject constructor(
     }
 
     // region Handle value changes
-    private suspend fun handleTransferAmountChange(event: NewTransferEvent.TransferAmountChange) {
+    private suspend fun handleTransferAmountChange(event: EditTransferEvent.TransferAmountChange) {
         // Called initially when the transfer modal is shown
 
         val toAccount = accountByIdAct(accountTo.value.id) ?: return
@@ -291,21 +239,21 @@ class NewTransferViewModel @Inject constructor(
 
     }
 
-    private fun handleFromAmountChange(event: NewTransferEvent.FromAmountChange) {
+    private fun handleFromAmountChange(event: EditTransferEvent.FromAmountChange) {
         amountFrom.value = CombinedValueUi(
             value = event.amount,
             shortenFiat = false,
         )
     }
 
-    private fun handleToAmountChange(event: NewTransferEvent.ToAmountChange) {
+    private fun handleToAmountChange(event: EditTransferEvent.ToAmountChange) {
         amountTo.value = CombinedValueUi(
             value = event.amount,
             shortenFiat = false,
         )
     }
 
-    private suspend fun handleFromAccountChange(event: NewTransferEvent.FromAccountChange) {
+    private suspend fun handleFromAccountChange(event: EditTransferEvent.FromAccountChange) {
         accountFrom.value = event.account
 
         accountByIdAct(event.account.id)?.let {
@@ -317,30 +265,30 @@ class NewTransferViewModel @Inject constructor(
         }
     }
 
-    private fun handleToAccountChange(event: NewTransferEvent.ToAccountChange) {
+    private fun handleToAccountChange(event: EditTransferEvent.ToAccountChange) {
         accountTo.value = event.account
     }
 
-    private fun handleFeeChange(event: NewTransferEvent.FeeChange) {
+    private fun handleFeeChange(event: EditTransferEvent.FeeChange) {
         fee.value = if (event.value != null) CombinedValueUi(
             value = event.value,
             shortenFiat = false,
         ).takeIf { it.value.amount > 0.0 } else null
     }
 
-    private fun handleTitleChange(event: NewTransferEvent.TitleChange) {
+    private fun handleTitleChange(event: EditTransferEvent.TitleChange) {
         title.value = event.title.takeIfNotBlank()
     }
 
-    private fun handleDescriptionChange(event: NewTransferEvent.DescriptionChange) {
+    private fun handleDescriptionChange(event: EditTransferEvent.DescriptionChange) {
         description.value = event.description.takeIfNotBlank()
     }
 
-    private fun handleCategoryChange(event: NewTransferEvent.CategoryChange) {
+    private fun handleCategoryChange(event: EditTransferEvent.CategoryChange) {
         category.value = event.category
     }
 
-    private suspend fun handleTimeChange(event: NewTransferEvent.TrnTimeChange) {
+    private suspend fun handleTimeChange(event: EditTransferEvent.TrnTimeChange) {
         time.value = event.time
         timeUi.value = mapTrnTimeUiAct(event.time)
     }

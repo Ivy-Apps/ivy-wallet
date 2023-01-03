@@ -1,4 +1,4 @@
-package com.ivy.transaction.create.transfer
+package com.ivy.transaction.edit.transfer
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
 import com.ivy.core.domain.pure.format.dummyCombinedValueUi
-import com.ivy.core.ui.account.create.CreateAccountModal
 import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
@@ -24,8 +23,10 @@ import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.button.DeleteButton
+import com.ivy.design.l3_ivyComponents.modal.DeleteConfirmationModal
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
@@ -33,16 +34,17 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
-import com.ivy.transaction.modal.TransferAmountModal
 import com.ivy.transaction.modal.TrnTimeModal
 
 @Composable
-fun BoxScope.NewTransferScreen() {
-    val viewModel: NewTransferViewModel = hiltViewModel()
+fun BoxScope.EditTransferScreen(
+    batchId: String,
+) {
+    val viewModel: EditTransferViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.onEvent(NewTransferEvent.Initial)
+        viewModel.onEvent(EditTransferEvent.Initial(batchId = batchId))
     }
 
     UI(state = state, onEvent = viewModel::onEvent)
@@ -50,9 +52,15 @@ fun BoxScope.NewTransferScreen() {
 
 @Composable
 private fun BoxScope.UI(
-    state: NewTransferState,
-    onEvent: (NewTransferEvent) -> Unit,
+    state: EditTransferState,
+    onEvent: (EditTransferEvent) -> Unit,
 ) {
+    val timeModal = rememberIvyModal()
+    val categoryPickerModal = rememberIvyModal()
+    val descriptionModal = rememberIvyModal()
+    val deleteConfirmationModal = rememberIvyModal()
+    val feeModal = rememberIvyModal()
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -62,13 +70,14 @@ private fun BoxScope.UI(
             SpacerVer(height = 24.dp)
             TrnScreenToolbar(
                 onClose = {
-                    onEvent(NewTransferEvent.Close)
+                    onEvent(EditTransferEvent.Close)
                 },
                 actions = {},
             )
         }
         item(key = "title") {
             SpacerVer(height = 24.dp)
+            val titleFocus = remember { FocusRequester() }
             var titleFocused by remember { mutableStateOf(false) }
             val keyboardShown by keyboardShownState()
             TitleInput(
@@ -76,14 +85,14 @@ private fun BoxScope.UI(
                     titleFocused = it.isFocused || it.hasFocus
                 },
                 title = state.title,
-                focus = state.titleFocus,
-                onTitleChange = { onEvent(NewTransferEvent.TitleChange(it)) },
-                onCta = { onEvent(NewTransferEvent.Add) }
+                focus = titleFocus,
+                onTitleChange = { onEvent(EditTransferEvent.TitleChange(it)) },
+                onCta = { onEvent(EditTransferEvent.Save) }
             )
             TitleSuggestions(
                 focused = titleFocused && keyboardShown,
                 suggestions = state.titleSuggestions,
-                onSuggestionClick = { onEvent(NewTransferEvent.TitleChange(it)) }
+                onSuggestionClick = { onEvent(EditTransferEvent.TitleChange(it)) }
             )
         }
         item(key = "category") {
@@ -92,7 +101,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 category = state.category
             ) {
-                state.categoryPickerModal.show()
+                categoryPickerModal.show()
             }
         }
         item(key = "description") {
@@ -101,7 +110,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 description = state.description
             ) {
-                state.descriptionModal.show()
+                descriptionModal.show()
             }
         }
         item(key = "trn_time") {
@@ -110,7 +119,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 trnTime = state.timeUi
             ) {
-                state.timeModal.show()
+                timeModal.show()
             }
         }
         item(key = "fee") {
@@ -119,7 +128,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 fee = state.fee?.valueUi
             ) {
-                state.feeModal.show()
+                feeModal.show()
             }
         }
         item(key = "last_item_spacer") {
@@ -139,98 +148,96 @@ private fun BoxScope.UI(
         accountTo = state.accountTo,
         amountToUi = state.amountTo.valueUi,
         amountTo = state.amountTo.value,
-        ctaText = stringResource(R.string.add),
-        ctaIcon = R.drawable.ic_round_add_24,
+        ctaText = stringResource(R.string.save),
+        ctaIcon = R.drawable.round_done_24,
+        secondaryActions = {
+            DeleteButton {
+                deleteConfirmationModal.show()
+            }
+            SpacerHor(width = 12.dp)
+        },
         onCtaClick = {
-            onEvent(NewTransferEvent.Add)
+            onEvent(EditTransferEvent.Save)
         },
         onFromAccountChange = {
-            onEvent(NewTransferEvent.FromAccountChange(it))
+            onEvent(EditTransferEvent.FromAccountChange(it))
         },
         onToAccountChange = {
-            onEvent(NewTransferEvent.ToAccountChange(it))
+            onEvent(EditTransferEvent.ToAccountChange(it))
         },
         onFromAmountChange = {
-            onEvent(NewTransferEvent.FromAmountChange(it))
+            onEvent(EditTransferEvent.FromAmountChange(it))
         },
         onToAmountChange = {
-            onEvent(NewTransferEvent.ToAmountChange(it))
+            onEvent(EditTransferEvent.ToAmountChange(it))
         },
     )
 
-    Modals(state = state, onEvent = onEvent)
+    Modals(
+        state = state,
+        timeModal = timeModal,
+        descriptionModal = descriptionModal,
+        categoryPickerModal = categoryPickerModal,
+        deleteConfirmationModal = deleteConfirmationModal,
+        feeModal = feeModal,
+        onEvent = onEvent
+    )
 }
 
 @Composable
 private fun BoxScope.Modals(
-    state: NewTransferState,
-    onEvent: (NewTransferEvent) -> Unit
+    state: EditTransferState,
+    timeModal: IvyModal,
+    descriptionModal: IvyModal,
+    categoryPickerModal: IvyModal,
+    deleteConfirmationModal: IvyModal,
+    feeModal: IvyModal,
+    onEvent: (EditTransferEvent) -> Unit
 ) {
     CategoryPickerModal(
-        modal = state.categoryPickerModal,
+        modal = categoryPickerModal,
         selected = state.category,
         trnType = null,
         onPick = {
-            onEvent(NewTransferEvent.CategoryChange(it))
+            onEvent(EditTransferEvent.CategoryChange(it))
         }
     )
 
     DescriptionModal(
-        modal = state.descriptionModal,
+        modal = descriptionModal,
         initialDescription = state.description,
         onDescriptionChange = {
-            onEvent(NewTransferEvent.DescriptionChange(it))
+            onEvent(EditTransferEvent.DescriptionChange(it))
         }
     )
 
     TrnTimeModal(
-        modal = state.timeModal,
+        modal = timeModal,
         trnTime = state.time,
         onTrnTimeChange = {
-            onEvent(NewTransferEvent.TrnTimeChange(it))
+            onEvent(EditTransferEvent.TrnTimeChange(it))
         }
     )
 
     // Fee modal
     AmountModal(
-        modal = state.feeModal,
+        modal = feeModal,
         initialAmount = state.fee?.value,
         moreActions = {
             DeleteButton {
-                onEvent(NewTransferEvent.FeeChange(null))
-                state.feeModal.hide()
+                onEvent(EditTransferEvent.FeeChange(null))
+                feeModal.hide()
             }
             SpacerHor(width = 12.dp)
         },
         onAmountEnter = {
-            onEvent(NewTransferEvent.FeeChange(it))
+            onEvent(EditTransferEvent.FeeChange(it))
         }
     )
 
-    val createAccountModal = rememberIvyModal()
-    TransferAmountModal(
-        modal = state.transferAmountModal,
-        amount = state.amountFrom.value,
-        fromAccount = state.accountFrom,
-        toAccount = state.accountTo,
-        onAddAccount = {
-            createAccountModal.show()
-        },
-        onAmountEnter = {
-            onEvent(NewTransferEvent.TransferAmountChange(it))
-        },
-        onFromAccountChange = {
-            onEvent(NewTransferEvent.FromAccountChange(it))
-        },
-        onToAccountChange = {
-            onEvent(NewTransferEvent.ToAccountChange(it))
-        }
-    )
-
-    CreateAccountModal(
-        modal = createAccountModal,
-        level = 2,
-    )
+    DeleteConfirmationModal(modal = deleteConfirmationModal) {
+        onEvent(EditTransferEvent.Delete)
+    }
 }
 
 // region Previews
@@ -239,7 +246,7 @@ private fun BoxScope.Modals(
 private fun Preview() {
     IvyPreview {
         UI(
-            state = NewTransferState(
+            state = EditTransferState(
                 accountFrom = dummyAccountUi(
                     name = "Personal Bank",
                     color = Blue2Dark,
@@ -254,15 +261,8 @@ private fun Preview() {
                 title = null,
                 fee = null,
 
-                titleFocus = FocusRequester(),
                 titleSuggestions = listOf("Title 1", "Title 2"),
-                categoryPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                transferAmountModal = rememberIvyModal(),
                 keyboardController = KeyboardController(),
-                feeModal = rememberIvyModal(),
             ),
             onEvent = {}
         )
@@ -274,7 +274,7 @@ private fun Preview() {
 private fun Preview_Filled() {
     IvyPreview {
         UI(
-            state = NewTransferState(
+            state = EditTransferState(
                 accountFrom = dummyAccountUi(
                     name = "Personal Bank",
                     color = Blue2Dark,
@@ -289,15 +289,8 @@ private fun Preview_Filled() {
                 title = "ATM Withdrawal",
                 fee = dummyCombinedValueUi(amount = 2.0),
 
-                titleFocus = FocusRequester(),
                 titleSuggestions = listOf("Title 1", "Title 2"),
-                categoryPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                transferAmountModal = rememberIvyModal(),
                 keyboardController = KeyboardController(),
-                feeModal = rememberIvyModal(),
             ),
             onEvent = {}
         )

@@ -20,7 +20,7 @@ class WriteTransferAct @Inject constructor(
         when (this) {
             is ModifyTransfer.Add -> addTransfer(data)
             is ModifyTransfer.Edit -> editTransfer(batchId, data)
-            is ModifyTransfer.Delete -> deleteTransfer(batch)
+            is ModifyTransfer.Delete -> deleteTransfer(transfer)
         }
     }
 
@@ -101,6 +101,7 @@ class WriteTransferAct @Inject constructor(
         batchId: String,
         data: TransferData
     ) {
+        if (!validateTransfer(data)) return
         val transfer = transferByBatchIdAct(batchId) ?: return
 
         val trns = mutableListOf<Transaction>()
@@ -164,6 +165,15 @@ class WriteTransferAct @Inject constructor(
                 writeTrnsAct(Modify.delete(fee.id.toString()))
             }
         }
+
+        writeTrnsBatchAct(
+            WriteTrnsBatchAct.save(
+                TrnBatch(
+                    batchId = batchId,
+                    trns = trns
+                )
+            )
+        )
     }
 
     private fun fee(
@@ -192,10 +202,15 @@ class WriteTransferAct @Inject constructor(
     )
 
     private suspend fun deleteTransfer(
-        batch: TrnBatch
+        transfer: TrnListItem.Transfer
     ) {
         writeTrnsBatchAct(
-            WriteTrnsBatchAct.delete(batch)
+            WriteTrnsBatchAct.delete(
+                TrnBatch(
+                    batchId = transfer.batchId,
+                    trns = listOfNotNull(transfer.from, transfer.to, transfer.fee)
+                )
+            )
         )
     }
 }

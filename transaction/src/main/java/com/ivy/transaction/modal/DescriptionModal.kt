@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import com.ivy.design.l3_ivyComponents.button.DeleteButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.transaction.R
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.DescriptionModal(
     modal: IvyModal,
@@ -34,6 +37,7 @@ fun BoxScope.DescriptionModal(
         mutableStateOf(initialDescription)
     }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
     Modal(
         modal = modal,
         level = level,
@@ -49,6 +53,7 @@ fun BoxScope.DescriptionModal(
                 text = if (description != null)
                     stringResource(R.string.add) else stringResource(R.string.save)
             ) {
+                keyboardController?.hide()
                 onDescriptionChange(description)
                 modal.hide()
             }
