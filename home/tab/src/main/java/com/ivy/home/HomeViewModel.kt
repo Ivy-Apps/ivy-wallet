@@ -123,7 +123,10 @@ class HomeViewModel @Inject constructor(
                 calculateFlow(
                     CalculateFlow.Input(
                         // take only transactions from the history, excluding transfers
-                        trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
+                        // but INCLUDING transfer fees
+                        trns = trnsList.history.mapNotNull {
+                            (it as? TrnListItem.Trn)?.trn ?: (it as? TrnListItem.Transfer)?.fee
+                        },
                         outputCurrency = baseCurrency,
                         includeTransfers = false,
                         includeHidden = false,
