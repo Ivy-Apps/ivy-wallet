@@ -19,7 +19,6 @@ import com.ivy.core.ui.data.transaction.dummyTransactionUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
-import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
@@ -42,8 +41,8 @@ fun TransferCard(
         Title(title = transfer.from.title, time = transfer.time)
         Description(description = transfer.from.description, title = transfer.from.title)
         TransferAmount(fromValue = transfer.from.value)
-        ToAmountDifferentCurrency(
-            fromCurrency = transfer.from.value.currency,
+        ToAmountReceived(
+            fromValue = transfer.from.value,
             toValue = transfer.to.value
         )
         Fee(fee = transfer.fee?.value)
@@ -104,11 +103,11 @@ private fun TransferAmount(
 }
 
 @Composable
-private fun ToAmountDifferentCurrency(
-    fromCurrency: CurrencyCode,
+private fun ToAmountReceived(
+    fromValue: ValueUi,
     toValue: ValueUi,
 ) {
-    if (fromCurrency != toValue.currency) {
+    if (fromValue != toValue) {
         B2Second(
             text = "${toValue.amount} ${toValue.currency}",
             modifier = Modifier.padding(start = 48.dp),

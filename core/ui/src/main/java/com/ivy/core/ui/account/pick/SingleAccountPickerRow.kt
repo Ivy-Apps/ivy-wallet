@@ -36,14 +36,13 @@ fun SingleAccountPickerRow(
     onAddAccount: () -> Unit,
     onSelectedChange: (AccountUi) -> Unit,
 ) {
-    val viewModel: AccountPickerViewModel? = hiltViewModelPreviewSafe()
+    val viewModel: AccountsViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
     val listState = rememberLazyListState()
 
     LaunchedEffect(selected, state.accounts) {
-        viewModel?.onEvent(AccountPickerEvent.SelectedChange(listOf(selected)))
-        state.accounts.indexOfFirst { it.account.id == selected.id }
+        state.accounts.indexOfFirst { it.id == selected.id }
             .let { index ->
                 if (index != -1) {
                     listState.animateScrollToItem(index)
@@ -58,10 +57,8 @@ fun SingleAccountPickerRow(
     ) {
         accountItems(
             items = state.accounts,
-            onSelectedChange = { acc ->
-                viewModel?.onEvent(AccountPickerEvent.SelectedChange(listOf(acc)))
-                onSelectedChange(acc)
-            }
+            selected = selected,
+            onSelectedChange = onSelectedChange,
         )
         addAccount(onAddAccount)
         lastItemSpacerHorizontal(width = 12.dp)
@@ -69,18 +66,22 @@ fun SingleAccountPickerRow(
 }
 
 private fun LazyListScope.accountItems(
-    items: List<SelectableAccountUi>,
+    items: List<AccountUi>,
+    selected: AccountUi,
     onSelectedChange: (AccountUi) -> Unit,
 ) {
     items(
         items = items,
-        key = { it.account.id }
+        key = { it.id }
     ) { item ->
         SpacerHor(width = 8.dp)
         SelectableAccountItem(
-            item = item,
+            item = SelectableAccountUi(
+                account = item,
+                selected = item.id == selected.id,
+            ),
             deselectButton = false,
-            onSelect = { onSelectedChange(item.account) },
+            onSelect = { onSelectedChange(item) },
             onDeselect = {
                 // do nothing because we always want to have a selected account
             }
@@ -121,7 +122,7 @@ private fun Preview() {
     }
 }
 
-private fun previewState() = AccountPickerState(
+private fun previewState() = AccountsState(
     accounts = listOf(
         dummyAccountUi("Account 1"),
         dummyAccountUi("Account 2", color = Blue),
@@ -130,8 +131,6 @@ private fun previewState() = AccountPickerState(
         dummyAccountUi("Revolut", color = Purple2Dark),
         dummyAccountUi("Investments", color = Green2Dark),
         dummyAccountUi("Cash", color = Green2Dark),
-    ).mapIndexed { index, acc ->
-        SelectableAccountUi(acc, selected = index == 0)
-    }
+    )
 )
 // endregion
