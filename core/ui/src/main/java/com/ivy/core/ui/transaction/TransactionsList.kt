@@ -174,7 +174,9 @@ private fun LazyListScope.history(
                 TransferCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     transfer = item,
-                    onClick = trnClickHandler.onTransferClick
+                    onClick = trnClickHandler.onTransferClick,
+                    onAccountClick = trnClickHandler.onAccountClick,
+                    onCategoryClick = trnClickHandler.onCategoryClick,
                 )
             }
         }

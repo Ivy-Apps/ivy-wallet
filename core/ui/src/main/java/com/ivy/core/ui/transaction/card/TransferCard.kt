@@ -1,18 +1,25 @@
 package com.ivy.core.ui.transaction.card
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.R
+import com.ivy.core.ui.category.CategoryBadge
+import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
+import com.ivy.core.ui.data.account.dummyAccountUi
+import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.IconSize
 import com.ivy.core.ui.data.transaction.TrnListItemUi.Transfer
 import com.ivy.core.ui.data.transaction.dummyTransactionUi
@@ -30,13 +37,20 @@ import com.ivy.design.util.ComponentPreview
 fun TransferCard(
     transfer: Transfer,
     onClick: (Transfer) -> Unit,
+    onAccountClick: (AccountUi) -> Unit,
+    onCategoryClick: (CategoryUi) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     TransactionCard(
         modifier = modifier,
         onClick = { onClick(transfer) }
     ) {
-        TransferHeader(account = transfer.from.account, toAccount = transfer.to.account)
+        TransferHeader(
+            fromAccount = transfer.from.account,
+            toAccount = transfer.to.account,
+            onAccountClick = onAccountClick
+        )
+        Category(category = transfer.from.category, onCategoryClick = onCategoryClick)
         DueDate(time = transfer.time)
         Title(title = transfer.from.title, time = transfer.time)
         Description(description = transfer.from.description, title = transfer.from.title)
@@ -51,22 +65,36 @@ fun TransferCard(
 
 @Composable
 private fun TransferHeader(
-    account: AccountUi,
-    toAccount: AccountUi
+    fromAccount: AccountUi,
+    toAccount: AccountUi,
+    onAccountClick: (AccountUi) -> Unit,
 ) {
     @Composable
-    fun IconAndName(account: AccountUi) {
-        ItemIcon(
-            itemIcon = account.icon,
-            size = IconSize.S,
-            tint = UI.colorsInverted.pure,
-        )
-        SpacerHor(width = 4.dp)
-        Caption(
-            text = account.name,
-            color = UI.colorsInverted.pure,
-            fontWeight = FontWeight.ExtraBold
-        )
+    fun IconAndName(
+        account: AccountUi,
+        horizontalArrangement: Arrangement.Horizontal,
+        modifier: Modifier = Modifier,
+        onClick: () -> Unit
+    ) {
+        Row(
+            modifier = modifier
+                .clip(UI.shapes.fullyRounded)
+                .clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = horizontalArrangement,
+        ) {
+            ItemIcon(
+                itemIcon = account.icon,
+                size = IconSize.S,
+                tint = UI.colorsInverted.pure,
+            )
+            SpacerHor(width = 4.dp)
+            Caption(
+                text = account.name,
+                color = UI.colorsInverted.pure,
+                fontWeight = FontWeight.ExtraBold
+            )
+        }
     }
 
     Row(
@@ -76,13 +104,34 @@ private fun TransferHeader(
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconAndName(account)
+        IconAndName(
+            modifier = Modifier.weight(1f),
+            account = fromAccount,
+            horizontalArrangement = Arrangement.Start,
+            onClick = { onAccountClick(fromAccount) }
+        )
 
         SpacerHor(width = 12.dp)
         IconRes(R.drawable.ic_arrow_right)
         SpacerHor(width = 8.dp)
 
-        IconAndName(toAccount)
+        IconAndName(
+            modifier = Modifier.weight(1f),
+            account = toAccount,
+            horizontalArrangement = Arrangement.End,
+            onClick = { onAccountClick(toAccount) }
+        )
+    }
+}
+
+@Composable
+private fun Category(
+    category: CategoryUi?,
+    onCategoryClick: (CategoryUi) -> Unit,
+) {
+    if (category != null) {
+        SpacerVer(height = 8.dp)
+        CategoryBadge(category = category, onClick = { onCategoryClick(category) })
     }
 }
 
@@ -157,11 +206,13 @@ private fun Preview_SameCurrency() {
                     value = dummyValueUi(amount = "400")
                 ),
                 to = dummyTransactionUi(
-                    type = TransactionType.Expense,
+                    type = TransactionType.Income,
                     value = dummyValueUi(amount = "400")
                 ),
                 fee = null
             ),
+            onAccountClick = {},
+            onCategoryClick = {},
             onClick = {}
         )
     }
@@ -179,11 +230,12 @@ private fun Preview_Detailed() {
                 from = dummyTransactionUi(
                     title = "Withdrawing cash",
                     description = "So I can pay rent",
+                    category = dummyCategoryUi(),
                     type = TransactionType.Expense,
                     value = dummyValueUi(amount = "400", currency = "EUR")
                 ),
                 to = dummyTransactionUi(
-                    type = TransactionType.Expense,
+                    type = TransactionType.Income,
                     value = dummyValueUi(amount = "800", currency = "BGN")
                 ),
                 fee = dummyTransactionUi(
@@ -191,6 +243,36 @@ private fun Preview_Detailed() {
                     value = dummyValueUi("2")
                 )
             ),
+            onAccountClick = {},
+            onCategoryClick = {},
+            onClick = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_LongAccount_names() {
+    ComponentPreview {
+        TransferCard(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            transfer = Transfer(
+                batchId = "",
+                time = dummyTrnTimeActualUi(),
+                from = dummyTransactionUi(
+                    type = TransactionType.Expense,
+                    account = dummyAccountUi(name = "My very long account name"),
+                    value = dummyValueUi(amount = "400", currency = "EUR")
+                ),
+                to = dummyTransactionUi(
+                    type = TransactionType.Income,
+                    account = dummyAccountUi(name = "Revolut Business Company Account"),
+                    value = dummyValueUi(amount = "800", currency = "BGN")
+                ),
+                fee = null
+            ),
+            onAccountClick = {},
+            onCategoryClick = {},
             onClick = {}
         )
     }
