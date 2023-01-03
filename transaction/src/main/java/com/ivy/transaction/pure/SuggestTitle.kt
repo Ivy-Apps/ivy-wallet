@@ -25,11 +25,9 @@ fun suggestTitle(
                 exactMatch, trnQuery, trnsCount, trn
             )
         }.sortedWith(
-            compareByDescending<Quadruple<Boolean, String?, Int, Transaction>> { (exactMatch, _, _, _) ->
-                // show exact matches first
-                if (exactMatch) 1 else 0
-            }.thenByDescending { (_, trnsCount, _, _) ->
-                trnsCount
+            compareByDescending { (exactMatch, _, trnsCount, _) ->
+                // exact matches must come first
+                if (exactMatch) trnsCount * 10_000 else trnsCount
             }
         )
         .mapNotNull { (_, _, _, trn) ->
