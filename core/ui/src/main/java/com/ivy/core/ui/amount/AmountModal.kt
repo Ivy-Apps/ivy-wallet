@@ -30,13 +30,17 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.resources.R
 
+/**
+ * @param key used to refresh the initial amount when the key changes
+ */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.AmountModal(
     modal: IvyModal,
-    level: Int = 1,
     initialAmount: Value?,
+    level: Int = 1,
     calculatorVisible: MutableState<Boolean> = remember { mutableStateOf(false) },
+    key: String? = null,
     contentAbove: (@Composable ModalScope.() -> Unit)? = {
         SpacerVer(height = 24.dp)
     },
@@ -46,7 +50,7 @@ fun BoxScope.AmountModal(
     val viewModel: AmountModalViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
-    LaunchedEffect(initialAmount) {
+    LaunchedEffect(initialAmount, key) {
         viewModel?.onEvent(AmountModalEvent.Initial(initialAmount))
     }
 

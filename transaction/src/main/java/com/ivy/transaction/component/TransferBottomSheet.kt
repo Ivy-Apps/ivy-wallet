@@ -171,6 +171,7 @@ private fun BoxScope.Modals(
     // From
     AmountModalWithAccounts(
         modal = fromAmountModal,
+        key = "from",
         amount = amountFrom,
         account = accountFrom,
         onAddAccount = {
@@ -182,6 +183,7 @@ private fun BoxScope.Modals(
     // To
     AmountModalWithAccounts(
         modal = toAmountModal,
+        key = "to",
         amount = amountTo,
         account = accountTo,
         onAddAccount = {

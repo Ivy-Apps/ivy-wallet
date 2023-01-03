@@ -181,10 +181,10 @@ internal class AmountModalViewModel @Inject constructor(
     }
 
     private fun handleInitial(event: AmountModalEvent.Initial) {
-        event.initialAmount?.let { value ->
-            currency.value = value.currency
-            if (value.amount != 0.0) {
-                expression.value = format(value, shortenFiat = false).amount
+        event.initialAmount?.let { initial ->
+            currency.value = initial.currency
+            if (initial.amount != 0.0) {
+                expression.value = format(initial, shortenFiat = false).amount
                 overrideExpressionForInitial = true
             }
         }

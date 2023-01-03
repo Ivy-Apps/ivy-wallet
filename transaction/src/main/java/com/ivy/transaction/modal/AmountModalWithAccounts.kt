@@ -18,9 +18,10 @@ import com.ivy.design.util.IvyPreview
 @Composable
 fun BoxScope.AmountModalWithAccounts(
     modal: IvyModal,
-    level: Int = 1,
     amount: Value?,
     account: AccountUi,
+    level: Int = 1,
+    key: String? = null,
     onAddAccount: () -> Unit,
     onAmountEnter: (Value) -> Unit,
     onAccountChange: (AccountUi) -> Unit,
@@ -28,6 +29,7 @@ fun BoxScope.AmountModalWithAccounts(
     AmountModal(
         modal = modal,
         level = level,
+        key = key,
         initialAmount = amount,
         contentAbove = {
             SpacerVer(height = 24.dp)
