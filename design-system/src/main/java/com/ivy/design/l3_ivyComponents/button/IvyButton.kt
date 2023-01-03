@@ -110,7 +110,7 @@ fun IvyButton(
                 },
                 text = text,
                 iconLeft = icon,
-                iconPadding = 12.dp,
+                iconPadding = 8.dp,
                 iconTint = textColor,
                 background = background,
                 textStyle = textStyle,
