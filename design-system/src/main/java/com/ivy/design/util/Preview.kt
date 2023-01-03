@@ -51,8 +51,10 @@ fun IvyPreview(
 }
 
 @Composable
-inline fun <reified VM : ViewModel> hiltViewModelPreviewSafe(): VM? =
-    if (isInPreview()) null else hiltViewModel()
+inline fun <reified VM : ViewModel> hiltViewModelPreviewSafe(
+    key: String? = null,
+): VM? =
+    if (isInPreview()) null else hiltViewModel(key = key)
 
 @Composable
 fun isInPreview(): Boolean = LocalInspectionMode.current

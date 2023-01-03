@@ -16,16 +16,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
 import com.ivy.core.domain.pure.format.dummyCombinedValueUi
 import com.ivy.core.ui.account.create.CreateAccountModal
-import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.design.l0_system.color.Blue2Dark
-import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.DeleteButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
@@ -33,6 +30,7 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.FeeModal
 import com.ivy.transaction.modal.TransferAmountModal
 import com.ivy.transaction.modal.TrnTimeModal
 
@@ -192,17 +190,13 @@ private fun BoxScope.Modals(
     )
 
     // Fee modal
-    AmountModal(
+    FeeModal(
         modal = state.feeModal,
-        initialAmount = state.fee?.value,
-        moreActions = {
-            DeleteButton {
-                onEvent(NewTransferEvent.FeeChange(null))
-                state.feeModal.hide()
-            }
-            SpacerHor(width = 12.dp)
+        fee = state.fee?.value,
+        onRemoveFee = {
+            onEvent(NewTransferEvent.FeeChange(null))
         },
-        onAmountEnter = {
+        onFeeChange = {
             onEvent(NewTransferEvent.FeeChange(it))
         }
     )

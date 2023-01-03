@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.dummy.dummyActual
 import com.ivy.core.domain.pure.format.dummyCombinedValueUi
-import com.ivy.core.ui.amount.AmountModal
 import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
@@ -34,6 +33,7 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.FeeModal
 import com.ivy.transaction.modal.TrnTimeModal
 
 @Composable
@@ -220,17 +220,13 @@ private fun BoxScope.Modals(
     )
 
     // Fee modal
-    AmountModal(
+    FeeModal(
         modal = feeModal,
-        initialAmount = state.fee?.value,
-        moreActions = {
-            DeleteButton {
-                onEvent(EditTransferEvent.FeeChange(null))
-                feeModal.hide()
-            }
-            SpacerHor(width = 12.dp)
+        fee = state.fee?.value,
+        onRemoveFee = {
+            onEvent(EditTransferEvent.FeeChange(null))
         },
-        onAmountEnter = {
+        onFeeChange = {
             onEvent(EditTransferEvent.FeeChange(it))
         }
     )

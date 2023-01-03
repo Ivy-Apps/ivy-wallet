@@ -47,7 +47,7 @@ fun BoxScope.AmountModal(
     moreActions: (@Composable ModalActionsScope.() -> Unit)? = null,
     onAmountEnter: (Value) -> Unit,
 ) {
-    val viewModel: AmountModalViewModel? = hiltViewModelPreviewSafe()
+    val viewModel: AmountModalViewModel? = hiltViewModelPreviewSafe(key = key)
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     LaunchedEffect(initialAmount, key) {

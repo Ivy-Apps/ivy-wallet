@@ -89,7 +89,7 @@ object Versions {
     const val hiltX = "1.0.0"
 
     //https://developer.android.com/jetpack/androidx/releases/hilt
-    const val hiltNavigationCompose = "1.0.0"
+    const val hiltNavigationCompose = "1.1.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
