@@ -20,7 +20,7 @@ dependencies {
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     // Must match hiltVersion from dependencies.kt
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.42")
+    implementation("com.google.dagger:hilt-android-gradle-plugin:2.44")
 
     //URL: https://developers.google.com/android/guides/google-services-plugin
     implementation("com.google.gms:google-services:4.3.13")

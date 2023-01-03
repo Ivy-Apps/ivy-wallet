@@ -61,7 +61,7 @@ object Versions {
     const val composeActivity = "1.6.1"
 
     //https://developer.android.com/jetpack/androidx/releases/lifecycle
-    const val composeViewModel = "2.6.0-alpha01"
+    const val composeViewModel = "2.6.0-alpha03"
 
     //https://developer.android.com/jetpack/androidx/releases/glance
     const val composeGlance = "1.0.0-alpha05"
@@ -83,7 +83,7 @@ object Versions {
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     //WARNING: Update hilt gradle plugin from buildSrc
-    const val hilt = "2.42"
+    const val hilt = "2.44"
 
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
