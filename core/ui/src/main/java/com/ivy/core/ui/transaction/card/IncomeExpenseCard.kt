@@ -25,7 +25,6 @@ import com.ivy.core.ui.data.transaction.dummyTrnTimeDueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.Gradient
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.asBrush
 import com.ivy.design.l1_buildingBlocks.IconRes
@@ -151,10 +150,7 @@ private fun TrnTypeIcon(
             StyledIcon(
                 iconId = R.drawable.ic_expense,
                 bgColor = when (time) {
-                    is TrnTimeUi.Actual -> Gradient(
-                        start = UI.colors.red,
-                        end = UI.colors.redP2,
-                    ).asHorizontalBrush()
+                    is TrnTimeUi.Actual -> UI.colors.red.asBrush()
                     is TrnTimeUi.Due -> if (time.upcoming)
                         UI.colors.orange.asBrush() else UI.colors.red.asBrush()
                 },
