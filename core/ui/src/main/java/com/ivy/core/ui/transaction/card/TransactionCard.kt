@@ -40,7 +40,7 @@ internal fun TransactionCard(
             .clip(UI.shapes.rounded)
             .background(UI.colors.medium, UI.shapes.rounded)
             .clickable(onClick = onClick)
-            .padding(all = 20.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .testTag("transaction_card"),
         content = content
     )
