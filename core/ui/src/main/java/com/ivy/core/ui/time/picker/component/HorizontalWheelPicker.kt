@@ -63,6 +63,8 @@ fun <T> HorizontalWheelPicker(
     LaunchedEffect(selectIndexOnClick) {
         selectIndexOnClick?.let {
             listState.animateScrollToItem(it)
+            // reset, so the same index can be re-selected
+            selectIndexOnClick = null
         }
     }
 

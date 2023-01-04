@@ -74,7 +74,7 @@ fun BoxScope.TimePickerModal(
             HoursWheel(
                 hours = state.hours,
                 hoursCount = state.hoursListSize,
-                initialHourValue = state.selectedHour,
+                initialHourIndex = state.selectedHourIndex,
                 onHourChange = { viewModel?.onEvent(TimePickerEvent.HourChange(it)) }
             )
             SpacerHor(width = 12.dp)
@@ -100,7 +100,7 @@ fun BoxScope.TimePickerModal(
 private fun HoursWheel(
     hours: List<PickerHour>,
     hoursCount: Int,
-    initialHourValue: Int,
+    initialHourIndex: Int,
     modifier: Modifier = Modifier,
     onHourChange: (PickerHour) -> Unit,
 ) {
@@ -108,7 +108,7 @@ private fun HoursWheel(
         modifier = modifier,
         items = hours,
         itemsCount = hoursCount,
-        initialIndex = initialHourValue,
+        initialIndex = initialHourIndex,
         text = { it.text },
         onSelectedChange = onHourChange
     )
@@ -148,7 +148,7 @@ private fun AmPmWheel(
         ),
         itemsCount = 4,
         initialIndex = when (initialAmPmValue) {
-            AmPm.AM -> 2
+            AmPm.AM -> 0
             AmPm.PM -> 1
         },
         text = { it.second },
@@ -180,6 +180,6 @@ private fun previewState() = TimePickerState(
     minutes = (0..59).map { PickerMinute(it.toString().padStart(2, '0'), it) },
     minutesListSize = 60,
     selected = LocalTime.now(),
-    selectedHour = LocalTime.now().hour,
+    selectedHourIndex = LocalTime.now().hour,
 )
 // endregion

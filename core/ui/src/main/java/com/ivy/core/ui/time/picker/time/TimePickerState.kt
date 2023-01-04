@@ -13,7 +13,7 @@ data class TimePickerState(
     val minutes: List<PickerMinute>,
     val minutesListSize: Int,
 
-    val selectedHour: Int,
+    val selectedHourIndex: Int,
     val selected: LocalTime,
 )
 

@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import java.time.LocalTime
 import javax.inject.Inject
 
 /**
@@ -23,6 +24,7 @@ class TimePickerViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context,
     timeProvider: TimeProvider
 ) : SimpleFlowViewModel<TimePickerState, TimePickerEvent>() {
+    // TODO: AM/PM <-> 24h logic is too complex and messy! Consider refactoring!
 
     override val initialUi = TimePickerState(
         amPm = null,
@@ -31,7 +33,7 @@ class TimePickerViewModel @Inject constructor(
         minutes = emptyList(),
         minutesListSize = 0,
         selected = timeProvider.timeNow().toLocalTime(),
-        selectedHour = 0,
+        selectedHourIndex = 0,
     )
 
     private val amPm = MutableStateFlow(initialUi.amPm)
@@ -40,7 +42,7 @@ class TimePickerViewModel @Inject constructor(
     override val uiFlow: Flow<TimePickerState> = combine(
         selected,
         amPm
-    ) { selected, amPm ->
+    ) { selected24, amPm ->
         val hours = when (amPm) {
             AmPm.AM -> 1..12
             AmPm.PM -> 1..11
@@ -64,17 +66,30 @@ class TimePickerViewModel @Inject constructor(
             hoursListSize = hours.size,
             minutes = minutes,
             minutesListSize = minutes.size,
-            selected = selected,
-            selectedHour = when (amPm) {
+            selected = selected24,
+            selectedHourIndex = when (amPm) {
                 AmPm.AM -> {
-                    // in the case of AM selected hour must be <= 12
-                    if (selected.hour == 0) 12 else selected.hour
+                    /*
+                    Possible values: 1..12
+                    Indexes: 0..11
+                     */
+                    (if (selected24.hour == 0) 12 else selected24.hour) - 1
+                    // -1 because indexes start from 0 and AM/PM doesn't!
                 }
                 AmPm.PM -> {
-                    // in the case of PM selected hour must be > 12 with max of 23
-                    selected.hour % 12
+                    /*
+                    Possible values: 1..11
+                    Indexes: 0..10
+                     */
+                    (selected24.hour % 12) - 1 // -1 because indexes start from 0 and AM/PM doesn't!
                 }
-                null -> selected.hour
+                null -> {
+                    /*
+                    Possible values: 0..23
+                    Indexes: 0..23
+                     */
+                    selected24.hour
+                }
             }
         )
     }
@@ -89,20 +104,31 @@ class TimePickerViewModel @Inject constructor(
     }
 
     private fun handleInitial(event: TimePickerEvent.Initial) {
-        selected.value = event.selected
-        amPm.value = if (uses24HourFormat(appContext)) {
-            if (event.selected.hour < 12) AmPm.AM else AmPm.PM
-        } else null
+        if (hourChanged(event.initialTime)) {
+            selected.value = event.initialTime
+            amPm.value = if (!uses24HourFormat(appContext)) {
+                if (event.initialTime.hour < 12) AmPm.AM else AmPm.PM
+            } else null
+        }
     }
 
+    private fun hourChanged(newHour24: LocalTime): Boolean = newHour24.withSecond(0)
+        .withNano(0) !=
+            selected.value
+                .withSecond(0)
+                .withNano(0)
+
     private fun handleHourChange(event: TimePickerEvent.HourChange) {
-        val newHour = when (amPm.value) {
-            AmPm.AM -> if (event.hour.value == 12) 0 else event.hour.value
-            AmPm.PM -> event.hour.value + 12
-            null -> event.hour.value
+        val pickedHour = event.pickerHour.value
+
+        // transform the input picker hour to 24h format (0-23)
+        val newHour24 = when (amPm.value) {
+            AmPm.AM -> if (pickedHour == 12) 0 else pickedHour
+            AmPm.PM -> pickedHour + 12
+            null -> pickedHour
         }
 
-        selected.value = selected.value.withHour(newHour)
+        selected.value = selected.value.withHour(newHour24)
     }
 
     private fun handleAmPmChange(event: TimePickerEvent.AmPmChange) {
