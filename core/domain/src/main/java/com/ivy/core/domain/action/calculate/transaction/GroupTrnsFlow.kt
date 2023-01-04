@@ -68,22 +68,30 @@ class GroupTrnsFlow @Inject constructor(
     // region Upcoming & Overdue sections
     private fun dueSectionFlow(
         trnListItems: List<TrnListItem>,
-        dueFilter: (Transaction, now: LocalDateTime) -> Boolean,
+        dueFilter: (TrnTime, now: LocalDateTime) -> Boolean,
     ): Flow<DueSection?> {
         val now = timeProvider.timeNow()
-        val dueTrns = trnListItems.mapNotNull {
+        val dueList = trnListItems.filter {
             when (it) {
-                is TrnListItem.Trn -> it.trn
-                else -> null
+                is TrnListItem.Trn -> dueFilter(it.trn.time, now)
+                is TrnListItem.Transfer -> dueFilter(it.time, now)
+                is TrnListItem.DateDivider -> false
             }
-        }.filter { dueFilter(it, now) }
+        }
 
         // short circuit & emit null so combine doesn't get stuck
-        if (dueTrns.isEmpty()) return flowOf(null)
+        if (dueList.isEmpty()) return flowOf(null)
 
         return calculateFlow(
             CalculateFlow.Input(
-                trns = dueTrns,
+                // Calculate Income & Expense only for Trns + due transfer fees
+                trns = dueList.mapNotNull {
+                    when (it) {
+                        is TrnListItem.Trn -> it.trn
+                        is TrnListItem.Transfer -> it.fee
+                        is TrnListItem.DateDivider -> null
+                    }
+                },
                 includeTransfers = false,
                 includeHidden = false,
             )
@@ -91,7 +99,14 @@ class GroupTrnsFlow @Inject constructor(
             // the sooner due date, the higher in the list the transaction should appear
             // upcoming: the most near upcoming trn will appear first
             // overdue: the most overdue trn will appear first
-            val sortedTrns = dueTrns.sortedBy { it.time.time() }
+            val sortedTrns = dueList.sortedBy {
+                when (it) {
+                    is TrnListItem.Transfer -> it.time.time()
+                    is TrnListItem.Trn -> it.trn.time.time()
+                    // this should never happen because date dividers must be filtered
+                    is TrnListItem.DateDivider -> timeProvider.timeNow()
+                }
+            }
 
             DueSection(
                 income = dueStats.income,

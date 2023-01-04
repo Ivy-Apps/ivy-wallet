@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
@@ -60,12 +61,15 @@ fun TransactionCard(
         if (dueActions != null) {
             DuePaymentCTAs(
                 time = trn.time,
-                type = trn.type,
-                onSkip = {
-                    dueActions.onSkip(trn)
+                cta = when (trn.type) {
+                    TransactionType.Income -> stringResource(R.string.get)
+                    TransactionType.Expense -> stringResource(R.string.pay)
                 },
-                onPayGet = {
-                    dueActions.onPayGet(trn)
+                onSkip = {
+                    dueActions.onSkipTrn(trn)
+                },
+                onExecute = {
+                    dueActions.onExecuteTrn(trn)
                 }
             )
         }

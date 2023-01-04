@@ -36,10 +36,11 @@ import com.ivy.design.util.ComponentPreview
 @Composable
 fun TransferCard(
     transfer: Transfer,
-    onClick: (Transfer) -> Unit,
+    modifier: Modifier = Modifier,
+    dueActions: DueActions? = null,
     onAccountClick: (AccountUi) -> Unit,
     onCategoryClick: (CategoryUi) -> Unit,
-    modifier: Modifier = Modifier,
+    onClick: (Transfer) -> Unit,
 ) {
     TransactionCard(
         modifier = modifier,
@@ -60,6 +61,18 @@ fun TransferCard(
             toValue = transfer.to.value
         )
         Fee(fee = transfer.fee?.value)
+        if (dueActions != null) {
+            DuePaymentCTAs(
+                time = transfer.time,
+                cta = "Execute",
+                onSkip = {
+                    dueActions.onSkipTransfer(transfer)
+                },
+                onExecute = {
+                    dueActions.onExecuteTransfer(transfer)
+                },
+            )
+        }
     }
 }
 
@@ -213,7 +226,8 @@ private fun Preview_SameCurrency() {
             ),
             onAccountClick = {},
             onCategoryClick = {},
-            onClick = {}
+            onClick = {},
+            dueActions = dummyDueActions(),
         )
     }
 }
@@ -245,7 +259,8 @@ private fun Preview_Detailed() {
             ),
             onAccountClick = {},
             onCategoryClick = {},
-            onClick = {}
+            onClick = {},
+            dueActions = dummyDueActions(),
         )
     }
 }
@@ -273,7 +288,8 @@ private fun Preview_LongAccount_names() {
             ),
             onAccountClick = {},
             onCategoryClick = {},
-            onClick = {}
+            onClick = {},
+            dueActions = dummyDueActions(),
         )
     }
 }

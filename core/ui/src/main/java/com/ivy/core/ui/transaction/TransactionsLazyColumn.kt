@@ -132,21 +132,23 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
         income = dummyValueUi("16.99"),
         expense = null,
         trns = listOf(
-            dummyTransactionUi(
-                title = "Upcoming payment",
-                account = dummyAccountUi(
-                    name = "Revolut",
-                    color = Purple,
-                    icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
-                ),
-                category = dummyCategoryUi(
-                    name = "Investments",
-                    color = Blue2Light,
-                    icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
-                ),
-                value = dummyValueUi("16.99"),
-                type = TransactionType.Income,
-                time = dummyTrnTimeDueUi(timeNow().plusDays(1))
+            TrnListItemUi.Trn(
+                dummyTransactionUi(
+                    title = "Upcoming payment",
+                    account = dummyAccountUi(
+                        name = "Revolut",
+                        color = Purple,
+                        icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                    ),
+                    category = dummyCategoryUi(
+                        name = "Investments",
+                        color = Blue2Light,
+                        icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
+                    ),
+                    value = dummyValueUi("16.99"),
+                    type = TransactionType.Income,
+                    time = dummyTrnTimeDueUi(timeNow().plusDays(1))
+                )
             )
         )
     ),
@@ -155,17 +157,19 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
         income = null,
         expense = dummyValueUi("650.0"),
         trns = listOf(
-            dummyTransactionUi(
-                title = "Rent",
-                value = dummyValueUi("650.0"),
-                account = dummyAccountUi(
-                    name = "Cash",
-                    color = Green,
-                    icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
-                ),
-                category = null,
-                type = TransactionType.Expense,
-                time = dummyTrnTimeDueUi()
+            TrnListItemUi.Trn(
+                dummyTransactionUi(
+                    title = "Rent",
+                    value = dummyValueUi("650.0"),
+                    account = dummyAccountUi(
+                        name = "Cash",
+                        color = Green,
+                        icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
+                    ),
+                    category = null,
+                    type = TransactionType.Expense,
+                    time = dummyTrnTimeDueUi()
+                )
             )
         )
     ),

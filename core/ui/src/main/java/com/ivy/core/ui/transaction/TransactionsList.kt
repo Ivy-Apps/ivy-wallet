@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.data.transaction.DueSectionUi
-import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
 import com.ivy.core.ui.transaction.card.DueActions
@@ -116,23 +115,41 @@ private fun LazyListScope.dueSection(
 }
 
 private fun LazyListScope.dueTrns(
-    trns: List<TransactionUi>,
+    trns: List<TrnListItemUi>,
     trnClickHandler: TrnItemClickHandler,
     dueActions: DueActions?,
 ) {
     items(
         items = trns,
-        key = { it.id }
-    ) { trn ->
+        key = {
+            when (it) {
+                is TrnListItemUi.DateDivider -> "impossible-${it.date}"
+                is TrnListItemUi.Transfer -> it.batchId
+                is TrnListItemUi.Trn -> it.trn.id
+            }
+        }
+    ) { item ->
         SpacerVer(height = 12.dp)
-        TransactionCard(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            trn = trn,
-            onClick = trnClickHandler.onTrnClick,
-            onAccountClick = trnClickHandler.onAccountClick,
-            onCategoryClick = trnClickHandler.onCategoryClick,
-            dueActions = dueActions
-        )
+        when (item) {
+            is TrnListItemUi.DateDivider -> {} // date dividers can't be in due, should not happen
+            is TrnListItemUi.Transfer -> TransferCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                transfer = item,
+                onClick = trnClickHandler.onTransferClick,
+                onAccountClick = trnClickHandler.onAccountClick,
+                onCategoryClick = trnClickHandler.onCategoryClick,
+                dueActions = dueActions,
+            )
+            is TrnListItemUi.Trn -> TransactionCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                trn = item.trn,
+                onClick = trnClickHandler.onTrnClick,
+                onAccountClick = trnClickHandler.onAccountClick,
+                onCategoryClick = trnClickHandler.onCategoryClick,
+                dueActions = dueActions
+            )
+        }
+
     }
 }
 

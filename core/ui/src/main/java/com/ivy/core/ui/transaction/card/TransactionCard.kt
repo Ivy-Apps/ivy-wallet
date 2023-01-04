@@ -14,7 +14,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.TrnTimeUi
-import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.CaptionSecond
@@ -112,9 +111,9 @@ internal fun TransactionCardAmountRow(
 @Composable
 internal fun DuePaymentCTAs(
     time: TrnTimeUi,
-    type: TransactionType,
+    cta: String,
     onSkip: () -> Unit,
-    onPayGet: () -> Unit,
+    onExecute: () -> Unit,
 ) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
@@ -126,7 +125,7 @@ internal fun DuePaymentCTAs(
         ) {
             SkipButton(onClick = onSkip)
             SpacerHor(width = 12.dp)
-            PayGetButton(type = type, onClick = onPayGet)
+            ExecutePaymentButton(cta = cta, onClick = onExecute)
         }
     }
 }
@@ -147,17 +146,16 @@ private fun RowScope.SkipButton(
 }
 
 @Composable
-private fun RowScope.PayGetButton(
-    type: TransactionType,
+private fun RowScope.ExecutePaymentButton(
+    cta: String,
     onClick: () -> Unit
 ) {
-    val isIncome = type == TransactionType.Income
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
         visibility = Visibility.High,
         feeling = Feeling.Positive,
-        text = stringResource(if (isIncome) R.string.get else R.string.pay),
+        text = cta,
         icon = null,
         onClick = onClick,
     )

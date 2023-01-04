@@ -50,7 +50,7 @@ class MapTransactionListUiAct @Inject constructor(
                 dueType = dueType,
                 income = formatNonZero(value = domain.income),
                 expense = formatNonZero(value = domain.expense),
-                trns = domain.trns.map { mapTransaction(it) }
+                trns = domain.trns.map { mapTrnListItem(it) }
             )
         }
     }
