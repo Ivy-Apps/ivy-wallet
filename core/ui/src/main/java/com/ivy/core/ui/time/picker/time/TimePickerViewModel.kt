@@ -12,7 +12,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import java.time.LocalTime
 import javax.inject.Inject
 
 /**
@@ -38,11 +37,13 @@ class TimePickerViewModel @Inject constructor(
 
     private val amPm = MutableStateFlow(initialUi.amPm)
     private val selected = MutableStateFlow(initialUi.selected)
+    private val initialSelected = MutableStateFlow(initialUi.selected)
 
     override val uiFlow: Flow<TimePickerState> = combine(
         selected,
+        initialSelected,
         amPm
-    ) { selected24, amPm ->
+    ) { selected24, initialSelected, amPm ->
         val hours = when (amPm) {
             AmPm.AM -> 1..12
             AmPm.PM -> 1..11
@@ -73,7 +74,7 @@ class TimePickerViewModel @Inject constructor(
                     Possible values: 1..12
                     Indexes: 0..11
                      */
-                    (if (selected24.hour == 0) 12 else selected24.hour) - 1
+                    (if (initialSelected.hour == 0) 12 else initialSelected.hour) - 1
                     // -1 because indexes start from 0 and AM/PM doesn't!
                 }
                 AmPm.PM -> {
@@ -81,14 +82,14 @@ class TimePickerViewModel @Inject constructor(
                     Possible values: 1..11
                     Indexes: 0..10
                      */
-                    (selected24.hour % 12) - 1 // -1 because indexes start from 0 and AM/PM doesn't!
+                    (initialSelected.hour % 12) - 1 // -1 because indexes start from 0 and AM/PM doesn't!
                 }
                 null -> {
                     /*
                     Possible values: 0..23
                     Indexes: 0..23
                      */
-                    selected24.hour
+                    initialSelected.hour
                 }
             }
         )
@@ -104,19 +105,10 @@ class TimePickerViewModel @Inject constructor(
     }
 
     private fun handleInitial(event: TimePickerEvent.Initial) {
-        if (hourChanged(event.initialTime)) {
-            selected.value = event.initialTime
-            amPm.value = if (!uses24HourFormat(appContext)) {
-                if (event.initialTime.hour < 12) AmPm.AM else AmPm.PM
-            } else null
-        }
+        updateAmPm(event.initialTime.hour)
+        initialSelected.value = event.initialTime
+        selected.value = event.initialTime
     }
-
-    private fun hourChanged(newHour24: LocalTime): Boolean = newHour24.withSecond(0)
-        .withNano(0) !=
-            selected.value
-                .withSecond(0)
-                .withNano(0)
 
     private fun handleHourChange(event: TimePickerEvent.HourChange) {
         val pickedHour = event.pickerHour.value
@@ -128,7 +120,17 @@ class TimePickerViewModel @Inject constructor(
             null -> pickedHour
         }
 
-        selected.value = selected.value.withHour(newHour24)
+        updateAmPm(newHour24)
+        val newLocalTime = selected.value.withHour(newHour24)
+        selected.value = newLocalTime
+    }
+
+    private fun updateAmPm(newHour24: Int): AmPm? {
+        val newAmPm = if (!uses24HourFormat(appContext)) {
+            if (newHour24 < 12) AmPm.AM else AmPm.PM
+        } else null
+        amPm.value = newAmPm
+        return newAmPm
     }
 
     private fun handleAmPmChange(event: TimePickerEvent.AmPmChange) {
