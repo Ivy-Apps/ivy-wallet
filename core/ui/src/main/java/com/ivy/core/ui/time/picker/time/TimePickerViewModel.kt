@@ -24,6 +24,7 @@ class TimePickerViewModel @Inject constructor(
     timeProvider: TimeProvider
 ) : SimpleFlowViewModel<TimePickerState, TimePickerEvent>() {
     // TODO: AM/PM <-> 24h logic is too complex and messy! Consider refactoring!
+    // TODO: Very shitty code!!!
 
     override val initialUi = TimePickerState(
         amPm = null,
@@ -91,7 +92,7 @@ class TimePickerViewModel @Inject constructor(
                      */
                     initialSelected.hour
                 }
-            }
+            }.coerceIn(0..hours.lastIndex),
         )
     }
 
@@ -120,9 +121,7 @@ class TimePickerViewModel @Inject constructor(
             null -> pickedHour
         }
 
-        updateAmPm(newHour24)
-        val newLocalTime = selected.value.withHour(newHour24)
-        selected.value = newLocalTime
+        updateHour(newHour24)
     }
 
     private fun updateAmPm(newHour24: Int): AmPm? {
@@ -135,6 +134,16 @@ class TimePickerViewModel @Inject constructor(
 
     private fun handleAmPmChange(event: TimePickerEvent.AmPmChange) {
         amPm.value = event.amPm
+        val newHour24 = when (event.amPm) {
+            AmPm.AM -> if (selected.value.hour == 0) 12 else selected.value.hour
+            AmPm.PM -> selected.value.hour + 12
+        }
+        updateHour(newHour24)
+        initialSelected.value = selected.value
+    }
+
+    private fun updateHour(newHour24: Int) {
+        selected.value = selected.value.withHour(newHour24.coerceIn(0..23))
     }
 
     private fun handleMinuteChange(event: TimePickerEvent.MinuteChange) {

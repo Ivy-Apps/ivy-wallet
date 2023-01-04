@@ -1,5 +1,7 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.toLocal
 import com.ivy.common.toUUID
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
@@ -29,8 +31,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 import javax.inject.Inject
 
@@ -64,6 +64,7 @@ class TrnsFlow @Inject constructor(
     private val trnTagDao: TrnTagDao,
     private val tagDao: TagDao,
     private val trnsSignal: TrnsSignal,
+    private val timeProvider: TimeProvider,
 ) : FlowAction<TrnQuery, List<Transaction>>() {
 
     override fun TrnQuery.createFlow(): Flow<List<Transaction>> = combine(
@@ -133,8 +134,7 @@ class TrnsFlow @Inject constructor(
     }
 
     private fun trnTime(entity: TrnEntity): TrnTime {
-        // TODO: Check dateTime conversion correctness
-        val localeTime = LocalDateTime.ofInstant(entity.time, ZoneId.systemDefault())
+        val localeTime = entity.time.toLocal(timeProvider)
         return when (entity.timeType) {
             TrnTimeType.Actual -> TrnTime.Actual(localeTime)
             TrnTimeType.Due -> TrnTime.Due(localeTime)

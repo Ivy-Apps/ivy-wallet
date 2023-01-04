@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
@@ -47,6 +48,7 @@ class WriteTrnsAct @Inject constructor(
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val trnMetadataDao: TrnMetadataDao,
     private val attachmentDao: AttachmentDao,
+    private val timeProvider: TimeProvider,
 ) : Action<Modify<Transaction>, Unit>() {
 
     override suspend fun Modify<Transaction>.willDo() {
@@ -66,10 +68,11 @@ class WriteTrnsAct @Inject constructor(
 
         trnDao.save(
             mapToEntity(
-                trn.copy(
+                trn = trn.copy(
                     title = beautify(trn.title),
                     description = beautify(trn.description)
-                )
+                ),
+                timeProvider = timeProvider,
             ).copy(sync = Syncing)
         )
 
