@@ -1,6 +1,7 @@
 package com.ivy.core.ui.action.mapping.trn
 
 import android.content.Context
+import com.ivy.common.time.deviceFormat
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.ui.R
 import com.ivy.core.ui.action.mapping.MapUiAction
@@ -24,12 +25,14 @@ class MapTrnTimeUiAct @Inject constructor(
 
         return when (domain) {
             is TrnTime.Actual -> TrnTimeUi.Actual(
-                actual = formatTime(domain.actual).uppercase()
+                actualDate = formatTime(domain.actual).uppercase(),
+                actualTime = domain.actual.toLocalTime().deviceFormat(appContext),
             )
             is TrnTime.Due -> TrnTimeUi.Due(
-                dueOn = appContext.getString(
+                dueOnDate = appContext.getString(
                     R.string.due_on, formatTime(domain.due)
                 ).uppercase(),
+                dueOnTime = domain.due.toLocalTime().deviceFormat(appContext),
                 upcoming = timeProvider.timeNow().isBefore(domain.due)
             )
         }

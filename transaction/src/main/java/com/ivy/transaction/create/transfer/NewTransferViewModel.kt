@@ -1,6 +1,5 @@
 package com.ivy.transaction.create.transfer
 
-import androidx.compose.ui.focus.FocusRequester
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
@@ -23,13 +22,11 @@ import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
-import com.ivy.transaction.create.action.CreateTrnFlowAct
+import com.ivy.transaction.create.CreateTrnController
+import com.ivy.transaction.create.action.CreateTrnStepsAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
-import com.ivy.transaction.create.data.CreateTrnFlow
-import com.ivy.transaction.create.data.CreateTrnFlowStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -39,7 +36,7 @@ import javax.inject.Inject
 class NewTransferViewModel @Inject constructor(
     timeProvider: TimeProvider,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
-    private val createTrnFlowAct: CreateTrnFlowAct,
+    private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val accountByIdAct: AccountByIdAct,
@@ -52,62 +49,9 @@ class NewTransferViewModel @Inject constructor(
     private val mapAccountUiAct: MapAccountUiAct,
     private val writeTransferAct: WriteTransferAct,
     private val exchangeAct: ExchangeAct,
+    private val createTrnController: CreateTrnController,
 ) : SimpleFlowViewModel<NewTransferState, NewTransferEvent>() {
-    // region UX flow
-    private interface FlowStep {
-        fun execute()
-    }
-
-    class ModalStep(private val modal: IvyModal) : FlowStep {
-        override fun execute() {
-            modal.show()
-        }
-    }
-
-    private val keyboardController = KeyboardController()
-    private val titleFocus = FocusRequester()
-    private val titleStep = object : FlowStep {
-        override fun execute() {
-            titleFocus.requestFocus()
-            keyboardController.show()
-        }
-    }
-
-    private val amountModal = IvyModal()
-    private val amountStep = ModalStep(amountModal)
-
-    private val categoryPickerModal = IvyModal()
-    private val categoryStep = ModalStep(categoryPickerModal)
-
-    private val accountPickerModal = IvyModal()
-    private val accountStep = ModalStep(accountPickerModal)
-
-    private val descriptionModal = IvyModal()
-    private val descriptionStep = ModalStep(descriptionModal)
-
-    private val trnTimeModal = IvyModal()
-    private val timeStep = ModalStep(trnTimeModal)
-
-    private val trnTypeModal = IvyModal()
-    private val typeStep = ModalStep(trnTypeModal)
-
     private val feeModal = IvyModal()
-
-    private var createTrnFlow: CreateTrnFlow? = null
-    private fun flowStep(step: CreateTrnFlowStep): FlowStep = when (step) {
-        CreateTrnFlowStep.Title -> titleStep
-        CreateTrnFlowStep.Amount -> amountStep
-        CreateTrnFlowStep.Category -> categoryStep
-        CreateTrnFlowStep.Account -> accountStep
-        CreateTrnFlowStep.Description -> descriptionStep
-        CreateTrnFlowStep.Time -> timeStep
-        CreateTrnFlowStep.Type -> typeStep
-    }
-
-    private fun executeNextStep(after: CreateTrnFlowStep) {
-        createTrnFlow?.steps?.get(after)?.let(::flowStep)?.execute()
-    }
-    // endregion
 
     override val initialUi = NewTransferState(
         accountFrom = dummyAccountUi(),
@@ -115,21 +59,14 @@ class NewTransferViewModel @Inject constructor(
         amountFrom = CombinedValueUi.initial(),
         amountTo = CombinedValueUi.initial(),
         category = null,
-        timeUi = TrnTimeUi.Actual(""),
+        timeUi = TrnTimeUi.Actual("", ""),
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,
         fee = null,
 
         titleSuggestions = emptyList(),
-
-        titleFocus = titleFocus,
-        keyboardController = keyboardController,
-        transferAmountModal = amountModal,
-        categoryPickerModal = categoryPickerModal,
-        accountPickerModal = accountPickerModal,
-        descriptionModal = descriptionModal,
-        timeModal = trnTimeModal,
+        createFlow = createTrnController.uiFlow,
         feeModal = feeModal,
     )
 
@@ -175,14 +112,7 @@ class NewTransferViewModel @Inject constructor(
                 fee = fee,
 
                 titleSuggestions = titleSuggestions,
-
-                titleFocus = titleFocus,
-                keyboardController = keyboardController,
-                transferAmountModal = amountModal,
-                categoryPickerModal = categoryPickerModal,
-                accountPickerModal = accountPickerModal,
-                descriptionModal = descriptionModal,
-                timeModal = trnTimeModal,
+                createFlow = createTrnController.uiFlow,
                 feeModal = feeModal,
             )
         }
@@ -207,10 +137,7 @@ class NewTransferViewModel @Inject constructor(
     }
 
     private suspend fun handleInitial() {
-        val createTrnFlow = createTrnFlowAct(Unit).also {
-            createTrnFlow = it
-        }
-        flowStep(createTrnFlow.first).execute()
+        createTrnController.startFlow()
 
         val accounts = accountsAct(Unit)
         if (accounts.size < 2) {
@@ -265,7 +192,7 @@ class NewTransferViewModel @Inject constructor(
     }
 
     private fun closeScreen() {
-        keyboardController.hide()
+        createTrnController.hideKeyboard()
         navigator.back()
     }
 

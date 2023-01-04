@@ -56,7 +56,7 @@ class EditTransactionViewModel @Inject constructor(
         amountBaseCurrency = null,
         account = dummyAccountUi(),
         category = null,
-        timeUi = TrnTimeUi.Actual(""),
+        timeUi = TrnTimeUi.Actual("", ""),
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,

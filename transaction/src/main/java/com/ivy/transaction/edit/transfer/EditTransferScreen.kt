@@ -34,6 +34,7 @@ import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
 import com.ivy.transaction.modal.FeeModal
+import com.ivy.transaction.modal.TrnDateModal
 import com.ivy.transaction.modal.TrnTimeModal
 
 @Composable
@@ -55,6 +56,7 @@ private fun BoxScope.UI(
     state: EditTransferState,
     onEvent: (EditTransferEvent) -> Unit,
 ) {
+    val dateModal = rememberIvyModal()
     val timeModal = rememberIvyModal()
     val categoryPickerModal = rememberIvyModal()
     val descriptionModal = rememberIvyModal()
@@ -117,10 +119,14 @@ private fun BoxScope.UI(
             SpacerVer(height = 12.dp)
             TrnTimeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                trnTime = state.timeUi
-            ) {
-                timeModal.show()
-            }
+                extendedTrnTime = state.timeUi,
+                onTimeClick = {
+                    timeModal.show()
+                },
+                onDateClick = {
+                    dateModal.show()
+                }
+            )
         }
         item(key = "fee") {
             SpacerVer(height = 12.dp)
@@ -175,6 +181,7 @@ private fun BoxScope.UI(
 
     Modals(
         state = state,
+        dateModal = dateModal,
         timeModal = timeModal,
         descriptionModal = descriptionModal,
         categoryPickerModal = categoryPickerModal,
@@ -187,6 +194,7 @@ private fun BoxScope.UI(
 @Composable
 private fun BoxScope.Modals(
     state: EditTransferState,
+    dateModal: IvyModal,
     timeModal: IvyModal,
     descriptionModal: IvyModal,
     categoryPickerModal: IvyModal,
@@ -211,6 +219,13 @@ private fun BoxScope.Modals(
         }
     )
 
+    TrnDateModal(
+        modal = dateModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(EditTransferEvent.TrnTimeChange(it))
+        }
+    )
     TrnTimeModal(
         modal = timeModal,
         trnTime = state.time,

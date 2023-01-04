@@ -51,7 +51,7 @@ internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 8.dp)
         CaptionSecond(
-            text = time.dueOn,
+            text = time.dueOnDate,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
             fontWeight = FontWeight.Bold
         )

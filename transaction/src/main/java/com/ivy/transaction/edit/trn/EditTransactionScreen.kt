@@ -42,6 +42,7 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.TrnDateModal
 import com.ivy.transaction.modal.TrnTimeModal
 import com.ivy.transaction.modal.TrnTypeModal
 
@@ -68,6 +69,7 @@ private fun BoxScope.UI(
     onEvent: (EditTrnEvent) -> Unit,
 ) {
     val trnTypeModal = rememberIvyModal()
+    val dateModal = rememberIvyModal()
     val timeModal = rememberIvyModal()
     val accountPickerModal = rememberIvyModal()
     val categoryPickerModal = rememberIvyModal()
@@ -133,10 +135,10 @@ private fun BoxScope.UI(
             SpacerVer(height = 12.dp)
             TrnTimeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                trnTime = state.timeUi
-            ) {
-                timeModal.show()
-            }
+                extendedTrnTime = state.timeUi,
+                onDateClick = { dateModal.show() },
+                onTimeClick = { timeModal.show() }
+            )
         }
         item(key = "hidden_switch") {
             SpacerVer(height = 12.dp)
@@ -191,6 +193,7 @@ private fun BoxScope.UI(
     Modals(
         state = state,
         trnTypeModal = trnTypeModal,
+        dateModal = dateModal,
         timeModal = timeModal,
         descriptionModal = descriptionModal,
         categoryPickerModal = categoryPickerModal,
@@ -205,6 +208,7 @@ private fun BoxScope.Modals(
     categoryPickerModal: IvyModal,
     descriptionModal: IvyModal,
     trnTypeModal: IvyModal,
+    dateModal: IvyModal,
     timeModal: IvyModal,
     deleteConfirmationModal: IvyModal,
     onEvent: (EditTrnEvent) -> Unit
@@ -234,6 +238,13 @@ private fun BoxScope.Modals(
         }
     )
 
+    TrnDateModal(
+        modal = dateModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(EditTrnEvent.TrnTimeChange(it))
+        }
+    )
     TrnTimeModal(
         modal = timeModal,
         trnTime = state.time,

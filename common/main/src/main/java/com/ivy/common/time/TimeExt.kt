@@ -1,17 +1,31 @@
 package com.ivy.common.time
 
+import android.content.Context
 import com.ivy.common.R
 import com.ivy.common.time.provider.DeviceTimeProvider
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 // region Formatting
 fun LocalDateTime.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
 
+fun LocalTime.format(pattern: String): String =
+    this.format(DateTimeFormatter.ofPattern(pattern))
+
 fun LocalDate.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
+
+fun LocalTime.deviceFormat(
+    appContext: Context
+): String = if (uses24HourFormat(appContext))
+    format("HH:mm") else format("hh:mm a")
 // endregion
+
+fun uses24HourFormat(
+    appContext: Context,
+): Boolean = android.text.format.DateFormat.is24HourFormat(appContext)
 
 fun LocalDate.contextText(
     alwaysShowWeekday: Boolean,
@@ -46,6 +60,7 @@ fun endOfIvyTime(): LocalDateTime =
 // endregion
 
 fun LocalDate.dateId() = format("dd-MM-yyyy")
+
 
 // region Deprecated (will be deleted)
 @Deprecated("Don't use! Use TimeProvider via DI instead!")

@@ -26,7 +26,7 @@ import com.ivy.data.transaction.TrnTime
 import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
-import com.ivy.transaction.create.action.CreateTrnFlowAct
+import com.ivy.transaction.create.action.CreateTrnStepsAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +37,7 @@ import javax.inject.Inject
 class EditTransferViewModel @Inject constructor(
     timeProvider: TimeProvider,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
-    private val createTrnFlowAct: CreateTrnFlowAct,
+    private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val accountByIdAct: AccountByIdAct,
@@ -61,7 +61,7 @@ class EditTransferViewModel @Inject constructor(
         amountFrom = CombinedValueUi.initial(),
         amountTo = CombinedValueUi.initial(),
         category = null,
-        timeUi = TrnTimeUi.Actual(""),
+        timeUi = TrnTimeUi.Actual("", ""),
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,13 +31,14 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
 import com.ivy.navigation.destinations.transaction.NewTransaction
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
+import com.ivy.transaction.create.CreateTrnFlowUiState
 import com.ivy.transaction.modal.DescriptionModal
+import com.ivy.transaction.modal.TrnDateModal
 import com.ivy.transaction.modal.TrnTimeModal
 import com.ivy.transaction.modal.TrnTypeModal
 
@@ -47,7 +47,7 @@ fun BoxScope.NewTransactionScreen(arg: NewTransaction.Arg) {
     val viewModel: NewTransactionViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
 
-    state.keyboardController.wire()
+    state.createFlow.keyboardController.wire()
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(NewTrnEvent.Initial(arg))
@@ -90,7 +90,7 @@ private fun BoxScope.UI(
                     titleFocused = it.isFocused || it.hasFocus
                 },
                 title = state.title,
-                focus = state.titleFocus,
+                focus = state.createFlow.titleFocus,
                 onTitleChange = { onEvent(NewTrnEvent.TitleChange(it)) },
                 onCta = { onEvent(NewTrnEvent.Add) }
             )
@@ -106,7 +106,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 category = state.category
             ) {
-                state.categoryPickerModal.show()
+                state.createFlow.categoryPickerModal.show()
             }
         }
         item(key = "description") {
@@ -115,17 +115,21 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 description = state.description
             ) {
-                state.descriptionModal.show()
+                state.createFlow.descriptionModal.show()
             }
         }
         item(key = "trn_time") {
             SpacerVer(height = 12.dp)
             TrnTimeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                trnTime = state.timeUi
-            ) {
-                state.timeModal.show()
-            }
+                extendedTrnTime = state.timeUi,
+                onDateClick = {
+                    state.createFlow.dateModal.show()
+                },
+                onTimeClick = {
+                    state.createFlow.timeModal.show()
+                }
+            )
         }
         item(key = "last_item_spacer") {
             val keyboardShown by keyboardShownState()
@@ -144,8 +148,8 @@ private fun BoxScope.UI(
         account = state.account,
         ctaText = stringResource(R.string.add),
         ctaIcon = R.drawable.ic_round_add_24,
-        accountPickerModal = state.accountPickerModal,
-        amountModal = state.amountModal,
+        accountPickerModal = state.createFlow.accountPickerModal,
+        amountModal = state.createFlow.amountModal,
         onAccountChange = {
             onEvent(NewTrnEvent.AccountChange(it))
         },
@@ -166,7 +170,7 @@ private fun BoxScope.Modals(
     onEvent: (NewTrnEvent) -> Unit
 ) {
     CategoryPickerModal(
-        modal = state.categoryPickerModal,
+        modal = state.createFlow.categoryPickerModal,
         selected = state.category,
         trnType = state.trnType,
         onPick = {
@@ -175,7 +179,7 @@ private fun BoxScope.Modals(
     )
 
     DescriptionModal(
-        modal = state.descriptionModal,
+        modal = state.createFlow.descriptionModal,
         initialDescription = state.description,
         onDescriptionChange = {
             onEvent(NewTrnEvent.DescriptionChange(it))
@@ -190,8 +194,15 @@ private fun BoxScope.Modals(
         }
     )
 
+    TrnDateModal(
+        modal = state.createFlow.dateModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(NewTrnEvent.TrnTimeChange(it))
+        }
+    )
     TrnTimeModal(
-        modal = state.timeModal,
+        modal = state.createFlow.timeModal,
         trnTime = state.time,
         onTrnTimeChange = {
             onEvent(NewTrnEvent.TrnTimeChange(it))
@@ -238,16 +249,10 @@ private fun Preview_Empty() {
 
                 titleSuggestions = emptyList(),
 
-                titleFocus = remember { FocusRequester() },
-                keyboardController = KeyboardController(),
                 timeUi = dummyTrnTimeActualUi(),
                 time = dummyTrnTimeActual(),
                 trnTypeModal = rememberIvyModal(),
-                categoryPickerModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
+                createFlow = CreateTrnFlowUiState.default(),
             ),
             onEvent = {}
         )
@@ -270,16 +275,10 @@ private fun Preview_Filled() {
 
                 titleSuggestions = emptyList(),
 
-                titleFocus = remember { FocusRequester() },
-                keyboardController = KeyboardController(),
                 timeUi = dummyTrnTimeDueUi(),
                 time = dummyTrnTimeDue(),
                 trnTypeModal = rememberIvyModal(),
-                categoryPickerModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                amountModal = rememberIvyModal(),
+                createFlow = CreateTrnFlowUiState.default(),
             ),
             onEvent = {}
         )

@@ -1,14 +1,13 @@
 package com.ivy.transaction.create.transfer
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.focus.FocusRequester
 import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.design.util.KeyboardController
+import com.ivy.transaction.create.CreateTrnFlowUiState
 
 @Immutable
 data class NewTransferState(
@@ -25,15 +24,6 @@ data class NewTransferState(
     val fee: CombinedValueUi?,
 
     val titleSuggestions: List<String>,
-
-    // region Create flow
-    val titleFocus: FocusRequester,
-    val keyboardController: KeyboardController,
-    val transferAmountModal: IvyModal,
-    val categoryPickerModal: IvyModal,
-    val accountPickerModal: IvyModal,
-    val descriptionModal: IvyModal,
-    val timeModal: IvyModal,
+    val createFlow: CreateTrnFlowUiState,
     val feeModal: IvyModal,
-    // endregion
 )

@@ -2,17 +2,17 @@ package com.ivy.transaction.create.action
 
 import com.ivy.core.domain.action.Action
 import com.ivy.transaction.create.data.CreateTrnFlow
-import com.ivy.transaction.create.data.CreateTrnFlowStep
+import com.ivy.transaction.create.data.CreateTrnStep
 import javax.inject.Inject
 
-class CreateTrnFlowAct @Inject constructor(
+class CreateTrnStepsAct @Inject constructor(
 
 ) : Action<Unit, CreateTrnFlow>() {
     override suspend fun Unit.willDo(): CreateTrnFlow = CreateTrnFlow(
-        first = CreateTrnFlowStep.Amount,
+        first = CreateTrnStep.Amount,
         steps = mapOf(
-            CreateTrnFlowStep.Amount to CreateTrnFlowStep.Category,
-            CreateTrnFlowStep.Category to CreateTrnFlowStep.Title,
+            CreateTrnStep.Amount to CreateTrnStep.Category,
+            CreateTrnStep.Category to CreateTrnStep.Title,
         )
     )
 

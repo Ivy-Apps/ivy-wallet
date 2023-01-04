@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,20 +23,19 @@ import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.KeyboardController
 import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
-import com.ivy.transaction.modal.DescriptionModal
-import com.ivy.transaction.modal.FeeModal
-import com.ivy.transaction.modal.TransferAmountModal
-import com.ivy.transaction.modal.TrnTimeModal
+import com.ivy.transaction.create.CreateTrnFlowUiState
+import com.ivy.transaction.modal.*
 
 @Composable
 fun BoxScope.NewTransferScreen() {
     val viewModel: NewTransferViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+
+    state.createFlow.keyboardController.wire()
 
     LaunchedEffect(Unit) {
         viewModel.onEvent(NewTransferEvent.Initial)
@@ -74,7 +72,7 @@ private fun BoxScope.UI(
                     titleFocused = it.isFocused || it.hasFocus
                 },
                 title = state.title,
-                focus = state.titleFocus,
+                focus = state.createFlow.titleFocus,
                 onTitleChange = { onEvent(NewTransferEvent.TitleChange(it)) },
                 onCta = { onEvent(NewTransferEvent.Add) }
             )
@@ -90,7 +88,7 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 category = state.category
             ) {
-                state.categoryPickerModal.show()
+                state.createFlow.categoryPickerModal.show()
             }
         }
         item(key = "description") {
@@ -99,17 +97,21 @@ private fun BoxScope.UI(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 description = state.description
             ) {
-                state.descriptionModal.show()
+                state.createFlow.descriptionModal.show()
             }
         }
         item(key = "trn_time") {
             SpacerVer(height = 12.dp)
             TrnTimeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                trnTime = state.timeUi
-            ) {
-                state.timeModal.show()
-            }
+                extendedTrnTime = state.timeUi,
+                onDateClick = {
+                    state.createFlow.dateModal.show()
+                },
+                onTimeClick = {
+                    state.createFlow.timeModal.show()
+                }
+            )
         }
         item(key = "fee") {
             SpacerVer(height = 12.dp)
@@ -165,7 +167,7 @@ private fun BoxScope.Modals(
     onEvent: (NewTransferEvent) -> Unit
 ) {
     CategoryPickerModal(
-        modal = state.categoryPickerModal,
+        modal = state.createFlow.categoryPickerModal,
         selected = state.category,
         trnType = null,
         onPick = {
@@ -174,15 +176,22 @@ private fun BoxScope.Modals(
     )
 
     DescriptionModal(
-        modal = state.descriptionModal,
+        modal = state.createFlow.descriptionModal,
         initialDescription = state.description,
         onDescriptionChange = {
             onEvent(NewTransferEvent.DescriptionChange(it))
         }
     )
 
+    TrnDateModal(
+        modal = state.createFlow.dateModal,
+        trnTime = state.time,
+        onTrnTimeChange = {
+            onEvent(NewTransferEvent.TrnTimeChange(it))
+        }
+    )
     TrnTimeModal(
-        modal = state.timeModal,
+        modal = state.createFlow.timeModal,
         trnTime = state.time,
         onTrnTimeChange = {
             onEvent(NewTransferEvent.TrnTimeChange(it))
@@ -203,7 +212,7 @@ private fun BoxScope.Modals(
 
     val createAccountModal = rememberIvyModal()
     TransferAmountModal(
-        modal = state.transferAmountModal,
+        modal = state.createFlow.amountModal,
         amount = state.amountFrom.value,
         fromAccount = state.accountFrom,
         toAccount = state.accountTo,
@@ -248,14 +257,8 @@ private fun Preview() {
                 title = null,
                 fee = null,
 
-                titleFocus = FocusRequester(),
                 titleSuggestions = listOf("Title 1", "Title 2"),
-                categoryPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                transferAmountModal = rememberIvyModal(),
-                keyboardController = KeyboardController(),
+                createFlow = CreateTrnFlowUiState.default(),
                 feeModal = rememberIvyModal(),
             ),
             onEvent = {}
@@ -283,14 +286,8 @@ private fun Preview_Filled() {
                 title = "ATM Withdrawal",
                 fee = dummyCombinedValueUi(amount = 2.0),
 
-                titleFocus = FocusRequester(),
                 titleSuggestions = listOf("Title 1", "Title 2"),
-                categoryPickerModal = rememberIvyModal(),
-                descriptionModal = rememberIvyModal(),
-                timeModal = rememberIvyModal(),
-                accountPickerModal = rememberIvyModal(),
-                transferAmountModal = rememberIvyModal(),
-                keyboardController = KeyboardController(),
+                createFlow = CreateTrnFlowUiState.default(),
                 feeModal = rememberIvyModal(),
             ),
             onEvent = {}

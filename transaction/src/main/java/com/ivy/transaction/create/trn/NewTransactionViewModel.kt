@@ -1,6 +1,5 @@
 package com.ivy.transaction.create.trn
 
-import androidx.compose.ui.focus.FocusRequester
 import com.ivy.common.isNotNullOrBlank
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
@@ -20,14 +19,13 @@ import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.*
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
-import com.ivy.transaction.create.action.CreateTrnFlowAct
+import com.ivy.transaction.create.CreateTrnController
+import com.ivy.transaction.create.action.CreateTrnStepsAct
 import com.ivy.transaction.create.action.PreselectedAccountAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
-import com.ivy.transaction.create.data.CreateTrnFlow
-import com.ivy.transaction.create.data.CreateTrnFlowStep
+import com.ivy.transaction.create.data.CreateTrnStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NewTransactionViewModel @Inject constructor(
     timeProvider: TimeProvider,
-    private val createTrnFlowAct: CreateTrnFlowAct,
+    private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val writeTrnsAct: WriteTrnsAct,
@@ -51,60 +49,10 @@ class NewTransactionViewModel @Inject constructor(
     private val writeLastUsedAccount: WriteLastUsedAccount,
     private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
+    private val createTrnController: CreateTrnController,
 ) : SimpleFlowViewModel<NewTrnState, NewTrnEvent>() {
-    // region UX flow
-    private interface FlowStep {
-        fun execute()
-    }
-
-    class ModalStep(private val modal: IvyModal) : FlowStep {
-        override fun execute() {
-            modal.show()
-        }
-    }
-
-    private val keyboardController = KeyboardController()
-    private val titleFocus = FocusRequester()
-    private val titleStep = object : FlowStep {
-        override fun execute() {
-            titleFocus.requestFocus()
-            keyboardController.show()
-        }
-    }
-
-    private val amountModal = IvyModal()
-    private val amountStep = ModalStep(amountModal)
-
-    private val categoryPickerModal = IvyModal()
-    private val categoryStep = ModalStep(categoryPickerModal)
-
-    private val accountPickerModal = IvyModal()
-    private val accountStep = ModalStep(accountPickerModal)
-
-    private val descriptionModal = IvyModal()
-    private val descriptionStep = ModalStep(descriptionModal)
-
-    private val trnTimeModal = IvyModal()
-    private val timeStep = ModalStep(trnTimeModal)
 
     private val trnTypeModal = IvyModal()
-    private val typeStep = ModalStep(trnTypeModal)
-
-    private var createTrnFlow: CreateTrnFlow? = null
-    private fun flowStep(step: CreateTrnFlowStep): FlowStep = when (step) {
-        CreateTrnFlowStep.Title -> titleStep
-        CreateTrnFlowStep.Amount -> amountStep
-        CreateTrnFlowStep.Category -> categoryStep
-        CreateTrnFlowStep.Account -> accountStep
-        CreateTrnFlowStep.Description -> descriptionStep
-        CreateTrnFlowStep.Time -> timeStep
-        CreateTrnFlowStep.Type -> typeStep
-    }
-
-    private fun executeNextStep(after: CreateTrnFlowStep) {
-        createTrnFlow?.steps?.get(after)?.let(::flowStep)?.execute()
-    }
-    // endregion
 
     override val initialUi = NewTrnState(
         trnType = TransactionType.Expense,
@@ -112,20 +60,14 @@ class NewTransactionViewModel @Inject constructor(
         amountBaseCurrency = null,
         account = dummyAccountUi(),
         category = null,
-        timeUi = TrnTimeUi.Actual(""),
+        timeUi = TrnTimeUi.Actual("", ""),
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,
 
         titleSuggestions = emptyList(),
 
-        titleFocus = titleFocus,
-        keyboardController = keyboardController,
-        amountModal = amountModal,
-        categoryPickerModal = categoryPickerModal,
-        accountPickerModal = accountPickerModal,
-        descriptionModal = descriptionModal,
-        timeModal = trnTimeModal,
+        createFlow = createTrnController.uiFlow,
         trnTypeModal = trnTypeModal,
     )
 
@@ -156,14 +98,7 @@ class NewTransactionViewModel @Inject constructor(
             description = description,
 
             titleSuggestions = titleSuggestions,
-
-            titleFocus = titleFocus,
-            keyboardController = keyboardController,
-            amountModal = amountModal,
-            categoryPickerModal = categoryPickerModal,
-            accountPickerModal = accountPickerModal,
-            descriptionModal = descriptionModal,
-            timeModal = trnTimeModal,
+            createFlow = createTrnController.uiFlow,
             trnTypeModal = trnTypeModal,
         )
     }
@@ -215,10 +150,7 @@ class NewTransactionViewModel @Inject constructor(
     }
 
     private suspend fun handleInitial(event: NewTrnEvent.Initial) {
-        val createTrnFlow = createTrnFlowAct(Unit).also {
-            createTrnFlow = it
-        }
-        flowStep(createTrnFlow.first).execute()
+        createTrnController.startFlow()
 
         val arg = event.arg
         trnType.value = arg.trnType
@@ -277,7 +209,7 @@ class NewTransactionViewModel @Inject constructor(
     }
 
     private fun closeScreen() {
-        keyboardController.hide()
+        createTrnController.hideKeyboard()
         navigator.back()
     }
 
@@ -288,7 +220,7 @@ class NewTransactionViewModel @Inject constructor(
             shortenFiat = false
         )
 
-        executeNextStep(after = CreateTrnFlowStep.Amount)
+        createTrnController.nextStep(after = CreateTrnStep.Amount)
     }
 
     private suspend fun handleAccountChange(event: NewTrnEvent.AccountChange) {
@@ -296,7 +228,7 @@ class NewTransactionViewModel @Inject constructor(
         writeLastUsedAccount(WriteLastUsedAccount.Input(event.account.id))
         changeAmountToAccountCurrency(event.account)
 
-        executeNextStep(after = CreateTrnFlowStep.Account)
+        createTrnController.nextStep(after = CreateTrnStep.Account)
     }
 
     private suspend fun changeAmountToAccountCurrency(
@@ -314,7 +246,7 @@ class NewTransactionViewModel @Inject constructor(
     private fun handleCategoryChange(event: NewTrnEvent.CategoryChange) {
         category.value = event.category
 
-        executeNextStep(after = CreateTrnFlowStep.Category)
+        createTrnController.nextStep(after = CreateTrnStep.Category)
     }
 
     private fun handleTitleChange(event: NewTrnEvent.TitleChange) {
@@ -324,20 +256,18 @@ class NewTransactionViewModel @Inject constructor(
     private fun handleDescriptionChange(event: NewTrnEvent.DescriptionChange) {
         description.value = event.description.takeIf { it.isNotNullOrBlank() }
 
-        executeNextStep(after = CreateTrnFlowStep.Description)
+        createTrnController.nextStep(after = CreateTrnStep.Description)
     }
 
     private suspend fun handleTrnTimeChange(event: NewTrnEvent.TrnTimeChange) {
         time.value = event.time
         timeUi.value = mapTrnTimeUiAct(event.time)
 
-        executeNextStep(after = CreateTrnFlowStep.Time)
+        createTrnController.nextStep(after = CreateTrnStep.Date)
     }
 
     private fun handleTrnTypeChange(event: NewTrnEvent.TrnTypeChange) {
         trnType.value = event.trnType
-
-        executeNextStep(after = CreateTrnFlowStep.Type)
     }
     // endregion
     // endregion
