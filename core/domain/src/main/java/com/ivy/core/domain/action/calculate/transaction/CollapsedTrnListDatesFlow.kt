@@ -9,13 +9,15 @@ import javax.inject.Singleton
 private val collapsedTrnListDates = MutableStateFlow(emptySet<String>())
 
 fun toggleTrnListDate(dateId: String) {
-    collapsedTrnListDates.value = collapsedTrnListDates.value.toMutableSet().apply {
-        if (dateId in this) {
-            remove(dateId)
-        } else {
-            add(dateId)
+    collapsedTrnListDates.value = collapsedTrnListDates.value
+        .toMutableSet()
+        .apply {
+            if (dateId in this) {
+                remove(dateId)
+            } else {
+                add(dateId)
+            }
         }
-    }
 }
 
 @Singleton
