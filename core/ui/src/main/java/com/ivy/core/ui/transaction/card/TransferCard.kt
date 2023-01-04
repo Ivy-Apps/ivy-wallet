@@ -195,7 +195,7 @@ private fun Fee(
             AmountCurrency(value = fee, color = UI.colors.red)
             SpacerHor(width = 4.dp)
             B2Second(
-                text = "FEE",
+                text = "(FEE)",
                 color = UI.colors.red,
                 fontWeight = FontWeight.Normal
             )
