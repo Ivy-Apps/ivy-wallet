@@ -1,8 +1,9 @@
-package com.ivy.core.ui.action.mapping
+package com.ivy.core.ui.action.mapping.trn
 
 import android.content.Context
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.ui.R
+import com.ivy.core.ui.action.mapping.MapUiAction
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.core.ui.time.formatNicely
 import com.ivy.data.transaction.TrnTime

@@ -14,8 +14,8 @@ import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
-import com.ivy.core.ui.action.mapping.MapTrnTimeUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
+import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.SyncState

@@ -161,7 +161,7 @@ private fun LazyListScope.history(
         items = history,
         key = { _, item ->
             when (item) {
-                is TrnListItemUi.DateDivider -> item.date
+                is TrnListItemUi.DateDivider -> item.id
                 is TrnListItemUi.Trn -> item.trn.id
                 is TrnListItemUi.Transfer -> item.batchId
             }

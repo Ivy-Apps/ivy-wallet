@@ -19,10 +19,12 @@ sealed interface TrnListItemUi {
 
     @Immutable
     data class DateDivider(
+        val id: String,
         val date: String,
         val day: String,
         val cashflow: ValueUi,
         val positiveCashflow: Boolean,
+        val collapsed: Boolean,
     ) : TrnListItemUi
 }
 

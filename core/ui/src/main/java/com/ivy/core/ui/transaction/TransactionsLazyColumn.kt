@@ -175,10 +175,12 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
     ),
     history = listOf(
         TrnListItemUi.DateDivider(
+            id = "2021-01-01",
             date = "September 25.",
             day = "Friday",
             cashflow = dummyValueUi("-30.0"),
-            positiveCashflow = false
+            positiveCashflow = false,
+            collapsed = false,
         ),
         TrnListItemUi.Trn(
             dummyTransactionUi(
@@ -199,10 +201,12 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
             )
         ),
         TrnListItemUi.DateDivider(
+            id = "2021-01-01",
             date = "September 23.",
             day = "Wednesday",
             cashflow = dummyValueUi("105.33"),
-            positiveCashflow = true
+            positiveCashflow = true,
+            collapsed = false,
         ),
         TrnListItemUi.Trn(
             dummyTransactionUi(

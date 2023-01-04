@@ -45,6 +45,8 @@ fun endOfIvyTime(): LocalDateTime =
     LocalDateTime.of(2050, 1, 1, 0, 0)
 // endregion
 
+fun LocalDate.dateId() = format("dd-MM-yyyy")
+
 // region Deprecated (will be deleted)
 @Deprecated("Don't use! Use TimeProvider via DI instead!")
 fun deviceTimeProvider() = DeviceTimeProvider()

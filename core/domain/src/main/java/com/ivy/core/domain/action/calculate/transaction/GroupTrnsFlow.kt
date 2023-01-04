@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.calculate.transaction
 
+import com.ivy.common.time.dateId
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
 import com.ivy.core.domain.action.FlowAction
@@ -11,6 +12,7 @@ import com.ivy.core.domain.pure.transaction.upcoming
 import com.ivy.core.domain.pure.util.actualTrns
 import com.ivy.core.domain.pure.util.combineSafe
 import com.ivy.core.domain.pure.util.extractTrns
+import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +37,7 @@ class GroupTrnsFlow @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val timeProvider: TimeProvider,
+    private val collapsedTrnsListDatesFlow: CollapsedTrnListDatesFlow,
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -120,44 +123,54 @@ class GroupTrnsFlow @Inject constructor(
     // region History
     private fun historyFlow(
         trnListItems: List<TrnListItem>
-    ): Flow<List<TrnListItem>> {
-        val actualTrns = actualTrns(trnItems = trnListItems)
-        val trnsByDay = groupActualTrnsByDate(
-            actualTrns = actualTrns,
-            timeProvider = timeProvider,
-        )
+    ): Flow<List<TrnListItem>> = collapsedTrnsListDatesFlow()
+        .map { collapsedTrnsList ->
+            val actualTrns = actualTrns(trnItems = trnListItems)
+            val trnsByDay = groupActualTrnsByDate(
+                actualTrns = actualTrns,
+                timeProvider = timeProvider,
+            )
 
-        // calculate stats for each trn history day
-        return combineSafe(
-            flows = trnsByDay.map { (day, trnsForTheDay) ->
-                trnHistoryDayFlow(
-                    day = day,
-                    trnsForTheDay = trnsForTheDay,
-                )
-            },
-            ifEmpty = emptyList(),
-        ) {
-            it.flatten()
-        }
-    }
+            // calculate stats for each trn history day
+            combineSafe(
+                flows = trnsByDay.map { (day, trnsForTheDay) ->
+                    trnHistoryDayFlow(
+                        date = day,
+                        trnsForTheDay = trnsForTheDay,
+                        collapsed = collapsedTrnsList.contains(day.dateId()),
+                    )
+                },
+                ifEmpty = emptyList(),
+            ) {
+                it.flatten()
+            }
+        }.flattenLatest()
 
     private fun trnHistoryDayFlow(
-        day: LocalDate,
-        trnsForTheDay: List<TrnListItem>
-    ): Flow<List<TrnListItem>> = calculateFlow(
-        CalculateFlow.Input(
-            trns = trnsForTheDay.flatMap(::extractTrns),
-            outputCurrency = null,
-            includeTransfers = true,
-            includeHidden = false,
+        date: LocalDate,
+        trnsForTheDay: List<TrnListItem>,
+        collapsed: Boolean,
+    ): Flow<List<TrnListItem>> = combine(
+        calculateFlow(
+            CalculateFlow.Input(
+                trns = trnsForTheDay.flatMap(::extractTrns),
+                outputCurrency = null,
+                includeTransfers = true,
+                includeHidden = false,
+            ),
+        ),
+        collapsedTrnsListDatesFlow()
+    ) { statsForTheDay, collapsedDatesIds ->
+        val id = date.dateId()
+        val dateDivider = TrnListItem.DateDivider(
+            id = id,
+            date = date,
+            cashflow = statsForTheDay.balance,
+            collapsed = id in collapsedDatesIds
         )
-    ).map { statsForTheDay ->
-        listOf(
-            TrnListItem.DateDivider(
-                date = day,
-                cashflow = statsForTheDay.balance,
-            )
-        ).plus(trnsForTheDay)
+
+        if (collapsed) listOf(dateDivider) else
+            listOf(dateDivider).plus(trnsForTheDay)
     }
     // endregion
 }

@@ -1,6 +1,7 @@
 package com.ivy.core.domain.action.calculate.transaction
 
 import com.ivy.common.test.testTimeProvider
+import com.ivy.common.time.dateId
 import com.ivy.core.domain.action.exchange.SyncExchangeRatesAct
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.pure.dummy.dummyTrn
@@ -64,8 +65,10 @@ class GroupTrnsFlowTest {
             overdue = null,
             history = listOf(
                 TrnListItem.DateDivider(
+                    id = testTimeProvider().dateNow().dateId(),
                     date = testTimeProvider().dateNow(),
-                    cashflow = Value(amount = -5.0, currency = "USD")
+                    cashflow = Value(amount = -5.0, currency = "USD"),
+                    collapsed = false,
                 ),
                 TrnListItem.Trn(trn1),
                 TrnListItem.Trn(trn2),

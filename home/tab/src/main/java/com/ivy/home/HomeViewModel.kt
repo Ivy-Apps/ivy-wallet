@@ -14,7 +14,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.time.range
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
-import com.ivy.core.ui.action.mapping.MapTransactionListUiAct
+import com.ivy.core.ui.action.mapping.trn.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod

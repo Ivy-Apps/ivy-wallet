@@ -1,4 +1,4 @@
-package com.ivy.core.ui.action.mapping
+package com.ivy.core.ui.action.mapping.trn
 
 import android.content.Context
 import com.ivy.common.time.format
@@ -6,6 +6,8 @@ import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
+import com.ivy.core.ui.action.mapping.MapCategoryUiAct
+import com.ivy.core.ui.action.mapping.MapUiAction
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.transaction.*
 import com.ivy.data.Value
@@ -73,6 +75,7 @@ class MapTransactionListUiAct @Inject constructor(
         val today = timeProvider.dateNow()
 
         return TrnListItemUi.DateDivider(
+            id = domain.id,
             date = domain.date.format(
                 if (today.year == domain.date.year) "MMMM dd." else "MMM dd. yyyy"
             ),
@@ -83,7 +86,8 @@ class MapTransactionListUiAct @Inject constructor(
                 else -> null
             } ?: today.format("EEEE"),
             cashflow = format(value = domain.cashflow, shortenFiat = true),
-            positiveCashflow = domain.cashflow.amount > 0
+            positiveCashflow = domain.cashflow.amount > 0,
+            collapsed = domain.collapsed,
         )
     }
 
