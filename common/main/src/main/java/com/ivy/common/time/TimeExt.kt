@@ -61,11 +61,10 @@ fun endOfIvyTime(): LocalDateTime =
 
 fun LocalDate.dateId() = format("dd-MM-yyyy")
 
-
-// region Deprecated (will be deleted)
-@Deprecated("Don't use! Use TimeProvider via DI instead!")
 fun deviceTimeProvider() = DeviceTimeProvider()
 
+
+// region Deprecated (will be deleted)
 @Deprecated("Use `TimeProvider` instead!")
 fun timeNow(): LocalDateTime = LocalDateTime.now()
 

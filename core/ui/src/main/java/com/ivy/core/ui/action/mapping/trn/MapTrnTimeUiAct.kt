@@ -20,17 +20,21 @@ class MapTrnTimeUiAct @Inject constructor(
     override suspend fun transform(domain: TrnTime): TrnTimeUi = mapTrnTimeUi(domain)
 
     private fun mapTrnTimeUi(domain: TrnTime): TrnTimeUi {
-        fun formatTime(time: LocalDateTime): String =
-            time.formatNicely(context = appContext, includeWeekDay = true)
+        fun formatDateTime(time: LocalDateTime): String =
+            time.formatNicely(
+                context = appContext,
+                timeProvider = timeProvider,
+                includeWeekDay = true
+            )
 
         return when (domain) {
             is TrnTime.Actual -> TrnTimeUi.Actual(
-                actualDate = formatTime(domain.actual).uppercase(),
+                actualDate = formatDateTime(domain.actual).uppercase(),
                 actualTime = domain.actual.toLocalTime().deviceFormat(appContext),
             )
             is TrnTime.Due -> TrnTimeUi.Due(
                 dueOnDate = appContext.getString(
-                    R.string.due_on, formatTime(domain.due)
+                    R.string.due_on, formatDateTime(domain.due)
                 ).uppercase(),
                 dueOnTime = domain.due.toLocalTime().deviceFormat(appContext),
                 upcoming = timeProvider.timeNow().isBefore(domain.due)
