@@ -131,6 +131,7 @@ class NewTransferViewModel @Inject constructor(
         is NewTransferEvent.FromAccountChange -> handleFromAccountChange(event)
         is NewTransferEvent.ToAccountChange -> handleToAccountChange(event)
         is NewTransferEvent.FeeChange -> handleFeeChange(event)
+        is NewTransferEvent.FeePercent -> handleFeePercent(event)
         is NewTransferEvent.TitleChange -> handleTitleChange(event)
         is NewTransferEvent.DescriptionChange -> handleDescriptionChange(event)
         is NewTransferEvent.CategoryChange -> handleCategoryChange(event)
@@ -280,6 +281,14 @@ class NewTransferViewModel @Inject constructor(
                 shortenFiat = false,
             )
         }
+    }
+
+    private fun handleFeePercent(event: NewTransferEvent.FeePercent) {
+        fee.value = CombinedValueUi(
+            amount = amountFrom.value.value.amount * event.percent,
+            currency = fee.value.value.currency,
+            shortenFiat = false,
+        )
     }
 
     private fun handleTitleChange(event: NewTransferEvent.TitleChange) {

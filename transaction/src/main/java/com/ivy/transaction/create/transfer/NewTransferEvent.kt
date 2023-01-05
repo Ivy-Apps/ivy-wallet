@@ -19,5 +19,6 @@ sealed interface NewTransferEvent {
     data class ToAccountChange(val account: AccountUi) : NewTransferEvent
     data class CategoryChange(val category: CategoryUi?) : NewTransferEvent
     data class TrnTimeChange(val time: TrnTime) : NewTransferEvent
+    data class FeePercent(val percent: Double) : NewTransferEvent
     data class FeeChange(val value: Value?) : NewTransferEvent
 }

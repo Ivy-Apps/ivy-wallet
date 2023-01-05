@@ -42,6 +42,7 @@ fun IvyButton(
     modifier: Modifier = Modifier,
     shape: Shape = UI.shapes.fullyRounded,
     typo: TextStyle = UI.typo.b2,
+    fontWeight: FontWeight = FontWeight.Bold,
     hapticFeedback: Boolean = false,
     onClick: () -> Unit,
 ) {
@@ -88,7 +89,7 @@ fun IvyButton(
     }
     val textStyle = typo.style(
         color = textColor,
-        fontWeight = FontWeight.Bold,
+        fontWeight = fontWeight,
         textAlign = TextAlign.Center,
     )
 

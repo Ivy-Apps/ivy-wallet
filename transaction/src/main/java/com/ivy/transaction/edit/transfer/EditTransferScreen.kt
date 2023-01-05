@@ -242,6 +242,9 @@ private fun BoxScope.Modals(
         onRemoveFee = {
             onEvent(EditTransferEvent.FeeChange(null))
         },
+        onFeePercent = {
+            onEvent(EditTransferEvent.FeePercent(it))
+        },
         onFeeChange = {
             onEvent(EditTransferEvent.FeeChange(it))
         }
