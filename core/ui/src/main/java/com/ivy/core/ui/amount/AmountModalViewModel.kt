@@ -66,7 +66,6 @@ internal class AmountModalViewModel @Inject constructor(
             amountBaseCurrency = amountBaseCurrency,
             calculatorResult = calcResult.takeIf {
                 calcResult.isError || !hasObviousResult(expression, expressionValue)
-
             }
         )
     }
@@ -75,7 +74,14 @@ internal class AmountModalViewModel @Inject constructor(
         currency, baseCurrencyFlow(), calculateFlow(), exchangeRatesFlow()
     ) { currency, baseCurrency, calcResult, rates ->
         if (currency == baseCurrency) null else calcResult.second?.let {
-            exchange(rates, from = currency, to = baseCurrency, amount = it).orNull()
+            exchange(
+                rates,
+                from = currency,
+                to = baseCurrency,
+                amount = it
+            ).orNull().takeIf { exchangedAmount ->
+                exchangedAmount != null && exchangedAmount > 0.0
+            }
         }?.let { exchangedAmount ->
             format(
                 Value(amount = exchangedAmount, currency = baseCurrency),

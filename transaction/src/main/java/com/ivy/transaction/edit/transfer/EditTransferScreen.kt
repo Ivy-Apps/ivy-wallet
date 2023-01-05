@@ -17,6 +17,7 @@ import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
+import com.ivy.core.ui.modals.RateModal
 import com.ivy.design.l0_system.color.Blue2Dark
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -61,7 +62,7 @@ private fun BoxScope.UI(
     val descriptionModal = rememberIvyModal()
     val deleteConfirmationModal = rememberIvyModal()
     val feeModal = rememberIvyModal()
-    val transferRateModal = rememberIvyModal()
+    val rateModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -146,7 +147,7 @@ private fun BoxScope.UI(
                         modifier = Modifier.weight(1f),
                         rate = state.rate,
                     ) {
-                        transferRateModal.show()
+                        rateModal.show()
                     }
                 }
             }
@@ -201,6 +202,7 @@ private fun BoxScope.UI(
         categoryPickerModal = categoryPickerModal,
         deleteConfirmationModal = deleteConfirmationModal,
         feeModal = feeModal,
+        rateModal = rateModal,
         onEvent = onEvent
     )
 }
@@ -214,6 +216,7 @@ private fun BoxScope.Modals(
     categoryPickerModal: IvyModal,
     deleteConfirmationModal: IvyModal,
     feeModal: IvyModal,
+    rateModal: IvyModal,
     onEvent: (EditTransferEvent) -> Unit
 ) {
     CategoryPickerModal(
@@ -263,6 +266,19 @@ private fun BoxScope.Modals(
         }
     )
 
+    if (state.rate != null) {
+        RateModal(
+            modal = rateModal,
+            key = "transfer_rate",
+            rate = state.rate.rateValue,
+            fromCurrency = state.rate.fromCurrency,
+            toCurrency = state.rate.toCurrency,
+            onRateChange = {
+                onEvent(EditTransferEvent.RateChange(it))
+            }
+        )
+    }
+
     DeleteConfirmationModal(modal = deleteConfirmationModal) {
         onEvent(EditTransferEvent.Delete)
     }
@@ -289,9 +305,10 @@ private fun Preview() {
                 title = null,
                 fee = dummyCombinedValueUi(),
                 rate = TransferRateUi(
-                    fromToText = "BGN-EUR",
-                    rateText = "1.96",
+                    rateValueFormatted = "1.96",
                     rateValue = 1.95583,
+                    fromCurrency = "EUR",
+                    toCurrency = "BGN"
                 ),
 
                 titleSuggestions = listOf("Title 1", "Title 2"),

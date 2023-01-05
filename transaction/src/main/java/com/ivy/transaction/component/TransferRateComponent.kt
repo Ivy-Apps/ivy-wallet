@@ -23,7 +23,7 @@ fun TransferRateComponent(
         size = ButtonSize.Big,
         visibility = Visibility.Medium,
         feeling = Feeling.Custom(UI.colors.redP1),
-        text = "${rate.fromToText}: ${rate.rateText}",
+        text = "${rate.fromCurrency}-${rate.toCurrency}: ${rate.rateValueFormatted}",
         icon = R.drawable.round_currency_exchange_24,
         typo = UI.typoSecond.b2,
         onClick = onClick,
@@ -37,9 +37,10 @@ private fun Preview() {
     ComponentPreview {
         TransferRateComponent(
             rate = TransferRateUi(
-                fromToText = "EUR-USD",
-                rateText = "1.2",
+                rateValueFormatted = "1.2",
                 rateValue = 1.2,
+                fromCurrency = "EUR",
+                toCurrency = "USD",
             ),
             onClick = {}
         )

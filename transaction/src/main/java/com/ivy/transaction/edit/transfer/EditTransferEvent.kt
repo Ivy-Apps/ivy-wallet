@@ -22,4 +22,5 @@ sealed interface EditTransferEvent {
     data class TrnTimeChange(val time: TrnTime) : EditTransferEvent
     data class FeeChange(val value: Value?) : EditTransferEvent
     data class FeePercent(val percent: Double) : EditTransferEvent
+    data class RateChange(val newRate: Double) : EditTransferEvent
 }

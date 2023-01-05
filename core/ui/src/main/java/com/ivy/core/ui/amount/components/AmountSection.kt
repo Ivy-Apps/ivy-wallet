@@ -46,7 +46,7 @@ internal fun ColumnScope.AmountSection(
                 UI.colorsInverted.pure else UI.colors.neutral
         )
         AnimatedVisibility(
-            visible = !calculatorVisible,
+            visible = !calculatorVisible && currency.isNotBlank(),
             enter = expandHorizontally() + fadeIn(),
             exit = shrinkHorizontally() + fadeOut(),
         ) {

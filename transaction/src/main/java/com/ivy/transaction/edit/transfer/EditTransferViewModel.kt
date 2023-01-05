@@ -124,11 +124,12 @@ class EditTransferViewModel @Inject constructor(
                     // => EUR-BGN = 1.96 / 1 = 1.96
                     val rateValue = amountTo.value.amount / amountFrom.value.amount
                     TransferRateUi(
-                        fromToText = "${amountFrom.value.currency}-${amountTo.value.currency}",
-                        rateText = DecimalFormat(
+                        rateValueFormatted = DecimalFormat(
                             "###,###,##0.${"#".repeat(6)}"
                         ).format(rateValue),
                         rateValue = rateValue,
+                        fromCurrency = amountFrom.value.currency,
+                        toCurrency = amountTo.value.currency,
                     )
                 } else null,
 
@@ -157,6 +158,7 @@ class EditTransferViewModel @Inject constructor(
         is EditTransferEvent.DescriptionChange -> handleDescriptionChange(event)
         is EditTransferEvent.CategoryChange -> handleCategoryChange(event)
         is EditTransferEvent.TrnTimeChange -> handleTimeChange(event)
+        is EditTransferEvent.RateChange -> handleRateChange(event)
     }
 
     private suspend fun handleInitial(event: EditTransferEvent.Initial) {
@@ -324,6 +326,14 @@ class EditTransferViewModel @Inject constructor(
         fee.value = CombinedValueUi(
             amount = amountFrom.value.value.amount * event.percent,
             currency = fee.value.value.currency,
+            shortenFiat = false,
+        )
+    }
+
+    private fun handleRateChange(event: EditTransferEvent.RateChange) {
+        amountTo.value = CombinedValueUi(
+            amount = amountFrom.value.value.amount * event.newRate,
+            currency = amountTo.value.value.currency,
             shortenFiat = false,
         )
     }
