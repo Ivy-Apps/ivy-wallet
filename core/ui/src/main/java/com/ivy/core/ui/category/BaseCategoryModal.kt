@@ -19,7 +19,7 @@ import com.ivy.core.ui.category.component.ParentCategoryButton
 import com.ivy.core.ui.category.pickparent.ParentCategoryPickerModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
-import com.ivy.core.ui.components.ItemIconNameRow
+import com.ivy.core.ui.component.ItemIconNameRow
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.data.icon.dummyIconSized

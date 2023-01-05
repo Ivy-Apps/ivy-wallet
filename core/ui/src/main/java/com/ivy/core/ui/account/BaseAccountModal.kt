@@ -21,7 +21,7 @@ import com.ivy.core.ui.account.create.components.ExcludedAccInfoModal
 import com.ivy.core.ui.account.folder.pick.FolderPickerModal
 import com.ivy.core.ui.color.ColorButton
 import com.ivy.core.ui.color.picker.ColorPickerModal
-import com.ivy.core.ui.components.ItemIconNameRow
+import com.ivy.core.ui.component.ItemIconNameRow
 import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.ItemIcon

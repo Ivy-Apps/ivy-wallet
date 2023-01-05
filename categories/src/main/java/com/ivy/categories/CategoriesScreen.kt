@@ -15,7 +15,7 @@ import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.category.edit.EditCategoryModal
 import com.ivy.core.ui.category.reorder.ReorderCategoriesModal
-import com.ivy.core.ui.components.ScreenBottomBar
+import com.ivy.core.ui.component.ScreenBottomBar
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.dummyRangeUi

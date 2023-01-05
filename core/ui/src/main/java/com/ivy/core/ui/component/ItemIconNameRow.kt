@@ -1,4 +1,4 @@
-package com.ivy.core.ui.components
+package com.ivy.core.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

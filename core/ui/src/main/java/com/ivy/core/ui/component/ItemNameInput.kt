@@ -1,4 +1,4 @@
-package com.ivy.core.ui.components
+package com.ivy.core.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
