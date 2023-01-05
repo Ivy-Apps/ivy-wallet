@@ -14,11 +14,12 @@ import com.ivy.resources.R
 
 @Composable
 internal fun FeeComponent(
-    fee: ValueUi?,
+    fee: ValueUi,
+    validFee: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    if (fee == null) {
+    if (!validFee) {
         IvyButton(
             modifier = modifier,
             size = ButtonSize.Small,
@@ -48,7 +49,8 @@ internal fun FeeComponent(
 private fun Preview_NoFee() {
     ComponentPreview {
         FeeComponent(
-            fee = null,
+            fee = dummyValueUi(),
+            validFee = false,
             onClick = {}
         )
     }
@@ -60,6 +62,7 @@ private fun Preview_Fee() {
     ComponentPreview {
         FeeComponent(
             fee = dummyValueUi(amount = "2"),
+            validFee = true,
             onClick = {}
         )
     }

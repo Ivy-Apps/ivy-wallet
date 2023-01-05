@@ -63,7 +63,7 @@ class NewTransferViewModel @Inject constructor(
         time = TrnTime.Actual(timeProvider.timeNow()),
         title = null,
         description = null,
-        fee = null,
+        fee = CombinedValueUi.initial(),
 
         titleSuggestions = emptyList(),
         createFlow = createTrnController.uiFlow,
@@ -156,6 +156,11 @@ class NewTransferViewModel @Inject constructor(
             currency = fromAcc.currency,
             shortenFiat = false,
         )
+        fee.value = CombinedValueUi(
+            amount = 0.0,
+            currency = fromAcc.currency,
+            shortenFiat = false,
+        )
         amountTo.value = CombinedValueUi(
             amount = 0.0,
             currency = toAcc.currency,
@@ -179,7 +184,7 @@ class NewTransferViewModel @Inject constructor(
             time = time.value,
             title = title.value,
             description = description.value,
-            fee = fee.value?.value,
+            fee = fee.value.value.takeIf { it.amount > 0.0 },
         )
 
         writeTransferAct(ModifyTransfer.add(data))
@@ -241,18 +246,38 @@ class NewTransferViewModel @Inject constructor(
                 currency = it.currency,
                 shortenFiat = false,
             )
+            fee.value = CombinedValueUi(
+                amount = fee.value.value.amount,
+                currency = it.currency,
+                shortenFiat = false,
+            )
         }
     }
 
-    private fun handleToAccountChange(event: NewTransferEvent.ToAccountChange) {
+    private suspend fun handleToAccountChange(event: NewTransferEvent.ToAccountChange) {
         accountTo.value = event.account
+
+        accountByIdAct(event.account.id)?.let {
+            amountTo.value = CombinedValueUi(
+                amount = amountTo.value.value.amount,
+                currency = it.currency,
+                shortenFiat = false,
+            )
+        }
     }
 
     private fun handleFeeChange(event: NewTransferEvent.FeeChange) {
         fee.value = if (event.value != null) CombinedValueUi(
             value = event.value,
             shortenFiat = false,
-        ).takeIf { it.value.amount > 0.0 } else null
+        ) else {
+            // no fee (0 fee)
+            CombinedValueUi(
+                amount = 0.0,
+                currency = fee.value.value.currency,
+                shortenFiat = false,
+            )
+        }
     }
 
     private fun handleTitleChange(event: NewTransferEvent.TitleChange) {

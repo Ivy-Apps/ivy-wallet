@@ -20,7 +20,7 @@ data class EditTransferState(
     val time: TrnTime,
     val title: String?,
     val description: String?,
-    val fee: CombinedValueUi?,
+    val fee: CombinedValueUi,
 
     val titleSuggestions: List<String>,
 

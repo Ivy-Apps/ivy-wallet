@@ -117,7 +117,8 @@ private fun BoxScope.UI(
             SpacerVer(height = 12.dp)
             FeeComponent(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                fee = state.fee?.valueUi
+                fee = state.fee.valueUi,
+                validFee = state.fee.value.amount > 0,
             ) {
                 state.feeModal.show()
             }
@@ -201,7 +202,7 @@ private fun BoxScope.Modals(
     // Fee modal
     FeeModal(
         modal = state.feeModal,
-        fee = state.fee?.value,
+        fee = state.fee.value,
         onRemoveFee = {
             onEvent(NewTransferEvent.FeeChange(null))
         },
@@ -255,7 +256,7 @@ private fun Preview() {
                 timeUi = dummyTrnTimeActualUi(),
                 time = dummyActual(),
                 title = null,
-                fee = null,
+                fee = dummyCombinedValueUi(),
 
                 titleSuggestions = listOf("Title 1", "Title 2"),
                 createFlow = CreateTrnFlowUiState.default(),
