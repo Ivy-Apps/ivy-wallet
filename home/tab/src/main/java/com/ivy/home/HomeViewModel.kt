@@ -1,5 +1,6 @@
 package com.ivy.home
 
+import com.ivy.common.time.beginningOfIvyTime
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
@@ -7,9 +8,8 @@ import com.ivy.core.domain.action.helper.TrnsListFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
-import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
-import com.ivy.core.domain.action.transaction.or
+import com.ivy.core.domain.action.transaction.*
+import com.ivy.core.domain.action.transaction.TrnQuery.*
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.time.range
@@ -18,9 +18,10 @@ import com.ivy.core.ui.action.mapping.trn.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TransactionsList
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.TrnPurpose
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
@@ -47,6 +48,7 @@ class HomeViewModel @Inject constructor(
     private val mapTransactionListUiAct: MapTransactionListUiAct,
     private val navigator: Navigator,
     private val mainBottomBarVisibility: MainBottomBarVisibility,
+    private val trnsFlow: TrnsFlow,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
     override val initialState: HomeState = HomeState(
@@ -115,18 +117,29 @@ class HomeViewModel @Inject constructor(
             // Trns History, Upcoming & Overdue
             val trnsListFlow = selectedPeriodFlow.flatMapLatest {
                 val period = it.range()
-                trnsListFlow(ActualBetween(period) or DueBetween(period))
+                // Due range: upcoming for this month + overdue for all time
+                val dueRange = TimeRange(
+                    from = beginningOfIvyTime(),
+                    to = period.to,
+                )
+                trnsListFlow(ActualBetween(period) or DueBetween(dueRange))
             }
 
             // Income & Expense for the period
-            val statsFlow = trnsListFlow.flatMapLatest { trnsList ->
+            val statsFlow = selectedPeriodFlow.flatMapLatest {
+                val period = it.range()
+
+                // take only transactions from the history, excluding transfers
+                // but INCLUDING transfer fees
+                trnsFlow(
+                    ActualBetween(period) and brackets(
+                        ByPurpose(null) or ByPurpose(TrnPurpose.Fee)
+                    )
+                )
+            }.flatMapLatest { trns ->
                 calculateFlow(
                     CalculateFlow.Input(
-                        // take only transactions from the history, excluding transfers
-                        // but INCLUDING transfer fees
-                        trns = trnsList.history.mapNotNull {
-                            (it as? TrnListItem.Trn)?.trn ?: (it as? TrnListItem.Transfer)?.fee
-                        },
+                        trns = trns,
                         outputCurrency = baseCurrency,
                         includeTransfers = false,
                         includeHidden = false,

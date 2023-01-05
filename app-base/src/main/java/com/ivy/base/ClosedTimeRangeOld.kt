@@ -4,17 +4,18 @@ import com.ivy.common.time.beginningOfIvyTime
 import com.ivy.common.time.timeNow
 import java.time.LocalDateTime
 
-data class ClosedTimeRange(
+@Deprecated("old!")
+data class ClosedTimeRangeOld(
     val from: LocalDateTime,
     val to: LocalDateTime
 ) {
     companion object {
-        fun allTimeIvy(): ClosedTimeRange = ClosedTimeRange(
+        fun allTimeIvy(): ClosedTimeRangeOld = ClosedTimeRangeOld(
             from = beginningOfIvyTime(),
             to = timeNow()
         )
 
-        fun to(to: LocalDateTime): ClosedTimeRange = ClosedTimeRange(
+        fun to(to: LocalDateTime): ClosedTimeRangeOld = ClosedTimeRangeOld(
             from = beginningOfIvyTime(),
             to = to
         )
