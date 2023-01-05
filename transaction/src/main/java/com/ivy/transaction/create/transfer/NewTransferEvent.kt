@@ -21,4 +21,5 @@ sealed interface NewTransferEvent {
     data class TrnTimeChange(val time: TrnTime) : NewTransferEvent
     data class FeePercent(val percent: Double) : NewTransferEvent
     data class FeeChange(val value: Value?) : NewTransferEvent
+    data class RateChange(val newRate: Double) : NewTransferEvent
 }

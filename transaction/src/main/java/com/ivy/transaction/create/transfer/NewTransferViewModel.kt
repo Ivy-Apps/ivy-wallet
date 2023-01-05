@@ -28,9 +28,11 @@ import com.ivy.transaction.action.TitleSuggestionsFlow
 import com.ivy.transaction.create.CreateTrnController
 import com.ivy.transaction.create.action.CreateTrnStepsAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
+import com.ivy.transaction.data.TransferRateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,6 +55,7 @@ class NewTransferViewModel @Inject constructor(
     private val createTrnController: CreateTrnController,
 ) : SimpleFlowViewModel<NewTransferState, NewTransferEvent>() {
     private val feeModal = IvyModal()
+    private val rateModal = IvyModal()
 
     override val initialUi = NewTransferState(
         accountFrom = dummyAccountUi(),
@@ -65,10 +68,12 @@ class NewTransferViewModel @Inject constructor(
         title = null,
         description = null,
         fee = CombinedValueUi.initial(),
+        rate = null,
 
         titleSuggestions = emptyList(),
         createFlow = createTrnController.uiFlow,
         feeModal = feeModal,
+        rateModal = rateModal,
     )
 
     // region State
@@ -111,10 +116,26 @@ class NewTransferViewModel @Inject constructor(
                 title = title,
                 description = description,
                 fee = fee,
+                rate = if (amountFrom.value.currency != amountTo.value.currency &&
+                    amountFrom.value.amount > 0.0
+                ) {
+                    // e.g. 1 EUR to 1.96 BGN
+                    // => EUR-BGN = 1.96 / 1 = 1.96
+                    val rateValue = amountTo.value.amount / amountFrom.value.amount
+                    TransferRateUi(
+                        rateValueFormatted = DecimalFormat(
+                            "###,###,##0.${"#".repeat(6)}"
+                        ).format(rateValue),
+                        rateValue = rateValue,
+                        fromCurrency = amountFrom.value.currency,
+                        toCurrency = amountTo.value.currency,
+                    )
+                } else null,
 
                 titleSuggestions = titleSuggestions,
                 createFlow = createTrnController.uiFlow,
                 feeModal = feeModal,
+                rateModal = rateModal,
             )
         }
     }.flattenLatest()
@@ -136,6 +157,7 @@ class NewTransferViewModel @Inject constructor(
         is NewTransferEvent.DescriptionChange -> handleDescriptionChange(event)
         is NewTransferEvent.CategoryChange -> handleCategoryChange(event)
         is NewTransferEvent.TrnTimeChange -> handleTimeChange(event)
+        is NewTransferEvent.RateChange -> handleRateChange(event)
     }
 
     private suspend fun handleInitial() {
@@ -287,6 +309,14 @@ class NewTransferViewModel @Inject constructor(
         fee.value = CombinedValueUi(
             amount = amountFrom.value.value.amount * event.percent,
             currency = fee.value.value.currency,
+            shortenFiat = false,
+        )
+    }
+
+    private fun handleRateChange(event: NewTransferEvent.RateChange) {
+        amountTo.value = CombinedValueUi(
+            amount = amountFrom.value.value.amount * event.newRate,
+            currency = amountTo.value.value.currency,
             shortenFiat = false,
         )
     }

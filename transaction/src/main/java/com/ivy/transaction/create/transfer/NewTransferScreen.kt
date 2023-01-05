@@ -1,11 +1,9 @@
 package com.ivy.transaction.create.transfer
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
@@ -19,7 +17,9 @@ import com.ivy.core.ui.category.pick.CategoryPickerModal
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
+import com.ivy.core.ui.modals.RateModal
 import com.ivy.design.l0_system.color.Blue2Dark
+import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
@@ -28,6 +28,7 @@ import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
 import com.ivy.transaction.create.CreateTrnFlowUiState
+import com.ivy.transaction.data.TransferRateUi
 import com.ivy.transaction.modal.*
 
 @Composable
@@ -113,14 +114,27 @@ private fun BoxScope.UI(
                 }
             )
         }
-        item(key = "fee") {
+        item(key = "fee_rate") {
             SpacerVer(height = 12.dp)
-            FeeComponent(
+            Row(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                fee = state.fee.valueUi,
-                validFee = state.fee.value.amount > 0,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                state.feeModal.show()
+                FeeComponent(
+                    fee = state.fee.valueUi,
+                    validFee = state.fee.value.amount > 0
+                ) {
+                    state.feeModal.show()
+                }
+                if (state.rate != null) {
+                    SpacerHor(width = 12.dp)
+                    TransferRateComponent(
+                        modifier = Modifier.weight(1f),
+                        rate = state.rate,
+                    ) {
+                        state.rateModal.show()
+                    }
+                }
             }
         }
         item(key = "last_item_spacer") {
@@ -214,6 +228,19 @@ private fun BoxScope.Modals(
         }
     )
 
+    if (state.rate != null) {
+        RateModal(
+            modal = state.rateModal,
+            key = "transfer_rate",
+            rate = state.rate.rateValue,
+            fromCurrency = state.rate.fromCurrency,
+            toCurrency = state.rate.toCurrency,
+            onRateChange = {
+                onEvent(NewTransferEvent.RateChange(it))
+            }
+        )
+    }
+
     val createAccountModal = rememberIvyModal()
     TransferAmountModal(
         modal = state.createFlow.amountModal,
@@ -260,10 +287,12 @@ private fun Preview() {
                 time = dummyActual(),
                 title = null,
                 fee = dummyCombinedValueUi(),
+                rate = null,
 
                 titleSuggestions = listOf("Title 1", "Title 2"),
                 createFlow = CreateTrnFlowUiState.default(),
                 feeModal = rememberIvyModal(),
+                rateModal = rememberIvyModal(),
             ),
             onEvent = {}
         )
@@ -289,10 +318,17 @@ private fun Preview_Filled() {
                 time = dummyActual(),
                 title = "ATM Withdrawal",
                 fee = dummyCombinedValueUi(amount = 2.0),
+                rate = TransferRateUi(
+                    rateValue = 1.95,
+                    rateValueFormatted = "1.95",
+                    fromCurrency = "EUR",
+                    toCurrency = "BGN",
+                ),
 
                 titleSuggestions = listOf("Title 1", "Title 2"),
                 createFlow = CreateTrnFlowUiState.default(),
                 feeModal = rememberIvyModal(),
+                rateModal = rememberIvyModal(),
             ),
             onEvent = {}
         )

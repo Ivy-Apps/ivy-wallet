@@ -8,6 +8,7 @@ import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.transaction.create.CreateTrnFlowUiState
+import com.ivy.transaction.data.TransferRateUi
 
 @Immutable
 data class NewTransferState(
@@ -22,8 +23,10 @@ data class NewTransferState(
     val title: String?,
     val description: String?,
     val fee: CombinedValueUi,
+    val rate: TransferRateUi?,
 
     val titleSuggestions: List<String>,
     val createFlow: CreateTrnFlowUiState,
     val feeModal: IvyModal,
+    val rateModal: IvyModal,
 )
