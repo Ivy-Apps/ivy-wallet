@@ -21,6 +21,7 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.Value
 import com.ivy.data.transaction.TrnListItem
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.util.KeyboardController
@@ -224,28 +225,29 @@ class EditTransferViewModel @Inject constructor(
     // region Handle value changes
     private suspend fun handleTransferAmountChange(event: EditTransferEvent.TransferAmountChange) {
         // Called initially when the transfer modal is shown
+        updateFromAmount(event.amount)
+    }
 
+    private suspend fun handleFromAmountChange(event: EditTransferEvent.FromAmountChange) {
+        updateFromAmount(event.amount)
+    }
+
+    private suspend fun updateFromAmount(
+        newFromAmount: Value
+    ) {
         val toAccount = accountByIdAct(accountTo.value.id) ?: return
 
         amountFrom.value = CombinedValueUi(
-            value = event.amount,
+            value = newFromAmount,
             shortenFiat = false,
         )
         amountTo.value = CombinedValueUi(
             value = exchangeAct(
                 ExchangeAct.Input(
-                    value = event.amount,
+                    value = newFromAmount,
                     outputCurrency = toAccount.currency
                 )
             ),
-            shortenFiat = false,
-        )
-
-    }
-
-    private fun handleFromAmountChange(event: EditTransferEvent.FromAmountChange) {
-        amountFrom.value = CombinedValueUi(
-            value = event.amount,
             shortenFiat = false,
         )
     }
