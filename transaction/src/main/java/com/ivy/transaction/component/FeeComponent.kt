@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.design.l0_system.UI
 import com.ivy.design.l3_ivyComponents.Feeling
 import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
@@ -36,6 +37,7 @@ internal fun FeeComponent(
             visibility = Visibility.Medium,
             feeling = Feeling.Negative,
             text = "Fee ${fee.amount} ${fee.currency}",
+            typo = UI.typoSecond.b2,
             icon = R.drawable.ic_custom_bills_s,
             onClick = onClick
         )

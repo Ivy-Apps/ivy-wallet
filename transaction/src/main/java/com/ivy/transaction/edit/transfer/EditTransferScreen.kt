@@ -1,11 +1,9 @@
 package com.ivy.transaction.edit.transfer
 
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -32,6 +30,7 @@ import com.ivy.design.util.keyboardPadding
 import com.ivy.design.util.keyboardShownState
 import com.ivy.resources.R
 import com.ivy.transaction.component.*
+import com.ivy.transaction.data.TransferRateUi
 import com.ivy.transaction.modal.DescriptionModal
 import com.ivy.transaction.modal.FeeModal
 import com.ivy.transaction.modal.TrnDateModal
@@ -62,6 +61,7 @@ private fun BoxScope.UI(
     val descriptionModal = rememberIvyModal()
     val deleteConfirmationModal = rememberIvyModal()
     val feeModal = rememberIvyModal()
+    val transferRateModal = rememberIvyModal()
 
     LazyColumn(
         modifier = Modifier
@@ -128,14 +128,27 @@ private fun BoxScope.UI(
                 }
             )
         }
-        item(key = "fee") {
+        item(key = "fee_rate") {
             SpacerVer(height = 12.dp)
-            FeeComponent(
+            Row(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                fee = state.fee.valueUi,
-                validFee = state.fee.value.amount > 0
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                feeModal.show()
+                FeeComponent(
+                    fee = state.fee.valueUi,
+                    validFee = state.fee.value.amount > 0
+                ) {
+                    feeModal.show()
+                }
+                if (state.rate != null) {
+                    SpacerHor(width = 12.dp)
+                    TransferRateComponent(
+                        modifier = Modifier.weight(1f),
+                        rate = state.rate,
+                    ) {
+                        transferRateModal.show()
+                    }
+                }
             }
         }
         item(key = "last_item_spacer") {
@@ -275,6 +288,11 @@ private fun Preview() {
                 time = dummyActual(),
                 title = null,
                 fee = dummyCombinedValueUi(),
+                rate = TransferRateUi(
+                    fromToText = "BGN-EUR",
+                    rateText = "1.96",
+                    rateValue = 1.95583,
+                ),
 
                 titleSuggestions = listOf("Title 1", "Title 2"),
                 keyboardController = KeyboardController(),
@@ -303,6 +321,7 @@ private fun Preview_Filled() {
                 time = dummyActual(),
                 title = "ATM Withdrawal",
                 fee = dummyCombinedValueUi(amount = 2.0),
+                rate = null,
 
                 titleSuggestions = listOf("Title 1", "Title 2"),
                 keyboardController = KeyboardController(),

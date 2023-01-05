@@ -7,6 +7,7 @@ import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.util.KeyboardController
+import com.ivy.transaction.data.TransferRateUi
 
 @Immutable
 data class EditTransferState(
@@ -21,6 +22,7 @@ data class EditTransferState(
     val title: String?,
     val description: String?,
     val fee: CombinedValueUi,
+    val rate: TransferRateUi?,
 
     val titleSuggestions: List<String>,
 
