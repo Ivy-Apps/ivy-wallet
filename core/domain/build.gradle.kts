@@ -13,10 +13,8 @@ plugins {
 dependencies {
     Hilt()
     implementation(project(":common:main"))
-    implementation(project(":temp-persistence"))
     implementation(project(":core:persistence"))
     implementation(project(":core:exchange-provider"))
-    implementation(project(":app-base")) // TODO: migrate to :resources
 
     Lifecycle(api = false)
     ComposeTesting(api = false) // for IdlingResource
