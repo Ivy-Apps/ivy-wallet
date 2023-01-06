@@ -13,7 +13,6 @@ dependencies {
     implementation(project(":common:main"))
 
     implementation(project(":core:data-model"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
 
     Billing(api = true)

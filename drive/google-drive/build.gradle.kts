@@ -21,7 +21,7 @@ dependencies {
     implementation("com.google.api-client:google-api-client-android:1.26.0") {
         exclude(group = "com.google.guava", module = "listenablefuture")
     }
-    api("com.google.guava:guava:28.1-android")
+    implementation("com.google.guava:guava:28.1-android")
     // endregion
 
     Hilt()

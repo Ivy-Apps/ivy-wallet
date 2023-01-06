@@ -33,7 +33,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.base.R
 import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
@@ -52,6 +51,7 @@ import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.onboarding.screen.debug.OnboardingDebug
+import com.ivy.resources.R
 import com.ivy.settings.SettingsScreen
 import com.ivy.transaction.create.transfer.NewTransferScreen
 import com.ivy.transaction.create.trn.NewTransactionScreen
@@ -60,14 +60,12 @@ import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.simpleActivityForResultLauncher
-import com.ivy.widgets.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
@@ -104,7 +102,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        AddTransactionWidget.updateBroadcast(this)
 
         setContent {
             val viewModel: RootViewModel = hiltViewModel()

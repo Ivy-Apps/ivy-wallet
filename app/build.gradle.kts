@@ -142,7 +142,6 @@ android {
 dependencies {
     implementation(project(":common:main"))
     implementation(project(":design-system"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":navigation"))
     implementation(project(":categories"))
@@ -152,15 +151,11 @@ dependencies {
     implementation(project(":widgets"))
     implementation(project(":main:impl"))
     implementation(project(":app-locked"))
-    implementation(project(":temp-domain"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":temp-network"))
     implementation(project(":billing"))
     implementation(project(":android-notifications"))
     implementation(project(":core:exchange-provider"))
     implementation(project(":core:domain"))
     implementation(project(":debug"))
-    implementation(project(":navigation"))
     implementation(project(":onboarding"))
     Hilt()
 

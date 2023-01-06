@@ -3,13 +3,9 @@ package com.ivy.wallet
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.ivy.base.RootIntent
 import com.ivy.common.BuildConfig
-import com.ivy.data.transaction.TrnTypeOld
-import com.ivy.wallet.ui.RootActivity
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -39,15 +35,6 @@ class IvyAndroidApp : Application(), Configuration.Provider {
         super.onCreate()
         appContext = this
         com.ivy.core.ui.temp.GlobalProvider.appContext = this
-        com.ivy.core.ui.temp.GlobalProvider.rootIntent = object : RootIntent {
-            override fun getIntent(context: Context): Intent =
-                Intent(context, RootActivity::class.java)
-
-            override fun addTransactionStart(context: Context, type: TrnTypeOld): Intent =
-                Intent(context, RootActivity::class.java).apply {
-//                    putExtra(RootViewModel.EXTRA_ADD_TRANSACTION_TYPE, type)
-                }
-        }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())

@@ -1,9 +1,9 @@
 package com.ivy.core.ui.time
 
 import android.content.Context
-import com.ivy.base.R
 import com.ivy.common.time.format
 import com.ivy.common.time.provider.TimeProvider
+import com.ivy.resources.R
 import java.time.LocalDateTime
 
 fun LocalDateTime.formatNicely(

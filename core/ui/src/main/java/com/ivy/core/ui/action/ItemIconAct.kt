@@ -1,9 +1,9 @@
 package com.ivy.core.ui.action
 
-import com.ivy.base.R
 import com.ivy.core.domain.action.Action
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.resources.R
 import javax.inject.Inject
 
 class ItemIconAct @Inject constructor(

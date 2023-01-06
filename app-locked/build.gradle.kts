@@ -12,8 +12,6 @@ dependencies {
     implementation(project(":common:main"))
 
     implementation(project(":design-system"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
-    implementation(project(":ui-components-old"))
     implementation(project(":core:data-model"))
 }

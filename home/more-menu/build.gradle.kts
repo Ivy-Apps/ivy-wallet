@@ -10,8 +10,6 @@ dependencies {
     Hilt()
     implementation(project(":common:main"))
     implementation(project(":design-system"))
-    implementation(project(":ui-components-old"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":core:data-model"))

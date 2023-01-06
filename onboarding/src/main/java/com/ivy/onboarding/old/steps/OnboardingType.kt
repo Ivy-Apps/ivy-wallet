@@ -11,7 +11,7 @@
 //import androidx.compose.ui.text.font.FontWeight
 //import androidx.compose.ui.tooling.preview.Preview
 //import androidx.compose.ui.unit.dp
-//import com.ivy.base.R
+//import com.ivy.resources.R
 //import com.ivy.design.l0_system.UI
 //import com.ivy.design.l0_system.style
 //import com.ivy.design.util.IvyPreview
