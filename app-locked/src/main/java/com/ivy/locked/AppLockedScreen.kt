@@ -1,4 +1,4 @@
-package com.ivy.wallet.ui.applocked
+package com.ivy.locked
 
 
 import android.content.Context
