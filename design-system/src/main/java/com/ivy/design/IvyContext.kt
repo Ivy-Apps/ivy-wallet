@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 
 @Deprecated("bad idea - don't use it")
 abstract class IvyContext {
-    var theme: com.ivy.data.Theme by mutableStateOf(com.ivy.data.Theme.LIGHT)
+    var theme: com.ivy.data.ThemeOld by mutableStateOf(com.ivy.data.ThemeOld.LIGHT)
         private set
 
     var screenWidth: Int = -1
@@ -18,7 +18,7 @@ abstract class IvyContext {
             return if (field > 0) field else throw IllegalStateException("screenHeight not initialized")
         }
 
-    fun switchTheme(theme: com.ivy.data.Theme) {
+    fun switchTheme(theme: com.ivy.data.ThemeOld) {
         this.theme = theme
     }
 }

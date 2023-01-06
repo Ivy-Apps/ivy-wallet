@@ -14,15 +14,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.transaction.TrnTimeUi
-import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.CaptionSecond
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 
 /**
@@ -40,7 +39,7 @@ internal fun TransactionCard(
             .clip(UI.shapes.rounded)
             .background(UI.colors.medium, UI.shapes.rounded)
             .clickable(onClick = onClick)
-            .padding(all = 20.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
             .testTag("transaction_card"),
         content = content
     )
@@ -50,9 +49,9 @@ internal fun TransactionCard(
 @Composable
 internal fun DueDate(time: TrnTimeUi) {
     if (time is TrnTimeUi.Due) {
-        SpacerVer(height = 12.dp)
+        SpacerVer(height = 8.dp)
         CaptionSecond(
-            text = time.dueOn,
+            text = time.dueOnDate,
             color = if (time.upcoming) UI.colors.orange else UI.colors.red,
             fontWeight = FontWeight.Bold
         )
@@ -67,8 +66,8 @@ internal fun Title(
     time: TrnTimeUi
 ) {
     if (title != null) {
-        SpacerVer(height = if (time is TrnTimeUi.Due) 8.dp else 8.dp)
-        B1(
+        SpacerVer(height = if (time is TrnTimeUi.Due) 4.dp else 8.dp)
+        B2(
             text = title,
             fontWeight = FontWeight.ExtraBold
         )
@@ -81,7 +80,7 @@ internal fun Description(
     title: String?
 ) {
     if (description != null) {
-        SpacerVer(height = if (title != null) 4.dp else 8.dp)
+        SpacerVer(height = if (title != null) 0.dp else 4.dp)
         CaptionSecond(
             text = description,
             color = UI.colors.neutral,
@@ -101,8 +100,7 @@ internal fun TransactionCardAmountRow(
 ) {
     Row(
         modifier = modifier
-            .testTag("type_amount_currency")
-            .padding(horizontal = 4.dp), // additional padding to look better?
+            .testTag("type_amount_currency"),
         verticalAlignment = Alignment.CenterVertically,
         content = content
     )
@@ -113,13 +111,12 @@ internal fun TransactionCardAmountRow(
 @Composable
 internal fun DuePaymentCTAs(
     time: TrnTimeUi,
-    type: TransactionType,
+    cta: String,
     onSkip: () -> Unit,
-    onPayGet: () -> Unit,
+    onExecute: () -> Unit,
 ) {
     if (time is TrnTimeUi.Due) {
         SpacerVer(height = 12.dp)
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,7 +125,7 @@ internal fun DuePaymentCTAs(
         ) {
             SkipButton(onClick = onSkip)
             SpacerHor(width = 12.dp)
-            PayGetButton(type = type, onClick = onPayGet)
+            ExecutePaymentButton(cta = cta, onClick = onExecute)
         }
     }
 }
@@ -140,8 +137,8 @@ private fun RowScope.SkipButton(
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Negative,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Negative,
         text = stringResource(R.string.skip),
         icon = null,
         onClick = onClick,
@@ -149,17 +146,16 @@ private fun RowScope.SkipButton(
 }
 
 @Composable
-private fun RowScope.PayGetButton(
-    type: TransactionType,
+private fun RowScope.ExecutePaymentButton(
+    cta: String,
     onClick: () -> Unit
 ) {
-    val isIncome = type == TransactionType.Income
     IvyButton(
         modifier = Modifier.weight(1f),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.High,
-        feeling = ButtonFeeling.Positive,
-        text = stringResource(if (isIncome) R.string.get else R.string.pay),
+        visibility = Visibility.High,
+        feeling = Feeling.Positive,
+        text = cta,
         icon = null,
         onClick = onClick,
     )

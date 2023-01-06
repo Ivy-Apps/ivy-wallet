@@ -1,13 +1,17 @@
 package com.ivy.core.domain.pure.mapping.entity
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
+import com.ivy.common.time.toUtc
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnTime
-import java.time.ZoneOffset
 
-fun mapToEntity(trn: Transaction) = with(trn) {
+fun mapToEntity(
+    trn: Transaction,
+    timeProvider: TimeProvider,
+) = with(trn) {
     TrnEntity(
         id = id.toString(),
         accountId = account.id.toString(),
@@ -20,8 +24,7 @@ fun mapToEntity(trn: Transaction) = with(trn) {
         categoryId = category?.id?.toString(),
         title = title,
         description = description,
-        // TODO: Check time conversion correctness
-        time = time.time().toInstant(ZoneOffset.UTC),
+        time = time.time().toUtc(timeProvider),
         timeType = if (time is TrnTime.Actual) TrnTimeType.Actual else TrnTimeType.Due,
     )
 }

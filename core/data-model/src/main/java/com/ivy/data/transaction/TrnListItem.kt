@@ -15,8 +15,10 @@ sealed interface TrnListItem {
     ) : TrnListItem
 
     data class DateDivider(
+        val id: String,
         val date: LocalDate,
         val cashflow: Value,
+        val collapsed: Boolean,
     ) : TrnListItem
 }
 

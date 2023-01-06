@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.query
 
 import arrow.core.NonEmptyList
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toEpochSeconds
 import com.ivy.common.time.toPair
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
@@ -27,6 +27,7 @@ sealed interface TrnWhere {
 
     data class BySync(val sync: SyncState) : TrnWhere
     data class ByPurpose(val purpose: TrnPurpose?) : TrnWhere
+    data class ByPurposeIn(val purposes: NonEmptyList<TrnPurpose>) : TrnWhere
 
     /**
      * Inclusive period [from, to]
@@ -86,9 +87,14 @@ internal fun generateWhereClause(
             )
 
         is BySync -> "sync = ?" to arg(where.sync.code)
+
         is ByPurpose -> where.purpose?.let {
             "purpose = ?" to arg(where.purpose.code)
         } ?: ("purpose IS NULL" to noArg())
+        is ByPurposeIn ->
+            "purpose IN (${placeholders(where.purposes.size)})" to arg(
+                where.purposes.map { it.code }.toList()
+            )
 
         is ByAccountId -> "accountId = ?" to arg(where.accountId)
         is ByAccountIdIn ->

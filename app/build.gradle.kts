@@ -50,9 +50,8 @@ android {
 
     buildTypes {
         release {
-            //TODO: R8 disabled until `modularization` is stable
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             isDefault = false
 
@@ -63,6 +62,23 @@ android {
             )
 
             resValue("string", "app_name", "Ivy Wallet")
+        }
+
+        create("demo") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+            isDefault = false
+
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            applicationIdSuffix = ".debug"
+            matchingFallbacks.add("release")
+            resValue("string", "app_name", "Ivy Wallet Demo")
         }
 
         debug {
@@ -126,38 +142,20 @@ android {
 dependencies {
     implementation(project(":common:main"))
     implementation(project(":design-system"))
-    implementation(project(":app-base"))
     implementation(project(":core:ui"))
     implementation(project(":navigation"))
-//    implementation(project(":budgets"))
-//    implementation(project(":categories"))
-//    implementation(project(":loans"))
-//    implementation(project(":onboarding"))
-//    implementation(project(":pie-charts"))
-//    implementation(project(":planned-payments"))
-//    implementation(project(":reports"))
-//    implementation(project(":settings"))
-//    implementation(project(":search-transactions"))
-//    implementation(project(":transaction-details"))
+    implementation(project(":categories"))
+    implementation(project(":settings"))
+    implementation(project(":transaction"))
     implementation(project(":core:data-model"))
     implementation(project(":widgets"))
-    implementation(project(":main"))
+    implementation(project(":main:impl"))
     implementation(project(":app-locked"))
-//    implementation(project(":balance-prediction"))
-//    implementation(project(":donate"))
-//    implementation(project(":item-transactions"))
-    implementation(project(":web-view"))
-//    implementation(project(":settings"))
-//    implementation(project(":import-csv-backup"))
-    implementation(project(":temp-domain"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":temp-network"))
     implementation(project(":billing"))
     implementation(project(":android-notifications"))
     implementation(project(":core:exchange-provider"))
     implementation(project(":core:domain"))
     implementation(project(":debug"))
-    implementation(project(":navigation"))
     implementation(project(":onboarding"))
     Hilt()
 

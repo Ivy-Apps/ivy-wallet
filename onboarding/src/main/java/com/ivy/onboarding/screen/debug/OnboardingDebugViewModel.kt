@@ -1,6 +1,6 @@
 package com.ivy.onboarding.screen.debug
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.navigation.Navigator
@@ -15,16 +15,12 @@ import javax.inject.Inject
 class OnboardingDebugViewModel @Inject constructor(
     private val writeBaseCurrencyAct: WriteBaseCurrencyAct,
     private val writeOnboardingFinishedAct: WriteOnboardingFinishedAct,
-    private val baseCurrencyFlow: BaseCurrencyFlow,
+    baseCurrencyFlow: BaseCurrencyFlow,
     private val navigator: Navigator,
-) : FlowViewModel<OnboardingDebugState, OnboardingDebugState, OnboardingDebugEvent>() {
-    override fun initialState() = OnboardingDebugState(baseCurrency = "")
+) : SimpleFlowViewModel<OnboardingDebugState, OnboardingDebugEvent>() {
+    override val initialUi = OnboardingDebugState(baseCurrency = "")
 
-    override fun initialUiState() = initialState()
-
-    override suspend fun mapToUiState(state: OnboardingDebugState): OnboardingDebugState = state
-
-    override fun stateFlow(): Flow<OnboardingDebugState> = baseCurrencyFlow().map {
+    override val uiFlow: Flow<OnboardingDebugState> = baseCurrencyFlow().map {
         OnboardingDebugState(baseCurrency = it)
     }
 

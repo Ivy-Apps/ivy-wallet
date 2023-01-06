@@ -11,7 +11,7 @@ import androidx.core.graphics.ColorUtils
 
 // region Contrast color
 @Composable
-fun rememberContrastColor(color: Color): Color = remember(color) {
+fun rememberContrast(color: Color): Color = remember(color) {
     contrastColor(color)
 }
 

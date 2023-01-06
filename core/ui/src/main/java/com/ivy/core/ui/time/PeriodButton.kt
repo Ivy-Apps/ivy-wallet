@@ -12,12 +12,12 @@ import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.ComponentPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.wallet.utils.horizontalSwipeListener
 
 @Composable
@@ -26,7 +26,7 @@ fun PeriodButton(
     periodModal: IvyModal,
     modifier: Modifier = Modifier,
 ) {
-    val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
 
     IvyButton(
         modifier = modifier.horizontalSwipeListener(
@@ -41,8 +41,8 @@ fun PeriodButton(
             }
         ),
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Positive,
         text = selectedPeriod.btnText(),
         icon = R.drawable.ic_round_calendar_month_24,
     ) {

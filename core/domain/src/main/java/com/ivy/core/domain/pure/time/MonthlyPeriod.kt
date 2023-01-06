@@ -1,39 +1,44 @@
 package com.ivy.core.domain.pure.time
 
-import com.ivy.common.time.*
+import com.ivy.common.time.atEndOfDay
+import com.ivy.common.time.endOfMonth
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.startOfMonth
+import com.ivy.common.time.withDayOfMonthSafe
 import com.ivy.data.time.Month
 import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.time.TimeRange
 import java.time.LocalDate
 
-// TODO: Refactor this file cuz it's bad...
-
-// TODO: Fix edge-cases when re-working time
+// region Current monthly period
 fun currentMonthlyPeriod(
-    startDayOfMonth: Int
+    startDayOfMonth: Int,
+    timeProvider: TimeProvider
 ): SelectedPeriod {
-    val dateNowUTC = dateNowUTC()
-    val dayToday = dateNowUTC.dayOfMonth
+    val today = timeProvider.dateNow()
 
-    //Examples month = Nov. startDate = 7; Period = from Nov (7) till Dec (6)
-    // => new period starts if today => startDayOfMonth
-    val newPeriodStarted = dayToday >= startDayOfMonth
+    //Example: today = Nov (7), startDate = 7;
+    // Current period = from Nov (7) till Dec (6)
+    // => new period starts ony if "today => startDayOfMonth"
+    val newPeriodStarted = today.dayOfMonth >= startDayOfMonth
 
     val periodDate = if (newPeriodStarted) {
-        //new monthly period has already started then observe it => current month
-        dateNowUTC
+        // new monthly period has already started then observe it => current month
+        today
     } else {
-        //new monthly period hasn't yet started then observe the ongoing one => previous month
-        dateNowUTC.minusMonths(1)
+        // new monthly period hasn't yet started then observe the ongoing one => previous month
+        today.minusMonths(1)
     }
 
-    return dateToSelectedMonthlyPeriod(
+    return monthlyPeriod(
         dateInPeriod = periodDate,
         startDayOfMonth = startDayOfMonth,
     )
 }
+// endregion
 
-fun dateToSelectedMonthlyPeriod(
+// region Monthly period from date
+fun monthlyPeriod(
     dateInPeriod: LocalDate,
     startDayOfMonth: Int,
 ): SelectedPeriod.Monthly = SelectedPeriod.Monthly(
@@ -42,34 +47,27 @@ fun dateToSelectedMonthlyPeriod(
         year = dateInPeriod.year,
     ),
     startDayOfMonth = startDayOfMonth,
-    range = dateToMonthlyPeriod(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
+    range = monthlyTimeRange(date = dateInPeriod, startDayOfMonth = startDayOfMonth),
 )
 
-private fun dateToMonthlyPeriod(date: LocalDate, startDayOfMonth: Int): TimeRange =
+fun monthlyTimeRange(date: LocalDate, startDayOfMonth: Int): TimeRange =
     if (startDayOfMonth != 1) {
-        customStartDayOfMonthPeriodRange(
-            date = date,
-            startDateOfMonth = startDayOfMonth
-        )
+        val from = date
+            .withDayOfMonthSafe(startDayOfMonth)
+            .atStartOfDay()
+
+        val to = date
+            .plusMonths(1)
+            .withDayOfMonthSafe(startDayOfMonth)
+            //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
+            .minusDays(1)
+            .atEndOfDay()
+
+        TimeRange(from = from, to = to)
     } else {
-        TimeRange(from = startOfMonth(date), to = endOfMonth(date))
+        TimeRange(
+            from = startOfMonth(date).atStartOfDay(),
+            to = endOfMonth(date).atEndOfDay()
+        )
     }
-
-private fun customStartDayOfMonthPeriodRange(
-    date: LocalDate,
-    startDateOfMonth: Int
-): TimeRange {
-    val from = date
-        .withDayOfMonthSafe(startDateOfMonth)
-        .atStartOfDay()
-
-    val to = date
-        //startDayOfMonth != 1 just shift N day the month forward so to should +1 month
-        .plusMonths(1)
-        .withDayOfMonthSafe(startDateOfMonth)
-        //e.g. Correct: 14.10-13.11 (Incorrect: 14.10-14.11)
-        .minusDays(1)
-        .atEndOfDay()
-
-    return TimeRange(from = from, to = to)
-}
+// endregion

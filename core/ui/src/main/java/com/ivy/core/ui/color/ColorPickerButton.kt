@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +45,7 @@ fun ColorPickerButton(
 fun ColorButton(
     color: Color,
     modifier: Modifier = Modifier,
+    shape: Shape = UI.shapes.rounded,
     paddingHorizontal: Dp = 24.dp,
     paddingVertical: Dp = 24.dp,
     onClick: () -> Unit,
@@ -52,9 +54,9 @@ fun ColorButton(
     val dynamicContrast = rememberDynamicContrast(color)
     B1Second(
         modifier = modifier
-            .clip(UI.shapes.rounded)
-            .background(color, UI.shapes.rounded)
-            .border(width = 2.dp, color = dynamicContrast, UI.shapes.rounded)
+            .clip(shape)
+            .background(color, shape)
+            .border(width = 2.dp, color = dynamicContrast, shape)
             .clickable(onClick = onClick)
             .padding(horizontal = paddingHorizontal, vertical = paddingVertical),
         text = "#$colorHex",

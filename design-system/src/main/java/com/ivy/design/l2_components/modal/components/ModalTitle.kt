@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1
@@ -19,12 +20,14 @@ import com.ivy.design.util.IvyPreview
 @Composable
 fun ModalScope.Title(
     text: String,
+    paddingStart: Dp = 32.dp,
     color: Color = UI.colorsInverted.pure
 ) {
-    SpacerVer(height = 24.dp)
     B1(
         text = text,
-        modifier = Modifier.padding(start = 32.dp),
+        modifier = Modifier
+            .padding(start = paddingStart)
+            .padding(top = 24.dp),
         fontWeight = FontWeight.ExtraBold,
         color = color
     )

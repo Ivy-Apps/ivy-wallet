@@ -47,7 +47,6 @@ import com.ivy.data.transaction.Transaction
  * println("Expense = $res[1]")
  * ```
  */
-
 suspend fun <Arg> sumTransactions(
     transactions: List<Transaction>,
     selectors: NonEmptyList<suspend (Transaction, Arg) -> Double>,

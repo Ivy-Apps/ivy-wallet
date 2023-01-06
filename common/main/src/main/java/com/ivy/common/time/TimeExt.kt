@@ -1,56 +1,70 @@
 package com.ivy.common.time
 
+import android.content.Context
+import com.ivy.common.R
+import com.ivy.common.time.provider.DeviceTimeProvider
 import java.time.*
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 // region Formatting
 fun LocalDateTime.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
 
+fun LocalTime.format(pattern: String): String =
+    this.format(DateTimeFormatter.ofPattern(pattern))
+
 fun LocalDate.format(pattern: String): String =
     this.format(DateTimeFormatter.ofPattern(pattern))
+
+fun LocalTime.deviceFormat(
+    appContext: Context
+): String = if (uses24HourFormat(appContext))
+    format("HH:mm") else format("hh:mm a")
 // endregion
 
-// region Day
-// .atStartOfDay() is already built-in in LocalDate
+fun uses24HourFormat(
+    appContext: Context,
+): Boolean = android.text.format.DateFormat.is24HourFormat(appContext)
 
-fun LocalDate.atEndOfDay(): LocalDateTime =
-    this.atTime(23, 59, 59)
-// endregion
-
-// region Week
-// TODO
-// endregion
-
-// region Month
-fun startOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(1).atStartOfDay()
-
-fun endOfMonth(date: LocalDate): LocalDateTime =
-    date.withDayOfMonth(date.lengthOfMonth()).atEndOfDay()
-
-fun LocalDate.withDayOfMonthSafe(targetDayOfMonth: Int): LocalDate {
-    val maxDayOfMonth = this.lengthOfMonth()
-    return this.withDayOfMonth(
-        if (targetDayOfMonth > maxDayOfMonth) maxDayOfMonth else targetDayOfMonth
-    )
+fun LocalDate.contextText(
+    alwaysShowWeekday: Boolean,
+    getString: (Int) -> String
+): String {
+    val today = LocalDate.now()
+    val alwaysWeekdayText = if (alwaysShowWeekday)
+        " (${this.format(pattern = "EEEE")})" else ""
+    return when (this) {
+        today -> {
+            getString(R.string.today) + alwaysWeekdayText
+        }
+        today.minusDays(1) -> {
+            getString(R.string.yesterday) + alwaysWeekdayText
+        }
+        today.plusDays(1) -> {
+            getString(R.string.tomorrow) + alwaysWeekdayText
+        }
+        else -> {
+            this.format(pattern = "EEEE")
+        }
+    }
 }
-// endregion
 
-// region Year
-// TODO
-// endregion
 
 // region All-time
-fun beginningOfIvyTime(): LocalDateTime = LocalDateTime.of(1990, 1, 1, 0, 0)
+fun beginningOfIvyTime(): LocalDateTime =
+    LocalDateTime.of(1990, 1, 1, 0, 0)
 
-fun endOfIvyTime(): LocalDateTime = LocalDateTime.of(2050, 1, 1, 0, 0)
+fun endOfIvyTime(): LocalDateTime =
+    LocalDateTime.of(2050, 1, 1, 0, 0)
 // endregion
 
-// region Deprecated (will be deleted)
-@Deprecated("Don't use! Use TimeProvider via DI instead!")
+fun LocalDate.dateId() = format("dd-MM-yyyy")
+
 fun deviceTimeProvider() = DeviceTimeProvider()
 
+
+// region Deprecated (will be deleted)
 @Deprecated("Use `TimeProvider` instead!")
 fun timeNow(): LocalDateTime = LocalDateTime.now()
 

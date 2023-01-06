@@ -1,372 +1,226 @@
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.runtime.Composable
-import com.ivy.design.util.ScreenPlaceholder
+package com.ivy.accounts
 
-//package com.ivy.accounts
-//
-//import androidx.compose.foundation.background
-//import androidx.compose.foundation.border
-//import androidx.compose.foundation.clickable
-//import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.lazy.LazyColumn
-//import androidx.compose.foundation.lazy.items
-//import androidx.compose.material.Text
-//import androidx.compose.runtime.Composable
-//import androidx.compose.runtime.collectAsState
-//import androidx.compose.runtime.getValue
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.draw.clip
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.graphics.toArgb
-//import androidx.compose.ui.platform.testTag
-//import androidx.compose.ui.res.stringResource
-//import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.tooling.preview.Preview
-//import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.unit.sp
-//import androidx.hilt.navigation.compose.hiltViewModel
-//import com.ivy.base.AccountData
-//import com.ivy.base.UiText
-//import com.ivy.data.AccountOld
-//import com.ivy.design.l0_system.UI
-//import com.ivy.design.l0_system.style
-//import com.ivy.design.util.IvyPreview
-//
-//
-//import com.ivy.wallet.ui.theme.*
-//import com.ivy.wallet.ui.theme.components.*
-//import com.ivy.wallet.utils.clickableNoIndication
-//import com.ivy.wallet.utils.horizontalSwipeListener
-//
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.ivy.accounts.components.accountsList
+import com.ivy.accounts.data.AccountListItemUi
+import com.ivy.accounts.modal.CreateModal
+import com.ivy.accounts.modal.NetWorthInfoModal
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.core.ui.account.create.CreateAccountModal
+import com.ivy.core.ui.account.edit.EditAccountModal
+import com.ivy.core.ui.account.folder.create.CreateAccFolderModal
+import com.ivy.core.ui.account.folder.edit.EditAccFolderModal
+import com.ivy.core.ui.account.reorder.ReorderAccountsModal
+import com.ivy.core.ui.data.account.dummyAccountUi
+import com.ivy.core.ui.data.account.dummyFolderUi
+import com.ivy.core.ui.value.AmountCurrency
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.Blue
+import com.ivy.design.l0_system.color.Red
+import com.ivy.design.l1_buildingBlocks.B1
+import com.ivy.design.l1_buildingBlocks.SpacerHor
+import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l2_components.modal.IvyModal
+import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.ReorderButton
+import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @Composable
 fun BoxScope.AccountTab() {
-    ScreenPlaceholder(text = "Accounts")
+    val viewModel: AccountTabViewModel? = hiltViewModelPreviewSafe()
+    val state = viewModel?.uiState?.collectAsState()?.value
+        ?: previewState()
+
+    UI(state = state, onEvent = { viewModel?.onEvent(it) })
 }
 
-//@Composable
-//fun BoxWithConstraintsScope.AccountsTab() {
-//    val viewModel: AccountsViewModel = hiltViewModel()
-//    val state by viewModel.state().collectAsState()
-//
-//    UI(
-//        state = state,
-//        onEventHandler = viewModel::onEvent
-//    )
-//}
-//
-//@Composable
-//private fun BoxWithConstraintsScope.UI(
-//    state: AccountState = AccountState(),
-//    onEventHandler: (AccountsEvent) -> Unit = {}
-//) {
-//
-//
-//    LazyColumn(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .statusBarsPadding()
-//            .navigationBarsPadding()
-//            .horizontalSwipeListener(
-//                sensitivity = 200,
-//                onSwipeLeft = {
-////                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
-//                },
-//                onSwipeRight = {
-////                    ivyContext.selectMainTab(com.ivy.base.MainTab.HOME)
-//                }
-//            ),
-//    ) {
-//
-//        item {
-//            Spacer(Modifier.height(32.dp))
-//
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Spacer(Modifier.width(24.dp))
-//
-//                Column {
-//                    Text(
-//                        text = stringResource(R.string.accounts),
-//                        style = UI.typo.b1.style(
-//                            color = UI.colorsInverted.pure,
-//                            fontWeight = FontWeight.ExtraBold
-//                        )
-//                    )
-//
-//                    Spacer(Modifier.height(4.dp))
-//
-//                    Text(
-//                        text = state.totalBalanceWithExcludedText.asString(),
-//                        style = UI.typoSecond.b2.style(
-//                            color = Gray,
-//                            fontWeight = FontWeight.Bold
-//                        )
-//                    )
-//                }
-//
-//                Spacer(Modifier.weight(1f))
-//
-//                ReorderButton {
-//                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
-//                }
-//
-//                Spacer(Modifier.width(24.dp))
-//            }
-//
-//            Spacer(Modifier.height(16.dp))
-//        }
-//
-//        items(state.accountsData) {
-//            AccountCard(
-//                baseCurrency = state.baseCurrency,
-//                accountData = it,
-//                onBalanceClick = {
-////                    nav.navigateTo(
-////                        ItemStatistic(
-////                            accountId = it.account.id,
-////                            categoryId = null
-////                        )
-////                    )
-//                },
-//                onLongClick = {
-//                    onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = true))
-//                }
-//            ) {
-////                nav.navigateTo(
-////                    ItemStatistic(
-////                        accountId = it.account.id,
-////                        categoryId = null
-////                    )
-////                )
-//            }
-//        }
-//
-//        item {
-//            Spacer(Modifier.height(150.dp))     //scroll hack
-//        }
-//    }
-//
-//    ReorderModalSingleType(
-//        visible = state.reorderVisible,
-//        initialItems = state.accountsData,
-//        dismiss = {
-//            onEventHandler.invoke(AccountsEvent.OnReorderModalVisible(reorderVisible = false))
-//        },
-//        onReordered = {
-//            onEventHandler.invoke(AccountsEvent.OnReorder(reorderedList = it))
-//        }
-//    ) { _, item ->
-//        Text(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(end = 24.dp)
-//                .padding(vertical = 8.dp),
-//            text = item.account.name,
-//            style = UI.typo.b1.style(
-//                color = item.account.color.toComposeColor(),
-//                fontWeight = FontWeight.Bold
-//            )
-//        )
-//    }
-//}
-//
-//@Composable
-//private fun AccountCard(
-//    baseCurrency: String,
-//    accountData: AccountData,
-//    onBalanceClick: () -> Unit,
-//    onLongClick: () -> Unit,
-//    onClick: () -> Unit
-//) {
-//    val account = accountData.account
-//    val contrastColor = findContrastTextColor(account.color.toComposeColor())
-//
-//    Spacer(Modifier.height(16.dp))
-//
-//    Column(
-//        modifier = Modifier
-//            .padding(horizontal = 16.dp)
-//            .fillMaxWidth()
-//            .clip(UI.shapes.squared)
-//            .border(2.dp, UI.colors.medium, UI.shapes.squared)
-//            .clickable(
-//                onClick = onClick
-//            )
-//    ) {
-//        val currency = account.currency ?: baseCurrency
-//
-//        AccountHeader(
-//            accountData = accountData,
-//            currency = currency,
-//            baseCurrency = baseCurrency,
-//            contrastColor = contrastColor,
-//
-//            onBalanceClick = onBalanceClick
-//        )
-//
-//        Spacer(Modifier.height(12.dp))
-//
-//        IncomeExpensesRow(
-//            currency = currency,
-//            incomeLabel = stringResource(R.string.month_income),
-//            income = accountData.monthlyIncome,
-//            expensesLabel = stringResource(R.string.month_expenses),
-//            expenses = accountData.monthlyExpenses
-//        )
-//
-//        Spacer(Modifier.height(12.dp))
-//    }
-//}
-//
-//@Composable
-//private fun AccountHeader(
-//    accountData: AccountData,
-//    currency: String,
-//    baseCurrency: String,
-//    contrastColor: Color,
-//
-//    onBalanceClick: () -> Unit
-//) {
-//    val account = accountData.account
-//
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .background(account.color.toComposeColor(), UI.shapes.squaredTop)
-//    ) {
-//        Spacer(Modifier.height(16.dp))
-//
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Spacer(Modifier.width(20.dp))
-//
-//            ItemIconSDefaultIcon(
-//                iconName = account.icon,
-//                defaultIcon = R.drawable.ic_custom_account_s,
-//                tint = contrastColor
-//            )
-//
-//            Spacer(Modifier.width(8.dp))
-//
-//            Text(
-//                text = account.name,
-//                style = UI.typo.b1.style(
-//                    color = contrastColor,
-//                    fontWeight = FontWeight.ExtraBold
-//                )
-//            )
-//
-//            if (!account.includeInBalance) {
-//                Spacer(Modifier.width(8.dp))
-//
-//                Text(
-//                    modifier = Modifier
-//                        .align(Alignment.Bottom)
-//                        .padding(bottom = 4.dp),
-//                    text = stringResource(R.string.excluded),
-//                    style = UI.typo.c.style(
-//                        color = account.color.toComposeColor().dynamicContrast()
-//                    )
-//                )
-//            }
-//        }
-//
-//        Spacer(Modifier.height(4.dp))
-//
-//        BalanceRow(
-//            modifier = Modifier
-//                .align(Alignment.CenterHorizontally)
-//                .clickableNoIndication {
-//                    onBalanceClick()
-//                },
-//            decimalPaddingTop = 7.dp,
-//            spacerDecimal = 6.dp,
-//            textColor = contrastColor,
-//            currency = currency,
-//            balance = accountData.balance,
-//
-//            integerFontSize = 30.sp,
-//            decimalFontSize = 18.sp,
-//            currencyFontSize = 30.sp,
-//
-//            currencyUpfront = false
-//        )
-//
-//        if (currency != baseCurrency && accountData.balanceBaseCurrency != null) {
-//            BalanceRowMini(
-//                modifier = Modifier
-//                    .align(Alignment.CenterHorizontally)
-//                    .clickableNoIndication {
-//                        onBalanceClick()
-//                    }
-//                    .testTag("baseCurrencyEquivalent"),
-//                textColor = account.color.toComposeColor().dynamicContrast(),
-//                currency = baseCurrency,
-//                balance = accountData.balanceBaseCurrency!!,
-//                currencyUpfront = false
-//            )
-//        }
-//
-//        Spacer(Modifier.height(16.dp))
-//    }
-//}
-//
-//@Preview
-//@Composable
-//private fun PreviewAccountsTab() {
-//    IvyPreview {
-//        val state = AccountState(
-//            baseCurrency = "BGN",
-//            accountsData = listOf(
-//                AccountData(
-//                    account = AccountOld("Phyre", color = Green.toArgb()),
-//                    balance = 2125.0,
-//                    balanceBaseCurrency = null,
-//                    monthlyExpenses = 920.0,
-//                    monthlyIncome = 3045.0
-//                ),
-//                AccountData(
-//                    account = AccountOld("DSK", color = GreenLight.toArgb()),
-//                    balance = 12125.21,
-//                    balanceBaseCurrency = null,
-//                    monthlyExpenses = 1350.50,
-//                    monthlyIncome = 8000.48
-//                ),
-//                AccountData(
-//                    account = AccountOld(
-//                        "Revolut",
-//                        color = IvyDark.toArgb(),
-//                        currency = "USD",
-//                        icon = "revolut",
-//                        includeInBalance = false
-//                    ),
-//                    balance = 1200.0,
-//                    balanceBaseCurrency = 1979.64,
-//                    monthlyExpenses = 750.0,
-//                    monthlyIncome = 1000.30
-//                ),
-//                AccountData(
-//                    account = AccountOld(
-//                        "Cash",
-//                        color = GreenDark.toArgb(),
-//                        icon = "cash"
-//                    ),
-//                    balance = 820.0,
-//                    balanceBaseCurrency = null,
-//                    monthlyExpenses = 340.0,
-//                    monthlyIncome = 400.0
-//                ),
-//            ),
-//            totalBalanceWithExcluded = 25.54,
-//            totalBalanceWithExcludedText = UiText.StringResource(
-//                R.string.total, "BGN", "25.54"
-//            )
-//        )
-//
-//        UI(state = state)
-//    }
-//}
+@Composable
+private fun BoxScope.UI(
+    state: AccountTabState,
+    onEvent: (AccountTabEvent) -> Unit,
+) {
+    val editAccountModal = rememberIvyModal()
+    var editAccountId by remember { mutableStateOf<String?>(null) }
+    val editFolderModal = rememberIvyModal()
+    var editFolderId by remember { mutableStateOf<String?>(null) }
+
+    val reorderModal = rememberIvyModal()
+    val createAccountModal = rememberIvyModal()
+    val netWorthInfoModal = rememberIvyModal()
+
+    BackHandler(enabled = true) {
+        onEvent(AccountTabEvent.NavigateToHome)
+    }
+
+    val lazyListState = rememberLazyListState()
+    val firstVisibleItemIndex by remember {
+        derivedStateOf { lazyListState.firstVisibleItemIndex }
+    }
+    LaunchedEffect(firstVisibleItemIndex) {
+        if (firstVisibleItemIndex > 0) {
+            onEvent(AccountTabEvent.HideBottomBar)
+        } else {
+            onEvent(AccountTabEvent.ShowBottomBar)
+        }
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
+        state = lazyListState,
+    ) {
+        item(key = "header") {
+            SpacerVer(height = 16.dp)
+            Header(
+                totalBalance = state.totalBalance,
+                onNetWorthClick = {
+                    netWorthInfoModal.show()
+                },
+                onReorder = {
+                    reorderModal.show()
+                }
+            )
+            SpacerVer(height = 4.dp)
+        }
+        accountsList(
+            items = state.items,
+            noAccounts = state.noAccounts,
+            onAccountClick = {
+                editAccountId = it.id
+                editAccountModal.show()
+            },
+            onFolderClick = {
+                editFolderId = it.id
+                editFolderModal.show()
+            },
+            onCreateAccount = {
+                createAccountModal.show()
+            }
+        )
+        item {
+            SpacerVer(height = 300.dp) // last item spacer
+        }
+    }
+
+    val createFolderModal = rememberIvyModal()
+    CreateModal(
+        modal = state.createModal,
+        onCreateAccount = { createAccountModal.show() },
+        onCreateFolder = { createFolderModal.show() }
+    )
+    CreateAccountModal(modal = createAccountModal)
+    CreateAccFolderModal(modal = createFolderModal)
+
+    editAccountId?.let {
+        EditAccountModal(modal = editAccountModal, accountId = it)
+    }
+    editFolderId?.let {
+        EditAccFolderModal(modal = editFolderModal, folderId = it)
+    }
+
+    NetWorthInfoModal(
+        modal = netWorthInfoModal,
+        totalBalance = state.totalBalance,
+        availableBalance = state.availableBalance,
+        excludedBalance = state.excludedBalance,
+    )
+    ReorderAccountsModal(modal = reorderModal)
+}
+
+@Composable
+private fun Header(
+    totalBalance: ValueUi,
+    onNetWorthClick: () -> Unit,
+    onReorder: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .clickable(onClick = onNetWorthClick)
+        ) {
+            B1(text = "Net-worth")
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AmountCurrency(totalBalance, color = UI.colors.primary)
+            }
+        }
+        SpacerHor(width = 4.dp)
+        ReorderButton(onClick = onReorder)
+    }
+}
+
+
+// region Preview
+@Preview
+@Composable
+private fun Preview() {
+    IvyPreview {
+        AccountTab()
+    }
+}
+
+private fun previewState() = AccountTabState(
+    totalBalance = dummyValueUi("203k"),
+    availableBalance = dummyValueUi("136,3k"),
+    excludedBalance = dummyValueUi("64,3k"),
+    noAccounts = false,
+    items = listOf(
+        AccountListItemUi.AccountWithBalance(
+            account = dummyAccountUi("Cash"),
+            balance = dummyValueUi("240.75"),
+            balanceBaseCurrency = null,
+        ),
+        AccountListItemUi.FolderWithAccounts(
+            folder = dummyFolderUi("Business"),
+            balance = dummyValueUi("5,320.50"),
+            accItems = listOf(
+                AccountListItemUi.AccountWithBalance(
+                    account = dummyAccountUi("Account 1"),
+                    balance = dummyValueUi("1,000.00", "BGN"),
+                    balanceBaseCurrency = dummyValueUi("500")
+                ),
+                AccountListItemUi.AccountWithBalance(
+                    account = dummyAccountUi("Account 2", color = Blue, excluded = true),
+                    balance = dummyValueUi("0.00"),
+                    balanceBaseCurrency = null
+                ),
+                AccountListItemUi.AccountWithBalance(
+                    account = dummyAccountUi("Account 3", color = Red),
+                    balance = dummyValueUi("4,320.50"),
+                    balanceBaseCurrency = null
+                ),
+            ),
+            accountsCount = 3,
+        ),
+        AccountListItemUi.AccountWithBalance(
+            account = dummyAccountUi("Revolut", color = Blue),
+            balance = dummyValueUi("1,032.54"),
+            balanceBaseCurrency = null
+        ),
+        AccountListItemUi.Archived(
+            accHolders = listOf(),
+            accountsCount = 0,
+        )
+    ),
+    createModal = IvyModal()
+)
+// endregion

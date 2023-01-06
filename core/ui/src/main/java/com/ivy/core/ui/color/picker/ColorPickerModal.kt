@@ -33,7 +33,7 @@ import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenIf
 
 private val colorItemSize = 48.dp
@@ -41,10 +41,11 @@ private val colorItemSize = 48.dp
 @Composable
 fun BoxScope.ColorPickerModal(
     modal: IvyModal,
+    level: Int = 1,
     initialColor: Color?,
     onColorPicked: (Color) -> Unit,
 ) {
-    val viewModel: ColorPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: ColorPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     var selectedColor by remember(initialColor) { mutableStateOf(initialColor) }
@@ -52,6 +53,7 @@ fun BoxScope.ColorPickerModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
             ModalActions(
                 modal = modal,
@@ -76,7 +78,11 @@ fun BoxScope.ColorPickerModal(
             sections(
                 sections = state.sections,
                 selectedColor = selectedColor,
-                onColorSelect = { selectedColor = it }
+                onColorSelect = {
+                    selectedColor = it
+                    onColorPicked(it)
+                    modal.hide()
+                }
             )
             item(key = "color_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
@@ -85,13 +91,17 @@ fun BoxScope.ColorPickerModal(
     HexColorPickerModal(
         modal = hexColorPickerModal,
         initialColor = selectedColor,
-        onColorPicked = { selectedColor = it }
+        onColorPicked = {
+            selectedColor = it
+            it.let(onColorPicked)
+            modal.hide()
+        }
     )
 }
 
 // region ModalActions
 @Composable
-fun ModalActionsScope.ModalActions(
+private fun ModalActionsScope.ModalActions(
     modal: IvyModal,
     hexColorPickerModal: IvyModal,
     selectedColor: Color?,

@@ -4,7 +4,7 @@ import android.icu.util.Currency
 import java.util.*
 
 data class IvyCurrency(
-    val code: String,
+    val code: CurrencyCode,
     val name: String,
     val isCrypto: Boolean
 ) {

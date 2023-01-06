@@ -1,258 +1,136 @@
-package com.ivy.wallet.ui.category
+package com.ivy.categories
 
-import androidx.lifecycle.viewModelScope
-import com.ivy.base.SortOrder
-import com.ivy.categories.CategoryData
-import com.ivy.core.ui.temp.trash.IvyWalletCtx
-import com.ivy.core.ui.temp.trash.TimePeriod
-import com.ivy.data.AccountOld
-import com.ivy.data.CategoryOld
-import com.ivy.data.transaction.TransactionOld
-import com.ivy.frp.action.thenMap
-import com.ivy.frp.test.TestIdlingResource
-import com.ivy.frp.thenInvokeAfter
-import com.ivy.frp.viewmodel.FRPViewModel
-import com.ivy.wallet.domain.action.account.AccountsActOld
-import com.ivy.wallet.domain.action.category.CategoriesActOld
-import com.ivy.wallet.domain.action.category.CategoryIncomeWithAccountFiltersAct
-import com.ivy.wallet.domain.action.settings.BaseCurrencyActOld
-import com.ivy.wallet.domain.action.transaction.TrnsWithRangeAndAccFiltersAct
-import com.ivy.wallet.domain.deprecated.logic.model.CreateCategoryData
-import com.ivy.wallet.domain.deprecated.sync.item.CategorySync
-import com.ivy.wallet.io.persistence.SharedPrefs
-import com.ivy.wallet.io.persistence.dao.CategoryDao
-import com.ivy.wallet.io.persistence.data.toEntity
-import com.ivy.wallet.ui.theme.modal.edit.CategoryModalData
-import com.ivy.wallet.utils.ioThread
-import com.ivy.wallet.utils.scopedIOThread
+import com.ivy.categories.data.CategoryListItemUi
+import com.ivy.core.domain.SimpleFlowViewModel
+import com.ivy.core.domain.action.calculate.Stats
+import com.ivy.core.domain.action.calculate.category.CatStatsFlow
+import com.ivy.core.domain.action.category.CategoriesListFlow
+import com.ivy.core.domain.action.data.CategoryListItem
+import com.ivy.core.domain.action.period.SelectedPeriodFlow
+import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.pure.format.format
+import com.ivy.core.domain.pure.time.range
+import com.ivy.core.domain.pure.util.combineList
+import com.ivy.core.ui.action.mapping.MapCategoryUiAct
+import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
+import com.ivy.data.Value
+import com.ivy.data.category.Category
+import com.ivy.data.time.TimeRange
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-import kotlin.math.absoluteValue
 
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
-    private val categoryDao: CategoryDao,
-    private val categorySync: CategorySync,
-    private val categoryCreator: CategoryCreator,
-    private val categoriesAct: CategoriesActOld,
-    private val ivyContext: IvyWalletCtx,
-    private val sharedPrefs: SharedPrefs,
-    private val baseCurrencyAct: BaseCurrencyActOld,
-    private val accountsAct: AccountsActOld,
-    private val trnsWithRangeAndAccFiltersAct: TrnsWithRangeAndAccFiltersAct,
-    private val categoryIncomeWithAccountFiltersAct: CategoryIncomeWithAccountFiltersAct
-) : FRPViewModel<CategoriesScreenState, Nothing>() {
-
-    override val _state: MutableStateFlow<CategoriesScreenState> = MutableStateFlow(
-        CategoriesScreenState()
+    private val categoriesListFlow: CategoriesListFlow,
+    private val selectedPeriodFlow: SelectedPeriodFlow,
+    private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
+    private val categoryStatsFlow: CatStatsFlow,
+    private val mapCategoryUiAct: MapCategoryUiAct,
+) : SimpleFlowViewModel<CategoriesState, CategoriesEvent>() {
+    override val initialUi = CategoriesState(
+        selectedPeriod = null,
+        items = listOf(),
+        emptyState = true,
     )
 
-    override suspend fun handleEvent(event: Nothing): suspend () -> CategoriesScreenState {
-        TODO("Not yet implemented")
+    override val uiFlow: Flow<CategoriesState> = combine(
+        selectedPeriodFlow(), categoryItemsUi()
+    ) { period, items ->
+        CategoriesState(
+            selectedPeriod = mapSelectedPeriodUiAct(period),
+            items = items,
+            emptyState = items.isEmpty(),
+        )
     }
 
-    private var allAccounts = emptyList<AccountOld>()
-    private var baseCurrency = ""
-    private var transactions = emptyList<TransactionOld>()
-
-    fun start() {
-        viewModelScope.launch(Dispatchers.IO) {
-            TestIdlingResource.increment()
-
-            initialise()
-            loadCategories()
-
-            TestIdlingResource.decrement()
-        }
-    }
-
-    private suspend fun initialise() {
-        ioThread {
-            val range = TimePeriod.currentMonth(
-                startDayOfMonth = ivyContext.startDayOfMonth
-            ).toRange(ivyContext.startDayOfMonth) //this must be monthly
-
-            allAccounts = accountsAct(Unit)
-            baseCurrency = baseCurrencyAct(Unit)
-
-            transactions = trnsWithRangeAndAccFiltersAct(
-                TrnsWithRangeAndAccFiltersAct.Input(
-                    range = range,
-                    accountIdFilterSet = suspend { allAccounts } thenMap { it.id }
-                            thenInvokeAfter { it.toHashSet() }
-                )
-            )
-
-            val sortOrder = SortOrder.from(
-                sharedPrefs.getInt(
-                    SharedPrefs.CATEGORY_SORT_ORDER,
-                    SortOrder.DEFAULT.orderNum
-                )
-            )
-
-            val parentCategoryList = categoryDao.findAllParentCategories().map { it.toDomain() }
-
-            updateState {
-                it.copy(sortOrder = sortOrder, parentCategoryList = parentCategoryList)
-            }
-        }
-    }
-
-    private suspend fun loadCategories() {
-        scopedIOThread { scope ->
-            val categories = categoriesAct(Unit).mapAsync(scope) {
-                val catIncomeExpense = categoryIncomeWithAccountFiltersAct(
-                    CategoryIncomeWithAccountFiltersAct.Input(
-                        transactions = transactions,
-                        accountFilterList = allAccounts,
-                        category = it,
-                        baseCurrency = baseCurrency
-                    )
-                )
-
-                CategoryData(
-                    category = it,
-                    monthlyBalance = (catIncomeExpense.income - catIncomeExpense.expense).toDouble(),
-                    monthlyIncome = catIncomeExpense.income.toDouble(),
-                    monthlyExpenses = catIncomeExpense.expense.toDouble()
-                )
-            }
-
-            val sortedList = sortList(categories, stateVal().sortOrder)
-
-            updateState {
-                it.copy(baseCurrency = baseCurrency, categories = sortedList)
-            }
-        }
-    }
-
-    private suspend fun reorder(
-        newOrder: List<CategoryData>,
-        sortOrder: SortOrder = SortOrder.DEFAULT
-    ) {
-        TestIdlingResource.increment()
-
-        val sortedList = sortList(newOrder, sortOrder)
-
-        if (sortOrder == SortOrder.DEFAULT) {
-            ioThread {
-                sortedList.forEachIndexed { index, categoryData ->
-                    categoryDao.save(
-                        categoryData.category.toEntity().copy(
-                            orderNum = index.toDouble(),
-                            isSynced = false
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun categoryItemsUi(): Flow<List<CategoryListItemUi>> = combine(
+        selectedPeriodFlow(),
+        categoriesListFlow(CategoriesListFlow.Input(trnType = null))
+    ) { period, list ->
+        val range = period.range()
+        combineList(list.map { item ->
+            when (item) {
+                is CategoryListItem.Archived -> {
+                    combineList(
+                        item.categories.map { category ->
+                            categoryCardFlow(category, range)
+                        }
+                    ).map { cards ->
+                        CategoryListItemUi.Archived(
+                            categoryCards = cards,
+                            count = cards.size
                         )
-                    )
+                    }
                 }
+                is CategoryListItem.CategoryHolder -> categoryCardFlow(item.category, range)
+                is CategoryListItem.ParentCategory -> {
+                    combine(
+                        categoryStatsFlow(
+                            CatStatsFlow.Input(
+                                category = item.parent,
+                                range = range,
+                            )
+                        ),
+                        combineList(item.children.map { category ->
+                            categoryStatsFlow(
+                                CatStatsFlow.Input(
+                                    category = category,
+                                    range = range,
+                                )
+                            ).map { stats ->
+                                CategoryListItemUi.CategoryCard(
+                                    category = mapCategoryUiAct(category),
+                                    balance = format(stats.balance, shortenFiat = true),
+                                ) to stats
+                            }
+                        })
+                    ) { parentStats, children ->
+                        CategoryListItemUi.ParentCategory(
+                            parentCategory = mapCategoryUiAct(item.parent),
+                            balance = parentCategoryBalance(
+                                parentStats,
+                                children.map { it.second }
+                            ),
+                            categoryCards = children.map { it.first },
+                            categoriesCount = children.size
+                        )
+                    }
+                }
+
             }
-        }
+        }).map { it }
+    }.flatMapLatest { it }
 
-        ioThread {
-            sharedPrefs.putInt(SharedPrefs.CATEGORY_SORT_ORDER, sortOrder.orderNum)
-        }
-
-        updateState {
-            it.copy(categories = sortedList, sortOrder = sortOrder)
-        }
-
-        ioThread {
-            categorySync.sync()
-        }
-
-        TestIdlingResource.decrement()
+    private fun parentCategoryBalance(parentStats: Stats, children: List<Stats>): ValueUi {
+        val totalBalance = parentStats.balance.amount + children.sumOf { it.balance.amount }
+        return format(Value(totalBalance, parentStats.balance.currency), shortenFiat = true)
     }
 
-    private fun sortList(
-        categoryData: List<CategoryData>,
-        sortOrder: SortOrder
-    ): List<CategoryData> {
-        return when (sortOrder) {
-            SortOrder.DEFAULT -> categoryData.sortedBy {
-                it.category.orderNum
-            }
-            SortOrder.BALANCE_AMOUNT -> categoryData.sortedByDescending {
-                it.monthlyBalance.absoluteValue
-            }
-            SortOrder.ALPHABETICAL -> categoryData.sortedBy {
-                it.category.name
-            }
-            SortOrder.EXPENSES -> categoryData.sortedByDescending {
-                it.monthlyExpenses
-            }
-        }
+    private fun categoryCardFlow(
+        category: Category, range: TimeRange
+    ): Flow<CategoryListItemUi.CategoryCard> = categoryStatsFlow(
+        CatStatsFlow.Input(
+            category = category,
+            range = range
+        )
+    ).map { stats ->
+        CategoryListItemUi.CategoryCard(
+            category = mapCategoryUiAct(category),
+            balance = format(stats.balance, shortenFiat = true),
+        )
     }
 
-    private suspend fun createCategory(data: CreateCategoryData) {
-        TestIdlingResource.increment()
 
-        categoryCreator.createCategory(data) {
-            loadCategories()
-        }
-
-        TestIdlingResource.decrement()
+    // region Event handling
+    override suspend fun handleEvent(event: CategoriesEvent) = when (event) {
+        is CategoriesEvent.CategoryClick -> handleCategoryClick(event)
     }
 
-    fun onEvent(event: CategoriesScreenEvent) {
-        viewModelScope.launch(Dispatchers.Default) {
-            when (event) {
-                is CategoriesScreenEvent.OnReorder -> reorder(event.newOrder, event.sortOrder)
-                is CategoriesScreenEvent.OnCreateCategory -> createCategory(event.createCategoryData)
-                is CategoriesScreenEvent.OnReorderModalVisible -> updateState {
-                    it.copy(
-                        reorderModalVisible = event.visible
-                    )
-                }
-                is CategoriesScreenEvent.OnSortOrderModalVisible -> updateState {
-                    it.copy(
-                        sortModalVisible = event.visible
-                    )
-                }
-                is CategoriesScreenEvent.OnCategoryModalVisible -> updateState {
-                    it.copy(
-                        categoryModalData = event.categoryModalData
-                    )
-                }
-                else -> {}
-            }
-        }
+    private fun handleCategoryClick(event: CategoriesEvent.CategoryClick) {
+        // TODO: Implement
     }
-}
-
-data class CategoriesScreenState(
-    val baseCurrency: String = "",
-    val categories: List<CategoryData> = emptyList(),
-    val reorderModalVisible: Boolean = false,
-    val categoryModalData: CategoryModalData? = null,
-    val sortModalVisible: Boolean = false,
-    val sortOrderItems: List<SortOrder> = SortOrder.values().toList(),
-    val sortOrder: SortOrder = SortOrder.DEFAULT,
-    val parentCategoryList: List<CategoryOld> = emptyList()
-)
-
-sealed class CategoriesScreenEvent {
-    data class OnReorder(
-        val newOrder: List<CategoryData>,
-        val sortOrder: SortOrder = SortOrder.DEFAULT
-    ) : CategoriesScreenEvent()
-
-    data class OnCreateCategory(val createCategoryData: CreateCategoryData) :
-        CategoriesScreenEvent()
-
-    data class OnReorderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
-    data class OnSortOrderModalVisible(val visible: Boolean) : CategoriesScreenEvent()
-    data class OnCategoryModalVisible(val categoryModalData: CategoryModalData?) :
-        CategoriesScreenEvent()
-}
-
-suspend inline fun <T, R> Iterable<T>.mapAsync(
-    scope: CoroutineScope,
-    crossinline transform: suspend (T) -> R
-): List<R> {
-    return this.map {
-        scope.async {
-            transform(it)
-        }
-    }.awaitAll()
+    // endregion
 }

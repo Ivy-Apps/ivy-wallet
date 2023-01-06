@@ -1,7 +1,7 @@
 package com.ivy.core.persistence.query
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.entity.trn.TrnEntity
 import javax.inject.Inject

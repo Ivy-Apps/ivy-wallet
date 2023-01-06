@@ -22,6 +22,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,33 +33,39 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.ivy.base.R
+import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.temp.RootScreen
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
-import com.ivy.main.MainScreen
+import com.ivy.design.api.setAppDesign
+import com.ivy.design.api.systems.ivyWalletDesign
+import com.ivy.main.impl.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.onboarding.screen.debug.OnboardingDebug
+import com.ivy.resources.R
+import com.ivy.settings.SettingsScreen
+import com.ivy.transaction.create.transfer.NewTransferScreen
+import com.ivy.transaction.create.trn.NewTransactionScreen
+import com.ivy.transaction.edit.transfer.EditTransferScreen
+import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
 import com.ivy.wallet.utils.activityForResultLauncher
 import com.ivy.wallet.utils.simpleActivityForResultLauncher
-import com.ivy.widgets.AddTransactionWidget
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
@@ -67,6 +75,12 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
     @Inject
     lateinit var timeProvider: TimeProvider
+
+    /**
+     * Uncomment below code to use gDrive feature
+     */
+//    @Inject
+//    lateinit var googleDriveService: GoogleDriveService
 
     private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
     private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
@@ -88,17 +102,23 @@ class RootActivity : AppCompatActivity(), RootScreen {
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        AddTransactionWidget.updateBroadcast(this)
 
         setContent {
             val viewModel: RootViewModel = hiltViewModel()
+            val state by viewModel.uiState.collectAsState()
             val isSystemInDarkTheme = isSystemInDarkTheme()
 
-            LaunchedEffect(isSystemInDarkTheme) {
+            LaunchedEffect(state.theme, isSystemInDarkTheme) {
+                setAppDesign(
+                    ivyWalletDesign(
+                        theme = state.theme,
+                        isSystemInDarkTheme = isSystemInDarkTheme
+                    )
+                )
             }
 
             IvyUI {
-                NavigationRoot(viewModel)
+                NavigationRoot(state)
             }
         }
 
@@ -106,7 +126,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     @Composable
-    private fun BoxWithConstraintsScope.NavigationRoot(viewModel: RootViewModel) {
+    private fun BoxWithConstraintsScope.NavigationRoot(state: RootState) {
         NavigationRoot(
             navigator = navigator,
             onboardingScreens = OnboardingScreens(
@@ -118,13 +138,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 addCategories = {}
             ),
             main = { MainScreen(it) },
+            categories = { CategoriesScreen() },
+            settings = { SettingsScreen() },
             transactionScreens = TransactionScreens(
                 accountTransactions = {},
                 categoryTransactions = {},
-                newTransaction = {},
-                newTransfer = {},
-                transaction = {},
-                transfer = {}
+                newTransaction = { NewTransactionScreen(arg = it) },
+                newTransfer = { NewTransferScreen() },
+                transaction = { EditTransactionScreen(trnId = it) },
+                transfer = { EditTransferScreen(batchId = it) }
             ),
             debugScreens = DebugScreens(
                 test = { TestScreen() }
@@ -133,6 +155,12 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     private fun setupActivityForResultLaunchers() {
+
+        /**
+         * Uncomment below code to use gDrive feature
+         */
+//        requestSignIn()
+
         googleSignInLauncher()
 
         createFileLauncher()
@@ -172,6 +200,23 @@ class RootActivity : AppCompatActivity(), RootScreen {
 //            googleSignInLauncher.launch(googleSignInClient)
 //        }
     }
+
+    /**
+     * Uncomment below code to use gDrive feature
+     */
+//    private fun requestSignIn() {
+//        val signInOptions = googleDriveService.requestSignIn()
+//        val client = GoogleSignIn.getClient(this, signInOptions)
+//
+//        Timber.d("Sign In Requested")
+//        // The result of the sign-in Intent is handled in onActivityResult.
+//        val launcher = registerForActivityResult(
+//            ActivityResultContracts.StartActivityForResult()
+//        ) {
+//            googleDriveService.handleSignInResult(this@RootActivity)
+//        }
+//        launcher.launch(client.signInIntent)
+//    }
 
     private fun createFileLauncher() {
         createFileLauncher = activityForResultLauncher(

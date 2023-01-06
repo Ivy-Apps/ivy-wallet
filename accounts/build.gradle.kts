@@ -1,5 +1,5 @@
-import com.ivy.buildsrc.EventBus
 import com.ivy.buildsrc.Hilt
+import com.ivy.buildsrc.Testing
 
 apply<com.ivy.buildsrc.IvyComposePlugin>()
 
@@ -15,12 +15,6 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":navigation"))
-
-    // TODO: Remove these
-    implementation(project(":temp-domain"))
-    implementation(project(":app-base"))
-    implementation(project(":temp-persistence"))
-    implementation(project(":ui-components-old"))
-
-    EventBus()
+    implementation(project(":main:base"))
+    Testing()
 }

@@ -23,18 +23,18 @@ class CategoriesFlow @Inject constructor(
 
     override fun createFlow(): Flow<List<Category>> =
         categoryDao.findAll().map { entities ->
-            entities.map { toCategory(it) }
+            entities.map { toDomain(it) }
         }.flowOn(Dispatchers.Default)
-
-    private fun toCategory(it: CategoryEntity) = Category(
-        id = it.id.toUUID(),
-        name = it.name,
-        parentCategoryId = it.parentCategoryId?.toUUID(),
-        color = it.color,
-        icon = it.icon,
-        orderNum = it.orderNum,
-        sync = it.sync,
-        type = it.type,
-        state = it.state,
-    )
 }
+
+fun toDomain(it: CategoryEntity) = Category(
+    id = it.id.toUUID(),
+    name = it.name,
+    parentCategoryId = it.parentCategoryId?.toUUID(),
+    color = it.color,
+    icon = it.icon,
+    orderNum = it.orderNum,
+    sync = it.sync,
+    type = it.type,
+    state = it.state,
+)

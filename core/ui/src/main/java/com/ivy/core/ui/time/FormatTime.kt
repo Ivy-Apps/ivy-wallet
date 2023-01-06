@@ -1,16 +1,17 @@
 package com.ivy.core.ui.time
 
 import android.content.Context
-import com.ivy.base.R
-import com.ivy.common.time.dateNowUTC
 import com.ivy.common.time.format
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.resources.R
 import java.time.LocalDateTime
 
 fun LocalDateTime.formatNicely(
     context: Context,
+    timeProvider: TimeProvider,
     includeWeekDay: Boolean = true,
 ): String {
-    val today = dateNowUTC()
+    val today = timeProvider.dateNow()
     val isThisYear = today.year == this.year
 
     val patternNoWeekDay = "dd MMM"

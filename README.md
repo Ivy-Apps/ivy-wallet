@@ -1,5 +1,5 @@
 [![Latest Release](https://img.shields.io/github/v/release/Ivy-Apps/ivy-wallet)](https://github.com/Ivy-Apps/ivy-wallet/releases)
-[![Build](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/internal_release.yml)
+[![Build](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml)
 [![Lint](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml)
 [![Unit Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml)
 [![Integration Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml)
@@ -21,7 +21,7 @@ Imagine Ivy Wallet as a manual expense tracker that will replace the good old sp
 
 Track your expenses, fast and on-the-go! ⚡ Discover powerful insights about your spending.
 
-**Do you know? Ask yoursef.**
+**Do you know? Ask yourself.**
 
 1) How much money do I have right now in all accounts combined?
 
@@ -107,7 +107,7 @@ in **[docs/resources 📚](docs/resources/)**.
 1. Clone the repository
 2. Open with Android Studio
 3. Everything should sync and build automatically
-- _If any build problems occurr, please [open a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new?assignees=&labels=dev&template=dev-contributor-request.yml) including the logs._
+- _If any build problems occur, please [open a new issue](https://github.com/Ivy-Apps/ivy-wallet/issues/new?assignees=&labels=dev&template=dev-contributor-request.yml) including the logs._
 
 ## Ideology :earth_africa:
 We believe that people _(not corporations)_ can create innovative, open-source,

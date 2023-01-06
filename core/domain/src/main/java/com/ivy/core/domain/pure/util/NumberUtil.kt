@@ -47,7 +47,7 @@ fun formatShortened(number: Double): String {
     fun formatShortened(shortened: Double, magnitude: String): String {
         val decimalPart = split(shortened).decimalPart
         return if (isSignificant(decimalPart)) {
-            val df = DecimalFormat("###,##0.00")
+            val df = DecimalFormat("###,##0.##")
             "${df.format(shortened)}$magnitude"
         } else {
             "${shortened.roundToInt()}$magnitude"
@@ -61,7 +61,7 @@ fun formatShortened(number: Double): String {
         abs(number) >= 1_000 -> {
             formatShortened(number / 1_000, "k")
         }
-        else -> DecimalFormat("0.00").format(number)
+        else -> DecimalFormat("0.##").format(number)
     }
 }
 // endregion

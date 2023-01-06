@@ -25,7 +25,7 @@ import com.ivy.design.util.springBounce
 fun Switch(
     enabled: Boolean,
     modifier: Modifier = Modifier,
-    enabledColor: Color = UI.colors.green,
+    enabledColor: Color = UI.colors.primary,
     disabledColor: Color = UI.colors.neutral,
     animationColor: AnimationSpec<Color> = springBounce(),
     animationMove: AnimationSpec<Float> = springBounce(),
@@ -38,7 +38,7 @@ fun Switch(
 
     Row(
         modifier = modifier
-            .width(40.dp)
+            .width(48.dp)
             .clip(UI.shapes.fullyRounded)
             .border(2.dp, color, UI.shapes.fullyRounded)
             .clickable {
@@ -74,16 +74,24 @@ fun Switch(
     }
 }
 
+// region Preview
 @Preview
 @Composable
-private fun PreviewIvySwitch() {
+private fun Preview_Disabled() {
     ComponentPreview {
-        var enabled by remember {
-            mutableStateOf(false)
-        }
+        var enabled by remember { mutableStateOf(false) }
 
-        Switch(enabled = enabled) {
-            enabled = it
-        }
+        Switch(enabled = enabled) { enabled = it }
     }
 }
+
+@Preview
+@Composable
+private fun Preview_Enabled() {
+    ComponentPreview {
+        var enabled by remember { mutableStateOf(true) }
+
+        Switch(enabled = enabled) { enabled = it }
+    }
+}
+// endregion

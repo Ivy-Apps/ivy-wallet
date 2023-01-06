@@ -36,37 +36,43 @@ object Project {
 
 object Versions {
     //https://kotlinlang.org/docs/releases.html#release-details
-    //WARNING: Version is also updated from buildSrc
-    const val kotlin = "1.7.10"
-    const val coroutines = "1.6.3"
+    //WARNING: Version must match in buildSrc build.gradle.kts
+    const val kotlin = "1.7.20"
+    //https://github.com/Kotlin/kotlinx.coroutines
+    const val coroutines = "1.6.4"
 
+    // region Compose
     //https://developer.android.com/jetpack/androidx/releases/compose
-    const val compose = "1.3.0-beta03"
+    const val compose = "1.3.2"
+
+    //https://developer.android.com/jetpack/androidx/releases/compose-material
+    const val composeMaterial = "1.3.1"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-compiler
-    const val composeCompilerVersion = "1.3.1"
+    const val composeCompilerVersion = "1.3.2"
 
     //https://developer.android.com/jetpack/androidx/releases/compose-foundation
-    const val composeFoundation = "1.2.0-rc03"
+    const val composeFoundation = "1.3.1"
 
     //https://developer.android.com/jetpack/compose/navigation
     const val navigationCompose = "2.5.1"
 
     //https://developer.android.com/jetpack/androidx/releases/activity
-    const val composeActivity = "1.5.0"
+    const val composeActivity = "1.6.1"
 
     //https://developer.android.com/jetpack/androidx/releases/lifecycle
-    const val composeViewModel = "2.6.0-alpha01"
+    const val composeViewModel = "2.6.0-alpha03"
 
     //https://developer.android.com/jetpack/androidx/releases/glance
-    const val composeGlance = "1.0.0-alpha03"
+    const val composeGlance = "1.0.0-alpha05"
 
     //Set status bar color
     //https://google.github.io/accompanist/systemuicontroller/
-    const val composeAccompanistUIController = "0.24.13-rc"
+    const val composeAccompanistUIController = "0.28.0"
 
     //https://coil-kt.github.io/coil/compose/
-    const val composeCoil = "2.1.0"
+    const val composeCoil = "2.2.2"
+    // endregion
 
     //https://arrow-kt.io/docs/quickstart/
     const val arrow: String = "1.0.1"
@@ -77,13 +83,13 @@ object Versions {
 
     //https://developer.android.com/training/dependency-injection/hilt-android
     //WARNING: Update hilt gradle plugin from buildSrc
-    const val hilt = "2.42"
+    const val hilt = "2.44"
 
     //https://mvnrepository.com/artifact/androidx.hilt/hilt-compiler?repo=google
     const val hiltX = "1.0.0"
 
     //https://developer.android.com/jetpack/androidx/releases/hilt
-    const val hiltNavigationCompose = "1.0.0"
+    const val hiltNavigationCompose = "1.1.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/appcompat
     const val appCompat = "1.4.2"
@@ -157,7 +163,7 @@ object Versions {
 }
 
 fun DependencyHandler.DataStore(api: Boolean) {
-    dependency("androidx.datastore:datastore-preferences:1.0.0", api = api)
+    dependency("androidx.datastore:datastore-preferences:${Versions.dataStore}", api = api)
 }
 
 /**
@@ -171,9 +177,9 @@ fun DependencyHandler.Kotlin(api: Boolean) {
 }
 
 fun DependencyHandler.Compose(api: Boolean) {
-    val version = Versions.compose
+    val composeVersion = Versions.compose
     //URL: https://developer.android.com/jetpack/androidx/releases/compose
-    dependency("androidx.compose.ui:ui:$version", api = api)
+    dependency("androidx.compose.ui:ui:$composeVersion", api = api)
     dependency(
         "androidx.compose.foundation:foundation:${Versions.composeFoundation}",
         api = api
@@ -182,12 +188,14 @@ fun DependencyHandler.Compose(api: Boolean) {
         "androidx.compose.foundation:foundation-layout:${Versions.composeFoundation}",
         api = api
     )
-    dependency("androidx.compose.animation:animation:$version", api = api)
-    dependency("androidx.compose.material:material:$version", api = api)
-    dependency("androidx.compose.material:material-icons-extended:$version", api = api)
-    dependency("androidx.compose.runtime:runtime-livedata:$version", api = api)
-    debugDependency("androidx.compose.ui:ui-tooling:$version", api = api)
-    dependency("androidx.compose.ui:ui-tooling-preview:$version", api = api)
+    dependency("androidx.compose.animation:animation:$composeVersion", api = api)
+    dependency("androidx.compose.material:material:${Versions.composeMaterial}", api = api)
+    dependency(
+        "androidx.compose.material:material-icons-extended:${Versions.composeMaterial}", api = api
+    )
+    dependency("androidx.compose.runtime:runtime-livedata:$composeVersion", api = api)
+    debugDependency("androidx.compose.ui:ui-tooling:$composeVersion", api = api)
+    dependency("androidx.compose.ui:ui-tooling-preview:$composeVersion", api = api)
 
     dependency(
         "androidx.navigation:navigation-compose:${Versions.navigationCompose}", api = api
@@ -202,14 +210,16 @@ fun DependencyHandler.Compose(api: Boolean) {
         api = api
     )
 
-    // Jetpack Glance (Compose Widgets)
-    dependency("androidx.glance:glance-appwidget:${Versions.composeGlance}", api = api)
-
     Accompanist(api = api)
 
     Coil(api = api)
 
     ComposeTesting(api = api)
+}
+
+fun DependencyHandler.Glance() {
+    // Jetpack Glance (Compose Widgets)
+    dependency("androidx.glance:glance-appwidget:${Versions.composeGlance}", api = false)
 }
 
 /**
@@ -251,7 +261,7 @@ fun DependencyHandler.Google() {
 
     //URL: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation(
-        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3}"
+        "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.3"
     )
 
     Billing(api = false)
@@ -417,12 +427,16 @@ fun DependencyHandler.ThirdParty() {
     //URL: https://github.com/jeziellago/compose-markdown
     implementation("com.github.jeziellago:compose-markdown:0.2.6")
 
+    Keval()
     EventBus()
 
-    //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
-    implementation("com.notkamui.libs:keval:0.8.0")
-
     OpenCSV()
+}
+
+fun DependencyHandler.Keval() {
+    //URL: https://github.com/notKamui/Keval - evaluate math expressions (calculator)
+    // TODO: Remove keval because we're using our own `:parser` + `:math`
+    implementation("com.notkamui.libs:keval:0.8.0")
 }
 
 fun DependencyHandler.OpenCSV() {
@@ -469,7 +483,7 @@ fun DependencyHandler.Testing(
     // Robolectric doesn't integrate well with JUnit5 and Kotest
 //    Robolectric(api = false)
 
-    if(commonTest) {
+    if (commonTest) {
         testImplementation(project(":common:test"))
     }
     if (commonAndroidTest) {
@@ -509,6 +523,7 @@ fun DependencyHandler.Kotest() {
     androidTestDependency("io.kotest:kotest-assertions-core:${Versions.kotest}", api = api)
 
     testDependency("io.kotest:kotest-property:${Versions.kotest}", api = api)
+    testDependency("io.kotest:kotest-framework-datatest:${Versions.kotest}", api = api)
     testDependency("io.kotest:kotest-framework-api-jvm:${Versions.kotest}", api = api)
     testImplementation("io.kotest:kotest-framework-engine-jvm:${Versions.kotest}")
 

@@ -9,14 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.AccountBadge
 import com.ivy.core.ui.category.CategoryBadge
-import com.ivy.core.ui.data.AccountUi
 import com.ivy.core.ui.data.CategoryUi
+import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.core.ui.data.transaction.dummyTransactionUi
@@ -24,7 +25,6 @@ import com.ivy.core.ui.data.transaction.dummyTrnTimeDueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.Gradient
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.asBrush
 import com.ivy.design.l1_buildingBlocks.IconRes
@@ -33,7 +33,8 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.util.ComponentPreview
 
 @Composable
-fun TransactionUi.Card(
+fun TransactionCard(
+    trn: TransactionUi,
     onClick: (TransactionUi) -> Unit,
     onAccountClick: (AccountUi) -> Unit,
     onCategoryClick: (CategoryUi) -> Unit,
@@ -43,28 +44,31 @@ fun TransactionUi.Card(
 ) {
     TransactionCard(
         modifier = modifier,
-        onClick = { onClick(this@Card) }
+        onClick = { onClick(trn) }
     ) {
         IncomeExpenseHeader(
-            account = account,
-            category = category,
+            account = trn.account,
+            category = trn.category,
             onCategoryClick = onCategoryClick,
             onAccountClick = onAccountClick
         )
-        DueDate(time = time)
-        Title(title = title, time = time)
-        Description(description = description, title = title)
-        TrnValue(type = type, value = value, time = time)
+        DueDate(time = trn.time)
+        Title(title = trn.title, time = trn.time)
+        Description(description = trn.description, title = trn.title)
+        TrnValue(type = trn.type, value = trn.value, time = trn.time)
 
         if (dueActions != null) {
             DuePaymentCTAs(
-                time = time,
-                type = type,
-                onSkip = {
-                    dueActions.onSkip(this@Card)
+                time = trn.time,
+                cta = when (trn.type) {
+                    TransactionType.Income -> stringResource(R.string.get)
+                    TransactionType.Expense -> stringResource(R.string.pay)
                 },
-                onPayGet = {
-                    dueActions.onPayGet(this@Card)
+                onSkip = {
+                    dueActions.onSkipTrn(trn)
+                },
+                onExecute = {
+                    dueActions.onExecuteTrn(trn)
                 }
             )
         }
@@ -87,7 +91,7 @@ private fun IncomeExpenseHeader(
                 category = it,
                 onClick = { onCategoryClick(category) }
             )
-            SpacerHor(width = 12.dp)
+            SpacerHor(width = 8.dp)
         }
 
         AccountBadge(
@@ -106,7 +110,7 @@ private fun TrnValue(
     type: TransactionType,
     time: TrnTimeUi,
 ) {
-    SpacerVer(height = 12.dp)
+    SpacerVer(height = 8.dp)
     TransactionCardAmountRow {
         TrnTypeIcon(type = type, time = time)
         SpacerHor(width = 12.dp)
@@ -146,10 +150,7 @@ private fun TrnTypeIcon(
             StyledIcon(
                 iconId = R.drawable.ic_expense,
                 bgColor = when (time) {
-                    is TrnTimeUi.Actual -> Gradient(
-                        start = UI.colors.red,
-                        end = UI.colors.redP2,
-                    ).asHorizontalBrush()
+                    is TrnTimeUi.Actual -> UI.colors.red.asBrush()
                     is TrnTimeUi.Due -> if (time.upcoming)
                         UI.colors.orange.asBrush() else UI.colors.red.asBrush()
                 },
@@ -173,15 +174,16 @@ private fun TrnTypeIcon(
 @Composable
 private fun Preview_Expense() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Expense,
-            value = ValueUi(
-                amount = "0.34",
-                currency = "BGN"
-            ),
-            title = "Order food"
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Expense,
+                value = ValueUi(
+                    amount = "0.34",
+                    currency = "BGN"
+                ),
+                title = "Order food"
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {}
@@ -193,15 +195,16 @@ private fun Preview_Expense() {
 @Composable
 private fun Preview_Income() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Income,
-            value = ValueUi(
-                amount = "1,005.00",
-                currency = "USD"
-            ),
-            title = "Income"
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Income,
+                value = ValueUi(
+                    amount = "1,005.00",
+                    currency = "USD"
+                ),
+                title = "Income"
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {}
@@ -213,17 +216,18 @@ private fun Preview_Income() {
 @Composable
 private fun Preview_UpcomingExpense() {
     ComponentPreview {
-        dummyTransactionUi(
-            type = TransactionType.Expense,
-            value = ValueUi(
-                amount = "1,005.00",
-                currency = "USD"
-            ),
-            title = "Upcoming Expense",
-            description = "Description",
-            time = dummyTrnTimeDueUi(),
-        ).Card(
+        TransactionCard(
             modifier = Modifier.padding(horizontal = 16.dp),
+            trn = dummyTransactionUi(
+                type = TransactionType.Expense,
+                value = ValueUi(
+                    amount = "1,005.00",
+                    currency = "USD"
+                ),
+                title = "Upcoming Expense",
+                description = "Description",
+                time = dummyTrnTimeDueUi(),
+            ),
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {},

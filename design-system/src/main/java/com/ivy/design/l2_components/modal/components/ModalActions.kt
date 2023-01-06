@@ -11,9 +11,9 @@ import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.scope.ModalActionsScope
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 
@@ -21,14 +21,16 @@ import com.ivy.design.util.IvyPreview
 @Composable
 fun ModalActionsScope.DynamicSave(
     item: Any?,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Focused,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Focused,
+        feeling = Feeling.Positive,
         text = if (item != null) "Save" else "Add",
         icon = if (item != null) R.drawable.ic_round_check_24 else R.drawable.ic_round_add_24,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -36,12 +38,14 @@ fun ModalActionsScope.DynamicSave(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Set(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = stringResource(R.string.set),
         icon = R.drawable.ic_round_check_24,
-        visibility = ButtonVisibility.Focused,
+        visibility = Visibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -49,12 +53,14 @@ fun ModalActionsScope.Set(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Choose(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = "Choose",
         icon = R.drawable.ic_round_check_24,
-        visibility = ButtonVisibility.Focused,
+        visibility = Visibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -62,12 +68,14 @@ fun ModalActionsScope.Choose(
 @Suppress("unused")
 @Composable
 fun ModalActionsScope.Done(
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     Positive(
         text = "Done",
         icon = R.drawable.ic_round_check_24,
-        visibility = ButtonVisibility.Focused,
+        visibility = Visibility.Focused,
+        hapticFeedback = hapticFeedback,
         onClick = onClick
     )
 }
@@ -79,15 +87,18 @@ fun ModalActionsScope.Positive(
     text: String?,
     @DrawableRes
     icon: Int? = null,
-    visibility: ButtonVisibility = ButtonVisibility.Focused,
+    visibility: Visibility = Visibility.Focused,
+    feeling: Feeling = Feeling.Positive,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
         visibility = visibility,
-        feeling = ButtonFeeling.Positive,
+        feeling = feeling,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }
@@ -98,15 +109,17 @@ fun ModalActionsScope.Negative(
     text: String,
     @DrawableRes
     icon: Int? = null,
-    visibility: ButtonVisibility = ButtonVisibility.Focused,
+    visibility: Visibility = Visibility.Focused,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
         visibility = visibility,
-        feeling = ButtonFeeling.Negative,
+        feeling = Feeling.Negative,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }
@@ -117,15 +130,17 @@ fun ModalActionsScope.Secondary(
     text: String?,
     @DrawableRes
     icon: Int? = null,
-    feeling: ButtonFeeling = ButtonFeeling.Positive,
+    feeling: Feeling = Feeling.Positive,
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IvyButton(
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Medium,
+        visibility = Visibility.Medium,
         feeling = feeling,
         text = text,
         icon = icon,
+        hapticFeedback = hapticFeedback,
         onClick = onClick,
     )
 }
@@ -170,7 +185,7 @@ private fun Preview_PositiveNegative() {
         Modal(
             modal = modal,
             actions = {
-                Negative(text = "No", visibility = ButtonVisibility.High) {}
+                Negative(text = "No", visibility = Visibility.High) {}
                 SpacerHor(width = 12.dp)
                 Positive(text = "Yes") {}
             }

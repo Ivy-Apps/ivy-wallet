@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Intent
 import androidx.annotation.StringRes
 
+@Deprecated("use @Compose stringResource() or appContext.getString()")
 fun stringRes(
     @StringRes id: Int,
     vararg args: String

@@ -1,37 +1,49 @@
 package com.ivy.debug
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
+import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
+import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
 import com.ivy.core.ui.data.period.SelectedPeriodUi
 import com.ivy.core.ui.data.period.TimeRangeUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
-    private val selectedPeriodFlow: SelectedPeriodFlow,
-    private val mapSelectedPeriodAct: MapSelectedPeriodUiAct
-) : FlowViewModel<TestStateUi, TestStateUi, Unit>() {
-    override fun initialState() = TestStateUi(
+    selectedPeriodFlow: SelectedPeriodFlow,
+    private val mapSelectedPeriodAct: MapSelectedPeriodUiAct,
+    private val writeBaseCurrencyAct: WriteBaseCurrencyAct,
+    baseCurrencyFlow: BaseCurrencyFlow,
+) : SimpleFlowViewModel<TestStateUi, TestEvent>() {
+    override val initialUi: TestStateUi = TestStateUi(
         selectedPeriodUi = SelectedPeriodUi.AllTime(
             btnText = "",
             rangeUi = TimeRangeUi(allTime(), "", "")
-        )
+        ),
+        baseCurrency = ""
     )
 
-    override fun initialUiState(): TestStateUi = initialState()
-
-    override fun stateFlow(): Flow<TestStateUi> = selectedPeriodFlow().map {
+    override val uiFlow: Flow<TestStateUi> = combine(
+        selectedPeriodFlow(), baseCurrencyFlow()
+    ) { period, baseCurrency ->
         TestStateUi(
-            selectedPeriodUi = mapSelectedPeriodAct(it)
+            selectedPeriodUi = mapSelectedPeriodAct(period),
+            baseCurrency = baseCurrency,
         )
     }
 
-    override suspend fun mapToUiState(state: TestStateUi): TestStateUi = state
+    // region Event handling
+    override suspend fun handleEvent(event: TestEvent) = when (event) {
+        is TestEvent.BaseCurrencyChange -> handleBaseCurrencyChange(event)
+    }
 
-    override suspend fun handleEvent(event: Unit) {}
+    private suspend fun handleBaseCurrencyChange(event: TestEvent.BaseCurrencyChange) {
+        writeBaseCurrencyAct(event.currency)
+    }
+    // endregion
 }

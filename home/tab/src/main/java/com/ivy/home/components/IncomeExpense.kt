@@ -12,18 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l0_system.color.rememberContrastColor
-import com.ivy.design.l1_buildingBlocks.Caption
-import com.ivy.design.l1_buildingBlocks.IconRes
-import com.ivy.design.l1_buildingBlocks.SpacerHor
-import com.ivy.design.l1_buildingBlocks.SpacerVer
+import com.ivy.design.l0_system.color.rememberContrast
+import com.ivy.design.l1_buildingBlocks.*
 import com.ivy.design.util.ComponentPreview
 import com.ivy.resources.R
 
@@ -77,19 +75,22 @@ private fun Card(
             .clickable(onClick = onClick)
             .padding(all = 12.dp),
     ) {
-        val textColor = rememberContrastColor(bgColor)
+        val textColor = rememberContrast(bgColor)
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconRes(icon = icon, tint = textColor)
             SpacerHor(width = 4.dp)
             Caption(text = text, color = textColor)
         }
         SpacerVer(height = 4.dp)
-        Row(
-            modifier = Modifier.padding(start = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AmountCurrency(value = value, color = textColor)
-        }
+        // Amount
+        B1Second(
+            text = value.amount,
+            modifier = Modifier
+                .testTag("amount")
+                .padding(start = 8.dp),
+            fontWeight = FontWeight.Bold,
+            color = textColor,
+        )
     }
 }
 

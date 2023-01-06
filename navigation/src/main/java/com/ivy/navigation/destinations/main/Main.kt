@@ -18,7 +18,7 @@ object Main : Screen<Main.Tab?> {
 
     private const val ARG_TAB = "tab"
 
-    override val route: String = "main?tab=${ARG_TAB}"
+    override val route: String = "main?tab={$ARG_TAB}"
     override val arguments: List<NamedNavArgument> = listOf(
         navArgument(ARG_TAB) {
             type = NavType.StringType

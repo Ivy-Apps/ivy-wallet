@@ -12,13 +12,9 @@ fun format(
     formatCrypto(value) else formatFiat(value = value, shorten = shortenFiat)
 
 private fun formatCrypto(value: Value): ValueUi {
-    tailrec fun removeTrailingZeros(number: String): String = if (number.last() != '0')
-        number else removeTrailingZeros(number.dropLast(1))
-
-    val df = DecimalFormat("###,###,##0.${"0".repeat(12)}")
-    val amountTrailingZeros = df.format(value.amount)
+    val df = DecimalFormat("###,###,##0.${"#".repeat(16)}")
     return ValueUi(
-        amount = removeTrailingZeros(amountTrailingZeros),
+        amount = df.format(value.amount),
         currency = value.currency
     )
 }
@@ -33,7 +29,7 @@ private fun formatFiat(
         currency = value.currency
     )
 } else {
-    val df = DecimalFormat("#,##0.00")
+    val df = DecimalFormat("###,##0.##")
     ValueUi(
         amount = df.format(value.amount),
         currency = value.currency

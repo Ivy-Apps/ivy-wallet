@@ -1,12 +1,9 @@
 package com.ivy.core.ui.icon.picker
 
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.*
@@ -14,13 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.R
@@ -35,17 +29,14 @@ import com.ivy.data.ItemIconId
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.rememberDynamicContrast
 import com.ivy.design.l1_buildingBlocks.*
-import com.ivy.design.l2_components.input.InputFieldType
-import com.ivy.design.l2_components.input.IvyInputField
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Choose
-import com.ivy.design.l2_components.modal.components.Secondary
+import com.ivy.design.l2_components.modal.components.Search
+import com.ivy.design.l2_components.modal.components.SearchButton
 import com.ivy.design.l2_components.modal.components.Title
-import com.ivy.design.l2_components.modal.scope.ModalActionsScope
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.design.util.thenIf
 
 private val iconSize = IconSize.M
@@ -55,11 +46,12 @@ private val iconPadding = 12.dp
 @Composable
 fun BoxScope.IconPickerModal(
     modal: IvyModal,
+    level: Int = 1,
     initialIcon: ItemIcon?,
     color: Color,
     onIconPick: (ItemIconId) -> Unit
 ) {
-    val viewModel: IconPickerViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: IconPickerViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
 
     var selectedIcon by remember(initialIcon) { mutableStateOf(initialIcon?.iconId()) }
@@ -74,92 +66,44 @@ fun BoxScope.IconPickerModal(
 
     Modal(
         modal = modal,
+        level = level,
         actions = {
-            ModalActions(
-                searchBarVisible = searchBarVisible,
-                showSearch = { searchBarVisible = true },
-                resetSearch = resetSearch,
-                onSelect = {
-                    selectedIcon?.let(onIconPick)
+            SearchButton(searchBarVisible = searchBarVisible) {
+                if (searchBarVisible) resetSearch() else searchBarVisible = true
+            }
+            SpacerHor(width = 8.dp)
+            Choose {
+                selectedIcon?.let(onIconPick)
+                keyboardController?.hide()
+                modal.hide()
+            }
+        }
+    ) {
+        Search(
+            searchBarVisible = searchBarVisible,
+            initialSearchQuery = state.searchQuery,
+            searchHint = "Search by words (car, home, tech)",
+            resetSearch = resetSearch,
+            onSearch = { viewModel?.onEvent(IconPickerEvent.Search(it)) },
+        ) {
+            item(key = "ic_picker_title") {
+                this@Modal.Title(text = stringResource(R.string.choose_icon))
+            }
+            sections(
+                sections = state.sections,
+                selectedIcon = selectedIcon,
+                color = color,
+                onIconSelect = {
+                    selectedIcon = it
+                    onIconPick(it)
                     keyboardController?.hide()
                     modal.hide()
                 }
             )
-        }
-    ) {
-        Box(modifier = Modifier.weight(1f)) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item(key = "ic_picker_title") {
-                    this@Modal.Title(text = stringResource(R.string.choose_icon))
-                }
-                sections(
-                    sections = state.sections,
-                    selectedIcon = selectedIcon,
-                    color = color,
-                    onIconSelect = { selectedIcon = it }
-                )
-                item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
-            }
-            SearchBar(
-                visible = searchBarVisible,
-                query = state.searchQuery,
-                resetSearch = resetSearch,
-                onSearch = { viewModel?.onEvent(IconPickerEvent.Search(it)) }
-            )
+            item(key = "ic_picker_last_spacer") { SpacerVer(height = 48.dp) }
         }
     }
 }
-
-// region Header
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-private fun SearchBar(
-    visible: Boolean,
-    query: String,
-    resetSearch: () -> Unit,
-    onSearch: (String) -> Unit,
-) {
-    AnimatedVisibility(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(UI.colors.pure)
-            .padding(top = 16.dp, bottom = 8.dp),
-        visible = visible,
-        enter = expandVertically() + fadeIn(),
-        exit = shrinkVertically() + fadeOut()
-    ) {
-        val focusRequester = remember { FocusRequester() }
-        val keyboardController = LocalSoftwareKeyboardController.current
-        IvyInputField(
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            type = InputFieldType.SingleLine,
-            initialValue = query,
-            placeholder = "Search by words (car, home, tech)",
-            imeAction = ImeAction.Search,
-            onImeAction = {
-                keyboardController?.hide()
-                focusRequester.freeFocus()
-            },
-            onValueChange = { onSearch(it) },
-        )
-
-        LaunchedEffect(visible) {
-            if (visible) {
-                focusRequester.requestFocus()
-                keyboardController?.show()
-            }
-        }
-        BackHandler(enabled = visible) {
-            resetSearch()
-        }
-    }
-}
-// endregion
 
 private fun LazyListScope.sections(
     sections: List<SectionUi>,
@@ -280,29 +224,6 @@ private fun IconItem(
         size = iconSize,
         tint = if (selected) rememberDynamicContrast(color) else UI.colorsInverted.medium
     )
-}
-// endregion
-
-
-// region Modal Actions
-@Composable
-private fun ModalActionsScope.ModalActions(
-    searchBarVisible: Boolean,
-    resetSearch: () -> Unit,
-    showSearch: () -> Unit,
-    onSelect: () -> Unit,
-) {
-    Secondary(
-        text = null,
-        icon = if (searchBarVisible)
-            R.drawable.round_search_off_24 else R.drawable.round_search_24,
-        feeling = if (searchBarVisible) ButtonFeeling.Negative else ButtonFeeling.Positive
-    ) {
-        // toggle search bar
-        if (searchBarVisible) resetSearch() else showSearch()
-    }
-    SpacerHor(width = 8.dp)
-    Choose(onClick = onSelect)
 }
 // endregion
 

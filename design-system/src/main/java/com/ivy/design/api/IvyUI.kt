@@ -10,7 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ivy.design.Theme
+import com.ivy.data.Theme
 import com.ivy.design.api.systems.ivyWalletDesign
 import com.ivy.design.l0_system.IvyTheme
 import com.ivy.design.l0_system.UI

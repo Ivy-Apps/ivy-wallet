@@ -4,14 +4,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.timeNow
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.data.dummyAccountUi
+import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.data.icon.dummyIconUnknown
@@ -61,6 +60,7 @@ fun TransactionsLazyColumn(
     upcomingHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     overdueHandler: ExpandCollapseHandler = defaultExpandCollapseHandler(),
     trnItemClickHandler: TrnItemClickHandler = defaultTrnItemClickHandler(),
+    onFirstVisibleItemChange: (suspend (Int) -> Unit)? = null,
 ) {
     val state = rememberLazyListState(
         initialFirstVisibleItemIndex =
@@ -68,6 +68,16 @@ fun TransactionsLazyColumn(
         initialFirstVisibleItemScrollOffset =
         lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
     )
+
+    if (onFirstVisibleItemChange != null) {
+        val firstVisibleItemIndex by remember {
+            derivedStateOf { state.firstVisibleItemIndex }
+        }
+
+        LaunchedEffect(firstVisibleItemIndex) {
+            onFirstVisibleItemChange(firstVisibleItemIndex)
+        }
+    }
 
     if (scrollStateKey != null) {
         // Cache scrolling state
@@ -122,21 +132,23 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
         income = dummyValueUi("16.99"),
         expense = null,
         trns = listOf(
-            dummyTransactionUi(
-                title = "Upcoming payment",
-                account = dummyAccountUi(
-                    name = "Revolut",
-                    color = Purple,
-                    icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
-                ),
-                category = dummyCategoryUi(
-                    name = "Investments",
-                    color = Blue2Light,
-                    icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
-                ),
-                value = dummyValueUi("16.99"),
-                type = TransactionType.Income,
-                time = dummyTrnTimeDueUi(timeNow().plusDays(1))
+            TrnListItemUi.Trn(
+                dummyTransactionUi(
+                    title = "Upcoming payment",
+                    account = dummyAccountUi(
+                        name = "Revolut",
+                        color = Purple,
+                        icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
+                    ),
+                    category = dummyCategoryUi(
+                        name = "Investments",
+                        color = Blue2Light,
+                        icon = dummyIconSized(R.drawable.ic_custom_leaf_s)
+                    ),
+                    value = dummyValueUi("16.99"),
+                    type = TransactionType.Income,
+                    time = dummyTrnTimeDueUi(timeNow().plusDays(1))
+                )
             )
         )
     ),
@@ -145,26 +157,30 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
         income = null,
         expense = dummyValueUi("650.0"),
         trns = listOf(
-            dummyTransactionUi(
-                title = "Rent",
-                value = dummyValueUi("650.0"),
-                account = dummyAccountUi(
-                    name = "Cash",
-                    color = Green,
-                    icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
-                ),
-                category = null,
-                type = TransactionType.Expense,
-                time = dummyTrnTimeDueUi()
+            TrnListItemUi.Trn(
+                dummyTransactionUi(
+                    title = "Rent",
+                    value = dummyValueUi("650.0"),
+                    account = dummyAccountUi(
+                        name = "Cash",
+                        color = Green,
+                        icon = dummyIconUnknown(R.drawable.ic_vue_money_coins)
+                    ),
+                    category = null,
+                    type = TransactionType.Expense,
+                    time = dummyTrnTimeDueUi()
+                )
             )
         )
     ),
     history = listOf(
         TrnListItemUi.DateDivider(
+            id = "2021-01-01",
             date = "September 25.",
             day = "Friday",
             cashflow = dummyValueUi("-30.0"),
-            positiveCashflow = false
+            positiveCashflow = false,
+            collapsed = false,
         ),
         TrnListItemUi.Trn(
             dummyTransactionUi(
@@ -185,10 +201,12 @@ fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
             )
         ),
         TrnListItemUi.DateDivider(
+            id = "2021-01-01",
             date = "September 23.",
             day = "Wednesday",
             cashflow = dummyValueUi("105.33"),
-            positiveCashflow = true
+            positiveCashflow = true,
+            collapsed = false,
         ),
         TrnListItemUi.Trn(
             dummyTransactionUi(

@@ -8,7 +8,7 @@ data class DueSectionUi(
     val dueType: DueSectionUiType,
     val income: ValueUi?,
     val expense: ValueUi?,
-    val trns: List<TransactionUi>,
+    val trns: List<TrnListItemUi>,
 )
 
 @Immutable
@@ -20,7 +20,7 @@ fun dummyDueSectionUi(
     dueType: DueSectionUiType,
     income: ValueUi?,
     expense: ValueUi?,
-    trns: List<TransactionUi> = emptyList()
+    trns: List<TrnListItemUi> = emptyList()
 ) = DueSectionUi(
     dueType = dueType, income = income, expense = expense, trns = trns
 )

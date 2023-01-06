@@ -1,6 +1,6 @@
 package com.ivy.core.ui.icon.picker
 
-import com.ivy.core.domain.FlowViewModel
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.pure.ui.groupByRows
 import com.ivy.core.ui.action.ItemIconOptionalAct
 import com.ivy.core.ui.icon.picker.data.Icon
@@ -18,21 +18,19 @@ import javax.inject.Inject
 @HiltViewModel
 internal class IconPickerViewModel @Inject constructor(
     private val itemIconOptionalAct: ItemIconOptionalAct
-) : FlowViewModel<IconPickerStateUi, IconPickerStateUi, IconPickerEvent>() {
+) : SimpleFlowViewModel<IconPickerStateUi, IconPickerEvent>() {
     companion object {
         const val ICONS_PER_ROW = 4
     }
 
-    override fun initialState(): IconPickerStateUi = IconPickerStateUi(
+    override val initialUi = IconPickerStateUi(
         sections = emptyList(),
         searchQuery = ""
     )
-    override fun initialUiState(): IconPickerStateUi = initialState()
-
 
     private val searchQuery = MutableStateFlow("")
 
-    override fun stateFlow(): Flow<IconPickerStateUi> = sectionsUiFlow().map { sections ->
+    override val uiFlow: Flow<IconPickerStateUi> = sectionsUiFlow().map { sections ->
         IconPickerStateUi(
             sections = sections,
             searchQuery = searchQuery.value
@@ -48,12 +46,11 @@ internal class IconPickerViewModel @Inject constructor(
             if (itemIcons.isNotEmpty()) {
                 SectionUi(
                     name = section.name,
-                    iconRows = groupByRows(itemIcons, iconsPerRow = ICONS_PER_ROW),
+                    iconRows = groupByRows(itemIcons, itemsPerRow = ICONS_PER_ROW),
                 )
             } else null
         }
     }
-
 
     @OptIn(FlowPreview::class)
     private fun sectionsFlow(): Flow<List<SectionUnverified>> = searchQuery
@@ -79,7 +76,6 @@ internal class IconPickerViewModel @Inject constructor(
         // Icon must have at least one keyword that contains the search query
         icon.keywords.any { keyword -> keyword.contains(query) }
 
-    override suspend fun mapToUiState(state: IconPickerStateUi): IconPickerStateUi = state
 
     // region Event Handling
     override suspend fun handleEvent(event: IconPickerEvent) = when (event) {

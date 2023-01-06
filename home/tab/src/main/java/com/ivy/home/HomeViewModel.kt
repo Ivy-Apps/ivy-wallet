@@ -1,38 +1,41 @@
 package com.ivy.home
 
+import com.ivy.common.time.beginningOfIvyTime
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.calculate.CalculateFlow
 import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.helper.TrnsListFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
-import com.ivy.core.domain.action.settings.balance.HideBalanceSettingFlow
+import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.domain.action.transaction.TrnQuery.ActualBetween
-import com.ivy.core.domain.action.transaction.TrnQuery.DueBetween
-import com.ivy.core.domain.action.transaction.or
+import com.ivy.core.domain.action.transaction.*
+import com.ivy.core.domain.action.transaction.TrnQuery.*
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.time.range
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
-import com.ivy.core.ui.action.mapping.MapTransactionListUiAct
+import com.ivy.core.ui.action.mapping.trn.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
+import com.ivy.data.time.TimeRange
+import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TransactionsList
-import com.ivy.data.transaction.TrnListItem
-import com.ivy.home.event.HomeBottomBarAction
-import com.ivy.home.event.HomeEvent
+import com.ivy.data.transaction.TrnPurpose
+import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
+import com.ivy.main.base.MainBottomBarAction
+import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
+import com.ivy.navigation.destinations.transaction.NewTransaction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@OptIn(FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val balanceFlow: TotalBalanceFlow,
@@ -40,13 +43,15 @@ class HomeViewModel @Inject constructor(
     private val trnsListFlow: TrnsListFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val calculateFlow: CalculateFlow,
-    private val hideBalanceSettingFlow: HideBalanceSettingFlow,
+    private val hideBalanceFlow: HideBalanceFlow,
     private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
     private val mapTransactionListUiAct: MapTransactionListUiAct,
     private val navigator: Navigator,
+    private val mainBottomBarVisibility: MainBottomBarVisibility,
+    private val trnsFlow: TrnsFlow,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
-    override fun initialState(): HomeState = HomeState(
+    override val initialState: HomeState = HomeState(
         period = null,
         trnsList = TransactionsList(
             upcoming = null,
@@ -59,7 +64,9 @@ class HomeViewModel @Inject constructor(
         hideBalance = false,
     )
 
-    override fun initialUiState() = HomeStateUi(
+    private val addTransactionModal = IvyModal()
+
+    override val initialUi = HomeStateUi(
         period = null,
         trnsList = TransactionsListUi(
             upcoming = null,
@@ -69,13 +76,18 @@ class HomeViewModel @Inject constructor(
         balance = ValueUi(amount = "0.0", currency = ""),
         income = ValueUi(amount = "0.0", currency = ""),
         expense = ValueUi(amount = "0.0", currency = ""),
-        hideBalance = false
+        hideBalance = false,
+        moreMenuVisible = false,
+
+        addTransactionModal = addTransactionModal,
     )
     // endregion
 
     private val overrideShowBalance = MutableStateFlow(false)
+    private val moreMenuVisible = MutableStateFlow(initialUi.moreMenuVisible)
 
-    override fun stateFlow(): Flow<HomeState> = combine(
+    // region State flow
+    override val stateFlow: Flow<HomeState> = combine(
         showBalanceFlow(), balanceFlow(), periodDataFlow()
     ) { showBalance, balance, periodData ->
         HomeState(
@@ -97,22 +109,37 @@ class HomeViewModel @Inject constructor(
         emit(Value(amount = 0.0, currency = ""))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun periodDataFlow(): Flow<PeriodData> =
-        baseCurrencyFlow().flatMapMerge { baseCurrency ->
+        baseCurrencyFlow().flatMapLatest { baseCurrency ->
             val selectedPeriodFlow = selectedPeriodFlow()
 
             // Trns History, Upcoming & Overdue
-            val trnsListFlow = selectedPeriodFlow.flatMapMerge {
+            val trnsListFlow = selectedPeriodFlow.flatMapLatest {
                 val period = it.range()
-                trnsListFlow(ActualBetween(period) or DueBetween(period))
+                // Due range: upcoming for this month + overdue for all time
+                val dueRange = TimeRange(
+                    from = beginningOfIvyTime(),
+                    to = period.to,
+                )
+                trnsListFlow(ActualBetween(period) or DueBetween(dueRange))
             }
 
             // Income & Expense for the period
-            val statsFlow = trnsListFlow.flatMapMerge { trnsList ->
+            val statsFlow = selectedPeriodFlow.flatMapLatest {
+                val period = it.range()
+
+                // take only transactions from the history, excluding transfers
+                // but INCLUDING transfer fees
+                trnsFlow(
+                    ActualBetween(period) and brackets(
+                        ByPurpose(null) or ByPurpose(TrnPurpose.Fee)
+                    )
+                )
+            }.flatMapLatest { trns ->
                 calculateFlow(
                     CalculateFlow.Input(
-                        // take only transactions from the history, excluding transfers
-                        trns = trnsList.history.mapNotNull { (it as? TrnListItem.Trn)?.trn },
+                        trns = trns,
                         outputCurrency = baseCurrency,
                         includeTransfers = false,
                         includeHidden = false,
@@ -133,21 +160,29 @@ class HomeViewModel @Inject constructor(
         }
 
     private fun showBalanceFlow(): Flow<Boolean> = combine(
-        hideBalanceSettingFlow(Unit),
+        hideBalanceFlow(Unit),
         overrideShowBalance
     ) { hideBalanceSettings, showBalance ->
         showBalance || !hideBalanceSettings
     }
+    // endregion
 
-    // region map to Ui state
-    override suspend fun mapToUiState(state: HomeState): HomeStateUi = HomeStateUi(
-        period = state.period?.let { mapSelectedPeriodUiAct(it) },
-        trnsList = mapTransactionListUiAct(state.trnsList),
-        balance = formatBalance(state.balance),
-        income = format(state.income, shortenFiat = true),
-        expense = format(state.expense, shortenFiat = true),
-        hideBalance = state.hideBalance
-    )
+    // region UI flow
+    override val uiFlow: Flow<HomeStateUi> = combine(
+        stateFlow, moreMenuVisible
+    ) { state, moreMenuVisible ->
+        HomeStateUi(
+            period = state.period?.let { mapSelectedPeriodUiAct(it) },
+            trnsList = mapTransactionListUiAct(state.trnsList),
+            balance = formatBalance(state.balance),
+            income = format(state.income, shortenFiat = true),
+            expense = format(state.expense, shortenFiat = true),
+            hideBalance = state.hideBalance,
+            moreMenuVisible = moreMenuVisible,
+
+            addTransactionModal = addTransactionModal,
+        )
+    }
 
     private fun formatBalance(balance: Value): ValueUi = format(
         value = balance,
@@ -157,16 +192,41 @@ class HomeViewModel @Inject constructor(
 
     // region Event Handling
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
+        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
+        HomeEvent.AddExpense -> handleAddExpense()
+        HomeEvent.AddIncome -> handleAddIncome()
+        HomeEvent.AddTransfer -> handleAddTransfer()
         HomeEvent.BalanceClick -> handleBalanceClick()
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
-        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
         HomeEvent.ExpenseClick -> handleExpenseClick()
         HomeEvent.IncomeClick -> handleIncomeClick()
+        HomeEvent.ShowBottomBar -> handleShowBottomBar()
+        HomeEvent.HideBottomBar -> handleHideBottomBar()
+        HomeEvent.MoreClick -> handleMoreClick()
     }
 
-    private fun handleBottomBarAction(action: HomeBottomBarAction) {
-        // TODO: Implement
-        navigator.navigate(Destination.debug.route)
+    private fun handleBottomBarAction(action: MainBottomBarAction) {
+        addTransactionModal.show()
+    }
+
+    private fun handleAddTransfer() {
+        navigator.navigate(Destination.newTransfer.destination(Unit))
+    }
+
+    private fun handleAddIncome() {
+        navigator.navigate(
+            Destination.newTransaction.destination(
+                NewTransaction.Arg(trnType = TransactionType.Income)
+            )
+        )
+    }
+
+    private fun handleAddExpense() {
+        navigator.navigate(
+            Destination.newTransaction.destination(
+                NewTransaction.Arg(trnType = TransactionType.Expense)
+            )
+        )
     }
 
     private fun handleBalanceClick() {
@@ -185,6 +245,18 @@ class HomeViewModel @Inject constructor(
         overrideShowBalance.value = true
         delay(3_000L)
         overrideShowBalance.value = false
+    }
+
+    private fun handleShowBottomBar() {
+        mainBottomBarVisibility.visible.value = true
+    }
+
+    private fun handleHideBottomBar() {
+        mainBottomBarVisibility.visible.value = false
+    }
+
+    private fun handleMoreClick() {
+        moreMenuVisible.value = !moreMenuVisible.value
     }
     // endregion
 

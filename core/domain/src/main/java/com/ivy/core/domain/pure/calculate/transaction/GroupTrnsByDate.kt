@@ -1,6 +1,6 @@
 package com.ivy.core.domain.pure.calculate.transaction
 
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toEpochSeconds
 import com.ivy.core.domain.pure.util.actualDate
 import com.ivy.core.domain.pure.util.actualTime

@@ -27,17 +27,14 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
-import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
-import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.home.components.Balance
 import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.components.MoreMenuButton
-import com.ivy.home.event.HomeEvent
+import com.ivy.home.modal.AddTransactionModal
 import com.ivy.home.state.HomeStateUi
+import com.ivy.menu.HomeMoreMenu
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,6 +70,7 @@ private fun BoxScope.UI(
                 onBalanceClick = { onEvent(HomeEvent.BalanceClick) },
                 onIncomeClick = { onEvent(HomeEvent.IncomeClick) },
                 onExpenseClick = { onEvent(HomeEvent.ExpenseClick) },
+                onMoreClick = { onEvent(HomeEvent.MoreClick) }
             )
         },
         contentBelowTrns = {
@@ -80,12 +78,28 @@ private fun BoxScope.UI(
                 // TODO: Change that to 300.dp when we have transactions
                 SpacerVer(height = 600.dp)
             }
+        },
+        onFirstVisibleItemChange = { firstVisibleItemIndex ->
+            if (firstVisibleItemIndex > 0) {
+                onEvent(HomeEvent.HideBottomBar)
+            } else {
+                onEvent(HomeEvent.ShowBottomBar)
+            }
+        }
+    )
+
+    HomeMoreMenu(
+        visible = state.moreMenuVisible,
+        onMenuClose = {
+            onEvent(HomeEvent.MoreClick)
         }
     )
 
     Modals(
         periodModal = periodModal,
-        selectedPeriod = state.period
+        selectedPeriod = state.period,
+        addTransactionModal = state.addTransactionModal,
+        onEvent = onEvent,
     )
 }
 
@@ -98,6 +112,7 @@ fun LazyListScope.header(
     expense: ValueUi,
     listState: LazyListState,
     onBalanceClick: () -> Unit,
+    onMoreClick: () -> Unit,
     onIncomeClick: () -> Unit,
     onExpenseClick: () -> Unit,
 ) {
@@ -106,7 +121,8 @@ fun LazyListScope.header(
         periodModal = periodModal,
         balance = balance,
         listState = listState,
-        onBalanceClick = onBalanceClick
+        onBalanceClick = onBalanceClick,
+        onMoreClick = onMoreClick,
     )
     item(key = "home_header_balance") {
         SpacerVer(height = 4.dp)
@@ -121,7 +137,7 @@ fun LazyListScope.header(
             onExpenseClick = onExpenseClick,
         )
     }
-    item {
+    item(key = "header_divider_line") {
         SpacerVer(height = 24.dp)
         DividerHor()
     }
@@ -133,7 +149,8 @@ private fun LazyListScope.toolbar(
     periodModal: IvyModal,
     balance: ValueUi,
     listState: LazyListState,
-    onBalanceClick: () -> Unit
+    onBalanceClick: () -> Unit,
+    onMoreClick: () -> Unit = {},
 ) {
     stickyHeader(
         key = "home_tab_toolbar",
@@ -154,9 +171,7 @@ private fun LazyListScope.toolbar(
                 )
             }
             SpacerWeight(weight = 1f)
-            MoreMenuButton {
-                // TODO: Implement
-            }
+            MoreMenuButton(onClick = onMoreClick)
         }
 
         val headerCollapsed by remember {
@@ -188,23 +203,10 @@ private fun CollapsedToolbarExtension(
     onScrollToTop: () -> Unit
 ) {
     Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            BalanceMini(
-                balance = balance,
-                onClick = onBalanceClick
-            )
-            SpacerWeight(weight = 1f)
-            IvyButton(
-                size = ButtonSize.Small,
-                visibility = ButtonVisibility.Low,
-                feeling = ButtonFeeling.Positive,
-                text = "Scroll to top",
-                icon = null,
-                onClick = onScrollToTop,
-            )
-        }
+        BalanceMini(
+            balance = balance,
+            onClick = onBalanceClick
+        )
         SpacerVer(height = 4.dp)
         DividerHor(size = DividerSize.FillMax(padding = 0.dp))
     }
@@ -215,7 +217,9 @@ private fun CollapsedToolbarExtension(
 @Composable
 private fun BoxScope.Modals(
     periodModal: IvyModal,
-    selectedPeriod: SelectedPeriodUi?
+    selectedPeriod: SelectedPeriodUi?,
+    addTransactionModal: IvyModal,
+    onEvent: (HomeEvent) -> Unit,
 ) {
     if (selectedPeriod != null) {
         PeriodModal(
@@ -223,6 +227,19 @@ private fun BoxScope.Modals(
             selectedPeriod = selectedPeriod
         )
     }
+
+    AddTransactionModal(
+        modal = addTransactionModal,
+        onAddTransfer = {
+            onEvent(HomeEvent.AddTransfer)
+        },
+        onAddIncome = {
+            onEvent(HomeEvent.AddIncome)
+        },
+        onAddExpense = {
+            onEvent(HomeEvent.AddExpense)
+        }
+    )
 }
 // endregion
 
@@ -243,7 +260,9 @@ private fun Preview() {
                 income = ValueUi("1,500.35", "USD"),
                 expense = ValueUi("3,000.50", "USD"),
                 hideBalance = false,
-                trnsList = sampleTransactionListUi()
+                moreMenuVisible = false,
+                trnsList = sampleTransactionListUi(),
+                addTransactionModal = rememberIvyModal()
             ),
             onEvent = {}
         )

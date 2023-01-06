@@ -20,5 +20,5 @@ fun <ArgPrimitive, Arg> NavBackStackEntry.optionalArg(
 ): Arg? = type(key)?.let(transform)
 
 fun string(): NavBackStackEntry.(String) -> String? = { key -> arguments?.getString(key) }
-fun int(): NavBackStackEntry.(String) -> Int? = { key -> arguments?.getInt(key) }
+fun int(): NavBackStackEntry.(String) -> Int? = { key -> arguments?.getString(key)?.toIntOrNull() }
 fun bool(): NavBackStackEntry.(String) -> Boolean? = { key -> arguments?.getBoolean(key) }

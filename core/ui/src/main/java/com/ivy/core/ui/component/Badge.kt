@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,21 +19,23 @@ import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Blue2Dark
-import com.ivy.design.l0_system.color.rememberContrastColor
+import com.ivy.design.l0_system.color.rememberContrast
 import com.ivy.design.l1_buildingBlocks.Caption
-import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenIf
+
+// TODO: Consider unifying and merging with AccountButton
 
 @Composable
 fun BadgeComponent(
     text: String,
     icon: ItemIcon,
     background: Color,
+    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .background(background, UI.shapes.fullyRounded)
             .thenIf(onClick != null) {
                 clip(UI.shapes.fullyRounded)
@@ -42,14 +45,16 @@ fun BadgeComponent(
             .padding(vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val contrastColor = rememberContrastColor(background)
+        val contrastColor = rememberContrast(background)
         ItemIcon(
             itemIcon = icon,
             size = IconSize.S,
             tint = contrastColor,
         )
-        SpacerHor(width = 4.dp)
         Caption(
+            modifier = Modifier
+                .padding(start = 4.dp)
+                .widthIn(min = 0.dp, max = 120.dp),
             text = text,
             color = contrastColor,
             fontWeight = FontWeight.ExtraBold

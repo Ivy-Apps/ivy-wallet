@@ -8,20 +8,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.doOnLayout
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.mediumBlur
 import com.ivy.design.l1_buildingBlocks.SpacerHor
@@ -36,12 +33,14 @@ import com.ivy.design.l2_components.modal.scope.ModalActionsScope
 import com.ivy.design.l2_components.modal.scope.ModalActionsScopeImpl
 import com.ivy.design.l2_components.modal.scope.ModalScope
 import com.ivy.design.l2_components.modal.scope.ModalScopeImpl
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.*
 import com.ivy.resources.R
+
+var openModals = 0
 
 // region Ivy Modal
 @Immutable
@@ -50,10 +49,12 @@ data class IvyModal(
 ) {
     fun hide() {
         visibilityState.value = false
+        openModals--
     }
 
     fun show() {
         visibilityState.value = true
+        openModals++
     }
 }
 
@@ -61,11 +62,12 @@ data class IvyModal(
 fun rememberIvyModal(): IvyModal = remember { IvyModal() }
 // endregion
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BoxScope.Modal(
     modal: IvyModal,
-
     actions: @Composable ModalActionsScope.() -> Unit,
+    contentModifier: Modifier = Modifier,
     keyboardShiftsContent: Boolean = true,
     level: Int = 1,
     content: @Composable ModalScope.() -> Unit
@@ -80,6 +82,7 @@ fun BoxScope.Modal(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
+        val keyboardController = LocalSoftwareKeyboardController.current
         Spacer(
             modifier = Modifier
                 .fillMaxSize()
@@ -87,6 +90,7 @@ fun BoxScope.Modal(
                 .testTag("modal_outside_blur")
                 .clickable(
                     onClick = {
+                        keyboardController?.hide()
                         modal.hide()
                     },
                     enabled = visible
@@ -108,7 +112,7 @@ fun BoxScope.Modal(
     ) {
         val systemBottomPadding = systemPaddingBottom()
         val keyboardShown by keyboardShownState()
-        val keyboardShownInset = keyboardPaddingBottom()
+        val keyboardShownInset = keyboardPadding()
         val paddingBottom = if (keyboardShiftsContent) {
             animateDpAsState(
                 targetValue = if (keyboardShown)
@@ -117,7 +121,7 @@ fun BoxScope.Modal(
         } else systemBottomPadding
 
         Column(
-            modifier = Modifier
+            modifier = contentModifier
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(top = 24.dp) // 24 dp from the status bar (top)
@@ -135,9 +139,13 @@ fun BoxScope.Modal(
                 content()
             }
 
+            val keyboardController = LocalSoftwareKeyboardController.current
             ModalActionsRow(
                 Actions = actions,
-                onClose = { modal.hide() },
+                onClose = {
+                    keyboardController?.hide()
+                    modal.hide()
+                },
             )
             SpacerVer(height = 12.dp)
         }
@@ -201,78 +209,15 @@ fun CloseButton(
     onClick: () -> Unit
 ) {
     IvyButton(
+        modifier = modifier,
         size = ButtonSize.Small,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Disabled,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Disabled,
         text = null,
         icon = R.drawable.ic_round_close_24,
         onClick = onClick
     )
 }
-
-@Composable
-private fun keyboardShownState(): MutableState<Boolean> {
-    val keyboardOpen = remember { mutableStateOf(false) }
-    val rootView = LocalView.current
-
-    DisposableEffect(Unit) {
-        val keyboardListener = {
-            // check keyboard state after this layout
-            val isOpenNew = isKeyboardOpen(rootView)
-
-            // since the observer is hit quite often, only callback when there is a change.
-            if (isOpenNew != keyboardOpen.value) {
-                keyboardOpen.value = isOpenNew
-            }
-        }
-
-        rootView.doOnLayout {
-            // get initial state of keyboard
-            keyboardOpen.value = isKeyboardOpen(rootView)
-
-            // whenever the layout resizes/changes, callback with the state of the keyboard.
-            rootView.viewTreeObserver.addOnGlobalLayoutListener(keyboardListener)
-        }
-
-        onDispose {
-            // stop keyboard updates
-            rootView.viewTreeObserver.removeOnGlobalLayoutListener(keyboardListener)
-        }
-    }
-
-    return keyboardOpen
-}
-
-// region Insets
-/**
- * @return system's bottom inset (nav buttons or bottom nav)
- */
-@Composable
-private fun systemPaddingBottom(): Dp {
-    val rootView = LocalView.current
-    val densityScope = LocalDensity.current
-    return remember(rootView) {
-        val insetPx =
-            WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
-                .getInsets(WindowInsetsCompat.Type.navigationBars())
-                .bottom
-        with(densityScope) { insetPx.toDp() }
-    }
-}
-
-@Composable
-private fun keyboardPaddingBottom(): Dp {
-    val rootView = LocalView.current
-    val insetPx =
-        WindowInsetsCompat.toWindowInsetsCompat(rootView.rootWindowInsets, rootView)
-            .getInsets(
-                WindowInsetsCompat.Type.ime() or
-                        WindowInsetsCompat.Type.navigationBars()
-            )
-            .bottom
-    return insetPx.toDensityDp()
-}
-// endregion
 
 // region Previews
 @Preview
@@ -324,8 +269,8 @@ private fun Preview_Partial() {
             actions = {
                 IvyButton(
                     size = ButtonSize.Small,
-                    visibility = ButtonVisibility.Medium,
-                    feeling = ButtonFeeling.Disabled,
+                    visibility = Visibility.Medium,
+                    feeling = Feeling.Disabled,
                     text = null,
                     icon = R.drawable.ic_round_calculate_24
                 ) {

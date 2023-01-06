@@ -24,20 +24,21 @@ class AccountsFlow @Inject constructor(
 
     override fun createFlow(): Flow<List<Account>> =
         accountDao.findAll().map { entities ->
-            entities.map { toAccount(acc = it) }
+            entities.map(::toDomain)
         }.flowOn(Dispatchers.IO)
 
-    private fun toAccount(acc: AccountEntity): Account =
-        Account(
-            id = acc.id.toUUID(),
-            name = acc.name,
-            currency = acc.currency,
-            color = acc.color,
-            icon = acc.icon,
-            excluded = acc.excluded,
-            folderId = acc.folderId?.toUUID(),
-            orderNum = acc.orderNum,
-            state = acc.state,
-            sync = acc.sync
-        )
 }
+
+fun toDomain(acc: AccountEntity): Account =
+    Account(
+        id = acc.id.toUUID(),
+        name = acc.name,
+        currency = acc.currency,
+        color = acc.color,
+        icon = acc.icon,
+        excluded = acc.excluded,
+        folderId = acc.folderId?.toUUID(),
+        orderNum = acc.orderNum,
+        state = acc.state,
+        sync = acc.sync
+    )

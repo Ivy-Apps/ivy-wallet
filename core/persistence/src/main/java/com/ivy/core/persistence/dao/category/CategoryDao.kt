@@ -17,8 +17,14 @@ interface CategoryDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM categories WHERE sync != $DELETING AND id = :categoryId")
+    suspend fun findById(categoryId: String): CategoryEntity?
+
     @Query("SELECT * FROM categories WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<CategoryEntity>>
+
+    @Query("SELECT MAX(orderNum) FROM categories WHERE parentCategoryId IS NULL")
+    suspend fun findMaxNoParentOrderNum(): Double?
     // endregion
 
     // region Update

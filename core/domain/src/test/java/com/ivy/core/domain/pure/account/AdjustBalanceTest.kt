@@ -1,5 +1,6 @@
 package com.ivy.core.domain.pure.account
 
+import com.ivy.common.test.testTimeProvider
 import com.ivy.core.domain.pure.dummy.dummyAcc
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -42,6 +43,7 @@ class AdjustBalanceTest : StringSpec({
             val acc = dummyAcc(currency = "USD")
 
             val adjustTrn = adjustBalanceTrn(
+                timeProvider = testTimeProvider(),
                 account = acc,
                 currentBalance = 50.0,
                 desiredBalance = 40.0,
@@ -61,6 +63,7 @@ class AdjustBalanceTest : StringSpec({
             val acc = dummyAcc(currency = "EUR")
 
             val adjustTrn = adjustBalanceTrn(
+                timeProvider = testTimeProvider(),
                 account = acc,
                 currentBalance = 33.67,
                 desiredBalance = 100.0,
@@ -79,6 +82,7 @@ class AdjustBalanceTest : StringSpec({
         val acc = dummyAcc(currency = "USD")
 
         val res = adjustBalanceTrn(
+            timeProvider = testTimeProvider(),
             account = acc,
             currentBalance = 1_023.55,
             desiredBalance = 1_023.555,
@@ -92,6 +96,7 @@ class AdjustBalanceTest : StringSpec({
         val acc = dummyAcc(currency = "BTC")
 
         val res = adjustBalanceTrn(
+            timeProvider = testTimeProvider(),
             account = acc,
             currentBalance = .00345,
             desiredBalance = .00346,

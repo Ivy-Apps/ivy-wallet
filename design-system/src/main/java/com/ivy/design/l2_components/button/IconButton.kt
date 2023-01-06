@@ -1,7 +1,6 @@
 package com.ivy.design.l2_components.button
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -17,6 +16,7 @@ import com.ivy.design.l1_buildingBlocks.data.Background
 import com.ivy.design.l1_buildingBlocks.data.applyBackground
 import com.ivy.design.l1_buildingBlocks.data.clipBackground
 import com.ivy.design.l1_buildingBlocks.data.solid
+import com.ivy.design.l1_buildingBlocks.hapticClickable
 import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.padding
 
@@ -32,12 +32,13 @@ fun Btn.Icon(
         padding = padding(all = 8.dp)
     ),
     contentDescription: String = "icon button",
+    hapticFeedback: Boolean = false,
     onClick: () -> Unit
 ) {
     IconRes(
         modifier = modifier
             .clipBackground(background)
-            .clickable(onClick = onClick)
+            .hapticClickable(hapticFeedbackEnabled = hapticFeedback, onClick = onClick)
             .applyBackground(background),
         icon = icon,
         tint = iconTint,

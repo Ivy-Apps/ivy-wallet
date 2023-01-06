@@ -1,6 +1,6 @@
 package com.ivy.common.test
 
-import com.ivy.common.time.TimeProvider
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toEpochMilli
 import com.ivy.common.time.toEpochSeconds
 import java.time.LocalDate

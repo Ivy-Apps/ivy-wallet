@@ -9,9 +9,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.data.CurrencyCode
 import com.ivy.design.l1_buildingBlocks.*
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 
 @Composable
@@ -57,8 +57,8 @@ fun BoxScope.OnboardingDebug() {
         IvyButton(
             modifier = Modifier.padding(horizontal = 16.dp),
             size = ButtonSize.Big,
-            visibility = ButtonVisibility.Focused,
-            feeling = ButtonFeeling.Positive,
+            visibility = Visibility.Focused,
+            feeling = Feeling.Positive,
             text = "Finish onboarding",
             icon = null
         ) {
@@ -77,8 +77,8 @@ private fun CurrencyButton(
     IvyButton(
         size = ButtonSize.Small,
         visibility = if (currency == baseCurrency)
-            ButtonVisibility.High else ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+            Visibility.High else Visibility.Medium,
+        feeling = Feeling.Positive,
         text = currency,
         icon = null
     ) {

@@ -17,13 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ivy.core.ui.data.transaction.DueSectionUi
-import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TransactionsListUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
-import com.ivy.core.ui.transaction.card.Card
 import com.ivy.core.ui.transaction.card.DueActions
+import com.ivy.core.ui.transaction.card.TransactionCard
+import com.ivy.core.ui.transaction.card.TransferCard
 import com.ivy.core.ui.transaction.card.dummyDueActions
 import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
 import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
@@ -62,12 +63,16 @@ internal fun LazyListScope.transactionsList(
 ) {
     dueSection(
         section = trnsList.upcoming,
+        key = "upcoming_section",
+        paddingTop = 20.dp,
         handler = upcomingHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
     )
     dueSection(
         section = trnsList.overdue,
+        key = "overdue_section",
+        paddingTop = 20.dp,
         handler = overdueHandler,
         trnClickHandler = trnClickHandler,
         dueActions = dueActions
@@ -85,13 +90,15 @@ internal fun LazyListScope.transactionsList(
 
 private fun LazyListScope.dueSection(
     section: DueSectionUi?,
+    key: String,
+    paddingTop: Dp,
     handler: ExpandCollapseHandler,
     trnClickHandler: TrnItemClickHandler,
     dueActions: DueActions?,
 ) {
     if (section != null) {
-        item {
-            SpacerVer(height = 24.dp)
+        item(key = key) {
+            SpacerVer(height = paddingTop)
             section.SectionDivider(
                 expanded = handler.expanded,
                 setExpanded = handler.setExpanded,
@@ -108,22 +115,41 @@ private fun LazyListScope.dueSection(
 }
 
 private fun LazyListScope.dueTrns(
-    trns: List<TransactionUi>,
+    trns: List<TrnListItemUi>,
     trnClickHandler: TrnItemClickHandler,
     dueActions: DueActions?,
 ) {
     items(
         items = trns,
-        key = { it.id }
-    ) { trn ->
+        key = {
+            when (it) {
+                is TrnListItemUi.DateDivider -> "impossible-${it.date}"
+                is TrnListItemUi.Transfer -> it.batchId
+                is TrnListItemUi.Trn -> it.trn.id
+            }
+        }
+    ) { item ->
         SpacerVer(height = 12.dp)
-        trn.Card(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            onClick = trnClickHandler.onTrnClick,
-            onAccountClick = trnClickHandler.onAccountClick,
-            onCategoryClick = trnClickHandler.onCategoryClick,
-            dueActions = dueActions
-        )
+        when (item) {
+            is TrnListItemUi.DateDivider -> {} // date dividers can't be in due, should not happen
+            is TrnListItemUi.Transfer -> TransferCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                transfer = item,
+                onClick = trnClickHandler.onTransferClick,
+                onAccountClick = trnClickHandler.onAccountClick,
+                onCategoryClick = trnClickHandler.onCategoryClick,
+                dueActions = dueActions,
+            )
+            is TrnListItemUi.Trn -> TransactionCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                trn = item.trn,
+                onClick = trnClickHandler.onTrnClick,
+                onAccountClick = trnClickHandler.onAccountClick,
+                onCategoryClick = trnClickHandler.onCategoryClick,
+                dueActions = dueActions
+            )
+        }
+
     }
 }
 
@@ -135,7 +161,7 @@ private fun LazyListScope.history(
         items = history,
         key = { _, item ->
             when (item) {
-                is TrnListItemUi.DateDivider -> item.date
+                is TrnListItemUi.DateDivider -> item.id
                 is TrnListItemUi.Trn -> item.trn.id
                 is TrnListItemUi.Transfer -> item.batchId
             }
@@ -146,14 +172,15 @@ private fun LazyListScope.history(
                 SpacerVer(
                     // the first date divider require less margin
                     height = if (index > 0 && history[index - 1] !is TrnListItemUi.DateDivider)
-                        32.dp else 24.dp
+                        20.dp else 16.dp
                 )
-                item.DateDivider()
+                DateDivider(item)
             }
             is TrnListItemUi.Trn -> {
                 SpacerVer(height = 12.dp)
-                item.trn.Card(
+                TransactionCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
+                    trn = item.trn,
                     onClick = trnClickHandler.onTrnClick,
                     onAccountClick = trnClickHandler.onAccountClick,
                     onCategoryClick = trnClickHandler.onCategoryClick,
@@ -161,9 +188,12 @@ private fun LazyListScope.history(
             }
             is TrnListItemUi.Transfer -> {
                 SpacerVer(height = 12.dp)
-                item.Card(
+                TransferCard(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    onClick = trnClickHandler.onTransferClick
+                    transfer = item,
+                    onClick = trnClickHandler.onTransferClick,
+                    onAccountClick = trnClickHandler.onAccountClick,
+                    onCategoryClick = trnClickHandler.onCategoryClick,
                 )
             }
         }

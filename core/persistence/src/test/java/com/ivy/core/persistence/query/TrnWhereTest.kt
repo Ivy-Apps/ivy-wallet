@@ -41,8 +41,10 @@ class TrnWhereTest : StringSpec({
     val genByAccount = arbitrary { ByAccountId(genId.bind()) }
 
     val genTrnType = Arb.enum<TransactionType>()
+    val genTrnPurpose = Arb.enum<TrnPurpose>()
 
     val genByType = arbitrary { ByType(trnType = genTrnType.bind()) }
+    val genByPurpose = arbitrary { ByPurpose(purpose = genTrnPurpose.bind()) }
 
     val genBySync = arbitrary { BySync(sync = Arb.enum<SyncState>().bind()) }
 
@@ -62,6 +64,10 @@ class TrnWhereTest : StringSpec({
 
     val genByTypeIn = arbitrary {
         ByTypeIn(Arb.nonEmptyList(genTrnType, 1..3).bind())
+    }
+
+    val genByPurposeIn = arbitrary {
+        ByPurposeIn(Arb.nonEmptyList(genTrnPurpose, 1..3).bind())
     }
 
     val genSimpleQuery = Arb.choice(
@@ -273,6 +279,15 @@ class TrnWhereTest : StringSpec({
         }
     }
 
+    "generate ByPurpose" {
+        checkAll(genByPurpose) { byPurpose ->
+            val res = generateWhereClause(byPurpose, timeProvider = timeProvider)
+
+            res.query shouldBe "purpose = ?"
+            res.args shouldBe listOf(byPurpose.purpose?.code)
+        }
+    }
+
     "generate BySync" {
         checkAll(genBySync) { bySync ->
             val res = generateWhereClause(bySync, timeProvider = timeProvider)
@@ -383,6 +398,18 @@ class TrnWhereTest : StringSpec({
             res.args shouldBe types.toList().map { it.code }
         }
     }
+
+    "generate ByPurposeIn" {
+        checkAll(genByPurposeIn) { byPurposeIn ->
+            val purposes = byPurposeIn.purposes
+
+            val res = generateWhereClause(byPurposeIn, timeProvider = timeProvider)
+
+            res.query shouldBe "purpose IN (${placeholders(purposes.size)})"
+            res.args shouldBe purposes.toList().map { it.code }
+        }
+    }
+
 
     "generate Brackets" {
         checkAll(genBrackets) { brackets ->

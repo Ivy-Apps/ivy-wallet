@@ -13,9 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
+import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.design.l0_system.UI
-import com.ivy.design.l1_buildingBlocks.B1Second
-import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.H1Second
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.util.ComponentPreview
@@ -62,18 +61,7 @@ internal fun BalanceMini(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        B2(text = "Balance", fontWeight = FontWeight.Normal)
-        SpacerHor(width = 4.dp)
-        B1Second(
-            text = balance.currency,
-            fontWeight = FontWeight.Normal,
-        )
-        SpacerHor(width = 4.dp)
-        B1Second(
-            text = balance.amount,
-            modifier = Modifier.testTag("balance_mini_amount"),
-            fontWeight = FontWeight.Bold,
-        )
+        AmountCurrency(balance)
     }
 }
 // endregion

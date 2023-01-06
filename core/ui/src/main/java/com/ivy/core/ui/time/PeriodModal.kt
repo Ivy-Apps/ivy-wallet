@@ -29,12 +29,12 @@ import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Done
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
-import com.ivy.design.l3_ivyComponents.button.ButtonFeeling
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
-import com.ivy.design.l3_ivyComponents.button.ButtonVisibility
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewmodelPreviewSafe
+import com.ivy.design.util.hiltViewModelPreviewSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -43,7 +43,7 @@ fun BoxScope.PeriodModal(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi
 ) {
-    val viewModel: SelectedPeriodViewModel? = hiltViewmodelPreviewSafe()
+    val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
     UI(
         modal = modal,
@@ -162,8 +162,8 @@ private fun MonthItem(
 ) {
     IvyButton(
         size = ButtonSize.Small,
-        visibility = if (selected) ButtonVisibility.High else ButtonVisibility.Medium,
-        feeling = if (selected) ButtonFeeling.Positive else ButtonFeeling.Neutral,
+        visibility = if (selected) Visibility.High else Visibility.Medium,
+        feeling = if (selected) Feeling.Positive else Feeling.Neutral,
         text = if (month.currentYear) month.fullName else "${month.fullName}, ${month.year}",
         icon = null
     ) {
@@ -264,8 +264,8 @@ private fun DateButton(
     IvyButton(
         modifier = modifier,
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Neutral,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Neutral,
         text = dateText,
         icon = R.drawable.ic_round_calendar_month_24,
         onClick = onClick
@@ -298,8 +298,8 @@ private fun MoreOptions(
             modifier = Modifier.weight(1f),
             size = ButtonSize.Big,
             visibility = if (selected is SelectedPeriodUi.AllTime)
-                ButtonVisibility.High else ButtonVisibility.Medium,
-            feeling = ButtonFeeling.Positive,
+                Visibility.High else Visibility.Medium,
+            feeling = Feeling.Positive,
             text = "All-time",
             icon = R.drawable.ic_baseline_all_inclusive_24
         ) {
@@ -309,8 +309,8 @@ private fun MoreOptions(
         IvyButton(
             modifier = Modifier.weight(1f),
             size = ButtonSize.Big,
-            visibility = ButtonVisibility.Medium,
-            feeling = ButtonFeeling.Negative,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Negative,
             text = "Reset",
             icon = R.drawable.ic_round_undo_24
         ) {
@@ -321,8 +321,8 @@ private fun MoreOptions(
     IvyButton(
         modifier = Modifier.padding(horizontal = 8.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Low,
-        feeling = ButtonFeeling.Neutral,
+        visibility = Visibility.Low,
+        feeling = Feeling.Neutral,
         text = "See more",
         icon = R.drawable.ic_round_expand_less_24,
         onClick = onShowMoreOptionsModal
@@ -414,8 +414,8 @@ private fun MoreOptionsButton(
     IvyButton(
         modifier = Modifier.padding(horizontal = 16.dp),
         size = ButtonSize.Big,
-        visibility = ButtonVisibility.Medium,
-        feeling = ButtonFeeling.Positive,
+        visibility = Visibility.Medium,
+        feeling = Feeling.Positive,
         text = text,
         icon = null,
         onClick = onClick
