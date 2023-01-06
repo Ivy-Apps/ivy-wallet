@@ -11,7 +11,6 @@ sealed interface EditTransferEvent {
     object Close : EditTransferEvent
     object Delete : EditTransferEvent
 
-    data class TransferAmountChange(val amount: Value) : EditTransferEvent
     data class FromAmountChange(val amount: Value) : EditTransferEvent
     data class ToAmountChange(val amount: Value) : EditTransferEvent
     data class TitleChange(val title: String) : EditTransferEvent

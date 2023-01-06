@@ -118,7 +118,7 @@ class EditTransferViewModel @Inject constructor(
                 description = description,
                 fee = fee,
                 rate = if (amountFrom.value.currency != amountTo.value.currency &&
-                    amountFrom.value.amount > 0.0
+                    amountFrom.value.amount > 0.0 && amountTo.value.amount > 0.0
                 ) {
                     // e.g. 1 EUR to 1.96 BGN
                     // => EUR-BGN = 1.96 / 1 = 1.96
@@ -147,7 +147,6 @@ class EditTransferViewModel @Inject constructor(
         EditTransferEvent.Save -> handleSave()
         EditTransferEvent.Delete -> handleDelete()
         EditTransferEvent.Close -> handleClose()
-        is EditTransferEvent.TransferAmountChange -> handleTransferAmountChange(event)
         is EditTransferEvent.ToAmountChange -> handleToAmountChange(event)
         is EditTransferEvent.FromAmountChange -> handleFromAmountChange(event)
         is EditTransferEvent.FromAccountChange -> handleFromAccountChange(event)
@@ -243,10 +242,6 @@ class EditTransferViewModel @Inject constructor(
     }
 
     // region Handle value changes
-    private suspend fun handleTransferAmountChange(event: EditTransferEvent.TransferAmountChange) {
-        // Called initially when the transfer modal is shown
-        updateFromAmount(event.amount)
-    }
 
     private suspend fun handleFromAmountChange(event: EditTransferEvent.FromAmountChange) {
         updateFromAmount(event.amount)
@@ -261,15 +256,27 @@ class EditTransferViewModel @Inject constructor(
             value = newFromAmount,
             shortenFiat = false,
         )
-        amountTo.value = CombinedValueUi(
-            value = exchangeAct(
-                ExchangeAct.Input(
-                    value = newFromAmount,
-                    outputCurrency = toAccount.currency
-                )
-            ),
-            shortenFiat = false,
-        )
+
+        val rate = uiState.value.rate
+        if (rate != null && rate.rateValue > 0) {
+            // Custom exchange rate set by the user, use it
+            amountTo.value = CombinedValueUi(
+                amount = newFromAmount.amount * rate.rateValue,
+                currency = toAccount.currency,
+                shortenFiat = false,
+            )
+        } else {
+            // No rate, exchange by latest rate
+            amountTo.value = CombinedValueUi(
+                value = exchangeAct(
+                    ExchangeAct.Input(
+                        value = newFromAmount,
+                        outputCurrency = toAccount.currency
+                    )
+                ),
+                shortenFiat = false,
+            )
+        }
     }
 
     private fun handleToAmountChange(event: EditTransferEvent.ToAmountChange) {

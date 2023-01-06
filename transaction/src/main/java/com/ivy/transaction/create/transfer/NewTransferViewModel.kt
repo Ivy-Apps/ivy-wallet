@@ -117,7 +117,7 @@ class NewTransferViewModel @Inject constructor(
                 description = description,
                 fee = fee,
                 rate = if (amountFrom.value.currency != amountTo.value.currency &&
-                    amountFrom.value.amount > 0.0
+                    amountFrom.value.amount > 0.0 && amountTo.value.amount > 0.0
                 ) {
                     // e.g. 1 EUR to 1.96 BGN
                     // => EUR-BGN = 1.96 / 1 = 1.96
@@ -244,15 +244,27 @@ class NewTransferViewModel @Inject constructor(
             value = newFromAmount,
             shortenFiat = false,
         )
-        amountTo.value = CombinedValueUi(
-            value = exchangeAct(
-                ExchangeAct.Input(
-                    value = newFromAmount,
-                    outputCurrency = toAccount.currency
-                )
-            ),
-            shortenFiat = false,
-        )
+
+        val rate = uiState.value.rate
+        if (rate != null && rate.rateValue > 0) {
+            // Custom exchange rate set by the user, use it
+            amountTo.value = CombinedValueUi(
+                amount = newFromAmount.amount * rate.rateValue,
+                currency = toAccount.currency,
+                shortenFiat = false,
+            )
+        } else {
+            // No rate, exchange by latest rate
+            amountTo.value = CombinedValueUi(
+                value = exchangeAct(
+                    ExchangeAct.Input(
+                        value = newFromAmount,
+                        outputCurrency = toAccount.currency
+                    )
+                ),
+                shortenFiat = false,
+            )
+        }
     }
 
     private fun handleToAmountChange(event: NewTransferEvent.ToAmountChange) {

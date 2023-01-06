@@ -172,7 +172,7 @@ private fun ToAmountReceived(
     if (fromValue != toValue) {
         B2Second(
             text = "${toValue.amount} ${toValue.currency}",
-            modifier = Modifier.padding(start = 48.dp),
+            modifier = Modifier.padding(start = 44.dp),
             color = UI.colors.neutral,
             fontWeight = FontWeight.Normal,
         )
