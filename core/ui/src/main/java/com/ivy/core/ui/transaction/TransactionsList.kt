@@ -172,7 +172,7 @@ private fun LazyListScope.history(
                 SpacerVer(
                     // the first date divider require less margin
                     height = if (index > 0 && history[index - 1] !is TrnListItemUi.DateDivider)
-                        20.dp else 16.dp
+                        16.dp else 16.dp
                 )
                 DateDivider(item)
             }

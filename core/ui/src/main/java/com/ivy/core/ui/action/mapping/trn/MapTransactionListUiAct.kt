@@ -77,14 +77,14 @@ class MapTransactionListUiAct @Inject constructor(
         return TrnListItemUi.DateDivider(
             id = domain.id,
             date = domain.date.format(
-                if (today.year == domain.date.year) "MMMM dd." else "MMM dd. yyyy"
+                if (today.year == domain.date.year) "MMMM dd." else "MMM dd, yyyy"
             ),
             day = when (domain.date) {
                 today -> appContext.getString(R.string.today)
                 today.minusDays(1) -> appContext.getString(R.string.yesterday)
                 today.plusDays(1) -> appContext.getString(R.string.tomorrow)
                 else -> null
-            } ?: today.format("EEEE"),
+            } ?: domain.date.format("EEEE"),
             cashflow = format(value = domain.cashflow, shortenFiat = true),
             positiveCashflow = domain.cashflow.amount > 0,
             collapsed = domain.collapsed,
