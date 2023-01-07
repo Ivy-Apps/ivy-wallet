@@ -37,9 +37,9 @@ fun IvyButton(
     visibility: Visibility,
     feeling: Feeling,
     text: String?,
-    @DrawableRes
-    icon: Int?,
     modifier: Modifier = Modifier,
+    @DrawableRes
+    icon: Int? = null,
     shape: Shape = UI.shapes.fullyRounded,
     typo: TextStyle = UI.typo.b2,
     fontWeight: FontWeight = FontWeight.Bold,
