@@ -5,7 +5,7 @@
     <string name="month_income">WPŁYWY W TYM MIESIĄCU</string>
     <string name="month_expenses">WYDATKI W TYM MIESIĄCU</string>
     <string name="excluded">(wykluczony)</string>
-    <string name="income_uppercase">WPŁYWY/string>
+    <string name="income_uppercase">WPŁYWY</string>
     <string name="expenses_uppercase">WYDATKI</string>
     <string name="app_locked">APLIKACJA ZABLOKOWANA</string>
     <string name="authenticate_text">Autoryzacja w celu otwarcia aplikacji</string>
