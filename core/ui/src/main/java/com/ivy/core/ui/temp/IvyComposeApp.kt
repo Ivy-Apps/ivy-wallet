@@ -29,6 +29,8 @@ private fun dummyRootScreen(): RootScreen = object : RootScreen {
 
     override fun shareCSVFile(fileUri: Uri) {}
 
+    override fun fileChooser(onFileChosen: (Uri) -> Unit) {}
+
     override fun shareZipFile(fileUri: Uri) {}
 
     override fun datePicker(
