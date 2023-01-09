@@ -17,6 +17,8 @@ interface RootScreen {
 
     fun shareCSVFile(fileUri: Uri)
 
+    fun fileChooser(onFileChosen: (Uri) -> Unit)
+
     fun shareZipFile(fileUri: Uri)
 
     fun datePicker(

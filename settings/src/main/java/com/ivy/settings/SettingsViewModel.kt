@@ -10,9 +10,11 @@ import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
 import com.ivy.navigation.Navigator
+import com.ivy.old.ImportOldJsonBackupAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +27,8 @@ class SettingsViewModel @Inject constructor(
     private val hideBalanceFlow: HideBalanceFlow,
     private val writeHideBalanceAct: WriteHideBalanceAct,
     private val appLockedFlow: AppLockedFlow,
-    private val writeAppLockedAct: WriteAppLockedAct
+    private val writeAppLockedAct: WriteAppLockedAct,
+    private val importOldJsonBackupAct: ImportOldJsonBackupAct,
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
         baseCurrency = "",
@@ -63,6 +66,13 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.AppLocked -> {
                 writeAppLockedAct(event.appLocked)
             }
+            is SettingsEvent.ImportOldData -> handleImportOldData(event)
         }
     }
+
+    private suspend fun handleImportOldData(event: SettingsEvent.ImportOldData) {
+        val result = importOldJsonBackupAct(event.jsonZipUri)
+        Timber.d("Import data result: $result")
+    }
+
 }

@@ -70,6 +70,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
 
+    // TODO: Refactor this screen because it's a fine mess!
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -88,8 +90,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
     private lateinit var createFileLauncher: ActivityResultLauncher<String>
     private lateinit var onFileCreated: (fileUri: Uri) -> Unit
 
-    private lateinit var openFileLauncher: ActivityResultLauncher<Unit>
-    private lateinit var onFileOpened: (fileUri: Uri) -> Unit
+    private lateinit var fileChooserLauncher: ActivityResultLauncher<Unit>
+    private lateinit var onFileChosen: (fileUri: Uri) -> Unit
 
 
     private val viewModel: RootViewModel by viewModels()
@@ -165,7 +167,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
 
         createFileLauncher()
 
-        openFileLauncher()
+        setupFileChooserLauncher()
     }
 
     private fun googleSignInLauncher() {
@@ -248,15 +250,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
 //        }
     }
 
-    private fun openFileLauncher() {
-        openFileLauncher = simpleActivityForResultLauncher(
+    private fun setupFileChooserLauncher() {
+        fileChooserLauncher = simpleActivityForResultLauncher(
             intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 type = "*/*"
             }
         ) { _, intent ->
             intent?.data?.also {
-                onFileOpened(it)
+                onFileChosen(it)
             }
         }
 
@@ -354,6 +356,11 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun fileChooser(onFileChosen: (Uri) -> Unit) {
+        this.onFileChosen = onFileChosen
+        fileChooserLauncher.launch(Unit)
     }
 
     override fun shareIvyWallet() {

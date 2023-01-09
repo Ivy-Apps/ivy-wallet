@@ -17,5 +17,6 @@ dependencies {
     implementation(project(":core:data-model"))
     implementation(project(":core:persistence"))
     implementation(project(":navigation"))
+    implementation(project(":backup:old"))
     Testing()
 }

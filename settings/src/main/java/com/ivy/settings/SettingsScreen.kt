@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.currency.CurrencyPickerModal
+import com.ivy.core.ui.temp.rootScreen
 import com.ivy.design.l1_buildingBlocks.H1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.SwitchRow
@@ -106,6 +107,20 @@ private fun BoxScope.UI(
             SwitchRow(enabled = state.appLocked, text = "Lock app", onValueChange = {
                 onEvent(SettingsEvent.AppLocked(appLocked = it))
             })
+            SpacerVer(height = 12.dp)
+
+            val rootScreen = rootScreen()
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big, visibility = Visibility.High,
+                feeling = Feeling.Positive,
+                text = "Import old data",
+                icon = null
+            ) {
+                rootScreen.fileChooser {
+                    onEvent(SettingsEvent.ImportOldData(jsonZipUri = it))
+                }
+            }
         }
     }
 

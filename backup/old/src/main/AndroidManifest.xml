@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.ivy.backup.old" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ivy.backup.old">
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        android:requestLegacyExternalStorage="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+</manifest>
