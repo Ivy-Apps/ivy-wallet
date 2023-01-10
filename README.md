@@ -38,7 +38,9 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 > To support our free, open-source project please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
  🙏
 
-> Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)** and see [Ivy Wallet's Roadmap](https://github.com/orgs/Ivy-Apps/projects/1) for more info.
+> Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)**.
+
+> You can see our future plans for the product in **[Ivy Wallet's Roadmap](https://github.com/orgs/Ivy-Apps/projects/1)**.
 
 ## Architecture
 We strive to keep our architecture "perfect" by putting software-design and code quality first. 
