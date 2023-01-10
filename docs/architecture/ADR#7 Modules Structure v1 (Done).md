@@ -1,4 +1,4 @@
-# Architecture Decision Record (ADR) #7: Modules Structure v1 🚧
+# Architecture Decision Record (ADR) #7: Modules Structure v1 ✅
 
 Having more info, now we can structure and organize our modules properly.
 

@@ -1,6 +1,4 @@
-# Architecture Decision Record (ADR) #6: Google Drive sync 🗒️
-
-## _Draft: might be rejected at any point 🔴 WIP..._
+# Architecture Decision Record (ADR) #6: Realm DB sync 🔴
 
 Drop Ivy Cloud and any custom backend in favor of user managed backup/sync system using Google Drive.
 
@@ -10,3 +8,5 @@ The best thing about `.realm` is that it has cross-platform support and it'll wo
 
 # Conclusion
 Realm DB won't be used because it's paid and we'll lose the benefits of Room DB. We'll use JSON backups + Google Drive sync.
+
+**See [ADR#8 Backup and sync](ADR%238%20Backup%20and%20sync%20(Review).md).**

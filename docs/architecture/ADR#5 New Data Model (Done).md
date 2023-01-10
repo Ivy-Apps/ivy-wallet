@@ -1,6 +1,4 @@
-# Architecture Decision Record (ADR) #5: New data model 💡
-
-## _Ideation: might be rejected at any point 🔴_
+# Architecture Decision Record (ADR) #5: New data model ✅
 
 Remove `TransactionType.TRANSFER` and support only `Income` and `Expense` transctions. Represent `TRANSFER` with `TransactionBatch` which is a group of [`Transaction`].
 

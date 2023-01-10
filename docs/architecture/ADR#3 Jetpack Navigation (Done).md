@@ -1,4 +1,4 @@
-# Architecture Decision Record (ADR) #3: Jetpack Navigation 🚧
+# Architecture Decision Record (ADR) #3: Jetpack Navigation ✅
 
 Currently, the Ivy Wallet app uses custom Navigation implementation from our [Ivy FRP](https://github.com/Ivy-Apps/ivy-frp).
 

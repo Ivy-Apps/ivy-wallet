@@ -1,4 +1,4 @@
-# Architecture Decision Record (ADR) #4: `:core` module and modules re-structure 🚧
+# Architecture Decision Record (ADR) #4: `:core` module and modules re-structure ✅
 
 ## _This ADR is WIP and will likely change..._
 
