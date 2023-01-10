@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.folder.edit
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountsInFolderAct
 import com.ivy.core.domain.action.account.folder.FolderAct
@@ -13,6 +14,8 @@ import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.account.Folder
 import com.ivy.design.l0_system.color.Purple
 import com.ivy.design.l0_system.color.toComposeColor
@@ -30,6 +33,7 @@ internal class EditAccFolderViewModel @Inject constructor(
     private val folderAct: FolderAct,
     private val accountsInFolderAct: AccountsInFolderAct,
     private val mapAccountUiAct: MapAccountUiAct,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<EditAccFolderState, EditAccFolderEvent>() {
     override val initialUi = EditAccFolderState(
         icon = ItemIcon.Unknown(
@@ -87,7 +91,11 @@ internal class EditAccFolderViewModel @Inject constructor(
         val updated = folder?.copy(
             name = folderName,
             color = color.value.toArgb(),
-            icon = iconId.value
+            icon = iconId.value,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
         )
         if (updated != null) {
             writeAccountFolderAct(Modify.save(updated))

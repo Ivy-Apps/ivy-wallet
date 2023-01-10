@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.reorder
 
 import arrow.core.Either
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.account.WriteAccountsAct
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
@@ -10,6 +11,8 @@ import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.ui.account.reorder.data.ReorderAccListItemUi
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.account.Account
 import com.ivy.data.account.Folder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +28,7 @@ internal class ReorderAccountsViewModel @Inject constructor(
     private val mapFolderUiAct: MapFolderUiAct,
     private val writeAccountFolderAct: WriteAccountFolderAct,
     private val writeAccountsAct: WriteAccountsAct,
+    private val timeProvider: TimeProvider,
 ) : FlowViewModel<InternalState1, ReorderAccountsStateUi, ReorderAccountsEvent>() {
     override val initialState = InternalState(
         items = emptyList(),
@@ -115,9 +119,25 @@ internal class ReorderAccountsViewModel @Inject constructor(
         if (reordered.size == expectedCount) {
             val accountsToUpdate = reordered.filterIsInstance<Either.Left<Account>>()
                 .map { it.value }
+                .map {
+                    it.copy(
+                        sync = Sync(
+                            state = SyncState.Syncing,
+                            lastUpdated = timeProvider.timeNow(),
+                        )
+                    )
+                }
             writeAccountsAct(Modify.saveMany(accountsToUpdate))
             val foldersToUpdate = reordered.filterIsInstance<Either.Right<Folder>>()
                 .map { it.value }
+                .map {
+                    it.copy(
+                        sync = Sync(
+                            state = SyncState.Syncing,
+                            lastUpdated = timeProvider.timeNow(),
+                        )
+                    )
+                }
             writeAccountFolderAct(Modify.saveMany(foldersToUpdate))
         }
     }

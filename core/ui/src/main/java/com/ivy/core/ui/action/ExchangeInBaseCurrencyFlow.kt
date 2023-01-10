@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class BaseCurrencyRepresentationFlow @Inject constructor(
+class ExchangeInBaseCurrencyFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val exchangeFlow: ExchangeFlow,
 ) : FlowAction<Value, ValueUi?>() {

@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.transaction.transfer
 
+import com.ivy.data.Sync
 import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.category.Category
@@ -15,4 +16,5 @@ data class TransferData(
     val title: String?,
     val description: String?,
     val fee: Value?,
+    val sync: Sync,
 )

@@ -1,16 +1,13 @@
 package com.ivy.core.domain.action.transaction.transfer
 
-import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.action.transaction.WriteTrnsBatchAct
 import com.ivy.core.domain.pure.transaction.transfer.validateTransfer
 import com.ivy.data.Sync
-import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.transaction.*
-import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -18,7 +15,6 @@ class WriteTransferAct @Inject constructor(
     private val writeTrnsBatchAct: WriteTrnsBatchAct,
     private val transferByBatchIdAct: TransferByBatchIdAct,
     private val writeTrnsAct: WriteTrnsAct,
-    private val timeProvider: TimeProvider,
 ) : Action<ModifyTransfer, Unit>() {
     override suspend fun ModifyTransfer.willDo() {
         when (this) {
@@ -40,7 +36,6 @@ class WriteTransferAct @Inject constructor(
             loanRecordId = null,
         )
 
-        val lastUpdated = timeProvider.timeNow()
         // FROM
         trns.add(
             Transaction(
@@ -57,10 +52,7 @@ class WriteTransferAct @Inject constructor(
                 attachments = emptyList(),
                 tags = emptyList(),
                 state = TrnState.Default,
-                sync = Sync(
-                    state = SyncState.Syncing,
-                    lastUpdated = lastUpdated,
-                ),
+                sync = data.sync,
             )
         )
 
@@ -80,10 +72,7 @@ class WriteTransferAct @Inject constructor(
                 attachments = emptyList(),
                 tags = emptyList(),
                 state = TrnState.Default,
-                sync = Sync(
-                    state = SyncState.Syncing,
-                    lastUpdated = lastUpdated,
-                ),
+                sync = data.sync,
             )
         )
 
@@ -94,7 +83,7 @@ class WriteTransferAct @Inject constructor(
                     data = data,
                     fee = data.fee,
                     metadata = metadata,
-                    lastUpdated = lastUpdated,
+                    sync = data.sync,
                 )
             )
         }
@@ -118,8 +107,6 @@ class WriteTransferAct @Inject constructor(
 
         val trns = mutableListOf<Transaction>()
 
-        val lastUpdated = timeProvider.timeNow()
-
         // FROM
         trns.add(
             transfer.from.copy(
@@ -129,10 +116,7 @@ class WriteTransferAct @Inject constructor(
                 title = data.title,
                 description = data.description,
                 time = data.time,
-                sync = Sync(
-                    state = SyncState.Syncing,
-                    lastUpdated = lastUpdated,
-                ),
+                sync = data.sync,
             )
         )
 
@@ -145,10 +129,7 @@ class WriteTransferAct @Inject constructor(
                 title = data.title,
                 description = data.description,
                 time = data.time,
-                sync = Sync(
-                    state = SyncState.Syncing,
-                    lastUpdated = lastUpdated,
-                ),
+                sync = data.sync,
             )
         )
 
@@ -166,10 +147,7 @@ class WriteTransferAct @Inject constructor(
                         description = data.description,
                         time = data.time,
                         value = data.fee,
-                        sync = Sync(
-                            state = SyncState.Syncing,
-                            lastUpdated = lastUpdated,
-                        ),
+                        sync = data.sync,
                     )
                 )
             } else {
@@ -178,7 +156,7 @@ class WriteTransferAct @Inject constructor(
                     fee(
                         data = data,
                         fee = data.fee,
-                        lastUpdated = lastUpdated,
+                        sync = data.sync,
                     )
                 )
             }
@@ -203,7 +181,7 @@ class WriteTransferAct @Inject constructor(
     private fun fee(
         data: TransferData,
         fee: Value,
-        lastUpdated: LocalDateTime,
+        sync: Sync,
         metadata: TrnMetadata = TrnMetadata(
             recurringRuleId = null,
             loanId = null,
@@ -223,10 +201,7 @@ class WriteTransferAct @Inject constructor(
         attachments = emptyList(),
         tags = emptyList(),
         state = TrnState.Default,
-        sync = Sync(
-            state = SyncState.Syncing,
-            lastUpdated = lastUpdated,
-        ),
+        sync = sync,
     )
 
     private suspend fun deleteTransfer(

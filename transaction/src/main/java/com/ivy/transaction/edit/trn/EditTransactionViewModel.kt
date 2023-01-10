@@ -12,7 +12,7 @@ import com.ivy.core.domain.action.transaction.TrnByIdAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.flattenLatest
-import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
+import com.ivy.core.ui.action.ExchangeInBaseCurrencyFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
@@ -43,7 +43,7 @@ class EditTransactionViewModel @Inject constructor(
     private val accountByIdAct: AccountByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
     private val mapCategoryUiAct: MapCategoryUiAct,
-    private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
+    private val exchangeInBaseCurrencyFlow: ExchangeInBaseCurrencyFlow,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
     private val trnByIdAct: TrnByIdAct,
     private val mapAccountUiAct: MapAccountUiAct,
@@ -103,7 +103,7 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private fun amountFlow() = amount.map { amount ->
-        baseCurrencyRepresentationFlow(amount.value).map { amountBaseCurrency ->
+        exchangeInBaseCurrencyFlow(amount.value).map { amountBaseCurrency ->
             amount to amountBaseCurrency
         }
     }.flattenLatest()

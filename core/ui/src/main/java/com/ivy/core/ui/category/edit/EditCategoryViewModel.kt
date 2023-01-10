@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.category.CategoriesFlow
@@ -18,6 +19,8 @@ import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
@@ -38,6 +41,7 @@ internal class EditCategoryViewModel @Inject constructor(
     private val categoryById: CategoryByIdAct,
     private val categoriesFlow: CategoriesFlow,
     private val mapCategoryUiAct: MapCategoryUiAct,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<EditCategoryState, EditCategoryEvent>() {
     override val initialUi = EditCategoryState(
         categoryId = "",
@@ -133,6 +137,10 @@ internal class EditCategoryViewModel @Inject constructor(
             parentCategoryId = parentCategoryId.value?.toUUID(),
             icon = iconId.value,
             type = type.value,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
         )
         if (updated != null) {
             writeCategoriesAct(Modify.save(updated))
@@ -176,7 +184,13 @@ internal class EditCategoryViewModel @Inject constructor(
     }
 
     private suspend fun updateArchived(state: CategoryState) {
-        val updated = category.value?.copy(state = state)
+        val updated = category.value?.copy(
+            state = state,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
+        )
         if (updated != null) {
             writeCategoriesAct(Modify.save(updated))
         }

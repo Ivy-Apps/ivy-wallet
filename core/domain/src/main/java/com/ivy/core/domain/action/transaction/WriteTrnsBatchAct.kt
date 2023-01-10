@@ -6,6 +6,7 @@ import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TrnBatch
 import java.util.*
@@ -49,7 +50,18 @@ class WriteTrnsBatchAct @Inject constructor(
     }
 
     private suspend fun save(batch: TrnBatch) {
-        writeTrnsAct(Modify.saveMany(batch.trns))
+        writeTrnsAct(
+            Modify.saveMany(
+                batch.trns.map {
+                    it.copy(
+                        sync = Sync(
+                            state = SyncState.Syncing,
+                            lastUpdated = timeProvider.timeNow(),
+                        )
+                    )
+                }
+            )
+        )
 
         trnLinkRecordDao.save(
             batch.trns.map {

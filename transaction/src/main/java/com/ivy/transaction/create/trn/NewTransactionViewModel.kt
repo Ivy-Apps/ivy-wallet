@@ -10,7 +10,7 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.flattenLatest
-import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
+import com.ivy.core.ui.action.ExchangeInBaseCurrencyFlow
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.AccountUi
@@ -23,7 +23,6 @@ import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
 import com.ivy.transaction.create.CreateTrnController
-import com.ivy.transaction.create.action.CreateTrnStepsAct
 import com.ivy.transaction.create.action.PreselectedAccountAct
 import com.ivy.transaction.create.action.WriteLastUsedAccount
 import com.ivy.transaction.create.data.CreateTrnStep
@@ -38,7 +37,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NewTransactionViewModel @Inject constructor(
     private val timeProvider: TimeProvider,
-    private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val writeTrnsAct: WriteTrnsAct,
@@ -48,7 +46,7 @@ class NewTransactionViewModel @Inject constructor(
     private val preselectedAccountAct: PreselectedAccountAct,
     private val baseCurrencyAct: BaseCurrencyAct,
     private val writeLastUsedAccount: WriteLastUsedAccount,
-    private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
+    private val exchangeInBaseCurrencyFlow: ExchangeInBaseCurrencyFlow,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
     private val createTrnController: CreateTrnController,
 ) : SimpleFlowViewModel<NewTrnState, NewTrnEvent>() {
@@ -105,7 +103,7 @@ class NewTransactionViewModel @Inject constructor(
     }
 
     private fun amountFlow() = amount.map { amount ->
-        baseCurrencyRepresentationFlow(amount.value).map { amountBaseCurrency ->
+        exchangeInBaseCurrencyFlow(amount.value).map { amountBaseCurrency ->
             amount to amountBaseCurrency
         }
     }.flattenLatest()

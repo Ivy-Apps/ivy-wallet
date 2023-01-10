@@ -6,7 +6,6 @@ import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.account.AccountsAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
 import com.ivy.core.domain.action.exchange.ExchangeAct
-import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.transfer.ModifyTransfer
 import com.ivy.core.domain.action.transaction.transfer.TransferData
 import com.ivy.core.domain.action.transaction.transfer.WriteTransferAct
@@ -14,20 +13,18 @@ import com.ivy.core.domain.pure.format.CombinedValueUi
 import com.ivy.core.domain.pure.util.combine
 import com.ivy.core.domain.pure.util.flattenLatest
 import com.ivy.core.domain.pure.util.takeIfNotBlank
-import com.ivy.core.ui.action.BaseCurrencyRepresentationFlow
-import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.navigation.Navigator
 import com.ivy.transaction.action.TitleSuggestionsFlow
 import com.ivy.transaction.create.CreateTrnController
-import com.ivy.transaction.create.action.CreateTrnStepsAct
-import com.ivy.transaction.create.action.WriteLastUsedAccount
 import com.ivy.transaction.data.TransferRateUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,17 +34,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewTransferViewModel @Inject constructor(
-    timeProvider: TimeProvider,
+    private val timeProvider: TimeProvider,
     private val titleSuggestionsFlow: TitleSuggestionsFlow,
-    private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val accountByIdAct: AccountByIdAct,
     private val categoryByIdAct: CategoryByIdAct,
-    private val mapCategoryUiAct: MapCategoryUiAct,
-    private val baseCurrencyAct: BaseCurrencyAct,
-    private val writeLastUsedAccount: WriteLastUsedAccount,
-    private val baseCurrencyRepresentationFlow: BaseCurrencyRepresentationFlow,
     private val accountsAct: AccountsAct,
     private val mapAccountUiAct: MapAccountUiAct,
     private val writeTransferAct: WriteTransferAct,
@@ -209,6 +201,10 @@ class NewTransferViewModel @Inject constructor(
             title = title.value,
             description = description.value,
             fee = fee.value.value.takeIf { it.amount > 0.0 },
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
         )
 
         writeTransferAct(ModifyTransfer.add(data))

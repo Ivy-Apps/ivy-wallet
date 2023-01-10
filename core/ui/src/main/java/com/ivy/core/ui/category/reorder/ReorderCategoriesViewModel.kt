@@ -1,11 +1,14 @@
 package com.ivy.core.ui.category.reorder
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.category.CategoriesFlow
 import com.ivy.core.domain.action.category.WriteCategoriesAct
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.category.reorder.ReorderCategoriesViewModel.InternalState
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +19,8 @@ import javax.inject.Inject
 internal class ReorderCategoriesViewModel @Inject constructor(
     categoriesFlow: CategoriesFlow,
     private val mapCategoryUiAct: MapCategoryUiAct,
-    private val writeCategoriesAct: WriteCategoriesAct
+    private val writeCategoriesAct: WriteCategoriesAct,
+    private val timeProvider: TimeProvider,
 ) : FlowViewModel<InternalState, ReorderCategoriesStateUi, ReorderCategoriesEvent>() {
     override val initialState = InternalState(
         categories = emptyList(),
@@ -50,7 +54,13 @@ internal class ReorderCategoriesViewModel @Inject constructor(
 
         val reordered = event.reordered.mapIndexedNotNull { index, item ->
             categoriesMap[item.id]
-                ?.copy(orderNum = index.toDouble())
+                ?.copy(
+                    orderNum = index.toDouble(),
+                    sync = Sync(
+                        state = SyncState.Syncing,
+                        lastUpdated = timeProvider.timeNow(),
+                    )
+                )
         }
 
         val expectedCount = uiState.value.items.size

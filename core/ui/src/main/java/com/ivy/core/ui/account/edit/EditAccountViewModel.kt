@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
@@ -21,9 +22,7 @@ import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.core.ui.data.account.FolderUi
 import com.ivy.core.ui.data.icon.ItemIcon
-import com.ivy.data.CurrencyCode
-import com.ivy.data.ItemIconId
-import com.ivy.data.Value
+import com.ivy.data.*
 import com.ivy.data.account.Account
 import com.ivy.data.account.AccountState
 import com.ivy.design.l0_system.color.Purple
@@ -45,6 +44,7 @@ internal class EditAccountViewModel @Inject constructor(
     private val accountFoldersFlow: AccountFoldersFlow,
     private val mapFolderUiAct: MapFolderUiAct,
     private val accBalanceFlow: AccBalanceFlow,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<EditAccountState, EditAccountEvent>() {
     override val initialUi = EditAccountState(
         accountId = "",
@@ -156,7 +156,11 @@ internal class EditAccountViewModel @Inject constructor(
             color = color.value.toArgb(),
             folderId = folderId.value?.toUUID(),
             excluded = excluded.value,
-            icon = iconId.value
+            icon = iconId.value,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
         )
         if (updatedAccount != null) {
             writeAccountsAct(Modify.save(updatedAccount))
@@ -204,7 +208,13 @@ internal class EditAccountViewModel @Inject constructor(
     }
 
     private suspend fun updateArchived(state: AccountState) {
-        val updatedAccount = account.value?.copy(state = state)
+        val updatedAccount = account.value?.copy(
+            state = state,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
+        )
         if (updatedAccount != null) {
             writeAccountsAct(Modify.save(updatedAccount))
         }
