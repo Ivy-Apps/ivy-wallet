@@ -2,7 +2,7 @@
 [![Build](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/build.yml)
 [![Lint](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/lint.yml)
 [![Unit Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/unit_test.yml)
-[![Integration Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml)
+<!-- [![Integration Test](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml/badge.svg)](https://github.com/Ivy-Apps/ivy-wallet/actions/workflows/integration_test.yml) -->
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Ivy-Apps/ivy-wallet/blob/main/CONTRIBUTING.md)
@@ -38,6 +38,7 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 > To support our free, open-source project please ⭐ star our repo - that means a lot for us! Thank you! [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
  🙏
 
+> Join our **[private Telegram Community](https://t.me/+ETavgioAvWg4NThk)** and see [Ivy Wallet's Roadmap](https://github.com/orgs/Ivy-Apps/projects/1) for more info.
 
 ## Architecture
 We strive to keep our architecture "perfect" by putting software-design and code quality first. 
@@ -131,9 +132,6 @@ Be the change! Join our [Telegram community](https://t.me/+ETavgioAvWg4NThk), st
 tell us how we can create a better environment for developers & creators to work together.
 
 ### [Ivy Telegram Community](https://t.me/+ETavgioAvWg4NThk)
-
-### [Ivy Telegram News](https://t.me/ivywallet)
-
 
 ## Contributors [(see graph)](https://github.com/Ivy-Apps/ivy-wallet/graphs/contributors)
 
