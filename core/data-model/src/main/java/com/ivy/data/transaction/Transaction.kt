@@ -1,6 +1,6 @@
 package com.ivy.data.transaction
 
-import com.ivy.data.SyncState
+import com.ivy.data.Sync
 import com.ivy.data.Value
 import com.ivy.data.account.Account
 import com.ivy.data.attachment.Attachment
@@ -22,9 +22,9 @@ data class Transaction(
 
     val state: TrnState,
     val purpose: TrnPurpose?,
-    val sync: SyncState,
-
     val tags: List<Tag>,
     val attachments: List<Attachment>,
+
     val metadata: TrnMetadata,
+    val sync: Sync,
 )

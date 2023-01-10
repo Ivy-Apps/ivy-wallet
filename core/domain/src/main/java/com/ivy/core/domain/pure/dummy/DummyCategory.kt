@@ -2,10 +2,12 @@ package com.ivy.core.domain.pure.dummy
 
 import androidx.annotation.ColorInt
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
+import java.time.LocalDateTime
 import java.util.*
 
 fun dummyCategory(
@@ -19,13 +21,14 @@ fun dummyCategory(
     orderNum: Double = 0.0,
     type: CategoryType = CategoryType.Both,
     state: CategoryState = CategoryState.Default,
+    lastUpdated: LocalDateTime = LocalDateTime.now(),
 ): Category = Category(
     id = id,
     name = name,
     parentCategoryId = parentCategoryId,
     color = color,
     icon = icon,
-    sync = sync,
+    sync = Sync(sync, lastUpdated),
     orderNum = orderNum,
     type = type,
     state = state,

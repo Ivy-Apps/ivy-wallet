@@ -18,6 +18,7 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
@@ -35,7 +36,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTransactionViewModel @Inject constructor(
-    timeProvider: TimeProvider,
+    private val timeProvider: TimeProvider,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
     private val writeTrnsAct: WriteTrnsAct,
@@ -191,7 +192,10 @@ class EditTransactionViewModel @Inject constructor(
             description = description.value.takeIf { it.isNotNullOrBlank() },
             type = trnType.value,
             state = if (hidden.value) TrnState.Hidden else TrnState.Default,
-            sync = SyncState.Syncing,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            ),
         )
 
         writeTrnsAct(Modify.save(updated))

@@ -3,6 +3,7 @@ package com.ivy.core.persistence.dummy.account
 import com.ivy.core.persistence.entity.account.AccountEntity
 import com.ivy.data.SyncState
 import com.ivy.data.account.AccountState
+import java.time.Instant
 import java.util.*
 
 fun dummyAccountEntity(
@@ -16,6 +17,7 @@ fun dummyAccountEntity(
     excluded: Boolean = false,
     state: AccountState = AccountState.Default,
     sync: SyncState = SyncState.Synced,
+    lastUpdated: Instant = Instant.now(),
 ): AccountEntity = AccountEntity(
     id = id,
     name = name,
@@ -27,4 +29,5 @@ fun dummyAccountEntity(
     excluded = excluded,
     state = state,
     sync = sync,
+    lastUpdated = lastUpdated,
 )

@@ -1,5 +1,7 @@
 package com.ivy.core.domain.action.account.folder
 
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -9,7 +11,8 @@ import com.ivy.data.account.Folder
 import javax.inject.Inject
 
 class WriteAccountFolderAct @Inject constructor(
-    private val accountFolderDao: AccountFolderDao
+    private val accountFolderDao: AccountFolderDao,
+    private val timeProvider: TimeProvider,
 ) : Action<Modify<Folder>, Unit>() {
     override suspend fun Modify<Folder>.willDo() = when (this) {
         is Modify.Delete -> delete(this.itemIds)
@@ -26,7 +29,9 @@ class WriteAccountFolderAct @Inject constructor(
                 .map {
                     it.copy(name = it.name.trim())
                 }
-                .map(::toSyncingEntity)
+                .map {
+                    toEntity(it, timeProvider)
+                }
         )
     }
 
@@ -35,12 +40,16 @@ class WriteAccountFolderAct @Inject constructor(
         return true
     }
 
-    private fun toSyncingEntity(domain: Folder) = AccountFolderEntity(
+    private fun toEntity(
+        domain: Folder,
+        timeProvider: TimeProvider,
+    ) = AccountFolderEntity(
         id = domain.id,
         name = domain.name,
         color = domain.color,
         icon = domain.icon,
         orderNum = domain.orderNum,
-        sync = SyncState.Syncing
+        sync = domain.sync.state,
+        lastUpdated = domain.sync.lastUpdated.toUtc(timeProvider)
     )
 }

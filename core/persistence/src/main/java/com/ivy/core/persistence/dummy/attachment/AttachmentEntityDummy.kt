@@ -4,6 +4,7 @@ import com.ivy.core.persistence.entity.attachment.AttachmentEntity
 import com.ivy.data.SyncState
 import com.ivy.data.attachment.AttachmentSource
 import com.ivy.data.attachment.AttachmentType
+import java.time.Instant
 import java.util.*
 
 fun dummyAttachmentEntity(
@@ -14,6 +15,7 @@ fun dummyAttachmentEntity(
     type: AttachmentType? = null,
     filename: String? = null,
     sync: SyncState = SyncState.Synced,
+    lastUpdated: Instant = Instant.now(),
 ): AttachmentEntity = AttachmentEntity(
     id = id,
     associatedId = associatedId,
@@ -22,4 +24,5 @@ fun dummyAttachmentEntity(
     type = type,
     filename = filename,
     sync = sync,
+    lastUpdated = lastUpdated,
 )

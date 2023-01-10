@@ -32,6 +32,7 @@ import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.TrnTagEntity
 import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
+import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
 
 @Database(
     entities = [
@@ -42,7 +43,7 @@ import com.ivy.core.persistence.entity.trn.converter.TrnTypeConverters
         ExchangeRateOverrideEntity::class, TagEntity::class,
         TrnTagEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
 )
 @TypeConverters(
@@ -80,6 +81,8 @@ abstract class IvyWalletCoreDb : RoomDatabase() {
         fun create(applicationContext: Context): IvyWalletCoreDb {
             return Room.databaseBuilder(
                 applicationContext, IvyWalletCoreDb::class.java, DB_NAME
+            ).addMigrations(
+                Migration1to2_LastUpdated()
             ).build()
         }
     }

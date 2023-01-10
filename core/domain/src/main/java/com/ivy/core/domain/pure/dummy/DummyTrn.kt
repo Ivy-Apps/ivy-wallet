@@ -2,6 +2,7 @@ package com.ivy.core.domain.pure.dummy
 
 import com.ivy.common.time.timeNow
 import com.ivy.data.CurrencyCode
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -28,6 +29,7 @@ fun dummyTrn(
     state: TrnState = TrnState.Default,
     purpose: TrnPurpose? = null,
     sync: SyncState = SyncState.Synced,
+    lastUpdated: LocalDateTime = LocalDateTime.now(),
 ): Transaction = Transaction(
     id = id,
     account = account,
@@ -43,7 +45,7 @@ fun dummyTrn(
     metadata = metadata,
     state = state,
     purpose = purpose,
-    sync = sync,
+    sync = Sync(sync, lastUpdated),
     tags = tags,
     attachments = attachments,
 )

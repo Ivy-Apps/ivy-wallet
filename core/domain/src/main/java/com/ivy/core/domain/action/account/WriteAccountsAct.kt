@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.account
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
@@ -21,6 +22,7 @@ class WriteAccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val writeTrnsAct: WriteTrnsAct,
     private val trnQueryExecutor: TrnQueryExecutor,
+    private val timeProvider: TimeProvider,
 ) : Action<Modify<Account>, Unit>() {
 
     override suspend fun Modify<Account>.willDo() {
@@ -49,7 +51,8 @@ class WriteAccountsAct @Inject constructor(
                 )
             }
             .map {
-                mapToEntity(it).copy(sync = SyncState.Syncing)
+                mapToEntity(it, timeProvider = timeProvider)
+                    .copy(sync = SyncState.Syncing)
             }
         accountDao.save(entities)
     }

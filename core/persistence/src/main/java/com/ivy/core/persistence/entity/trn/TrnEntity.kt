@@ -65,5 +65,7 @@ data class TrnEntity(
     val purpose: TrnPurpose?,
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
     // endregion
 )

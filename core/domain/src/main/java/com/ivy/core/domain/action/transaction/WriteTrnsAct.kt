@@ -1,6 +1,7 @@
 package com.ivy.core.domain.action.transaction
 
 import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
@@ -86,7 +87,12 @@ class WriteTrnsAct @Inject constructor(
     private suspend fun saveTrnTags(trnId: String, tags: List<Tag>) {
         trnTagDao.updateSyncByTrnId(trnId = trnId, Deleting) // delete existing
         trnTagDao.save(tags.map {
-            mapToTrnTagEntity(trnId = trnId, tagId = it.id, sync = Syncing)
+            mapToTrnTagEntity(
+                trnId = trnId,
+                tagId = it.id,
+                sync = it.sync.copy(state = Syncing),
+                timeProvider = timeProvider,
+            )
         })
     }
 
@@ -95,7 +101,12 @@ class WriteTrnsAct @Inject constructor(
         attachmentDao.updateSyncByAssociatedId(
             associatedId = trnId, sync = Deleting
         )
-        attachmentDao.save(attachments.map { mapToEntity(it).copy(sync = Syncing) })
+        attachmentDao.save(attachments.map {
+            mapToEntity(
+                it,
+                timeProvider = timeProvider
+            ).copy(sync = Syncing)
+        })
     }
 
     private suspend fun saveMetadata(trnId: String, metadata: TrnMetadata) {
@@ -107,7 +118,8 @@ class WriteTrnsAct @Inject constructor(
             trnId = trnId,
             key = key,
             value = value,
-            sync = Syncing
+            sync = Syncing,
+            lastUpdated = timeProvider.timeNow().toUtc(timeProvider)
         )
 
         suspend fun metadata(key: String, value: UUID?) = value?.toString()?.let {

@@ -17,7 +17,6 @@ fun mapToEntity(
         accountId = account.id.toString(),
         type = type,
         state = state,
-        sync = sync,
         purpose = purpose,
         currency = value.currency,
         amount = value.amount,
@@ -26,5 +25,7 @@ fun mapToEntity(
         description = description,
         time = time.time().toUtc(timeProvider),
         timeType = if (time is TrnTime.Actual) TrnTimeType.Actual else TrnTimeType.Due,
+        sync = sync.state,
+        lastUpdated = sync.lastUpdated.toUtc(timeProvider),
     )
 }

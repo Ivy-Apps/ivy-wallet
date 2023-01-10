@@ -25,6 +25,7 @@ fun dummyTrnEntity(
     state: TrnState = TrnState.Default,
     purpose: TrnPurpose? = null,
     sync: SyncState = SyncState.Synced,
+    lastUpdated: Instant = Instant.now(),
 ): TrnEntity = TrnEntity(
     id = id,
     accountId = accountId,
@@ -39,4 +40,5 @@ fun dummyTrnEntity(
     state = state,
     purpose = purpose,
     sync = sync,
+    lastUpdated = lastUpdated,
 )

@@ -18,6 +18,7 @@ import com.ivy.core.persistence.entity.trn.TrnEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.*
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -125,7 +126,10 @@ class TrnsFlow @Inject constructor(
                 description = trn.description.takeIf { !it.isNullOrBlank() },
                 state = trn.state,
                 purpose = trn.purpose,
-                sync = trn.sync,
+                sync = Sync(
+                    state = trn.sync,
+                    lastUpdated = trn.lastUpdated.toLocal(timeProvider)
+                ),
                 metadata = mapMetadata(metadataEntities),
                 attachments = mapAttachments(attachmentEntities),
                 tags = mapTags(tagEntities),
@@ -158,7 +162,10 @@ class TrnsFlow @Inject constructor(
             source = it.source,
             filename = it.filename,
             type = it.type,
-            sync = it.sync
+            sync = Sync(
+                state = it.sync,
+                lastUpdated = it.lastUpdated.toLocal(timeProvider)
+            )
         )
     }
 
@@ -169,7 +176,10 @@ class TrnsFlow @Inject constructor(
             name = it.name,
             orderNum = it.orderNum,
             state = it.state,
-            sync = it.sync
+            sync = Sync(
+                state = it.sync,
+                lastUpdated = it.lastUpdated.toLocal(timeProvider)
+            )
         )
     }
 }

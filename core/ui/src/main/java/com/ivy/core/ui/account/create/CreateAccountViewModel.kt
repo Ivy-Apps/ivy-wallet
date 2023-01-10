@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.create
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.NewAccountTabItemOrderNumAct
@@ -13,6 +14,7 @@ import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.CurrencyCode
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.account.Account
 import com.ivy.data.account.AccountState
@@ -29,6 +31,7 @@ internal class CreateAccountViewModel @Inject constructor(
     private val writeAccountsAct: WriteAccountsAct,
     private val newAccountTabItemOrderNumAct: NewAccountTabItemOrderNumAct,
     baseCurrencyFlow: BaseCurrencyFlow,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<CreateAccountState, CreateAccountEvent>() {
     override val initialUi = CreateAccountState(
         currency = "",
@@ -72,7 +75,10 @@ internal class CreateAccountViewModel @Inject constructor(
             folderId = event.folder?.id?.toUUID(),
             orderNum = newAccountTabItemOrderNumAct(Unit),
             state = AccountState.Default,
-            sync = SyncState.Syncing
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            ),
         )
         writeAccountsAct(Modify.save(newAccount))
     }

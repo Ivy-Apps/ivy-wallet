@@ -1,5 +1,7 @@
 package com.ivy.core.domain.action.transaction
 
+import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
@@ -19,6 +21,7 @@ import javax.inject.Inject
 class WriteTrnsBatchAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val trnLinkRecordDao: TrnLinkRecordDao,
+    private val timeProvider: TimeProvider,
 ) : Action<WriteTrnsBatchAct.Input, Unit>() {
     companion object {
         fun save(batch: TrnBatch) = Input.Save(batch)
@@ -55,6 +58,7 @@ class WriteTrnsBatchAct @Inject constructor(
                     trnId = it.id.toString(),
                     batchId = batch.batchId,
                     sync = SyncState.Syncing,
+                    lastUpdated = timeProvider.timeNow().toUtc(timeProvider)
                 )
             }
         )

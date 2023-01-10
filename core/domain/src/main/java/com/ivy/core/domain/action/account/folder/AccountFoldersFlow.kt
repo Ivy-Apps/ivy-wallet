@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.account.folder
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.action.account.AccountsFlow
 import com.ivy.core.domain.action.data.AccountListItem
@@ -18,6 +19,7 @@ private typealias FolderId = String
 class AccountFoldersFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val accountFolderDao: AccountFolderDao,
+    private val timeProvider: TimeProvider,
 ) : FlowAction<Unit, List<AccountListItem>>() {
     override fun Unit.createFlow(): Flow<List<AccountListItem>> = combine(
         accountsFlow(), accountFolderDao.findAll()
@@ -49,9 +51,11 @@ class AccountFoldersFlow @Inject constructor(
         }
     }
 
-    private fun toDomain(foldersMap: Map<FolderId, List<Account>>, entity: AccountFolderEntity) =
-        FolderWithAccounts(
-            folder = toDomain(entity),
-            accounts = foldersMap[entity.id] ?: emptyList(),
-        )
+    private fun toDomain(
+        foldersMap: Map<FolderId, List<Account>>,
+        entity: AccountFolderEntity
+    ) = FolderWithAccounts(
+        folder = toDomain(entity, timeProvider),
+        accounts = foldersMap[entity.id] ?: emptyList(),
+    )
 }

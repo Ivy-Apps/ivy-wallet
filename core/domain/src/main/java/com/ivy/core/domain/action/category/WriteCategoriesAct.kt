@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.category
 
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
@@ -15,6 +16,7 @@ import javax.inject.Inject
  */
 class WriteCategoriesAct @Inject constructor(
     private val categoryDao: CategoryDao,
+    private val timeProvider: TimeProvider,
 ) : Action<Modify<Category>, Unit>() {
 
     override suspend fun Modify<Category>.willDo() {
@@ -36,7 +38,10 @@ class WriteCategoriesAct @Inject constructor(
             categories
                 .filter { it.name.isNotBlank() }
                 .map { it.copy(name = it.name.trim()) }
-                .map { mapToEntity(it).copy(sync = SyncState.Syncing) }
+                .map {
+                    mapToEntity(it, timeProvider = timeProvider)
+                        .copy(sync = SyncState.Syncing)
+                }
         )
     }
 

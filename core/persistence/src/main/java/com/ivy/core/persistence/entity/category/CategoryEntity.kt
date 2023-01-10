@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
+import java.time.Instant
 
 @Entity(tableName = "categories")
 data class CategoryEntity(
@@ -28,4 +29,6 @@ data class CategoryEntity(
     val state: CategoryState,
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
 )

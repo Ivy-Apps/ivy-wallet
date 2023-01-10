@@ -3,6 +3,7 @@ package com.ivy.core.persistence.entity.exchange
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.ivy.data.SyncState
+import java.time.Instant
 
 @Entity(
     tableName = "exchange_rates_override",
@@ -18,4 +19,6 @@ data class ExchangeRateOverrideEntity(
 
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
 )

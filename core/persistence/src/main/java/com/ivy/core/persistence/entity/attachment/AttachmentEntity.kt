@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 import com.ivy.data.attachment.AttachmentSource
 import com.ivy.data.attachment.AttachmentType
+import java.time.Instant
 
 @Entity(tableName = "attachments")
 data class AttachmentEntity(
@@ -25,4 +26,6 @@ data class AttachmentEntity(
 
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
 )

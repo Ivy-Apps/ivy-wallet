@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
+import java.time.Instant
 
 @Entity(tableName = "trn_metadata")
 data class TrnMetadataEntity(
@@ -22,4 +23,6 @@ data class TrnMetadataEntity(
 
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
 )

@@ -1,7 +1,7 @@
 package com.ivy.data.tag
 
 import androidx.annotation.ColorInt
-import com.ivy.data.SyncState
+import com.ivy.data.Sync
 
 data class Tag(
     val id: String,
@@ -10,5 +10,5 @@ data class Tag(
     val name: String,
     val orderNum: Double,
     val state: TagState,
-    val sync: SyncState,
+    val sync: Sync,
 )

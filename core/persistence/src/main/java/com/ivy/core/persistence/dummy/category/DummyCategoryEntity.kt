@@ -4,6 +4,7 @@ import com.ivy.core.persistence.entity.category.CategoryEntity
 import com.ivy.data.SyncState
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
+import java.time.Instant
 import java.util.*
 
 fun dummyCategoryEntity(
@@ -16,6 +17,7 @@ fun dummyCategoryEntity(
     state: CategoryState = CategoryState.Default,
     type: CategoryType = CategoryType.Both,
     sync: SyncState = SyncState.Synced,
+    lastUpdated: Instant = Instant.now(),
 ) = CategoryEntity(
     id = id,
     name = name,
@@ -25,5 +27,6 @@ fun dummyCategoryEntity(
     parentCategoryId = parentCategoryId,
     state = state,
     type = type,
-    sync = sync
+    sync = sync,
+    lastUpdated = lastUpdated,
 )

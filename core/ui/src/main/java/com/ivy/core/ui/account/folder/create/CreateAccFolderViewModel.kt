@@ -1,6 +1,7 @@
 package com.ivy.core.ui.account.folder.create
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.NewAccountTabItemOrderNumAct
 import com.ivy.core.domain.action.account.folder.WriteAccountFolderAct
@@ -11,6 +12,8 @@ import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
+import com.ivy.data.SyncState
 import com.ivy.data.account.Folder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +28,7 @@ internal class CreateAccFolderViewModel @Inject constructor(
     private val writeAccountFolderAct: WriteAccountFolderAct,
     private val writeAccountFolderContentAct: WriteAccountFolderContentAct,
     private val newAccountTabItemOrderNumAct: NewAccountTabItemOrderNumAct,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<CreateAccFolderState, CreateAccFolderEvent>() {
     override val initialUi = CreateAccFolderState(
         icon = ItemIcon.Unknown(
@@ -57,6 +61,10 @@ internal class CreateAccFolderViewModel @Inject constructor(
             icon = folderIconId.value,
             color = event.color.toArgb(),
             orderNum = newAccountTabItemOrderNumAct(Unit),
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            )
         )
         writeAccountFolderAct(Modify.save(newFolder))
         writeAccountFolderContentAct(

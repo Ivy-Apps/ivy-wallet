@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ivy.data.SyncState
 import com.ivy.data.account.AccountState
+import java.time.Instant
 
 
 @Entity(tableName = "accounts")
@@ -30,4 +31,6 @@ data class AccountEntity(
     val state: AccountState,
     @ColumnInfo(name = "sync", index = true)
     val sync: SyncState,
+    @ColumnInfo(name = "last_updated")
+    val lastUpdated: Instant,
 )

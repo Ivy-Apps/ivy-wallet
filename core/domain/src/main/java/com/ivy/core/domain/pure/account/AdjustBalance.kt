@@ -3,6 +3,7 @@ package com.ivy.core.domain.pure.account
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.pure.isFiat
 import com.ivy.core.domain.pure.util.isInsignificant
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.Value
 import com.ivy.data.account.Account
@@ -40,7 +41,10 @@ fun adjustBalanceTrn(
         purpose = TrnPurpose.AdjustBalance,
 
         attachments = emptyList(),
-        sync = SyncState.Syncing,
+        sync = Sync(
+            state = SyncState.Syncing,
+            lastUpdated = timeProvider.timeNow()
+        ),
         tags = emptyList(),
         metadata = TrnMetadata(recurringRuleId = null, loanId = null, loanRecordId = null),
     )

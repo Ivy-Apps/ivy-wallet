@@ -3,7 +3,7 @@ package com.ivy.data.account
 import androidx.annotation.ColorInt
 import com.ivy.data.CurrencyCode
 import com.ivy.data.ItemIconId
-import com.ivy.data.SyncState
+import com.ivy.data.Sync
 import java.util.*
 
 data class Account(
@@ -17,5 +17,5 @@ data class Account(
     val folderId: UUID?,
     val orderNum: Double,
     val state: AccountState,
-    val sync: SyncState
+    val sync: Sync,
 )

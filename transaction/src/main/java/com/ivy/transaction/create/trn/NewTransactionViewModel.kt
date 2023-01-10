@@ -16,6 +16,7 @@ import com.ivy.core.ui.action.mapping.trn.MapTrnTimeUiAct
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.*
 import com.ivy.design.l2_components.modal.IvyModal
@@ -36,7 +37,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewTransactionViewModel @Inject constructor(
-    timeProvider: TimeProvider,
+    private val timeProvider: TimeProvider,
     private val createTrnStepsAct: CreateTrnStepsAct,
     private val mapTrnTimeUiAct: MapTrnTimeUiAct,
     private val navigator: Navigator,
@@ -189,7 +190,10 @@ class NewTransactionViewModel @Inject constructor(
             description = description.value,
             state = TrnState.Default,
             purpose = null,
-            sync = SyncState.Syncing,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            ),
             tags = emptyList(),
             attachments = emptyList(),
             metadata = TrnMetadata(

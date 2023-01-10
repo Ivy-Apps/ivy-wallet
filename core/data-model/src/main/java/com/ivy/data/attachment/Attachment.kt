@@ -1,6 +1,6 @@
 package com.ivy.data.attachment
 
-import com.ivy.data.SyncState
+import com.ivy.data.Sync
 
 data class Attachment(
     val id: String,
@@ -9,5 +9,5 @@ data class Attachment(
     val source: AttachmentSource,
     val filename: String?,
     val type: AttachmentType?,
-    val sync: SyncState,
+    val sync: Sync,
 )

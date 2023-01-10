@@ -49,6 +49,7 @@ class TrnDaoTest : RoomDbTest() {
             purpose = TrnPurpose.TransferFrom,
             state = TrnState.Hidden,
             sync = SyncState.Syncing,
+            lastUpdated = Instant.now().epochSeconds(),
         )
     )
 

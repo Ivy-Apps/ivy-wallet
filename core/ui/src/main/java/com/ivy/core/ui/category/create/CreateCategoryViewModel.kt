@@ -1,6 +1,7 @@
 package com.ivy.core.ui.category.create
 
 import androidx.compose.ui.graphics.toArgb
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.category.NewCategoryOrderNumAct
@@ -11,6 +12,7 @@ import com.ivy.core.ui.action.DefaultTo
 import com.ivy.core.ui.action.ItemIconAct
 import com.ivy.core.ui.data.icon.ItemIcon
 import com.ivy.data.ItemIconId
+import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
@@ -26,7 +28,8 @@ import javax.inject.Inject
 internal class CreateCategoryViewModel @Inject constructor(
     private val itemIconAct: ItemIconAct,
     private val writeCategoriesAct: WriteCategoriesAct,
-    private val newCategoryOrderNumAct: NewCategoryOrderNumAct
+    private val newCategoryOrderNumAct: NewCategoryOrderNumAct,
+    private val timeProvider: TimeProvider,
 ) : SimpleFlowViewModel<CreateCategoryState, CreateCategoryEvent>() {
     override val initialUi = CreateCategoryState(
         icon = ItemIcon.Sized(
@@ -65,7 +68,10 @@ internal class CreateCategoryViewModel @Inject constructor(
             orderNum = newCategoryOrderNumAct(Unit),
             state = CategoryState.Default,
             type = categoryType.value,
-            sync = SyncState.Syncing,
+            sync = Sync(
+                state = SyncState.Syncing,
+                lastUpdated = timeProvider.timeNow(),
+            ),
         )
         writeCategoriesAct(Modify.save(new))
     }
