@@ -85,8 +85,7 @@ in **[docs/resources 📚](docs/resources/)**.
 - [Room DB](https://developer.android.com/training/data-storage/room) (SQLite ORM)
 
 ### Networking
-- [Retrofit](https://square.github.io/retrofit/) (REST)
-- [OkHttp3](https://square.github.io/okhttp/) (REST client)
+- [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) (REST client)
 - [Gson](https://github.com/google/gson) (JSON serialization)
 
 ### Other
