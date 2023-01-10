@@ -43,6 +43,9 @@ Ivy Wallet's biggest advantage is its UI/UX, simplicity, and customization which
 
 > You can see our future plans for the product in **[Ivy Wallet's Roadmap](https://github.com/orgs/Ivy-Apps/projects/1)**.
 
+> If you want to support our work see our [GitHub Sponsors page](https://github.com/sponsors/Ivy-Apps) [![Github Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/Ivy-Apps)
+
+
 ## Architecture
 We strive to keep our architecture "perfect" by putting software-design and code quality first. 
 
