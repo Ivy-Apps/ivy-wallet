@@ -2,6 +2,7 @@ package com.ivy.wallet.domain.deprecated.logic
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.ivy.design.l0_system.GradientPurple
 import com.ivy.design.l0_system.SunsetNight
 import com.ivy.wallet.Constants
 import com.ivy.wallet.R
@@ -59,11 +60,11 @@ class CustomerJourneyLogic(
             rateUsCard(),
             shareIvyWalletCard(),
             joinIvyTelegramCard(),
-            makeReportCard(),
             rateUsCard_2(),
-            shareIvyWalletCard_2(),
+            joinTelegram2(),
             ivyWalletIsOpenSource(),
-            donateIvyWallet()
+            donateIvyWallet(),
+            donate2(),
         )
 
         fun ivyCloudNuke() = CustomerJourneyCardData(
@@ -217,19 +218,19 @@ class CustomerJourneyLogic(
             }
         )
 
-        fun makeReportCard() = CustomerJourneyCardData(
-            id = "make_report",
+        fun ivyWalletIsOpenSource() = CustomerJourneyCardData(
+            id = "open_source",
             condition = { trnCount, _, _ ->
                 trnCount >= 18
             },
-            title = stringRes(R.string.did_you_know),
-            description = stringRes(R.string.make_a_report_description),
-            cta = stringRes(R.string.make_a_report),
-            ctaIcon = R.drawable.ic_statistics_xs,
-            background = Gradient.solid(Green2),
+            title = stringRes(R.string.ivy_wallet_is_opensource),
+            description = stringRes(R.string.ivy_wallet_is_opensource_description),
+            cta = stringRes(R.string.contribute),
+            ctaIcon = R.drawable.github_logo,
+            background = Gradient.solid(Blue3),
             hasDismiss = true,
-            onAction = { navigation, _, _ ->
-                navigation.navigateTo(Report)
+            onAction = { _, _, ivyActivity ->
+                ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
             }
         )
 
@@ -249,35 +250,20 @@ class CustomerJourneyLogic(
             }
         )
 
-        fun shareIvyWalletCard_2() = CustomerJourneyCardData(
-            id = "share_ivy_wallet_2",
-            condition = { trnCount, _, _ ->
-                trnCount >= 24
-            },
-            title = stringRes(R.string.we_need_your_help),
-            description = stringRes(R.string.we_need_your_help_description),
-            cta = stringRes(R.string.share_ivy_wallet),
-            ctaIcon = R.drawable.ic_custom_family_s,
-            background = Gradient.solid(Purple2),
-            hasDismiss = true,
-            onAction = { _, _, ivyActivity ->
-                ivyActivity.shareIvyWallet()
-            }
-        )
-
-        fun ivyWalletIsOpenSource() = CustomerJourneyCardData(
-            id = "open_source",
+        fun joinTelegram2() = CustomerJourneyCardData(
+            id = "ivy_telegram_2",
             condition = { trnCount, _, _ ->
                 trnCount >= 28
             },
-            title = stringRes(R.string.ivy_wallet_is_opensource),
-            description = stringRes(R.string.ivy_wallet_is_opensource_description),
-            cta = stringRes(R.string.contribute),
-            ctaIcon = R.drawable.github_logo,
-            background = Gradient.solid(Blue3),
+            description = "It looks like that you're enjoying Ivy Wallet! " +
+                    "If you haven't yet, feel free join our invite-only Ivy Telegram Community and make our app better :)",
+            title = "Ivy Community",
+            cta = "Join now",
+            ctaIcon = R.drawable.ic_telegram_24dp,
+            background = Gradient.solid(Blue),
             hasDismiss = true,
             onAction = { _, _, ivyActivity ->
-                ivyActivity.openUrlInBrowser(Constants.URL_IVY_WALLET_REPO)
+                ivyActivity.openUrlInBrowser(Constants.URL_IVY_TELEGRAM_INVITE)
             }
         )
 
@@ -292,6 +278,23 @@ class CustomerJourneyLogic(
             cta = "Donate",
             ctaIcon = R.drawable.ic_donate_crown,
             background = Gradient.from(SunsetNight),
+            hasDismiss = true,
+            onAction = { nav, _, _ ->
+                nav.navigateTo(DonateScreen)
+            }
+        )
+
+        fun donate2() = CustomerJourneyCardData(
+            id = "donate_2",
+            condition = { trnCount, _, _ ->
+                trnCount >= 56
+            },
+            title = "Support Ivy Wallet",
+            description = "It seems like you enjoy free and open-source software. We too! " +
+                    "That's why we opened a second donations channel with rewards, to support our small project.",
+            cta = "Donate",
+            ctaIcon = R.drawable.ic_donate_crown,
+            background = Gradient.from(GradientPurple),
             hasDismiss = true,
             onAction = { nav, _, _ ->
                 nav.navigateTo(DonateScreen)
@@ -410,18 +413,6 @@ private fun PreviewJoinTelegram() {
 
 @Preview
 @Composable
-private fun PreviewMakeReport() {
-    IvyWalletComponentPreview {
-        CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.makeReportCard(),
-            onCTA = { },
-            onDismiss = {}
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun PreviewRateUs_2() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
@@ -434,10 +425,10 @@ private fun PreviewRateUs_2() {
 
 @Preview
 @Composable
-private fun PreviewShaveIvyWallet_2() {
+private fun PreviewIvyTelegram_2() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
-            cardData = CustomerJourneyLogic.shareIvyWalletCard_2(),
+            cardData = CustomerJourneyLogic.joinTelegram2(),
             onCTA = { },
             onDismiss = {}
         )
@@ -462,6 +453,18 @@ private fun PreviewDonateCard() {
     IvyWalletComponentPreview {
         CustomerJourneyCard(
             cardData = CustomerJourneyLogic.donateIvyWallet(),
+            onCTA = { },
+            onDismiss = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewDonate2() {
+    IvyWalletComponentPreview {
+        CustomerJourneyCard(
+            cardData = CustomerJourneyLogic.donate2(),
             onCTA = { },
             onDismiss = {}
         )
