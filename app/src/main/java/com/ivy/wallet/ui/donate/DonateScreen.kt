@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -34,6 +35,7 @@ import com.ivy.design.utils.padding
 import com.ivy.frp.view.FRP
 import com.ivy.frp.view.navigation.Screen
 import com.ivy.frp.view.navigation.navigation
+import com.ivy.wallet.Constants
 import com.ivy.wallet.R
 import com.ivy.wallet.ui.IvyWalletPreview
 import com.ivy.wallet.ui.RootActivity
@@ -257,8 +259,12 @@ private fun ScreenContent() {
 
 @Composable
 private fun BoxWithConstraintsScope.DonateButton(
-    onClick: () -> Unit
+    onGooglePlayDonate: () -> Unit
 ) {
+    var donateModalVisible by remember {
+        mutableStateOf(false)
+    }
+
     IvyButton(
         modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -280,8 +286,18 @@ private fun BoxWithConstraintsScope.DonateButton(
             color = UI.colors.pure
         )
     ) {
-        onClick()
+        donateModalVisible = true
     }
+
+    val uriHandler = LocalUriHandler.current
+    DonateModal(
+        visible = donateModalVisible,
+        dismiss = { donateModalVisible = false },
+        onGooglePlay = onGooglePlayDonate,
+        onGitHubSponsors = {
+            uriHandler.openUri(Constants.URL_GITHUB_SPONSORS)
+        }
+    )
 }
 
 @Preview

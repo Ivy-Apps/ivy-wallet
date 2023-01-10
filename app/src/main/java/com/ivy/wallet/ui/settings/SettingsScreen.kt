@@ -224,8 +224,8 @@ private fun BoxWithConstraintsScope.UI(
                 nameLocalAccount = nameLocalAccount,
 
                 onSync = onSync,
-                    onLogout = onLogout,
-                    onLogin = onLogin,
+                onLogout = onLogout,
+                onLogin = onLogin,
             ) {
                 nameModalVisible = true
             }
@@ -240,16 +240,16 @@ private fun BoxWithConstraintsScope.UI(
             Spacer(Modifier.height(16.dp))
 
             FetchMissingTransactionsButton(
-                    opFetchTrns = opFetchTrns,
-                    onFetchMissingTransactions = onFetchMissingTransactions
+                opFetchTrns = opFetchTrns,
+                onFetchMissingTransactions = onFetchMissingTransactions
             )
 
             Spacer(Modifier.height(16.dp))
 
             SettingsPrimaryButton(
-                    icon = R.drawable.ic_vue_security_shield_person,
-                    text = "Login to restore old data (use before 2023!)",
-                    textColor = UI.colors.pureInverse,
+                icon = R.drawable.ic_vue_security_shield_person,
+                text = "Login to restore old data (use before 2023!)",
+                textColor = UI.colors.pureInverse,
             ) {
                 onLogin()
             }
@@ -611,27 +611,23 @@ private fun IvyTelegram() {
 
 @Composable
 private fun HelpCenter() {
-    val nav = navigation()
+    val uriHandler = LocalUriHandler.current
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_education_m,
         text = stringResource(R.string.help_center),
     ) {
-        nav.navigateTo(
-            IvyWebView(url = Constants.URL_HELP_CENTER)
-        )
+        uriHandler.openUri(Constants.URL_HELP_CENTER)
     }
 }
 
 @Composable
 private fun Roadmap() {
-    val nav = navigation()
+    val uriHandler = LocalUriHandler.current
     SettingsDefaultButton(
         icon = R.drawable.ic_custom_rocket_m,
         text = stringResource(R.string.roadmap),
     ) {
-        nav.navigateTo(
-            IvyWebView(url = Constants.URL_ROADMAP)
-        )
+        uriHandler.openUri(Constants.URL_ROADMAP)
     }
 }
 
@@ -660,15 +656,13 @@ private fun ContactSupport() {
 
 @Composable
 private fun ProjectContributors() {
-    val nav = navigation()
+    val uriHandler = LocalUriHandler.current
     SettingsDefaultButton(
         icon = R.drawable.ic_vue_people_people,
         text = stringResource(R.string.project_contributors),
         iconPadding = 6.dp
     ) {
-        nav.navigateTo(
-            IvyWebView(url = URL_IVY_CONTRIBUTORS)
-        )
+        uriHandler.openUri(URL_IVY_CONTRIBUTORS)
     }
 }
 
@@ -1046,20 +1040,20 @@ private fun TCAndPrivacyPolicy() {
         Spacer(Modifier.width(12.dp))
 
         Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(UI.shapes.rFull)
-                    .border(2.dp, UI.colors.medium, UI.shapes.rFull)
-                    .clickable {
-                        uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
-                    }
-                    .padding(vertical = 14.dp),
-                text = stringResource(R.string.privacy_policy),
-                style = UI.typo.c.style(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = UI.colors.pureInverse,
-                        textAlign = TextAlign.Center
-                )
+            modifier = Modifier
+                .weight(1f)
+                .clip(UI.shapes.rFull)
+                .border(2.dp, UI.colors.medium, UI.shapes.rFull)
+                .clickable {
+                    uriHandler.openUri(Constants.URL_PRIVACY_POLICY)
+                }
+                .padding(vertical = 14.dp),
+            text = stringResource(R.string.privacy_policy),
+            style = UI.typo.c.style(
+                fontWeight = FontWeight.ExtraBold,
+                color = UI.colors.pureInverse,
+                textAlign = TextAlign.Center
+            )
         )
 
         Spacer(Modifier.width(16.dp))
@@ -1111,20 +1105,20 @@ private fun SettingsButtonRow(
     Content: @Composable RowScope.() -> Unit
 ) {
     Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .thenIf(hasShadow) {
-                    drawColoredShadow(color = backgroundGradient.startColor)
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .thenIf(hasShadow) {
+                drawColoredShadow(color = backgroundGradient.startColor)
+            }
+            .fillMaxWidth()
+            .clip(UI.shapes.r4)
+            .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
+            .thenIf(onClick != null) {
+                clickable {
+                    onClick?.invoke()
                 }
-                .fillMaxWidth()
-                .clip(UI.shapes.r4)
-                .background(backgroundGradient.asHorizontalBrush(), UI.shapes.r4)
-                .thenIf(onClick != null) {
-                    clickable {
-                        onClick?.invoke()
-                    }
-                },
-            verticalAlignment = Alignment.CenterVertically
+            },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Content()
     }
@@ -1137,13 +1131,13 @@ private fun AccountCardButton(
     onClick: () -> Unit
 ) {
     Row(
-            modifier = Modifier
-                .clip(UI.shapes.rFull)
-                .background(UI.colors.pure, UI.shapes.rFull)
-                .clickable {
-                    onClick()
-                },
-            verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .clip(UI.shapes.rFull)
+            .background(UI.colors.pure, UI.shapes.rFull)
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
 
@@ -1174,15 +1168,15 @@ private fun CurrencyButton(
     onClick: () -> Unit
 ) {
     Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clip(UI.shapes.r4)
-                .border(2.dp, UI.colors.medium, UI.shapes.r4)
-                .clickable {
-                    onClick()
-                },
-            verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(UI.shapes.r4)
+            .border(2.dp, UI.colors.medium, UI.shapes.r4)
+            .clickable {
+                onClick()
+            },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.width(12.dp))
 
