@@ -1,15 +1,9 @@
-# 🚧 Module under construction...
+# Transaction
 
-If it hardly works, it's filled with bad code and anti-patterns anyway...
+Key module responsible for transactions CRUD UI and the smooth create transaction semi-automated flow.
 
-### To see how a proper should look like refer to:
-
-- **[:core](../core)**: responsible for Ivy Wallet's domain
-- **[:home](../home/)**: Ivy wallet's home screen.
-
-Apologies for the inconvenience! I'm a solo dev + the help of our awesome Ivy contributors. If you
-want to support us:
-
-1. Star our repo.
-   [![GitHub Repo stars](https://img.shields.io/github/stars/Ivy-Apps/ivy-wallet?style=social)](https://github.com/Ivy-Apps/ivy-wallet/stargazers)
-2. Have a look at our [Contributors Guide](../CONTRIBUTING.md).
+**Screens:**
+- `NewTransactionScreen`: creates a new Income or Expense transaction
+- `EditTransactionScreen`: edit an Income or Expense transaction
+- `NewTransferScreen`: creates a new Transfer between accounts via transactions batch
+- `EditTransferScreen`: edit a Transfer between accounts

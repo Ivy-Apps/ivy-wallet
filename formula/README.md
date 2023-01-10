@@ -1,6 +1,6 @@
-# Settings
+# Fomules 
 
-Ivy Wallet's "Settings" screen.
+Wish to be Excel/Google Sheets like formulas support for querying your Ivy transactions.
 
 ## 🚧 Module under construction...
 

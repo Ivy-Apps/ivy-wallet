@@ -1,4 +1,8 @@
-# 🚧 Module under construction...
+# Onboarding
+
+Ivy Wallet's onboarding flow.
+
+## 🚧 Module under construction...
 
 If it hardly works, it's filled with bad code and anti-patterns anyway...
 

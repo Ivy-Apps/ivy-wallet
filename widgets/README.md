@@ -1,4 +1,8 @@
-# 🚧 Module under construction...
+# Widgets
+
+Ivy Wallet's widget implemented via Glance - Jetpack Compose for widgets.
+
+## 🚧 Module under construction...
 
 If it hardly works, it's filled with bad code and anti-patterns anyway...
 
