@@ -110,7 +110,7 @@ class SettingsViewModel @Inject constructor(
                 }
             }
         } else {
-            googleDriveService.mount()
+            googleDriveService.connect()
         }
     }
 

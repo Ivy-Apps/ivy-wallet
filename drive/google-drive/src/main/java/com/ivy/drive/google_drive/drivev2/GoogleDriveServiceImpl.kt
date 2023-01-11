@@ -1,13 +1,17 @@
 package com.ivy.drive.google_drive.drivev2
 
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import arrow.core.*
 import arrow.core.computations.either
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.ivy.drive.google_drive.MountDriveLauncher
+import com.ivy.drive.google_drive.driveInstance
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +22,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GoogleDriveServiceImpl @Inject constructor(
+    @ApplicationContext
+    private val context: Context,
     private val mountDriveLauncher: MountDriveLauncher
 ) : GoogleDriveService {
     private val _isMounted = MutableStateFlow(false)
@@ -29,11 +35,26 @@ class GoogleDriveServiceImpl @Inject constructor(
         mountDriveLauncher.wire(activity)
     }
 
-    override fun mount() {
+    override fun connect() {
         mountDriveLauncher.launch(Unit) { drive ->
-            this.mountedDrive = drive
-            _isMounted.value = true
+            mountInternal(drive)
         }
+    }
+
+    override suspend fun mount() {
+        try {
+            GoogleSignIn.getLastSignedInAccount(context)?.let { googleAccount ->
+                val drive = driveInstance(context, googleAccount)
+                mountInternal(drive)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun mountInternal(drive: Drive?) {
+        this.mountedDrive = drive
+        _isMounted.value = drive != null
     }
 
     private fun mountedDrive(): Either<GoogleDriveError, Drive> =
