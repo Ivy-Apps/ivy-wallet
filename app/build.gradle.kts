@@ -124,6 +124,7 @@ android {
         //Exclude this files so Jetpack Compose UI tests can build
         resources.excludes.add("META-INF/AL2.0")
         resources.excludes.add("META-INF/LGPL2.1")
+        resources.excludes.add("META-INF/DEPENDENCIES")
         //-------------------------------------------------------
     }
 
@@ -157,6 +158,9 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":debug"))
     implementation(project(":onboarding"))
+    implementation(project(":android:common"))
+    implementation(project(":android:file-system"))
+    implementation(project(":drive:google-drive"))
     Hilt()
 
     Google()

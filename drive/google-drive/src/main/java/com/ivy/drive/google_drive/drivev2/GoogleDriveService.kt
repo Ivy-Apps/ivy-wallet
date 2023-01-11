@@ -1,13 +1,25 @@
 package com.ivy.drive.google_drive.drivev2
 
+import androidx.appcompat.app.AppCompatActivity
 import arrow.core.Either
 import arrow.core.computations.either
 import java.nio.file.Path
 
 interface GoogleDriveService {
-    suspend fun read(path: Path): Either<GoogleDriveSDKError, ByteArray?>
+    /**
+     * Call in Activity's onCreate to register ActivityResultLauncher
+     */
+    fun wire(activity: AppCompatActivity)
 
-    suspend fun readAsString(myPath: Path): Either<GoogleDriveSDKError, String?> = either {
+    fun mount()
+
+    // TODO: Instead of boolean return Option<DriveInfo> which
+    //  contains the email of the mounted drive so it can be displayed in the UI
+    fun isMounted(): Boolean
+
+    suspend fun read(path: Path): Either<GoogleDriveError, ByteArray?>
+
+    suspend fun readAsString(myPath: Path): Either<GoogleDriveError, String?> = either {
         read(myPath).bind()?.decodeToString()
     }
 
@@ -15,29 +27,12 @@ interface GoogleDriveService {
         path: Path,
         content: ByteArray,
         mimeType: DriveMimeType
-    ): Either<GoogleDriveSDKError, Unit>
+    ): Either<GoogleDriveError, Unit>
 
-    suspend fun write(path: Path, content: String): Either<GoogleDriveSDKError, Unit> =
+    suspend fun write(path: Path, content: String): Either<GoogleDriveError, Unit> =
         write(path, content.toByteArray(), DriveMimeType.TXT)
 
-    suspend fun delete(path: Path): Either<GoogleDriveSDKError, Unit>
+    suspend fun delete(path: Path): Either<GoogleDriveError, Unit>
 }
 
 
-@JvmInline
-value class GoogleDriveFileId(val id: String)
-
-sealed interface GoogleDriveSDKError {
-    object IOError : GoogleDriveSDKError
-}
-
-enum class DriveMimeType(val value: String) {
-    PDF("application/pdf"),
-    TXT("text/plain"),
-    JPEG("image/jpeg"),
-    PNG("image/png"),
-    SVG("image/svg+xml"),
-    CSV("text/csv"),
-    ZIP("application/zip"),
-    FOLDER("application/vnd.google-apps.folder"),
-}

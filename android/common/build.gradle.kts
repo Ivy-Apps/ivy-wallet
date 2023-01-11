@@ -1,3 +1,4 @@
+import com.ivy.buildsrc.AppCompat
 import com.ivy.buildsrc.Hilt
 import com.ivy.buildsrc.Testing
 
@@ -10,7 +11,6 @@ plugins {
 
 dependencies {
     Hilt()
-    implementation(project(":common:main"))
-    implementation(project(":android:common"))
+    AppCompat(api = true)
     Testing()
 }

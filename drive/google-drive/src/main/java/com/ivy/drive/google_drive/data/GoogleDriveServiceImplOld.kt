@@ -11,13 +11,13 @@ import com.google.api.client.http.FileContent
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import com.ivy.drive.google_drive.domain.GoogleDriveService
 import com.google.api.services.drive.model.File
+import com.ivy.drive.google_drive.domain.GoogleDriveServiceOld
 import com.ivy.drive.google_drive.util.GoogleDriveUtil.APP_NAME
 import timber.log.Timber
 import java.io.OutputStream
 
-internal class GoogleDriveServiceImpl : GoogleDriveService {
+internal class GoogleDriveServiceImplOld : GoogleDriveServiceOld {
 
     private var driveHelper: GoogleDriveServiceHelper? = null
 
@@ -26,7 +26,7 @@ internal class GoogleDriveServiceImpl : GoogleDriveService {
         fileContent: FileContent,
         driveFiletype: GoogleDriveFileType
     ): String {
-        return try{
+        return try {
             driveHelper!!.uploadFileAsync(
                 file = file,
                 fileContent = fileContent,

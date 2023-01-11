@@ -10,5 +10,7 @@ sealed interface SettingsEvent {
     data class AppLocked(val appLocked: Boolean) : SettingsEvent
 
     data class ImportOldData(val jsonZipUri: Uri) : SettingsEvent
+
+    object MountDrive : SettingsEvent
 }
 

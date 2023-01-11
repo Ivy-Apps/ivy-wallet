@@ -1,15 +1,14 @@
 package com.ivy.drive.google_drive.domain
 
 import android.content.Context
-import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.client.http.FileContent
 import com.google.api.services.drive.model.File
 import com.ivy.drive.google_drive.data.GoogleDriveFileType
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.OutputStream
 
-interface GoogleDriveService {
+@Deprecated("old")
+interface GoogleDriveServiceOld {
 
     companion object {
         const val IVY_DEFAULT_BACKUP_FILE_NAME: String = "IvyBackupFile"

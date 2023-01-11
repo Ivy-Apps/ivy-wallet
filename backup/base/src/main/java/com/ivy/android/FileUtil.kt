@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.android
 
 import android.content.ContentResolver
 import android.content.Context

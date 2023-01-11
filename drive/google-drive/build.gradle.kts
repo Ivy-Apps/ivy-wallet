@@ -11,6 +11,7 @@ plugins {
 
 dependencies {
     implementation(project(":common:main"))
+    implementation(project(":android:common"))
 
     // region Google Drive deps
     // TODO: Extract to "dependencies.gradle.kts" in buildSrc

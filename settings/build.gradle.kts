@@ -18,5 +18,6 @@ dependencies {
     implementation(project(":core:persistence"))
     implementation(project(":navigation"))
     implementation(project(":backup:old"))
+    implementation(project(":drive:google-drive"))
     Testing()
 }

@@ -122,6 +122,20 @@ private fun BoxScope.UI(
                 }
             }
         }
+        item {
+            SpacerVer(height = 16.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big,
+                visibility = Visibility.Medium,
+                feeling = Feeling.Positive,
+                text = if (state.driveMounted)
+                    "Mounted, create dummy file" else "Mount drive",
+                icon = null
+            ) {
+                onEvent(SettingsEvent.MountDrive)
+            }
+        }
     }
 
     CurrencyPickerModal(
@@ -180,7 +194,8 @@ private fun Preview() {
                 baseCurrency = "BGN",
                 startDayOfMonth = 1,
                 hideBalance = false,
-                appLocked = false
+                appLocked = false,
+                driveMounted = false,
             ),
             onEvent = {}
         )

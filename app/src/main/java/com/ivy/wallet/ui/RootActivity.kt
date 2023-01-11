@@ -8,12 +8,9 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.DocumentsContract
 import android.text.format.DateFormat
 import android.widget.Toast
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
@@ -27,11 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
@@ -44,6 +36,9 @@ import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign
 import com.ivy.design.api.systems.ivyWalletDesign
+import com.ivy.drive.google_drive.drivev2.GoogleDriveService
+import com.ivy.file.CreateFileLauncher
+import com.ivy.file.FilePickerLauncher
 import com.ivy.main.impl.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
@@ -58,8 +53,6 @@ import com.ivy.transaction.create.trn.NewTransactionScreen
 import com.ivy.transaction.edit.transfer.EditTransferScreen
 import com.ivy.transaction.edit.trn.EditTransactionScreen
 import com.ivy.wallet.BuildConfig
-import com.ivy.wallet.utils.activityForResultLauncher
-import com.ivy.wallet.utils.simpleActivityForResultLauncher
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.LocalDate
@@ -69,29 +62,20 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class RootActivity : AppCompatActivity(), RootScreen {
-
-    // TODO: Refactor this screen because it's a fine mess!
-
     @Inject
     lateinit var navigator: Navigator
 
     @Inject
     lateinit var timeProvider: TimeProvider
 
-    /**
-     * Uncomment below code to use gDrive feature
-     */
-//    @Inject
-//    lateinit var googleDriveService: GoogleDriveService
+    @Inject
+    lateinit var filePickerLauncher: FilePickerLauncher
 
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<GoogleSignInClient>
-    private lateinit var onGoogleSignInIdTokenResult: (idToken: String?) -> Unit
+    @Inject
+    lateinit var createFileLauncher: CreateFileLauncher
 
-    private lateinit var createFileLauncher: ActivityResultLauncher<String>
-    private lateinit var onFileCreated: (fileUri: Uri) -> Unit
-
-    private lateinit var fileChooserLauncher: ActivityResultLauncher<Unit>
-    private lateinit var onFileChosen: (fileUri: Uri) -> Unit
+    @Inject
+    lateinit var googleDriveService: GoogleDriveService
 
 
     private val viewModel: RootViewModel by viewModels()
@@ -99,11 +83,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setupActivityForResultLaunchers()
+        // region setup ActivityForResult launchers
+        filePickerLauncher.wire(this)
+        createFileLauncher.wire(this)
+        googleDriveService.wire(this)
+        // endregion
+
 
         // Make the app drawing area fullscreen (draw behind status and nav bars)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
 
         setContent {
             val viewModel: RootViewModel = hiltViewModel()
@@ -156,119 +144,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         )
     }
 
-    private fun setupActivityForResultLaunchers() {
-
-        /**
-         * Uncomment below code to use gDrive feature
-         */
-//        requestSignIn()
-
-        googleSignInLauncher()
-
-        createFileLauncher()
-
-        setupFileChooserLauncher()
-    }
-
-    private fun googleSignInLauncher() {
-        googleSignInLauncher = activityForResultLauncher(
-            createIntent = { _, client ->
-                client.signInIntent
-            }
-        ) { _, intent ->
-            try {
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(intent)
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                val idToken = account.idToken
-                Timber.d("idToken = $idToken")
-
-                onGoogleSignInIdTokenResult(idToken)
-            } catch (e: ApiException) {
-                e.printStackTrace()
-                onGoogleSignInIdTokenResult(null)
-            }
-        }
-
-//        ivyContext.googleSignIn = { idTokenResult: (String?) -> Unit ->
-//            onGoogleSignInIdTokenResult = idTokenResult
-//
-//            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .requestProfile()
-//                .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
-//                .build()
-//            val googleSignInClient = GoogleSignIn.getClient(this, gso)
-//            googleSignInLauncher.launch(googleSignInClient)
-//        }
-    }
-
-    /**
-     * Uncomment below code to use gDrive feature
-     */
-//    private fun requestSignIn() {
-//        val signInOptions = googleDriveService.requestSignIn()
-//        val client = GoogleSignIn.getClient(this, signInOptions)
-//
-//        Timber.d("Sign In Requested")
-//        // The result of the sign-in Intent is handled in onActivityResult.
-//        val launcher = registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) {
-//            googleDriveService.handleSignInResult(this@RootActivity)
-//        }
-//        launcher.launch(client.signInIntent)
-//    }
-
-    private fun createFileLauncher() {
-        createFileLauncher = activityForResultLauncher(
-            createIntent = { _, fileName ->
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/csv"
-                    putExtra(Intent.EXTRA_TITLE, fileName)
-
-                    // Optionally, specify a URI for the directory that should be opened in
-                    // the system file picker before your app creates the document.
-                    putExtra(
-                        DocumentsContract.EXTRA_INITIAL_URI,
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                            .toURI()
-                    )
-                }
-            }
-        ) { _, intent ->
-            intent?.data?.also {
-                onFileCreated(it)
-            }
-        }
-
-//        ivyContext.createNewFile = { fileName, onFileCreatedCallback ->
-//            onFileCreated = onFileCreatedCallback
-//
-//            createFileLauncher.launch(fileName)
-//        }
-    }
-
-    private fun setupFileChooserLauncher() {
-        fileChooserLauncher = simpleActivityForResultLauncher(
-            intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "*/*"
-            }
-        ) { _, intent ->
-            intent?.data?.also {
-                onFileChosen(it)
-            }
-        }
-
-//        ivyContext.openFile = { onFileOpenedCallback ->
-//            onFileOpened = onFileOpenedCallback
-//
-//            openFileLauncher.launch(Unit)
-//        }
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
 //        if (viewModel.isAppLockEnabled() && !hasFocus) {
@@ -319,7 +194,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         biometricPrompt.authenticate(promptInfo)
     }
 
-    //Helpers for Compose UI
+    // region Helpers for Compose UI
     fun contactSupport() {
         val caseNumber: Int = Random().nextInt(100) + 100
 
@@ -359,8 +234,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
     }
 
     override fun fileChooser(onFileChosen: (Uri) -> Unit) {
-        this.onFileChosen = onFileChosen
-        fileChooserLauncher.launch(Unit)
+        filePickerLauncher.launch(Unit) {
+            it?.let(onFileChosen)
+        }
     }
 
     override fun shareIvyWallet() {
@@ -492,5 +368,6 @@ class RootActivity : AppCompatActivity(), RootScreen {
         )
         picker.show()
     }
+    // endregion
     // endregion
 }

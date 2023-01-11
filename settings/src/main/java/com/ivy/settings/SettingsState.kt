@@ -4,5 +4,6 @@ data class SettingsState(
     val baseCurrency: String,
     val startDayOfMonth: Int,
     val hideBalance: Boolean,
-    val appLocked: Boolean
+    val appLocked: Boolean,
+    val driveMounted: Boolean,
 )

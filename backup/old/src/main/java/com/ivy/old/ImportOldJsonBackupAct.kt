@@ -7,8 +7,8 @@ import arrow.core.Either
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
-import com.ivy.base.readFile
-import com.ivy.base.unzip
+import com.ivy.android.readFile
+import com.ivy.android.unzip
 import com.ivy.core.domain.action.Action
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber

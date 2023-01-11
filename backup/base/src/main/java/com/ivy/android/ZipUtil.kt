@@ -1,4 +1,4 @@
-package com.ivy.base
+package com.ivy.android
 
 import android.content.Context
 import android.net.Uri
