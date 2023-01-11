@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.core.ui.temp.rootScreen
+import com.ivy.design.l0_system.UI
+import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.H1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.SwitchRow
@@ -123,12 +125,18 @@ private fun BoxScope.UI(
             }
         }
         item {
-            SpacerVer(height = 16.dp)
+            SpacerVer(height = 24.dp)
+            B2(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = "DANGER ZONE!!! Mounting the Google Drive may corrupt your data! Do at your own risk!",
+                color = UI.colors.red
+            )
+            SpacerVer(height = 12.dp)
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big,
                 visibility = Visibility.Medium,
-                feeling = Feeling.Positive,
+                feeling = Feeling.Negative,
                 text = if (state.driveMounted)
                     "Mounted, create dummy file" else "Mount drive",
                 icon = null

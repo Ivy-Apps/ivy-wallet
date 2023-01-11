@@ -92,7 +92,7 @@ class SettingsViewModel @Inject constructor(
         if (googleDriveService.driveMounted.value) {
             withContext(Dispatchers.IO) {
                 val result = googleDriveService.write(
-                    path = Path("Ivy-Wallet-app-drive-sync/Backup/abcdefg.txt"),
+                    path = Path("Ivy Wallet/Backup/test.txt"),
                     content = LocalDateTime.now().toString()
                 )
                 when (result) {
