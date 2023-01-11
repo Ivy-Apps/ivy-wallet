@@ -36,7 +36,7 @@ import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign
 import com.ivy.design.api.systems.ivyWalletDesign
-import com.ivy.drive.google_drive.drivev2.GoogleDriveService
+import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.file.CreateFileLauncher
 import com.ivy.file.FilePickerLauncher
 import com.ivy.main.impl.MainScreen

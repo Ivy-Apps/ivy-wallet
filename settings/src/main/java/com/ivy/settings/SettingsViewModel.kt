@@ -10,8 +10,8 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
-import com.ivy.drive.google_drive.drivev2.GoogleDriveError
-import com.ivy.drive.google_drive.drivev2.GoogleDriveService
+import com.ivy.drive.google_drive.GoogleDriveService
+import com.ivy.drive.google_drive.data.GoogleDriveError
 import com.ivy.navigation.Navigator
 import com.ivy.old.ImportOldJsonBackupAct
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,7 +92,7 @@ class SettingsViewModel @Inject constructor(
         if (googleDriveService.driveMounted.value) {
             withContext(Dispatchers.IO) {
                 val result = googleDriveService.write(
-                    path = Path("Ivy Wallet/Backup/test.txt"),
+                    path = Path("Ivy-Wallet-Debug-sync-folder/Backup/test.txt"),
                     content = LocalDateTime.now().toString()
                 )
                 when (result) {

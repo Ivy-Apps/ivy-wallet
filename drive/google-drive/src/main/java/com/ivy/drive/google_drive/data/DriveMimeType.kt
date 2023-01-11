@@ -1,4 +1,4 @@
-package com.ivy.drive.google_drive.drivev2
+package com.ivy.drive.google_drive.data
 
 enum class DriveMimeType(val value: String) {
     PDF("application/pdf"),

@@ -1,4 +1,4 @@
-package com.ivy.drive.google_drive.drivev2
+package com.ivy.drive.google_drive.data
 
 sealed interface GoogleDriveError {
     object NotMounted : GoogleDriveError

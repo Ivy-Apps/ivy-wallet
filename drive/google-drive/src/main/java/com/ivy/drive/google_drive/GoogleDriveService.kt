@@ -1,8 +1,10 @@
-package com.ivy.drive.google_drive.drivev2
+package com.ivy.drive.google_drive
 
 import androidx.appcompat.app.AppCompatActivity
 import arrow.core.Either
 import arrow.core.computations.either
+import com.ivy.drive.google_drive.data.DriveMimeType
+import com.ivy.drive.google_drive.data.GoogleDriveError
 import kotlinx.coroutines.flow.StateFlow
 import java.nio.file.Path
 

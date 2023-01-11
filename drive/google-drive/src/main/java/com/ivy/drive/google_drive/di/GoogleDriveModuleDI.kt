@@ -1,7 +1,7 @@
 package com.ivy.drive.google_drive.di
 
-import com.ivy.drive.google_drive.drivev2.GoogleDriveService
-import com.ivy.drive.google_drive.drivev2.GoogleDriveServiceImpl
+import com.ivy.drive.google_drive.GoogleDriveService
+import com.ivy.drive.google_drive.GoogleDriveServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

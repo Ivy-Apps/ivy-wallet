@@ -1,4 +1,4 @@
-package com.ivy.drive.google_drive.drivev2
+package com.ivy.drive.google_drive
 
 
 import android.content.Context
@@ -9,8 +9,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
-import com.ivy.drive.google_drive.MountDriveLauncher
-import com.ivy.drive.google_drive.driveInstance
+import com.ivy.drive.google_drive.data.DriveMimeType
+import com.ivy.drive.google_drive.data.GoogleDriveError
+import com.ivy.drive.google_drive.data.GoogleDriveFileId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
