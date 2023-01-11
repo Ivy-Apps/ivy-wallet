@@ -1,4 +1,4 @@
-package com.ivy.android
+package com.ivy.file
 
 import android.content.Context
 import android.net.Uri
@@ -56,11 +56,11 @@ fun unzip(zipFile: File, location: File) {
     }
 }
 
-fun unzip(context: Context, zipFile: Uri, location: File) {
-    context.contentResolver.openFileDescriptor(zipFile, MODE_READ).use { descriptor ->
+fun unzip(context: Context, zipFilePath: Uri, unzipLocation: File) {
+    context.contentResolver.openFileDescriptor(zipFilePath, MODE_READ).use { descriptor ->
         descriptor?.fileDescriptor?.let {
             ZipInputStream(BufferedInputStream(FileInputStream(it))).use { inStream ->
-                unzip(inStream, location)
+                unzip(inStream, unzipLocation)
             }
         }
     }

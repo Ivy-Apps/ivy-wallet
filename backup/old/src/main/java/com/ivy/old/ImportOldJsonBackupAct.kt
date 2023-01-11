@@ -4,63 +4,106 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toUri
 import arrow.core.Either
+import arrow.core.NonEmptyList
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
-import com.ivy.android.readFile
-import com.ivy.android.unzip
+import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.Action
+import com.ivy.core.domain.action.account.WriteAccountsAct
+import com.ivy.core.domain.action.category.WriteCategoriesAct
+import com.ivy.core.domain.action.transaction.WriteTrnsAct
+import com.ivy.core.domain.action.transaction.transfer.WriteTransferAct
+import com.ivy.file.readFile
+import com.ivy.file.unzip
 import dagger.hilt.android.qualifiers.ApplicationContext
-import timber.log.Timber
+import org.json.JSONObject
 import java.io.File
 import javax.inject.Inject
 
-@Suppress("IMPLICIT_NOTHING_TYPE_ARGUMENT_IN_RETURN_POSITION")
 class ImportOldJsonBackupAct @Inject constructor(
     @ApplicationContext
-    private val context: Context
-) : Action<Uri, Either<String, String>>() {
-    override suspend fun Uri.willDo(): Either<String, String> = either.eager {
-        // regin Unzip & read
-        val folderName = "backup" + System.currentTimeMillis()
-        val cacheFolderPath = File(context.cacheDir, folderName)
+    private val context: Context,
+    private val writeAccountsAct: WriteAccountsAct,
+    private val writeCategoriesAct: WriteCategoriesAct,
+    private val writeTrnsAct: WriteTrnsAct,
+    private val writeTransferAct: WriteTransferAct,
+) : Action<Uri, Either<ImportOldDataError, String>>() {
+    override suspend fun Uri.willDo(): Either<ImportOldDataError, String> = either {
+        // region Unzip
+        val files = unzipBackupFile(
+            zipFilePath = this@willDo
+        ).bind()
 
-        unzip(
-            context = context,
-            zipFile = this@willDo,
-            location = cacheFolderPath
-        )
-
-        val filesArray = cacheFolderPath.listFiles()
-
-        if (filesArray == null || filesArray.isEmpty())
-            "No files found in the backup".left().bind()
-
-        val filesList = filesArray.toList().filter {
-            hasJsonExtension(it)
-        }
-
-        if (filesList.size != 1)
-            "failed!".left().bind()
-
-        val jsonString = readFile(context, filesList.first().toUri(), Charsets.UTF_16)
+        val backupJsonString = readBackupJson(files).bind()
         // endregion
 
-        Timber.d("BACKUP_JSON: $jsonString")
+        // region Parse
+        val backup = parse(backupJsonString).bind()
+        // TODO: Parse
+        // endregion
+
 
         "Success".right().bind()
     }
 
-    private fun hasJsonExtension(file: File): Boolean {
-        val name = file.name
-        val lastIndexOf = name.lastIndexOf(".")
-        if (lastIndexOf == -1)
-            return false
+    // region Unzip
+    private fun unzipBackupFile(
+        zipFilePath: Uri
+    ): Either<ImportOldDataError, NonEmptyList<File>> {
+        val folderName = "backup" + System.currentTimeMillis()
+        val unzippedFolder = File(context.cacheDir, folderName)
 
-        return (name.substring(lastIndexOf).equals(".json", true))
+        unzip(
+            context = context,
+            zipFilePath = zipFilePath,
+            unzipLocation = unzippedFolder
+        )
+
+        val unzippedFiles = unzippedFolder.listFiles()?.toList()
+            ?.takeIf { it.isNotEmpty() }
+            ?.toNonEmptyList()
+            ?: return ImportOldDataError.UnzipFailed.left()
+
+        unzippedFolder.delete()
+
+        return unzippedFiles.right()
     }
 
-    private fun clearCacheDir(context: Context) {
-        context.cacheDir.deleteRecursively()
+    private fun readBackupJson(
+        files: NonEmptyList<File>
+    ): Either<ImportOldDataError, String> {
+        fun hasJsonExtension(file: File): Boolean {
+            val name = file.name
+            val lastIndexOf = name.lastIndexOf(".")
+                .takeIf { it != -1 } ?: return false
+            return (name.substring(lastIndexOf).equals(".json", true))
+        }
+
+        val jsonFiles = files.filter(::hasJsonExtension)
+        if (jsonFiles.size != 1)
+            return ImportOldDataError.UnexpectedBackupZipFormat.left()
+
+        return readFile(
+            context,
+            jsonFiles.first().toUri(),
+            Charsets.UTF_16
+        )?.right() ?: ImportOldDataError.FailedToReadJsonFile.left()
     }
+    // endregion
+
+    // region Parse
+    private fun parse(jsonString: String): Either<ImportOldDataError, JSONObject> =
+        Either.catch({ ImportOldDataError.FailedToParseJson(it) }) {
+            JSONObject(jsonString)
+        }
+    // endregion
+
+}
+
+sealed interface ImportOldDataError {
+    object UnzipFailed : ImportOldDataError
+    object UnexpectedBackupZipFormat : ImportOldDataError
+    object FailedToReadJsonFile : ImportOldDataError
+    data class FailedToParseJson(val reason: Throwable) : ImportOldDataError
 }

@@ -15,5 +15,6 @@ dependencies {
     implementation(project(":core:data-model"))
     implementation(project(":core:persistence"))
     implementation(project(":backup:base"))
+    implementation(project(":android:file-system"))
     Testing()
 }
