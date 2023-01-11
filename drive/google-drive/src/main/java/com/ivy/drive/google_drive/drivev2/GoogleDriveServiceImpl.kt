@@ -180,9 +180,15 @@ class GoogleDriveServiceImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             val metadata = createMetadata(nodeName, directory, parentId)
             Either.catch {
-                drive.files()
-                    .create(metadata, content)
-                    .execute()
+                val files = drive.files()
+                val create = if (content == null) {
+                    // WARNING: the create() without media content must be used for folders
+                    files.create(metadata)
+                } else {
+                    // This cannot create folders!! Only for files
+                    files.create(metadata, content)
+                }
+                create.execute()
             }.mapLeft { GoogleDriveError.IOError(it) }
         }.bind()
     }
@@ -191,16 +197,15 @@ class GoogleDriveServiceImpl @Inject constructor(
         nodeName: String,
         directory: Boolean,
         parentId: GoogleDriveFileId?
-    ): File = File()
-        .apply {
-            name = nodeName
-            if (directory) {
-                mimeType = DriveMimeType.FOLDER.value
-            }
-            if (parentId != null) {
-                parents = listOf(parentId.id)
-            }
+    ): File = File().apply {
+        name = nodeName
+        if (directory) {
+            mimeType = DriveMimeType.FOLDER.value
         }
+        if (parentId != null) {
+            parents = listOf(parentId.id)
+        }
+    }
 
     private suspend fun createDirectoryTree(
         directories: NonEmptyList<Path>,
