@@ -3,6 +3,7 @@ package com.ivy.drive.google_drive.drivev2
 import androidx.appcompat.app.AppCompatActivity
 import arrow.core.Either
 import arrow.core.computations.either
+import kotlinx.coroutines.flow.StateFlow
 import java.nio.file.Path
 
 interface GoogleDriveService {
@@ -15,7 +16,7 @@ interface GoogleDriveService {
 
     // TODO: Instead of boolean return Option<DriveInfo> which
     //  contains the email of the mounted drive so it can be displayed in the UI
-    fun isMounted(): Boolean
+    val driveMounted: StateFlow<Boolean>
 
     suspend fun read(path: Path): Either<GoogleDriveError, ByteArray?>
 

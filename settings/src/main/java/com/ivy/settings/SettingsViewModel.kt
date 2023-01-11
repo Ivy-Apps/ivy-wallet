@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import arrow.core.Either
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.settings.applocked.AppLockedFlow
 import com.ivy.core.domain.action.settings.applocked.WriteAppLockedAct
@@ -9,16 +10,17 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
+import com.ivy.drive.google_drive.drivev2.GoogleDriveError
 import com.ivy.drive.google_drive.drivev2.GoogleDriveService
 import com.ivy.navigation.Navigator
 import com.ivy.old.ImportOldJsonBackupAct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.io.path.Path
 
@@ -44,14 +46,13 @@ class SettingsViewModel @Inject constructor(
         driveMounted = false
     )
 
-    private val driveMounted = MutableStateFlow(googleDriveService.isMounted())
 
     override val uiFlow: Flow<SettingsState> = combine(
         baseCurrencyFlow(),
         startDayOfMonthFlow(),
         hideBalanceFlow(Unit),
         appLockedFlow(Unit),
-        driveMounted
+        googleDriveService.driveMounted,
     ) { baseCurrency, startDayOfMonth, hideBalance, appLocked, driveMounted ->
         SettingsState(
             baseCurrency = baseCurrency,
@@ -88,14 +89,25 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun handleMountDrive() {
-        driveMounted.value = googleDriveService.isMounted()
-        if (googleDriveService.isMounted()) {
+        if (googleDriveService.driveMounted.value) {
             withContext(Dispatchers.IO) {
                 val result = googleDriveService.write(
-                    path = Path("Ivy Wallet/testing/dummy.txt"),
-                    content = "Dummy testing file"
+                    path = Path("/newfile.txt"),
+                    content = LocalDateTime.now().toString()
                 )
-                Timber.d("Dummy file result = $result")
+                when (result) {
+                    is Either.Left -> Timber.d(
+                        "Error writing to drive: ${
+                            when (val error = result.value) {
+                                is GoogleDriveError.IOError -> error.exception.also {
+                                    it.printStackTrace()
+                                }.message
+                                GoogleDriveError.NotMounted -> "Not mounted!!!"
+                            }
+                        }"
+                    )
+                    is Either.Right -> Timber.d("Successfully wrote to drive")
+                }
             }
         } else {
             googleDriveService.mount()

@@ -4,21 +4,25 @@ package com.ivy.drive.google_drive.drivev2
 import androidx.appcompat.app.AppCompatActivity
 import arrow.core.*
 import arrow.core.computations.either
-import com.google.api.client.http.FileContent
+import com.google.api.client.http.ByteArrayContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import com.ivy.drive.google_drive.MountDriveLauncher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import javax.inject.Inject
 import javax.inject.Singleton
-import java.io.File as JavaIoFile
 
 @Singleton
 class GoogleDriveServiceImpl @Inject constructor(
     private val mountDriveLauncher: MountDriveLauncher
 ) : GoogleDriveService {
+    private val _isMounted = MutableStateFlow(false)
+    override val driveMounted: StateFlow<Boolean> = _isMounted
+
     private var mountedDrive: Drive? = null
 
     override fun wire(activity: AppCompatActivity) {
@@ -28,10 +32,9 @@ class GoogleDriveServiceImpl @Inject constructor(
     override fun mount() {
         mountDriveLauncher.launch(Unit) { drive ->
             this.mountedDrive = drive
+            _isMounted.value = true
         }
     }
-
-    override fun isMounted(): Boolean = mountedDrive != null
 
     private fun mountedDrive(): Either<GoogleDriveError, Drive> =
         mountedDrive?.right() ?: GoogleDriveError.NotMounted.left()
@@ -52,10 +55,11 @@ class GoogleDriveServiceImpl @Inject constructor(
         if (maybeFile == null) {
             createFileAndDirectoryStructure(path, content, mimeType).bind()
         } else {
-            tempFileResource(content) {
-                val fileContent = FileContent(mimeType.value, it)
-                updateFile(fileContent, GoogleDriveFileId(maybeFile.id)).bind()
-            }
+            updateFile(
+                ByteArrayContent(mimeType.value, content),
+                GoogleDriveFileId(maybeFile.id)
+            ).bind()
+
         }
     }
 
@@ -88,7 +92,7 @@ class GoogleDriveServiceImpl @Inject constructor(
                 withContext(Dispatchers.IO) {
                     drive.files().delete(fileId.id).execute()
                 }
-            }.mapLeft { GoogleDriveError.IOError }.bind()
+            }.mapLeft { GoogleDriveError.IOError(it) }.bind()
         }
 
     private suspend fun fetchFileContentsById(fileId: GoogleDriveFileId)
@@ -97,20 +101,20 @@ class GoogleDriveServiceImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             Either.catch {
                 drive.files().get(fileId.id).executeMediaAsInputStream().readBytes()
-            }.mapLeft { GoogleDriveError.IOError }
+            }.mapLeft { GoogleDriveError.IOError(it) }
         }.bind()
     }
 
     private suspend fun updateFile(
-        fileContent: FileContent,
+        content: ByteArrayContent,
         fileId: GoogleDriveFileId
     ): Either<GoogleDriveError, File> = either {
         val drive = mountedDrive().bind()
         Either.catch {
             withContext(Dispatchers.IO) {
-                drive.files().update(fileId.id, null, fileContent).execute()
+                drive.files().update(fileId.id, null, content).execute()
             }
-        }.mapLeft { GoogleDriveError.IOError }.bind()
+        }.mapLeft { GoogleDriveError.IOError(it) }.bind()
     }
 
     private suspend fun fetchFileFromPath(path: Path): Either<GoogleDriveError, File?> {
@@ -138,7 +142,7 @@ class GoogleDriveServiceImpl @Inject constructor(
         parentId: GoogleDriveFileId? = null
     ): Either<GoogleDriveError, File?> = either {
         val drive = mountedDrive().bind()
-        Either.catch({ GoogleDriveError.IOError }) {
+        Either.catch({ GoogleDriveError.IOError(it) }) {
             val querySuffix = parentId?.let { " and '${it.id}' in parents" } ?: ""
             val query = "name = '$fileName'$querySuffix"
             queryFiles(drive, query)
@@ -154,47 +158,32 @@ class GoogleDriveServiceImpl @Inject constructor(
         }.execute()?.files
     }
 
-
-    // TODO: 08-Jan-23 figure out a better way to turn a ByteArray into a File...
-    private suspend fun <T> tempFileResource(
-        bytes: ByteArray,
-        functionToExecute: suspend (JavaIoFile) -> T
-    ): T {
-        val tempFile = withContext(Dispatchers.IO) {
-            JavaIoFile.createTempFile("temporary", "file").apply {
-                writeBytes(bytes)
-            }
-        }
-        return functionToExecute(tempFile).also {
-            tempFile.delete()
-        }
-    }
-
     private suspend fun createFile(
         fileName: String,
         bytes: ByteArray,
         mimeType: DriveMimeType,
         parentId: GoogleDriveFileId? = null
-    ): Either<GoogleDriveError, File> =
-        tempFileResource(bytes) {
-            val fileContent = FileContent(mimeType.value, it)
-            insertNode(nodeName = fileName, parentId = parentId, fileContent = fileContent)
-        }
+    ): Either<GoogleDriveError, File> = insertNode(
+        nodeName = fileName,
+        parentId = parentId,
+        content = ByteArrayContent(mimeType.value, bytes)
+    )
+
 
     private suspend fun insertNode(
         nodeName: String,
         directory: Boolean = false,
         parentId: GoogleDriveFileId? = null,
-        fileContent: FileContent? = null
+        content: ByteArrayContent? = null
     ): Either<GoogleDriveError, File> = either {
         val drive = mountedDrive().bind()
         withContext(Dispatchers.IO) {
             val metadata = createMetadata(nodeName, directory, parentId)
             Either.catch {
                 drive.files()
-                    .create(metadata, fileContent)
+                    .create(metadata, content)
                     .execute()
-            }.mapLeft { GoogleDriveError.IOError }
+            }.mapLeft { GoogleDriveError.IOError(it) }
         }.bind()
     }
 
