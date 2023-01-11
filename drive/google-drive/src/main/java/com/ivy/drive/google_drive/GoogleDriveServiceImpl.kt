@@ -141,18 +141,22 @@ class GoogleDriveServiceImpl @Inject constructor(
 
     private suspend fun fetchFileFromPath(path: Path): Either<GoogleDriveError, File?> {
         suspend fun fetchFileFromPathHelper(
-            pathAsStringList: List<String>,
+            pathAsList: List<String>,
             parentId: GoogleDriveFileId? = null
         ): Either<GoogleDriveError, File?> =
             either {
-                if (pathAsStringList.size <= 1) {
-                    val fileName = pathAsStringList.first()
+                if (pathAsList.size <= 1) {
+                    val fileName = pathAsList.first()
                     fetchNode(fileName, parentId).bind()
                 } else {
-                    val directoryName = pathAsStringList.first()
-                    val directoryId =
-                        fetchNode(directoryName, parentId).bind()?.id?.let { GoogleDriveFileId(it) }
-                    fetchFileFromPathHelper(pathAsStringList.drop(1), directoryId).bind()
+                    val directoryName = pathAsList.first()
+                    val directory = fetchNode(directoryName, parentId).bind()
+                        ?: return@either null // a required directory in the path is missing
+                    // => the file is not found
+                    fetchFileFromPathHelper(
+                        pathAsList = pathAsList.drop(1),
+                        parentId = directory.id?.let(::GoogleDriveFileId)
+                    ).bind()
                 }
             }
         return fetchFileFromPathHelper(path.toList().map { it.toString() })
