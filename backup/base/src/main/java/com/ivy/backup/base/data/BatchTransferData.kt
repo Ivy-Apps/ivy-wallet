@@ -1,4 +1,4 @@
-package com.ivy.backup.base
+package com.ivy.backup.base.data
 
 import com.ivy.core.domain.action.transaction.transfer.TransferData
 

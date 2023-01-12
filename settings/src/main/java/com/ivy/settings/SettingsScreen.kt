@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.currency.CurrencyPickerModal
 import com.ivy.core.ui.temp.rootScreen
 import com.ivy.design.l0_system.UI
+import com.ivy.design.l0_system.color.Green
+import com.ivy.design.l0_system.color.Orange
 import com.ivy.design.l1_buildingBlocks.B2
 import com.ivy.design.l1_buildingBlocks.H1
 import com.ivy.design.l1_buildingBlocks.SpacerVer
@@ -30,6 +32,7 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
+import com.ivy.settings.data.BackupImportState
 
 /*
 - Dark Mode
@@ -115,8 +118,18 @@ private fun BoxScope.UI(
             IvyButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 size = ButtonSize.Big, visibility = Visibility.High,
-                feeling = Feeling.Positive,
-                text = "Import old data",
+                feeling = when (state.importOldData) {
+                    is BackupImportState.Error -> Feeling.Negative
+                    BackupImportState.Idle -> Feeling.Positive
+                    BackupImportState.Importing -> Feeling.Custom(Orange)
+                    is BackupImportState.Success -> Feeling.Custom(Green)
+                },
+                text = when (state.importOldData) {
+                    BackupImportState.Idle -> "Import old data"
+                    BackupImportState.Importing -> "Importing..."
+                    is BackupImportState.Error -> "Error: ${state.importOldData.message}"
+                    is BackupImportState.Success -> "Success!!! ${state.importOldData.message}"
+                },
                 icon = null
             ) {
                 rootScreen.fileChooser {
@@ -204,6 +217,7 @@ private fun Preview() {
                 hideBalance = false,
                 appLocked = false,
                 driveMounted = false,
+                importOldData = BackupImportState.Idle
             ),
             onEvent = {}
         )

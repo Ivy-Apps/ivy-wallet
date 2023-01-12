@@ -8,12 +8,10 @@ import arrow.core.NonEmptyList
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
+import com.ivy.backup.base.ImportSuccess
+import com.ivy.backup.base.WriteBackupDataAct
 import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.Action
-import com.ivy.core.domain.action.account.WriteAccountsAct
-import com.ivy.core.domain.action.category.WriteCategoriesAct
-import com.ivy.core.domain.action.transaction.WriteTrnsAct
-import com.ivy.core.domain.action.transaction.transfer.WriteTransferAct
 import com.ivy.file.readFile
 import com.ivy.file.unzip
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,27 +22,29 @@ import javax.inject.Inject
 class ImportOldJsonBackupAct @Inject constructor(
     @ApplicationContext
     private val context: Context,
-    private val writeAccountsAct: WriteAccountsAct,
-    private val writeCategoriesAct: WriteCategoriesAct,
-    private val writeTrnsAct: WriteTrnsAct,
-    private val writeTransferAct: WriteTransferAct,
-) : Action<Uri, Either<ImportOldDataError, String>>() {
+    private val parseOldJsonAct: ParseOldJsonAct,
+    private val writeBackupDataAct: WriteBackupDataAct,
+) : Action<Uri, Either<ImportOldDataError, ImportSuccess>>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(backupZipPath: Uri): Either<ImportOldDataError, String> = either {
-        // region Unzip
-        val files = unzipBackupZip(zipFilePath = backupZipPath).bind()
-        val backupJsonString = readBackupJson(files).bind()
-        // endregion
+    override suspend fun action(backupZipPath: Uri): Either<ImportOldDataError, ImportSuccess> =
+        either {
+            // region Unzip
+            val files = unzipBackupZip(zipFilePath = backupZipPath).bind()
+            val backupJsonString = readBackupJson(files).bind()
+            // endregion
 
-        // region Parse
-        val backup = parse(backupJsonString).bind()
-        // TODO: Parse
-        // endregion
+            // region Parse
+            val backupJson = parse(backupJsonString).bind()
+            val backupData = parseOldJsonAct(backupJson).bind()
+            // endregion
 
+            writeBackupDataAct(backupData)
 
-        "Success".right().bind()
-    }
+            ImportSuccess(
+                faultyTransfers = backupData.transfers.faulty
+            )
+        }
 
     // region Unzip
     private fun unzipBackupZip(

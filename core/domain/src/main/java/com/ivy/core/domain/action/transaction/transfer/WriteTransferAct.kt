@@ -20,13 +20,14 @@ class WriteTransferAct @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override suspend fun action(modify: ModifyTransfer) {
         when (modify) {
-            is ModifyTransfer.Add -> addTransfer(modify.data)
+            is ModifyTransfer.Add -> addTransfer(modify.batchId, modify.data)
             is ModifyTransfer.Edit -> editTransfer(modify.batchId, modify.data)
             is ModifyTransfer.Delete -> deleteTransfer(modify.transfer)
         }
     }
 
     private suspend fun addTransfer(
+        batchId: String?,
         data: TransferData
     ) {
         if (!validateTransfer(data)) return
@@ -93,7 +94,7 @@ class WriteTransferAct @Inject constructor(
         writeTrnsBatchAct(
             WriteTrnsBatchAct.save(
                 TrnBatch(
-                    batchId = UUID.randomUUID().toString(),
+                    batchId = batchId ?: UUID.randomUUID().toString(),
                     trns = trns
                 )
             )

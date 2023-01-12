@@ -4,7 +4,7 @@ import com.ivy.data.transaction.TrnListItem
 
 sealed interface ModifyTransfer {
     companion object {
-        fun add(data: TransferData) = Add(data)
+        fun add(data: TransferData, batchId: String? = null) = Add(data = data, batchId = batchId)
 
         fun edit(batchId: String, data: TransferData) = Edit(batchId, data)
 
@@ -12,6 +12,7 @@ sealed interface ModifyTransfer {
     }
 
     data class Add internal constructor(
+        val batchId: String?,
         val data: TransferData
     ) : ModifyTransfer
 

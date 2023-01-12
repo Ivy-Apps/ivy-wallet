@@ -1,4 +1,4 @@
-package com.ivy.backup.base
+package com.ivy.backup.base.data
 
 import com.ivy.data.account.Account
 import com.ivy.data.account.Folder
@@ -13,7 +13,7 @@ data class BackupData(
     val accounts: List<Account>,
     val categories: List<Category>,
     val transactions: List<Transaction>,
-    val transfers: List<BatchTransferData>,
+    val transfers: FaultTolerantList<BatchTransferData>,
     // endregion
 
     // region Ivy New data

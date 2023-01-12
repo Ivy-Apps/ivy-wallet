@@ -10,14 +10,17 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
+import com.ivy.core.domain.pure.util.combine
 import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.drive.google_drive.data.GoogleDriveError
 import com.ivy.navigation.Navigator
 import com.ivy.old.ImportOldJsonBackupAct
+import com.ivy.settings.data.BackupImportState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -43,9 +46,11 @@ class SettingsViewModel @Inject constructor(
         startDayOfMonth = 1,
         hideBalance = false,
         appLocked = false,
-        driveMounted = false
+        driveMounted = false,
+        importOldData = BackupImportState.Idle
     )
 
+    private val importOldDataState = MutableStateFlow(initialUi.importOldData)
 
     override val uiFlow: Flow<SettingsState> = combine(
         baseCurrencyFlow(),
@@ -53,13 +58,16 @@ class SettingsViewModel @Inject constructor(
         hideBalanceFlow(Unit),
         appLockedFlow(Unit),
         googleDriveService.driveMounted,
-    ) { baseCurrency, startDayOfMonth, hideBalance, appLocked, driveMounted ->
+        importOldDataState
+    ) { baseCurrency, startDayOfMonth, hideBalance,
+        appLocked, driveMounted, importOldData ->
         SettingsState(
             baseCurrency = baseCurrency,
             startDayOfMonth = startDayOfMonth,
             hideBalance = hideBalance,
             appLocked = appLocked,
             driveMounted = driveMounted,
+            importOldData = importOldData,
         )
     }
 
@@ -84,8 +92,22 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun handleImportOldData(event: SettingsEvent.ImportOldData) {
+        if (importOldDataState.value != BackupImportState.Idle) return
+
+        importOldDataState.value = BackupImportState.Importing
         val result = importOldJsonBackupAct(event.jsonZipUri)
-        Timber.d("Import data result: $result")
+        importOldDataState.value = when (result) {
+            is Either.Left -> {
+                Timber.e("Import error: $result")
+                BackupImportState.Error(message = result.value.toString())
+            }
+            is Either.Right -> BackupImportState.Success(
+                message = "WTF?"
+            )
+        }
+
+        delay(15_000) // display for some seconds
+        importOldDataState.value = BackupImportState.Idle
     }
 
     private suspend fun handleMountDrive() {

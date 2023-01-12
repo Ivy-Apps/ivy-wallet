@@ -2,10 +2,12 @@ package com.ivy.old
 
 import arrow.core.Either
 import arrow.core.computations.either
-import com.ivy.backup.base.BackupData
-import com.ivy.backup.base.BatchTransferData
-import com.ivy.backup.base.SettingsData
+import com.ivy.backup.base.data.BackupData
+import com.ivy.backup.base.data.BatchTransferData
+import com.ivy.backup.base.data.FaultTolerantList
+import com.ivy.backup.base.data.SettingsData
 import com.ivy.backup.base.optional
+import com.ivy.common.time.beginningOfIvyTime
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toLocal
 import com.ivy.common.toUUID
@@ -181,7 +183,7 @@ class ParseOldJsonAct @Inject constructor(
                 amount = getDouble("amount"),
                 currency = account.currency,
             ),
-            category = categoriesMap[getString("categoryId")],
+            category = optional { categoriesMap[getString("categoryId")] },
             time = parseTrnTime(this),
             title = optional { getString("title") },
             description = optional { getString("description") },
@@ -208,51 +210,60 @@ class ParseOldJsonAct @Inject constructor(
         now: LocalDateTime,
         accountsMap: Map<String, Account>,
         categoriesMap: Map<String, Category>,
-    ): Either<ImportOldDataError, List<BatchTransferData>> =
+    ): Either<ImportOldDataError, FaultTolerantList<BatchTransferData>> =
         Either.catch(ImportOldDataError.Parse::Transfers) {
             val transactionsJson = json.getJSONArray("transactions")
             val transfers = mutableListOf<BatchTransferData>()
 
+            var corrupted = 0
             for (i in 0 until transactionsJson.length()) {
                 val trnJson = transactionsJson.getJSONObject(i)
                 if (trnJson.getString("type") != "TRANSFER")
                     continue // skip non-transfers
-                transfers.add(
-                    trnJson.parseTransfer(
-                        now = now,
-                        accountsMap = accountsMap,
-                        categoriesMap = categoriesMap
-                    )
+
+                val transfer = trnJson.parseTransfer(
+                    now = now,
+                    accountsMap = accountsMap,
+                    categoriesMap = categoriesMap
                 )
+                if (transfer != null) {
+                    transfers.add(transfer)
+                } else {
+                    corrupted++
+                }
+
             }
-            transfers
+            FaultTolerantList(items = transfers, faulty = corrupted)
         }
 
     private fun JSONObject.parseTransfer(
         now: LocalDateTime,
         accountsMap: Map<String, Account>,
         categoriesMap: Map<String, Category>,
-    ): BatchTransferData {
+    ): BatchTransferData? = optional {
         val oldTrnId = getString("id")
         val accountFrom = accountsMap[getString("accountId")]
-            ?: error("Transfer 'From' Account with id ${getString("accountId")} not found")
+            ?: error("Transfer 'From' Account with id '${getString("accountId")}' not found.")
         val accountTo = accountsMap[getString("toAccountId")]
-            ?: error("Transfer 'To' Account with id ${getString("toAccountId")} not found")
+            ?: error("Transfer 'To' Account with id '${getString("toAccountId")}' not found.")
 
-        return BatchTransferData(
+        val fromAmount = getDouble("amount")
+        val toAmount = optional { getDouble("toAmount") } ?: fromAmount
+
+        BatchTransferData(
             batchId = oldTrnId,
             transfer = TransferData(
                 amountFrom = Value(
-                    amount = getDouble("amount"),
+                    amount = fromAmount,
                     currency = accountFrom.currency,
                 ),
                 amountTo = Value(
-                    amount = getDouble("toAmount"),
+                    amount = toAmount,
                     currency = accountTo.currency,
                 ),
                 accountFrom = accountFrom,
                 accountTo = accountTo,
-                category = categoriesMap[getString("categoryId")],
+                category = optional { categoriesMap[getString("categoryId")] },
                 time = parseTrnTime(this),
                 title = optional { getString("title") },
                 description = optional { getString("description") },
@@ -296,11 +307,11 @@ class ParseOldJsonAct @Inject constructor(
                         .toLocal(timeProvider)
                 }
 
-        return parseDateTime("dateTime")?.let { dateTime ->
-            TrnTime.Actual(dateTime)
-        } ?: parseDateTime("dueDate")?.let { dueDate ->
-            TrnTime.Due(dueDate)
-        } ?: error("Couldn't parse TrnTime")
+        return parseDateTime("dateTime")
+            ?.let(TrnTime::Actual) ?: parseDateTime("dueDate")
+            ?.let(TrnTime::Due) ?: TrnTime.Actual(
+            beginningOfIvyTime()
+        )
     }
 
     private fun JSONObject.optionalUUID(field: String): UUID? =
