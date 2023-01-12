@@ -1,5 +1,6 @@
 package com.ivy.settings
 
+import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.settings.applocked.AppLockedFlow
@@ -21,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -92,22 +94,25 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun handleImportOldData(event: SettingsEvent.ImportOldData) {
-        if (importOldDataState.value != BackupImportState.Idle) return
+        // Launch new scope so we won't block the event queue
+        viewModelScope.launch {
+            if (importOldDataState.value != BackupImportState.Idle) return@launch
 
-        importOldDataState.value = BackupImportState.Importing
-        val result = importOldJsonBackupAct(event.jsonZipUri)
-        importOldDataState.value = when (result) {
-            is Either.Left -> {
-                Timber.e("Import error: $result")
-                BackupImportState.Error(message = result.value.toString())
+            importOldDataState.value = BackupImportState.Importing
+            val result = importOldJsonBackupAct(event.jsonZipUri)
+            importOldDataState.value = when (result) {
+                is Either.Left -> {
+                    Timber.e("Import error: $result")
+                    BackupImportState.Error(message = result.value.toString())
+                }
+                is Either.Right -> BackupImportState.Success(
+                    message = "Faulty transfers: ${result.value.faultyTransfers}"
+                )
             }
-            is Either.Right -> BackupImportState.Success(
-                message = "WTF?"
-            )
-        }
 
-        delay(15_000) // display for some seconds
-        importOldDataState.value = BackupImportState.Idle
+            delay(10_000) // display for some seconds
+            importOldDataState.value = BackupImportState.Idle
+        }
     }
 
     private suspend fun handleMountDrive() {

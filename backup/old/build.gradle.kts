@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data-model"))
     implementation(project(":core:persistence"))
-    implementation(project(":backup:base"))
+    api(project(":backup:base"))
     implementation(project(":android:file-system"))
     Testing()
 }
