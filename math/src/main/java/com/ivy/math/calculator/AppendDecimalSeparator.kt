@@ -3,8 +3,11 @@ package com.ivy.math.calculator
 fun appendDecimalSeparator(
     expression: String, decimalSeparator: Char
 ): String {
+    fun alreadyAddedDecimal(expression: String): Boolean =
+        expression.split(Regex("[^0-9^.]")).last().contains(".")
+
     fun allowDecimalSeparator(expression: String): Boolean =
-        when (expression.lastOrNull()) {
+        !alreadyAddedDecimal(expression) && when (expression.lastOrNull()) {
             ')', decimalSeparator, '%' -> false
             else -> true
         }
