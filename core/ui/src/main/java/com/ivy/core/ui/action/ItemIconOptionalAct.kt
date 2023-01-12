@@ -14,24 +14,25 @@ class ItemIconOptionalAct @Inject constructor(
     @ApplicationContext
     private val appContext: Context
 ) : Action<ItemIconId, ItemIcon?>() {
-    override suspend fun ItemIconId.willDo(): ItemIcon? {
-        fun ItemIconId.unknown(): ItemIcon? =
-            getIcon(iconId = this)?.let { iconRes ->
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(iconId: ItemIconId): ItemIcon? {
+        fun unknown(): ItemIcon? =
+            getIcon(iconId = iconId)?.let { iconRes ->
                 ItemIcon.Unknown(
                     icon = iconRes,
-                    iconId = this,
+                    iconId = iconId,
                 )
             }
 
-        val iconS = getSizedIcon(iconId = this, size = IconSize.S) ?: return unknown()
-        val iconM = getSizedIcon(iconId = this, size = IconSize.M) ?: return unknown()
-        val iconL = getSizedIcon(iconId = this, size = IconSize.L) ?: return unknown()
+        val iconS = getSizedIcon(iconId = iconId, size = IconSize.S) ?: return unknown()
+        val iconM = getSizedIcon(iconId = iconId, size = IconSize.M) ?: return unknown()
+        val iconL = getSizedIcon(iconId = iconId, size = IconSize.L) ?: return unknown()
 
         return ItemIcon.Sized(
             iconS = iconS,
             iconM = iconM,
             iconL = iconL,
-            iconId = this,
+            iconId = iconId,
         )
     }
 

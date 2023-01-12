@@ -11,8 +11,9 @@ import javax.inject.Inject
 class AccountsInFolderAct @Inject constructor(
     private val accountsFlow: AccountsFlow,
 ) : Action<String, List<Account>>() {
-    override suspend fun String.willDo(): List<Account> {
-        val folderId = this.toUUID()
-        return accountsFlow().take(1).first().filter { it.folderId == folderId }
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(folderId: String): List<Account> {
+        val folderUUID = folderId.toUUID()
+        return accountsFlow().take(1).first().filter { it.folderId == folderUUID }
     }
 }

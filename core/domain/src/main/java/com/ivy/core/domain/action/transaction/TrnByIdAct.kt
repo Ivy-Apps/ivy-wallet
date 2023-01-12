@@ -8,6 +8,8 @@ import javax.inject.Inject
 class TrnByIdAct @Inject constructor(
     private val trnsByQueryAct: TrnsByQueryAct,
 ) : Action<UUID, Transaction?>() {
-    override suspend fun UUID.willDo(): Transaction? =
-        trnsByQueryAct(TrnQuery.ById(this)).firstOrNull()
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(trnId: UUID): Transaction? =
+        trnsByQueryAct(TrnQuery.ById(trnId)).firstOrNull()
 }

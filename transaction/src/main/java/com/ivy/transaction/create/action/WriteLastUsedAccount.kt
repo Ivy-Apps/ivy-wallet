@@ -13,7 +13,7 @@ class WriteLastUsedAccount @Inject constructor(
         val accountId: String,
     )
 
-    override suspend fun Input.willDo() {
-        dataStore.put(lastUsedAccountId.key, accountId)
+    override suspend fun action(input: Input) {
+        dataStore.put(lastUsedAccountId.key, input.accountId)
     }
 }

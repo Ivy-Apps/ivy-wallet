@@ -10,6 +10,6 @@ class OnboardingFinishedAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val onboardingKeys: OnboardingKeys,
 ) : Action<Unit, Boolean>() {
-    override suspend fun Unit.willDo(): Boolean =
+    override suspend fun action(input: Unit): Boolean =
         dataStore.get(onboardingKeys.onboardingFinished).first() ?: false
 }

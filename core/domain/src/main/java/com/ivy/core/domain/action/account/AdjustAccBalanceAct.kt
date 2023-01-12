@@ -28,15 +28,15 @@ class AdjustAccBalanceAct @Inject constructor(
         val hideTransaction: Boolean,
     )
 
-    override suspend fun Input.willDo() {
-        val accBalance = accBalanceFlow(AccBalanceFlow.Input(account = account)).first()
+    override suspend fun action(input: Input) {
+        val accBalance = accBalanceFlow(AccBalanceFlow.Input(account = input.account)).first()
 
         val adjustTrn = adjustBalanceTrn(
             timeProvider = timeProvider,
-            account = account,
+            account = input.account,
             currentBalance = accBalance.amount,
-            desiredBalance = desiredBalance,
-            hiddenTrn = hideTransaction
+            desiredBalance = input.desiredBalance,
+            hiddenTrn = input.hideTransaction
         )
 
         if (adjustTrn != null) {

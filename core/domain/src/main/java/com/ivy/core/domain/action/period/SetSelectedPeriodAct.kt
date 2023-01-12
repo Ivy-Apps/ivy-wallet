@@ -9,10 +9,9 @@ import javax.inject.Inject
 class SetSelectedPeriodAct @Inject constructor(
     private val selectedPeriodSignal: SelectedPeriodSignal
 ) : Action<SelectedPeriod, Unit>() {
-
     override fun dispatcher(): CoroutineDispatcher = Dispatchers.Unconfined
 
-    override suspend fun SelectedPeriod.willDo() {
-        selectedPeriodSignal.send(this)
+    override suspend fun action(input: SelectedPeriod) {
+        selectedPeriodSignal.send(input)
     }
 }

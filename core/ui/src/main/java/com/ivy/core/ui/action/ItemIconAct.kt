@@ -14,7 +14,7 @@ class ItemIconAct @Inject constructor(
         val defaultTo: DefaultTo
     )
 
-    override suspend fun Input.willDo(): ItemIcon {
+    override suspend fun action(input: Input): ItemIcon {
         fun Input.default(): ItemIcon = when (defaultTo) {
             DefaultTo.Folder -> ItemIcon.Unknown(
                 icon = R.drawable.ic_vue_files_folder,
@@ -40,7 +40,7 @@ class ItemIconAct @Inject constructor(
             )
         }
 
-        return iconId?.let { itemIconOptionalAct(it) } ?: default()
+        return input.iconId?.let { itemIconOptionalAct(it) } ?: input.default()
     }
 }
 

@@ -14,8 +14,10 @@ class TransferByBatchIdAct @Inject constructor(
     private val trnsByQueryAct: TrnsByQueryAct,
     private val trnLinkRecordDao: TrnLinkRecordDao,
 ) : Action<String, TrnListItem.Transfer?>() {
-    override suspend fun String.willDo(): TrnListItem.Transfer? {
-        val trnIds = trnLinkRecordDao.findByBatchId(batchId = this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(batchId: String): TrnListItem.Transfer? {
+        val trnIds = trnLinkRecordDao.findByBatchId(batchId = batchId)
             .map { it.trnId }
         if (trnIds.isEmpty()) return null
         val trns = trnsByQueryAct(
@@ -29,7 +31,7 @@ class TransferByBatchIdAct @Inject constructor(
         val fee = trns.firstOrNull { it.purpose == TrnPurpose.Fee }
 
         return TrnListItem.Transfer(
-            batchId = this,
+            batchId = batchId,
             time = from.time,
             from = from,
             to = to,

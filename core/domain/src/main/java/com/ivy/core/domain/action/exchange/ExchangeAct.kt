@@ -15,18 +15,18 @@ class ExchangeAct @Inject constructor(
         val outputCurrency: String,
     )
 
-    override suspend fun Input.willDo(): Value {
+    override suspend fun action(input: Input): Value {
         val rates = exchangeRatesFlow().first()
         return Value(
             amount = exchange(
                 exchangeData = rates,
-                from = value.currency,
-                to = outputCurrency,
-                amount = value.amount
+                from = input.value.currency,
+                to = input.outputCurrency,
+                amount = input.value.amount
             ).getOrElse {
-                value.amount // exchange as 1:1 if failed
+                input.value.amount // exchange as 1:1 if failed
             },
-            currency = outputCurrency
+            currency = input.outputCurrency
         )
     }
 }

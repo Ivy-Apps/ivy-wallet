@@ -52,10 +52,11 @@ class WriteTrnsAct @Inject constructor(
     private val timeProvider: TimeProvider,
 ) : Action<Modify<Transaction>, Unit>() {
 
-    override suspend fun Modify<Transaction>.willDo() {
-        when (this) {
-            is Modify.Save -> save(trns = items)
-            is Modify.Delete -> delete(trnIds = itemIds)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(modify: Modify<Transaction>) {
+        when (modify) {
+            is Modify.Save -> save(trns = modify.items)
+            is Modify.Delete -> delete(trnIds = modify.itemIds)
         }
 
         trnsSignal.send(Unit) // notify for changed transactions

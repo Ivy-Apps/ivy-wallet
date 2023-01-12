@@ -9,7 +9,9 @@ class WriteStartDayOfMonthAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys,
 ) : Action<Int, Unit>() {
-    override suspend fun Int.willDo() {
-        dataStore.put(key = settingsKeys.startDayOfMonth, value = this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(startDayOfMonth: Int) {
+        dataStore.put(key = settingsKeys.startDayOfMonth, value = startDayOfMonth)
     }
 }

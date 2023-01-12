@@ -16,11 +16,13 @@ class WriteTransferAct @Inject constructor(
     private val transferByBatchIdAct: TransferByBatchIdAct,
     private val writeTrnsAct: WriteTrnsAct,
 ) : Action<ModifyTransfer, Unit>() {
-    override suspend fun ModifyTransfer.willDo() {
-        when (this) {
-            is ModifyTransfer.Add -> addTransfer(data)
-            is ModifyTransfer.Edit -> editTransfer(batchId, data)
-            is ModifyTransfer.Delete -> deleteTransfer(transfer)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(modify: ModifyTransfer) {
+        when (modify) {
+            is ModifyTransfer.Add -> addTransfer(modify.data)
+            is ModifyTransfer.Edit -> editTransfer(modify.batchId, modify.data)
+            is ModifyTransfer.Delete -> deleteTransfer(modify.transfer)
         }
     }
 

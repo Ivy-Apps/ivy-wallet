@@ -23,13 +23,13 @@ class WriteAccountFolderContentAct @Inject constructor(
         val accountIds: List<String>
     )
 
-    override suspend fun Input.willDo() {
-        val folderUUID = folderId.toUUID()
+    override suspend fun action(input: Input) {
+        val folderUUID = input.folderId.toUUID()
         val accounts = accountsFlow().take(1).first()
         val inFolderOld = accounts.filter { it.folderId == folderUUID }
 
         // remove accounts no longer in folder
-        val removeFromFolder = inFolderOld.filter { !accountIds.contains(it.id.toString()) }
+        val removeFromFolder = inFolderOld.filter { !input.accountIds.contains(it.id.toString()) }
             .map {
                 it.copy(
                     folderId = null,
@@ -42,7 +42,7 @@ class WriteAccountFolderContentAct @Inject constructor(
         writeAccountsAct(Modify.saveMany(removeFromFolder))
 
         // add new accounts to that folder
-        val addToFolder = accounts.filter { accountIds.contains(it.id.toString()) }
+        val addToFolder = accounts.filter { input.accountIds.contains(it.id.toString()) }
             .filter { !inFolderOld.contains(it) }
             .map {
                 it.copy(

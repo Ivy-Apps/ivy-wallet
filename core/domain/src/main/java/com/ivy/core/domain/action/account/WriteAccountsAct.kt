@@ -25,10 +25,11 @@ class WriteAccountsAct @Inject constructor(
     private val timeProvider: TimeProvider,
 ) : Action<Modify<Account>, Unit>() {
 
-    override suspend fun Modify<Account>.willDo() {
-        when (this) {
-            is Modify.Delete -> itemIds.forEach { delete(it) }
-            is Modify.Save -> save(items)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(modify: Modify<Account>) {
+        when (modify) {
+            is Modify.Delete -> modify.itemIds.forEach { delete(it) }
+            is Modify.Save -> save(modify.items)
         }
     }
 

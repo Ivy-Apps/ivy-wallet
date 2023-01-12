@@ -11,6 +11,7 @@ class BaseCurrencyAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys,
 ) : Action<Unit, CurrencyCode>() {
-    override suspend fun Unit.willDo(): CurrencyCode =
+
+    override suspend fun action(input: Unit): CurrencyCode =
         dataStore.get(settingsKeys.baseCurrency).firstOrNull() ?: ""
 }

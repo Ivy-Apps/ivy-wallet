@@ -10,8 +10,8 @@ class AccountByIdAct @Inject constructor(
     private val accountDao: AccountDao,
     private val timeProvider: TimeProvider
 ) : Action<String, Account?>() {
-    override suspend fun String.willDo(): Account? =
-        accountDao.findById(this)?.let {
+    override suspend fun action(accountId: String): Account? =
+        accountDao.findById(accountId)?.let {
             toDomain(acc = it, timeProvider = timeProvider)
         }
 }

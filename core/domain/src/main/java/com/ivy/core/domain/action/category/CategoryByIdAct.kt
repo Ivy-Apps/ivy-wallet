@@ -10,8 +10,10 @@ class CategoryByIdAct @Inject constructor(
     private val categoryDao: CategoryDao,
     private val timeProvider: TimeProvider,
 ) : Action<String, Category?>() {
-    override suspend fun String.willDo(): Category? =
-        categoryDao.findById(this)?.let {
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(categoryId: String): Category? =
+        categoryDao.findById(categoryId)?.let {
             toDomain(it, timeProvider)
         }
 }

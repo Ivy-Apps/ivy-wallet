@@ -9,7 +9,9 @@ class WriteAppLockedAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : Action<Boolean, Unit>() {
-    override suspend fun Boolean.willDo() {
-        dataStore.put(key = settingsKeys.appLocked, this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(appLocked: Boolean) {
+        dataStore.put(key = settingsKeys.appLocked, appLocked)
     }
 }

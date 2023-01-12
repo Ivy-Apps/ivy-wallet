@@ -9,7 +9,9 @@ class WriteOnboardingFinishedAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val onboardingKeys: OnboardingKeys,
 ) : Action<Boolean, Unit>() {
-    override suspend fun Boolean.willDo() {
-        dataStore.put(onboardingKeys.onboardingFinished, this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(finished: Boolean) {
+        dataStore.put(onboardingKeys.onboardingFinished, finished)
     }
 }

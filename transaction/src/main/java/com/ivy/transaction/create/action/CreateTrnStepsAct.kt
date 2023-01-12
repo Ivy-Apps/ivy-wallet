@@ -6,9 +6,9 @@ import com.ivy.transaction.create.data.CreateTrnStep
 import javax.inject.Inject
 
 class CreateTrnStepsAct @Inject constructor(
-
 ) : Action<Unit, CreateTrnFlow>() {
-    override suspend fun Unit.willDo(): CreateTrnFlow = CreateTrnFlow(
+
+    override suspend fun action(input: Unit): CreateTrnFlow = CreateTrnFlow(
         first = CreateTrnStep.Amount,
         steps = mapOf(
             CreateTrnStep.Amount to CreateTrnStep.Category,

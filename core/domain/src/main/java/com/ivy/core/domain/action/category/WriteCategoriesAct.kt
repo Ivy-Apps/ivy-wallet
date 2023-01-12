@@ -19,10 +19,11 @@ class WriteCategoriesAct @Inject constructor(
     private val timeProvider: TimeProvider,
 ) : Action<Modify<Category>, Unit>() {
 
-    override suspend fun Modify<Category>.willDo() {
-        when (this) {
-            is Modify.Delete -> delete(itemIds)
-            is Modify.Save -> save(items)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(modify: Modify<Category>) {
+        when (modify) {
+            is Modify.Delete -> delete(modify.itemIds)
+            is Modify.Save -> save(modify.items)
         }
     }
 

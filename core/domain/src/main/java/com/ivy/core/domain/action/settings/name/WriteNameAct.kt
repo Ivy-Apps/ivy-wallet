@@ -9,7 +9,9 @@ class WriteNameAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : Action<String, Unit>() {
-    override suspend fun String.willDo() {
-        dataStore.put(settingsKeys.displayName, this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(name: String) {
+        dataStore.put(settingsKeys.displayName, name)
     }
 }

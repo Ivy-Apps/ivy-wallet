@@ -9,7 +9,7 @@ class NewAccountTabItemOrderNumAct @Inject constructor(
     private val accountDao: AccountDao,
     private val folderDao: AccountFolderDao,
 ) : Action<Unit, Double>() {
-    override suspend fun Unit.willDo(): Double = currentMax() + 1
+    override suspend fun action(input: Unit): Double = currentMax() + 1
 
     private suspend fun currentMax(): Double = maxOf(accountMax(), folderMax())
 

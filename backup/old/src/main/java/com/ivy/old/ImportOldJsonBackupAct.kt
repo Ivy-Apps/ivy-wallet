@@ -29,12 +29,11 @@ class ImportOldJsonBackupAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val writeTransferAct: WriteTransferAct,
 ) : Action<Uri, Either<ImportOldDataError, String>>() {
-    override suspend fun Uri.willDo(): Either<ImportOldDataError, String> = either {
-        // region Unzip
-        val files = unzipBackupFile(
-            zipFilePath = this@willDo
-        ).bind()
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(backupZipPath: Uri): Either<ImportOldDataError, String> = either {
+        // region Unzip
+        val files = unzipBackupZip(zipFilePath = backupZipPath).bind()
         val backupJsonString = readBackupJson(files).bind()
         // endregion
 
@@ -48,7 +47,7 @@ class ImportOldJsonBackupAct @Inject constructor(
     }
 
     // region Unzip
-    private fun unzipBackupFile(
+    private fun unzipBackupZip(
         zipFilePath: Uri
     ): Either<ImportOldDataError, NonEmptyList<File>> {
         val folderName = "backup" + System.currentTimeMillis()
@@ -101,9 +100,3 @@ class ImportOldJsonBackupAct @Inject constructor(
 
 }
 
-sealed interface ImportOldDataError {
-    object UnzipFailed : ImportOldDataError
-    object UnexpectedBackupZipFormat : ImportOldDataError
-    object FailedToReadJsonFile : ImportOldDataError
-    data class FailedToParseJson(val reason: Throwable) : ImportOldDataError
-}

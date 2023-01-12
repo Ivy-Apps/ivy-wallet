@@ -23,8 +23,8 @@ class PreselectedAccountAct @Inject constructor(
         val preselectedAccountId: String?,
     )
 
-    override suspend fun Input.willDo(): AccountUi? =
-        preselectedAccount() ?: lastUsedAccount() ?: firstAccount()
+    override suspend fun action(input: Input): AccountUi? =
+        input.preselectedAccount() ?: lastUsedAccount() ?: firstAccount()
 
     private suspend fun Input.preselectedAccount(): AccountUi? =
         preselectedAccountId?.let { accountByIdAct(it) }

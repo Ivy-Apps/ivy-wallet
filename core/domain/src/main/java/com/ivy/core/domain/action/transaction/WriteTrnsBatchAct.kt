@@ -23,21 +23,21 @@ class WriteTrnsBatchAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val timeProvider: TimeProvider,
-) : Action<WriteTrnsBatchAct.Input, Unit>() {
+) : Action<WriteTrnsBatchAct.ModifyBatch, Unit>() {
     companion object {
-        fun save(batch: TrnBatch) = Input.Save(batch)
-        fun delete(batch: TrnBatch) = Input.Delete(batch)
+        fun save(batch: TrnBatch) = ModifyBatch.Save(batch)
+        fun delete(batch: TrnBatch) = ModifyBatch.Delete(batch)
     }
 
-    sealed interface Input {
-        data class Save internal constructor(val batch: TrnBatch) : Input
-        data class Delete internal constructor(val batch: TrnBatch) : Input
+    sealed interface ModifyBatch {
+        data class Save internal constructor(val batch: TrnBatch) : ModifyBatch
+        data class Delete internal constructor(val batch: TrnBatch) : ModifyBatch
     }
 
-    override suspend fun Input.willDo() {
-        when (this) {
-            is Input.Delete -> delete(batch)
-            is Input.Save -> save(batch)
+    override suspend fun action(modify: ModifyBatch) {
+        when (modify) {
+            is ModifyBatch.Delete -> delete(modify.batch)
+            is ModifyBatch.Save -> save(modify.batch)
         }
 
         //Note: writeTrnsAct will notify of transactions update

@@ -13,8 +13,8 @@ class FolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao,
     private val timeProvider: TimeProvider,
 ) : Action<String, Folder?>() {
-    override suspend fun String.willDo(): Folder? =
-        accountFolderDao.findById(this)?.let {
+    override suspend fun action(folderId: String): Folder? =
+        accountFolderDao.findById(folderId)?.let {
             toDomain(it, timeProvider)
         }
 }

@@ -9,7 +9,9 @@ class WriteBaseCurrencyAct @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : Action<String, Unit>() {
-    override suspend fun String.willDo() {
-        dataStore.put(key = settingsKeys.baseCurrency, value = this)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(baseCurrency: String) {
+        dataStore.put(key = settingsKeys.baseCurrency, value = baseCurrency)
     }
 }

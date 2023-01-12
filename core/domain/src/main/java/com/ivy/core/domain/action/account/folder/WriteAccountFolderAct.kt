@@ -14,9 +14,11 @@ class WriteAccountFolderAct @Inject constructor(
     private val accountFolderDao: AccountFolderDao,
     private val timeProvider: TimeProvider,
 ) : Action<Modify<Folder>, Unit>() {
-    override suspend fun Modify<Folder>.willDo() = when (this) {
-        is Modify.Delete -> delete(this.itemIds)
-        is Modify.Save -> save(this.items)
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(modify: Modify<Folder>) = when (modify) {
+        is Modify.Delete -> delete(modify.itemIds)
+        is Modify.Save -> save(modify.items)
     }
 
     private suspend fun delete(folderIds: List<String>) = folderIds.forEach {

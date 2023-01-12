@@ -10,5 +10,6 @@ plugins {
 
 dependencies {
     Hilt()
+    implementation(project(":common:main"))
     Testing()
 }

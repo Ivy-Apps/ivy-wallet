@@ -10,7 +10,7 @@ class AccountsAct @Inject constructor(
     private val accountDao: AccountDao,
     private val timeProvider: TimeProvider,
 ) : Action<Unit, List<Account>>() {
-    override suspend fun Unit.willDo(): List<Account> =
+    override suspend fun action(input: Unit): List<Account> =
         accountDao.findAllSnapshot()
             .map { acc -> toDomain(acc = acc, timeProvider = timeProvider) }
 }

@@ -8,7 +8,7 @@ abstract class MapUiAction<Domain, Ui> : Action<Domain, Ui>() {
 
     abstract suspend fun transform(domain: Domain): Ui
 
-    override suspend fun Domain.willDo(): Ui = withContext(Dispatchers.Default) {
-        transform(this@willDo)
+    override suspend fun action(input: Domain): Ui = withContext(Dispatchers.Default) {
+        transform(input)
     }
 }

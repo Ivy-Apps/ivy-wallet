@@ -11,7 +11,8 @@ class WriteThemeAct @Inject constructor(
     private val settingsKeys: SettingsKeys
 ) : Action<Theme, Unit>() {
 
-    override suspend fun Theme.willDo() {
-        dataStore.put(key = settingsKeys.theme, this.code)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(them: Theme) {
+        dataStore.put(key = settingsKeys.theme, them.code)
     }
 }

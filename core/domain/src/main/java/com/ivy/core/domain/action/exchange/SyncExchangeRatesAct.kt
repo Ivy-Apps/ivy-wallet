@@ -11,10 +11,12 @@ import javax.inject.Inject
 class SyncExchangeRatesAct @Inject constructor(
     private val exchangeProvider: RemoteExchangeProvider,
     private val exchangeRateDao: ExchangeRateDao
-) : Action<String, Unit>() {
-    override suspend fun String.willDo() {
-        if (this.isNotBlank()) {
-            syncExchangeRates(this)
+) : Action<CurrencyCode, Unit>() {
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(baseCurrency: CurrencyCode) {
+        if (baseCurrency.isNotBlank()) {
+            syncExchangeRates(baseCurrency)
         }
     }
 

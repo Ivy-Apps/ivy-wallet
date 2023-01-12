@@ -8,7 +8,9 @@ import javax.inject.Inject
 class TrnsByQueryAct @Inject constructor(
     private val trnsFlow: TrnsFlow,
 ) : Action<TrnQuery, List<Transaction>>() {
-    override suspend fun TrnQuery.willDo(): List<Transaction> =
-        trnsFlow(this).first()
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override suspend fun action(query: TrnQuery): List<Transaction> =
+        trnsFlow(query).first()
 
 }
