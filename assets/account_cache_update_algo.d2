@@ -1,0 +1,62 @@
+WriteAccountsAct {
+    del: "Deleting an account"
+}
+
+WriteTrnsAct {
+    del: "Delete transaction"
+    create: "Create transaction"
+    update: "Update transaction"
+}
+
+WriteAccountsAct.del -> UpdateAccCacheAct.onAccDel: Triggers
+WriteTrnsAct.del -> UpdateAccCacheAct.onTrnUpdate: Triggers
+WriteTrnsAct.create -> UpdateAccCacheAct.onTrnUpdate: Triggers
+WriteTrnsAct.update -> UpdateAccCacheAct.onTrnUpdate: Triggers
+
+UpdateAccCacheAct {
+    onAccDel: "On: Account deleted" {
+        op: "Invalidate the cache for that account cuz it's deleted." {
+            fill: red
+            font-color: white
+        }
+    }
+
+    onTrnUpdate: "On: Transaction updated/deleted" {
+        read: "Cache entry in DB?"
+        read_null: "Do nothing."
+        read_exists: "Trn time > Cache entry time?"
+        trn_newer: "It's okay. The cache is valid - do nothing." {
+            fill: green
+            font-color: white
+        }
+        trn_older: "Delete!!! The cache is invalid!" {
+            fill: red
+            font-color: white
+        }
+
+        read --> read_null: "Nope"
+        read --> read_exists: "Found!"
+
+        read_exists --> trn_newer: "True"
+        read_exists --> trn_older: "False"
+    }
+}
+
+db: Database {
+    shape: cylinder
+
+    accounts_cache: {
+        shape: sql_table
+        
+        account_id: String { constraint: primary_key }
+        income_amount: Double
+        income_currency: String
+        expense_amount: Double
+        expense_currency: String
+        incomes_count: Int
+        expenses_count: Int
+    }
+}
+
+UpdateAccCacheAct.onAccDel.op -> db.accounts_cache: "Delete by account.id"
+UpdateAccCacheAct.onTrnUpdate.trn_older --> db.accounts_cache: "Delete by trn.accountId"
