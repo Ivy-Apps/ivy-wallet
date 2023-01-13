@@ -64,7 +64,7 @@ We've documented every major architecture decision as **ADR (Architecture Decisi
 in **[docs/architecture](docs/architecture/)**. The best thing about ADRs is that you can see not
 only what went well but also what didn't!
 
-We're also big on Computer Science that's why we're documenting every important algorithm used in the app. To see the **algorithms** in Ivy Wallet and their detailed **space-time complexity** see **[docs/algorithms](docs/algorithms/).**
+We're also big on Computer Science that's why we're documenting every important algorithm used in the app. To see the **algorithms** in Ivy Wallet and their detailed **space-time complexity** analysis go to **[docs/algorithms](docs/algorithms/).**
 
 If you're starting out with the Ivy Wallet project first have a look at our **[:core](core/)**
 module.
