@@ -1,4 +1,4 @@
-# ADR#8: Backup & Sync 👀
+# ADR#8: Backup & Sync 🚧
 
 To have a top-notch UX without the Ivy Cloud (own backend) we need to support:
 - Automatic offline backups. _(mandatory)_
