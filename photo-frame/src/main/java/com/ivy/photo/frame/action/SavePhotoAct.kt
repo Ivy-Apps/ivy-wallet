@@ -2,6 +2,7 @@ package com.ivy.photo.frame.action
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import arrow.core.Either
 import arrow.core.computations.either
@@ -24,6 +25,7 @@ class SavePhotoAct @Inject constructor(
     override suspend fun action(input: Input): Either<SavePhotoError, Unit> = either {
         val pngBytes = bitmapToPng(input.photo).bind()
         writePNGtoFile(pngBytes, input.location).bind()
+        notifyGallery(input.location)
     }
 
     private fun bitmapToPng(bitmap: Bitmap): Either<SavePhotoError, ByteArray> =
@@ -38,6 +40,19 @@ class SavePhotoAct @Inject constructor(
         location: Uri
     ): Either<SavePhotoError, Unit> = Either.catch(SavePhotoError::WriteToFile) {
         writeToFileUnsafe(appContext, location, pngBytes)
+    }
+
+    private fun notifyGallery(uri: Uri) {
+        try {
+            MediaScannerConnection.scanFile(
+                appContext,
+                arrayOf(uri.path),
+                arrayOf("image/png"),
+                null
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
 
