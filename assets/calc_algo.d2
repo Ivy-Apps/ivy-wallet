@@ -1,0 +1,55 @@
+
+
+cAccDao: CalcAccDao {
+    sql: "SQL: O(accs.size) time | O(?) space" {
+        "SELECT excluded FROM accounts WHERE sync != $DELETING"
+    }
+    accs: "List<CalcAcc>" {
+        id
+        excluded
+    }
+    sql -> accs
+}
+
+cTrnDao: CalcTrnDao {
+    q: Query {
+        ByTime
+        ByCategory
+        ByAccount
+        ByPurpose
+    }
+    sql: "SQL: O(trns.size) time | O(?) space" {
+        "SELECT amount, currency, type FROM transactions WHERE ..."
+    }
+    trns: "List<CalcTrn>" {
+        amount
+        currency
+        type
+    }
+
+    q -> sql -> trns
+}
+
+cAccDao.accs -> cTrnDao.q.ByAccount: "Get Excluded/Included account"
+
+cFlow: CalcFlow {
+    in: Input {
+        trns: "trns: List<CalcTrn>"
+    }
+
+    p: "Process: O(trns.size) time | O(currs.unique.size) space" {
+        "trns.forEach { aggregate incomes, expense by currencies + count them }"
+    } 
+
+    out: Output {
+        "incomes: Map<CurrencyCode, Double>"
+        "expenses: Map<CurrencyCode, Double>"
+        "incomesCount: Int"
+        "expensesCount: Int"
+    }
+
+    in -> p -> out
+}
+
+cTrndao.trns -> cFlow.in.trns
+
