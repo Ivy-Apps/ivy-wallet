@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.main.Categories
 import com.ivy.navigation.destinations.main.Main
+import com.ivy.navigation.destinations.other.AddFrame
 import com.ivy.navigation.destinations.settings.Settings
 import com.ivy.navigation.graph.*
 import kotlinx.coroutines.flow.collectLatest
@@ -20,6 +21,7 @@ fun NavigationRoot(
     categories: @Composable () -> Unit,
     settings: @Composable () -> Unit,
     transactionScreens: TransactionScreens,
+    addFrame: @Composable () -> Unit,
     debugScreens: DebugScreens
 ) {
     val navController = rememberNavController()
@@ -50,5 +52,8 @@ fun NavigationRoot(
         }
         transactionScreens(transactionScreens)
         debug(debugScreens)
+        composable(AddFrame.route) {
+            addFrame()
+        }
     }
 }

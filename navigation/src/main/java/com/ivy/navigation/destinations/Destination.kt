@@ -5,6 +5,7 @@ import com.ivy.navigation.destinations.imports.ImportGraph
 import com.ivy.navigation.destinations.main.Categories
 import com.ivy.navigation.destinations.main.Main
 import com.ivy.navigation.destinations.onboarding.OnboardingGraph
+import com.ivy.navigation.destinations.other.AddFrame
 import com.ivy.navigation.destinations.settings.Settings
 import com.ivy.navigation.destinations.transaction.*
 
@@ -25,6 +26,8 @@ object Destination {
 
     val categories = Categories
     val settings = Settings
+
+    val addFrame = AddFrame
 
     val debug = DebugGraph
 }

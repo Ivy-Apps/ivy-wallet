@@ -46,6 +46,7 @@ import com.ivy.navigation.graph.DebugScreens
 import com.ivy.navigation.graph.OnboardingScreens
 import com.ivy.navigation.graph.TransactionScreens
 import com.ivy.onboarding.screen.debug.OnboardingDebug
+import com.ivy.photo.frame.AddFrameScreen
 import com.ivy.resources.R
 import com.ivy.settings.SettingsScreen
 import com.ivy.transaction.create.transfer.NewTransferScreen
@@ -138,6 +139,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 transaction = { EditTransactionScreen(trnId = it) },
                 transfer = { EditTransferScreen(batchId = it) }
             ),
+            addFrame = { AddFrameScreen() },
             debugScreens = DebugScreens(
                 test = { TestScreen() }
             )
@@ -236,6 +238,12 @@ class RootActivity : AppCompatActivity(), RootScreen {
     override fun fileChooser(onFileChosen: (Uri) -> Unit) {
         filePickerLauncher.launch(Unit) {
             it?.let(onFileChosen)
+        }
+    }
+
+    override fun createFile(fileName: String, onFileCreated: (Uri) -> Unit) {
+        createFileLauncher.launch(fileName) {
+            it?.let(onFileCreated)
         }
     }
 

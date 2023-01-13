@@ -19,6 +19,8 @@ interface RootScreen {
 
     fun fileChooser(onFileChosen: (Uri) -> Unit)
 
+    fun createFile(fileName: String, onFileCreated: (Uri) -> Unit)
+
     fun shareZipFile(fileUri: Uri)
 
     fun datePicker(

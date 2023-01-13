@@ -12,5 +12,7 @@ sealed interface SettingsEvent {
     data class ImportOldData(val jsonZipUri: Uri) : SettingsEvent
 
     object MountDrive : SettingsEvent
+
+    object AddFrame : SettingsEvent
 }
 

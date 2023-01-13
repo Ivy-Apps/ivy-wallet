@@ -31,6 +31,8 @@ private fun dummyRootScreen(): RootScreen = object : RootScreen {
 
     override fun fileChooser(onFileChosen: (Uri) -> Unit) {}
 
+    override fun createFile(fileName: String, onFileCreated: (Uri) -> Unit) {}
+
     override fun shareZipFile(fileUri: Uri) {}
 
     override fun datePicker(

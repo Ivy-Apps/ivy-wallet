@@ -161,6 +161,7 @@ dependencies {
     implementation(project(":android:common"))
     implementation(project(":android:file-system"))
     implementation(project(":drive:google-drive"))
+    implementation(project(":photo-frame"))
     Hilt()
 
     Google()

@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import arrow.core.Either
 import java.io.*
 import java.nio.charset.Charset
 
@@ -11,7 +12,7 @@ fun writeToFile(context: Context, uri: Uri, content: String) {
     try {
         val contentResolver = context.contentResolver
 
-        contentResolver.openFileDescriptor(uri, "w")?.use {
+        contentResolver.openFileDescriptor(uri, FDMode.Write.value)?.use {
             FileOutputStream(it.fileDescriptor).use { fOut ->
                 val writer = fOut.writer(charset = Charsets.UTF_16)
                 writer.write(content)
@@ -25,6 +26,16 @@ fun writeToFile(context: Context, uri: Uri, content: String) {
     }
 }
 
+fun writeToFileUnsafe(context: Context, uri: Uri, content: ByteArray) {
+    val contentResolver = context.contentResolver
+
+    contentResolver.openFileDescriptor(uri, FDMode.Write.value)?.use {
+        FileOutputStream(it.fileDescriptor).use { fOut ->
+            fOut.write(content)
+        }
+    }
+}
+
 fun readFile(
     context: Context,
     uri: Uri,
@@ -35,7 +46,7 @@ fun readFile(
 
         var fileContent: String? = null
 
-        contentResolver.openFileDescriptor(uri, "r")?.use {
+        contentResolver.openFileDescriptor(uri, FDMode.Read.value)?.use {
             FileInputStream(it.fileDescriptor).use { fileInputStream ->
                 fileContent = readFileContent(
                     fileInputStream = fileInputStream,
@@ -52,6 +63,17 @@ fun readFile(
         e.printStackTrace()
         null
     }
+}
+
+fun inputStream(
+    context: Context,
+    uri: Uri,
+    mode: FDMode,
+): Either<Throwable, InputStream> = Either.catch({ it }) {
+    val contentResolver = context.contentResolver
+    contentResolver.openFileDescriptor(uri, mode.value)?.use {
+        FileInputStream(it.fileDescriptor)
+    } ?: error("contentResolver.openFileDescriptor($uri, $mode) returned null")
 }
 
 @Throws(IOException::class)

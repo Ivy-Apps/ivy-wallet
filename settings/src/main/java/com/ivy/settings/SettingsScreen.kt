@@ -157,6 +157,19 @@ private fun BoxScope.UI(
                 onEvent(SettingsEvent.MountDrive)
             }
         }
+        item {
+            SpacerVer(height = 24.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Positive,
+                text = "Add Ivy frame",
+                icon = null
+            ) {
+                onEvent(SettingsEvent.AddFrame)
+            }
+        }
     }
 
     CurrencyPickerModal(

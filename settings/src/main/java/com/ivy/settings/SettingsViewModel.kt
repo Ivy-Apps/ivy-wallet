@@ -15,6 +15,7 @@ import com.ivy.core.domain.pure.util.combine
 import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.drive.google_drive.data.GoogleDriveError
 import com.ivy.navigation.Navigator
+import com.ivy.navigation.destinations.Destination
 import com.ivy.old.ImportOldJsonBackupAct
 import com.ivy.settings.data.BackupImportState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -90,6 +91,7 @@ class SettingsViewModel @Inject constructor(
             }
             is SettingsEvent.ImportOldData -> handleImportOldData(event)
             is SettingsEvent.MountDrive -> handleMountDrive()
+            SettingsEvent.AddFrame -> handleAddFrame()
         }
     }
 
@@ -141,4 +143,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    private fun handleAddFrame() {
+        navigator.navigate(Destination.addFrame.destination(Unit))
+    }
 }
