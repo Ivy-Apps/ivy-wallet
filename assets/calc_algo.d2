@@ -1,16 +1,4 @@
 
-
-cAccDao: CalcAccDao {
-    sql: "SQL: O(accs.size) time | O(?) space" {
-        "SELECT excluded FROM accounts WHERE sync != $DELETING"
-    }
-    accs: "List<CalcAcc>" {
-        id
-        excluded
-    }
-    sql -> accs
-}
-
 cTrnDao: CalcTrnDao {
     q: Query {
         ByTime
@@ -18,7 +6,7 @@ cTrnDao: CalcTrnDao {
         ByAccount
         ByPurpose
     }
-    sql: "SQL: O(trns.size) time | O(?) space" {
+    sql: "SQL: O(trns.count) time | O(trns.notDel.count) space" {
         "SELECT amount, currency, type FROM transactions WHERE ..."
     }
     trns: "List<CalcTrn>" {
@@ -30,18 +18,16 @@ cTrnDao: CalcTrnDao {
     q -> sql -> trns
 }
 
-cAccDao.accs -> cTrnDao.q.ByAccount: "Get Excluded/Included account"
-
-cFlow: CalcFlow {
+rawStatsFlow: RawStatsFlow {
     in: Input {
         trns: "trns: List<CalcTrn>"
     }
 
-    p: "Process: O(trns.size) time | O(currs.unique.size) space" {
+    p: "Process: O(trns.count) time | O(currs.unique.count) space" {
         "trns.forEach { aggregate incomes, expense by currencies + count them }"
     } 
 
-    out: Output {
+    out: RawStats {
         "incomes: Map<CurrencyCode, Double>"
         "expenses: Map<CurrencyCode, Double>"
         "incomesCount: Int"
@@ -51,5 +37,87 @@ cFlow: CalcFlow {
     in -> p -> out
 }
 
-cTrndao.trns -> cFlow.in.trns
+cTrndao.trns -> rawStatsFlow.in.trns
+
+# RatesFlow
+ratesDao: RatesDao {
+    sql: "SQL: O(rates.count) time | O(rates.baseCurr.count) space" {
+        "SELECT rate, currency FROM exchange_rates WHERE baseCurrency = ?"
+    }
+    out: "List<Rate>" {
+        rate
+        currency
+    } 
+    sql -> out
+}
+
+ratesOverrideDao: RateOverrideDao {
+    sql: "SQL: O(rates.override.count) time | O(rates.override.baseCurr.count) space" {
+        "SELECT rate, currency FROM exchange_rates_override WHERE baseCurrency = ? AND sync != $DELETING"
+    }
+    out: "List<Rate>" {
+        rate
+        currency
+    } 
+    sql -> out
+}
+
+ratesFlow: RatesFlow {
+    deps: Dependencies {
+        ratesDao
+        ratesOverrideDao
+        baseCurrencyFlow
+    }
+    p: "Process: O(rates.override.count) time | O(1) space" {
+        1: "baseCurrency.flatMapLatest {}"
+        2: "combine(rateDao.findByBaseCurr(), ratesOverridedao.findByBaseCurr())"
+        3: "Override rate with the manual set ones"
+
+        1 -> 2 -> 3
+        
+    }
+    out: "RatesData" {
+        baseCurrency
+        "rates: Map<CurrencyCode, Double>"
+    }
+
+    deps.ratesDao -> p: Reacts
+    deps.ratesOverrideDao -> p: Reacts
+    deps.baseCurrencyFlow -> p: Reacts
+    p -> out
+}
+
+ratesDao -> ratesFlow.deps
+ratesOverrideDao -> ratesFlow.deps
+
+
+# ExchangeStatsFlow
+exFlow: ExchangeStatsFlow {
+    deps: Dependencies {
+        ratesFlow: "rates: RatesFlow"
+    }
+
+    in: Input {
+        rawStats: "rawStats: RawStats"
+    }
+
+    p: "Process: O(curr.unique.count) time | O(1) space" {
+        "Exchange & aggregate each unique currency in the RawStats"
+    }
+
+    out: Stats {
+        "income: Value"
+        "expense: Value"
+        "incomesCount: Int"
+        "expensesCount: Int"
+    }
+
+    deps.rates -> p: Reacts to rates changes
+    in.rawStats -> p
+    p -> out
+}
+
+ratesFlow.out -> exFlow.deps.ratesFlow: Reacts
+rawStatsFlow.out -> exFlow.in.rawStats
+
 
