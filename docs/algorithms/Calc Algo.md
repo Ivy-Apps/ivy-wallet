@@ -128,4 +128,4 @@ The overall complexity of the "Calc" algorithm is:
 
 >  O(# of rates + # of overriden rates) time
 
-> ✨ Reacts to: `base-currency`, `rates`, `overriden-rates`
+> Reacts to: `✨base-currency`, `✨rates`, `✨overriden-rates`
