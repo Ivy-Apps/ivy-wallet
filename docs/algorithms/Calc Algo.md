@@ -8,8 +8,13 @@ This algorithm is behind almost all numbers that you see in Ivy Wallet.
 
 ## Algorithm
 
-- Input: `[CalcTrn]`
+- Input: `[CalcTrn]` and outpuCurrency
 ```kotlin
+data class Input(
+    val trns: List<CalcTrn>,
+    val outputCurrency: CurrencyCode
+)
+
 data class CalcTrn(
     val amount: Double,
     val currency: Currency,
@@ -57,7 +62,7 @@ trns.forEach {
 ```
 
 
-**B) Get the exchange rates** O(# of rates * # of overriden rates) time | O(# of rates + # of overriden rates) space `✨base-currency` `✨rates` `✨overriden-rates`
+**B) Get the exchange rates** O(# of rates + # of overriden rates) space-time `✨base-currency` `✨rates` `✨overriden-rates`
 
 > RX: `✨X` means reacts to X
 
@@ -74,7 +79,7 @@ DataStore<Preferences>.preferrences.map { it[key] }
 
 3. Retrieve the manually overriden exchange rates from Room DB `O(# of overidden rates) space-time` `✨base-currnecy`
 
-4. Replace automatic rates with the overriden ones `O(# of rates * # of overriden rates) time | O(# of rates + # of overriden rates) space` `✨rates` `✨overriden-rates`
+4. Replace automatic rates with the overriden ones `O(# of rates + # of overriden rates) time | O(# of rates + # of overriden rates) space` `✨rates` `✨overriden-rates`
 ```kotlin
 combine(rates, overridenRates) {
     val res = mutableMapOf<Currency, Double>()
@@ -88,8 +93,39 @@ combine(rates, overridenRates) {
 }
 ```
 
-**C) Exchange RawStats**
+**C) Exchange RawStats** `O(# of unique currencies) time | O(1) space` `✨rates`
 
+1. Initialization `O(1) space-time`
+```kotlin
+var incomeOutCurr = 0.0
+var expenseOutCurr = 0.0
+```
+
+2. Iterate through `incomes: Map<Currency, Double>`, exchange in output curr and sum them `O(# of unique income currencies) time | O(1) space` `✨rates`
+```kotlin
+incomes.forEach { (curr, amount) ->
+    incomOutCurr += exchange(rates, curr, amount, outputCurr)
+}
+```
+
+> `exchange()` takes `O(1) space-time
+
+3. Repeat Step 2. for `expesnes` `O(# of unique expense currencies) time | O(1) space` `✨rates`
 
 
 ## Complexity
+
+The overall complexity of the "Calc" algorithm is:
+
+**Steps:**
+- O(# of trns) time | O(# of unique currencies)
+- O(# of rates + # of overriden rates) space-time
+- O(# of unique currencies) time | O(1) space
+
+
+### Conclusion
+> O(# of trns + # of rates + # of overriden rates) time
+
+>  O(# of rates + # of overriden rates) time
+
+> ✨ Reacts to: `base-currency`, `rates`, `overriden-rates`

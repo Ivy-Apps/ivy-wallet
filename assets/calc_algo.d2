@@ -112,7 +112,7 @@ exFlow: ExchangeStatsFlow {
         "expensesCount: Int"
     }
 
-    deps.rates -> p: Reacts to rates changes
+    deps.ratesFlow -> p: Reacts to rates changes
     in.rawStats -> p
     p -> out
 }
