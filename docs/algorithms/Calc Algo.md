@@ -35,7 +35,7 @@ data class RawStats(
 
 _(pseudo-code)_
 
-**A) Raw Stats:** O(# of trns) time | O(# of unique  currencies) space `[RawStatsFlow]` `[can be a pure function]`
+**A) Raw Stats:** `O(# of trns) time | O(# of unique  currencies) space` `[RawStatsFlow]` `[can be a pure function]`
 
 1. Initialization: `O(1) space-time`
 ```kotlin
@@ -62,7 +62,7 @@ trns.forEach {
 ```
 
 
-**B) Get the exchange rates** O(# of rates + # of overriden rates) space-time `✨base-currency` `✨rates` `✨overriden-rates`
+**B) Get the exchange rates** `O(# of rates + # of overriden rates) space-time` `✨base-currency` `✨rates` `✨overriden-rates`
 
 > RX: `✨X` means reacts to X
 
@@ -92,6 +92,7 @@ combine(rates, overridenRates) {
     res
 }
 ```
+
 
 **C) Exchange RawStats** `O(# of unique currencies) time | O(1) space` `✨rates`
 
@@ -124,8 +125,8 @@ The overall complexity of the "Calc" algorithm is:
 
 
 ### Conclusion
-> O(# of trns + # of rates + # of overriden rates) time
+> **O(# of trns + # of rates + # of overriden rates) time**
 
->  O(# of rates + # of overriden rates) time
+>  **O(# of rates + # of overriden rates) space**
 
 > Reacts to: `✨base-currency`, `✨rates`, `✨overriden-rates`
