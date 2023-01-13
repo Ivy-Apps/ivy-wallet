@@ -10,9 +10,13 @@ cTrnDao: CalcTrnDao {
         "SELECT amount, currency, type FROM transactions WHERE ..."
     }
     trns: "List<CalcTrn>" {
-        amount
-        currency
-        type
+        CalcTrn {
+            shape: class
+
+            amount: Double
+            currency: String
+            type: TransactionType
+        }
     }
 
     q -> sql -> trns
@@ -20,7 +24,8 @@ cTrnDao: CalcTrnDao {
 
 rawStatsFlow: RawStatsFlow {
     in: Input {
-        trns: "trns: List<CalcTrn>"
+        shape: class
+        trns: List<CalcTrn>
     }
 
     p: "Process: O(trns.count) time | O(currs.unique.count) space" {
@@ -28,10 +33,11 @@ rawStatsFlow: RawStatsFlow {
     } 
 
     out: RawStats {
-        "incomes: Map<CurrencyCode, Double>"
-        "expenses: Map<CurrencyCode, Double>"
-        "incomesCount: Int"
-        "expensesCount: Int"
+        shape: class
+        incomes: Map<CurrencyCode, Double>
+        expenses: Map<CurrencyCode, Double>
+        incomesCount: Int
+        expensesCount: Int
     }
 
     in -> p -> out
@@ -45,8 +51,11 @@ ratesDao: RatesDao {
         "SELECT rate, currency FROM exchange_rates WHERE baseCurrency = ?"
     }
     out: "List<Rate>" {
-        rate
-        currency
+        Rate {
+            shape: class
+            rate: Double
+            currency: String
+        }
     } 
     sql -> out
 }
@@ -56,8 +65,11 @@ ratesOverrideDao: RateOverrideDao {
         "SELECT rate, currency FROM exchange_rates_override WHERE baseCurrency = ? AND sync != $DELETING"
     }
     out: "List<Rate>" {
-        rate
-        currency
+        Rate {
+            shape: class
+            rate: Double
+            currency: String
+        }
     } 
     sql -> out
 }
@@ -77,8 +89,9 @@ ratesFlow: RatesFlow {
         
     }
     out: "RatesData" {
-        baseCurrency
-        "rates: Map<CurrencyCode, Double>"
+        shape: class
+        baseCurrency: String
+        rates: Map<CurrencyCode, Double>
     }
 
     deps.ratesDao -> p: Reacts
@@ -98,23 +111,37 @@ exFlow: ExchangeStatsFlow {
     }
 
     in: Input {
-        rawStats: "rawStats: RawStats"
+        shape: class
+        rawStats: RawStats
+        outputCurrency: String
     }
 
-    p: "Process: O(curr.unique.count) time | O(1) space" {
-        "Exchange & aggregate each unique currency in the RawStats"
+    p: "Process: O(curr.unique.count) space-time" {
+        incs_loop: "rawStats.incomes.forEach {}"
+        incs_exchange: "exchange to output currency"
+        incs_sum: "sum & count"
+
+        incs_loop -> incs_exchange -> incs_sum
+
+        exps_loop: "rawStats.expenses.forEach {}"
+        exps_exchange: "exchange to output currency"
+        exps_sum: "sum & count"
+
+        exps_loop -> exps_exchange -> exps_sum
     }
 
     out: Stats {
-        "income: Value"
-        "expense: Value"
-        "incomesCount: Int"
-        "expensesCount: Int"
+        shape: class
+        income: Value
+        expense: Value
+        incomesCount: Int
+        expensesCount: Int
     }
 
     deps.ratesFlow -> p: Reacts to rates changes
     in.rawStats -> p
-    p -> out
+    p.incs_sum -> out
+    p.exps_sum -> out
 }
 
 ratesFlow.out -> exFlow.deps.ratesFlow: Reacts

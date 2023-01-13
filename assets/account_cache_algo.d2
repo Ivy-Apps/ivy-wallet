@@ -1,0 +1,20 @@
+RawAccStatsFlow {
+    
+}
+
+db: Database {
+    shape: cylinder
+
+    accounts_cache: {
+        shape: sql_table
+        
+        account_id: String { constraint: primary_key }
+        income_amount: Double
+        income_currency: String
+        expense_amount: Double
+        expense_currency: String
+        incomes_count: Int
+        expenses_count: Int
+    }
+}
+
