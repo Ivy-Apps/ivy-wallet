@@ -1,6 +1,56 @@
+
 RawAccStatsFlow {
-    
+    deps: Dependencies {
+        shape: class
+        calcTrnDao: CalcTrnDao
+        rawStatsFlow: RawStatsFlow
+        accountsCacheDao: AccountCacheDao
+    }
+
+    in: Input {
+        shape: class
+        accountId: String
+    }
+
+    1: "Lookup for `account_id`. Cache found?"
+    1_true: "Return cached RawStats" {
+        fill: green
+        font-color: white
+    }
+    1_false: "No cache" {
+      1: "Fetch trns: calcTrnDao.findAllByAccountId(accountId)" {
+        shape: cylinder
+      }
+      2: "Calc raw stats: rawStatsFlow(trns)"
+      3: "Cache: accountCacheDao.save(rawStats)" {
+        fill: blue
+        font-color: white
+      }
+      4: "Return RawStats"
+
+      1 -> 2 -> 3 -> 4
+    }
+
+    out: RawStats {
+        shape: class
+        incomes: Map<CurrencyCode, Double>
+        expenses: Map<CurrencyCode, Double>
+        incomesCount: Int
+        expensesCount: Int
+    }
+
+    in -> 1: accountId
+    deps.accountsCacheDao -> 1: accountsCacheDao
+    deps.calcTrnDao -> 1_false: calcTrnDao
+    deps.rawStatsFlow -> 1_false: rawStatsFlow
+    1 -> 1_true: True
+    1 -> 1_false: False
+    1_true -> out: Cache (from DB)
+    1_false.4 -> out: Processed (slow)
 }
+
+db.accounts_cache -> \
+    RawAccStatsFlow.deps.accountsCacheDao: AccountsCacheDao
 
 db: Database {
     shape: cylinder
@@ -9,10 +59,8 @@ db: Database {
         shape: sql_table
         
         account_id: String { constraint: primary_key }
-        income_amount: Double
-        income_currency: String
-        expense_amount: Double
-        expense_currency: String
+        incomes_json: "JSON [{\"curr\":\"str\",\"amount\":0.0}]"
+        expenses: "JSON [{\"curr\":\"str\",\"amount\":0.0}]"
         incomes_count: Int
         expenses_count: Int
     }
