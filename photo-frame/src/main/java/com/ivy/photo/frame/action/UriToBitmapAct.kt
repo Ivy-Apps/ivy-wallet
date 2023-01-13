@@ -19,8 +19,9 @@ class UriToBitmapAct @Inject constructor(
     private val appContext: Context
 ) : Action<Uri, Either<Throwable, Bitmap>>() {
     override suspend fun action(input: Uri): Either<Throwable, Bitmap> = either {
-        val inputStream = inputStream(appContext, input, FDMode.Read).bind()
-        decodeBitmap(inputStream).bind()
+        inputStream(appContext, input, FDMode.Read) {
+            decodeBitmap(it)
+        }.bind().bind()
     }
 
     private fun decodeBitmap(inputStream: InputStream): Either<Throwable, Bitmap> =

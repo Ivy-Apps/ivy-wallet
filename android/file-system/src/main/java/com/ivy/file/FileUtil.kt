@@ -65,14 +65,15 @@ fun readFile(
     }
 }
 
-fun inputStream(
+fun <T> inputStream(
     context: Context,
     uri: Uri,
     mode: FDMode,
-): Either<Throwable, InputStream> = Either.catch({ it }) {
+    use: (InputStream) -> T
+): Either<Throwable, T> = Either.catch({ it }) {
     val contentResolver = context.contentResolver
     contentResolver.openFileDescriptor(uri, mode.value)?.use {
-        FileInputStream(it.fileDescriptor)
+        use(FileInputStream(it.fileDescriptor))
     } ?: error("contentResolver.openFileDescriptor($uri, $mode) returned null")
 }
 
