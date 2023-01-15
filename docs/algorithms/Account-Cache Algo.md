@@ -117,11 +117,8 @@ The overall complexity of the algorithm is
 
 ---
 ---
----
+
 ## Invalidate cache algorithm
 
 ![Invalidate-Account-Cache-Diagram](../../assets/account_cache_invalidate_algo.svg)
 **[--> View the diagram full-screen <--](https://raw.githubusercontent.com/Ivy-Apps/ivy-wallet/develop/assets/account_cache_invalidate_algo.svg)**
-
-
-## [Invalidate cache] Complexity
