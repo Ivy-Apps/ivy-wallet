@@ -36,7 +36,7 @@ import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign
 import com.ivy.design.api.systems.ivyWalletDesign
-import com.ivy.drive.google_drive.GoogleDriveService
+import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.file.CreateFileLauncher
 import com.ivy.file.FilePickerLauncher
 import com.ivy.main.impl.MainScreen
@@ -76,7 +76,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
     lateinit var createFileLauncher: CreateFileLauncher
 
     @Inject
-    lateinit var googleDriveService: GoogleDriveService
+    lateinit var googleDriveInitializer: GoogleDriveInitializer
 
 
     private val viewModel: RootViewModel by viewModels()
@@ -87,7 +87,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
         // region setup ActivityForResult launchers
         filePickerLauncher.wire(this)
         createFileLauncher.wire(this)
-        googleDriveService.wire(this)
+        googleDriveInitializer.wire(this)
         // endregion
 
 
