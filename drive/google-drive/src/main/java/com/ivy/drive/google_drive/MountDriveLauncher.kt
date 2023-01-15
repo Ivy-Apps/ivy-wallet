@@ -6,8 +6,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
 import com.ivy.android.common.ActivityLauncher
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -21,6 +23,7 @@ class MountDriveLauncher @Inject constructor(
             .requestEmail()
             .requestProfile()
             .requestIdToken("364763737033-t1d2qe7s0s8597k7anu3sb2nq79ot5tp.apps.googleusercontent.com")
+            .requestScopes(Scope(DriveScopes.DRIVE_FILE))
             .build()
         val googleSignInClient = GoogleSignIn.getClient(context, gso)
         return googleSignInClient.signInIntent
