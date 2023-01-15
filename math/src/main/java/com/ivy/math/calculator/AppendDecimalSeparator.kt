@@ -4,7 +4,8 @@ fun appendDecimalSeparator(
     expression: String, decimalSeparator: Char
 ): String {
     fun alreadyAddedDecimal(expression: String): Boolean =
-        expression.split(Regex("[^0-9^.]")).last().contains(".")
+        expression.split(Regex("[^0-9^${decimalSeparator}]")).last()
+            .contains(decimalSeparator)
 
     fun allowDecimalSeparator(expression: String): Boolean =
         !alreadyAddedDecimal(expression) && when (expression.lastOrNull()) {
