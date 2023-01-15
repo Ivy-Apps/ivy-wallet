@@ -9,9 +9,9 @@ WriteTrnsAct {
 }
 
 WriteAccountsAct.del -> UpdateAccCacheAct.onAccDel: Triggers
-WriteTrnsAct.del -> UpdateAccCacheAct.onTrnUpdate: Triggers
-WriteTrnsAct.create -> UpdateAccCacheAct.onTrnUpdate: Triggers
-WriteTrnsAct.update -> UpdateAccCacheAct.onTrnUpdate: Triggers
+WriteTrnsAct.del -> UpdateAccCacheAct.onTrnUpdate.in.del: Triggers
+WriteTrnsAct.create -> UpdateAccCacheAct.onTrnUpdate.in.cr: Triggers
+WriteTrnsAct.update -> UpdateAccCacheAct.onTrnUpdate.in.upd: Triggers
 
 UpdateAccCacheAct {
     onAccDel: "On: Account deleted" {
@@ -22,9 +22,35 @@ UpdateAccCacheAct {
     }
 
     onTrnUpdate: "On: Transaction updated/deleted" {
+        in: Input {
+            del: DeleteTrnInfo {
+                shape: class
+                time: TrnTime
+            }
+
+            cr: CreateTrnInfo {
+                shape: class
+                time: TrnTime
+            }
+
+            upd: UpdateTrnInfo {
+                shape: class
+                oldTime: TrnTime
+                time: TrnTime
+            }
+        }
         read: "Cache entry in DB?"
         read_null: "Do nothing."
-        read_exists: "Trn time > Cache entry time?"
+        read_exists: "Is the cache still valid?" {
+            a: "Is the updated transaction after the cache, in the future?" {
+                "trn.time > cache.time?"
+            }
+            b: "Was the updated transaction moved from the past to the future?" {
+                "trn.oldTime == null || trn.oldTime < cache.time?"
+            }
+
+            a -> b: AND
+        }
         trn_newer: "It's okay. The cache is valid - do nothing." {
             fill: green
             font-color: white
@@ -34,6 +60,7 @@ UpdateAccCacheAct {
             font-color: white
         }
 
+        in -> read
         read --> read_null: "Nope"
         read --> read_exists: "Found!"
 
