@@ -5,10 +5,12 @@ Calculates Income and Expense values in a given currency provided a list of tran
 This algorithm is behind almost all numbers that you see in Ivy Wallet.
 
 ![calc_algo.svg](../../assets/calc_algo.svg)
+**[--> View the diagram full-screen <--](https://raw.githubusercontent.com/Ivy-Apps/ivy-wallet/develop/assets/calc_algo.svg)**
 
 ## Algorithm
 
-- Input: `[CalcTrn]` and outpuCurrency
+Aggregates incomes and expenses in a given currency.
+- Input: `[CalcTrn]` and an output currency
 ```kotlin
 data class Input(
     val trns: List<CalcTrn>,
@@ -37,6 +39,8 @@ _(pseudo-code)_
 
 **A) Raw Stats:** `O(# of trns) time | O(# of unique  currencies) space` `[RawStatsFlow]` `[can be a pure function]`
 
+Aggregates transactions' income and expense by currency. The purpose of that is for the result to be independant of the exchange rates and the base currency.
+
 1. Initialization: `O(1) space-time`
 ```kotlin
 val incomes = mutableMapOf<Currency, Double>()
@@ -63,6 +67,8 @@ trns.forEach {
 
 
 **B) Get the exchange rates** `O(# of rates + # of overriden rates) space-time` `✨base-currency` `✨rates` `✨overriden-rates`
+
+Retrieve from the local DB the latest exchange rates stored considering the ones that are manually overriden.
 
 > RX: `✨X` means reacts to X
 
@@ -96,6 +102,8 @@ combine(rates, overridenRates) {
 
 **C) Exchange RawStats** `O(# of unique currencies) time | O(1) space` `✨rates`
 
+Exchange the aggregated incomes and expenses in different currencies from the `RawStats` into a single income and expense in the `outputCurrnecy` selected.
+
 1. Initialization `O(1) space-time`
 ```kotlin
 var incomeOutCurr = 0.0
@@ -116,12 +124,12 @@ incomes.forEach { (curr, amount) ->
 
 ## Complexity
 
-The overall complexity of the "Calc" algorithm is:
+The overall complexity of the "Calc" algorithm is the complexity of the steps performed.
 
 **Steps:**
-- O(# of trns) time | O(# of unique currencies)
-- O(# of rates + # of overriden rates) space-time
-- O(# of unique currencies) time | O(1) space
+- **RawStats:** `O(# of trns) time | O(# of unique currencies)`
+- **Exchange rates:** `O(# of rates + # of overriden rates) space-time`
+- **Exchange in output currency**: `O(# of unique currencies) time | O(1) space`
 
 
 ### Conclusion

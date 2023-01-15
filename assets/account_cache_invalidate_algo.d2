@@ -40,7 +40,10 @@ UpdateAccCacheAct {
             }
         }
         read: "Cache entry in DB?"
-        read_null: "Do nothing."
+        read_null: "Do nothing." {
+            fill: green
+            font-color: white
+        }
         read_exists: "Is the cache still valid?" {
             a: "Is the updated transaction after the cache, in the future?" {
                 "trn.time > cache.time?"
