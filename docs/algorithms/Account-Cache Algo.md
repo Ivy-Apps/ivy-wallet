@@ -15,6 +15,12 @@ To calculate the balance of an account Ivy Wallet goes through all transactions 
 
 _This algorithm must iterate through all transactions to calculate the balance and that becomes inefficient when you use the app for a few years and have 3k+ transactions. But we can do better than that!_
 
+
+## Invalidate cache algorithm
+
+![Invalidate-Account-Cache-Diagram](../../assets/account_cache_invalidate_algo.svg)
+**[--> View the diagram full-screen <--](https://raw.githubusercontent.com/Ivy-Apps/ivy-wallet/develop/assets/account_cache_invalidate_algo.svg)**
+
 ### 0. Introducing the cache 
 
 We must persist the last calculated `RawStats` for that account because it's independent of the exchange rates.
@@ -114,11 +120,3 @@ The overall complexity of the algorithm is
 > **Practical time: `O(# of trns by "account_id" + log(# of all trns))`**
 
 > **Practical space: `O(# of trns by "account_id")`**
-
----
----
-
-## Invalidate cache algorithm
-
-![Invalidate-Account-Cache-Diagram](../../assets/account_cache_invalidate_algo.svg)
-**[--> View the diagram full-screen <--](https://raw.githubusercontent.com/Ivy-Apps/ivy-wallet/develop/assets/account_cache_invalidate_algo.svg)**
