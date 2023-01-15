@@ -4,6 +4,7 @@ import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.drive.google_drive.GoogleDriveInitializerImpl
 import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.drive.google_drive.GoogleDriveServiceImpl
+import com.ivy.drive.google_drive.HasDrive
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +18,7 @@ abstract class GoogleDriveModuleDI {
 
     @Binds
     abstract fun googleDriveInitializer(impl: GoogleDriveInitializerImpl): GoogleDriveInitializer
+
+    @Binds
+    abstract fun hasDrive(impl: GoogleDriveInitializerImpl): HasDrive
 }

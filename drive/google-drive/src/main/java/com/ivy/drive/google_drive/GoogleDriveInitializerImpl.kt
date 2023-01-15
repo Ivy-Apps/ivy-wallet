@@ -17,7 +17,7 @@ class GoogleDriveInitializerImpl @Inject constructor(
     @ApplicationContext
     private val context: Context,
     private val mountDriveLauncher: MountDriveLauncher
-) : GoogleDriveInitializer {
+) : GoogleDriveInitializer, HasDrive {
     private val _isMounted = MutableStateFlow(false)
     override val driveMounted: StateFlow<Boolean> = _isMounted
 
