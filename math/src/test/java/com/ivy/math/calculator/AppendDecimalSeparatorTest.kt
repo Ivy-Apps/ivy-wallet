@@ -17,6 +17,8 @@ class AppendDecimalSeparatorTest : FreeSpec({
             row("(10+5)", "(10+5)"),
             row("7", "7."),
             row("2%", "2%"),
+            row("1.0", "1.0"),
+            row("1.01+1.01", "1.01+1.01"),
         ) { (expression, expected) ->
             val res = appendDecimalSeparator(
                 expression = expression, decimalSeparator = '.'
