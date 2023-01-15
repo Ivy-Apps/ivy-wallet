@@ -12,21 +12,41 @@ RawAccStatsFlow {
         accountId: String
     }
 
-    1: "Lookup for `account_id`. Cache found?"
-    1_true: "Return cached RawStats" {
-        fill: green
-        font-color: white
+    1: "Lookup for cache by `account_id`. Cache found?"
+    1_true: "Cache found." {
+        1: "Fetch ONLY the transactions after the cache time for the account." {
+            fill: green
+            font-color: white
+        }
+        2: "Execute RawStatsFlow only for the transactions after the cache." {
+            fill: green
+            font-color: white
+        }
+        3: "Sum the cached `RawStats` with the just calculated ones."
+        4: "Update the cache." {
+            shape: cylinder
+            fill: blue
+            font-color: white
+        }
+        5: "Return the summed `RawStats`"
+        1 -> 2 -> 3 -> 4 -> 5
     }
-    1_false: "No cache" {
-      1: "Fetch trns: calcTrnDao.findAllByAccountId(accountId)" {
+    1_false: "Cache NOT found." {
+      1: "Fetch ALL transactions for the account." {
         shape: cylinder
+        fill: orange
+        font-color: white
       }
-      2: "Calc raw stats: rawStatsFlow(trns)"
-      3: "Cache: accountCacheDao.save(rawStats)" {
+      2: "Execute RawStasFlow for all of account's transactions." {
+        fill: orange
+        font-color: white
+      }
+      3: "Update the cache." {
+        shape: cylinder
         fill: blue
         font-color: white
       }
-      4: "Return RawStats"
+      4: "Return the calculated `RawStats`"
 
       1 -> 2 -> 3 -> 4
     }
@@ -45,7 +65,7 @@ RawAccStatsFlow {
     deps.rawStatsFlow -> 1_false: rawStatsFlow
     1 -> 1_true: True
     1 -> 1_false: False
-    1_true -> out: Cache (from DB)
+    1_true.5 -> out: Cache (from DB)
     1_false.4 -> out: Processed (slow)
 }
 
