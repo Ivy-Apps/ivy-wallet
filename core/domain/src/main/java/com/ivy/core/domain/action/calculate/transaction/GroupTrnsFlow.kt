@@ -4,15 +4,12 @@ import com.ivy.common.time.dateId
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
 import com.ivy.core.domain.action.FlowAction
+import com.ivy.core.domain.action.calculate.CalculateAct
 import com.ivy.core.domain.action.calculate.CalculateFlow
+import com.ivy.core.domain.action.exchange.ExchangeRatesFlow
 import com.ivy.core.domain.pure.calculate.transaction.batchTrns
 import com.ivy.core.domain.pure.calculate.transaction.groupActualTrnsByDate
-import com.ivy.core.domain.pure.transaction.overdue
-import com.ivy.core.domain.pure.transaction.upcoming
-import com.ivy.core.domain.pure.util.actualTrns
-import com.ivy.core.domain.pure.util.combineSafe
-import com.ivy.core.domain.pure.util.extractTrns
-import com.ivy.core.domain.pure.util.flattenLatest
+import com.ivy.core.domain.pure.util.*
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.data.transaction.*
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +35,8 @@ class GroupTrnsFlow @Inject constructor(
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val timeProvider: TimeProvider,
     private val collapsedTrnsListDatesFlow: CollapsedTrnListDatesFlow,
+    private val exchangeRatesFlow: ExchangeRatesFlow,
+    private val calculateAct: CalculateAct
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -49,15 +48,9 @@ class GroupTrnsFlow @Inject constructor(
             batchTrns(trns = visibleTrns, links = links)
         }.flatMapLatest { batchedTrnItems ->
             combine(
-                dueSectionFlow(
-                    trnListItems = batchedTrnItems,
-                    dueFilter = ::upcoming,
-                ),
-                dueSectionFlow(
-                    trnListItems = batchedTrnItems,
-                    dueFilter = ::overdue,
-                ),
-                historyFlow(trnListItems = batchedTrnItems),
+                flowOf<DueSection?>(null), //Temp
+                flowOf<DueSection?>(null), //Temp
+                historyFlowNew(trnListItems = batchedTrnItems),
             ) { upcomingSection, overdueSection, history ->
                 TransactionsList(
                     upcoming = upcomingSection,
@@ -173,4 +166,46 @@ class GroupTrnsFlow @Inject constructor(
             listOf(dateDivider).plus(trnsForTheDay)
     }
     // endregion
+
+    private fun historyFlowNew(
+        trnListItems: List<TrnListItem>
+    ): Flow<List<TrnListItem>> =
+        combine(collapsedTrnsListDatesFlow(), exchangeRatesFlow()) { collapsedTrnsList, rates ->
+            val actualTrns = actualTrns(trnItems = trnListItems)
+            val trnsByDay = groupActualTrnsByDate(
+                actualTrns = actualTrns,
+                timeProvider = timeProvider,
+            )
+
+            val trnList = trnsByDay.asIterable()
+                .parallelMap { (date, trnsForTheDay) ->
+                    val statsForTheDay = calculateAct(
+                        CalculateAct.Input(
+                            trns = trnsForTheDay.flatMap(::extractTrns),
+                            outputCurrency = null,
+                            includeTransfers = true,
+                            includeHidden = false,
+                            rates = rates
+                        ),
+                    )
+
+                    val id = date.dateId()
+                    val collapsed = collapsedTrnsList.contains(date.dateId())
+
+                    val dateDivider = TrnListItem.DateDivider(
+                        id = id,
+                        date = date,
+                        cashflow = statsForTheDay.balance,
+                        collapsed = id in collapsedTrnsList
+                    )
+
+                    if (collapsed)
+                        listOf(dateDivider)
+                    else
+                        listOf(dateDivider).plus(trnsForTheDay)
+                }.flatten()
+
+
+            trnList
+        }
 }
