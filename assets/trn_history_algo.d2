@@ -1,0 +1,132 @@
+db: Database {
+    shape: cylinder
+    transactions {
+        dao: CalcHistoryTrnDao {
+            "SELECT ... FROM transactions WHERE (time BETWEEN ? AND ?) AND ..."
+        }
+
+        type: CalcHistoryTrn {
+            shape: class
+            id: String
+            amount: Double
+            currency: String
+            type: "Income | Expense"
+            time: Instant
+            timeType: "Actual | Due"
+            title: String?
+            description: String?
+            account_id: String
+            catgory_id: String?
+            purpose: "null | TransferFrom | TransferTo | Fee"
+            state: "Default | Hidden"
+        }
+
+        dao -> type
+    }
+
+    trn_links {
+        dao: TrnLinksDao {
+            "SELECT ... FROM trn_links WHERE trnId IN (?)"
+        }
+
+        type: TrnLinkRecord {
+            shape: class
+            batchId: String
+            trnId: String
+        }
+
+        dao -> type
+    }    
+}
+
+TrnHistoryFlow {
+    in: Input {
+        shape: class
+        query: "All | ByCategory(id: String) | ByAccount(id: String)"
+    }
+
+    deps: Dependencies {
+        shape: class
+        calcHistoryTrnDao: CalHistoryTrnDao
+        trnLinksDao: TrnLinksDao
+        selectedPeriodFlow: SelectedPeriodFlow
+        baseCurrencyFlow: BaseCurrencyFlow
+        rateFlow: RateFlow
+        accountsFlow: AccountsFlow
+        categoriesFlow: CategoriesFlow
+        itemIconAct: ItemIconAct
+    }
+
+    p: Process {
+        period: "SelectedPeriodFlow { period ->"
+        trns: "calcHistoryTrnDao.findAllInPeriod(period) { trns ->"
+        grp_batch: "Group by day and batch transfers"
+        calc_income_expense: "CalcAlgo(trns)"
+
+        period -> trns
+        trns -> grp_batch
+        trns -> calc_income_expense
+    }
+
+    in -> p: Query
+    deps -> p
+
+    out: Output {
+        shape: class
+        income: ValueUi?
+        expense: ValueUi?
+        trnList: TrnList
+    }
+
+    p -> out: Produces
+}
+
+
+TrnListUi {
+    shape: class
+    upcoming: DueSectionUi?
+    overdue: DueSectionUi?
+    history: List<TrnHistoryDayUi>
+}
+
+TrnHistoryDayUi {
+    shape: class
+    cashflow: ValueUi?
+    cards: List<TrnCardUi>
+}
+
+DueSectionUi {
+    shape: class
+    income: ValueUi?
+    expense: ValueUi?
+    cards: List<TrnCardUi>
+}
+
+TrnCardUi {
+    TransactionUi {
+        shape: class
+        id: String
+        amount: ValueUi
+        account: AccountUi
+        category: CategoryUi?
+        title: String?
+        description: String?
+        type: "Income | Expense"
+        dueDateFormatted: String?
+    }
+
+    TransferCardUi {
+        shape: class
+        batchId: String
+
+    }
+}
+
+TrnCardUi -> TrnHistoryDayUi
+TrnCardUi -> DueSectionUi
+TrnHistoryDayUi -> TrnListUi
+DueSectionUi -> TrnListUi
+TrnListUi -> TrnHistoryFlow.out.trnList
+
+db.transactions.type -> TrnHistoryFlow.deps.calcHistoryTrnDao
+db.trn_links.type -> TrnHistoryFlow.deps.trnLinksDao

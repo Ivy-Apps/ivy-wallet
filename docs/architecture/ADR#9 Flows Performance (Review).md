@@ -18,6 +18,8 @@ Background young concurrent copying GC freed 616663(21MB) AllocSpace objects, 0(
 
 ## Bottleneck
 
+> :warning: `combine(trns.map { trnFlow() }` can potentially spawn 3k+ flows and totally destroy our RAM...
+
 Note: the `prod` Ivy Wallet and the `develop` one uses the same algorithm to calculate the balance.
 
 Observe: `prod` runs instant, `develop` doesn't. The main difference is that `develop`'s Transaction fetches and reacts to much more things like:
