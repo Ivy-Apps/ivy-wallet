@@ -1,6 +1,9 @@
 package com.ivy.drive.google_drive.data
 
 sealed interface GoogleDriveError {
-    object NotMounted : GoogleDriveError
-    data class IOError(val exception: Throwable) : GoogleDriveError
+
+    val exception: Throwable
+
+    data class NotMounted(override val exception: Throwable) : GoogleDriveError
+    data class IOError(override val exception: Throwable) : GoogleDriveError
 }

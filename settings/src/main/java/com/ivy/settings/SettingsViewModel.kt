@@ -1,7 +1,8 @@
 package com.ivy.settings
 
 import androidx.lifecycle.viewModelScope
-import arrow.core.Either
+import arrow.core.Either.Left
+import arrow.core.Either.Right
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.settings.applocked.AppLockedFlow
 import com.ivy.core.domain.action.settings.applocked.WriteAppLockedAct
@@ -12,8 +13,8 @@ import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
 import com.ivy.core.domain.pure.util.combine
+import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.drive.google_drive.GoogleDriveService
-import com.ivy.drive.google_drive.data.GoogleDriveError
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.old.ImportOldJsonBackupAct
@@ -42,6 +43,7 @@ class SettingsViewModel @Inject constructor(
     private val appLockedFlow: AppLockedFlow,
     private val writeAppLockedAct: WriteAppLockedAct,
     private val importOldJsonBackupAct: ImportOldJsonBackupAct,
+    private val googleDriveInitializer: GoogleDriveInitializer,
     private val googleDriveService: GoogleDriveService
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
@@ -60,7 +62,7 @@ class SettingsViewModel @Inject constructor(
         startDayOfMonthFlow(),
         hideBalanceFlow(Unit),
         appLockedFlow(Unit),
-        googleDriveService.driveMounted,
+        googleDriveInitializer.driveMounted,
         importOldDataState
     ) { baseCurrency, startDayOfMonth, hideBalance,
         appLocked, driveMounted, importOldData ->
@@ -80,15 +82,19 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.BaseCurrencyChange -> {
                 writeBaseCurrencyAct(event.newCurrency)
             }
+
             is SettingsEvent.StartDayOfMonth -> {
                 writeStartDayOfMonthAct(event.startDayOfMonth)
             }
+
             is SettingsEvent.HideBalance -> {
                 writeHideBalanceAct(event.hideBalance)
             }
+
             is SettingsEvent.AppLocked -> {
                 writeAppLockedAct(event.appLocked)
             }
+
             is SettingsEvent.ImportOldData -> handleImportOldData(event)
             is SettingsEvent.MountDrive -> handleMountDrive()
             SettingsEvent.AddFrame -> handleAddFrame()
@@ -103,11 +109,12 @@ class SettingsViewModel @Inject constructor(
             importOldDataState.value = BackupImportState.Importing
             val result = importOldJsonBackupAct(event.jsonZipUri)
             importOldDataState.value = when (result) {
-                is Either.Left -> {
+                is Left -> {
                     Timber.e("Import error: $result")
                     BackupImportState.Error(message = result.value.toString())
                 }
-                is Either.Right -> BackupImportState.Success(
+
+                is Right -> BackupImportState.Success(
                     message = "Faulty transfers: ${result.value.faultyTransfers}"
                 )
             }
@@ -118,28 +125,26 @@ class SettingsViewModel @Inject constructor(
     }
 
     private suspend fun handleMountDrive() {
-        if (googleDriveService.driveMounted.value) {
+        if (googleDriveInitializer.driveMounted.value) {
             withContext(Dispatchers.IO) {
                 val result = googleDriveService.write(
                     path = Path("Ivy-Wallet-Debug-sync-folder/Backup/test.txt"),
                     content = LocalDateTime.now().toString()
                 )
                 when (result) {
-                    is Either.Left -> Timber.d(
+                    is Left -> Timber.d(
                         "Error writing to drive: ${
-                            when (val error = result.value) {
-                                is GoogleDriveError.IOError -> error.exception.also {
-                                    it.printStackTrace()
-                                }.message
-                                GoogleDriveError.NotMounted -> "Not mounted!!!"
-                            }
+                            result.value.exception.also {
+                                it.printStackTrace()
+                            }.message
                         }"
                     )
-                    is Either.Right -> Timber.d("Successfully wrote to drive")
+
+                    is Right -> Timber.d("Successfully wrote to drive")
                 }
             }
         } else {
-            googleDriveService.connect()
+            googleDriveInitializer.connect()
         }
     }
 
