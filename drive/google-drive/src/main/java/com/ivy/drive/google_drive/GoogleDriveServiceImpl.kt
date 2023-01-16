@@ -20,8 +20,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GoogleDriveServiceImpl @Inject constructor(
-    private val hasDrive: HasDrive
-) : GoogleDriveService, HasDrive by hasDrive {
+    private val googleDriveProvider: GoogleDriveProvider
+) : GoogleDriveService, GoogleDriveProvider by googleDriveProvider {
 
     override suspend fun read(path: Path): Either<GoogleDriveError, ByteArray?> = either {
         fetchFileFromPath(path).bind()?.let { file ->

@@ -1,10 +1,10 @@
 package com.ivy.drive.google_drive.di
 
 import com.ivy.drive.google_drive.GoogleDriveInitializer
-import com.ivy.drive.google_drive.GoogleDriveInitializerImpl
+import com.ivy.drive.google_drive.GoogleDriveConnection
 import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.drive.google_drive.GoogleDriveServiceImpl
-import com.ivy.drive.google_drive.HasDrive
+import com.ivy.drive.google_drive.GoogleDriveProvider
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,8 +17,8 @@ abstract class GoogleDriveModuleDI {
     abstract fun googleDriveService(impl: GoogleDriveServiceImpl): GoogleDriveService
 
     @Binds
-    abstract fun googleDriveInitializer(impl: GoogleDriveInitializerImpl): GoogleDriveInitializer
+    abstract fun googleDriveInitializer(impl: GoogleDriveConnection): GoogleDriveInitializer
 
     @Binds
-    abstract fun hasDrive(impl: GoogleDriveInitializerImpl): HasDrive
+    abstract fun googleDriveProvider(impl: GoogleDriveConnection): GoogleDriveProvider
 }

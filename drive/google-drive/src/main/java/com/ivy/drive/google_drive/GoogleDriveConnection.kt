@@ -13,11 +13,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GoogleDriveInitializerImpl @Inject constructor(
+class GoogleDriveConnection @Inject constructor(
     @ApplicationContext
     private val context: Context,
     private val mountDriveLauncher: MountDriveLauncher
-) : GoogleDriveInitializer, HasDrive {
+) : GoogleDriveInitializer, GoogleDriveProvider {
     private val _isMounted = MutableStateFlow(false)
     override val driveMounted: StateFlow<Boolean> = _isMounted
 
