@@ -167,10 +167,52 @@ class GroupTrnsFlow @Inject constructor(
     }
     // endregion
 
-    private fun historyFlowNew(
+//    private fun historyFlowNew(
+//        trnListItems: List<TrnListItem>
+//    ): Flow<List<TrnListItem>> =
+//        combine(collapsedTrnsListDatesFlow(), exchangeRatesFlow()) { collapsedTrnsList, rates ->
+//            val actualTrns = actualTrns(trnItems = trnListItems)
+//            val trnsByDay = groupActualTrnsByDate(
+//                actualTrns = actualTrns,
+//                timeProvider = timeProvider,
+//            )
+//
+//            val trnList = trnsByDay.asIterable()
+//                .parallelMap { (date, trnsForTheDay) ->
+//                    val statsForTheDay = calculateAct(
+//                        CalculateAct.Input(
+//                            trns = trnsForTheDay.flatMap(::extractTrns),
+//                            outputCurrency = null,
+//                            includeTransfers = true,
+//                            includeHidden = false,
+//                            rates = rates
+//                        ),
+//                    )
+//
+//                    val id = date.dateId()
+//                    val collapsed = collapsedTrnsList.contains(date.dateId())
+//
+//                    val dateDivider = TrnListItem.DateDivider(
+//                        id = id,
+//                        date = date,
+//                        cashflow = statsForTheDay.balance,
+//                        collapsed = id in collapsedTrnsList
+//                    )
+//
+//                    if (collapsed)
+//                        listOf(dateDivider)
+//                    else
+//                        listOf(dateDivider).plus(trnsForTheDay)
+//                }.flatten()
+//
+//
+//            trnList
+//        }
+
+    private fun historyFlowMap(
         trnListItems: List<TrnListItem>
-    ): Flow<List<TrnListItem>> =
-        combine(collapsedTrnsListDatesFlow(), exchangeRatesFlow()) { collapsedTrnsList, rates ->
+    ): Flow<Map<TrnListItem.DateDivider, List<TrnListItem>>> =
+        exchangeRatesFlow().map { rates ->
             val actualTrns = actualTrns(trnItems = trnListItems)
             val trnsByDay = groupActualTrnsByDate(
                 actualTrns = actualTrns,
@@ -190,22 +232,35 @@ class GroupTrnsFlow @Inject constructor(
                     )
 
                     val id = date.dateId()
-                    val collapsed = collapsedTrnsList.contains(date.dateId())
 
                     val dateDivider = TrnListItem.DateDivider(
                         id = id,
                         date = date,
                         cashflow = statsForTheDay.balance,
-                        collapsed = id in collapsedTrnsList
+                        collapsed = false
                     )
 
-                    if (collapsed)
-                        listOf(dateDivider)
-                    else
-                        listOf(dateDivider).plus(trnsForTheDay)
-                }.flatten()
-
+                    dateDivider to trnsForTheDay
+                }.toMap()
 
             trnList
         }
+
+
+    private fun historyFlowNew(
+        trnListItems: List<TrnListItem>
+    ) = combine(
+        historyFlowMap(trnListItems),
+        collapsedTrnsListDatesFlow()
+    ) { map, collapsedTrnsList ->
+        map.asIterable().map { (dateDivider, trnsForTheDay) ->
+            val collapsed = collapsedTrnsList.contains(dateDivider.id)
+            val dd = dateDivider.copy(collapsed = collapsed)
+
+            if (collapsed)
+                listOf(dd)
+            else
+                listOf(dd).plus(trnsForTheDay)
+        }.flatten()
+    }
 }
