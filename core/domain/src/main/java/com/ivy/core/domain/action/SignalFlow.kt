@@ -11,10 +11,23 @@ abstract class SignalFlow<T> {
     private val sharedFlow = MutableSharedFlow<T>(replay = 1)
     private var initialSignalSent = false
 
+    var enabled = true
+        private set
+
+    fun enable() {
+        enabled = true
+    }
+
+    fun disable() {
+        enabled = false
+    }
+
     abstract fun initialSignal(): T
 
     suspend fun send(signal: T) {
-        sharedFlow.emit(signal)
+        if (enabled) {
+            sharedFlow.emit(signal)
+        }
     }
 
     fun receive(): Flow<T> {

@@ -8,6 +8,7 @@ import com.ivy.core.domain.action.category.WriteCategoriesAct
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.theme.WriteThemeAct
+import com.ivy.core.domain.action.transaction.TrnsSignal
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.action.transaction.transfer.ModifyTransfer
 import com.ivy.core.domain.action.transaction.transfer.TransferByBatchIdAct
@@ -21,7 +22,8 @@ class WriteBackupDataAct @Inject constructor(
     private val writeTransferAct: WriteTransferAct,
     private val writeBaseCurrencyAct: WriteBaseCurrencyAct,
     private val writeThemeAct: WriteThemeAct,
-    private val transferByBatchIdAct: TransferByBatchIdAct
+    private val transferByBatchIdAct: TransferByBatchIdAct,
+    private val trnsSignal: TrnsSignal,
 ) : Action<BackupData, Unit>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
@@ -33,9 +35,11 @@ class WriteBackupDataAct @Inject constructor(
 
         writeAccountsAct(Modify.saveMany(backup.accounts))
         writeCategoriesAct(Modify.saveMany(backup.categories))
-        writeTrnsAct(Modify.saveMany(backup.transactions))
 
+        trnsSignal.disable() // prevent spam
+        writeTrnsAct(Modify.saveMany(backup.transactions))
         restoreTransfers(backup.transfers.items)
+        trnsSignal.enable()
     }
 
     private suspend fun restoreTransfers(
