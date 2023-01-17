@@ -4,10 +4,10 @@ import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
-import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.exchange.ExchangeFlow
 import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
+import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.util.combineList
@@ -71,11 +71,11 @@ class AccountTabViewModel @Inject constructor(
     }
 
     private fun totalBalanceFlow(): Flow<Value> = totalBalanceFlow(
-        TotalBalanceFlow.Input(withExcludedAccs = true)
+        TotalBalanceFlow.Input(withExcluded = true)
     )
 
     private fun availableBalanceFlow(): Flow<Value> = totalBalanceFlow(
-        TotalBalanceFlow.Input(withExcludedAccs = false)
+        TotalBalanceFlow.Input(withExcluded = false)
     )
 
     // TODO: Re-work this, it's just ugly!

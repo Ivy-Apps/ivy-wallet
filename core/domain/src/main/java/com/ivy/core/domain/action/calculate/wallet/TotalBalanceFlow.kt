@@ -21,12 +21,14 @@ import javax.inject.Inject
  * by setting [Input.withExcludedAccs].
  */
 @OptIn(FlowPreview::class)
+@Deprecated("inefficient")
 class TotalBalanceFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,
     private val accStatsFlow: AccStatsFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
 ) : FlowAction<Input, Value>() {
 
+    @Deprecated("inefficient")
     /**
      * @param withExcludedAccs whether to include excluded accounts in the balance calculation
      * @param outputCurrency pass **null** for base currency

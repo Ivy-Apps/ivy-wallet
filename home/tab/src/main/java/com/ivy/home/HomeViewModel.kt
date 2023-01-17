@@ -3,13 +3,13 @@ package com.ivy.home
 import com.ivy.common.time.beginningOfIvyTime
 import com.ivy.core.domain.FlowViewModel
 import com.ivy.core.domain.action.calculate.CalculateFlow
-import com.ivy.core.domain.action.calculate.wallet.TotalBalanceFlow
 import com.ivy.core.domain.action.helper.TrnsListFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.transaction.*
 import com.ivy.core.domain.action.transaction.TrnQuery.*
+import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.domain.pure.time.range
@@ -38,7 +38,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val balanceFlow: TotalBalanceFlow,
+    private val balanceFlow: com.ivy.core.domain.algorithm.balance.TotalBalanceFlow,
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val trnsListFlow: TrnsListFlow,
     private val baseCurrencyFlow: BaseCurrencyFlow,
@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor(
 
     private fun balanceFlow(): Flow<Value> = balanceFlow(
         TotalBalanceFlow.Input(
-            withExcludedAccs = false,
+            withExcluded = false,
         )
     ).onStart {
         // emit initial balance so combine doesn't wait for this long calculation to complete

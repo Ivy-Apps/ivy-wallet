@@ -30,7 +30,7 @@ class RawAccStatsFlow @Inject constructor(
             when (val cachedStats = cache?.let(::accountCacheToRawStats)) {
                 is Some -> withCache(
                     accountId = accountId,
-                    cache = cachedStats.value,
+                    cachedStats = cachedStats.value,
                 )
                 null, None -> fromScratch(accountId)
             }
@@ -39,18 +39,18 @@ class RawAccStatsFlow @Inject constructor(
 
     private fun withCache(
         accountId: String,
-        cache: RawStats,
+        cachedStats: RawStats,
     ): Flow<RawStats> = db.calcTrnDao().findActualByAccountAfter(
         accountId = accountId,
-        timestamp = cache.newestTrnTime
+        timestamp = cachedStats.newestTrnTime
     ).map { newerTrns ->
         if (newerTrns.isEmpty()) {
             // No new transactions, the result will be the cache value
-            return@map cache
+            return@map cachedStats
         }
 
-        val newer = rawStats(newerTrns)
-        val result = cache + newer
+        val newerStats = rawStats(newerTrns)
+        val result = cachedStats + newerStats
 
         updateCache(accountId, result)
 
@@ -59,16 +59,13 @@ class RawAccStatsFlow @Inject constructor(
 
     private fun fromScratch(
         accountId: String
-    ): Flow<RawStats> {
-        return db.calcTrnDao().findAllActualByAccount(accountId)
-            .map { trns ->
-                val stats = rawStats(trns)
-
-                updateCache(accountId, stats)
-
-                stats
-            }
-    }
+    ): Flow<RawStats> = db.calcTrnDao()
+        .findAllActualByAccount(accountId)
+        .map { trns ->
+            val result = rawStats(trns)
+            updateCache(accountId, result)
+            result
+        }
 
     private suspend fun updateCache(accountId: String, stats: RawStats) {
         db.accountCacheDao().save(
