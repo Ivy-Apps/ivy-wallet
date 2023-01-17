@@ -34,4 +34,53 @@ class RawStatsTest : FreeSpec({
             expensesCount = 4,
         )
     }
+
+    "sum RawStats" {
+        // Arrange
+        val a = RawStats(
+            incomes = mapOf(
+                "EUR" to 10.01,
+                "BGN" to 5.0,
+            ),
+            expenses = mapOf(
+                "BGN" to 101.5,
+                "USD" to 10_000.0,
+                "BTC" to 0.005
+            ),
+            incomesCount = 3,
+            expensesCount = 4,
+        )
+        val b = RawStats(
+            incomes = mapOf(
+                "USD" to 100.0,
+                "BGN" to 1.0,
+            ),
+            expenses = mapOf(
+                "ADA" to 12.0,
+                "USD" to 2.0,
+            ),
+            incomesCount = 6,
+            expensesCount = 3,
+        )
+
+        // Act
+        val res = a + b
+
+        // Assert
+        res shouldBe RawStats(
+            incomes = mapOf(
+                "EUR" to 10.01,
+                "BGN" to 6.0,
+                "USD" to 100.0,
+            ),
+            expenses = mutableMapOf(
+                "ADA" to 12.0,
+                "BTC" to 0.005,
+                "USD" to 10_002.0,
+                "BGN" to 101.5,
+            ),
+            incomesCount = 9,
+            expensesCount = 7
+        )
+    }
 })

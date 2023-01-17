@@ -2,13 +2,14 @@ package com.ivy.core.domain.algorithm.accountcache
 
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.algorithm.calc.data.RawStats
+import com.ivy.core.domain.algorithm.calc.plus
 import com.ivy.core.domain.algorithm.calc.rawStats
 import com.ivy.core.persistence.IvyWalletCoreDb
-import com.ivy.core.persistence.algorithm.accountcache.AccountCacheEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
+import java.time.Instant
 import javax.inject.Inject
 
 class RawAccStatsFlow @Inject constructor(
@@ -21,23 +22,35 @@ class RawAccStatsFlow @Inject constructor(
         val accountCacheFlow = db.accountCacheDao().findAccountCache(accountId)
 
         return accountCacheFlow.flatMapLatest { cache ->
-            if (cache != null) withCache(
-                accountId = accountId,
-                cache = cache
-            ) else fromScratch()
+            if (cache != null) {
+                val cachedRawStats = accountCacheToRawStats(cache).orNull()
+                    ?: return@flatMapLatest fromScratch()
+                withCache(
+                    accountId = accountId,
+                    cachedStats = cachedRawStats,
+                    cacheTime = cache.timestamp
+                )
+            } else fromScratch()
         }
     }
 
     private fun withCache(
         accountId: String,
-        cache: AccountCacheEntity
+        cachedStats: RawStats,
+        cacheTime: Instant
     ): Flow<RawStats> {
         val trnDao = db.calcTrnDao()
         trnDao.findActualByAccountAfter(
             accountId = accountId,
-            timestamp = cache.timestamp
-        ).map { newerTrn ->
-            val newerStats = rawStats(newerTrn)
+            timestamp = cacheTime
+        ).map { newerTrns ->
+            if (newerTrns.isEmpty()) {
+                // No new transactions, the result will be the cache value
+                return@map cacheTime
+            }
+            val newerStats = rawStats(newerTrns)
+
+            val stats = cachedStats + newerStats
 
         }
         TODO()

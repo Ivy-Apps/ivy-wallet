@@ -18,11 +18,11 @@ fun rawStats(trns: List<CalcTrn>): RawStats {
         when (trn.type) {
             TransactionType.Income -> {
                 incomesCount++
-                incomes.sumCurrency(trn)
+                incomes.aggregate(trn)
             }
             TransactionType.Expense -> {
                 expensesCount++
-                expenses.sumCurrency(trn)
+                expenses.aggregate(trn)
             }
         }
     }
@@ -35,10 +35,43 @@ fun rawStats(trns: List<CalcTrn>): RawStats {
     )
 }
 
-private fun MutableMap<CurrencyCode, Double>.sumCurrency(
+/**
+ * Sums all values in two [RawStats] instances.
+ *
+ * Complexity:
+ * **O(m+n) space-time**
+ * where:
+ * - m = Left's RawStats incomes & expenses maps size
+ * - n = Right's RawStats incomes & expenses maps size
+ */
+infix operator fun RawStats.plus(other: RawStats): RawStats {
+    fun sumMaps(
+        map1: Map<CurrencyCode, Double>,
+        map2: Map<CurrencyCode, Double>
+    ): Map<CurrencyCode, Double> {
+        val sum = mutableMapOf<CurrencyCode, Double>()
+        map1.forEach(sum::aggregate)
+        map2.forEach(sum::aggregate)
+        return sum
+    }
+
+    return RawStats(
+        incomes = sumMaps(incomes, other.incomes),
+        expenses = sumMaps(expenses, other.expenses),
+        incomesCount = incomesCount + other.incomesCount,
+        expensesCount = expensesCount + other.expensesCount
+    )
+}
+
+private fun MutableMap<CurrencyCode, Double>.aggregate(
     trn: CalcTrn
+) = aggregate(currency = trn.currency, amount = trn.amount)
+
+private fun MutableMap<CurrencyCode, Double>.aggregate(
+    currency: CurrencyCode,
+    amount: Double,
 ) {
-    compute(trn.currency) { _, oldValue ->
-        (oldValue ?: 0.0) + trn.amount
+    compute(currency) { _, oldValue ->
+        (oldValue ?: 0.0) + amount
     }
 }
