@@ -1,9 +1,13 @@
 package com.ivy.core.domain.action.transaction
 
+import arrow.core.NonEmptyList
+import arrow.core.nel
 import com.ivy.common.time.provider.TimeProvider
+import com.ivy.common.time.toLocal
 import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
+import com.ivy.core.domain.algorithm.accountcache.InvalidateAccCacheAct
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
 import com.ivy.core.domain.pure.transaction.validateTransaction
@@ -14,12 +18,14 @@ import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.dao.trn.TrnTagDao
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
+import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.SyncState.Deleting
 import com.ivy.data.SyncState.Syncing
 import com.ivy.data.attachment.Attachment
 import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
+import com.ivy.data.transaction.TrnTime
 import java.util.*
 import javax.inject.Inject
 
@@ -50,7 +56,10 @@ class WriteTrnsAct @Inject constructor(
     private val trnMetadataDao: TrnMetadataDao,
     private val attachmentDao: AttachmentDao,
     private val timeProvider: TimeProvider,
+    private val invalidateAccCacheAct: InvalidateAccCacheAct,
 ) : Action<Modify<Transaction>, Unit>() {
+
+    // TODO: This actions is slow and must be optimized!
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override suspend fun action(modify: Modify<Transaction>) {
@@ -67,6 +76,28 @@ class WriteTrnsAct @Inject constructor(
 
     private suspend fun saveTrn(trn: Transaction) {
         if (!validateTransaction(trn)) return // don't save invalid transactions
+
+        // region Accounts cache consistency
+        val old = findAccountIdAndTrnTime(trnId = trn.id.toString())
+        invalidateAccCacheAct(
+            if (old != null) {
+                val (oldAccountId, oldTrnTime) = old
+                InvalidateAccCacheAct.Input.OnUpdateTrn(
+                    // Both the oldAccount and the new account caches might be affected
+                    accountIds = NonEmptyList.fromListUnsafe(
+                        setOf(oldAccountId, trn.account.id.toString()).toList()
+                    ),
+                    oldTime = oldTrnTime,
+                    time = trn.time,
+                )
+            } else {
+                InvalidateAccCacheAct.Input.OnCreateTrn(
+                    accountIds = trn.account.id.toString().nel(),
+                    time = trn.time
+                )
+            }
+        )
+        // endregion
 
         trnDao.save(
             mapToEntity(
@@ -136,7 +167,20 @@ class WriteTrnsAct @Inject constructor(
     // endregion
 
     // region Delete
-    private suspend fun delete(trnIds: List<String>) = trnIds.forEach { deleteTrn(it) }
+    private suspend fun delete(trnIds: List<String>) = trnIds.forEach { trnId ->
+        // region Accounts cache consistency
+        findAccountIdAndTrnTime(trnId = trnId)?.let { (accountId, trnTime) ->
+            invalidateAccCacheAct(
+                InvalidateAccCacheAct.Input.OnDeleteTrn(
+                    accountIds = accountId.nel(),
+                    time = trnTime
+                )
+            )
+        }
+        // endregion
+
+        deleteTrn(trnId)
+    }
 
     private suspend fun deleteTrn(trnId: String) {
         trnDao.updateSyncById(trnId = trnId, sync = Deleting)
@@ -148,4 +192,13 @@ class WriteTrnsAct @Inject constructor(
         trnMetadataDao.updateSyncByTrnId(trnId = trnId, Deleting)
     }
     // endregion
+
+    private suspend fun findAccountIdAndTrnTime(
+        trnId: String
+    ): Pair<String, TrnTime>? = trnDao.findAccountIdAndTimeById(trnId = trnId)?.let {
+        it.accountId to when (it.timeType) {
+            TrnTimeType.Actual -> TrnTime.Actual(it.time.toLocal(timeProvider))
+            TrnTimeType.Due -> TrnTime.Due(it.time.toLocal(timeProvider))
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.ivy.core.persistence.dao.trn
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.data.DELETING
 import com.ivy.data.SyncState
 
 @Dao
@@ -18,6 +19,12 @@ interface TrnDao {
     // region Select
     @RawQuery
     suspend fun findBySQL(query: SupportSQLiteQuery): List<TrnEntity>
+
+    @Query(
+        "SELECT accountId, time, timeType FROM transactions WHERE id = :trnId" +
+                " AND sync = $DELETING LIMIT 1"
+    )
+    suspend fun findAccountIdAndTimeById(trnId: String): AccountIdAndTrnTime?
     // endregion
 
     // region Update

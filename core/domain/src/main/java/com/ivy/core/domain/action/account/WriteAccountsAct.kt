@@ -1,9 +1,11 @@
 package com.ivy.core.domain.action.account
 
+import arrow.core.nel
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
+import com.ivy.core.domain.algorithm.accountcache.InvalidateAccCacheAct
 import com.ivy.core.domain.pure.account.validateAccount
 import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.persistence.dao.account.AccountDao
@@ -23,6 +25,7 @@ class WriteAccountsAct @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val trnQueryExecutor: TrnQueryExecutor,
     private val timeProvider: TimeProvider,
+    private val invalidateAccCacheAct: InvalidateAccCacheAct
 ) : Action<Modify<Account>, Unit>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
@@ -37,6 +40,8 @@ class WriteAccountsAct @Inject constructor(
         deleteTrns(accountId = accountId)
         // TODO: Delete planned payments associated with that accounts
         accountDao.updateSync(accountId = accountId, sync = SyncState.Deleting)
+
+        invalidateAccCacheAct(InvalidateAccCacheAct.Input.OnDeleteAcc(accountId.nel()))
     }
 
     private suspend fun deleteTrns(accountId: String) {

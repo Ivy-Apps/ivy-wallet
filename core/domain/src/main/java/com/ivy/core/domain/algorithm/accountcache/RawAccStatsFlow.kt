@@ -13,6 +13,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Account-Cache algo:
+ * https://github.com/Ivy-Apps/ivy-wallet/blob/develop/docs/algorithms/Account-Cache%20Algo.md
+ */
 class RawAccStatsFlow @Inject constructor(
     private val db: IvyWalletCoreDb
 ) : FlowAction<String, RawStats>() {
