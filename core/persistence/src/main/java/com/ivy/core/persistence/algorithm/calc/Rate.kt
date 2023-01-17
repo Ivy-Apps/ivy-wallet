@@ -1,4 +1,4 @@
-package com.ivy.core.persistence.algorithm
+package com.ivy.core.persistence.algorithm.calc
 
 import androidx.room.ColumnInfo
 import com.ivy.data.CurrencyCode

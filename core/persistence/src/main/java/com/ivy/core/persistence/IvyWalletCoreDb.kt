@@ -1,11 +1,11 @@
 package com.ivy.core.persistence
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.ivy.core.persistence.algorithm.CalcTrnDao
+import androidx.room.*
+import com.ivy.core.persistence.algorithm.accountcache.AccountCacheDao
+import com.ivy.core.persistence.algorithm.accountcache.AccountCacheEntity
+import com.ivy.core.persistence.algorithm.calc.CalcTrnDao
+import com.ivy.core.persistence.algorithm.calc.RatesDao
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -42,9 +42,13 @@ import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
         AccountEntity::class, AccountFolderEntity::class,
         CategoryEntity::class, ExchangeRateEntity::class,
         ExchangeRateOverrideEntity::class, TagEntity::class,
-        TrnTagEntity::class,
+        TrnTagEntity::class, AccountCacheEntity::class,
     ],
-    version = 2,
+    version = 4,
+    autoMigrations = [
+        AutoMigration(from = 2, to = 3),
+        AutoMigration(from = 3, to = 4),
+    ],
     exportSchema = true,
 )
 @TypeConverters(
@@ -67,6 +71,8 @@ abstract class IvyWalletCoreDb : RoomDatabase() {
     abstract fun exchangeRateOverrideDao(): ExchangeRateOverrideDao
 
     abstract fun calcTrnDao(): CalcTrnDao
+    abstract fun ratesDao(): RatesDao
+    abstract fun accountCacheDao(): AccountCacheDao
 
     companion object {
         private const val DB_NAME = "ivy-wallet-core.db"

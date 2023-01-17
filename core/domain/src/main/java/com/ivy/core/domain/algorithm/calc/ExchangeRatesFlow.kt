@@ -2,7 +2,7 @@ package com.ivy.core.domain.algorithm.calc
 
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.persistence.algorithm.RatesDao
+import com.ivy.core.persistence.algorithm.calc.RatesDao
 import com.ivy.data.CurrencyCode
 import com.ivy.data.exchange.ExchangeRates
 import kotlinx.coroutines.ExperimentalCoroutinesApi

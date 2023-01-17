@@ -113,7 +113,7 @@ object Versions {
     const val lifecycle = "2.6.0-alpha01"
 
     //https://developer.android.com/jetpack/androidx/releases/room
-    const val room = "2.4.2"
+    const val room = "2.5.0"
 
     //https://github.com/square/retrofit
     const val retrofit = "2.9.0"
