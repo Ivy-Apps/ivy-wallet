@@ -4,7 +4,7 @@ import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * @return [ExchangeRatesData], the latest exchange rates and base currency,
+ * @return [ExchangeRates], the latest exchange rates and base currency,
  * considering manually overridden rates.
  *
  * _Note: Initially emits empty base currency and rates. In most cases that won't happen
@@ -26,14 +26,14 @@ class ExchangeRatesFlow @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
     private val exchangeRateDao: ExchangeRateDao,
     private val exchangeRateOverrideDao: ExchangeRateOverrideDao,
-) : SharedFlowAction<ExchangeRatesData>() {
-    override fun initialValue(): ExchangeRatesData = ExchangeRatesData(
+) : SharedFlowAction<ExchangeRates>() {
+    override fun initialValue(): ExchangeRates = ExchangeRates(
         baseCurrency = "",
         rates = emptyMap()
     )
 
     @OptIn(FlowPreview::class)
-    override fun createFlow(): Flow<ExchangeRatesData> =
+    override fun createFlow(): Flow<ExchangeRates> =
         baseCurrencyFlow().flatMapLatest { baseCurrency ->
             combine(
                 exchangeRateDao.findAllByBaseCurrency(baseCurrency),
@@ -50,7 +50,7 @@ class ExchangeRatesFlow @Inject constructor(
                         ratesMap[it.currency] = it.rate
                     }
 
-                ExchangeRatesData(
+                ExchangeRates(
                     baseCurrency = baseCurrency,
                     rates = ratesMap,
                 )

@@ -1,10 +1,13 @@
 package com.ivy.core.domain.algorithm.calc
 
-import com.ivy.core.domain.algorithm.calc.data.CalcTrn
 import com.ivy.core.domain.algorithm.calc.data.RawStats
+import com.ivy.core.persistence.algorithm.CalcTrn
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
 
+/**
+ *
+ */
 fun rawStats(trns: List<CalcTrn>): RawStats {
     val incomes = mutableMapOf<CurrencyCode, Double>()
     val expenses = mutableMapOf<CurrencyCode, Double>()

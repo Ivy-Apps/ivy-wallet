@@ -9,7 +9,7 @@ import com.ivy.core.domain.pure.exchange.exchange
 import com.ivy.core.domain.pure.transaction.sumTransactions
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnPurpose.TransferFrom
@@ -46,7 +46,7 @@ class CalculateFlow @Inject constructor(
     }
 
     suspend fun Input.calculate(
-        rates: ExchangeRatesData,
+        rates: ExchangeRates,
     ): Stats {
         val outputCurrency = this.outputCurrency ?: rates.baseCurrency
         val res = sumTransactions(
@@ -119,7 +119,7 @@ class CalculateFlow @Inject constructor(
     }
 
     private data class SumArg(
-        val rates: ExchangeRatesData,
+        val rates: ExchangeRates,
         val outputCurrency: CurrencyCode,
     )
 }

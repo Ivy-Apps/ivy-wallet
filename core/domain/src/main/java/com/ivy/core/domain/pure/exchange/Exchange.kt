@@ -1,19 +1,31 @@
 package com.ivy.core.domain.pure.exchange
 
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
+import arrow.core.*
 import arrow.core.computations.option
 import com.ivy.data.CurrencyCode
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 
+/**
+ * @return the successfully exchanged amount or the amount as it was if the rate was missing
+ */
+@JvmName("exchangeExt")
+suspend fun ExchangeRates.exchange(
+    from: CurrencyCode,
+    to: CurrencyCode,
+    amount: Double
+): Double = exchange(
+    exchangeData = this,
+    from = from,
+    to = to,
+    amount = amount
+).getOrElse { amount }
 
 suspend fun exchange(
-    exchangeData: ExchangeRatesData,
+    exchangeData: ExchangeRates,
     from: CurrencyCode,
     to: CurrencyCode,
     amount: Double,
-) = option {
+): Option<Double> = option {
     if (from == to) return@option amount
     if (amount == 0.0) return@option 0.0
 
@@ -27,7 +39,7 @@ suspend fun exchange(
 }
 
 suspend fun findRate(
-    ratesData: ExchangeRatesData,
+    ratesData: ExchangeRates,
     from: CurrencyCode,
     to: CurrencyCode,
 ): Option<Double> = option {
@@ -74,11 +86,9 @@ suspend fun findRate(
     }
 }
 
-
 private fun String.validateCurrency(): Option<String> {
     return if (this.isNotBlank()) return Some(this) else None
 }
-
 
 fun Double?.validateRate(): Option<Double> {
     val rate = this ?: return None

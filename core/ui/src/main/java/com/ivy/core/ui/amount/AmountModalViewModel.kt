@@ -10,7 +10,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.amount.data.CalculatorResultUi
 import com.ivy.data.Value
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 import com.ivy.math.calculator.appendDecimalSeparator
 import com.ivy.math.calculator.appendTo
 import com.ivy.math.calculator.beautify
@@ -32,7 +32,7 @@ internal class AmountModalViewModel @Inject constructor(
     private val baseCurrencyFlow: BaseCurrencyFlow,
 ) : FlowViewModel<AmountModalViewModel.InternalState, AmountModalState, AmountModalEvent>() {
     override val initialState = InternalState(
-        exchangeData = ExchangeRatesData(baseCurrency = "", rates = emptyMap()),
+        exchangeData = ExchangeRates(baseCurrency = "", rates = emptyMap()),
     )
 
     override val initialUi = AmountModalState(
@@ -198,6 +198,6 @@ internal class AmountModalViewModel @Inject constructor(
     // endregion
 
     data class InternalState(
-        val exchangeData: ExchangeRatesData
+        val exchangeData: ExchangeRates
     )
 }

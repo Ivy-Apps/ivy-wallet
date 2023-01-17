@@ -1,7 +1,7 @@
 package com.ivy.core.domain.action.exchange
 
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -55,7 +55,7 @@ class ExchangeRatesFlowTest {
         val res = exchangeRatesFlow().take(2).toList()
 
         // Assert
-        res.first() shouldBe ExchangeRatesData(
+        res.first() shouldBe ExchangeRates(
             baseCurrency = "", rates = emptyMap()
         )
         res[1].baseCurrency shouldBe "USD"

@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.ivy.core.persistence.algorithm.CalcTrnDao
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -54,26 +55,18 @@ import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
 )
 abstract class IvyWalletCoreDb : RoomDatabase() {
     abstract fun trnDao(): TrnDao
-
     abstract fun trnLinkRecordDao(): TrnLinkRecordDao
-
     abstract fun trnMetadataDao(): TrnMetadataDao
-
     abstract fun trnTagDao(): TrnTagDao
-
     abstract fun attachmentDao(): AttachmentDao
-
     abstract fun accountDao(): AccountDao
-
     abstract fun accountFolderDao(): AccountFolderDao
-
     abstract fun categoryDao(): CategoryDao
-
     abstract fun tagDao(): TagDao
-
     abstract fun exchangeRateDao(): ExchangeRateDao
-
     abstract fun exchangeRateOverrideDao(): ExchangeRateOverrideDao
+
+    abstract fun calcTrnDao(): CalcTrnDao
 
     companion object {
         private const val DB_NAME = "ivy-wallet-core.db"

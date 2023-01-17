@@ -8,7 +8,7 @@ import com.ivy.core.domain.pure.exchange.exchange
 import com.ivy.core.ui.account.adjustbalance.AdjustBalanceViewModel.State
 import com.ivy.core.ui.account.adjustbalance.data.AdjustType
 import com.ivy.data.account.Account
-import com.ivy.data.exchange.ExchangeRatesData
+import com.ivy.data.exchange.ExchangeRates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ internal class AdjustBalanceViewModel @Inject constructor(
     private val accountsFlow: AccountsFlow,
 ) : FlowViewModel<State, AdjustBalanceState, AdjustBalanceEvent>() {
     override val initialState: State = State(
-        ratesData = ExchangeRatesData(
+        ratesData = ExchangeRates(
             baseCurrency = "",
             rates = emptyMap(),
         ),
@@ -96,7 +96,7 @@ internal class AdjustBalanceViewModel @Inject constructor(
     // endregion
 
     data class State(
-        val ratesData: ExchangeRatesData,
+        val ratesData: ExchangeRates,
         val account: Account?,
     )
 }
