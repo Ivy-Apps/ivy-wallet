@@ -3,10 +3,10 @@ package com.ivy.accounts
 import com.ivy.accounts.data.AccountListItemUi
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.folder.AccountFoldersFlow
-import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
 import com.ivy.core.domain.action.data.AccountListItem
 import com.ivy.core.domain.action.exchange.ExchangeFlow
 import com.ivy.core.domain.action.exchange.SumValuesInCurrencyFlow
+import com.ivy.core.domain.algorithm.balance.AccBalanceFlow
 import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
@@ -30,12 +30,12 @@ class AccountTabViewModel @Inject constructor(
     private val accountFoldersFlow: AccountFoldersFlow,
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapFolderUiAct: MapFolderUiAct,
-    private val accBalanceFlow: AccBalanceFlow,
     private val sumValuesInCurrencyFlow: SumValuesInCurrencyFlow,
     private val exchangeFlow: ExchangeFlow,
     private val totalBalanceFlow: TotalBalanceFlow,
     private val navigator: Navigator,
     private val mainBottomBarVisibility: MainBottomBarVisibility,
+    private val accBalanceFlow: AccBalanceFlow
 ) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
     override val initialUi: AccountTabState = AccountTabState(
         totalBalance = ValueUi("", ""),
@@ -94,11 +94,11 @@ class AccountTabViewModel @Inject constructor(
                 .map { item ->
                     when (item) {
                         is AccountListItem.AccountHolder ->
-                            item to listOf(accBalanceFlow(AccBalanceFlow.Input(item.account)))
+                            item to listOf(accBalanceFlow(item.account))
                         is AccountListItem.FolderWithAccounts -> item to item.accounts
-                            .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                            .map { accBalanceFlow(it) }
                         is AccountListItem.Archived -> item to item.accounts
-                            .map { accBalanceFlow(AccBalanceFlow.Input(it)) }
+                            .map { accBalanceFlow(it) }
                     }
                 }.map { (item, balanceFlows) ->
                     // Handle empty folders with no accounts inside
