@@ -16,6 +16,11 @@ Background young concurrent copying GC freed 616663(21MB) AllocSpace objects, 0(
 2023-01-12 22:35:34.451  6004-6016  vy.wallet.debug         com.ivy.wallet.debug                 I  Background concurrent copying GC freed 740158(26MB) AllocSpace objects, 0(0B) LOS objects, 28% free, 59MB/83MB, paused 86us,66us total 851.010ms
 ```
 
+## Memory Eaters
+- "Home" and "Account" tabs are in the same Compose navigation graph node => "Accounts" tab spawn many unnecessary ViewModels. **Solution: Make "Home" and "Accounts" different Navigation graph nodes** 
+- Unnecessary ViewModels for hidden modals (e.g. Accounts tab: CreateAccModal, CurrencyModal, IconsModal, ColorsModal, Folder modals...) **Solution: Create Modal's ViewModel only when the modal is being shown**)
+- Nested flows that makes JOIN in the code. **Solution: Use Room DB Views**
+
 ## Bottleneck
 
 > :warning: `combine(trns.map { trnFlow() }` can potentially spawn 3k+ flows and totally destroy our RAM...
