@@ -1,5 +1,7 @@
 package com.ivy.core.domain.algorithm.accountcache
 
+import arrow.core.None
+import arrow.core.Some
 import com.ivy.core.domain.action.FlowAction
 import com.ivy.core.domain.algorithm.calc.data.RawStats
 import com.ivy.core.domain.algorithm.calc.plus
@@ -9,7 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import java.time.Instant
 import javax.inject.Inject
 
 class RawAccStatsFlow @Inject constructor(
@@ -22,42 +23,53 @@ class RawAccStatsFlow @Inject constructor(
         val accountCacheFlow = db.accountCacheDao().findAccountCache(accountId)
 
         return accountCacheFlow.flatMapLatest { cache ->
-            if (cache != null) {
-                val cachedRawStats = accountCacheToRawStats(cache).orNull()
-                    ?: return@flatMapLatest fromScratch()
-                withCache(
+            when (val cachedStats = cache?.let(::accountCacheToRawStats)) {
+                is Some -> withCache(
                     accountId = accountId,
-                    cachedStats = cachedRawStats,
-                    cacheTime = cache.timestamp
+                    cache = cachedStats.value,
                 )
-            } else fromScratch()
+                null, None -> fromScratch(accountId)
+            }
         }
     }
 
     private fun withCache(
         accountId: String,
-        cachedStats: RawStats,
-        cacheTime: Instant
-    ): Flow<RawStats> {
-        val trnDao = db.calcTrnDao()
-        trnDao.findActualByAccountAfter(
-            accountId = accountId,
-            timestamp = cacheTime
-        ).map { newerTrns ->
-            if (newerTrns.isEmpty()) {
-                // No new transactions, the result will be the cache value
-                return@map cacheTime
-            }
-            val newerStats = rawStats(newerTrns)
-
-            val stats = cachedStats + newerStats
-
+        cache: RawStats,
+    ): Flow<RawStats> = db.calcTrnDao().findActualByAccountAfter(
+        accountId = accountId,
+        timestamp = cache.newestTrnTime
+    ).map { newerTrns ->
+        if (newerTrns.isEmpty()) {
+            // No new transactions, the result will be the cache value
+            return@map cache
         }
-        TODO()
+
+        val newer = rawStats(newerTrns)
+        val result = cache + newer
+
+        updateCache(accountId, result)
+
+        result
     }
 
-    private fun fromScratch(): Flow<RawStats> {
-        TODO()
+    private fun fromScratch(
+        accountId: String
+    ): Flow<RawStats> {
+        return db.calcTrnDao().findAllActualByAccount(accountId)
+            .map { trns ->
+                val stats = rawStats(trns)
+
+                updateCache(accountId, stats)
+
+                stats
+            }
     }
 
+    private suspend fun updateCache(accountId: String, stats: RawStats) {
+        db.accountCacheDao().save(
+            rawStatsToAccountCache(accountId, stats)
+        )
+    }
 }
+

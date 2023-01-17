@@ -5,12 +5,10 @@ import com.ivy.core.domain.algorithm.calc.data.RawStats
 import com.ivy.core.persistence.algorithm.accountcache.AccountCacheEntity
 import com.ivy.data.CurrencyCode
 import org.json.JSONObject
-import java.time.Instant
 
 fun rawStatsToAccountCache(
     accountId: String,
     rawStats: RawStats,
-    timestamp: Instant,
 ): AccountCacheEntity {
     fun mapToJson(map: Map<CurrencyCode, Double>): String {
         val json = JSONObject()
@@ -26,7 +24,7 @@ fun rawStatsToAccountCache(
         expensesJson = mapToJson(rawStats.expenses),
         incomesCount = rawStats.incomesCount,
         expensesCount = rawStats.expensesCount,
-        timestamp = timestamp,
+        timestamp = rawStats.newestTrnTime,
     )
 }
 
@@ -45,7 +43,8 @@ fun accountCacheToRawStats(cache: AccountCacheEntity): Option<RawStats> {
             incomes = jsonToMap(cache.incomesJson),
             expenses = jsonToMap(cache.expensesJson),
             incomesCount = cache.incomesCount,
-            expensesCount = cache.expensesCount
+            expensesCount = cache.expensesCount,
+            newestTrnTime = cache.timestamp
         )
     }
 }

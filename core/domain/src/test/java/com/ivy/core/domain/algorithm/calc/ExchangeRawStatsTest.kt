@@ -6,9 +6,10 @@ import com.ivy.data.Value
 import com.ivy.data.exchange.ExchangeRates
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import java.time.Instant
 
 class ExchangeRawStatsTest : FreeSpec({
-    "exchange raw stats" - {
+    "exchange raw stats" {
         // Arrange
         val rawStats = RawStats(
             incomes = mutableMapOf(
@@ -19,14 +20,15 @@ class ExchangeRawStatsTest : FreeSpec({
                 "EUR" to 5.0,
                 "BGN" to 10.0,
             ),
-            expensesCount = 2
+            expensesCount = 2,
+            newestTrnTime = Instant.MAX,
         )
         val rates = ExchangeRates(
             baseCurrency = "BGN",
             rates = mutableMapOf(
                 // 1 BGN = 0.5 EUR
                 "EUR" to 0.5
-            )
+            ),
         )
 
         // Act

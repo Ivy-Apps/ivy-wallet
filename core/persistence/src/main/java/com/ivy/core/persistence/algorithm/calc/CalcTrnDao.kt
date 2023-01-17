@@ -10,7 +10,7 @@ import java.time.Instant
 @Dao
 interface CalcTrnDao {
     @Query(
-        "SELECT amount, currency, type FROM transactions WHERE" +
+        "SELECT amount, currency, type, time FROM transactions WHERE" +
                 " accountId = :accountId AND time > :timestamp AND timeType = $ActualCode" +
                 " AND sync != $DELETING"
     )
@@ -18,4 +18,11 @@ interface CalcTrnDao {
         accountId: String,
         timestamp: Instant
     ): Flow<List<CalcTrn>>
+
+    @Query(
+        "SELECT amount, currency, type, time FROM transactions WHERE" +
+                " accountId = :accountId AND  timeType = $ActualCode" +
+                " AND sync != $DELETING"
+    )
+    fun findAllActualByAccount(accountId: String): Flow<List<CalcTrn>>
 }

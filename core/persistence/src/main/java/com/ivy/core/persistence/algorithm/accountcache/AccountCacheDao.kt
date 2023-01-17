@@ -11,5 +11,5 @@ interface AccountCacheDao {
     fun findAccountCache(accountId: String): Flow<AccountCacheEntity?>
 
     @Upsert
-    fun save(cache: AccountCacheEntity)
+    suspend fun save(cache: AccountCacheEntity)
 }

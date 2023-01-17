@@ -21,18 +21,17 @@ class AccountCacheMapperTest : FreeSpec({
                 incomes = mapGen.bind(),
                 expenses = mapGen.bind(),
                 incomesCount = Arb.int(min = 0).bind(),
-                expensesCount = Arb.int(min = 0).bind()
+                expensesCount = Arb.int(min = 0).bind(),
+                newestTrnTime = Arb.instant().bind(),
             )
         }
         checkAll(
             rawStatsGen,
             Arb.uuid(),
-            Arb.instant()
-        ) { originalStats, accountId, timestamp ->
+        ) { originalStats, accountId ->
             val cache = rawStatsToAccountCache(
                 accountId = accountId.toString(),
                 rawStats = originalStats,
-                timestamp = timestamp
             )
 
             when (val res = accountCacheToRawStats(cache)) {

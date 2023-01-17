@@ -1,21 +1,26 @@
 package com.ivy.core.domain.algorithm.calc
 
+import com.ivy.common.test.testTimeProvider
+import com.ivy.common.time.toUtc
 import com.ivy.core.domain.algorithm.calc.data.RawStats
 import com.ivy.core.persistence.algorithm.calc.CalcTrn
-import com.ivy.data.transaction.TransactionType
+import com.ivy.data.transaction.TransactionType.Expense
+import com.ivy.data.transaction.TransactionType.Income
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import java.time.Instant
 
 class RawStatsTest : FreeSpec({
-    "calculate raw stats" - {
+    "calculate raw stats" {
+        val now = testTimeProvider().timeNow().toUtc(testTimeProvider())
         val trns = listOf(
-            CalcTrn(amount = 10.0, currency = "EUR", TransactionType.Income),
-            CalcTrn(amount = 0.01, currency = "EUR", TransactionType.Income),
-            CalcTrn(amount = 5.0, currency = "BGN", TransactionType.Income),
-            CalcTrn(amount = 100.0, currency = "BGN", TransactionType.Expense),
-            CalcTrn(amount = 1.5, currency = "BGN", TransactionType.Expense),
-            CalcTrn(amount = 10_000.0, currency = "USD", TransactionType.Expense),
-            CalcTrn(amount = 0.005, currency = "BTC", TransactionType.Expense),
+            CalcTrn(amount = 10.0, currency = "EUR", Income, now),
+            CalcTrn(amount = 0.01, currency = "EUR", Income, now),
+            CalcTrn(amount = 5.0, currency = "BGN", Income, now),
+            CalcTrn(amount = 100.0, currency = "BGN", Expense, now.plusSeconds(10)),
+            CalcTrn(amount = 1.5, currency = "BGN", Expense, now.plusSeconds(5)),
+            CalcTrn(amount = 10_000.0, currency = "USD", Expense, now),
+            CalcTrn(amount = 0.005, currency = "BTC", Expense, now),
         ).shuffled()
 
         val res = rawStats(trns)
@@ -32,6 +37,7 @@ class RawStatsTest : FreeSpec({
             ),
             incomesCount = 3,
             expensesCount = 4,
+            newestTrnTime = now.plusSeconds(10)
         )
     }
 
@@ -49,6 +55,7 @@ class RawStatsTest : FreeSpec({
             ),
             incomesCount = 3,
             expensesCount = 4,
+            newestTrnTime = Instant.MIN,
         )
         val b = RawStats(
             incomes = mapOf(
@@ -61,6 +68,7 @@ class RawStatsTest : FreeSpec({
             ),
             incomesCount = 6,
             expensesCount = 3,
+            newestTrnTime = Instant.MAX,
         )
 
         // Act
@@ -80,7 +88,8 @@ class RawStatsTest : FreeSpec({
                 "BGN" to 101.5,
             ),
             incomesCount = 9,
-            expensesCount = 7
+            expensesCount = 7,
+            newestTrnTime = Instant.MAX
         )
     }
 })

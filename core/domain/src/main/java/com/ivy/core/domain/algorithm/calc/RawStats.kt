@@ -4,6 +4,7 @@ import com.ivy.core.domain.algorithm.calc.data.RawStats
 import com.ivy.core.persistence.algorithm.calc.CalcTrn
 import com.ivy.data.CurrencyCode
 import com.ivy.data.transaction.TransactionType
+import java.time.Instant
 
 /**
  *
@@ -13,6 +14,8 @@ fun rawStats(trns: List<CalcTrn>): RawStats {
     val expenses = mutableMapOf<CurrencyCode, Double>()
     var incomesCount = 0
     var expensesCount = 0
+
+    var newestTrnTime = Instant.MIN
 
     trns.forEach { trn ->
         when (trn.type) {
@@ -25,6 +28,9 @@ fun rawStats(trns: List<CalcTrn>): RawStats {
                 expenses.aggregate(trn)
             }
         }
+        if (trn.time > newestTrnTime) {
+            newestTrnTime = trn.time
+        }
     }
 
     return RawStats(
@@ -32,11 +38,14 @@ fun rawStats(trns: List<CalcTrn>): RawStats {
         expenses = expenses,
         incomesCount = incomesCount,
         expensesCount = expensesCount,
+        newestTrnTime = newestTrnTime,
     )
 }
 
 /**
  * Sums all values in two [RawStats] instances.
+ *
+ * @return RawStats picking the largest newestTrnTimeo
  *
  * Complexity:
  * **O(m+n) space-time**
@@ -59,7 +68,8 @@ infix operator fun RawStats.plus(other: RawStats): RawStats {
         incomes = sumMaps(incomes, other.incomes),
         expenses = sumMaps(expenses, other.expenses),
         incomesCount = incomesCount + other.incomesCount,
-        expensesCount = expensesCount + other.expensesCount
+        expensesCount = expensesCount + other.expensesCount,
+        newestTrnTime = maxOf(newestTrnTime, other.newestTrnTime)
     )
 }
 
