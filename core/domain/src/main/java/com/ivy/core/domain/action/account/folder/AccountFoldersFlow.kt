@@ -21,7 +21,7 @@ class AccountFoldersFlow @Inject constructor(
     private val accountFolderDao: AccountFolderDao,
     private val timeProvider: TimeProvider,
 ) : FlowAction<Unit, List<AccountListItem>>() {
-    override fun Unit.createFlow(): Flow<List<AccountListItem>> = combine(
+    override fun createFlow(input: Unit): Flow<List<AccountListItem>> = combine(
         accountsFlow(), accountFolderDao.findAll()
     ) { accounts, folderEntities ->
         val archived = AccountListItem.Archived(

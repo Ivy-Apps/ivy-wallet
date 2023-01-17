@@ -21,12 +21,12 @@ class AccBalanceFlow @Inject constructor(
         val outputCurrency: CurrencyCode = account.currency,
     )
 
-    override fun Input.createFlow(): Flow<Value> = accStatsFlow(
+    override fun createFlow(input: Input): Flow<Value> = accStatsFlow(
         AccStatsFlow.Input(
-            account = account,
+            account = input.account,
             range = allTime(),
             includeHidden = true,
-            outputCurrency = outputCurrency
+            outputCurrency = input.outputCurrency
         )
     ).map { stats ->
         stats.balance

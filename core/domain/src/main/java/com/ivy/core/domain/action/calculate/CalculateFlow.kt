@@ -41,11 +41,11 @@ class CalculateFlow @Inject constructor(
         val outputCurrency: CurrencyCode? = null,
     )
 
-    override fun Input.createFlow(): Flow<Stats> = exchangeRatesFlow().map { rates ->
-        calculate(rates = rates)
+    override fun createFlow(input: Input): Flow<Stats> = exchangeRatesFlow().map { rates ->
+        input.calculate(rates = rates)
     }
 
-    suspend fun Input.calculate(
+    private suspend fun Input.calculate(
         rates: ExchangeRates,
     ): Stats {
         val outputCurrency = this.outputCurrency ?: rates.baseCurrency

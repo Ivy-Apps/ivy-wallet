@@ -21,15 +21,15 @@ class CategoriesListFlow @Inject constructor(
         val trnType: TransactionType?,
     )
 
-    override fun Input.createFlow(): Flow<List<CategoryListItem>> =
+    override fun createFlow(input: Input): Flow<List<CategoryListItem>> =
         categoriesFlow()
             // Filter only categories that match the selected transaction type
             .map { categories ->
-                if (trnType != null) {
+                if (input.trnType != null) {
                     categories.filter {
                         when (it.type) {
-                            CategoryType.Income -> trnType == TransactionType.Income
-                            CategoryType.Expense -> trnType == TransactionType.Expense
+                            CategoryType.Income -> input.trnType == TransactionType.Income
+                            CategoryType.Expense -> input.trnType == TransactionType.Expense
                             CategoryType.Both -> true
                         }
                     }

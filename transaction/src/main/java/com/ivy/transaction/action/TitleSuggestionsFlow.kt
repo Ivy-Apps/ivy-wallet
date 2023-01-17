@@ -23,11 +23,11 @@ class TitleSuggestionsFlow @Inject constructor(
         val transfer: Boolean,
     )
 
-    override fun Input.createFlow(): Flow<List<String>> =
-        trnsFlow(suggestionsQuery()).map { trns ->
+    override fun createFlow(input: Input): Flow<List<String>> =
+        trnsFlow(input.suggestionsQuery()).map { trns ->
             suggestTitle(
                 transactions = trns,
-                title = title,
+                title = input.title,
             )
         }
 

@@ -41,9 +41,9 @@ class GroupTrnsFlow @Inject constructor(
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun List<Transaction>.createFlow(): Flow<TransactionsList> =
+    override fun createFlow(input: List<Transaction>): Flow<TransactionsList> =
         trnLinkRecordDao.findAll().map { links ->
-            val visibleTrns = this.filter {
+            val visibleTrns = input.filter {
                 it.state != TrnState.Hidden
             }
             batchTrns(trns = visibleTrns, links = links)

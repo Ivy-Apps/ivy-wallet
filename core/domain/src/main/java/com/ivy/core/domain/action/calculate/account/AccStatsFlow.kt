@@ -10,6 +10,7 @@ import com.ivy.core.domain.action.transaction.and
 import com.ivy.data.CurrencyCode
 import com.ivy.data.account.Account
 import com.ivy.data.time.TimeRange
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -33,15 +34,15 @@ class AccStatsFlow @Inject constructor(
         val outputCurrency: CurrencyCode = account.currency,
     )
 
-    @OptIn(FlowPreview::class)
-    override fun Input.createFlow(): Flow<Stats> =
-        trnsFlow(ByAccountId(account.id) and ActualBetween(range))
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    override fun createFlow(input: Input): Flow<Stats> =
+        trnsFlow(ByAccountId(input.account.id) and ActualBetween(input.range))
             .flatMapLatest { trns ->
                 calculateFlow(
                     CalculateFlow.Input(
                         trns = trns,
-                        outputCurrency = outputCurrency,
-                        includeHidden = includeHidden,
+                        outputCurrency = input.outputCurrency,
+                        includeHidden = input.includeHidden,
                         includeTransfers = true
                     )
                 )

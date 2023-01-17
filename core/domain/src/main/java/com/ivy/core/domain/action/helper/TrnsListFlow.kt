@@ -17,7 +17,7 @@ class TrnsListFlow @Inject constructor(
 ) : FlowAction<TrnQuery, TransactionsList>() {
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-    override fun TrnQuery.createFlow(): Flow<TransactionsList> = trnsFlow(this)
+    override fun createFlow(input: TrnQuery): Flow<TransactionsList> = trnsFlow(input)
         .flatMapLatest {
             groupTrnsFlow(it)
         }

@@ -21,9 +21,9 @@ abstract class SharedFlowAction<T> {
     /**
      * @return this initial value immediately after the flow is started.
      */
-    abstract fun initialValue(): T
+    protected abstract fun initialValue(): T
 
-    abstract fun createFlow(): Flow<T>
+    protected abstract fun createFlow(): Flow<T>
 
     /**
      * @return the mode in which the created flow will start.

@@ -32,8 +32,8 @@ class CatStatsFlow @Inject constructor(
     )
 
     @OptIn(FlowPreview::class)
-    override fun Input.createFlow(): Flow<Stats> = trnsFlow(
-        ByCategoryId(categoryId = category?.id) and ActualBetween(range)
+    override fun createFlow(input: Input): Flow<Stats> = trnsFlow(
+        ByCategoryId(categoryId = input.category?.id) and ActualBetween(input.range)
     ).flatMapLatest { trns ->
         calculateFlow(
             CalculateFlow.Input(

@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 abstract class Action<in Input, out Output> {
-    abstract suspend fun action(input: Input): Output
+    protected abstract suspend fun action(input: Input): Output
 
     protected open fun dispatcher(): CoroutineDispatcher = Dispatchers.IO
 

@@ -23,32 +23,32 @@ class CategoryPickerItemsFlow @Inject constructor(
         val trnType: TransactionType?,
     )
 
-    override fun Input.createFlow(): Flow<List<CategoryPickerItemUi>> =
-        categoriesListFlow(CategoriesListFlow.Input(trnType = trnType))
+    override fun createFlow(input: Input): Flow<List<CategoryPickerItemUi>> =
+        categoriesListFlow(CategoriesListFlow.Input(trnType = input.trnType))
             .map { items ->
                 items.mapNotNull { item ->
                     when (item) {
                         is CategoryListItem.Archived -> null
                         is CategoryListItem.CategoryHolder -> SelectableCategoryUi(
                             category = mapCategoryUiAct(item.category),
-                            selected = item.category.id.toString() == selectedCategory?.id,
+                            selected = item.category.id.toString() == input.selectedCategory?.id,
                         )
                         is CategoryListItem.ParentCategory -> {
                             val hasSelectedChild = item.children.any {
-                                it.id.toString() == selectedCategory?.id
+                                it.id.toString() == input.selectedCategory?.id
                             }
                             CategoryPickerItemUi.ParentCategory(
                                 parent = SelectableCategoryUi(
                                     category = mapCategoryUiAct(item.parent),
-                                    selected = item.parent.id.toString() == selectedCategory?.id ||
+                                    selected = item.parent.id.toString() == input.selectedCategory?.id ||
                                             hasSelectedChild,
                                 ),
-                                expanded = expandedParent?.id == item.parent.id.toString() ||
+                                expanded = input.expandedParent?.id == item.parent.id.toString() ||
                                         hasSelectedChild,
                                 children = item.children.map {
                                     SelectableCategoryUi(
                                         category = mapCategoryUiAct(it),
-                                        selected = it.id.toString() == selectedCategory?.id,
+                                        selected = it.id.toString() == input.selectedCategory?.id,
                                     )
                                 }
                             )

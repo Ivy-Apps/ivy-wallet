@@ -10,6 +10,7 @@ import com.ivy.core.domain.pure.util.combineSafe
 import com.ivy.data.CurrencyCode
 import com.ivy.data.Value
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -35,10 +36,11 @@ class TotalBalanceFlow @Inject constructor(
         val outputCurrency: CurrencyCode? = null,
     )
 
-    override fun Input.createFlow(): Flow<Value> = accountsFlow().map { allAccounts ->
-        if (withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun createFlow(input: Input): Flow<Value> = accountsFlow().map { allAccounts ->
+        if (input.withExcludedAccs) allAccounts else allAccounts.filter { !it.excluded }
     }.flatMapLatest { accs ->
-        outputCurrencyFlow().flatMapLatest { outputCurrency ->
+        input.outputCurrencyFlow().flatMapLatest { outputCurrency ->
             combineSafe(
                 flows = accs.map {
                     accStatsFlow(

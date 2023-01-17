@@ -12,7 +12,7 @@ class ThemeFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : FlowAction<Unit, Theme>() {
-    override fun Unit.createFlow(): Flow<Theme> =
+    override fun createFlow(input: Unit): Flow<Theme> =
         dataStore.get(settingsKeys.theme)
             .map { it?.let(Theme::fromCode) ?: Theme.Auto }
 }

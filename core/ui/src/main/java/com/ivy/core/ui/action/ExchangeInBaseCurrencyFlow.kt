@@ -18,10 +18,10 @@ class ExchangeInBaseCurrencyFlow @Inject constructor(
     private val exchangeFlow: ExchangeFlow,
 ) : FlowAction<Value, ValueUi?>() {
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun Value.createFlow(): Flow<ValueUi?> =
+    override fun createFlow(input: Value): Flow<ValueUi?> =
         baseCurrencyFlow().map { baseCurrency ->
-            if (currency != baseCurrency) {
-                exchangeFlow(ExchangeFlow.Input(this, baseCurrency))
+            if (input.currency != baseCurrency) {
+                exchangeFlow(ExchangeFlow.Input(input, baseCurrency))
             } else {
                 flowOf(null)
             }

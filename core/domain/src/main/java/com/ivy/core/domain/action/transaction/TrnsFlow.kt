@@ -68,10 +68,10 @@ class TrnsFlow @Inject constructor(
     private val timeProvider: TimeProvider,
 ) : FlowAction<TrnQuery, List<Transaction>>() {
 
-    override fun TrnQuery.createFlow(): Flow<List<Transaction>> = combine(
+    override fun createFlow(input: TrnQuery): Flow<List<Transaction>> = combine(
         accountsFlow(), categoriesFlow(), trnsSignal.receive()
     ) { accs, cats, _ ->
-        val dbQuery = brackets(this.toTrnWhere()) and not(TrnWhere.BySync(SyncState.Deleting))
+        val dbQuery = brackets(input.toTrnWhere()) and not(TrnWhere.BySync(SyncState.Deleting))
         val entities = queryExecutor.query(dbQuery)
         if (entities.isEmpty()) {
             return@combine flowOf(emptyList())

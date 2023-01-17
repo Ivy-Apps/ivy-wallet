@@ -11,7 +11,7 @@ class HideBalanceFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : FlowAction<Unit, Boolean>() {
-    override fun Unit.createFlow(): Flow<Boolean> =
+    override fun createFlow(input: Unit): Flow<Boolean> =
         dataStore.get(settingsKeys.hideBalance)
             .map { it ?: false }
 }

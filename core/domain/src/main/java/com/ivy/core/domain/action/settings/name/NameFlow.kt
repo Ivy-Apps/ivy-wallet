@@ -10,7 +10,7 @@ class NameFlow @Inject constructor(
     private val dataStore: IvyDataStore,
     private val settingsKeys: SettingsKeys
 ) : com.ivy.core.domain.action.FlowAction<Unit, String>() {
-    override fun Unit.createFlow(): Flow<String> =
+    override fun createFlow(input: Unit): Flow<String> =
         dataStore.get(settingsKeys.displayName)
             .filterNotNull()
 }

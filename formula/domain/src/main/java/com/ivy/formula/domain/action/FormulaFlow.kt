@@ -14,7 +14,7 @@ import javax.inject.Inject
 class FormulaFlow @Inject constructor(
     private val dataSourceFlow: DataSourceFlow
 ) : FlowAction<Formula, Double>() {
-    override fun Formula.createFlow(): Flow<Double> = executeFormula(this)
+    override fun createFlow(input: Formula): Flow<Double> = executeFormula(input)
 
     private fun executeFormula(formula: Formula): Flow<Double> =
         executeFunction(

@@ -23,10 +23,10 @@ class SumValuesInCurrencyFlow @Inject constructor(
         val outputCurrency: CurrencyCode? = null,
     )
 
-    override fun Input.createFlow(): Flow<Value> =
+    override fun createFlow(input: Input): Flow<Value> =
         exchangeRatesFlow().map { rates ->
-            val outputCurrency = this.outputCurrency ?: rates.baseCurrency
-            val sum = values.sumOf {
+            val outputCurrency = input.outputCurrency ?: rates.baseCurrency
+            val sum = input.values.sumOf {
                 exchange(
                     exchangeData = rates,
                     from = it.currency, to = outputCurrency,
