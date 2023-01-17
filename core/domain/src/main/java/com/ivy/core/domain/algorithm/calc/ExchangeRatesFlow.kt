@@ -3,6 +3,7 @@ package com.ivy.core.domain.algorithm.calc
 import com.ivy.core.domain.action.SharedFlowAction
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.persistence.algorithm.RatesDao
+import com.ivy.data.CurrencyCode
 import com.ivy.data.exchange.ExchangeRates
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -32,9 +33,20 @@ class ExchangeRatesFlow @Inject constructor(
                     ratesDao.findAll(baseCurrency),
                     ratesDao.findAllOverrides(baseCurrency)
                 ) { rates, overrides ->
-                    TODO()
+                    val finalRates = mutableMapOf<CurrencyCode, Double>()
+                    // Automatic (remotely fetched) rates
+                    rates.forEach { entry ->
+                        finalRates[entry.currency] = entry.rate
+                    }
+                    // Manually overridden or custom added rates
+                    overrides.forEach { entry ->
+                        finalRates[entry.currency] = entry.rate
+                    }
+                    ExchangeRates(
+                        baseCurrency = baseCurrency,
+                        rates = finalRates,
+                    )
                 }
             }
         }
-
 }
