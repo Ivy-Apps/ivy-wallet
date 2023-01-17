@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg
-id="d2-svg"
-style="background: white;"
-xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-width="3229" height="3112" viewBox="-102 -102 3229 3112"><style type="text/css">
-<![CDATA[
+<svg id="d2-svg" style="background: white;" xmlns="http://www.w3.org/2000/svg" width="3636"
+    height="3392" viewBox="-102 -102 3636 3392">
+    <style type="text/css">
+        <![CDATA[
 .shape {
   shape-rendering: geometricPrecision;
   stroke-linejoin: round;
@@ -39,97 +37,657 @@ width="3229" height="3112" viewBox="-102 -102 3229 3112"><style type="text/css">
     svgEl.setAttribute("height", height * ratio - 16);
   }
 });
-]]></script><g id="db"><g class="shape" ><path d="M 367 24 C 367 0 1037.5 0 1112 0 C 1186.5 0 1857 0 1857 24 V 1196 C 1857 1220 1186.5 1220 1112 1220 C 1037.5 1220 367 1220 367 1196 V 24 Z" style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"/><path d="M 367 24 C 367 48 1037.5 48 1112 48 C 1186.5 48 1857 48 1857 24" style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"/></g><text class="text" x="1112.000000" y="81.000000" style="text-anchor:middle;font-size:28px;fill:#0A0F25">Database</text></g><g id="TrnHistoryFlow"><g class="shape" ><rect x="0" y="1320" width="1831" height="1588" style="fill:#E3E9FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="915.500000" y="1353.000000" style="text-anchor:middle;font-size:28px;fill:#0A0F25">TrnHistoryFlow</text></g><g id="TrnListUi"><g class="shape" ><rect class="shape" x="2211" y="2001" width="433" height="230" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="2211.000000" y="2001.000000" width="433.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="2427.500000" y="2056.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TrnListUi</text><text class="text-mono" x="2221.000000" y="2121.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2241.000000" y="2121.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">upcoming</text>
-<text class="text-mono" x="2624.000000" y="2121.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">DueSectionUi?</text><text class="text-mono" x="2221.000000" y="2167.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2241.000000" y="2167.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">overdue</text>
-<text class="text-mono" x="2624.000000" y="2167.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">DueSectionUi?</text><text class="text-mono" x="2221.000000" y="2213.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2241.000000" y="2213.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">history</text>
-<text class="text-mono" x="2624.000000" y="2213.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">List&lt;TrnHistoryDayUi&gt;</text><line x1="2211.000000" y1="2231.000000" x2="2644.000000" y2="2231.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnHistoryDayUi"><g class="shape" ><rect class="shape" x="2060" y="1508" width="337" height="184" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="2060.000000" y="1508.000000" width="337.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="2228.500000" y="1563.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TrnHistoryDayUi</text><text class="text-mono" x="2070.000000" y="1628.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2090.000000" y="1628.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">cashflow</text>
-<text class="text-mono" x="2377.000000" y="1628.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?</text><text class="text-mono" x="2070.000000" y="1674.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2090.000000" y="1674.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">cards</text>
-<text class="text-mono" x="2377.000000" y="1674.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">List&lt;TrnCardUi&gt;</text><line x1="2060.000000" y1="1692.000000" x2="2397.000000" y2="1692.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="DueSectionUi"><g class="shape" ><rect class="shape" x="2538" y="1485" width="337" height="230" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="2538.000000" y="1485.000000" width="337.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="2706.500000" y="1540.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">DueSectionUi</text><text class="text-mono" x="2548.000000" y="1605.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2568.000000" y="1605.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">income</text>
-<text class="text-mono" x="2855.000000" y="1605.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?</text><text class="text-mono" x="2548.000000" y="1651.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2568.000000" y="1651.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">expense</text>
-<text class="text-mono" x="2855.000000" y="1651.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?</text><text class="text-mono" x="2548.000000" y="1697.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2568.000000" y="1697.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">cards</text>
-<text class="text-mono" x="2855.000000" y="1697.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">List&lt;TrnCardUi&gt;</text><line x1="2538.000000" y1="1715.000000" x2="2875.000000" y2="1715.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnCardUi"><g class="shape" ><rect x="2070" y="426" width="955" height="794" style="fill:#E3E9FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="2547.500000" y="459.000000" style="text-anchor:middle;font-size:28px;fill:#0A0F25">TrnCardUi</text></g><g id="db.transactions"><g class="shape" ><rect x="407" y="50" width="770" height="1120" style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="792.000000" y="79.000000" style="text-anchor:middle;font-size:24px;fill:#0A0F25">transactions</text></g><g id="db.trn_links"><g class="shape" ><rect x="1217" y="50" width="600" height="1120" style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="1517.000000" y="79.000000" style="text-anchor:middle;font-size:24px;fill:#0A0F25">trn_links</text></g><g id="TrnHistoryFlow.in"><g class="shape" ><rect class="shape" x="50" y="1531" width="779" height="138" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="50.000000" y="1531.000000" width="779.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="439.500000" y="1586.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Input</text><text class="text-mono" x="60.000000" y="1651.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="80.000000" y="1651.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">query</text>
-<text class="text-mono" x="809.000000" y="1651.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">All | ByCategory(id: String) | ByAccount(id: String)</text><line x1="50.000000" y1="1669.000000" x2="829.000000" y2="1669.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnHistoryFlow.deps"><g class="shape" ><rect class="shape" x="889" y="1370" width="531" height="460" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="889.000000" y="1370.000000" width="531.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="1154.500000" y="1425.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Dependencies</text><text class="text-mono" x="899.000000" y="1490.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1490.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">calcHistoryTrnDao</text>
-<text class="text-mono" x="1400.000000" y="1490.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">CalHistoryTrnDao</text><text class="text-mono" x="899.000000" y="1536.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1536.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">trnLinksDao</text>
-<text class="text-mono" x="1400.000000" y="1536.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">TrnLinksDao</text><text class="text-mono" x="899.000000" y="1582.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1582.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">selectedPeriodFlow</text>
-<text class="text-mono" x="1400.000000" y="1582.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">SelectedPeriodFlow</text><text class="text-mono" x="899.000000" y="1628.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1628.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">baseCurrencyFlow</text>
-<text class="text-mono" x="1400.000000" y="1628.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">BaseCurrencyFlow</text><text class="text-mono" x="899.000000" y="1674.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1674.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">rateFlow</text>
-<text class="text-mono" x="1400.000000" y="1674.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">RateFlow</text><text class="text-mono" x="899.000000" y="1720.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1720.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">accountsFlow</text>
-<text class="text-mono" x="1400.000000" y="1720.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">AccountsFlow</text><text class="text-mono" x="899.000000" y="1766.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1766.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">categoriesFlow</text>
-<text class="text-mono" x="1400.000000" y="1766.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">CategoriesFlow</text><text class="text-mono" x="899.000000" y="1812.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="919.000000" y="1812.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">itemIconAct</text>
-<text class="text-mono" x="1400.000000" y="1812.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ItemIconAct</text><line x1="889.000000" y1="1830.000000" x2="1420.000000" y2="1830.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnHistoryFlow.p"><g class="shape" ><rect x="259" y="1951" width="1021" height="907" style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="769.500000" y="1980.000000" style="text-anchor:middle;font-size:24px;fill:#0A0F25">Process</text></g><g id="TrnHistoryFlow.out"><g class="shape" ><rect class="shape" x="1504" y="2352" width="277" height="230" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="1504.000000" y="2352.000000" width="277.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="1642.500000" y="2407.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Output</text><text class="text-mono" x="1514.000000" y="2472.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="1534.000000" y="2472.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">income</text>
-<text class="text-mono" x="1761.000000" y="2472.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?</text><text class="text-mono" x="1514.000000" y="2518.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="1534.000000" y="2518.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">expense</text>
-<text class="text-mono" x="1761.000000" y="2518.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?</text><text class="text-mono" x="1514.000000" y="2564.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="1534.000000" y="2564.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">trnList</text>
-<text class="text-mono" x="1761.000000" y="2564.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">TrnList</text><line x1="1504.000000" y1="2582.000000" x2="1781.000000" y2="2582.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnCardUi.TransactionUi"><g class="shape" ><rect class="shape" x="2241" y="568" width="373" height="460" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="2241.000000" y="568.000000" width="373.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="2427.500000" y="623.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TransactionUi</text><text class="text-mono" x="2251.000000" y="688.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="688.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">id</text>
-<text class="text-mono" x="2594.000000" y="688.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><text class="text-mono" x="2251.000000" y="734.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="734.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">amount</text>
-<text class="text-mono" x="2594.000000" y="734.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi</text><text class="text-mono" x="2251.000000" y="780.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="780.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">account</text>
-<text class="text-mono" x="2594.000000" y="780.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">AccountUi</text><text class="text-mono" x="2251.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">category</text>
-<text class="text-mono" x="2594.000000" y="826.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">CategoryUi?</text><text class="text-mono" x="2251.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">title</text>
-<text class="text-mono" x="2594.000000" y="872.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><text class="text-mono" x="2251.000000" y="918.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="918.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">description</text>
-<text class="text-mono" x="2594.000000" y="918.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><text class="text-mono" x="2251.000000" y="964.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="964.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">type</text>
-<text class="text-mono" x="2594.000000" y="964.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Income | Expense</text><text class="text-mono" x="2251.000000" y="1010.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2271.000000" y="1010.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">dueDateFormatted</text>
-<text class="text-mono" x="2594.000000" y="1010.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><line x1="2241.000000" y1="1028.000000" x2="2614.000000" y2="1028.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnCardUi.TransferCardUi"><g class="shape" ><rect class="shape" x="2674" y="729" width="302" height="138" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="2674.000000" y="729.000000" width="302.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="2825.000000" y="784.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TransferCardUi</text><text class="text-mono" x="2684.000000" y="849.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="2704.000000" y="849.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">batchId</text>
-<text class="text-mono" x="2956.000000" y="849.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><line x1="2674.000000" y1="867.000000" x2="2976.000000" y2="867.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="db.transactions.dao"><g class="shape" ><rect x="447" y="100" width="690" height="226" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="792.000000" y="125.000000" style="text-anchor:middle;font-size:20px;fill:#0A0F25">CalcHistoryTrnDao</text></g><g id="db.transactions.type"><g class="shape" ><rect class="shape" x="473" y="476" width="638" height="644" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="473.000000" y="476.000000" width="638.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="792.000000" y="531.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">CalcHistoryTrn</text><text class="text-mono" x="483.000000" y="596.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="596.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">id</text>
-<text class="text-mono" x="1091.000000" y="596.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><text class="text-mono" x="483.000000" y="642.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="642.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">amount</text>
-<text class="text-mono" x="1091.000000" y="642.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Double</text><text class="text-mono" x="483.000000" y="688.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="688.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">currency</text>
-<text class="text-mono" x="1091.000000" y="688.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><text class="text-mono" x="483.000000" y="734.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="734.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">type</text>
-<text class="text-mono" x="1091.000000" y="734.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Income | Expense</text><text class="text-mono" x="483.000000" y="780.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="780.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">time</text>
-<text class="text-mono" x="1091.000000" y="780.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Instant</text><text class="text-mono" x="483.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">timeType</text>
-<text class="text-mono" x="1091.000000" y="826.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Actual | Due</text><text class="text-mono" x="483.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">title</text>
-<text class="text-mono" x="1091.000000" y="872.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><text class="text-mono" x="483.000000" y="918.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="918.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">description</text>
-<text class="text-mono" x="1091.000000" y="918.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><text class="text-mono" x="483.000000" y="964.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="964.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">account_id</text>
-<text class="text-mono" x="1091.000000" y="964.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><text class="text-mono" x="483.000000" y="1010.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="1010.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">catgory_id</text>
-<text class="text-mono" x="1091.000000" y="1010.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?</text><text class="text-mono" x="483.000000" y="1056.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="1056.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">purpose</text>
-<text class="text-mono" x="1091.000000" y="1056.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">null | TransferFrom | TransferTo | Fee</text><text class="text-mono" x="483.000000" y="1102.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="503.000000" y="1102.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">state</text>
-<text class="text-mono" x="1091.000000" y="1102.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">Default | Hidden</text><line x1="473.000000" y1="1120.000000" x2="1111.000000" y2="1120.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="db.trn_links.dao"><g class="shape" ><rect x="1257" y="100" width="520" height="226" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text" x="1517.000000" y="125.000000" style="text-anchor:middle;font-size:20px;fill:#0A0F25">TrnLinksDao</text></g><g id="db.trn_links.type"><g class="shape" ><rect class="shape" x="1372" y="706" width="290" height="184" style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;"/><rect class="class_header" x="1372.000000" y="706.000000" width="290.000000" height="92.000000" fill="#0A0F25" /><text class="text-mono" x="1517.000000" y="761.000000" style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TrnLinkRecord</text><text class="text-mono" x="1382.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="1402.000000" y="826.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">batchId</text>
-<text class="text-mono" x="1642.000000" y="826.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><text class="text-mono" x="1382.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0D32B2">+</text>
-<text class="text-mono" x="1402.000000" y="872.000000" style="text-anchor:start;font-size:20px;fill:#0A0F25">trnId</text>
-<text class="text-mono" x="1642.000000" y="872.000000" style="text-anchor:end;font-size:20px;fill:#4A6FF3">String</text><line x1="1372.000000" y1="890.000000" x2="1662.000000" y2="890.000000" style="stroke-width:1;stroke:#0A0F25" /></g></g><g id="TrnHistoryFlow.p.period"><g class="shape" ><rect x="636" y="2053" width="322" height="126" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="797.000000" y="2119.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">SelectedPeriodFlow { period -&gt;</text></g><g id="TrnHistoryFlow.p.trns"><g class="shape" ><rect x="444" y="2404" width="464" height="126" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="676.000000" y="2470.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">calcHistoryTrnDao.findAllInPeriod(period) { trns -&gt;</text></g><g id="TrnHistoryFlow.p.grp_batch"><g class="shape" ><rect x="340" y="2682" width="340" height="126" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="510.000000" y="2748.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">Group by day and batch transfers</text></g><g id="TrnHistoryFlow.p.calc_income_expense"><g class="shape" ><rect x="874" y="2682" width="206" height="126" style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="977.000000" y="2748.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">CalcAlgo(trns)</text></g><g id="db.transactions.dao.&#34;SELECT ... FROM transactions WHERE (time BETWEEN ? AND ?) AND ...&#34;"><g class="shape" ><rect x="497" y="150" width="590" height="126" style="fill:#FFFFFF;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="792.000000" y="216.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">SELECT ... FROM transactions WHERE (time BETWEEN ? AND ?) AND ...</text></g><g id="db.trn_links.dao.&#34;SELECT ... FROM trn_links WHERE trnId IN (?)&#34;"><g class="shape" ><rect x="1307" y="150" width="420" height="126" style="fill:#FFFFFF;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" /></g><text class="text-bold" x="1517.000000" y="216.000000" style="text-anchor:middle;font-size:16px;fill:#0A0F25">SELECT ... FROM trn_links WHERE trnId IN (?)</text></g><g id="db.transactions.(dao -&gt; type)[0]"><marker id="mk-3990223579" markerWidth="10.000000" markerHeight="12.000000" refX="7.000000" refY="6.000000" viewBox="0.000000 0.000000 10.000000 12.000000" orient="auto" markerUnits="userSpaceOnUse"> <polygon class="connection" fill="#0D32B2" stroke-width="2" points="0.000000,0.000000 10.000000,6.000000 0.000000,12.000000" /> </marker><path d="M 792.000000 328.000000 C 792.000000 366.000000 792.000000 436.000000 792.000000 472.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="db.trn_links.(dao -&gt; type)[0]"><path d="M 1517.000000 328.000000 C 1517.000000 366.000000 1517.000000 482.000000 1517.000000 702.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="TrnHistoryFlow.p.(period -&gt; trns)[0]"><path d="M 752.428856 2180.646577 C 691.512821 2269.000000 676.000000 2314.100000 676.000000 2400.500000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="TrnHistoryFlow.p.(trns -&gt; grp_batch)[0]"><path d="M 611.006675 2531.407800 C 530.085455 2611.600000 509.500000 2642.000000 509.500000 2678.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="TrnHistoryFlow.p.(trns -&gt; calc_income_expense)[0]"><path d="M 792.681056 2530.961376 C 939.785455 2611.600000 977.000000 2642.000000 977.000000 2678.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="TrnHistoryFlow.(in -&gt; p)[0]"><path d="M 439.500000 1671.000000 C 439.500000 1846.200000 439.500000 1902.700000 439.500000 1947.500000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/><text class="text-italic" x="440.000000" y="1816.000000" style="text-anchor:middle;font-size:16px;fill:#676C7E">Query</text></g><g id="TrnHistoryFlow.(deps -&gt; p)[0]"><path d="M 1154.500000 1832.000000 C 1154.500000 1878.400000 1154.500000 1902.700000 1154.500000 1947.500000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="TrnHistoryFlow.(p -&gt; out)[0]"><path d="M 1282.887849 2341.160324 C 1459.400000 2402.900000 1325.600000 2356.100000 1500.224303 2417.179353" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/><text class="text-italic" x="1393.000000" y="2385.000000" style="text-anchor:middle;font-size:16px;fill:#676C7E">Produces</text></g><g id="(TrnCardUi -&gt; TrnHistoryDayUi)[0]"><path d="M 2228.500000 1222.000000 C 2228.500000 1260.000000 2228.500000 1357.600000 2228.500000 1504.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(TrnCardUi -&gt; DueSectionUi)[0]"><path d="M 2706.250000 1222.000000 C 2706.250000 1260.000000 2706.250000 1353.000000 2706.250000 1481.000000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(TrnHistoryDayUi -&gt; TrnListUi)[0]"><path d="M 2228.500000 1694.000000 C 2228.500000 1850.800000 2240.500000 1961.000000 2285.427115 1998.439262" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(DueSectionUi -&gt; TrnListUi)[0]"><path d="M 2706.250000 1717.000000 C 2706.250000 1855.400000 2689.250000 1961.000000 2624.697737 1998.971919" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(db.transactions.type -&gt; TrnHistoryFlow.deps)[0]"><path d="M 792.000000 1122.000000 C 792.000000 1160.000000 792.000000 1180.000000 792.000000 1195.000000 C 792.000000 1210.000000 792.000000 1230.000000 792.000000 1245.000000 C 792.000000 1260.000000 811.400000 1335.000000 885.835578 1392.553282" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(db.trn_links.type -&gt; TrnHistoryFlow.deps)[0]"><path d="M 1517.000000 892.000000 C 1517.000000 1114.000000 1517.000000 1180.000000 1517.000000 1195.000000 C 1517.000000 1210.000000 1517.000000 1230.000000 1517.000000 1245.000000 C 1517.000000 1260.000000 1497.600000 1335.000000 1423.164422 1392.553282" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><g id="(TrnListUi -&gt; TrnHistoryFlow.out)[0]"><path d="M 2208.548242 2164.869705 C 1756.100000 2266.086616 1642.500000 2303.700000 1642.500000 2348.500000" class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" marker-end="url(#mk-3990223579)" mask="url(#331229583)"/></g><mask id="331229583" maskUnits="userSpaceOnUse" x="-100" y="-100" width="3229" height="3112">
-<rect x="-100" y="-100" width="3229" height="3112" fill="white"></rect>
-<rect x="420.000000" y="1800.000000" width="40" height="21" fill="black"></rect>
-<rect x="1362.000000" y="2369.000000" width="62" height="21" fill="black"></rect>
-</mask><style type="text/css"><![CDATA[
+]]></script>
+    <g id="db">
+        <g class="shape">
+            <path
+                d="M 367 24 C 367 0 1037.5 0 1112 0 C 1186.5 0 1857 0 1857 24 V 1146 C 1857 1170 1186.5 1170 1112 1170 C 1037.5 1170 367 1170 367 1146 V 24 Z"
+                style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+            <path d="M 367 24 C 367 48 1037.5 48 1112 48 C 1186.5 48 1857 48 1857 24"
+                style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="1112.000000" y="81.000000"
+            style="text-anchor:middle;font-size:28px;fill:#0A0F25">Database
+        </text>
+    </g>
+    <g id="TrnHistoryFlow">
+        <g class="shape">
+            <rect x="0" y="1270" width="1879" height="1918"
+                style="fill:#E3E9FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="939.500000" y="1303.000000"
+            style="text-anchor:middle;font-size:28px;fill:#0A0F25">TrnHistoryFlow
+        </text>
+    </g>
+    <g id="TrnListItemUi">
+        <g class="shape">
+            <rect x="1919" y="1901" width="1513" height="610"
+                style="fill:#E3E9FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="2675.500000" y="1934.000000"
+            style="text-anchor:middle;font-size:28px;fill:#0A0F25">TrnListItemUi
+        </text>
+    </g>
+    <g id="db.transactions">
+        <g class="shape">
+            <rect x="407" y="50" width="770" height="1070"
+                style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="792.000000" y="79.000000"
+            style="text-anchor:middle;font-size:24px;fill:#0A0F25">transactions
+        </text>
+    </g>
+    <g id="db.trn_links">
+        <g class="shape">
+            <rect x="1217" y="50" width="600" height="1070"
+                style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="1517.000000" y="79.000000"
+            style="text-anchor:middle;font-size:24px;fill:#0A0F25">trn_links
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.in">
+        <g class="shape">
+            <rect class="shape" x="50" y="1481" width="779" height="138"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="50.000000" y="1481.000000" width="779.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="439.500000" y="1536.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Input
+            </text>
+            <text class="text-mono" x="60.000000" y="1601.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="80.000000" y="1601.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">query
+            </text>
+            <text class="text-mono" x="809.000000" y="1601.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">All | ByCategory(id: String) |
+                ByAccount(id: String)
+            </text>
+            <line x1="50.000000" y1="1619.000000" x2="829.000000" y2="1619.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnHistoryFlow.deps">
+        <g class="shape">
+            <rect class="shape" x="889" y="1320" width="531" height="460"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="889.000000" y="1320.000000" width="531.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="1154.500000" y="1375.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Dependencies
+            </text>
+            <text class="text-mono" x="899.000000" y="1440.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1440.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">calcHistoryTrnDao
+            </text>
+            <text class="text-mono" x="1400.000000" y="1440.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">CalHistoryTrnDao
+            </text>
+            <text class="text-mono" x="899.000000" y="1486.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1486.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">trnLinksDao
+            </text>
+            <text class="text-mono" x="1400.000000" y="1486.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">TrnLinksDao
+            </text>
+            <text class="text-mono" x="899.000000" y="1532.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1532.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">selectedPeriodFlow
+            </text>
+            <text class="text-mono" x="1400.000000" y="1532.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">SelectedPeriodFlow
+            </text>
+            <text class="text-mono" x="899.000000" y="1578.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1578.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">baseCurrencyFlow
+            </text>
+            <text class="text-mono" x="1400.000000" y="1578.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">BaseCurrencyFlow
+            </text>
+            <text class="text-mono" x="899.000000" y="1624.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1624.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">rateFlow
+            </text>
+            <text class="text-mono" x="1400.000000" y="1624.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">RateFlow
+            </text>
+            <text class="text-mono" x="899.000000" y="1670.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1670.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">accountsFlow
+            </text>
+            <text class="text-mono" x="1400.000000" y="1670.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">AccountsFlow
+            </text>
+            <text class="text-mono" x="899.000000" y="1716.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1716.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">categoriesFlow
+            </text>
+            <text class="text-mono" x="1400.000000" y="1716.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">CategoriesFlow
+            </text>
+            <text class="text-mono" x="899.000000" y="1762.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="919.000000" y="1762.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">itemIconAct
+            </text>
+            <text class="text-mono" x="1400.000000" y="1762.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">ItemIconAct
+            </text>
+            <line x1="889.000000" y1="1780.000000" x2="1420.000000" y2="1780.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnHistoryFlow.p">
+        <g class="shape">
+            <rect x="259" y="1951" width="1021" height="1187"
+                style="fill:#EDF0FD;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="769.500000" y="1980.000000"
+            style="text-anchor:middle;font-size:24px;fill:#0A0F25">Process
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.out">
+        <g class="shape">
+            <rect class="shape" x="1456" y="2632" width="373" height="230"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="1456.000000" y="2632.000000" width="373.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="1642.500000" y="2687.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">Output
+            </text>
+            <text class="text-mono" x="1466.000000" y="2752.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="1486.000000" y="2752.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">income
+            </text>
+            <text class="text-mono" x="1809.000000" y="2752.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?
+            </text>
+            <text class="text-mono" x="1466.000000" y="2798.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="1486.000000" y="2798.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">expense
+            </text>
+            <text class="text-mono" x="1809.000000" y="2798.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi?
+            </text>
+            <text class="text-mono" x="1466.000000" y="2844.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="1486.000000" y="2844.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">trns
+            </text>
+            <text class="text-mono" x="1809.000000" y="2844.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">List&lt;TrnListItemUi&gt;
+            </text>
+            <line x1="1456.000000" y1="2862.000000" x2="1829.000000" y2="2862.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnListItemUi.DueDividerUi">
+        <g class="shape">
+            <rect class="shape" x="1969" y="2213" width="272" height="36"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="1969.000000" y="2213.000000" width="272.000000"
+                height="36.000000" fill="#0A0F25" />
+            <text class="text-mono" x="2105.000000" y="2240.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">DueDividerUi
+            </text>
+            <line x1="1969.000000" y1="2249.000000" x2="2241.000000" y2="2249.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnListItemUi.DateDividerUi">
+        <g class="shape">
+            <rect class="shape" x="2301" y="2213" width="286" height="36"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="2301.000000" y="2213.000000" width="286.000000"
+                height="36.000000" fill="#0A0F25" />
+            <text class="text-mono" x="2444.000000" y="2240.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">DateDividerUi
+            </text>
+            <line x1="2301.000000" y1="2249.000000" x2="2587.000000" y2="2249.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnListItemUi.TransactionUi">
+        <g class="shape">
+            <rect class="shape" x="2647" y="2001" width="373" height="460"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="2647.000000" y="2001.000000" width="373.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="2833.500000" y="2056.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TransactionUi
+            </text>
+            <text class="text-mono" x="2657.000000" y="2121.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2121.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">id
+            </text>
+            <text class="text-mono" x="3000.000000" y="2121.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <text class="text-mono" x="2657.000000" y="2167.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2167.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">amount
+            </text>
+            <text class="text-mono" x="3000.000000" y="2167.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">ValueUi
+            </text>
+            <text class="text-mono" x="2657.000000" y="2213.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2213.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">account
+            </text>
+            <text class="text-mono" x="3000.000000" y="2213.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">AccountUi
+            </text>
+            <text class="text-mono" x="2657.000000" y="2259.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2259.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">category
+            </text>
+            <text class="text-mono" x="3000.000000" y="2259.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">CategoryUi?
+            </text>
+            <text class="text-mono" x="2657.000000" y="2305.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2305.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">title
+            </text>
+            <text class="text-mono" x="3000.000000" y="2305.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <text class="text-mono" x="2657.000000" y="2351.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2351.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">description
+            </text>
+            <text class="text-mono" x="3000.000000" y="2351.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <text class="text-mono" x="2657.000000" y="2397.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2397.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">type
+            </text>
+            <text class="text-mono" x="3000.000000" y="2397.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Income | Expense
+            </text>
+            <text class="text-mono" x="2657.000000" y="2443.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="2677.000000" y="2443.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">dueDateFormatted
+            </text>
+            <text class="text-mono" x="3000.000000" y="2443.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <line x1="2647.000000" y1="2461.000000" x2="3020.000000" y2="2461.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnListItemUi.TransferCardUi">
+        <g class="shape">
+            <rect class="shape" x="3080" y="2162" width="302" height="138"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="3080.000000" y="2162.000000" width="302.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="3231.000000" y="2217.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TransferCardUi
+            </text>
+            <text class="text-mono" x="3090.000000" y="2282.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="3110.000000" y="2282.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">batchId
+            </text>
+            <text class="text-mono" x="3362.000000" y="2282.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <line x1="3080.000000" y1="2300.000000" x2="3382.000000" y2="2300.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="db.transactions.dao">
+        <g class="shape">
+            <rect x="447" y="100" width="690" height="226"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="792.000000" y="125.000000"
+            style="text-anchor:middle;font-size:20px;fill:#0A0F25">CalcHistoryTrnDao
+        </text>
+    </g>
+    <g id="db.transactions.type">
+        <g class="shape">
+            <rect class="shape" x="473" y="426" width="638" height="644"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="473.000000" y="426.000000" width="638.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="792.000000" y="481.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">CalcHistoryTrn
+            </text>
+            <text class="text-mono" x="483.000000" y="546.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="546.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">id
+            </text>
+            <text class="text-mono" x="1091.000000" y="546.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <text class="text-mono" x="483.000000" y="592.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="592.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">amount
+            </text>
+            <text class="text-mono" x="1091.000000" y="592.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Double
+            </text>
+            <text class="text-mono" x="483.000000" y="638.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="638.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">currency
+            </text>
+            <text class="text-mono" x="1091.000000" y="638.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <text class="text-mono" x="483.000000" y="684.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="684.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">type
+            </text>
+            <text class="text-mono" x="1091.000000" y="684.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Income | Expense
+            </text>
+            <text class="text-mono" x="483.000000" y="730.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="730.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">time
+            </text>
+            <text class="text-mono" x="1091.000000" y="730.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Instant
+            </text>
+            <text class="text-mono" x="483.000000" y="776.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="776.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">timeType
+            </text>
+            <text class="text-mono" x="1091.000000" y="776.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Actual | Due
+            </text>
+            <text class="text-mono" x="483.000000" y="822.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="822.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">title
+            </text>
+            <text class="text-mono" x="1091.000000" y="822.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <text class="text-mono" x="483.000000" y="868.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="868.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">description
+            </text>
+            <text class="text-mono" x="1091.000000" y="868.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <text class="text-mono" x="483.000000" y="914.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="914.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">account_id
+            </text>
+            <text class="text-mono" x="1091.000000" y="914.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <text class="text-mono" x="483.000000" y="960.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="960.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">catgory_id
+            </text>
+            <text class="text-mono" x="1091.000000" y="960.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String?
+            </text>
+            <text class="text-mono" x="483.000000" y="1006.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="1006.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">purpose
+            </text>
+            <text class="text-mono" x="1091.000000" y="1006.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">null | TransferFrom | TransferTo
+                | Fee
+            </text>
+            <text class="text-mono" x="483.000000" y="1052.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="503.000000" y="1052.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">state
+            </text>
+            <text class="text-mono" x="1091.000000" y="1052.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">Default | Hidden
+            </text>
+            <line x1="473.000000" y1="1070.000000" x2="1111.000000" y2="1070.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="db.trn_links.dao">
+        <g class="shape">
+            <rect x="1257" y="100" width="520" height="226"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text" x="1517.000000" y="125.000000"
+            style="text-anchor:middle;font-size:20px;fill:#0A0F25">TrnLinksDao
+        </text>
+    </g>
+    <g id="db.trn_links.type">
+        <g class="shape">
+            <rect class="shape" x="1372" y="656" width="290" height="184"
+                style="fill:#FFFFFF;stroke:#0A0F25;opacity:1.000000;stroke-width:2;" />
+            <rect class="class_header" x="1372.000000" y="656.000000" width="290.000000"
+                height="92.000000" fill="#0A0F25" />
+            <text class="text-mono" x="1517.000000" y="711.000000"
+                style="text-anchor:middle;font-size:24px;fill:#FFFFFF">TrnLinkRecord
+            </text>
+            <text class="text-mono" x="1382.000000" y="776.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="1402.000000" y="776.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">batchId
+            </text>
+            <text class="text-mono" x="1642.000000" y="776.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <text class="text-mono" x="1382.000000" y="822.000000"
+                style="text-anchor:start;font-size:20px;fill:#0D32B2">+
+            </text>
+            <text class="text-mono" x="1402.000000" y="822.000000"
+                style="text-anchor:start;font-size:20px;fill:#0A0F25">trnId
+            </text>
+            <text class="text-mono" x="1642.000000" y="822.000000"
+                style="text-anchor:end;font-size:20px;fill:#4A6FF3">String
+            </text>
+            <line x1="1372.000000" y1="840.000000" x2="1662.000000" y2="840.000000"
+                style="stroke-width:1;stroke:#0A0F25" />
+        </g>
+    </g>
+    <g id="TrnHistoryFlow.p.period">
+        <g class="shape">
+            <rect x="636" y="2168" width="322" height="126"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="797.000000" y="2234.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">SelectedPeriodFlow { period -&gt;
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.p.trns">
+        <g class="shape">
+            <rect x="444" y="2684" width="464" height="126"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="676.000000" y="2750.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">
+            calcHistoryTrnDao.findAllInPeriod(period) { trns -&gt;
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.p.grp_batch">
+        <g class="shape">
+            <rect x="340" y="2962" width="340" height="126"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="510.000000" y="3028.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">Group by day and batch transfers
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.p.calc_income_expense">
+        <g class="shape">
+            <rect x="874" y="2962" width="206" height="126"
+                style="fill:#F7F8FE;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="977.000000" y="3028.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">CalcAlgo(trns)
+        </text>
+    </g>
+    <g id="db.transactions.dao.&#34;SELECT ... FROM transactions WHERE (time BETWEEN ? AND ?) AND ...&#34;">
+        <g class="shape">
+            <rect x="497" y="150" width="590" height="126"
+                style="fill:#FFFFFF;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="792.000000" y="216.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">SELECT ... FROM transactions
+            WHERE (time BETWEEN ? AND ?) AND ...
+        </text>
+    </g>
+    <g id="db.trn_links.dao.&#34;SELECT ... FROM trn_links WHERE trnId IN (?)&#34;">
+        <g class="shape">
+            <rect x="1307" y="150" width="420" height="126"
+                style="fill:#FFFFFF;stroke:#0D32B2;opacity:1.000000;stroke-width:2;" />
+        </g>
+        <text class="text-bold" x="1517.000000" y="216.000000"
+            style="text-anchor:middle;font-size:16px;fill:#0A0F25">SELECT ... FROM trn_links WHERE
+            trnId IN (?)
+        </text>
+    </g>
+    <g id="db.transactions.(dao -&gt; type)[0]">
+        <marker id="mk-3990223579" markerWidth="10.000000" markerHeight="12.000000" refX="7.000000"
+            refY="6.000000" viewBox="0.000000 0.000000 10.000000 12.000000" orient="auto"
+            markerUnits="userSpaceOnUse">
+            <polygon class="connection" fill="#0D32B2" stroke-width="2"
+                points="0.000000,0.000000 10.000000,6.000000 0.000000,12.000000" />
+        </marker>
+        <path
+            d="M 792.000000 328.000000 C 792.000000 366.000000 792.000000 386.000000 792.000000 422.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="db.trn_links.(dao -&gt; type)[0]">
+        <path
+            d="M 1517.000000 328.000000 C 1517.000000 366.000000 1517.000000 432.000000 1517.000000 652.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="TrnHistoryFlow.p.(period -&gt; trns)[0]">
+        <path
+            d="M 768.981626 2295.835908 C 694.755000 2467.600000 676.000000 2594.100000 676.000000 2680.500000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="TrnHistoryFlow.p.(trns -&gt; grp_batch)[0]">
+        <path
+            d="M 611.006675 2811.407800 C 530.085455 2891.600000 509.500000 2922.000000 509.500000 2958.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="TrnHistoryFlow.p.(trns -&gt; calc_income_expense)[0]">
+        <path
+            d="M 792.681056 2810.961376 C 939.785455 2891.600000 977.000000 2922.000000 977.000000 2958.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="TrnHistoryFlow.(in -&gt; p)[0]">
+        <path
+            d="M 439.500000 1621.000000 C 439.500000 1796.200000 439.500000 1911.000000 439.500000 1947.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+        <text class="text-italic" x="440.000000" y="1791.000000"
+            style="text-anchor:middle;font-size:16px;fill:#676C7E">Query
+        </text>
+    </g>
+    <g id="TrnHistoryFlow.(deps -&gt; p)[0]">
+        <path
+            d="M 1154.500000 1782.000000 C 1154.500000 1828.400000 1154.500000 1911.000000 1154.500000 1947.000000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="TrnHistoryFlow.(p -&gt; out)[0]">
+        <path
+            d="M 1282.888556 2621.158297 C 1421.000000 2669.300000 1316.000000 2632.700000 1452.222887 2680.183406"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+        <text class="text-italic" x="1369.000000" y="2657.000000"
+            style="text-anchor:middle;font-size:16px;fill:#676C7E">Produces
+        </text>
+    </g>
+    <g id="(TrnListItemUi -&gt; TrnHistoryFlow.out)[0]">
+        <path
+            d="M 2103.016895 2511.259412 C 1735.000000 2559.400000 1642.500000 2583.700000 1642.500000 2628.500000"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="(db.transactions.type -&gt; TrnHistoryFlow.deps)[0]">
+        <path
+            d="M 792.000000 1072.000000 C 792.000000 1110.000000 792.000000 1130.000000 792.000000 1145.000000 C 792.000000 1160.000000 792.000000 1180.000000 792.000000 1195.000000 C 792.000000 1210.000000 811.400000 1285.000000 885.835578 1342.553282"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <g id="(db.trn_links.type -&gt; TrnHistoryFlow.deps)[0]">
+        <path
+            d="M 1517.000000 842.000000 C 1517.000000 1064.000000 1517.000000 1130.000000 1517.000000 1145.000000 C 1517.000000 1160.000000 1517.000000 1180.000000 1517.000000 1195.000000 C 1517.000000 1210.000000 1497.600000 1285.000000 1423.164422 1342.553282"
+            class="connection" style="fill:none;stroke:#0D32B2;opacity:1.000000;stroke-width:2;"
+            marker-end="url(#mk-3990223579)" mask="url(#106940740)" />
+    </g>
+    <mask id="106940740" maskUnits="userSpaceOnUse" x="-100" y="-100" width="3636" height="3392">
+        <rect x="-100" y="-100" width="3636" height="3392" fill="white"></rect>
+        <rect x="420.000000" y="1775.000000" width="40" height="21" fill="black"></rect>
+        <rect x="1338.000000" y="2641.000000" width="62" height="21" fill="black"></rect>
+    </mask>
+    <style type="text/css"><![CDATA[
 .text {
 	font-family: "font-regular";
 }

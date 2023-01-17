@@ -75,34 +75,21 @@ TrnHistoryFlow {
         shape: class
         income: ValueUi?
         expense: ValueUi?
-        trnList: TrnList
+        trns: List<TrnListItemUi>
     }
 
     p -> out: Produces
 }
 
+TrnListItemUi {
+    DueDividerUi {
+        shape: class
+    }
 
-TrnListUi {
-    shape: class
-    upcoming: DueSectionUi?
-    overdue: DueSectionUi?
-    history: List<TrnHistoryDayUi>
-}
+    DateDividerUi {
+        shape: class
+    }
 
-TrnHistoryDayUi {
-    shape: class
-    cashflow: ValueUi?
-    cards: List<TrnCardUi>
-}
-
-DueSectionUi {
-    shape: class
-    income: ValueUi?
-    expense: ValueUi?
-    cards: List<TrnCardUi>
-}
-
-TrnCardUi {
     TransactionUi {
         shape: class
         id: String
@@ -118,15 +105,10 @@ TrnCardUi {
     TransferCardUi {
         shape: class
         batchId: String
-
     }
 }
 
-TrnCardUi -> TrnHistoryDayUi
-TrnCardUi -> DueSectionUi
-TrnHistoryDayUi -> TrnListUi
-DueSectionUi -> TrnListUi
-TrnListUi -> TrnHistoryFlow.out.trnList
+TrnListItemUi -> TrnHistoryFlow.out
 
 db.transactions.type -> TrnHistoryFlow.deps.calcHistoryTrnDao
 db.trn_links.type -> TrnHistoryFlow.deps.trnLinksDao
