@@ -38,6 +38,7 @@ import com.ivy.home.modal.AddTransactionModal
 import com.ivy.home.state.HomeStateUi
 import com.ivy.main.bottombar.MainBottomBar
 import com.ivy.main.bottombar.Tab
+import com.ivy.wallet.utils.horizontalSwipeListener
 import kotlinx.coroutines.launch
 
 @Composable
@@ -62,7 +63,17 @@ private fun BoxScope.UI(
         scrollStateKey = "home_tab"
     )
     TransactionsLazyColumn(
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier
+            .systemBarsPadding()
+            .horizontalSwipeListener(
+                sensitivity = 200,
+                onSwipeLeft = {
+                    onEvent(HomeEvent.BottomBar.AccountsClick)
+                },
+                onSwipeRight = {
+                    onEvent(HomeEvent.BottomBar.AccountsClick)
+                }
+            ),
         transactionsList = state.trnsList,
         scrollStateKey = "home_tab",
         state = trnsListState,

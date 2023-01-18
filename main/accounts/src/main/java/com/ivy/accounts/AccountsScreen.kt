@@ -37,6 +37,7 @@ import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.main.bottombar.MainBottomBar
 import com.ivy.main.bottombar.Tab
+import com.ivy.wallet.utils.horizontalSwipeListener
 import kotlinx.coroutines.launch
 
 @Composable
@@ -81,7 +82,16 @@ private fun BoxScope.UI(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding(),
+            .systemBarsPadding()
+            .horizontalSwipeListener(
+                sensitivity = 200,
+                onSwipeLeft = {
+                    onEvent(AccountsEvent.NavigateToHome)
+                },
+                onSwipeRight = {
+                    onEvent(AccountsEvent.NavigateToHome)
+                }
+            ),
         state = lazyListState,
     ) {
         item(key = "header") {
