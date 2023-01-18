@@ -3,7 +3,6 @@ package com.ivy.core.domain.action.account
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.calculate.account.AccBalanceFlow
-import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.account.adjustBalanceTrn
 import com.ivy.data.account.Account
@@ -40,7 +39,7 @@ class AdjustAccBalanceAct @Inject constructor(
         )
 
         if (adjustTrn != null) {
-            writeTrnsAct(Modify.save(adjustTrn))
+            writeTrnsAct(WriteTrnsAct.Input.CreateNew(adjustTrn))
         }
     }
 }

@@ -13,6 +13,7 @@ import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.action.transaction.transfer.ModifyTransfer
 import com.ivy.core.domain.action.transaction.transfer.TransferByBatchIdAct
 import com.ivy.core.domain.action.transaction.transfer.WriteTransferAct
+import com.ivy.data.transaction.Transaction
 import javax.inject.Inject
 
 class WriteBackupDataAct @Inject constructor(
@@ -37,9 +38,29 @@ class WriteBackupDataAct @Inject constructor(
         writeCategoriesAct(Modify.saveMany(backup.categories))
 
         trnsSignal.disable() // prevent spam
-        writeTrnsAct(Modify.saveMany(backup.transactions))
+        writeTrnsPaginated(
+            trns = backup.transactions,
+            pageSize = 100
+        )
         restoreTransfers(backup.transfers.items)
         trnsSignal.enable()
+    }
+
+    private tailrec suspend fun writeTrnsPaginated(
+        trns: List<Transaction>,
+        pageSize: Int,
+    ) {
+        if (trns.isNotEmpty()) {
+            writeTrnsAct(
+                WriteTrnsAct.Input.Many(
+                    trns.take(pageSize).map {
+                        WriteTrnsAct.Input.SaveInefficient(it)
+                    }
+                )
+            )
+
+            writeTrnsPaginated(trns = trns.drop(pageSize), pageSize = pageSize)
+        }
     }
 
     private suspend fun restoreTransfers(

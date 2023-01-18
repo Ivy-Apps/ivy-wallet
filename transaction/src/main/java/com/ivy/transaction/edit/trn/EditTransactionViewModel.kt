@@ -7,7 +7,6 @@ import com.ivy.common.toUUIDOrNull
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
-import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.TrnByIdAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.CombinedValueUi
@@ -177,13 +176,13 @@ class EditTransactionViewModel @Inject constructor(
     }
 
     private suspend fun handleSave() {
-        val transaction = transaction ?: return
+        val original = transaction ?: return
         val account = accountByIdAct(account.value.id) ?: return
         val category = category.value?.id?.let { categoryByIdAct(it) }
 
         if (amount.value.value.amount <= 0.0) return
 
-        val updated = transaction.copy(
+        val updated = original.copy(
             account = account,
             category = category,
             value = amount.value.value,
@@ -198,13 +197,24 @@ class EditTransactionViewModel @Inject constructor(
             ),
         )
 
-        writeTrnsAct(Modify.save(updated))
+        writeTrnsAct(
+            WriteTrnsAct.Input.Update(
+                old = original,
+                new = updated,
+            )
+        )
         closeScreen()
     }
 
     private suspend fun handleDelete() {
-        val transaction = transaction ?: return
-        writeTrnsAct(Modify.delete(transaction.id.toString()))
+        val original = transaction ?: return
+        writeTrnsAct(
+            WriteTrnsAct.Input.Delete(
+                trnId = original.id.toString(),
+                affectedAccountIds = setOf(original.account.id.toString(), account.value.id),
+                originalTime = original.time,
+            )
+        )
         closeScreen()
     }
 

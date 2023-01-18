@@ -1,10 +1,11 @@
 package com.ivy.core.domain.action.transaction
 
-import arrow.core.NonEmptyList
-import arrow.core.nel
+import arrow.core.*
+import arrow.core.computations.option
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toLocal
 import com.ivy.common.time.toUtc
+import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.algorithm.accountcache.InvalidateAccCacheAct
@@ -12,17 +13,12 @@ import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
 import com.ivy.core.domain.pure.transaction.validateTransaction
 import com.ivy.core.domain.pure.util.beautify
-import com.ivy.core.persistence.dao.AttachmentDao
+import com.ivy.core.persistence.dao.account.AccountDao
+import com.ivy.core.persistence.dao.trn.SaveTrnData
 import com.ivy.core.persistence.dao.trn.TrnDao
-import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
-import com.ivy.core.persistence.dao.trn.TrnMetadataDao
-import com.ivy.core.persistence.dao.trn.TrnTagDao
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
-import com.ivy.data.SyncState.Deleting
 import com.ivy.data.SyncState.Syncing
-import com.ivy.data.attachment.Attachment
-import com.ivy.data.tag.Tag
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnTime
@@ -51,97 +47,205 @@ import javax.inject.Inject
 class WriteTrnsAct @Inject constructor(
     private val trnDao: TrnDao,
     private val trnsSignal: TrnsSignal,
-    private val trnTagDao: TrnTagDao,
-    private val trnLinkRecordDao: TrnLinkRecordDao,
-    private val trnMetadataDao: TrnMetadataDao,
-    private val attachmentDao: AttachmentDao,
     private val timeProvider: TimeProvider,
     private val invalidateAccCacheAct: InvalidateAccCacheAct,
-) : Action<Modify<Transaction>, Unit>() {
+    private val accountDao: AccountDao,
+) : Action<WriteTrnsAct.Input, Unit>() {
 
-    // TODO: This actions is slow and must be optimized!
+    sealed interface Input {
+        sealed interface Operation
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(modify: Modify<Transaction>) {
-        when (modify) {
-            is Modify.Save -> save(trns = modify.items)
-            is Modify.Delete -> delete(trnIds = modify.itemIds)
+        data class Delete(
+            val trnId: String,
+            val affectedAccountIds: Set<String>,
+            val originalTime: TrnTime,
+        ) : Input, Operation
+
+        data class DeleteInefficient(
+            val trnId: String
+        ) : Input, Operation
+
+        data class Update(
+            val old: Transaction,
+            val new: Transaction,
+        ) : Input, Operation
+
+        data class CreateNew(
+            val trn: Transaction
+        ) : Input, Operation
+
+        data class SaveInefficient(
+            val trn: Transaction
+        ) : Input, Operation
+
+        // TODO: Re-work this Many to be efficient
+        data class Many(
+            val operations: List<Operation>
+        ) : Input
+    }
+
+    override suspend fun action(input: Input) {
+        when (input) {
+            is Input.CreateNew -> createNew(input)
+            is Input.Update -> update(input)
+            is Input.Delete -> delete(input)
+            is Input.DeleteInefficient -> deleteInefficient(input)
+            is Input.SaveInefficient -> saveInefficient(input)
+            is Input.Many -> many(input)
         }
 
         trnsSignal.send(Unit) // notify for changed transactions
     }
 
-    // region Save
-    private suspend fun save(trns: List<Transaction>) = trns.forEach { saveTrn(it) }
-
-    private suspend fun saveTrn(trn: Transaction) {
-        if (!validateTransaction(trn)) return // don't save invalid transactions
-
-        // region Accounts cache consistency
-        val old = findAccountIdAndTrnTime(trnId = trn.id.toString())
+    // region Operations
+    private suspend fun createNew(input: Input.CreateNew) = option {
+        val saveData = saveData(input.trn).bind()
+        trnDao.save(saveData)
         invalidateAccCacheAct(
-            if (old != null) {
-                val (oldAccountId, oldTrnTime) = old
+            InvalidateAccCacheAct.Input.OnCreateTrn(
+                time = input.trn.time,
+                accountIds = input.trn.account.id.toString().nel()
+            )
+        )
+    }
+
+    private suspend fun update(input: Input.Update) = option {
+        val saveData = saveData(input.new).bind()
+        trnDao.save(saveData)
+        invalidateAccCacheAct(
+            InvalidateAccCacheAct.Input.OnUpdateTrn(
+                oldTime = input.old.time,
+                time = input.new.time,
+                accountIds = nonEmptyListOf(
+                    input.old.account.id.toString(),
+                    input.new.account.id.toString(),
+                )
+            )
+        )
+    }
+
+    private suspend fun delete(input: Input.Delete) = option {
+        trnDao.markDeleted(input.trnId)
+        invalidateAccCacheAct(
+            InvalidateAccCacheAct.Input.OnDeleteTrn(
+                time = input.originalTime,
+                accountIds = input.affectedAccountIds.toNonEmptyList()
+            )
+        )
+    }
+
+    private suspend fun deleteInefficient(input: Input.DeleteInefficient) = option {
+        val invalidateData = findInvalidateCacheData(input.trnId)
+        trnDao.markDeleted(input.trnId)
+        invalidateData?.let {
+            invalidateAccCacheAct(
+                InvalidateAccCacheAct.Input.OnDeleteTrn(
+                    time = it.time,
+                    accountIds = it.accountId.nel()
+                )
+            )
+        }
+    }
+
+    private suspend fun saveInefficient(input: Input.SaveInefficient) = option {
+        val saveData = saveData(input.trn).bind()
+        val trnExists = findInvalidateCacheData(input.trn.id.toString())
+        trnDao.save(saveData)
+        invalidateAccCacheAct(
+            if (trnExists != null) {
                 InvalidateAccCacheAct.Input.OnUpdateTrn(
-                    // Both the oldAccount and the new account caches might be affected
-                    accountIds = NonEmptyList.fromListUnsafe(
-                        setOf(oldAccountId, trn.account.id.toString()).toList()
-                    ),
-                    oldTime = oldTrnTime,
-                    time = trn.time,
+                    oldTime = trnExists.time,
+                    time = input.trn.time,
+                    accountIds = nonEmptyListOf(
+                        trnExists.accountId,
+                        input.trn.account.id.toString()
+                    )
                 )
             } else {
                 InvalidateAccCacheAct.Input.OnCreateTrn(
-                    accountIds = trn.account.id.toString().nel(),
-                    time = trn.time
+                    time = input.trn.time,
+                    accountIds = input.trn.account.id.toString().nel()
                 )
             }
         )
-        // endregion
+    }
+    // endregion
 
-        trnDao.save(
-            mapToEntity(
-                trn = trn.copy(
-                    title = beautify(trn.title),
-                    description = beautify(trn.description)
-                ),
-                timeProvider = timeProvider,
-            ).copy(sync = Syncing)
+    // region Many
+    private suspend fun many(input: Input.Many) {
+        val pairs = input.operations.map {
+            when (it) {
+                is Input.CreateNew -> {
+                    saveData(it.trn) to null
+                }
+                is Input.SaveInefficient -> {
+                    saveData(it.trn) to null
+                }
+                is Input.Update -> {
+                    saveData(it.new) to null
+                }
+                is Input.Delete -> {
+                    null to it.trnId
+                }
+                is Input.DeleteInefficient -> {
+                    null to it.trnId
+                }
+            }
+        }
+
+        trnDao.many(
+            toSave = pairs.mapNotNull { it.first?.orNull() },
+            toDeleteTrnIds = pairs.mapNotNull { it.second }
         )
 
-        // save associated data
-        val trnId = trn.id.toString()
-        saveTrnTags(trnId = trnId, tags = trn.tags)
-        saveAttachments(trnId = trnId, attachments = trn.attachments)
-        saveMetadata(trnId = trnId, metadata = trn.metadata)
+        // Invalidate all account's cache
+        invalidateAccCacheAct(
+            InvalidateAccCacheAct.Input.Invalidate(
+                accountIds = accountDao.findAllIds().toNonEmptyList()
+            )
+        )
     }
+    // endregion
 
-    private suspend fun saveTrnTags(trnId: String, tags: List<Tag>) {
-        trnTagDao.updateSyncByTrnId(trnId = trnId, Deleting) // delete existing
-        trnTagDao.save(tags.map {
+    // region TrnSaveData
+    private fun saveData(trn: Transaction): Option<SaveTrnData> {
+        if (!validateTransaction(trn)) return None
+
+        val trnEntity = mapToEntity(
+            trn = trn.copy(
+                title = beautify(trn.title),
+                description = beautify(trn.description)
+            ),
+            timeProvider = timeProvider,
+        ).copy(sync = Syncing)
+        val trnId = trn.id.toString()
+        val tags = trn.tags.map {
             mapToTrnTagEntity(
                 trnId = trnId,
                 tagId = it.id,
                 sync = it.sync.copy(state = Syncing),
                 timeProvider = timeProvider,
             )
-        })
-    }
-
-    private suspend fun saveAttachments(trnId: String, attachments: List<Attachment>) {
-        // delete existing
-        attachmentDao.updateSyncByAssociatedId(
-            associatedId = trnId, sync = Deleting
-        )
-        attachmentDao.save(attachments.map {
+        }
+        val attachments = trn.attachments.map {
             mapToEntity(
                 it,
                 timeProvider = timeProvider
             ).copy(sync = Syncing)
-        })
+        }
+        val metadata = metadataEntities(trnId = trnId, metadata = trn.metadata)
+
+        return SaveTrnData(
+            entity = trnEntity,
+            tags = tags,
+            attachments = attachments,
+            metadata = metadata
+        ).some()
     }
 
-    private suspend fun saveMetadata(trnId: String, metadata: TrnMetadata) {
+    private fun metadataEntities(
+        trnId: String, metadata: TrnMetadata
+    ): List<TrnMetadataEntity> {
         fun newMetadata(
             key: String,
             value: String,
@@ -154,51 +258,33 @@ class WriteTrnsAct @Inject constructor(
             lastUpdated = timeProvider.timeNow().toUtc(timeProvider)
         )
 
-        suspend fun metadata(key: String, value: UUID?) = value?.toString()?.let {
-            trnMetadataDao.save(newMetadata(key = key, value = it))
-        }
+        fun metadata(key: String, value: UUID?): TrnMetadataEntity? =
+            value?.toString()?.let {
+                newMetadata(key = key, value = it)
+            }
 
-        // delete existing
-        trnMetadataDao.updateSyncByTrnId(trnId = trnId, sync = Deleting)
-        metadata(key = TrnMetadata.RECURRING_RULE_ID, value = metadata.recurringRuleId)
-        metadata(key = TrnMetadata.LOAN_ID, value = metadata.loanId)
-        metadata(key = TrnMetadata.LOAN_RECORD_ID, value = metadata.loanRecordId)
+        return listOfNotNull(
+            metadata(key = TrnMetadata.RECURRING_RULE_ID, value = metadata.recurringRuleId),
+            metadata(key = TrnMetadata.LOAN_ID, value = metadata.loanId),
+            metadata(key = TrnMetadata.LOAN_RECORD_ID, value = metadata.loanRecordId)
+        )
     }
     // endregion
 
-    // region Delete
-    private suspend fun delete(trnIds: List<String>) = trnIds.forEach { trnId ->
-        // region Accounts cache consistency
-        findAccountIdAndTrnTime(trnId = trnId)?.let { (accountId, trnTime) ->
-            invalidateAccCacheAct(
-                InvalidateAccCacheAct.Input.OnDeleteTrn(
-                    accountIds = accountId.nel(),
-                    time = trnTime
-                )
-            )
-        }
-        // endregion
-
-        deleteTrn(trnId)
-    }
-
-    private suspend fun deleteTrn(trnId: String) {
-        trnDao.updateSyncById(trnId = trnId, sync = Deleting)
-
-        // delete associated data
-        attachmentDao.updateSyncByAssociatedId(associatedId = trnId, Deleting)
-        trnTagDao.updateSyncByTrnId(trnId = trnId, Deleting)
-        trnLinkRecordDao.updateSyncByTrnId(trnId = trnId, Deleting)
-        trnMetadataDao.updateSyncByTrnId(trnId = trnId, Deleting)
-    }
-    // endregion
-
-    private suspend fun findAccountIdAndTrnTime(
+    private suspend fun findInvalidateCacheData(
         trnId: String
-    ): Pair<String, TrnTime>? = trnDao.findAccountIdAndTimeById(trnId = trnId)?.let {
-        it.accountId to when (it.timeType) {
-            TrnTimeType.Actual -> TrnTime.Actual(it.time.toLocal(timeProvider))
-            TrnTimeType.Due -> TrnTime.Due(it.time.toLocal(timeProvider))
-        }
+    ): InvalidateCacheData? = trnDao.findAccountIdAndTimeById(trnId = trnId)?.let {
+        InvalidateCacheData(
+            accountId = it.accountId,
+            time = when (it.timeType) {
+                TrnTimeType.Actual -> TrnTime.Actual(it.time.toLocal(timeProvider))
+                TrnTimeType.Due -> TrnTime.Due(it.time.toLocal(timeProvider))
+            }
+        )
     }
+
+    data class InvalidateCacheData(
+        val accountId: String,
+        val time: TrnTime
+    )
 }

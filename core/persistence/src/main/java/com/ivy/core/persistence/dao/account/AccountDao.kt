@@ -20,6 +20,9 @@ interface AccountDao {
     @Query("SELECT * FROM accounts WHERE sync != $DELETING ORDER BY orderNum ASC")
     suspend fun findAllSnapshot(): List<AccountEntity>
 
+    @Query("SELECT id FROM accounts WHERE sync != $DELETING")
+    suspend fun findAllIds(): List<String>
+
     @Query("SELECT * FROM accounts WHERE sync != $DELETING ORDER BY orderNum ASC")
     fun findAll(): Flow<List<AccountEntity>>
 

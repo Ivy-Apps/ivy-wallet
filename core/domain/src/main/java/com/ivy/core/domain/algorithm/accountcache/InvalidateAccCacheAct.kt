@@ -39,13 +39,19 @@ class InvalidateAccCacheAct @Inject constructor(
             val time: TrnTime,
             override val accountIds: NonEmptyList<String>
         ) : Input
+
+        data class Invalidate(override val accountIds: NonEmptyList<String>) : Input
     }
 
     override suspend fun action(input: Input) {
-        if (input is Input.OnDeleteAcc) {
-            invalidateCache(input.accountIds.head)
-        } else {
-            input.accountIds.forEach {
+        when (input) {
+            is Input.OnDeleteAcc -> {
+                invalidateCache(input.accountIds.head)
+            }
+            is Input.Invalidate -> {
+                input.accountIds.forEach { invalidateCache(it) }
+            }
+            else -> input.accountIds.forEach {
                 ensureCacheConsistency(it, input)
             }
         }

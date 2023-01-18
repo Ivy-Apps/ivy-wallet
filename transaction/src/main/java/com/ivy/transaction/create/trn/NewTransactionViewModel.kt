@@ -5,7 +5,6 @@ import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.action.account.AccountByIdAct
 import com.ivy.core.domain.action.category.CategoryByIdAct
-import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyAct
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.pure.format.CombinedValueUi
@@ -201,7 +200,9 @@ class NewTransactionViewModel @Inject constructor(
             )
         )
 
-        writeTrnsAct(Modify.save(transaction))
+        writeTrnsAct(
+            WriteTrnsAct.Input.CreateNew(transaction)
+        )
         closeScreen()
     }
 

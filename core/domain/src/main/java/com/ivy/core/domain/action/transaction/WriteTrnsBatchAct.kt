@@ -3,7 +3,6 @@ package com.ivy.core.domain.action.transaction
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.Action
-import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.data.Sync
@@ -34,6 +33,7 @@ class WriteTrnsBatchAct @Inject constructor(
         data class Delete internal constructor(val batch: TrnBatch) : ModifyBatch
     }
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override suspend fun action(modify: ModifyBatch) {
         when (modify) {
             is ModifyBatch.Delete -> delete(modify.batch)
@@ -45,23 +45,31 @@ class WriteTrnsBatchAct @Inject constructor(
 
     private suspend fun delete(batch: TrnBatch) {
         val trnIds = batch.trns.map { it.id.toString() }
-        writeTrnsAct(Modify.deleteMany(trnIds))
+        batch.trns.forEach {
+            // TODO: Might corrupt the cache
+            writeTrnsAct(
+                WriteTrnsAct.Input.Delete(
+                    trnId = it.id.toString(),
+                    affectedAccountIds = setOf(it.account.id.toString()),
+                    originalTime = it.time,
+                )
+            )
+        }
         trnLinkRecordDao.updateSyncByTrnIds(trnIds = trnIds, sync = SyncState.Deleting)
     }
 
     private suspend fun save(batch: TrnBatch) {
-        writeTrnsAct(
-            Modify.saveMany(
-                batch.trns.map {
-                    it.copy(
-                        sync = Sync(
-                            state = SyncState.Syncing,
-                            lastUpdated = timeProvider.timeNow(),
-                        )
-                    )
-                }
+        batch.trns.map {
+            it.copy(
+                sync = Sync(
+                    state = SyncState.Syncing,
+                    lastUpdated = timeProvider.timeNow(),
+                )
             )
-        )
+        }.forEach {
+            writeTrnsAct(WriteTrnsAct.Input.SaveInefficient(it))
+        }
+
 
         trnLinkRecordDao.save(
             batch.trns.map {

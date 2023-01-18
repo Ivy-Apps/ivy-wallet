@@ -1,7 +1,6 @@
 package com.ivy.core.domain.action.transaction.transfer
 
 import com.ivy.core.domain.action.Action
-import com.ivy.core.domain.action.data.Modify
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.action.transaction.WriteTrnsBatchAct
 import com.ivy.core.domain.pure.transaction.transfer.validateTransfer
@@ -167,7 +166,13 @@ class WriteTransferAct @Inject constructor(
             // will have NO fee
             transfer.fee?.let { fee ->
                 // remove existing fee if any
-                writeTrnsAct(Modify.delete(fee.id.toString()))
+                writeTrnsAct(
+                    WriteTrnsAct.Input.Delete(
+                        trnId = fee.id.toString(),
+                        affectedAccountIds = setOf(fee.account.id.toString()),
+                        originalTime = fee.time
+                    )
+                )
             }
         }
 
