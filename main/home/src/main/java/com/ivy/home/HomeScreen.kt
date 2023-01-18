@@ -29,6 +29,7 @@ import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.util.IvyPreview
+import com.ivy.design.util.consumeClicks
 import com.ivy.home.components.Balance
 import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
@@ -174,7 +175,8 @@ private fun LazyListScope.toolbar(
                 .fillMaxWidth()
                 .background(UI.colors.pure)
                 .padding(top = 12.dp, bottom = 4.dp)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .consumeClicks(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (period != null) {
@@ -197,7 +199,8 @@ private fun LazyListScope.toolbar(
             exit = shrinkVertically() + fadeOut()
         ) {
             val coroutineScope = rememberCoroutineScope()
-            CollapsedToolbarExtension(balance = balance,
+            CollapsedToolbarExtension(
+                balance = balance,
                 onBalanceClick = onBalanceClick,
                 onScrollToTop = {
                     coroutineScope.launch {
@@ -215,7 +218,11 @@ private fun CollapsedToolbarExtension(
     onBalanceClick: () -> Unit,
     onScrollToTop: () -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .consumeClicks()
+    ) {
         BalanceMini(
             balance = balance,
             onClick = onBalanceClick
