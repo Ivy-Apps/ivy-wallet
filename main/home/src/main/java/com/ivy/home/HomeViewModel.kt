@@ -25,8 +25,6 @@ import com.ivy.data.transaction.TrnPurpose
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.home.state.HomeState
 import com.ivy.home.state.HomeStateUi
-import com.ivy.main.base.MainBottomBarAction
-import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.transaction.NewTransaction
@@ -47,7 +45,6 @@ class HomeViewModel @Inject constructor(
     private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
     private val mapTransactionListUiAct: MapTransactionListUiAct,
     private val navigator: Navigator,
-    private val mainBottomBarVisibility: MainBottomBarVisibility,
     private val trnsFlow: TrnsFlow,
 ) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
     // region Initial state
@@ -77,14 +74,14 @@ class HomeViewModel @Inject constructor(
         income = ValueUi(amount = "0.0", currency = ""),
         expense = ValueUi(amount = "0.0", currency = ""),
         hideBalance = false,
-        moreMenuVisible = false,
+        bottomBarVisible = true,
 
         addTransactionModal = addTransactionModal,
     )
     // endregion
 
     private val overrideShowBalance = MutableStateFlow(false)
-    private val moreMenuVisible = MutableStateFlow(initialUi.moreMenuVisible)
+    private val bottomBarVisible = MutableStateFlow(initialUi.bottomBarVisible)
 
     // region State flow
     override val stateFlow: Flow<HomeState> = combine(
@@ -169,8 +166,8 @@ class HomeViewModel @Inject constructor(
 
     // region UI flow
     override val uiFlow: Flow<HomeStateUi> = combine(
-        stateFlow, moreMenuVisible
-    ) { state, moreMenuVisible ->
+        stateFlow, bottomBarVisible
+    ) { state, bottomBarVisible ->
         HomeStateUi(
             period = state.period?.let { mapSelectedPeriodUiAct(it) },
             trnsList = mapTransactionListUiAct(state.trnsList),
@@ -178,7 +175,7 @@ class HomeViewModel @Inject constructor(
             income = format(state.income, shortenFiat = true),
             expense = format(state.expense, shortenFiat = true),
             hideBalance = state.hideBalance,
-            moreMenuVisible = moreMenuVisible,
+            bottomBarVisible = bottomBarVisible,
 
             addTransactionModal = addTransactionModal,
         )
@@ -192,7 +189,6 @@ class HomeViewModel @Inject constructor(
 
     // region Event Handling
     override suspend fun handleEvent(event: HomeEvent) = when (event) {
-        is HomeEvent.BottomBarAction -> handleBottomBarAction(event.action)
         HomeEvent.AddExpense -> handleAddExpense()
         HomeEvent.AddIncome -> handleAddIncome()
         HomeEvent.AddTransfer -> handleAddTransfer()
@@ -200,13 +196,25 @@ class HomeViewModel @Inject constructor(
         HomeEvent.HiddenBalanceClick -> handleHiddenBalanceClick()
         HomeEvent.ExpenseClick -> handleExpenseClick()
         HomeEvent.IncomeClick -> handleIncomeClick()
-        HomeEvent.ShowBottomBar -> handleShowBottomBar()
-        HomeEvent.HideBottomBar -> handleHideBottomBar()
         HomeEvent.MoreClick -> handleMoreClick()
+        is HomeEvent.BottomBar -> handleBottomBarEvents(event)
     }
 
-    private fun handleBottomBarAction(action: MainBottomBarAction) {
-        addTransactionModal.show()
+    private fun handleBottomBarEvents(event: HomeEvent.BottomBar) {
+        when (event) {
+            HomeEvent.BottomBar.AccountsClick -> {
+                navigator.navigate(Destination.accounts.destination(Unit))
+            }
+            HomeEvent.BottomBar.AddClick -> {
+                addTransactionModal.show()
+            }
+            HomeEvent.BottomBar.Hide -> {
+                bottomBarVisible.value = false
+            }
+            HomeEvent.BottomBar.Show -> {
+                bottomBarVisible.value = true
+            }
+        }
     }
 
     private fun handleAddTransfer() {
@@ -247,16 +255,8 @@ class HomeViewModel @Inject constructor(
         overrideShowBalance.value = false
     }
 
-    private fun handleShowBottomBar() {
-        mainBottomBarVisibility.visible.value = true
-    }
-
-    private fun handleHideBottomBar() {
-        mainBottomBarVisibility.visible.value = false
-    }
-
     private fun handleMoreClick() {
-        moreMenuVisible.value = !moreMenuVisible.value
+        navigator.navigate(Destination.moreMenu.destination(Unit))
     }
     // endregion
 

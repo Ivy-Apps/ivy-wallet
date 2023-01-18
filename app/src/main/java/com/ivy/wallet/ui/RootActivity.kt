@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ivy.accounts.AccountsScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
@@ -39,6 +40,8 @@ import com.ivy.design.api.systems.ivyWalletDesign
 import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.file.CreateFileLauncher
 import com.ivy.file.FilePickerLauncher
+import com.ivy.home.HomeScreen
+import com.ivy.menu.HomeMoreMenuScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
@@ -127,15 +130,9 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 addAccounts = {},
                 addCategories = {}
             ),
-            home = {
-                // TODO:
-            },
-            accounts = {
-                // TODO:
-            },
-            moreMenu = {
-                // TODO:
-            },
+            home = { HomeScreen() },
+            accounts = { AccountsScreen() },
+            moreMenu = { HomeMoreMenuScreen() },
             categories = { CategoriesScreen() },
             settings = { SettingsScreen() },
             transactionScreens = TransactionScreens(

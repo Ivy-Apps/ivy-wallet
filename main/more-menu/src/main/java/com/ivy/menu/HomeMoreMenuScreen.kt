@@ -1,10 +1,7 @@
 package com.ivy.menu
 
-import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.data.Theme
 import com.ivy.design.l0_system.UI
@@ -29,64 +25,52 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
 
+// TODO: Not implemented, yet => Re-work it
+
 @Composable
-fun HomeMoreMenu(
-    visible: Boolean,
-    onMenuClose: () -> Unit
-) {
+fun BoxScope.HomeMoreMenuScreen() {
     val viewModel: HomeMoreMenuViewModel? = hiltViewModelPreviewSafe()
     val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
 
-    AnimatedVisibility(
-        modifier = Modifier.zIndex(10_000f),
-        visible = visible,
-        enter = slideInVertically { -it },
-        exit = slideOutVertically { -it },
+    ColumnRoot(
+        modifier = Modifier
+            .background(UI.colors.pure)
     ) {
-        BackHandler(enabled = visible) {
-            onMenuClose()
-        }
-
-        ColumnRoot(
-            modifier = Modifier
-                .background(UI.colors.pure)
+        SpacerWeight(weight = 1f)
+        IvyButton(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            size = ButtonSize.Big,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Categories",
+            icon = null
         ) {
-            SpacerWeight(weight = 1f)
-            IvyButton(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                size = ButtonSize.Big,
-                visibility = Visibility.Medium,
-                feeling = Feeling.Positive,
-                text = "Categories",
-                icon = null
-            ) {
-                viewModel?.onEvent(MoreMenuEvent.CategoriesClick)
-            }
-            SpacerVer(height = 16.dp)
-            IvyButton(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                size = ButtonSize.Big,
-                visibility = Visibility.Medium,
-                feeling = Feeling.Positive,
-                text = "Settings",
-                icon = null
-            ) {
-                viewModel?.onEvent(MoreMenuEvent.SettingsClick)
-            }
-            SpacerVer(height = 16.dp)
-            ToggleTheme(
-                theme = state.theme,
-                onThemeChange = {
-                    viewModel?.onEvent(MoreMenuEvent.ThemeChange(it))
-                }
-            )
-            SpacerWeight(weight = 1f)
-            CloseButton(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = onMenuClose
-            )
-            SpacerVer(height = 48.dp)
+            viewModel?.onEvent(MoreMenuEvent.CategoriesClick)
         }
+        SpacerVer(height = 16.dp)
+        IvyButton(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            size = ButtonSize.Big,
+            visibility = Visibility.Medium,
+            feeling = Feeling.Positive,
+            text = "Settings",
+            icon = null
+        ) {
+            viewModel?.onEvent(MoreMenuEvent.SettingsClick)
+        }
+        SpacerVer(height = 16.dp)
+        ToggleTheme(
+            theme = state.theme,
+            onThemeChange = {
+                viewModel?.onEvent(MoreMenuEvent.ThemeChange(it))
+            }
+        )
+        SpacerWeight(weight = 1f)
+        CloseButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            onClick = { MoreMenuEvent.Close }
+        )
+        SpacerVer(height = 48.dp)
     }
 }
 
@@ -141,10 +125,7 @@ private fun ToggleTheme(
 @Composable
 private fun HomeMoreMenuPreview() {
     IvyPreview {
-        HomeMoreMenu(
-            visible = true,
-            onMenuClose = {}
-        )
+        HomeMoreMenuScreen()
     }
 }
 

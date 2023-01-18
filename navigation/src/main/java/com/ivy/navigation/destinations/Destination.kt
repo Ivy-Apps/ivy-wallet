@@ -5,6 +5,7 @@ import com.ivy.navigation.destinations.imports.ImportGraph
 import com.ivy.navigation.destinations.main.Accounts
 import com.ivy.navigation.destinations.main.Categories
 import com.ivy.navigation.destinations.main.Home
+import com.ivy.navigation.destinations.main.MoreMenu
 import com.ivy.navigation.destinations.onboarding.OnboardingGraph
 import com.ivy.navigation.destinations.other.AddFrame
 import com.ivy.navigation.destinations.settings.Settings
@@ -17,6 +18,7 @@ object Destination {
     // region Main
     val categories = Categories
     val home = Home
+    val moreMenu = MoreMenu
     val accounts = Accounts
     // endregion
 

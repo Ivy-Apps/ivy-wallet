@@ -6,4 +6,5 @@ sealed interface MoreMenuEvent {
     object CategoriesClick : MoreMenuEvent
     object SettingsClick : MoreMenuEvent
     data class ThemeChange(val theme: Theme) : MoreMenuEvent
+    object Close : MoreMenuEvent
 }

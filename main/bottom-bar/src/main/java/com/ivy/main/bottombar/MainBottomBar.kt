@@ -35,7 +35,7 @@ enum class Tab {
 }
 
 @Composable
-fun MainBottomBar(
+fun BoxScope.MainBottomBar(
     visible: Boolean,
     selectedTab: Tab,
     modifier: Modifier = Modifier,
@@ -44,7 +44,10 @@ fun MainBottomBar(
     onAccountsClick: () -> Unit,
 ) {
     AnimatedVisibility(
-        modifier = modifier,
+        modifier = modifier
+            .align(Alignment.BottomCenter)
+            .systemBarsPadding()
+            .padding(bottom = 8.dp),
         visible = visible,
         enter = slideInBottom() + fadeIn(),
         exit = slideOutBottom() + fadeOut(),
@@ -137,7 +140,7 @@ private fun ActionButton(
     onClick: () -> Unit
 ) {
     IvyButton(
-        modifier = Modifier.size(64.dp),
+        modifier = Modifier.size(52.dp),
 //        modifier = Modifier.pointerInput(Unit) {
 //            detectDragGestures(
 //                onDragCancel = {

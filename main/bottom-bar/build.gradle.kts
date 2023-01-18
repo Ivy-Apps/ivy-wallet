@@ -13,5 +13,6 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":core:ui"))
     implementation(project(":navigation"))
+    implementation(project(":resources"))
     Testing()
 }

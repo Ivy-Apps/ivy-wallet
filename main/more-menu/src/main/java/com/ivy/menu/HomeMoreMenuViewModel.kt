@@ -33,6 +33,7 @@ class HomeMoreMenuViewModel @Inject constructor(
         MoreMenuEvent.CategoriesClick -> handleCategoriesClick()
         MoreMenuEvent.SettingsClick -> handleSettingsClick()
         is MoreMenuEvent.ThemeChange -> handleThemeChange(event)
+        MoreMenuEvent.Close -> navigator.back()
     }
 
     private fun handleCategoriesClick() {

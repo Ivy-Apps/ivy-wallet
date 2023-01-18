@@ -57,7 +57,7 @@ class RootViewModel @Inject constructor(
             delay(300) // TODO: Fix that
             // navigate to Onboarding
             navigator.navigate(Destination.onboarding.route) {
-                popUpTo(Destination.main.route) {
+                popUpTo(Destination.home.route) {
                     inclusive = true
                 }
             }

@@ -15,7 +15,6 @@ import com.ivy.core.ui.action.mapping.account.MapAccountUiAct
 import com.ivy.core.ui.action.mapping.account.MapFolderUiAct
 import com.ivy.data.Value
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.main.base.MainBottomBarVisibility
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class AccountTabViewModel @Inject constructor(
+class AccountsScreenViewModel @Inject constructor(
     private val accountFoldersFlow: AccountFoldersFlow,
     private val mapAccountUiAct: MapAccountUiAct,
     private val mapFolderUiAct: MapFolderUiAct,
@@ -33,26 +32,28 @@ class AccountTabViewModel @Inject constructor(
     private val exchangeFlow: ExchangeFlow,
     private val totalBalanceFlow: TotalBalanceFlow,
     private val navigator: Navigator,
-    private val mainBottomBarVisibility: MainBottomBarVisibility,
     private val accBalanceFlow: AccBalanceFlow
-) : SimpleFlowViewModel<AccountTabState, AccountTabEvent>() {
-    override val initialUi: AccountTabState = AccountTabState(
+) : SimpleFlowViewModel<AccountsState, AccountsEvent>() {
+    override val initialUi: AccountsState = AccountsState(
         totalBalance = ValueUi("", ""),
         availableBalance = ValueUi("", ""),
         excludedBalance = ValueUi("", ""),
         items = emptyList(),
         noAccounts = false,
-        createModal = IvyModal()
+        createModal = IvyModal(),
+        bottomBarVisible = true,
     )
 
-    override val uiFlow: Flow<AccountTabState> = combine(
-        accListItemsUiFlow(), totalBalanceFlow(), availableBalanceFlow()
-    ) { items, totalBalance, availableBalance ->
+    private val bottomBarVisible = MutableStateFlow(initialUi.bottomBarVisible)
+
+    override val uiFlow: Flow<AccountsState> = combine(
+        accListItemsUiFlow(), totalBalanceFlow(), availableBalanceFlow(), bottomBarVisible
+    ) { items, totalBalance, availableBalance, bottomBarVisible ->
         val excludedBalance = Value(
             amount = totalBalance.amount - availableBalance.amount,
             currency = totalBalance.currency
         )
-        AccountTabState(
+        AccountsState(
             totalBalance = format(totalBalance, shortenFiat = true),
             availableBalance = format(availableBalance, shortenFiat = true),
             excludedBalance = format(excludedBalance, shortenFiat = true),
@@ -65,7 +66,8 @@ class AccountTabViewModel @Inject constructor(
                 }
             },
             items = items,
-            createModal = initialUi.createModal
+            createModal = initialUi.createModal,
+            bottomBarVisible = bottomBarVisible,
         )
     }
 
@@ -176,32 +178,31 @@ class AccountTabViewModel @Inject constructor(
 
 
     // region Event Handling
-    override suspend fun handleEvent(event: AccountTabEvent) = when (event) {
-        is AccountTabEvent.BottomBarAction -> handleBottomBarAction(event)
-        AccountTabEvent.NavigateToHome -> handleNavigateToHome()
-        AccountTabEvent.HideBottomBar -> handleHideBottomBar()
-        AccountTabEvent.ShowBottomBar -> handleShowBottomBar()
+    override suspend fun handleEvent(event: AccountsEvent) = when (event) {
+        AccountsEvent.BottomBarActionClick -> handleBottomBarAction()
+        AccountsEvent.NavigateToHome -> handleNavigateToHome()
+        AccountsEvent.HideBottomBar -> handleHideBottomBar()
+        AccountsEvent.ShowBottomBar -> handleShowBottomBar()
     }
 
-    private fun handleBottomBarAction(event: AccountTabEvent.BottomBarAction) {
-        // TODO: Implement special handling for the gesture (swipe up, left, etc)
+    private fun handleBottomBarAction() {
         uiState.value.createModal.show()
     }
 
     private fun handleNavigateToHome() {
-        navigator.navigate(Destination.main.destination(Main.Tab.Home)) {
-            popUpTo(Destination.main.route) {
+        navigator.navigate(Destination.home.destination(Unit)) {
+            popUpTo(Destination.home.route) {
                 inclusive = true
             }
         }
     }
 
     private fun handleShowBottomBar() {
-        mainBottomBarVisibility.visible.value = true
+        bottomBarVisible.value = true
     }
 
     private fun handleHideBottomBar() {
-        mainBottomBarVisibility.visible.value = false
+        bottomBarVisible.value = false
     }
     // endregion
 }

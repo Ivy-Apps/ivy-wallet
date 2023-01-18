@@ -35,8 +35,8 @@ class OnboardingDebugViewModel @Inject constructor(
 
     private suspend fun finishOnboarding() {
         writeOnboardingFinishedAct(true)
-        navigator.navigate(Destination.main.destination(null)) {
-            popUpTo(Destination.main.route) {
+        navigator.navigate(Destination.home.destination(Unit)) {
+            popUpTo(Destination.debug.route) {
                 inclusive = true
             }
         }

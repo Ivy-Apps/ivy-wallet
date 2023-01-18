@@ -35,10 +35,13 @@ import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.ReorderButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.hiltViewModelPreviewSafe
+import com.ivy.main.bottombar.MainBottomBar
+import com.ivy.main.bottombar.Tab
+import kotlinx.coroutines.launch
 
 @Composable
-fun BoxScope.AccountTab() {
-    val viewModel: AccountTabViewModel? = hiltViewModelPreviewSafe()
+fun BoxScope.AccountsScreen() {
+    val viewModel: AccountsScreenViewModel? = hiltViewModelPreviewSafe()
     val state = viewModel?.uiState?.collectAsState()?.value
         ?: previewState()
 
@@ -47,8 +50,8 @@ fun BoxScope.AccountTab() {
 
 @Composable
 private fun BoxScope.UI(
-    state: AccountTabState,
-    onEvent: (AccountTabEvent) -> Unit,
+    state: AccountsState,
+    onEvent: (AccountsEvent) -> Unit,
 ) {
     val editAccountModal = rememberIvyModal()
     var editAccountId by remember { mutableStateOf<String?>(null) }
@@ -60,7 +63,7 @@ private fun BoxScope.UI(
     val netWorthInfoModal = rememberIvyModal()
 
     BackHandler(enabled = true) {
-        onEvent(AccountTabEvent.NavigateToHome)
+        onEvent(AccountsEvent.NavigateToHome)
     }
 
     val lazyListState = rememberLazyListState()
@@ -69,9 +72,9 @@ private fun BoxScope.UI(
     }
     LaunchedEffect(firstVisibleItemIndex) {
         if (firstVisibleItemIndex > 0) {
-            onEvent(AccountTabEvent.HideBottomBar)
+            onEvent(AccountsEvent.HideBottomBar)
         } else {
-            onEvent(AccountTabEvent.ShowBottomBar)
+            onEvent(AccountsEvent.ShowBottomBar)
         }
     }
 
@@ -113,6 +116,25 @@ private fun BoxScope.UI(
             SpacerVer(height = 300.dp) // last item spacer
         }
     }
+
+
+    val coroutineScope = rememberCoroutineScope()
+    MainBottomBar(
+        visible = state.bottomBarVisible,
+        selectedTab = Tab.Accounts,
+        onActionClick = {
+            onEvent(AccountsEvent.BottomBarActionClick)
+        },
+        onAccountsClick = {
+            // scroll to top
+            coroutineScope.launch {
+                lazyListState.animateScrollToItem(0)
+            }
+        },
+        onHomeClick = {
+            onEvent(AccountsEvent.NavigateToHome)
+        }
+    )
 
     val createFolderModal = rememberIvyModal()
     CreateModal(
@@ -174,11 +196,11 @@ private fun Header(
 @Composable
 private fun Preview() {
     IvyPreview {
-        AccountTab()
+        AccountsScreen()
     }
 }
 
-private fun previewState() = AccountTabState(
+private fun previewState() = AccountsState(
     totalBalance = dummyValueUi("203k"),
     availableBalance = dummyValueUi("136,3k"),
     excludedBalance = dummyValueUi("64,3k"),
@@ -221,6 +243,7 @@ private fun previewState() = AccountTabState(
             accountsCount = 0,
         )
     ),
-    createModal = IvyModal()
+    createModal = IvyModal(),
+    bottomBarVisible = true,
 )
 // endregion
