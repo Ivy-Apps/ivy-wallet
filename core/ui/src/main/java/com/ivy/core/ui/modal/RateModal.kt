@@ -1,4 +1,4 @@
-package com.ivy.core.ui.modals
+package com.ivy.core.ui.modal
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth

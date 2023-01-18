@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.R
 import com.ivy.core.ui.category.create.CreateCategoryModal
 import com.ivy.core.ui.category.pick.component.PickerCategoriesRow
@@ -20,11 +21,10 @@ import com.ivy.core.ui.category.pick.data.SelectableCategoryUi
 import com.ivy.core.ui.category.pick.data.dummySelectableCategoryUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.dummyCategoryUi
-import com.ivy.core.ui.uiStatePreviewSafe
+import com.ivy.core.ui.modal.ViewModelModal
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.previewModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
@@ -33,7 +33,6 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewModelPreviewSafe
 
 @Composable
 fun BoxScope.CategoryPickerModal(
@@ -43,24 +42,14 @@ fun BoxScope.CategoryPickerModal(
     selected: CategoryUi?,
     onPick: (CategoryUi?) -> Unit,
 ) {
-    val viewModel: CategoryPickerViewModel? = hiltViewModelPreviewSafe()
-    val state = uiStatePreviewSafe(viewModel = viewModel, preview = ::previewState)
-
-    LaunchedEffect(trnType) {
-        viewModel?.onEvent(CategoryPickerEvent.Initial(trnType))
-    }
-
-    LaunchedEffect(selected) {
-        viewModel?.onEvent(CategoryPickerEvent.CategorySelected(selected))
-        viewModel?.onEvent(CategoryPickerEvent.CollapseParent)
-    }
-
     val createCategoryModal = rememberIvyModal()
 
-    Modal(
+    ViewModelModal(
         modal = modal,
+        provideViewModel = { hiltViewModel<CategoryPickerViewModel>() },
+        previewState = { previewState() },
         level = level,
-        actions = {
+        actions = { _, onEvent ->
             IvyButton(
                 size = ButtonSize.Small,
                 visibility = Visibility.Medium,
@@ -68,12 +57,22 @@ fun BoxScope.CategoryPickerModal(
                 text = "Unspecified",
                 icon = R.drawable.ic_custom_category_s,
             ) {
-                viewModel?.onEvent(CategoryPickerEvent.CategorySelected(null))
+                onEvent(CategoryPickerEvent.CategorySelected(null))
                 onPick(null)
                 modal.hide()
             }
         }
-    ) {
+    ) { state, onEvent ->
+        LaunchedEffect(trnType) {
+            onEvent(CategoryPickerEvent.Initial(trnType))
+        }
+
+        LaunchedEffect(selected) {
+            onEvent(CategoryPickerEvent.CategorySelected(selected))
+            onEvent(CategoryPickerEvent.CollapseParent)
+        }
+
+
         LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
             item(key = "modal_title") {
                 Title(text = stringResource(id = R.string.choose_category))
@@ -82,12 +81,12 @@ fun BoxScope.CategoryPickerModal(
             pickerItems(
                 items = state.items,
                 onCategorySelect = {
-                    viewModel?.onEvent(CategoryPickerEvent.CategorySelected(it))
+                    onEvent(CategoryPickerEvent.CategorySelected(it))
                     onPick(it)
                     modal.hide()
                 },
                 onExpandParent = {
-                    viewModel?.onEvent(CategoryPickerEvent.ExpandParent(it))
+                    onEvent(CategoryPickerEvent.ExpandParent(it))
                 },
             )
             item(key = "add_category_btn") {
