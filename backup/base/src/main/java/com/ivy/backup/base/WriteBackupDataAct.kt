@@ -52,7 +52,7 @@ class WriteBackupDataAct @Inject constructor(
     ) {
         if (trns.isNotEmpty()) {
             writeTrnsAct(
-                WriteTrnsAct.Input.Many(
+                WriteTrnsAct.Input.ManyInefficient(
                     trns.take(pageSize).map {
                         WriteTrnsAct.Input.SaveInefficient(it)
                     }

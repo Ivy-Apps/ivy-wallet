@@ -47,7 +47,7 @@ class WriteAccountsAct @Inject constructor(
     private suspend fun deleteTrns(accountId: String) {
         val trns = trnQueryExecutor.query(TrnWhere.ByAccountId(accountId))
         writeTrnsAct(
-            WriteTrnsAct.Input.Many(trns.map {
+            WriteTrnsAct.Input.ManyInefficient(trns.map {
                 WriteTrnsAct.Input.DeleteInefficient(
                     trnId = it.id
                 )

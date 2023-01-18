@@ -14,5 +14,6 @@ sealed interface SettingsEvent {
     object MountDrive : SettingsEvent
 
     object AddFrame : SettingsEvent
+    object NukeAccCache : SettingsEvent
 }
 

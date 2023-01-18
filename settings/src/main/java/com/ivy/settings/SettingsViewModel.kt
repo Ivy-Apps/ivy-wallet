@@ -12,6 +12,7 @@ import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
 import com.ivy.core.domain.action.settings.basecurrency.WriteBaseCurrencyAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.action.settings.startdayofmonth.WriteStartDayOfMonthAct
+import com.ivy.core.domain.algorithm.accountcache.NukeAccountCacheAct
 import com.ivy.core.domain.pure.util.combine
 import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.drive.google_drive.GoogleDriveService
@@ -44,7 +45,8 @@ class SettingsViewModel @Inject constructor(
     private val writeAppLockedAct: WriteAppLockedAct,
     private val importOldJsonBackupAct: ImportOldJsonBackupAct,
     private val googleDriveInitializer: GoogleDriveInitializer,
-    private val googleDriveService: GoogleDriveService
+    private val googleDriveService: GoogleDriveService,
+    private val nukeAccountCacheAct: NukeAccountCacheAct,
 ) : SimpleFlowViewModel<SettingsState, SettingsEvent>() {
     override val initialUi: SettingsState = SettingsState(
         baseCurrency = "",
@@ -94,10 +96,12 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.AppLocked -> {
                 writeAppLockedAct(event.appLocked)
             }
-
             is SettingsEvent.ImportOldData -> handleImportOldData(event)
             is SettingsEvent.MountDrive -> handleMountDrive()
             SettingsEvent.AddFrame -> handleAddFrame()
+            SettingsEvent.NukeAccCache -> {
+                nukeAccountCacheAct(Unit)
+            }
         }
     }
 

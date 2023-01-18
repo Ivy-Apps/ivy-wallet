@@ -170,6 +170,19 @@ private fun BoxScope.UI(
                 onEvent(SettingsEvent.AddFrame)
             }
         }
+        item {
+            SpacerVer(height = 24.dp)
+            IvyButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                size = ButtonSize.Big,
+                visibility = Visibility.Focused,
+                feeling = Feeling.Negative,
+                text = "Nuke account's cache",
+                icon = null
+            ) {
+                onEvent(SettingsEvent.NukeAccCache)
+            }
+        }
     }
 
     CurrencyPickerModal(

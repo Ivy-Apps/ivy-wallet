@@ -19,4 +19,7 @@ interface AccountCacheDao {
 
     @Query("DELETE FROM account_cache WHERE accountId = :accountId")
     suspend fun delete(accountId: String)
+
+    @Query("DELETE FROM account_cache")
+    suspend fun deleteAll()
 }

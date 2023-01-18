@@ -13,7 +13,7 @@ import com.ivy.core.domain.pure.mapping.entity.mapToEntity
 import com.ivy.core.domain.pure.mapping.entity.mapToTrnTagEntity
 import com.ivy.core.domain.pure.transaction.validateTransaction
 import com.ivy.core.domain.pure.util.beautify
-import com.ivy.core.persistence.dao.account.AccountDao
+import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.dao.trn.SaveTrnData
 import com.ivy.core.persistence.dao.trn.TrnDao
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
@@ -49,7 +49,7 @@ class WriteTrnsAct @Inject constructor(
     private val trnsSignal: TrnsSignal,
     private val timeProvider: TimeProvider,
     private val invalidateAccCacheAct: InvalidateAccCacheAct,
-    private val accountDao: AccountDao,
+    private val db: IvyWalletCoreDb,
 ) : Action<WriteTrnsAct.Input, Unit>() {
 
     sealed interface Input {
@@ -79,7 +79,7 @@ class WriteTrnsAct @Inject constructor(
         ) : Input, Operation
 
         // TODO: Re-work this Many to be efficient
-        data class Many(
+        data class ManyInefficient(
             val operations: List<Operation>
         ) : Input
     }
@@ -91,7 +91,7 @@ class WriteTrnsAct @Inject constructor(
             is Input.Delete -> delete(input)
             is Input.DeleteInefficient -> deleteInefficient(input)
             is Input.SaveInefficient -> saveInefficient(input)
-            is Input.Many -> many(input)
+            is Input.ManyInefficient -> many(input)
         }
 
         trnsSignal.send(Unit) // notify for changed transactions
@@ -172,7 +172,7 @@ class WriteTrnsAct @Inject constructor(
     // endregion
 
     // region Many
-    private suspend fun many(input: Input.Many) {
+    private suspend fun many(input: Input.ManyInefficient) {
         val pairs = input.operations.map {
             when (it) {
                 is Input.CreateNew -> {
@@ -199,11 +199,7 @@ class WriteTrnsAct @Inject constructor(
         )
 
         // Invalidate all account's cache
-        invalidateAccCacheAct(
-            InvalidateAccCacheAct.Input.Invalidate(
-                accountIds = accountDao.findAllIds().toNonEmptyList()
-            )
-        )
+        db.accountCacheDao().deleteAll()
     }
     // endregion
 
