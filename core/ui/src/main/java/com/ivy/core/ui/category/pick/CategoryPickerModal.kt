@@ -74,7 +74,7 @@ fun BoxScope.CategoryPickerModal(
             }
         }
     ) {
-        LazyColumn {
+        LazyColumn(modifier = Modifier.weight(1f, fill = false)) {
             item(key = "modal_title") {
                 Title(text = stringResource(id = R.string.choose_category))
                 SpacerVer(height = 16.dp)
