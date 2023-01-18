@@ -28,6 +28,16 @@ import com.ivy.resources.R
 
 private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
 
+@Composable
+fun rememberTransactionsListState(
+    scrollStateKey: String?,
+) = rememberLazyListState(
+    initialFirstVisibleItemIndex =
+    lazyStateCache[scrollStateKey]?.firstVisibleItemIndex ?: 0,
+    initialFirstVisibleItemScrollOffset =
+    lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
+)
+
 /**
  * Displays a list of transactions _(Upcoming, Overdue & History)_ efficiently in a **LazyColumn**.
  * Optionally, **persists scroll progress** so when the user navigates back to the screen
@@ -51,8 +61,10 @@ private var lazyStateCache: MutableMap<String, LazyListState> = mutableMapOf()
 @Composable
 fun TransactionsLazyColumn(
     transactionsList: TransactionsListUi,
+    // TODO: Refactor "scrollStateKey" and "state" params duplication
     scrollStateKey: String?,
     modifier: Modifier = Modifier,
+    state: LazyListState = rememberTransactionsListState(scrollStateKey = scrollStateKey),
     dueActions: DueActions? = null,
     contentAboveTrns: (LazyListScope.(LazyListState) -> Unit)? = null,
     contentBelowTrns: (LazyListScope.(LazyListState) -> Unit)? = { scrollingSpace() },
@@ -62,13 +74,6 @@ fun TransactionsLazyColumn(
     trnItemClickHandler: TrnItemClickHandler = defaultTrnItemClickHandler(),
     onFirstVisibleItemChange: (suspend (Int) -> Unit)? = null,
 ) {
-    val state = rememberLazyListState(
-        initialFirstVisibleItemIndex =
-        lazyStateCache[scrollStateKey]?.firstVisibleItemIndex ?: 0,
-        initialFirstVisibleItemScrollOffset =
-        lazyStateCache[scrollStateKey]?.firstVisibleItemScrollOffset ?: 0
-    )
-
     if (onFirstVisibleItemChange != null) {
         val firstVisibleItemIndex by remember {
             derivedStateOf { state.firstVisibleItemIndex }

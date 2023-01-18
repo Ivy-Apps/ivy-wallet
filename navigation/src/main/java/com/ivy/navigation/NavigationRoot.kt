@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ivy.navigation.destinations.Destination
+import com.ivy.navigation.destinations.main.Accounts
 import com.ivy.navigation.destinations.main.Categories
-import com.ivy.navigation.destinations.main.Main
+import com.ivy.navigation.destinations.main.Home
+import com.ivy.navigation.destinations.main.MoreMenu
 import com.ivy.navigation.destinations.other.AddFrame
 import com.ivy.navigation.destinations.settings.Settings
 import com.ivy.navigation.graph.*
@@ -17,7 +19,9 @@ import kotlinx.coroutines.flow.collectLatest
 fun NavigationRoot(
     navigator: Navigator,
     onboardingScreens: OnboardingScreens,
-    main: @Composable (Main.Tab?) -> Unit,
+    home: @Composable () -> Unit,
+    accounts: @Composable () -> Unit,
+    moreMenu: @Composable () -> Unit,
     categories: @Composable () -> Unit,
     settings: @Composable () -> Unit,
     transactionScreens: TransactionScreens,
@@ -38,11 +42,17 @@ fun NavigationRoot(
     }
     NavHost(
         navController = navController,
-        startDestination = Destination.main.route
+        startDestination = Destination.home.route
     ) {
         onboardingGraph(onboardingScreens)
-        composable(Main.route) {
-            main(Main.parse(it))
+        composable(Home.route) {
+            home()
+        }
+        composable(Accounts.route) {
+            accounts()
+        }
+        composable(MoreMenu.route) {
+            moreMenu()
         }
         composable(Categories.route) {
             categories()

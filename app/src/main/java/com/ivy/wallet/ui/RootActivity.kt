@@ -39,7 +39,6 @@ import com.ivy.design.api.systems.ivyWalletDesign
 import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.file.CreateFileLauncher
 import com.ivy.file.FilePickerLauncher
-import com.ivy.main.impl.MainScreen
 import com.ivy.navigation.NavigationRoot
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.graph.DebugScreens
@@ -128,7 +127,15 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 addAccounts = {},
                 addCategories = {}
             ),
-            main = { MainScreen(it) },
+            home = {
+                // TODO:
+            },
+            accounts = {
+                // TODO:
+            },
+            moreMenu = {
+                // TODO:
+            },
             categories = { CategoriesScreen() },
             settings = { SettingsScreen() },
             transactionScreens = TransactionScreens(
