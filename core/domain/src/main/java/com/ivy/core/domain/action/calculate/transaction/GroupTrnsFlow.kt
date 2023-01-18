@@ -37,7 +37,7 @@ class GroupTrnsFlow @Inject constructor(
     private val calculateFlow: CalculateFlow,
     private val trnLinkRecordDao: TrnLinkRecordDao,
     private val timeProvider: TimeProvider,
-    private val collapsedTrnsListDatesFlow: CollapsedTrnListDatesFlow,
+    private val collapsedTrnsListDatesFlow: CollapsedTrnListKeysFlow,
 ) : FlowAction<List<Transaction>, TransactionsList>() {
 
     @OptIn(ExperimentalCoroutinesApi::class)

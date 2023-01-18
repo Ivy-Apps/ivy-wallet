@@ -6,6 +6,8 @@ import com.ivy.core.persistence.algorithm.accountcache.AccountCacheDao
 import com.ivy.core.persistence.algorithm.accountcache.AccountCacheEntity
 import com.ivy.core.persistence.algorithm.calc.CalcTrnDao
 import com.ivy.core.persistence.algorithm.calc.RatesDao
+import com.ivy.core.persistence.algorithm.trnhistory.CalcHistoryTrnDao
+import com.ivy.core.persistence.algorithm.trnhistory.CalcHistoryTrnView
 import com.ivy.core.persistence.dao.AttachmentDao
 import com.ivy.core.persistence.dao.account.AccountDao
 import com.ivy.core.persistence.dao.account.AccountFolderDao
@@ -44,10 +46,15 @@ import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
         ExchangeRateOverrideEntity::class, TagEntity::class,
         TrnTagEntity::class, AccountCacheEntity::class,
     ],
-    version = 4,
+    views = [
+        CalcHistoryTrnView::class
+    ],
+    version = 6,
     autoMigrations = [
         AutoMigration(from = 2, to = 3),
         AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6),
     ],
     exportSchema = true,
 )
@@ -71,6 +78,7 @@ abstract class IvyWalletCoreDb : RoomDatabase() {
     abstract fun exchangeRateOverrideDao(): ExchangeRateOverrideDao
 
     abstract fun calcTrnDao(): CalcTrnDao
+    abstract fun calcHistoryTrnDao(): CalcHistoryTrnDao
     abstract fun ratesDao(): RatesDao
     abstract fun accountCacheDao(): AccountCacheDao
 

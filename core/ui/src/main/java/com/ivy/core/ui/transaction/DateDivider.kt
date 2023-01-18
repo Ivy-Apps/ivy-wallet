@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.dateId
 import com.ivy.common.time.dateNowLocal
-import com.ivy.core.domain.action.calculate.transaction.toggleTrnListDate
+import com.ivy.core.domain.action.calculate.transaction.toggleTrnListKey
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.data.transaction.TrnListItemUi
@@ -31,7 +31,7 @@ fun DateDivider(divider: TrnListItemUi.DateDivider) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                toggleTrnListDate(dateId = divider.id)
+                toggleTrnListKey(keyId = divider.id)
             }
             .thenIf(divider.collapsed) {
                 drawBehind {

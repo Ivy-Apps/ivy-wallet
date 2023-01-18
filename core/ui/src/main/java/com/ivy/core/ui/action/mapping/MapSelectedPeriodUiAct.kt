@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.ivy.common.time.dateNowLocal
 import com.ivy.common.time.format
-import com.ivy.core.domain.pure.time.range
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.MonthUi
 import com.ivy.core.ui.data.period.SelectedPeriodUi
@@ -20,6 +20,7 @@ import javax.inject.Inject
 class MapSelectedPeriodUiAct @Inject constructor(
     @ApplicationContext
     private val appContext: Context,
+    private val timeProvider: TimeProvider,
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {
     override suspend fun transform(domain: SelectedPeriod): SelectedPeriodUi = when (domain) {
         is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime(
@@ -76,7 +77,7 @@ class MapSelectedPeriodUiAct @Inject constructor(
         fun format(time: LocalDateTime, currentYear: Int): String =
             time.format(if (time.year == currentYear) "MMM dd" else "MMM dd, yyyy")
 
-        val currentYear = dateNowLocal().year
+        val currentYear = timeProvider.dateNow().year
         val from = format(range.from, currentYear)
         val to = format(range.to, currentYear)
         return "$from - $to"
@@ -86,7 +87,7 @@ class MapSelectedPeriodUiAct @Inject constructor(
         fun format(time: LocalDateTime, currentYear: Int): String =
             time.format(if (time.year == currentYear) "MMM. dd" else "MMM. dd, yyyy")
 
-        val period = selectedPeriod.range()
+        val period = selectedPeriod.range
         val currentYear = dateNowLocal().year
 
         return TimeRangeUi(

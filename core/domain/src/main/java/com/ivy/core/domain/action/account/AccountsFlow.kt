@@ -18,12 +18,12 @@ import javax.inject.Singleton
 /**
  * @return a flow of latest [Account]s by transforming db entities into domain objects.
  */
+// TODO: Remove from `SharedFlowAction`: no need to be @Singleton and occupy memory!
 @Singleton
 class AccountsFlow @Inject constructor(
     private val accountDao: AccountDao,
     private val timeProvider: TimeProvider,
 ) : SharedFlowAction<List<Account>>() {
-
     override fun initialValue(): List<Account> = emptyList()
 
     override fun createFlow(): Flow<List<Account>> =
@@ -32,7 +32,6 @@ class AccountsFlow @Inject constructor(
                 toDomain(acc = it, timeProvider = timeProvider)
             }
         }.flowOn(Dispatchers.IO)
-
 }
 
 fun toDomain(

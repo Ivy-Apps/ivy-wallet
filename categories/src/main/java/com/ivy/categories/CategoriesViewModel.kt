@@ -9,7 +9,6 @@ import com.ivy.core.domain.action.data.CategoryListItem
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
-import com.ivy.core.domain.pure.time.range
 import com.ivy.core.domain.pure.util.combineList
 import com.ivy.core.ui.action.mapping.MapCategoryUiAct
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
@@ -50,7 +49,7 @@ class CategoriesViewModel @Inject constructor(
         selectedPeriodFlow(),
         categoriesListFlow(CategoriesListFlow.Input(trnType = null))
     ) { period, list ->
-        val range = period.range()
+        val range = period.range
         combineList(list.map { item ->
             when (item) {
                 is CategoryListItem.Archived -> {

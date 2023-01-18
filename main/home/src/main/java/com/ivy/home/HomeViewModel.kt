@@ -12,7 +12,6 @@ import com.ivy.core.domain.action.transaction.TrnQuery.*
 import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
-import com.ivy.core.domain.pure.time.range
 import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
 import com.ivy.core.ui.action.mapping.trn.MapTransactionListUiAct
 import com.ivy.core.ui.data.transaction.TransactionsListUi
@@ -113,7 +112,7 @@ class HomeViewModel @Inject constructor(
 
             // Trns History, Upcoming & Overdue
             val trnsListFlow = selectedPeriodFlow.flatMapLatest {
-                val period = it.range()
+                val period = it.range
                 // Due range: upcoming for this month + overdue for all time
                 val dueRange = TimeRange(
                     from = beginningOfIvyTime(),
@@ -124,7 +123,7 @@ class HomeViewModel @Inject constructor(
 
             // Income & Expense for the period
             val statsFlow = selectedPeriodFlow.flatMapLatest {
-                val period = it.range()
+                val period = it.range
 
                 // take only transactions from the history, excluding transfers
                 // but INCLUDING transfer fees

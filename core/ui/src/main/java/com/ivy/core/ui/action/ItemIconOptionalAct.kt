@@ -16,59 +16,73 @@ class ItemIconOptionalAct @Inject constructor(
 ) : Action<ItemIconId, ItemIcon?>() {
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override suspend fun action(iconId: ItemIconId): ItemIcon? {
-        fun unknown(): ItemIcon? =
-            getIcon(iconId = iconId)?.let { iconRes ->
-                ItemIcon.Unknown(
-                    icon = iconRes,
-                    iconId = iconId,
-                )
-            }
-
-        val iconS = getSizedIcon(iconId = iconId, size = IconSize.S) ?: return unknown()
-        val iconM = getSizedIcon(iconId = iconId, size = IconSize.M) ?: return unknown()
-        val iconL = getSizedIcon(iconId = iconId, size = IconSize.L) ?: return unknown()
-
-        return ItemIcon.Sized(
-            iconS = iconS,
-            iconM = iconM,
-            iconL = iconL,
-            iconId = iconId,
-        )
+        return itemIconOptional(appContext, iconId)
     }
-
-    @DrawableRes
-    fun getSizedIcon(
-        iconId: ItemIconId?,
-        size: IconSize,
-    ): Int? = iconId?.let {
-        getDrawableByName(
-            fileName = "ic_custom_${normalize(iconId)}_${size.value}"
-        )
-    }
-
-    @DrawableRes
-    private fun getIcon(
-        iconId: ItemIconId?
-    ): Int? = iconId?.let {
-        getDrawableByName(
-            fileName = normalize(iconId)
-        )
-    }
-
-    @SuppressLint("DiscouragedApi")
-    @DrawableRes
-    private fun getDrawableByName(fileName: String): Int? = try {
-        appContext.resources.getIdentifier(
-            fileName,
-            "drawable",
-            appContext.packageName
-        ).takeIf { it != 0 }
-    } catch (e: Exception) {
-        null
-    }
-
-    private fun normalize(iconId: ItemIconId): String = iconId
-        .replace(" ", "")
-        .trim()
-        .lowercase()
 }
+
+fun itemIconOptional(
+    appContext: Context,
+    iconId: ItemIconId
+): ItemIcon? {
+    fun unknown(): ItemIcon? =
+        getIcon(appContext = appContext, iconId = iconId)?.let { iconRes ->
+            ItemIcon.Unknown(
+                icon = iconRes,
+                iconId = iconId,
+            )
+        }
+
+    val iconS = getSizedIcon(appContext, iconId = iconId, size = IconSize.S) ?: return unknown()
+    val iconM = getSizedIcon(appContext, iconId = iconId, size = IconSize.M) ?: return unknown()
+    val iconL = getSizedIcon(appContext, iconId = iconId, size = IconSize.L) ?: return unknown()
+
+    return ItemIcon.Sized(
+        iconS = iconS,
+        iconM = iconM,
+        iconL = iconL,
+        iconId = iconId,
+    )
+}
+
+@DrawableRes
+fun getSizedIcon(
+    appContext: Context,
+    iconId: ItemIconId?,
+    size: IconSize,
+): Int? = iconId?.let {
+    getDrawableByName(
+        appContext = appContext,
+        fileName = "ic_custom_${normalize(iconId)}_${size.value}"
+    )
+}
+
+@DrawableRes
+private fun getIcon(
+    appContext: Context,
+    iconId: ItemIconId?
+): Int? = iconId?.let {
+    getDrawableByName(
+        appContext = appContext,
+        fileName = normalize(iconId)
+    )
+}
+
+@SuppressLint("DiscouragedApi")
+@DrawableRes
+private fun getDrawableByName(
+    appContext: Context,
+    fileName: String
+): Int? = try {
+    appContext.resources.getIdentifier(
+        fileName,
+        "drawable",
+        appContext.packageName
+    ).takeIf { it != 0 }
+} catch (e: Exception) {
+    null
+}
+
+private fun normalize(iconId: ItemIconId): String = iconId
+    .replace(" ", "")
+    .trim()
+    .lowercase()
