@@ -34,10 +34,11 @@ import com.ivy.design.util.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun <UiState, Event> BoxScope.ViewModelModal(
+fun <State, UiState, Event> BoxScope.ViewModelModal(
     modal: IvyModal,
-    provideViewModel: @Composable () -> FlowViewModel<Unit, UiState, Event>,
-    previewState: () -> UiState,
+    // TODO: Fix potential recomposition problems
+    provideViewModel: @Composable () -> FlowViewModel<State, UiState, Event>,
+    previewState: @Composable () -> UiState,
     actions: @Composable ModalActionsScope.(
         state: UiState,
         onEvent: (Event) -> Unit,

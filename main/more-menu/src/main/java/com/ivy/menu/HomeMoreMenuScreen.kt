@@ -68,7 +68,9 @@ fun BoxScope.HomeMoreMenuScreen() {
         SpacerWeight(weight = 1f)
         CloseButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = { MoreMenuEvent.Close }
+            onClick = {
+                viewModel?.onEvent(MoreMenuEvent.Close)
+            }
         )
         SpacerVer(height = 48.dp)
     }

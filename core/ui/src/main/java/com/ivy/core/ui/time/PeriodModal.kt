@@ -9,11 +9,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.common.time.atEndOfDay
 import com.ivy.common.time.dateNowLocal
 import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
+import com.ivy.core.ui.modal.ViewModelModal
 import com.ivy.core.ui.temp.rootScreen
 import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
@@ -25,7 +27,6 @@ import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.SpacerHor
 import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.design.l2_components.modal.Modal
 import com.ivy.design.l2_components.modal.components.Done
 import com.ivy.design.l2_components.modal.components.Title
 import com.ivy.design.l2_components.modal.rememberIvyModal
@@ -34,7 +35,6 @@ import com.ivy.design.l3_ivyComponents.Visibility
 import com.ivy.design.l3_ivyComponents.button.ButtonSize
 import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
-import com.ivy.design.util.hiltViewModelPreviewSafe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -43,32 +43,29 @@ fun BoxScope.PeriodModal(
     modal: IvyModal,
     selectedPeriod: SelectedPeriodUi
 ) {
-    val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
-    val state = viewModel?.uiState?.collectAsState()?.value ?: previewState()
     UI(
         modal = modal,
         selectedPeriod = selectedPeriod,
-        state = state,
-        onEvent = { viewModel?.onEvent(it) },
     )
 }
 
 @Composable
 private fun BoxScope.UI(
     modal: IvyModal,
-    selectedPeriod: SelectedPeriodUi,
-    state: SelectedPeriodViewModel.UiState,
-    onEvent: (SelectPeriodEvent) -> Unit,
+    selectedPeriod: SelectedPeriodUi
 ) {
     val moreOptionsModal = rememberIvyModal()
-    Modal(
+
+    ViewModelModal(
         modal = modal,
-        actions = {
+        provideViewModel = { hiltViewModel<SelectedPeriodViewModel>() },
+        previewState = { previewState() },
+        actions = { _, _ ->
             Done {
                 modal.hide()
             }
         }
-    ) {
+    ) { state, onEvent ->
         ChooseMonth(
             months = state.months,
             selected = selectedPeriod,
@@ -100,7 +97,6 @@ private fun BoxScope.UI(
     MoreOptionsModal(
         periodModal = modal,
         moreOptionsModal = moreOptionsModal,
-        onEvent = onEvent
     )
 }
 
@@ -335,9 +331,13 @@ private fun MoreOptions(
 private fun BoxScope.MoreOptionsModal(
     periodModal: IvyModal,
     moreOptionsModal: IvyModal,
-    onEvent: (SelectPeriodEvent) -> Unit
 ) {
-    Modal(modal = moreOptionsModal, actions = {}) {
+    ViewModelModal(
+        modal = moreOptionsModal,
+        provideViewModel = { hiltViewModel<SelectedPeriodViewModel>() },
+        previewState = { previewState() },
+        actions = { _, _ -> }
+    ) { _, onEvent ->
         Title(text = "More Options")
         SpacerVer(height = 24.dp)
         val thisYear = remember { dateNowLocal().year.toString() }
