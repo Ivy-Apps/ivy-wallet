@@ -6,17 +6,17 @@ import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.transaction.TrnQuery
 import com.ivy.core.domain.action.transaction.TrnsByQueryAct
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.Transfer
 import com.ivy.data.transaction.TrnPurpose
 import javax.inject.Inject
 
 class TransferByBatchIdAct @Inject constructor(
     private val trnsByQueryAct: TrnsByQueryAct,
     private val trnLinkRecordDao: TrnLinkRecordDao,
-) : Action<String, TrnListItem.Transfer?>() {
+) : Action<String, Transfer?>() {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(batchId: String): TrnListItem.Transfer? {
+    override suspend fun action(batchId: String): Transfer? {
         val trnIds = trnLinkRecordDao.findByBatchId(batchId = batchId)
             .map { it.trnId }
         if (trnIds.isEmpty()) return null
@@ -30,7 +30,7 @@ class TransferByBatchIdAct @Inject constructor(
         val to = trns.firstOrNull { it.purpose == TrnPurpose.TransferTo } ?: return null
         val fee = trns.firstOrNull { it.purpose == TrnPurpose.Fee }
 
-        return TrnListItem.Transfer(
+        return Transfer(
             batchId = batchId,
             time = from.time,
             from = from,

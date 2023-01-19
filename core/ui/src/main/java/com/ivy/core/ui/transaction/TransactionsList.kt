@@ -18,9 +18,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.timeNow
-import com.ivy.core.domain.action.calculate.transaction.OverdueSectionKey
-import com.ivy.core.domain.action.calculate.transaction.UpcomingSectionKey
-import com.ivy.core.domain.action.calculate.transaction.toggleCollapseExpandTrnListKey
+import com.ivy.core.domain.algorithm.trnhistory.OverdueSectionKey
+import com.ivy.core.domain.algorithm.trnhistory.UpcomingSectionKey
+import com.ivy.core.domain.algorithm.trnhistory.toggleCollapseExpandTrnListKey
 import com.ivy.core.domain.pure.format.SignedValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.algorithm.trnhistory.data.*

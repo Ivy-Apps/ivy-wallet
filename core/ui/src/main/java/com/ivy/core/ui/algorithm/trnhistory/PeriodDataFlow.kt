@@ -4,17 +4,17 @@ import android.content.Context
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toUtc
 import com.ivy.core.domain.action.FlowAction
-import com.ivy.core.domain.action.calculate.transaction.CollapsedTrnListKeysFlow
 import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.algorithm.calc.RatesFlow
 import com.ivy.core.domain.algorithm.calc.exchangeRawStats
+import com.ivy.core.domain.algorithm.trnhistory.CollapsedTrnListKeysFlow
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.algorithm.trnhistory.CalcHistoryTrnView
 import com.ivy.core.ui.action.AccountsUiFlow
 import com.ivy.core.ui.action.CategoriesUiFlow
+import com.ivy.core.ui.algorithm.trnhistory.data.PeriodDataUi
 import com.ivy.core.ui.algorithm.trnhistory.data.TrnListItemUi
-import com.ivy.core.ui.algorithm.trnhistory.data.TrnListUi
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDateDivider
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDividerType
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDueDivider
@@ -27,7 +27,12 @@ import java.time.ZoneOffset
 import javax.inject.Inject
 
 
-class TrnListFlow @Inject constructor(
+/**
+ * @return Selected period's data:
+ * - Income/Expense in base currency
+ * - Transactions list: upcoming, overdue, history _(grouped properly)_
+ */
+class PeriodDataFlow @Inject constructor(
     @ApplicationContext
     private val appContext: Context,
     private val selectedPeriodFlow: SelectedPeriodFlow,
@@ -37,14 +42,14 @@ class TrnListFlow @Inject constructor(
     private val categoriesUiFlow: CategoriesUiFlow,
     private val collapsedTrnListKeysFlow: CollapsedTrnListKeysFlow,
     private val ratesFlow: RatesFlow,
-) : FlowAction<TrnListFlow.Input, TrnListUi>() {
+) : FlowAction<PeriodDataFlow.Input, PeriodDataUi>() {
     sealed interface Input {
         object All : Input
         // TODO: Add by Category, by Account, etc
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun createFlow(input: Input): Flow<TrnListUi> =
+    override fun createFlow(input: Input): Flow<PeriodDataUi> =
         selectedPeriodFlow().flatMapLatest { period ->
             when (input) {
                 Input.All -> db.calcHistoryTrnDao().findAllInPeriod(
@@ -100,7 +105,7 @@ class TrnListFlow @Inject constructor(
                     if (collapsed) listOf(divider) else listOf(divider) + rawTrnListMap[key]!!
                 }
 
-                TrnListUi(
+                PeriodDataUi(
                     periodIncome = format(periodStats.income, shortenFiat = true),
                     periodExpense = format(periodStats.expense, shortenFiat = true),
                     items = items

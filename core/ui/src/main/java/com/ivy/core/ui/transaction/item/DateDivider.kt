@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.dateId
 import com.ivy.common.time.dateNowLocal
-import com.ivy.core.domain.action.calculate.transaction.toggleCollapseExpandTrnListKey
+import com.ivy.core.domain.algorithm.trnhistory.toggleCollapseExpandTrnListKey
 import com.ivy.core.domain.pure.format.SignedValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.algorithm.trnhistory.data.DateDividerUi

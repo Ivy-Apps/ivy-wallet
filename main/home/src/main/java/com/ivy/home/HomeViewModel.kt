@@ -4,12 +4,10 @@ import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
-import com.ivy.core.ui.algorithm.trnhistory.TrnListFlow
-import com.ivy.core.ui.algorithm.trnhistory.data.TrnListUi
+import com.ivy.core.ui.algorithm.trnhistory.PeriodDataFlow
+import com.ivy.core.ui.algorithm.trnhistory.data.PeriodDataUi
 import com.ivy.data.Value
-import com.ivy.data.time.SelectedPeriod
 import com.ivy.data.transaction.TransactionType
-import com.ivy.data.transaction.TransactionsList
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
@@ -25,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val balanceFlow: TotalBalanceFlow,
-    private val trnsListFlow: TrnListFlow,
+    private val trnsListFlow: PeriodDataFlow,
     private val navigator: Navigator,
 ) : SimpleFlowViewModel<HomeStateUi, HomeEvent>() {
     private val addTransactionModal = IvyModal()
@@ -69,10 +67,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun immediateTrnsListFlow() = trnsListFlow(
-        TrnListFlow.Input.All
+        PeriodDataFlow.Input.All
     ).onStart {
         emit(
-            TrnListUi(
+            PeriodDataUi(
                 periodIncome = ValueUi("", ""),
                 periodExpense = ValueUi("", ""),
                 items = emptyList()
@@ -158,11 +156,4 @@ class HomeViewModel @Inject constructor(
         navigator.navigate(Destination.moreMenu.destination(Unit))
     }
     // endregion
-
-    private data class PeriodData(
-        val period: SelectedPeriod,
-        val income: Value,
-        val expense: Value,
-        val trnsList: TransactionsList,
-    )
 }

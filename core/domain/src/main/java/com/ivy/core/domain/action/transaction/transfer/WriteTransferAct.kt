@@ -227,7 +227,7 @@ class WriteTransferAct @Inject constructor(
     )
 
     private suspend fun deleteTransfer(
-        transfer: TrnListItem.Transfer
+        transfer: Transfer
     ) {
         writeTrnsBatchAct(
             WriteTrnsBatchAct.delete(

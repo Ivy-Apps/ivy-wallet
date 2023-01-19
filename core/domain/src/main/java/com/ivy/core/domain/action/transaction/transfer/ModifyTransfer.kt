@@ -1,6 +1,6 @@
 package com.ivy.core.domain.action.transaction.transfer
 
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.Transfer
 import com.ivy.data.transaction.TrnTime
 
 sealed interface ModifyTransfer {
@@ -12,7 +12,7 @@ sealed interface ModifyTransfer {
         fun updateTrnTime(batchId: String, newTrnTime: TrnTime) =
             UpdateTrnTime(batchId, newTrnTime)
 
-        fun delete(transfer: TrnListItem.Transfer) = Delete(transfer)
+        fun delete(transfer: Transfer) = Delete(transfer)
     }
 
     data class UpdateTrnTime internal constructor(
@@ -30,5 +30,5 @@ sealed interface ModifyTransfer {
         val data: TransferData
     ) : ModifyTransfer
 
-    data class Delete internal constructor(val transfer: TrnListItem.Transfer) : ModifyTransfer
+    data class Delete internal constructor(val transfer: Transfer) : ModifyTransfer
 }

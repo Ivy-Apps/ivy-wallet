@@ -5,9 +5,9 @@ import com.ivy.common.time.dateId
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.toLocal
 import com.ivy.common.time.toUtc
-import com.ivy.core.domain.action.calculate.transaction.OverdueSectionKey
-import com.ivy.core.domain.action.calculate.transaction.UpcomingSectionKey
 import com.ivy.core.domain.algorithm.calc.rawStats
+import com.ivy.core.domain.algorithm.trnhistory.OverdueSectionKey
+import com.ivy.core.domain.algorithm.trnhistory.UpcomingSectionKey
 import com.ivy.core.persistence.algorithm.trnhistory.CalcHistoryTrnView
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.ui.algorithm.trnhistory.data.TrnListItemUi
@@ -43,7 +43,8 @@ fun rawTrnListMap(
     calcHistoryTrns.groupBy {
         when (it.timeType) {
             TrnTimeType.Actual -> it.time.toLocal(timeProvider).toLocalDate()
-            TrnTimeType.Due -> if (it.time > timeNowInstant) "upcoming" else "overdue"
+            TrnTimeType.Due -> if (it.time > timeNowInstant)
+                UpcomingSectionKey else OverdueSectionKey
         }
     }.forEach { (key, trns) ->
         val rawStats = rawStats(trns.mapNotNull {
@@ -61,14 +62,14 @@ fun rawTrnListMap(
             timeNow = timeNow,
         )
         val rawKey = when (key) {
-            "upcoming" -> {
+            UpcomingSectionKey -> {
                 RawDueDivider(
                     id = UpcomingSectionKey,
                     type = RawDividerType.Upcoming,
                     rawStats = rawStats,
                 )
             }
-            "overdue" -> {
+            OverdueSectionKey -> {
                 RawDueDivider(
                     id = OverdueSectionKey,
                     type = RawDividerType.Overdue,

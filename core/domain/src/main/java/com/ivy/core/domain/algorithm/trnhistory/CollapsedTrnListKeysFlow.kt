@@ -1,4 +1,4 @@
-package com.ivy.core.domain.action.calculate.transaction
+package com.ivy.core.domain.algorithm.trnhistory
 
 import com.ivy.core.domain.action.SharedFlowAction
 import kotlinx.coroutines.flow.Flow
@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val UpcomingSectionKey = "section_upcoming"
-const val OverdueSectionKey = "section_overdue"
+const val UpcomingSectionKey = "sec_upcoming"
+const val OverdueSectionKey = "sec_overdue"
 
 private val collapsedTrnListKeys = MutableStateFlow(
     // Upcoming & Overdue must be collapsed by default

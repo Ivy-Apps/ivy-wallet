@@ -21,7 +21,7 @@ import com.ivy.core.ui.data.transaction.TrnTimeUi
 import com.ivy.data.Sync
 import com.ivy.data.SyncState
 import com.ivy.data.Value
-import com.ivy.data.transaction.TrnListItem
+import com.ivy.data.transaction.Transfer
 import com.ivy.data.transaction.TrnTime
 import com.ivy.design.util.KeyboardController
 import com.ivy.navigation.Navigator
@@ -81,7 +81,7 @@ class EditTransferViewModel @Inject constructor(
     private val fee = MutableStateFlow(initialUi.fee)
     // endregion
 
-    private lateinit var transfer: TrnListItem.Transfer
+    private lateinit var transfer: Transfer
 
     override val uiFlow = combine(
         amountFrom, amountTo,
