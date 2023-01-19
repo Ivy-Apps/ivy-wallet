@@ -17,6 +17,7 @@ import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDueDivider
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.TrnListRawSectionKey
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
+import com.ivy.data.transaction.TrnPurpose
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -45,9 +46,11 @@ fun rawTrnListMap(
             TrnTimeType.Due -> if (it.time > timeNowInstant) "upcoming" else "overdue"
         }
     }.forEach { (key, trns) ->
-        val rawStats = rawStats(trns.map {
-            // TODO: Wasting some memory, investigate!
-            it.toCalcTrn()
+        val rawStats = rawStats(trns.mapNotNull {
+            when (it.purpose) {
+                TrnPurpose.TransferFrom, TrnPurpose.TransferTo -> null
+                TrnPurpose.Fee, TrnPurpose.AdjustBalance, null -> it.toCalcTrn()
+            }
         })
         val sortedTrnsUi = parseSortedTrnListItemsUi(
             appContext = appContext,

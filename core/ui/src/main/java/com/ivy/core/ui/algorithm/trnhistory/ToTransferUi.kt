@@ -22,7 +22,7 @@ fun parseTransfer(
 ): TransferUi? {
     val from = batch.firstOrNull { it.purpose == TrnPurpose.TransferFrom } ?: return null
     val to = batch.firstOrNull { it.purpose == TrnPurpose.TransferTo } ?: return null
-    val fee = batch.firstOrNull { it.purpose == TrnPurpose.TransferTo }
+    val fee = batch.firstOrNull { it.purpose == TrnPurpose.Fee }
 
     return TransferUi(
         batchId = batchId,

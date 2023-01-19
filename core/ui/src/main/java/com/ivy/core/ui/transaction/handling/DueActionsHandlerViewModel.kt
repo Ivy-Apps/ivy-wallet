@@ -2,7 +2,7 @@ package com.ivy.core.ui.transaction.handling
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import com.ivy.common.time.time
+import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.toUUID
 import com.ivy.core.domain.HandlerViewModel
 import com.ivy.core.domain.action.transaction.TrnByIdAct
@@ -38,6 +38,7 @@ class DueActionsHandlerViewModel @Inject constructor(
     private val writeTrnsAct: WriteTrnsAct,
     private val transferByBatchIdAct: TransferByBatchIdAct,
     private val trnByIdAct: TrnByIdAct,
+    private val timeProvider: TimeProvider,
 ) : HandlerViewModel<DueActionEvent>() {
     override suspend fun handleEvent(event: DueActionEvent) = when (event) {
         is DueActionEvent.ExecuteTransfer -> handleExecuteTransfer(event)
@@ -47,7 +48,12 @@ class DueActionsHandlerViewModel @Inject constructor(
     }
 
     private suspend fun handleExecuteTransfer(event: DueActionEvent.ExecuteTransfer) {
-        writeTransferAct(ModifyTransfer.dueToActual(batchId = event.transfer.batchId))
+        writeTransferAct(
+            ModifyTransfer.updateTrnTime(
+                batchId = event.transfer.batchId,
+                newTrnTime = TrnTime.Actual(timeProvider.timeNow()),
+            )
+        )
     }
 
     private suspend fun handleSkipTransfer(event: DueActionEvent.SkipTransfer) {
@@ -60,7 +66,7 @@ class DueActionsHandlerViewModel @Inject constructor(
         writeTrnsAct(
             WriteTrnsAct.Input.Update(
                 old = old,
-                new = old.copy(time = TrnTime.Actual(old.time.time()))
+                new = old.copy(time = TrnTime.Actual(timeProvider.timeNow()))
             )
         )
     }

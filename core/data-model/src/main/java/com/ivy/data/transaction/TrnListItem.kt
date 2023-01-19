@@ -8,7 +8,7 @@ sealed interface TrnListItem {
     @Deprecated("don't use - use the one `algorithms`")
     data class Trn(val trn: Transaction) : TrnListItem
 
-    @Deprecated("don't use - use the one `algorithms`")
+    // TODO: Extract as type
     data class Transfer(
         val batchId: String,
         val time: TrnTime,
