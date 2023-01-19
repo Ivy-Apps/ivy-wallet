@@ -43,13 +43,6 @@ import kotlinx.coroutines.withContext
 fun BoxScope.PeriodModal(
     modal: IvyModal,
 ) {
-    UI(modal = modal)
-}
-
-@Composable
-private fun BoxScope.UI(
-    modal: IvyModal,
-) {
     val moreOptionsModal = rememberIvyModal()
 
     ViewModelModal(
@@ -95,6 +88,7 @@ private fun BoxScope.UI(
         moreOptionsModal = moreOptionsModal,
     )
 }
+
 
 // region Choose month
 @Composable
