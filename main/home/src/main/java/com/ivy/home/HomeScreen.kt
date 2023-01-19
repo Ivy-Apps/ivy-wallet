@@ -25,6 +25,10 @@ import com.ivy.design.l1_buildingBlocks.SpacerVer
 import com.ivy.design.l1_buildingBlocks.SpacerWeight
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
+import com.ivy.design.l3_ivyComponents.Feeling
+import com.ivy.design.l3_ivyComponents.Visibility
+import com.ivy.design.l3_ivyComponents.button.ButtonSize
+import com.ivy.design.l3_ivyComponents.button.IvyButton
 import com.ivy.design.util.IvyPreview
 import com.ivy.design.util.consumeClicks
 import com.ivy.home.components.Balance
@@ -219,10 +223,26 @@ private fun CollapsedToolbarExtension(
             .fillMaxWidth()
             .consumeClicks()
     ) {
-        BalanceMini(
-            balance = balance,
-            onClick = onBalanceClick
-        )
+        Row(
+            modifier = Modifier.padding(
+                start = 24.dp, end = 8.dp
+            ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BalanceMini(
+                balance = balance,
+                onClick = onBalanceClick
+            )
+            SpacerWeight(weight = 1f)
+            IvyButton(
+                size = ButtonSize.Small,
+                visibility = Visibility.Low,
+                feeling = Feeling.Positive,
+                text = "Go to top",
+                typo = UI.typo.c,
+                onClick = onScrollToTop,
+            )
+        }
         SpacerVer(height = 4.dp)
         DividerHor(size = DividerSize.FillMax(padding = 0.dp))
     }

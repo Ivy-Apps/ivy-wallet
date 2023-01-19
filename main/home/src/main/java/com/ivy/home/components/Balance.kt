@@ -56,7 +56,6 @@ internal fun BalanceMini(
 ) {
     Row(
         modifier = modifier
-            .padding(horizontal = 24.dp)
             .clip(UI.shapes.rounded)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
