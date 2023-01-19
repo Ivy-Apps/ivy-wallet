@@ -78,7 +78,10 @@ class WriteBackupDataAct @Inject constructor(
             } else {
                 // it's a new transfer, add it
                 writeTransferAct(
-                    ModifyTransfer.add(data.transfer)
+                    ModifyTransfer.add(
+                        batchId = data.batchId,
+                        data = data.transfer
+                    )
                 )
             }
         }
