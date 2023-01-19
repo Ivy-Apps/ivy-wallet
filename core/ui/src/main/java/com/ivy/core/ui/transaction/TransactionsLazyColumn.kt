@@ -15,10 +15,7 @@ import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.dummyIconSized
 import com.ivy.core.ui.data.icon.dummyIconUnknown
 import com.ivy.core.ui.data.transaction.*
-import com.ivy.core.ui.transaction.card.DueActions
-import com.ivy.core.ui.transaction.handling.ExpandCollapseHandler
 import com.ivy.core.ui.transaction.handling.TrnItemClickHandler
-import com.ivy.core.ui.transaction.handling.defaultExpandCollapseHandler
 import com.ivy.core.ui.transaction.handling.defaultTrnItemClickHandler
 import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.color.*
@@ -131,17 +128,18 @@ private fun Preview_Full() {
 }
 
 @Composable
-fun sampleTransactionListUi(): TransactionsListUi = TransactionsListUi(
-    upcoming = DueSectionUi(
-        dueType = DueSectionUiType.Upcoming,
-        income = dummyValueUi("16.99"),
-        expense = null,
-        trns = listOf(
-            TrnListItemUi.Trn(
-                dummyTransactionUi(
-                    title = "Upcoming payment",
-                    account = dummyAccountUi(
-                        name = "Revolut",
+fun sampleTransactionListUi(): List<com.ivy.core.ui.algorithm.trnhistory.data.TrnListItemUi> =
+    TransactionsListUi(
+        upcoming = DueSectionUi(
+            dueType = DueSectionUiType.Upcoming,
+            income = dummyValueUi("16.99"),
+            expense = null,
+            trns = listOf(
+                TrnListItemUi.Trn(
+                    dummyTransactionUi(
+                        title = "Upcoming payment",
+                        account = dummyAccountUi(
+                            name = "Revolut",
                         color = Purple,
                         icon = dummyIconSized(R.drawable.ic_custom_revolut_s)
                     ),

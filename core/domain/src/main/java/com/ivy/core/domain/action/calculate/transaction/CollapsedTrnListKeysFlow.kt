@@ -11,7 +11,7 @@ const val OverdueSectionKey = "section_overdue"
 
 private val collapsedTrnListKeys = MutableStateFlow(emptySet<String>())
 
-fun toggleTrnListKey(keyId: String) {
+fun toggleCollapseExpandTrnListKey(keyId: String) {
     collapsedTrnListKeys.value = collapsedTrnListKeys.value
         .toMutableSet()
         .apply {

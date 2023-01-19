@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction
+package com.ivy.core.ui.transaction.item
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,10 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.common.time.dateId
 import com.ivy.common.time.dateNowLocal
-import com.ivy.core.domain.action.calculate.transaction.toggleTrnListKey
-import com.ivy.core.domain.pure.format.ValueUi
+import com.ivy.core.domain.action.calculate.transaction.toggleCollapseExpandTrnListKey
+import com.ivy.core.domain.pure.format.SignedValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.data.transaction.TrnListItemUi
+import com.ivy.core.ui.algorithm.trnhistory.data.DateDividerUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.B2Second
@@ -25,13 +25,13 @@ import com.ivy.design.util.ComponentPreview
 import com.ivy.design.util.thenIf
 
 @Composable
-fun DateDivider(divider: TrnListItemUi.DateDivider) {
+fun DateDivider(divider: DateDividerUi) {
     val primary = UI.colors.primary
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                toggleTrnListKey(keyId = divider.id)
+                toggleCollapseExpandTrnListKey(keyId = divider.id)
             }
             .thenIf(divider.collapsed) {
                 drawBehind {
@@ -57,8 +57,8 @@ fun DateDivider(divider: TrnListItemUi.DateDivider) {
             .padding(start = 24.dp, end = 32.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Date(date = divider.date, day = divider.day)
-        Cashflow(cashflow = divider.cashflow, positiveCashflow = divider.positiveCashflow)
+        Date(date = divider.date, day = divider.dateContext)
+        Cashflow(cashflow = divider.cashflow)
     }
 }
 
@@ -77,12 +77,18 @@ private fun RowScope.Date(
 
 @Composable
 private fun Cashflow(
-    cashflow: ValueUi,
-    positiveCashflow: Boolean,
+    cashflow: SignedValueUi,
 ) {
+
     B2Second(
-        text = "${cashflow.amount} ${cashflow.currency}",
-        color = if (positiveCashflow) UI.colors.green else UI.colors.neutral
+        text = when (cashflow) {
+            is SignedValueUi.Negative -> "-${cashflow.value.amount} ${cashflow.value.currency}"
+            else -> "${cashflow.value.amount} ${cashflow.value.currency}"
+        },
+        color = when (cashflow) {
+            is SignedValueUi.Positive -> UI.colors.green
+            else -> UI.colors.neutral
+        }
     )
 }
 
@@ -93,12 +99,11 @@ private fun Cashflow(
 private fun Preview_Positive() {
     ComponentPreview {
         DateDivider(
-            TrnListItemUi.DateDivider(
+            DateDividerUi(
                 id = dateNowLocal().dateId(),
                 date = "September 25.",
-                day = "Today",
-                cashflow = dummyValueUi("154.32"),
-                positiveCashflow = true,
+                dateContext = "Today",
+                cashflow = SignedValueUi.Positive(dummyValueUi("154.32")),
                 collapsed = false,
             )
         )
@@ -110,13 +115,28 @@ private fun Preview_Positive() {
 private fun Preview_Negative() {
     ComponentPreview {
         DateDivider(
-            TrnListItemUi.DateDivider(
+            DateDividerUi(
                 id = dateNowLocal().dateId(),
                 date = "September 25. 2020",
-                day = "Today",
-                cashflow = dummyValueUi("-1k"),
-                positiveCashflow = false,
-                collapsed = true,
+                dateContext = "Today",
+                cashflow = SignedValueUi.Negative(dummyValueUi("154.32")),
+                collapsed = false,
+            )
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_Zero() {
+    ComponentPreview {
+        DateDivider(
+            DateDividerUi(
+                id = dateNowLocal().dateId(),
+                date = "September 25. 2020",
+                dateContext = "Today",
+                cashflow = SignedValueUi.Zero(dummyValueUi("0")),
+                collapsed = false,
             )
         )
     }

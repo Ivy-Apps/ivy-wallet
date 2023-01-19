@@ -28,7 +28,7 @@ fun parseTransactionUi(
 ): TransactionUi? {
     return TransactionUi(
         id = trn.id,
-        amount = format(Value(trn.amount, trn.currency), shortenFiat = false),
+        value = format(Value(trn.amount, trn.currency), shortenFiat = false),
         type = trn.type,
         time = toTrnTimeUi(
             appContext = appContext,

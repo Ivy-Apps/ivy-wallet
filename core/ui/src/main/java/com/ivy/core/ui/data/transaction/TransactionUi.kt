@@ -10,6 +10,7 @@ import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.data.transaction.TransactionType
 import java.util.*
 
+@Deprecated("old")
 @Immutable
 data class TransactionUi(
     val id: String,
@@ -22,6 +23,7 @@ data class TransactionUi(
     val time: TrnTimeUi,
 )
 
+@Deprecated("old")
 @Composable
 fun dummyTransactionUi(
     type: TransactionType,

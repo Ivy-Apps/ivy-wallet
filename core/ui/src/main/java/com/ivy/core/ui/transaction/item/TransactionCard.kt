@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction.card
+package com.ivy.core.ui.transaction.item
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
@@ -15,12 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.ui.R
 import com.ivy.core.ui.account.AccountBadge
+import com.ivy.core.ui.algorithm.trnhistory.data.TransactionUi
+import com.ivy.core.ui.algorithm.trnhistory.data.dummyTransactionUi
 import com.ivy.core.ui.category.CategoryBadge
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
-import com.ivy.core.ui.data.transaction.TransactionUi
 import com.ivy.core.ui.data.transaction.TrnTimeUi
-import com.ivy.core.ui.data.transaction.dummyTransactionUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeDueUi
 import com.ivy.core.ui.value.AmountCurrency
 import com.ivy.data.transaction.TransactionType
@@ -35,14 +35,14 @@ import com.ivy.design.util.ComponentPreview
 @Composable
 fun TransactionCard(
     trn: TransactionUi,
+    modifier: Modifier = Modifier,
     onClick: (TransactionUi) -> Unit,
     onAccountClick: (AccountUi) -> Unit,
     onCategoryClick: (CategoryUi) -> Unit,
-
-    modifier: Modifier = Modifier,
-    dueActions: DueActions? = null,
+    onSkip: (TransactionUi) -> Unit,
+    onExecute: (TransactionUi) -> Unit,
 ) {
-    TransactionCard(
+    BaseTrnCard(
         modifier = modifier,
         onClick = { onClick(trn) }
     ) {
@@ -57,21 +57,15 @@ fun TransactionCard(
         Description(description = trn.description, title = trn.title)
         TrnValue(type = trn.type, value = trn.value, time = trn.time)
 
-        if (dueActions != null) {
-            DuePaymentCTAs(
-                time = trn.time,
-                cta = when (trn.type) {
-                    TransactionType.Income -> stringResource(R.string.get)
-                    TransactionType.Expense -> stringResource(R.string.pay)
-                },
-                onSkip = {
-                    dueActions.onSkipTrn(trn)
-                },
-                onExecute = {
-                    dueActions.onExecuteTrn(trn)
-                }
-            )
-        }
+        DuePaymentCTAs(
+            time = trn.time,
+            cta = when (trn.type) {
+                TransactionType.Income -> stringResource(R.string.get)
+                TransactionType.Expense -> stringResource(R.string.pay)
+            },
+            onSkip = { onSkip(trn) },
+            onExecute = { onExecute(trn) }
+        )
     }
 }
 
@@ -186,7 +180,9 @@ private fun Preview_Expense() {
             ),
             onClick = {},
             onAccountClick = {},
-            onCategoryClick = {}
+            onCategoryClick = {},
+            onExecute = {},
+            onSkip = {}
         )
     }
 }
@@ -207,7 +203,9 @@ private fun Preview_Income() {
             ),
             onClick = {},
             onAccountClick = {},
-            onCategoryClick = {}
+            onCategoryClick = {},
+            onExecute = {},
+            onSkip = {}
         )
     }
 }
@@ -231,7 +229,8 @@ private fun Preview_UpcomingExpense() {
             onClick = {},
             onAccountClick = {},
             onCategoryClick = {},
-            dueActions = dummyDueActions()
+            onExecute = {},
+            onSkip = {},
         )
     }
 }

@@ -5,6 +5,7 @@ import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
 import com.ivy.core.ui.R
 import com.ivy.core.ui.algorithm.trnhistory.data.DueDividerUi
+import com.ivy.core.ui.algorithm.trnhistory.data.DueDividerUiType
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDividerType
 import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDueDivider
 import com.ivy.data.Value
@@ -32,6 +33,10 @@ suspend fun toDueDividerUi(
                 RawDividerType.Overdue -> R.string.overdue
             }
         ),
+        type = when (raw.type) {
+            RawDividerType.Upcoming -> DueDividerUiType.Upcoming
+            RawDividerType.Overdue -> DueDividerUiType.Overdue
+        },
         collapsed = collapsed,
     )
 }

@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction.card
+package com.ivy.core.ui.transaction.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,18 +15,16 @@ import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
 import com.ivy.core.ui.R
+import com.ivy.core.ui.algorithm.trnhistory.data.TransferUi
 import com.ivy.core.ui.category.CategoryBadge
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
 import com.ivy.core.ui.data.account.dummyAccountUi
 import com.ivy.core.ui.data.dummyCategoryUi
 import com.ivy.core.ui.data.icon.IconSize
-import com.ivy.core.ui.data.transaction.TrnListItemUi.Transfer
-import com.ivy.core.ui.data.transaction.dummyTransactionUi
 import com.ivy.core.ui.data.transaction.dummyTrnTimeActualUi
 import com.ivy.core.ui.icon.ItemIcon
 import com.ivy.core.ui.value.AmountCurrency
-import com.ivy.data.transaction.TransactionType
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.White
 import com.ivy.design.l0_system.color.rememberContrast
@@ -35,44 +33,43 @@ import com.ivy.design.util.ComponentPreview
 
 @Composable
 fun TransferCard(
-    transfer: Transfer,
+    transfer: TransferUi,
     modifier: Modifier = Modifier,
-    dueActions: DueActions? = null,
     onAccountClick: (AccountUi) -> Unit,
     onCategoryClick: (CategoryUi) -> Unit,
-    onClick: (Transfer) -> Unit,
+    onClick: (TransferUi) -> Unit,
+    onExecuteTransfer: (TransferUi) -> Unit,
+    onSkipTransfer: (TransferUi) -> Unit,
 ) {
-    TransactionCard(
+    BaseTrnCard(
         modifier = modifier,
         onClick = { onClick(transfer) }
     ) {
         TransferHeader(
-            fromAccount = transfer.from.account,
-            toAccount = transfer.to.account,
+            fromAccount = transfer.fromAccount,
+            toAccount = transfer.toAccount,
             onAccountClick = onAccountClick
         )
-        Category(category = transfer.from.category, onCategoryClick = onCategoryClick)
+        Category(category = transfer.category, onCategoryClick = onCategoryClick)
         DueDate(time = transfer.time)
-        Title(title = transfer.from.title, time = transfer.time)
-        Description(description = transfer.from.description, title = transfer.from.title)
-        TransferAmount(fromValue = transfer.from.value)
+        Title(title = transfer.title, time = transfer.time)
+        Description(description = transfer.description, title = transfer.title)
+        TransferAmount(fromValue = transfer.fromAmount)
         ToAmountReceived(
-            fromValue = transfer.from.value,
-            toValue = transfer.to.value
+            fromValue = transfer.fromAmount,
+            toValue = transfer.toAmount
         )
-        Fee(fee = transfer.fee?.value)
-        if (dueActions != null) {
-            DuePaymentCTAs(
-                time = transfer.time,
-                cta = "Execute",
-                onSkip = {
-                    dueActions.onSkipTransfer(transfer)
-                },
-                onExecute = {
-                    dueActions.onExecuteTransfer(transfer)
-                },
-            )
-        }
+        Fee(fee = transfer.fee)
+        DuePaymentCTAs(
+            time = transfer.time,
+            cta = "Execute",
+            onSkip = {
+                onSkipTransfer(transfer)
+            },
+            onExecute = {
+                onExecuteTransfer(transfer)
+            },
+        )
     }
 }
 
@@ -167,9 +164,9 @@ private fun TransferAmount(
 @Composable
 private fun ToAmountReceived(
     fromValue: ValueUi,
-    toValue: ValueUi,
+    toValue: ValueUi?,
 ) {
-    if (fromValue != toValue) {
+    if (toValue != null && fromValue != toValue) {
         B2Second(
             text = "${toValue.amount} ${toValue.currency}",
             modifier = Modifier.padding(start = 44.dp),
@@ -211,23 +208,23 @@ private fun Preview_SameCurrency() {
     ComponentPreview {
         TransferCard(
             modifier = Modifier.padding(horizontal = 16.dp),
-            transfer = Transfer(
+            transfer = TransferUi(
                 batchId = "",
                 time = dummyTrnTimeActualUi(),
-                from = dummyTransactionUi(
-                    type = TransactionType.Expense,
-                    value = dummyValueUi(amount = "400")
-                ),
-                to = dummyTransactionUi(
-                    type = TransactionType.Income,
-                    value = dummyValueUi(amount = "400")
-                ),
-                fee = null
+                fromAmount = dummyValueUi("400"),
+                toAmount = dummyValueUi("400"),
+                fee = null,
+                category = null,
+                description = null,
+                title = null,
+                fromAccount = dummyAccountUi(),
+                toAccount = dummyAccountUi(),
             ),
             onAccountClick = {},
             onCategoryClick = {},
             onClick = {},
-            dueActions = dummyDueActions(),
+            onSkipTransfer = {},
+            onExecuteTransfer = {}
         )
     }
 }
@@ -238,29 +235,23 @@ private fun Preview_Detailed() {
     ComponentPreview {
         TransferCard(
             modifier = Modifier.padding(horizontal = 16.dp),
-            transfer = Transfer(
+            transfer = TransferUi(
                 batchId = "",
                 time = dummyTrnTimeActualUi(),
-                from = dummyTransactionUi(
-                    title = "Withdrawing cash",
-                    description = "So I can pay rent",
-                    category = dummyCategoryUi(),
-                    type = TransactionType.Expense,
-                    value = dummyValueUi(amount = "400", currency = "EUR")
-                ),
-                to = dummyTransactionUi(
-                    type = TransactionType.Income,
-                    value = dummyValueUi(amount = "800", currency = "BGN")
-                ),
-                fee = dummyTransactionUi(
-                    type = TransactionType.Expense,
-                    value = dummyValueUi("2")
-                )
+                title = "Withdrawing cash",
+                description = "So I can pay rent",
+                category = dummyCategoryUi(),
+                fromAmount = dummyValueUi(amount = "400", currency = "EUR"),
+                fromAccount = dummyAccountUi(),
+                toAmount = dummyValueUi(amount = "800", currency = "BGN"),
+                toAccount = dummyAccountUi(),
+                fee = dummyValueUi("2")
             ),
             onAccountClick = {},
             onCategoryClick = {},
             onClick = {},
-            dueActions = dummyDueActions(),
+            onExecuteTransfer = {},
+            onSkipTransfer = {}
         )
     }
 }
@@ -271,25 +262,23 @@ private fun Preview_LongAccount_names() {
     ComponentPreview {
         TransferCard(
             modifier = Modifier.padding(horizontal = 16.dp),
-            transfer = Transfer(
+            transfer = TransferUi(
                 batchId = "",
                 time = dummyTrnTimeActualUi(),
-                from = dummyTransactionUi(
-                    type = TransactionType.Expense,
-                    account = dummyAccountUi(name = "My very long account name"),
-                    value = dummyValueUi(amount = "400", currency = "EUR")
-                ),
-                to = dummyTransactionUi(
-                    type = TransactionType.Income,
-                    account = dummyAccountUi(name = "Revolut Business Company Account"),
-                    value = dummyValueUi(amount = "800", currency = "BGN")
-                ),
-                fee = null
+                fromAccount = dummyAccountUi(name = "My very long account name"),
+                fromAmount = dummyValueUi(amount = "400", currency = "EUR"),
+                toAccount = dummyAccountUi(name = "Revolut Business Company Account"),
+                toAmount = dummyValueUi(amount = "800", currency = "BGN"),
+                fee = null,
+                title = null,
+                description = null,
+                category = null,
             ),
             onAccountClick = {},
             onCategoryClick = {},
             onClick = {},
-            dueActions = dummyDueActions(),
+            onSkipTransfer = {},
+            onExecuteTransfer = {}
         )
     }
 }

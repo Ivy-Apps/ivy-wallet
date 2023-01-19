@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction.card
+package com.ivy.core.ui.transaction.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import com.ivy.design.l3_ivyComponents.button.IvyButton
  * See TransactionUi.Card() and TrnListItemUi.Transfer.Card().
  */
 @Composable
-internal fun TransactionCard(
+internal fun BaseTrnCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit

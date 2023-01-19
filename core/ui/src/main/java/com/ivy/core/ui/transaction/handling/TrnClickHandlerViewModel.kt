@@ -3,10 +3,10 @@ package com.ivy.core.ui.transaction.handling
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.ivy.core.domain.HandlerViewModel
+import com.ivy.core.ui.algorithm.trnhistory.data.TransactionUi
+import com.ivy.core.ui.algorithm.trnhistory.data.TransferUi
 import com.ivy.core.ui.data.CategoryUi
 import com.ivy.core.ui.data.account.AccountUi
-import com.ivy.core.ui.data.transaction.TransactionUi
-import com.ivy.core.ui.data.transaction.TrnListItemUi
 import com.ivy.design.util.hiltViewModelPreviewSafe
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
@@ -16,14 +16,14 @@ import javax.inject.Inject
 @Immutable
 data class TrnItemClickHandler(
     val onTrnClick: (TransactionUi) -> Unit,
-    val onTransferClick: (TrnListItemUi.Transfer) -> Unit,
+    val onTransferClick: (TransferUi) -> Unit,
     val onAccountClick: (AccountUi) -> Unit,
     val onCategoryClick: (CategoryUi) -> Unit,
 )
 
 sealed interface TrnItemClickEvent {
     data class TransactionClick(val trn: TransactionUi) : TrnItemClickEvent
-    data class TransferClick(val transfer: TrnListItemUi.Transfer) : TrnItemClickEvent
+    data class TransferClick(val transfer: TransferUi) : TrnItemClickEvent
     data class AccountClick(val account: AccountUi) : TrnItemClickEvent
     data class CategoryClick(val category: CategoryUi) : TrnItemClickEvent
 }
@@ -51,7 +51,7 @@ class TrnItemClickHandlerViewModel @Inject constructor(
         navigator.navigate(Destination.transaction.destination(transaction.id))
     }
 
-    private fun handleTransferClick(transfer: TrnListItemUi.Transfer) {
+    private fun handleTransferClick(transfer: TransferUi) {
         navigator.navigate(Destination.transfer.destination(transfer.batchId))
     }
 }

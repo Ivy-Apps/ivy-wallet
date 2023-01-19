@@ -1,4 +1,4 @@
-package com.ivy.core.ui.transaction
+package com.ivy.core.ui.transaction.item
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.dummyValueUi
-import com.ivy.core.ui.data.transaction.DueSectionUi
-import com.ivy.core.ui.data.transaction.DueSectionUiType
-import com.ivy.core.ui.data.transaction.dummyDueSectionUi
+import com.ivy.core.ui.algorithm.trnhistory.data.DueDividerUi
+import com.ivy.core.ui.algorithm.trnhistory.data.DueDividerUiType
+import com.ivy.core.ui.algorithm.trnhistory.data.dummyDueDividerUi
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.style
 import com.ivy.design.l1_buildingBlocks.B1
@@ -34,15 +34,15 @@ import com.ivy.design.util.springBounce
 import com.ivy.resources.R
 
 @Composable
-fun DueSectionUi.SectionDivider(
-    expanded: Boolean,
+fun DueSectionDivider(
+    divider: DueDividerUi,
     setExpanded: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                setExpanded(!expanded)
+                setExpanded(!divider.collapsed)
             },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -51,22 +51,17 @@ fun DueSectionUi.SectionDivider(
             modifier = Modifier.weight(1f)
         ) {
             Title(
-                title = stringResource(
-                    when (dueType) {
-                        DueSectionUiType.Upcoming -> R.string.upcoming
-                        DueSectionUiType.Overdue -> R.string.overdue
-                    }
-                ),
-                color = when (dueType) {
-                    DueSectionUiType.Upcoming -> UI.colors.orange
-                    DueSectionUiType.Overdue -> UI.colors.red
+                title = divider.label,
+                color = when (divider.type) {
+                    DueDividerUiType.Upcoming -> UI.colors.orange
+                    DueDividerUiType.Overdue -> UI.colors.red
                 }
             )
             SpacerVer(height = 4.dp)
-            DueIncomeExpense(income = income, expense = expense)
+            DueIncomeExpense(income = divider.income, expense = divider.expense)
         }
 
-        ExpandCollapseIcon(expanded = expanded)
+        ExpandCollapseIcon(expanded = !divider.collapsed)
         SpacerHor(width = 32.dp)
     }
 }
@@ -159,12 +154,8 @@ private fun ValueUi.AmountCurrencyLabel(
 @Composable
 private fun Preview_Upcoming_IncomeExpenses() {
     ComponentPreview {
-        dummyDueSectionUi(
-            dueType = DueSectionUiType.Upcoming,
-            income = dummyValueUi("8043.23"),
-            expense = dummyValueUi("923.87")
-        ).SectionDivider(
-            expanded = false,
+        DueSectionDivider(
+            divider = dummyDueDividerUi(),
             setExpanded = {}
         )
     }
@@ -174,12 +165,13 @@ private fun Preview_Upcoming_IncomeExpenses() {
 @Composable
 private fun Preview_Overdue_Expenses() {
     ComponentPreview {
-        dummyDueSectionUi(
-            dueType = DueSectionUiType.Overdue,
-            income = null,
-            expense = dummyValueUi("923.87")
-        ).SectionDivider(
-            expanded = true,
+        DueSectionDivider(
+            divider = dummyDueDividerUi(
+                income = null,
+                expense = dummyValueUi("943.70"),
+                type = DueDividerUiType.Overdue,
+                label = "Overdue"
+            ),
             setExpanded = {}
         )
     }
@@ -189,12 +181,11 @@ private fun Preview_Overdue_Expenses() {
 @Composable
 private fun Preview_Upcoming_Income() {
     ComponentPreview {
-        dummyDueSectionUi(
-            dueType = DueSectionUiType.Upcoming,
-            income = dummyValueUi("8043.23"),
-            expense = null,
-        ).SectionDivider(
-            expanded = true,
+        DueSectionDivider(
+            divider = dummyDueDividerUi(
+                expense = dummyValueUi("943.70"),
+                income = dummyValueUi("1,2k"),
+            ),
             setExpanded = {}
         )
     }

@@ -8,8 +8,12 @@ sealed interface ModifyTransfer {
 
         fun edit(batchId: String, data: TransferData) = Edit(batchId, data)
 
+        fun dueToActual(batchId: String) = DueToActual(batchId)
+
         fun delete(transfer: TrnListItem.Transfer) = Delete(transfer)
     }
+
+    data class DueToActual internal constructor(val batchId: String) : ModifyTransfer
 
     data class Add internal constructor(
         val batchId: String?,

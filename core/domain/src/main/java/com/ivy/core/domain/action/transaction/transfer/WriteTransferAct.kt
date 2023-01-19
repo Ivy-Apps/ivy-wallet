@@ -1,5 +1,6 @@
 package com.ivy.core.domain.action.transaction.transfer
 
+import com.ivy.common.time.time
 import com.ivy.core.domain.action.Action
 import com.ivy.core.domain.action.transaction.WriteTrnsAct
 import com.ivy.core.domain.action.transaction.WriteTrnsBatchAct
@@ -22,6 +23,20 @@ class WriteTransferAct @Inject constructor(
             is ModifyTransfer.Add -> addTransfer(modify.batchId, modify.data)
             is ModifyTransfer.Edit -> editTransfer(modify.batchId, modify.data)
             is ModifyTransfer.Delete -> deleteTransfer(modify.transfer)
+            is ModifyTransfer.DueToActual -> dueToActual(modify.batchId)
+        }
+    }
+
+    private suspend fun dueToActual(batchId: String) {
+        val transfer = transferByBatchIdAct(batchId) ?: return
+        listOfNotNull(transfer.from, transfer.to, transfer.fee).forEach { trn ->
+            val actualTrn = trn.copy(time = TrnTime.Actual(trn.time.time()))
+            writeTrnsAct(
+                WriteTrnsAct.Input.Update(
+                    old = trn,
+                    new = actualTrn
+                )
+            )
         }
     }
 

@@ -34,8 +34,11 @@ suspend fun toDateDividerUi(
             today.plusDays(1) -> appContext.getString(R.string.tomorrow)
             else -> null
         } ?: raw.date.format("EEEE"),
-        cashflow = if (cashFlowAmount > 0)
-            SignedValueUi.Positive(cashflowUi) else SignedValueUi.NonPositive(cashflowUi),
+        cashflow = when {
+            cashFlowAmount > 0 -> SignedValueUi.Positive(cashflowUi)
+            cashFlowAmount < 0 -> SignedValueUi.Negative(cashflowUi)
+            else -> SignedValueUi.Zero(cashflowUi)
+        },
         collapsed = collapsed,
     )
 }

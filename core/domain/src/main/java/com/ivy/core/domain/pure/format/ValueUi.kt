@@ -10,7 +10,10 @@ sealed interface SignedValueUi {
     data class Positive(override val value: ValueUi) : SignedValueUi
 
     @Immutable
-    data class NonPositive(override val value: ValueUi) : SignedValueUi
+    data class Zero(override val value: ValueUi) : SignedValueUi
+
+    @Immutable
+    data class Negative(override val value: ValueUi) : SignedValueUi
 }
 
 @Immutable
