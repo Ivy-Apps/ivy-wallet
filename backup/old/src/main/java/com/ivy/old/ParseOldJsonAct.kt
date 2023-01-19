@@ -2,6 +2,8 @@ package com.ivy.old
 
 import arrow.core.Either
 import arrow.core.computations.either
+import arrow.core.left
+import arrow.core.right
 import com.ivy.backup.base.data.BackupData
 import com.ivy.backup.base.data.BatchTransferData
 import com.ivy.backup.base.data.FaultTolerantList
@@ -49,7 +51,7 @@ class ParseOldJsonAct @Inject constructor(
             accountsMap = accountsMap,
             categoriesMap = categoriesMap
         ).bind()
-        val transfers = parseTransfers(
+        val transfersData = parseTransfers(
             json = json,
             now = now,
             accountsMap = accountsMap,
@@ -60,8 +62,8 @@ class ParseOldJsonAct @Inject constructor(
         BackupData(
             accounts = accounts,
             categories = categories,
-            transactions = transactions,
-            transfers = transfers,
+            transactions = transactions + transfersData.partlyCorrupted,
+            transfers = transfersData.transfers,
 
             accountFolders = null,
             tags = null,
@@ -205,15 +207,21 @@ class ParseOldJsonAct @Inject constructor(
     // endregion
 
     // region Transfers
+    private data class TransfersData(
+        val transfers: FaultTolerantList<BatchTransferData>,
+        val partlyCorrupted: List<Transaction>,
+    )
+
     private fun parseTransfers(
         json: JSONObject,
         now: LocalDateTime,
         accountsMap: Map<String, Account>,
         categoriesMap: Map<String, Category>,
-    ): Either<ImportOldDataError, FaultTolerantList<BatchTransferData>> =
+    ): Either<ImportOldDataError, TransfersData> =
         Either.catch(ImportOldDataError.Parse::Transfers) {
             val transactionsJson = json.getJSONArray("transactions")
             val transfers = mutableListOf<BatchTransferData>()
+            val partlyCorrupted = mutableListOf<Transaction>()
 
             var corrupted = 0
             for (i in 0 until transactionsJson.length()) {
@@ -221,59 +229,128 @@ class ParseOldJsonAct @Inject constructor(
                 if (trnJson.getString("type") != "TRANSFER")
                     continue // skip non-transfers
 
-                val transfer = trnJson.parseTransfer(
+                val eitherTransfer = trnJson.parseTransfer(
                     now = now,
                     accountsMap = accountsMap,
                     categoriesMap = categoriesMap
                 )
-                if (transfer != null) {
-                    transfers.add(transfer)
+                if (eitherTransfer != null) {
+                    when (eitherTransfer) {
+                        is Either.Left -> partlyCorrupted.add(eitherTransfer.value)
+                        is Either.Right -> transfers.add(eitherTransfer.value)
+                    }
                 } else {
                     corrupted++
                 }
 
             }
-            FaultTolerantList(items = transfers, faulty = corrupted)
+
+            TransfersData(
+                transfers = FaultTolerantList(items = transfers, faulty = corrupted),
+                partlyCorrupted = partlyCorrupted,
+            )
         }
 
     private fun JSONObject.parseTransfer(
         now: LocalDateTime,
         accountsMap: Map<String, Account>,
         categoriesMap: Map<String, Category>,
-    ): BatchTransferData? = optional {
+    ): Either<Transaction, BatchTransferData>? = optional {
         val oldTrnId = getString("id")
         val accountFrom = accountsMap[getString("accountId")]
-            ?: error("Transfer 'From' Account with id '${getString("accountId")}' not found.")
         val accountTo = accountsMap[getString("toAccountId")]
-            ?: error("Transfer 'To' Account with id '${getString("toAccountId")}' not found.")
 
         val fromAmount = getDouble("amount")
         val toAmount = optional { getDouble("toAmount") } ?: fromAmount
 
-        BatchTransferData(
-            batchId = oldTrnId,
-            transfer = TransferData(
-                amountFrom = Value(
-                    amount = fromAmount,
-                    currency = accountFrom.currency,
-                ),
-                amountTo = Value(
-                    amount = toAmount,
-                    currency = accountTo.currency,
-                ),
-                accountFrom = accountFrom,
-                accountTo = accountTo,
-                category = optional { categoriesMap[getString("categoryId")] },
-                time = parseTrnTime(this),
-                title = optional { getString("title") },
-                description = optional { getString("description") },
-                fee = null,
-                sync = Sync(
-                    state = SyncState.Syncing,
-                    lastUpdated = now
-                ),
-            )
+        val category = optional { categoriesMap[getString("categoryId")] }
+        val title = optional { getString("title") }
+        val description = optional { getString("description") }
+        val trnTime = parseTrnTime(this)
+        val sync = Sync(
+            state = SyncState.Syncing,
+            lastUpdated = now
         )
+
+        when {
+            accountFrom != null && accountTo != null -> {
+                BatchTransferData(
+                    batchId = oldTrnId,
+                    transfer = TransferData(
+                        amountFrom = Value(
+                            amount = fromAmount,
+                            currency = accountFrom.currency,
+                        ),
+                        amountTo = Value(
+                            amount = toAmount,
+                            currency = accountTo.currency,
+                        ),
+                        accountFrom = accountFrom,
+                        accountTo = accountTo,
+                        category = category,
+                        time = trnTime,
+                        title = title,
+                        description = description,
+                        fee = null,
+                        sync = sync,
+                    )
+                ).right()
+            }
+            accountFrom != null && accountTo == null -> {
+                // Expense (money sent to the void)
+                Transaction(
+                    id = oldTrnId.toUUID(),
+                    type = TransactionType.Expense,
+                    value = Value(
+                        amount = fromAmount,
+                        currency = accountFrom.currency,
+                    ),
+                    account = accountFrom,
+                    title = title,
+                    description = description,
+                    category = category,
+                    time = trnTime,
+                    state = TrnState.Default,
+                    purpose = null,
+                    tags = emptyList(),
+                    attachments = emptyList(),
+                    metadata = TrnMetadata(
+                        recurringRuleId = null,
+                        loanId = null,
+                        loanRecordId = null,
+                    ),
+                    sync = sync,
+                ).left()
+            }
+            accountFrom == null && accountTo != null -> {
+                // Income (money coming from the void)
+                Transaction(
+                    id = oldTrnId.toUUID(),
+                    type = TransactionType.Income,
+                    value = Value(
+                        amount = toAmount,
+                        currency = accountTo.currency,
+                    ),
+                    account = accountTo,
+                    title = title,
+                    description = description,
+                    category = category,
+                    time = trnTime,
+                    state = TrnState.Default,
+                    purpose = null,
+                    tags = emptyList(),
+                    attachments = emptyList(),
+                    metadata = TrnMetadata(
+                        recurringRuleId = null,
+                        loanId = null,
+                        loanRecordId = null,
+                    ),
+                    sync = sync,
+                ).left()
+            }
+            else -> error("Corrupted transfer JSON: $this")
+        }
+
     }
     // endregion
 
