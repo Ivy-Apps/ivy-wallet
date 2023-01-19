@@ -9,7 +9,13 @@ import javax.inject.Singleton
 const val UpcomingSectionKey = "section_upcoming"
 const val OverdueSectionKey = "section_overdue"
 
-private val collapsedTrnListKeys = MutableStateFlow(emptySet<String>())
+private val collapsedTrnListKeys = MutableStateFlow(
+    // Upcoming & Overdue must be collapsed by default
+    setOf(
+        UpcomingSectionKey,
+        OverdueSectionKey
+    )
+)
 
 fun toggleCollapseExpandTrnListKey(keyId: String) {
     collapsedTrnListKeys.value = collapsedTrnListKeys.value
@@ -26,6 +32,7 @@ fun toggleCollapseExpandTrnListKey(keyId: String) {
 @Singleton
 class CollapsedTrnListKeysFlow @Inject constructor() : SharedFlowAction<Set<String>>() {
     override fun initialValue(): Set<String> = setOf(
+        // Upcoming & Overdue must be collapsed by default
         UpcomingSectionKey, OverdueSectionKey
     )
 

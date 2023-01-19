@@ -69,7 +69,7 @@ class TrnListFlow @Inject constructor(
 
                 val today = timeProvider.dateNow()
                 val items = rawTrnListMap.mapNotNull { (key, _) ->
-                    key to (key.id !in collapsedKeys)
+                    key to (key.id in collapsedKeys)
                 }.sortedByDescending { (key, _) ->
                     when (key) {
                         is RawDueDivider -> when (key.type) {

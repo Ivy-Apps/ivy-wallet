@@ -11,6 +11,7 @@ import com.ivy.core.ui.algorithm.trnhistory.data.raw.RawDateDivider
 import com.ivy.data.Value
 import com.ivy.data.exchange.ExchangeRates
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 
 suspend fun toDateDividerUi(
     appContext: Context,
@@ -22,7 +23,10 @@ suspend fun toDateDividerUi(
     val stats = exchangeRawStats(raw.cashflow, rates, rates.baseCurrency)
     val cashFlowAmount = stats.income.amount - stats.expense.amount
 
-    val cashflowUi = format(Value(cashFlowAmount, rates.baseCurrency), shortenFiat = true)
+    val cashflowUi = format(
+        Value(cashFlowAmount.absoluteValue, rates.baseCurrency),
+        shortenFiat = true
+    )
     return DateDividerUi(
         id = raw.id,
         date = raw.date.format(
