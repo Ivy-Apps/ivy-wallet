@@ -24,21 +24,21 @@ class MapSelectedPeriodUiAct @Inject constructor(
 ) : MapUiAction<SelectedPeriod, SelectedPeriodUi>() {
     override suspend fun transform(domain: SelectedPeriod): SelectedPeriodUi = when (domain) {
         is SelectedPeriod.AllTime -> SelectedPeriodUi.AllTime(
-            btnText = appContext.getString(R.string.all_time),
+            periodBtnText = appContext.getString(R.string.all_time),
             rangeUi = rangeUi(domain)
         )
         is SelectedPeriod.CustomRange -> SelectedPeriodUi.CustomRange(
-            btnText = formatFromToPeriod(domain.range),
+            periodBtnText = formatFromToPeriod(domain.range),
             rangeUi = rangeUi(domain)
         )
         is SelectedPeriod.InTheLast -> SelectedPeriodUi.InTheLast(
-            btnText = formatInTheLast(domain),
+            periodBtnText = formatInTheLast(domain),
             n = domain.n,
             unit = domain.unit,
             rangeUi = rangeUi(domain)
         )
         is SelectedPeriod.Monthly -> SelectedPeriodUi.Monthly(
-            btnText = formatMonthly(domain),
+            periodBtnText = formatMonthly(domain),
             month = MonthUi(
                 number = domain.month.number,
                 year = domain.month.year,

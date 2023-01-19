@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
+@Deprecated("don't use - use the one `algorithms`")
 class TrnsListFlow @Inject constructor(
     private val trnsFlow: TrnsFlow,
     private val groupTrnsFlow: GroupTrnsFlow

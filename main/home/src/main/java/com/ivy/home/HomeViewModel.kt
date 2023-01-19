@@ -1,182 +1,82 @@
 package com.ivy.home
 
-import com.ivy.common.time.beginningOfIvyTime
-import com.ivy.core.domain.FlowViewModel
-import com.ivy.core.domain.action.calculate.CalculateFlow
-import com.ivy.core.domain.action.helper.TrnsListFlow
-import com.ivy.core.domain.action.period.SelectedPeriodFlow
-import com.ivy.core.domain.action.settings.balance.HideBalanceFlow
-import com.ivy.core.domain.action.settings.basecurrency.BaseCurrencyFlow
-import com.ivy.core.domain.action.transaction.*
-import com.ivy.core.domain.action.transaction.TrnQuery.*
+import com.ivy.core.domain.SimpleFlowViewModel
 import com.ivy.core.domain.algorithm.balance.TotalBalanceFlow
 import com.ivy.core.domain.pure.format.ValueUi
 import com.ivy.core.domain.pure.format.format
-import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
-import com.ivy.core.ui.action.mapping.trn.MapTransactionListUiAct
-import com.ivy.core.ui.data.transaction.TransactionsListUi
+import com.ivy.core.ui.algorithm.trnhistory.TrnListFlow
+import com.ivy.core.ui.algorithm.trnhistory.data.TrnListUi
 import com.ivy.data.Value
 import com.ivy.data.time.SelectedPeriod
-import com.ivy.data.time.TimeRange
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TransactionsList
-import com.ivy.data.transaction.TrnPurpose
 import com.ivy.design.l2_components.modal.IvyModal
-import com.ivy.home.state.HomeState
-import com.ivy.home.state.HomeStateUi
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
 import com.ivy.navigation.destinations.transaction.NewTransaction
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val balanceFlow: com.ivy.core.domain.algorithm.balance.TotalBalanceFlow,
-    private val selectedPeriodFlow: SelectedPeriodFlow,
-    private val trnsListFlow: TrnsListFlow,
-    private val baseCurrencyFlow: BaseCurrencyFlow,
-    private val calculateFlow: CalculateFlow,
-    private val hideBalanceFlow: HideBalanceFlow,
-    private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
-    private val mapTransactionListUiAct: MapTransactionListUiAct,
+    private val balanceFlow: TotalBalanceFlow,
+    private val trnsListFlow: TrnListFlow,
     private val navigator: Navigator,
-    private val trnsFlow: TrnsFlow,
-) : FlowViewModel<HomeState, HomeStateUi, HomeEvent>() {
-    // region Initial state
-    override val initialState: HomeState = HomeState(
-        period = null,
-        trnsList = TransactionsList(
-            upcoming = null,
-            overdue = null,
-            history = emptyList()
-        ),
-        balance = Value(amount = 0.0, currency = ""),
-        income = Value(amount = 0.0, currency = ""),
-        expense = Value(amount = 0.0, currency = ""),
-        hideBalance = false,
-    )
-
+) : SimpleFlowViewModel<HomeStateUi, HomeEvent>() {
     private val addTransactionModal = IvyModal()
 
     override val initialUi = HomeStateUi(
-        period = null,
-        trnsList = TransactionsListUi(
-            upcoming = null,
-            overdue = null,
-            history = emptyList(),
-        ),
         balance = ValueUi(amount = "0.0", currency = ""),
         income = ValueUi(amount = "0.0", currency = ""),
         expense = ValueUi(amount = "0.0", currency = ""),
+        trnListItems = emptyList(),
+
         hideBalance = false,
         bottomBarVisible = true,
 
         addTransactionModal = addTransactionModal,
     )
-    // endregion
 
     private val overrideShowBalance = MutableStateFlow(false)
     private val bottomBarVisible = MutableStateFlow(initialUi.bottomBarVisible)
 
-    // region State flow
-    override val stateFlow: Flow<HomeState> = combine(
-        showBalanceFlow(), balanceFlow(), periodDataFlow()
-    ) { showBalance, balance, periodData ->
-        HomeState(
-            period = periodData.period,
-            trnsList = periodData.trnsList,
-            balance = balance,
-            income = periodData.income,
-            expense = periodData.expense,
-            hideBalance = !showBalance,
-        )
-    }
-
-    private fun balanceFlow(): Flow<Value> = balanceFlow(
-        TotalBalanceFlow.Input(
-            withExcluded = false,
-        )
-    ).onStart {
-        // emit initial balance so combine doesn't wait for this long calculation to complete
-        emit(Value(amount = 0.0, currency = ""))
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun periodDataFlow(): Flow<PeriodData> =
-        baseCurrencyFlow().flatMapLatest { baseCurrency ->
-            val selectedPeriodFlow = selectedPeriodFlow()
-
-            // Trns History, Upcoming & Overdue
-            val trnsListFlow = selectedPeriodFlow.flatMapLatest {
-                val period = it.range
-                // Due range: upcoming for this month + overdue for all time
-                val dueRange = TimeRange(
-                    from = beginningOfIvyTime(),
-                    to = period.to,
-                )
-                trnsListFlow(ActualBetween(period) or DueBetween(dueRange))
-            }
-
-            // Income & Expense for the period
-            val statsFlow = selectedPeriodFlow.flatMapLatest {
-                val period = it.range
-
-                // take only transactions from the history, excluding transfers
-                // but INCLUDING transfer fees
-                trnsFlow(
-                    ActualBetween(period) and brackets(
-                        ByPurpose(null) or ByPurpose(TrnPurpose.Fee)
-                    )
-                )
-            }.flatMapLatest { trns ->
-                calculateFlow(
-                    CalculateFlow.Input(
-                        trns = trns,
-                        outputCurrency = baseCurrency,
-                        includeTransfers = false,
-                        includeHidden = false,
-                    )
-                )
-            }
-
-            combine(
-                selectedPeriodFlow, trnsListFlow, statsFlow
-            ) { selectedPeriod, trnsList, stats ->
-                PeriodData(
-                    period = selectedPeriod,
-                    income = stats.income,
-                    expense = stats.expense,
-                    trnsList = trnsList,
-                )
-            }
-        }
-
-    private fun showBalanceFlow(): Flow<Boolean> = combine(
-        hideBalanceFlow(Unit),
-        overrideShowBalance
-    ) { hideBalanceSettings, showBalance ->
-        showBalance || !hideBalanceSettings
-    }
-    // endregion
-
     // region UI flow
     override val uiFlow: Flow<HomeStateUi> = combine(
-        stateFlow, bottomBarVisible
-    ) { state, bottomBarVisible ->
+        immediateBalanceFlow(), immediateTrnsListFlow(), bottomBarVisible
+    ) { balance, trnsList, bottomBarVisible ->
         HomeStateUi(
-            period = state.period?.let { mapSelectedPeriodUiAct(it) },
-            trnsList = mapTransactionListUiAct(state.trnsList),
-            balance = formatBalance(state.balance),
-            income = format(state.income, shortenFiat = true),
-            expense = format(state.expense, shortenFiat = true),
-            hideBalance = state.hideBalance,
+            balance = formatBalance(balance),
+            income = trnsList.periodIncome,
+            expense = trnsList.periodExpense,
+            trnListItems = trnsList.items,
+
+            hideBalance = false, // TODO: Implement hide balance
             bottomBarVisible = bottomBarVisible,
 
             addTransactionModal = addTransactionModal,
+        )
+    }
+
+    private fun immediateBalanceFlow() = balanceFlow(
+        TotalBalanceFlow.Input(withExcluded = false)
+    ).onStart {
+        emit(Value(amount = 0.0, currency = ""))
+    }
+
+    private fun immediateTrnsListFlow() = trnsListFlow(
+        TrnListFlow.Input.All
+    ).onStart {
+        emit(
+            TrnListUi(
+                periodIncome = ValueUi("", ""),
+                periodExpense = ValueUi("", ""),
+                items = emptyList()
+            )
         )
     }
 

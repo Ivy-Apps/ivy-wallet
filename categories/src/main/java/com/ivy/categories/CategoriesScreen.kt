@@ -104,12 +104,7 @@ private fun BoxScope.UI(
         }
     }
 
-    state.selectedPeriod?.let {
-        PeriodModal(
-            modal = periodModal,
-            selectedPeriod = state.selectedPeriod
-        )
-    }
+    PeriodModal(modal = periodModal)
 
     CreateCategoryModal(modal = createCategoryModal)
     editCategoryId?.let {
@@ -130,8 +125,9 @@ private fun Header(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // TODO: Refactor, selectedPeriodUi is no longer needed!
         if (selectedPeriodUi != null) {
-            PeriodButton(selectedPeriod = selectedPeriodUi, periodModal = periodModal)
+            PeriodButton(periodModal = periodModal)
         }
         SpacerWeight(weight = 1f)
         ReorderButton(onClick = onReorder)
@@ -147,7 +143,7 @@ private fun Preview_Empty() {
         UI(
             state = CategoriesState(
                 selectedPeriod = SelectedPeriodUi.AllTime(
-                    btnText = "All-time",
+                    periodBtnText = "All-time",
                     rangeUi = dummyRangeUi()
                 ),
                 items = emptyList(),
@@ -165,7 +161,7 @@ private fun Preview() {
         UI(
             state = CategoriesState(
                 selectedPeriod = SelectedPeriodUi.AllTime(
-                    btnText = "Sep",
+                    periodBtnText = "Sep",
                     rangeUi = dummyRangeUi()
                 ),
                 items = listOf(

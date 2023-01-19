@@ -13,14 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.domain.pure.format.ValueUi
-import com.ivy.core.ui.data.period.SelectedPeriodUi
-import com.ivy.core.ui.data.period.dummyMonthUi
-import com.ivy.core.ui.data.period.dummyRangeUi
 import com.ivy.core.ui.time.PeriodButton
 import com.ivy.core.ui.time.PeriodModal
 import com.ivy.core.ui.transaction.TransactionsLazyColumn
 import com.ivy.core.ui.transaction.rememberTransactionsListState
-import com.ivy.core.ui.transaction.sampleTransactionListUi
+import com.ivy.core.ui.transaction.sampleTrnListItems
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.DividerHor
 import com.ivy.design.l1_buildingBlocks.DividerSize
@@ -35,7 +32,6 @@ import com.ivy.home.components.BalanceMini
 import com.ivy.home.components.IncomeExpense
 import com.ivy.home.components.MoreMenuButton
 import com.ivy.home.modal.AddTransactionModal
-import com.ivy.home.state.HomeStateUi
 import com.ivy.main.bottombar.MainBottomBar
 import com.ivy.main.bottombar.Tab
 import com.ivy.wallet.utils.horizontalSwipeListener
@@ -74,12 +70,10 @@ private fun BoxScope.UI(
                     onEvent(HomeEvent.BottomBar.AccountsClick)
                 }
             ),
-        transactionsList = state.trnsList,
-        scrollStateKey = "home_tab",
+        items = state.trnListItems,
         state = trnsListState,
         contentAboveTrns = { listState ->
             header(
-                period = state.period,
                 periodModal = periodModal,
                 balance = state.balance,
                 income = state.income,
@@ -114,7 +108,7 @@ private fun BoxScope.UI(
         onHomeClick = {
             // Scroll to top
             coroutineScope.launch {
-                trnsListState.animateScrollToItem(0)
+                trnsListState.listState.animateScrollToItem(0)
             }
         },
         onAccountsClick = { onEvent(HomeEvent.BottomBar.AccountsClick) }
@@ -122,7 +116,6 @@ private fun BoxScope.UI(
 
     Modals(
         periodModal = periodModal,
-        selectedPeriod = state.period,
         addTransactionModal = state.addTransactionModal,
         onEvent = onEvent,
     )
@@ -130,7 +123,6 @@ private fun BoxScope.UI(
 
 // region Header
 fun LazyListScope.header(
-    period: SelectedPeriodUi?,
     periodModal: IvyModal,
     balance: ValueUi,
     income: ValueUi,
@@ -142,7 +134,6 @@ fun LazyListScope.header(
     onExpenseClick: () -> Unit,
 ) {
     toolbar(
-        period = period,
         periodModal = periodModal,
         balance = balance,
         listState = listState,
@@ -170,7 +161,6 @@ fun LazyListScope.header(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.toolbar(
-    period: SelectedPeriodUi?,
     periodModal: IvyModal,
     balance: ValueUi,
     listState: LazyListState,
@@ -190,12 +180,7 @@ private fun LazyListScope.toolbar(
                 .consumeClicks(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (period != null) {
-                PeriodButton(
-                    selectedPeriod = period,
-                    periodModal = periodModal
-                )
-            }
+            PeriodButton(periodModal = periodModal)
             SpacerWeight(weight = 1f)
             MoreMenuButton(onClick = onMoreClick)
         }
@@ -248,16 +233,12 @@ private fun CollapsedToolbarExtension(
 @Composable
 private fun BoxScope.Modals(
     periodModal: IvyModal,
-    selectedPeriod: SelectedPeriodUi?,
     addTransactionModal: IvyModal,
     onEvent: (HomeEvent) -> Unit,
 ) {
-    if (selectedPeriod != null) {
-        PeriodModal(
-            modal = periodModal,
-            selectedPeriod = selectedPeriod
-        )
-    }
+    PeriodModal(
+        modal = periodModal,
+    )
 
     AddTransactionModal(
         modal = addTransactionModal,
@@ -282,16 +263,11 @@ private fun Preview() {
     IvyPreview {
         UI(
             state = HomeStateUi(
-                period = SelectedPeriodUi.Monthly(
-                    btnText = "Sep",
-                    month = dummyMonthUi(),
-                    rangeUi = dummyRangeUi()
-                ),
                 balance = ValueUi("10,000.00", "USD"),
                 income = ValueUi("1,500.35", "USD"),
                 expense = ValueUi("3,000.50", "USD"),
                 hideBalance = false,
-                trnsList = sampleTransactionListUi(),
+                trnListItems = sampleTrnListItems(),
                 bottomBarVisible = true,
                 addTransactionModal = rememberIvyModal()
             ),

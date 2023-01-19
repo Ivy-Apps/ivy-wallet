@@ -5,11 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.SelectedPeriodUi
-import com.ivy.core.ui.data.period.btnText
 import com.ivy.core.ui.data.period.dummyMonthUi
 import com.ivy.core.ui.data.period.dummyRangeUi
 import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
+import com.ivy.core.ui.uiStatePreviewSafe
 import com.ivy.design.l2_components.modal.IvyModal
 import com.ivy.design.l2_components.modal.rememberIvyModal
 import com.ivy.design.l3_ivyComponents.Feeling
@@ -22,11 +22,11 @@ import com.ivy.wallet.utils.horizontalSwipeListener
 
 @Composable
 fun PeriodButton(
-    selectedPeriod: SelectedPeriodUi,
     periodModal: IvyModal,
     modifier: Modifier = Modifier,
 ) {
     val viewModel: SelectedPeriodViewModel? = hiltViewModelPreviewSafe()
+    val state = uiStatePreviewSafe(viewModel, preview = ::previewState)
 
     IvyButton(
         modifier = modifier.horizontalSwipeListener(
@@ -43,7 +43,7 @@ fun PeriodButton(
         size = ButtonSize.Small,
         visibility = Visibility.Medium,
         feeling = Feeling.Positive,
-        text = selectedPeriod.btnText(),
+        text = state.selectedPeriodUi.periodBtnText,
         icon = R.drawable.ic_round_calendar_month_24,
     ) {
         periodModal.show()
@@ -56,14 +56,17 @@ fun PeriodButton(
 @Composable
 private fun Preview() {
     ComponentPreview {
-        PeriodButton(
-            selectedPeriod = SelectedPeriodUi.Monthly(
-                btnText = "September",
-                month = dummyMonthUi(),
-                rangeUi = dummyRangeUi()
-            ),
-            periodModal = rememberIvyModal()
-        )
+        PeriodButton(periodModal = rememberIvyModal())
     }
 }
+
+private fun previewState() = SelectedPeriodViewModel.UiState(
+    startDayOfMonth = 1,
+    selectedPeriodUi = SelectedPeriodUi.Monthly(
+        periodBtnText = "September",
+        month = dummyMonthUi(),
+        rangeUi = dummyRangeUi(),
+    ),
+    months = emptyList(),
+)
 // endregion

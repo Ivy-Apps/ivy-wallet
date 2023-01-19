@@ -10,7 +10,10 @@ import com.ivy.core.domain.action.period.SelectedPeriodFlow
 import com.ivy.core.domain.action.period.SetSelectedPeriodAct
 import com.ivy.core.domain.action.settings.startdayofmonth.StartDayOfMonthFlow
 import com.ivy.core.domain.pure.time.*
+import com.ivy.core.ui.action.mapping.MapSelectedPeriodUiAct
 import com.ivy.core.ui.data.period.MonthUi
+import com.ivy.core.ui.data.period.SelectedPeriodUi
+import com.ivy.core.ui.data.period.TimeRangeUi
 import com.ivy.core.ui.data.period.monthsList
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.State
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel.UiState
@@ -33,17 +36,24 @@ class SelectedPeriodViewModel @Inject constructor(
     private val selectedPeriodFlow: SelectedPeriodFlow,
     private val setSelectedPeriodAct: SetSelectedPeriodAct,
     private val timeProvider: TimeProvider,
+    private val mapSelectedPeriodUiAct: MapSelectedPeriodUiAct,
 ) : FlowViewModel<State, UiState, SelectPeriodEvent>() {
+
+    // TODO: Refactor! Might be inefficient!
+
     data class State(
         val selectedPeriod: SelectedPeriod,
         val startDayOfMonth: Int,
+        // TODO: This creates 36 months items and consumes unnecessary memory
         val months: List<MonthUi>,
     )
 
     @Immutable
     data class UiState(
         val startDayOfMonth: Int,
+        // TODO: This creates 36 months items and consumes unnecessary memory
         val months: List<MonthUi>,
+        val selectedPeriodUi: SelectedPeriodUi,
     )
 
     override val initialState = State(
@@ -55,6 +65,14 @@ class SelectedPeriodViewModel @Inject constructor(
     override val initialUi = UiState(
         startDayOfMonth = 1,
         months = emptyList(),
+        selectedPeriodUi = SelectedPeriodUi.AllTime(
+            periodBtnText = "",
+            rangeUi = TimeRangeUi(
+                range = allTime(),
+                fromText = "",
+                toText = "",
+            )
+        ),
     )
 
     override val stateFlow: Flow<State> = combine(
@@ -74,7 +92,8 @@ class SelectedPeriodViewModel @Inject constructor(
     override val uiFlow: Flow<UiState> = stateFlow.map {
         UiState(
             startDayOfMonth = it.startDayOfMonth,
-            months = it.months
+            months = it.months,
+            selectedPeriodUi = mapSelectedPeriodUiAct(it.selectedPeriod)
         )
     }
 

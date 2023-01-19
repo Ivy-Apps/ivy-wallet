@@ -15,7 +15,8 @@ class TotalBalanceFlow @Inject constructor(
     private val ratesFlow: RatesFlow,
     private val rawAccStatsFlow: RawAccStatsFlow,
 ) : FlowAction<TotalBalanceFlow.Input, Value>() {
-    data class Input(
+    @JvmInline
+    value class Input(
         val withExcluded: Boolean,
     )
 

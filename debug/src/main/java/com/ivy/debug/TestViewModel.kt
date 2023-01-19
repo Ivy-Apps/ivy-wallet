@@ -22,7 +22,7 @@ class TestViewModel @Inject constructor(
 ) : SimpleFlowViewModel<TestStateUi, TestEvent>() {
     override val initialUi: TestStateUi = TestStateUi(
         selectedPeriodUi = SelectedPeriodUi.AllTime(
-            btnText = "",
+            periodBtnText = "",
             rangeUi = TimeRangeUi(allTime(), "", "")
         ),
         baseCurrency = ""

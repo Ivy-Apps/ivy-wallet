@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.common.time.atEndOfDay
 import com.ivy.common.time.dateNowLocal
-import com.ivy.core.domain.pure.time.allTime
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.modal.ViewModelModal
@@ -38,21 +37,18 @@ import com.ivy.design.util.IvyPreview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+// TODO: Re-work and make optimal
+
 @Composable
 fun BoxScope.PeriodModal(
     modal: IvyModal,
-    selectedPeriod: SelectedPeriodUi
 ) {
-    UI(
-        modal = modal,
-        selectedPeriod = selectedPeriod,
-    )
+    UI(modal = modal)
 }
 
 @Composable
 private fun BoxScope.UI(
     modal: IvyModal,
-    selectedPeriod: SelectedPeriodUi
 ) {
     val moreOptionsModal = rememberIvyModal()
 
@@ -68,7 +64,7 @@ private fun BoxScope.UI(
     ) { state, onEvent ->
         ChooseMonth(
             months = state.months,
-            selected = selectedPeriod,
+            selected = state.selectedPeriodUi,
         ) {
             onEvent(SelectPeriodEvent.Monthly(it))
         }
@@ -77,14 +73,14 @@ private fun BoxScope.UI(
         DividerHor(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
-        FromToRange(selected = selectedPeriod, onEvent = onEvent)
+        FromToRange(selected = state.selectedPeriodUi, onEvent = onEvent)
 
         SpacerVer(height = 16.dp)
         DividerHor(width = 1.dp, color = UI.colors.neutral)
         SpacerVer(height = 12.dp)
 
         MoreOptions(
-            selected = selectedPeriod,
+            selected = state.selectedPeriodUi,
             onEvent = onEvent,
             onShowMoreOptionsModal = {
                 moreOptionsModal.show()
@@ -174,7 +170,7 @@ private fun FromToRange(
     selected: SelectedPeriodUi,
     onEvent: (SelectPeriodEvent) -> Unit,
 ) {
-    val periodUi = selected.rangeUi()
+    val periodUi = selected.rangeUi
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -448,20 +444,6 @@ private fun Preview() {
         modal.show()
         PeriodModal(
             modal = modal,
-            selectedPeriod = SelectedPeriodUi.Monthly(
-                btnText = "",
-                month = MonthUi(
-                    number = 2,
-                    year = dateNowLocal().year,
-                    currentYear = true,
-                    fullName = fullMonthName(LocalContext.current, monthNumber = 2),
-                ),
-                rangeUi = TimeRangeUi(
-                    range = allTime(),
-                    fromText = "Feb. 01",
-                    toText = "Feb. 28"
-                )
-            )
         )
     }
 }
@@ -469,6 +451,11 @@ private fun Preview() {
 @Composable
 private fun previewState() = SelectedPeriodViewModel.UiState(
     startDayOfMonth = 1,
-    months = monthsList(LocalContext.current, year = dateNowLocal().year, currentYear = true)
+    months = monthsList(LocalContext.current, year = dateNowLocal().year, currentYear = true),
+    selectedPeriodUi = SelectedPeriodUi.Monthly(
+        periodBtnText = "Sep",
+        month = dummyMonthUi(),
+        rangeUi = dummyRangeUi()
+    )
 )
 // endregion
