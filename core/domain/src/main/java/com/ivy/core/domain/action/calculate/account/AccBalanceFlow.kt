@@ -12,12 +12,12 @@ import javax.inject.Inject
 /**
  * Calculates account's balance. Including hidden and transfer transactions.
  */
-@Deprecated("inefficient")
+@Deprecated("inefficient - will be replaced with `account-cache` algo")
 class AccBalanceFlow @Inject constructor(
     private val accStatsFlow: AccStatsFlow,
 ) : FlowAction<AccBalanceFlow.Input, Value>() {
 
-    @Deprecated("inefficient")
+    @Deprecated("inefficient - will be replaced with `account-cache` algo")
     data class Input(
         val account: Account,
         val outputCurrency: CurrencyCode = account.currency,

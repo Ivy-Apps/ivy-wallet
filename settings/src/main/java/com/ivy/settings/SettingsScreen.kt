@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ivy.core.ui.currency.CurrencyPickerModal
-import com.ivy.core.ui.temp.rootScreen
+import com.ivy.core.ui.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l0_system.color.Green
 import com.ivy.design.l0_system.color.Orange

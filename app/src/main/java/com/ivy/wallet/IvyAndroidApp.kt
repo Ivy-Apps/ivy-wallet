@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.ivy.common.BuildConfig
+import com.ivy.core.ui.GlobalProvider
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -34,7 +35,7 @@ class IvyAndroidApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        com.ivy.core.ui.temp.GlobalProvider.appContext = this
+        GlobalProvider.appContext = this
 
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTree())

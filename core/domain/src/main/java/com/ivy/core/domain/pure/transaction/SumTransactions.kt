@@ -47,6 +47,7 @@ import com.ivy.data.transaction.Transaction
  * println("Expense = $res[1]")
  * ```
  */
+@Deprecated("inefficient - will be replaced with `account-cache` algo")
 suspend fun <Arg> sumTransactions(
     transactions: List<Transaction>,
     selectors: NonEmptyList<suspend (Transaction, Arg) -> Double>,

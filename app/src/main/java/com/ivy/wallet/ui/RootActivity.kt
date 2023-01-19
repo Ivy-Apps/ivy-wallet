@@ -32,7 +32,7 @@ import com.ivy.common.Constants.SUPPORT_EMAIL
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochMilli
-import com.ivy.core.ui.temp.RootScreen
+import com.ivy.core.ui.RootScreen
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign

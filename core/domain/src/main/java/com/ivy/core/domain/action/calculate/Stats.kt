@@ -11,6 +11,7 @@ import com.ivy.data.Value
  * @param expensesCount the # of expense transactions or
  * simply how many expenses there were as a count
  */
+@Deprecated("inefficient - will be replaced with `account-cache` algo")
 data class Stats(
     val balance: Value,
     val income: Value,

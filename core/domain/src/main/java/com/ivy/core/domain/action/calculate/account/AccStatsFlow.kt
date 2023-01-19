@@ -20,10 +20,12 @@ import javax.inject.Inject
  * Calculates account's incomes and expenses **including transfer transactions**.
  * The inclusion of hidden transactions is chosen by the user of this API.
  */
+@Deprecated("inefficient - will be replaced with `account-cache` algo")
 class AccStatsFlow @Inject constructor(
     private val trnsFlow: TrnsFlow,
     private val calculateFlow: CalculateFlow,
 ) : FlowAction<AccStatsFlow.Input, Stats>() {
+    @Deprecated("inefficient - will be replaced with `account-cache` algo")
     /**
      * @param outputCurrency the desired currency of the result, **defaults to account's currency**
      */

@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val balanceFlow: TotalBalanceFlow,
-    private val trnsListFlow: PeriodDataFlow,
+    private val periodDataFlow: PeriodDataFlow,
     private val navigator: Navigator,
 ) : SimpleFlowViewModel<HomeStateUi, HomeEvent>() {
     private val addTransactionModal = IvyModal()
@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
 
     // region UI flow
     override val uiFlow: Flow<HomeStateUi> = combine(
-        immediateBalanceFlow(), immediateTrnsListFlow(), bottomBarVisible
+        immediateBalanceFlow(), immediatePeriodDataFlow(), bottomBarVisible
     ) { balance, trnsList, bottomBarVisible ->
         HomeStateUi(
             balance = formatBalance(balance),
@@ -66,7 +66,7 @@ class HomeViewModel @Inject constructor(
         emit(Value(amount = 0.0, currency = ""))
     }
 
-    private fun immediateTrnsListFlow() = trnsListFlow(
+    private fun immediatePeriodDataFlow() = periodDataFlow(
         PeriodDataFlow.Input.All
     ).onStart {
         emit(

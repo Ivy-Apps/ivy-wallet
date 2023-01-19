@@ -15,7 +15,7 @@ import com.ivy.common.time.dateNowLocal
 import com.ivy.core.ui.R
 import com.ivy.core.ui.data.period.*
 import com.ivy.core.ui.modal.ViewModelModal
-import com.ivy.core.ui.temp.rootScreen
+import com.ivy.core.ui.rootScreen
 import com.ivy.core.ui.time.handling.SelectPeriodEvent
 import com.ivy.core.ui.time.handling.SelectedPeriodViewModel
 import com.ivy.data.time.TimeRange

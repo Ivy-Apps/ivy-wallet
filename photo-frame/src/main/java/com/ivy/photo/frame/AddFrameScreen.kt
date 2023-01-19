@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.ivy.core.ui.temp.rootScreen
+import com.ivy.core.ui.rootScreen
 import com.ivy.design.l0_system.UI
 import com.ivy.design.l1_buildingBlocks.B1
 import com.ivy.design.l1_buildingBlocks.ColumnRoot

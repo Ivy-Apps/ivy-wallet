@@ -1,4 +1,4 @@
-package com.ivy.core.ui.temp
+package com.ivy.core.ui
 
 import android.net.Uri
 import java.time.LocalDate
