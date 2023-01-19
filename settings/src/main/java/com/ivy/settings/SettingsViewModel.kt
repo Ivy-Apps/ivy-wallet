@@ -1,6 +1,5 @@
 package com.ivy.settings
 
-import androidx.lifecycle.viewModelScope
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import com.ivy.core.domain.SimpleFlowViewModel
@@ -18,14 +17,11 @@ import com.ivy.drive.google_drive.GoogleDriveInitializer
 import com.ivy.drive.google_drive.GoogleDriveService
 import com.ivy.navigation.Navigator
 import com.ivy.navigation.destinations.Destination
-import com.ivy.old.ImportOldJsonBackupAct
 import com.ivy.settings.data.BackupImportState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -43,7 +39,6 @@ class SettingsViewModel @Inject constructor(
     private val writeHideBalanceAct: WriteHideBalanceAct,
     private val appLockedFlow: AppLockedFlow,
     private val writeAppLockedAct: WriteAppLockedAct,
-    private val importOldJsonBackupAct: ImportOldJsonBackupAct,
     private val googleDriveInitializer: GoogleDriveInitializer,
     private val googleDriveService: GoogleDriveService,
     private val nukeAccountCacheAct: NukeAccountCacheAct,
@@ -96,7 +91,7 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.AppLocked -> {
                 writeAppLockedAct(event.appLocked)
             }
-            is SettingsEvent.ImportOldData -> handleImportOldData(event)
+            SettingsEvent.ImportOldData -> handleImportOldData()
             is SettingsEvent.MountDrive -> handleMountDrive()
             SettingsEvent.AddFrame -> handleAddFrame()
             SettingsEvent.NukeAccCache -> {
@@ -105,27 +100,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun handleImportOldData(event: SettingsEvent.ImportOldData) {
-        // Launch new scope so we won't block the event queue
-        viewModelScope.launch {
-            if (importOldDataState.value != BackupImportState.Idle) return@launch
-
-            importOldDataState.value = BackupImportState.Importing
-            val result = importOldJsonBackupAct(event.jsonZipUri)
-            importOldDataState.value = when (result) {
-                is Left -> {
-                    Timber.e("Import error: $result")
-                    BackupImportState.Error(message = result.value.toString())
-                }
-
-                is Right -> BackupImportState.Success(
-                    message = "Faulty transfers: ${result.value.faultyTransfers}"
-                )
-            }
-
-            delay(10_000) // display for some seconds
-            importOldDataState.value = BackupImportState.Idle
-        }
+    private suspend fun handleImportOldData() {
+        navigator.navigate(Destination.importBackup.destination(Unit))
     }
 
     private suspend fun handleMountDrive() {

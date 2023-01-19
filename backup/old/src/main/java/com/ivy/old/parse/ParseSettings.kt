@@ -1,9 +1,10 @@
-package com.ivy.old
+package com.ivy.old.parse
 
 import arrow.core.Either
 import com.ivy.backup.base.data.SettingsData
 import com.ivy.backup.base.optional
 import com.ivy.data.Theme
+import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 
 fun parseSettings(

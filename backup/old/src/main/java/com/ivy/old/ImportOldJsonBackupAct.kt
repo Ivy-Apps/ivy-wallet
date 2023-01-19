@@ -8,12 +8,14 @@ import arrow.core.NonEmptyList
 import arrow.core.computations.either
 import arrow.core.left
 import arrow.core.right
-import com.ivy.backup.base.ImportSuccess
+import com.ivy.backup.base.OnImportProgress
 import com.ivy.backup.base.WriteBackupDataAct
+import com.ivy.backup.base.data.ImportResult
 import com.ivy.common.toNonEmptyList
 import com.ivy.core.domain.action.Action
 import com.ivy.file.readFile
 import com.ivy.file.unzip
+import com.ivy.old.parse.ParseOldJsonAct
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONObject
 import java.io.File
@@ -24,24 +26,47 @@ class ImportOldJsonBackupAct @Inject constructor(
     private val context: Context,
     private val parseOldJsonAct: ParseOldJsonAct,
     private val writeBackupDataAct: WriteBackupDataAct,
-) : Action<Uri, Either<ImportOldDataError, ImportSuccess>>() {
+) : Action<ImportOldJsonBackupAct.Input, Either<ImportOldDataError, ImportResult>>() {
+    data class Input(
+        val backupZipPath: Uri,
+        val onProgress: OnImportProgress,
+    )
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(backupZipPath: Uri): Either<ImportOldDataError, ImportSuccess> =
+    override suspend fun action(input: Input): Either<ImportOldDataError, ImportResult> =
         either {
+            val progress = { percent: Float, message: String ->
+                input.onProgress.onProgress(percent, message)
+            }
+
+            progress(1f, "Unzipping backup JSON...")
             // region Unzip
+            val backupZipPath = input.backupZipPath
             val files = unzipBackupZip(zipFilePath = backupZipPath).bind()
             val backupJsonString = readBackupJson(files).bind()
             // endregion
 
+            progress(5f, "Parsing backup JSON...")
             // region Parse
             val backupJson = parse(backupJsonString).bind()
             val backupData = parseOldJsonAct(backupJson).bind()
             // endregion
 
-            writeBackupDataAct(backupData)
+            progress(12f, "Backup JSON parsed. Saving to database...")
+            writeBackupDataAct(
+                WriteBackupDataAct.Input(
+                    backup = backupData,
+                    onProgress = object : OnImportProgress {
+                        override fun onProgress(percent: Float, message: String) {
+                            // Adjust from 13% to 100%
+                            val adjustedPercent = 0.13f + (0.87f * percent)
+                            progress(adjustedPercent, message)
+                        }
+                    }
+                )
+            )
 
-            ImportSuccess(
+            ImportResult(
                 faultyTransfers = backupData.transfers.faulty
             )
         }
@@ -62,7 +87,7 @@ class ImportOldJsonBackupAct @Inject constructor(
         val unzippedFiles = unzippedFolder.listFiles()?.toList()
             ?.takeIf { it.isNotEmpty() }
             ?.toNonEmptyList()
-            ?: return ImportOldDataError.UnzipFailed.left()
+            ?: return ImportOldDataError.UnzipFailed(null).left()
 
         unzippedFolder.delete()
 
@@ -81,13 +106,13 @@ class ImportOldJsonBackupAct @Inject constructor(
 
         val jsonFiles = files.filter(::hasJsonExtension)
         if (jsonFiles.size != 1)
-            return ImportOldDataError.UnexpectedBackupZipFormat.left()
+            return ImportOldDataError.UnexpectedBackupZipFormat(null).left()
 
         return readFile(
             context,
             jsonFiles.first().toUri(),
             Charsets.UTF_16
-        )?.right() ?: ImportOldDataError.FailedToReadJsonFile.left()
+        )?.right() ?: ImportOldDataError.FailedToReadJsonFile(null).left()
     }
     // endregion
 

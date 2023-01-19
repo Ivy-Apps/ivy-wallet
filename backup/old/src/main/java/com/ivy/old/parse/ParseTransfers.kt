@@ -1,4 +1,4 @@
-package com.ivy.old
+package com.ivy.old.parse
 
 import arrow.core.Either
 import arrow.core.left
@@ -18,6 +18,7 @@ import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TransactionType
 import com.ivy.data.transaction.TrnMetadata
 import com.ivy.data.transaction.TrnState
+import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 import java.time.LocalDateTime
 

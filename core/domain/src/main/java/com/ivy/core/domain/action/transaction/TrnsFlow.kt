@@ -55,6 +55,7 @@ import javax.inject.Inject
  * - not()
  * - brackets()
  */
+@Deprecated("don't use it! It's inefficient.")
 @OptIn(FlowPreview::class)
 class TrnsFlow @Inject constructor(
     private val accountsFlow: AccountsFlow,

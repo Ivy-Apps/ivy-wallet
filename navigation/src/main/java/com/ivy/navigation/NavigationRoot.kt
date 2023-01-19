@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ivy.navigation.destinations.Destination
+import com.ivy.navigation.destinations.imports.ImportBackup
 import com.ivy.navigation.destinations.main.Accounts
 import com.ivy.navigation.destinations.main.Categories
 import com.ivy.navigation.destinations.main.Home
@@ -26,6 +27,7 @@ fun NavigationRoot(
     settings: @Composable () -> Unit,
     transactionScreens: TransactionScreens,
     addFrame: @Composable () -> Unit,
+    importBackup: @Composable () -> Unit,
     debugScreens: DebugScreens
 ) {
     val navController = rememberNavController()
@@ -64,6 +66,9 @@ fun NavigationRoot(
         debug(debugScreens)
         composable(AddFrame.route) {
             addFrame()
+        }
+        composable(ImportBackup.route) {
+            importBackup()
         }
     }
 }

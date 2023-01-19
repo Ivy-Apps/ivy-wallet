@@ -25,30 +25,64 @@ class WriteBackupDataAct @Inject constructor(
     private val writeThemeAct: WriteThemeAct,
     private val transferByBatchIdAct: TransferByBatchIdAct,
     private val trnsSignal: TrnsSignal,
-) : Action<BackupData, Unit>() {
+) : Action<WriteBackupDataAct.Input, Unit>() {
+    data class Input(
+        val backup: BackupData,
+        val onProgress: OnImportProgress?,
+    )
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override suspend fun action(backup: BackupData) {
+    override suspend fun action(input: Input) {
+        val backup = input.backup
+        val progress = { progress: Float, message: String ->
+            input.onProgress?.onProgress(progress, message)
+        }
+
+        progress(0f, "Savings to database started...")
         // region restore Settings
         writeBaseCurrencyAct(backup.settings.baseCurrency)
         writeThemeAct(backup.settings.theme)
         // endregion
+        progress(0.05f, "Settings and theme imported.")
 
         writeAccountsAct(Modify.saveMany(backup.accounts))
+        progress(0.1f, "[ACCOUNTS] ${backup.accounts.size} accounts imported.")
         writeCategoriesAct(Modify.saveMany(backup.categories))
+        progress(0.15f, "[CATEGORIES] ${backup.categories.size} categories imported.")
 
+        progress(0.2f, "[TRANSACTIONS] Importing transactions...")
+        // TODO: Remove trnsSingal later cuz TrnsFlow is deprecated
         trnsSignal.disable() // prevent spam
         writeTrnsPaginated(
             trns = backup.transactions,
-            pageSize = 100
+            pageSize = 100,
+            importedTrns = 0,
+            totalTrns = backup.transactions.size,
+            progress = { percent, message ->
+                // Transactions take from 20% to 75%
+                val adjustedPercent = 0.2f + (0.55f * percent)
+                progress(adjustedPercent, message)
+            },
         )
-        restoreTransfers(backup.transfers.items)
+
+        progress(0.76f, "[TRANSFERS] Importing transfers...")
+        restoreTransfers(
+            transfersData = backup.transfers.items,
+            progress = { percent, message ->
+                val adjustedPercent = 0.76f + (0.24f * percent)
+                progress(adjustedPercent, message)
+            }
+        )
         trnsSignal.enable()
+        progress(1f, "[WRITE SUCCESSFUL] Import completed!")
     }
 
     private tailrec suspend fun writeTrnsPaginated(
         trns: List<Transaction>,
         pageSize: Int,
+        importedTrns: Int,
+        totalTrns: Int,
+        progress: (Float, String) -> Unit,
     ) {
         if (trns.isNotEmpty()) {
             writeTrnsAct(
@@ -59,14 +93,26 @@ class WriteBackupDataAct @Inject constructor(
                 )
             )
 
-            writeTrnsPaginated(trns = trns.drop(pageSize), pageSize = pageSize)
+            progress(
+                importedTrns.toFloat() / totalTrns,
+                "[TRANSACTIONS] Imported $importedTrns/$totalTrns transactions."
+            )
+            writeTrnsPaginated(
+                trns = trns.drop(pageSize),
+                pageSize = pageSize,
+                importedTrns = importedTrns + pageSize,
+                totalTrns = totalTrns,
+                progress = progress,
+            )
         }
     }
 
     private suspend fun restoreTransfers(
-        transfersData: List<BatchTransferData>
+        transfersData: List<BatchTransferData>,
+        progress: (Float, String) -> Unit
     ) {
-        for (data in transfersData) {
+        val total = transfersData.size
+        for ((index, data) in transfersData.withIndex()) {
             if (transferByBatchIdAct(data.batchId) != null) {
                 // transfer already exists, update it
                 writeTransferAct(
@@ -84,6 +130,10 @@ class WriteBackupDataAct @Inject constructor(
                     )
                 )
             }
+            progress(
+                (index + 1) / total.toFloat(),
+                "[TRANSFERS] Imported ${index + 1}/$total transfers"
+            )
         }
     }
 }

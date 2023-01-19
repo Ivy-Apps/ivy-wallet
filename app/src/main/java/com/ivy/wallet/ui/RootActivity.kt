@@ -26,6 +26,7 @@ import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ivy.accounts.AccountsScreen
+import com.ivy.api.screen.backup.ImportBackupScreen
 import com.ivy.categories.CategoriesScreen
 import com.ivy.common.Constants
 import com.ivy.common.Constants.SUPPORT_EMAIL
@@ -33,6 +34,7 @@ import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.timeNow
 import com.ivy.common.time.toEpochMilli
 import com.ivy.core.ui.RootScreen
+import com.ivy.data.file.FileType
 import com.ivy.debug.TestScreen
 import com.ivy.design.api.IvyUI
 import com.ivy.design.api.setAppDesign
@@ -144,6 +146,7 @@ class RootActivity : AppCompatActivity(), RootScreen {
                 transfer = { EditTransferScreen(batchId = it) }
             ),
             addFrame = { AddFrameScreen() },
+            importBackup = { ImportBackupScreen() },
             debugScreens = DebugScreens(
                 test = { TestScreen() }
             )
@@ -239,8 +242,8 @@ class RootActivity : AppCompatActivity(), RootScreen {
         }
     }
 
-    override fun fileChooser(onFileChosen: (Uri) -> Unit) {
-        filePickerLauncher.launch(Unit) {
+    override fun fileChooser(fileType: FileType, onFileChosen: (Uri) -> Unit) {
+        filePickerLauncher.launch(fileType) {
             it?.let(onFileChosen)
         }
     }

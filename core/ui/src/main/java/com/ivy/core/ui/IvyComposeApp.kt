@@ -5,6 +5,7 @@ import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import com.ivy.data.file.FileType
 import com.ivy.design.util.isInPreview
 import java.time.LocalDate
 import java.time.LocalTime
@@ -29,7 +30,7 @@ private fun dummyRootScreen(): RootScreen = object : RootScreen {
 
     override fun shareCSVFile(fileUri: Uri) {}
 
-    override fun fileChooser(onFileChosen: (Uri) -> Unit) {}
+    override fun fileChooser(fileType: FileType, onFileChosen: (Uri) -> Unit) {}
 
     override fun createFile(fileName: String, onFileCreated: (Uri) -> Unit) {}
 

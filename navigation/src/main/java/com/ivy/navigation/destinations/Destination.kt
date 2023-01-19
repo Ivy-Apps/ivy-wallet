@@ -1,6 +1,7 @@
 package com.ivy.navigation.destinations
 
 import com.ivy.navigation.destinations.debug.DebugGraph
+import com.ivy.navigation.destinations.imports.ImportBackup
 import com.ivy.navigation.destinations.imports.ImportGraph
 import com.ivy.navigation.destinations.main.Accounts
 import com.ivy.navigation.destinations.main.Categories
@@ -14,6 +15,8 @@ import com.ivy.navigation.destinations.transaction.*
 object Destination {
     val onboarding = OnboardingGraph
     val import = ImportGraph
+
+    val importBackup = ImportBackup
 
     // region Main
     val categories = Categories

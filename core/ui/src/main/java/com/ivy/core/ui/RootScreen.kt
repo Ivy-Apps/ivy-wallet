@@ -1,6 +1,7 @@
 package com.ivy.core.ui
 
 import android.net.Uri
+import com.ivy.data.file.FileType
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -17,7 +18,7 @@ interface RootScreen {
 
     fun shareCSVFile(fileUri: Uri)
 
-    fun fileChooser(onFileChosen: (Uri) -> Unit)
+    fun fileChooser(fileType: FileType = FileType.Everything, onFileChosen: (Uri) -> Unit)
 
     fun createFile(fileName: String, onFileCreated: (Uri) -> Unit)
 

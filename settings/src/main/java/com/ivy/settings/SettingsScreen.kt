@@ -132,9 +132,7 @@ private fun BoxScope.UI(
                 },
                 icon = null
             ) {
-                rootScreen.fileChooser {
-                    onEvent(SettingsEvent.ImportOldData(jsonZipUri = it))
-                }
+                onEvent(SettingsEvent.ImportOldData)
             }
         }
         item {

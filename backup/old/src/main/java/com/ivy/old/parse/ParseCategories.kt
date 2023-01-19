@@ -1,4 +1,4 @@
-package com.ivy.old
+package com.ivy.old.parse
 
 import arrow.core.Either
 import com.ivy.backup.base.optional
@@ -8,6 +8,7 @@ import com.ivy.data.SyncState
 import com.ivy.data.category.Category
 import com.ivy.data.category.CategoryState
 import com.ivy.data.category.CategoryType
+import com.ivy.old.ImportOldDataError
 import org.json.JSONObject
 import java.time.LocalDateTime
 

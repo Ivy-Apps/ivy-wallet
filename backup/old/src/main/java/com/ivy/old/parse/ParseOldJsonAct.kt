@@ -1,4 +1,4 @@
-package com.ivy.old
+package com.ivy.old.parse
 
 import arrow.core.Either
 import arrow.core.computations.either
@@ -6,6 +6,7 @@ import com.ivy.backup.base.data.BackupData
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.core.domain.action.Action
 import com.ivy.data.transaction.*
+import com.ivy.old.ImportOldDataError
 import kotlinx.coroutines.Dispatchers
 import org.json.JSONObject
 import java.util.*
