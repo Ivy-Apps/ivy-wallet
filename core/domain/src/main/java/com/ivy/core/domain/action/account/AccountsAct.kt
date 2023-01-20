@@ -11,6 +11,6 @@ class AccountsAct @Inject constructor(
     private val timeProvider: TimeProvider,
 ) : Action<Unit, List<Account>>() {
     override suspend fun action(input: Unit): List<Account> =
-        accountDao.findAllSnapshot()
+        accountDao.findAllOrdered()
             .map { acc -> toDomain(acc = acc, timeProvider = timeProvider) }
 }

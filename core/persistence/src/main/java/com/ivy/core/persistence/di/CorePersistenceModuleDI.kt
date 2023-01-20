@@ -9,7 +9,7 @@ import com.ivy.core.persistence.dao.category.CategoryDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
 import com.ivy.core.persistence.dao.tag.TagDao
-import com.ivy.core.persistence.dao.trn.TrnDao
+import com.ivy.core.persistence.dao.trn.TransactionDao
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.dao.trn.TrnTagDao
@@ -56,7 +56,7 @@ object CorePersistenceModuleDI {
 
     @Provides
     @Singleton
-    fun provideTrnDao(db: IvyWalletCoreDb): TrnDao = db.trnDao()
+    fun provideTrnDao(db: IvyWalletCoreDb): TransactionDao = db.trnDao()
 
     @Provides
     @Singleton

@@ -20,6 +20,9 @@ interface TrnMetadataDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM trn_metadata WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<TrnMetadataEntity>
+
     @Query("SELECT * FROM trn_metadata WHERE trnId = :trnId AND sync != $DELETING")
     fun findByTrnId(trnId: String): Flow<List<TrnMetadataEntity>>
     // endregion

@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.Flow
 interface TagDao {
 
     // region Select
+    @Query("SELECT * FROM tags WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<TagEntity>
+
     @Query("SELECT * FROM tags WHERE id IN (:tagIds) AND sync != $DELETING")
     fun findByTagIds(tagIds: List<String>): Flow<List<TagEntity>>
     // endregion

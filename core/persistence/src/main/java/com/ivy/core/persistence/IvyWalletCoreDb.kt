@@ -15,7 +15,7 @@ import com.ivy.core.persistence.dao.category.CategoryDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateDao
 import com.ivy.core.persistence.dao.exchange.ExchangeRateOverrideDao
 import com.ivy.core.persistence.dao.tag.TagDao
-import com.ivy.core.persistence.dao.trn.TrnDao
+import com.ivy.core.persistence.dao.trn.TransactionDao
 import com.ivy.core.persistence.dao.trn.TrnLinkRecordDao
 import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.dao.trn.TrnTagDao
@@ -30,7 +30,7 @@ import com.ivy.core.persistence.entity.exchange.ExchangeRateEntity
 import com.ivy.core.persistence.entity.exchange.ExchangeRateOverrideEntity
 import com.ivy.core.persistence.entity.exchange.converter.ExchangeRateTypeConverter
 import com.ivy.core.persistence.entity.tag.TagEntity
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.TrnLinkRecordEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.TrnTagEntity
@@ -39,7 +39,7 @@ import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
 
 @Database(
     entities = [
-        TrnEntity::class, TrnLinkRecordEntity::class,
+        TransactionEntity::class, TrnLinkRecordEntity::class,
         TrnMetadataEntity::class, AttachmentEntity::class,
         AccountEntity::class, AccountFolderEntity::class,
         CategoryEntity::class, ExchangeRateEntity::class,
@@ -65,7 +65,7 @@ import com.ivy.core.persistence.migration.Migration1to2_LastUpdated
     ExchangeRateTypeConverter::class,
 )
 abstract class IvyWalletCoreDb : RoomDatabase() {
-    abstract fun trnDao(): TrnDao
+    abstract fun trnDao(): TransactionDao
     abstract fun trnLinkRecordDao(): TrnLinkRecordDao
     abstract fun trnMetadataDao(): TrnMetadataDao
     abstract fun trnTagDao(): TrnTagDao

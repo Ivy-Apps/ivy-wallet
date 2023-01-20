@@ -12,7 +12,7 @@ import com.ivy.data.transaction.TrnState
 import java.time.Instant
 
 @Entity(tableName = "transactions")
-data class TrnEntity(
+data class TransactionEntity(
     @PrimaryKey
     @ColumnInfo(name = "id", index = true)
     val id: String,

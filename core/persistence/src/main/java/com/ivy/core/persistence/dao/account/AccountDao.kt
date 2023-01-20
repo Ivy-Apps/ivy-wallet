@@ -17,8 +17,11 @@ interface AccountDao {
     //endregion
 
     // region Select
+    @Query("SELECT * FROM accounts WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<AccountEntity>
+
     @Query("SELECT * FROM accounts WHERE sync != $DELETING ORDER BY orderNum ASC")
-    suspend fun findAllSnapshot(): List<AccountEntity>
+    suspend fun findAllOrdered(): List<AccountEntity>
 
     @Query("SELECT id FROM accounts WHERE sync != $DELETING")
     suspend fun findAllIds(): List<String>

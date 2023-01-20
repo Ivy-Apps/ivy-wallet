@@ -20,6 +20,9 @@ interface AttachmentDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM attachments WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<AttachmentEntity>
+
     @Query("SELECT * FROM attachments WHERE associatedId = :associatedId AND sync != $DELETING")
     fun findByAssociatedId(associatedId: String): Flow<List<AttachmentEntity>>
     // endregion

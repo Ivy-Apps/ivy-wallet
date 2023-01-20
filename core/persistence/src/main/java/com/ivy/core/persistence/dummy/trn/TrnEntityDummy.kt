@@ -1,6 +1,6 @@
 package com.ivy.core.persistence.dummy.trn
 
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.CurrencyCode
 import com.ivy.data.SyncState
@@ -26,7 +26,7 @@ fun dummyTrnEntity(
     purpose: TrnPurpose? = null,
     sync: SyncState = SyncState.Synced,
     lastUpdated: Instant = Instant.now(),
-): TrnEntity = TrnEntity(
+): TransactionEntity = TransactionEntity(
     id = id,
     accountId = accountId,
     type = type,

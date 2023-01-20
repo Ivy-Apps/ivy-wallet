@@ -17,6 +17,9 @@ interface CategoryDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM categories WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<CategoryEntity>
+
     @Query("SELECT * FROM categories WHERE sync != $DELETING AND id = :categoryId")
     suspend fun findById(categoryId: String): CategoryEntity?
 

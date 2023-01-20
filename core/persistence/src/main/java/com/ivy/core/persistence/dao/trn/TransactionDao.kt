@@ -3,17 +3,17 @@ package com.ivy.core.persistence.dao.trn
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.TrnTagEntity
 import com.ivy.data.DELETING
 import com.ivy.data.SyncState
 
 @Dao
-abstract class TrnDao {
+abstract class TransactionDao {
     // region Save
     @Upsert
-    protected abstract suspend fun saveTrnEntity(entity: TrnEntity)
+    protected abstract suspend fun saveTrnEntity(entity: TransactionEntity)
 
     // region Tags
     @Query("UPDATE trn_tags SET sync = :sync WHERE trnId = :trnId")
@@ -67,8 +67,11 @@ abstract class TrnDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM transactions WHERE sync != $DELETING")
+    abstract suspend fun findAllBlocking(): List<TransactionEntity>
+
     @RawQuery
-    abstract suspend fun findBySQL(query: SupportSQLiteQuery): List<TrnEntity>
+    abstract suspend fun findBySQL(query: SupportSQLiteQuery): List<TransactionEntity>
 
     @Query(
         "SELECT accountId, time, timeType FROM transactions WHERE id = :trnId" +

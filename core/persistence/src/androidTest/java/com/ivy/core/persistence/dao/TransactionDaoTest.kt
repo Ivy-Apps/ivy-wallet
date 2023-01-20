@@ -6,9 +6,9 @@ import com.ivy.common.androidtest.epochSeconds
 import com.ivy.common.androidtest.uuidString
 import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.RoomDbTest
-import com.ivy.core.persistence.dao.trn.TrnDao
+import com.ivy.core.persistence.dao.trn.TransactionDao
 import com.ivy.core.persistence.dummy.trn.dummyTrnEntity
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.SyncState
 import com.ivy.data.transaction.TransactionType
@@ -20,8 +20,8 @@ import org.junit.Test
 import java.time.Instant
 
 @AndroidTest
-class TrnDaoTest : RoomDbTest() {
-    private lateinit var dao: TrnDao
+class TransactionDaoTest : RoomDbTest() {
+    private lateinit var dao: TransactionDao
 
     override fun setUp(db: IvyWalletCoreDb) {
         dao = db.trnDao()
@@ -35,7 +35,7 @@ class TrnDaoTest : RoomDbTest() {
 
     @Test
     fun save_a_complex_transaction() = saveTestCase(
-        transactionEntity = TrnEntity(
+        transactionEntity = TransactionEntity(
             id = uuidString(),
             accountId = uuidString(),
             type = TransactionType.Expense,
@@ -53,7 +53,7 @@ class TrnDaoTest : RoomDbTest() {
         )
     )
 
-    private fun saveTestCase(transactionEntity: TrnEntity) = runBlocking {
+    private fun saveTestCase(transactionEntity: TransactionEntity) = runBlocking {
         dao.save(transactionEntity)
 
         val result = dao.findBySQL(queryFindAll())

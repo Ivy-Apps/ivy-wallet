@@ -20,6 +20,9 @@ interface TrnTagDao {
     // endregion
 
     // region Select
+    @Query("SELECT * FROM trn_tags WHERE sync != $DELETING")
+    suspend fun findAllBlocking(): List<TrnTagEntity>
+
     @Query("SELECT * FROM trn_tags WHERE trnId = :trnId AND sync != $DELETING")
     fun findByTrnId(trnId: String): Flow<List<TrnTagEntity>>
     // endregion

@@ -14,7 +14,7 @@ import com.ivy.core.persistence.dao.trn.TrnMetadataDao
 import com.ivy.core.persistence.dao.trn.TrnTagDao
 import com.ivy.core.persistence.entity.attachment.AttachmentEntity
 import com.ivy.core.persistence.entity.tag.TagEntity
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.core.persistence.query.*
@@ -97,7 +97,7 @@ class TrnsFlow @Inject constructor(
     private fun mapTransactionEntityFlow(
         accounts: Map<UUID, Account>,
         categories: Map<UUID, Category>,
-        trn: TrnEntity,
+        trn: TransactionEntity,
     ): Flow<Transaction>? {
         val account = accounts[trn.accountId.toUUID()]
             ?: return null
@@ -138,7 +138,7 @@ class TrnsFlow @Inject constructor(
         }
     }
 
-    private fun trnTime(entity: TrnEntity): TrnTime {
+    private fun trnTime(entity: TransactionEntity): TrnTime {
         val localeTime = entity.time.toLocal(timeProvider)
         return when (entity.timeType) {
             TrnTimeType.Actual -> TrnTime.Actual(localeTime)

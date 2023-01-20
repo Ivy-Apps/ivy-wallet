@@ -15,7 +15,7 @@ import com.ivy.core.domain.pure.transaction.validateTransaction
 import com.ivy.core.domain.pure.util.beautify
 import com.ivy.core.persistence.IvyWalletCoreDb
 import com.ivy.core.persistence.dao.trn.SaveTrnData
-import com.ivy.core.persistence.dao.trn.TrnDao
+import com.ivy.core.persistence.dao.trn.TransactionDao
 import com.ivy.core.persistence.entity.trn.TrnMetadataEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.SyncState.Syncing
@@ -45,7 +45,7 @@ import javax.inject.Inject
  * ```
  */
 class WriteTrnsAct @Inject constructor(
-    private val trnDao: TrnDao,
+    private val transactionDao: TransactionDao,
     private val trnsSignal: TrnsSignal,
     private val timeProvider: TimeProvider,
     private val invalidateAccCacheAct: InvalidateAccCacheAct,
@@ -100,7 +100,7 @@ class WriteTrnsAct @Inject constructor(
     // region Operations
     private suspend fun createNew(input: Input.CreateNew) = option {
         val saveData = saveData(input.trn).bind()
-        trnDao.save(saveData)
+        transactionDao.save(saveData)
         invalidateAccCacheAct(
             InvalidateAccCacheAct.Input.OnCreateTrn(
                 time = input.trn.time,
@@ -111,7 +111,7 @@ class WriteTrnsAct @Inject constructor(
 
     private suspend fun update(input: Input.Update) = option {
         val saveData = saveData(input.new).bind()
-        trnDao.save(saveData)
+        transactionDao.save(saveData)
         invalidateAccCacheAct(
             InvalidateAccCacheAct.Input.OnUpdateTrn(
                 oldTime = input.old.time,
@@ -125,7 +125,7 @@ class WriteTrnsAct @Inject constructor(
     }
 
     private suspend fun delete(input: Input.Delete) = option {
-        trnDao.markDeleted(input.trnId)
+        transactionDao.markDeleted(input.trnId)
         invalidateAccCacheAct(
             InvalidateAccCacheAct.Input.OnDeleteTrn(
                 time = input.originalTime,
@@ -136,7 +136,7 @@ class WriteTrnsAct @Inject constructor(
 
     private suspend fun deleteInefficient(input: Input.DeleteInefficient) = option {
         val invalidateData = findInvalidateCacheData(input.trnId)
-        trnDao.markDeleted(input.trnId)
+        transactionDao.markDeleted(input.trnId)
         invalidateData?.let {
             invalidateAccCacheAct(
                 InvalidateAccCacheAct.Input.OnDeleteTrn(
@@ -150,7 +150,7 @@ class WriteTrnsAct @Inject constructor(
     private suspend fun saveInefficient(input: Input.SaveInefficient) = option {
         val saveData = saveData(input.trn).bind()
         val trnExists = findInvalidateCacheData(input.trn.id.toString())
-        trnDao.save(saveData)
+        transactionDao.save(saveData)
         invalidateAccCacheAct(
             if (trnExists != null) {
                 InvalidateAccCacheAct.Input.OnUpdateTrn(
@@ -193,7 +193,7 @@ class WriteTrnsAct @Inject constructor(
             }
         }
 
-        trnDao.many(
+        transactionDao.many(
             toSave = pairs.mapNotNull { it.first?.orNull() },
             toDeleteTrnIds = pairs.mapNotNull { it.second }
         )
@@ -269,7 +269,7 @@ class WriteTrnsAct @Inject constructor(
 
     private suspend fun findInvalidateCacheData(
         trnId: String
-    ): InvalidateCacheData? = trnDao.findAccountIdAndTimeById(trnId = trnId)?.let {
+    ): InvalidateCacheData? = transactionDao.findAccountIdAndTimeById(trnId = trnId)?.let {
         InvalidateCacheData(
             accountId = it.accountId,
             time = when (it.timeType) {

@@ -3,7 +3,7 @@ package com.ivy.core.domain.pure.mapping.entity
 import com.ivy.common.time.provider.TimeProvider
 import com.ivy.common.time.time
 import com.ivy.common.time.toUtc
-import com.ivy.core.persistence.entity.trn.TrnEntity
+import com.ivy.core.persistence.entity.trn.TransactionEntity
 import com.ivy.core.persistence.entity.trn.data.TrnTimeType
 import com.ivy.data.transaction.Transaction
 import com.ivy.data.transaction.TrnTime
@@ -12,7 +12,7 @@ fun mapToEntity(
     trn: Transaction,
     timeProvider: TimeProvider,
 ) = with(trn) {
-    TrnEntity(
+    TransactionEntity(
         id = id.toString(),
         accountId = account.id.toString(),
         type = type,
